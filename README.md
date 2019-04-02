@@ -31,14 +31,9 @@ A platform for advanced ML research and applications.
      - Modality Stacking: **_metaFeat()_**
      - Group-weighted Stacking: **_metaGroup()_**
 
-</br>
-<div style="text-align:center">
-<a href="https:://rtemis.netlify.com">
-<img align = "middle" src="https://rtemis.netlify.com/rtemis_bow.png" width="80">
-</a>  
-</br></br>
-<img align = "middle" src="https://rtemis.netlify.com/UPBS.png" width="185">
-</div>
+### Ongoing work
+* Novel algorithms developed in __rtemis__ will be generally added to this public repository when the corresponding paper is published.
+* R Documentation is ongoing and should be completed soon.
 
 ---
 2019 Efstathios D. Gennatas  
