@@ -1,0 +1,18 @@
+# factoryze_tests.R
+# ::rtemis::
+# 2019 Efstathios D. Gennatas egenn.github.io
+
+# Library ----
+library(rtemis)
+
+# Data ----
+set.seed(2019)
+n.cases <- 500
+n.factors <- 4
+n.varsPerFactor <- 5
+f <- lapply(seq(n.factors), function(i) rnorm(n.cases))
+x <- do.call(cbind, lapply(seq(n.factors), function(i)
+  sapply(seq(n.varsPerFactor), function(j) rnorm(1) * f[[i]] + rnorm(500))))
+
+# factoryze ----
+x_fac <- factoryze(x)

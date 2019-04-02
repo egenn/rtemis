@@ -12,7 +12,7 @@ A platform for advanced ML research and applications.
 
 
 ### What's new
-* __v. 0.8__: First public release, April 2019
+* __v. 0.78__: First public release, April 2019
 
 ### Features
 * __Visualization__

@@ -1,0 +1,388 @@
+# s.TFN.R
+# ::rtemis::
+# 2019 Efstathios D. Gennatas egenn.github.io
+
+#' Neural Network with \pkg{tensorflow} [C, R]
+#'
+#' Train a Neural Network using \pkg{keras} and \pkg{tensorflow}
+#'
+#' For more information on argument and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
+#' It is important to define network structure and adjust hyperparameters. You cannot expect defaults to work
+#' on any dataset.
+#' @inheritParams s.GLM
+#' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
+#' Can be zero (~GLM)
+#' @param initializer String: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
+#' "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
+#' "truncated_normal", "orthogonal", "zeros", "ones", "constant".
+#' Glorot is also known as Xavier initialization. Default = "glorot_uniform"
+#' @param initializer.seed Integer: Seed to use for each initializer for reproducibility. Default = NULL
+#' @param dropout Floar, vector, (0, 1): Probability of dropping nodes. Can be a vector of length equal to N of layers,
+#' otherwise will be recycled. Default = 0
+#' @param activation String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
+#' "exponential", "linear", "softmax", "softplus", "softsign". Default = "relu"
+#' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
+#' @param output String: Activation to use for output layer. Can be any as in \code{activation}.
+#' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
+#' @param loss String: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
+#' classification, "sparse_categorical_crossentropy" for multiclass
+#' @param optimizer String: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
+#' Default = "rmsprop"
+#' @param learning.rate Float: learning rate. Defaults depend on \code{optimizer} used and are:
+#' \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
+#' @param metric String: Metric used for evaluation during train. Default = "mse" for regression,
+#'  "accuracy" for classification.
+#' @param epochs Integer: Number of epochs. Default = 100
+#' @param batch.size Integer: Batch size. Default = N of cases
+#' @param validation.split Float (0, 1): proportion of training data to use for validation. Default = .2
+#' @param callback Function to be called by keras during fitting.
+#' Default = \code{keras::callback_early_stopping(patience = 150)} for early stopping.
+#' @param scale Logical: If TRUE, scale featues before training. Default = TRUE
+#' column means and standard deviation will be saved in \code{rtMod$extra} field to allow
+#' scaling ahead of prediction on new data
+#' @param ... Additional parameters
+#' @author Efstathios D. Gennatas
+#' @seealso \link{elevate} for external cross-validation
+#' @family Supervised Learning
+#' @family Deep Learning
+#' @export
+
+s.TFN <- function(x, y = NULL,
+                  x.test = NULL, y.test = NULL,
+                  x.valid = NULL, y.valid = NULL,
+                  # ipw = TRUE,
+                  # ipw.type = 2,
+                  upsample = FALSE,
+                  upsample.seed = NULL,
+                  n.hidden.nodes = NULL,
+                  initializer = c("glorot_uniform", "glorot_normal", "he_uniform", "he_normal",
+                                  "lecun_uniform", "lecun_normal", "random_uniform", "random_normal",
+                                  "variance_scaling", "truncated_normal", "orthogonal", "zeros", "ones", "constant"),
+                  initializer.seed = NULL,
+                  dropout = 0,
+                  activation = c("relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh", "exponential", "linear",
+                                 "softmax", "softplus", "softsign"),
+                  l1 = 0,
+                  l2 = 0,
+                  batch.normalization = TRUE,
+                  output = NULL,
+                  loss = NULL,
+                  optimizer = c("rmsprop", "adadelta", "adagrad", "adam", "adamax",
+                                "nadam", "sgd"),
+                  learning.rate = NULL,
+                  metric = NULL,
+                  epochs = 50,
+                  batch.size = NULL,
+                  validation.split = .2,
+                  # momentum = .9,
+                  callback = keras::callback_early_stopping(patience = 150),
+                  scale = TRUE,
+                  x.name = NULL,
+                  y.name = NULL,
+                  # type = "auto",
+                  # plot.graphviz = FALSE,
+                  print.plot = TRUE,
+                  print.error.plot = NULL,
+                  rtlayout.mat = c(2, 1),
+                  plot.fitted = NULL,
+                  plot.predicted = NULL,
+                  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                  question = NULL,
+                  verbose = TRUE,
+                  verbose.checkpoint = FALSE,
+                  outdir = NULL,
+                  # n.cores = rtCores,
+                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+
+  # [ INTRO ] ====
+  if (missing(x)) {
+    print(args(s.TFN))
+    return(invisible(9))
+  }
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  logFile <- if (!is.null(outdir)) {
+    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+  } else {
+    NULL
+  }
+  start.time <- intro(verbose = verbose, logFile = logFile)
+  mod.name <- "TFN"
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("tensorflow", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+  # [ ARGUMENTS ] ====
+  if (is.null(y) & n.features < 2) {
+    print(args(s.TFN))
+    stop("y is missing")
+  }
+  if (is.null(x.name)) x.name <- getName(x, "x")
+  if (is.null(y.name)) y.name <- getName(y, "y")
+  if (!verbose) print.plot <- FALSE
+  verbose <- verbose | !is.null(logFile)
+  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  # if (max.epochs < min.epochs) max.epochs <- min.epochs
+  if (is.null(print.error.plot)) print.error.plot <- print.plot
+  # early.stop <- match.arg(early.stop)
+  initializer <- match.arg(initializer)
+  initializer <- paste0("initializer_", initializer)
+  initializer <- getFromNamespace(initializer, "keras")
+
+  activation.name <- match.arg(activation)
+  activation <- paste0("layer_activation_", activation.name)
+  activation <- getFromNamespace(activation, "keras")
+
+  optimizer <- match.arg(optimizer)
+  if (is.null(learning.rate)) {
+    learning.rate <- switch(optimizer,
+                            rmsprop = .001,
+                            adadelta = 1,
+                            adagrad = .01,
+                            adamax = .002,
+                            adam = .001,
+                            nadam = .002,
+                            sgd = .1)
+  }
+  optimizer <- paste0("optimizer_", optimizer)
+  optimizer <- getFromNamespace(optimizer, "keras")
+
+
+  # [ DATA ] ====
+  dt <- dataPrepare(x, y, x.test, y.test,
+                    # x.valid, y.valid,
+                    # ipw = ipw, ipw.type = ipw.type,
+                    upsample = upsample, upsample.seed = upsample.seed,
+                    verbose = verbose)
+  x <- dt$x
+  y <- dt$y
+  x.test <- dt$x.test
+  y.test <- dt$y.test
+  x.valid <- dt$x.valid
+  y.valid <- dt$y.valid
+  xnames <- dt$xnames
+  type <- dt$type
+  checkType(type, c("Classification", "Regression"), mod.name)
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+  x.dm <- data.matrix(x)
+  n.features <- NCOL(x)
+
+  # Outcome
+  if (type == "Classification") {
+    y0 <- y
+    y <- as.numeric(y) - 1
+    n.classes <- length(levels(y0))
+  }
+
+  # Loss
+  if (is.null(loss)) {
+    if (type == "Classification") {
+      loss <- if (n.classes == 2) "binary_crossentropy" else "sparse_categorical_crossentropy"
+    } else {
+      loss <- "mean_squared_error"
+    }
+  }
+  if (type == "Classification" & loss == "categorical_crossentropy") y <- keras::to_categorical(y)
+
+  if (print.plot) {
+    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+  } else {
+    plot.fitted <- plot.predicted <- FALSE
+  }
+
+  # '- Normalize ====
+  # Normalize training data
+  if (scale) {
+    x.dm <- scale(x.dm)
+    col_means_train <- attr(x.dm, "scaled:center")
+    col_stddevs_train <- attr(x.dm, "scaled:scale")
+    if (!is.null(x.test)) {
+      x.test <- scale(x.test, center = col_means_train, scale = col_stddevs_train)
+    }
+  }
+
+  # Default n.hidden.nodes
+  if (is.null(n.hidden.nodes)) n.hidden.nodes <- n.features
+  # if (n.hidden.nodes == 0) n.hidden.nodes <- NULL
+
+  # Metric
+  if (is.null(metric)) {
+    if (type == "Classification") {
+      # metric <- if (n.classes == 2) "binary_accuracy" else "categorical_accuracy"
+      metric <- "accuracy"
+    } else {
+      metric <- "mean_squared_error"
+    }
+  }
+
+  # Default batch.size
+  if (is.null(batch.size)) {
+    batch.size <- floor(.25 * length(y))
+  }
+
+  # Default learning.rate for Classification vs. Regression
+  # if (is.null(learning.rate)) learning.rate <- ifelse(type == "Classification", .05, .005)
+
+  # [ NETWORK ] ====
+  if (n.hidden.nodes[1] == 0) {
+    n.hnodes <- n.hlayers <- 0
+  } else {
+    n.hnodes <- n.hidden.nodes
+    n.hlayers <- length(n.hidden.nodes)
+  }
+  # if (length(activation) < n.hlayers) activation <- rep(activation, length.out = n.hlayers)
+  if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
+
+  ### '- INIT ====
+  if (is.null(net)) {
+
+    net <- keras::keras_model_sequential()
+
+    ### '- HIDDEN LAYERS ====
+    if (n.hlayers > 0) {
+      for (i in seq(n.hlayers)) {
+        net <- keras::layer_dense(net,
+                                  units = n.hnodes[i],
+                                  input_shape = n.features,
+                                  kernel_initializer = initializer(seed = initializer.seed),
+                                  name = paste0("rt_Dense_", i))
+        if (l1 != 0 && l2 != 0) net <- keras::layer_activity_regularization(net,
+                                                                            l1 = l1, l2 = l2,
+                                                                            name = paste0("rt_Reg_", i))
+        if (batch.normalization) net <- keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
+        net <- activation(net,
+                          name = paste0("rt_Activation_", activation.name, "_", i))
+        net <- keras::layer_dropout(net, rate = dropout[i],
+                                    name = paste0("rt_Dropout_", i))
+      }
+    } # /if (n.hlayers > 0)
+
+    ### '- OUTPUT ====
+    n.outputs <- if (type == "Regression") 1 else n.classes
+    if (loss == "binary_crossentropy") n.outputs <- 1
+    if (is.null(output)) {
+      if (type == "Classification") {
+        output <- if (n.outputs > 1) "softmax" else "sigmoid"
+      } else {
+        output <- "linear"
+      }
+    }
+
+    net <- keras::layer_dense(net,
+                              units = n.outputs,
+                              activation = output,
+                              name = "rt_Output")
+
+    # [ TF ] ====
+    if (verbose) msg0("Training Neural Network ", type, " with ",
+                      n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
+                      "...\n", newline = TRUE)
+
+    # '- Compile ====
+    net %>% keras::compile(
+      loss = loss,
+      optimizer = optimizer(lr = learning.rate),
+      metrics = metric
+    )
+  } else {
+    if (verbose) msg("Training pre-built Network for", type, "...")
+  }
+
+  # '- Fit ====
+  net %>%
+    keras::fit(
+      x.dm, y,
+      epochs = epochs,
+      batch_size = batch.size,
+      validation_split = validation.split,
+      callback = callback,
+    )
+
+  # [ FITTED ] ====
+  if (type == "Regression") {
+    fitted <- c(predict(net, x.dm))
+    error.train <- modError(y, fitted, type = type)
+  } else {
+    fitted.prob <- keras::predict_proba(net, x.dm)
+    fitted <- factor(c(keras::predict_classes(net, x.dm)))
+    levels(fitted) <- levels(y0)
+    error.train <- modError(y0, fitted, type = type)
+  }
+
+  if (verbose) errorSummary(error.train, mod.name)
+
+  # [ PREDICTED ] ====
+  predicted.prob <- predicted <- error.test <- NULL
+  if (!is.null(x.test)) {
+    if (type == "Regression") {
+      predicted <- c(predict(net, data.matrix(x.test)))
+    } else {
+      predicted.prob <- predict(net, data.matrix(x.test))
+      if (min(dim(predicted.prob)) == 1) {
+        # Classification with Logistic output
+        predicted <- factor(as.numeric(predicted.prob >= .5))
+      } else {
+        # Classification with Softmax output
+        predicted <- factor(apply(predicted.prob, 1, function(i) which.max(i)))
+      }
+      levels(predicted) <- levels(y0)
+    }
+    if (!is.null(y.test)) {
+      error.test <- modError(y.test, predicted)
+      if (verbose) errorSummary(error.test, mod.name)
+    }
+  }
+
+  # [ OUTRO ] ====
+  extra <- list(scale = scale,
+                col_means_train = if (scale) col_means_train else NULL,
+                col_stddevs_train = if (scale) col_stddevs_train else NULL)
+  parameters <- list(n.hidden.nodes = n.hidden.nodes,
+                     epochs = epochs,
+                     # max.epochs = max.epochs,
+                     optimizer = optimizer,
+                     batch.size = batch.size,
+                     learning.rate = learning.rate,
+                     # early.stop = early.stop,
+                     # early.stop.n.steps = early.stop.n.steps,
+                     # early.stop.relativeVariance.threshold = early.stop.relativeVariance.threshold,
+                     # momentum = momentum,
+                     metric = metric)
+  rt <- rtModSet(mod.name = mod.name,
+                 type = type,
+                 y.train = if (type == "Classification") y0 else y,
+                 y.test = y.test,
+                 x.name = x.name,
+                 xnames = xnames,
+                 mod = net,
+                 fitted = fitted,
+                 fitted.prob = fitted.prob,
+                 se.fit = NULL,
+                 error.train = error.train,
+                 predicted = predicted,
+                 predicted.prob = predicted.prob,
+                 se.prediction = NULL,
+                 parameters = parameters,
+                 error.test = error.test,
+                 question = question,
+                 extra = extra)
+
+  rtMod.out(rt,
+            print.plot,
+            plot.fitted,
+            plot.predicted,
+            y.test,
+            mod.name,
+            outdir,
+            save.mod,
+            verbose,
+            plot.theme)
+
+  if (save.mod) keras::save_model_hdf5(net, filepath = paste0(outdir, "rt_kerasTF"))
+  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  rt
+
+} # rtemis::s.TFN

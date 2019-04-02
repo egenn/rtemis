@@ -1,0 +1,47 @@
+# gtTable.R
+# ::rtemis::
+# 2018 Efstathios D. Gennatas egenn.github.io
+
+#' Greater-than Table
+#' 
+#' Compare vectors element-wise, and tabulate N times each vector is greater than the others
+#' 
+#' @param x List of vectors of same length
+#' @param x.name String: Name of measure being compared
+#' @param na.rm Passed to \code{sum} to handle missing values
+#' @param verbose Logical: If TRUE, write output to console
+#' @author Efstathios D. Gennatas
+#' @export
+
+gtTable <- function(x = list(),
+                    x.name = NULL,
+                    na.rm = TRUE,
+                    verbose = TRUE) {
+  
+  if (is.null(x.name)) x.name <- deparse(substitute(x))
+  
+  if (is.null(names(x))) names(x) <- paste0("x", 1:length(x))
+  names <- names(x)
+  
+  grid <- expand.grid(names, names, stringsAsFactors = FALSE)
+  grid$Nwin <- vector("numeric", NROW(grid))
+  for (i in seq(NROW(grid))) {
+    name1 <- grid[i, 1]
+    name2 <- grid[i, 2]
+    grid$Nwin[i] <- sum(x[[name1]] > x[[name2]], na.rm = na.rm)
+  }
+  
+  dat <- as.data.frame(matrix(grid$Nwin, length(x)))
+  colnames(dat) <- rownames(dat) <- names
+  
+  if (verbose) {
+    .nchar <- nchar(paste("Row > than Column :", x.name))
+    cat("Row > than Column :", x.name, "\n")
+    cat(rep("-", .nchar), "\n", sep = "")
+    # cat("-----------------\n")
+    print(dat)
+  }
+  
+  invisible(dat)
+
+} # rtemis::gtTable

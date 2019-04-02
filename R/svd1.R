@@ -1,0 +1,44 @@
+# svd1.R
+# ::rtemis::
+# 2015 Efstathios D. Gennatas egenn.github.io
+
+#' \code{rtemis-internals} Project Variables to First Eigenvector
+#'
+#' Convenience function for SVD k = 1
+#'
+#' @param x Input matrix / data frame
+#' @param x.test Optional test matrix / data frame
+#'
+#' @author Efstathios D. Gennatas
+#' @export
+
+svd1 <- function(x, x.test = NULL) {
+
+  # [ ARGUMENTS ] ====
+  if (missing(x)) {
+    print(args(svd1))
+    stop("x is missing")
+  }
+
+  # [ SVD ] ====
+  x.svd <- svd(x, nu = 1, nv = 1)
+
+  # [ PROJECTION ] ====
+  x.proj <- abs(scale(x, center = F) %*% x.svd$v)
+
+  # [ TEST PROJECTION ] ====
+  x.test.proj <- NA
+  if (!is.null(x.test)) {
+    # x.test.proj <- as.numeric(scale(abs(scale(x.test, center = F) %*% x.svd$v), center = F))
+    x.test.proj <- abs(scale(x.test, center = F) %*% x.svd$v)
+  }
+
+  s.out <- list(u = x.svd$u,
+                d = x.svd$d,
+                v = x.svd$v)
+  s.out$proj  <- x.proj
+  if (!is.null(x.test)) s.out$test.proj <- x.test.proj
+
+  s.out
+
+} # rtemis::svd1

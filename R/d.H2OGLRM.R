@@ -1,0 +1,153 @@
+# d.H2OGLRM.R
+# ::rtemis::
+# 2017 Efstathios D. Gennatas egenn.github.io
+
+#' Generalized Low-Rank Models (GLRM) on H2O
+#'
+#' Estimate GLRM decomposition
+#' Given Input matrix \code{A}:
+#' \code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
+#'
+#' Learn more about GLRM from the H2O tutorial
+#' \url{https://github.com/h2oai/h2o-tutorials/blob/master/tutorials/glrm/glrm-tutorial.md}
+#'
+#' @param x Input data
+#' @param x.test Optional test set. Will be projected on to NMF basis
+#' @param x.valid Optional validation set
+#' @param k Integer: Rank of decomposition
+#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param port Integer: Port number for server. Default = 54321
+#' @param transform String: Transformation of input prior to decomposition
+#' @param loss String: Numeric loss function: "Quadratic", "Absolute", "Huber", "Poisson", "Hinge", "Logistic",
+#'   "Periodic". Default = "Quadratic"
+#' @param regularization.x String: Regularization function for X matrix: "None", "Quadratic", "L2", "L1",
+#' "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"
+#' @param regularization.y String: Regularization function for Y matrix: "None", "Quadratic", "L2", "L1",
+#' "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"
+#' @param gamma.x Float: Regularization weight on X matrix. Default = 0
+#' @param gamma.y Float: Regularization weight on Y matrix. Default = 0
+#' @param max_iterations Integer: Maximum number of iterations. Default = 1000
+#' @param max_updates Integer: Maximum number of iterations. Default = 2 * \code{max_iterations}
+#' @param init_step_size Float: Initial step size. Default = 1
+#' @param min_step_size Float: Minimum step size. Default = .0001
+#' @param seed Integer: Seed for random number generator. Default = -1 (time-based)
+#' @param init String: Initialization mode: "Random", "SVD", "PlusPlus", "User". Default = "PlusPlus"
+#' @param svd.method String: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"
+#' @param verbose Logical: If TRUE, print console messages
+#' @param print.plot Logical: If TRUE, print objective score against iteration number
+#' @param plot.theme String: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}
+#' @param n.cores Integer: Number of cores to use
+#' @param ... Additional parameters to be passed to \code{h2o::h2o.glrm}
+#' @return \link{rtDecom} object
+#' @author Efstathios D. Gennatas
+#' @family Decomposition
+#' @export
+
+d.H2OGLRM <- function(x,
+                      x.test = NULL,
+                      x.valid = NULL,
+                      k = 3,
+                      ip = "localhost",
+                      port = 54321,
+                      transform = "NONE",
+                      loss = "Quadratic",
+                      regularization.x = "None",
+                      regularization.y = "None",
+                      gamma.x = 0,
+                      gamma.y = 0,
+                      max_iterations = 1000,
+                      max_updates = 2 * max_iterations,
+                      init_step_size = 1,
+                      min_step_size  = .0001,
+                      seed = -1,
+                      init = "PlusPlus",
+                      svd.method = "Randomized",
+                      verbose = TRUE,
+                      print.plot = TRUE,
+                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                      n.cores = rtCores, ...) {
+
+  # [ INTRO ] ====
+  start.time <- intro(verbose = verbose)
+  call <- NULL
+  decom.name <- "H2OGLRM"
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("h2o", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+  # [ ARGUMENTS ] ====
+  if (missing(x)) {
+    print(args(d.H2OGLRM))
+    stop("x is missing")
+  }
+
+  # [ DATA ] ====
+  n <- NROW(x)
+  p <- NCOL(x)
+  if (verbose) {
+    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg("    interpreted as", n, "cases with", p, "features.")
+  }
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  xnames <- colnames(x)
+  if (!is.null(x.test)) colnames(x.test) <- xnames
+
+  # h2o Frames
+  if (verbose) msg("Connecting to H2O server...")
+  h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
+  if (verbose) msg("Creating H2O frames...")
+  df.train <- h2o::as.h2o(data.frame(x), "df_train")
+  if (!is.null(x.valid)) {
+    df.valid <- h2o::as.h2o(data.frame(x.valid), "df_valid")
+  } else {
+    df.valid <- NULL
+  }
+
+  # [ GLRM ] ====
+  if (verbose) msg("Performing Generalized Low Rank Decomposition...")
+  decom <- h2o::h2o.glrm(training_frame = df.train,
+                         model_id = paste0("rtemis.H2OGLRM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+                         validation_frame = df.valid,
+                         k = k,
+                         transform = transform,
+                         loss = loss,
+                         regularization_x = regularization.x,
+                         regularization_y = regularization.y,
+                         gamma_x = gamma.x,
+                         gamma_y = gamma.y,
+                         max_iterations = max_iterations,
+                         max_updates = max_updates,
+                         init_step_size = init_step_size,
+                         min_step_size = min_step_size,
+                         seed = seed,
+                         init = init,
+                         svd_method = svd.method, ...)
+
+  if (print.plot) mplot3.xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
+                            type = 'l', zero.lines = FALSE,
+                            xlab = "Iteration", ylab = "Objective",
+                            main = "Objective Function Value per Iteration",
+                            theme = plot.theme)
+
+  # [ PROJECTIONS ] ====
+  projections.train <- data.matrix(x) %*% t(data.matrix(decom@model$archetypes))
+  if (!is.null(x.test)) {
+    projections.test <- data.matrix(x.test) %*% t(data.matrix(decom@model$archetypes))
+  } else {
+    projections.test <- NULL
+  }
+
+  # [ OUTRO ] ====
+  extra <- list()
+  rt <- rtDecom$new(decom.name = decom.name,
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
+                    extra = extra)
+  outro(start.time, verbose = verbose)
+  rt
+
+} # rtemis::d.H2OGLRM

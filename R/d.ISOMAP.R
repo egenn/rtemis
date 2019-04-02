@@ -1,0 +1,83 @@
+# d.ISOMAP.R
+# ::rtemis::
+# 2016 Efstathios D. Gennatas egenn.github.io
+
+#' Isomap
+#'
+#' Calculates ISOMAP and projections using \code{vegan::isomap}
+#'
+#' Project scaled variables to ISOMAP components
+#' Input must be n by p,
+#' where n represents number of cases,
+#' and p represents number of features.
+#' ISOMAP will be applied to the transpose of the n x p matrix.
+#'
+#' @param x Input data
+#' @param k Integer vector of length 1 or greater. Rank of decomposition
+#' @param dist.method String: Distance calculation method. See \code{vegan::vegdist}
+#' @param nsd Integer: Number of shortest dissimilarities retained
+#' @param path String: The \code{path} argument of \code{vegan::isomap}
+#' @param verbose Logical: If TRUE, print messages to output
+#' @param n.cores Integer: Number of cores to use
+#' @param ... Additional parameters to be passed to \code{vegan::isomap}
+#' @return \link{rtDecom} object
+#' @author Efstathios D. Gennatas
+#' @family Decomposition
+#' @export
+
+d.ISOMAP <- function(x,
+                     k = 2, # isomap :ndim
+                     dist.method = "euclidean",
+                     nsd = 0,
+                     path = c("shortest", "extended"),
+                     verbose = TRUE,
+                     n.cores = rtCores, ...) {
+
+  # [ INTRO ] ====
+  start.time <- intro(verbose = verbose)
+  path <- match.arg(path)
+  decom.name <- "ISOMAP"
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("vegan", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+  # [ ARGUMENTS ]
+  if (missing(x)) {
+    print(args(d.ISOMAP))
+    stop("x is missing")
+  }
+
+  # [ DATA ] ====
+  x <- as.data.frame(x)
+  n <- NROW(x)
+  p <- NCOL(x)
+  if (verbose) {
+    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg("    interpreted as", n, "cases with", p, "features.")
+  }
+  # cat("    (If this is not what you intended, this would be the time to interrupt the run)\n")
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  xnames <- colnames(x)
+
+  # [ ISOMAP ] ====
+  if (verbose) msg("Running Isomap...")
+  dist <- vegan::vegdist(x = x, method = dist.method)
+  decom <- vegan::isomap(dist, ndim = k, k = nsd, path = path, ...)
+  # plot(decom, n.col = colorGrad(21, 'penn'), net = F)
+
+  # [ PROJECTIONS ] ====
+  projections.train <- decom$points
+
+  # [ OUTRO ] ====
+  rt <- rtDecom$new(decom.name = decom.name,
+                     decom = decom,
+                     xnames = xnames,
+                     projections.train = projections.train,
+                     projections.test = NULL,
+                     extra = list())
+  outro(start.time, verbose = verbose)
+  rt
+
+} # rtemis::d.ISOMAP

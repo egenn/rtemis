@@ -1,0 +1,161 @@
+# mplot3.cart.R
+# ::rtemis::
+# Efstathios D. Gennatas egenn.github.io
+# node.labels
+# 1: condition; 2: probability; 4: N cases
+
+#' \code{mplot3}: \code{data.tree}  trees
+#'
+#' Plot \code{data.tree} trees using \code{data.tree::plot.Node}
+#'
+#' If you want to show split conditions as edge labels (\code{edge.labels = TRUE}),
+#' it is recommened to set \code{rankdir = "LR"} and \code{node.cond = FALSE}.
+#' Edge labels in graphviz are shown to the right of
+#' the edge when \code{rankdir = "TB"} and above when \code{rankdir = "LR"}.
+#' @inheritParams mplot3.addtree
+#' @param node.cond Logical: If TRUE, print the splitting condition inside each node. Default = TRUE
+#' @param node.prob Logical: If TRUE, print the probability estimate for the first class of the outcome
+#' inside each node. Default = TRUE
+#' @param node.estimate Logical: If TRUE, print the estimated outcome level inside each node.
+#' Default = FALSE
+#' @param node.n Logical: If TRUE, print the number of cases (from training data) that matched this condition
+#' @author Efstathios D. Gennatas
+#' @export
+
+mplot3.cart <- function(object,
+                        col.positive = "#F48024DD",
+                        col.negative = "#18A3ACDD",
+                        col.lo = ucsfCol$blue,
+                        col.mid = ucsfCol$red,
+                        col.hi = ucsfCol$yellow,
+                        node.col = "#666666",
+                        node.shape = "none",
+                        node.labels = TRUE,
+                        node.cond = TRUE,
+                        node.prob = TRUE,
+                        node.estimate = FALSE,
+                        node.n = TRUE,
+                        edge.col = "#999999",
+                        edge.width = 2,
+                        edge.labels = FALSE,
+                        arrowhead = "vee",
+                        layout = "dot",
+                        drop.leaves = FALSE,
+                        rankdir = "TB",
+                        splines = "polyline",
+                        fontname = "helvetica",
+                        bg.color = "white",
+                        overlap = "false",
+                        prune = FALSE,
+                        prune.empty.leaves = TRUE,
+                        remove.bad.parents = TRUE,
+                        rpart.cp = NULL,
+                        verbose = TRUE) {
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("data.tree", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+  # [ TREE ] ====
+  if (inherits(object, "rtMod")) {
+    if (inherits(object$mod, "rpart")) {
+      .tree <- as.data.tree.rpart(object$mod)
+      method <- object$mod$method
+      y <- object$mod$model$y
+      if (verbose) msg("Object is rtemis rpart model")
+    } else {
+    stop("Input must be of type rpart")
+    }
+  } else {
+    if (inherits(object, "rpart")) {
+      .tree <- as.data.tree.rpart(object)
+      method <- object$method
+      y <- object$model$y
+      if (verbose) msg("Object is rpart model")
+    }
+  }
+  type <- "rpart"
+
+  # [ PRUNE ] ====
+  if (!is.null(rpart.cp)) {
+    .tree <- rpart::prune.rpart(.tree, rpart.cp)
+  }
+
+  # [ GRAPH STYLE ] ====
+  data.tree::SetGraphStyle(.tree,
+                           layout = layout,
+                           rankdir = rankdir,
+                           splines = splines,
+                           bgcolor = bg.color,
+                           overlap = overlap,
+                           tooltip = paste(toupper(type), "tree\n---------------",
+                                           "\nDepth =", .tree$height,
+                                           "\nN nodes =", .tree$totalCount,
+                                           "\nN leaves =", length(.tree$leaves)))
+
+  # [ NODE STYLE ] ====
+  node.labels <- if (node.labels) {
+    if (method == "class") {
+      function(node) paste0(if (node.cond) paste(node$name),
+                            if (node.n) paste("\nN =", node$N),
+                            if (node.prob) paste("\n", ddSci(node$ProbClass1)),
+                            if (node.estimate) paste("\n", node$EstimateLabel))
+    } else if (method == "anova") {
+      function(node) paste0(if (node.cond) paste(node$name),
+                            if (node.n) paste("\nN =", node$N),
+                            if (node.estimate) paste("\n", ddSci(node$Estimate)))
+    }
+
+  } else {
+    ""
+  }
+
+  data.tree::SetNodeStyle(.tree,
+                          style = "filled,",
+                          shape = node.shape,
+                          fillcolor = node.col,
+                          col = node.col,
+                          fontname = fontname,
+                          label = node.labels,
+                          tooltip = if (method == "class") {
+                            function(node) paste(paste("Node", node$node.id),
+                                                 paste("Prob =", ddSci(node$ProbClass1)),
+                                                 paste("Estimate level =", node$Estimate),
+                                                 paste("Estimate label =", node$EstimateLabel),
+                                                 sep = "\n")
+                            } else if (method == "anova") {
+                              function(node) paste(paste("Node", node$node.id),
+                                                   paste("Estimate =", ddSci(node$Estimate)),
+                                                   sep = "\n")
+                            },
+                          rank = function(node) node$Depth)
+
+  # [ EDGE STYLE ] ====
+  edge.labels <- if (edge.labels) function(node) node$name else NULL # was node$Condition
+  data.tree::SetEdgeStyle(.tree,
+                          arrowhead = arrowhead,
+                          color = edge.col,
+                          penwidth = edge.width,
+                          fontname = fontname,
+                          label = edge.labels,
+                          tooltip = function(node) node$name) # was node$Condition
+  # ?drop.leaves, keepExisting = TRUE
+  leaves.rank <- if (drop.leaves) .tree$height else NULL
+  data.tree::Do(.tree$leaves, function(node) {
+    data.tree::SetNodeStyle(node,
+                            rank = leaves.rank,
+                            fillcolor = if (method == "class") {
+                              function(node) ifelse(node$Estimate == 1 & node$isLeaf,
+                                                    col.positive, col.negative)
+                            } else if (method == "anova") {
+                              function(node) colorGrad(100,
+                                                       lo = col.lo,
+                                                       mid = col.mid,
+                                                       hi = col.hi)[round(drange(c(node$Estimate,
+                                                                                         range(y)), 0 , 100)[[1, 1]])]
+                            })
+  })
+  plot(.tree)
+
+} # rtemis::mplot3.cart
