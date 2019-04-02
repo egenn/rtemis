@@ -10,6 +10,10 @@ A platform for advanced ML research and applications.
 
 [__Online Documentation and vignettes__](https://rtemis.netlify.com)
 
+### Installation
+```r
+devtools::install_github("egenn/rtemis")
+```
 
 ### What's new
 * __v. 0.78__: First public release, April 2019
