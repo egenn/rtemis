@@ -3,7 +3,7 @@
 A platform for advanced ML research and applications.
 
 <div style="text-align:center">
-<a href="https:://rtemis.netlify.com">
+<a href="https://rtemis.netlify.com">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png" width="800">
 </a>    
 </div>
