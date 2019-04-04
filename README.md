@@ -1,7 +1,7 @@
 **_rtemis_** Machine Learning and Visualization
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of rtemis is to make data science as efficient and as painless as possible.
+The goal of rtemis is to make data science as efficient as possible with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
@@ -38,9 +38,9 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
      - Group-weighted Stacking: **_metaGroup()_**
 
 ### Ongoing work
-* Novel algorithms developed in __rtemis__ will be generally added to this public repository as soon the corresponding paper is published.
+* Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers are published.
 * R Documentation is ongoing and should be completed soon.
-* __rtemis__ is under active development with lots of enhancements and extensions planned
+* __rtemis__ is under active development with many enhancements and extensions in the works
 
 <a href="https://rtemis.netlify.com">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis.png">
