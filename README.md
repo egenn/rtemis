@@ -1,9 +1,7 @@
 **_rtemis_** Machine Learning and Visualization
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of rtemis is to make data science as efficient and as painless as possible, whether you are an expert or a novice.  
-__rtemis__ is built using the R6 class system in a highly modular fashion.  
-The site in the link below is a work in progress in its early days showing how to use the package and is, like the package itself, under active development.
+The goal of rtemis is to make data science as efficient and as painless as possible.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
@@ -17,6 +15,7 @@ The site in the link below is a work in progress in its early days showing how t
 ```r
 devtools::install_github("egenn/rtemis")
 ```
+Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 
 ### What's new
 * __v. 0.78__: First public release, April 2019
