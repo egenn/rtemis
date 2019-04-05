@@ -33,6 +33,7 @@ cartLinBoostTV <- function(x, y = NULL,
                            resid = NULL,
                            base.mod = c("cart", "glm"),
                            boost.obj = NULL,
+                           mod.params = list(),
                            cart.params = list(maxdepth = 1),
                            glm.params = list(lambda = .1),
                            weights.p = 1,
@@ -207,7 +208,7 @@ cartLinBoostTV <- function(x, y = NULL,
       holdout.index <- sample(train.ncases, (1 - weights.p) * train.ncases)
       weights1[holdout.index] <- weights.0
     }
-    
+
     ## delta
     # mod.args <- c(list(x = x1, y = resid1,
     #                    weights = weights1,
@@ -486,6 +487,7 @@ expand.cartLinBoostTV <- function(object,
                                   resid = NULL,
                                   cart.params = NULL,
                                   glm.params = NULL,
+                                  mod.params = NULL,
                                   max.iter = 10,
                                   learning.rate = NULL,
                                   # case.p = 1,
@@ -545,9 +547,9 @@ as.cartLinBoostTV <- function(object,
                               init = 0,
                               apply.lr = TRUE) {
 
-  if (!inherits(object, "cartLin")) {
-    stop("Please provide cartLin object")
-  }
+  # if (!inherits(object, "cartLin")) {
+  #   stop("Please provide cartLin object")
+  # }
   mods <- list(CARTlin.1 = object)
   fitted <- init + predict(object, x)
   if (apply.lr) fitted <- fitted * learning.rate
