@@ -27,9 +27,9 @@
 #' reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}
 #' @param .resample Optional names list of parameters to be passed to \link{resample}.
 #' NOTE: If set, this takes precedence over setting the individual resampling arguments ()
-#' @param res.index List where each element is a vector of training set indices. Use this for manual or 
+#' @param res.index List where each element is a vector of training set indices. Use this for manual or
 #' precalculated train/test splits
-#' @param res.group Integer, vector, length = length(y): Integer vector, where numbers define fold membership. 
+#' @param res.group Integer, vector, length = length(y): Integer vector, where numbers define fold membership.
 #' e.g. for 10-fold on a dataset with 1000 cases, you could use group = rep(1:10, each = 100)
 #' @param n.repeats Integer: Number of times the external resample should be repeated. This allows you to do,
 #' for example, 10 times 10-fold crossvalidation. Default = 1. In most cases it makes sense to use 1 repeat of
@@ -63,7 +63,7 @@
 #' @param bag.fn Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}
 #' @param trace Integer: (Not really used) Print additional information if > 0. Default = 0
 #' @param res.verbose Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument
-#' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under 
+#' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
@@ -470,12 +470,12 @@ elevate <- function(x, y = NULL,
     if (n.repeats > 1) {
       if (type == "Regression") {
         cat("   Mean MSE across", n.repeats, "repeats =",
-            rtHighlight$bold(error.test.repeats.mean$MSE), "\n")
+            rtHighlight$bold(ddSci(error.test.repeats.mean$MSE)), "\n")
         cat("   MSE was reduced on average by",
-            rtHighlight$bold(error.test.repeats.mean$MSE.RED), "\n")
+            rtHighlight$bold(ddSci(error.test.repeats.mean$MSE.RED)), "\n")
       } else if (type == "Classification") {
         cat("   Mean Balanced Accuracy across", n.repeats, "repeats =",
-            rtHighlight$bold(error.test.repeats.mean$`Balanced Accuracy`), "\n")
+            rtHighlight$bold(ddSci(error.test.repeats.mean$`Balanced.Accuracy`)), "\n")
       }
     }
   }
@@ -499,8 +499,6 @@ elevate <- function(x, y = NULL,
       unlist(plyr::llply(i, function(j) j$mod1$fitted.prob), use.names = FALSE))
     predicted.prob.aggr <- plyr::llply(mods, function(i)
       unlist(plyr::llply(i, function(j) j$mod1$predicted.prob), use.names = FALSE))
-    # fitted.prob <- unlist(plyr::llply(mods, function(i) plyr::llply(i, function(j) j$mod1$fitted.prob)))
-    # predicted.prob <- unlist(plyr::llply(mods, function(i) plyr::llply(i, function(j) j$mod1$predicted.prob)))
     names(y.train.res.aggr) <- names(y.test.res.aggr) <-
       names(predicted.res.aggr) <- names(fitted.res.aggr) <-
       names(fitted.prob.aggr) <- names(predicted.prob.aggr) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
