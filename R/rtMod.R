@@ -1156,8 +1156,8 @@ rtModCV <- R6::R6Class("rtModCV",
                              cat(resamples)
                            }
                            if (type == "Classification") {
-                             cat(" The mean balanced accuracy across all resamples was ",
-                                 ddSci(self$error.test.repeats.mean$`Balanced Accuracy`), ".", sep = "")
+                             cat(" The mean Balanced Accuracy across all resamples was ",
+                                 ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`), ".", sep = "")
                            } else if (type == "Regression") {
                              cat(" The mean R-squared across all resamples was ",
                                  ddSci(self$error.test.repeats.mean$Rsq), ".", sep = "")
