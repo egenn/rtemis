@@ -50,10 +50,9 @@
 s.TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
-                  # ipw = TRUE,
-                  # ipw.type = 2,
                   upsample = FALSE,
                   upsample.seed = NULL,
+                  net = NULL,
                   n.hidden.nodes = NULL,
                   initializer = c("glorot_uniform", "glorot_normal", "he_uniform", "he_normal",
                                   "lecun_uniform", "lecun_normal", "random_uniform", "random_normal",
@@ -74,13 +73,10 @@ s.TFN <- function(x, y = NULL,
                   epochs = 50,
                   batch.size = NULL,
                   validation.split = .2,
-                  # momentum = .9,
                   callback = keras::callback_early_stopping(patience = 150),
                   scale = TRUE,
                   x.name = NULL,
                   y.name = NULL,
-                  # type = "auto",
-                  # plot.graphviz = FALSE,
                   print.plot = TRUE,
                   print.error.plot = NULL,
                   rtlayout.mat = c(2, 1),
@@ -91,7 +87,6 @@ s.TFN <- function(x, y = NULL,
                   verbose = TRUE,
                   verbose.checkpoint = FALSE,
                   outdir = NULL,
-                  # n.cores = rtCores,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # [ INTRO ] ====
@@ -114,19 +109,13 @@ s.TFN <- function(x, y = NULL,
   }
 
   # [ ARGUMENTS ] ====
-  if (is.null(y) & n.features < 2) {
-    print(args(s.TFN))
-    stop("y is missing")
-  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  # if (max.epochs < min.epochs) max.epochs <- min.epochs
   if (is.null(print.error.plot)) print.error.plot <- print.plot
-  # early.stop <- match.arg(early.stop)
   initializer <- match.arg(initializer)
   initializer <- paste0("initializer_", initializer)
   initializer <- getFromNamespace(initializer, "keras")
@@ -152,8 +141,6 @@ s.TFN <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    # x.valid, y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x
@@ -206,12 +193,10 @@ s.TFN <- function(x, y = NULL,
 
   # Default n.hidden.nodes
   if (is.null(n.hidden.nodes)) n.hidden.nodes <- n.features
-  # if (n.hidden.nodes == 0) n.hidden.nodes <- NULL
 
   # Metric
   if (is.null(metric)) {
     if (type == "Classification") {
-      # metric <- if (n.classes == 2) "binary_accuracy" else "categorical_accuracy"
       metric <- "accuracy"
     } else {
       metric <- "mean_squared_error"
@@ -223,9 +208,6 @@ s.TFN <- function(x, y = NULL,
     batch.size <- floor(.25 * length(y))
   }
 
-  # Default learning.rate for Classification vs. Regression
-  # if (is.null(learning.rate)) learning.rate <- ifelse(type == "Classification", .05, .005)
-
   # [ NETWORK ] ====
   if (n.hidden.nodes[1] == 0) {
     n.hnodes <- n.hlayers <- 0
@@ -233,7 +215,6 @@ s.TFN <- function(x, y = NULL,
     n.hnodes <- n.hidden.nodes
     n.hlayers <- length(n.hidden.nodes)
   }
-  # if (length(activation) < n.hlayers) activation <- rep(activation, length.out = n.hlayers)
   if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
 
   ### '- INIT ====
