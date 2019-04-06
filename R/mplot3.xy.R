@@ -7,7 +7,7 @@
 #' \code{mplot3}: XY Scatter and line plots
 #'
 #' Plot points and lines with optional fits and standard error bands
-#' 
+#'
 #' This is relatively old code and may need a little cleaning up
 #'
 #' @param x Numeric vector or list of vectors for x-axis.
@@ -274,6 +274,18 @@ mplot3.xy <- function(x, y,
   if (is.null(fit)) se.fit <- FALSE
   if (!is.null(fit)) fit <- toupper(fit)
   if (is.character(palette)) palette <- rtPalette(palette)
+  # TODO: check data
+  if (!is.null(data)) {
+    if (missing(x)) x <- "x"
+    if (missing(y)) y <- "y"
+    .xname <- deparse(substitute(x))
+    .yname <- deparse(substitute(y))
+    if (is.null(xlab)) xlab <- .xname
+    if (is.null(ylab)) ylab  <- .yname
+    x <- data[[.xname]]
+    if (!is.null(y)) y <- data[[.yname]]
+    if (!is.null(group)) group <- data[[deparse(substitute(group))]]
+  }
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
@@ -307,13 +319,6 @@ mplot3.xy <- function(x, y,
   }
   if (!is.null(y) & is.null(ylab)) {
     if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
-  }
-
-  # TODO: check data
-  if (!is.null(data)) {
-    x <- data[[deparse(substitute(x))]]
-    if (!is.null(y)) y <- data[[deparse(substitute(y))]]
-    if (!is.null(group)) group <- data[[deparse(substitute(group))]]
   }
 
   # S.E. available only for LM, LOESS, GAM, and NW
@@ -379,7 +384,7 @@ mplot3.xy <- function(x, y,
   if (!is.null(y)) if (Nygroups == 1 & Nxgroups > 1) yl <- rep(yl, Nxgroups)
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
-  
+
   if (do.reorder) {
     index <- lapply(xl, order)
   } else {
@@ -614,7 +619,7 @@ mplot3.xy <- function(x, y,
     # if (length(error.x.col) < Nxgroups) error.x.col <- rep(error.x.col, Nxgroups/length(error.x.col))
     error.x.col <- error.x.col[seql(error.x.col, Nxgroups)]
   }
-  
+
   if (is.null(error.y.col)) {
     error.y.col <- marker.col
   } else {
@@ -829,7 +834,7 @@ mplot3.xy <- function(x, y,
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
-  
+
   if (!is.null(main)) {
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
@@ -1001,35 +1006,24 @@ mplot3.xy <- function(x, y,
 
   # [ R-SQUARED ] ====
   if (rsq) {
-    # if (is.null(rsq.col)) rsq.col <- c(gen.col, unlist(adjustcolor(fit.col[1:Nxgroups], 2))) #orig
     if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[1:Nxgroups], 2)))
-    # annot.rsq <- c("R-sq", ddSci(unlist(rsql))) # orig
-    # annot.rsq <- c(expression(R^2), ddSci(unlist(rsql)))
-    # annot.rsq <- c(bquote("R"^2), ddSci(unlist(rsql)))
     annot.rsq <- ddSci(unlist(rsql))
-    # mtext(rev(annot.rsq), # orig
-    # side = rsq.side,
-    # adj = rsq.adj,
-    # # padj = seq(-2.2, -2.2 - 1.5 * length(rsql), -1.5 ) + rsq.padj.shift,
-    # padj = seq(-2.2, -2.2 - 1.5 * length(rsql), -1.5 ) + rsq.padj.shift, # hack for expression R^2 adding newline
-    # # padj = seq(2, 2 + 1.5 * Nxgroups, 1.5)
-    # cex = cex,
-    # col = unlist(rev(rsq.col)))
-    mtext(bquote("R"^2),
+    # padj_reg <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift
+    # padj_exp <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift + 1.2
+    mtext(expression("R"^2),
           side = rsq.side,
           adj = rsq.adj,
-          # padj = seq(-2.2, -2.2 - 1.5 * length(rsql), -1.5 ) + rsq.padj.shift,
-          padj = -2.5 + rsq.padj.shift,
+          line = -1 - Nxgroups,
+          # padj = padj_exp,
           cex = cex,
           col = gen.col)
-    mtext(annot.rsq, # orig
+    mtext(annot.rsq,
           side = rsq.side,
           adj = rsq.adj,
-          # padj = seq(-2.2, -2.2 - 1.5 * length(rsql), -1.5 ) + rsq.padj.shift,
-          padj = rev(seq(-2, -2 - 1.5 * length(rsql), -1.5 ))[-1] + rsq.padj.shift, # hack for expression R^2 adding newline
-          # padj = seq(2, 2 + 1.5 * Nxgroups, 1.5)
+          # padj = rev(seq(-2, -2 - 1.5 * length(rsql), -1.5 ))[-1] + rsq.padj.shift, # hack for expression R^2 adding newline
+          line = seq(-1, -Nxgroups, -1),
           cex = cex,
-          col = unlist(rev(rsq.col)))
+          col = unlist(rsq.col))
   }
 
   if (rsq.pval) {
@@ -1053,7 +1047,7 @@ mplot3.xy <- function(x, y,
   # [ HLINE & VLINE ] ====
   if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
   if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
-  
+
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
   if (return.lims) return(list(xlim = xlim, ylim = ylim))
