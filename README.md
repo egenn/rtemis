@@ -1,7 +1,7 @@
 **_rtemis_** Machine Learning and Visualization
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of rtemis is to make data science as efficient as possible with no compromise on flexibility.
+The goal of rtemis is to make data science accessible and efficient with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
