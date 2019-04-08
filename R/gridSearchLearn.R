@@ -24,16 +24,16 @@
 #' try all combinations of parameters. Randomized will try a random sample of size \code{randomize.p} * N
 #' of all combinations
 #' @param resample.rtset List: Output of \code{rtset.grid.resample()}
-#' @param randomized.p 
-#' @param weights 
-#' @param error.aggregate.fn 
-#' @param metric 
-#' @param maximize 
-#' @param save.mod 
+#' @param randomized.p
+#' @param weights
+#' @param error.aggregate.fn
+#' @param metric
+#' @param maximize
+#' @param save.mod
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param call.depth Integer: passed to \link{msg}. Default = 2
-#' @param grid.verbose 
-#' @param n.cores 
+#' @param grid.verbose
+#' @param n.cores
 #' @param ... Additional arguments to be passed to \link{resample}
 #'
 #' @author Efstathios D. Gennatas
@@ -62,7 +62,7 @@ gridSearchLearn <- function(x, y, mod,
                       call.depth = call.depth,
                       message = "Running grid search...",
                       newline.pre = TRUE)
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x) | missing(y)) {
     print(args(gridSearchLearn))
@@ -187,7 +187,7 @@ gridSearchLearn <- function(x, y, mod,
                                              error.aggregate.fn)[, -1]
     tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
   }
-  
+
   # '- GBM, H2OGBM ====
   if (learner == "s.H2OGBM" | learner == "s.GBM" | learner == "s.GBM3") {
     est.n.trees.all <- data.frame(n.trees = plyr::laply(grid.run, function(x) x$est.n.trees))
@@ -197,7 +197,7 @@ gridSearchLearn <- function(x, y, mod,
     tune.results <- data.frame(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
     n.params <- n.params + 1
   }
-  
+
   # '- GLMNET ====
   if (learner == "s.GLMNET") {
     if (is.null(grid.params$lambda)) {
@@ -210,7 +210,7 @@ gridSearchLearn <- function(x, y, mod,
       n.params <- n.params + 1
     }
   }
-  
+
   # '- AADDT ====
   if (learner == "s.AADDT") {
     est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
@@ -220,7 +220,7 @@ gridSearchLearn <- function(x, y, mod,
     tune.results <- data.frame(n.leaves = round(est.n.leaves.by.param.id$n.leaves), tune.results)
     n.params <- n.params + 1
   }
-  
+
   best.tune <- tune.results[select.fn(tune.results[[metric]]), seq(n.params),
                             drop = FALSE]
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
@@ -238,9 +238,9 @@ gridSearchLearn <- function(x, y, mod,
              params = list(fixed = fixed.params,
                            search = grid.params),
              error.aggregate.fn = deparse(substitute(error.aggregate.fn)))
-  
+
   if (save.mod) gs$mods <- grid.run
-  
+
   class(gs) <- c("gridSearch", "list")
   gs
 
@@ -268,14 +268,14 @@ gridCheck <- function(...) {
 
 
 #' \code{print} method for \code{gridSearch} object
-#' 
+#'
 #' @method print gridSearch
 #' @export
 #' @author Efstathios D. Gennatas
 
 print.gridSearch <- function(x, ...) {
- 
-  cat(".:gridSearch object\n-------------------\n")
+
+  boxcat(".:rtemis gridSearch object")
   type <- if (x$type == "exhaustive") "An exhaustive grid search"
                  else paste0("A randomized grid search (p = ", x$p, ")")
   resamples <- if (x$resample.rtset$resample == "kfold") {
@@ -290,5 +290,5 @@ print.gridSearch <- function(x, ...) {
   cat(type, " was performed using ", x$resample.rtset$n.resamples, " ", resamples, ".\n", sep = "")
   cat(x$metric, "was", ifelse(x$maximize, "maximized", "minimized"), "with the following parameters:\n")
   printls(x$best.tune)
-  
+
 } # rtemis::print.gridSearch
