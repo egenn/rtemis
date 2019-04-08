@@ -274,7 +274,6 @@ mplot3.xy <- function(x, y,
   if (is.null(fit)) se.fit <- FALSE
   if (!is.null(fit)) fit <- toupper(fit)
   if (is.character(palette)) palette <- rtPalette(palette)
-  # TODO: check data
   if (!is.null(data)) {
     if (missing(x)) x <- "x"
     if (missing(y)) y <- "y"
@@ -283,7 +282,7 @@ mplot3.xy <- function(x, y,
     if (is.null(xlab)) xlab <- .xname
     if (is.null(ylab)) ylab  <- .yname
     x <- data[[.xname]]
-    if (!is.null(y)) y <- data[[.yname]]
+    y <- data[[.yname]]
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
   }
 
@@ -345,7 +344,7 @@ mplot3.xy <- function(x, y,
       dir.create(dirname(filename), recursive = TRUE)
 
   # Reorder
-  do.reorder <- NULL # remined me why this is an option
+  do.reorder <- NULL # remind me why this is an option
   if (is.null(do.reorder)) {
     do.reorder <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
   }
@@ -388,11 +387,12 @@ mplot3.xy <- function(x, y,
   if (do.reorder) {
     index <- lapply(xl, order)
   } else {
-    index <- lapply(xl, function(i) 1:length(i))
+    index <- lapply(xl, function(i) seq(i))
   }
 
   xl <- lapply(seq(xl), function(i) xl[[i]][index[[i]]])
   yl <- lapply(seq(xl), function(i) yl[[i]][index[[i]]])
+
   if (length(type) == 1) {
     if (type == "p") marker.col <- point.col
     if (type == "l") marker.col <- line.col
@@ -1014,16 +1014,14 @@ mplot3.xy <- function(x, y,
           side = rsq.side,
           adj = rsq.adj,
           line = -1 - Nxgroups,
-          # padj = padj_exp,
           cex = cex,
           col = gen.col)
-    mtext(annot.rsq,
+    mtext(rev(annot.rsq),
           side = rsq.side,
           adj = rsq.adj,
-          # padj = rev(seq(-2, -2 - 1.5 * length(rsql), -1.5 ))[-1] + rsq.padj.shift, # hack for expression R^2 adding newline
           line = seq(-1, -Nxgroups, -1),
           cex = cex,
-          col = unlist(rsq.col))
+          col = rev(unlist(rsq.col)))
   }
 
   if (rsq.pval) {
