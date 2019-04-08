@@ -43,7 +43,7 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 * __rtemis__ is under active development with many enhancements and extensions in the works
 
 <a href="https://rtemis.netlify.com">
-<img align = "center" src="https://egenn.github.io/imgs/rtemis.png">
+<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 </a>
 
 ---
