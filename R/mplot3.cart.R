@@ -26,14 +26,14 @@ mplot3.cart <- function(object,
                         col.positive = "#F48024DD",
                         col.negative = "#18A3ACDD",
                         col.lo = ucsfCol$blue,
-                        col.mid = ucsfCol$red,
-                        col.hi = ucsfCol$yellow,
+                        col.mid = "gray20",
+                        col.hi = ucsfCol$red,
                         node.col = "#666666",
                         node.shape = "none",
                         node.labels = TRUE,
                         node.cond = TRUE,
                         node.prob = TRUE,
-                        node.estimate = FALSE,
+                        node.estimate = NULL,
                         node.n = TRUE,
                         edge.col = "#999999",
                         edge.width = 2,
@@ -57,7 +57,12 @@ mplot3.cart <- function(object,
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ TREE ] ====
+  # [ PRUNE ] ====
+  if (!is.null(rpart.cp)) {
+    .tree <- rpart::prune.rpart(.tree, rpart.cp)
+  }
+
+  # [ DATA TREE ] ====
   if (inherits(object, "rtMod")) {
     if (inherits(object$mod, "rpart")) {
       .tree <- as.data.tree.rpart(object$mod)
@@ -65,7 +70,7 @@ mplot3.cart <- function(object,
       y <- object$mod$model$y
       if (verbose) msg("Object is rtemis rpart model")
     } else {
-    stop("Input must be of type rpart")
+      stop("Input must be of type rpart")
     }
   } else {
     if (inherits(object, "rpart")) {
@@ -76,11 +81,7 @@ mplot3.cart <- function(object,
     }
   }
   type <- "rpart"
-
-  # [ PRUNE ] ====
-  if (!is.null(rpart.cp)) {
-    .tree <- rpart::prune.rpart(.tree, rpart.cp)
-  }
+  if (is.null(node.estimate)) node.estimate <- if (method == "class") FALSE else TRUE
 
   # [ GRAPH STYLE ] ====
   data.tree::SetGraphStyle(.tree,
@@ -95,7 +96,7 @@ mplot3.cart <- function(object,
                                            "\nN leaves =", length(.tree$leaves)))
 
   # [ NODE STYLE ] ====
-  node.labels <- if (node.labels) {
+  .node.labels <- if (node.labels) {
     if (method == "class") {
       function(node) paste0(if (node.cond) paste(node$name),
                             if (node.n) paste("\nN =", node$N),
@@ -117,30 +118,32 @@ mplot3.cart <- function(object,
                           fillcolor = node.col,
                           col = node.col,
                           fontname = fontname,
-                          label = node.labels,
+                          label = .node.labels,
                           tooltip = if (method == "class") {
                             function(node) paste(paste("Node", node$node.id),
                                                  paste("Prob =", ddSci(node$ProbClass1)),
                                                  paste("Estimate level =", node$Estimate),
                                                  paste("Estimate label =", node$EstimateLabel),
                                                  sep = "\n")
-                            } else if (method == "anova") {
-                              function(node) paste(paste("Node", node$node.id),
-                                                   paste("Estimate =", ddSci(node$Estimate)),
-                                                   sep = "\n")
-                            },
+                          } else if (method == "anova") {
+                            function(node) paste(paste("Node", node$node.id),
+                                                 paste("Estimate =", ddSci(node$Estimate)),
+                                                 sep = "\n")
+                          },
                           rank = function(node) node$Depth)
 
   # [ EDGE STYLE ] ====
-  edge.labels <- if (edge.labels) function(node) node$name else NULL # was node$Condition
+  .edge.labels <- if (edge.labels) function(node) node$name else NULL # was node$Condition
   data.tree::SetEdgeStyle(.tree,
                           arrowhead = arrowhead,
                           color = edge.col,
                           penwidth = edge.width,
                           fontname = fontname,
-                          label = edge.labels,
+                          label = .edge.labels,
                           tooltip = function(node) node$name) # was node$Condition
   # ?drop.leaves, keepExisting = TRUE
+
+  # [ LEAVES ] ====
   leaves.rank <- if (drop.leaves) .tree$height else NULL
   data.tree::Do(.tree$leaves, function(node) {
     data.tree::SetNodeStyle(node,
@@ -149,11 +152,11 @@ mplot3.cart <- function(object,
                               function(node) ifelse(node$Estimate == 1 & node$isLeaf,
                                                     col.positive, col.negative)
                             } else if (method == "anova") {
-                              function(node) colorGrad(100,
+                              function(node) colorGrad(101,
                                                        lo = col.lo,
                                                        mid = col.mid,
                                                        hi = col.hi)[round(drange(c(node$Estimate,
-                                                                                         range(y)), 0 , 100)[[1, 1]])]
+                                                                                   range(y)), 0 , 100)[1])]
                             })
   })
   plot(.tree)
