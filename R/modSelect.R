@@ -18,11 +18,13 @@
 modSelect <- function(mod,
                       fn = FALSE,
                       desc = FALSE) {
-  
+
   # Name + CRS ====
   rtMods <- data.frame(rbind(
-    c("ADABOOST", "Adaptive Boosting", T, F, F),
+    c("RGB", "Representational Gradient Boosting", T, T, T),
     c("AADDT", "Asymmetric Additive Tree", T, T, F),
+    c("CSL", "Conditional SuperLearner", T, T, F),
+    c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
     c("ADDT", "Hybrid Additive Tree", F, T, F),
     c("ADDTBOOST", "Boosting of Additive Trees", F, T, F),
@@ -36,7 +38,6 @@ modSelect <- function(mod,
     c("CARTLITE", "CART Lite", F, T, F),
     c("CARTLITEBOOST", "Boosted CART Lite", F, T, F),
     c("CARTLITEBOOSTTV", "Boosted CART Lite TV", F, T, F),
-    # c("CSL", "Conditional SuperLearner", T, T, F),
     c("CTREE", "Conditional Inference Trees", T, T, F),
     c("C50", "C5.0 Decision Tree", T, F, F),
     c("DN", "deepnet Neural Network", T, T, F),
@@ -78,7 +79,6 @@ modSelect <- function(mod,
     c("QDA", "Quadratic Discriminant Analysis", T, F, F),
     c("QRNN", "Quantile Neural Network Regression", F, T, F),
     c("RANGER", "Random Forest (ranger)", T, T, F),
-    # c("RBM", "Representational Boosting Machine", F, T, F),
     c("RF", "Random Forest", T, T, F),
     # c("RRF", "Regularized Random Forest", T, T, F),
     c("RFSRC", "Random Forest SRC", T, T, T),
@@ -93,30 +93,30 @@ modSelect <- function(mod,
     c("XGBLIN", "Extreme Gradient Boosting of Linear Models", F, T, F)
   ))
   colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
-  
+
   # if (missing(mod) & !listAliases) {
   if (missing(mod)) {
     cat(rtHighlight$bold("\n  rtemis supports the following algorithms for training learners:\n\n"))
-    print(rtMods, quote = FALSE, row.names = FALSE)
+    print(rtMods[-seq(3), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtMods))
   }
-  
+
   if (strtrim(mod, 6) == "Bagged") {
     return(paste("Bagged", modSelect(substr(mod, 7, 100), desc = TRUE)))
   }
-  
+
   name.vec <- toupper(rtMods[, 1])
   name <- name.vec[pmatch(toupper(mod), name.vec)]
   if (is.na(name)) {
     print(rtMods[, 1:2], quote = FALSE)
     stop(mod, ": Incorrect model specified")
   }
-  
+
   if (desc) return(as.character(rtMods$Description[rtMods[, 1] == name]))
-  
+
   # fn ====
   s.name <- paste0("s.", name)
   learner <- if (fn) getFromNamespace(s.name, "rtemis") else s.name
   return(learner)
-  
+
 } # rtemis::modSelect

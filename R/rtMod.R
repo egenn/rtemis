@@ -107,15 +107,9 @@ rtMod <- R6::R6Class("rtMod",
                          cat(bold(".:rtemis Supervised Model\n"))
                          cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                              ")\n", sep = "")
-                         # cat("------------------------------------------------------\n")
-                         # cat("Training Error\n")
-                         # cat("------------------------------------------------------\n")
                          boxcat("Training Error")
                          print(self$error.train)
                          if (length(self$error.test) > 0) {
-                           # cat("------------------------------------------------------\n")
-                           # cat("Testing Error\n")
-                           # cat("------------------------------------------------------\n")
                            boxcat("Testing Error")
                            print(self$error.test)
                          }
