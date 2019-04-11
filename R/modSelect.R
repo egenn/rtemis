@@ -21,9 +21,9 @@ modSelect <- function(mod,
 
   # Name + CRS ====
   rtMods <- data.frame(rbind(
-    c("RGB", "Representational Gradient Boosting", T, T, T),
-    c("AADDT", "Asymmetric Additive Tree", T, T, F),
-    c("CSL", "Conditional SuperLearner", T, T, F),
+    c("RGB", "Representational Gradient Boosting", T, T, T), # that's
+    c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
+    c("CSL", "Conditional SuperLearner", T, T, F), # bud
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
     c("ADDT", "Hybrid Additive Tree", F, T, F),
