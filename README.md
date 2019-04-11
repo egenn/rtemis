@@ -32,7 +32,7 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 * __Cross-Decomposition__
      - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
-     [Have been removed temporarily for updating]
+     [Have been temporarily removed for updating]
      - Model Stacking: **_metaMod()_**
      - Modality Stacking: **_metaFeat()_**
      - Group-weighted Stacking: **_metaGroup()_**

@@ -61,7 +61,7 @@ as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
   #                              "\n  [", sessionInfo()[2], ": ", rtCores,
   #                              " cores available]"))
 
-  packageStartupMessage(paste0("  .:", pkgname, rtemis.ver, ": Welcome, ", Sys.getenv("USER"),
+  packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.ver, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
                                " available cores]"))
 
