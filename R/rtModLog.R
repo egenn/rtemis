@@ -1,5 +1,6 @@
+# [ rtModLog ] ====
 #' \pkg{rtemis} Supervised Model Log Class
-#' 
+#'
 #' @docType class
 #' @name rtModLog-class
 #' @field mod.name Learner algorithm name
@@ -43,11 +44,12 @@ rtModLog <- R6::R6Class("rtModLog",
                           }
                         )) # /rtModLog
 
+# [ rtModLogger ] ====
 #' \pkg{rtemis} model logger
-#' 
+#'
 #' R6 class to save trained models' parameters and performance. Keep your experiment results tidy in
 #' one place, with an option to write out to a multi-sheet Excel file.
-#' 
+#'
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -69,7 +71,8 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                      switch(paste(n.mods),
                                             `0` = "no models yet",
                                             `1` = "1 model",
-                                            paste(n.mods, "models"))))
+                                            paste(n.mods, "models"))),
+                                   "\n\n")
                              },
                              add = function(mod, verbose = TRUE) {
                                "add model to logger"
@@ -79,6 +82,35 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                                error.train = mod$error.train,
                                                                error.test = mod$error.test)
                                if (verbose) msg("Added 1 model to logger;", length(self$mods), "total")
+                             },
+                             summary = function(class.metric = "Balanced Accuracy",
+                                                reg.metric = "Rsq",
+                                                surv.metric = "Coherence",
+                                                decimal.places = 3,
+                                                print.metric = FALSE) {
+                               lst <- vector("list", length(self$mods))
+                               metric <- vector("character", length(self$mods))
+                               names(lst) <- names(metric) <- names(self$mods)
+                               for (i in seq(self$mods)) {
+                                 if (inherits(self$mods[[i]]$error.train, "classError")) {
+                                   metric[i] <- match.arg(class.metric, colnames(self$mods[[i]]$error.train$Overall))
+                                   lst[[i]] <- paste0(ddSci(self$mods[[i]]$error.train$Overall[[metric[i]]],
+                                                       decimal.places = decimal.places),
+                                                 if (print.metric) c(" (", metric[i], ")") else NULL)
+                                 } else if (inherits(self$mods[[i]]$error.train, "regError")) {
+                                   metric[i] <- match.arg(reg.metric, colnames(self$mods[[i]]$error.train))
+                                   lst[[i]] <- paste0(ddSci(self$mods[[i]]$error.train[[metric[i]]],
+                                                       decimal.places = decimal.places),
+                                                 if (print.metric) c(" (", metric[i], ")") else NULL)
+                                 } else {
+                                   metric[i] <- match.arg(surv.metric, colnames(self$mods[[i]]$error.train))
+                                   lst[[i]] <- paste0(ddSci(self$mods[[i]]$error.train[[metric[i]]],
+                                                       decimal.places = decimal.places),
+                                                 if (print.metric) c(" (", metric[i], ")") else NULL)
+                                 }
+                               }
+                               .metric <- length(unique(metric)) == 1
+                               printls(lst, color = rtHighlight$bold, title = if (.metric) metric[1] else NULL)
                              },
                              writeCSV = function(filename = "./rtModLog.xlsx") {
                                paramsl <- lapply(self$mods, function(i) {
@@ -97,9 +129,9 @@ rtModLogger <- R6::R6Class("rtModLogger",
                            )) # /rtModLogger
 
 #' Reduce List to one value per element
-#' 
+#'
 # reduceList <- function(x, char.max = 50, return.df = TRUE) {
-#   
+#
 #   if (length(x) == 0) {
 #     xl <- NULL
 #   } else {
@@ -118,7 +150,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
 
 
 reduceList <- function(x, char.max = 50, return.df = TRUE) {
-  
+
   if (length(x) > 0) {
     xl <- x
     # Functions to characters
@@ -131,5 +163,5 @@ reduceList <- function(x, char.max = 50, return.df = TRUE) {
     if (return.df) xl <- as.data.frame(xl)
     return(xl)
   }
-  
+
 }
