@@ -41,10 +41,8 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 * Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers are published.
 * R Documentation is ongoing and should be completed soon.
 * __rtemis__ is under active development with many enhancements and extensions in the works
-
-<a href="https://rtemis.netlify.com">
+---
 <img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
-</a>
-
+<img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
 ---
 2019 Efstathios D. Gennatas  
