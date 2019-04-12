@@ -1,12 +1,10 @@
-# ruleFeat
+# ruleFeat.R
 # ::rtemis::
 # 2017-8 Efstathios D. Gennatas egenn.github.io
-# allow running gbm multiple times with depth 1, 3, 5
-# x 150, 150, 200
 
 #' ruleFeat [C]
 #'
-#' Train a gradient boosting model, extract rules, 
+#' Train a gradient boosting model, extract rules,
 #' and fit using LASSO
 #'
 #' Based on "Predictive Learning via Rule Ensembles"
@@ -42,7 +40,7 @@ ruleFeat <- function(x, y = NULL,
                      n.cores = 1,
                      outdir = NULL,
                      save.mod = if (!is.null(outdir)) TRUE else FALSE) {
-  
+
   # [ INTRO ] ====
   if (missing(x)) {
     print(args(ruleFeat))
@@ -57,12 +55,12 @@ ruleFeat <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   call <- NULL
   mod.name <- "ruleFeat"
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("gbm", "glmnet", "inTrees", "data.table", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(ruleFeat))
@@ -71,7 +69,7 @@ ruleFeat <- function(x, y = NULL,
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
-  
+
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test, verbose = FALSE)
   x <- dt$x
@@ -81,7 +79,7 @@ ruleFeat <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (type != "Classification") stop("Only classification supported at this point")
-  
+
   if (is.null(cases.by.rules)) {
     # [ Gradient Boosting ] ====
     gbm.args <- c(list(x = x, y = y,
@@ -91,7 +89,7 @@ ruleFeat <- function(x, y = NULL,
                   gbm.params)
     if (verbose) msg("Running Gradient Boosting...")
     mod.gbm <- do.call(s.GBM3, gbm.args)
-    
+
     # [ Get Rules ] ====
     if (verbose) msg("Collecting Gradient Boosting Rules (Trees)...")
     gbm.list <- rt.GBM2List(mod.gbm$mod, X = x)
@@ -102,13 +100,13 @@ ruleFeat <- function(x, y = NULL,
     if (verbose) msg("...and kept", n.rules.total, "unique rules")
     gbm.rules.names <- inTrees::presentRules(gbm.rules, colN = names(x))
     colnames(gbm.rules.names) <- "Rule"
-    
+
     # [ Match Cases by Rules ] ====
     cases.by.rules <- matchCasesByRules(x, gbm.rules.names)
   } else {
     mod.gbm <- gbm.rules <- gbm.rules.names <- NA
   }
-  
+
   # [ LASSO: Select Rules ] ====
   if (verbose) msg("Running LASSO on GBM rules...")
   glmnet.select.args <- c(list(x = cases.by.rules, y = y,
@@ -130,9 +128,9 @@ ruleFeat <- function(x, y = NULL,
       if (verbose) msg("Selected rules written to", rules.selected.file)
     }
   }
-  
+
   cases.by.rules.selected <- cases.by.rules[, nonzero.index]
-  
+
   # [ EMPIRICAL RISK ] ====
   dat <- as.data.table(cbind(x, outcome = y))
   empirical.risk <- vector("numeric", length(rules.selected))
@@ -141,14 +139,14 @@ ruleFeat <- function(x, y = NULL,
     freq <- table(match$outcome)
     empirical.risk[i] <- freq[1]/sum(freq)
   }
-  
+
   # [ WRITE CSV ] ====
   rules.selected.formatted <- formatRules(rules.selected, decimal.places = 2)
   rules.selected.coef.er <- data.frame(Rule = rules.selected.formatted,
                                        Coefficient = rule.coefs$Coefficient[nonzero.index],
                                        Empirical.Risk = empirical.risk)
   write.csv(rules.selected.coef.er, paste0(outdir, "Rules.selected_Coefs_Empirical.Risk.csv"))
-  
+
   # [ ruleFeat object ] ====
   rulefeat.obj <- list(mod.gbm = mod.gbm,
                        gbm.rules = gbm.rules,
@@ -167,13 +165,13 @@ ruleFeat <- function(x, y = NULL,
                        metrics = data.frame(N.Rules.Total = n.rules.total,
                                             N.Nonzero.Rules = n.nonzero.rules))
   class(rulefeat.obj) <- c("ruleFeat", "list")
-  
+
   # [ FITTED ] ====
   # TODO: fitted.prob
   fitted <- mod.glmnet.select$fitted
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
-  
+
   # [ PREDICTED ] ====
   # TODO: predicted.prob
   predicted <- error.test <- NULL
@@ -184,7 +182,7 @@ ruleFeat <- function(x, y = NULL,
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
-  
+
   # [ OUTRO ] ====
   extra <- list(ruleFeat = rulefeat.obj)
   rt <- rtModSet(rtclass = "rtMod",
@@ -205,12 +203,12 @@ ruleFeat <- function(x, y = NULL,
                  error.test = error.test,
                  question = question,
                  extra = extra)
-  
+
   if (save.mod) rtSave(rt, outdir, file.prefix = "ruleFeat", verbose = verbose)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-  
-} # rtemis::s.RULEFEAT
+
+} # rtemis::ruleFeat
 
 
 # predict.ruleFeat
@@ -227,11 +225,11 @@ ruleFeat <- function(x, y = NULL,
 
 predict.ruleFeat <- function(object, newdata = NULL,
                              verbose = TRUE, ...) {
-  
+
   # [ RULES ] ====
   # Get rules.selected from object
   rules <- object$gbm.rules.names
-  
+
   # [ MATCH ] ====
   # Match newdata to rules: create features for predict
   if (!is.null(newdata)) {
@@ -240,18 +238,18 @@ predict.ruleFeat <- function(object, newdata = NULL,
   } else {
     cases.by.rules <- object$cases.by.rules.selected
   }
-  
+
   # [ PREDICT ] ====
   yhat <- factor(predict(object$mod.glmnet.select$mod,
                          newx = data.matrix(cases.by.rules),
                          type = "class"),
                  levels = levels(object$y))
   yhat
-  
+
 } # rtemis::predict.ruleFeat
 
 
-rt.GBM2List <- function (gbm1, X) {
+rt.GBM2List <- function(gbm1, X) {
   treeList <- list(ntree = gbm1$params$num_trees)
   treeList$list <- vector("list", gbm1$params$num_trees)
   for (i in seq(treeList$ntree)) {
@@ -262,4 +260,4 @@ rt.GBM2List <- function (gbm1, X) {
   }
   splitBin = sapply(gbm1$c.splits, v2int)
   return(inTrees::formatGBM(treeList, splitBin, X))
-}
+} # rtemis::rt.GBM2List
