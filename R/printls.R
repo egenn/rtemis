@@ -22,10 +22,12 @@ printls <- function(x,
                     center.title = TRUE,
                     title = NULL,
                     title.newline = FALSE,
+                    newline.pre = FALSE,
                     color = NULL) {
-  
+
+  if (newline.pre) cat("\n")
   if (is.null(x)) {
-    if (!is.null(title)) boxcat(title, pad = pad, newline = title.newline)
+    if (!is.null(title)) boxcat(title, pad = pad, newline = title.newline, newline.pre = FALSE)
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else {
     x <- as.list(x)
@@ -60,7 +62,7 @@ printls <- function(x,
       }
     }
   }
-  
+
 } # rtemis::printls
 
 
@@ -79,22 +81,22 @@ printls <- function(x,
 #' @export
 
 printdf1 <- function(x, pad = 2) {
-  
+
   x <- as.data.frame(x)
   # df <- data.frame(Parameter = c(names(x)), Value = unlist(x), row.names = NULL)
-  
+
   xnames <- colnames(x)
   lhs <- max(nchar(xnames)) + pad
-  
+
   for (i in seq(ncol(x))) {
     cat(paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]), "\n")
   }
-  
+
 } # rtemis::printdf1
 
 
 cpad <- function(x, length = NULL, adjust = c("right", "left")) {
-  
+
   adjust <- match.arg(adjust)
   if (is.null(length)) {
     cat(x)
@@ -143,7 +145,7 @@ printdf <- function(x,
                     row.col = silver,
                     newline.pre = FALSE,
                     newline = FALSE) {
-  
+
   if (transpose) x <- as.data.frame(t(x))
   xnames <- colnames(x)
   xrownames <- gsub(pattern = "\\.", replacement = " ", rownames(x))
@@ -153,9 +155,9 @@ printdf <- function(x,
     rownames(xf) <- xrownames
     x <- xf
   }
-  
+
   col.char <- sapply(seq(xnames), function(i) max(nchar(as.character(x[, i])), nchar(xnames[i])))
-  
+
   xrownames.spacing <- if (rownames) max(nchar(xrownames)) + pad else pad
   spacer <- paste0(rep(" ", spacing), collapse = "")
   if (newline.pre) cat("\n")
@@ -166,7 +168,7 @@ printdf <- function(x,
                                                       justify = justify)))
     cat("\n")
   }
-  
+
   # cat(silver$bold(" ]]\n"))
   if (rownames) {
     for (i in seq(NROW(x))) {
@@ -182,7 +184,7 @@ printdf <- function(x,
     }
   }
   if (newline) cat("\n")
-  
+
 } # rtemis::printdf
 
 printtable <- function(x, spacing = 2, pad = 2) {
@@ -203,13 +205,13 @@ printtable <- function(x, spacing = 2, pad = 2) {
   for (i in seq(n.classes)) {
     cat(rtHighlight$bold(format(class.names[i], width = col.width[i] + spacing, justify = "left")))
   }
-  
+
   printdf(mat,
           pad = lhspad - max(nchar(class.names)) - spacing,
           colnames = FALSE,
           row.col = rtHighlight$bold, newline.pre = TRUE,
           spacing = spacing)
-  
+
 } # rtemis::printtable
 
 
