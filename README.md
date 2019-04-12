@@ -44,5 +44,6 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 ---
 <img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
+
 ---
 2019 Efstathios D. Gennatas  
