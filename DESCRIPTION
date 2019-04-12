@@ -3,7 +3,6 @@ Version: 0.78-9000
 Title: Machine Learning and Visualization
 Date: 2019-04-01
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
-Author: Efstathios D Gennatas [aut, cre]
 Maintainer: Efstathios D. Gennatas <gennatas@gmail.com>
 Description: Advanced Machine Learning and Visualization made accessible to all. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression, Survival Analysis), Cross-Decomposition, Bagging, Boosting, Meta-models.
 License: GPL (>=3)
