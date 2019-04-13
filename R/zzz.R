@@ -52,14 +52,10 @@
 .availableCores <- future::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
 globalVariables("rtCores")
-as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
 
 .onAttach <- function(libname, pkgname) {
   rtemis.ver <- read.dcf(file = system.file("DESCRIPTION", package = pkgname),
                          fields = "Version")
-  # packageStartupMessage(paste0("  .:", pkgname, " v", rtemis.ver, ": Welcome, ", Sys.getenv("USER"),
-  #                              "\n  [", sessionInfo()[2], ": ", rtCores,
-  #                              " cores available]"))
 
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.ver, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,

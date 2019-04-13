@@ -22,7 +22,7 @@
 #' during training. "none" for no plot. Default = "final"
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner. Default = FALSE
-#' @param prefix Internal
+#' @keywords internal
 #' @author Efstathios D. Gennatas
 #' @export
 
