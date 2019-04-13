@@ -29,7 +29,7 @@ if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s.ADABOOST(iris2.train, iris2.test, iter = 5)
 }
 
-if (requireNamespace(c("rpart", "glmnet"), quietly = TRUE)) {
+if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
   mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
 }
 

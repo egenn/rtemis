@@ -52,7 +52,7 @@ modError <- function(true, estimated,
   }
 
   if (type == "Regression") {
-    
+
     # [ Regression ] ====
     x <- as.numeric(x)
     y <- as.numeric(y)
@@ -121,7 +121,7 @@ modError <- function(true, estimated,
     class(s.out) <- c("regError", "data.frame")
 
   } else if (type == "Classification")  {
-    
+
     # [ Classification ] ====
     if (!depCheck("caret", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
@@ -142,7 +142,7 @@ modError <- function(true, estimated,
     # s.out$overall <- data.frame(t(s.out$overall), byClass)
     s.out <- classError(x, y, estimated.prob)
   } else {
-    
+
     # [ Survival ] ====
     if (!depCheck("survival", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
@@ -183,11 +183,11 @@ mse <- function(x, y, na.rm = TRUE) {
 #' @param weights Float, vector: Case weights
 #' @export
 msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {
-  
+
   error <- x - y
   error <- error * weights
   mean(error^2, na.rm = na.rm)
-  
+
 } # rtemis::msew
 
 
@@ -211,7 +211,7 @@ mae <- function(x, y, na.rm = TRUE) {
 
 
 #' R-squared
-#' 
+#'
 #' @param x Float, vector: True values
 #' @param y Float, vector: Estimated values
 #' @author Efstathios D. Gennatas
@@ -229,19 +229,19 @@ rsq <- function(x, y) {
 
 
 #' Log Loss for a binary classifier
-#' 
+#'
 #' @param true Factor: True labels. First level is the positive case
 #' @param estimated.prob Float, vector: Estimated probabilities
 #' @author Efstathios D. Gennatas
 #' @export
 
 logloss <- function(true, estimated.prob) {
-  
+
   true.bin <- 2 - as.numeric(true)
   eps <- 1e-16
   estimated.prob <- pmax(pmin(estimated.prob, 1 - eps), eps)
   - mean(true.bin * log(estimated.prob) + (1 - true.bin) * log(1 - estimated.prob))
-  
+
 } # rtemis::logloss
 
 
@@ -272,7 +272,7 @@ auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
   }
   if (verbose) {
     msg("Positive class:", true.levels[1])
-    msg("AUC = ", .auc)
+    msg("AUC =", .auc)
   }
   invisible(.auc)
 
@@ -312,7 +312,7 @@ auc <- function(prob, labels,
     }
 
   }
-  
+
   if (verbose) msg("AUC is", .roc$auc)
   as.numeric(.roc$auc)
 
