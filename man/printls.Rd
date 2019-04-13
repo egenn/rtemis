@@ -5,7 +5,7 @@
 \title{Pretty print list}
 \usage{
 printls(x, prefix = "", pad = 3, center.title = TRUE, title = NULL,
-  title.newline = FALSE, color = NULL)
+  title.newline = FALSE, newline.pre = FALSE, color = NULL)
 }
 \arguments{
 \item{x}{list or object that will be converted to a list}

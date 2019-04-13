@@ -35,7 +35,7 @@ u.CMEANS(x, k = 2, iter.max = 100, dist = "euclidean",
 \link{rtClust} object
 }
 \description{
-Perform fuzzy C-means clustering
+Perform fuzzy C-means clustering using \code{e1071::cmeans}
 }
 \seealso{
 Other Clustering: \code{\link{u.EMC}},

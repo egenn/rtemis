@@ -29,25 +29,9 @@ of all combinations}
 
 \item{resample.rtset}{List: Output of \code{rtset.grid.resample()}}
 
-\item{randomized.p}{}
-
-\item{weights}{}
-
-\item{error.aggregate.fn}{}
-
-\item{metric}{}
-
-\item{maximize}{}
-
-\item{save.mod}{}
-
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
 \item{call.depth}{Integer: passed to \link{msg}. Default = 2}
-
-\item{grid.verbose}{}
-
-\item{n.cores}{}
 
 \item{...}{Additional arguments to be passed to \link{resample}}
 }

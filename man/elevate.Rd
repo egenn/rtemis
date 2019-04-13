@@ -67,10 +67,10 @@ Default = \code{length(y)}}
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
 See \code{?base::set.seed}}
 
-\item{res.index}{List where each element is a vector of training set indices. Use this for manual or 
+\item{res.index}{List where each element is a vector of training set indices. Use this for manual or
 precalculated train/test splits}
 
-\item{res.group}{Integer, vector, length = length(y): Integer vector, where numbers define fold membership. 
+\item{res.group}{Integer, vector, length = length(y): Integer vector, where numbers define fold membership.
 e.g. for 10-fold on a dataset with 1000 cases, you could use group = rep(1:10, each = 100)}
 
 \item{bag.fn}{Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}}
@@ -136,7 +136,7 @@ from all resamples. Defaults to TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{save.res}{Logical: If TRUE, save the full output of each model trained on differents resamples under 
+\item{save.res}{Logical: If TRUE, save the full output of each model trained on differents resamples under
 subdirectories of \code{outdir}}
 
 \item{...}{Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use

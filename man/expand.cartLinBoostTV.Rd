@@ -6,10 +6,10 @@
 \usage{
 expand.cartLinBoostTV(object, x, y = NULL, x.valid = NULL,
   y.valid = NULL, x.test = NULL, y.test = NULL, resid = NULL,
-  cart.params = NULL, glm.params = NULL, max.iter = 10,
-  learning.rate = NULL, weights.p = 1, weights.0 = 0, seed = NULL,
-  prefix = NULL, verbose = TRUE, trace = 0,
-  print.error.plot = "final", print.plot = FALSE)
+  cart.params = NULL, glm.params = NULL, mod.params = NULL,
+  max.iter = 10, learning.rate = NULL, weights.p = 1,
+  weights.0 = 0, seed = NULL, prefix = NULL, verbose = TRUE,
+  trace = 0, print.error.plot = "final", print.plot = FALSE)
 }
 \arguments{
 \item{object}{\link{cartLinBoostTV} object}
@@ -29,6 +29,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{resid}{Float, vector, length = length(y): Residuals to work on. Do not change unless you know
 what you're doing. Default = NULL, for regular boosting}
+
+\item{mod.params}{Named list of arguments for \code{mod}}
 
 \item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
 

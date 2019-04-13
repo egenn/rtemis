@@ -19,7 +19,7 @@ so you do not have to define each time you execute a function.
 \describe{
    \item{rt.theme}{General plotting theme; set to e.g. "light" or "dark"}
    \item{ft.fit.theme}{Plotting theme for true vs. fitted; set to e.g. "lightgrid" or "darkgrid"}
-   \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by 
+   \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by
    future::availableCores(). In shared systems, you should limit this as appropriate.}
 }
 }
@@ -65,7 +65,7 @@ Meta models are trained using \code{meta*} functions.
 
 Function documentation includes input type (e.g. "String", "Integer", "Float", etc) and
 range in interval notation where applicable. For example, Float: [0, 1)" means floats between 0 and 1 including 0,
-but excluding 1  
+but excluding 1
 
 For all classification models, the outcome should be provided as a factor, with the first level
 of the factor being the 'positive' class, if applicable. A character vector supplied as outcome

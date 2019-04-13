@@ -49,7 +49,7 @@ building}
 \link{rtMod} object
 }
 \description{
-Train a gradient boosting model, extract rules, 
+Train a gradient boosting model, extract rules,
 and fit using LASSO
 }
 \details{

@@ -63,7 +63,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \link{rtMod} object
 }
 \description{
-Train a DA Classifier
+Train a DA Classifier using \code{MASS::lda} or \code{MASS::qda}
 }
 \details{
 Note: Does not support case weights
