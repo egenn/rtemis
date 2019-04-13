@@ -4,7 +4,7 @@
 
 #' Naive Bayes Classifier [C]
 #'
-#' Train a Naive Bayes Classifier
+#' Train a Naive Bayes Classifier using \code{e1071::naiveBayes}
 #'
 #' @inheritParams s.GLM
 #' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing)

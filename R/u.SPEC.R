@@ -4,7 +4,7 @@
 
 #' Spectral Clustering
 #'
-#' Perform Spectral Clustering
+#' Perform Spectral Clustering using \code{kernlab::specc}
 #'
 #' @inheritParams u.KMEANS
 #' @param x Input matrix / data.frame
