@@ -4,7 +4,7 @@
 
 #' Fuzzy C-means Clustering
 #'
-#' Perform fuzzy C-means clustering
+#' Perform fuzzy C-means clustering using \code{e1071::cmeans}
 #'
 #' @inheritParams u.KMEANS
 #' @param k Integer: Number of clusters to get

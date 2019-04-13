@@ -4,7 +4,7 @@
 
 #' Non-negative Matrix Factorization (NMF)
 #'
-#' Calculate NMF decomposition and projections
+#' Calculate NMF decomposition and projections using \code{NMF::nmf}
 #'
 #' Project scaled variables to NMF bases.
 #' Input must be n by p,

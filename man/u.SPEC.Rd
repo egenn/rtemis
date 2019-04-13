@@ -40,7 +40,7 @@ Default = \code{dim(x)[1]/6}}
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Perform Spectral Clustering
+Perform Spectral Clustering using \code{kernlab::specc}
 }
 \seealso{
 Other Clustering: \code{\link{u.CMEANS}},

@@ -4,7 +4,7 @@
 
 #' Linear and Quadratic Discriminant Analysis [C]
 #'
-#' Train a DA Classifier
+#' Train a DA Classifier using \code{MASS::lda} or \code{MASS::qda}
 #'
 #' Note: Does not support case weights
 #' @inheritParams s.GLM
@@ -87,7 +87,7 @@ s.DA <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ L/QDA ] ====
   params <- c(list(x = x,
                    grouping = y,

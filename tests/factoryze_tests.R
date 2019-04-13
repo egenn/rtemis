@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+if (requireNamespace("GPArotation", quietly = TRUE)) {
+
 # Library ----
 library(rtemis)
 
@@ -16,3 +18,5 @@ x <- do.call(cbind, lapply(seq(n.factors), function(i)
 
 # factoryze ----
 x_fac <- factoryze(x)
+
+} # if (requireNamespace(...))

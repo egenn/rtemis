@@ -30,7 +30,7 @@ d.NMF(x, x.test = NULL, k = 2, method = "brunet", nrun = 30,
 \link{rtDecom} object
 }
 \description{
-Calculate NMF decomposition and projections
+Calculate NMF decomposition and projections using \code{NMF::nmf}
 }
 \details{
 Project scaled variables to NMF bases.
