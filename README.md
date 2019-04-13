@@ -13,7 +13,8 @@ The goal of rtemis is to make data science accessible and efficient with no comp
 
 ### Installation
 ```r
-devtools::install_github("egenn/rtemis")
+install.packages("remotes")
+remotes::install_github("egenn/rtemis")
 ```
 Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 
