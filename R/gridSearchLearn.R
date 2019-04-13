@@ -24,16 +24,16 @@
 #' try all combinations of parameters. Randomized will try a random sample of size \code{randomize.p} * N
 #' of all combinations
 #' @param resample.rtset List: Output of \code{rtset.grid.resample()}
-#' @param randomized.p
-#' @param weights
-#' @param error.aggregate.fn
-#' @param metric
-#' @param maximize
-#' @param save.mod
+#' @param randomized.p Float (0, 1): For \code{search.type == "exhaustive"}, sample this portion of combination. Default = .05
+#' @param weights Float, vector: Case weights
+#' @param error.aggregate.fn Function: Use this when aggregating error metrics. Default = mean
+#' @param metric String: Metric to minimize or maximize
+#' @param maximize Logical: If TRUE, maximize \code{metric}
+#' @param save.mod Logical: If TRUE, save all trained models. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param call.depth Integer: passed to \link{msg}. Default = 2
-#' @param grid.verbose
-#' @param n.cores
+#' @param grid.verbose Logical: Passed to \code{learner}'s \code{verbose} argument
+#' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to be passed to \link{resample}
 #'
 #' @author Efstathios D. Gennatas
