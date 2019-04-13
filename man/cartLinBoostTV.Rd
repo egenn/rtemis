@@ -6,10 +6,11 @@
 \usage{
 cartLinBoostTV(x, y = NULL, x.valid = NULL, y.valid = NULL,
   x.test = NULL, y.test = NULL, resid = NULL, base.mod = c("cart",
-  "glm"), boost.obj = NULL, cart.params = list(maxdepth = 1),
-  glm.params = list(lambda = 0.1), weights.p = 1, weights.0 = 0,
-  weights = NULL, learning.rate = 0.1, max.iter = 10, init = NULL,
-  seed = NULL, x.name = NULL, y.name = NULL, question = NULL,
+  "glm"), boost.obj = NULL, mod.params = list(),
+  cart.params = list(maxdepth = 1), glm.params = list(lambda = 0.1),
+  weights.p = 1, weights.0 = 0, weights = NULL,
+  learning.rate = 0.1, max.iter = 10, init = NULL, seed = NULL,
+  x.name = NULL, y.name = NULL, question = NULL,
   base.verbose = FALSE, verbose = TRUE, trace = 0,
   print.progress.every = 5, print.error.plot = "final",
   prefix = NULL, plot.theme = getOption("rt.fit.theme", "lightgrid"),
@@ -34,6 +35,8 @@ Columns must correspond to columns in \code{x}}
 what you're doing. Default = NULL, for regular boosting}
 
 \item{boost.obj}{[Internal use]}
+
+\item{mod.params}{Named list of arguments for \code{mod}}
 
 \item{weights.p}{Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1}
 
@@ -100,3 +103,4 @@ If \code{learning.rate} is set to 0, a nullmod will be created
 \author{
 Efstathios D. Gennatas
 }
+\keyword{internal}

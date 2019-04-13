@@ -29,25 +29,25 @@ of all combinations}
 
 \item{resample.rtset}{List: Output of \code{rtset.grid.resample()}}
 
-\item{randomized.p}{}
+\item{randomized.p}{Float (0, 1): For \code{search.type == "exhaustive"}, sample this portion of combination. Default = .05}
 
-\item{weights}{}
+\item{weights}{Float, vector: Case weights}
 
-\item{error.aggregate.fn}{}
+\item{error.aggregate.fn}{Function: Use this when aggregating error metrics. Default = mean}
 
-\item{metric}{}
+\item{metric}{String: Metric to minimize or maximize}
 
-\item{maximize}{}
+\item{maximize}{Logical: If TRUE, maximize \code{metric}}
 
-\item{save.mod}{}
+\item{save.mod}{Logical: If TRUE, save all trained models. Default = FALSE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
 \item{call.depth}{Integer: passed to \link{msg}. Default = 2}
 
-\item{grid.verbose}{}
+\item{grid.verbose}{Logical: Passed to \code{learner}'s \code{verbose} argument}
 
-\item{n.cores}{}
+\item{n.cores}{Integer: Number of cores to use}
 
 \item{...}{Additional arguments to be passed to \link{resample}}
 }

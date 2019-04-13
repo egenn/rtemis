@@ -5,16 +5,16 @@
 \title{\code{mplot3}: \code{data.tree}  trees}
 \usage{
 mplot3.cart(object, col.positive = "#F48024DD",
-  col.negative = "#18A3ACDD", col.lo = ucsfCol$blue,
-  col.mid = ucsfCol$red, col.hi = ucsfCol$yellow,
-  node.col = "#666666", node.shape = "none", node.labels = TRUE,
-  node.cond = TRUE, node.prob = TRUE, node.estimate = FALSE,
-  node.n = TRUE, edge.col = "#999999", edge.width = 2,
-  edge.labels = FALSE, arrowhead = "vee", layout = "dot",
-  drop.leaves = FALSE, rankdir = "TB", splines = "polyline",
-  fontname = "helvetica", bg.color = "white", overlap = "false",
-  prune = FALSE, prune.empty.leaves = TRUE,
-  remove.bad.parents = TRUE, rpart.cp = NULL, verbose = TRUE)
+  col.negative = "#18A3ACDD", col.lo = ucsfCol$teal,
+  col.mid = "gray20", col.hi = ucsfCol$orange, node.col = "#666666",
+  node.shape = "none", node.labels = TRUE, node.cond = TRUE,
+  node.prob = TRUE, node.estimate = NULL, node.n = TRUE,
+  edge.col = "#999999", edge.width = 2, edge.labels = FALSE,
+  arrowhead = "vee", layout = "dot", drop.leaves = FALSE,
+  rankdir = "TB", splines = "polyline", fontname = "helvetica",
+  bg.color = "white", overlap = "false", prune = FALSE,
+  prune.empty.leaves = TRUE, remove.bad.parents = TRUE,
+  rpart.cp = NULL, verbose = TRUE)
 }
 \arguments{
 \item{node.cond}{Logical: If TRUE, print the splitting condition inside each node. Default = TRUE}
