@@ -2,8 +2,6 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-if (requireNamespace("pROC", quietly = TRUE)) {
-
 library(rtemis)
 
 # Regression
@@ -17,5 +15,3 @@ elr <- elevate(dat, n.resamples = 3)
 iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 elc <- elevate(iris2, n.resamples = 3)
-
-} # if (requireNamespace(...))
