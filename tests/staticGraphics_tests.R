@@ -15,6 +15,7 @@ estimated <- true
 index <- sample(seq(20), 5)
 estimated[index] <- 1 - as.numeric(estimated[index])
 
+mhist(x)
 mplot3.adsr()
 mplot3.bar(x)
 mplot3.box(z)
