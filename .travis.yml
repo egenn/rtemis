@@ -8,9 +8,3 @@ cache: packages
 env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
-
-before_install:
-  - R -e 'install.packages(c("remotes"))'
-
-install:
-  - R -e 'remotes::install_deps(dep = NA)'
