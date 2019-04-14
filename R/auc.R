@@ -19,7 +19,7 @@
 #' @export
 
 auc <- function(prob, labels,
-                method = c("pROC", "auc_pairs", "ROCR"),
+                method = c("auc_pairs", "pROC", "ROCR"),
                 verbose = FALSE) {
 
   method <- match.arg(method)
