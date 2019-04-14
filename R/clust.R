@@ -29,9 +29,6 @@ clust <- function(x,
   clusterer <- clustSelect(clust, fn = FALSE)
 
   # [ DECOMPOSER ] ====
-  # clust <- clusterer(x = x,
-  #                    x.test = x.test,
-  #                    verbose = verbose, ...)
   clust <- R.utils::doCall(clusterer,
                            x = x,
                            x.test = x.test,
