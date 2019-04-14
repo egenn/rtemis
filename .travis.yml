@@ -10,7 +10,7 @@ env:
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
 before_install:
-  - R -e 'install.packages(c("remotes", "plyr", "pbapply", "pROC", "caret", "ranger", "rpart", "data.tree"))'
+  - R -e 'install.packages(c("remotes"))'
 
 install:
   - R -e 'remotes::install_deps(dep = NA)'
