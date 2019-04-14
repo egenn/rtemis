@@ -4,6 +4,6 @@ sudo: required
 cache: packages
 r:
   - release
-
+use_devtools: true
 install:
 - R -e 'devtools::install_deps(dep = NA)'
