@@ -5,12 +5,5 @@ sudo: false
 warnings_are_errors: false
 cache: packages
 
-r_packages:
-  - R6
-  - future
-  - crayon
-  - ranger
-  - pROC
-
 install:
-  - R -e 'remotes::install_deps(dep = NA)'
+  - R -e 'devtools::install_deps(dep = NA)'
