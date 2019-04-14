@@ -1,9 +1,11 @@
 language: r
-warnings_are_errors: false
-sudo: required
-cache: packages
 r:
   - release
-use_devtools: true
-install:
-- R -e 'devtools::install_deps(dep = NA)'
+sudo: false
+warnings_are_errors: false
+cache: packages
+
+r_packages:
+  - R6
+  - ranger
+  - pROC
