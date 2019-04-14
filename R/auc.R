@@ -40,5 +40,6 @@ auc <- function(prob, labels,
   }
 
   if (verbose) msg("AUC is", .auc)
+  .auc
 
 } # rtemis::auc
