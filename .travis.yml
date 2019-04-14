@@ -4,10 +4,6 @@ sudo: required
 cache: packages
 r:
   - release
-env:
- global:
-   - _R_CHECK_FORCE_SUGGESTS_: false
-r_binary_packages:
- - remotes
+
 install:
-- R -e 'remotes::install_deps(dep = NA)'
+- R -e 'devtools::install_deps(dep = NA)'
