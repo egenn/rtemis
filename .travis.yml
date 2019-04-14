@@ -7,5 +7,10 @@ cache: packages
 
 r_packages:
   - R6
+  - future
+  - crayon
   - ranger
   - pROC
+
+install:
+  - R -e 'remotes::install_deps(dep = NA)'
