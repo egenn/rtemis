@@ -90,8 +90,8 @@ if (requireNamespace("gamsel", quietly = TRUE)) {
 }
 
 if (requireNamespace("gbm", quietly = TRUE)) {
-  mod <- s.GBM(dat.train, dat.test, max.trees = 10)
-  mod <- s.GBM(iris2.train, iris2.test, max.trees = 10)
+  mod <- s.GBM(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.GBM(iris2.train, iris2.test, force.n.trees = 10)
 }
 
 if (requireNamespace("gbm3", quietly = TRUE)) {
