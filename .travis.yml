@@ -9,6 +9,12 @@ env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
+r_binary_packages:
+  - plyr
+  - pbapply
+  - pROC
+  - caret
+
 before_install:
   - R -e 'install.packages("remotes")'
 install:
