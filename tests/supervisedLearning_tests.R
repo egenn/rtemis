@@ -8,22 +8,24 @@ library(rtemis)
 x <- rnormmat(50, 2, seed = 2018)
 w <- rnorm(2)
 y <- x %*% w + rnorm(50)
+
+x[10, 1] <- NA
+x <- preprocess(x, impute = TRUE, impute.type = "meanMode")
+
 res <- resample(y)
 dat <- data.frame(x, y)
-x <- dat.train <- dat[res$Resample01, ]
-x.test <- dat.test <- dat[-res$Resample01, ]
-y <- y.test <- NULL
+dat.train <- dat[res$Resample01, ]
+dat.test <- dat[-res$Resample01, ]
 
 # Classification Data ====
 iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 res <- resample(iris2)
-x <- iris2.train <- iris2[res$Resample01, ]
-x.test <- iris2.test <- iris2[-res$Resample01, ]
-y <- y.test <- NULL
+iris2.train <- iris2[res$Resample01, ]
+iris2.test <- iris2[-res$Resample01, ]
+checkData(iris2, str = TRUE)
 
 # Classification & Regression Models ====
-# mod <- s.AADDT(dat.train, dat.test, force.max.leaves = 2)
 
 if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s.ADABOOST(iris2.train, iris2.test, iter = 5)
@@ -31,6 +33,7 @@ if (requireNamespace("ada", quietly = TRUE)) {
 
 if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
   mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
+  mod <- s.ADDTREE(iris2.train, iris2.test, max.depth = 3)
 }
 
 if (requireNamespace("bartMachine", quietly = TRUE)) {
@@ -48,7 +51,7 @@ if (requireNamespace("mda", quietly = TRUE)) {
 }
 
 if (requireNamespace("C50", quietly = TRUE)) {
-  mod <- s.C50(iris2.train, x.test = iris2.test)
+  mod <- s.C50(iris2.train, iris2.test)
 }
 
 if (requireNamespace("rpart", quietly = TRUE)) {
@@ -62,7 +65,7 @@ if (requireNamespace("partykit", quietly = TRUE)) {
 }
 
 if (requireNamespace("MASS", quietly = TRUE)) {
-  mod <- s.DA(iris2.train, iris2.test)
+  mod <- s.LDA(iris2.train, iris2.test)
   mod <- s.QDA(iris2.train, iris2.test)
 }
 
@@ -87,11 +90,13 @@ if (requireNamespace("gamsel", quietly = TRUE)) {
 }
 
 if (requireNamespace("gbm", quietly = TRUE)) {
-  mod <- s.GBM(dat.train, dat.test, max.trees = 100)
+  mod <- s.GBM(dat.train, dat.test, max.trees = 10)
+  mod <- s.GBM(iris2.train, iris2.test, max.trees = 10)
 }
 
 if (requireNamespace("gbm3", quietly = TRUE)) {
-  mod <- s.GBM3(dat.train, dat.test, max.trees = 100)
+  mod <- s.GBM3(dat.train, dat.test, max.trees = 10)
+  mod <- s.GBM3(iris2.train, iris2.test, max.trees = 10)
 }
 
 if (requireNamespace("nlme", quietly = TRUE)) {
@@ -123,7 +128,10 @@ if (requireNamespace("earth", quietly = TRUE)) {
   mod <- s.MARS(dat.train, dat.test)
 }
 
-# mod <- s.MLRF(dat.train, dat.test, n.trees = 20, feature.subset.strategy = "all") # omit to save time
+if (requireNamespace("sparklyr", quietly = TRUE)) {
+  mod <- s.MLRF(dat.train, dat.test, n.trees = 10, feature.subset.strategy = "all")
+  mod <- s.MLRF(iris2.train, iris2.test, n.trees = 10, feature.subset.strategy = "all")
+}
 
 if (requireNamespace("mxnet", quietly = TRUE)) {
   mod <- s.MXN(dat.train, dat.test, n.hidden.nodes = 2, max.epochs = 10)
