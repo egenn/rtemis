@@ -4,7 +4,7 @@
 \alias{auc}
 \title{Area under the ROC Curve}
 \usage{
-auc(prob, labels, method = c("pROC", "auc_pairs", "ROCR"),
+auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"),
   verbose = FALSE)
 }
 \arguments{
