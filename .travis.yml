@@ -9,13 +9,8 @@ env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
-r_binary_packages:
-  - plyr
-  - pbapply
-  - pROC
-  - caret
-
 before_install:
-  - R -e 'install.packages("remotes")'
+  - R -e 'install.packages(c("remotes", "plyr", "pbapply", "pROC", "caret"))'
+
 install:
   - R -e 'remotes::install_deps(dep = NA)'
