@@ -5,5 +5,7 @@ sudo: false
 warnings_are_errors: false
 cache: packages
 
+before_install:
+  - R -e 'install.packages("remotes")'
 install:
-  - R -e 'devtools::install_deps(dep = NA)'
+  - R -e 'remotes::install_deps(dep = NA)'
