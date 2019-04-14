@@ -24,7 +24,7 @@ auc <- function(prob, labels,
 
   method <- match.arg(method)
 
-  if (method == "auc_pair") {
+  if (method == "auc_pairs") {
     .auc <- auc_pairs(prob, labels, verbose = verbose)
   } else if (method == "pROC") {
     if (!depCheck("pROC", verbose = FALSE)) {
