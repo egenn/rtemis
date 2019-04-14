@@ -459,7 +459,6 @@ expand.boost <- function(object,
                          max.iter = 10,
                          learning.rate = NULL,
                          case.p = 1,
-                         # tolerance = NULL,
                          prefix = NULL,
                          verbose = TRUE,
                          trace = 0,
@@ -470,7 +469,6 @@ expand.boost <- function(object,
   if (is.null(mod)) mod <- object$parameters$mod
   if (is.null(mod.params)) mod.params <- object$parameters$mod.params
   if (is.null(learning.rate)) learning.rate <- object$parameters$learning.rate
-  # if (is.null(tolerance)) tolerance <- object$parameters$tolerance
   tolerance <- object$parameters$tolerance
   boost(x = x, y = y,
         x.valid = x.valid, y.valid = y.valid,
@@ -612,7 +610,6 @@ update.boost <- function(object, x = NULL,
                          n.cores = rtCores, ...) {
 
   if (trace > 0) fitted.orig <- object$fitted
-  # fitted <- plyr::laply(object$mod$mods, function(i) i$fitted)
   # Create n.iter x n.cases fitted values; one row per iteration
   if (is.null(x)) {
     fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
