@@ -140,7 +140,9 @@ if (requireNamespace("mxnet", quietly = TRUE)) {
 
 mod <- s.NLA(dat.train, dat.test)
 
-mod <- s.NLS(dat.train, dat.test)
+if (requireNamespace("glmnet", quietly = TRUE)) {
+  mod <- s.NLS(dat.train, dat.test)
+}
 
 if (requireNamespace("np", quietly = TRUE)) {
   mod <- s.NW(dat.train, dat.test)
