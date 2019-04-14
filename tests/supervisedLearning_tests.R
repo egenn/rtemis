@@ -95,8 +95,8 @@ if (requireNamespace("gbm", quietly = TRUE)) {
 }
 
 if (requireNamespace("gbm3", quietly = TRUE)) {
-  mod <- s.GBM3(dat.train, dat.test, max.trees = 10)
-  mod <- s.GBM3(iris2.train, iris2.test, max.trees = 10)
+  mod <- s.GBM3(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.GBM3(iris2.train, iris2.test, force.n.trees = 10)
 }
 
 if (requireNamespace("nlme", quietly = TRUE)) {
