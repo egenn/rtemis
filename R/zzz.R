@@ -45,7 +45,7 @@
 #'
 #' @docType package
 #' @name rtemis-package
-#' @import graphics grDevices methods stats utils parallel future data.table crayon
+#' @import graphics grDevices methods stats utils parallel R6 data.table crayon future
 #' @importFrom magrittr "%>%"
 #' @importFrom crayon "%+%"
 
