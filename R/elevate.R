@@ -153,7 +153,7 @@ elevate <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("plyr", "pbapply", "pROC", verbose = FALSE)) {
+  if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
