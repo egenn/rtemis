@@ -438,7 +438,6 @@ s.GBM3 <- function(x, y = NULL,
   }
 
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   ### Relative influence & variable importance
@@ -492,7 +491,6 @@ s.GBM3 <- function(x, y = NULL,
 
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

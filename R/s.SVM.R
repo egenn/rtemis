@@ -242,7 +242,6 @@ s.SVM <- function(x, y = NULL,
 
   if (type == "Regression") fitted <- as.numeric(fitted)
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -254,7 +253,6 @@ s.SVM <- function(x, y = NULL,
     if (!is.null(y.test)) {
       if (type == "Regression") predicted <- as.numeric(predicted)
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

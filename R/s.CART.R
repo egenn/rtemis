@@ -33,7 +33,7 @@
 #' See \code{rpart::rpart("cost")}
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
-#' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by 
+#' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
 #' \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
@@ -274,7 +274,6 @@ s.CART <- function(x, y = NULL,
 
   attr(fitted, "names") <- NULL
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && n.classes == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -291,7 +290,6 @@ s.CART <- function(x, y = NULL,
     attr(predicted, "names") <- NULL
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && n.classes == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL
