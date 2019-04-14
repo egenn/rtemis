@@ -96,7 +96,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}

@@ -106,7 +106,7 @@ If an integer, \code{randomForest} will report progress every this many trees. D
 \item{imetrics}{Logical: If TRUE, calculate interpretability metrics (N of trees and N of nodes) and save under
 the 'extra' field of \link{rtMod}}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
