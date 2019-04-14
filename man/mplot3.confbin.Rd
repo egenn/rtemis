@@ -14,7 +14,7 @@ mplot3.confbin(object, main = NULL, xlab = "True",
   pdf.height = 8.7, filename = NULL, ...)
 }
 \arguments{
-\item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix / 
+\item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 data.frame / table}
 
 \item{main}{String: Plot title}
@@ -23,7 +23,7 @@ data.frame / table}
 
 \item{ylab}{String: y-axis label}
 
-\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for 
+\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for
 \code{object$mod.name}. Default = NULL}
 
 \item{mar}{Numeric, vector, length 4: Overall margins}
@@ -52,7 +52,7 @@ data.frame / table}
 
 \item{theme}{String: "light", or "dark"}
 
-\item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light", 
+\item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 "black" for "dark"}
 
 \item{hi.color.pos}{Color: The hi color for correct classification.}

@@ -4,12 +4,14 @@
 \alias{lotri2edgeList}
 \title{Connectivity Matrix to Edge List}
 \usage{
-lotri2edgeList(A, filename = NULL)
+lotri2edgeList(A, filename = NULL, verbose = TRUE)
 }
 \arguments{
 \item{A}{Square matrix}
 
 \item{filename}{String: Path for csv file. Defaults to "conmat2edgelist.csv"}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Turn the lower triangle of a connectivity matrix (e.g. correlation matrix or similar)

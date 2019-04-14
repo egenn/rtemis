@@ -4,12 +4,12 @@
 \alias{decom}
 \title{Matrix Decomposition with \pkg{rtemis}}
 \usage{
-decom(x, decom = "nmf", x.test = NULL, verbose = TRUE, ...)
+decom(x, decom = "ICA", x.test = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Numeric matrix / data frame: Input data}
 
-\item{decom}{String: Decomposition algorithm name, e.g. 'nmf' (case-insensitive)}
+\item{decom}{String: Decomposer name. See ]link{decomSelect}. Default = "ICA"}
 
 \item{x.test}{Numeric matrix / data frame: Testing set data if supported by \code{decom}}
 

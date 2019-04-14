@@ -5,7 +5,8 @@
 \title{Independent Component Analysis}
 \usage{
 d.ICA(x, k = 3, package = c("fastICA", "ica"), alg.type = "parallel",
-  maxit = 100, scale = TRUE, center = TRUE, verbose = TRUE, ...)
+  maxit = 100, scale = TRUE, center = TRUE, verbose = TRUE,
+  trace = 0, ...)
 }
 \arguments{
 \item{x}{Input data}
