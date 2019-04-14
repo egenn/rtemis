@@ -16,6 +16,7 @@ index <- sample(seq(20), 5)
 estimated[index] <- 1 - as.numeric(estimated[index])
 
 mhist(x)
+mplot3(x)
 mplot3.adsr()
 mplot3.bar(x)
 mplot3.box(z)
@@ -28,6 +29,7 @@ mod <- s.CART(iris2, maxdepth = 2)
 
 mplot3.cart(mod)
 mplot3.conf(mod)
+mplot3.confbin(mod$error.train$ConfusionMatrix)
 # mplot3.decision(mod, iris2)
 # TODO: INV mplot3.decision
 mplot3.fit(x, x)

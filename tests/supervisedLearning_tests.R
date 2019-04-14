@@ -7,7 +7,7 @@ library(rtemis)
 # Regression Data ====
 x <- rnormmat(50, 2, seed = 2018)
 w <- rnorm(2)
-y <- x %*% w + rnorm(50)
+y <- c(x %*% w + rnorm(50))
 
 x[10, 1] <- NA
 x <- preprocess(x, impute = TRUE, impute.type = "meanMode")
@@ -27,13 +27,18 @@ checkData(iris2, str = TRUE)
 
 # Classification & Regression Models ====
 
+
 if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s.ADABOOST(iris2.train, iris2.test, iter = 5)
 }
 
 if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
+  mod <- s.ADDTBOOST(x, y, max.iter = 4)
   mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
   mod <- s.ADDTREE(iris2.train, iris2.test, max.depth = 3)
+  mod <- cartLinBoostTV(x, y, max.iter = 4)
+  mod <- cartLite(x, y)
+  mod <- cartLinBoostTV(x, y, max.iter = 4)
 }
 
 if (requireNamespace("bartMachine", quietly = TRUE)) {
@@ -105,6 +110,8 @@ if (requireNamespace("nlme", quietly = TRUE)) {
 
 if (requireNamespace("glmnet", quietly = TRUE)) {
   mod <- s.GLMNET(dat.train, dat.test, alpha = 0, lambda = 0)
+  mod <- glmLite(x, y)
+  mod <- glmLiteBoostTV(x, y, max.iter = 4)
 }
 
 mod <- s.GLM(dat.train, dat.test)
@@ -154,6 +161,7 @@ if (requireNamespace("polspline", quietly = TRUE)) {
 }
 
 mod <- s.PPR(dat.train, dat.test)
+mod <- learn(dat.train, dat.test)
 
 if (requireNamespace("PPtree", quietly = TRUE)) {
   mod <- s.PPTREE(iris2.train, iris2.test)
@@ -204,3 +212,20 @@ if (requireNamespace("rpart", quietly = TRUE)) {
   mod <- bag(iris2.train, iris2.test, k = 10)
   mod <- boost(dat.train, dat.test, max.iter = 4)
 }
+
+# rtModLog ====
+logger <- rtModLogger$new()
+logger$add(mod)
+
+# eightBall ====
+eightBall("Are you ready?")
+
+# distillTreeRules ====
+if (requireNamespace("randomForest", quietly = TRUE)) {
+  mod <- s.RF(iris, n.trees = 3)
+  rules <- distillTreeRules(mod, iris)
+  formatRules(rules$rules)
+}
+
+# gp ====
+mod <- gp(x, y)
