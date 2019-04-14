@@ -5,6 +5,10 @@ sudo: false
 warnings_are_errors: false
 cache: packages
 
+env:
+  global:
+    - _R_CHECK_FORCE_SUGGESTS_=FALSE
+
 before_install:
   - R -e 'install.packages("remotes")'
 install:
