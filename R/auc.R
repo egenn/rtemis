@@ -30,7 +30,7 @@ auc <- function(prob, labels,
     if (!depCheck("pROC", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
-    .auc <- pROC::roc(labels, prob, direction = ">")$auc
+    .auc <- as.numeric(pROC::roc(labels, prob, direction = ">")$auc)
   } else {
     if (!depCheck("ROCR", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
