@@ -47,7 +47,7 @@ if (requireNamespace("kernlab", quietly = TRUE)) {
 
 # Decomposition ====
 decomSelect()
-x <- svd1(x)
+x1 <- svd1(x)
 if (requireNamespace("rCUR", quietly = TRUE)) {
   decom <- d.CUR(x)
 }
