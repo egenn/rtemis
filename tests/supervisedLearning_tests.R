@@ -130,6 +130,10 @@ if (requireNamespace("mxnet", quietly = TRUE)) {
   mod <- s.MXN(iris2.train, iris2.test, max.epochs = 10)
 }
 
+mod <- s.NLA(dat.train, dat.test)
+
+mod <- s.NLS(dat.train, dat.test)
+
 if (requireNamespace("np", quietly = TRUE)) {
   mod <- s.NW(dat.train, dat.test)
 }
@@ -138,6 +142,8 @@ if (requireNamespace("polspline", quietly = TRUE)) {
   mod <- s.POLYMARS(dat.train, dat.test)
   mod <- s.POLYMARS(iris2.train, iris2.test)
 }
+
+mod <- s.PPR(dat.train, dat.test)
 
 if (requireNamespace("PPtree", quietly = TRUE)) {
   mod <- s.PPTREE(iris2.train, iris2.test)
