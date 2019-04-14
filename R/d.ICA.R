@@ -39,7 +39,8 @@ d.ICA <- function(x,
                   maxit = 100,
                   scale = TRUE,
                   center = TRUE,
-                  verbose = TRUE, ...) {
+                  verbose = TRUE,
+                  trace = 0, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
@@ -56,7 +57,7 @@ d.ICA <- function(x,
       cat("\n"); stop("Please install dependencies and try again")
     }
   }
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(d.ICA))
@@ -87,7 +88,7 @@ d.ICA <- function(x,
                               method = "C",
                               alg.typ = alg.type,
                               maxit = maxit,
-                              verbose = verbose, ...)
+                              verbose = trace > 0, ...)
   } else {
     decom <- ica::icafast(x,
                           nc = k,
@@ -95,7 +96,7 @@ d.ICA <- function(x,
                           maxit = maxit,
                           alg = substr(alg.type, 1, 3), ...)
   }
-  
+
   # [ PROJECTIONS ] ====
   projections.train <- decom$S
   projections.test <- NULL
