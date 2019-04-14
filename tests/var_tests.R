@@ -6,6 +6,15 @@
 library(rtemis)
 
 # Var ====
+dat <- as.data.frame(rnormmmat(50, 2))
+# '- dat2splinemat ====
+x <- dat2splinemat(dat)
+
+# '- dat2ploy ====
+x <- dat2poly(dat)
+
+# '- delayTime ====
+delayTime()
 
 # '- nCr ====
 nCr(4, 2)
