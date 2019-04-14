@@ -1,17 +1,18 @@
 # mplot3.confbin
 # ::rtemis::
 # 2017-8 Efstathios D. Gennatas egenn.github.io
+# TODO: Fix grid col
 
 #' Plot extended confusion matrix for binary classification
-#' 
+#'
 #' Plots an extended confusion matrix using \link{mplot3.img}
-#' 
-#' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix / 
+#'
+#' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 #' data.frame / table
 #' @param main String: Plot title
 #' @param xlab String: x-axis label
 #' @param ylab String: y-axis label
-#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for 
+#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
 #' @param mar Numeric, vector, length 4: Overall margins
 #' @param dim.lab Float: Height for labels
@@ -26,7 +27,7 @@
 #' @param col.text.out Color for metrics cells' text
 #' @param col.bg.out Color for metrics cells' background
 #' @param theme String: "light", or "dark"
-#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light", 
+#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 #' "black" for "dark"
 #' @param hi.color.pos Color: The hi color for correct classification.
 #' @param hi.color.neg Color: The hi color for missclassification
@@ -65,11 +66,11 @@ mplot3.confbin <- function(object,
                            pdf.width = 8.7,
                            pdf.height = 8.7,
                            filename = NULL, ...) {
-  
+
   # [ ARGUMENTS ] ====
   if (theme == "darkbox") theme <- "dark"
   if (theme == "lightbox") theme <- "light"
-  
+
   # [ DATA ] ====
   if (inherits(object, "rtMod")) {
     tbl <- if (length(object$error.test) > 0) object$error.test$table else object$error.train$table
@@ -79,18 +80,18 @@ mplot3.confbin <- function(object,
   } else {
     tbl <- object
   }
-  
+
   # File out ====
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
-  
+
   # colors ====
   if (is.null(mid.color)) {
     mid.color <- if (theme == "light") "white" else "black"
   }
-  
+
   color.pos <- colorGrad(199, mid = mid.color, hi = hi.color.pos)
   color.neg <- colorGrad(199, mid = mid.color, hi = hi.color.neg)
-  
+
   # metrics ====
   df <- as.data.frame(matrix(as.vector(tbl), nrow(tbl)))
   rownames(df) <- rownames(tbl)
@@ -118,7 +119,7 @@ mplot3.confbin <- function(object,
   negative.predictive.value <- true.negative / predicted.condition.negative
   f1 <- 1/(.5 * (1/sensitivity + 1/precision))
   balanced.accuracy <- .5 * (sensitivity + specificity)
-  
+
   lmat <- matrix(c(0, 0, 1, 1, 0, 0,
                    0, 2:4, 0, 0,
                    5:10,
@@ -150,12 +151,12 @@ mplot3.confbin <- function(object,
   # 23: negative.predictive.value
   # 24: F1 score
   # 25: Balanced Accuracy
-  
+
   # Par ====
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  
+
   # Plot ====
   par(mar = c(0, 0, 0, 0))
   layout(lmat, widths = c(dim.lab, dim.lab, dim.in, dim.in, dim.out, dim.out),
@@ -266,10 +267,10 @@ mplot3.confbin <- function(object,
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
   text(0, 0, paste("Balanced\nAccuracy\n=", ddSci(balanced.accuracy)), srt = 45,
        col = col.text.out, cex = cex.out, font = font.out)
-  
-  
+
+
   if (!is.null(filename)) grDevices::dev.off()
-  
+
   invisible(list(condition.positive = condition.positive,
                  condition.negative = condition.negative,
                  predicted.condition.positive = predicted.condition.positive,
