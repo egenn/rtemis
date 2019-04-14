@@ -2,13 +2,14 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-# Library ----
+# Library ====
 library(rtemis)
 
-# Data ----
+# Data ====
 x <- rnormmat(100, 10, seed = 2018)
 
-# Clustering ----
+# Clustering ====
+clustSelect()
 if (requireNamespace("e1071", quietly = TRUE)) {
   clust <- u.CMEANS(x, k = 2)
 }
@@ -43,7 +44,8 @@ if (requireNamespace("kernlab", quietly = TRUE)) {
   clust <- u.SPEC(x, k = 2)
 }
 
-# Decomposition ----
+# Decomposition ====
+decomSelect()
 if (requireNamespace("rCUR", quietly = TRUE)) {
   decom <- d.CUR(x)
 }
