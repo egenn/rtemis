@@ -300,8 +300,6 @@ elevate <- function(x, y = NULL,
 
   # [ RES FITTED ]  ====
   # The fitted values and training error from each resample
-  # sapply will return matrix if length of output is same for each m, otherwise list
-  # -> use lapply, get list and unlist later
   y.train.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.train))
   fitted.res <- lapply(seq(n.repeats), function(n)
