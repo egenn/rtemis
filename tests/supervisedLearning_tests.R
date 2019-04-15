@@ -231,4 +231,6 @@ if (requireNamespace("randomForest", quietly = TRUE)) {
 }
 
 # gp ====
-mod <- gp(x, y)
+if (requireNamespace("tgp", quietly = TRUE)) {
+  mod <- gp(x, y)
+}
