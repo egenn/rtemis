@@ -135,10 +135,11 @@ if (requireNamespace("earth", quietly = TRUE)) {
   mod <- s.MARS(dat.train, dat.test)
 }
 
-if (requireNamespace("sparklyr", quietly = TRUE)) {
-  mod <- s.MLRF(dat.train, dat.test, n.trees = 10, feature.subset.strategy = "all")
-  mod <- s.MLRF(iris2.train, iris2.test, n.trees = 10, feature.subset.strategy = "all")
-}
+# fails under covr
+# if (requireNamespace("sparklyr", quietly = TRUE)) {
+#   mod <- s.MLRF(dat.train, dat.test, n.trees = 10, feature.subset.strategy = "all")
+#   mod <- s.MLRF(iris2.train, iris2.test, n.trees = 10, feature.subset.strategy = "all")
+# }
 
 if (requireNamespace("mxnet", quietly = TRUE)) {
   mod <- s.MXN(dat.train, dat.test, n.hidden.nodes = 2, max.epochs = 10)
