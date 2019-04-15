@@ -6,7 +6,7 @@
 library(rtemis)
 
 # Var ====
-dat <- as.data.frame(rnormmmat(50, 2))
+dat <- as.data.frame(rnormmat(50, 2))
 
 # '- cc ====
 cc(iris$Species[1:10], iris$Species[51:60])
