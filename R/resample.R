@@ -10,8 +10,7 @@
 #' runs \code{caret::createDataPartition} and then randomly duplicates some of the training cases to reach original
 #' length of input (default) or length defined by \code{target.length}.
 #'
-#' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, \link{bagLearn}, and
-#' \link{elevate}. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
+#' \code{resample} is used by multiple \pkg{rtemis} learners and functions. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
 #'   different length for y of small length, so avoid all operations which rely on equal-length vectors.
 #'   For example, you can't place resamples in a data.frame, but must use a list instead.
 #'
@@ -19,7 +18,7 @@
 #' @param n.resamples Integer: Number of training/testing sets required
 #' @param resampler String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 #'   Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"
-#' @param index List where each element is a vector of training set indices. Use this for manual or precalculated 
+#' @param index List where each element is a vector of training set indices. Use this for manual or precalculated
 #' train/test splits
 #' @param group Integer, vector, length = \code{length(y)}: Integer vector, where numbers define fold membership.
 #' e.g. for 10-fold on a dataset with 1000 cases, you could use \code{group = rep(1:10, each = 100)}
@@ -29,7 +28,7 @@
 #'   \code{resampler = "strat.sub" / "strat.boot"}
 #' @param target.length Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
 #'   Default = \code{length(y)}
-#' @param rtset List: Output of an \link{rtset.resample} (or named list with same structure). 
+#' @param rtset List: Output of an \link{rtset.resample} (or named list with same structure).
 #' NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
 #'   See \code{?base::set.seed}
@@ -49,12 +48,12 @@ resample <- function(y = NULL, n.resamples = 10,
                      rtset = NULL,
                      seed = NULL,
                      verbose = FALSE) {
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("caret", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   if (!is.null(rtset)) {
     # return(do.call(resample, args = c(list(y = y), rtset))) # do.call always causes msg() to not print fn name
     resampler <- rtset$resampler
@@ -68,13 +67,13 @@ resample <- function(y = NULL, n.resamples = 10,
     group <- rtset$group
     # verbose <- rtset$verbose # Rather use the verbose arg here
   }
-  
+
   type <- if (!is.null(index)) ".index" else if (!is.null(group)) ".group" else ".res"
-  
+
   if (type == ".res") {
     # type = "res" ====
     resampler <- match.arg(resampler)
-    
+
     # [ INPUT ] ====
     if (is.null(y)) stop("Please provide y")
     if (NCOL(y) > 1) {
@@ -90,20 +89,20 @@ resample <- function(y = NULL, n.resamples = 10,
       if (resampler %in% c("strat.sub", "strat.boot", "kfold")) {
         freq <- table(y)
         if (min(freq) < n.resamples) {
-          warning("Insufficient number of cases for ", n.resamples, 
+          warning("Insufficient number of cases for ", n.resamples,
                   " stratified resamples: will use ", min(freq)," instead")
           n.resamples <- min(freq)
         }
       }
     }
-    
+
     # [ RESAMPLE ] ====
     .stratify.var <- if (is.null(stratify.var)) y else stratify.var
     # stratify.var is for printing with parameterSummary
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
     # Override all settings with rtset
     # if (!is.null(rtset)) for (i in 1:length(rtset)) assign(names(rtset[i]), rtset[[i]])
-    
+
     # delta
     # if (!is.null(rtset)) {
     #   # return(do.call(resample, args = c(list(y = y), rtset))) # do.call always causes msg() to not print fn name
@@ -117,15 +116,15 @@ resample <- function(y = NULL, n.resamples = 10,
     #   # verbose <- rtset$verbose # Rather use the verbose arg here
     # }
     # /delta
-    
+
     .stratify.var <- if (is.null(.stratify.var)) y else .stratify.var # TODO: lol
-    
+
     n.resamples <- as.integer(n.resamples)
     if (length(resampler) > 1) {
       resampler <- ifelse(length(y) < 200, "strat.boot", "strat.sub")
     }
     if (resampler == "loocv") n.resamples <- length(y)
-    
+
     # [ Print parameters ] ====
     if (resampler == "strat.sub") {
       if (verbose) parameterSummary(n.resamples, resampler, stratify.var, cv.p, cv.groups,
@@ -137,10 +136,10 @@ resample <- function(y = NULL, n.resamples = 10,
       if (verbose) parameterSummary(n.resamples, resampler,
                                     title = "Resampling Parameters")
     }
-    
+
     # Set seed
     if (!is.null(seed)) set.seed(seed)
-    
+
     # [ Make resamples ] ====
     if (resampler == "bootstrap") {
       # Bootstrap
@@ -167,7 +166,7 @@ resample <- function(y = NULL, n.resamples = 10,
       # Stratified Cross-Validation
       res.part <- caret::createDataPartition(y = .stratify.var, times = n.resamples, p = cv.p, groups = cv.groups)
     }
-    
+
   } else if (type == ".group") {
     # type = "group" ====
     n.resamples <- length(unique(group))
@@ -175,7 +174,7 @@ resample <- function(y = NULL, n.resamples = 10,
     res.part <- plyr::llply(unique(group), function(i) which(group == i))
     names(res.part) <- unique(group)
     resampler <- "custom.group"
-    
+
   } else {
     # type = "index" ====
     if (!is.list(index)) stop("index must be list of training set indices")
@@ -183,10 +182,10 @@ resample <- function(y = NULL, n.resamples = 10,
     res.part <- index
     resampler <- "custom"
     if (is.null(names(res.part))) names(res.part) <- paste0("Resample", seq(n.resamples))
-    
+
   }
-  
-  
+
+
   desc <- switch(resampler,
                  kfold = "independent folds",
                  strat.sub = "stratified subsamples",
@@ -194,7 +193,7 @@ resample <- function(y = NULL, n.resamples = 10,
                  bootstrap = "bootstrap resamples",
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
-  
+
   if (verbose) msg("Created", n.resamples, desc)
   class(res.part) <- c("resample", "list")
   attr(res.part, "N") <- n.resamples
@@ -206,7 +205,7 @@ resample <- function(y = NULL, n.resamples = 10,
   }
   if (resampler == "strat.boot") attr(res.part, "target.length") <- target.length
   res.part
-  
+
 } # rtemis::resample
 
 
@@ -220,28 +219,28 @@ resample <- function(y = NULL, n.resamples = 10,
 #' @export
 
 plot.resample <- function(x, res, col = NULL, ...) {
-  
+
   mplot3.res(x, res, col = col, ...)
-  
+
 } # rtemis::plot.resample
 
 
 #' \code{print} method for \link{resample} object
-#' 
+#'
 #' Print resample information
-#' 
+#'
 #' @method print resample
 #' @param x \link{resample} object
 #' @author Efstathios D. Gennatas
 #' @export
 
 print.resample <- function(x, ...) {
-  
+
   cat("======================================================\n")
   cat(".:rtemis resample object\n")
   cat("======================================================\n")
   .attributes <- attributes(x)
   .attributes[[1]] <- .attributes[[2]] <- NULL
   printls(.attributes)
-  
+
 }
