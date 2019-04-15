@@ -21,12 +21,12 @@
 #' @export
 
 gp <- function(x, y,
-                 new.x = NULL,
-                 x.name = "x", y.name = "y",
-                 print.plot = TRUE,
-                 lwd = 3,
-                 cex = 1.2,
-                 par.reset = TRUE, ...) {
+               new.x = NULL,
+               x.name = "x", y.name = "y",
+               print.plot = TRUE,
+               lwd = 3,
+               cex = 1.2,
+               par.reset = TRUE, ...) {
 
   # [ BGP ] ====
   s.out <- list(mod.name = "BGP")
@@ -79,16 +79,16 @@ gp <- function(x, y,
 
   }
 
-#   # Only lines
-#   if (print.plot) {
-#     main <- "Bayesian Gaussian Process Regression"
-#     if (!is.null(new.x)) x <- new.x
-#     yl <- list(mean = mean, q95 = q95, q05 = q05)
-#     mplot3(x, yl, type = "l",
-#            xlab = x.name, ylab = paste("Estimated", y.name),
-#            main = main, col = c(colorAdjust("black", .5), penn.red, penn.red),
-#            group.title = "Estimated", group.names = c("Mean", "95th Q", "5th Q"))
-#   }
+  #   # Only lines
+  #   if (print.plot) {
+  #     main <- "Bayesian Gaussian Process Regression"
+  #     if (!is.null(new.x)) x <- new.x
+  #     yl <- list(mean = mean, q95 = q95, q05 = q05)
+  #     mplot3(x, yl, type = "l",
+  #            xlab = x.name, ylab = paste("Estimated", y.name),
+  #            main = main, col = c(colorAdjust("black", .5), penn.red, penn.red),
+  #            group.title = "Estimated", group.names = c("Mean", "95th Q", "5th Q"))
+  #   }
 
   # [ OUTRO ] ====
   s.out
