@@ -161,7 +161,10 @@ if (requireNamespace("polspline", quietly = TRUE)) {
 }
 
 mod <- s.PPR(dat.train, dat.test)
-mod <- learn(dat.train, dat.test)
+
+if (requireNamespace("R.utils", quietly = TRUE)) {
+  mod <- learn(dat.train, dat.test)
+}
 
 if (requireNamespace("PPtree", quietly = TRUE)) {
   mod <- s.PPTREE(iris2.train, iris2.test)

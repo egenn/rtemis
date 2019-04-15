@@ -23,7 +23,9 @@ if (requireNamespace("h2o", quietly = TRUE)) {
 }
 
 if (requireNamespace("flexclust", quietly = TRUE)) {
-  clust <- clust(x, k = 2)
+  if (requireNamespace("R.utils", quietly = TRUE)) {
+    clust <- clust(x, k = 2)
+  }
   clust <- u.HARDCL(x, k = 2)
   clust <- u.KMEANS(x, k = 2)
   clust <- u.NGAS(x, k = 2)
@@ -58,7 +60,9 @@ if (requireNamespace("h2o", quietly = TRUE)) {
 }
 
 if (requireNamespace("fastICA", quietly = TRUE)) {
-  decom <- decom(x, k = 2)
+  if (requireNamespace("R.utils", quietly = TRUE)) {
+    decom <- decom(x, k = 2)
+  }
   decom <- d.ICA(x, k = 2)
 }
 
