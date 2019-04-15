@@ -23,9 +23,9 @@ colorPreview(stanfordCol$cardinal)
 # '- cols2list ====
 lst <- cols2list(dat)
 
-# '- dat2splinemat ====
+# '- dat2bsplinemat ====
 if (requireNamespace("splines2", quietly = TRUE)) {
-  x <- dat2splinemat(dat)
+  x <- dat2bsplinemat(dat)
 }
 
 # '- dat2ploy ====
