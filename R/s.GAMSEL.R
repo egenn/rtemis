@@ -47,7 +47,7 @@ s.GAMSEL <- function(x, y = NULL,
                      n.cores = rtCores,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-  
+
   # [ INTRO ] ====
   if (missing(x)) {
     print(args(s.GAMSEL))
@@ -61,12 +61,12 @@ s.GAMSEL <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAMSEL"
-  
+
   # [ DEPENDENCIES ] ====
-  if (!depCheck("mgcv", verbose = FALSE)) {
+  if (!depCheck("gamsel", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(s.GAM))
@@ -78,7 +78,7 @@ s.GAMSEL <- function(x, y = NULL,
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  
+
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
@@ -99,20 +99,20 @@ s.GAMSEL <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   if (is.null(family)) {
     family <- if (type == "Regression") "gaussian" else "binomial"
   }
   n.features <- NCOL(x)
-  
+
   y0 <- y
   if (type == "Classification") {
     y <- as.numeric(y) - 1
   }
-  
+
   if (length(degrees) != n.features) degrees <- degrees[seql(degrees, seq(n.features))]
   if (length(dfs) != n.features) dfs <- dfs[seql(dfs, seq(n.features))]
-  
+
   # [ GAMSEL ] ====
   bases <- gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
   if (verbose) msg("Training GAMSEL...", newline = TRUE)
@@ -131,7 +131,7 @@ s.GAMSEL <- function(x, y = NULL,
                parallel = parallel)
   mod <- do.call(gamsel::gamsel, args)
   if (cleanup) mod$call <- NULL
-  
+
   # [ FITTED ] ====
   if (type == "Regression") {
     fitted <- c(predict(mod, x, index = num.lambda, type = "response"))
@@ -142,10 +142,10 @@ s.GAMSEL <- function(x, y = NULL,
     fitted <- factor(levels(y0)[fitted + 1], levels = levels(y0))
     error.train <- modError(y0, fitted)
   }
-  
-  
+
+
   if (verbose) errorSummary(error.train, mod.name)
-  
+
   # [ PREDICTED ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
@@ -161,7 +161,7 @@ s.GAMSEL <- function(x, y = NULL,
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
-  
+
   # [ OUTRO ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
@@ -189,7 +189,7 @@ s.GAMSEL <- function(x, y = NULL,
                                    tol = tol,
                                    max.iter = max.iter),
                  question = question)
-  
+
   rtMod.out(rt,
             print.plot,
             plot.fitted,
@@ -200,8 +200,8 @@ s.GAMSEL <- function(x, y = NULL,
             save.mod,
             verbose,
             plot.theme)
-  
+
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-  
+
 } # rtemis::s.GAMSEL
