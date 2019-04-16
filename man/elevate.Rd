@@ -151,7 +151,7 @@ Object of class \code{rtModCV} (Regression) or \code{rtModCVclass} (Classificati
 }
 \description{
 \code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
-by nested resampling, and optional preprocessing and decomposition
+by nested resampling, with optional preprocessing and decomposition of input features
 }
 \details{
 - Note on resampling: You can never use an outer resampling method with replacement

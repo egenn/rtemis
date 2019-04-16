@@ -6,7 +6,7 @@
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
 #' \code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
-#' by nested resampling, and optional preprocessing and decomposition
+#' by nested resampling, with optional preprocessing and decomposition of input features
 #'
 #' - Note on resampling: You can never use an outer resampling method with replacement
 #' if you will also be using an inner resampling (for tuning).
