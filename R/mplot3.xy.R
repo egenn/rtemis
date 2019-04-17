@@ -977,29 +977,34 @@ mplot3.xy <- function(x, y,
   if (!is.null(myerror)) {
     if (Nxgroups == 1) {
       annot.n <- paste0("n = ", length(x))
-      annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE), " (", round(myerror[[1]]$Rsq * 100), "%)")
-      # annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
-      annot.r <- paste0("r = ", ddSci(myerror[[1]]$r), "; p = ", ddSci(myerror[[1]]$r.p))
+      annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE))
+      # annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE), " (", round(myerror[[1]]$Rsq * 100), "%)")
+      annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
+      # annot.r <- paste0("r = ", ddSci(myerror[[1]]$r), "; p = ", ddSci(myerror[[1]]$r.p))
       # annot.rho <- paste0("rho = ", ddSci(myerror[[1]]$rho), "; p = ", ddSci(myerror[[1]]$rho.p))
       mtext(annot.n, fit.error.side,
-            -3.4, adj = .98, padj = fit.error.padj,
+            line = -3.3,
+            adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
       mtext(annot.mse, fit.error.side,
-            -2.4, adj = .98, padj = fit.error.padj,
+            line = -2.2,
+            adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
-      mtext(annot.r, fit.error.side,
-            -1.4, adj = .98, padj = fit.error.padj,
+      mtext(annot.Rsq, fit.error.side,
+            line = -1.1,
+            adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
-      # mtext(annot.rho, fit.error.side,
-      #       -1.4, adj = .98, padj = fit.error.padj,
-      #       cex = cex, col = fit.error.col)
     } else {
-      error.annot <- sapply(1:Nxgroups, function(i) paste0(ddSci(myerror[[i]]$MSE),
-                                                             " (", ddSci(myerror[[i]]$r), ")"))
-      mtext(c("MSE (r)     ", error.annot), fit.error.side,
-            -1.5, adj = .97, cex = cex,
-            col = c(gen.col, unlist(col[1:Nxgroups])),
-            padj = seq(0.5 - 1.5 * Nxgroups, 0.5, 1.5))
+      error.annot <- sapply(seq(Nxgroups), function(i) paste0(ddSci(myerror[[i]]$MSE),
+                                                              "; ", ddSci(myerror[[i]]$Rsq)))
+      # mtext(c("MSE; Rsq", error.annot),
+      mtext(
+        c(expression("MSE; R"^2), error.annot),
+        fit.error.side,
+        adj = .98, cex = cex,
+        col = c(gen.col, unlist(fit.col[seq(Nxgroups)])),
+        line = rev(seq(-1.1, -Nxgroups * 1.1 - 1.1, -1.1)))
+        # line = rev(seq(-1, -Nxgroups - 1)))
     }
   }
 
@@ -1070,7 +1075,7 @@ mplot3.fit <- function(x, y,
                        axes.equal = TRUE,
                        diagonal = TRUE,
                        theme = getOption("rt.fit.theme", "lightgrid"),
-                       .col = NULL,
+                       col = NULL,
                        zero.lines = FALSE,
                        fit.legend = FALSE, ...) {
 
@@ -1086,7 +1091,7 @@ mplot3.fit <- function(x, y,
   } else if (type == "Survival") {
     msg("Not currently supported")
   } else {
-    if (is.null(.col)) {
+    if (is.null(col)) {
       mplot3.xy(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
@@ -1097,8 +1102,8 @@ mplot3.fit <- function(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
-                point.col = .col,
-                fit.col = .col,
+                point.col = col,
+                fit.col = col,
                 fit.legend = fit.legend, ...)
     }
 
