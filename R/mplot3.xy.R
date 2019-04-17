@@ -996,12 +996,12 @@ mplot3.xy <- function(x, y,
             cex = cex, col = fit.error.col)
     } else {
       error.annot <- sapply(seq(Nxgroups), function(i) paste0(ddSci(myerror[[i]]$MSE),
-                                                              "; ", ddSci(myerror[[i]]$Rsq)))
+                                                              " (", ddSci(myerror[[i]]$Rsq), ")"))
       # mtext(c("MSE; Rsq", error.annot),
       mtext(
         # c(expression("MSE; R"^2), error.annot),
         # c(expression(paste(R^2, "; MSE", sep = "")), error.annot),
-        c(expression(paste("MSE; ", R^2, "   ", sep = "")), error.annot),
+        c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),
         fit.error.side,
         adj = .98, cex = cex,
         col = c(gen.col, unlist(fit.col[seq(Nxgroups)])),
