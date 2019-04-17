@@ -1082,8 +1082,7 @@ mplot3.fit <- function(x, y,
     "Regression"
   }
   if (type == "Classification") {
-    conf.matrix <- caret::confusionMatrix(y, x)
-    mplot3.conf(conf.matrix, ...)
+    mplot3.conf(table(y, x), ...)
   } else if (type == "Survival") {
     msg("Not currently supported")
   } else {
