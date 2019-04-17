@@ -28,3 +28,5 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 inst/doc
+# Temporary files created editors
+*~
