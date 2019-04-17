@@ -986,11 +986,11 @@ mplot3.xy <- function(x, y,
             line = -3.3,
             adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
-      mtext(annot.mse, fit.error.side,
+      mtext(annot.Rsq, fit.error.side,
             line = -2.2,
             adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
-      mtext(annot.Rsq, fit.error.side,
+      mtext(annot.mse, fit.error.side,
             line = -1.1,
             adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
@@ -999,7 +999,9 @@ mplot3.xy <- function(x, y,
                                                               "; ", ddSci(myerror[[i]]$Rsq)))
       # mtext(c("MSE; Rsq", error.annot),
       mtext(
-        c(expression("MSE; R"^2), error.annot),
+        # c(expression("MSE; R"^2), error.annot),
+        # c(expression(paste(R^2, "; MSE", sep = "")), error.annot),
+        c(expression(paste("MSE; ", R^2, "   ", sep = "")), error.annot),
         fit.error.side,
         adj = .98, cex = cex,
         col = c(gen.col, unlist(fit.col[seq(Nxgroups)])),
