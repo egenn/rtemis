@@ -18,6 +18,13 @@ remotes::install_github("egenn/rtemis")
 ```
 Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 
+### 10-second intro to __rtemis__
+```r
+library(rtemis)
+mod <- elevate(iris)
+mod$plot()
+```
+
 ### What's new
 * __v. 0.78__: First public release, April 2019
 
@@ -29,7 +36,7 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
      - Clustering: **_u.\*_**
      - Decomposition: **_d.\*_**
 * __Supervised Learning__
-     - Classification, Regression, Survival Regression: **_s.\*_**
+     - Classification, Regression, Survival Analysis: **_s.\*_**
 * __Cross-Decomposition__
      - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
