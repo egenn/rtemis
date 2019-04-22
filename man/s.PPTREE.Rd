@@ -18,10 +18,10 @@ s.PPTREE(x, y = NULL, x.test = NULL, y.test = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{PPmethod}{String: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"}
 

@@ -4,7 +4,7 @@
 
 #' Generalized Linear Model [C, R]
 #'
-#' Train a Generalized Linear Model for Regression or Logistic Regression (Classification) using \code{glm}
+#' Train a Generalized Linear Model for Regression or Classification (i.e. Logistic Regression) using \code{stats::glm}.
 #' If outcome \code{y} has more than two classes, Multinomial Logistic Regression is performed using
 #' \code{nnet::multinom}
 #'
@@ -16,16 +16,16 @@
 #'
 #' @param x Numeric vector or matrix / data frame of features i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
-#' @param x.test (Optional) Numeric vector or matrix / data frame of testing set features
+#' @param x.test Numeric vector or matrix / data frame of testing set features
 #'   Columns must correspond to columns in \code{x}
-#' @param y.test (Optional) Numeric vector of testing set outcome
+#' @param y.test Numeric vector of testing set outcome
 #' @param family Error distribution and link function. See \code{stats::family}
-#' @param covariate String (optional): Name of column to be included as interaction term in formula, must be factor
+#' @param covariate String: Name of column to be included as interaction term in formula, must be factor
 #' @param x.name Character: Name for feature set
 #' @param y.name Character: Name for outcome
 #' @param interactions Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}
 #' @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
-#' @param class.method String (Optional): Define "logistic" or "multinom" for classification. The only purpose
+#' @param class.method String: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try \code{nnet::multinom} instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 #' over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.

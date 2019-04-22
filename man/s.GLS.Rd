@@ -18,10 +18,10 @@ s.GLS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -31,7 +31,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
-\item{covariate}{String (optional): Name of column to be included as interaction term in formula, must be factor}
+\item{covariate}{String: Name of column to be included as interaction term in formula, must be factor}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.

@@ -7,17 +7,17 @@
 dataPrepare(x, y, x.test = NULL, y.test = NULL, x.valid = NULL,
   y.valid = NULL, ipw = FALSE, ipw.type = 2, upsample = FALSE,
   upsample.seed = NULL, removeDots = FALSE, .preprocess = NULL,
-  verbose = FALSE)
+  .data.table = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.valid}{Matrix / Data frame: Validation set features}
 
