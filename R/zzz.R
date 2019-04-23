@@ -9,8 +9,6 @@ rtenv <- new.env()
 rtenv$rtCores <- getOption("rtCores", future::availableCores())
 
 .onAttach <- function(libname, pkgname) {
-  # rtemis.version <- read.dcf(file = system.file("DESCRIPTION", package = pkgname),
-  #                        fields = "Version")
   rtemis.version <- packageVersion("rtemis")
 
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
