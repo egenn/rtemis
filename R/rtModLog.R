@@ -88,6 +88,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                 surv.metric = "Coherence",
                                                 decimal.places = 3,
                                                 print.metric = FALSE) {
+                               "Print model names and performance"
                                lst <- vector("list", length(self$mods))
                                metric <- vector("character", length(self$mods))
                                names(lst) <- names(metric) <- names(self$mods)
@@ -112,7 +113,8 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                .metric <- length(unique(metric)) == 1
                                printls(lst, color = rtHighlight$bold, title = if (.metric) metric[1] else NULL)
                              },
-                             writeCSV = function(filename = "./rtModLog.xlsx") {
+                             writeXLSX = function(filename = "./rtModLog.xlsx") {
+                               "Write parameters and performance for each model to an .xlsx file"
                                paramsl <- lapply(self$mods, function(i) {
                                  out <- data.frame(ModelName = i$mod.name)
                                  params <- reduceList(i$parameters)
