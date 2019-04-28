@@ -18,7 +18,7 @@ rtModLog <- R6::R6Class("rtModLog",
                           parameters = NULL,
                           error.train = NULL,
                           error.test = NULL,
-                          sessionInfo = sessionInfo(),
+                          sessionInfo = NULL,
                           ### Initialize
                           initialize = function(mod.name = character(),
                                                 parameters = list(),
@@ -28,6 +28,7 @@ rtModLog <- R6::R6Class("rtModLog",
                             self$parameters <- parameters
                             self$error.train <- error.train
                             self$error.test <- error.test
+                            self$sessionInfo <- sessionInfo()
                           },
                           ### Methods
                           print = function() {

@@ -61,7 +61,7 @@ rtMod <- R6::R6Class("rtMod",
                        varimp = NULL,
                        question = NULL,
                        extra = NULL,
-                       sessionInfo = sessionInfo(),
+                       sessionInfo = NULL,
                        ### Initialize
                        initialize = function(mod.name = character(),
                                              # call = call("NULL"),
@@ -100,6 +100,7 @@ rtMod <- R6::R6Class("rtMod",
                          self$varimp <- varimp
                          self$question <- question
                          self$extra <- extra
+                         self$sessionInfo <- sessionInfo()
                        },
                        ### Methods
                        print = function() {
@@ -925,7 +926,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          error.bag = NULL,
                          varimp = NULL,
                          question = NULL,
-                         sessionInfo = sessionInfo(),
+                         sessionInfo = NULL,
                          ### Initialize
                          initialize = function(mod = NULL,
                                                mod.name = NULL,
@@ -997,6 +998,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            self$error.bag <- error.bag
                            self$varimp <- varimp
                            self$question <- question
+                           self$sessionInfo <- sessionInfo()
                          },
                          ### Methods
                          print = function() {
@@ -1400,7 +1402,7 @@ rtMeta <- R6::R6Class("rtMeta",
                         meta.mod.name = NULL,
                         meta.params = NULL,
                         meta.mod = NULL,
-                        sessionInfo = sessionInfo(),
+                        sessionInfo = NULL,
                         ### Initialize
                         initialize = function(mod.name = character(),
                                               # call = call("NULL"),
@@ -1458,6 +1460,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           self$error.test <- error.test
                           self$question <- question
                           self$extra <- extra
+                          self$sessionInfo <- sessionInfo()
                         },
                         ### Methods
                         print = function() {
