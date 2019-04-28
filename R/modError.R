@@ -123,9 +123,6 @@ modError <- function(true, estimated,
   } else if (type == "Classification")  {
 
     # [ Classification ] ====
-    if (!depCheck("caret", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
     if (class(x) != "factor") x <- as.factor(x)
     # if (class(y) != "factor") y <- as.factor(y)
     n.classes <- length(levels(x))
