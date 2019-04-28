@@ -3,9 +3,9 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3} ROC curves
-#' 
+#'
 #' Plot ROC curve for a binary classifier
-#' 
+#'
 #' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
 #' @param ... Additional parameters to pass to \link{mplot3.xy}
@@ -35,7 +35,7 @@ mplot3.roc <- function(prob, labels,
                        filename = NULL,
                        pdf.width = 5,
                        pdf.height = 5, ...) {
-  
+
   # [ ARGUMENTS ] ====
   # Output directory
   if (!is.null(filename))
@@ -44,8 +44,8 @@ mplot3.roc <- function(prob, labels,
   method <- match.arg(method)
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
-  
-  
+
+
   # [ ROC ] ====
   probl <- if (!is.list(prob)) list(prob) else prob
   labelsl <- if (!is.list(labels)) list(labels) else labels
@@ -53,31 +53,32 @@ mplot3.roc <- function(prob, labels,
   if (length(labelsl) < length(probl)) {
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
-  
+
   if (method == "rt") {
-    .roc <- lapply(seq(probl), function(l) rtROC(labelsl[[l]], probl[[l]]))
+    .roc <- lapply(seq(probl), function(l) rtROC(labelsl[[l]], probl[[l]], verbose = FALSE))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) .roc[[l]]$Sensitivity)
     Specificity <- lapply(seq(probl), function(l) .roc[[l]]$Specificity)
     FPR <- lapply(seq(probl), function(l) 1 - Specificity[[l]])
     AUC <- lapply(seq(probl), function(l) .roc[[l]]$AUC)
-    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl) 
+    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
   } else if (method == "pROC") {
     if (!depCheck("pROC", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
-    .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]]))
+    .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]], direction = ">"))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) rev(.roc[[l]]$sensitivities))
     Specificity <- lapply(seq(probl), function(l) rev(.roc[[l]]$specificities))
     FPR <- lapply(seq(probl), function(l) 1 - Specificity[[l]])
     AUC <- lapply(seq(probl), function(l) .roc[[l]]$auc)
-    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl) 
+    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
   }
-  
+
   if (balanced.accuracy) {
     BA <- lapply(seq(probl), function(l) (Sensitivity[[l]] + Specificity[[l]]) / 2)
     BA.max.index <- lapply(seq(probl), function(l) which.max(BA[[l]]))
   }
-  
+
+  # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -95,10 +96,10 @@ mplot3.roc <- function(prob, labels,
               # annotation = paste("AUC =", ddSci(AUC)))
     if (balanced.accuracy) {
       for (i in seq(probl)) {
-        points(x = Specificity[[i]][BA.max.index[[i]]], 
+        points(x = Specificity[[i]][BA.max.index[[i]]],
                y = Sensitivity[[i]][BA.max.index[[i]]],
                col = col[[i]])
-        text(x = Specificity[[i]][BA.max.index[[i]]] - .05, 
+        text(x = Specificity[[i]][BA.max.index[[i]]] - .05,
              y = Sensitivity[[i]][BA.max.index[[i]]],
              labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
                              ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
@@ -119,10 +120,10 @@ mplot3.roc <- function(prob, labels,
               # annotation = paste("AUC =", ddSci(AUC)), annotation.col = annotation.col)
     if (balanced.accuracy) {
       for (i in seq(probl)) {
-        points(x = 1 - Specificity[[i]][BA.max.index[[i]]], 
+        points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
                y = Sensitivity[[i]][BA.max.index[[i]]],
                col = col[[i]])
-        text(x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05, 
+        text(x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05,
              y = Sensitivity[[i]][BA.max.index[[i]]],
              labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
                              ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
@@ -131,8 +132,8 @@ mplot3.roc <- function(prob, labels,
       }
     }
   }
-  
-  
+
+
   # [ AUC ANNOTATION ] ====
   if (annotation) {
     # auc <- ddSci(unlist(AUC))
@@ -154,8 +155,8 @@ mplot3.roc <- function(prob, labels,
           cex = cex,
           col = c("gray30", unlist(col)[1:length(probl)]))
   }
-  
+
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-  
+
 } # rtemis::mplot3.roc
