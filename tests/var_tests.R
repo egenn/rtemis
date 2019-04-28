@@ -67,6 +67,9 @@ x <- timeProc(sapply(rnorm(100), exp))
 x <- typeset(iris, factor.index = 1, orderedfactor.index = 2, integer.index = 3)
 
 # '- varSelect ====
-x <- rnormmat(100, 10)
-y <- x[, 3]^2 + x[, 5] + x[, 8] * x[, 10]
-vs <- varSelect(x, y)
+if (requireNamespace("ranger", quietly = TRUE)) {
+  x <- rnormmat(100, 10)
+  y <- x[, 3]^2 + x[, 5] + x[, 8] * x[, 10]
+
+  vs <- varSelect(x, y)
+}
