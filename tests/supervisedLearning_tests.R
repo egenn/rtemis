@@ -104,9 +104,8 @@ if (requireNamespace("gbm3", quietly = TRUE)) {
   mod <- s.GBM3(iris2.train, iris2.test, force.n.trees = 10)
 }
 
-if (requireNamespace("nlme", quietly = TRUE)) {
-  mod <- s.GLM(dat.train, dat.test)
-}
+mod <- s.GLM(dat.train, dat.test)
+mod <- s.GLM(iris2.train, iris2.test)
 
 if (requireNamespace("glmnet", quietly = TRUE)) {
   mod <- s.GLMNET(dat.train, dat.test, alpha = 0, lambda = 0)
@@ -114,15 +113,15 @@ if (requireNamespace("glmnet", quietly = TRUE)) {
   mod <- glmLiteBoostTV(x, y, max.iter = 4)
 }
 
-mod <- s.GLM(dat.train, dat.test)
-
 if (requireNamespace("nlme", quietly = TRUE)) {
   mod <- s.GLS(dat.train, dat.test)
 }
 
 if (requireNamespace("h2o", quietly = TRUE)) {
   mod <- s.H2OGBM(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.H2OGBM(iris2.train, iris2.test, force.n.trees = 10)
   mod <- s.H2ORF(dat.train, dat.test, n.trees = 20)
+  mod <- s.H2ORF(iris2.train, iris2.test)
 }
 
 if (requireNamespace("iRF", quietly = TRUE)) {
