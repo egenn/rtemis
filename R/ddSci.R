@@ -44,7 +44,7 @@ ddSci <- function(x,
   xf <- list()
 
   # Check for non-zero decimals
-  decs <- sum(unlist(x) %% 1) > 0
+  decs <- sum(unlist(x) %% 1, na.rm = TRUE) > 0
 
   for (i in seq(x)) {
     if (is.na(x[[i]])) {
