@@ -344,8 +344,9 @@ s.MXN <- function(x, y = NULL,
   if (optimizer == "adadelta") net.args$learning.rate <- NULL
   mod <- do.call(mxnet::mx.model.FeedForward.create, net.args)
 
-  if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat))
-    rtlayout(rtlayout.mat[1], rtlayout.mat[2])
+  # If Classification, cannot plot mplot3.conf which uses layout itself
+  # if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat))
+  #   rtlayout(rtlayout.mat[1], rtlayout.mat[2])
 
   if (print.error.plot) {
     if (is.null(y.valid)) {
@@ -456,7 +457,7 @@ s.MXN <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat)) rtlayout()
+  # if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat)) rtlayout()
 
   if (save.mod) mxnet::mx.model.save(mod, prefix = paste0(outdir, "rt_mxnet"), length(logger$train))
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
