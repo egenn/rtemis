@@ -25,7 +25,9 @@ iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 mod <- s.CART(iris2, maxdepth = 2)
 
-mplot3.cart(mod)
+if (requireNamespace("data.tree", quietly = TRUE)) {
+  mplot3.cart(mod)
+}
 mplot3.conf(mod)
 mplot3.confbin(mod$error.train$ConfusionMatrix)
 # mplot3.decision(mod, iris2)
@@ -35,8 +37,12 @@ mplot3.fret()
 mplot3.harmonograph()
 mplot3.heatmap(cor(z))
 mplot3.img(z)
-res <- resample(y)
-mplot3.res(res)
-mplot3.roc(mod$fitted.prob, iris2$Species)
+
+if (requireNamespace("caret", quietly = TRUE)) {
+  res <- resample(y)
+  mplot3.res(res)
+}
+
+mplot3.roc(mod$fitted.prob, iris2$Species, method = "rt")
 
 rtRandom()
