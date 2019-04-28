@@ -1,6 +1,7 @@
 language: r
 r:
   - release
+  - devel
 sudo: false
 warnings_are_errors: false
 cache: packages
