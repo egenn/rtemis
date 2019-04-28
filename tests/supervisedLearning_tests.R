@@ -213,8 +213,10 @@ if (requireNamespace("xgboost", quietly = TRUE)) {
 
 # Bagging & Boosting ====
 if (requireNamespace("rpart", quietly = TRUE)) {
-  mod <- bag(dat.train, dat.test, k = 4)
-  mod <- bag(iris2.train, iris2.test, k = 10)
+  if (requireNamespace("caret", quietly = TRUE)) {
+    mod <- bag(dat.train, dat.test, k = 4)
+    mod <- bag(iris2.train, iris2.test, k = 10)
+  }
   mod <- boost(dat.train, dat.test, max.iter = 4)
 }
 
