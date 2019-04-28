@@ -2,14 +2,13 @@
 # ::rtemis::
 # 2015-9 Efstathios D. Gennatas egenn.github.io
 
+rtenv <- new.env()
 .availableCores <- future::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
-globalVariables("rtCores")
-rtenv <- new.env()
-rtenv$rtCores <- getOption("rtCores", future::availableCores())
+rtemis.version <- packageVersion("rtemis")
+rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
 .onAttach <- function(libname, pkgname) {
-  rtemis.version <- packageVersion("rtemis")
 
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
