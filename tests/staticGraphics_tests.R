@@ -2,8 +2,6 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas MBBS AICSM PhD egenn.github.io
 
-if (requireNamespace("pROC", quietly = TRUE)) {
-
 library(rtemis)
 
 x <- rnorm(50)
@@ -40,8 +38,5 @@ mplot3.img(z)
 res <- resample(y)
 mplot3.res(res)
 mplot3.roc(mod$fitted.prob, iris2$Species)
-# TODO: fix col for mplot3.roc
 
 rtRandom()
-
-} # if (requireNamespace(...))
