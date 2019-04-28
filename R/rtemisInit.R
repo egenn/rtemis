@@ -216,16 +216,6 @@ if (is.null(pre)) {
 } # rtemis::errorSummary
 
 
-#' rt Report
-#' 
-#' @keywords internal
-rtReport <- function() {
-  rtversion <- read.dcf(file = system.file("DESCRIPTION", package = "rtemis"),
-                         fields = "Version")
-  msg(".:rtemis version", rtversion, "running on")
-}
-
-
 checkType <- function(type, allowed.types, mod.name) {
   
   if (!type %in% allowed.types) {

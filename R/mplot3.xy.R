@@ -647,7 +647,7 @@ mplot3.xy <- function(x, y,
                                                 list(formula = formula, save.func = TRUE))
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
-      if (se.fit) sel[[i]] <- rtemis::se(mod)
+      if (se.fit) sel[[i]] <- se(mod)
       if (rsq) rsql[[i]] <- mod$error.train$Rsq
       if (rsq.pval) {
         if (fit  %in% c("LM", "GLM")) {
