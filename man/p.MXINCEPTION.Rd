@@ -4,9 +4,9 @@
 \alias{p.MXINCEPTION}
 \title{Classify Images using pre-trained Inception network with \code{mxnet} [C]}
 \usage{
-p.MXINCEPTION(img, img.path = NULL, rt.home = getOption("rt.home",
-  "~/.rtemis/"), iteration = 39, plot.input = FALSE,
-  plot.normed = FALSE, plot.graphviz = FALSE, verbose = TRUE)
+p.MXINCEPTION(img, img.path = NULL, iteration = 39,
+  plot.input = FALSE, plot.normed = FALSE, plot.graphviz = FALSE,
+  verbose = TRUE)
 }
 \description{
 Predict using Inception
