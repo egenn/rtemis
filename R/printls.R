@@ -37,7 +37,7 @@ printls <- function(x,
     lhs <- max(nchar(paste0(prefix, xnames))) + pad
     if (!is.null(title)) {
       title.pad <- if (center.title) max(0, lhs - round((.5 * nchar(title))) - 3) else 0
-      boxcat(title, pad = title.pad, newline = title.newline)
+      boxcat(title, pad = title.pad, newline = title.newline, newline.pre = FALSE)
     }
     for (i in seq(x)) {
       if (is.list(x[[i]])) {
