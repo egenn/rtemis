@@ -5,7 +5,8 @@
 \title{B-Spline matrix from dataset}
 \usage{
 dat2bsplinemat(x, df = NULL, knots = NULL, degree = 3L,
-  intercept = FALSE, Boundary.knots = range(x, na.rm = TRUE))
+  intercept = FALSE, Boundary.knots = range(x, na.rm = TRUE),
+  return.deriv = FALSE, as.data.frame = TRUE)
 }
 \arguments{
 \item{x}{data.frame: Input}
@@ -18,7 +19,9 @@ dat2bsplinemat(x, df = NULL, knots = NULL, degree = 3L,
 
 \item{intercept}{Logical: If TRUE, an intercept is included. Default = FALSE}
 
-\item{Boundary.knots}{Float, vector (length = 2): Boundary points to anchor the spline basis.
+\item{Boundary.knots}{Float, vector (length = 2): Boundary points to anchor the spline basis.}
+
+\item{as.data.frame}{Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 See \code{splines::bSpline}}
 }
 \value{
