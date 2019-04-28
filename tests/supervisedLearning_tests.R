@@ -12,7 +12,8 @@ y <- c(x %*% w + rnorm(50))
 x[10, 1] <- NA
 x <- preprocess(x, impute = TRUE, impute.type = "meanMode")
 
-res <- resample(y)
+# res <- resample(y)
+res <- list(Resample01 = sample(seq(y), length(y), T))
 dat <- data.frame(x, y)
 dat.train <- dat[res$Resample01, ]
 dat.test <- dat[-res$Resample01, ]
@@ -20,7 +21,8 @@ dat.test <- dat[-res$Resample01, ]
 # Classification Data ====
 iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
-res <- resample(iris2)
+# res <- resample(iris2)
+res <- list(Resample01 = sample(seq(iris2$Species), length(iris2$Species), T))
 iris2.train <- iris2[res$Resample01, ]
 iris2.test <- iris2[-res$Resample01, ]
 checkData(iris2, str = TRUE)
