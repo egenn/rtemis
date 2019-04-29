@@ -215,8 +215,9 @@ s.GLMNET <- function(x, y = NULL,
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
   } else {
-    fitted.prob <- predict(mod, x, type = "response")[, 1]
-    fitted <- factor(predict(mod, x, type = "class"), levels = levels(y))
+    fitted.prob <- 1 - predict(mod, x, type = "response")[, 1]
+    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+    levels(fitted) <- levels(y)
   }
 
   error.train <- modError(y, fitted, fitted.prob)
@@ -229,9 +230,9 @@ s.GLMNET <- function(x, y = NULL,
       predicted <- as.numeric(predict(mod, newx = x.test))
       predicted.prob <- NULL
     } else {
-      predicted.prob <- predict(mod, x.test, type = "response")[, 1]
-      predicted <- factor(predict(mod, x.test, type = "class"),
-                          levels = levels(y))
+      predicted.prob <- 1 - predict(mod, x.test, type = "response")[, 1]
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(predicted) <- levels(y)
     }
 
     if (!is.null(y.test)) {

@@ -30,6 +30,7 @@ auc <- function(prob, labels,
     if (!depCheck("pROC", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
+    # maybe define cases and controls here as well
     .auc <- as.numeric(pROC::roc(labels, prob, direction = ">")$auc)
   } else {
     if (!depCheck("ROCR", verbose = FALSE)) {

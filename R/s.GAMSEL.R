@@ -137,27 +137,27 @@ s.GAMSEL <- function(x, y = NULL,
     fitted <- c(predict(mod, x, index = num.lambda, type = "response"))
     error.train <- modError(y, fitted)
   } else {
-    fitted.prob <- c(predict(mod, x, index = num.lambda, type = "response"))
-    fitted <- ifelse(fitted.prob >= .5, 1, 0)
-    fitted <- factor(levels(y0)[fitted + 1], levels = levels(y0))
-    error.train <- modError(y0, fitted)
+    fitted.prob <- 1 - c(predict(mod, x, index = num.lambda, type = "response"))
+    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+    levels(fitted) <- levels(y0)
+    error.train <- modError(y0, fitted, fitted.prob)
   }
 
 
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
-  predicted <- se.prediction <- error.test <- NULL
+  predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
       predicted <- c(predict(mod, x.test, index = num.lambda, type = "response"))
     } else {
-      predicted.prob <- c(predict(mod, x.test, index = num.lambda, type = "response"))
-      predicted <- ifelse(predicted.prob >= .5, 1, 0)
-      predicted <- factor(levels(y0)[predicted + 1], levels = levels(y0))
+      predicted.prob <- 1 - c(predict(mod, x.test, index = num.lambda, type = "response"))
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(predicted) <- levels(y0)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- modError(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

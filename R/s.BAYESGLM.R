@@ -182,8 +182,8 @@ s.BAYESGLM <- function(x, y = NULL,
 
   # [ FITTED ] ====
   if (type == "Classification") {
-    fitted.prob <- predict(mod, type = "response")
-    fitted <- factor(ifelse(fitted.prob >= .5, 2, 1))
+    fitted.prob <- 1 - predict(mod, type = "response")
+    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     levels(fitted) <- levels(y)
   } else {
     fitted.prob <- NULL
@@ -196,8 +196,8 @@ s.BAYESGLM <- function(x, y = NULL,
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      predicted.prob <- predict(mod, x.test, type = "response")
-      predicted <- factor(ifelse(predicted.prob >= .5, 2, 1))
+      predicted.prob <- 1 - predict(mod, x.test, type = "response")
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(predicted) <- levels(y)
     } else {
       predicted <- predict(mod, x.test)

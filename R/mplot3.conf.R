@@ -3,15 +3,15 @@
 # 2019 Efstathios D. Gennatas egenn.github.io
 
 #' Plot confusion matrix
-#' 
+#'
 #' Plots confusion matrix and classification metrics
-#' 
-#' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix / 
+#'
+#' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 #' data.frame / table
 #' @param main String: Plot title
 #' @param xlab String: x-axis label
 #' @param ylab String: y-axis label
-#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for 
+#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
 #' @param mar Numeric, vector, length 4: Overall margins
 #' @param dim.lab Float: Height for labels
@@ -26,7 +26,7 @@
 #' @param col.text.out Color for metrics cells' text
 #' @param col.bg.out Color for metrics cells' background
 #' @param theme String: "light", or "dark"
-#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light", 
+#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 #' "black" for "dark"
 #' @param hi.color.pos Color: The hi color for correct classification.
 #' @param hi.color.neg Color: The hi color for missclassification
@@ -69,16 +69,16 @@ mplot3.conf <- function(object,
                         theme = getOption("rt.theme", "light"),
                         mid.col = "auto",
                         hi.color.pos = "#18A3AC",
-                        hi.color.neg = "#716FB2",
+                        hi.color.neg = "#F48024",
                         par.reset = TRUE,
                         pdf.width = 4.5,
                         pdf.height = 4.5,
                         filename = NULL, ...) {
-  
+
   # [ ARGUMENTS ] ====
   if (strtrim(theme, width = 4) == "dark") theme <- "dark"
   if (strtrim(theme, width = 5) == "light") theme <- "light"
-  
+
   # [ DATA ] ====
   .test <- NULL
   if (inherits(object, "rtMod")) {
@@ -92,14 +92,14 @@ mplot3.conf <- function(object,
   } else {
     tbl <- object
   }
-  
+
   if (!is.null(mod.name) && !is.null(main) && main == "auto") {
     main <- paste(mod.name)
     if (!is.null(.test)) main <- if (.test) paste(main, "(Testing)") else paste(main, "(Training)")
   } else {
     if (!is.null(main) && main == "auto") main <- NULL
   }
-  
+
   # Themes ====
   if (theme == "light") {
     if (col.bg == "auto") col.bg <- "white"
@@ -121,18 +121,18 @@ mplot3.conf <- function(object,
     if (col.text.out == "auto") col.text.out <- "gray70"
   }
   if (col.main == "auto") col.main <- col.lab
-  
+
   # File out ====
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
-  
+
   color.pos <- colorGrad(199, mid = mid.col, hi = hi.color.pos)
   color.neg <- colorGrad(199, mid = mid.col, hi = hi.color.neg)
   class.labels <- colnames(tbl)
   n.classes <-  length(class.labels)
-  
+
   if (dim.out == -1) dim.out <- if (n.classes == 2) 1.2 else 1
-  
-  
+
+
   # metrics ====
   class.totals <- colSums(tbl)
   predicted.totals <- rowSums(tbl)
@@ -148,7 +148,7 @@ mplot3.conf <- function(object,
   class.ppv <- hits/predicted.totals
   # NPV  = true negative / predicted condition negative
   class.npv <- true.negative/(total - predicted.totals)
-  
+
   # Lmat ====
   lmat <- matrix(0, 2 + n.classes, 2 + n.classes)
   # xlab
@@ -208,23 +208,23 @@ mplot3.conf <- function(object,
     # lmat[1, 3:ncol(lmat)] <- cid
     lmat[1, 3:NCOL(lmat)] <- cid
   }
-  
+
   # Par ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  
+
   # Plot ====
   par(mar = c(0, 0, 0, 0), bg = col.bg, oma = oma)
-  
+
   widths <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   heights <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   if (!is.null(main)) {
     heights <- c(main.height, dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   }
   layout(lmat, widths = widths, heights = heights, respect = TRUE)
-  
+
   # 1 True lab
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   text(0, 0, ylab, srt = 90, font = 2, cex = cex.lab, col = col.lab)
@@ -243,7 +243,7 @@ mplot3.conf <- function(object,
     # text(0, 0, paste(class.labels[i], "=", class.totals[i]), cex = cex.lab2)
     text(0, 0, class.labels[i], cex = cex.lab2, col = col.lab)
   }
-  
+
   # '- Confusion matrix ====
   for (i in seq(n.classes)) {
     for (j in seq(n.classes)) {
@@ -258,7 +258,7 @@ mplot3.conf <- function(object,
            col = ifelse(frac >= .5, col.text.hi, col.text.lo), font = font.in)
     }
   }
-  
+
   # '- Metrics ====
   if (plot.metrics) {
     if (n.classes == 2) {
@@ -311,20 +311,20 @@ mplot3.conf <- function(object,
       }
     }
   }
-  
+
   # Balanced Accuracy
   # plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out2, cex = 50, pch = 15)
   # text(0, 0, paste("Balanced\nAccuracy\n=", ddSci(balanced.accuracy)), srt = 45,
   #      col = col.text.out, cex = cex.out, font = font.out)
-  
+
   # '- Main ====
   if (!is.null(main)) {
     plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg, cex = 50, pch = 15, xaxs = 'i')
     text(-1, 0, main, font = 2, cex = cex.main, col = col.main, adj = 0, xpd = TRUE)
   }
-  
+
   if (!is.null(filename)) grDevices::dev.off()
-  
+
   # Return ====
   invisible(list(confusion.matrix = tbl,
                  n.classes = n.classes,

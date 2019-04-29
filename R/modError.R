@@ -23,7 +23,8 @@
 #' @author Efstathios D Gennatas
 #' @export
 
-modError <- function(true, estimated,
+modError <- function(true,
+                     estimated,
                      estimated.prob = NULL,
                      verbose = FALSE,
                      type = NULL,

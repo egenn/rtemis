@@ -13,12 +13,12 @@ mplot3.conf(object, main = "auto", xlab = "Reference",
   col.text.out = "auto", col.bg = "auto", col.bg.out1 = "auto",
   col.bg.out2 = "auto", col.text.hi = "auto", col.text.lo = "auto",
   theme = getOption("rt.theme", "light"), mid.col = "auto",
-  hi.color.pos = "#18A3AC", hi.color.neg = "#716FB2",
+  hi.color.pos = "#18A3AC", hi.color.neg = "#F48024",
   par.reset = TRUE, pdf.width = 4.5, pdf.height = 4.5,
   filename = NULL, ...)
 }
 \arguments{
-\item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix / 
+\item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 data.frame / table}
 
 \item{main}{String: Plot title}
@@ -27,7 +27,7 @@ data.frame / table}
 
 \item{ylab}{String: y-axis label}
 
-\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for 
+\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for
 \code{object$mod.name}. Default = NULL}
 
 \item{dim.lab}{Float: Height for labels}
@@ -70,7 +70,7 @@ data.frame / table}
 
 \item{col.bg.out}{Color for metrics cells' background}
 
-\item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light", 
+\item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 "black" for "dark"}
 }
 \value{

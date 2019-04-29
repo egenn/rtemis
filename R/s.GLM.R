@@ -222,16 +222,15 @@ s.GLM <- function(x, y = NULL,
 
   # [ FITTED ] ====
   fitted.prob <- se.fit <- NULL
-  if (type == "Classification") pred.type <- if (mod.name == "LOGISTIC") "response" else "class"
   if (type == "Regression") {
       fitted <- predict(mod, x, se.fit = TRUE)
       se.fit <- as.numeric(fitted$se.fit)
       fitted <- as.numeric(fitted$fit)
   } else {
     if (mod.name == "LOGISTIC") {
-      fitted.prob <- as.numeric(predict(mod, x, type = pred.type))
-      fitted <- ifelse(fitted.prob >= .5, 1, 0)
-      fitted <- factor(levels(y)[fitted + 1], levels = levels(y))
+      fitted.prob <- 1 - as.numeric(predict(mod, x, type = "response"))
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
     } else {
       fitted.prob <- predict(mod, x, type = "probs")
       fitted <- predict(mod, x, type = "class")
@@ -273,9 +272,8 @@ s.GLM <- function(x, y = NULL,
         predicted <- as.numeric(predicted$fit)
     } else {
       if (mod.name == "LOGISTIC") {
-        predicted.prob <- predict(mod, x.test, type = pred.type)
-        predicted <- ifelse(predicted.prob >= .5, 1, 0)
-        predicted <- factor(levels(y)[predicted + 1], levels = levels(y))
+        predicted.prob <- 1 - predict(mod, x.test, type = "response")
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
         levels(predicted) <- levels(y)
       } else {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "probs"))

@@ -201,7 +201,8 @@ s.MARS <- function(x, y = NULL,
   # pred.type <- if (type == "Classification") "response" else "link"
   fitted <- predict(mod)
   if (type == "Classification") {
-    fitted <- ifelse(fitted >= .5, 1, 0)
+    fitted.prob <- fitted
+    fitted <- ifelse(fitted.prob >= .5, 1, 0)
     fitted <- factor(levels(y)[fitted + 1])
     levels(fitted) <- levels(y)
   }
@@ -209,11 +210,12 @@ s.MARS <- function(x, y = NULL,
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
-  predicted <- error.test <- NULL
+  predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
       predicted <- predict(mod, x.test)
     if (type == "Classification") {
-      predicted <- ifelse(predicted >= .5, 1, 0)
+      predicted.prob <- predicted
+      predicted <- ifelse(predicted.prob >= .5, 1, 0)
       predicted <- factor(levels(y)[predicted + 1])
       levels(predicted) <- levels(y)
     }
@@ -235,9 +237,11 @@ s.MARS <- function(x, y = NULL,
                  y.name = y.name,
                  xnames = xnames,
                  fitted = fitted,
+                 fitted.prob = fitted.prob,
                  se.fit = NULL,
                  error.train = error.train,
                  predicted = predicted,
+                 predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
                  question = question,

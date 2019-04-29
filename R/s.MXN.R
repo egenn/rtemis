@@ -376,6 +376,7 @@ s.MXN <- function(x, y = NULL,
     }
   } # / print.error.plot
 
+  # return(list(mod = mod, x.dm = x.dm))
   # [ FITTED ] ====
   if (type == "Regression") {
     fitted <- c(predict(mod, x.dm, array.layout = "rowmajor"))
@@ -383,12 +384,14 @@ s.MXN <- function(x, y = NULL,
   } else {
     fitted.prob <- predict(mod, x.dm, array.layout = "rowmajor")
     if (min(dim(fitted.prob)) == 1) {
-      fitted <- factor(as.numeric(fitted.prob >= .5))
+      fitted.prob <- c(1 - fitted.prob)
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     } else {
+      fitted.prob <- predict(mod, x.dm, array.layout = "rowmajor")
       fitted <- factor(apply(fitted.prob, 2, function(i) which.max(i)))
     }
     levels(fitted) <- levels(y0)
-    error.train <- modError(y0, fitted, type = type)
+    error.train <- modError(y0, fitted, fitted.prob)
   }
 
   if (verbose) errorSummary(error.train, mod.name)
@@ -402,7 +405,8 @@ s.MXN <- function(x, y = NULL,
       predicted.prob <- predict(mod, data.matrix(x.test), array.layout = "rowmajor")
       if (min(dim(predicted.prob)) == 1) {
         # Classification with Logistic output
-        predicted <- factor(as.numeric(predicted.prob >= .5))
+        predicted.prob <- 1 - predicted.prob
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       } else {
         # Classification with Softmax output
         predicted <- factor(apply(predicted.prob, 2, function(i) which.max(i)))
@@ -410,7 +414,7 @@ s.MXN <- function(x, y = NULL,
       levels(predicted) <- levels(y0)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- modError(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
