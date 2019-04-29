@@ -255,7 +255,7 @@ mplot3.xy <- function(x, y,
                       zero.alpha = 1,
                       zero.lty = 1,
                       zero.lwd = 1.5,
-                      do.reorder = NULL,
+                      order.on.x = NULL,
                       alpha.off = FALSE,
                       autolabel = letters,
                       new = FALSE,
@@ -344,9 +344,9 @@ mplot3.xy <- function(x, y,
       dir.create(dirname(filename), recursive = TRUE)
 
   # Reorder
-  do.reorder <- NULL # remind me why this is an option
-  if (is.null(do.reorder)) {
-    do.reorder <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
+  if (is.null(order.on.x)) {
+    # order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
+    order.on.x <- !is.null(fit)
   }
 
   # [ CLUSTER ] ====
@@ -384,7 +384,7 @@ mplot3.xy <- function(x, y,
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
 
-  if (do.reorder) {
+  if (order.on.x) {
     index <- lapply(xl, order)
   } else {
     index <- lapply(xl, function(i) seq(i))
