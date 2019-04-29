@@ -8,8 +8,8 @@
 #'
 #' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
-#' @param method String: "pROC" or "rt" will use \link{rtROC} and \code{pROC::roc} respectively
-#' to get points of the ROC. Default = "pROC"; "rt" is work in progress
+#' @param method String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+#' to get points of the ROC. Default = "rt"
 #' @param type String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 #' False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"
 #' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE
@@ -26,8 +26,8 @@
 #' @export
 
 mplot3.roc <- function(prob, labels,
-                       method = c("pROC", "rt"),
-                       type = c("TPR.FPR", "Sens.Spec"),
+                       method = c("rt", "pROC"),
+                       type = "TPR.FPR",
                        balanced.accuracy = FALSE,
                        main = "",
                        col = ucsfPalette,
@@ -55,19 +55,20 @@ mplot3.roc <- function(prob, labels,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
   method <- match.arg(method)
-  type <- match.arg(type)
-
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
+
 
   # [ ROC ] ====
   probl <- if (!is.list(prob)) list(prob) else prob
   labelsl <- if (!is.list(labels)) list(labels) else labels
+  # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
   if (length(labelsl) < length(probl)) {
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
   if (method == "rt") {
+    # '- method rt ====
     .roc <- lapply(seq(probl), function(l) rtROC(labelsl[[l]], probl[[l]], verbose = FALSE))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) .roc[[l]]$Sensitivity)
     Specificity <- lapply(seq(probl), function(l) .roc[[l]]$Specificity)
@@ -75,10 +76,15 @@ mplot3.roc <- function(prob, labels,
     AUC <- lapply(seq(probl), function(l) .roc[[l]]$AUC)
     names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
   } else if (method == "pROC") {
+    # '- method pROC ====
+    for (i in seq(labelsl)) {
+      levels(labelsl[[i]]) <- c(1, 0)
+    }
     if (!depCheck("pROC", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
-    .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]], direction = ">"))
+    .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]],
+                                                     levels = c(0, 1), direction = "<"))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) rev(.roc[[l]]$sensitivities))
     Specificity <- lapply(seq(probl), function(l) rev(.roc[[l]]$specificities))
     FPR <- lapply(seq(probl), function(l) 1 - Specificity[[l]])
@@ -106,6 +112,7 @@ mplot3.roc <- function(prob, labels,
               type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
+    # annotation = paste("AUC =", ddSci(AUC)))
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = Specificity[[i]][BA.max.index[[i]]],
@@ -129,6 +136,7 @@ mplot3.roc <- function(prob, labels,
               type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
+    # annotation = paste("AUC =", ddSci(AUC)), annotation.col = annotation.col)
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
@@ -144,9 +152,19 @@ mplot3.roc <- function(prob, labels,
     }
   }
 
+
   # [ AUC ANNOTATION ] ====
   if (annotation) {
+    # auc <- ddSci(unlist(AUC))
     auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
+    # mtext(text = auc, side = 1)
+    # mtext(c("AUC", auc),
+    #       side = 1,
+    #       line = - 2 * length(probl),
+    #       adj = .98,
+    #       cex = cex,
+    #       col = c("black", unlist(col)[1:length(probl)]),
+    #       padj = seq(-1 * length(probl), -1 + 1.5 * length(probl), 1.5))
     if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
     mtext(c("AUC   ", auc),
           font = annot.font,
