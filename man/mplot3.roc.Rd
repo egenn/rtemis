@@ -4,12 +4,12 @@
 \alias{mplot3.roc}
 \title{\code{mplot3} ROC curves}
 \usage{
-mplot3.roc(prob, labels, method = c("pROC", "rt"), type = c("TPR.FPR",
-  "Sens.Spec"), balanced.accuracy = FALSE, main = "",
-  col = ucsfPalette, cex = 1.2, lwd = 2.5, diagonal = TRUE,
-  diagonal.lwd = 2.5, diagonal.lty = 1, group.legend = FALSE,
-  annotation = TRUE, annotation.col = col, annot.line = NULL,
-  annot.adj = 1, annot.font = 1, mar = c(2.5, 3, 2.5, 1),
+mplot3.roc(prob, labels, method = c("rt", "pROC"), type = "TPR.FPR",
+  balanced.accuracy = FALSE, main = "", col = ucsfPalette,
+  cex = 1.2, lwd = 2.5, diagonal = TRUE, diagonal.lwd = 2.5,
+  diagonal.lty = 1, group.legend = FALSE, annotation = TRUE,
+  annotation.col = col, annot.line = NULL, annot.adj = 1,
+  annot.font = 1, mar = c(2.5, 3, 2.5, 1),
   theme = getOption("rt.theme", "lightgrid"), par.reset = TRUE,
   filename = NULL, pdf.width = 5, pdf.height = 5, ...)
 }
@@ -18,8 +18,8 @@ mplot3.roc(prob, labels, method = c("pROC", "rt"), type = c("TPR.FPR",
 
 \item{labels}{Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))}
 
-\item{method}{String: "pROC" or "rt" will use \link{rtROC} and \code{pROC::roc} respectively
-to get points of the ROC. Default = "pROC"; "rt" is work in progress}
+\item{method}{String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+to get points of the ROC. Default = "rt"}
 
 \item{type}{String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}

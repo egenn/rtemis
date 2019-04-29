@@ -48,7 +48,7 @@ mplot3.xy(x, y, fit = NULL, formula = NULL, se.fit = FALSE,
   na.rm = TRUE, theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "ucsfPalette"), zero.lines = NULL,
   zero.col = NULL, zero.alpha = 1, zero.lty = 1, zero.lwd = 1.5,
-  do.reorder = NULL, alpha.off = FALSE, autolabel = letters,
+  order.on.x = NULL, alpha.off = FALSE, autolabel = letters,
   new = FALSE, set.par = TRUE, par.reset = TRUE,
   return.lims = FALSE, pdf.width = 6, pdf.height = 6,
   verbose = FALSE, filename = NULL, ...)
