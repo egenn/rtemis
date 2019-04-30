@@ -84,7 +84,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                                error.test = mod$error.test)
                                if (verbose) msg("Added 1 model to logger;", length(self$mods), "total")
                              },
-                             summary = function(class.metric = "Balanced Accuracy",
+                             summarize = function(class.metric = "Balanced Accuracy",
                                                 reg.metric = "Rsq",
                                                 surv.metric = "Coherence",
                                                 decimal.places = 3,
@@ -110,11 +110,41 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                        decimal.places = decimal.places),
                                                  if (print.metric) c(" (", metric[i], ")") else NULL)
                                  }
+                                 names(lst[[i]]) <- metric[i]
                                }
                                .metric <- length(unique(metric)) == 1
-                               printls(lst, color = rtHighlight$bold, title = if (.metric) metric[1] else NULL)
+                               printls(lst,
+                                       color = rtHighlight$bold,
+                                       title = if (.metric) metric[1] else NULL,
+                                       title.newline = FALSE, newline.pre = FALSE)
+                               invisible(lst)
                              },
-                             writeXLSX = function(filename = "./rtModLog.xlsx") {
+                             summary = function(class.metric = "Balanced Accuracy",
+                                                  reg.metric = "Rsq",
+                                                  surv.metric = "Coherence") {
+                               "Get model performance"
+                               metric <- vector("character", length(self$mods))
+                               tbl <- matrix(NA, length(self$mods), 2)
+                               colnames(tbl) <- c("Train", "Test")
+                               rownames(tbl) <- names(self$mods)
+                               for (i in seq(self$mods)) {
+                                 if (inherits(self$mods[[i]]$error.train, "classError")) {
+                                   metric[i] <- match.arg(class.metric, colnames(self$mods[[i]]$error.train$Overall))
+                                   tbl[i, 1] <- self$mods[[i]]$error.train$Overall[[metric[i]]]
+                                   tbl[i, 2] <- self$mods[[i]]$error.test$Overall[[metric[i]]]
+                                 } else if (inherits(self$mods[[i]]$error.train, "regError")) {
+                                   metric[i] <- match.arg(reg.metric, colnames(self$mods[[i]]$error.train))
+                                   tbl[i, 1] <- self$mods[[i]]$error.train[[metric[i]]]
+                                   tbl[i, 2] <- self$mods[[i]]$error.test[[metric[i]]]
+                                 } else {
+                                   metric[i] <- match.arg(surv.metric, colnames(self$mods[[i]]$error.train))
+                                   tbl[i, 1] <- self$mods[[i]]$error.train[[metric[i]]]
+                                   tbl[i, 2] <- self$mods[[i]]$error.test[[metric[i]]]
+                                 }
+                               }
+                               invisible(tbl)
+                             },
+                             tabulate = function(filename = NULL) {
                                "Write parameters and performance for each model to an .xlsx file"
                                paramsl <- lapply(self$mods, function(i) {
                                  out <- data.frame(ModelName = i$mod.name)
@@ -122,12 +152,44 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                  if (!is.null(params)) {
                                    out <- cbind(out, params)
                                  }
-                                 out <- cbind(out, Train = i$error.train)
+                                 if (inherits(i$error.train, "classError")) {
+                                   out <- cbind(out, Train = i$error.train$Overall)
+                                 } else {
+                                   out <- cbind(out, Train = i$error.train)
+                                 }
+
                                  if (!is.null(i$error.test)) {
-                                   out <- cbind(out, Test = i$error.test)
+                                   if (inherits(i$error.test, "classError")) {
+                                     out <- cbind(out, Train = i$error.test$Overall)
+                                   } else {
+                                     out <- cbind(out, Test = i$error.test)
+                                   }
                                  }
                                  out })
-                               openxlsx::write.xlsx(paramsl, filename)
+                               if (!is.null(filename)) {
+                                 openxlsx::write.xlsx(paramsl, filename)
+                                 if (file.exists(filename)) rtOut("Saved file", filename)
+                               }
+                               invisible(paramsl)
+                             },
+                             plot = function(names = NULL,
+                                             col = unlist(ucsfPalette), ...) {
+                               tbl <- self$summary()
+                               n.mods <- NROW(tbl)
+                               n.cols <- if (all(is.na(tbl[, 2]))) 1 else 2
+                               col <- rep(unlist(ucsfPalette)[seq(n.mods)], n.cols)
+                               if (!is.null(names)) {
+                                 legend <- names
+                               } else {
+                                 legend <- labelify(rownames(tbl))
+                               }
+                               barplot(tbl[, seq(n.cols)],
+                                       # names.arg = c,
+                                       border = NA,
+                                       beside = TRUE,
+                                       col = col)
+                               mtext(legend, 3, adj = 1, font = 2,
+                                     line = rev(seq(n.mods)) - 1, col = col[seq(n.mods)])
                              }
                            )) # /rtModLogger
 
@@ -167,4 +229,4 @@ reduceList <- function(x, char.max = 50, return.df = TRUE) {
     return(xl)
   }
 
-}
+} # rtemis::reduceList
