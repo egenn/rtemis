@@ -44,7 +44,7 @@ eightBall <- function(question = NULL) {
   cat(col("  ", .response), "\n")
 
   if (length(grep("darwin", sessionInfo()$platform)) == 1) {
-    system(paste("say -v Samantha", .response))
+    system(paste("say -v Samantha", gsub("'", "", .response)))
   }
 
 
