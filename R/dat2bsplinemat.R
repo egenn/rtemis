@@ -34,7 +34,7 @@ dat2bsplinemat <- function(x,
   feat.names <- if (!is.null(colnames(x))) colnames(x) else paste0("Feat", seq(nc))
 
   # Splines ====
-  x.s <- lapply(seq(nc), function(i) splines2::bSpline(x[, i],
+  Splines <- lapply(seq(nc), function(i) splines2::bSpline(x[, i],
                                                        df = df,
                                                        knots = knots,
                                                        degree = degree,
@@ -43,12 +43,12 @@ dat2bsplinemat <- function(x,
 
   # Derivatives ====
   if (return.deriv) {
-    dx.s <- lapply(seq(nc), function(i) deriv(x.s[[i]]))
+    dx.s <- lapply(seq(nc), function(i) deriv(Splines[[i]]))
     dx.s <- do.call(cbind, dx.s)
     colnames(dx.s) <- unlist(lapply(seq(nc), function(i) paste0(feat.names[i], "_basis", seq(degree))))
   }
 
-  x.s <- do.call(cbind, x.s)
+  x.s <- do.call(cbind, Splines)
   colnames(x.s) <- unlist(lapply(seq(nc), function(i) paste0(feat.names[i], "_basis", seq(degree))))
 
   if (as.data.frame) {
@@ -57,9 +57,33 @@ dat2bsplinemat <- function(x,
   }
 
   if (return.deriv) {
-    return(list(Splines = x.s, Derivatives = dx.s))
+    out <- list(Splines = x.s, Derivatives = dx.s, SplineObj = Splines)
   } else {
-    return(x.s)
+    out <- list(Splines = x.s, SplineObj = Splines)
   }
 
+  class(out) <- c("rtBSplines", "list")
+  out
+
 } # rtemis::dat2bsplinemat
+
+
+#' Predict S3 method for \code{rtBSplines}
+#'
+#' @method predict rtBSplines
+#' @author Efstathios D Gennatas
+#' @export
+
+predict.rtBSplines <- function(object, newdata = NULL, ...) {
+
+  if (is.null(newdata)) {
+    return(object$Splines)
+  } else {
+    nsplines <- length(object$SplineObj)
+    if (NCOL(newdata) != nsplines) stop("N of columns in newdata does not match N of spline objects")
+    predicted <- do.call(cbind, lapply(seq(nsplines), function(i) predict(object$SplineObj[[i]], newdata[, i])))
+  }
+
+  predicted
+
+} # rtemis::predict.rtBSplines
