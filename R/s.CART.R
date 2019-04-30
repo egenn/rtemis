@@ -140,6 +140,7 @@ s.CART <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  class.weights <- dt$class.weights
   x0 <- if (upsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
   y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -235,7 +236,7 @@ s.CART <- function(x, y = NULL,
                      xval = xval,
                      cost = cost,
                      na.action = na.action,
-                     weights = .weights)
+                     class.weights = class.weights)
 
   # [ RPART ] ====
   if (verbose) msg("Training CART...", newline = TRUE)
