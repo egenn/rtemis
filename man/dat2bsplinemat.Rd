@@ -21,11 +21,15 @@ dat2bsplinemat(x, df = NULL, knots = NULL, degree = 3L,
 
 \item{Boundary.knots}{Float, vector (length = 2): Boundary points to anchor the spline basis.}
 
+\item{return.deriv}{Logical: If TRUE, return list containing a data frame with the splines and another
+data frame with their derivatives}
+
 \item{as.data.frame}{Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 See \code{splines::bSpline}}
 }
 \value{
-A data.frame where each original feature is replaces with its basis set
+If \code{return.deriv=F}, a data frame where each original feature is replaced with its basis set or a list,
+otherwise a list containing a data frame with splines and a data frame with their derivatives
 }
 \description{
 Convert a dataset to its b-spline basis set
