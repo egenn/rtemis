@@ -456,6 +456,8 @@ predict.rtMod <- function(object,
                                                           X = data.matrix(newdata),
                                                           array.layout = "rowmajor"))
       }
+    } else if (object$mod.name == "SGD") {
+      estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
     } else {
       estimated <- predict(object$mod, newdata = newdata, ...)
     }
