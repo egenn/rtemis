@@ -81,7 +81,11 @@ predict.rtBSplines <- function(object, newdata = NULL, ...) {
   } else {
     nsplines <- length(object$SplineObj)
     if (NCOL(newdata) != nsplines) stop("N of columns in newdata does not match N of spline objects")
+    feat.names <- colnames(newdata)
+    if (is.null(feat.names)) feat.names <- paste0("Feature", seq(nsplines))
     predicted <- do.call(cbind, lapply(seq(nsplines), function(i) predict(object$SplineObj[[i]], newdata[, i])))
+    degree <- attr(object$SplineObj[[1]], "degree")
+    colnames(predicted) <- unlist(lapply(seq(nsplines), function(i) paste0(feat.names[i], "_basis", seq(degree))))
   }
 
   predicted
