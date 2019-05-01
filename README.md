@@ -56,6 +56,6 @@ mod$plot()
 
 ---  
 
-<img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="250">  
+<img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="205">  
 
 2019 Efstathios D. Gennatas  
