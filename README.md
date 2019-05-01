@@ -52,6 +52,8 @@ mod$plot()
 ---
 <img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
-
+<br>
 ---
+<img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="250">  
+
 2019 Efstathios D. Gennatas  
