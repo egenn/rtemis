@@ -50,8 +50,8 @@ mod$plot()
 * R Documentation is ongoing and should be completed soon.
 * __rtemis__ is under active development with many enhancements and extensions in the works
 ---
-<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
+<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 <br>
 
 ---  
