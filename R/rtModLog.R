@@ -120,8 +120,8 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                invisible(lst)
                              },
                              summary = function(class.metric = "Balanced Accuracy",
-                                                  reg.metric = "Rsq",
-                                                  surv.metric = "Coherence") {
+                                                reg.metric = "Rsq",
+                                                surv.metric = "Coherence") {
                                "Get model performance"
                                metric <- vector("character", length(self$mods))
                                tbl <- matrix(NA, length(self$mods), 2)
@@ -141,6 +141,14 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                    tbl[i, 1] <- self$mods[[i]]$error.train[[metric[i]]]
                                    tbl[i, 2] <- self$mods[[i]]$error.test[[metric[i]]]
                                  }
+                               }
+                               if (length(unique(metric)) == 1) {
+                                 .metric <- metric[1]
+                                 colnames(tbl) <- paste0(colnames(tbl), " ", .metric)
+                                 attr(tbl, "metric") <- .metric
+                               } else {
+                                 rownames(tbl) <- paste0(rownames(tbl), " ", metric)
+                                 attr(tbl, "metric") <- metric
                                }
                                invisible(tbl)
                              },
@@ -174,6 +182,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              },
                              plot = function(names = NULL,
                                              col = unlist(ucsfPalette), ...) {
+                               "Plot barplot of models' performance"
                                tbl <- self$summary()
                                n.mods <- NROW(tbl)
                                n.cols <- if (all(is.na(tbl[, 2]))) 1 else 2
@@ -183,8 +192,17 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                } else {
                                  legend <- labelify(rownames(tbl))
                                }
+                               .metric <- attr(tbl, "metric")
+                               if (length(.metric) == 1) {
+                                 ylab <- .metric
+                               } else {
+                                 ylab <- "Performance"
+                               }
                                barplot(tbl[, seq(n.cols)],
                                        # names.arg = c,
+                                       ylab = ylab,
+                                       xpd = T,
+                                       space = c(0, .33),
                                        border = NA,
                                        beside = TRUE,
                                        col = col)
