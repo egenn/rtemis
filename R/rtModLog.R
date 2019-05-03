@@ -181,7 +181,8 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                invisible(paramsl)
                              },
                              plot = function(names = NULL,
-                                             col = unlist(ucsfPalette), ...) {
+                                             col = unlist(ucsfPalette),
+                                             mar = NULL, ...) {
                                "Plot barplot of models' performance"
                                tbl <- self$summary()
                                n.mods <- NROW(tbl)
@@ -198,6 +199,10 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                } else {
                                  ylab <- "Performance"
                                }
+                               par.orig <- par(no.readonly = TRUE)
+                               on.exit(par(par.orig))
+                               if (is.null(mar)) mar <- c(2.5, 4, n.mods, 1)
+                               par(mar = mar)
                                barplot(tbl[, seq(n.cols)],
                                        # names.arg = c,
                                        ylab = ylab,
@@ -205,7 +210,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                        space = c(0, .33),
                                        border = NA,
                                        beside = TRUE,
-                                       col = col)
+                                       col = col, ...)
                                mtext(legend, 3, adj = 1, font = 2,
                                      line = rev(seq(n.mods)) - 1, col = col[seq(n.mods)])
                              }
