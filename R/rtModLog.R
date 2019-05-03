@@ -187,7 +187,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                tbl <- self$summary()
                                n.mods <- NROW(tbl)
                                n.cols <- if (all(is.na(tbl[, 2]))) 1 else 2
-                               col <- rep(unlist(ucsfPalette)[seq(n.mods)], n.cols)
+                               col <- rep(unlist(col)[seq(n.mods)], n.cols)
                                if (!is.null(names)) {
                                  legend <- names
                                } else {
