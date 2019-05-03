@@ -47,5 +47,4 @@ eightBall <- function(question = NULL) {
     system(paste("say -v Samantha", gsub("'", "", .response)))
   }
 
-
 } # rtemis::eightBall

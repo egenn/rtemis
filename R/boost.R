@@ -593,7 +593,6 @@ as.boost <- function(object,
 #' Calculate new fitted values for a \link{boost} object.
 #' Advanced use only: run with new \code{x} or after updating learning.rate in object
 #'
-#' @method update boost
 #' @param object \link{boost} object
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
@@ -602,9 +601,10 @@ as.boost <- function(object,
 #' @author Efstathios D. Gennatas
 #' @return Nothing; updates \code{object} in-place
 #' @export
+# TODO: add support for x.test
 
 update.rtMod.boost <- function(object, x = NULL,
-                               x.valid = NULL,
+                               x.test = NULL,
                                trace = 0,
                                last.step.only = FALSE,
                                n.cores = rtCores, ...) {
@@ -640,4 +640,4 @@ update.rtMod.boost <- function(object, x = NULL,
     # if (mse.new > mse.orig) warning("Whatever you did, it didn't really help:\nnew MSE is higher than original")
   }
 
-} # rtemis::update.boost
+} # rtemis::update.rtMod.boost
