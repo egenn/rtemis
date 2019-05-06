@@ -177,8 +177,10 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                if (!is.null(filename)) {
                                  openxlsx::write.xlsx(paramsl, filename)
                                  if (file.exists(filename)) rtOut("Saved file", filename)
+                                 invisible(paramsl)
+                               } else {
+                                 paramsl
                                }
-                               invisible(paramsl)
                              },
                              plot = function(names = NULL,
                                              col = unlist(ucsfPalette),
