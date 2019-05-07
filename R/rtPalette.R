@@ -347,7 +347,8 @@ microsoftCol <- list(orange = "#f65314",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
 
-rtCol <- c(ucsfCol, berkeleyCol)
+rtCol <- c(ucsfCol[c("teal", "orange", "blue", "yellow", "purple", "red", "navy", "green")],
+           berkeleyCol)
 
 rtPalettes <- list(rtCol = rtCol,
                    pennCol = pennCol,
