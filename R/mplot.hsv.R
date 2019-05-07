@@ -15,7 +15,7 @@
 #' @param cex Float: \code{par/plot}'s cex argument. Default = 1
 #' @param mar Float, vector: for \code{type = "cartesian"}: \code{par}'s mar argument. Default = c(3, 3, 2, .5)
 #' @param lab.col Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black
-#' @param type String: "cartesian" for square plot, "polar" for radial plot. Default = "cartesian"
+#' @param type String: "cartesian" for square plot, "polar" for radial plot. Default = "polar"
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -30,7 +30,7 @@ mplot.hsv <- function(h.steps = seq(0, 1, .0125),
                       cex = 1,
                       mar = c(3, 3, 2, .5),
                       lab.col = NULL,
-                      type = c("cartesian", "polar")) {
+                      type = c("polar", "cartesian")) {
 
   type <- match.arg(type)
 
