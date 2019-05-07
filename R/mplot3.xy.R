@@ -3,7 +3,6 @@
 # 2016-2018 Efstathios D. Gennatas egenn.github.io
 # inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
-
 #' \code{mplot3}: XY Scatter and line plots
 #'
 #' Plot points and lines with optional fits and standard error bands
@@ -249,7 +248,7 @@ mplot3.xy <- function(x, y,
                       labs.col = NULL,
                       na.rm = TRUE,
                       theme = getOption("rt.theme", "lightgrid"),
-                      palette = getOption("rt.palette", "ucsfPalette"),
+                      palette = getOption("rt.palette", "rtCol"),
                       zero.lines = NULL,
                       zero.col = NULL,
                       zero.alpha = 1,

@@ -347,8 +347,10 @@ microsoftCol <- list(orange = "#f65314",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
 
+rtCol <- c(ucsfCol, berkeleyCol)
 
-rtPalettes <- list(pennCol = pennCol,
+rtPalettes <- list(rtCol = rtCol,
+                   pennCol = pennCol,
                    imperialCol = imperialCol,
                    ucsfCol = ucsfCol,
                    ucsfPalette = ucsfPalette,
@@ -383,12 +385,12 @@ rtPalette <- function(palette = NULL) {
     msg(crayon::cyan("The following palettes are available:"))
     print(paste(c("imperialCol", "pennCol", "stanfordCol", "ucCol", "ucsfCol", "berkeleyCol",
                    "ucsdCol", "uclaCol", "usfCol", "uwCol", "nihCol", "appleCol", "googleCol",
-                  "amazonCol", "microsoftCol")))
+                  "amazonCol", "microsoftCol", "rtCol")))
   } else {
     palette <- match.arg(palette,
                          c("imperialCol", "pennCol", "stanfordCol", "ucCol", "ucsfCol", "berkeleyCol",
                            "ucsdCol", "uclaCol", "usfCol", "uwCol", "nihCol", "appleCol", "googleCol",
-                           "amazonCol", "microsoftCol"))
+                           "amazonCol", "microsoftCol", "rtCol"))
     rtPalettes[[palette]]
   }
 
