@@ -6,8 +6,8 @@
 \usage{
 mplot.hsv(h.steps = seq(0, 1, 0.0125), s.steps = h.steps, v = 1,
   alpha = 1, pch = 15, bg = "black", axes = TRUE, pty = "s",
-  cex = 1, mar = c(3, 3, 2, 0.5), lab.col = NULL,
-  type = c("cartesian", "polar"))
+  cex = 1, mar = c(3, 3, 2, 0.5), lab.col = NULL, type = c("polar",
+  "cartesian"))
 }
 \arguments{
 \item{h.steps}{Float, vector: Hue values to plot. Default = \code{seq(0, 1, .0125)}}
@@ -32,7 +32,7 @@ mplot.hsv(h.steps = seq(0, 1, 0.0125), s.steps = h.steps, v = 1,
 
 \item{lab.col}{Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black}
 
-\item{type}{String: "cartesian" for square plot, "polar" for radial plot. Default = "cartesian"}
+\item{type}{String: "cartesian" for square plot, "polar" for radial plot. Default = "polar"}
 }
 \description{
 Plot HSV color range
