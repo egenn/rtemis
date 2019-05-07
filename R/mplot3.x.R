@@ -148,7 +148,7 @@ mplot3.x <- function(x,
                      qqline.lwd = lwd,
                      density.lwd = lwd,
                      theme = getOption("rt.theme", "lightgrid"),
-                     palette = getOption("rt.palette", "ucsfPalette"),
+                     palette = getOption("rt.palette", "rtCol"),
                      zero.lines = NULL,
                      zero.col = NULL,
                      zero.alpha = .66,
@@ -197,7 +197,7 @@ mplot3.x <- function(x,
 
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   if (is.character(palette)) palette <- rtPalette(palette)
-  
+
   # [ DATA ] ====
   if (!is.null(group)) {
     group <- as.factor(group)
@@ -667,7 +667,7 @@ mplot3.x <- function(x,
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
-  
+
   if (!is.null(main)) {
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
@@ -728,7 +728,7 @@ mplot3.x <- function(x,
   #         padj = seq(2, 2 + 1.5 * length(xl), 1.5))
   # }
   if (type == "density" & density.mean) {
-    mtext(c("Mean (SD)", lapply(seq(xl), 
+    mtext(c("Mean (SD)", lapply(seq(xl),
                                 function(j) paste0(ddSci(meanl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
           col = c(main.col, unlist(col[1:length(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = cex,
@@ -742,21 +742,21 @@ mplot3.x <- function(x,
   #         side = 3, adj = 0.02, cex = cex,
   #         padj = seq(2, 2 + 1.5 * (length(legend.tl) - 1), 1.5) )
   # }
-  # 
+  #
   # if (!is.null(legend.tr)) {
   #   mtext(legend.tr,
   #         col = legend.tr.col,
   #         side = 3, adj = 0.98, cex = cex,
   #         padj = 2)
   # }
-  # 
+  #
   # if (!is.null(legend.tc)) {
   #   mtext(legend.tc,
   #         col = legend.tc.col,
   #         side = 3, adj = 0.5, cex = cex,
   #         padj = 2)
   # }
-  
+
   if (!is.null(text.xy)) {
     if (is.null(text.x)) text.x <- mean(xlim)
     if (is.null(text.y)) text.y <- mean(ylim)
@@ -772,7 +772,7 @@ mplot3.x <- function(x,
   #   mtext(letters[rtenv$autolabel], line = autolabel.line, adj = 1, col = autolabel.col, cex = cex)
   #   rtenv$autolabel <- rtenv$autolabel + 1
   # }
-  
+
   # [ OUTRO ] ====
   if (!is.null(filename)) grDevices::dev.off()
   if (export.par.orig) invisible(par.orig)
