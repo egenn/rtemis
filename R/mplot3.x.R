@@ -499,10 +499,10 @@ mplot3.x <- function(x,
   if (axes) {
     if (type == "index") {
       if (!axes.swap) {
-        if (is.null(ylab)) ylab <- xname
+        if (is.null(ylab)) ylab <- labelify(xname)
         if (is.null(xlab)) xlab <- "Index"
       } else {
-        if (is.null(xlab)) xlab <- xname
+        if (is.null(xlab)) xlab <- labelify(xname)
         if (is.null(ylab)) ylab <- "Index"
       }
     }
@@ -603,7 +603,7 @@ mplot3.x <- function(x,
                 lwd = density.lwd, type = "l", lty = lty[[i]])
         }
       }
-      if (is.null(xlab)) xlab <- xname
+      if (is.null(xlab)) xlab <- labelify(xname)
       ylab <- "Density"
     } else {
       for (i in 1:length(xl)) {
