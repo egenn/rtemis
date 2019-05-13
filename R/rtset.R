@@ -15,7 +15,7 @@ NULL
 
 #' \code{rtset.resample}: Set \link{resample} settings
 #'
-#' 
+#'
 #' @inheritParams resample
 #' @rdname rtset
 #' @export
@@ -27,8 +27,8 @@ rtset.resample <- function(resampler = "kfold",
                            target.length = NULL,
                            seed = NULL,
                            verbose = TRUE) {
-  
-  
+
+
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
@@ -37,7 +37,7 @@ rtset.resample <- function(resampler = "kfold",
        target.length = target.length,
        seed = seed,
        verbose = verbose)
-  
+
 } # rtemis::rtset.resample
 
 
@@ -56,7 +56,7 @@ rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
        cv.groups = cv.groups,
        target.length = target.length,
        verbose = verbose)
-  
+
 } # rtemis::rtset.grid.resample
 
 
@@ -68,7 +68,7 @@ rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
 rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
                                stratify.var = NULL, cv.p = .75, cv.groups = 4,
                                target.length = NULL, verbose = TRUE) {
-  
+
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
@@ -76,7 +76,7 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
        cv.groups = cv.groups,
        target.length = target.length,
        verbose = verbose)
-  
+
 } # rtemis::rtset.bag.resample
 
 
@@ -88,7 +88,7 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
                                 stratify.var = NULL, cv.p = .75, cv.groups = 4,
                                 target.length = NULL, verbose = TRUE) {
-  
+
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
@@ -96,7 +96,7 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
        cv.groups = cv.groups,
        target.length = target.length,
        verbose = verbose)
-  
+
 } # rtemis::rtset.meta.resample
 
 
@@ -108,7 +108,7 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
                               stratify.var = NULL, cv.p = .75, cv.groups = 4,
                               target.length = NULL, verbose = TRUE) {
-  
+
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
@@ -116,7 +116,7 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
        cv.groups = cv.groups,
        target.length = target.length,
        verbose = verbose)
-  
+
 } # rtemis::rtset.cv.resample
 
 
@@ -147,9 +147,9 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
 rtset.cluster <- function(type = "fork",
                           hosts = NULL,
                           n.cores = rtCores, ...) {
-  
+
   c(list(type = type, hosts = hosts, n.cores = n.cores), list(...))
-  
+
 } # rtemis::rtset.cluster
 
 
@@ -168,11 +168,11 @@ rtset.color <- function(n = 101, colors = NULL,
                         hi = "#95001A",
                         colorbar = FALSE,
                         cb.mar = c(1, 1, 1, 1), ...) {
-  
+
   c(list(n = n, colors = colors, space = space,
          lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
          colobar = colorbar, cb.mar = cb.mar), list(...))
-  
+
 } # rtemis::rtset.color
 
 
@@ -186,29 +186,29 @@ rtset.color <- function(n = 101, colors = NULL,
 rtset.preprocess <- function(completeCases = FALSE,
                              impute = FALSE,
                              impute.type = "missForest",
-                             impute.discrete = getMode, 
+                             impute.discrete = getMode,
                              impute.numeric = mean,
                              removeCases.thres = NULL,
-                             removeFeatures.thres = NULL, 
+                             removeFeatures.thres = NULL,
                              removeConstant = TRUE,
                              integer2factor = FALSE,
-                             nonzeroFactors = FALSE, 
+                             nonzeroFactors = FALSE,
                              scale = FALSE,
                              center = FALSE) {
-  
+
   list(completeCases = completeCases,
        impute = impute,
        impute.type = impute.type,
-       impute.discrete = impute.discrete, 
+       impute.discrete = impute.discrete,
        impute.numeric = impute.numeric,
        removeCases.thres = removeCases.thres,
-       removeFeatures.thres = removeFeatures.thres, 
+       removeFeatures.thres = removeFeatures.thres,
        removeConstant = removeConstant,
        integer2factor = integer2factor,
-       nonzeroFactors = nonzeroFactors, 
+       nonzeroFactors = nonzeroFactors,
        scale = scale,
        center = center)
-  
+
 } # rtemis::rtset.preprocess
 
 
@@ -221,14 +221,14 @@ rtset.preprocess <- function(completeCases = FALSE,
 
 rtset.decompose <- function(decom = "ICA",
                             k = 2, ...) {
-  
+
   c(list(decom = decom, k = k), list(...))
-  
+
 } # rtemis::rtset.decompose
 
 
 #' \code{rtset.ADDT}: Set parameters for \link{s.ADDT}
-#' 
+#'
 #' @inheritParams s.ADDT
 #' @rdname rtset
 #' @export
@@ -240,7 +240,7 @@ rtset.ADDT <- function(max.depth = 2,
                        lambda = .1,
                        minobsinnode = 2,
                        minobsinnode.lin = 20, ...) {
-  
+
   c(list(max.depth = max.depth,
          learning.rate = learning.rate,
          lin.type = lin.type,
@@ -249,12 +249,12 @@ rtset.ADDT <- function(max.depth = 2,
          minobsinnode = minobsinnode,
          minobsinnode.lin = minobsinnode.lin),
     list(...))
-  
+
 } # rtemis::rtset.ADDT
 
 
 #' \code{rtset.GBM}: Set parameters for \link{s.GBM}
-#' 
+#'
 #' @inheritParams s.GBM
 #' @rdname rtset
 #' @export
@@ -269,7 +269,7 @@ rtset.GBM <- function(interaction.depth = 2,
                       ipw = TRUE,
                       upsample = FALSE,
                       upsample.seed = NULL, ...) {
-  
+
   c(list(interaction.depth = interaction.depth,
          shrinkage = shrinkage,
          max.trees = max.trees,
@@ -281,12 +281,12 @@ rtset.GBM <- function(interaction.depth = 2,
          upsample = upsample,
          upsample.seed = upsample.seed),
     list(...))
-  
+
 } # rtemis::rtset.GBM
 
 
 #' \code{rtset.RANGER}: Set parameters for \link{s.RANGER}
-#' 
+#'
 #' @inheritParams s.RANGER
 #' @rdname rtset
 #' @export
@@ -298,7 +298,7 @@ rtset.RANGER <- function(n.trees = 1000,
                          ipw = TRUE,
                          upsample = FALSE,
                          upsample.seed = NULL, ...) {
-  
+
   c(list(n.trees = n.trees,
          min.node.size = min.node.size,
          mtry = mtry,
@@ -307,12 +307,12 @@ rtset.RANGER <- function(n.trees = 1000,
          upsample = upsample,
          upsample.seed = upsample.seed),
     list(...))
-  
+
 } # rtemis::rtset.RANGER
 
 
 #' \code{rtset.DN}: Set parameters for \link{s.DN}
-#' 
+#'
 #' @inheritParams s.DN
 #' @rdname rtset
 #' @export
@@ -327,7 +327,7 @@ rtset.DN <- function(hidden = 1,
                      batchsize = NULL,
                      hidden_dropout = 0,
                      visible_dropout = 0, ...) {
-  
+
   c(list(hidden = hidden,
          activation = activation,
          learning.rate = learning.rate,
@@ -339,12 +339,12 @@ rtset.DN <- function(hidden = 1,
          hidden_dropout = hidden_dropout,
          visible_dropout = visible_dropout),
     list(...))
-  
+
 } # rtemis::rtset.DN
 
 
 #' \code{rtset.MXN}: Set parameters for \link{s.MXN}
-#' 
+#'
 #' @inheritParams s.MXN
 #' @rdname rtset
 #' @export
@@ -369,7 +369,7 @@ rtset.MXN <- function(n.hidden.nodes = NULL,
                       eval.metric = NULL,
                       arg.params = NULL,
                       mx.seed = NULL) {
-  
+
   list(n.hidden.nodes = n.hidden.nodes,
        output = output,
        activation = activation,
@@ -390,28 +390,47 @@ rtset.MXN <- function(n.hidden.nodes = NULL,
        eval.metric = eval.metric,
        arg.params = arg.params,
        mx.seed = mx.seed)
-  
+
 } # rtemis::rtset.MXN
 
 
 #' \code{rtset.lincoef}: Set parameters for \link{lincoef}
-#' 
+#'
 #' @inheritParams lincoef
 #' @rdname rtset
 #' @export
 
-rtset.lincoef <- function(method = "glm",
+rtset.lincoef <- function(method = c("glmnet",
+                                     "cv.glmnet",
+                                     "lm.ridge",
+                                     "allSubsets",
+                                     "forwardStepwise",
+                                     "backwardStepwise",
+                                     "glm",
+                                     "sgd",
+                                     "solve"),
                           alpha = 0,
-                          lambda = 0,
+                          lambda = .01,
                           lambda.seq = NULL,
                           cv.glmnet.nfolds = 5,
-                          cv.glmnet.lambda = "lambda.min") {
-  
+                          which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+                          nbest = 1,
+                          nvmax = 8,
+                          sgd.model = "glm",
+                          sgd.model.control = list(lambda1 = 0,
+                                                   lambda2 = 0),
+                          sgd.control = list(method = "ai-sgd")) {
+
   list(method = method,
        alpha = alpha,
        lambda = lambda,
        lambda.seq = lambda.seq,
        cv.glmnet.nfolds = cv.glmnet.nfolds,
-       cv.glmnet.lambda = cv.glmnet.lambda)
-  
+       which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+       nbest = nbest,
+       nvmax = nvmax,
+       sgd.model = sgd.model,
+       sgd.model.control = sgd.model.control,
+       sgd.control = sgd.control)
+
 } # rtemis::rtset.lincoef
