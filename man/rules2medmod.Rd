@@ -2,7 +2,7 @@
 % Please edit documentation in R/rules2medmod.R
 \name{rules2medmod}
 \alias{rules2medmod}
-\title{\code{rtemis-internals}: Rule converter from cutoffs to median/mode and range}
+\title{\code{rtemis-internals}: Convert rules from cutoffs to median/mode and range}
 \usage{
 rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE)
 }
@@ -12,7 +12,7 @@ rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE)
 \item{x}{Data frame: Data to evaluate rules}
 
 \item{.ddSci}{Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
-give either 2 decimal places, or scientific notation if two decimal place result in 0.00}
+give either 2 decimal places, or scientific notation if two decimal places result in 0.00}
 }
 \description{
 Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format

@@ -212,6 +212,7 @@ regression.}
 "allsubsets": uses \code{leaps::regsubsets} with \code{method = "exhaustive"};
 "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
+"sgd": uses \code{sgd::sgd}
 "solve": uses \code{base::solve}}
 
 \item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL}

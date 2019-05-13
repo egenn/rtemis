@@ -26,6 +26,7 @@ glmLite(x, y, weights = NULL, method = c("glmnet", "cv.glmnet",
 "allsubsets": uses \code{leaps::regsubsets} with \code{method = "exhaustive"};
 "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
+"sgd": uses \code{sgd::sgd}
 "solve": uses \code{base::solve}}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
