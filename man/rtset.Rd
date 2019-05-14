@@ -81,9 +81,13 @@ rtset.MXN(n.hidden.nodes = NULL, output = NULL, activation = "relu",
   dropout = 0, dropout.before = 1, dropout.after = 0,
   eval.metric = NULL, arg.params = NULL, mx.seed = NULL)
 
-rtset.lincoef(method = "glm", alpha = 0, lambda = 0,
-  lambda.seq = NULL, cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min")
+rtset.lincoef(method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
+  "forwardStepwise", "backwardStepwise", "glm", "sgd", "solve"),
+  alpha = 0, lambda = 0.01, lambda.seq = NULL,
+  cv.glmnet.nfolds = 5, which.cv.glmnet.lambda = c("lambda.min",
+  "lambda.1se"), nbest = 1, nvmax = 8, sgd.model = "glm",
+  sgd.model.control = list(lambda1 = 0, lambda2 = 0),
+  sgd.control = list(method = "ai-sgd"))
 }
 \arguments{
 \item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
@@ -218,6 +222,19 @@ regression.}
 \item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL}
 
 \item{cv.glmnet.nfolds}{Integer: Number of folds for \code{cv.glmnet}}
+
+\item{which.cv.glmnet.lambda}{String: Whitch lambda to pick from cv.glmnet:
+"lambda.min": Lambda that gives minimum cross-validated error;}
+
+\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1}
+
+\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.}
+
+\item{sgd.model}{String: Model to use for \code{method = "sgd"}. Default = "glm"}
+
+\item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
+
+\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}}
 
 \item{decom}{String: Name of decomposer to use. Default = "ICA"}
 
