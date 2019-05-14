@@ -38,18 +38,23 @@ s.MARS <- function(x, y = NULL,
                    upsample = FALSE,
                    upsample.seed = NULL,
                    glm = NULL,
-                   wp = NULL,
-                   na.action = na.fail,
-                   pmethod = "forward",
-                   nprune = NULL,
                    degree = 2,
-                   ncross = 1,
-                   nfold = 4,
                    penalty = 3, # if (degree > 1) 3 else 2
+                   nk = NULL,
                    thresh = 0,
+                   minspan = 0,
+                   endspan = 0,
                    newvar.penalty = 0,
                    fast.k = 2,
-                   nk = min(200, max(20, 2 * NCOL(x))) + 1,
+                   fast.beta = 1,
+                   linpreds = FALSE,
+                   pmethod = "forward",
+                   nprune = NULL,
+                   nfold = 4,
+                   ncross = 1,
+                   stratify = TRUE,
+                   wp = NULL,
+                   na.action = na.fail,
                    metric = NULL,
                    maximize = NULL,
                    n.cores = rtCores,
@@ -120,6 +125,7 @@ s.MARS <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
+  if (is.null(nk)) nk <- min(200, max(20, 2 * NCOL(x))) + 1
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {
@@ -156,49 +162,39 @@ s.MARS <- function(x, y = NULL,
   }
 
   # [ EARTH ] ====
-    if (verbose) msg("Training MARS model...", newline = TRUE)
-    # parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk)
-    # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by update.earth or
-    # related function and error out.
-    if (pmethod != "cv") {
-      mod <- earth::earth(x, y,
-                          weights = .weights,
-                          wp = wp,
-                          na.action = na.action,
-                          pmethod = pmethod,
-                          degree = degree,
-                          nprune = nprune,
-                          ncross = ncross,
-                          nfold = nfold,
-                          penalty = penalty,
-                          thresh = thresh,
-                          newvar.penalty = newvar.penalty,
-                          fast.k = fast.k,
-                          nk = nk,
-                          glm = glm,
-                          trace = ifelse(verbose, 1, 0), ...)
-    } else {
-      mod <- earth::earth(x, y,
-                          weights = .weights,
-                          wp = wp,
-                          na.action = na.action,
-                          pmethod = pmethod,
-                          degree = degree,
-                          nprune = nprune,
-                          ncross = ncross,
-                          nfold = nfold,
-                          # penalty = penalty,
-                          # nk = nk,
-                          thresh = thresh, # check if these cause problems like above
-                          newvar.penalty = newvar.penalty, #
-                          fast.k = fast.k, #
-                          glm = glm,
-                          trace = ifelse(verbose, 1, 0), ...)
-    }
-    if (trace > 0) print(summary(mod))
+  if (verbose) msg("Training MARS model...", newline = TRUE)
+  # parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk)
+  # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by update.earth or
+  # related function and error out.
+  args <- c(list(x = x, y = y,
+                 weights = .weights,
+                 wp = wp,
+                 na.action = na.action,
+                 trace = trace,
+                 glm = glm,
+                 degree = degree,
+                 penalty = penalty,
+                 nk = nk,
+                 thresh = thresh,
+                 minspan = minspan,
+                 endspan = endspan,
+                 newvar.penalty = newvar.penalty,
+                 fast.k = fast.k,
+                 fast.beta = fast.beta,
+                 linpreds = linpreds,
+                 pmethod = pmethod,
+                 nprune = nprune,
+                 nfold = nfold,
+                 ncross = ncross,
+                 stratify = stratify),
+            list(...))
+  if (pmethod == "cv") args$penalty <- args$nk <- NULL
+  mod <- do.call(earth::earth, args)
+  if (trace > 0) print(summary(mod))
+  params <- args
+  params$x <- params$y <- NULL
 
   # [ FITTED ] ====
-  # pred.type <- if (type == "Classification") "response" else "link"
   fitted <- predict(mod)
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -212,7 +208,7 @@ s.MARS <- function(x, y = NULL,
   # [ PREDICTED ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-      predicted <- predict(mod, x.test)
+    predicted <- predict(mod, x.test)
     if (type == "Classification") {
       predicted.prob <- predicted
       predicted <- ifelse(predicted.prob >= .5, 1, 0)
@@ -244,6 +240,7 @@ s.MARS <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
+                 parameters = params,
                  question = question,
                  extra = extra)
 
