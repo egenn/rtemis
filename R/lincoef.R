@@ -144,6 +144,7 @@ lincoef <- function(x, y,
     if (!is.null(weights)) stop("method 'solve' does not currently support weights")
     x <- cbind(1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
+    .names <- colnames(x)
     .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
     names(coef) <- c("(Intercept)", .names)
   } else if (method == "sgd") {
@@ -155,6 +156,7 @@ lincoef <- function(x, y,
                     model.control = sgd.model.control,
                     sgd.control = sgd.control)
     coef <- c(mod$coefficients)
+    .names <- colnames(x)
     .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
     names(coef) <- c("(Intercept)", .names)
                   
