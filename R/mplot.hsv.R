@@ -46,6 +46,7 @@ mplot.hsv <- function(h.steps = seq(0, 1, .0125),
   col <- hsv(h = grd[, 1], s = grd[, 2], v = v, alpha = alpha)
 
   if (type == "cartesian") {
+    # '- Square ====
     par(bg = bg, mar = mar, pty = pty)
     plot(grd,
          xlim = c(0, 1),
@@ -64,21 +65,25 @@ mplot.hsv <- function(h.steps = seq(0, 1, .0125),
     mtext("S", 2, col = lab.col, line = 2, font = 2)
     mtext(paste0("HSV color (V = ", v, ")"), 3, adj = 0, font = 2, line = .5, col = lab.col)
   } else {
+    # '- Radial ====
+    if (!depCheck("plotrix", verbose = FALSE)) {
+      cat("\n"); stop("Please install dependencies and try again")
+    }
     par(bg = bg)
-    radial.plot(drange(grd[, 2], 0, 360 * pi/180),
-                drange(grd[, 1], 0, 360 * pi/180),
-                start = pi/2,
-                clockwise = TRUE,
-                rp.type = "s",
-                point.symbols = 18,
-                point.col = col,
-                labels = ddSci(seq(0, 1, 1/12))[-13],
-                label.prop = 1,
-                show.grid = T,
-                show.grid.labels = 1,
-                show.radial.grid = F,
-                radial.labels = "",
-                boxed.radial = F)
+    plotrix::radial.plot(drange(grd[, 2], 0, 360 * pi/180),
+                         drange(grd[, 1], 0, 360 * pi/180),
+                         start = pi/2,
+                         clockwise = TRUE,
+                         rp.type = "s",
+                         point.symbols = 18,
+                         point.col = col,
+                         labels = ddSci(seq(0, 1, 1/12))[-13],
+                         label.prop = 1,
+                         show.grid = T,
+                         show.grid.labels = 1,
+                         show.radial.grid = F,
+                         radial.labels = "",
+                         boxed.radial = F)
     mtext(paste0("HSV color (V = ", v, ")"), font = 2, col  = lab.col)
   }
 
