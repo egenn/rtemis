@@ -17,6 +17,7 @@
 \alias{rtset.DN}
 \alias{rtset.MXN}
 \alias{rtset.lincoef}
+\alias{rtset.MARS}
 \title{\pkg{rtemis} default-setting functions}
 \usage{
 rtset.resample(resampler = "kfold", n.resamples = 10,
@@ -88,6 +89,11 @@ rtset.lincoef(method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
   "lambda.1se"), nbest = 1, nvmax = 8, sgd.model = "glm",
   sgd.model.control = list(lambda1 = 0, lambda2 = 0),
   sgd.control = list(method = "ai-sgd"))
+
+rtset.MARS(hidden = 1, activation = NULL, learning.rate = 0.8,
+  momentum = 0.5, learningrate_scale = 1, output = NULL,
+  numepochs = 100, batchsize = NULL, hidden_dropout = 0,
+  visible_dropout = 0, ...)
 }
 \arguments{
 \item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".

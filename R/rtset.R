@@ -434,3 +434,35 @@ rtset.lincoef <- function(method = c("glmnet",
        sgd.control = sgd.control)
 
 } # rtemis::rtset.lincoef
+
+
+#' \code{rtset.MARS}: Set parameters for \link{s.MARS}
+#'
+#' @inheritParams s.MARS
+#' @rdname rtset
+#' @export
+
+rtset.MARS <- function(hidden = 1,
+                     activation = NULL,
+                     learning.rate = .8,
+                     momentum = .5,
+                     learningrate_scale = 1,
+                     output = NULL,
+                     numepochs = 100,
+                     batchsize = NULL,
+                     hidden_dropout = 0,
+                     visible_dropout = 0, ...) {
+
+  c(list(hidden = hidden,
+         activation = activation,
+         learning.rate = learning.rate,
+         momentum = momentum,
+         learningrate_scale = learningrate_scale,
+         output = output,
+         numepochs = numepochs,
+         batchsize = batchsize,
+         hidden_dropout = hidden_dropout,
+         visible_dropout = visible_dropout),
+    list(...))
+
+} # rtemis::rtset.DN
