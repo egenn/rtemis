@@ -12,13 +12,22 @@ The goal of rtemis is to make data science efficient and accessible  with no com
 [__Online Documentation and vignettes__](https://rtemis.netlify.com)
 
 ### Installation
+See [here](https://rtemis.netlify.com/setup.html) for more complete setup and installation support.
+
 ```r
 install.packages("remotes")
 remotes::install_github("egenn/rtemis")
 ```
-Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
 
 ### 10-second intro to __rtemis__
+Install dependencies if they are not already installed:
+```r
+packages <- c("caret", "pbapply", "ranger")
+.add <- !packages %in% installed.packages()
+install.packages(packages[.add])
+```
+
+Load rtemis and get cross-validated random forest performance on the iris dataset:
 ```r
 library(rtemis)
 mod <- elevate(iris)
