@@ -40,6 +40,9 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{init}{Initial value. Default = \code{mean(y)}}
 
+\item{cxrcoef}{Logical: Passed to \link{predict.addTree}, if TRUE, returns cases by coefficients matrix.
+Default = FALSE}
+
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
@@ -73,34 +76,7 @@ Train an Additive Tree for Regression
 }
 \details{
 The Additive Tree grows a tree using a sequence of regularized linear models and tree stumps
-
-tree structure:
-tree
-   '-x             the data that belong to this node
-   '-y             the outcomes that belong to this node
-   '-Fval          the F value at this node
-   '-index         the index that was applied to the parent node to give this
-   '-depth         the depth of the tree at this levels
-   '-partlin       holds output of partLin(), if run
-         '-lin.coef         The linear model coefficients
-         '-part.c.left      The tree-derived constant for the left partition
-         '-part.c.right     The tree-derived constant for the right partition
-         '-lin.val          Fval of the linear model
-         '-part.val         Fval of the tree
-         '-cutFeat.name     The name of the feature on which the split was performed
-         '-cutFeat.point    The point at which the split was made, left split < this point
-                            if the cut feature was continuous
-         '-cutFeat.category The factor levels that correspond to the left split,
-                            if the the cut feature was categorical
-         '-part.index       The split index, with "L" and "R" for left and right, respectively
-         '-split.rule       The rule, based on cutFeat.name and cutFeat.point or cutFeat.category,
-                            based on which the split was made.
-         '-terminal         Logical: if TRUE, partlin did not split.
-   '-left          holds the left split, if the node was split
-   '-right         holds the right split, if the node was split
-   '-terminal      TRUE if it is a terminal node
-   '-type          "split", "nosplit", "max.depth", "minobsinnode"
 }
 \author{
-Gilmer Valdes (algorithm), Efstathios D. Gennatas (R code)
+Efstathios D. Gennatas
 }
