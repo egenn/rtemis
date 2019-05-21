@@ -12,7 +12,7 @@ The goal of rtemis is to make data science efficient and accessible  with no com
 [__Online Documentation and vignettes__](https://rtemis.netlify.com)
 
 ### Installation
-See [here](https://rtemis.netlify.com/setup.html) for more complete setup and installation support.
+See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
 
 ```r
 install.packages("remotes")
