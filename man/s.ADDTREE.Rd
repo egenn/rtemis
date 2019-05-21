@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.ADDTREE.R
 \name{s.ADDTREE}
 \alias{s.ADDTREE}
-\title{MediBoost Tree-Structured Boosting [C]}
+\title{Additive Tree: Tree-Structured Boosting [C]}
 \usage{
 s.ADDTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, weights = NULL, update = c("exponential",
@@ -101,7 +101,7 @@ means that the corresponding column of x is a categorical variable}
 Object of class \link{rtMod}
 }
 \description{
-Train a MediBoost model
+Train an Additive Tree model
 }
 \details{
 For binary classification, outcome must be factor with two levels, the first level
@@ -159,7 +159,7 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
 Other Interpretable models: \code{\link{s.CART}}
 }
 \author{
-Efstathios D. Gennatas (R implementation); Gilmer Valdes (MediBoost algorithm)
+Efstathios D. Gennatas
 }
 \concept{Interpretable models}
 \concept{Supervised Learning}
