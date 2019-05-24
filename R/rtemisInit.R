@@ -135,7 +135,7 @@ dataSummary <- function(x, y,
 parameterSummary <- function(...,
                              title = "Parameters",
                              pad = 0,
-                             newline.pre = FALSE,
+                             newline.pre = TRUE,
                              newline = FALSE) {
 
   if (newline.pre) cat("\n")
