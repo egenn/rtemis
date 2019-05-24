@@ -43,7 +43,6 @@ rtMod <- R6::R6Class("rtMod",
                      public = list(
                        ### Attributes
                        mod.name = NULL,
-                       # call = NULL,
                        y.train = NULL,
                        y.test = NULL,
                        x.name = NULL,
@@ -64,7 +63,6 @@ rtMod <- R6::R6Class("rtMod",
                        sessionInfo = NULL,
                        ### Initialize
                        initialize = function(mod.name = character(),
-                                             # call = call("NULL"),
                                              y.train = numeric(),
                                              y.test = numeric(),
                                              x.name = character(),
@@ -81,7 +79,8 @@ rtMod <- R6::R6Class("rtMod",
                                              error.test = NULL,
                                              varimp = NULL,
                                              question = character(),
-                                             extra = list()) {
+                                             extra = list(),
+                                             sessionInfo = NULL) {
                          self$mod.name <-  mod.name
                          self$y.train <- y.train
                          self$y.test <- y.test
