@@ -119,7 +119,7 @@ s.RANGER <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(n.trees, mtry)
+  if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   x0 <- if (upsample) dt$x0 else x

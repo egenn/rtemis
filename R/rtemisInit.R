@@ -86,7 +86,7 @@ outro <- function(start.time,
 #' Print input data dimensions and test dimensions match
 #' @keywords internal
 dataSummary <- function(x, y,
-                        x.test = NULL, y.test = NULL, 
+                        x.test = NULL, y.test = NULL,
                         type = NULL, testSet = TRUE) {
   # cat("------------------------------------------------------\n")
   # if (!is.null(type)) {
@@ -132,8 +132,13 @@ dataSummary <- function(x, y,
 #' @export
 #' @author Efstathios D. Gennatas
 
-parameterSummary <- function(..., title = "Parameters", pad = 0, newline = FALSE) {
+parameterSummary <- function(...,
+                             title = "Parameters",
+                             pad = 0,
+                             newline.pre = FALSE,
+                             newline = FALSE) {
 
+  if (newline.pre) cat("\n")
   if (length(list(...)) > 0) {
     x = list(...)
     xnames <- as.character(substitute(list(...)))[-1L]
@@ -148,12 +153,6 @@ parameterSummary <- function(..., title = "Parameters", pad = 0, newline = FALSE
 
     printls(x, pad = pad + 3, title = title, center.title = FALSE)
 
-    # if (length(x) > 1) {
-    #   x <- as.list(unlist(x))
-    #   printls(x, pad = pad)
-    # } else {
-    #   printls(x[[1]], pad = pad)
-    # }
     if (newline) cat("\n")
   }
 
@@ -205,7 +204,7 @@ if (is.null(pre)) {
     pre <- "Error"
   }
 }
-  
+
   if (!is.null(mod.name)) {
     boxcat(paste(toupper(mod.name), type, pre, "Summary"))
   } else {
@@ -217,9 +216,9 @@ if (is.null(pre)) {
 
 
 checkType <- function(type, allowed.types, mod.name) {
-  
+
   if (!type %in% allowed.types) {
     rtStop("You were attempting to perform", type, "but", mod.name, "only supports", allowed.types)
   }
-    
+
 }

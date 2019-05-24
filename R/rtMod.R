@@ -1470,7 +1470,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           if (length(self$predicted) < 1) {
                             boxcat(".:rtemis Fitted Meta Model")
                           } else {
-                            boxcat(".:rtemis Fitted and Validated Meta Model\n")
+                            boxcat(".:rtemis Fitted and Validated Meta Model")
                           }
                           cat(" Base: ", self$base.mod.names)
                           cat("  Meta: ", self$meta.mod.name)

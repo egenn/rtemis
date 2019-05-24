@@ -5,7 +5,7 @@
 \title{\code{rtemis-internals}: \code{parameterSummary}}
 \usage{
 parameterSummary(..., title = "Parameters", pad = 0,
-  new.line.pre = FALSE, newline = FALSE)
+  newline.pre = FALSE, newline = FALSE)
 }
 \arguments{
 \item{...}{Variables to print}

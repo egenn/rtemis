@@ -231,16 +231,15 @@ plot.resample <- function(x, res, col = NULL, ...) {
 #'
 #' @method print resample
 #' @param x \link{resample} object
+#' @param ... Unused
 #' @author Efstathios D. Gennatas
 #' @export
 
 print.resample <- function(x, ...) {
 
-  cat("======================================================\n")
-  cat(".:rtemis resample object\n")
-  cat("======================================================\n")
+  boxcat(".:rtemis resample object")
   .attributes <- attributes(x)
   .attributes[[1]] <- .attributes[[2]] <- NULL
   printls(.attributes)
 
-}
+} # rtemis::print.resample
