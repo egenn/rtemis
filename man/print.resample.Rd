@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\link{resample} object}
+
+\item{...}{Unused}
 }
 \description{
 Print resample information
