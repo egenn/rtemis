@@ -214,7 +214,7 @@ regression.}
 
 \item{eval.metric}{String: Metrix used for evaluation during train. Default: "rmse"}
 
-\item{method}{String: Method to use: 
+\item{method}{String: Method to use:
 "glm": uses \code{stats::lm.wfit};
 "glmnet": uses \code{glmnet::glmnet};
 "cv.glmnet": uses \code{glmnet:cv.glmnet};

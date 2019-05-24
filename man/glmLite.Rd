@@ -20,7 +20,7 @@ glmLite(x, y, weights = NULL, method = c("glmnet", "cv.glmnet",
 
 \item{weights}{Float, vector: Case weights}
 
-\item{method}{String: Method to use: 
+\item{method}{String: Method to use:
 "glm": uses \code{stats::lm.wfit};
 "glmnet": uses \code{glmnet::glmnet};
 "cv.glmnet": uses \code{glmnet:cv.glmnet};
