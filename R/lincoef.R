@@ -3,13 +3,13 @@
 # 2018 Efstathios D. Gennatas egenn.github.io
 
 #' Linear Model Coefficients
-#' 
+#'
 #' Get linear model coefficients
-#' 
+#'
 #' @param x Features
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
-#' @param method String: Method to use: 
+#' @param method String: Method to use:
 #' "glm": uses \code{stats::lm.wfit};
 #' "glmnet": uses \code{glmnet::glmnet};
 #' "cv.glmnet": uses \code{glmnet:cv.glmnet};
@@ -61,9 +61,9 @@ lincoef <- function(x, y,
                                              lambda2 = 0),
                     sgd.control = list(method = "ai-sgd"),
                     ...) {
-  
+
   method <- match.arg(method)
-  
+
   if (method == "glm") {
     # '-- "glm": base::lm.wfit ====
     if (is.null(weights)) weights <- rep(1, NROW(y))
@@ -131,6 +131,7 @@ lincoef <- function(x, y,
                              really.big = TRUE,
                              nbest = nbest,
                              nvmax = nvmax, ...)
+    mod.summary <- summary(mod)
     id <- which.max(mod.summary$rsq)
     .coef <- coef(mod, id = id)
     .nfeat <- NCOL(x)
@@ -159,9 +160,9 @@ lincoef <- function(x, y,
     .names <- colnames(x)
     .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
     names(coef) <- c("(Intercept)", .names)
-                  
+
   }
-  
+
   coef
-  
+
 } # rtemis::lincoef
