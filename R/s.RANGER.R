@@ -281,9 +281,6 @@ s.RANGER <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # Discard forest to save memory
-  # if (discard.forest) mod$forest <- NULL
-
   # [ OUTRO ] ====
   extra <- list(gridSearch = gs)
 
