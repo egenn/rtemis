@@ -158,8 +158,6 @@ s.CART <- function(x, y = NULL,
       method <- "exp"
       if (is.null(metric)) metric <- "Concordance"
       if (is.null(maximize)) maximize <- TRUE
-    } else {
-      stop("Method of type", method, "is not supported")
     }
   }
   if (is.null(cost)) cost <- rep(1, NCOL(x))
