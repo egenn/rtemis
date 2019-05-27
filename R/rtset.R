@@ -421,7 +421,7 @@ rtset.lincoef <- function(method = c("glmnet",
                                                    lambda2 = 0),
                           sgd.control = list(method = "ai-sgd")) {
 
-  list(method = method,
+  list(method = match.arg(method),
        alpha = alpha,
        lambda = lambda,
        lambda.seq = lambda.seq,
