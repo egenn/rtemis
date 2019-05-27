@@ -121,7 +121,6 @@ s.GLMNET <- function(x, y = NULL,
       family <- "cox"
     }
   }
-  if (type == "Classification") nlevels <- length(levels(y))
 
   if (type == "Survival") {
     colnames(y) <- c("time", "status")
@@ -133,7 +132,6 @@ s.GLMNET <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-
 
   # '- MODEL MATRIX ====
   dat <- data.frame(x, y = y)
@@ -242,7 +240,6 @@ s.GLMNET <- function(x, y = NULL,
   }
 
   # [ OUTRO ] ====
-
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
