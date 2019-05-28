@@ -39,7 +39,7 @@ s.RULEFEAT <- function(x, y = NULL,
                        y.name = NULL,
                        question = NULL,
                        verbose = TRUE,
-                       n.cores = 1,
+                       n.cores = rtCores,
                        print.plot = TRUE,
                        plot.fitted = NULL,
                        plot.predicted = NULL,
@@ -97,7 +97,8 @@ s.RULEFEAT <- function(x, y = NULL,
     gbm.args <- c(list(x = x, y = y,
                        force.n.trees = n.trees,
                        verbose = verbose,
-                       print.plot = FALSE),
+                       print.plot = FALSE,
+                       n.cores = n.cores),
                   gbm.params)
     if (verbose) msg("Running Gradient Boosting...")
     mod.gbm <- do.call(s.GBM3, gbm.args)
