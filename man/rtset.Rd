@@ -47,11 +47,11 @@ rtset.color(n = 101, colors = NULL, space = "rgb", lo = "#01256E",
   colorbar = FALSE, cb.mar = c(1, 1, 1, 1), ...)
 
 rtset.preprocess(completeCases = FALSE, impute = FALSE,
-  impute.type = "missForest", impute.discrete = getMode,
-  impute.numeric = mean, removeCases.thres = NULL,
-  removeFeatures.thres = NULL, removeConstant = TRUE,
-  integer2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE)
+  impute.type = "missForest", impute.niter = 10, impute.ntree = 500,
+  impute.discrete = getMode, impute.numeric = mean,
+  removeCases.thres = NULL, removeFeatures.thres = NULL,
+  removeConstant = TRUE, integer2factor = FALSE,
+  nonzeroFactors = FALSE, scale = FALSE, center = FALSE)
 
 rtset.decompose(decom = "ICA", k = 2, ...)
 
