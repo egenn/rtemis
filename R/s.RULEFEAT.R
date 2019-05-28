@@ -62,7 +62,7 @@ s.RULEFEAT <- function(x, y = NULL,
   mod.name <- "RULEFEAT"
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("gbm3", "glmnet", "inTrees", "data.table", verbose = FALSE)) {
+  if (!depCheck("gbm3", "glmnet", "gsubfn", "inTrees", "data.table", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
