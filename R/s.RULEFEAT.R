@@ -52,7 +52,7 @@ s.RULEFEAT <- function(x, y = NULL,
     print(args(ruleFeat))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
   } else {
