@@ -13,10 +13,11 @@
 #'
 #' @inheritParams s.GBM
 #' @param gbm.params Named list: Parameters for \link{s.GBM}
-#' @param glmnet.select.params Named list: Parameters for \link{s.GLMNET} for the feature
+#' @param meta.alpha Float [0, 1]: \code{alpha} for \link{s.GLMNET}, Default = 1
+#' @param meta.lambda Float: \code{lambda} for \link{s.GLMNET}. Default = NULL (will be determined automatically
+#' by crossvalidation)
+#' @param meta.extra.params Named list: Parameters for \link{s.GLMNET} for the feature
 #' selection step
-#' @param glmnet.final.params Named list: Parameters for \link{s.GLMNET} for the final model
-#' building
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
 #' @references Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",
@@ -30,8 +31,9 @@ s.RULEFEAT <- function(x, y = NULL,
                                          shrinkage = .001,
                                          interaction.depth = 5,
                                          ipw = TRUE),
-                       glmnet.select.params = list(alpha = 1,
-                                                   ipw = TRUE),
+                       meta.alpha = 1,
+                       meta.lambda = NULL,
+                       meta.extra.params = list(ipw = TRUE),
                        cases.by.rules = NULL,
                        x.name = NULL,
                        y.name = NULL,
@@ -117,13 +119,15 @@ s.RULEFEAT <- function(x, y = NULL,
     mod.gbm <- gbm.rules <- gbm.rules.names <- NA
   }
 
-  # [ LASSO: Select Rules ] ====
+  # [ META: Select Rules ] ====
   if (verbose) msg("Running LASSO on GBM rules...")
   glmnet.select.args <- c(list(x = cases.by.rules, y = y,
+                               alpha = meta.alpha,
+                               lambda = meta.lambda,
                                verbose = verbose,
                                print.plot = FALSE,
                                n.cores = n.cores),
-                          glmnet.select.params)
+                          meta.extra.params)
   mod.glmnet.select <- do.call(s.GLMNET, glmnet.select.args)
   rule.coefs <- data.matrix(coef(mod.glmnet.select$mod))
   intercept.coef <- rule.coefs[1, , drop = FALSE]
@@ -132,8 +136,8 @@ s.RULEFEAT <- function(x, y = NULL,
   nonzero.index <- which(abs(rule.coefs$Coefficient) > 0)
   n.nonzero.rules <- length(nonzero.index)
   rules.selected <- gbm.rules.names[nonzero.index]
-  rules.selected.file <- paste0(outdir, "rules.selected.csv")
   if (!is.null(outdir)) {
+    rules.selected.file <- paste0(outdir, "rules.selected.csv")
     write.csv(rules.selected, rules.selected.file, row.names = FALSE)
     if (file.exists(paste0(outdir, "rules.selected.csv"))) {
       if (verbose) msg("Selected rules written to", rules.selected.file)
@@ -156,7 +160,11 @@ s.RULEFEAT <- function(x, y = NULL,
   rules.selected.coef.er <- data.frame(Rule = rules.selected.formatted,
                                        Coefficient = rule.coefs$Coefficient[nonzero.index],
                                        Empirical.Risk = empirical.risk)
-  write.csv(rules.selected.coef.er, paste0(outdir, "Rules.selected_Coefs_Empirical.Risk.csv"))
+  if (!is.null(outdir)) {
+    write.csv(rules.selected.coef.er,
+              paste0(outdir, "Rules.selected_Coefs_Empirical.Risk.csv"),
+              row.names = FALSE)
+  }
 
   # [ ruleFeat object ] ====
   rulefeat.obj <- list(mod.gbm = mod.gbm,
@@ -211,6 +219,10 @@ s.RULEFEAT <- function(x, y = NULL,
                  predicted = predicted,
                  se.prediction = NULL,
                  error.test = error.test,
+                 parameters = list(gbm.params = gbm.params,
+                                   meta.alpha = meta.alpha,
+                                   meta.lambda = meta.lambda,
+                                   meta.extra.params = meta.extra.params),
                  question = question)
 
   rtMod.out(rt,
