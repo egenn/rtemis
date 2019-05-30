@@ -76,7 +76,7 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
-\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot 
+\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
 \item{plot.type}{String: "l" or "p". Plot using lines or points. Default = "l"}

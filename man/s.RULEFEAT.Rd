@@ -9,8 +9,8 @@ s.RULEFEAT(x, y = NULL, x.test = NULL, y.test = NULL,
   0.001, interaction.depth = 5, ipw = TRUE), meta.alpha = 1,
   meta.lambda = NULL, meta.extra.params = list(ipw = TRUE),
   cases.by.rules = NULL, x.name = NULL, y.name = NULL,
-  question = NULL, verbose = TRUE, n.cores = 1, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  question = NULL, verbose = TRUE, n.cores = rtCores,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), outdir = NULL,
   save.mod = if (!is.null(outdir)) TRUE else FALSE)
 }
