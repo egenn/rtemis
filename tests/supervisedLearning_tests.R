@@ -17,6 +17,10 @@ res <- list(Resample01 = sample(seq(y), length(y), T))
 dat <- data.frame(x, y)
 dat.train <- dat[res$Resample01, ]
 dat.test <- dat[-res$Resample01, ]
+x <- dat.train[, -3]
+y <- dat.train[, 3]
+x.test <- dat.test[, -3]
+y.test <- dat.test[, 3]
 
 # Classification Data ====
 iris2 <- iris[51:150, ]
@@ -27,9 +31,18 @@ iris2.train <- iris2[res$Resample01, ]
 iris2.test <- iris2[-res$Resample01, ]
 checkData(iris2, str = TRUE)
 
+# Test different ways of data input (dataPrepare) ====
+mod <- s.GLM(dat.train)
+mod <- s.GLM(dat.train, dat.test)
+mod <- s.GLM(x, y, x.test, y.test)
+
+if (requireNamespace("tibble", quietly = TRUE)) {
+  tb.train <- tibble::as_tibble(dat.train)
+  tb.test <- tibble::as_tibble(dat.test)
+  mod <- s.GLM(tb.train, tb.test)
+}
+
 # Classification & Regression Models ====
-
-
 if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s.ADABOOST(iris2.train, iris2.test, iter = 5)
 }
