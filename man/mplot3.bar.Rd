@@ -13,20 +13,22 @@ mplot3.bar(x, error = NULL, col = NULL, error.col = "white",
   group.names = NULL, group.names.srt = 0,
   group.names.adj = ifelse(group.names.srt == 0, 0.5, 1),
   group.names.line = 0.5, group.names.font = 1, group.names.cex = 1,
-  group.names.y.pad = 0.06, group.names.at = NULL, legend = FALSE,
-  legend.names = NULL, legend.position = "topright",
-  legend.inset = c(0, 0), toplabels = NULL, mar = c(3, 2.5, 2.5, 1),
-  pty = "m", cex = 1.2, cex.axis = cex, cex.names = 1, bg = NULL,
-  plot.bg = NULL, barplot.axes = FALSE, yaxis = TRUE,
-  ylim.pad = 0.04, y.axis.padj = 1, tck = -0.015, tick.col = NULL,
-  theme = getOption("rt.theme", "light"), axes.col = NULL,
+  group.names.y.pad = 0.08, group.names.at = NULL,
+  color.bygroup = FALSE, legend = FALSE, legend.names = NULL,
+  legend.position = "topright", legend.inset = c(0, 0),
+  toplabels = NULL, mar = c(3, 2.5, 2.5, 1), pty = "m", cex = 1.2,
+  cex.axis = cex, cex.names = 1, bg = NULL, plot.bg = NULL,
+  barplot.axes = FALSE, yaxis = TRUE, ylim.pad = 0.04,
+  y.axis.padj = 1, tck = -0.015, tick.col = NULL,
+  theme = getOption("rt.theme", "light"),
+  palette = getOption("rt.palette", "rtCol"), axes.col = NULL,
   labs.col = NULL, grid = FALSE, grid.ny = NULL, grid.lty = NULL,
   grid.lwd = NULL, grid.col = NULL, grid.alpha = 1,
   par.reset = TRUE, pdf.width = 6, pdf.height = 6, filename = NULL,
   ...)
 }
 \arguments{
-\item{x}{Vector or Matrix: If Vector, each value will be drawn as a bar. 
+\item{x}{Vector or Matrix: If Vector, each value will be drawn as a bar.
 If Matrix, each column is a vector, so multiple columns signify a different group.
 e.g. Columns could be months and rows could be N days sunshine, N days rainfall, N days snow, etc.}
 
@@ -36,8 +38,8 @@ e.g. Columns could be months and rows could be N days sunshine, N days rainfall,
 
 \item{border}{Color if you wish to draw border around bars, NA for no borders (Default)}
 
-\item{space}{Float: Space left free on either side of the bars, as a fraction of bar width. A single number or a 
-vector, one value per bar. If \code{x} is a matrix, space can be length 2 vector, signifying space between bars 
+\item{space}{Float: Space left free on either side of the bars, as a fraction of bar width. A single number or a
+vector, one value per bar. If \code{x} is a matrix, space can be length 2 vector, signifying space between bars
 within group and between groups. Default = c(0, 1) if x is matrix and \code{beside = TRUE}, otherwise Default = .2}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
@@ -66,6 +68,13 @@ Default = .5}
 \item{main.family}{String: Font family to use. See \code{par("family")}}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+
+\item{color.bygroup}{Logical: If TRUE, and input is a matrix, each group's bars will be given the same color,
+otherwise bars across groups will be given the same sequence of colors. Default = FALSE}
+
+\item{legend}{Logical: If TRUE, and input is matrix, draw legend for each case. Note: you may need to adjust
+\code{mar} and \code{legend.inset} if you want to place the legend outside the plot
+(can use e.g.\code{legend.inset = c(-.5, 0)})}
 
 \item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
 

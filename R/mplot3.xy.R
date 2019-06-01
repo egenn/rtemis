@@ -531,8 +531,6 @@ mplot3.xy <- function(x, y,
 
   # [ COLORS ] ====
   # Point colors
-  # if (is.null(col)) col <- ucsfPalette
-
   # if (length(col) < Nygroups) col <- as.list(rep(col, Nygroups / length(col)))
   # marker.col <- lapply(col, function(x) adjustcolor(x, point.alpha)) # marker = points and/or lines
 
