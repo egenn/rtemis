@@ -4,6 +4,7 @@
 
 library(rtemis)
 
+# Synth data ====
 x <- rnorm(50)
 y <- .33 * x + 12 + rnorm(50)
 z <- rnormmat(10, 5, seed = 2018)
@@ -13,11 +14,34 @@ estimated <- true
 index <- sample(seq(20), 5)
 estimated[index] <- 1 - as.numeric(estimated[index])
 
+# mhist ====
 mhist(x)
+
+# mplot3 ====
 mplot3(x)
+
+# mplot3.adsr ====
 mplot3.adsr()
-mplot3.bar(x)
+
+# mplot3.bar ====
+# '- a. vector ====
+set.seed(2019)
+x1 <- rnorm(10)
+names(x1) <- paste0("C_", seq(x1))
+mplot3.bar(x1, theme = "lightgrid")
+
+# '- b. matrix ====
+x1 <- rnormmat(3, 6, seed = 2019)
+colnames(x1) <- paste("Feat", seq(6))
+rownames(x1) <- paste("Case", seq(nrow(x1)))
+mplot3.bar(x1)
+mplot3.bar(x1, col = colorGrad(nrow(x1), lo = pennCol$lighterBlue, mid = pennCol$red, hi = "white")[seq(nrow(x1))])
+mplot3.bar(x1, legend = T)
+
+# mplot3.box ====
 mplot3.box(z)
+
+# mplot3.xy ===
 mplot3.xy(x, y)
 mplot3.xym(x, y)
 
@@ -28,21 +52,37 @@ mod <- s.CART(iris2, maxdepth = 2)
 if (requireNamespace("data.tree", quietly = TRUE)) {
   mplot3.cart(mod)
 }
+
+# mplot3.conf ====
 mplot3.conf(mod)
 mplot3.confbin(mod$error.train$ConfusionMatrix)
+
 # mplot3.decision(mod, iris2)
 # TODO: INV mplot3.decision
+
+# mplot3.fit ====
 mplot3.fit(x, x)
+
+# mplot3.fret ====
 mplot3.fret()
+
+# mplot3.harmonograph ====
 mplot3.harmonograph()
+
+# mplot3.heatmap ====
 mplot3.heatmap(cor(z))
+
+# mplot3.img ====
 mplot3.img(z)
 
+# mplot3.res ====
 if (requireNamespace("caret", quietly = TRUE)) {
   res <- resample(y)
   mplot3.res(res)
 }
 
+# mplot3.roc ====
 mplot3.roc(mod$fitted.prob, iris2$Species, method = "rt")
 
+# rtRandom ====
 rtRandom()
