@@ -92,7 +92,6 @@ s.LM <- function(x, y = NULL,
   } else {
     mod.name <- "LM"
   }
-  call <- NULL
 
   # [ DEPENDENCIES ] ====
   if (robust) {
@@ -211,7 +210,6 @@ s.LM <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,

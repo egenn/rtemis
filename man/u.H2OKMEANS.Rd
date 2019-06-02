@@ -35,7 +35,7 @@ u.H2OKMEANS(x, x.test = NULL, k = 2, estimate.k = FALSE,
 \item{init}{String: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
 Default = "Furthest"}
 
-\item{categorical.encoding}{String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal", 
+\item{categorical.encoding}{String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
 "OneHotExplicit", "Binary", "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited".
 Default = "AUTO"}
 
@@ -47,7 +47,7 @@ Default = "AUTO"}
 \link{rtMod} object
 }
 \description{
-K-Means clustering using H2O (http://www.h2o.ai)
+K-Means clustering using \code{h2o::h2o.kmeans}
 Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
 e.g. if running on localhost, point your web browser to \code{localhost:54321}
 }

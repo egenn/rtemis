@@ -91,7 +91,6 @@ s.ADDTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "ADDTREE"
 
   # [ DEPENDENCIES ] ====
@@ -224,7 +223,6 @@ s.ADDTREE <- function(x, y = NULL,
                  mod.name = mod.name,
                  type = type,
                  parameters = parameters,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,

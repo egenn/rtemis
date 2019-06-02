@@ -70,7 +70,7 @@ d.H2OGLRM(x, x.test = NULL, x.valid = NULL, k = 3,
 \link{rtDecom} object
 }
 \description{
-Estimate GLRM decomposition
+Perform GLRM decomposition using \code{h2o::h2o.glrm}
 Given Input matrix \code{A}:
 \code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
 }

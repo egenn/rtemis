@@ -88,7 +88,7 @@ mplot3.box <- function(x,
   
   if (!is.null(group.names)) {
     if (is.null(group.names.at)) {
-      group.names.at <- 1:NCOL(x)
+      group.names.at <- seq(NCOL(x))
     }
   }
   

@@ -49,7 +49,7 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ INTRO ] ====
   if (missing(x)) {
-    print(args(ruleFeat))
+    print(args(s.RULEFEAT))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -68,7 +68,7 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ ARGUMENTS ] ====
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(ruleFeat))
+    print(args(s.RULEFEAT))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")

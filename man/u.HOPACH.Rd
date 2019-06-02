@@ -28,7 +28,7 @@ the Mean/Median Split Silhouette. Usually same as \code{kmax}}
 \item{...}{Additional parameters to be passed to \code{cluster::hopach}}
 }
 \description{
-Estimate HOPACH clustering solution
+Perform HOPACH clustering using \code{hopach::hopach}
 }
 \seealso{
 Other Clustering: \code{\link{u.CMEANS}},

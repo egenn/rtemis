@@ -96,9 +96,9 @@ x.CCA <- function(x, z,
   }
   
   # [ DATA ] ====
-  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature.', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature_', seq(NCOL(x)))
   xnames <- colnames(x)
-  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature.', seq(NCOL(z)))
+  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
   znames <- colnames(z)
   
   # [ CCA permute ] ====

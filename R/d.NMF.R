@@ -4,7 +4,7 @@
 
 #' Non-negative Matrix Factorization (NMF)
 #'
-#' Calculate NMF decomposition and projections using \code{NMF::nmf}
+#' Perform NMF decomposition using \code{NMF::nmf}
 #'
 #' Project scaled variables to NMF bases.
 #' Input must be n by p,
@@ -37,7 +37,6 @@ d.NMF <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "NMF"
 
   # [ DEPENDENCIES ] ====
@@ -59,7 +58,7 @@ d.NMF <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 

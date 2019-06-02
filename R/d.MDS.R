@@ -4,7 +4,7 @@
 
 #' Multidimensional Scaling
 #'
-#' Calculates MDS decomposition and projections using the \code{stats:cmdscale}
+#' Perform MDS decomposition using \code{stats:cmdscale}
 #'
 #' Project scaled variables to MDS components.
 #' Input must be n by p,
@@ -59,7 +59,7 @@ d.MDS <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (scale) {
     x <- scale(x, center = center)

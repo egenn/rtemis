@@ -93,7 +93,6 @@ s.ADDT <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "ADDT"
 
   # [ DEPENDENCIES ] ====
@@ -238,7 +237,6 @@ s.ADDT <- function(x, y = NULL,
                  mod.name = mod.name,
                  type = type,
                  parameters = parameters,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,

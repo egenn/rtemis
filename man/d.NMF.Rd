@@ -22,7 +22,7 @@ d.NMF(x, x.test = NULL, k = 2, method = "brunet", nrun = 30,
 
 \item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{NMF::nmf}}
 }
@@ -30,7 +30,7 @@ d.NMF(x, x.test = NULL, k = 2, method = "brunet", nrun = 30,
 \link{rtDecom} object
 }
 \description{
-Calculate NMF decomposition and projections using \code{NMF::nmf}
+Perform NMF decomposition using \code{NMF::nmf}
 }
 \details{
 Project scaled variables to NMF bases.

@@ -27,7 +27,7 @@ non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE}
 \item{center}{Logicall: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 Default = TRUE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{svd}}
 }
@@ -35,7 +35,7 @@ Default = TRUE}
 \link{rtDecom} object
 }
 \description{
-Calculates MDS decomposition and projections using the \code{stats:cmdscale}
+Perform MDS decomposition using \code{stats:cmdscale}
 }
 \details{
 Project scaled variables to MDS components.

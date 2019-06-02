@@ -21,7 +21,7 @@ u.HARDCL(x, x.test = NULL, k = 2, dist = "euclidean",
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Estimate clustering by Hard Competitive Learning
+Perform clustering by Hard Competitive Learning using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: \code{\link{u.CMEANS}},

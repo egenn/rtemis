@@ -75,7 +75,7 @@ massGAM <- function(x, y,
   if (!is.null(x.name) & NCOL(x) == length(x.name)) {
     colnames(x) <- x.name
   } else {
-    colnames(x) <- paste0("Predictor.", 1:NCOL(x))
+    colnames(x) <- paste0("Predictor.", seq(NCOL(x)))
   }
 
   ### Predictors

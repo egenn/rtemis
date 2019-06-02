@@ -13,7 +13,7 @@
 #' @param criterion String: Criterion to use for selecting k: "asw", "multiasw" or "ch". See \code{fpc::pamk}
 #' @param usepam Logical: If TRUE, use \code{cluster::pam}, otherwise use \code{cluster::clara}.
 #' Default = TRUE
-#' @param scaling Logical or Numeric vector: If TRUE, scale input. If numeric vector of length equal to number of 
+#' @param scaling Logical or Numeric vector: If TRUE, scale input. If numeric vector of length equal to number of
 #' features, the features are divided by the corresponding value. Default = TRUE
 #' @param diss Logical: If TRUE, treat \code{x} as a dissimilarity matrix, otherwise as a matrix of
 #' cases by features. Default = TRUE, if x inherits from class \code{dist}, FALSE otherwise.
@@ -39,7 +39,10 @@ u.PAMK <- function(x,
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "PAMK"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====

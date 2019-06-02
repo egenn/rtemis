@@ -4,7 +4,7 @@
 
 #' Sparse Principal Component Analysis
 #'
-#' Calculates sparse and/or non-negative PCA or cumulative PCA decomposition and projections
+#' Perform sparse and/or non-negative PCA or cumulative PCA decomposition
 #'   using \code{nsprcomp::nsprcomp} or \code{nsprcomp::nscumcomp} respectively
 #'
 #' Project scaled variables to sparse and/or non-negative PCA components.
@@ -19,10 +19,10 @@
 #' @param k Integer vector of length 1 or greater. N of components to return
 #'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
 #' @param nz Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}
-#' @param nneg Logical: If TRUE, calculate non-negative loadings only
-#' @param method String: "cumulative" or "vanilla" sparse PCA
-#' @param scale LogSPCAl: If TRUE, scale input data before projecting
-#' @param center LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}
+#' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = TRUE
+#' @param method String: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
+#' @param scale LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE
+#' @param center LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
 #' @param ... Additional parameters to be passed to \code{fastSPCA::fastSPCA}
 #' @return \link{rtDecom} object
 #' @author Efstathios D. Gennatas
@@ -34,14 +34,13 @@ d.SPCA <- function(x,
                    k = 1,
                    nz = .5 * NCOL(x),
                    nneg = TRUE,
-                   method = "cumulative",
+                   method = c("cumulative", "vanilla"),
                    scale = TRUE,
                    center = FALSE,
                    verbose = TRUE, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "SPCA"
 
   # [ DEPENDENCIES ] ====
@@ -54,6 +53,7 @@ d.SPCA <- function(x,
     print(args(d.SPCA))
     stop("x is missing")
   }
+  method <- match.arg(method)
 
   # [ DATA ] ====
   x <- as.data.frame(x)
@@ -63,7 +63,7 @@ d.SPCA <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 

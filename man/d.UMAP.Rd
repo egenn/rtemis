@@ -25,11 +25,11 @@ Default = "euclidean"}
 
 \item{epochs}{Integer: Number of epochs}
 
-\item{learning.rate}{Float: Learning rate}
+\item{learning.rate}{Float: Learning rate. Default = 1}
 
-\item{scale}{Logical: If TRUE, scale input data before doing UMAP}
+\item{scale}{Logical: If TRUE, scale input data before doing UMAP. Default = TRUE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{uwot::umap}}
 }
@@ -37,7 +37,7 @@ Default = "euclidean"}
 \link{rtDecom} object
 }
 \description{
-Calculates UMAP and projections using github package \code{jlmelville/uwot}
+Perform UMAP decomposition using github package \code{jlmelville/uwot}
 }
 \seealso{
 Other Decomposition: \code{\link{d.CUR}},

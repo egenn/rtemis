@@ -36,10 +36,18 @@ mod <- s.GLM(dat.train)
 mod <- s.GLM(dat.train, dat.test)
 mod <- s.GLM(x, y, x.test, y.test)
 
-if (requireNamespace("tibble", quietly = TRUE)) {
-  tb.train <- tibble::as_tibble(dat.train)
-  tb.test <- tibble::as_tibble(dat.test)
-  mod <- s.GLM(tb.train, tb.test)
+# Test for tibble and data.table inputs ====
+# Commented out because tibble is not in Suggests and R CMD check gives warning
+# if (requireNamespace("tibble", quietly = TRUE)) {
+#   tb.train <- tibble::as_tibble(dat.train)
+#   tb.test <- tibble::as_tibble(dat.test)
+#   mod <- s.GLM(tb.train, tb.test)
+# }
+
+if (requireNamespace("data.table", quietly = TRUE)) {
+  dt.train <- data.table::as.data.table(dat.train)
+  dt.test <- data.table::as.data.table(dat.test)
+  mod <- s.GLM(dt.train, dt.test)
 }
 
 # Classification & Regression Models ====

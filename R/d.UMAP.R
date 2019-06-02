@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-#' Uniform Manifold Approximation and Projection 
+#' Uniform Manifold Approximation and Projection
 #'
-#' Calculates UMAP and projections using github package \code{jlmelville/uwot}
+#' Perform UMAP decomposition using github package \code{jlmelville/uwot}
 #'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to UMAP bases
@@ -14,9 +14,9 @@
 #' @param metric String: Distance metric to use: "euclidean", "cosine", "manhattan", "hamming", "categorical"
 #' Default = "euclidean"
 #' @param epochs Integer: Number of epochs
-#' @param learning.rate Float: Learning rate
-#' @param scale Logical: If TRUE, scale input data before doing UMAP
-#' @param verbose Logical: If TRUE, print messages to screen
+#' @param learning.rate Float: Learning rate. Default = 1
+#' @param scale Logical: If TRUE, scale input data before doing UMAP. Default = TRUE
+#' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{uwot::umap}
 #' @return \link{rtDecom} object
 #' @author Efstathios D. Gennatas
@@ -33,11 +33,11 @@ d.UMAP <- function(x,
                    learning.rate = 1,
                    scale = TRUE,
                    verbose = TRUE, ...) {
-  
+
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "UMAP"
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(d.UMAP))
@@ -45,7 +45,7 @@ d.UMAP <- function(x,
   }
   init <- match.arg(init)
   metric <- match.arg(metric)
-  
+
   # [ DATA ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
@@ -54,10 +54,10 @@ d.UMAP <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
-  
+
   # [ UMAP ] ====
   if (verbose) msg("Performing UMAP Decomposition...")
   decom <- uwot::umap(x,
@@ -70,7 +70,7 @@ d.UMAP <- function(x,
                       scale = scale,
                       verbose = verbose,
                       ret_model = TRUE, ...)
-  
+
   # [ PROJECTIONS ] ====
   projections.train <- uwot::umap_transform(x, decom)
   if (!is.null(x.test)) {
@@ -78,7 +78,7 @@ d.UMAP <- function(x,
   } else {
     projections.test <- NULL
   }
-  
+
   # [ OUTRO ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
@@ -96,5 +96,5 @@ d.UMAP <- function(x,
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt
-  
+
 } # rtemis::d.UMAP

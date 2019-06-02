@@ -35,7 +35,7 @@ will be used}
 \item{v}{Float: Threshold value for intrinsic dimension estimation. Suggestion for noiseless
 data: .99, for noisy data: .9. Default = .9}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{n.cores}{Integer: Number of cores to use}
 
@@ -45,7 +45,7 @@ data: .99, for noisy data: .9. Default = .9}
 \link{rtDecom} object
 }
 \description{
-Calculates LLE and projections
+Perform LLE decomposition using \code{lle::lle}
 }
 \details{
 Project scaled variables to LLE components

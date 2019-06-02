@@ -4,7 +4,7 @@
 
 #' Locally Linear Embedding
 #'
-#' Calculates LLE and projections
+#' Perform LLE decomposition using \code{lle::lle}
 #'
 #' Project scaled variables to LLE components
 #' Input must be n by p,
@@ -48,22 +48,22 @@ d.LLE <- function(x,
                   v = .9,
                   verbose = TRUE,
                   n.cores = rtCores, ...) {
-  
+
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "LLE"
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("lle", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(d.LLE))
     stop("x is missing")
   }
-  
+
   # [ DATA ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
@@ -73,10 +73,9 @@ d.LLE <- function(x,
     msg("    interpreted as", n, "cases with", p, "features.")
   }
   # cat("    (If this is not what you intended, this would be the time to interrupt the run)\n")
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
-  # if (!is.null(x.test)) colnames(x.test) <- xnames
-  
+
   # [ LLE ] ====
   if (nn == 0) {
     if (verbose) msg("Estimating optimal number of neighbors...")
@@ -96,10 +95,10 @@ d.LLE <- function(x,
                                      v = v,
                                      id = id,
                                      iLLE = iLLE, ...))
-  
+
   # [ PROJECTIONS ] ====
   projections.train <- decom$Y
-  
+
   # [ OUTRO ] ====
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
@@ -109,7 +108,7 @@ d.LLE <- function(x,
                     extra = list())
   outro(start.time, verbose = verbose)
   rt
-  
+
 } # rtemis::d.LLE
 
 # This function is taken from the lle package; added "snowfall::" where appropriate

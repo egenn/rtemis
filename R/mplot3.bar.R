@@ -127,7 +127,7 @@ mplot3.bar <- function(x,
   #     if (beside) {
   #       group.names.at <- seq(1 + NROW(x)/2, NCOL(x) + NROW(x) * NCOL(x), NROW(x) + 1)
   #     } else {
-  #       group.names.at <- 1:NCOL(x)
+  #       group.names.at <- seq(NCOL(x))
   #     }
   #   }
   # }

@@ -5,7 +5,7 @@
 
 #' Independent Component Analysis
 #'
-#' Calculates ICA decomposition and projections using the fastICA algorithm in \code{fastICA::fastICA}
+#' Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or \code{ica::fastica}
 #'
 #' Project scaled variables to ICA components.
 #' Input must be n by p,
@@ -72,7 +72,7 @@ d.ICA <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   # if (!is.null(x.test)) colnames(x.test) <- xnames
   if (scale) {

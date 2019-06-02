@@ -50,7 +50,6 @@ s.C50 <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "C50"
 
   # [ DEPENDENCIES ] ====

@@ -26,7 +26,7 @@ Note: only \code{fastICA} works with \code{k = 1}}
 \item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 Default = TRUE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}}
 }
@@ -34,7 +34,7 @@ Default = TRUE}
 \link{rtDecom} object
 }
 \description{
-Calculates ICA decomposition and projections using the fastICA algorithm in \code{fastICA::fastICA}
+Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or \code{ica::fastica}
 }
 \details{
 Project scaled variables to ICA components.

@@ -4,7 +4,7 @@
 
 #' Generalized Low-Rank Models (GLRM) on H2O
 #'
-#' Estimate GLRM decomposition
+#' Perform GLRM decomposition using \code{h2o::h2o.glrm}
 #' Given Input matrix \code{A}:
 #' \code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
 #'
@@ -69,7 +69,6 @@ d.H2OGLRM <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "H2OGLRM"
 
   # [ DEPENDENCIES ] ====
@@ -84,13 +83,15 @@ d.H2OGLRM <- function(x,
   }
 
   # [ DATA ] ====
+  x <- as.data.frame(x)
+  if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 

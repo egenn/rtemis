@@ -4,7 +4,7 @@
 
 #' Hieararchical Ordered Partitioning and Collapsing Hybrid
 #'
-#' Estimate HOPACH clustering solution
+#' Perform HOPACH clustering using \code{hopach::hopach}
 #'
 #' @inheritParams u.KMEANS
 #' @param x Input matrix / data.frame
@@ -31,9 +31,14 @@ u.HOPACH <- function(x,
   # [ INTRO ] ====
   start.time <- intro(verbose = FALSE)
   clust.name <- "HOPACH"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
-  xnames <- colnames(x)
+
+  # [ ARGUMENTS ] ====
   metric <- match.arg(metric)
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
+  xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("hopach", verbose = verbose)) {

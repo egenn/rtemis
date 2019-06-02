@@ -4,7 +4,7 @@
 
 #' K-Means Clustering on H2O
 #'
-#' K-Means clustering using H2O (http://www.h2o.ai)
+#' K-Means clustering using \code{h2o::h2o.kmeans}
 #' Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
 #' e.g. if running on localhost, point your web browser to \code{localhost:54321}
 #'
@@ -18,7 +18,7 @@
 #' @param seed Integer: Seed for H2O's random number generator. Default = -1 (time-based ranodm number)
 #' @param init String: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
 #' Default = "Furthest"
-#' @param categorical.encoding String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal", 
+#' @param categorical.encoding String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
 #' "OneHotExplicit", "Binary", "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited".
 #' Default = "AUTO"
 #' @param n.cores Integer: Number of cores to use
@@ -39,14 +39,17 @@ u.H2OKMEANS <- function(x, x.test = NULL,
                         n.cores = rtCores,
                         seed = -1,
                         init = c("Furthest", "Random", "PlusPlus", "User"),
-                        categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit", "Binary", 
+                        categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit", "Binary",
                         "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
                         verbose = TRUE, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "H2OKMEANS"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====
@@ -57,7 +60,7 @@ u.H2OKMEANS <- function(x, x.test = NULL,
   # [ ARGUMENTS ] ====
   init <- match.arg(init)
   categorical.encoding <- match.arg(categorical.encoding)
-  
+
   # [ DATA ] ====
   # h2o Frames
   if (verbose) msg("Connecting to H2O server...")

@@ -4,7 +4,7 @@
 
 #' Clustering by Hard Competitive Learning
 #'
-#' Estimate clustering by Hard Competitive Learning
+#' Perform clustering by Hard Competitive Learning using \code{flexclust::cclust}
 #'
 #' @inheritParams u.KMEANS
 #' @param x Input matrix / data.frame
@@ -23,7 +23,10 @@ u.HARDCL <- function(x, x.test = NULL,
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "HARDCL"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====

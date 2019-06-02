@@ -114,7 +114,7 @@ preprocess.default <- function(x, y = NULL,
   if (nonzeroFactors) {
     if (verbose) msg("Shifting factor levels to exclude 0")
     if (any(sapply(x, is.factor))) {
-      for (i in 1:NCOL(x)) {
+      for (i in seq(NCOL(x))) {
         if (is.factor(x[, i])) {
           while (any(x[, i] == 0)) {
             x[, i] <- factor(as.numeric(as.character(x[, i])) + 1)
