@@ -109,7 +109,7 @@ colorGrad <- function(n = 21,
   }
   space <- match.arg(space)
   theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
-  
+
   # [ COLORS ] ====
   if (!is.null(colors)) {
     if (colors == "french") {
@@ -148,14 +148,14 @@ colorGrad <- function(n = 21,
   if (is.null(mid)) mid <- ifelse(theme == "light", "white", "black")
   if (!is.na(mid)) {
     if (mid == "mean") mid <- colorOp(c(lo, hi), "mean")
-    lo2mid <- grDevices::colorRampPalette(c(lo, lomid, mid), space = space)
-    mid2hi <- grDevices::colorRampPalette(c(mid, midhi, hi), space = space)
+    lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)
+    mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
     grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
   } else {
-    grad <- grDevices::colorRampPalette(c(lo, hi), space = space)
+    grad <- colorRampPalette(c(lo, hi), space = space)
   }
-  
-  
+
+
 
   if (cb.n != n) {
     cb.n <- as.integer(cb.n)
