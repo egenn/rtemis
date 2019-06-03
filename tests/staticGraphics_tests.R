@@ -39,10 +39,18 @@ mplot3.bar(x1, col = colorGrad(nrow(x1), lo = pennCol$lighterBlue, mid = pennCol
 mplot3.bar(x1, legend = T)
 
 # mplot3.box ====
-mplot3.box(z)
+mplot3.box(z, theme = "darkbox")
+mplot3.box(z, theme = "lightgrid")
 
 # mplot3.xy ===
 mplot3.xy(x, y)
+mplot3.xy(x, list(Raw = x * .3,
+                  N1 = x * .3 + .5*rnorm(50),
+                  N2 = x * .3 + rnorm(50),
+                  N2 = x * .3 + 1.5*rnorm(50),
+                  N3 = x * .3 + 2*rnorm(50),
+                  N4 = x * .3 + 2.5*rnorm(50)),
+          fit = 'glm', theme = "darkbox")
 mplot3.xym(x, y)
 
 iris2 <- iris[51:150, ]
@@ -61,7 +69,7 @@ mplot3.confbin(mod$error.train$ConfusionMatrix)
 # TODO: INV mplot3.decision
 
 # mplot3.fit ====
-mplot3.fit(x, x)
+mplot3.fit(x, x + rnorm(50))
 
 # mplot3.fret ====
 mplot3.fret()
