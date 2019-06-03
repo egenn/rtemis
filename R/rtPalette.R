@@ -160,7 +160,7 @@ berkeleyCol <- list(berkeleyBlue = "#003262",
 
 stanfordCol <- list(cardinal = "#8c1515",
                     coolGrey = "#4d4f53",
-                    birghtRed = "#B1040E",
+                    brightRed = "#B1040E",
                     chocolate = "#2F2424",
                     stone = "#544948",
                     fog = "#F4F4F4",
@@ -346,9 +346,24 @@ microsoftCol <- list(orange = "#f65314",
                      green = "#7cbb00",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
+# rtCol, rtPalettes ====
+# rtCol <- c(ucsfCol[c("teal", "orange", "blue", "yellow", "purple", "red", "navy", "green")],
+#            berkeleyCol)
 
-rtCol <- c(ucsfCol[c("teal", "orange", "blue", "yellow", "purple", "red", "navy", "green")],
-           berkeleyCol)
+rtCol <- pastelify(c(ucsfCol$teal,
+                     pennCol$lightestBlue,
+                     pennCol$lighterBlue,
+                     pennCol$blue,
+                     pennCol$lightestRed,
+                     pennCol$lighterRed,
+                     pennCol$red,
+                     pennCol$lighterOrange,
+                     pennCol$orange,
+                     pennCol$darkerOrange,
+                     pennCol$lightestPurple,
+                     pennCol$lighterPurple,
+                     pennCol$purple,
+                     colorRampPalette(c("gray70",  imperialCol$imperialBlue))(3)), .3)
 
 rtPalettes <- list(rtCol = rtCol,
                    pennCol = pennCol,
