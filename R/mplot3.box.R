@@ -3,11 +3,11 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3}: Boxplot
-#' 
+#'
 #' Draw boxplots
-#' 
+#'
 #' @inheritParams mplot3.xy
-#' @param x Matrix: Each column will be drawn as a box 
+#' @param x Matrix: Each column will be drawn as a box
 #' @param col Vector of colors to use
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
@@ -16,7 +16,7 @@
 #' @export
 
 mplot3.box <- function(x,
-                       col = ucsfCol,
+                       col = NULL,
                        alpha = .66,
                        border = NULL,
                        border.alpha = 1,
@@ -40,7 +40,7 @@ mplot3.box <- function(x,
                        group.names.y = NULL,
                        group.names.line = 0.5,
                        group.names.font = 1,
-                       group.names.adj = 1, 
+                       group.names.adj = 1,
                        group.names.srt = 90,
                        legend = FALSE,
                        legend.names = NULL,
@@ -60,6 +60,7 @@ mplot3.box <- function(x,
                        tck = -.015,
                        tick.col = NULL,
                        theme = getOption("rt.theme", "light"),
+                       palette = getOption("rt.palette", "rtCol"),
                        axes.col = NULL,
                        labs.col = NULL,
                        grid = FALSE,
@@ -71,56 +72,57 @@ mplot3.box <- function(x,
                        pdf.width = 6,
                        pdf.height = 6,
                        filename = NULL, ...) {
-  
+
   # [ ARGUMENTS ] ====
+  if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) {
     if (NCOL(x) == 1) {
-      col = ucsfCol
+      col <- rtCol
     } else {
-      col = ucsfCol[1:NROW(x)]
+      col <- rtCol[seq(NROW(x))]
     }
   }
-  
+
   # Group names
   if (is.null(group.names)) {
     if (!is.null(colnames(x))) group.names <- colnames(x)
   }
-  
+
   if (!is.null(group.names)) {
     if (is.null(group.names.at)) {
       group.names.at <- seq(NCOL(x))
     }
   }
-  
+
   cols <- colorAdjust(col, alpha = alpha)
   if (is.null(border)) border <- colorAdjust(cols, alpha = border.alpha)
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  
+
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
-  
+
   # [ DATA ] ====
   x <- as.matrix(x)
-  
+
   # [ XLIM & YLIM ] ====
   .dat <- boxplot(x, plot = FALSE)
   if (is.null(xlim)) xlim <- c(.5, NCOL(x) + .5)
   # if (is.null(ylim)) ylim <- c(min(.dat$stats[1, ]), max(.dat$stats[5, ]))
   if (is.null(ylim)) ylim <- c(min(x), max(x))
-  
+
   # # Add x% either side (unless zero)
   # ylim[1] <- ylim[1] + ylim.pad * ylim[1]
   # ylim[2] <- ylim[2] + ylim.pad * ylim[2]
-  
+
   # [ THEMES ] ====
   # Defaults for all themes
   if (is.null(grid.lty)) grid.lty <- 1
   if (is.null(grid.lwd)) grid.lwd <- 1
-  
+
   if (theme == "lightgrid" | theme == "darkgrid") {
     if (is.null(grid.lty)) grid.lty <- 1
     # if (is.null(zero.lty)) zero.lty <- 1
@@ -145,11 +147,11 @@ mplot3.box <- function(x,
     warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
     theme <- "light"
   }
-  
+
   if (theme == "light") {
     if (is.null(bg)) bg <- "white"
     # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha)) 
+    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
     #   col <- list("gray30")
     # }
     # box.col <- "white"
@@ -164,7 +166,7 @@ mplot3.box <- function(x,
   } else if (theme == "dark") {
     if (is.null(bg)) bg <- "black"
     # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha)) 
+    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
     #   col <- list("gray70")
     # }
     # box.col <- "black"
@@ -207,30 +209,30 @@ mplot3.box <- function(x,
     # if (is.null(hline.col)) hline.col <- "white"
     gen.col <- "white"
   }
-  
+
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = bg, pty = pty, cex = cex)
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE)
-  
+
   # [ PLOT BG ] ====
   if (!is.null(plot.bg)) {
     bg.ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = plot.bg)
   }
-  
+
   # [ GRID ] ====
   grid.col <- colorAdjust(grid.col, grid.alpha)
   if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = NULL, nx = 0)
-  
+
   # [ BOXPLOT ] ====
   boxplot(x, col = cols, border = border, ylim = ylim, axes = boxplot.axes,
           add = TRUE, xlab = NULL, ...)
-  
+
   # [ y AXIS ] ====
-  if (yaxis) axis(2, col = axes.col, col.axis = labs.col, col.ticks = tick.col, 
+  if (yaxis) axis(2, col = axes.col, col.axis = labs.col, col.ticks = tick.col,
                   padj = y.axis.padj, tck = tck, cex = cex)
-  
+
   # [ MAIN ] ====
   if (!is.null(main)) {
     # suppressWarnings(mtext(bquote(paste(bold(.(main)))), line = main.line,
@@ -238,7 +240,7 @@ mplot3.box <- function(x,
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
   }
-  
+
   # [ GROUP NAMES ] ====
   if (is.null(group.names.y)) {
     group.names.y <- -diff(ylim) * .05
@@ -246,21 +248,21 @@ mplot3.box <- function(x,
   if (!is.null(group.names)) {
     # mtext(group.names, side = 1, line = group.names.line, at = group.names.at,
     #       font = group.names.font, cex = cex)
-    text(x = group.names.at, y = group.names.y, labels = group.names, 
+    text(x = group.names.at, y = group.names.y, labels = group.names,
          adj = group.names.adj, srt = group.names.srt, xpd = TRUE, font = group.names.font)
   }
-  
+
   # # [ LEGEND ] ====
   # if (legend) {
   #   legend(legend.position, legend = legend.names,
   #          fill = cols, inset = legend.inset, xpd = TRUE, bty = "n")
   # }
-  
+
   # [ AXIS LABS ] ====
   if (!is.null(xlab))  mtext(xlab, 1, cex = cex, line = xlab.line)
   if (!is.null(ylab))  mtext(ylab, 2, cex = cex, line = ylab.line)
-  
+
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-  
+
 } # rtemis::mplot3.box
