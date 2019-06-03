@@ -166,106 +166,106 @@ mplot3.confbin <- function(object,
   text(0, 0, "Predicted condition", srt = 90, font = 2, cex = cex.lab)
   # 2
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Total\n=", total), srt = 45, font = 1, cex = cex.lab2)
+  text(0, 0, paste("Total\n", total), srt = 45, font = 1, cex = cex.lab2)
   # 3
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Predicted condition\npositive =", predicted.condition.positive), srt = 90, cex = cex.lab2)
+  text(0, 0, paste("Predicted condition\npositive", predicted.condition.positive), srt = 90, cex = cex.lab2)
   # 4
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Predicted condition\nnegative =", predicted.condition.negative), srt = 90, cex = cex.lab2)
+  text(0, 0, paste("Predicted condition\nnegative", predicted.condition.negative), srt = 90, cex = cex.lab2)
   # 5
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   text(0, 0, paste("True condition"), font = 2, cex = cex.lab)
   # 6
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Condition positive\n=", condition.positive), cex = cex.lab2)
+  text(0, 0, paste("Condition positive\n", condition.positive), cex = cex.lab2)
   # 7 True positive
   col <- color.pos[100:199][round(sensitivity * 100)]
   # par(bg = col)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col, cex = 50, pch = 15)
-  text(0, 0, paste("True\npositive\n=", true.positive), cex = cex.in,
+  text(0, 0, paste("True\npositive\n", true.positive), cex = cex.in,
        col = ifelse(sensitivity >= .5, "white", "black"), font = font.in)
   # 8 False negative
   col <- color.neg[100:199][round(false.negative.rate * 100)]
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col, cex = 50, pch = 15)
-  text(0, 0, paste("False\nnegative\n=", false.negative), cex = cex.in,
+  text(0, 0, paste("False\nnegative\n", false.negative), cex = cex.in,
        col = ifelse(false.negative.rate >= .5, "white", "black"), font = font.in)
   # 9 Sensitivity
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Sensitivity\n=", ddSci(sensitivity)), col = col.text.out, cex = cex.out,
+  text(0, 0, paste("Sensitivity\n", ddSci(sensitivity)), col = col.text.out, cex = cex.out,
        font = font.out)
   # 10 false.negative.rate
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("False negative\nrate\n=", ddSci(false.negative.rate)), col = col.text.out, cex = cex.out,
+  text(0, 0, paste("False negative\nrate\n", ddSci(false.negative.rate)), col = col.text.out, cex = cex.out,
        font = font.out)
   # 11 condition.negative
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Condition negative\n=", condition.negative), cex = cex.lab2)
+  text(0, 0, paste("Condition negative\n", condition.negative), cex = cex.lab2)
   # 12 false.positive
   col <- color.neg[100:199][round(false.positive.rate * 100)]
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col, cex = 50, pch = 15)
-  text(0, 0, paste("False\npositive\n=", false.positive), cex = cex.in,
+  text(0, 0, paste("False\npositive\n", false.positive), cex = cex.in,
        col = ifelse(false.positive.rate >= .5, "white", "black"), font = font.in)
   # 13 true.negative
   col <- color.pos[100:199][round(specificity * 100)]
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col, cex = 50, pch = 15)
-  text(0, 0, paste("True\nnegative\n=", true.negative), cex = cex.in,
+  text(0, 0, paste("True\nnegative\n", true.negative), cex = cex.in,
        col = ifelse(specificity >= .5, "white", "black"), font = font.in)
   # 14 false.positive.rate
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("False pos rate\n=", ddSci(false.positive.rate)), col = col.text.out, cex = cex.out,
+  text(0, 0, paste("False pos rate\n", ddSci(false.positive.rate)), col = col.text.out, cex = cex.out,
        font = font.out)
   # 15 Specificity
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Specificity\n=", ddSci(specificity)),
+  text(0, 0, paste("Specificity\n", ddSci(specificity)),
        col = col.text.out, cex = cex.out, font = font.out)
   # 16 Prevalence
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Prevalence\n=", ddSci(prevalence)), cex = cex.lab2)
+  text(0, 0, paste("Prevalence\n", ddSci(prevalence)), cex = cex.lab2)
   # 17 Precision
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Pos Pred Value\naka Precision\n=", ddSci(precision)), srt = 90,
+  text(0, 0, paste("Pos Pred Value\naka Precision\n", ddSci(precision)), srt = 90,
        col = col.text.out, cex = cex.out, font = font.out)
   # 18 False omission rate
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("False omission\nrate\n=", ddSci(false.omission.rate)), srt = 90,
+  text(0, 0, paste("False omission\nrate\n", ddSci(false.omission.rate)), srt = 90,
        col = col.text.out, cex = cex.out, font = font.out)
   # 19 Positive likelihood ratio
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Positive\nlikelihood ratio\n=", ddSci(positive.likelihood.ratio)), srt = 45,
+  text(0, 0, paste("Positive\nlikelihood ratio\n", ddSci(positive.likelihood.ratio)), srt = 45,
        col = col.text.out, cex = cex.out, font = font.out)
   # 20 Negative likelihood ratio
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Negative\nlikelihood ratio\n=", ddSci(negative.likelihood.ratio)), srt = 45,
+  text(0, 0, paste("Negative\nlikelihood ratio\n", ddSci(negative.likelihood.ratio)), srt = 45,
        col = col.text.out, cex = cex.out, font = font.out)
   # 21 Accuracy
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Accuracy\n=", ddSci(accuracy)), cex = cex.lab2)
+  text(0, 0, paste("Accuracy\n", ddSci(accuracy)), cex = cex.lab2)
   # 22 False discovery rate
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("False Discov Rate\n=", ddSci(false.discovery.rate)), srt = 90,
+  text(0, 0, paste("False Discov Rate\n", ddSci(false.discovery.rate)), srt = 90,
        col = col.text.out, cex = cex.out, font = font.out)
   # 23 Negative predictive value
   # plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Neg pred value\n=", ddSci(negative.predictive.value)), srt = 90,
+  text(0, 0, paste("Neg pred value\n", ddSci(negative.predictive.value)), srt = 90,
        col = col.text.out, cex = cex.out, font = font.out)
   # 24 F1 Score
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("F1\n=", ddSci(f1)), srt = 45,
+  text(0, 0, paste("F1\n", ddSci(f1)), srt = 45,
        col = col.text.out, cex = cex.out, font = font.out)
   # 25 Balanced Accuracy
   plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out, cex = 50, pch = 15)
-  text(0, 0, paste("Balanced\nAccuracy\n=", ddSci(balanced.accuracy)), srt = 45,
+  text(0, 0, paste("Balanced\nAccuracy\n", ddSci(balanced.accuracy)), srt = 45,
        col = col.text.out, cex = cex.out, font = font.out)
 
 
