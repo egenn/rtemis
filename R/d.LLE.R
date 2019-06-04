@@ -105,7 +105,16 @@ d.LLE <- function(x,
                     xnames = xnames,
                     projections.train = projections.train,
                     projections.test = NULL,
-                    extra = list())
+                    parameters = list(k = k,
+                                      nn = nn,
+                                      nn.min = nn.min,
+                                      nn.max = nn.max,
+                                      plot.calcnn = plot.calcnn,
+                                      id = id,
+                                      iLLE = iLLE,
+                                      nnk = nnk,
+                                      reg = reg,
+                                      v = v))
   outro(start.time, verbose = verbose)
   rt
 

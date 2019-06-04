@@ -81,6 +81,13 @@ d.MDS <- function(x,
                     xnames = xnames,
                     projections.train = projections.train,
                     projections.test = NULL,
+                    parameters = list(k = k,
+                                      dist.method = dist.method,
+                                      eig = eig,
+                                      add = add,
+                                      x.ret = x.ret,
+                                      scale = scale,
+                                      center = center),
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

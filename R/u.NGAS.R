@@ -63,6 +63,7 @@ u.NGAS <- function(x, x.test = NULL,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k, dist = dist),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

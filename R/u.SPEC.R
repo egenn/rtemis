@@ -82,6 +82,13 @@ u.SPEC <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k,
+                                      kernel = kernel,
+                                      kpar = kpar,
+                                      nystrom.red = nystrom.red,
+                                      nystrom.sample = nystrom.sample,
+                                      iterations = iterations,
+                                      mod.sample = mod.sample),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

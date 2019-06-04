@@ -29,14 +29,14 @@
 #' @export
 
 d.KPCA <- function(x,
-                  x.test = NULL,
-                  k = 2,
-                  th = 0.0001,
-                  kernel = "rbfdot",
-                  kpar = NULL,
-                  scale = TRUE,
-                  center = FALSE,
-                  verbose = TRUE, ...) {
+                   x.test = NULL,
+                   k = 2,
+                   th = 0.0001,
+                   kernel = "rbfdot",
+                   kpar = NULL,
+                   scale = TRUE,
+                   center = FALSE,
+                   verbose = TRUE, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
@@ -76,7 +76,7 @@ d.KPCA <- function(x,
   # [ KPCA ] ====
   if (verbose) msg("Running Kernel Principal Components Analysis...")
   decom <- kernlab::kpca(as.matrix(x), features = k, th = th,
-                          kernel = kernel, kpar = kpar, ...)
+                         kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv
 
   # [ PROJECTIONS ] ====
@@ -92,11 +92,17 @@ d.KPCA <- function(x,
   # [ OUTRO ] ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = projections.test,
-                     extra = extra)
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
+                    parameters = list(k = k,
+                                      th = th,
+                                      kernel = kernel,
+                                      kpar = kpar,
+                                      scale = scale,
+                                      center = center),
+                    extra = extra)
   outro(start.time, verbose = verbose)
   rt
 

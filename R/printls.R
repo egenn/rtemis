@@ -29,6 +29,8 @@ printls <- function(x,
   if (is.null(x)) {
     if (!is.null(title)) boxcat(title, pad = pad, newline = title.newline, newline.pre = FALSE)
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
+  } else if (length(x) == 0) {
+    cat(class(x), "of length 0\n")
   } else {
     x <- as.list(x)
     null.index <- sapply(x, is.null)

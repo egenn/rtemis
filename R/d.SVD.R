@@ -74,6 +74,10 @@ d.SVD <- function(x,
                     xnames = xnames,
                     projections.train = projections.train,
                     projections.test = projections.test,
+                    parameters = list(k = k,
+                                      nu = nu,
+                                      scale = scale,
+                                      center = center),
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

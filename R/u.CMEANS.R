@@ -67,6 +67,7 @@ u.CMEANS <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k, m = m),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

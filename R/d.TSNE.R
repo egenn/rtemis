@@ -99,6 +99,15 @@ d.TSNE <- function(x,
                     xnames = xnames,
                     projections.train = decom$Y,
                     projections.test = NULL,
+                    parameters = list(k = k,
+                                      initial.dims = initial.dims,
+                                      perplexity = perplexity,
+                                      theta = theta,
+                                      check.duplicates = check.duplicates,
+                                      pca = pca,
+                                      max.iter = max.iter,
+                                      scale = scale,
+                                      center = center),
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

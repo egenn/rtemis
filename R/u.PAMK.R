@@ -80,6 +80,13 @@ u.PAMK <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
+                    parameters = list(krange = krange,
+                                      criterion = criterion,
+                                      usepam = usepam,
+                                      scaling = scaling,
+                                      diss = diss,
+                                      metric = metric,
+                                      do.swap = do.swap),
                     extra = extra)
   outro(start.time, verbose = verbose)
   cl

@@ -64,6 +64,7 @@ u.PAM <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
+                    parameters = list(k = k, diss = diss, metric = metric),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

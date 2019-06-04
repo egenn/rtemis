@@ -101,6 +101,13 @@ u.H2OKMEANS <- function(x, x.test = NULL,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k,
+                                      estimate.k = estimate.k,
+                                      nfolds = nfolds,
+                                      max.iterations = max.iterations,
+                                      seed = seed,
+                                      init = init,
+                                      categorical.encoding = categorical.encoding),
                     extra = extra)
   outro(start.time, verbose = verbose)
   cl

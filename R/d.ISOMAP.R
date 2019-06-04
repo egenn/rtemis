@@ -70,11 +70,15 @@ d.ISOMAP <- function(x,
 
   # [ OUTRO ] ====
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = NULL,
-                     extra = list())
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = NULL,
+                    parameters = list(k = k,
+                                      dist.method = dist.method,
+                                      nsd = nsd,
+                                      path = path),
+                    extra = list())
   outro(start.time, verbose = verbose)
   rt
 

@@ -84,6 +84,8 @@ d.UMAP <- function(x,
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
                     parameters = list(k = k,
                                       n.neighbors = n.neighbors,
                                       init = init,
@@ -91,8 +93,6 @@ d.UMAP <- function(x,
                                       learning.rate = learning.rate,
                                       metric = metric,
                                       scale = scale),
-                    projections.train = projections.train,
-                    projections.test = projections.test,
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

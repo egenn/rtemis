@@ -78,14 +78,14 @@ d.CUR <- function(x,
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = NULL,
                     parameters = list(c = c,
                                       r = r,
                                       k = k,
                                       sv = sv,
                                       scale = scale,
-                                      method = method),
-                    projections.train = projections.train,
-                    projections.test = NULL)
+                                      method = method))
   outro(start.time, verbose = verbose)
   rt
 

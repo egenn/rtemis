@@ -67,6 +67,9 @@ u.HOPACH <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
+                    parameters = list(K = K,
+                                      kmax = kmax,
+                                      khigh = khigh),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

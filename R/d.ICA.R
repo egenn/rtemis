@@ -107,14 +107,14 @@ d.ICA <- function(x,
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
                     parameters = c(list(k = k,
                                         package = package,
                                         alg.type = alg.type,
                                         maxit = maxit,
                                         scale = scale),
                                    list(...)),
-                    projections.train = projections.train,
-                    projections.test = projections.test,
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

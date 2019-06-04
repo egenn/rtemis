@@ -65,6 +65,7 @@ u.EMC <- function(x, x.test = NULL,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
+                    parameters = list(k = k, EMC = EMC),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl
