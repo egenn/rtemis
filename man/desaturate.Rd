@@ -18,6 +18,10 @@ List of adjusted colors
 \description{
 Lower a color's saturation by a given percent in the HSV color system
 }
+\examples{
+color <- c("red", "green", "blue")
+color.p <- desaturate(color)
+}
 \author{
 Efstathios D Gennatas
 }
