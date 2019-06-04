@@ -12,7 +12,7 @@
 #' @return List of adjusted colors
 #' @author Efstathios D Gennatas
 #' @export
-#' @example
+#' @examples
 #' color <- c("red", "green", "blue")
 #' color.p <- desaturate(color)
 
