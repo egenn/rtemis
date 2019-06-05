@@ -817,11 +817,16 @@ rtModBag <- R6::R6Class("rtModBag",
                           ### Methods
                           print = function() {
                             "show / print method for rtModBag"
-                            cat(".:rtemis Bagged Supervised Model\n--------------------------------\n")
-                            cat("       Algorithm: ", self$mod.name, " (", modSelect(self$mod.name, desc = TRUE),
+                            cat(bold(".:rtemis Bagged Supervised Model\n"))
+                            cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
-                            cat("         Bagging ", self$bag.resample.rtset$n.resamples, " resamples (type = ",
-                                self$bag.resample.rtset$resampler, ")\n", sep = "")
+                            resamples <- switch(self$bag.resample.rtset$resampler,
+                                                strat.sub = " stratified subsamples",
+                                                bootstrap = " bootstraps",
+                                                strat.boot = " stratified bootstraps",
+                                                kfold = "-fold crossvalidation",
+                                                "custom resamples")
+                            cat("Aggregating", self$bag.resample.rtset$n.resamples, resamples, "\n")
                             boxcat("Training Error")
                             print(self$error.train)
                             if (length(self$error.test) > 0) {
