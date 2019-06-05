@@ -350,22 +350,55 @@ microsoftCol <- list(orange = "#f65314",
 # rtCol <- c(ucsfCol[c("teal", "orange", "blue", "yellow", "purple", "red", "navy", "green")],
 #            berkeleyCol)
 
-rtCol <- desaturate(c(ucsfCol$teal,
+
+rtCol <- desaturate(c(pennCol$lighterBlue,
                       pennCol$lightestBlue,
-                      pennCol$lighterBlue,
                       pennCol$blue,
-                      pennCol$lightestRed,
                       pennCol$lighterRed,
+                      pennCol$lightestRed,
                       pennCol$red,
-                      pennCol$lighterOrange,
                       pennCol$orange,
+                      pennCol$lighterOrange,
                       pennCol$darkerOrange,
-                      pennCol$lightestPurple,
                       pennCol$lighterPurple,
-                      pennCol$purple,
-                      colorRampPalette(c("gray70",  imperialCol$imperialBlue))(3)), .3)
+                      pennCol$lightestPurple,
+                      pennCol$purple), .3)
+
+rtCol1 <- desaturate(c(ucsfCol$teal,
+                       ucsfCol$orange,
+                       pennCol$lighterBlue,
+                       pennCol$lighterRed,
+                       pennCol$lighterOrange,
+                       pennCol$lighterPurple,
+                       pennCol$lightestBlue,
+                       pennCol$lightestRed,
+                       pennCol$lightestOrange,
+                       pennCol$lightestPurple,
+                       pennCol$blue,
+                       pennCol$red,
+                       pennCol$orange,
+                       pennCol$purple), .3)
+
+rtCol2 <- desaturate(c(pennCol$lightestBlue,
+                       pennCol$lighterBlue,
+                       pennCol$blue,
+                       pennCol$lightestRed,
+                       pennCol$lighterRed,
+                       pennCol$red,
+                       pennCol$lighterOrange,
+                       pennCol$orange,
+                       pennCol$darkerOrange,
+                       pennCol$lightestPurple,
+                       pennCol$lighterPurple,
+                       pennCol$purple), .3)
+
+rtCol3 <- desaturate(colorMix(list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
+                                   gray = c("gray10", "gray85")), 6), .3)
 
 rtPalettes <- list(rtCol = rtCol,
+                   rtCol1 = rtCol1,
+                   rtCol2 = rtCol2,
+                   rtCol3 = rtCol3,
                    pennCol = pennCol,
                    imperialCol = imperialCol,
                    ucsfCol = ucsfCol,
@@ -400,13 +433,13 @@ rtPalette <- function(palette = NULL) {
   if (is.null(palette)) {
     msg(crayon::cyan("The following palettes are available:"))
     print(paste(c("imperialCol", "pennCol", "stanfordCol", "ucCol", "ucsfCol", "berkeleyCol",
-                   "ucsdCol", "uclaCol", "usfCol", "uwCol", "nihCol", "appleCol", "googleCol",
+                  "ucsdCol", "uclaCol", "usfCol", "uwCol", "nihCol", "appleCol", "googleCol",
                   "amazonCol", "microsoftCol", "rtCol")))
   } else {
     palette <- match.arg(palette,
                          c("imperialCol", "pennCol", "stanfordCol", "ucCol", "ucsfCol", "berkeleyCol",
                            "ucsdCol", "uclaCol", "usfCol", "uwCol", "nihCol", "appleCol", "googleCol",
-                           "amazonCol", "microsoftCol", "rtCol"))
+                           "amazonCol", "microsoftCol", "rtCol", "rtCol1", "rtCol2", "rtCol3"))
     rtPalettes[[palette]]
   }
 
