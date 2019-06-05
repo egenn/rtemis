@@ -706,7 +706,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                filename = filename, ...)
                                           }
                                         },
-                                        plotROCFitted = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotROCfitted = function(theme = getOption("rt.fit.theme", "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3.roc(self$fitted.prob, self$y.train,
@@ -1343,7 +1343,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotROC = function(which.repeat = 1, ...) {
                                             self$plotROCpredicted(which.repeat = which.repeat, ...)
                                           },
-                                          plotROCFitted = function(which.repeat = 1, ...) {
+                                          plotROCfitted = function(which.repeat = 1, ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
                                               mplot3.roc(self$fitted.prob.aggr[[which.repeat]],
                                                          self$y.train.res.aggr[[which.repeat]],
