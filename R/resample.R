@@ -4,10 +4,10 @@
 
 #' Resampling methods
 #'
-#' Create resamples of your data, e.g. for model building or validation.
+#' Create resamples of your data, e.g. for model tuning or testing
 #' "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \code{caret::createResample},
 #' "strat.sub" creates stratified subsamples using \code{caret::createDataPartition}, while "strat.boot"
-#' runs \code{caret::createDataPartition} and then randomly duplicates some of the training cases to reach original
+#' runs \code{caret::createDataPartition} and then randomly replicates some of the training cases to reach original
 #' length of input (default) or length defined by \code{target.length}.
 #'
 #' \code{resample} is used by multiple \pkg{rtemis} learners and functions. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
