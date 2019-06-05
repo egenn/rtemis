@@ -187,18 +187,26 @@ s.RULEFEAT <- function(x, y = NULL,
   class(rulefeat.obj) <- c("ruleFeat", "list")
 
   # [ FITTED ] ====
-  # TODO: fitted.prob
   fitted <- mod.glmnet.select$fitted
-  error.train <- modError(y, fitted)
+  if (type == "Classification") {
+    fitted.prob <- mod.glmnet.select$fitted.prob
+  } else {
+    fitted.prob <- NULL
+  }
+
+  error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
-  # TODO: predicted.prob
-  predicted <- error.test <- NULL
+  predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(rulefeat.obj, x.test, verbose = verbose)
+    if (type == "Classification") {
+      predicted.prob <- predicted$prob
+      predicted <- predicted$estimate
+    }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, verbose)
+      error.test <- modError(y.test, predicted, predicted.prob, verbose)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
@@ -215,9 +223,11 @@ s.RULEFEAT <- function(x, y = NULL,
                  y.name = y.name,
                  xnames = xnames,
                  fitted = fitted,
+                 fitted.prob = fitted.prob,
                  se.fit = NULL,
                  error.train = error.train,
                  predicted = predicted,
+                 predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
                  parameters = list(gbm.params = gbm.params,
@@ -273,16 +283,26 @@ predict.ruleFeat <- function(object, newdata = NULL,
 
   # [ PREDICT ] ====
   if (object$mod.gbm$type == "Classification") {
+
+    prob <- 1 - predict(object$mod.glmnet.select$mod,
+                        newx = data.matrix(cases.by.rules),
+                        type = "response")[, 1]
+
     yhat <- factor(predict(object$mod.glmnet.select$mod,
                            newx = data.matrix(cases.by.rules),
                            type = "class"),
                    levels = levels(object$y))
   } else {
+    prob <- NULL
     yhat <- as.numeric(predict(object$mod.glmnet.select$mod,
                                newx = data.matrix(cases.by.rules)))
   }
 
-  yhat
+  if (is.null(prob)) {
+    return(yhat)
+  } else {
+    return(list(prob = prob, estimate = yhat))
+  }
 
 } # rtemis::predict.ruleFeat
 
