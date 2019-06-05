@@ -8,7 +8,7 @@ x.CCA(x, z, x.test = NULL, z.test = NULL, y = NULL, outcome = NULL,
   k = 3, niter = 20, nperms = 50, permute.niter = 15,
   typex = "standard", typez = "standard", penaltyx = NULL,
   penaltyz = NULL, standardize = TRUE, upos = FALSE, vpos = FALSE,
-  verbose = TRUE, n.cores = NULL, outdir = NULL,
+  verbose = TRUE, n.cores = rtCores, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{

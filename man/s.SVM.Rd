@@ -12,11 +12,11 @@ s.SVM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   kernel = "radial", degree = 3, gamma = NULL, coef0 = 0,
   cost = 1, probability = TRUE, metric = NULL, maximize = NULL,
   plot.fitted = NULL, plot.predicted = NULL, print.plot = TRUE,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), n.cores = NULL,
-  question = NULL, rtclass = NULL, verbose = TRUE,
-  grid.verbose = TRUE, outdir = NULL, save.res = FALSE,
-  osx.alert = FALSE, save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-  ...)
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  n.cores = rtCores, question = NULL, rtclass = NULL,
+  verbose = TRUE, grid.verbose = TRUE, outdir = NULL,
+  save.res = FALSE, osx.alert = FALSE,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
