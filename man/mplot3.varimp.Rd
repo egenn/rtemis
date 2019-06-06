@@ -5,8 +5,7 @@
 \title{\code{mplot3}: Variable Importance}
 \usage{
 mplot3.varimp(x, error = NULL, names = NULL, names.pad = 0.02,
-  plot.top = 1, labelify = TRUE, col = colorGrad(length(x), lo =
-  pennCol$lightestBlue, mid = pennCol$blue, hi = pennCol$lighterRed),
+  plot.top = 1, labelify = TRUE, col = NULL, palette = NULL,
   alpha = 0.8, error.col = "white", error.lwd = 2, beside = TRUE,
   border = NA, width = 1, space = 0.2, xlim = NULL, ylim = NULL,
   xlab = "Variable Importance", xlab.line = 1.3, ylab = NULL,
@@ -35,8 +34,7 @@ highest values}
 
 \item{labelify}{Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE}
 
-\item{col}{Colors: Gradient to use for barplot fill. Default = colorGrad(length(x),
-lo = ucsfCol$blue, mid = ucsfCol$red, hi = ucsfCol$yellow)}
+\item{col}{Colors: Gradient to use for barplot fill.}
 
 \item{alpha}{Float (0, 1): Alpha for \code{col}}
 
