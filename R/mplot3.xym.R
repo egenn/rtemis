@@ -1,6 +1,7 @@
 # mplot3.xym.R
 # ::rtemis::
 # 2016 Efstathios D. Gennatas egenn.github.io
+# TODO: Add group support for marginal plots to mhist
 
 #' \code{mplot3} Scatter plot with marginal density and/or histogram
 #'
@@ -47,7 +48,7 @@ mplot3.xym <- function(x, y,
                        pty = 'm',
                        mar = c(3, 3, 0, 0),
                        mar.mar = .2,
-                       axes = TRUE, 
+                       axes = TRUE,
                        xaxs = 'r',
                        yaxs = 'r',
                        theme = getOption("rt.theme", "lightgrid"),
@@ -57,26 +58,26 @@ mplot3.xym <- function(x, y,
                        filename = NULL,
                        pdf.width = 7,
                        pdf.height = 7, ...) {
-  
+
   # [ ARGUMENTS ] ====
   margin <- match.arg(margin)
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  
+
   # [ LAYOUT ] ====
   lmat <- cbind(c(2, 1), c(0, 3))
   layout(lmat, widths = widths, heights = heights, respect = TRUE)
   # layout.show(3)
-  
+
   # [ PLOT 1: Scatter ] ====
   lims <- mplot3.xy(x, y, fit = fit, se.fit = se.fit, fit.col = col,
                     xlim = xlim, ylim = ylim, xaxs = xaxs, yaxs = yaxs, axes = axes,
-                    par.reset = FALSE, mar = mar, lwd = lwd, pty = pty, 
+                    par.reset = FALSE, mar = mar, lwd = lwd, pty = pty,
                     theme = theme,
                     return.lims = TRUE, ...)
-  
+
   # [ PLOTS 2 & 3: Histogram / Density ] ====
   if (margin == "density") {
     # Density Top
@@ -92,7 +93,7 @@ mplot3.xym <- function(x, y,
     y.breaks <- seq(min(y), max(y), diff(range(y)) / hist.breaks)
     # xhist <- hist(x, breaks = x.breaks, plot = FALSE)
     # yhist <- hist(y, breaks = y.breaks, plot = FALSE)
-    
+
     # Histogram Top
     par(mar = c(mar.mar, 3, 1, 0), pty = "m")
     mhist(x, breaks = x.breaks, col = col,
@@ -111,7 +112,7 @@ mplot3.xym <- function(x, y,
     # xhist <- hist(x, breaks = x.breaks, plot = FALSE)
     # yhist <- hist(y, breaks = y.breaks, plot = FALSE)
     # densityLim <- max(c(xhist$density, yhist$density))
-    
+
     # Both Top
     par(mar = c(mar.mar, 3, 1, 0), pty = "m")
     mhist(x, breaks = x.breaks, col = col,
@@ -120,7 +121,7 @@ mplot3.xym <- function(x, y,
     mplot3.x(x, "density", axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", xaxs = 'i', new = TRUE,
              par.reset = FALSE, mar = c(mar.mar, 3, 1, 0), xlim = lims$xlim)
-    
+
     # Both Right
     par(mar = c(3, mar.mar, 0, 1), pty = "m")
     mhist(y, breaks = y.breaks, col = col,
@@ -129,8 +130,8 @@ mplot3.xym <- function(x, y,
     mplot3.x(y, "density", axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = 'i', new = TRUE,
              par.reset = FALSE, mar = c(3, mar.mar, 0, 1), xlim = lims$ylim)
-    
+
   }
   if (!is.null(filename)) grDevices::dev.off()
-  
+
 } # rtemis::mplot3.xym
