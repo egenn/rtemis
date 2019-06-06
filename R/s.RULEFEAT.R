@@ -18,6 +18,8 @@
 #' by crossvalidation)
 #' @param meta.extra.params Named list: Parameters for \link{s.GLMNET} for the feature
 #' selection step
+#' @param cases.by.rules Matrix of cases by rules from a previoue rulefeat run. If provided,
+#' the GBM step is skipped. Default = NULL
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
 #' @references Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",

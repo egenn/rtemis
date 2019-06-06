@@ -36,6 +36,9 @@ by crossvalidation)}
 \item{meta.extra.params}{Named list: Parameters for \link{s.GLMNET} for the feature
 selection step}
 
+\item{cases.by.rules}{Matrix of cases by rules from a previoue rulefeat run. If provided,
+the GBM step is skipped. Default = NULL}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
