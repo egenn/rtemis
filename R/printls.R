@@ -33,6 +33,10 @@ printls <- function(x,
     cat(class(x), "of length 0\n")
   } else {
     x <- as.list(x)
+    # Remove closures that will cause error
+    is.fn <- which(sapply(x, is.function))
+    if (any(is.fn)) for (i in is.fn) x[[i]] <- NULL
+
     null.index <- sapply(x, is.null)
     x[null.index] <- "NULL"
     xnames <- names(x)
