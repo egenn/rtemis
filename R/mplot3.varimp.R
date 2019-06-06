@@ -1,12 +1,11 @@
 # mplot3.varimp
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
-# TODO: fix for when x is negative
+# 2017-9 Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3}: Variable Importance
-#' 
+#'
 #' Draw horizontal barplots for variable importance
-#' 
+#'
 #' @param x Vector, numeric: Input
 #' @param error Vector, numeric; length = length(x): Plot error bars with given error.
 #' @param names Vector, string; optional: Names of variables in \code{x}
@@ -14,8 +13,7 @@
 #' i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
 #' highest values
 #' @param labelify Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE
-#' @param col Colors: Gradient to use for barplot fill. Default = colorGrad(length(x),
-#' lo = ucsfCol$blue, mid = ucsfCol$red, hi = ucsfCol$yellow)
+#' @param col Colors: Gradient to use for barplot fill.
 #' @param alpha Float (0, 1): Alpha for \code{col}
 #' @param error.col Color: For error bars
 #' @param trace Integer: If \code{trace > 0} prints out the automatically set \code{mar} (so you can adjust if needed)
@@ -28,15 +26,13 @@ mplot3.varimp <- function(x,
                           error = NULL,
                           names = NULL,
                           names.pad = .02,
-                          plot.top = 1,
+                          plot.top = 1, # 1 or less means plot this percent
                           labelify = TRUE,
-                          col = colorGrad(length(x),
-                                          lo = pennCol$lightestBlue,
-                                          mid = pennCol$blue,
-                                          hi = pennCol$lighterRed),
+                          col = NULL,
+                          palette = NULL,
                           alpha = .8,
                           error.col = "white",
-                          error.lwd = 2, 
+                          error.lwd = 2,
                           beside = TRUE,
                           border = NA,
                           width = 1,
@@ -55,10 +51,6 @@ mplot3.varimp <- function(x,
                           main.family = "",
                           names.arg = NULL,
                           axisnames = FALSE,
-                          # legend = FALSE,
-                          # legend.names = NULL,
-                          # legend.position = "topright",
-                          # legend.inset = c(0, 0),
                           sidelabels = NULL,
                           mar = NULL,
                           pty = "m",
@@ -69,7 +61,6 @@ mplot3.varimp <- function(x,
                           plot.bg = NULL,
                           barplot.axes = FALSE,
                           xaxis = TRUE,
-                          # ylim.pad = 0,
                           x.axis.padj = -1.2,
                           tck = -.015,
                           tick.col = NULL,
@@ -86,14 +77,10 @@ mplot3.varimp <- function(x,
                           pdf.height = NULL,
                           trace = 0,
                           filename = NULL, ...) {
-  
+
   # [ DATA ] ====
-  # x <- unlist(x)
-  if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a single row or column")
-  # if (is.null(names)) {
-  #   .names <- if (NCOL(x) == 1) labelify(rownames(x)) else labelify(colnames(x))
-  # }
-  
+  if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
+
   # '- Names ====
   if (is.null(names)) {
     if (is.null(names(x))) {
@@ -104,15 +91,15 @@ mplot3.varimp <- function(x,
   } else {
     .names <- labelify(names)
   }
-  
+
   x <- as.numeric(x)
   if (length(.names) == 0) {
     .names <- paste("Feature", 1:length(x))
   }
-  
+
   # '- Index ====
   index <- if (plot.top <= 1) {
-    order(x)[(length(x) - plot.top * length(x)) : length(x)]
+    order(x)[(length(x) - plot.top * length(x)):length(x)]
   } else {
     if (plot.top > length(x)) plot.top <- length(x)
     order(x)[(length(x) - plot.top + 1):length(x)]
@@ -120,45 +107,43 @@ mplot3.varimp <- function(x,
   x <- x[index]
   .names <- .names[index]
   if (!is.null(error)) error <- error[index]
-  
-  cols <- colorAdjust(col, alpha = alpha)
-  
+
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  
+
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
-  
+
   # # [ XLIM & YLIM ] ====
   if (is.null(ylim)) {
     ylim <- c(0, length(x) + (length(x) + 1) * space)
   }
-    
-    # if (is.null(ylim)) ylim <- range(c(0, x + 1)) # works for non-negative data only
-    # if (is.null(ylim)) ylim <- range(c(0, apply(x, 2, sum)))
+
   if (is.null(xlim)) {
     if (is.null(error)) {
       # xlim <- range(c(0, x))
       # xlim <- range(c(0, diff(c(0, max(x))) * 1.04))
-      xlim <- c(0, diff(c(0, max(x))) * 1.04)
+      # xlim <- c(0, diff(c(0, max(x))) * 1.04)
+      xlim <- range(x) * 1.04
     } else {
-      xlim <- range(c(0, x + error))
-      xlim <- c(0, diff(c(0, max(x + error))) * 1.04)
+      # xlim <- range(c(0, x + error))
+      # xlim <- c(0, diff(c(0, max(x + error))) * 1.04)
+      xlim <- range(x + error) * 1.04
     }
   }
-  
+
   # Add x% either side (unless zero)
   # ylim[1] <- ylim[1] - ylim.pad * diff(ylim)
   # ylim[2] <- ylim[2] + ylim.pad * diff(ylim)
-  
+
   # [ THEMES ] ====
   # Defaults for all themes
   if (is.null(grid.lty)) grid.lty <- 1
   if (is.null(grid.lwd)) grid.lwd <- 1
-  
+
   if (theme == "lightgrid" | theme == "darkgrid") {
     if (is.null(grid.lty)) grid.lty <- 1
     # if (is.null(zero.lty)) zero.lty <- 1
@@ -178,81 +163,47 @@ mplot3.varimp <- function(x,
     if (is.null(grid.col)) grid.col <- "black"
     if (is.null(tick.col)) tick.col <- "black"
   }
-  themes <- c("light", "dark", "box", "darkbox")
+  themes <- c("light", "dark", "lightbox", "darkbox")
   if (!theme %in% themes) {
     warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
     theme <- "light"
   }
-  
-  if (theme == "light") {
+
+  if (length(grep("light", theme) > 0)) {
+    # light themes
     if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha)) 
-    #   col <- list("gray30")
-    # }
-    # box.col <- "white"
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
     if (is.null(labs.col)) labs.col <- "gray10"
     if (is.null(main.col)) main.col <- "black"
     if (is.null(grid.col)) grid.col <- "black"
-    # if (is.null(diagonal.col)) diagonal.col <- "black"
-    # if (is.null(hline.col)) hline.col <- "black"
-    # gen.col <- "black"
-  } else if (theme == "dark") {
+    if (is.null(col)) {
+      if (is.null(palette)) palette <- c("gray20", "#18A3AC")
+      col <- colorGrad.x(x, palette)
+    }
+  } else {
+    # dark themes
     if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha)) 
-    #   col <- list("gray70")
-    # }
-    # box.col <- "black"
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
     if (is.null(labs.col)) labs.col <- "gray90"
     if (is.null(main.col)) main.col <- "white"
     if (is.null(grid.col)) grid.col <- "white"
-    # if (is.null(diagonal.col)) diagonal.col <- "white"
-    # if (is.null(hline.col)) hline.col <- "white"
-    gen.col <- "white"
-  } else if (theme == "box") {
-    if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # }
-    # if (is.null(box.col)) box.col <- "gray10"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-    # if (is.null(diagonal.col)) diagonal.col <- "black"
-    # if (is.null(hline.col)) hline.col <- "black"
-    gen.col <- "black"
-  } else if (theme == "darkbox") {
-    if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # }
-    # if (is.null(box.col)) box.col <- "gray90"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    # if (is.null(diagonal.col)) diagonal.col <- "white"
-    # if (is.null(hline.col)) hline.col <- "white"
-    gen.col <- "white"
+    if (is.null(col)) {
+      if (is.null(palette)) palette <- c("gray80", "#18A3AC")
+      col <- colorGrad.x(x, palette)
+    }
   }
-  
+
+  cols <- colorAdjust(col, alpha = alpha)
+
   # [ AUTOMARGINS ] ====
   if (is.null(mar)) {
     maxchar <- max(nchar(.names))
     # This gets too large as n increases; rerun with average-width character
     # measure using 'w' - a wide character (helvetica)
     # nchar = 1; mar2 = 1; 1.5
-    # nchar = 28; mar2 = 13; 18 
+    # nchar = 28; mar2 = 13; 18
     # x <- c(1, 28); y <- c(1.5, 13)
     # modlm <- s.LM(x, y)
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
@@ -261,56 +212,53 @@ mplot3.varimp <- function(x,
     mar <- c(mar1, mar2, mar3, .6)
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
   }
-  
+
   # [ PLOT ] ====
   # '- PDF autosize ====
   if (!is.null(filename)) {
     if (is.null(pdf.height)) pdf.height <- length(x) *.2 + .5
     if (is.null(pdf.width)) pdf.width <- mar2 *.7
   }
-  
+
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = bg, pty = pty, cex = cex)
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
-  
+
   # [ PLOT BG ] ====
   if (!is.null(plot.bg)) {
     # bg.ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = plot.bg)
   }
-  
+
   # [ GRID ] ====
   grid.col <- colorAdjust(grid.col, grid.alpha)
   if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = 0, nx = NULL)
-  
+
   # [ BARPLOT ] ====
-  # barCenters <- barplot(x, beside = beside, col = cols, border = border, ylim = ylim, axes = barplot.axes,
-  #                       cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
-  #                       axisnames = axisnames, names.arg = names.arg, 
-  #                       width = width, space = space, ...)
   barCenters <- barplot(x, col = cols, border = border, ylim = ylim, axes = barplot.axes,
                         cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
-                        axisnames = axisnames, names.arg = names.arg, 
+                        axisnames = axisnames, names.arg = names.arg,
                         width = width, space = space, horiz = TRUE, ...)
-  
+  if (xlim[1] < 0 & 0 < xlim[2]) abline(v = 0, col = labs.col, lwd = 1.5)
+
   # [ ERROR BARS ] ====
   if (!is.null(error)) {
     if (is.null(error.col)) error.col <- cols
     segments(as.vector(x) - as.vector(error), as.vector(barCenters),
              as.vector(x) + as.vector(error), as.vector(barCenters),
              lwd = error.lwd, col = error.col)
-    
+
     arrows(x - as.vector(error), barCenters,
            x + as.vector(error), barCenters,
            lwd = error.lwd, angle = 90, code = 3, length = 0.05, col = error.col)
   }
-  
+
   # [ x AXIS ] ====
-  if (xaxis) axis(1, col = axes.col, col.axis = labs.col, col.ticks = tick.col, 
+  if (xaxis) axis(1, col = axes.col, col.axis = labs.col, col.ticks = tick.col,
                   padj = x.axis.padj, tck = tck, cex = cex)
-  
+
   # [ MAIN ] ====
   if (!is.null(main)) {
     # suppressWarnings(mtext(bquote(paste(bold(.(main)))), line = main.line,
@@ -318,7 +266,7 @@ mplot3.varimp <- function(x,
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
   }
-  
+
   # [ ROWNAMES for 1 column ] ====
   # if (ncol(x) == 1) {
   #   if (!is.null(rownames(x))) {
@@ -327,20 +275,13 @@ mplot3.varimp <- function(x,
   #     #      tick = FALSE, hadj = 0, las = 3)
   #   }
   # }
-  
+
   # [ NAMES ] ====
   text(x = min(xlim) - names.pad * diff(xlim),
        y = barCenters,
        labels = .names, adj = 1, xpd = TRUE,
        col = labs.col)
-  # text(names, 2, at = barCenters)
-  
-  # [ LEGEND ] ====
-  # if (legend) {
-  #   legend(legend.position, legend = legend.names,
-  #          fill = cols, border = cols, inset = legend.inset, xpd = TRUE, bty = "n")
-  # }
-  
+
   # [ AXIS LABS ] ====
   if (!is.null(xlab))  mtext(xlab, 1,
                              cex = cex,
@@ -350,15 +291,15 @@ mplot3.varimp <- function(x,
                              cex = cex,
                              line = ylab.line,
                              col = labs.col)
-  
+
   # [ SIDE LABELS ] ====
   if (!is.null(sidelabels)) {
     # mtext(sidelabels, 4, at = barCenters)
     text(x = max(xlim)*1.01, y = barCenters, labels = sidelabels, xpd = TRUE, pos = 4)
   }
-  
+
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
   invisible(barCenters)
-  
+
 } # rtemis::mplot3.varimp
