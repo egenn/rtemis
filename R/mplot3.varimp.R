@@ -9,7 +9,7 @@
 #' @param x Vector, numeric: Input
 #' @param error Vector, numeric; length = length(x): Plot error bars with given error.
 #' @param names Vector, string; optional: Names of variables in \code{x}
-#' @param plot.top Float or Integer: If <= 1, plot this percent highest values, otherwise plot this many top values.
+#' @param plot.top Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
 #' i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
 #' highest values
 #' @param labelify Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE
@@ -99,11 +99,15 @@ mplot3.varimp <- function(x,
 
   # '- Index ====
   index <- if (plot.top <= 1) {
-    order(x)[(length(x) - plot.top * length(x)):length(x)]
+    order(abs(x))[(length(x) - plot.top * length(x)):length(x)]
   } else {
     if (plot.top > length(x)) plot.top <- length(x)
-    order(x)[(length(x) - plot.top + 1):length(x)]
+    order(abs(x))[(length(x) - plot.top + 1):length(x)]
   }
+  x <- x[index]
+  .names <- .names[index]
+  # reorder to arrange negative to positive
+  index <- order(x)
   x <- x[index]
   .names <- .names[index]
   if (!is.null(error)) error <- error[index]
