@@ -7,9 +7,9 @@
 s.GLMNET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1, nway.interactions = 0, family = NULL,
-  alpha = seq(0, 1, 0.2), lambda = NULL, nlambda = 100,
-  which.cv.lambda = c("lambda.1se", "lambda.min"),
+  grid.randomized.p = 0.1, intercept = TRUE, nway.interactions = 0,
+  family = NULL, alpha = seq(0, 1, 0.2), lambda = NULL,
+  nlambda = 100, which.cv.lambda = c("lambda.1se", "lambda.min"),
   penalty.factor = NULL, polynomial = FALSE, poly.d = 2,
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
   upsample.seed = NULL, res.summary.fn = mean, save.grid.run = FALSE,
@@ -40,6 +40,8 @@ Default = \code{rtset.resample("kfold", 5)}}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
+
+\item{intercept}{Logical: If TRUE, include intercept in the model. Default = TRUE}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 

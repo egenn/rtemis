@@ -16,6 +16,7 @@
 #' @param alpha Float [0, 1]: The elasticnet mixing parameter:
 #'   \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty
 #' @param lambda Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
+#' @param intercept Logical: If TRUE, include intercept in the model. Default = TRUE
 #' @param res.summary.fn Function: Used to average resample runs. Default = \code{mean}
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
@@ -28,6 +29,7 @@ s.GLMNET <- function(x, y = NULL,
                      grid.resample.rtset = rtset.resample("kfold", 5),
                      grid.search.type = c("exhaustive", "randomized"),
                      grid.randomized.p = .1,
+                     intercept = TRUE,
                      nway.interactions = 0,
                      family = NULL,
                      alpha = seq(0, 1, .2),
@@ -196,6 +198,7 @@ s.GLMNET <- function(x, y = NULL,
                              lambda = lambda,
                              nlambda = nlambda,
                              weights = .weights,
+                             intercept = intercept,
                              penalty.factor = penalty.factor, ...)
   } else {
     if (verbose) msg("Training elastic net model...", newline = TRUE)
@@ -205,6 +208,7 @@ s.GLMNET <- function(x, y = NULL,
                           lambda = lambda,
                           nlambda = nlambda,
                           weights = .weights,
+                          intercept = intercept,
                           penalty.factor = penalty.factor, ...)
   }
 
