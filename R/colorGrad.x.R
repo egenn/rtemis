@@ -15,11 +15,9 @@ colorGrad.x <- function(x, color = c("gray20", "#18A3AC")) {
   bipolar <- min(x) < 0 & 0 < max(x)
 
   if (bipolar) {
-    # n.neg <- sum(x < 0)
-    # grad.neg <- colorRampPalette(rev(color))(n)
-    # grad.pos <- colorRampPalette(color)(n + 1)
-    grad <- c(colorRampPalette(rev(color))(100), colorRampPalette(color)(101))
-    cuts <- cut(x, 201, labels = FALSE)
+    maxabsx <- max(abs(x))
+    grad <- colorRampPalette(c(color[2], color[1], color[2]))(201)
+    cuts <- cut(c(-maxabsx, x, maxabsx), 201, labels = FALSE)[-c(1, length(x) + 2)]
     neg.index <- which(x < 0)
     colors[neg.index] <- grad[cuts[neg.index]]
     colors[-neg.index] <- grad[cuts[-neg.index]]
