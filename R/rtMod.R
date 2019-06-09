@@ -702,7 +702,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                             self$plotROCpredicted(theme = theme,
                                                                   filename = filename, ...)
                                           } else {
-                                            self$plotROCFitted(theme = theme,
+                                            self$plotROCfitted(theme = theme,
                                                                filename = filename, ...)
                                           }
                                         },
