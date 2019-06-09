@@ -191,8 +191,10 @@ s.GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda)
 
   # [ GLMNET ] ====
+  # reverseLevels of
   if (.gs & cv.lambda) {
-    mod <- glmnet::cv.glmnet(x, y,
+    mod <- glmnet::cv.glmnet(x,
+                             if (family == "binomial") reverseLevels(y) else y,
                              family = family,
                              alpha = alpha,
                              lambda = lambda,
@@ -202,7 +204,8 @@ s.GLMNET <- function(x, y = NULL,
                              penalty.factor = penalty.factor, ...)
   } else {
     if (verbose) msg("Training elastic net model...", newline = TRUE)
-    mod <- glmnet::glmnet(x, y,
+    mod <- glmnet::glmnet(x,
+                          if (family == "binomial") reverseLevels(y) else y,
                           family = family,
                           alpha = alpha,
                           lambda = lambda,
@@ -217,7 +220,7 @@ s.GLMNET <- function(x, y = NULL,
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
   } else {
-    fitted.prob <- 1 - predict(mod, x, type = "response")[, 1]
+    fitted.prob <- predict(mod, x, type = "response")[, 1]
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     levels(fitted) <- levels(y)
   }
@@ -232,7 +235,7 @@ s.GLMNET <- function(x, y = NULL,
       predicted <- as.numeric(predict(mod, newx = x.test))
       predicted.prob <- NULL
     } else {
-      predicted.prob <- 1 - predict(mod, x.test, type = "response")[, 1]
+      predicted.prob <- predict(mod, x.test, type = "response")[, 1]
       predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(predicted) <- levels(y)
     }
