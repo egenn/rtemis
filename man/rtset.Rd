@@ -50,8 +50,9 @@ rtset.preprocess(completeCases = FALSE, impute = FALSE,
   impute.type = "missForest", impute.niter = 10, impute.ntree = 500,
   impute.discrete = getMode, impute.numeric = mean,
   removeCases.thres = NULL, removeFeatures.thres = NULL,
-  removeConstant = TRUE, integer2factor = FALSE,
-  nonzeroFactors = FALSE, scale = FALSE, center = FALSE)
+  integer2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
+  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
+  verbose = TRUE)
 
 rtset.decompose(decom = "ICA", k = 2, ...)
 
