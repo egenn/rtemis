@@ -28,19 +28,20 @@ preprocess.default <- function(x, y = NULL,
                                scale = FALSE,
                                center = FALSE,
                                removeConstant = TRUE,
+                               oneHot = FALSE,
                                verbose = TRUE, ...) {
-  
+
   # Arguments ====
   impute.type <- match.arg(impute.type)
-  
+
   x <- as.data.frame(x)
-  
+
   # [ Complete cases ] ====
   if (completeCases) {
     if (verbose) msg("Filtering complete cases...")
     x <- x[complete.cases(x), ]
   }
-  
+
   # [ Remove Cases by missing feature threshold ] ====
   if (!is.null(removeCases.thres)) {
     if (anyNA(x)) {
@@ -56,7 +57,7 @@ preprocess.default <- function(x, y = NULL,
       x <- as.data.frame(xt)
     }
   }
-  
+
   # [ Remove Features by missing feature threshold ] ====
   if (!is.null(removeFeatures.thres)) {
     if (anyNA(x)) {
@@ -64,41 +65,41 @@ preprocess.default <- function(x, y = NULL,
       na.fraction.byfeat <- xt[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
       removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
       if (length(removeFeat.thres.index) > 0) {
-        if (verbose) msg("Removing", length(removeFeat.thres.index), "features with >=", 
+        if (verbose) msg("Removing", length(removeFeat.thres.index), "features with >=",
                          removeFeatures.thres, "missing data...")
         x <- x[, -removeFeat.thres.index]
       }
     }
   }
-  
+
   # [ Integer to factor ] ====
   if (integer2factor) {
     index.integer <- which(sapply(x, is.integer))
     if (verbose) msg("Converting integers to factors...")
     for (i in index.integer) x[, i] <- as.factor(x[, i])
   }
-  
+
   # [ Integer to numeric ] ====
   if (integer2numeric) {
     index.integer <- which(sapply(x, is.integer))
     if (verbose) msg("Converting integers to numeric")
     for (i in index.integer) x[, i] <- as.numeric(x[, i])
   }
-  
+
   # [ Logical to factor ] ====
   if (logical2factor) {
     index.logical <- which(sapply(x, is.logical))
     if (verbose) msg("Converting logicals to factor")
     for (i in index.logical) x[, i] <- as.factor(x[, i])
   }
-  
+
   # [ Logical to numeric ] ====
   if (logical2numeric) {
     index.logical <- which(sapply(x, is.logical))
     if (verbose) msg("Converting logicals to factor")
     for (i in index.logical) x[, i] <- as.numeric(x[, i])
   }
-  
+
   # [ Numeric to factor ] ====
   if (numeric2factor) {
     index.numeric <- which(sapply(x, is.numeric))
@@ -109,7 +110,7 @@ preprocess.default <- function(x, y = NULL,
       for (i in index.numeric) x[, i] <- factor(x[, i], levels = numeric2factor.levels)
     }
   }
-  
+
   # [ Nonzero factors ] ====
   if (nonzeroFactors) {
     if (verbose) msg("Shifting factor levels to exclude 0")
@@ -123,7 +124,7 @@ preprocess.default <- function(x, y = NULL,
       }
     }
   }
-  
+
   # [ Impute ] ====
   if (impute) {
     if (impute.type == "missForest") {
@@ -131,17 +132,17 @@ preprocess.default <- function(x, y = NULL,
       if (verbose) msg("Imputing missing values using missForest...")
       x <- missForest::missForest(x, maxiter = impute.niter, ntree = impute.ntree,
                                   parallelize = missForest.parallelize)$ximp
-      
+
     } else if (impute.type == "rfImpute") {
       # '- rfImpute ----
       if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use missForest instead")
       x <- randomForest::rfImpute(x, y, iter = impute.niter, ntree = impute.ntree)
-      
+
     } else {
       # '- mean/mode ----
       if (verbose) msg0("Imputing missing values using ", deparse(substitute(impute.numeric)),
                         " and ", deparse(substitute(impute.discrete)), "...")
-      
+
       discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
       if (length(discrete.index) > 0) {
         for (i in discrete.index) {
@@ -150,7 +151,7 @@ preprocess.default <- function(x, y = NULL,
           x[index, i] <- imputed
         }
       }
-      
+
       integer.index <- which(sapply(x, function(i) is.integer(i) && anyNA(i)))
       if (length(integer.index) > 0) {
         for (i in integer.index) {
@@ -159,7 +160,7 @@ preprocess.default <- function(x, y = NULL,
           x[index, i] <- imputed
         }
       }
-      
+
       numeric.index <- which(sapply(x, function(i) is.numeric(i) && anyNA(i)))
       if (length(numeric.index) > 0) {
         for (i in numeric.index) {
@@ -170,8 +171,8 @@ preprocess.default <- function(x, y = NULL,
       }
     }
     }
-    
-  
+
+
   # [ Scale +/- center ] ====
   if (scale | center) {
     sc <- if (scale) "Scaling" else NULL
@@ -179,7 +180,7 @@ preprocess.default <- function(x, y = NULL,
     if (verbose) msg(paste(c(sc, ce), collapse = " and "), "dataset...")
     x <- as.data.frame(scale(x, scale = scale, center = center))
   }
-  
+
   # [ Remove constants ] ====
   if (removeConstant) {
     constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
@@ -188,8 +189,11 @@ preprocess.default <- function(x, y = NULL,
       x <- x[, -constant]
     }
   }
-  
+
+  # [ One Hot Encoding ] ====
+  if (oneHot) x <- oneHot(x, verbose = verbose)
+
   if (verbose) msg("Done")
   x
-  
+
 } # rtemis::preprocess
