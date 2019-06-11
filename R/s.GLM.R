@@ -145,6 +145,13 @@ s.GLM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+
+  if (!is.null(family) && family %in% c("binomial", "multinomial") && type != "Classification") {
+    y  <- factor(y)
+    if (!is.null(y.test)) y.test <- factor(y.test)
+    type <- "Classification"
+  }
+
   checkType(type, c("Classification", "Regression"), mod.name)
   # if (is.null(weights) & ipw) weights <- dt$weights
   .weights <- if (is.null(weights) & ipw) dt$weights else weights

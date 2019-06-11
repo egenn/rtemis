@@ -113,7 +113,6 @@ s.GLMNET <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
-  if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(family)) {
     if (type == "Regression") {
       family <- "gaussian"
@@ -122,7 +121,16 @@ s.GLMNET <- function(x, y = NULL,
     } else if (type == "Survival") {
       family <- "cox"
     }
+  } else {
+    if (family %in% c("binomial", "multinomial") && type != "Classification") {
+      y  <- factor(y)
+      if (!is.null(y.test)) y.test <- factor(y.test)
+      type <- "Classification"
+    }
   }
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+
+  if (!is.null(family) && family %in% c("binomial", "multinomial") && !is.factor(y))
 
   if (type == "Survival") {
     colnames(y) <- c("time", "status")
