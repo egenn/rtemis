@@ -17,7 +17,7 @@ oneHot <- function(x, verbose = TRUE) {
   one.hot <- as.list(x)
   if (verbose) .names <- colnames(x)
   for (i in factor.index) {
-    if (verbose) msg("Converting", .names[i], "to one hot...")
+    if (verbose) msg0("One hot encoding ", .names[i], "...")
     .levels <- levels(x[, i])
     index <- as.numeric(x[, i])
     oh <- matrix(0, ncases, length(.levels))
