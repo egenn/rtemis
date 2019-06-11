@@ -24,11 +24,13 @@ preprocess.default <- function(x, y = NULL,
                                logical2numeric = FALSE,
                                numeric2factor = FALSE,
                                numeric2factor.levels = NULL,
+                               character2factor = FALSE,
                                nonzeroFactors = FALSE,
                                scale = FALSE,
                                center = FALSE,
                                removeConstant = TRUE,
                                oneHot = FALSE,
+                               exclude = NULL,
                                verbose = TRUE, ...) {
 
   # Arguments ====
@@ -42,12 +44,19 @@ preprocess.default <- function(x, y = NULL,
     x <- x[complete.cases(x), ]
   }
 
+  # [ Set aside excluded ] ====
+  if (!is.null(exclude)) {
+    excluded <- x[, exclude, drop = FALSE]
+    excluded.names <- colnames(x)[exclude]
+    x <- x[, -exclude, drop = FALSE]
+  }
+
   # [ Remove Cases by missing feature threshold ] ====
   if (!is.null(removeCases.thres)) {
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
       # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-      na.fraction.bycase <- transpose(xt[, -1])[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
+      na.fraction.bycase <- data.table::transpose(xt[, -1])[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
       removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
       if (length(removeCases.thres.index) > 0) {
         if (verbose) msg("Removing", length(removeCases.thres.index), "cases with >=",
@@ -111,6 +120,13 @@ preprocess.default <- function(x, y = NULL,
     }
   }
 
+  # [ Character to factor ] ====
+  if (character2factor) {
+    index.char <- which(sapply(x, is.character))
+    if (verbose) msg("Converting characters to factors...")
+    for (i in index.char) x[, i] <- as.factor(x[, i])
+  }
+
   # [ Nonzero factors ] ====
   if (nonzeroFactors) {
     if (verbose) msg("Shifting factor levels to exclude 0")
@@ -172,7 +188,6 @@ preprocess.default <- function(x, y = NULL,
     }
     }
 
-
   # [ Scale +/- center ] ====
   if (scale | center) {
     sc <- if (scale) "Scaling" else NULL
@@ -192,6 +207,17 @@ preprocess.default <- function(x, y = NULL,
 
   # [ One Hot Encoding ] ====
   if (oneHot) x <- oneHot(x, verbose = verbose)
+
+  # [ Add back excluded ] ====
+  if (!is.null(exclude)) {
+    if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
+      n.feat.inc <- NCOL(x)
+      x <- cbind(x, excluded[-removeCases.thres.index, ])
+      colnames(x)[-c(seq(n.feat.inc))] <- excluded.names
+    } else {
+      x <- cbind(x, excluded)
+    }
+  }
 
   if (verbose) msg("Done")
   x
