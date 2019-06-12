@@ -6,9 +6,6 @@
 #'
 #' Calculate error metrics for pair of vector, e.g. true and estimated values from a model
 #'
-#' For classification, caret's confusion matrix is used, modified to include $byClass measures under
-#' $overall. In the case of multiclass outcome, these are averaged.
-#'
 #' In regression, NRMSE = RMSE / range(observed)
 #' @param true Vector: True values
 #' @param estimated Vector: Estimated values
@@ -128,16 +125,6 @@ modError <- function(true,
     # if (class(y) != "factor") y <- as.factor(y)
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
-    # s.out <- caret::confusionMatrix(y, x, mode = "everything")
-    # byClass <- if (n.classes == 2) {
-    #   data.frame(t(s.out$byClass))
-    # } else {
-    #   data.frame(t(colMeans(s.out$byClass)))
-    # }
-    # names(byClass) <- c("Sensitivity", "Specificity", "PosPredValue", "NegPredValue",
-    #                     "F1", "Prevalence", "DetectionRate",
-    #                     "DetectionPrevalence", "Balanced Accuracy")
-    # s.out$overall <- data.frame(t(s.out$overall), byClass)
     s.out <- classError(x, y, estimated.prob)
   } else {
 

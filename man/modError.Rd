@@ -31,9 +31,6 @@ Object of class \code{modError}
 Calculate error metrics for pair of vector, e.g. true and estimated values from a model
 }
 \details{
-For classification, caret's confusion matrix is used, modified to include $byClass measures under
-$overall. In the case of multiclass outcome, these are averaged.
-
 In regression, NRMSE = RMSE / range(observed)
 }
 \author{

@@ -1043,7 +1043,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                           self$resampler.params$n.resamples, " aggregated resamples",
                                           ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
                            if (self$type == "Classification") {
-                             conf <- caret::confusionMatrix(predicted, y.test)
+                             conf <- classError(y.test, predicted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
                                          mar = c(3, 3, 5, 3),
                                          main.height = 2,
@@ -1072,7 +1072,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                           self$resampler.params$n.resamples, " aggregated resamples",
                                           ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
                            if (self$type == "Classification") {
-                             conf <- caret::confusionMatrix(fitted, y.train)
+                             conf <- classError(y.train, fitted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
                                          mar = c(3, 3, 5, 3),
                                          filename = filename,
