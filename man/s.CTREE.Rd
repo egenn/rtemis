@@ -116,8 +116,6 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
 }
 \author{
 Efstathios D. Gennatas
-
-Efstathios D. Gennatas
 }
 \concept{Supervised Learning}
 \concept{Tree-based methods}
