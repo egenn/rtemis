@@ -21,6 +21,7 @@
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
+#' @family Interpretable models
 #' @export
 
 s.GLMNET <- function(x, y = NULL,

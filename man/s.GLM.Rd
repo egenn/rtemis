@@ -150,8 +150,13 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.SGD}}, \code{\link{s.SPLS}},
   \code{\link{s.SVM}}, \code{\link{s.TFN}},
   \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
+
+Other Interpretable models: \code{\link{s.ADDTREE}},
+  \code{\link{s.C50}}, \code{\link{s.CART}},
+  \code{\link{s.GLMNET}}
 }
 \author{
 Efstathios D. Gennatas
 }
+\concept{Interpretable models}
 \concept{Supervised Learning}

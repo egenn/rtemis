@@ -171,7 +171,9 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.RFSRC}}, \code{\link{s.RF}},
   \code{\link{s.XGB}}
 
-Other Interpretable models: \code{\link{s.ADDTREE}}
+Other Interpretable models: \code{\link{s.ADDTREE}},
+  \code{\link{s.C50}}, \code{\link{s.GLMNET}},
+  \code{\link{s.GLM}}
 }
 \author{
 Efstathios D. Gennatas

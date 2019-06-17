@@ -76,6 +76,7 @@
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
+#' @family Interpretable models
 #' @export
 
 s.GLM <- function(x, y = NULL,

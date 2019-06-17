@@ -14,6 +14,7 @@
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
+#' @family Interpretable models
 #' @export
 
 s.C50 <- function(x, y = NULL,
