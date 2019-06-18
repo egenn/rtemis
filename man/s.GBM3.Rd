@@ -27,8 +27,9 @@ s.GBM3(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   "lightgrid"), x.name = NULL, y.name = NULL, question = NULL,
   verbose = TRUE, trace = 0, grid.verbose = TRUE,
   gbm.fit.verbose = FALSE, outdir = NULL, save.gridrun = FALSE,
-  save.rds = TRUE, save.res = FALSE, save.res.mod = FALSE,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  save.error.diagnostics = FALSE, save.rds = TRUE, save.res = FALSE,
+  save.res.mod = FALSE, save.mod = ifelse(!is.null(outdir), TRUE,
+  FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
