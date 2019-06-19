@@ -38,8 +38,8 @@ s.GLMNET <- function(x, y = NULL,
                      nlambda = 100,
                      which.cv.lambda = c("lambda.1se", "lambda.min"),
                      penalty.factor = NULL,
-                     polynomial = FALSE,
-                     poly.d = 2,
+                     # polynomial = FALSE,
+                     # poly.d = 2,
                      # adaptive = FALSE,
                      # gamma = 1,
                      weights = NULL,
@@ -225,13 +225,21 @@ s.GLMNET <- function(x, y = NULL,
   }
 
   # [ FITTED ] ====
+  # return(list(mod = mod, x = x, type = type, y = y))
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
   } else {
-    fitted.prob <- predict(mod, x, type = "response")[, 1]
-    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
-    levels(fitted) <- levels(y)
+    if (family == "binomial") {
+      fitted.prob <- predict(mod, x, type = "response")[, 1]
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
+    } else {
+      fitted.prob <- predict(mod, x, type = "response")
+      fitted <- factor(colnames(fitted.prob)[apply(fitted.prob, 1, which.max)],
+                       levels = levels(y))
+    }
+
   }
 
   error.train <- modError(y, fitted, fitted.prob)
@@ -244,9 +252,16 @@ s.GLMNET <- function(x, y = NULL,
       predicted <- as.numeric(predict(mod, newx = x.test))
       predicted.prob <- NULL
     } else {
-      predicted.prob <- predict(mod, x.test, type = "response")[, 1]
-      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
-      levels(predicted) <- levels(y)
+      if (family == "binomial") {
+        predicted.prob <- predict(mod, x.test, type = "response")[, 1]
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        levels(predicted) <- levels(y)
+      } else {
+        predicted.prob <- predict(mod, x.test, type = "response")
+        predicted <- factor(colnames(predicted.prob)[apply(predicted.prob, 1, which.max)],
+                         levels = levels(y))
+      }
+
     }
 
     if (!is.null(y.test)) {

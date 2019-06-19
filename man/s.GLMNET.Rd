@@ -10,14 +10,14 @@ s.GLMNET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   grid.randomized.p = 0.1, intercept = TRUE, nway.interactions = 0,
   family = NULL, alpha = seq(0, 1, 0.2), lambda = NULL,
   nlambda = 100, which.cv.lambda = c("lambda.1se", "lambda.min"),
-  penalty.factor = NULL, polynomial = FALSE, poly.d = 2,
-  weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, res.summary.fn = mean, save.grid.run = FALSE,
-  metric = NULL, maximize = NULL, .gs = FALSE, save.gs.mod = FALSE,
-  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
-  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  penalty.factor = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, upsample.seed = NULL, res.summary.fn = mean,
+  save.grid.run = FALSE, metric = NULL, maximize = NULL,
+  .gs = FALSE, save.gs.mod = FALSE, n.cores = rtCores,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
+  rtclass = NULL, verbose = TRUE, outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -51,10 +51,6 @@ combinations. Default = .1}
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
 \item{lambda}{Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
-
-\item{polynomial}{Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)}
-
-\item{poly.d}{Integer: degree of polynomial. Default = 3}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
