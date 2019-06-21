@@ -286,9 +286,9 @@ predict.ruleFeat <- function(object, newdata = NULL,
   # [ PREDICT ] ====
   if (object$mod.gbm$type == "Classification") {
 
-    prob <- 1 - predict(object$mod.glmnet.select$mod,
-                        newx = data.matrix(cases.by.rules),
-                        type = "response")[, 1]
+    prob <- predict(object$mod.glmnet.select$mod,
+                    newx = data.matrix(cases.by.rules),
+                    type = "response")[, 1]
 
     yhat <- factor(predict(object$mod.glmnet.select$mod,
                            newx = data.matrix(cases.by.rules),
