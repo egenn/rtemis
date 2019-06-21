@@ -139,15 +139,16 @@ s.RULEFEAT <- function(x, y = NULL,
   nonzero.index <- which(abs(rule.coefs$Coefficient) > 0)
   n.nonzero.rules <- length(nonzero.index)
   rules.selected <- gbm.rules.names[nonzero.index]
+  cases.by.rules.selected <- cases.by.rules[, nonzero.index]
+  Ncases.by.rules <- matrixStats::colSums2(cases.by.rules.selected)
+
   if (!is.null(outdir)) {
     rules.selected.file <- paste0(outdir, "rules.selected.csv")
-    write.csv(rules.selected, rules.selected.file, row.names = FALSE)
-    if (file.exists(paste0(outdir, "rules.selected.csv"))) {
+    write.csv(rules.selected, rules.selected.file, row.names = TRUE)
+    if (file.exists(rules.selected.file)) {
       if (verbose) msg("Selected rules written to", rules.selected.file)
     }
   }
-
-  cases.by.rules.selected <- cases.by.rules[, nonzero.index]
 
   # [ EMPIRICAL RISK ] ====
   dat <- as.data.table(cbind(x, outcome = y))
@@ -160,9 +161,11 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ WRITE CSV ] ====
   rules.selected.formatted <- formatRules(rules.selected, decimal.places = 2)
-  rules.selected.coef.er <- data.frame(Rule = rules.selected.formatted,
+  rules.selected.coef.er <- data.frame(Rule_ID = seq(rules.selected.formatted),
+                                       Rule = rules.selected.formatted,
+                                       N_Cases = Ncases.by.rules,
                                        Coefficient = rule.coefs$Coefficient[nonzero.index],
-                                       Empirical.Risk = empirical.risk)
+                                       Empirical_Risk = empirical.risk)
   if (!is.null(outdir)) {
     write.csv(rules.selected.coef.er,
               paste0(outdir, "Rules.selected_Coefs_Empirical.Risk.csv"),
