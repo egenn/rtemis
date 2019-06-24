@@ -117,7 +117,7 @@ s.RULEFEAT <- function(x, y = NULL,
     colnames(gbm.rules.names) <- "Rule"
 
     # [ Match Cases by Rules ] ====
-    cases.by.rules <- matchCasesByRules(x, gbm.rules.names)
+    cases.by.rules <- matchCasesByRules(x, gbm.rules.names, verbose = verbose)
   } else {
     mod.gbm <- gbm.rules <- gbm.rules.names <- NA
   }
@@ -281,7 +281,7 @@ predict.ruleFeat <- function(object, newdata = NULL,
   # Match newdata to rules: create features for predict
   if (!is.null(newdata)) {
     if (verbose) msg("Matching newdata to rules...")
-    cases.by.rules <- matchCasesByRules(newdata, rules)
+    cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
   } else {
     cases.by.rules <- object$cases.by.rules.selected
   }
@@ -321,6 +321,6 @@ rt.GBM2List <- function(gbm1, X) {
   v2int <- function(v) {
     sum((-v + 1)/2 * 2^seq(0, (length(v) - 1), 1))
   }
-  splitBin = sapply(gbm1$c.splits, v2int)
+  splitBin <- sapply(gbm1$c.splits, v2int)
   return(inTrees::formatGBM(treeList, splitBin, X))
 } # rtemis::rt.GBM2List
