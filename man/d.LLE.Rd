@@ -6,7 +6,7 @@
 \usage{
 d.LLE(x, k = 2, nn = 0, nn.min = 1, nn.max = 20,
   plot.calcnn = FALSE, id = FALSE, iLLE = FALSE, nnk = TRUE,
-  reg = 2, v = 0.9, verbose = TRUE, n.cores = rtCores, ...)
+  reg = 2, v = 0.9, verbose = TRUE, n.cores = 1, ...)
 }
 \arguments{
 \item{x}{Input data}
