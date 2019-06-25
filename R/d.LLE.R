@@ -83,8 +83,12 @@ d.LLE <- function(x,
     # setDefaultClusterOptions <- snow::setDefaultClusterOptions
     # nn <- lle::calc_k(x, m = k, kmin = nn.min, kmax = nn.max, plotres = plot.calcnn,
     #                   parallel = ifelse(n.cores > 1, TRUE, FALSE), cpus = n.cores)
-    nn <- rt_lle_calc_k(x, m = k, kmin = nn.min, kmax = nn.max, plotres = plot.calcnn,
-                        n.cores = n.cores)
+    nn <- rt_lle_calc_k(x, m = k,
+                        kmin = nn.min,
+                        kmax = nn.max,
+                        plotres = plot.calcnn,
+                        n.cores = n.cores,
+                        verbose = verbose)
     nn <- nn$k[which.min(nn$rho)]
   }
   if (verbose) msg("Performing Locally Linear Embedding...")
