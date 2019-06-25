@@ -37,7 +37,8 @@ data: .99, for noisy data: .9. Default = .9}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
-\item{n.cores}{Integer: Number of cores to use}
+\item{n.cores}{Integer: Number of cores to use. Default = 1. At some point using more than one cores stopped working.
+The \code{lle} package has not been updated since February 2015 - we will switch to a different implementation soon}
 
 \item{...}{Additional parameters to be passed to \code{LLE::LLE}}
 }

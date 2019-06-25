@@ -29,7 +29,8 @@
 #' @param reg Integer {1, 2, 3}: Regularization methods: See \code{lle::lle("reg")}
 #' @param v Float: Threshold value for intrinsic dimension estimation. Suggestion for noiseless
 #' data: .99, for noisy data: .9. Default = .9
-#' @param n.cores Integer: Number of cores to use
+#' @param n.cores Integer: Number of cores to use. Default = 1. At some point using more than one cores stopped working.
+#' The \code{lle} package has not been updated since February 2015 - we will switch to a different implementation soon
 #' @param ... Additional parameters to be passed to \code{LLE::LLE}
 #' @return \link{rtDecom} object
 #' @author Efstathios D. Gennatas
