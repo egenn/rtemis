@@ -108,7 +108,8 @@ s.RULEFEAT <- function(x, y = NULL,
     # [ Get Rules ] ====
     if (verbose) msg("Collecting Gradient Boosting Rules (Trees)...")
     gbm.list <- rt.GBM2List(mod.gbm$mod, X = x)
-    gbm.rules <- inTrees::extractRules(gbm.list, X = x, ntree = n.trees)
+    gbm.rules <- inTrees::extractRules(gbm.list, X = x, ntree = n.trees,
+                                       maxdepth = gbm.params$interaction.depth)
     if (verbose) msg("Extracted", length(gbm.rules), "rules...")
     gbm.rules <- unique(gbm.rules)
     n.rules.total <- length(gbm.rules)
