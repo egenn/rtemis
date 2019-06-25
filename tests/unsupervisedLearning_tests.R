@@ -91,7 +91,7 @@ if (requireNamespace("kernlab", quietly = TRUE)) {
 }
 
 if (requireNamespace("lle", quietly = TRUE)) {
-  decom <- d.LLE(x, k = 2)
+  decom <- d.LLE(x, k = 2, n.cores = 1)
   decom
 }
 
