@@ -6,53 +6,34 @@
 #'
 #' @keywords internal
 
-rt_lle_calc_k <- function(X, m,
+rt_lle_calc_k <- function(x, m,
                           kmin = 1, kmax = 20,
                           plotres = TRUE,
                           iLLE = FALSE,
                           n.cores = rtCores,
                           verbose = TRUE) {
-  N <- dim(X)[1]
+  N <- NROW(x)
   if (kmax >= N)
     kmax <- N - 1
-  # if (.Platform$OS.type == "windows") {
-  #   dev <- "nul"
-  # } else {
-  #   dev <- "/dev/null"
-  # }
 
-  # if (parallel == TRUE)
-  #   sfInit(parallel = TRUE, cpus = cpus)
-  # else sfInit(parallel = FALSE)
-  # options(warn = -1)
-  # sfLibrary(lle)
-  # options(warn = 0)
-  perform_calc <- function(k, X, m, iLLE = FALSE) {
-    N <- dim(X)[1]
-    # sink(dev)
-    Y <- lle::lle(X, m, k, 2, 0, iLLE = iLLE)$Y
-    # sink()
-    Dx <- as.matrix(dist(X))
+  perform_calc <- function(k, x, m, iLLE = FALSE) {
+
+    N <- NROW(x)
+    Y <- lle::lle(x, m, k, 2, 0, iLLE = iLLE)$Y
+    Dx <- as.matrix(dist(x))
     Dy <- as.matrix(dist(Y))
     rho <- c()
-    for (i in 1:N) rho <- c(rho, cor(Dx[i, ], Dy[i, ]))
-    return(mean(1 - rho^2))
-  }
-  # rho <- invisible(sfLapply(kmin:kmax, perform_calc, X, m,
-  #                           iLLE))
+    for (j in seq(N)) rho <- c(rho, cor(Dx[j, ], Dy[j, ]))
+    mean(1 - rho^2)
 
-  # rho <- pbapply::pblapply(kmin:kmax, function(i) perform_calc(k = i,
-  #                                                              X = X,
-  #                                                              m = m,
-  #                                                              iLLE = iLLE),
-  #                          cl = n.cores)
+  } # rtemis::perform_calc
+
   rho <- pbapply::pbsapply(kmin:kmax, function(i) perform_calc(k = i,
-                                                               X = X,
+                                                               x = x,
                                                                m = m,
                                                                iLLE = iLLE),
                            cl = n.cores)
 
-  # rho <- unclass(unlist(rho))
   res <- data.frame(k = c(kmin:kmax), rho = rho)
   if (plotres) {
     par(mar = c(5, 5, 4, 2) + 0.1)
