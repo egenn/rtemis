@@ -5,7 +5,7 @@
 \title{\pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}}
 \usage{
 rt_lle_calc_k(X, m, kmin = 1, kmax = 20, plotres = TRUE,
-  n.cores = rtCores, iLLE = FALSE)
+  iLLE = FALSE, n.cores = rtCores, verbose = TRUE)
 }
 \description{
 \pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}
