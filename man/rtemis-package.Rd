@@ -7,6 +7,11 @@
 \description{
 \pkg{rtemis}: Machine Learning and Visualization
 }
+\section{Online Documentation and Vignettes}{
+
+\url{https://rtemis.netlify.com}
+}
+
 \section{System Setup}{
 
 There are some options you can define in your .Rprofile (usually found in your home directory),

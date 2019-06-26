@@ -22,6 +22,8 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
 #' \pkg{rtemis}: Machine Learning and Visualization
 #'
+#' @section Online Documentation and Vignettes:
+#' \url{https://rtemis.netlify.com}
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
