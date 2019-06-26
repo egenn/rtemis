@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+suppressWarnings(RNGversion("3.5.0"))
 library(rtemis)
 x <- rnormmat(400, 500, seed = 2019)
 z <- rnormmat(400, 500, seed = 2020)
