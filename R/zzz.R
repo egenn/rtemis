@@ -12,7 +12,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
-                               " available cores]"))
+                               " available cores]\n\n  Need help?\n  Online documentation & vignettes: https://rtemis.netlify.com\n"))
 
   # Draw a harmonograph on startup if we are in RStudio
   try(if (try(rstudioapi::isAvailable(), silent = TRUE))
