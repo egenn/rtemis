@@ -640,7 +640,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
   yPred <- factor(yPred, levels = c(1, -1))
   levels(yPred) <- levels(object$y)
   yPred
-  
+
 } # rtemis::predict.addtree
 
 
@@ -746,9 +746,7 @@ print.addtree <- function(x, ...) {
   n.nodes <- NROW(frame)
   n.leaves <- sum(frame$SplitVar == "<leaf>")
   depth <- max(frame$Depth)
-  cat("-------------------------------------------------------------------\n")
-  cat("AddTree with", n.nodes, "nodes total,", n.leaves, "leaves, and max depth of", depth, "\n")
-  cat("-------------------------------------------------------------------\n\n")
+  boxcat(paste("AddTree with", n.nodes, "nodes total,", n.leaves, "leaves, and max depth of", depth))
   cat("Index [Condition] N| Value| Estimate| Depth (* leaf node)\n\n")
   for (i in 1:nrow(frame)) {
     # cat(paste(c(frame$n[i], " ", frame$prefix[i], "[", frame$Condition[i], "] ", frame$N[i], " ",
