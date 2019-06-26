@@ -125,8 +125,8 @@ mplot3.conf <- function(object,
   # File out ====
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
 
-  color.pos <- colorGrad(199, mid = mid.col, hi = hi.color.pos)
-  color.neg <- colorGrad(199, mid = mid.col, hi = hi.color.neg)
+  color.pos <- colorRampPalette(c(mid.col, hi.color.pos))(100)
+  color.neg <- colorRampPalette(c(mid.col, hi.color.neg))(100)
   class.labels <- colnames(tbl)
   n.classes <-  length(class.labels)
 
@@ -245,16 +245,16 @@ mplot3.conf <- function(object,
   }
 
   # '- Confusion matrix ====
-  for (i in seq(n.classes)) {
-    for (j in seq(n.classes)) {
-      frac <- tbl[j, i]/class.totals[j]
+  for (j in seq(n.classes)) {
+    for (i in seq(n.classes)) {
+      frac <- tbl[i, j]/class.totals[j]
       if (i == j) {
-        col <- color.pos[100:199][round(frac*100)]
+        col <- color.pos[round(frac*100)]
       } else {
-        col <- color.neg[100:199][round(frac*100)]
+        col <- color.neg[round(frac*100)]
       }
       plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col, cex = 50, pch = 15)
-      text(0, 0, paste(tbl[j, i]), cex = cex.in,
+      text(0, 0, paste(tbl[i, j]), cex = cex.in,
            col = ifelse(frac >= .5, col.text.hi, col.text.lo), font = font.in)
     }
   }
