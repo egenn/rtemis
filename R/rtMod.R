@@ -1177,31 +1177,6 @@ rtModCV <- R6::R6Class("rtModCV",
 #' @name rtModCV-methods
 NULL
 
-#' #' \code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
-#' #'
-#' #' @method predict rtModCV
-#' #' @param newdata Testing set features
-#' #' @rdname rtModCV-methods
-#' #' @export
-#' predict.rtModCV <- function(object,
-#'                             newdata,
-#'                             fn = "median",
-#'                             verbose = TRUE, ...) {
-#'
-#'   # special cases: GBM - include n.trees: can be supplied in '...'
-#'   # BRUTO: newdata must be matrix
-#'   if (verbose) msg("Calculating estimated values using", fn, "of", length(object$mod), "bag resamples")
-#'   estimated.df <- sapply(object$mod, function(m) predict(m$mod1, newdata = newdata, ...))
-#'   estimated <- apply(estimated.df, 1, fn)
-#'   if (object$type == "Regression") {
-#'     estimated <- as.numeric(estimated)
-#'   } else {
-#'     estimated <- levels(object$y.train)[estimated]
-#'   }
-#'   return(estimated)
-#'
-#' } # rtemis::predict.rtModCV
-
 
 #' \code{plot.rtModCV}: \code{plot} method for \code{rtModCV} object
 #'
