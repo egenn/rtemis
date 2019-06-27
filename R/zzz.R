@@ -14,7 +14,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
                                " available cores]\n\n  Need help?\n  Online documentation & vignettes: https://rtemis.netlify.com\n"))
 
-  # Draw a harmonograph on startup if we are in RStudio
+  # Draw a harmonograph if we are in RStudio
   try(if (try(rstudioapi::isAvailable(), silent = TRUE))
     mplot3.harmonograph(text = "rtemis", text.adj = .01, text.padj = -.2, text.col = "#72CDF4"), silent = TRUE)
 }

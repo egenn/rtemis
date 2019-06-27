@@ -13,7 +13,8 @@ glmLiteBoostTV(x, y = NULL, x.valid = NULL, y.valid = NULL,
   print.progress.every = 5, print.error.plot = "final",
   prefix = NULL, plot.theme = getOption("rt.fit.theme", "lightgrid"),
   plot.fitted = NULL, plot.predicted = NULL, print.plot = FALSE,
-  print.base.plot = FALSE, plot.type = "l", outdir = NULL, ...)
+  print.base.plot = FALSE, plot.type = "l", n.cores = rtCores,
+  outdir = NULL, ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
