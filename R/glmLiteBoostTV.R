@@ -55,6 +55,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                            print.plot = FALSE,
                            print.base.plot = FALSE,
                            plot.type = 'l',
+                           n.cores = rtCores,
                            outdir = NULL, ...) {
 
   # [ INTRO ] ====
@@ -293,7 +294,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   # [ PREDICTED ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict(obj, x.test)
+    predicted <- predict(obj, x.test, n.cores = n.cores)
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted)
       if (verbose) errorSummary(error.test)
@@ -409,7 +410,7 @@ predict.glmLiteBoostTV <- function(object,
   if (is.null(n.iter)) n.iter <- length(object$mods)
 
   if (!as.matrix) {
-    predicted <- rowSums(cbind(rep(object$init, NROW(newdata)),
+    predicted <- matrixStats::rowSums2(cbind(rep(object$init, NROW(newdata)),
                                pbapply::pbsapply(seq(n.iter), function(i)
                                  predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i],
                                  cl = n.cores)))
