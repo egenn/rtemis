@@ -5,14 +5,15 @@ r:
 sudo: false
 warnings_are_errors: false
 cache: packages
+r_build_args: --no-build-vignettes --no-manual --no-resave-data
+r_check_args: --no-build-vignettes --no-manual
 
 env:
   global:
-    - R_BUILD_ARGS=" --no-vignettes --no-build-vignettes --no-manual "
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
 before_install:
-  - R -e 'install.packages(c("remotes", "knitr"))'
+  - R -e 'install.packages(c("remotes"))'
 
 install:
   - R -e 'remotes::install_deps(dep = NA)'
