@@ -127,16 +127,11 @@ mplot3.varimp <- function(x,
   }
 
   if (is.null(xlim)) {
-    if (is.null(error)) {
-      # xlim <- range(c(0, x))
-      # xlim <- range(c(0, diff(c(0, max(x))) * 1.04))
-      # xlim <- c(0, diff(c(0, max(x))) * 1.04)
-      xlim <- range(x) * 1.04
-    } else {
-      # xlim <- range(c(0, x + error))
-      # xlim <- c(0, diff(c(0, max(x + error))) * 1.04)
-      xlim <- range(x + error) * 1.04
-    }
+    .error <- if (is.null(error)) 0 else error
+    x.range <- max(x + .error) - min(x + .error)
+    x.min <- min(x + .error) - .04 * x.range
+    x.max <- max(x + .error) + .04 * x.range
+    xlim <- range(c(0, x.min, x.max))
   }
 
   # Add x% either side (unless zero)
@@ -241,10 +236,13 @@ mplot3.varimp <- function(x,
   if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = 0, nx = NULL)
 
   # [ BARPLOT ] ====
-  barCenters <- barplot(x, col = cols, border = border, ylim = ylim, axes = barplot.axes,
+  barCenters <- barplot(x, col = cols, border = border,
+                        xlim = xlim, ylim = ylim, axes = barplot.axes,
                         cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
                         axisnames = axisnames, names.arg = names.arg,
-                        width = width, space = space, horiz = TRUE, ...)
+                        width = width, space = space, horiz = TRUE,
+                        # xpd = FALSE,
+                        xaxs = "i", yaxs = "i", ...)
   if (xlim[1] < 0 & 0 < xlim[2]) abline(v = 0, col = labs.col, lwd = 1.5)
 
   # [ ERROR BARS ] ====
@@ -304,6 +302,8 @@ mplot3.varimp <- function(x,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-  invisible(barCenters)
+  invisible(list(barCenters = barCenters,
+                 xlim = xlim,
+                 ylim = ylim))
 
 } # rtemis::mplot3.varimp
