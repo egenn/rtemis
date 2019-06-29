@@ -8,7 +8,7 @@ cache: packages
 
 env:
   global:
-    - R_BUILD_ARGS=" --no-build-vignettes --no-manual "
+    - R_BUILD_ARGS=" --no-vignettes --no-build-vignettes --no-manual "
     - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
 before_install:
