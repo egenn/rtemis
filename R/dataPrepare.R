@@ -18,7 +18,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #' @export
 
-dataPrepare <- function(x, y, x.test = NULL, y.test = NULL,
+dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
                         x.valid = NULL, y.valid = NULL,
                         ipw = TRUE,
                         ipw.type = 2,
@@ -55,7 +55,6 @@ dataPrepare <- function(x, y, x.test = NULL, y.test = NULL,
     x.test <- y[, -ncol.x]
     y <- x[, ncol.x]
     x <- x[, -ncol.x]
-    ncol.x <- NCOL(x)
   }
 
   # '- (x = x.train_y) or (x = x.train_y, x.test = x.test_y) ====
@@ -63,7 +62,6 @@ dataPrepare <- function(x, y, x.test = NULL, y.test = NULL,
   if (is.null(y) & ncol.x > 1) {
     y <- x[, ncol.x]
     x <- x[, -ncol.x, drop = FALSE]
-    ncol.x <- NCOL(x)
   }
 
   # '- (x = x.train_y, x.test = x.test_y) ====
