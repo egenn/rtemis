@@ -197,8 +197,7 @@ rtset.preprocess <- function(completeCases = FALSE,
                              scale = FALSE,
                              center = FALSE,
                              removeConstant = TRUE,
-                             oneHot = FALSE,
-                             verbose = TRUE) {
+                             oneHot = FALSE) {
 
   list(completeCases = completeCases,
        impute = impute,
@@ -214,8 +213,7 @@ rtset.preprocess <- function(completeCases = FALSE,
        scale = scale,
        center = center,
        removeConstant = removeConstant,
-       oneHot = oneHot,
-       verbose = verbose)
+       oneHot = oneHot)
 
 } # rtemis::rtset.preprocess
 
