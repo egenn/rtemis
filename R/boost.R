@@ -94,8 +94,9 @@ boost <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    x.valid = x.valid, y.valid = y.valid,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    x.valid, y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
                     # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
@@ -201,12 +202,13 @@ boost <- function(x, y = NULL,
       n.cases <- NROW(x)
       index <- sample(n.cases, case.p * n.cases)
       x1 <- x[index, , drop = FALSE]
-      y1 <- y[index]
+      # y1 <- y[index]
       resid1 <- resid[index]
     } else {
       x1 <- x
       resid1 <- resid
     }
+
     mod.args <- c(list(x = x1, y = resid1,
                        x.test = x.valid, y.test = y.valid,
                        verbose = base.verbose, print.plot = print.base.plot),
