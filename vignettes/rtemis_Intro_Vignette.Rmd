@@ -1,0 +1,331 @@
+---
+title: "rtemis Intro Vignette"
+author: "Efstathios D. Gennatas"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+monofont: Hack
+sansfont: Open Sans
+mainfont: Open Sans
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, prompt = FALSE, comment = NA,
+                      fig.width = 5, fig.height = 5)
+options(list(rt.theme = "lightgrid", rt.fit.theme = "lightgrid"))
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled=TRUE)
+```
+
+# Introduction
+__rtemis__ is a platform for advanced machine learning and visualization.  
+To view the full online documentation and vignettes, visit the [rtemis website](https://rtemis.netlify.com)
+
+The __rtemis__ project has three aims:   
+
+* __Applied Data Science__: Make advanced data analysis efficient and accessible to all   
+* __Machine Learning Research__: Provide a platform to develop and test novel ML algorithms   
+* __Education__: Make ML concepts easy to learn by delivering bite-sized vignettes along with code and visualization
+
+
+# Overview
+__rtemis__ functions are divided into the following groups:  
+ 
+* __Visualization__
+     - Static: **_mplot3_** family (base graphics)
+     - Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
+* __Unsupervised Learning__
+     - Clustering: **_u.\*_**
+     - Decomposition: **_d.\*_**
+* __Supervised Learning__
+     - Classification, Regression, Survival Analysis: **_s.\*_**
+* __Cross-Decomposition__
+     - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
+* __Meta-Models__  
+     [Have been temporarily removed for updating]
+     - Model Stacking: **_metaMod()_**
+     - Modality Stacking: **_metaFeat()_**
+     - Group-weighted Stacking: **_metaGroup()_**
+
+# Setup
+
+## Install the latest __rtemis__ version from GitHub
+```{r, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("egenn/rtemis")
+```
+
+This will install __rtemis__ with a minimal set of dependencies. A dependency check is run each time a function is called and will tell you if a package is missing. Install the following packages to begin with a reasonable lightweight setup:
+
+```{r, eval=FALSE}
+packages <- c("caret", "e1071", "gbm", "glmnet", "pbapply", "ranger", "rpart")
+install.packages(packages)
+```
+
+## RStudio
+You can run rtemis in the command line or using the IDE of your choice. RStudio is the preferred environment and can be downloaded [here](https://www.rstudio.com/)
+
+## macOS
+### Prerequisites
+If you are installing on macOS, make sure you have installed: 
+
+* [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+* [XQuartz](https://www.xquartz.org/)
+
+__Note on R + Java on macOS:__
+In order to run some __R__ packages that use __rJava__, like [bartMachine](https://cran.r-project.org/web/packages/bartMachine/index.html), you may need to add a link to `libjvm.dylib` inside your
+__R__ `lib` folder as explained [here](https://support.rstudio.com/hc/en-us/community/posts/203663956/comments/249073727?community_id=200011958&fbclid=IwAR3DdrCdfHVeUyKsSpZeVxHM9bDZKo-7B9gmsgF_rN9a50ZlgzIEsifCrio#community_comment_249073727)
+
+### Using Apple's BLAS
+You can speed up matrix operations by using Apple's [Basic Linear Algebra Subprograms (BLAS)](https://developer.apple.com/documentation/accelerate/blas) instead of the default R BLAS.
+At the MacOS terminal:
+```{bash eval=FALSE}
+cd /Library/Frameworks/R.framework/Resources/lib
+ln -sf /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
+```
+
+Restart R and check the version of BLAS in use:
+```{r}
+sessionInfo()
+```
+
+[Benchmarks](https://mpopov.com/blog/2019/6/4/faster-matrix-math-in-r-on-macos) suggest substantial speed gains for some operations.
+
+## External frameworks
+The following are all optional - install as needed.
+
+### MXNet
+To use MXNet (`s.MXN`), you need to install the MXNet system libraries first and then the R package. Follow instructions on the [MXNet website](https://mxnet.incubator.apache.org).  
+This will first require installation of more system dependencies, which can be installed using [Brew](https://brew.sh)
+
+### H2O
+To use H2O (`d.H2OGLRM`, `s.H2ODL.R`, `s.H2OGBM.R`, `s.H2ORF`, `u.H2OKMEANS`), you will need to install H2O first. Follow instructions on the [H2O website](https://www.h2o.ai/products/h2o/).  
+
+### Spark
+To use Spark's ML framework (`s.MLGBM`, `s.MLMP`, `s.MLRF`), installation can be performed within R:
+```{r sparklyr, eval = FALSE}
+install.packages("sparklyr")
+sparklyr::spark_install()
+```
+
+### Keras + TensorFlow
+You can easily install Keras for R and the TensorFlow library:
+```{r, eval = FALSE}
+devtools::install_github("rstudio/keras")
+library(keras)
+install_keras()
+```
+Learn more on the [RStudio website](https://keras.rstudio.com/)
+
+```{r}
+library(rtemis)
+```
+
+
+# Visualization
+Visualization is a vital part of all data analysis. __rtemis__ has support for both static and dynamic / interactive graphics.  
+
+## Static graphics: `mplot3`
+Static plotting in __rtemis__ is handled by the `mplot3` family. `mplot3` uses base R graphics to render high quality output fast.  
+Selection of available functions:
+
+Command           | Input                    | Plots
+----------------- | ------------------------ | ------------------------------------------------------------
+`mplot3.x`        | Vector(s) `x`            | Index, histogram, density, and QQ-line plots
+`mplot3.xy`       | Vectors `x` and `y`      | Scatter and/or line plots with optional fit line
+`mplot3.fit`      | Vectors `x` and `y`      | `mplot3.xy` wrapper for true vs. estimated values
+`mplot3.xym`      | Vectors `x` and `y`      | `mplot3.xy` scatter with marginal histogram and/or density plots
+`mplot3.img`      | Matrix `x`               | 2D false color plots
+`mplot3.heatmap`  | Matrix `x`               | Heatmaps with optional row and column dendrogram and colorbar
+`mplot3.bar`      | Vector or matrix `x`     | Barplots
+`mplot3.box`      | Matrix `x`               | Boxplots
+
+
+### `mplot3.x`
+Let's create some synthetic data.  
+```{r}
+set.seed(4242)
+x <- rnorm(100)
+y <- .6 * x + 12 + rnorm(100)
+```
+
+Let's see what happens if we try to plot the `x` variable by itself: 
+```{r}
+mplot3.x(x)
+```
+
+You get a plot of the values of `x` against their index.  
+You may want to plot its histogram:
+```{r}
+mplot3.x(x, type = "histogram")
+```
+
+Or its density:
+```{r}
+mplot3.x(x, type = "density")
+```
+
+### `mplot3.xy`
+Now let's plot `y` against `x`: 
+```{r}
+mplot3.xy(x, y)
+```
+
+Let's add a fit line: 
+```{r}
+mplot3.xy(x, y, fit = "lm")
+```
+
+Notice that the parameter `fit` tells `mplot3` to automatically estimate a fit and overplot it.  
+Any __rtemis__ model can be specified for the fit. It is recommended to use `lm` for linear fits and `gam` for nonlinear fits.
+Now, let's also add a confidence band defined by +/- 2 * the standard error of the fit:  
+```{r}
+mplot3.xy(x, y, fit = "lm", se.fit = T)
+```
+
+### `mplot3.xym`
+This function adds marginal density / histogram plots to a scatter plot:  
+```{r}
+x <- rnorm(200)
+y <- x ^ 2 - 8 + rnorm(200)
+mplot3.xym(x, y)
+```
+
+### `mplot3.heatmap`
+```{r}
+x <- mapply(rnorm, rep(10,10))
+xcor <- cor(x)
+rownames(xcor) <- LETTERS[1:10]
+colnames(xcor) <- 1:10
+mplot3.heatmap(xcor)
+```
+
+## Dynamic graphics
+### Scatter: `dplot3`
+`dplot3` uses the powerful [`plotly`](https://plot.ly/) API for `R` to produce interactive plots that can be viewed as HTML in a browser or exported to bitmap graphics.  
+(Try these in RStudio)
+```{r, eval = FALSE}
+set.seed(4242)
+x <- rnorm(100)
+y <- .8 * x ^ 3 + 34 + rnorm(100)
+dplot3(x, y, fit = "gam")
+```
+
+### Heatmap: `dplot3.heatmap`
+Hover over the cells to reveal cell info. You can also drag and drop to zoom in to part of the graph (useful for larger matrices):
+```{r, eval = FALSE}
+x <- mapply(rnorm, rep(10,10))
+x.cor <- cor(x)
+dplot3.heatmap(x.cor)
+```
+
+# Unsupervised Learning: Decomposition
+__rtemis__ includes a number of algorithms for decomposition / dimensionality reduction
+You can get a list of all available algorithms:  
+```{r}
+decomSelect()
+```
+
+As a simple example, let's look the famous `iris` dataset. Note that this is to demonstrate function usage and 
+in no way a good example to demonstrate the effectiveness of different decomposition algorithms since the iris 
+dataset only consists of 4 variables.  
+Let's select all variables from the iris dataset, excluding the group names:
+```{r}
+x <- iris[, 1:4]
+```
+
+## Non-negative Matrix Factorization (NMF)
+```{r}
+iris.NMF <- d.NMF(x, k = 2)
+mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2], group = iris$Species,
+          xlab = "1st NMF component", ylab = "2nd NMF component", main = "NMF on iris")
+```
+
+# Unsupervised Learning: Clustering
+## K-means
+We'll use the NMF projection estimated above and use K-means to identify 3 clusters in the data.
+```{r, warning = FALSE}
+iris.kmeans <- u.KMEANS(x, k = 3)
+mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
+          group = iris.kmeans$clusters.train,
+          xlab = "1st NMF component", ylab = "2nd NMF component", main = "K-MEANS on iris")
+```
+
+## Regression
+
+### Check Data
+```{r synth reg data}
+x <- rnormmat(500, 50, seed = 2019)
+w <- rnorm(50)
+y <- x %*% w + rnorm(500)
+dat <- data.frame(x, y)
+res <- resample(dat)
+dat.train <- dat[res$Resample01, ]
+dat.test <- dat[-res$Resample01, ]
+```
+
+```{r}
+checkData(x)
+```
+
+
+### Single Model
+```{r}
+mod <- s.GLM(dat.train, dat.test)
+```
+
+### Crossvalidated Model
+```{r}
+mod <- elevate(dat, mod = "glm")
+```
+
+Use the `describe` function to get a summary in (plain) English:
+```{r}
+mod$describe()
+```
+
+```{r, fig.width = 5, fig.height = 5.5}
+mod$plot()
+```
+
+
+## Classification
+
+### Check Data
+```{r}
+data(Sonar, package = 'mlbench')
+checkData(Sonar)
+res <- resample(Sonar)
+sonar.train <- Sonar[res$Resample01, ]
+sonar.test <- Sonar[-res$Resample01, ]
+```
+
+### Single model
+```{r}
+mod <- s.RANGER(sonar.train, sonar.test)
+```
+
+
+### Crossvalidated Model
+```{r}
+mod <- elevate(Sonar)
+```
+
+```{r}
+mod$describe()
+```
+
+```{r, fig.width = 5, fig.height = 5.5}
+mod$plot()
+```
+
+```{r}
+mod$plotROC()
+```
+
