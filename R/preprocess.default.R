@@ -31,7 +31,7 @@ preprocess.default <- function(x, y = NULL,
                                removeConstant = TRUE,
                                oneHot = FALSE,
                                exclude = NULL,
-                               verbose = TRUE, ...) {
+                               verbose = TRUE) {
 
   # Arguments ====
   impute.type <- match.arg(impute.type)
