@@ -4,10 +4,10 @@
 \alias{dataPrepare}
 \title{\code{rtemis-internals}: \code{dataPrepare}}
 \usage{
-dataPrepare(x, y, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, removeDots = FALSE, .preprocess = NULL,
-  verbose = FALSE)
+dataPrepare(x, y = NULL, x.test = NULL, y.test = NULL,
+  x.valid = NULL, y.valid = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, upsample.seed = NULL, removeDots = FALSE,
+  .preprocess = NULL, verbose = FALSE)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

@@ -51,8 +51,7 @@ rtset.preprocess(completeCases = FALSE, impute = FALSE,
   impute.discrete = getMode, impute.numeric = mean,
   removeCases.thres = NULL, removeFeatures.thres = NULL,
   integer2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
-  verbose = TRUE)
+  center = FALSE, removeConstant = TRUE, oneHot = FALSE)
 
 rtset.decompose(decom = "ICA", k = 2, ...)
 

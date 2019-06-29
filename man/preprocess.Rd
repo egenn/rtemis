@@ -28,7 +28,7 @@ preprocess(x, ...)
   numeric2factor = FALSE, numeric2factor.levels = NULL,
   character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
   center = FALSE, removeConstant = TRUE, oneHot = FALSE,
-  exclude = NULL, verbose = TRUE, ...)
+  exclude = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{Input}
