@@ -22,8 +22,8 @@ NULL
 rtset.resample <- function(resampler = "kfold",
                            n.resamples = 10,
                            stratify.var = NULL,
-                           cv.p = .75,
-                           cv.groups = 4,
+                           train.p = .75,
+                           strat.n.bins = 4,
                            target.length = NULL,
                            seed = NULL,
                            verbose = TRUE) {
@@ -32,8 +32,8 @@ rtset.resample <- function(resampler = "kfold",
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
-       cv.p = cv.p,
-       cv.groups = cv.groups,
+       train.p = train.p,
+       strat.n.bins = strat.n.bins,
        target.length = target.length,
        seed = seed,
        verbose = verbose)
@@ -47,13 +47,13 @@ rtset.resample <- function(resampler = "kfold",
 #' @rdname rtset
 #' @export
 rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
-                                stratify.var = NULL, cv.p = .75, cv.groups = 4,
+                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                 target.length = NULL, verbose = TRUE) {
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
-       cv.p = cv.p,
-       cv.groups = cv.groups,
+       train.p = train.p,
+       strat.n.bins = strat.n.bins,
        target.length = target.length,
        verbose = verbose)
 
@@ -66,14 +66,14 @@ rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
 #' @rdname rtset
 #' @export
 rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
-                               stratify.var = NULL, cv.p = .75, cv.groups = 4,
+                               stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                target.length = NULL, verbose = TRUE) {
 
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
-       cv.p = cv.p,
-       cv.groups = cv.groups,
+       train.p = train.p,
+       strat.n.bins = strat.n.bins,
        target.length = target.length,
        verbose = verbose)
 
@@ -86,14 +86,14 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 #' @rdname rtset
 #' @export
 rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
-                                stratify.var = NULL, cv.p = .75, cv.groups = 4,
+                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                 target.length = NULL, verbose = TRUE) {
 
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
-       cv.p = cv.p,
-       cv.groups = cv.groups,
+       train.p = train.p,
+       strat.n.bins = strat.n.bins,
        target.length = target.length,
        verbose = verbose)
 
@@ -106,14 +106,14 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 #' @rdname rtset
 #' @export
 rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
-                              stratify.var = NULL, cv.p = .75, cv.groups = 4,
+                              stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                               target.length = NULL, verbose = TRUE) {
 
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
-       cv.p = cv.p,
-       cv.groups = cv.groups,
+       train.p = train.p,
+       strat.n.bins = strat.n.bins,
        target.length = target.length,
        verbose = verbose)
 

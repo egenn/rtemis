@@ -84,10 +84,8 @@ mplot3.heatmap(cor(z))
 mplot3.img(z)
 
 # mplot3.res ====
-if (requireNamespace("caret", quietly = TRUE)) {
-  res <- resample(y)
-  mplot3.res(res)
-}
+res <- resample(y)
+mplot3.res(res)
 
 # mplot3.roc ====
 mplot3.roc(mod$fitted.prob, iris2$Species, method = "rt")

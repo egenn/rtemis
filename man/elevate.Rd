@@ -7,11 +7,11 @@
 elevate(x, y = NULL, mod = "ranger", mod.params = list(),
   .preprocess = NULL, .decompose = NULL, .resample = NULL,
   weights = NULL, resampler = "strat.sub", n.resamples = 10,
-  n.repeats = 1, stratify.var = NULL, cv.p = 0.8, cv.groups = 4,
-  target.length = NULL, seed = NULL, res.index = NULL,
-  res.group = NULL, bag.fn = median, x.name = NULL, y.name = NULL,
-  save.mods = TRUE, save.tune = TRUE, cex = 1.4, col = "#18A3AC",
-  bag.fitted = FALSE, n.cores = 1,
+  n.repeats = 1, stratify.var = NULL, train.p = 0.8,
+  strat.n.bins = 4, target.length = NULL, seed = NULL,
+  res.index = NULL, res.group = NULL, bag.fn = median,
+  x.name = NULL, y.name = NULL, save.mods = TRUE, save.tune = TRUE,
+  cex = 1.4, col = "#18A3AC", bag.fitted = FALSE, n.cores = 1,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   print.plot = TRUE, plot.fitted = FALSE, plot.predicted = TRUE,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
@@ -55,9 +55,9 @@ many resamples, e.g. 25 stratified subsamples,}
 \item{stratify.var}{Numeric vector: Used to stratify external sampling (if applicable)
 Defaults to outcome \code{y}}
 
-\item{cv.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
 
-\item{cv.groups}{Integer: Number of groups to use for stratification for
+\item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
 \item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.

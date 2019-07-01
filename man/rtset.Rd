@@ -21,23 +21,23 @@
 \title{\pkg{rtemis} default-setting functions}
 \usage{
 rtset.resample(resampler = "kfold", n.resamples = 10,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 4,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
   target.length = NULL, seed = NULL, verbose = TRUE)
 
 rtset.grid.resample(resampler = "strat.boot", n.resamples = 10,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 4,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
   target.length = NULL, verbose = TRUE)
 
 rtset.bag.resample(resampler = "strat.sub", n.resamples = 10,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 4,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
   target.length = NULL, verbose = TRUE)
 
 rtset.meta.resample(resampler = "strat.sub", n.resamples = 4,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 4,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
   target.length = NULL, verbose = TRUE)
 
 rtset.cv.resample(resampler = "kfold", n.resamples = 10,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 4,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
   target.length = NULL, verbose = TRUE)
 
 rtset.cluster(type = "fork", hosts = NULL, n.cores = rtCores, ...)
@@ -103,9 +103,9 @@ Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
 
-\item{cv.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
 
-\item{cv.groups}{Integer: Number of groups to use for stratification for
+\item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
 \item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.

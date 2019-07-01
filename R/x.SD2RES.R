@@ -57,8 +57,8 @@ x.SD2RES = function(x, z,
                     resampler = "strat.boot",
                     n.res = 4,
                     stratify.var = NULL,
-                    cv.p = .75,
-                    cv.groups = 5,
+                    train.p = .75,
+                    strat.n.bins = 5,
                     target.length = NROW(z),
                     its = 20,
                     cthresh = c(0, 0),
@@ -76,10 +76,10 @@ x.SD2RES = function(x, z,
                     verbose = TRUE,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
-  
+
   .cosineDist <- getFromNamespace(".cosineDist", "ANTsR")
   .eanatsparsify <- getFromNamespace(".eanatsparsify", "ANTsR")
-  
+
   # [ INTRO ] ====
   if (missing(x) | missing(z)) {
     print(args(x.SD2RES))
@@ -97,7 +97,7 @@ x.SD2RES = function(x, z,
   #   nvecs <- 2
   #   warning("nvecs must be at least 2: continuing with nvecs = 2")
   # }
-  
+
   # # Default to bootstrap for resampling
   # if (length(resampler) > 1 & is.null(stratify.var)) resampler = "bootstrap"
   # if (length(resampler) > 1 & !is.null(stratify.var)) resampler = "strat.boot"
@@ -108,12 +108,12 @@ x.SD2RES = function(x, z,
   # # Default to outcome as stratification var
   # if (is.null(stratify.var)) stratify.var <- y
   # msg("Resampling using", resampler, "...")
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("ANTsR", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   # if (scale.first) {
   #   inmatrix <- scale(as.matrix(x), center = scale.first.center)
@@ -122,7 +122,7 @@ x.SD2RES = function(x, z,
   # }
   nsamp <- 1
   nvecs <- k
-  
+
   # [ DATA ] ====
   x <- data.matrix(x)
   z <- data.matrix(z)
@@ -130,7 +130,7 @@ x.SD2RES = function(x, z,
   xnames <- colnames(x)
   if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
   znames <- colnames(z)
-  
+
   if (length(sparseness == 1)) sparseness <- c(sparseness, 1) # assumes (x, y), with 1D y
   x.in <- x
   y.in <- z
@@ -158,18 +158,18 @@ x.SD2RES = function(x, z,
     bootccalist2 <- c(bootccalist2, list(makemat))
   }
   if (nsamp >= 0.999999999) doreplace <- TRUE else doreplace <- FALSE
-  
+
   if (verbose) msg("Running resamples...")
   for (boots in seq(n.res)) {
     # [ RESAMPLE ] ====
     res <- resample(y = z, n.resamples = 1, resampler = resampler,
                     stratify.var = stratify.var,
-                    cv.p = cv.p, cv.groups = cv.groups,
+                    train.p = train.p, strat.n.bins = strat.n.bins,
                     target.length = target.length)[[1]]
     # orig: bootstrap
     # res <- sample(1:nsubj, size = mysize, replace = doreplace)
     # mysample <- sample(1:nsubj, size = mysize, replace = doreplace) # orig
-    
+
     mysample <- res
     submat1 <- as.matrix(mat1[mysample, ]) # delta
     submat2 <- as.matrix(mat2[mysample, ]) # delta
@@ -249,7 +249,7 @@ x.SD2RES = function(x, z,
       # else bootccalist2[[nv]][boots, ] <- (cca2[, nv])
     }
   }
-  
+
   if ( doseg )
     for (k in seq(nvecs))
     {
@@ -282,7 +282,7 @@ x.SD2RES = function(x, z,
                                 ell1 = l1,
                                 priorWeight = priorWeight,
                                 verbose = verbose)
-  
+
   jh <- matrix( 0, nrow = ncol(inmatrix[[1]]), ncol = ncol(inmatrix[[2]]) )
   colnames(jh) <- colnames(inmatrix[[2]])
   rownames(jh) <- colnames(inmatrix[[1]])
@@ -291,7 +291,7 @@ x.SD2RES = function(x, z,
     wh2 <- which( abs( allmat2[,i] ) > 1.e-10 )
     jh[ wh1, wh2 ] <- jh[ wh1, wh2 ] + 1
   }
-  
+
   # [ PROJECTIONS ] ====
   scaled.xprojections <- abs(scale(as.matrix(x), center = FALSE) %*% ccaout$eig1)
   xprojections <- abs(as.matrix(x) %*% ccaout$eig1)
@@ -306,7 +306,7 @@ x.SD2RES = function(x, z,
     scaled.test.zprojections <- abs(scale(as.matrix(z.test), center = FALSE) %*% ccaout$eig2)
     test.zprojections <- abs(as.matrix(z.test) %*% ccaout$eig2)
   }
-  
+
   # [ OUTRO ] ====
   extra <- list(cca1boot = cca1out,
                 cca2boot = cca2out,
@@ -334,5 +334,5 @@ x.SD2RES = function(x, z,
   if (save.mod) rtSave(rt, outdir, verbose = verbose)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-  
+
 } # rtemis::x.SD2RES
