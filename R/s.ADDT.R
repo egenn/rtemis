@@ -4,6 +4,32 @@
 # Grow rule along with tree in global env, extract leaf rules an
 # Added rpart.control min.bucket = 5
 # was s.ADDTminobslin
+# tree structure:
+# tree
+#    '-x             the data that belong to this node
+#    '-y             the outcomes that belong to this node
+#    '-Fval          the F value at this node
+#    '-index         the index that was applied to the parent node to give this
+#    '-depth         the depth of the tree at this levels
+#    '-partlin       holds output of partLin(), if run
+#          '-lin.coef         The linear model coefficients
+#          '-part.c.left      The tree-derived constant for the left partition
+#          '-part.c.right     The tree-derived constant for the right partition
+#          '-lin.val          Fval of the linear model
+#          '-part.val         Fval of the tree
+#          '-cutFeat.name     The name of the feature on which the split was performed
+#          '-cutFeat.point    The point at which the split was made, left split < this point
+#                             if the cut feature was continuous
+#          '-cutFeat.category The factor levels that correspond to the left split,
+#                             if the the cut feature was categorical
+#          '-part.index       The split index, with "L" and "R" for left and right, respectively
+#          '-split.rule       The rule, based on cutFeat.name and cutFeat.point or cutFeat.category,
+#                             based on which the split was made.
+#          '-terminal         Logical: if TRUE, partlin did not split.
+#    '-left          holds the left split, if the node was split
+#    '-right         holds the right split, if the node was split
+#    '-terminal      TRUE if it is a terminal node
+#    '-type          "split", "nosplit", "max.depth", "minobsinnode"
 
 #' Additive Tree with Linear Nodes [R]
 #'
@@ -11,40 +37,15 @@
 #'
 #' The Additive Tree grows a tree using a sequence of regularized linear models and tree stumps
 #'
-#' tree structure:
-#' tree
-#'    '-x             the data that belong to this node
-#'    '-y             the outcomes that belong to this node
-#'    '-Fval          the F value at this node
-#'    '-index         the index that was applied to the parent node to give this
-#'    '-depth         the depth of the tree at this levels
-#'    '-partlin       holds output of partLin(), if run
-#'          '-lin.coef         The linear model coefficients
-#'          '-part.c.left      The tree-derived constant for the left partition
-#'          '-part.c.right     The tree-derived constant for the right partition
-#'          '-lin.val          Fval of the linear model
-#'          '-part.val         Fval of the tree
-#'          '-cutFeat.name     The name of the feature on which the split was performed
-#'          '-cutFeat.point    The point at which the split was made, left split < this point
-#'                             if the cut feature was continuous
-#'          '-cutFeat.category The factor levels that correspond to the left split,
-#'                             if the the cut feature was categorical
-#'          '-part.index       The split index, with "L" and "R" for left and right, respectively
-#'          '-split.rule       The rule, based on cutFeat.name and cutFeat.point or cutFeat.category,
-#'                             based on which the split was made.
-#'          '-terminal         Logical: if TRUE, partlin did not split.
-#'    '-left          holds the left split, if the node was split
-#'    '-right         holds the right split, if the node was split
-#'    '-terminal      TRUE if it is a terminal node
-#'    '-type          "split", "nosplit", "max.depth", "minobsinnode"
-#'
 #' @inheritParams s.GLM
 #' @param max.depth Integer: Max depth of additive tree
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
 #' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
-#' @author Gilmer Valdes (algorithm), Efstathios D. Gennatas (R code)
+#' @param cxrcoef Logical: Passed to \link{predict.addTree}, if TRUE, returns cases by coefficients matrix.
+#' Default = FALSE
+#' @author Efstathios D. Gennatas
 #' @export
 
 s.ADDT <- function(x, y = NULL,
@@ -92,7 +93,6 @@ s.ADDT <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "ADDT"
 
   # [ DEPENDENCIES ] ====
@@ -237,7 +237,6 @@ s.ADDT <- function(x, y = NULL,
                  mod.name = mod.name,
                  type = type,
                  parameters = parameters,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -661,6 +660,13 @@ preorderMatch.addt <- function(node, x, trace = 0) {
 #' Predict method for \code{addTree} object
 #'
 #' @method predict addTree
+#' @param object an \link{rtMod} trained with \link{s.ADDT} or an \code{addTree} object
+#' @param newdata data frame of predictor features
+#' @param learning.rate Float: learning rate if \code{object} was \code{addTree}
+#' @param n.feat Integer: internal use only
+#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
+#' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE
+#'
 #' @export
 #' @author Efstathios D. Gennatas
 
@@ -668,8 +674,7 @@ predict.addTree <- function(object, newdata = NULL,
                             learning.rate = NULL,
                             n.feat = NULL,
                             verbose = FALSE,
-                            cxrcoef = FALSE,
-                            trace = 0, ...) {
+                            cxrcoef = FALSE, ...) {
 
   if (inherits(object, "rtMod")) {
     if (verbose) msg("Found rtMod object")
@@ -691,14 +696,6 @@ predict.addTree <- function(object, newdata = NULL,
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
   # [ PREDICT ] ====
-  # ncases <- NROW(newdata)
-  # yhat <- vector("numeric", ncases)
-  #
-  # for (i in seq(ncases)) {
-  #   leaf <- preorderMatch.addt(tree, newdata[i, , drop = FALSE], trace = trace)
-  #   yhat[i] <- tree$init + learning.rate * (data.matrix(cbind(1, newdata[i, , drop = FALSE])) %*% leaf$coef.c)
-  # }
-  # yhat
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   rules <- plyr::ldply(tree$leafs$rule)[, 1]
   cxr <- matchCasesByRules(newdata, rules)

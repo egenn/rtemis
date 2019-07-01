@@ -9,7 +9,7 @@
 #' call stack
 #'
 #' If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
-#'   the call stack.  
+#'   the call stack.
 #' \code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
 #'
 # Add following to each function using \code{msg}:
@@ -37,10 +37,10 @@ msg <- function(...,
                 as.message = FALSE,
                 color = NULL,
                 sep = " ") {
-  
+
   callStack.list <- as.list(sys.calls())
   stack.length <- length(callStack.list)
-  
+
   if (stack.length < 2) {
     .call <- "(interactive)"
   } else {
@@ -49,16 +49,16 @@ msg <- function(...,
     .call <- paste(lapply(rev(seq(call.depth)[-seq(caller.id)]),
                           function(i) rev(callStack.list)[[i]][[1]]), collapse = ">>")
   }
-  
+
   # do.call and similar will change the call stack, it will contain the full function definition instead of
   # the name alone
   if (is.function(.call)) .call <- NULL
   if (is.character(.call)) if (nchar(.call) > 25) .call <- NULL
   if (!is.null(.call)) .call <- paste0(" ", .call)
-  
+
   txt <- list(...)
   .dt <- if (date) paste0(as.character(Sys.time())) else NULL
-  
+
   if (newline) cat("\n")
   if (as.message) {
     message(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)))
@@ -72,7 +72,7 @@ msg <- function(...,
       cat(color$bold(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)), "\n"))
     }
   }
-  
+
   invisible(list(call = .call,
                  txt = txt,
                  dt = .dt))
@@ -91,7 +91,7 @@ msg0 <- function(...,
                  newline.pre = FALSE,
                  as.message = FALSE,
                  color = NULL) {
-  
+
   msg(..., date = date,
       call.depth = call.depth,
       caller.id = caller.id + 1,
@@ -100,7 +100,7 @@ msg0 <- function(...,
       as.message = as.message,
       color = color,
       sep = "")
-  
+
 } # rtemis::msg0
 
 stopQuietly <- function() {
@@ -124,5 +124,5 @@ rtWarning <- function(...) {
 
 rtOut <- function(...) {
   message <- paste(...)
-  cat(green("\\\ Output:", message))
+  cat(silver$bold("["), green("+++", green$bold(message)), silver$bold("]"), sep = "")
 }

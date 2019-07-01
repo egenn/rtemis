@@ -9,7 +9,7 @@
 #' \code{decom} returns an R6 class object \code{rtDecom}
 #'
 #' @param x Numeric matrix / data frame: Input data
-#' @param decom String: Decomposition algorithm name, e.g. 'nmf' (case-insensitive)
+#' @param decom String: Decomposer name. See ]link{decomSelect}. Default = "ICA"
 #' @param x.test Numeric matrix / data frame: Testing set data if supported by \code{decom}
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to \code{decom}
@@ -18,7 +18,7 @@
 #' @export
 
 decom <- function(x,
-                  decom = "nmf",
+                  decom = "ICA",
                   x.test = NULL,
                   verbose = TRUE, ...) {
 
@@ -27,13 +27,13 @@ decom <- function(x,
     return(decomSelect())
   }
 
-  # [ INTRO ] ====
-  decomposer <- decomSelect(decom, fn = TRUE)
-
   # [ DECOMPOSER ] ====
-  decom <- decomposer(x = x,
-                      x.test = x.test,
-                      verbose = verbose, ...)
+  args <- c(list(x = x,
+                 x.test = x.test,
+                 verbose = verbose),
+            list(...))
+  decom <- R.utils::doCall(decomSelect(decom, fn = TRUE),
+                           args = args)
 
   # [ OUTRO ] ====
   decom

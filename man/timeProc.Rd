@@ -4,10 +4,12 @@
 \alias{timeProc}
 \title{Time a process}
 \usage{
-timeProc(...)
+timeProc(..., verbose = TRUE)
 }
 \arguments{
 \item{...}{Command to be timed. (Will be converted using \code{as.expression})}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 \code{timeProc} measures how long it takes for a process to run

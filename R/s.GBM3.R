@@ -104,6 +104,7 @@ s.GBM3 <- function(x, y = NULL,
                    gbm.fit.verbose = FALSE,
                    outdir = NULL,
                    save.gridrun = FALSE,
+                   save.error.diagnostics = FALSE,
                    save.rds = TRUE,
                    save.res = FALSE,
                    save.res.mod = FALSE,
@@ -186,7 +187,6 @@ s.GBM3 <- function(x, y = NULL,
     } else {
       distribution <- "gaussian"
     }
-    if (verbose) msg("Distribution set to", distribution)
   }
 
   # Keep original inputs (after dataPrepare)
@@ -204,7 +204,7 @@ s.GBM3 <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline = TRUE)
+  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline = TRUE)
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {
@@ -326,25 +326,27 @@ s.GBM3 <- function(x, y = NULL,
 
   while (all(is.na(mod$valid.error))) {
     msg("###   Caught gbm.fit error; retrying...   ###")
-    saveRDS(list(mod = mod,
-                 x = .x.train, y = .y.train,
-                 offset = offset,
-                 distribution = distribution,
-                 w = .weights,
-                 var.monotone = var.monotone,
-                 n.trees = n.trees,
-                 interaction.depth = interaction.depth,
-                 n.minobsinnode = n.minobsinnode,
-                 shrinkage = shrinkage,
-                 bag.fraction = bag.fraction,
-                 mFeatures = mFeatures,
-                 nTrain = NROW(.x),
-                 keep.data = keep.data,
-                 verbose = gbm.fit.verbose,
-                 var.names = var.names,
-                 response.name = response.name,
-                 group = group),
-            paste0("~/Desktop/s.GBM3.panic.rds"))
+    if (save.error.diagnostics) {
+      saveRDS(list(mod = mod,
+                   x = .x.train, y = .y.train,
+                   offset = offset,
+                   distribution = distribution,
+                   w = .weights,
+                   var.monotone = var.monotone,
+                   n.trees = n.trees,
+                   interaction.depth = interaction.depth,
+                   n.minobsinnode = n.minobsinnode,
+                   shrinkage = shrinkage,
+                   bag.fraction = bag.fraction,
+                   mFeatures = mFeatures,
+                   nTrain = NROW(.x),
+                   keep.data = keep.data,
+                   verbose = gbm.fit.verbose,
+                   var.names = var.names,
+                   response.name = response.name,
+                   group = group),
+              paste0("~/Desktop/s.GBM3.panic.rds"))
+    }
     warning("Caught gbm.fit error: retraining last model and continuing")
     if (!is.null(logFile)) sink() # pause logging
     mod <- gbm3::gbm.fit(x = .x.train, y = .y.train,
@@ -427,18 +429,16 @@ s.GBM3 <- function(x, y = NULL,
     if (distribution == "multinomial") {
       # Get probabilities per class
       fitted.prob <- fitted <- predict(mod, .x, n.trees = n.trees, type = "response")
-      # Now get the predicted classes
       fitted <- apply(fitted, 1, function(x) levels(y)[which.max(x)])
     } else {
       # Bernoulli: convert {0, 1} back to factor
-      fitted.prob <- predict(mod, .x, n.trees = n.trees, type = "response")
-      # fitted <- sapply(fitted, function(x) as.numeric(x >= .5) + 1) # what changed the output of the above?
-      fitted <- factor(levels(y)[as.numeric(fitted.prob >= .5) + 1])
+      fitted.prob <- 1 - predict(mod, .x, n.trees = n.trees, type = "response")
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
     }
   }
 
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   ### Relative influence & variable importance
@@ -482,17 +482,14 @@ s.GBM3 <- function(x, y = NULL,
         predicted <- apply(predicted, 1, function(x) levels(y.test)[which.max(x)])
       } else {
         # Bernoulli: convert {0, 1} back to factor
-        if (trace > 0) msg("Using predict for classification with type = response")
-        predicted.prob <- predict(mod, x.test, n.trees = n.trees, type = "response")
-        # predicted <- sapply(predicted, function(x) as.numeric(x > .5) + 1)
-        predicted <- factor(levels(y)[as.numeric(predicted.prob >= .5) + 1])
-        # predicted <- factor(levels(y)[predicted], levels = levels(y))
+        predicted.prob <- 1 - predict(mod, x.test, n.trees = n.trees, type = "response")
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        levels(predicted) <- levels(y)
       }
     }
 
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

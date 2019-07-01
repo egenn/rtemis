@@ -15,10 +15,10 @@ learn(x, y = NULL, mod = "ppr", x.test = NULL, y.test = NULL,
 
 \item{mod}{String: Learner to use. To get list of options, run \code{modSelect()}}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 

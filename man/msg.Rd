@@ -41,7 +41,7 @@ call stack
 }
 \details{
 If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
-  the call stack.  
+  the call stack.
 \code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
 }
 \author{

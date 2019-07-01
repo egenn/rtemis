@@ -17,6 +17,7 @@
 \alias{rtset.DN}
 \alias{rtset.MXN}
 \alias{rtset.lincoef}
+\alias{rtset.MARS}
 \title{\pkg{rtemis} default-setting functions}
 \usage{
 rtset.resample(resampler = "kfold", n.resamples = 10,
@@ -46,11 +47,11 @@ rtset.color(n = 101, colors = NULL, space = "rgb", lo = "#01256E",
   colorbar = FALSE, cb.mar = c(1, 1, 1, 1), ...)
 
 rtset.preprocess(completeCases = FALSE, impute = FALSE,
-  impute.type = "missForest", impute.discrete = getMode,
-  impute.numeric = mean, removeCases.thres = NULL,
-  removeFeatures.thres = NULL, removeConstant = TRUE,
+  impute.type = "missForest", impute.niter = 10, impute.ntree = 500,
+  impute.discrete = getMode, impute.numeric = mean,
+  removeCases.thres = NULL, removeFeatures.thres = NULL,
   integer2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE)
+  center = FALSE, removeConstant = TRUE, oneHot = FALSE)
 
 rtset.decompose(decom = "ICA", k = 2, ...)
 
@@ -81,9 +82,18 @@ rtset.MXN(n.hidden.nodes = NULL, output = NULL, activation = "relu",
   dropout = 0, dropout.before = 1, dropout.after = 0,
   eval.metric = NULL, arg.params = NULL, mx.seed = NULL)
 
-rtset.lincoef(method = "glm", alpha = 0, lambda = 0,
-  lambda.seq = NULL, cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min")
+rtset.lincoef(method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
+  "forwardStepwise", "backwardStepwise", "glm", "sgd", "solve"),
+  alpha = 0, lambda = 0.01, lambda.seq = NULL,
+  cv.glmnet.nfolds = 5, which.cv.glmnet.lambda = c("lambda.min",
+  "lambda.1se"), nbest = 1, nvmax = 8, sgd.model = "glm",
+  sgd.model.control = list(lambda1 = 0, lambda2 = 0),
+  sgd.control = list(method = "ai-sgd"))
+
+rtset.MARS(hidden = 1, activation = NULL, learning.rate = 0.8,
+  momentum = 0.5, learningrate_scale = 1, output = NULL,
+  numepochs = 100, batchsize = NULL, hidden_dropout = 0,
+  visible_dropout = 0, ...)
 }
 \arguments{
 \item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
@@ -204,7 +214,7 @@ regression.}
 
 \item{eval.metric}{String: Metrix used for evaluation during train. Default: "rmse"}
 
-\item{method}{String: Method to use: 
+\item{method}{String: Method to use:
 "glm": uses \code{stats::lm.wfit};
 "glmnet": uses \code{glmnet::glmnet};
 "cv.glmnet": uses \code{glmnet:cv.glmnet};
@@ -212,11 +222,25 @@ regression.}
 "allsubsets": uses \code{leaps::regsubsets} with \code{method = "exhaustive"};
 "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
+"sgd": uses \code{sgd::sgd}
 "solve": uses \code{base::solve}}
 
 \item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL}
 
 \item{cv.glmnet.nfolds}{Integer: Number of folds for \code{cv.glmnet}}
+
+\item{which.cv.glmnet.lambda}{String: Whitch lambda to pick from cv.glmnet:
+"lambda.min": Lambda that gives minimum cross-validated error;}
+
+\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1}
+
+\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.}
+
+\item{sgd.model}{String: Model to use for \code{method = "sgd"}. Default = "glm"}
+
+\item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
+
+\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}}
 
 \item{decom}{String: Name of decomposer to use. Default = "ICA"}
 

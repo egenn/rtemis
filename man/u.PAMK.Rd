@@ -19,7 +19,7 @@ u.PAMK(x, krange = 2:10, criterion = "asw", usepam = ifelse(nrow(x) <
 \item{usepam}{Logical: If TRUE, use \code{cluster::pam}, otherwise use \code{cluster::clara}.
 Default = TRUE}
 
-\item{scaling}{Logical or Numeric vector: If TRUE, scale input. If numeric vector of length equal to number of 
+\item{scaling}{Logical or Numeric vector: If TRUE, scale input. If numeric vector of length equal to number of
 features, the features are divided by the corresponding value. Default = TRUE}
 
 \item{diss}{Logical: If TRUE, treat \code{x} as a dissimilarity matrix, otherwise as a matrix of

@@ -14,7 +14,6 @@
 #' @seealso \link{elevate}
 #' @family Supervised Learning
 #' @family Tree-based methods
-#' @author Efstathios D. Gennatas
 #' @export
 
 s.CTREE <- function(x, y = NULL,
@@ -82,7 +81,7 @@ s.CTREE <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ FORMULA ] ====
   df.train <- data.frame(y = y, x)
   features <- paste(xnames, collapse = " + ")

@@ -14,7 +14,7 @@
 #' @export
 
 rtRandom <- function(pch = sample(15:18, 1),
-                     col = colorGrad(21, "penn"),
+                     col = rtCol,
                      text = "rtemis",
                      text.col = "gray50",
                      text.as.legend = FALSE,

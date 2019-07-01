@@ -34,32 +34,33 @@ colorPreview <- function(col,
                          ylim = c(0.95, 1.1),
                          cex = 12,
                          pch = 18,
+                         bg = "white",
                          mar = c(0, 1.7, 1, 2.8),
                          main.line = 0,
                          filename = NULL,
                          par.reset = TRUE,
                          pdf.width = length(col) * .5,
                          pdf.height = 2) {
-  
-  
+
+
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  
+
   if (is.null(main)) main <- deparse(substitute(col))
-  
+
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(try(par(par.orig), silent = TRUE))
-  # sometimes get: 
+  # sometimes get:
   # Error in par(par.orig) : invalid value specified for graphical parameter "pin"
-  par(mar = mar)
-  
+  par(mar = mar, bg = bg)
+
   .col <- adjustcolor(col, alpha)
   plot(seq(col), rep(1, length(col)),
        # xlim = c(0.9, 1.1),
        ylim = ylim, ann = FALSE, axes = FALSE, pch = pch, col = .col, cex = cex, xpd = TRUE,
        xaxs = "r", yaxs = "i")
   if (!is.null(main)) mtext(main, line = main.line, font = 2, xpd = TRUE, adj = 0)
-  
+
   if (names) {
     if (!is.null(names(col))) {
       text(seq(col), y = names.y, names(col),
@@ -67,7 +68,7 @@ colorPreview <- function(col,
            srt = srt, xpd = TRUE)
     }
   }
-  
+
   if (!is.null(filename)) dev.off()
-  
+
 } # rtemis::colorPreview

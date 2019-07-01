@@ -1,9 +1,29 @@
 # zzz.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.github.io
+# 2015-9 Efstathios D. Gennatas egenn.github.io
+
+rtenv <- new.env()
+.availableCores <- future::availableCores()
+rtCores <- getOption("rt.cores", .availableCores)
+rtemis.version <- packageVersion("rtemis")
+rtHome = getOption("rt.home", Sys.getenv("HOME"))
+
+.onAttach <- function(libname, pkgname) {
+
+  packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+                               "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
+                               " available cores]\n\n  Need help? Online documentation & vignettes: https://rtemis.netlify.com\n"))
+
+  # Draw a harmonograph if we are in RStudio
+  try(if (try(rstudioapi::isAvailable(), silent = TRUE))
+    mplot3.harmonograph(text = "rtemis", text.adj = .01, text.padj = -.2, text.col = "#72CDF4"), silent = TRUE)
+}
+
 
 #' \pkg{rtemis}: Machine Learning and Visualization
 #'
+#' @section Online Documentation and Vignettes:
+#' \url{https://rtemis.netlify.com}
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
@@ -45,30 +65,8 @@
 #'
 #' @docType package
 #' @name rtemis-package
-#' @import graphics grDevices methods parallel future stats utils data.table crayon
+#' @import graphics grDevices methods stats utils parallel R6 data.table crayon future
 #' @importFrom magrittr "%>%"
 #' @importFrom crayon "%+%"
 
-.availableCores <- future::availableCores()
-rtCores <- getOption("rt.cores", .availableCores)
-globalVariables("rtCores")
-
-.onAttach <- function(libname, pkgname) {
-  rtemis.ver <- read.dcf(file = system.file("DESCRIPTION", package = pkgname),
-                         fields = "Version")
-
-  packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.ver, ": Welcome, ", Sys.getenv("USER"),
-                               "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
-                               " available cores]"))
-
-  # Draw a harmonograph on startup if we are in RStudio
-  try(if (try(rstudioapi::isAvailable(), silent = TRUE))
-    mplot3.harmonograph(text = "rtemis", text.adj = .01, text.padj = -.2, text.col = "#72CDF4"), silent = TRUE)
-}
-
-#' \pkg{rtemis} internal: rtemis environment
-#'
-#' @keywords internal
-
-rtenv <- new.env()
-rtenv$rtCores <- getOption("rtCores", future::availableCores())
+NULL

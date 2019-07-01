@@ -56,8 +56,6 @@ gridSearchLearn <- function(x, y, mod,
                             n.cores = rtCores, ...) {
 
   # [ INTRO ] ====
-  # start.time <- intro(verbose = verbose,
-  #                     message = paste("(Called by", sys.calls()[[length(sys.calls()) - 1]][[1]], ")"))
   start.time <- intro(verbose = verbose,
                       call.depth = call.depth,
                       message = "Running grid search...",
@@ -123,15 +121,17 @@ gridSearchLearn <- function(x, y, mod,
       out1$est.n.trees <- which.min(mod1$mod$valid.error)
       if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
     }
-    if (learner == "s.GLMNET") out1$lambda.min <- mod1$mod$lambda.min
+    if (learner == "s.GLMNET") {
+      out1$lambda.min <- mod1$mod$lambda.min
+      out1$lambda.1se <- mod1$mod$lambda.1se
+    }
     if (learner == "s.AADDT") out1$est.n.leaves <- mod1$mod$opt.n.leaves
     if (save.mod) out1$mod1 <- mod1
     out1
   }
 
   # [ GRID RUN ] ====
-  if (verbose) parameterSummary(grid.params, title = "Grid parameters")
-  # if (verbose) parameterSummary(fixed.params, title = "Fixed parameters")
+  if (verbose) parameterSummary(grid.params, fixed.params, title = "Search parameters")
   if (verbose) msg("Tuning", modSelect(mod, desc = TRUE), "by", search.type, "grid search:")
   if (verbose) msg(n.resamples, " resamples; ", NROW(param.grid), " models total; running on ",
                    n.cores, " ", ifelse(n.cores > 1, "cores", "core"),
@@ -194,7 +194,7 @@ gridSearchLearn <- function(x, y, mod,
     est.n.trees.all$param.id <- rep(1:n.param.combs, each = n.resamples)
     est.n.trees.by.param.id <- aggregate(n.trees ~ param.id, est.n.trees.all,
                                          error.aggregate.fn)
-    tune.results <- data.frame(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
+    tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
     n.params <- n.params + 1
   }
 
@@ -206,7 +206,7 @@ gridSearchLearn <- function(x, y, mod,
       lambda.all$param.id <- rep(1:n.param.combs, each = n.resamples)
       lambda.by.param.id <- aggregate(lambda ~ param.id, lambda.all,
                                       error.aggregate.fn)
-      tune.results <- data.frame(lambda = lambda.by.param.id$lambda, tune.results)
+      tune.results <- cbind(lambda = lambda.by.param.id$lambda, tune.results)
       n.params <- n.params + 1
     }
   }
@@ -217,7 +217,7 @@ gridSearchLearn <- function(x, y, mod,
     est.n.leaves.all$param.id <- rep(1:n.param.combs, each = n.resamples)
     est.n.leaves.by.param.id <- aggregate(n.leaves ~ param.id, est.n.leaves.all,
                                           error.aggregate.fn)
-    tune.results <- data.frame(n.leaves = round(est.n.leaves.by.param.id$n.leaves), tune.results)
+    tune.results <- cbind(n.leaves = round(est.n.leaves.by.param.id$n.leaves), tune.results)
     n.params <- n.params + 1
   }
 

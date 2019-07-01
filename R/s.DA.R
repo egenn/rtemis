@@ -46,7 +46,6 @@ s.DA <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("MASS", verbose = FALSE)) {

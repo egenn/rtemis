@@ -18,7 +18,7 @@ resample(y = NULL, n.resamples = 10, resampler = c("strat.sub",
 \item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
-\item{index}{List where each element is a vector of training set indices. Use this for manual or precalculated 
+\item{index}{List where each element is a vector of training set indices. Use this for manual or precalculated
 train/test splits}
 
 \item{group}{Integer, vector, length = \code{length(y)}: Integer vector, where numbers define fold membership.
@@ -34,7 +34,7 @@ e.g. for 10-fold on a dataset with 1000 cases, you could use \code{group = rep(1
 \item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
 Default = \code{length(y)}}
 
-\item{rtset}{List: Output of an \link{rtset.resample} (or named list with same structure). 
+\item{rtset}{List: Output of an \link{rtset.resample} (or named list with same structure).
 NOTE: Overrides all other arguments. Default = NULL}
 
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
@@ -43,15 +43,14 @@ See \code{?base::set.seed}}
 \item{verbose}{Logical: If TRUE, print messages to screen}
 }
 \description{
-Create resamples of your data, e.g. for model building or validation.
+Create resamples of your data, e.g. for model tuning or testing
 "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \code{caret::createResample},
 "strat.sub" creates stratified subsamples using \code{caret::createDataPartition}, while "strat.boot"
-runs \code{caret::createDataPartition} and then randomly duplicates some of the training cases to reach original
+runs \code{caret::createDataPartition} and then randomly replicates some of the training cases to reach original
 length of input (default) or length defined by \code{target.length}.
 }
 \details{
-\code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, \link{bagLearn}, and
-\link{elevate}. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
+\code{resample} is used by multiple \pkg{rtemis} learners and functions. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
   different length for y of small length, so avoid all operations which rely on equal-length vectors.
   For example, you can't place resamples in a data.frame, but must use a list instead.
 }

@@ -4,7 +4,7 @@
 \alias{mplot3.box}
 \title{\code{mplot3}: Boxplot}
 \usage{
-mplot3.box(x, col = ucsfCol, alpha = 0.66, border = NULL,
+mplot3.box(x, col = NULL, alpha = 0.66, border = NULL,
   border.alpha = 1, space = NULL, xlim = NULL, ylim = NULL,
   xlab = NULL, xlab.line = 1.5, ylab = NULL, ylab.line = 1.5,
   main = NULL, main.line = 0.5, main.adj = 0, main.col = NULL,
@@ -17,7 +17,8 @@ mplot3.box(x, col = ucsfCol, alpha = 0.66, border = NULL,
   cex = 1.2, cex.axis = cex, cex.names = cex, bg = NULL,
   plot.bg = NULL, boxplot.axes = FALSE, yaxis = TRUE, ylim.pad = 0,
   y.axis.padj = 1.7, tck = -0.015, tick.col = NULL,
-  theme = getOption("rt.theme", "light"), axes.col = NULL,
+  theme = getOption("rt.theme", "light"),
+  palette = getOption("rt.palette", "rtCol"), axes.col = NULL,
   labs.col = NULL, grid = FALSE, grid.lty = NULL, grid.lwd = NULL,
   grid.col = NULL, grid.alpha = 1, par.reset = TRUE, pdf.width = 6,
   pdf.height = 6, filename = NULL, ...)

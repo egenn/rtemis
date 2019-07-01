@@ -6,8 +6,9 @@
 \usage{
 colorPreview(col, main = NULL, names = TRUE, names.y = 1.045,
   srt = 45, alpha = 1, ylim = c(0.95, 1.1), cex = 12, pch = 18,
-  mar = c(0, 1.7, 1, 2.8), main.line = 0, filename = NULL,
-  par.reset = TRUE, pdf.width = length(col) * 0.5, pdf.height = 2)
+  bg = "white", mar = c(0, 1.7, 1, 2.8), main.line = 0,
+  filename = NULL, par.reset = TRUE, pdf.width = length(col) * 0.5,
+  pdf.height = 2)
 }
 \arguments{
 \item{col}{Input color. Hexadecimal or any string that R recognizes.

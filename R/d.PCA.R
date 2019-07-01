@@ -4,7 +4,7 @@
 
 #' Principal Component Analysis
 #'
-#' Calculates PCA decomposition and projections using \code{stats::prcomp}
+#' Perform PCA decomposition using \code{stats::prcomp}
 #'
 #' Same solution as \link{d.SVD}. d.PCA runs \code{prcomp}, which has useful
 #' \code{summary} output
@@ -29,7 +29,6 @@ d.PCA <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "PCA"
 
   # [ ARGUMENTS ] ====
@@ -46,7 +45,7 @@ d.PCA <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
   if (scale) {
@@ -73,11 +72,14 @@ d.PCA <- function(x,
   # [ OUTRO ] ====
   extra <- list(rotation = rotation)
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = projections.test,
-                     extra = extra)
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
+                    parameters = list(k = k,
+                                      scale = scale,
+                                      center = center),
+                    extra = extra)
   outro(start.time, verbose = verbose)
   rt
 

@@ -24,13 +24,14 @@ rtROC <- function(true.labels, predicted.probabilities,
   n.classes <- length(true.levels)
 
   if (is.null(thresholds)) {
-    thresholds <- c(-Inf, unique(predicted.probabilities), Inf)
+    thresholds <- sort(c(-Inf, unique(predicted.probabilities), Inf))
   }
 
   if (n.classes == 2) {
 
     predicted.labels <- lapply(thresholds, function(i) {
-      pred <- factor(as.integer(predicted.probabilities >= i), levels = c(1, 0))
+      # pred <- factor(as.integer(predicted.probabilities >= i), levels = c(1, 0))
+      pred <- factor(ifelse(predicted.probabilities >= i, 1, 0), levels = c(1, 0))
       levels(pred) <- true.levels
       pred
     })

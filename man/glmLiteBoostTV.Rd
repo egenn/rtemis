@@ -13,7 +13,8 @@ glmLiteBoostTV(x, y = NULL, x.valid = NULL, y.valid = NULL,
   print.progress.every = 5, print.error.plot = "final",
   prefix = NULL, plot.theme = getOption("rt.fit.theme", "lightgrid"),
   plot.fitted = NULL, plot.predicted = NULL, print.plot = FALSE,
-  print.base.plot = FALSE, plot.type = "l", outdir = NULL, ...)
+  print.base.plot = FALSE, plot.type = "l", n.cores = rtCores,
+  outdir = NULL, ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -24,10 +25,10 @@ glmLiteBoostTV(x, y = NULL, x.valid = NULL, y.valid = NULL,
 
 \item{y.valid}{Float, vector; optional: Validation outcome}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{resid}{Float, vector, length = length(y): Residuals to work on. Do not change unless you know
 what you're doing. Default = NULL, for regular boosting}
@@ -76,7 +77,7 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
-\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot 
+\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
 \item{plot.type}{String: "l" or "p". Plot using lines or points. Default = "l"}

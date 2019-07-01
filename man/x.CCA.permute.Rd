@@ -10,7 +10,7 @@ x.CCA.permute(x, z, typex = c("standard", "ordered"),
   nperms = 25, standardize = TRUE, chromx = NULL, chromz = NULL,
   upos = FALSE, uneg = FALSE, vpos = FALSE, vneg = FALSE,
   outcome = NULL, y = NULL, cens = NULL, verbose = TRUE,
-  n.cores = NULL)
+  n.cores = rtCores)
 }
 \description{
 Run PMA::CCA.permute permutation in parallel

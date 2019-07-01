@@ -2,21 +2,21 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas
 
-#' \code{rtemis-internals}: Rule converter from cutoffs to median/mode and range
-#' 
+#' \code{rtemis-internals}: Convert rules from cutoffs to median/mode and range
+#'
 #' Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format
-#' 
+#'
 #' @param rules String, vector: Input rules
 #' @param x Data frame: Data to evaluate rules
 #' @param .ddSci Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
-#' give either 2 decimal places, or scientific notation if two decimal place result in 0.00
+#' give either 2 decimal places, or scientific notation if two decimal places result in 0.00
 #' @author Efstathios D. Gennatas
 #' @export
 
 rules2medmod <- function(rules, x,
                          .ddSci = TRUE,
                          verbose = TRUE) {
-  
+
   cxr <- matchCasesByRules(x, rules, verbose = verbose)
   nrules <- length(rules)
   rules.f <- character()
@@ -44,8 +44,8 @@ rules2medmod <- function(rules, x,
     # This consolidates conditions like a > 3 & a > 5 to one
     rules.f[i] <- paste(unique(rule), collapse = " & ")
   } # /loop through rules
-  
+
   if (verbose) msg("Done")
   rules.f
-  
+
 } # rtemis::rules2medmod

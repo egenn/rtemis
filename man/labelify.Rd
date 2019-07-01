@@ -5,7 +5,8 @@
 \title{Convert text for label printing}
 \usage{
 labelify(x, underscoresToSpaces = TRUE, dotsToSpaces = TRUE,
-  toTitleCase = TRUE, capitalize.strings = c("id"))
+  toTitleCase = TRUE, capitalize.strings = c("id"),
+  stringsToSpaces = c("\\\\$"))
 }
 \arguments{
 \item{x}{String: Input}
@@ -17,6 +18,9 @@ labelify(x, underscoresToSpaces = TRUE, dotsToSpaces = TRUE,
 \item{toTitleCase}{Logical: If TRUE, convert to Title Case. Default = TRUE}
 
 \item{capitalize.strings}{String, vector: Always capitalize these strings, if present. Default = "id"}
+
+\item{stringsToSpaces}{String, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
+Default = "\\$", which formats common input of the type \code{data.frame$variable}}
 }
 \description{
 Convert text for label printing

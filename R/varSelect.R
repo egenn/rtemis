@@ -4,11 +4,11 @@
 
 #' Variable Selection by Variable Importace
 #'
-#' Select important variables from a set of features based on RF- or XGBLIN-estimated variable importance
+#' Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
 #'
 #' @param x Matrix / Data Frame of Predictors
 #' @param y Outcome vector
-#' @param method String: Learner to use for estimating variable importace. Options: "XGBLIN" (Default), "RF"
+#' @param method String: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"
 #' @param xgb.params List of parameters for \code{method = "XGBLIN"}
 #' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
@@ -18,19 +18,20 @@
 #' @author Efstathios D. Gennatas
 #' @export
 varSelect <- function(x, y,
-                      method = "XGBLIN",
+                      method = c("RANGER", "XGBLIN"),
                       xgb.params = list(alpha = .1, lambda = .1),
                       p = .2,
                       print.plot = TRUE,
                       verbose = TRUE) {
 
+  method <- match.arg(method)
   n <- NCOL(x)
   if (n < 2) stop("You need 2 or more variables to select from")
   start.time <- intro(verbose = verbose)
-  if (method == "RF") {
+  if (method == "RANGER") {
     if (verbose) msg("Running Variable Selection using Random Forest...")
-    mod <- s.RF(x, y, importance = TRUE)
-    importance <- mod$mod$importance[, 1]
+    mod <- s.RANGER(x, y)
+    importance <- mod$varimp
   } else {
     if (verbose) msg("Running Variable Selection using XGboost with linear booster...")
     mod <- do.call(s.XGBLIN, args = c(list(x = x, y = y), xgb.params))

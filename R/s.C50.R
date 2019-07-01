@@ -14,6 +14,7 @@
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
+#' @family Interpretable models
 #' @export
 
 s.C50 <- function(x, y = NULL,
@@ -50,7 +51,6 @@ s.C50 <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "C50"
 
   # [ DEPENDENCIES ] ====

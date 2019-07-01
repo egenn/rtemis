@@ -21,7 +21,7 @@ u.KMEANS(x, x.test = NULL, k = 2, dist = "euclidean",
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Perform K-means clustering
+Perform K-means clustering using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: \code{\link{u.CMEANS}},

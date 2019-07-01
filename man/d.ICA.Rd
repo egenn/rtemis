@@ -5,7 +5,8 @@
 \title{Independent Component Analysis}
 \usage{
 d.ICA(x, k = 3, package = c("fastICA", "ica"), alg.type = "parallel",
-  maxit = 100, scale = TRUE, center = TRUE, verbose = TRUE, ...)
+  maxit = 100, scale = TRUE, center = TRUE, verbose = TRUE,
+  trace = 0, ...)
 }
 \arguments{
 \item{x}{Input data}
@@ -25,7 +26,7 @@ Note: only \code{fastICA} works with \code{k = 1}}
 \item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 Default = TRUE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}}
 }
@@ -33,7 +34,7 @@ Default = TRUE}
 \link{rtDecom} object
 }
 \description{
-Calculates ICA decomposition and projections using the fastICA algorithm in \code{fastICA::fastICA}
+Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or \code{ica::fastica}
 }
 \details{
 Project scaled variables to ICA components.

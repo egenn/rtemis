@@ -27,9 +27,11 @@ u.PAM <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   clust.name <- "PAM"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====
@@ -62,6 +64,7 @@ u.PAM <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
+                    parameters = list(k = k, diss = diss, metric = metric),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

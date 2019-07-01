@@ -4,15 +4,15 @@
 \alias{varSelect}
 \title{Variable Selection by Variable Importace}
 \usage{
-varSelect(x, y, method = "XGBLIN", xgb.params = list(alpha = 0.1,
-  lambda = 0.1), p = 0.2, print.plot = TRUE, verbose = TRUE)
+varSelect(x, y, method = c("RANGER", "XGBLIN"), xgb.params = list(alpha
+  = 0.1, lambda = 0.1), p = 0.2, print.plot = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{x}{Matrix / Data Frame of Predictors}
 
 \item{y}{Outcome vector}
 
-\item{method}{String: Learner to use for estimating variable importace. Options: "XGBLIN" (Default), "RF"}
+\item{method}{String: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"}
 
 \item{xgb.params}{List of parameters for \code{method = "XGBLIN"}}
 
@@ -25,7 +25,7 @@ positives which can be dealt by an appropriate learning algorithm. (Default = .2
 \item{verbose}{Logical: If TRUE, print messages to screen}
 }
 \description{
-Select important variables from a set of features based on RF- or XGBLIN-estimated variable importance
+Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
 }
 \author{
 Efstathios D. Gennatas

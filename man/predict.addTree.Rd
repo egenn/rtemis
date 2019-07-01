@@ -5,7 +5,20 @@
 \title{Predict method for \code{addTree} object}
 \usage{
 \method{predict}{addTree}(object, newdata = NULL, learning.rate = NULL,
-  n.feat = NULL, verbose = FALSE, cxrcoef = FALSE, trace = 0, ...)
+  n.feat = NULL, verbose = FALSE, cxrcoef = FALSE, ...)
+}
+\arguments{
+\item{object}{an \link{rtMod} trained with \link{s.ADDT} or an \code{addTree} object}
+
+\item{newdata}{data frame of predictor features}
+
+\item{learning.rate}{Float: learning rate if \code{object} was \code{addTree}}
+
+\item{n.feat}{Integer: internal use only}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+
+\item{cxrcoef}{Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE}
 }
 \description{
 Predict method for \code{addTree} object

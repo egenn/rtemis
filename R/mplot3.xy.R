@@ -3,7 +3,6 @@
 # 2016-2018 Efstathios D. Gennatas egenn.github.io
 # inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
-
 #' \code{mplot3}: XY Scatter and line plots
 #'
 #' Plot points and lines with optional fits and standard error bands
@@ -249,13 +248,13 @@ mplot3.xy <- function(x, y,
                       labs.col = NULL,
                       na.rm = TRUE,
                       theme = getOption("rt.theme", "lightgrid"),
-                      palette = getOption("rt.palette", "ucsfPalette"),
+                      palette = getOption("rt.palette", "rtCol1"),
                       zero.lines = NULL,
                       zero.col = NULL,
                       zero.alpha = 1,
                       zero.lty = 1,
                       zero.lwd = 1.5,
-                      do.reorder = NULL,
+                      order.on.x = NULL,
                       alpha.off = FALSE,
                       autolabel = letters,
                       new = FALSE,
@@ -344,9 +343,9 @@ mplot3.xy <- function(x, y,
       dir.create(dirname(filename), recursive = TRUE)
 
   # Reorder
-  do.reorder <- NULL # remind me why this is an option
-  if (is.null(do.reorder)) {
-    do.reorder <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
+  if (is.null(order.on.x)) {
+    # order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
+    order.on.x <- !is.null(fit)
   }
 
   # [ CLUSTER ] ====
@@ -384,7 +383,7 @@ mplot3.xy <- function(x, y,
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
 
-  if (do.reorder) {
+  if (order.on.x) {
     index <- lapply(xl, order)
   } else {
     index <- lapply(xl, function(i) seq(i))
@@ -532,8 +531,6 @@ mplot3.xy <- function(x, y,
 
   # [ COLORS ] ====
   # Point colors
-  # if (is.null(col)) col <- ucsfPalette
-
   # if (length(col) < Nygroups) col <- as.list(rep(col, Nygroups / length(col)))
   # marker.col <- lapply(col, function(x) adjustcolor(x, point.alpha)) # marker = points and/or lines
 
@@ -647,7 +644,7 @@ mplot3.xy <- function(x, y,
                                                 list(formula = formula, save.func = TRUE))
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
-      if (se.fit) sel[[i]] <- rtemis::se(mod)
+      if (se.fit) sel[[i]] <- se(mod)
       if (rsq) rsql[[i]] <- mod$error.train$Rsq
       if (rsq.pval) {
         if (fit  %in% c("LM", "GLM")) {
@@ -977,29 +974,36 @@ mplot3.xy <- function(x, y,
   if (!is.null(myerror)) {
     if (Nxgroups == 1) {
       annot.n <- paste0("n = ", length(x))
-      annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE), " (", round(myerror[[1]]$Rsq * 100), "%)")
-      # annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
-      annot.r <- paste0("r = ", ddSci(myerror[[1]]$r), "; p = ", ddSci(myerror[[1]]$r.p))
+      annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE))
+      # annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE), " (", round(myerror[[1]]$Rsq * 100), "%)")
+      annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
+      # annot.r <- paste0("r = ", ddSci(myerror[[1]]$r), "; p = ", ddSci(myerror[[1]]$r.p))
       # annot.rho <- paste0("rho = ", ddSci(myerror[[1]]$rho), "; p = ", ddSci(myerror[[1]]$rho.p))
       mtext(annot.n, fit.error.side,
-            -3.4, adj = .98, padj = fit.error.padj,
+            line = -3.3,
+            adj = .98, padj = fit.error.padj,
+            cex = cex, col = fit.error.col)
+      mtext(annot.Rsq, fit.error.side,
+            line = -2.2,
+            adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
       mtext(annot.mse, fit.error.side,
-            -2.4, adj = .98, padj = fit.error.padj,
+            line = -1.1,
+            adj = .98, padj = fit.error.padj,
             cex = cex, col = fit.error.col)
-      mtext(annot.r, fit.error.side,
-            -1.4, adj = .98, padj = fit.error.padj,
-            cex = cex, col = fit.error.col)
-      # mtext(annot.rho, fit.error.side,
-      #       -1.4, adj = .98, padj = fit.error.padj,
-      #       cex = cex, col = fit.error.col)
     } else {
-      error.annot <- sapply(1:Nxgroups, function(i) paste0(ddSci(myerror[[i]]$MSE),
-                                                             " (", ddSci(myerror[[i]]$r), ")"))
-      mtext(c("MSE (r)     ", error.annot), fit.error.side,
-            -1.5, adj = .97, cex = cex,
-            col = c(gen.col, unlist(col[1:Nxgroups])),
-            padj = seq(0.5 - 1.5 * Nxgroups, 0.5, 1.5))
+      error.annot <- sapply(seq(Nxgroups), function(i) paste0(ddSci(myerror[[i]]$MSE),
+                                                              " (", ddSci(myerror[[i]]$Rsq), ")"))
+      # mtext(c("MSE; Rsq", error.annot),
+      mtext(
+        # c(expression("MSE; R"^2), error.annot),
+        # c(expression(paste(R^2, "; MSE", sep = "")), error.annot),
+        c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),
+        fit.error.side,
+        adj = .98, cex = cex,
+        col = c(gen.col, unlist(fit.col[seq(Nxgroups)])),
+        line = rev(seq(-1.1, -Nxgroups * 1.1 - 1.1, -1.1)))
+        # line = rev(seq(-1, -Nxgroups - 1)))
     }
   }
 
@@ -1070,7 +1074,7 @@ mplot3.fit <- function(x, y,
                        axes.equal = TRUE,
                        diagonal = TRUE,
                        theme = getOption("rt.fit.theme", "lightgrid"),
-                       .col = NULL,
+                       col = NULL,
                        zero.lines = FALSE,
                        fit.legend = FALSE, ...) {
 
@@ -1082,12 +1086,11 @@ mplot3.fit <- function(x, y,
     "Regression"
   }
   if (type == "Classification") {
-    conf.matrix <- caret::confusionMatrix(y, x)
-    mplot3.conf(conf.matrix, ...)
+    mplot3.conf(table(y, x), ...)
   } else if (type == "Survival") {
     msg("Not currently supported")
   } else {
-    if (is.null(.col)) {
+    if (is.null(col)) {
       mplot3.xy(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
@@ -1098,8 +1101,8 @@ mplot3.fit <- function(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
-                point.col = .col,
-                fit.col = .col,
+                point.col = col,
+                fit.col = col,
                 fit.legend = fit.legend, ...)
     }
 

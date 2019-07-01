@@ -43,7 +43,6 @@ rtMod <- R6::R6Class("rtMod",
                      public = list(
                        ### Attributes
                        mod.name = NULL,
-                       # call = NULL,
                        y.train = NULL,
                        y.test = NULL,
                        x.name = NULL,
@@ -61,10 +60,9 @@ rtMod <- R6::R6Class("rtMod",
                        varimp = NULL,
                        question = NULL,
                        extra = NULL,
-                       sessionInfo = sessionInfo(),
+                       sessionInfo = NULL,
                        ### Initialize
                        initialize = function(mod.name = character(),
-                                             # call = call("NULL"),
                                              y.train = numeric(),
                                              y.test = numeric(),
                                              x.name = character(),
@@ -81,7 +79,8 @@ rtMod <- R6::R6Class("rtMod",
                                              error.test = NULL,
                                              varimp = NULL,
                                              question = character(),
-                                             extra = list()) {
+                                             extra = list(),
+                                             sessionInfo = NULL) {
                          self$mod.name <-  mod.name
                          self$y.train <- y.train
                          self$y.test <- y.test
@@ -100,6 +99,7 @@ rtMod <- R6::R6Class("rtMod",
                          self$varimp <- varimp
                          self$question <- question
                          self$extra <- extra
+                         self$sessionInfo <- sessionInfo()
                        },
                        ### Methods
                        print = function() {
@@ -455,6 +455,8 @@ predict.rtMod <- function(object,
                                                           X = data.matrix(newdata),
                                                           array.layout = "rowmajor"))
       }
+    } else if (object$mod.name == "SGD") {
+      estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
     } else {
       estimated <- predict(object$mod, newdata = newdata, ...)
     }
@@ -700,11 +702,11 @@ rtModClass <- R6::R6Class("rtModClass",
                                             self$plotROCpredicted(theme = theme,
                                                                   filename = filename, ...)
                                           } else {
-                                            self$plotROCFitted(theme = theme,
+                                            self$plotROCfitted(theme = theme,
                                                                filename = filename, ...)
                                           }
                                         },
-                                        plotROCFitted = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotROCfitted = function(theme = getOption("rt.fit.theme", "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3.roc(self$fitted.prob, self$y.train,
@@ -815,11 +817,16 @@ rtModBag <- R6::R6Class("rtModBag",
                           ### Methods
                           print = function() {
                             "show / print method for rtModBag"
-                            cat(".:rtemis Bagged Supervised Model\n--------------------------------\n")
-                            cat("       Algorithm: ", self$mod.name, " (", modSelect(self$mod.name, desc = TRUE),
+                            cat(bold(".:rtemis Bagged Supervised Model\n"))
+                            cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
-                            cat("         Bagging ", self$bag.resample.rtset$n.resamples, " resamples (type = ",
-                                self$bag.resample.rtset$resampler, ")\n", sep = "")
+                            resamples <- switch(self$bag.resample.rtset$resampler,
+                                                strat.sub = " stratified subsamples",
+                                                bootstrap = " bootstraps",
+                                                strat.boot = " stratified bootstraps",
+                                                kfold = "-fold crossvalidation",
+                                                "custom resamples")
+                            cat("Aggregating", self$bag.resample.rtset$n.resamples, resamples, "\n")
                             boxcat("Training Error")
                             print(self$error.train)
                             if (length(self$error.test) > 0) {
@@ -925,7 +932,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          error.bag = NULL,
                          varimp = NULL,
                          question = NULL,
-                         sessionInfo = sessionInfo(),
+                         sessionInfo = NULL,
                          ### Initialize
                          initialize = function(mod = NULL,
                                                mod.name = NULL,
@@ -997,6 +1004,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            self$error.bag <- error.bag
                            self$varimp <- varimp
                            self$question <- question
+                           self$sessionInfo <- sessionInfo()
                          },
                          ### Methods
                          print = function() {
@@ -1035,7 +1043,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                           self$resampler.params$n.resamples, " aggregated resamples",
                                           ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
                            if (self$type == "Classification") {
-                             conf <- caret::confusionMatrix(predicted, y.test)
+                             conf <- classError(y.test, predicted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
                                          mar = c(3, 3, 5, 3),
                                          main.height = 2,
@@ -1064,7 +1072,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                           self$resampler.params$n.resamples, " aggregated resamples",
                                           ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
                            if (self$type == "Classification") {
-                             conf <- caret::confusionMatrix(fitted, y.train)
+                             conf <- classError(y.train, fitted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
                                          mar = c(3, 3, 5, 3),
                                          filename = filename,
@@ -1168,31 +1176,6 @@ rtModCV <- R6::R6Class("rtModCV",
 #'
 #' @name rtModCV-methods
 NULL
-
-#' #' \code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
-#' #'
-#' #' @method predict rtModCV
-#' #' @param newdata Testing set features
-#' #' @rdname rtModCV-methods
-#' #' @export
-#' predict.rtModCV <- function(object,
-#'                             newdata,
-#'                             fn = "median",
-#'                             verbose = TRUE, ...) {
-#'
-#'   # special cases: GBM - include n.trees: can be supplied in '...'
-#'   # BRUTO: newdata must be matrix
-#'   if (verbose) msg("Calculating estimated values using", fn, "of", length(object$mod), "bag resamples")
-#'   estimated.df <- sapply(object$mod, function(m) predict(m$mod1, newdata = newdata, ...))
-#'   estimated <- apply(estimated.df, 1, fn)
-#'   if (object$type == "Regression") {
-#'     estimated <- as.numeric(estimated)
-#'   } else {
-#'     estimated <- levels(object$y.train)[estimated]
-#'   }
-#'   return(estimated)
-#'
-#' } # rtemis::predict.rtModCV
 
 
 #' \code{plot.rtModCV}: \code{plot} method for \code{rtModCV} object
@@ -1340,7 +1323,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotROC = function(which.repeat = 1, ...) {
                                             self$plotROCpredicted(which.repeat = which.repeat, ...)
                                           },
-                                          plotROCFitted = function(which.repeat = 1, ...) {
+                                          plotROCfitted = function(which.repeat = 1, ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
                                               mplot3.roc(self$fitted.prob.aggr[[which.repeat]],
                                                          self$y.train.res.aggr[[which.repeat]],
@@ -1400,7 +1383,7 @@ rtMeta <- R6::R6Class("rtMeta",
                         meta.mod.name = NULL,
                         meta.params = NULL,
                         meta.mod = NULL,
-                        sessionInfo = sessionInfo(),
+                        sessionInfo = NULL,
                         ### Initialize
                         initialize = function(mod.name = character(),
                                               # call = call("NULL"),
@@ -1458,6 +1441,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           self$error.test <- error.test
                           self$question <- question
                           self$extra <- extra
+                          self$sessionInfo <- sessionInfo()
                         },
                         ### Methods
                         print = function() {
@@ -1465,7 +1449,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           if (length(self$predicted) < 1) {
                             boxcat(".:rtemis Fitted Meta Model")
                           } else {
-                            boxcat(".:rtemis Fitted and Validated Meta Model\n")
+                            boxcat(".:rtemis Fitted and Validated Meta Model")
                           }
                           cat(" Base: ", self$base.mod.names)
                           cat("  Meta: ", self$meta.mod.name)

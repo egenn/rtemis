@@ -108,7 +108,7 @@ s.GAM.default <- function(x, y = NULL,
 
   # [ FORMULA ] ====
   if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
-  lin.index <- which(!(1:NCOL(x) %in% spline.index))
+  lin.index <- which(!(seq(NCOL(x)) %in% spline.index))
 
   ### Predictors
   spline.features <- paste0("s(", colnames(x)[spline.index], ", k = ", k, ")", collapse = " + ")

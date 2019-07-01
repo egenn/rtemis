@@ -28,7 +28,7 @@ massUni <- function(x, y, mod = "gam",
   args <- list(...)
 
   # [ DATA ] ====
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   ynames <- colnames(y)
 
   # [ MOD1 ] ====

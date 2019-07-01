@@ -48,7 +48,7 @@ mhist(x, breaks = "Sturges", measure = c("density", "counts"),
 
 \item{col}{Color to use for histogram lines}
 
-\item{horiz}{Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a 
+\item{horiz}{Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a
 non-rotated plot - i.e. \code{xlab} will become the y-axis label}
 
 \item{main}{String: Main title}

@@ -26,9 +26,9 @@ d.TSNE(x, k = 3, initial.dims = 50, perplexity = 15, theta = 0,
 
 \item{max.iter}{Integer: Maximum number of iterations. Default = 1000}
 
-\item{scale}{Logical: If TRUE, scale before running t-SNE using \code{base::scale}}
+\item{scale}{Logical: If TRUE, scale before running t-SNE using \code{base::scale}. Default = FALSE}
 
-\item{center}{Logical: If TRUE, and \code{scale = TRUE}, also center}
+\item{center}{Logical: If TRUE, and \code{scale = TRUE}, also center. Default = FALSE}
 
 \item{is.distance}{Logical: If TRUE, \code{x} should be a distance matrix. Default = FALSE}
 
@@ -42,7 +42,7 @@ d.TSNE(x, k = 3, initial.dims = 50, perplexity = 15, theta = 0,
 \link{rtDecom} object
 }
 \description{
-Perform t-SNE on a dataset using \code{Rtsne::Rtsne}
+Perform t-SNE decomposition using \code{Rtsne::Rtsne}
 }
 \seealso{
 Other Decomposition: \code{\link{d.CUR}},

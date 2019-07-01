@@ -16,11 +16,11 @@ d.SVD(x, x.test = NULL, k = 2, nu = 0, scale = TRUE,
 
 \item{nu}{Integer: Number of left singular vectors to compute}
 
-\item{scale}{Logical: If TRUE, scale input data before doing SVD}
+\item{scale}{Logical: If TRUE, scale input data before doing SVD. Default = TRUE}
 
-\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}}
+\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = TRUE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{svd}}
 }
@@ -28,7 +28,7 @@ d.SVD(x, x.test = NULL, k = 2, nu = 0, scale = TRUE,
 \link{rtDecom} object
 }
 \description{
-Calculates SVD and projections using base \code{svd}
+Perform SVD decomposition using \code{base::svd}
 }
 \details{
 Same solution as \link{d.PCA}

@@ -6,7 +6,7 @@
 \usage{
 d.LLE(x, k = 2, nn = 0, nn.min = 1, nn.max = 20,
   plot.calcnn = FALSE, id = FALSE, iLLE = FALSE, nnk = TRUE,
-  reg = 2, v = 0.9, verbose = TRUE, n.cores = rtCores, ...)
+  reg = 2, v = 0.9, verbose = TRUE, n.cores = 1, ...)
 }
 \arguments{
 \item{x}{Input data}
@@ -35,9 +35,10 @@ will be used}
 \item{v}{Float: Threshold value for intrinsic dimension estimation. Suggestion for noiseless
 data: .99, for noisy data: .9. Default = .9}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
-\item{n.cores}{Integer: Number of cores to use}
+\item{n.cores}{Integer: Number of cores to use. Default = 1. At some point using more than one cores stopped working.
+The \code{lle} package has not been updated since February 2015 - we will switch to a different implementation soon}
 
 \item{...}{Additional parameters to be passed to \code{LLE::LLE}}
 }
@@ -45,7 +46,7 @@ data: .99, for noisy data: .9. Default = .9}
 \link{rtDecom} object
 }
 \description{
-Calculates LLE and projections
+Perform LLE decomposition using \code{lle::lle}
 }
 \details{
 Project scaled variables to LLE components

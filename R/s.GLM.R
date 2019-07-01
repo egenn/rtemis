@@ -4,7 +4,7 @@
 
 #' Generalized Linear Model [C, R]
 #'
-#' Train a Generalized Linear Model for Regression or Logistic Regression (Classification) using \code{glm}
+#' Train a Generalized Linear Model for Regression or Classification (i.e. Logistic Regression) using \code{stats::glm}.
 #' If outcome \code{y} has more than two classes, Multinomial Logistic Regression is performed using
 #' \code{nnet::multinom}
 #'
@@ -16,16 +16,16 @@
 #'
 #' @param x Numeric vector or matrix / data frame of features i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
-#' @param x.test (Optional) Numeric vector or matrix / data frame of testing set features
+#' @param x.test Numeric vector or matrix / data frame of testing set features
 #'   Columns must correspond to columns in \code{x}
-#' @param y.test (Optional) Numeric vector of testing set outcome
+#' @param y.test Numeric vector of testing set outcome
 #' @param family Error distribution and link function. See \code{stats::family}
-#' @param covariate String (optional): Name of column to be included as interaction term in formula, must be factor
+#' @param covariate String: Name of column to be included as interaction term in formula, must be factor
 #' @param x.name Character: Name for feature set
 #' @param y.name Character: Name for outcome
 #' @param interactions Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}
 #' @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
-#' @param class.method String (Optional): Define "logistic" or "multinom" for classification. The only purpose
+#' @param class.method String: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try \code{nnet::multinom} instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 #' over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -76,6 +76,7 @@
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
+#' @family Interpretable models
 #' @export
 
 s.GLM <- function(x, y = NULL,
@@ -133,7 +134,7 @@ s.GLM <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (trace > 0) verbose <- TRUE
-  
+
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
@@ -145,6 +146,13 @@ s.GLM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+
+  if (!is.null(family) && family %in% c("binomial", "multinomial") && type != "Classification") {
+    y  <- factor(y)
+    if (!is.null(y.test)) y.test <- factor(y.test)
+    type <- "Classification"
+  }
+
   checkType(type, c("Classification", "Regression"), mod.name)
   # if (is.null(weights) & ipw) weights <- dt$weights
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
@@ -168,13 +176,13 @@ s.GLM <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (type == "Classification") nlevels <- length(levels(y))
+  # if (type == "Classification") nlevels <- length(levels(y))
 
   # [ FORMULA ] ====
   # do not use data.frame() here; x already data.frame from dataPrepare.
   # If colnames was integers, data.frame() would add 'X' in front of those.
   # For example, splines produces output with integers as colnames.
-  df.train <- cbind(x, y = y)
+  df.train <- cbind(x, y = if (mod.name == "LOGISTIC") reverseLevels(y) else y)
   if (!polynomial) {
     # features <- paste(xnames, collapse = " + ")
     # .formula <- paste0(y.name, " ~ ", features)
@@ -222,16 +230,15 @@ s.GLM <- function(x, y = NULL,
 
   # [ FITTED ] ====
   fitted.prob <- se.fit <- NULL
-  if (type == "Classification") pred.type <- if (mod.name == "LOGISTIC") "response" else "class"
   if (type == "Regression") {
       fitted <- predict(mod, x, se.fit = TRUE)
       se.fit <- as.numeric(fitted$se.fit)
       fitted <- as.numeric(fitted$fit)
   } else {
     if (mod.name == "LOGISTIC") {
-      fitted.prob <- as.numeric(predict(mod, x, type = pred.type))
-      fitted <- ifelse(fitted.prob >= .5, 1, 0)
-      fitted <- factor(levels(y)[fitted + 1], levels = levels(y))
+      fitted.prob <- as.numeric(predict(mod, x, type = "response"))
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
     } else {
       fitted.prob <- predict(mod, x, type = "probs")
       fitted <- predict(mod, x, type = "class")
@@ -239,7 +246,6 @@ s.GLM <- function(x, y = NULL,
   }
 
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -254,7 +260,7 @@ s.GLM <- function(x, y = NULL,
         levels.testing <- lapply(x.test[, index.factor], levels)
         # Get index of levels present in test set and not in training
         index.missing <- lapply(1:length(levels.training), function(i) levels.testing[[i]] %in% levels.training[[i]])
-        # Set levels present in testing and missing in training to NA
+        # Set levels present in testing but missing in training to NA
         which.missing <- sapply(index.missing, all)
         if (any(!which.missing)) {
           if (verbose) msg("Levels present in testing and not in training replaced with NA")
@@ -274,9 +280,8 @@ s.GLM <- function(x, y = NULL,
         predicted <- as.numeric(predicted$fit)
     } else {
       if (mod.name == "LOGISTIC") {
-        predicted.prob <- predict(mod, x.test, type = pred.type)
-        predicted <- ifelse(predicted.prob >= .5, 1, 0)
-        predicted <- factor(levels(y)[predicted + 1], levels = levels(y))
+        predicted.prob <- predict(mod, x.test, type = "response")
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
         levels(predicted) <- levels(y)
       } else {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "probs"))
@@ -286,7 +291,6 @@ s.GLM <- function(x, y = NULL,
 
     if (!is.null(y.test) && length(y.test) > 1) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

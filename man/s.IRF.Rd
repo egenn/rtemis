@@ -22,10 +22,10 @@ s.IRF(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -81,7 +81,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{question}{String: the question you are attempting to answer with this model, in plain language.}
@@ -122,18 +122,17 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.GLS}}, \code{\link{s.H2ODL}},
   \code{\link{s.H2OGBM}}, \code{\link{s.H2ORF}},
   \code{\link{s.KNN}}, \code{\link{s.LDA}},
-  \code{\link{s.LGB}}, \code{\link{s.LM}},
-  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
-  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
-  \code{\link{s.NLA}}, \code{\link{s.NLS}},
-  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
-  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
-  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LM}}, \code{\link{s.MARS}},
+  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
+  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
+  \code{\link{s.NLS}}, \code{\link{s.NW}},
+  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
+  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
+  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
 
 Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.ADDTREE}}, \code{\link{s.BART}},
@@ -141,10 +140,10 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.CTREE}}, \code{\link{s.ET}},
   \code{\link{s.EVTREE}}, \code{\link{s.GBM3}},
   \code{\link{s.GBM}}, \code{\link{s.H2OGBM}},
-  \code{\link{s.H2ORF}}, \code{\link{s.LGB}},
-  \code{\link{s.MLRF}}, \code{\link{s.PPTREE}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.XGB}}
+  \code{\link{s.H2ORF}}, \code{\link{s.MLRF}},
+  \code{\link{s.PPTREE}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.XGB}}
 }
 \author{
 Efstathios D. Gennatas

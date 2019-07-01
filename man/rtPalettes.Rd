@@ -80,23 +80,23 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{uclaCol}: UCLA color palette (http://brand.ucla.edu/identity/colors)
 
-\code{ucCol}: University of California color palette 
+\code{ucCol}: University of California color palette
 (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 
-\code{uwCol}: University of Washington color palette 
+\code{uwCol}: University of Washington color palette
 (http://www.washington.edu/brand/graphic-elements/primary-color-palette/)
 
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 
-\code{appleCol}: Apple Human Interface Guidelines color palette 
+\code{appleCol}: Apple Human Interface Guidelines color palette
 (https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)
 
 \code{googleCol}: Google brand palette (https://brandpalettes.com/google-colors/)
 
-\code{amazonCol}: Amazon brand palette 
+\code{amazonCol}: Amazon brand palette
 (https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf)
 
-\code{microsoftCol}: Microsoft brand palette 
+\code{microsoftCol}: Microsoft brand palette
 (https://brandcolors.net/b/microsoft)
 }
 \keyword{datasets}

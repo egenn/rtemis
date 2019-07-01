@@ -44,7 +44,7 @@ distillTreeRules <- function(mod, x, y = NULL,
     n.trees <- if (mod.name == "RF") mod$ntree else mod$n.trees
   }
   
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature", seq(NCOL(x)))
   
   if (verbose) msg("Working on", mod.name, "model; looking at", n.trees, "trees")
   

@@ -18,7 +18,7 @@ d.PCA(x, x.test = NULL, k = NULL, scale = TRUE, center = TRUE,
 
 \item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{PCA::PCA}}
 }
@@ -26,7 +26,7 @@ d.PCA(x, x.test = NULL, k = NULL, scale = TRUE, center = TRUE,
 \link{rtDecom} object
 }
 \description{
-Calculates PCA decomposition and projections using \code{stats::prcomp}
+Perform PCA decomposition using \code{stats::prcomp}
 }
 \details{
 Same solution as \link{d.SVD}. d.PCA runs \code{prcomp}, which has useful

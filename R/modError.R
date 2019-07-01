@@ -6,9 +6,6 @@
 #'
 #' Calculate error metrics for pair of vector, e.g. true and estimated values from a model
 #'
-#' For classification, caret's confusion matrix is used, modified to include $byClass measures under
-#' $overall. In the case of multiclass outcome, these are averaged.
-#'
 #' In regression, NRMSE = RMSE / range(observed)
 #' @param true Vector: True values
 #' @param estimated Vector: Estimated values
@@ -23,7 +20,8 @@
 #' @author Efstathios D Gennatas
 #' @export
 
-modError <- function(true, estimated,
+modError <- function(true,
+                     estimated,
                      estimated.prob = NULL,
                      verbose = FALSE,
                      type = NULL,
@@ -123,23 +121,10 @@ modError <- function(true, estimated,
   } else if (type == "Classification")  {
 
     # [ Classification ] ====
-    if (!depCheck("caret", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
     if (class(x) != "factor") x <- as.factor(x)
     # if (class(y) != "factor") y <- as.factor(y)
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
-    # s.out <- caret::confusionMatrix(y, x, mode = "everything")
-    # byClass <- if (n.classes == 2) {
-    #   data.frame(t(s.out$byClass))
-    # } else {
-    #   data.frame(t(colMeans(s.out$byClass)))
-    # }
-    # names(byClass) <- c("Sensitivity", "Specificity", "PosPredValue", "NegPredValue",
-    #                     "F1", "Prevalence", "DetectionRate",
-    #                     "DetectionPrevalence", "Balanced Accuracy")
-    # s.out$overall <- data.frame(t(s.out$overall), byClass)
     s.out <- classError(x, y, estimated.prob)
   } else {
 
@@ -243,80 +228,6 @@ logloss <- function(true, estimated.prob) {
   - mean(true.bin * log(estimated.prob) + (1 - true.bin) * log(1 - estimated.prob))
 
 } # rtemis::logloss
-
-
-#' Area under the Curve by pairwise concordance
-#'
-#' Get the Area under the ROC curve to assess classifier performance using pairwise concordance
-#'
-#' The first level of \code{true.labels} must be the positive class, and high numbers in
-#' \code{estimated.score} should correspond to the positive class.
-#'
-#' @param estimated.score Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)
-#' @param true.labels True labels of outcomes (e.g. c(0, 1, 1))
-#' @param verbose Logical: If TRUE, print messages to output
-#' @export
-
-
-auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
-
-  true.labels <- as.factor(true.labels)
-  true.levels <- levels(true.labels)
-  n.levels <- length(true.levels)
-  if (n.levels == 2) {
-    outer.diff <- outer(estimated.score[true.labels == true.levels[1]],
-                        estimated.score[true.labels == true.levels[2]], "-")
-    .auc <- mean((outer.diff > 0) + .5*(outer.diff == 0))
-  } else {
-    stop("Multiclass AUC does not have a single definition and is not yet implemented")
-  }
-  if (verbose) {
-    msg("Positive class:", true.levels[1])
-    msg("AUC =", .auc)
-  }
-  invisible(.auc)
-
-} # rtemis::auc_pairs
-
-
-#' Area under the Curve
-#'
-#' Get the Area under the ROC curve to assess classifier performance using \code{pROC}
-#'
-#' Consider looking at Balanced Accuracy and F1 as well
-#'
-#' @param prob Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)
-#' @param labels True labels of outcomes (e.g. c(0, 1, 1))
-#' @param verbose Logical: If TRUE, print messages to output
-#' @export
-
-auc <- function(prob, labels,
-                # method = c("pROC", "multiROC"),
-                verbose = FALSE) {
-
-  # method <- match.arg(method)
-  method <- "pROC"
-
-  if (method == "pROC") {
-    if (!depCheck("pROC", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
-    if (length(levels(labels) > 2)) {
-      .roc <- pROC::multiclass.roc(labels, prob)
-    } else {
-      .roc <- pROC::roc(labels, prob)
-    }
-  } else {
-    if (!depCheck("multiROC", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
-
-  }
-
-  if (verbose) msg("AUC is", .roc$auc)
-  as.numeric(.roc$auc)
-
-} # rtemis::auc
 
 
 #' Sensitivity
@@ -437,7 +348,7 @@ print.regError <- function(x, ...) {
   if (!is.null(obj$rho)) {
     cat("    rho = ", ddSci(obj$rho), " (p = ", ddSci(obj$rho.p), ")\n", sep = "")
   }
-  cat("   R sq = ", ddSci(obj$Rsq), "\n", sep = "")
+  cat("   R sq = ", rtHighlight$bold(ddSci(obj$Rsq)), "\n", sep = "")
 
 } # rtemis::print.regError
 

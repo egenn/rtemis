@@ -4,7 +4,7 @@
 
 #' CUR Decomposition
 #'
-#' Performs a CUR decomposition
+#' Performs CUR decomposition using \code{rCUR::CUR}
 #'
 #' Note that \code{k} here does not correspond with \code{k} in the other decomposition functions.
 #' Use \code{c} to determine dimensionality of resulting decomposition
@@ -57,18 +57,13 @@ d.CUR <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (scale) {
     x <- scale(x, center = center)
   }
 
   # [ CUR ] ====
-  if (!is.null(colnames(x))) {
-    xnames <- colnames(x)
-  } else {
-    xnames <- paste0('Feature.', 1:NCOL(x))
-  }
   if (verbose) msg("Running CUR Decomposition...")
   decom <- rCUR::CUR(x, c = c, r = r, k = k,
                      sv = sv,
@@ -83,14 +78,14 @@ d.CUR <- function(x,
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = NULL,
                     parameters = list(c = c,
                                       r = r,
                                       k = k,
                                       sv = sv,
                                       scale = scale,
-                                      method = method),
-                    projections.train = projections.train,
-                    projections.test = NULL)
+                                      method = method))
   outro(start.time, verbose = verbose)
   rt
 

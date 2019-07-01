@@ -37,7 +37,7 @@ massGAM <- function(x, y,
                     family = gaussian(),
                     weights = NULL,
                     method = "REML",
-                    n.cores = NULL,
+                    n.cores = rtCores,
                     save.mods = FALSE,
                     save.summary = TRUE,
                     print.plots = FALSE,
@@ -75,7 +75,7 @@ massGAM <- function(x, y,
   if (!is.null(x.name) & NCOL(x) == length(x.name)) {
     colnames(x) <- x.name
   } else {
-    colnames(x) <- paste0("Predictor.", 1:NCOL(x))
+    colnames(x) <- paste0("Predictor.", seq(NCOL(x)))
   }
 
   ### Predictors

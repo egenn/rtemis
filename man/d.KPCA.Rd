@@ -25,7 +25,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{fastKPCA::fastKPCA}}
 }
@@ -33,7 +33,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 \link{rtDecom} object
 }
 \description{
-Calculates kernel PCA decomposition and projections using \code{kernlab::kpca}
+Perform kernel PCA decomposition using \code{kernlab::kpca}
 }
 \details{
 Project scaled variables to KPCA components.

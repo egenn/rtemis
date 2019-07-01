@@ -50,12 +50,12 @@ rtDecom <- R6::R6Class("rtDecom",
                           ### Methods
                           print = function() {
                             "show / print method for rtDecom"
-                            cat(".:rtemis Decomposition\n------------------------------------------------------\n")
-                            cat(self$decom.name, " (", decomSelect(self$decom.name, desc = TRUE),
+                            cat(bold(".:rtemis Decomposition\n"))
+                            cat(rtHighlight$bold(self$decom.name), " (", decomSelect(self$decom.name, desc = TRUE),
                                 ")\n", sep = "")
-                            cat("------------------------------------------------------\n")
-                            printls(self$parameters)
-                            cat("------------------------------------------------------\n")
+                            if (length(self$parameters) > 0) printls(self$parameters,
+                                                                     title = "Parameters",
+                                                                     newline.pre = TRUE)
                           }
                         ))
 
@@ -88,7 +88,6 @@ rtDecomLearn <- R6::R6Class("rtDecomLearn",
                               best.tune = NULL,
                               learner.name = NULL,
                               learner.params = NULL,
-                              # call = NULL,
                               xnames = NULL,
                               decom = NULL,
                               mod = NULL,
@@ -105,7 +104,6 @@ rtDecomLearn <- R6::R6Class("rtDecomLearn",
                                                     best.tune = list(),
                                                     learner.name = character(),
                                                     learner.params = list(),
-                                                    call = call("NULL"),
                                                     xnames = character(),
                                                     decom = list(),
                                                     mod = list(),
@@ -121,7 +119,6 @@ rtDecomLearn <- R6::R6Class("rtDecomLearn",
                                 self$best.tune <- best.tune
                                 self$learner.name <- learner.name
                                 self$learner.params <- learner.params
-                                # self$call <- call
                                 self$xnames <- xnames
                                 self$decom <- decom
                                 self$mod <- mod

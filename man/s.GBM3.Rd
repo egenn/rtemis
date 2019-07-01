@@ -27,18 +27,19 @@ s.GBM3(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   "lightgrid"), x.name = NULL, y.name = NULL, question = NULL,
   verbose = TRUE, trace = 0, grid.verbose = TRUE,
   gbm.fit.verbose = FALSE, outdir = NULL, save.gridrun = FALSE,
-  save.rds = TRUE, save.res = FALSE, save.res.mod = FALSE,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  save.error.diagnostics = FALSE, save.rds = TRUE, save.res = FALSE,
+  save.res.mod = FALSE, save.mod = ifelse(!is.null(outdir), TRUE,
+  FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -87,7 +88,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{relInf}{Logical: If TRUE (Default), estimate variables' relative influence.}
@@ -163,18 +164,17 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.H2ODL}}, \code{\link{s.H2OGBM}},
   \code{\link{s.H2ORF}}, \code{\link{s.IRF}},
   \code{\link{s.KNN}}, \code{\link{s.LDA}},
-  \code{\link{s.LGB}}, \code{\link{s.LM}},
-  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
-  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
-  \code{\link{s.NLA}}, \code{\link{s.NLS}},
-  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
-  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
-  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LM}}, \code{\link{s.MARS}},
+  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
+  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
+  \code{\link{s.NLS}}, \code{\link{s.NW}},
+  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
+  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
+  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
 
 Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.ADDTREE}}, \code{\link{s.BART}},
@@ -182,10 +182,10 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.CTREE}}, \code{\link{s.ET}},
   \code{\link{s.EVTREE}}, \code{\link{s.GBM}},
   \code{\link{s.H2OGBM}}, \code{\link{s.H2ORF}},
-  \code{\link{s.IRF}}, \code{\link{s.LGB}},
-  \code{\link{s.MLRF}}, \code{\link{s.PPTREE}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.XGB}}
+  \code{\link{s.IRF}}, \code{\link{s.MLRF}},
+  \code{\link{s.PPTREE}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.XGB}}
 
 Other Ensembles: \code{\link{s.ADABOOST}},
   \code{\link{s.GBM}}, \code{\link{s.RANGER}},

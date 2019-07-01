@@ -13,10 +13,9 @@ elevate(x, y = NULL, mod = "ranger", mod.params = list(),
   save.mods = TRUE, save.tune = TRUE, cex = 1.4, col = "#18A3AC",
   bag.fitted = FALSE, n.cores = 1,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
-  print.plot = FALSE, plot.fitted = NULL, plot.predicted = NULL,
+  print.plot = TRUE, plot.fitted = FALSE, plot.predicted = TRUE,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  print.res.plot = FALSE, yhat.plots = TRUE, plot.mean = NULL,
-  plot.type = "density", question = NULL, verbose = TRUE,
+  print.res.plot = FALSE, question = NULL, verbose = TRUE,
   trace = 0, res.verbose = FALSE, headless = FALSE, outdir = NULL,
   save.plots = FALSE, save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
   save.mod = TRUE, save.res = FALSE, ...)
@@ -107,14 +106,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
 
 \item{print.res.plot}{Logical: Print model performance plot for each resample.
-Defaults to FALSE}
-
-\item{yhat.plots}{Logical: Print aggregate plots for fitted vs. true and predicted vs. true
+Defaults to FALSE
 from all resamples. Defaults to TRUE}
-
-\item{plot.mean}{Logical: Print plot of type \code{plot.type} plot of models' error. Defaults to TRUE}
-
-\item{plot.type}{String: Type of plot to draw for all models' errors: "density" (Default), "histogram"}
 
 \item{question}{String: the question you are attempting to answer with this model, in plain language.}
 
@@ -151,7 +144,7 @@ Object of class \code{rtModCV} (Regression) or \code{rtModCVclass} (Classificati
 }
 \description{
 \code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
-by nested resampling, and optional preprocessing and decomposition
+by nested resampling, with optional preprocessing and decomposition of input features
 }
 \details{
 - Note on resampling: You can never use an outer resampling method with replacement

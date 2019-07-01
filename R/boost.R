@@ -94,8 +94,9 @@ boost <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    x.valid = x.valid, y.valid = y.valid,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    x.valid, y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
                     # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
@@ -201,12 +202,13 @@ boost <- function(x, y = NULL,
       n.cases <- NROW(x)
       index <- sample(n.cases, case.p * n.cases)
       x1 <- x[index, , drop = FALSE]
-      y1 <- y[index]
+      # y1 <- y[index]
       resid1 <- resid[index]
     } else {
       x1 <- x
       resid1 <- resid
     }
+
     mod.args <- c(list(x = x1, y = resid1,
                        x.test = x.valid, y.test = y.valid,
                        verbose = base.verbose, print.plot = print.base.plot),
@@ -459,7 +461,6 @@ expand.boost <- function(object,
                          max.iter = 10,
                          learning.rate = NULL,
                          case.p = 1,
-                         # tolerance = NULL,
                          prefix = NULL,
                          verbose = TRUE,
                          trace = 0,
@@ -470,7 +471,6 @@ expand.boost <- function(object,
   if (is.null(mod)) mod <- object$parameters$mod
   if (is.null(mod.params)) mod.params <- object$parameters$mod.params
   if (is.null(learning.rate)) learning.rate <- object$parameters$learning.rate
-  # if (is.null(tolerance)) tolerance <- object$parameters$tolerance
   tolerance <- object$parameters$tolerance
   boost(x = x, y = y,
         x.valid = x.valid, y.valid = y.valid,
@@ -590,29 +590,28 @@ as.boost <- function(object,
 
 } # rtemis::as.boost
 
-#' \pkg{rtemis} internals: Update \link{boost} object's fitted values
+#' \pkg{rtemis} internals: Update \code{rtMod} \link{boost} object's fitted values in-place
 #'
 #' Calculate new fitted values for a \link{boost} object.
 #' Advanced use only: run with new \code{x} or after updating learning.rate in object
 #'
-#' @method update boost
 #' @param object \link{boost} object
 #' @param x Data frame: Features
-#' @param last.step.only Logicall: If TRUE, \code{x} must be provided and only the last meta model will be updated
+#' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 #' using this \code{x}
 #' @return \link{boost} object
 #' @author Efstathios D. Gennatas
 #' @return Nothing; updates \code{object} in-place
 #' @export
+# TODO: add support for x.test
 
-update.boost <- function(object, x = NULL,
-                         x.valid = NULL,
-                         trace = 0,
-                         last.step.only = FALSE,
-                         n.cores = rtCores, ...) {
+update.rtMod.boost <- function(object, x = NULL,
+                               x.test = NULL,
+                               trace = 0,
+                               last.step.only = FALSE,
+                               n.cores = rtCores, ...) {
 
   if (trace > 0) fitted.orig <- object$fitted
-  # fitted <- plyr::laply(object$mod$mods, function(i) i$fitted)
   # Create n.iter x n.cases fitted values; one row per iteration
   if (is.null(x)) {
     fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
@@ -624,22 +623,23 @@ update.boost <- function(object, x = NULL,
       object$mod$mods[[u]]$fitted <- predict(object$mod$mods[[u]], x)
       fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
     }
-
   }
 
-  # TODO: finish x.valid
-  # if (is.null(x.valid)) {
-  #   predicted.valid
+  # if (!is.null(x.valid)) {
+  #   # currently predicted.valid not saved in object
+  #     predicted.valid <- t(as.data.frame(pbapply::pblapply(object$mod$mods,
+  #                                                          function(i) predict(i, x.valid), cl = n.cores)))
   # }
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
   object$fitted <- object$mod$init + colSums(fitted * object$mod$learning.rate)
   object$error.train <- modError(object$y.train, object$fitted)
+  # object$mod$error.valid <- modError(object$mod$y.valid, predicted.valid)
   if (trace > 0) {
     mse.orig <- mse(object$y.train, fitted.orig)
     mse.new <- mse(object$y.train, fitted)
-    msg0("old MSE = ", mse.orig, "; new MSE = ", mse.new)
+    msg0("old MSE = ", ddSci(mse.orig), "; new MSE = ", ddSci(mse.new))
     # if (mse.new > mse.orig) warning("Whatever you did, it didn't really help:\nnew MSE is higher than original")
   }
 
-} # rtemis::update.boost
+} # rtemis::update.rtMod.boost

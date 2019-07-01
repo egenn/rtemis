@@ -49,6 +49,11 @@ s.SGD <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SGD"
 
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("sgd", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(s.SGD))

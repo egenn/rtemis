@@ -10,7 +10,7 @@ cols2list(x)
 \item{x}{Input: Will be coerced to data.frame, then each column will become an element of a list}
 }
 \description{
-COnvenience function to create a list out of data frame columns
+Convenience function to create a list out of data frame columns
 }
 \author{
 Efstathios D. Gennatas

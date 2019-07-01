@@ -4,7 +4,7 @@
 
 #' t-distributed Stochastic Neighbor Embedding
 #'
-#' Perform t-SNE on a dataset using \code{Rtsne::Rtsne}
+#' Perform t-SNE decomposition using \code{Rtsne::Rtsne}
 #'
 #' @param x Input matrix
 #' @param k Integer. Number of t-SNE components required
@@ -14,8 +14,8 @@
 #' @param check.duplicates Logical: If TRUE, Checks whether duplicates are present. Best to set test manually
 #' @param pca Logical: If TRUE, perform initial PCA step. Default = TRUE
 #' @param max.iter Integer: Maximum number of iterations. Default = 1000
-#' @param scale Logical: If TRUE, scale before running t-SNE using \code{base::scale}
-#' @param center Logical: If TRUE, and \code{scale = TRUE}, also center
+#' @param scale Logical: If TRUE, scale before running t-SNE using \code{base::scale}. Default = FALSE
+#' @param center Logical: If TRUE, and \code{scale = TRUE}, also center. Default = FALSE
 #' @param is.distance Logical: If TRUE, \code{x} should be a distance matrix. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param ... Options for \code{Rtsne::Rtsne}
@@ -42,7 +42,6 @@ d.TSNE <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   if (verbose) msg("Running t-distributed Stochastic Neighbot Embedding")
   decom.name <- "TSNE"
 
@@ -65,7 +64,7 @@ d.TSNE <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   # if (!is.null(x.test)) colnames(x.test) <- xnames
   x <- scale(x, scale = scale, center = center)
@@ -100,6 +99,15 @@ d.TSNE <- function(x,
                     xnames = xnames,
                     projections.train = decom$Y,
                     projections.test = NULL,
+                    parameters = list(k = k,
+                                      initial.dims = initial.dims,
+                                      perplexity = perplexity,
+                                      theta = theta,
+                                      check.duplicates = check.duplicates,
+                                      pca = pca,
+                                      max.iter = max.iter,
+                                      scale = scale,
+                                      center = center),
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt
