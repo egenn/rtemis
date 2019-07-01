@@ -1,6 +1,6 @@
 # rtset.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.github.io
 
 #' \pkg{rtemis} default-setting functions
 #'
