@@ -20,10 +20,10 @@ options(list(rt.theme = "lightgrid", rt.fit.theme = "lightgrid"))
 
 ```{r, comment="", results="asis", echo=FALSE}
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled=TRUE)
+options(crayon.enabled = TRUE)
 ```
 
-# Introduction
+# Welcome to rtemis
 __rtemis__ is a platform for advanced machine learning and visualization.  
 To view the full online documentation and vignettes, visit the [rtemis website](https://rtemis.netlify.com)
 
@@ -36,7 +36,7 @@ The __rtemis__ project has three aims:
 
 # Overview
 __rtemis__ functions are divided into the following groups:  
- 
+
 * __Visualization__
      - Static: **_mplot3_** family (base graphics)
      - Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
@@ -73,7 +73,7 @@ You can run rtemis in the command line or using the IDE of your choice. RStudio 
 
 ## macOS
 ### Prerequisites
-If you are installing on macOS, make sure you have installed: 
+If you are installing on macOS, make sure you have installed:
 
 * [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 * [XQuartz](https://www.xquartz.org/)
@@ -135,16 +135,39 @@ Visualization is a vital part of all data analysis. __rtemis__ has support for b
 Static plotting in __rtemis__ is handled by the `mplot3` family. `mplot3` uses base R graphics to render high quality output fast.  
 Selection of available functions:
 
-Command           | Input                    | Plots
------------------ | ------------------------ | ------------------------------------------------------------
-`mplot3.x`        | Vector(s) `x`            | Index, histogram, density, and QQ-line plots
-`mplot3.xy`       | Vectors `x` and `y`      | Scatter and/or line plots with optional fit line
-`mplot3.fit`      | Vectors `x` and `y`      | `mplot3.xy` wrapper for true vs. estimated values
-`mplot3.xym`      | Vectors `x` and `y`      | `mplot3.xy` scatter with marginal histogram and/or density plots
-`mplot3.img`      | Matrix `x`               | 2D false color plots
-`mplot3.heatmap`  | Matrix `x`               | Heatmaps with optional row and column dendrogram and colorbar
-`mplot3.bar`      | Vector or matrix `x`     | Barplots
-`mplot3.box`      | Matrix `x`               | Boxplots
+```{r echo=FALSE}
+viz <- data.frame(Command = c("mplot3.x", "mplot3.xy",
+                              "mplot3.xym", "mplot3.fit",
+                              "mplot3.img", "mplot3.heatmap",
+                              "mplot3.bar", "mplot3.box"),
+                  Input = c("Vector(s) `x`", "Vectors `x` and `y`",
+                            "Vectors `x` and `y`", "Vectors `x` and `y`",
+                            "Matrix `x`", "Matrix `x`",
+                            "Vector or matrix `x`", "Matrix `x`"),
+                  Output = c("Index, histogram, density, and QQ-line plots",
+                             "Scatter and/or line plots with optional fit line",
+                             "`mplot3.xy` wrapper for true vs. estimated values",
+                             "`mplot3.xy` scatter with marginal histogram and/or density plots",
+                             "2D false color plots",
+                             "Heatmaps with optional row and column dendrogram and colorbar",
+                             "Barplots",
+                             "Boxplots"))
+knitr::kable(viz)
+```
+
+
+<!-- Command           | Input                    | Plots -->
+<!-- ----------------- | ------------------------ | ------------------------------------------------------------ -->
+<!-- `mplot3.x`        | Vector(s) `x`            | Index, histogram, density, and QQ-line plots -->
+<!-- `mplot3.xy`       | Vectors `x` and `y`      | Scatter and/or line plots with optional fit line -->
+<!-- `mplot3.fit`      | Vectors `x` and `y`      | `mplot3.xy` wrapper for true vs. estimated values -->
+<!-- `mplot3.xym`      | Vectors `x` and `y`      | `mplot3.xy` scatter with marginal histogram and/or density plots -->
+<!-- `mplot3.img`      | Matrix `x`               | 2D false color plots -->
+<!-- `mplot3.heatmap`  | Matrix `x`               | Heatmaps with optional row and column dendrogram and colorbar -->
+<!-- `mplot3.bar`      | Vector or matrix `x`     | Barplots -->
+<!-- `mplot3.box`      | Matrix `x`               | Boxplots -->
+
+
 
 
 ### `mplot3.x`
@@ -155,7 +178,7 @@ x <- rnorm(100)
 y <- .6 * x + 12 + rnorm(100)
 ```
 
-Let's see what happens if we try to plot the `x` variable by itself: 
+Let's see what happens if we try to plot the `x` variable by itself:
 ```{r}
 mplot3.x(x)
 ```
@@ -172,12 +195,12 @@ mplot3.x(x, type = "density")
 ```
 
 ### `mplot3.xy`
-Now let's plot `y` against `x`: 
+Now let's plot `y` against `x`:
 ```{r}
 mplot3.xy(x, y)
 ```
 
-Let's add a fit line: 
+Let's add a fit line:
 ```{r}
 mplot3.xy(x, y, fit = "lm")
 ```
@@ -232,8 +255,8 @@ You can get a list of all available algorithms:
 decomSelect()
 ```
 
-As a simple example, let's look the famous `iris` dataset. Note that this is to demonstrate function usage and 
-in no way a good example to demonstrate the effectiveness of different decomposition algorithms since the iris 
+As a simple example, let's look the famous `iris` dataset. Note that this is to demonstrate function usage and
+in no way a good example to demonstrate the effectiveness of different decomposition algorithms since the iris
 dataset only consists of 4 variables.  
 Let's select all variables from the iris dataset, excluding the group names:
 ```{r}
@@ -328,4 +351,3 @@ mod$plot()
 ```{r}
 mod$plotROC()
 ```
-
