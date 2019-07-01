@@ -1,6 +1,6 @@
 # resample.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.github.io
+# 2015-9 Efstathios D. Gennatas egenn.github.io
 
 #' Resampling methods
 #'
@@ -19,17 +19,17 @@
 #' @param n.resamples Integer: Number of training/testing sets required
 #' @param resampler String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 #'   Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"
-#' @param index List where each element is a vector of training set indices. Use this for manual or precalculated 
+#' @param index List where each element is a vector of training set indices. Use this for manual or precalculated
 #' train/test splits
 #' @param group Integer, vector, length = \code{length(y)}: Integer vector, where numbers define fold membership.
 #' e.g. for 10-fold on a dataset with 1000 cases, you could use \code{group = rep(1:10, each = 100)}
 #' @param stratify.var Numeric vector (optional): Variable used for stratification. Defaults to \code{y}
-#' @param cv.p Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}
-#' @param cv.groups Integer: Number of groups to use for stratification for
+#' @param train.p Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}
+#' @param strat.n.bins Integer: Number of groups to use for stratification for
 #'   \code{resampler = "strat.sub" / "strat.boot"}
 #' @param target.length Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
 #'   Default = \code{length(y)}
-#' @param rtset List: Output of an \link{rtset.resample} (or named list with same structure). 
+#' @param rtset List: Output of an \link{rtset.resample} (or named list with same structure).
 #' NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
 #'   See \code{?base::set.seed}
@@ -38,155 +38,144 @@
 #' @seealso \link{elevate}
 #' @export
 
-resample <- function(y = NULL, n.resamples = 10,
+resample <- function(y,
+                     n.resamples = 10,
                      resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
                      index = NULL,
                      group = NULL,
                      stratify.var = y,
-                     cv.p = .75,
-                     cv.groups = 4,
+                     train.p = .75,
+                     strat.n.bins = 4,
                      target.length = NROW(y),
                      rtset = NULL,
                      seed = NULL,
                      verbose = FALSE) {
-  
-  # [ DEPENDENCIES ] ====
-  if (!depCheck("caret", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
-  
+
+  # If rtset is provided, it takes precedence over all other arguments
   if (!is.null(rtset)) {
-    # return(do.call(resample, args = c(list(y = y), rtset))) # do.call always causes msg() to not print fn name
     resampler <- rtset$resampler
     n.resamples <- rtset$n.resamples
     .stratify.var <- rtset$stratify.var
-    cv.p <- rtset$cv.p
-    cv.groups <- rtset$cv.groups
+    train.p <- rtset$train.p
+    strat.n.bins <- rtset$strat.n.bins
     target.length <- rtset$target.length
     seed <- rtset$seed
     index <- rtset$index
     group <- rtset$group
-    # verbose <- rtset$verbose # Rather use the verbose arg here
   }
-  
+
   type <- if (!is.null(index)) ".index" else if (!is.null(group)) ".group" else ".res"
-  
+
   if (type == ".res") {
     # type = "res" ====
     resampler <- match.arg(resampler)
-    
+
     # [ INPUT ] ====
-    if (is.null(y)) stop("Please provide y")
     if (NCOL(y) > 1) {
       if (verbose) msg("Input contains more than one columns; will stratify on last")
       y <- y[, NCOL(y)]
     }
     if (is.null(target.length)) target.length <- NROW(y)
     if (resampler == "strat.sub" | resampler == "strat.boot") {
-      if (cv.p <= 0 | cv.p >= 1) stop("cv.p must be greater than 0 and less than 1")
+      if (train.p <= 0 | train.p >= 1) stop("train.p must be greater than 0 and less than 1")
     }
+
     # Check there are enough cases for stratification in given k
     if (is.factor(y)) {
       if (resampler %in% c("strat.sub", "strat.boot", "kfold")) {
         freq <- table(y)
         if (min(freq) < n.resamples) {
-          warning("Insufficient number of cases for ", n.resamples, 
+          warning("Insufficient number of cases for ", n.resamples,
                   " stratified resamples: will use ", min(freq)," instead")
           n.resamples <- min(freq)
         }
       }
     }
-    
+
     # [ RESAMPLE ] ====
     .stratify.var <- if (is.null(stratify.var)) y else stratify.var
     # stratify.var is for printing with parameterSummary
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
-    # Override all settings with rtset
-    # if (!is.null(rtset)) for (i in 1:length(rtset)) assign(names(rtset[i]), rtset[[i]])
-    
-    # delta
-    # if (!is.null(rtset)) {
-    #   # return(do.call(resample, args = c(list(y = y), rtset))) # do.call always causes msg() to not print fn name
-    #   resampler <- rtset$resampler
-    #   n.resamples <- rtset$n.resamples
-    #   .stratify.var <- rtset$stratify.var
-    #   cv.p <- rtset$cv.p
-    #   cv.groups <- rtset$cv.groups
-    #   target.length <- rtset$target.length
-    #   seed <- rtset$seed
-    #   # verbose <- rtset$verbose # Rather use the verbose arg here
-    # }
-    # /delta
-    
-    .stratify.var <- if (is.null(.stratify.var)) y else .stratify.var # TODO: lol
-    
+
     n.resamples <- as.integer(n.resamples)
-    if (length(resampler) > 1) {
-      resampler <- ifelse(length(y) < 200, "strat.boot", "strat.sub")
-    }
+    # if (length(resampler) > 1) {
+    #   resampler <- ifelse(length(y) < 200, "strat.boot", "strat.sub")
+    # }
     if (resampler == "loocv") n.resamples <- length(y)
-    
+
     # [ Print parameters ] ====
-    if (resampler == "strat.sub") {
-      if (verbose) parameterSummary(n.resamples, resampler, stratify.var, cv.p, cv.groups,
-                                    title = "Resampling Parameters")
-    } else if (resampler == "strat.boot") {
-      if (verbose) parameterSummary(n.resamples, resampler, stratify.var, cv.p, cv.groups, target.length,
-                                    title = "Resampling Parameters")
-    } else {
-      if (verbose) parameterSummary(n.resamples, resampler,
-                                    title = "Resampling Parameters")
+    if (verbose) {
+      if (resampler == "strat.sub") {
+        parameterSummary(n.resamples, resampler, stratify.var, train.p, strat.n.bins,
+                         title = "Resampling Parameters")
+      } else if (resampler == "strat.boot") {
+        parameterSummary(n.resamples, resampler, stratify.var, train.p, strat.n.bins, target.length,
+                         title = "Resampling Parameters")
+      } else if (resampler == "kfold") {
+        parameterSummary(n.resamples, resampler, stratify.var, strat.n.bins,
+                         title = "Resampling Parameters")
+      } else {
+        parameterSummary(n.resamples, resampler,
+                         title = "Resampling Parameters")
+      }
     }
-    
-    # Set seed
-    if (!is.null(seed)) set.seed(seed)
-    
+
     # [ Make resamples ] ====
     if (resampler == "bootstrap") {
-      # Bootstrap
-      res.part <- caret::createResample(y = y, times = n.resamples)
+      # '- Bootstrap ====
+      res.part <- bootstrap(x = y,
+                            n.resamples = n.resamples,
+                            seed = seed)
     } else if (resampler == "kfold") {
-      res.part <- caret::createFolds(y, k = n.resamples, returnTrain = T)
+      # '- kfold ====
+      res.part <- kfold(x = y,
+                        k = n.resamples,
+                        stratify.var = .stratify.var,
+                        strat.n.bins = strat.n.bins,
+                        seed = seed,
+                        verbose = TRUE)
     } else if (resampler == "loocv") {
-      res.part <- lapply(1:NROW(y), function(i) (1:NROW(y))[-i])
-      names(res.part) <- paste0("Fold", seq(res.part))
+      # '- LOOCV ====
+      res.part <- loocv(x = y)
     } else if (resampler == "strat.boot") {
-      # "Stratified Bootstrap"
-      # Create stratified resamples
-      res.part1 <- caret::createDataPartition(y = .stratify.var, times = n.resamples, p = cv.p, groups = cv.groups)
-      # Make sure target.length was not too short by accident
-      if (is.null(target.length)) target.length <- NROW(y)
-      if (target.length < length(res.part1[[1]])) target.length <- NROW(y)
-      # Add back this many cases
-      add.length <- target.length - length(res.part1[[1]])
-      doreplace <- ifelse(add.length > length(res.part1[[1]]), 1, 0)
-      res.part2 <- lapply(res.part1, function(x) sample(x, add.length, replace = doreplace))
-      res.part <- mapply(c, res.part1, res.part2, SIMPLIFY = FALSE)
-      res.part <- lapply(res.part, sort)
+      # '- strat.boot ====
+      res.part <- strat.boot(x = y,
+                             n.resamples = n.resamples,
+                             train.p = train.p,
+                             stratify.var = .stratify.var,
+                             strat.n.bins = strat.n.bins,
+                             target.length = target.length)
     } else {
-      # Stratified Cross-Validation
-      res.part <- caret::createDataPartition(y = .stratify.var, times = n.resamples, p = cv.p, groups = cv.groups)
+      # '- strat.sub ====
+      res.part <- strat.sub(x = y,
+                            n.resamples = n.resamples,
+                            train.p = train.p,
+                            stratify.var = .stratify.var,
+                            strat.n.bins = strat.n.bins,
+                            seed = seed,
+                            verbose = verbose)
     }
-    
+
   } else if (type == ".group") {
+
     # type = "group" ====
     n.resamples <- length(unique(group))
     res.part <- vector("list", n.resamples)
     res.part <- plyr::llply(unique(group), function(i) which(group == i))
     names(res.part) <- unique(group)
     resampler <- "custom.group"
-    
+
   } else {
+
     # type = "index" ====
     if (!is.list(index)) stop("index must be list of training set indices")
     n.resamples <- length(index)
     res.part <- index
     resampler <- "custom"
     if (is.null(names(res.part))) names(res.part) <- paste0("Resample", seq(n.resamples))
-    
+
   }
-  
-  
+
   desc <- switch(resampler,
                  kfold = "independent folds",
                  strat.sub = "stratified subsamples",
@@ -194,19 +183,25 @@ resample <- function(y = NULL, n.resamples = 10,
                  bootstrap = "bootstrap resamples",
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
-  
+
   if (verbose) msg("Created", n.resamples, desc)
+
+  # Attributes ====
   class(res.part) <- c("resample", "list")
   attr(res.part, "N") <- n.resamples
   attr(res.part, "type") <- resampler
   attr(res.part, "seed") <- seed
   if (resampler %in% c("strat.sub", "strat.boot")) {
-    attr(res.part, "cv.p") <- cv.p
-    attr(res.part, "cv.groups") <- cv.groups
+    attr(res.part, "train.p") <- train.p
+  }
+  if (resampler %in% c("strat.sub", "strat.boot", "kfold")) {
+    strat.n.bins <- attr(res.part, "strat.n.bins")
+    attr(res.part, "strat.n.bins") <- NULL
+    attr(res.part, "strat.n.bins") <- strat.n.bins
   }
   if (resampler == "strat.boot") attr(res.part, "target.length") <- target.length
   res.part
-  
+
 } # rtemis::resample
 
 
@@ -220,28 +215,191 @@ resample <- function(y = NULL, n.resamples = 10,
 #' @export
 
 plot.resample <- function(x, res, col = NULL, ...) {
-  
+
   mplot3.res(x, res, col = col, ...)
-  
+
 } # rtemis::plot.resample
 
 
 #' \code{print} method for \link{resample} object
-#' 
+#'
 #' Print resample information
-#' 
+#'
 #' @method print resample
 #' @param x \link{resample} object
 #' @author Efstathios D. Gennatas
 #' @export
 
 print.resample <- function(x, ...) {
-  
-  cat("======================================================\n")
-  cat(".:rtemis resample object\n")
-  cat("======================================================\n")
+
+  boxcat(".:rtemis resample object", newline.pre = FALSE)
   .attributes <- attributes(x)
-  .attributes[[1]] <- .attributes[[2]] <- NULL
+  .attributes$names <- .attributes$class <- NULL
+  # .attributes[[1]] <- .attributes[[2]] <- NULL
   printls(.attributes)
-  
+
 }
+
+
+#' Bootstrap Resampling
+#'
+#' @param x Input vector
+#' @param n.resample Integer: Number of resamples to make. Default = 10
+#' @param seed Integer: If provided, set seed for reproducibility. Default = NULL
+#' @author Efstathios D. Gennatas
+#' @export
+
+bootstrap <- function(x, n.resamples = 10,
+                      seed = NULL) {
+
+  if (!is.null(seed)) set.seed(seed)
+
+  ids <- seq(length(x))
+  .length <- length(x)
+  if (!is.null(seed)) set.seed(seed)
+
+  res <- lapply(seq(n.resamples), function(i) sort(sample(ids, .length, replace = TRUE)))
+  names(res) <- paste0("Bootsrap_", seq(n.resamples))
+  res
+
+} # rtemis::bootstrap
+
+
+#' K-fold Resampling
+#'
+#' @inheritParams resample
+#' @author Efstathios D. Gennatas
+#' @export
+
+kfold <- function(x, k = 10,
+                  stratify.var = NULL,
+                  strat.n.bins = 4,
+                  seed = NULL,
+                  verbose = TRUE) {
+
+  if (!is.null(seed)) set.seed(seed)
+
+  if (is.null(stratify.var)) stratify.var <- x
+  stratify.var <- as.numeric(stratify.var)
+  max.bins <- length(unique(stratify.var))
+  if (max.bins < strat.n.bins) {
+    if (verbose) msg("Using max n bins possible = ", max.bins)
+    strat.n.bins <- max.bins
+  }
+
+  ids <- seq(length(x))
+  # cuts
+  cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
+  # ids by cut
+  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  # length of each cut
+  # idl.length <- sapply(idl, length)
+  idl.length <- as.numeric(table(cuts))
+
+  # split each idl into k folds after randomizing them
+  idl.k <- vector("list", strat.n.bins)
+  for (i in seq(strat.n.bins)) {
+    cut1 <- cut(sample(idl.length[i]), breaks = k, labels = FALSE)
+    idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
+  }
+
+  # res <- lapply(seq(k), function(i) sort(unlist(lapply(seq(bins), function(j) idl.k[[j]][[i]]))))
+  res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq(strat.n.bins), function(j) idl.k[[j]][[i]])))])
+
+  names(res) <- paste0("Fold_", seq(k))
+  attr(res, "strat.n.bins") <- strat.n.bins
+  res
+
+} # rtemis::kfold
+
+
+#' Resample using Stratified Subsamples
+#'
+#' @inheritParams resample
+#' @author Efstathios D. Gennatas
+#' @export
+
+strat.sub <- function(x,
+                      n.resamples = 10,
+                      train.p = .75,
+                      stratify.var = NULL,
+                      strat.n.bins = 4,
+                      seed = NULL,
+                      verbose = TRUE) {
+
+  if (!is.null(seed)) set.seed(seed)
+
+  if (is.null(stratify.var)) stratify.var <- x
+  stratify.var <- as.numeric(stratify.var)
+  max.bins <- length(unique(stratify.var))
+  if (max.bins < strat.n.bins) {
+    if (verbose) msg("Using max n bins possible =", max.bins)
+    strat.n.bins <- max.bins
+  }
+  ids <- seq(length(x))
+  cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
+  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  # idl.length <- sapply(idl, length)
+  idl.length <- as.numeric(table(cuts))
+  res <- lapply(seq(n.resamples), function(i)
+    sort(unlist(sapply(seq(strat.n.bins), function(j)
+      sample(idl[[j]], train.p * idl.length[j])))))
+  names(res) <- paste0("Subsample_", seq(n.resamples))
+  attr(res, "strat.n.bins") <- strat.n.bins
+  res
+
+} # rtemis::strat.sub
+
+
+#' Stratified Bootstrap Resampling
+#'
+#' @inheritParams resample
+#' @author Efstathios D. Gennatas
+#' @export
+
+strat.boot <- function(x, n.resamples = 10,
+                       train.p = .75,
+                       stratify.var = NULL,
+                       strat.n.bins = 4,
+                       target.length = NULL,
+                       seed = NULL) {
+
+  if (!is.null(seed)) set.seed(seed)
+
+  res.part1 <- strat.sub(x = x, n.resamples = n.resamples,
+                         train.p = train.p,
+                         stratify.var = stratify.var,
+                         strat.n.bins = strat.n.bins,
+                         verbose = verbose)
+
+  # Make sure target.length was not too short by accident
+  res.length <- length(res.part1[[1]])
+  if (is.null(target.length)) target.length <- length(x)
+  if (target.length < res.length) target.length <- length(x)
+
+  # Add back this many cases
+  add.length <- target.length - res.length
+  doreplace <- ifelse(add.length > res.length, 1, 0)
+  res.part2 <- lapply(res.part1, function(i) sample(i, add.length, replace = doreplace))
+  res <- mapply(c, res.part1, res.part2, SIMPLIFY = FALSE)
+  res <- lapply(res, sort)
+  names(res) <- paste0("StratBoot_", seq(n.resamples))
+  attr(res, "strat.n.bins") <- strat.n.bins
+  res
+
+} # rtemis::strat.boot
+
+
+#' Leave-one-out Resampling
+#'
+#' @inheritParams resample
+#' @author Efstathios D. Gennatas
+#' @export
+
+loocv <- function(x) {
+
+  res <- lapply(seq(x), function(i) (seq(x))[-i])
+  names(res) <- paste0("Fold_", seq(res))
+  res
+
+} # rtemis::loocv
