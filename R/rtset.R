@@ -1,6 +1,6 @@
 # rtset.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.github.io
 
 #' \pkg{rtemis} default-setting functions
 #'
@@ -186,56 +186,34 @@ rtset.color <- function(n = 101, colors = NULL,
 rtset.preprocess <- function(completeCases = FALSE,
                              impute = FALSE,
                              impute.type = "missForest",
-<<<<<<< HEAD
-=======
                              impute.niter = 10,
                              impute.ntree = 500,
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
                              impute.discrete = getMode,
                              impute.numeric = mean,
                              removeCases.thres = NULL,
                              removeFeatures.thres = NULL,
-<<<<<<< HEAD
-                             removeConstant = TRUE,
-                             integer2factor = FALSE,
-                             nonzeroFactors = FALSE,
-                             scale = FALSE,
-                             center = FALSE) {
-=======
                              integer2factor = FALSE,
                              nonzeroFactors = FALSE,
                              scale = FALSE,
                              center = FALSE,
                              removeConstant = TRUE,
                              oneHot = FALSE) {
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
   list(completeCases = completeCases,
        impute = impute,
        impute.type = impute.type,
-<<<<<<< HEAD
-=======
        impute.niter = impute.niter,
        impute.ntree = impute.ntree,
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
        impute.discrete = impute.discrete,
        impute.numeric = impute.numeric,
        removeCases.thres = removeCases.thres,
        removeFeatures.thres = removeFeatures.thres,
-<<<<<<< HEAD
-       removeConstant = removeConstant,
-       integer2factor = integer2factor,
-       nonzeroFactors = nonzeroFactors,
-       scale = scale,
-       center = center)
-=======
        integer2factor = integer2factor,
        nonzeroFactors = nonzeroFactors,
        scale = scale,
        center = center,
        removeConstant = removeConstant,
        oneHot = oneHot)
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
 } # rtemis::rtset.preprocess
 
@@ -441,11 +419,6 @@ rtset.lincoef <- function(method = c("glmnet",
                           lambda = .01,
                           lambda.seq = NULL,
                           cv.glmnet.nfolds = 5,
-<<<<<<< HEAD
-                          cv.glmnet.lambda = "lambda.min") {
-
-  list(method = method,
-=======
                           which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
                           nbest = 1,
                           nvmax = 8,
@@ -455,21 +428,16 @@ rtset.lincoef <- function(method = c("glmnet",
                           sgd.control = list(method = "ai-sgd")) {
 
   list(method = match.arg(method),
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
        alpha = alpha,
        lambda = lambda,
        lambda.seq = lambda.seq,
        cv.glmnet.nfolds = cv.glmnet.nfolds,
-<<<<<<< HEAD
-       cv.glmnet.lambda = cv.glmnet.lambda)
-=======
        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
        nbest = nbest,
        nvmax = nvmax,
        sgd.model = sgd.model,
        sgd.model.control = sgd.model.control,
        sgd.control = sgd.control)
->>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
 } # rtemis::rtset.lincoef
 
