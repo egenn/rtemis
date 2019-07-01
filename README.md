@@ -22,7 +22,7 @@ remotes::install_github("egenn/rtemis")
 ### 10-second intro to __rtemis__
 Install dependencies if they are not already installed:
 ```r
-packages <- c("caret", "pbapply", "ranger")
+packages <- c("pbapply", "ranger")
 .add <- !packages %in% installed.packages()
 install.packages(packages[.add])
 ```
