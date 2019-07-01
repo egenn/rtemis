@@ -10,7 +10,7 @@
 #' uses \link{strat.boot} which runs \link{strat.sub} and then randomly duplicates some of the training cases to reach original
 #' length of input (default) or length defined by \code{target.length}.
 #'
-#' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, \link{bagLearn}, and
+#' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
 #' \link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples of slightly
 #'   different length for y of small length, so avoid all operations which rely on equal-length vectors.
 #'   For example, you can't place resamples in a data.frame, but must use a list instead.
@@ -362,7 +362,8 @@ strat.boot <- function(x, n.resamples = 10,
                        stratify.var = NULL,
                        strat.n.bins = 4,
                        target.length = NULL,
-                       seed = NULL) {
+                       seed = NULL,
+                       verbose = TRUE) {
 
   if (!is.null(seed)) set.seed(seed)
 
