@@ -16,10 +16,12 @@
 #' @param alpha Float [0, 1]: The elasticnet mixing parameter:
 #'   \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty
 #' @param lambda Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
+#' @param intercept Logical: If TRUE, include intercept in the model. Default = TRUE
 #' @param res.summary.fn Function: Used to average resample runs. Default = \code{mean}
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
+#' @family Interpretable models
 #' @export
 
 s.GLMNET <- function(x, y = NULL,
@@ -28,15 +30,16 @@ s.GLMNET <- function(x, y = NULL,
                      grid.resample.rtset = rtset.resample("kfold", 5),
                      grid.search.type = c("exhaustive", "randomized"),
                      grid.randomized.p = .1,
+                     intercept = TRUE,
                      nway.interactions = 0,
                      family = NULL,
                      alpha = seq(0, 1, .2),
                      lambda = NULL,
                      nlambda = 100,
-                     which.cv.lambda = c("lambda.min", "lambda.1se"),
+                     which.cv.lambda = c("lambda.1se", "lambda.min"),
                      penalty.factor = NULL,
-                     polynomial = FALSE,
-                     poly.d = 2,
+                     # polynomial = FALSE,
+                     # poly.d = 2,
                      # adaptive = FALSE,
                      # gamma = 1,
                      weights = NULL,
@@ -66,9 +69,9 @@ s.GLMNET <- function(x, y = NULL,
     print(args(s.GLMNET))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(outdir, sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
   } else {
     NULL
   }
@@ -111,7 +114,6 @@ s.GLMNET <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
-  if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(family)) {
     if (type == "Regression") {
       family <- "gaussian"
@@ -120,8 +122,16 @@ s.GLMNET <- function(x, y = NULL,
     } else if (type == "Survival") {
       family <- "cox"
     }
+  } else {
+    if (family %in% c("binomial", "multinomial") && type != "Classification") {
+      y  <- factor(y)
+      if (!is.null(y.test)) y.test <- factor(y.test)
+      type <- "Classification"
+    }
   }
-  if (type == "Classification") nlevels <- length(levels(y))
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+
+  if (!is.null(family) && family %in% c("binomial", "multinomial") && !is.factor(y))
 
   if (type == "Survival") {
     colnames(y) <- c("time", "status")
@@ -133,7 +143,6 @@ s.GLMNET <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-
 
   # '- MODEL MATRIX ====
   dat <- data.frame(x, y = y)
@@ -191,36 +200,49 @@ s.GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda)
 
   # [ GLMNET ] ====
+  # reverseLevels of
   if (.gs & cv.lambda) {
-    mod <- glmnet::cv.glmnet(x, y,
+    mod <- glmnet::cv.glmnet(x,
+                             if (family == "binomial") reverseLevels(y) else y,
                              family = family,
                              alpha = alpha,
                              lambda = lambda,
                              nlambda = nlambda,
                              weights = .weights,
+                             intercept = intercept,
                              penalty.factor = penalty.factor, ...)
   } else {
     if (verbose) msg("Training elastic net model...", newline = TRUE)
-    mod <- glmnet::glmnet(x, y,
+    mod <- glmnet::glmnet(x,
+                          if (family == "binomial") reverseLevels(y) else y,
                           family = family,
                           alpha = alpha,
                           lambda = lambda,
                           nlambda = nlambda,
                           weights = .weights,
+                          intercept = intercept,
                           penalty.factor = penalty.factor, ...)
   }
 
   # [ FITTED ] ====
+  # return(list(mod = mod, x = x, type = type, y = y))
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
   } else {
-    fitted.prob <- predict(mod, x, type = "response")[, 1]
-    fitted <- factor(predict(mod, x, type = "class"), levels = levels(y))
+    if (family == "binomial") {
+      fitted.prob <- predict(mod, x, type = "response")[, 1]
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
+    } else {
+      fitted.prob <- predict(mod, x, type = "response")
+      fitted <- factor(colnames(fitted.prob)[apply(fitted.prob, 1, which.max)],
+                       levels = levels(y))
+    }
+
   }
 
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -230,20 +252,25 @@ s.GLMNET <- function(x, y = NULL,
       predicted <- as.numeric(predict(mod, newx = x.test))
       predicted.prob <- NULL
     } else {
-      predicted.prob <- predict(mod, x.test, type = "response")[, 1]
-      predicted <- factor(predict(mod, x.test, type = "class"),
-                          levels = levels(y))
+      if (family == "binomial") {
+        predicted.prob <- predict(mod, x.test, type = "response")[, 1]
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        levels(predicted) <- levels(y)
+      } else {
+        predicted.prob <- predict(mod, x.test, type = "response")
+        predicted <- factor(colnames(predicted.prob)[apply(predicted.prob, 1, which.max)],
+                         levels = levels(y))
+      }
+
     }
 
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
 
   # [ OUTRO ] ====
-
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

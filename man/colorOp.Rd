@@ -9,9 +9,9 @@ colorOp(col, fn = c("invert", "mean"), space = c("HSV", "RGB"))
 \arguments{
 \item{col}{Input color(s)}
 
-\item{fn}{String. Function to perform. Options: "invert", "mean"}
+\item{fn}{String: "invert", "mean": Function to perform}
 
-\item{space}{Colorspace to operate in. Options: "HSV", "RGB"}
+\item{space}{String: "HSV", "RGB": Colorspace to operate in - for averaging only}
 }
 \value{
 Color

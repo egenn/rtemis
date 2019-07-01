@@ -29,15 +29,21 @@ printls <- function(x,
   if (is.null(x)) {
     if (!is.null(title)) boxcat(title, pad = pad, newline = title.newline, newline.pre = FALSE)
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
+  } else if (length(x) == 0) {
+    cat(class(x), "of length 0\n")
   } else {
     x <- as.list(x)
+    # Remove closures that will cause error
+    is.fn <- which(sapply(x, is.function))
+    if (any(is.fn)) for (i in is.fn) x[[i]] <- NULL
+
     null.index <- sapply(x, is.null)
     x[null.index] <- "NULL"
     xnames <- names(x)
     lhs <- max(nchar(paste0(prefix, xnames))) + pad
     if (!is.null(title)) {
       title.pad <- if (center.title) max(0, lhs - round((.5 * nchar(title))) - 3) else 0
-      boxcat(title, pad = title.pad, newline = title.newline)
+      boxcat(title, pad = title.pad, newline = title.newline, newline.pre = FALSE)
     }
     for (i in seq(x)) {
       if (is.list(x[[i]])) {

@@ -182,30 +182,28 @@ s.BAYESGLM <- function(x, y = NULL,
 
   # [ FITTED ] ====
   if (type == "Classification") {
-    fitted.prob <- predict(mod, type = "response")
-    fitted <- factor(ifelse(fitted.prob >= .5, 2, 1))
+    fitted.prob <- 1 - predict(mod, type = "response")
+    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     levels(fitted) <- levels(y)
   } else {
     fitted.prob <- NULL
     fitted <- predict(mod, x)
   }
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      predicted.prob <- predict(mod, x.test, type = "response")
-      predicted <- factor(ifelse(predicted.prob >= .5, 2, 1))
+      predicted.prob <- 1 - predict(mod, x.test, type = "response")
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(predicted) <- levels(y)
     } else {
       predicted <- predict(mod, x.test)
     }
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL

@@ -1,7 +1,7 @@
-**_rtemis_** Machine Learning and Visualization
+**_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of rtemis is to make data science accessible and efficient with no compromise on flexibility.
+The goal of rtemis is to make data science efficient and accessible  with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
@@ -12,11 +12,27 @@ The goal of rtemis is to make data science accessible and efficient with no comp
 [__Online Documentation and vignettes__](https://rtemis.netlify.com)
 
 ### Installation
+See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
+
 ```r
 install.packages("remotes")
 remotes::install_github("egenn/rtemis")
 ```
-Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
+
+### 10-second intro to __rtemis__
+Install dependencies if they are not already installed:
+```r
+packages <- c("caret", "pbapply", "ranger")
+.add <- !packages %in% installed.packages()
+install.packages(packages[.add])
+```
+
+Load rtemis and get cross-validated random forest performance on the iris dataset:
+```r
+library(rtemis)
+mod <- elevate(iris)
+mod$plot()
+```
 
 ### What's new
 * __v. 0.78__: First public release, April 2019
@@ -29,7 +45,7 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
      - Clustering: **_u.\*_**
      - Decomposition: **_d.\*_**
 * __Supervised Learning__
-     - Classification, Regression, Survival Regression: **_s.\*_**
+     - Classification, Regression, Survival Analysis: **_s.\*_**
 * __Cross-Decomposition__
      - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
@@ -39,12 +55,16 @@ Setup and Installation support [here](https://rtemis.netlify.com/setup.html)
      - Group-weighted Stacking: **_metaGroup()_**
 
 ### Ongoing work
-* Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers are published.
+* Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
 * R Documentation is ongoing and should be completed soon.
 * __rtemis__ is under active development with many enhancements and extensions in the works
 ---
-<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
+<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
+<br>
 
----
+---  
+
+<img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="205">  
+
 2019 Efstathios D. Gennatas  

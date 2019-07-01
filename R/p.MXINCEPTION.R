@@ -13,48 +13,48 @@
 #' @export
 
 p.MXINCEPTION <- function(img, img.path = NULL,
-                          rt.home = getOption("rt.home", "~/.rtemis/"),
+                          # rt.home = getOption("rt.home", "~/.rtemis/"),
                           iteration = 39,
                           plot.input = FALSE,
                           plot.normed = FALSE,
                           plot.graphviz = FALSE,
                           verbose = TRUE) {
-  
+
   # [ INTRO ] ====
   if (missing(img) & is.null(img.path)) {
     stop("Please provide img or img.path")
   }
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("mxnet", "imager", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ IMAGE ] ====
   if (missing(img)) {
     img <- imager::load.image(file.path(img.path))
   }
-  
+
   if (plot.input) plot(img)
-  
+
   # [ INCEPTION ] ====
-  inception.path <- paste0(file.path(rt.home), "/Inception/Inception_BN")
+  inception.path <- paste0(file.path(rtHome), "/Inception/Inception_BN")
   if (verbose) msg("Loading Inception...\n")
   model <- mxnet::mx.model.load(inception.path, iteration = iteration)
   if (class(model)[1] != "MXFeedForwardModel") stop("Inception pretrained network not found")
   if (plot.graphviz) mxnet::graph.viz(model$symbol)
-  mean.img.path <- file.path(paste0(rt.home, "/Inception/mean_224.nd"))
+  mean.img.path <- file.path(paste0(rtHome, "/Inception/mean_224.nd"))
   mean.img <- as.array(mxnet::mx.nd.load(mean.img.path)[["mean_img"]])
   normed <- preproc.image(img, mean.img, plot.normed = plot.normed)
   if (plot.normed) plot(normed)
-  
+
   # [ PREDICT ] ====
-  synsets <- readLines(paste0(file.path(rt.home), "/Inception/synset.txt"))
+  synsets <- readLines(paste0(file.path(rtHome), "/Inception/synset.txt"))
   prob <- predict(model, X = normed)
   max.idx <- max.col(t(prob))
   # print(paste0("Predicted Top-class: ", synsets [[max.idx]]))
   msg("Predicted Top-class: ", synsets[[max.idx]])
-  
+
 } # rtemis::p.MXINCEPTION
 
 

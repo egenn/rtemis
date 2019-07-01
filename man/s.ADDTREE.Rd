@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.ADDTREE.R
 \name{s.ADDTREE}
 \alias{s.ADDTREE}
-\title{MediBoost Tree-Structured Boosting [C]}
+\title{Additive Tree: Tree-Structured Boosting [C]}
 \usage{
 s.ADDTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, weights = NULL, update = c("exponential",
@@ -27,10 +27,10 @@ s.ADDTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
 
 \item{y}{N x 1 vector of labels with values in {-1,1}}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -101,7 +101,7 @@ means that the corresponding column of x is a categorical variable}
 Object of class \link{rtMod}
 }
 \description{
-Train a MediBoost model
+Train an Additive Tree model
 }
 \details{
 For binary classification, outcome must be factor with two levels, the first level
@@ -133,18 +133,17 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.H2ODL}}, \code{\link{s.H2OGBM}},
   \code{\link{s.H2ORF}}, \code{\link{s.IRF}},
   \code{\link{s.KNN}}, \code{\link{s.LDA}},
-  \code{\link{s.LGB}}, \code{\link{s.LM}},
-  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
-  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
-  \code{\link{s.NLA}}, \code{\link{s.NLS}},
-  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
-  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
-  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LM}}, \code{\link{s.MARS}},
+  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
+  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
+  \code{\link{s.NLS}}, \code{\link{s.NW}},
+  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
+  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
+  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
 
 Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.BART}}, \code{\link{s.C50}},
@@ -152,15 +151,17 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.ET}}, \code{\link{s.EVTREE}},
   \code{\link{s.GBM3}}, \code{\link{s.GBM}},
   \code{\link{s.H2OGBM}}, \code{\link{s.H2ORF}},
-  \code{\link{s.IRF}}, \code{\link{s.LGB}},
-  \code{\link{s.MLRF}}, \code{\link{s.PPTREE}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.XGB}}
+  \code{\link{s.IRF}}, \code{\link{s.MLRF}},
+  \code{\link{s.PPTREE}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.XGB}}
 
-Other Interpretable models: \code{\link{s.CART}}
+Other Interpretable models: \code{\link{s.C50}},
+  \code{\link{s.CART}}, \code{\link{s.GLMNET}},
+  \code{\link{s.GLM}}
 }
 \author{
-Efstathios D. Gennatas (R implementation); Gilmer Valdes (MediBoost algorithm)
+Efstathios D. Gennatas
 }
 \concept{Interpretable models}
 \concept{Supervised Learning}

@@ -4,14 +4,13 @@
 
 #' Resampling methods
 #'
-#' Create resamples of your data, e.g. for model building or validation.
+#' Create resamples of your data, e.g. for model tuning or testing
 #' "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \code{caret::createResample},
 #' "strat.sub" creates stratified subsamples using \code{caret::createDataPartition}, while "strat.boot"
-#' runs \code{caret::createDataPartition} and then randomly duplicates some of the training cases to reach original
+#' runs \code{caret::createDataPartition} and then randomly replicates some of the training cases to reach original
 #' length of input (default) or length defined by \code{target.length}.
 #'
-#' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, \link{bagLearn}, and
-#' \link{elevate}. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
+#' \code{resample} is used by multiple \pkg{rtemis} learners and functions. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
 #'   different length for y of small length, so avoid all operations which rely on equal-length vectors.
 #'   For example, you can't place resamples in a data.frame, but must use a list instead.
 #'
@@ -51,7 +50,15 @@ resample <- function(y,
                      seed = NULL,
                      verbose = FALSE) {
 
+<<<<<<< HEAD
   # If rtset is provided, it takes precedence over all other arguments
+=======
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("caret", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
   if (!is.null(rtset)) {
     resampler <- rtset$resampler
     n.resamples <- rtset$n.resamples
@@ -96,6 +103,27 @@ resample <- function(y,
     .stratify.var <- if (is.null(stratify.var)) y else stratify.var
     # stratify.var is for printing with parameterSummary
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
+<<<<<<< HEAD
+=======
+    # Override all settings with rtset
+    # if (!is.null(rtset)) for (i in 1:length(rtset)) assign(names(rtset[i]), rtset[[i]])
+
+    # delta
+    # if (!is.null(rtset)) {
+    #   # return(do.call(resample, args = c(list(y = y), rtset))) # do.call always causes msg() to not print fn name
+    #   resampler <- rtset$resampler
+    #   n.resamples <- rtset$n.resamples
+    #   .stratify.var <- rtset$stratify.var
+    #   cv.p <- rtset$cv.p
+    #   cv.groups <- rtset$cv.groups
+    #   target.length <- rtset$target.length
+    #   seed <- rtset$seed
+    #   # verbose <- rtset$verbose # Rather use the verbose arg here
+    # }
+    # /delta
+
+    .stratify.var <- if (is.null(.stratify.var)) y else .stratify.var # TODO: lol
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
     n.resamples <- as.integer(n.resamples)
     # if (length(resampler) > 1) {
@@ -120,6 +148,12 @@ resample <- function(y,
       }
     }
 
+<<<<<<< HEAD
+=======
+    # Set seed
+    if (!is.null(seed)) set.seed(seed)
+
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
     # [ Make resamples ] ====
     if (resampler == "bootstrap") {
       # '- Bootstrap ====
@@ -176,6 +210,10 @@ resample <- function(y,
 
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
   desc <- switch(resampler,
                  kfold = "independent folds",
                  strat.sub = "stratified subsamples",
@@ -227,6 +265,7 @@ plot.resample <- function(x, res, col = NULL, ...) {
 #'
 #' @method print resample
 #' @param x \link{resample} object
+#' @param ... Unused
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -238,6 +277,7 @@ print.resample <- function(x, ...) {
   # .attributes[[1]] <- .attributes[[2]] <- NULL
   printls(.attributes)
 
+<<<<<<< HEAD
 }
 
 
@@ -403,3 +443,6 @@ loocv <- function(x) {
   res
 
 } # rtemis::loocv
+=======
+} # rtemis::print.resample
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986

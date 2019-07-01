@@ -3,9 +3,9 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 # TODO: check if factor outcome with string levels works & with addtree_path_to_rules
 
-#' MediBoost Tree-Structured Boosting [C]
+#' Additive Tree: Tree-Structured Boosting [C]
 #'
-#' Train a MediBoost model
+#' Train an Additive Tree model
 #'
 #' For binary classification, outcome must be factor with two levels, the first level
 #' is the 'positive' class
@@ -29,7 +29,7 @@
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas (R implementation); Gilmer Valdes (MediBoost algorithm)
+#' @author Efstathios D. Gennatas
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models
@@ -40,44 +40,44 @@
 #' @export
 
 s.ADDTREE <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  x.name = NULL, y.name = NULL,
-                  weights = NULL,
-                  update = c("exponential", "polynomial"),
-                  min.update = ifelse(update == "polynomial", .035, 1000),
-                  min.hessian = .001,
-                  min.membership = 1,
-                  steps.past.min.membership = 0,
-                  gamma = .8,
-                  max.depth = 30,
-                  learning.rate = .1,
-                  ipw = TRUE,
-                  ipw.type = 2,
-                  upsample = FALSE,
-                  upsample.seed = NULL,
-                  imetrics = TRUE,
-                  grid.resample.rtset = rtset.resample("kfold", 5),
-                  metric = "Balanced Accuracy",
-                  maximize = TRUE,
-                  prune = TRUE,
-                  prune.empty.leaves = TRUE,
-                  remove.bad.parents = FALSE,
-                  match.rules = TRUE,
-                  print.plot = TRUE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                  question = NULL,
-                  rtclass = NULL,
-                  verbose = TRUE,
-                  prune.verbose = FALSE,
-                  trace = 1,
-                  grid.verbose = TRUE,
-                  diagnostics = FALSE,
-                  outdir = NULL,
-                  save.rpart = FALSE,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                  n.cores = rtCores, ...) {
+                      x.test = NULL, y.test = NULL,
+                      x.name = NULL, y.name = NULL,
+                      weights = NULL,
+                      update = c("exponential", "polynomial"),
+                      min.update = ifelse(update == "polynomial", .035, 1000),
+                      min.hessian = .001,
+                      min.membership = 1,
+                      steps.past.min.membership = 0,
+                      gamma = .8,
+                      max.depth = 30,
+                      learning.rate = .1,
+                      ipw = TRUE,
+                      ipw.type = 2,
+                      upsample = FALSE,
+                      upsample.seed = NULL,
+                      imetrics = TRUE,
+                      grid.resample.rtset = rtset.resample("kfold", 5),
+                      metric = "Balanced Accuracy",
+                      maximize = TRUE,
+                      prune = TRUE,
+                      prune.empty.leaves = TRUE,
+                      remove.bad.parents = FALSE,
+                      match.rules = TRUE,
+                      print.plot = TRUE,
+                      plot.fitted = NULL,
+                      plot.predicted = NULL,
+                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                      question = NULL,
+                      rtclass = NULL,
+                      verbose = TRUE,
+                      prune.verbose = FALSE,
+                      trace = 1,
+                      grid.verbose = TRUE,
+                      diagnostics = FALSE,
+                      outdir = NULL,
+                      save.rpart = FALSE,
+                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+                      n.cores = rtCores, ...) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -91,7 +91,6 @@ s.ADDTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "ADDTREE"
 
   # [ DEPENDENCIES ] ====
@@ -224,7 +223,6 @@ s.ADDTREE <- function(x, y = NULL,
                  mod.name = mod.name,
                  type = type,
                  parameters = parameters,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -250,9 +248,9 @@ s.ADDTREE <- function(x, y = NULL,
   # [ PRUNE ] ====
   if (verbose) msg("Pruning tree...")
   rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
-                                      prune.empty.leaves = prune.empty.leaves,
-                                      remove.bad.parents = remove.bad.parents,
-                                      verbose = prune.verbose)
+                                         prune.empty.leaves = prune.empty.leaves,
+                                         remove.bad.parents = remove.bad.parents,
+                                         verbose = prune.verbose)
   if (match.rules) {
     rules <- data.tree::Get(data.tree::Traverse(rt$mod$addtree.pruned), "Rule")
     xt <- data.table::as.data.table(cbind(x, y))

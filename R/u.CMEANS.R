@@ -35,7 +35,10 @@ u.CMEANS <- function(x,
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "CMEANS"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====
@@ -64,6 +67,7 @@ u.CMEANS <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k, m = m),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

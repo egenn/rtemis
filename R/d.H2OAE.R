@@ -4,7 +4,7 @@
 
 #' Autoencoder using H2O
 #'
-#' Train an Autoencoder using H2O (http://www.h2o.ai)
+#' Train an Autoencoder using \code{h2o::h2o.deeplearning}
 #' Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
 #' e.g. if running on localhost, point your web browser to \code{localhost:54321}
 #'
@@ -77,7 +77,6 @@ d.H2OAE <- function(x,
   }
 
   # [ INTRO ] ====
-  call <- NULL
   decom.name <- "H2OAE"
 
   # [ ARGUMENTS ] ====
@@ -89,10 +88,12 @@ d.H2OAE <- function(x,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
 
   # [ DATA ] ====
+  x <- as.data.frame(x)
+  if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x); p <- NCOL(x)
   if (verbose) cat("||| Input has dimensions ", n, " rows by ", p, " columns,\n", sep = "")
   if (verbose) cat("    interpreted as", n, "cases with", p, "features.\n")
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
   if (scale) {
@@ -104,9 +105,9 @@ d.H2OAE <- function(x,
   if (verbose) msg("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
   if (verbose) msg("Creating H2O frames...")
-  df.train <- h2o::as.h2o(data.frame(x), "df_train")
+  df.train <- h2o::as.h2o(x, "df_train")
   if (!is.null(x.test)) {
-    df.test <- h2o::as.h2o(data.frame(x.test), "df_test")
+    df.test <- h2o::as.h2o(x.test, "df_test")
   } else {
     df.test <- NULL
   }
@@ -149,6 +150,21 @@ d.H2OAE <- function(x,
                     xnames = xnames,
                     projections.train = projections.train,
                     projections.test = projections.test,
+                    parameters = list(n.hidden.nodes = n.hidden.nodes,
+                                      extract.layer = extract.layer,
+                                      epochs = epochs,
+                                      activation = activation,
+                                      loss = loss,
+                                      input.dropout.ratio = input.dropout.ratio,
+                                      hidden.dropout.ratios = hidden.dropout.ratios,
+                                      learning.rate = learning.rate,
+                                      learning.rate.annealing = learning.rate.annealing,
+                                      l1 = l1,
+                                      l2 = l2,
+                                      stopping.rounds = stopping.rounds,
+                                      stopping.metric = stopping.metric,
+                                      scale = scale,
+                                      center = center),
                     extra = extra)
   if (verbose) msg("Access H2O Flow at ", ip, ":", port, " in your browser", sep = "")
   outro(start.time, verbose = verbose)

@@ -6,7 +6,7 @@
 \usage{
 mplot3.fit(x, y, fit = "lm", se.fit = TRUE, fit.error = TRUE,
   axes.equal = TRUE, diagonal = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"), .col = NULL,
+  theme = getOption("rt.fit.theme", "lightgrid"), col = NULL,
   zero.lines = FALSE, fit.legend = FALSE, ...)
 }
 \arguments{

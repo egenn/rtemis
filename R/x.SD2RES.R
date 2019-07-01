@@ -126,9 +126,9 @@ x.SD2RES = function(x, z,
   # [ DATA ] ====
   x <- data.matrix(x)
   z <- data.matrix(z)
-  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature.', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature_', seq(NCOL(x)))
   xnames <- colnames(x)
-  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature.', seq(NCOL(z)))
+  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
   znames <- colnames(z)
   
   if (length(sparseness == 1)) sparseness <- c(sparseness, 1) # assumes (x, y), with 1D y

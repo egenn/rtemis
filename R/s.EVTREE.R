@@ -50,7 +50,6 @@ s.EVTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  call <- NULL
   mod.name <- "EVTREE"
 
   # [ DEPENDENCIES ] ====
@@ -144,7 +143,6 @@ s.EVTREE <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
-                 call = call,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,

@@ -2,7 +2,8 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-if (requireNamespace("GPArotation", quietly = TRUE)) {
+.test <- requireNamespace("psych", quietly = TRUE) && requireNamespace("GPArotation", quietly = TRUE)
+if (.test) {
 
 # Library ----
 library(rtemis)

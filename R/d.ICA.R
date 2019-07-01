@@ -5,7 +5,7 @@
 
 #' Independent Component Analysis
 #'
-#' Calculates ICA decomposition and projections using the fastICA algorithm in \code{fastICA::fastICA}
+#' Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or \code{ica::fastica}
 #'
 #' Project scaled variables to ICA components.
 #' Input must be n by p,
@@ -39,7 +39,8 @@ d.ICA <- function(x,
                   maxit = 100,
                   scale = TRUE,
                   center = TRUE,
-                  verbose = TRUE, ...) {
+                  verbose = TRUE,
+                  trace = 0, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
@@ -56,7 +57,7 @@ d.ICA <- function(x,
       cat("\n"); stop("Please install dependencies and try again")
     }
   }
-  
+
   # [ ARGUMENTS ] ====
   if (missing(x)) {
     print(args(d.ICA))
@@ -71,7 +72,7 @@ d.ICA <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   # if (!is.null(x.test)) colnames(x.test) <- xnames
   if (scale) {
@@ -87,7 +88,7 @@ d.ICA <- function(x,
                               method = "C",
                               alg.typ = alg.type,
                               maxit = maxit,
-                              verbose = verbose, ...)
+                              verbose = trace > 0, ...)
   } else {
     decom <- ica::icafast(x,
                           nc = k,
@@ -95,7 +96,7 @@ d.ICA <- function(x,
                           maxit = maxit,
                           alg = substr(alg.type, 1, 3), ...)
   }
-  
+
   # [ PROJECTIONS ] ====
   projections.train <- decom$S
   projections.test <- NULL
@@ -106,14 +107,14 @@ d.ICA <- function(x,
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
                     parameters = c(list(k = k,
                                         package = package,
                                         alg.type = alg.type,
                                         maxit = maxit,
                                         scale = scale),
                                    list(...)),
-                    projections.train = projections.train,
-                    projections.test = projections.test,
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

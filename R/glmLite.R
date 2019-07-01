@@ -3,9 +3,9 @@
 # Efstathios D. Gennatas MBBS PhD egenn.github.io
 
 #' Bare bones decision tree derived from \code{rpart}
-#' 
+#'
 #' A super-stripped down decision tree for when space and performance are critical
-#' 
+#'
 #' @inheritParams lincoef
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
 #' @author Efstathios D Gennatas
@@ -20,6 +20,7 @@ glmLite <- function(x, y,
                                "forwardStepwise",
                                "backwardStepwise",
                                "glm",
+                               "sgd",
                                "solve"),
                     alpha = 0,
                     lambda = .01,
@@ -28,9 +29,13 @@ glmLite <- function(x, y,
                     which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
                     nbest = 1,
                     nvmax = 8,
+                    sgd.model = "glm",
+                    sgd.model.control = list(lambda1 = 0,
+                                             lambda2 = 0),
+                    sgd.control = list(method = "ai-sgd"),
                     save.fitted = FALSE,
                     trace = 0, ...) {
-  
+
   # Arguments ====
   method <- match.arg(method)
   which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
@@ -44,22 +49,25 @@ glmLite <- function(x, y,
                  cv.glmnet.nfolds = cv.glmnet.nfolds,
                  which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                  nbest = nbest,
-                 nvmax = nvmax),
+                 nvmax = nvmax,
+                 sgd.model = sgd.model,
+                 sgd.model.control = sgd.model.control,
+                 sgd.control = sgd.control),
             list(...))
-  
+
   coefs <- do.call(lincoef, args)
   lin <- list(coefs = coefs)
-  
+
   if (save.fitted) lin$fitted <- c(cbind(1, as.matrix(x)) %*% coefs)
-  
+
   class(lin) <- "glmLite"
   lin
-  
+
 } # rtemis::glmLite
 
 
 #' Predict method for \code{glmLite} object
-#' 
+#'
 #' @param object \link{glmLite} object
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
@@ -68,7 +76,7 @@ glmLite <- function(x, y,
 #' @export
 
 predict.glmLite <- function(object, newdata, verbose = FALSE, ...) {
-  
+
   c(cbind(1, as.matrix(newdata)) %*% object$coefs)
-  
+
 } # rtemis::predict.glmLite

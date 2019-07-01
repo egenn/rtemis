@@ -2,16 +2,16 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-# Library ----
+# Library ====
 library(rtemis)
 
-# Data ----
+# Data ====
 x <- rnormmat(100, 50, seed = 2019)
 w <- rnorm(50)
 y <- c(x %*% w + rnorm(100))
 x <- data.frame(x)
 
-# lincoef ----
+# lincoef ====
 coefs.glm <- lincoef(x, y, method = "glm")
 if (requireNamespace("glmnet", quietly = TRUE)) {
   coefs.glmnet <- lincoef(x, y, method = "glmnet")

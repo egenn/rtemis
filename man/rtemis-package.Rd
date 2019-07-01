@@ -3,15 +3,15 @@
 \docType{package}
 \name{rtemis-package}
 \alias{rtemis-package}
-\alias{.availableCores}
 \title{\pkg{rtemis}: Machine Learning and Visualization}
-\format{An object of class \code{integer} of length 1.}
-\usage{
-.availableCores
-}
 \description{
 \pkg{rtemis}: Machine Learning and Visualization
 }
+\section{Online Documentation and Vignettes}{
+
+\url{https://rtemis.netlify.com}
+}
+
 \section{System Setup}{
 
 There are some options you can define in your .Rprofile (usually found in your home directory),
@@ -73,4 +73,3 @@ will be converted to factors, where by default the levels are set alphabetically
 the positive class may not be set correctly.
 }
 
-\keyword{datasets}

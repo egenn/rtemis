@@ -4,7 +4,7 @@
 
 #' Isomap
 #'
-#' Calculates ISOMAP and projections using \code{vegan::isomap}
+#' Perform ISOMAP decomposition using \code{vegan::isomap}
 #'
 #' Project scaled variables to ISOMAP components
 #' Input must be n by p,
@@ -57,26 +57,28 @@ d.ISOMAP <- function(x,
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  # cat("    (If this is not what you intended, this would be the time to interrupt the run)\n")
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
 
   # [ ISOMAP ] ====
   if (verbose) msg("Running Isomap...")
   dist <- vegan::vegdist(x = x, method = dist.method)
   decom <- vegan::isomap(dist, ndim = k, k = nsd, path = path, ...)
-  # plot(decom, n.col = colorGrad(21, 'penn'), net = F)
 
   # [ PROJECTIONS ] ====
   projections.train <- decom$points
 
   # [ OUTRO ] ====
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = NULL,
-                     extra = list())
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = NULL,
+                    parameters = list(k = k,
+                                      dist.method = dist.method,
+                                      nsd = nsd,
+                                      path = path),
+                    extra = list())
   outro(start.time, verbose = verbose)
   rt
 

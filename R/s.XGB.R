@@ -541,28 +541,30 @@ s.XGB <- function(x, y = NULL,
   fitted <- predict(mod, xg.dat)
   if (type == "Classification") {
     # round() gives correct result whether response is integer or probability
-    fitted.prob <- fitted
-    fitted <- factor(levels(y)[round(fitted.prob) + 1], levels = levels(y))
-    # fitted <- factor(ifelse(fitted.prob >= .5, 1, 0)) # check for binary classification only
+    fitted.prob <- 1 - fitted
+    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+    levels(fitted) <- levels(y)
+  } else {
+    fitted.prob <- NULL
   }
 
-  error.train <- modError(y, fitted)
+  error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
+  predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     data.test <- xgboost::xgb.DMatrix(data = as.matrix(x.test), missing = missing)
     predicted <- predict(mod, data.test)
     if (type == "Classification") {
-      predicted.prob <- predicted
-      predicted <- factor(levels(y)[round(predicted.prob) + 1], levels = levels(y))
+      predicted.prob <- 1 - predicted
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(predicted) <- levels(y)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- modError(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
-  } else {
-    predicted.prob <- predicted <- error.test <- NULL
   }
 
   # [ RELATIVE INFLUENCE / VARIABLE IMPORTANCE ] ====

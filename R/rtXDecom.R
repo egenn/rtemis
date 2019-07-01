@@ -59,11 +59,11 @@ rtXDecom <- R6::R6Class("rtXDecom",
                           ### Methods
                           print = function() {
                             "show / print method for rtXDecom"
-                            cat(".:rtemis Cross-Decomposition\n------------------------------------------------------\n")
-                            cat(self$xdecom.name, " (", xdecomSelect(self$xdecom.name, desc = TRUE),
+                            cat(bold(".:rtemis Cross-Decomposition\n"))
+                            cat(rtHighlight$bold(self$xdecom.name), " (", xdecomSelect(self$xdecom.name, desc = TRUE),
                                 ")\n", sep = "")
-                            cat("------------------------------------------------------\n")
-                            printls(self$parameters)
-                            cat("------------------------------------------------------\n")
+                            if (length(self$parameters) > 0) printls(self$parameters,
+                                                                     title = "Parameters",
+                                                                     newline.pre = TRUE)
                           }
                         ))

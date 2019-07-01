@@ -21,10 +21,10 @@ s.GLM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -36,9 +36,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
-\item{covariate}{String (optional): Name of column to be included as interaction term in formula, must be factor}
+\item{covariate}{String: Name of column to be included as interaction term in formula, must be factor}
 
-\item{class.method}{String (Optional): Define "logistic" or "multinom" for classification. The only purpose
+\item{class.method}{String: Define "logistic" or "multinom" for classification. The only purpose
 of this is so you can try \code{nnet::multinom} instead of glm for binary classification}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -107,7 +107,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \link{rtMod}
 }
 \description{
-Train a Generalized Linear Model for Regression or Logistic Regression (Classification) using \code{glm}
+Train a Generalized Linear Model for Regression or Classification (i.e. Logistic Regression) using \code{stats::glm}.
 If outcome \code{y} has more than two classes, Multinomial Logistic Regression is performed using
 \code{nnet::multinom}
 }
@@ -139,20 +139,24 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.H2ODL}}, \code{\link{s.H2OGBM}},
   \code{\link{s.H2ORF}}, \code{\link{s.IRF}},
   \code{\link{s.KNN}}, \code{\link{s.LDA}},
-  \code{\link{s.LGB}}, \code{\link{s.LM}},
-  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
-  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
-  \code{\link{s.NLA}}, \code{\link{s.NLS}},
-  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
-  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
-  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LM}}, \code{\link{s.MARS}},
+  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
+  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
+  \code{\link{s.NLS}}, \code{\link{s.NW}},
+  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
+  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
+  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
+
+Other Interpretable models: \code{\link{s.ADDTREE}},
+  \code{\link{s.C50}}, \code{\link{s.CART}},
+  \code{\link{s.GLMNET}}
 }
 \author{
 Efstathios D. Gennatas
 }
+\concept{Interpretable models}
 \concept{Supervised Learning}

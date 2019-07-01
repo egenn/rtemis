@@ -4,7 +4,7 @@
 
 #' Neural Gas Clustering
 #'
-#' Estimate Neural Gas clustering solution
+#' Perform Neural Gas clustering using \code{flexclust::cclust}
 #'
 #' @inheritParams u.KMEANS
 #' @param x Input matrix / data.frame
@@ -23,9 +23,11 @@ u.NGAS <- function(x, x.test = NULL,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   clust.name <- "NGAS"
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature.", 1:NCOL(x))
+
+  # [ DATA ] ====
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  x <- as.data.frame(x)
   xnames <- colnames(x)
 
   # [ DEPENDENCIES ] ====
@@ -61,6 +63,7 @@ u.NGAS <- function(x, x.test = NULL,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = clusters.test,
+                    parameters = list(k = k, dist = dist),
                     extra = list())
   outro(start.time, verbose = verbose)
   cl

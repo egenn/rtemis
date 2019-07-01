@@ -122,7 +122,6 @@ bag <- function(x, y = NULL,
                  parallel.type = parallel.type)
 
   # [ FITTED ] ====
-  # TODO: get $fitted if case.p == 1, also add case.p
   if (type == "Classification") {
     fitted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x)))
     fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))

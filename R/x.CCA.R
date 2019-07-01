@@ -66,10 +66,10 @@ x.CCA <- function(x, z,
                   upos = FALSE,
                   vpos = FALSE,
                   verbose = TRUE,
-                  n.cores = NULL,
+                  n.cores = rtCores,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-  
+
   # [ INTRO ] ====
   if (missing(x) | missing(z)) {
     print(args(x.CCA))
@@ -83,24 +83,24 @@ x.CCA <- function(x, z,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   xdecom.name <- "CCA"
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("PMA", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(n.cores)) {
     n.cores <- parallel::detectCores()
     if (verbose) msg("n.cores set to", n.cores)
   }
-  
+
   # [ DATA ] ====
-  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature.', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature_', seq(NCOL(x)))
   xnames <- colnames(x)
-  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature.', seq(NCOL(z)))
+  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
   znames <- colnames(z)
-  
+
   # [ CCA permute ] ====
   if (is.null(penaltyx)) {
     # Run permutations to find optimal penaltyx and penaltyz
@@ -121,7 +121,7 @@ x.CCA <- function(x, z,
     .penaltyx <- penaltyx
     .penaltyz <- penaltyz
   }
-  
+
   # [ CCA ] ====
   if (verbose) msg("\nRunning CCA...\n")
   xnames <- colnames(x)
@@ -137,27 +137,27 @@ x.CCA <- function(x, z,
                   xnames = colnames(x),
                   znames = colnames(z),
                   trace = verbose, ...)
-  
+
   # [ PROJECTIONS ] ====
   xprojections <- data.matrix(x) %*% xdecom$u
   scaled.xprojections <- scale(data.matrix(x)) %*% xdecom$u
-  
+
   zprojections <- data.matrix(z) %*% xdecom$v
   scaled.zprojections <- scale(data.matrix(z)) %*% xdecom$v
-  
-  test.xprojections <- scaled.test.xprojections <- 
+
+  test.xprojections <- scaled.test.xprojections <-
     test.zprojections <- scaled.test.zprojections <- NULL
   if (!is.null(x.test)) {
     test.xprojections <- data.matrix(x.test) %*% xdecom$u
     scaled.test.xprojections <- scale(data.matrix(x.test)) %*% xdecom$u
   }
-  
+
   if (!is.null(z.test)) {
     test.zprojections <- data.matrix(z.test) %*% xdecom$v
     scaled.test.zprojections <- scale(data.matrix(z.test)) %*% xdecom$v
   }
-  
-  
+
+
   # [ OUTRO ] ====
   extra <- list(CCA.perm = CCA.perm,
                 scaled.xprojections = scaled.xprojections,
@@ -186,7 +186,7 @@ x.CCA <- function(x, z,
   if (save.mod) rtSave(rt, outdir, file.prefix = "x.", verbose = verbose)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-  
+
 } # rtemis::x.CCA
 
 
@@ -221,17 +221,17 @@ x.CCA.permute <- function(x, z,
                           y = NULL,
                           cens = NULL,
                           verbose = TRUE,
-                          n.cores = NULL) {
-  
+                          n.cores = rtCores) {
+
   CheckVs <- getFromNamespace("CheckVs", "PMA")
   ChooseLambda1Lambda2 <- getFromNamespace("ChooseLambda1Lambda2", "PMA")
   CCA.permute.justone <- getFromNamespace("CCA.permute.justone", "PMA")
   CCA.permute.xonly <- getFromNamespace("CCA.permute.xonly", "PMA")
   CCA.permute.zonly <- getFromNamespace("CCA.permute.zonly", "PMA")
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
-  
+
   if (NCOL(x) < 2)
     stop("Need at least 2 features in data set x.")
   if (NCOL(z) < 2)
@@ -292,7 +292,7 @@ x.CCA.permute <- function(x, z,
                               upos = upos, uneg = uneg, vpos = vpos, vneg = vneg,
                               outcome = outcome, y = y, cens = cens,
                               verbose = verbose, n.cores = n.cores)
-  
+
   out$call <- call
   out$upos <- upos
   out$uneg <- uneg
@@ -334,20 +334,20 @@ x.CCA.permute.both <- function(x, z,
                                y,
                                cens,
                                verbose = TRUE,
-                               n.cores = NULL,
+                               n.cores = rtCores,
                                parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
-  
+
   ftrans <- getFromNamespace("ftrans", "PMA")
   CheckVs <- getFromNamespace("CheckVs", "PMA")
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck(c("PMA", "foreach", "doParallel"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
-  
+
   call <- match.call()
   if (standardize) {
     x <- scale(x, TRUE, TRUE)
@@ -359,7 +359,7 @@ x.CCA.permute.both <- function(x, z,
                                                          nperms)
   ccperms1 <- rep(NA, length(penaltyxs))
   ccs = nnonzerous = nnonzerovs = numeric(length(penaltyxs))
-  
+
   # [ CLUSTER ] ====
   # if (verbose) msg("Starting PSOCK cluster...")
   # cl <- parallel::makePSOCKcluster(n.cores)
@@ -381,7 +381,7 @@ x.CCA.permute.both <- function(x, z,
   } else {
     cl <- 1
   }
-  
+
   # [ PERMUTATIONS ] ====
   # pbapply version
   mango <- pbapply::pblapply(seq(nperms), FUN = function(i) {
@@ -426,7 +426,7 @@ x.CCA.permute.both <- function(x, z,
     }
     list(ccs = ccs, ccperms1 = ccperms1) # foreach out
   }, cl = n.cores) # END PERMUTATIONS keep last ccs, whole ccperms matrix
-  
+
   ccs <- mango[[length(mango)]]$ccs
   ccperms <- sapply(mango, function(i) c(i$ccperms1))
   cc.norm <- ftrans(ccs)

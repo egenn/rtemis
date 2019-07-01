@@ -7,30 +7,61 @@ library(rtemis)
 # Regression Data ====
 x <- rnormmat(50, 2, seed = 2018)
 w <- rnorm(2)
-y <- x %*% w + rnorm(50)
-res <- resample(y)
+y <- c(x %*% w + rnorm(50))
+
+x[10, 1] <- NA
+x <- preprocess(x, impute = TRUE, impute.type = "meanMode")
+
+# res <- resample(y)
+res <- list(Resample01 = sample(seq(y), length(y), T))
 dat <- data.frame(x, y)
-x <- dat.train <- dat[res$Resample01, ]
-x.test <- dat.test <- dat[-res$Resample01, ]
-y <- y.test <- NULL
+dat.train <- dat[res$Resample01, ]
+dat.test <- dat[-res$Resample01, ]
+x <- dat.train[, -3]
+y <- dat.train[, 3]
+x.test <- dat.test[, -3]
+y.test <- dat.test[, 3]
 
 # Classification Data ====
 iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
-res <- resample(iris2)
-x <- iris2.train <- iris2[res$Resample01, ]
-x.test <- iris2.test <- iris2[-res$Resample01, ]
-y <- y.test <- NULL
+# res <- resample(iris2)
+res <- list(Resample01 = sample(seq(iris2$Species), length(iris2$Species), T))
+iris2.train <- iris2[res$Resample01, ]
+iris2.test <- iris2[-res$Resample01, ]
+checkData(iris2, str = TRUE)
+
+# Test different ways of data input (dataPrepare) ====
+mod <- s.GLM(dat.train)
+mod <- s.GLM(dat.train, dat.test)
+mod <- s.GLM(x, y, x.test, y.test)
+
+# Test for tibble and data.table inputs ====
+# Commented out because tibble is not in Suggests and R CMD check gives warning
+# if (requireNamespace("tibble", quietly = TRUE)) {
+#   tb.train <- tibble::as_tibble(dat.train)
+#   tb.test <- tibble::as_tibble(dat.test)
+#   mod <- s.GLM(tb.train, tb.test)
+# }
+
+if (requireNamespace("data.table", quietly = TRUE)) {
+  dt.train <- data.table::as.data.table(dat.train)
+  dt.test <- data.table::as.data.table(dat.test)
+  mod <- s.GLM(dt.train, dt.test)
+}
 
 # Classification & Regression Models ====
-# mod <- s.AADDT(dat.train, dat.test, force.max.leaves = 2)
-
 if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s.ADABOOST(iris2.train, iris2.test, iter = 5)
 }
 
 if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
+  mod <- s.ADDTBOOST(x, y, max.iter = 4)
   mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
+  mod <- s.ADDTREE(iris2.train, iris2.test, max.depth = 3)
+  mod <- cartLinBoostTV(x, y, max.iter = 4)
+  mod <- cartLite(x, y)
+  mod <- cartLinBoostTV(x, y, max.iter = 4)
 }
 
 if (requireNamespace("bartMachine", quietly = TRUE)) {
@@ -48,7 +79,7 @@ if (requireNamespace("mda", quietly = TRUE)) {
 }
 
 if (requireNamespace("C50", quietly = TRUE)) {
-  mod <- s.C50(iris2.train, x.test = iris2.test)
+  mod <- s.C50(iris2.train, iris2.test)
 }
 
 if (requireNamespace("rpart", quietly = TRUE)) {
@@ -62,7 +93,7 @@ if (requireNamespace("partykit", quietly = TRUE)) {
 }
 
 if (requireNamespace("MASS", quietly = TRUE)) {
-  mod <- s.DA(iris2.train, iris2.test)
+  mod <- s.LDA(iris2.train, iris2.test)
   mod <- s.QDA(iris2.train, iris2.test)
 }
 
@@ -87,22 +118,23 @@ if (requireNamespace("gamsel", quietly = TRUE)) {
 }
 
 if (requireNamespace("gbm", quietly = TRUE)) {
-  mod <- s.GBM(dat.train, dat.test, max.trees = 100)
+  mod <- s.GBM(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.GBM(iris2.train, iris2.test, force.n.trees = 10)
 }
 
 if (requireNamespace("gbm3", quietly = TRUE)) {
-  mod <- s.GBM3(dat.train, dat.test, max.trees = 100)
-}
-
-if (requireNamespace("nlme", quietly = TRUE)) {
-  mod <- s.GLM(dat.train, dat.test)
-}
-
-if (requireNamespace("glmnet", quietly = TRUE)) {
-  mod <- s.GLMNET(dat.train, dat.test, alpha = 0, lambda = 0)
+  mod <- s.GBM3(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.GBM3(iris2.train, iris2.test, force.n.trees = 10)
 }
 
 mod <- s.GLM(dat.train, dat.test)
+mod <- s.GLM(iris2.train, iris2.test)
+
+if (requireNamespace("glmnet", quietly = TRUE)) {
+  mod <- s.GLMNET(dat.train, dat.test, alpha = 0, lambda = 0)
+  mod <- glmLite(x, y)
+  mod <- glmLiteBoostTV(x, y, max.iter = 4)
+}
 
 if (requireNamespace("nlme", quietly = TRUE)) {
   mod <- s.GLS(dat.train, dat.test)
@@ -110,7 +142,9 @@ if (requireNamespace("nlme", quietly = TRUE)) {
 
 if (requireNamespace("h2o", quietly = TRUE)) {
   mod <- s.H2OGBM(dat.train, dat.test, force.n.trees = 10)
+  mod <- s.H2OGBM(iris2.train, iris2.test, force.n.trees = 10)
   mod <- s.H2ORF(dat.train, dat.test, n.trees = 20)
+  mod <- s.H2ORF(iris2.train, iris2.test)
 }
 
 if (requireNamespace("iRF", quietly = TRUE)) {
@@ -123,11 +157,21 @@ if (requireNamespace("earth", quietly = TRUE)) {
   mod <- s.MARS(dat.train, dat.test)
 }
 
-# mod <- s.MLRF(dat.train, dat.test, n.trees = 20, feature.subset.strategy = "all") # omit to save time
+# fails under covr
+# if (requireNamespace("sparklyr", quietly = TRUE)) {
+#   mod <- s.MLRF(dat.train, dat.test, n.trees = 10, feature.subset.strategy = "all")
+#   mod <- s.MLRF(iris2.train, iris2.test, n.trees = 10, feature.subset.strategy = "all")
+# }
 
 if (requireNamespace("mxnet", quietly = TRUE)) {
   mod <- s.MXN(dat.train, dat.test, n.hidden.nodes = 2, max.epochs = 10)
   mod <- s.MXN(iris2.train, iris2.test, max.epochs = 10)
+}
+
+mod <- s.NLA(dat.train, dat.test)
+
+if (requireNamespace("glmnet", quietly = TRUE)) {
+  mod <- s.NLS(dat.train, dat.test)
 }
 
 if (requireNamespace("np", quietly = TRUE)) {
@@ -137,6 +181,12 @@ if (requireNamespace("np", quietly = TRUE)) {
 if (requireNamespace("polspline", quietly = TRUE)) {
   mod <- s.POLYMARS(dat.train, dat.test)
   mod <- s.POLYMARS(iris2.train, iris2.test)
+}
+
+mod <- s.PPR(dat.train, dat.test)
+
+if (requireNamespace("R.utils", quietly = TRUE)) {
+  mod <- learn(dat.train, dat.test)
 }
 
 if (requireNamespace("PPtree", quietly = TRUE)) {
@@ -184,7 +234,30 @@ if (requireNamespace("xgboost", quietly = TRUE)) {
 
 # Bagging & Boosting ====
 if (requireNamespace("rpart", quietly = TRUE)) {
-  mod <- bag(dat.train, dat.test, k = 4)
-  mod <- bag(iris2.train, iris2.test, k = 10)
-  mod <- boost(dat.train, dat.test, max.iter = 4)
+  if (requireNamespace("caret", quietly = TRUE)) {
+    mod <- bag(dat.train, dat.test, k = 4)
+    mod <- bag(iris2.train, iris2.test, k = 10)
+  }
+  if (requireNamespace("pbapply", quietly = TRUE)) {
+    mod <- boost(dat.train, dat.test, max.iter = 4)
+  }
+}
+
+# rtModLog ====
+logger <- rtModLogger$new()
+logger$add(mod)
+
+# eightBall ====
+eightBall("Are you ready?")
+
+# distillTreeRules ====
+if (requireNamespace("randomForest", quietly = TRUE)) {
+  mod <- s.RF(iris, n.trees = 3)
+  rules <- distillTreeRules(mod, iris)
+  formatRules(rules$rules)
+}
+
+# gp ====
+if (requireNamespace("tgp", quietly = TRUE)) {
+  mod <- gp(x, y)
 }

@@ -7,27 +7,27 @@
 s.GLMNET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1, nway.interactions = 0, family = NULL,
-  alpha = seq(0, 1, 0.2), lambda = NULL, nlambda = 100,
-  which.cv.lambda = c("lambda.min", "lambda.1se"),
-  penalty.factor = NULL, polynomial = FALSE, poly.d = 2,
-  weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, res.summary.fn = mean, save.grid.run = FALSE,
-  metric = NULL, maximize = NULL, .gs = FALSE, save.gs.mod = FALSE,
-  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
-  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  grid.randomized.p = 0.1, intercept = TRUE, nway.interactions = 0,
+  family = NULL, alpha = seq(0, 1, 0.2), lambda = NULL,
+  nlambda = 100, which.cv.lambda = c("lambda.1se", "lambda.min"),
+  penalty.factor = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, upsample.seed = NULL, res.summary.fn = mean,
+  save.grid.run = FALSE, metric = NULL, maximize = NULL,
+  .gs = FALSE, save.gs.mod = FALSE, n.cores = rtCores,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
+  rtclass = NULL, verbose = TRUE, outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -41,6 +41,8 @@ Default = \code{rtset.resample("kfold", 5)}}
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
+\item{intercept}{Logical: If TRUE, include intercept in the model. Default = TRUE}
+
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
@@ -49,10 +51,6 @@ combinations. Default = .1}
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
 \item{lambda}{Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
-
-\item{polynomial}{Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)}
-
-\item{poly.d}{Integer: degree of polynomial. Default = 3}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -81,7 +79,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -135,20 +133,24 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.H2ODL}}, \code{\link{s.H2OGBM}},
   \code{\link{s.H2ORF}}, \code{\link{s.IRF}},
   \code{\link{s.KNN}}, \code{\link{s.LDA}},
-  \code{\link{s.LGB}}, \code{\link{s.LM}},
-  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
-  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
-  \code{\link{s.NLA}}, \code{\link{s.NLS}},
-  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
-  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
-  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
-  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
-  \code{\link{s.RF}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LM}}, \code{\link{s.MARS}},
+  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
+  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
+  \code{\link{s.NLS}}, \code{\link{s.NW}},
+  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
+  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
+  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
+  \code{\link{s.RFSRC}}, \code{\link{s.RF}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
+
+Other Interpretable models: \code{\link{s.ADDTREE}},
+  \code{\link{s.C50}}, \code{\link{s.CART}},
+  \code{\link{s.GLM}}
 }
 \author{
 Efstathios D. Gennatas
 }
+\concept{Interpretable models}
 \concept{Supervised Learning}

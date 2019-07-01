@@ -4,12 +4,14 @@
 \alias{ddSci}
 \title{Format Numbers for Printing}
 \usage{
-ddSci(x, decimal.places = 2, asNumeric = FALSE)
+ddSci(x, decimal.places = 2, hi = 1e+06, asNumeric = FALSE)
 }
 \arguments{
 \item{x}{Vector of numbers}
 
 \item{decimal.places}{Integer: Return this many decimal places. Default = 2}
+
+\item{hi}{Float: Threshold at or above which scientific notation is used. Default = 1e06}
 
 \item{asNumeric}{Logical: If TRUE, convert to numeric before returning. Default = FALSE.
 This will not force all numbers to print 2 decimal places. For example:

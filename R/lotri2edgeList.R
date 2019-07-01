@@ -11,16 +11,16 @@
 #' The output can be read, for example, into gephi
 #' @param A Square matrix
 #' @param filename String: Path for csv file. Defaults to "conmat2edgelist.csv"
+#' @param verbose Logical: If TRUE, print messages to console
 #' @author Efstathios D. Gennatas
 #' @export
 
-lotri2edgeList <- function(A,
-                           filename = NULL) {
+lotri2edgeList <- function(A, filename = NULL, verbose = TRUE) {
 
   # [ MAIN ] ====
   # Check A is a square matrix
   dim.A <- dim(A)
-  msg("Input dimensions are", dim.A)
+  if (verbose) msg("Input dimensions are", dim.A)
   if (dim.A[1] != dim.A[2]) stop("Error: Input matrix is not square.")
   n <- dim.A[1]
   l <- list()
@@ -36,15 +36,14 @@ lotri2edgeList <- function(A,
   }
   out <- data.frame(NodeA = l$c, NodeB = l$r, Weight = l$w)
   gephiout <- data.frame(Source = l$c, Target = l$r, Weight = l$w)
-  if (is.null(filename)) {
-    filename <- paste(substitute(A), 'conmat2edgelist.csv', sep = '_')
+  if (!is.null(filename)) {
     write.table(gephiout,
                 file = filename,
                 row.names = FALSE,
                 col.names = TRUE,
                 quote = FALSE,
                 sep = ",")
-    msg("Wrote", filename)
+    rtOut("Saved", filename)
   }
   invisible(out)
 

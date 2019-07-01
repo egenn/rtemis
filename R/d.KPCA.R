@@ -4,7 +4,7 @@
 
 #' Kernel Principal Component Analysis
 #'
-#' Calculates kernel PCA decomposition and projections using \code{kernlab::kpca}
+#' Perform kernel PCA decomposition using \code{kernlab::kpca}
 #'
 #' Project scaled variables to KPCA components.
 #' Input must be n by p,
@@ -29,18 +29,17 @@
 #' @export
 
 d.KPCA <- function(x,
-                  x.test = NULL,
-                  k = 2,
-                  th = 0.0001,
-                  kernel = "rbfdot",
-                  kpar = NULL,
-                  scale = TRUE,
-                  center = FALSE,
-                  verbose = TRUE, ...) {
+                   x.test = NULL,
+                   k = 2,
+                   th = 0.0001,
+                   kernel = "rbfdot",
+                   kpar = NULL,
+                   scale = TRUE,
+                   center = FALSE,
+                   verbose = TRUE, ...) {
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "KPCA"
 
   # [ DEPENDENCIES ] ====
@@ -70,14 +69,14 @@ d.KPCA <- function(x,
     msg("    interpreted as", n, "cases with", p, "features.")
   }
   # cat("    (If this is not what you intended, this would be the time to interrupt the run)\n")
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
   # [ KPCA ] ====
   if (verbose) msg("Running Kernel Principal Components Analysis...")
   decom <- kernlab::kpca(as.matrix(x), features = k, th = th,
-                          kernel = kernel, kpar = kpar, ...)
+                         kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv
 
   # [ PROJECTIONS ] ====
@@ -93,11 +92,17 @@ d.KPCA <- function(x,
   # [ OUTRO ] ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = projections.test,
-                     extra = extra)
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
+                    parameters = list(k = k,
+                                      th = th,
+                                      kernel = kernel,
+                                      kpar = kpar,
+                                      scale = scale,
+                                      center = center),
+                    extra = extra)
   outro(start.time, verbose = verbose)
   rt
 

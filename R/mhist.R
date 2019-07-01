@@ -1,11 +1,12 @@
 # mhist.R
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
+# TODO: Add group support
 
 #' Histograms
-#' 
+#'
 #' Draws a histogram using lines.
-#' 
+#'
 #' Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3.xym})
 #' @param x Input vector
 #' @param breaks See \code{hist("breaks")} Default = "Sturges"
@@ -25,7 +26,7 @@
 #' @param box Logical: If TRUE, draws a box around plot
 #' @param grid Logical: If TRUE, draws a grid
 #' @param col Color to use for histogram lines
-#' @param horiz Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a 
+#' @param horiz Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a
 #' non-rotated plot - i.e. \code{xlab} will become the y-axis label
 #' @param main String: Main title
 #' @param add Logical: If TRUE, add histogram to existing plot (Caution: make sure the axes line up!)
@@ -33,7 +34,8 @@
 #' @author Efstathios D Gennatas
 #' @export
 
-mhist <- function(x, breaks = "Sturges",
+mhist <- function(x,
+                  breaks = "Sturges",
                   measure = c("density", "counts"),
                   lwd = 3,
                   xlim = NULL,
@@ -53,7 +55,7 @@ mhist <- function(x, breaks = "Sturges",
                   horiz = FALSE,
                   main = "",
                   add = FALSE, ...) {
-  
+
   # [ ARGUMENTS ] ====
   measure <- match.arg(measure)
   xhist <- hist(x, breaks = breaks, plot = FALSE)
@@ -69,20 +71,20 @@ mhist <- function(x, breaks = "Sturges",
   .yaxis <- if (horiz) xaxis else yaxis
   .xaxis.line <- if (horiz) yaxis.line else xaxis.line
   .yaxis.line <- if (horiz) xaxis.line else yaxis.line
-  
+
   # [ PLOT ] ====
   if (add) par(new = TRUE)
   plot(.x, .y, type = 'n', xlim = .xlim, ylim = .ylim, axes = plot.axes, xaxs = .xaxs, yaxs = .yaxs,
        xlab = xlab, ylab = ylab, ...)
   if (.xaxis) axis(1, line = .xaxis.line)
   if (.yaxis) axis(2, line = .yaxis.line)
-  
+
   # [ BOX ] ====
   if (box) box()
-  
+
   # [ GRID ] ====
   if (grid) grid()
-  
+
   # [ HIST ] ====
   if (horiz) {
     for (i in 1:length(.x)) {
@@ -93,5 +95,5 @@ mhist <- function(x, breaks = "Sturges",
       lines(c(.x[i], .x[i]), c(0, .y[i]), lwd = lwd, col = col, ...)
     }
   }
-  
+
 } # rtemis::mhist

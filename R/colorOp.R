@@ -10,8 +10,8 @@
 #' The average of two colors in RGB space will often pass through gray,
 #' which is likely undesirable. Averaging in HSV space, better for most applications.
 #' @param col Input color(s)
-#' @param fn String. Function to perform. Options: "invert", "mean"
-#' @param space Colorspace to operate in. Options: "HSV", "RGB"
+#' @param fn String: "invert", "mean": Function to perform
+#' @param space String: "HSV", "RGB": Colorspace to operate in - for averaging only
 #' @return Color
 #' @author Efstathios D. Gennatas
 #' @export
@@ -21,13 +21,12 @@ colorOp <- function(col,
                     space = c("HSV", "RGB")) {
 
   # [ ARGUMENTS ] ====
-  if (length(fn) > 1) fn <- "invert"
-  if (length(space) > 1) space <- "HSV"
-  space <- toupper(space)
+  fn <- match.arg(fn)
+  space <- match.arg(space)
 
   # [ COLORS ] ====
   col <- as.list(col)
-  col.rgb <- grDevices::col2rgb(col, alpha = TRUE)
+  col.rgb <- col2rgb(col, alpha = TRUE)
 
   if (fn == "invert") {
     inverted <- apply(col.rgb, 2, function(i) 255 - i)
@@ -42,17 +41,17 @@ colorOp <- function(col,
     if (space == "RGB") {
       if (length(col) < 2) stop("Need at least two colors to average")
       averaged <- rowMeans(col.rgb)
-      averaged <- grDevices::rgb(averaged[1], averaged[2], averaged[3], averaged[4], maxColorValue = 255)
+      averaged <- rgb(averaged[1], averaged[2], averaged[3], averaged[4], maxColorValue = 255)
       return(list(average = averaged))
     } else if (space == "HSV") {
       # Convert HSV to RGB
-      col.hsv <- grDevices::rgb2hsv(col.rgb[1:3, ])
+      col.hsv <- rgb2hsv(col.rgb[1:3, ])
       # Get mean HSV values
       averaged <- rowMeans(col.hsv)
       # Get mean alpha from RGB
       alpha <- mean(col.rgb[4, ])
       # Turn to hex
-      averaged <- grDevices::hsv(averaged[1], averaged[2], averaged[3], alpha / 255)
+      averaged <- hsv(averaged[1], averaged[2], averaged[3], alpha / 255)
       return(averaged)
     }
   }

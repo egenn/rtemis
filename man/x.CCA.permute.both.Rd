@@ -6,7 +6,7 @@
 \usage{
 x.CCA.permute.both(x, z, typex, typez, penaltyxs, penaltyzs, niter, v,
   trace, nperms, standardize, chromx, chromz, upos, uneg, vpos, vneg,
-  outcome, y, cens, verbose = TRUE, n.cores = NULL,
+  outcome, y, cens, verbose = TRUE, n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
 }
 \description{

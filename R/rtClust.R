@@ -50,12 +50,12 @@ rtClust <- R6::R6Class("rtClust",
                           ### Methods
                           print = function() {
                             "show / print method for rtClust"
-                            cat(".:rtemis Clustering \n------------------------------------------------------\n")
-                            cat(self$clust.name, " (", clustSelect(self$clust.name, desc = TRUE),
+                            cat(bold(".:rtemis Clustering\n"))
+                            cat(rtHighlight$bold(self$clust.name), " (", clustSelect(self$clust.name, desc = TRUE),
                                 ")\n", sep = "")
-                            cat("------------------------------------------------------\n")
-                            printls(self$parameters)
-                            cat("------------------------------------------------------\n")
+                            if (length(self$parameters) > 0) printls(self$parameters,
+                                                                     title = "Parameters",
+                                                                     newline.pre = TRUE)
                           }
                         )) # /rtClust
 
@@ -75,7 +75,7 @@ NULL
 #' @rdname rtClust-methods
 #' @export
 print.rtClust <- function(x, ...) {
-  
+
   x$print()
-  
+
 } # rtemis::print.rtClust

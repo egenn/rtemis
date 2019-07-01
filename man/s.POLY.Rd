@@ -12,10 +12,10 @@ s.POLY(x, y, x.test = NULL, y.test = NULL, poly.d = 3,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{poly.d}{Integer: degree of polynomial(s) to use}
 

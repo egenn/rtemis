@@ -80,7 +80,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \link{rtDecom} object
 }
 \description{
-Train an Autoencoder using H2O (http://www.h2o.ai)
+Train an Autoencoder using \code{h2o::h2o.deeplearning}
 Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
 e.g. if running on localhost, point your web browser to \code{localhost:54321}
 }

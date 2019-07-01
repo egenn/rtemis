@@ -41,7 +41,7 @@ CUR approximation is returned. Effective only if \code{matrix.return = TRUE}. De
 \link{rtDecom} object
 }
 \description{
-Performs a CUR decomposition
+Performs CUR decomposition using \code{rCUR::CUR}
 }
 \details{
 Note that \code{k} here does not correspond with \code{k} in the other decomposition functions.

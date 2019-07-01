@@ -119,7 +119,7 @@ s.RANGER <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(n.trees, mtry)
+  if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   x0 <- if (upsample) dt$x0 else x
@@ -251,7 +251,6 @@ s.RANGER <- function(x, y = NULL,
     fitted <- predict(mod, x)$predictions
   }
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && nlevels == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -274,7 +273,6 @@ s.RANGER <- function(x, y = NULL,
     }
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && nlevels == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL
@@ -282,9 +280,6 @@ s.RANGER <- function(x, y = NULL,
   } else {
     predicted <- error.test <- NULL
   }
-
-  # Discard forest to save memory
-  # if (discard.forest) mod$forest <- NULL
 
   # [ OUTRO ] ====
   extra <- list(gridSearch = gs)

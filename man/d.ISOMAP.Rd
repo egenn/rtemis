@@ -29,7 +29,7 @@ d.ISOMAP(x, k = 2, dist.method = "euclidean", nsd = 0,
 \link{rtDecom} object
 }
 \description{
-Calculates ISOMAP and projections using \code{vegan::isomap}
+Perform ISOMAP decomposition using \code{vegan::isomap}
 }
 \details{
 Project scaled variables to ISOMAP components

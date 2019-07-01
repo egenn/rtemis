@@ -4,7 +4,7 @@
 
 #' Generalized Low-Rank Models (GLRM) on H2O
 #'
-#' Estimate GLRM decomposition
+#' Perform GLRM decomposition using \code{h2o::h2o.glrm}
 #' Given Input matrix \code{A}:
 #' \code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
 #'
@@ -69,7 +69,6 @@ d.H2OGLRM <- function(x,
 
   # [ INTRO ] ====
   start.time <- intro(verbose = verbose)
-  call <- NULL
   decom.name <- "H2OGLRM"
 
   # [ DEPENDENCIES ] ====
@@ -84,13 +83,15 @@ d.H2OGLRM <- function(x,
   }
 
   # [ DATA ] ====
+  x <- as.data.frame(x)
+  if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature.', 1:NCOL(x))
+  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
@@ -146,6 +147,20 @@ d.H2OGLRM <- function(x,
                     xnames = xnames,
                     projections.train = projections.train,
                     projections.test = projections.test,
+                    parameters = list(k = k,
+                                      transform = transform,
+                                      loss = loss,
+                                      regularization.x = regularization.x,
+                                      regularization.y = regularization.y,
+                                      gamma.x = gamma.x,
+                                      gamma.y = gamma.y,
+                                      max_iterations = max_iterations,
+                                      max_updates = max_updates,
+                                      init_step_size = init_step_size,
+                                      min_step_size  = min_step_size,
+                                      seed = seed,
+                                      init = init,
+                                      svd.method = svd.method),
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

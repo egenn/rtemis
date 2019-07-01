@@ -186,28 +186,56 @@ rtset.color <- function(n = 101, colors = NULL,
 rtset.preprocess <- function(completeCases = FALSE,
                              impute = FALSE,
                              impute.type = "missForest",
+<<<<<<< HEAD
+=======
+                             impute.niter = 10,
+                             impute.ntree = 500,
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
                              impute.discrete = getMode,
                              impute.numeric = mean,
                              removeCases.thres = NULL,
                              removeFeatures.thres = NULL,
+<<<<<<< HEAD
                              removeConstant = TRUE,
                              integer2factor = FALSE,
                              nonzeroFactors = FALSE,
                              scale = FALSE,
                              center = FALSE) {
+=======
+                             integer2factor = FALSE,
+                             nonzeroFactors = FALSE,
+                             scale = FALSE,
+                             center = FALSE,
+                             removeConstant = TRUE,
+                             oneHot = FALSE) {
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
   list(completeCases = completeCases,
        impute = impute,
        impute.type = impute.type,
+<<<<<<< HEAD
+=======
+       impute.niter = impute.niter,
+       impute.ntree = impute.ntree,
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
        impute.discrete = impute.discrete,
        impute.numeric = impute.numeric,
        removeCases.thres = removeCases.thres,
        removeFeatures.thres = removeFeatures.thres,
+<<<<<<< HEAD
        removeConstant = removeConstant,
        integer2factor = integer2factor,
        nonzeroFactors = nonzeroFactors,
        scale = scale,
        center = center)
+=======
+       integer2factor = integer2factor,
+       nonzeroFactors = nonzeroFactors,
+       scale = scale,
+       center = center,
+       removeConstant = removeConstant,
+       oneHot = oneHot)
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
 } # rtemis::rtset.preprocess
 
@@ -400,18 +428,79 @@ rtset.MXN <- function(n.hidden.nodes = NULL,
 #' @rdname rtset
 #' @export
 
-rtset.lincoef <- function(method = "glm",
+rtset.lincoef <- function(method = c("glmnet",
+                                     "cv.glmnet",
+                                     "lm.ridge",
+                                     "allSubsets",
+                                     "forwardStepwise",
+                                     "backwardStepwise",
+                                     "glm",
+                                     "sgd",
+                                     "solve"),
                           alpha = 0,
-                          lambda = 0,
+                          lambda = .01,
                           lambda.seq = NULL,
                           cv.glmnet.nfolds = 5,
+<<<<<<< HEAD
                           cv.glmnet.lambda = "lambda.min") {
 
   list(method = method,
+=======
+                          which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+                          nbest = 1,
+                          nvmax = 8,
+                          sgd.model = "glm",
+                          sgd.model.control = list(lambda1 = 0,
+                                                   lambda2 = 0),
+                          sgd.control = list(method = "ai-sgd")) {
+
+  list(method = match.arg(method),
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
        alpha = alpha,
        lambda = lambda,
        lambda.seq = lambda.seq,
        cv.glmnet.nfolds = cv.glmnet.nfolds,
+<<<<<<< HEAD
        cv.glmnet.lambda = cv.glmnet.lambda)
+=======
+       which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+       nbest = nbest,
+       nvmax = nvmax,
+       sgd.model = sgd.model,
+       sgd.model.control = sgd.model.control,
+       sgd.control = sgd.control)
+>>>>>>> 5d511c1a12ba943018c428c367fd4c240972f986
 
 } # rtemis::rtset.lincoef
+
+
+#' \code{rtset.MARS}: Set parameters for \link{s.MARS}
+#'
+#' @inheritParams s.MARS
+#' @rdname rtset
+#' @export
+
+rtset.MARS <- function(hidden = 1,
+                     activation = NULL,
+                     learning.rate = .8,
+                     momentum = .5,
+                     learningrate_scale = 1,
+                     output = NULL,
+                     numepochs = 100,
+                     batchsize = NULL,
+                     hidden_dropout = 0,
+                     visible_dropout = 0, ...) {
+
+  c(list(hidden = hidden,
+         activation = activation,
+         learning.rate = learning.rate,
+         momentum = momentum,
+         learningrate_scale = learningrate_scale,
+         output = output,
+         numepochs = numepochs,
+         batchsize = batchsize,
+         hidden_dropout = hidden_dropout,
+         visible_dropout = visible_dropout),
+    list(...))
+
+} # rtemis::rtset.DN

@@ -22,15 +22,11 @@
 \item{newdata}{Set of predictors to use}
 }
 \description{
-# special cases: GBM - include n.trees: can be supplied in '...'
-  # BRUTO: newdata must be matrix
-  if (verbose) msg("Calculating estimated values using", fn, "of", length(object$mod), "bag resamples")
-  estimated.df <- sapply(object$mod, function(m) predict(m$mod1, newdata = newdata, ...))
-  estimated <- apply(estimated.df, 1, fn)
-  if (object$type == "Regression") {
-    estimated <- as.numeric(estimated)
-  } else {
-    estimated <- levels(object$y.train)[estimated]
-  }
-  return(estimated)
+S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} superclass
+
+\code{plot.rtModCV}: \code{plot} method for \code{rtModCV} object
+
+\code{summary.rtModCV}: \code{summary} method for \code{rtModCV} object
+
+\code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
 }

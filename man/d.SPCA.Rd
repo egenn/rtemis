@@ -5,7 +5,7 @@
 \title{Sparse Principal Component Analysis}
 \usage{
 d.SPCA(x, x.test = NULL, k = 1, nz = 0.5 * NCOL(x), nneg = TRUE,
-  method = "cumulative", scale = TRUE, center = FALSE,
+  method = c("cumulative", "vanilla"), scale = TRUE, center = FALSE,
   verbose = TRUE, ...)
 }
 \arguments{
@@ -18,15 +18,15 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{nz}{Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}}
 
-\item{nneg}{Logical: If TRUE, calculate non-negative loadings only}
+\item{nneg}{Logical: If TRUE, calculate non-negative loadings only. Default = TRUE}
 
-\item{method}{String: "cumulative" or "vanilla" sparse PCA}
+\item{method}{String: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"}
 
-\item{scale}{LogSPCAl: If TRUE, scale input data before projecting}
+\item{scale}{LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE}
 
-\item{center}{LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}}
+\item{center}{LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{...}{Additional parameters to be passed to \code{fastSPCA::fastSPCA}}
 }
@@ -34,7 +34,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 \link{rtDecom} object
 }
 \description{
-Calculates sparse and/or non-negative PCA or cumulative PCA decomposition and projections
+Perform sparse and/or non-negative PCA or cumulative PCA decomposition
   using \code{nsprcomp::nsprcomp} or \code{nsprcomp::nscumcomp} respectively
 }
 \details{

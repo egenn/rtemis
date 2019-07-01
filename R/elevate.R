@@ -6,7 +6,7 @@
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
 #' \code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
-#' by nested resampling, and optional preprocessing and decomposition
+#' by nested resampling, with optional preprocessing and decomposition of input features
 #'
 #' - Note on resampling: You can never use an outer resampling method with replacement
 #' if you will also be using an inner resampling (for tuning).
@@ -47,10 +47,10 @@
 #' @param parallel.type String: "psock" (Default), "fork"
 #' @param print.res.plot Logical: Print model performance plot for each resample.
 #'   Defaults to FALSE
-#' @param yhat.plots Logical: Print aggregate plots for fitted vs. true and predicted vs. true
+# @param yhat.plots Logical: Print aggregate plots for fitted vs. true and predicted vs. true
 #'   from all resamples. Defaults to TRUE
-#' @param plot.mean Logical: Print plot of type \code{plot.type} plot of models' error. Defaults to TRUE
-#' @param plot.type String: Type of plot to draw for all models' errors: "density" (Default), "histogram"
+# @param plot.mean Logical: Print plot of type \code{plot.type} plot of models' error. Defaults to TRUE
+# @param plot.type String: Type of plot to draw for all models' errors: "density" (Default), "histogram"
 #' @param headless Logical: If TRUE, turn off all plotting.
 #' @param outdir String: Path where output should be saved
 #' @param save.mods Logical: If TRUE, retain trained models in object, otherwise discard (save space
@@ -114,14 +114,14 @@ elevate <- function(x, y = NULL,
                     bag.fitted = FALSE,
                     n.cores = 1,
                     parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
+                    print.plot = TRUE,
+                    plot.fitted = FALSE,
+                    plot.predicted = TRUE,
                     plot.theme = getOption("rt.fit.theme", "lightgrid"),
                     print.res.plot = FALSE,
-                    yhat.plots = TRUE,
-                    plot.mean = NULL,
-                    plot.type = "density",
+                    # yhat.plots = TRUE,
+                    # plot.mean = NULL,
+                    # plot.type = "density",
                     question = NULL,
                     verbose = TRUE,
                     trace = 0,
@@ -153,7 +153,7 @@ elevate <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("plyr", "pbapply", "pROC", verbose = FALSE)) {
+  if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
@@ -169,7 +169,7 @@ elevate <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   # learner <- modSelect(mod, fn = FALSE)
   mod <- toupper(mod)
-  if (headless) print.res.plot <- plot.mean <- yhat.plots <- FALSE
+  if (headless) print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
   if (!is.null(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
   # If learner is multicore, run CV in series
   # Note: only set n.cores > 1 for mod "XGB" and "XGBLIN" if not using OpenMP
@@ -207,9 +207,9 @@ elevate <- function(x, y = NULL,
   if (save.rt & is.null(outdir)) outdir <- paste0("./elevate.", mod)
 
   # Plot mean if not kfold, loocv
-  if (is.null(plot.mean)) {
-    plot.mean <- if (resampler %in% c("kfold", "loocv")) FALSE else TRUE
-  }
+  # if (is.null(plot.mean)) {
+  #   plot.mean <- if (resampler %in% c("kfold", "loocv")) FALSE else TRUE
+  # }
   if (.Platform$OS.type == "windows" & parallel.type == "fork") {
     warning("Forking is not possible in Windows, using PSOCK cluster instead")
     parallel.type <- "psock"
@@ -300,8 +300,6 @@ elevate <- function(x, y = NULL,
 
   # [ RES FITTED ]  ====
   # The fitted values and training error from each resample
-  # sapply will return matrix if length of output is same for each m, otherwise list
-  # -> use lapply, get list and unlist later
   y.train.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.train))
   fitted.res <- lapply(seq(n.repeats), function(n)
@@ -577,7 +575,7 @@ elevate <- function(x, y = NULL,
                            varimp = varimp,
                            question = question)
   } else {
-    # !Classification
+    # Not Classification
     rt <- rtModCV$new(mod = mods,
                       mod.name = mod.name,
                       type = type,
@@ -624,6 +622,14 @@ elevate <- function(x, y = NULL,
 
   if (!save.mod) rt$mod <- NA
   if (save.rt) rtSave(rt, outdir, file.prefix = "elevate.", verbose = verbose)
+  if (print.plot) {
+    if (plot.fitted) rt$plotFitted()
+    if (plot.predicted) rt$plotPredicted()
+  }
+  if (!is.null(outdir)) {
+    rt$plotFitted(filename = paste0(outdir, "elevate.", mod.name,"_fitted.pdf"))
+    rt$plotPredicted(filename = paste0(outdir, "elevate.", mod.name, "_predicted.pdf"))
+  }
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   return(rt)
 

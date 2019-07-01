@@ -24,7 +24,7 @@ u.NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE,
 \link{rtClust} object
 }
 \description{
-Estimate Neural Gas clustering solution
+Perform Neural Gas clustering using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: \code{\link{u.CMEANS}},

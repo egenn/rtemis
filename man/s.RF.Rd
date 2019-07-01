@@ -28,10 +28,10 @@ s.RF(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix / data frame of testing set features
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of testing set outcome}
+\item{y.test}{Numeric vector of testing set outcome}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -106,7 +106,7 @@ If an integer, \code{randomForest} will report progress every this many trees. D
 \item{imetrics}{Logical: If TRUE, calculate interpretability metrics (N of trees and N of nodes) and save under
 the 'extra' field of \link{rtMod}}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by 
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
@@ -175,18 +175,17 @@ Other Supervised Learning: \code{\link{s.ADABOOST}},
   \code{\link{s.GLS}}, \code{\link{s.H2ODL}},
   \code{\link{s.H2OGBM}}, \code{\link{s.H2ORF}},
   \code{\link{s.IRF}}, \code{\link{s.KNN}},
-  \code{\link{s.LDA}}, \code{\link{s.LGB}},
-  \code{\link{s.LM}}, \code{\link{s.MARS}},
-  \code{\link{s.MLRF}}, \code{\link{s.MXN}},
-  \code{\link{s.NBAYES}}, \code{\link{s.NLA}},
-  \code{\link{s.NLS}}, \code{\link{s.NW}},
-  \code{\link{s.POLYMARS}}, \code{\link{s.PPR}},
-  \code{\link{s.PPTREE}}, \code{\link{s.QDA}},
-  \code{\link{s.QRNN}}, \code{\link{s.RANGER}},
-  \code{\link{s.RFSRC}}, \code{\link{s.SGD}},
-  \code{\link{s.SPLS}}, \code{\link{s.SVM}},
-  \code{\link{s.TFN}}, \code{\link{s.XGBLIN}},
-  \code{\link{s.XGB}}
+  \code{\link{s.LDA}}, \code{\link{s.LM}},
+  \code{\link{s.MARS}}, \code{\link{s.MLRF}},
+  \code{\link{s.MXN}}, \code{\link{s.NBAYES}},
+  \code{\link{s.NLA}}, \code{\link{s.NLS}},
+  \code{\link{s.NW}}, \code{\link{s.POLYMARS}},
+  \code{\link{s.PPR}}, \code{\link{s.PPTREE}},
+  \code{\link{s.QDA}}, \code{\link{s.QRNN}},
+  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
+  \code{\link{s.SGD}}, \code{\link{s.SPLS}},
+  \code{\link{s.SVM}}, \code{\link{s.TFN}},
+  \code{\link{s.XGBLIN}}, \code{\link{s.XGB}}
 
 Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.ADDTREE}}, \code{\link{s.BART}},
@@ -195,9 +194,9 @@ Other Tree-based methods: \code{\link{s.ADABOOST}},
   \code{\link{s.EVTREE}}, \code{\link{s.GBM3}},
   \code{\link{s.GBM}}, \code{\link{s.H2OGBM}},
   \code{\link{s.H2ORF}}, \code{\link{s.IRF}},
-  \code{\link{s.LGB}}, \code{\link{s.MLRF}},
-  \code{\link{s.PPTREE}}, \code{\link{s.RANGER}},
-  \code{\link{s.RFSRC}}, \code{\link{s.XGB}}
+  \code{\link{s.MLRF}}, \code{\link{s.PPTREE}},
+  \code{\link{s.RANGER}}, \code{\link{s.RFSRC}},
+  \code{\link{s.XGB}}
 
 Other Ensembles: \code{\link{s.ADABOOST}},
   \code{\link{s.GBM3}}, \code{\link{s.GBM}},

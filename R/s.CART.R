@@ -33,7 +33,7 @@
 #' See \code{rpart::rpart("cost")}
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
-#' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by 
+#' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
 #' \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
@@ -94,7 +94,7 @@ s.CART <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(outdir, sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
   } else {
     NULL
   }
@@ -115,7 +115,7 @@ s.CART <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
   control <- list(minsplit = minsplit,
                   minbucket = minbucket,
@@ -140,6 +140,7 @@ s.CART <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  class.weights <- dt$class.weights
   x0 <- if (upsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
   y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -157,8 +158,6 @@ s.CART <- function(x, y = NULL,
       method <- "exp"
       if (is.null(metric)) metric <- "Concordance"
       if (is.null(maximize)) maximize <- TRUE
-    } else {
-      stop("Method of type", method, "is not supported")
     }
   }
   if (is.null(cost)) cost <- rep(1, NCOL(x))
@@ -235,7 +234,7 @@ s.CART <- function(x, y = NULL,
                      xval = xval,
                      cost = cost,
                      na.action = na.action,
-                     weights = .weights)
+                     class.weights = class.weights)
 
   # [ RPART ] ====
   if (verbose) msg("Training CART...", newline = TRUE)
@@ -274,7 +273,6 @@ s.CART <- function(x, y = NULL,
 
   attr(fitted, "names") <- NULL
   error.train <- modError(y, fitted, fitted.prob)
-  # if (type == "Classification" && n.classes == 2) error.train$overall$AUC <- auc(fitted.prob, y)
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
@@ -291,7 +289,6 @@ s.CART <- function(x, y = NULL,
     attr(predicted, "names") <- NULL
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
-      # if (type == "Classification" && n.classes == 2) error.test$overall$AUC <- auc(predicted.prob, y.test)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL
