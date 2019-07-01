@@ -4,9 +4,9 @@
 \alias{resample}
 \title{Resampling methods}
 \usage{
-resample(y = NULL, n.resamples = 10, resampler = c("strat.sub",
-  "strat.boot", "kfold", "bootstrap", "loocv"), index = NULL,
-  group = NULL, stratify.var = y, cv.p = 0.75, cv.groups = 4,
+resample(y, n.resamples = 10, resampler = c("strat.sub", "strat.boot",
+  "kfold", "bootstrap", "loocv"), index = NULL, group = NULL,
+  stratify.var = y, train.p = 0.75, strat.n.bins = 4,
   target.length = NROW(y), rtset = NULL, seed = NULL,
   verbose = FALSE)
 }
@@ -26,9 +26,9 @@ e.g. for 10-fold on a dataset with 1000 cases, you could use \code{group = rep(1
 
 \item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
 
-\item{cv.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
 
-\item{cv.groups}{Integer: Number of groups to use for stratification for
+\item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
 \item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
@@ -43,14 +43,15 @@ See \code{?base::set.seed}}
 \item{verbose}{Logical: If TRUE, print messages to screen}
 }
 \description{
-Create resamples of your data, e.g. for model tuning or testing
-"bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \code{caret::createResample},
-"strat.sub" creates stratified subsamples using \code{caret::createDataPartition}, while "strat.boot"
-runs \code{caret::createDataPartition} and then randomly replicates some of the training cases to reach original
+Create resamples of your data, e.g. for model building or validation.
+"bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \link{bootstrap},
+"strat.sub" creates stratified subsamples using \link{strat.sub}, while "strat.boot"
+uses \link{strat.boot} which runs \link{strat.sub} and then randomly duplicates some of the training cases to reach original
 length of input (default) or length defined by \code{target.length}.
 }
 \details{
-\code{resample} is used by multiple \pkg{rtemis} learners and functions. Note that option 'kfold', which uses \code{caret::createFolds} results in resamples of slightly
+\code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
+\link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples of slightly
   different length for y of small length, so avoid all operations which rely on equal-length vectors.
   For example, you can't place resamples in a data.frame, but must use a list instead.
 }

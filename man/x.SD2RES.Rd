@@ -8,7 +8,7 @@ x.SD2RES(x, z, x.test = NULL, z.test = NULL, k = 4, inmask = c(NA,
   NA), sparseness = c(0.01, 1), scale.first.x = FALSE,
   scale.first.center.x = FALSE, scale.first.z = FALSE,
   scale.first.center.z = FALSE, resampler = "strat.boot", n.res = 4,
-  stratify.var = NULL, cv.p = 0.75, cv.groups = 5,
+  stratify.var = NULL, train.p = 0.75, strat.n.bins = 5,
   target.length = NROW(z), its = 20, cthresh = c(0, 0), perms = 0,
   uselong = 0, row.sparseness = 0, smooth = 0, robust = 0,
   mycoption = 1, initializationList = list(),
@@ -40,9 +40,9 @@ Defaults to c(.01, 1)}
 
 \item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
 
-\item{cv.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
 
-\item{cv.groups}{Integer: Number of groups to use for stratification for
+\item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
 \item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
