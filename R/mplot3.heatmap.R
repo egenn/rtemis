@@ -1,6 +1,6 @@
 # mplot3.heatmap.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.github.io
 # TODO: check dendrogram: compare to heatmap: same hierarchy, different layout, not wrong
 # TODO: only center around zero (if autorange) if 0 is within range of z,
 #       otherwise range from 0 to max or closest multiple of ten, each depending on range.
@@ -32,10 +32,11 @@ mplot3.heatmap <- function(x,
                            colorGrad.col = NULL,
                            lo = "#18A3AC",
                            lomid = NULL,
-                           mid = "white",
+                           mid = NULL,
                            midhi = NULL,
                            hi = "#F48024",
                            space = "rgb",
+                           theme = getOption("rt.theme", "light"),
                            colorbar = TRUE,
                            cb.n = 21,
                            cb.title = NULL,
@@ -53,7 +54,7 @@ mplot3.heatmap <- function(x,
                            # scale = c("row", "column", "none"),
                            scale = "none",
                            na.rm = TRUE,
-                           margins = c(5, 5),
+                           margins = NULL,
                            ColSideColors,
                            RowSideColors,
                            cexRow = 0.2 + 1/log10(nr),
@@ -68,10 +69,10 @@ mplot3.heatmap <- function(x,
                            ylab = NULL,
                            xlab.line = NULL,
                            ylab.line = NULL,
-                           bg = "white",
-                           col.axis = "black",
+                           bg = NULL,
+                           col.axis = NULL,
                            keep.dendro = FALSE,
-                           verbose = getOption("verbose"),
+                           trace = 0,
                            zlim = NULL,                     # rtemis
                            autorange = TRUE,
                            filename = NULL,
@@ -79,6 +80,23 @@ mplot3.heatmap <- function(x,
                            pdf.width = 7,
                            pdf.height = 7, ...) {
 
+  # [ THEMES ] ====
+  theme <- ifelse(substr(theme, 1, 5) == "light", "light", "dark")
+  if (theme == "light") {
+    if (is.null(bg)) bg = "white"
+    if (is.null(mid)) mid <- "white"
+    if (is.null(col.axis)) col.axis <- "black"
+  } else {
+    if (is.null(bg)) bg = "black"
+    if (is.null(mid)) mid <- "black"
+    if (is.null(col.axis)) col.axis <- "white"
+  }
+
+  # [ AUTOMARGINS ] ====
+  if (is.null(margins)) {
+    max.nchar <- max(nchar(c(colnames(x), rownames(x))))
+    margins <- rep(2.4 + max.nchar * .3, 2)
+  }
   # [ COL ] ====
   col <- colorGrad(n = colorGrad.n,
                    colors = colorGrad.col,
@@ -151,13 +169,13 @@ mplot3.heatmap <- function(x,
       (1L:nr)[rowInd]
     } else rownames(x)
   } else labRow[rowInd]
-    
+
   labCol <- if (is.null(labCol)) {
     if (is.null(colnames(x))) {
       (1L:nc)[colInd]
     } else colnames(x)
   } else labCol[colInd]
-  
+
   # rtemis
   labCol.las <- if (is.null(labCol.las)) if (max(nchar(labCol)) > 2) 2 else 0
 
@@ -202,9 +220,8 @@ mplot3.heatmap <- function(x,
     }
   }
 
-  if (verbose) {
-    cat("layout: widths = ", lwid, ", heights = ", lhei,
-        "; lmat=\n")
+  if (trace > 0) {
+    cat("layout: widths = ", lwid, ", heights = ", lhei, "; lmat=\n")
     print(lmat)
   }
   dev.hold()
@@ -214,8 +231,6 @@ mplot3.heatmap <- function(x,
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   op <- par(no.readonly = TRUE)
-  # on.exit(par(op), add = TRUE)
-  # par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(op)))
 
   layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
@@ -237,7 +252,7 @@ mplot3.heatmap <- function(x,
     if (doRdend)
       ddr <- rev(ddr)
     x <- x[, iy]
-  } 
+  }
   else iy <- 1L:nr
   image(1L:nc, 1L:nr, x,
         xlim = 0.5 + c(0, nc),
@@ -254,29 +269,35 @@ mplot3.heatmap <- function(x,
     msg("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
     mtext(xlab, side = 1, line = xlab.line)
   }
-    
+
   axis(4, iy, labels = labRow, las = 2, line = -0.5, tick = 0,
        cex.axis = cexRow, col.axis = col.axis)
   if (!is.null(ylab)) {
     if (is.null(ylab.line)) ylab.line <- margins[2L] - 1.25
     mtext(ylab, side = 4, line = ylab.line)
   }
-    
+
   if (!missing(add.expr))
     eval.parent(substitute(add.expr))
+
+  # [ PLOT ] ====
   par(mar = c(margins[1L], 0, 0, 0), bg = bg)
   if (doRdend)
-    plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none", col = col.axis)
+    plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
+         edgePar = list(col = col.axis))
   else frame()
   par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2L]), bg = bg)
   if (doCdend)
-    plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none", col = col.axis)
+    plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none",
+         edgePar = list(col = col.axis))
   else if (!is.null(main))
     frame()
   if (!is.null(main)) {
     par(xpd = NA, mar = c(0, 0, 0, 0), bg = bg)
     title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
   }
+
+  # [ COLORBAR ] ====
   if (colorbar) {
     frame()
     # par(xpd = NA)
