@@ -346,11 +346,8 @@ microsoftCol <- list(orange = "#f65314",
                      green = "#7cbb00",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
+
 # rtCol, rtPalettes ====
-# rtCol <- c(ucsfCol[c("teal", "orange", "blue", "yellow", "purple", "red", "navy", "green")],
-#            berkeleyCol)
-
-
 rtCol <- desaturate(c(pennCol$lighterBlue,
                       pennCol$lightestBlue,
                       pennCol$blue,
