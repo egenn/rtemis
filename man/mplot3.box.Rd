@@ -18,7 +18,7 @@ mplot3.box(x, col = NULL, alpha = 0.66, border = NULL,
   plot.bg = NULL, boxplot.axes = FALSE, yaxis = TRUE, ylim.pad = 0,
   y.axis.padj = 1.7, tck = -0.015, tick.col = NULL,
   theme = getOption("rt.theme", "light"),
-  palette = getOption("rt.palette", "rtCol"), axes.col = NULL,
+  palette = getOption("rt.palette", "rtCol1"), axes.col = NULL,
   labs.col = NULL, grid = FALSE, grid.lty = NULL, grid.lwd = NULL,
   grid.col = NULL, grid.alpha = 1, par.reset = TRUE, pdf.width = 6,
   pdf.height = 6, filename = NULL, ...)
