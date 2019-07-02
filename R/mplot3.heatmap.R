@@ -94,7 +94,8 @@ mplot3.heatmap <- function(x,
 
   # [ AUTOMARGINS ] ====
   if (is.null(margins)) {
-    max.nchar <- max(nchar(c(colnames(x), rownames(x))))
+    names.nchar <- nchar(c(colnames(x), rownames(x)))
+    max.nchar <- max(0, names.nchar)
     margins <- rep(2.4 + max.nchar * .3, 2)
   }
   # [ COL ] ====
