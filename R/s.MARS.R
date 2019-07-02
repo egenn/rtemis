@@ -164,8 +164,7 @@ s.MARS <- function(x, y = NULL,
   # [ EARTH ] ====
   if (verbose) msg("Training MARS model...", newline = TRUE)
   # parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk)
-  # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by update.earth or
-  # related function and error out.
+  # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by update.earth or related function and error out.
   args <- c(list(x = x, y = y,
                  weights = .weights,
                  wp = wp,

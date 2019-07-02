@@ -56,12 +56,10 @@ s.CTREE <- function(x, y = NULL,
   # [ ARGUMENTS ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  # prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
-  # if (is.null(weights)) weights <- rep(1, nrow(x))
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,

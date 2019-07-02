@@ -68,8 +68,7 @@ s.PSURV <- function(x, y,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
-  # if (is.null(weights)) weights <- rep(1, length(y))
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test)

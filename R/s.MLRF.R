@@ -81,7 +81,6 @@ s.MLRF <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    # ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x

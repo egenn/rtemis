@@ -158,7 +158,6 @@ s.GAM.default <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  # if (is.null(weights)) weights <- rep(1, length(y))
 
   # [ GAM ] ====
   if (verbose) msg("Training GAM...", newline = TRUE)

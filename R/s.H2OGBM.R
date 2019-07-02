@@ -109,7 +109,6 @@ s.H2OGBM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  # if (is.null(weights)) weights <- rep(1, length(y))
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # [ DATA ] ====

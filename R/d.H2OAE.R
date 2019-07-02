@@ -85,7 +85,7 @@ d.H2OAE <- function(x,
   }
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", decom.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   x <- as.data.frame(x)

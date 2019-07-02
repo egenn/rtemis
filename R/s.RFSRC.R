@@ -85,7 +85,7 @@ s.RFSRC <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(trace)) trace <- if (verbose) n.trees/10 else FALSE
 
   # [ DATA ] ====

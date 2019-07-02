@@ -49,7 +49,7 @@ s.TLS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
@@ -86,7 +86,6 @@ s.TLS <- function(x, y = NULL,
 
   # [ FITTED ] ====
   fitted <- c(cbind(as.matrix(x), 1) %*% c(a, b))
-  # residuals <- y - fitted
   normal <- V[, n + 1]
   error <- abs((M - M.mean) %*% normal)
   ssq <- sum(error ^ 2)

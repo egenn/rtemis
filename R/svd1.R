@@ -24,13 +24,12 @@ svd1 <- function(x, x.test = NULL) {
   x.svd <- svd(x, nu = 1, nv = 1)
 
   # [ PROJECTION ] ====
-  x.proj <- abs(scale(x, center = F) %*% x.svd$v)
+  x.proj <- abs(scale(x, center = FALSE) %*% x.svd$v)
 
   # [ TEST PROJECTION ] ====
   x.test.proj <- NA
   if (!is.null(x.test)) {
-    # x.test.proj <- as.numeric(scale(abs(scale(x.test, center = F) %*% x.svd$v), center = F))
-    x.test.proj <- abs(scale(x.test, center = F) %*% x.svd$v)
+    x.test.proj <- abs(scale(x.test, center = FALSE) %*% x.svd$v)
   }
 
   s.out <- list(u = x.svd$u,

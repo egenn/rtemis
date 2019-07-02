@@ -154,7 +154,6 @@ s.GLM <- function(x, y = NULL,
   }
 
   checkType(type, c("Classification", "Regression"), mod.name)
-  # if (is.null(weights) & ipw) weights <- dt$weights
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -176,7 +175,6 @@ s.GLM <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  # if (type == "Classification") nlevels <- length(levels(y))
 
   # [ FORMULA ] ====
   # do not use data.frame() here; x already data.frame from dataPrepare.
@@ -184,15 +182,12 @@ s.GLM <- function(x, y = NULL,
   # For example, splines produces output with integers as colnames.
   df.train <- cbind(x, y = if (mod.name == "LOGISTIC") reverseLevels(y) else y)
   if (!polynomial) {
-    # features <- paste(xnames, collapse = " + ")
-    # .formula <- paste0(y.name, " ~ ", features)
     if (nway.interactions > 0) {
       .formula <- paste0(y.name, " ~ .^", nway.interactions)
     } else if (interactions) {
       .formula <- paste(y.name, "~ .*.")
     } else if (!is.null(covariate)) {
       features <- xnames[!grepl(covariate, xnames)]
-      # .formula <- paste(y.name, "~", paste(features, "* covariate", collapse = " + "))
       .formula <- paste(y.name, "~", paste(features, "*", covariate, collapse = " + "))
     } else {
       .formula <- paste(y.name, "~ .")
@@ -203,11 +198,11 @@ s.GLM <- function(x, y = NULL,
       warning("Covariate not supported with polynomial - will be ignored.
               You can pass squares and cubes manually")
     }
-    # features <- paste0("poly(", paste0(xnames, ", ", poly.d, ")", collapse = " + poly("))
     features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
                                        collapse = " + poly("))
     .formula <- paste0(y.name, " ~ ", features)
     }
+    
   # Intercept
   if (!intercept) .formula <- paste(.formula, "- 1")
   .formula <- as.formula(.formula)

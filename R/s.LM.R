@@ -140,7 +140,6 @@ s.LM <- function(x, y = NULL,
     features <- paste(xnames, collapse = " + ")
     formula.str <- paste0(y.name, " ~ ", features)
   } else {
-    # features <- paste0("poly(", paste0(xnames, ", ", poly.d, ")", collapse = " + poly("))
     features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
                                          collapse = " + poly("))
     formula.str <- paste0(y.name, " ~ ", features)
@@ -166,7 +165,6 @@ s.LM <- function(x, y = NULL,
     # [ GLS ]
     if (gls) {
       if (verbose) msg("Training generalized least squares...", newline = TRUE)
-      # mod <- MASS::lm.gls(y ~., data = df.train, weights = weights, na.action = na.action, ...)
       mod <- nlme::gls(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)
@@ -191,7 +189,7 @@ s.LM <- function(x, y = NULL,
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
       if (gls) {
-        assign('myformula', myformula) # why need this?? nlme is buggy
+        assign('myformula', myformula) # why need this? nlme is buggy?
         predicted <- as.numeric(predict(mod, x.test))
       } else {
         predicted <- predict(mod, x.test, se.fit = TRUE)
@@ -254,20 +252,3 @@ s.RLM <- function(x, y, x.test = NULL, y.test = NULL, ...) {
   s.LM(x, y, x.test = x.test, y.test = y.test, robust = TRUE, ...)
 
 } # rtemis::s.RLM
-
-
-#' #' Generalized Least Squares
-#' #'
-#' #' Convenience alias for \code{s.LM(gls = T)}. Uses \code{MASS::lm.gls}
-#' #'
-#' #' GLS can be useful in place of a standard linear model, when there is correlation among
-#' #'   the residuals
-#' #' @inheritParams s.GLM
-#' #' @param ... Additional parameters to be passed to \code{MASS::lm.gls}
-#' #' @export
-#'
-#' s.GLS <- function(x, y = NULL, x.test = NULL, y.test = NULL, ...) {
-#'
-#'   s.LM(x, y, x.test = x.test, y.test = y.test, gls = TRUE, ...)
-#'
-#' } # rtemis::s.GLM

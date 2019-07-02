@@ -36,7 +36,7 @@ clustSelect <- function(clust,
 
   if (missing(clust)) {
     cat(".:clustSelect\nrtemis supports the following clustering algorithms:\n\n")
-    print(description, quote = F, row.names = F)
+    print(description, quote = F, row.names = FALSE)
     return(invisible(9))
   }
 
@@ -44,7 +44,7 @@ clustSelect <- function(clust,
                         "kmeans", "ngas", "pam", "pamk", "spec"))
   name <- name.vec[pmatch(toupper(clust), name.vec)]
   if (is.na(name)) {
-    print(description, quote = F)
+    print(description, quote = FALSE)
     stop("Incorrect clusterer specified")
   }
 

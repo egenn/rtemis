@@ -4,9 +4,9 @@
 
 #' Sequence generation with automatic cycling
 #'
-#' @param x R object with \code{length}
-#' @param target R object with \code{length}
-#' @examples 
+#' @param x R object of some \code{length}
+#' @param target R object of some \code{length}
+#' @examples
 #' color <- c("red", "blue")
 #' target <- 1:5
 #' color[seql(color, target)]
@@ -14,7 +14,7 @@
 #' color <- c("red", "green", "blue", "yellow", "orange")
 #' target <- 1:3
 #' color[seql(color, target)]
-#' # "red"   "green" "blue" 
+#' # "red"   "green" "blue"
 #' @author Efstathios D Gennatas
 #' @export
 
@@ -28,4 +28,3 @@ seql <- function(x, target) {
     return(seq(tlength))
   }
 } # rtemis::seql
-

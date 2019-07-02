@@ -52,7 +52,6 @@ s.LDA <- function(x, y,
   # [ ARGUMENTS ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  # prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (print.plot) {
@@ -62,7 +61,7 @@ s.LDA <- function(x, y,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test)

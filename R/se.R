@@ -13,7 +13,6 @@
 
 se <- function(x) {
 
-  # if (is.null(x$se.fit)) error("Model does not contain standard error of fit")
   return(as.numeric(x$se.fit))
 
 } # rtemis::se

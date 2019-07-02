@@ -116,7 +116,7 @@ s.CART <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   control <- list(minsplit = minsplit,
                   minbucket = minbucket,
                   cp = cp,

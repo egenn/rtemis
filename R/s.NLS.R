@@ -83,8 +83,6 @@ s.NLS <- function(x, y = NULL,
       feature.names <- colnames(df)[-NCOL(df)]
       weight.names <- paste0("w", seq(feature.names))
       formula <- as.formula(paste("y ~ b +", paste0(weight.names, "*", feature.names, collapse = " + ")))
-      # formula <- paste0("y ~ b_o + W_o * sigmoid(b_h + ",
-      #                   paste0("w", seq(feature.names), "*", feature.names, collapse = " + "), ")")
       params <- getTerms2(formula, data = df)
       if (is.null(start)) {
         lincoefs <- lincoef(x, y)
@@ -209,7 +207,6 @@ getTerms2 <- function(formula, data = NULL) {
   # Replace anything not a letter or number
   terms <- gsub("[[:punct:]]", "#", terms)
   # Split terms
-  # terms <- strsplit(terms, "[\\+*]")[[1]]
   terms <- strsplit(terms, "#")[[1]]
   # Exclude predictors from terms
   if (!is.null(data)) if (!is.null(colnames(data))) terms <- setdiff(terms, colnames(data))

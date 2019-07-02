@@ -98,9 +98,6 @@ resample <- function(y,
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
 
     n.resamples <- as.integer(n.resamples)
-    # if (length(resampler) > 1) {
-    #   resampler <- ifelse(length(y) < 200, "strat.boot", "strat.sub")
-    # }
     if (resampler == "loocv") n.resamples <- length(y)
 
     # [ Print parameters ] ====

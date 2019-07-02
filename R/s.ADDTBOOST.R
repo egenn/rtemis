@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-#' Boosting of Additive Trees
+#' Boosting of Additive Trees [R]
 #'
 #' Boost an additive tree using \link{addtboost}
 #'
@@ -99,9 +99,8 @@ s.ADDTBOOST <- function(x, y = NULL,
   y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
-  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
+  checkType(type, "Regression", mod.name)
+  
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

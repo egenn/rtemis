@@ -188,7 +188,6 @@ s.SPLS <- function(x, y = NULL,
   if (trace > 0) mod
 
   # [ FITTED ] ====
-  # fitted <- spls::predict.spls(mod, x, type = "fit")
   fitted <- predict(mod, x, type = "fit")
   if (type == "Classification") {
     fitted <- factor(fitted)
@@ -203,7 +202,6 @@ s.SPLS <- function(x, y = NULL,
   # [ PREDICTED ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
-    # predicted <- spls::predict.spls(mod, x.test, type = "fit")
     predicted <- predict(mod, x.test, type = "fit")
     if (type == "Classification") {
       predicted <- factor(predicted)

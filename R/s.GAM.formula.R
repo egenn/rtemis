@@ -9,6 +9,7 @@
 #' Input will be used to create a formula of the form:
 #' \deqn{y = s(x_{1}, k = gam.k) + s(x_{2}, k = gam.k) + ... + s(x_{n}, k = gam.k)}
 #'
+#' \link{s.GAM.default} is the preferred way to train GAMs
 #' @inheritParams s.GLM
 #' @param covariates Factors to be included as covariates in model building
 #' @param covariates.test Factors to be included as covariates in model validation
@@ -71,33 +72,10 @@ s.GAM.formula <- function(formula,
 
   y <- df.train[[y.name]]
   y.test <- df.test$y.test # NULL if df.test is null
-  # if (!is.null(df.test)) y.test <- df.test[[y.name]]
-  # xnames <- colnames(data)
+
   xnames <- all.vars(.formula[[3]])
   # if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) dataSummary(df.train[, -ncol(df.train)], y, df.test[, -max(ncol(df.test), 1, na.rm = T)], y.test)
-
-  # if (missing(x)) { print(args(s.GAM)); stop("x is missing") }
-  # if (is.null(y) & NCOL(x) < 2) { print(args(s.GAM)); stop("y is missing") }
-  # if (is.null(x.name)) x.name <- getName(x, "x")
-  # if (is.null(y.name)) y.name <- getName(y, "y")
-
-  # if (is.null(y.name)) y.name <- "y"
-
-  # [ DATA ]
-  # if (is.null(x.name)) x.name <- "x"
-  # y.name <- all.vars(.formula[[2]])
-  # y <- df.train[[y.name]]
-  # if (!is.null(df.test)) y.test <- df.test[[y.name]]
-  # dt <- dataPrepare(x, y, x.test, y.test)
-  # x <- dt$x
-  # y <- dt$y
-  # x.test <- dt$x.test
-  # y.test <- dt$y.test
-  # xnames <- dt$xnames
-  # if (verbose) dataSummary(x, y, x.test, y.test, type)
-
-  # df.train <- data.frame(y = y, x)
 
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
@@ -108,7 +86,7 @@ s.GAM.formula <- function(formula,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(weights)) weights <- rep(1, NROW(data))
 
   # [ GAM ]
@@ -122,13 +100,6 @@ s.GAM.formula <- function(formula,
                  na.action = na.action),
             list(...))
   mod <- do.call(mgcv::gam, args)
-  # mod <- mgcv::gam(formula = .formula,
-  #                  family = family,
-  #                  data = df.train,
-  #                  weights = weights,
-  #                  select = select,
-  #                  method = method,
-  #                  na.action = na.action, ...)
   if (verbose) print(summary(mod))
 
   # [ FITTED ] ====
@@ -180,7 +151,7 @@ s.GAM.formula <- function(formula,
            save.mod,
            verbose,
            plot.theme)
-           
+
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

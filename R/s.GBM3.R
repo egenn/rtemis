@@ -290,7 +290,6 @@ s.GBM3 <- function(x, y = NULL,
                      weights)
   }
 
-
   # [ GBM3 ] ====
   if (!is.null(logFile)) sink() # pause writing to log
   # If we are in .gs, rbind train and test to get perf to tune n.trees
@@ -550,10 +549,6 @@ gbm3.select.trees <- function(object,
 
   n.trees <- object$params$num_trees
 
-  # if (smooth) {
-  # dat <- data.frame(n.trees = seq(n.trees), valid.error = object$valid.error)
-  # dat <- complete.cases(dat)
-  # }
   valid.error.smooth <- if (smooth) {
     if (smoother == "loess") {
       valid.error.smooth <- loess(object$valid.error ~ seq(n.trees))$fitted

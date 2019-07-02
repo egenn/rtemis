@@ -38,7 +38,7 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
 
   if (missing(decom)) {
     cat(".:decomSelect\nrtemis supports the following decomposition algorithms:\n\n")
-    print(description, quote = F, row.names = F)
+    print(description, quote = F, row.names = FALSE)
     return(invisible(9))
   }
 
@@ -46,7 +46,7 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
                         "pca", "spca", "svd", "tsne", "umap"))
   name <- name.vec[pmatch(toupper(decom), name.vec)]
   if (is.na(name)) {
-    print(description, quote = F)
+    print(description, quote = FALSE)
     stop("Incorrect decomposer specified")
   }
 

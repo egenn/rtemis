@@ -81,7 +81,7 @@ s.QRNN <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
@@ -111,7 +111,6 @@ s.QRNN <- function(x, y = NULL,
                         trace = verbose, ...)
 
   # [ FITTED ] ==== ====
-  # return(list(mod = mod, x.train = x.train))
   fitted <- rowMeans(qrnn::qrnn.predict(as.matrix(x), mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)

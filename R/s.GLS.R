@@ -19,7 +19,6 @@ s.GLS <- function(x, y = NULL,
                   interactions = FALSE,
                   nway.interactions = 0,
                   covariate = NULL,
-                  # class.method = NULL,
                   weights = NULL,
                   intercept = TRUE,
                   print.plot = TRUE,
@@ -86,7 +85,6 @@ s.GLS <- function(x, y = NULL,
     .formula <- paste(y.name, "~ .*.")
   } else if (!is.null(covariate)) {
     features <- xnames[!grepl(covariate, xnames)]
-    # .formula <- paste(y.name, "~", paste(features, "* covariate", collapse = " + "))
     .formula <- paste(y.name, "~", paste(features, "*", covariate, collapse = " + "))
   } else {
     .formula <- paste(y.name, "~ .")
@@ -101,8 +99,6 @@ s.GLS <- function(x, y = NULL,
   args <- c(list(model = .formula, data = df.train, na.action = na.action),
             list(...))
   mod <- do.call(nlme::gls, args)
-  # mod <- nlme::gls(.formula, data = df.train,
-  #                  na.action = na.action, ...)
   if (trace > 0) print(summary(mod))
 
   # [ FITTED ] ====
