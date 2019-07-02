@@ -14,8 +14,8 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, prompt = FALSE, comment = NA,
-                      fig.width = 5, fig.height = 5)
-options(list(rt.theme = "lightgrid", rt.fit.theme = "lightgrid"))
+                      fig.width = 4, fig.height = 4)
+options(list(rt.theme = "darkgrid", rt.fit.theme = "darkgrid"))
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
