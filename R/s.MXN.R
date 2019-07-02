@@ -164,17 +164,9 @@ s.MXN <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  # if (is.null(eval.metric)) {
-  #   if (type == "Classification") {
-  #     eval.metric <- mxnet::mx.metric.accuracy
-  #   } else {
-  #     eval.metric <- mxnet::mx.metric.rmse
-  #   }
-  # }
 
   # Default n.hidden.nodes
   if (is.null(n.hidden.nodes)) n.hidden.nodes <- NCOL(x)
-  # if (n.hidden.nodes == 0) n.hidden.nodes <- NULL
 
   # Default batch.size
   if (is.null(batch.size)) {
@@ -230,12 +222,7 @@ s.MXN <- function(x, y = NULL,
       }
     } # /if (n.hlayers > 0)
 
-    # if (dropout > 0) {
-    #   net <- mxnet::mx.symbol.Dropout(net, p = dropout, name = "Dropout")
-    # }
-
     ### '- OUTPUT ====
-    # n.outputs <- if (type == "Regression") 1 else length(levels(y0))
     if (is.null(output)) {
       if (type == "Classification") {
         if (n.outputs == 2) {
@@ -345,8 +332,6 @@ s.MXN <- function(x, y = NULL,
   mod <- do.call(mxnet::mx.model.FeedForward.create, net.args)
 
   # If Classification, cannot plot mplot3.conf which uses layout itself
-  # if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat))
-  #   rtlayout(rtlayout.mat[1], rtlayout.mat[2])
 
   if (print.error.plot) {
     if (is.null(y.valid)) {
@@ -376,7 +361,6 @@ s.MXN <- function(x, y = NULL,
     }
   } # / print.error.plot
 
-  # return(list(mod = mod, x.dm = x.dm))
   # [ FITTED ] ====
   if (type == "Regression") {
     fitted <- c(predict(mod, x.dm, array.layout = "rowmajor"))
@@ -461,8 +445,6 @@ s.MXN <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  # if (print.error.plot & print.plot & is.null(outdir) & !is.null(rtlayout.mat)) rtlayout()
-
   if (save.mod) mxnet::mx.model.save(mod, prefix = paste0(outdir, "rt_mxnet"), length(logger$train))
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
@@ -516,8 +498,6 @@ rt.mx.callback.earlyStop <- function(period,
                                                  verbose = verbose.checkpoint)
 
     if (early.stop.check$stop) {
-      # msg0("Early stopping threshold reached (nbatch = ", nbatch, ", period = ", period, ")",
-      #      as.message = TRUE)
       if (verbose) msg0("Early stopping threshold reached.", as.message = TRUE)
       if (verbose) printls(early.stop.check)
       return(FALSE)

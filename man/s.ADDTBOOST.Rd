@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.ADDTBOOST.R
 \name{s.ADDTBOOST}
 \alias{s.ADDTBOOST}
-\title{Boosting of Additive Trees}
+\title{Boosting of Additive Trees [R]}
 \usage{
 s.ADDTBOOST(x, y = NULL, x.test = NULL, y.test = NULL,
   x.valid = NULL, y.valid = NULL, resid = NULL, boost.obj = NULL,

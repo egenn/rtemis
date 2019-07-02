@@ -4,6 +4,8 @@
 # TODO: check if all objective functions must be minimized, or change which.min to variable
 # TODO: weights and ipw do not seem to work, upsample works, check weights passing
 # and add scale_pos_weight
+# TODO: change fittedClass.raw to fitted.prob
+# add which.max / which.min dependent on maximize
 
 #' XGboost Classification and Regression [C, R]
 #'
@@ -160,15 +162,13 @@ s.XGB <- function(x, y = NULL,
   }
   if (is.null(nthread)) nthread <- ifelse(booster == "gblinear", 1, rtCores)
   if (is.null(lambda)) lambda <- ifelse(booster == "gblinear", 0, 1)
-  # if (length(resampler) > 1) resampler <- "strat.boot"
   if (is.null(colsample.bytree)) colsample.bytree <- ifelse(NCOL(x) > 100, .75, 1)
   if (is.null(n.cores)) n.cores <- rtCores
-  # if (is.null(outcome)) outcome <- y.name
   if (is.null(xgb.verbose)) xgb.verbose <- ifelse(verbose, 1, 0)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   parallel.type <- match.arg(parallel.type)
 
   # [ DATA ] ====
@@ -209,8 +209,7 @@ s.XGB <- function(x, y = NULL,
                                    weight = .weights,
                                    missing = missing)
   }
-  # if (!is.null(.weights)) xgboost::setinfo(data, "weight", .weights)
-  # if (verbose) parameterSummary(resampler, n.resamples, booster, base.score)
+
   if (is.null(stratify.var)) stratify.var <- y
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -254,8 +253,6 @@ s.XGB <- function(x, y = NULL,
       s.out.1$params.1 <- params.1
       res.id <- grid.line$res.id
 
-      # msg("/// Running grid line ", index, " of ", NROW(grid), "...", sep = "")
-
       x.train.g <- as.matrix(x.int[res.part[[res.id]], ])
       x.test.g <- as.matrix(x.int[-res.part[[res.id]], ])
       y.train.g <- y.int[res.part[[res.id]]]
@@ -268,7 +265,6 @@ s.XGB <- function(x, y = NULL,
       # xgboost will minimizwe the second element of this list
       # - check by making verbose and running on 1 core
       watchlist <- list(train = data.train.1, test = data.test.1)
-      # watchlist <- if(xgb.verbose > 0) list(test = data.test.1, train = data.train.1) else list()
       if (verbose) cat("\n")
       mod.xgb.1 <- xgboost::xgb.train(params = params.1,
                                       data = data.train.1,
@@ -284,16 +280,10 @@ s.XGB <- function(x, y = NULL,
       if (save.res.mod) s.out.1$mod.xgb.1 <- mod.xgb.1
       s.out.1$best_iteration <- bestInd <- mod.xgb.1$best_iteration
       s.out.1$best_score <- mod.xgb.1$best_score
-      # data.test1 <- xgboost::xgb.DMatrix(data = as.matrix(x.test.g), missing = missing)
-      # pred1 <- predict(mod.xgb.1, data.test1)
-      # pred1 <- predict(mod.xgb.1, xgboost::xgb.DMatrix(data = as.matrix(x.test.g)))
-      # err1 <- mse(pred1, y.test.g)
-      # s.out.1$mse <- err1
 
       # Check error curves
       if (error.curve) {
         if (type == "Regression") {
-          # ntreelimit <- seq(1, nrounds, 10)
           ntreelimit <- 1:(mod.xgb.1$bestInd + early.stopping.rounds)
           fitted.1.series <- sapply(ntreelimit, function(i) {
             predict(mod.xgb.1, data.train.1, ntreelimit = i) })
@@ -569,7 +559,7 @@ s.XGB <- function(x, y = NULL,
 
   # [ RELATIVE INFLUENCE / VARIABLE IMPORTANCE ] ====
   .importance <- NULL
-  # This may take a long while
+  # This may take a while
   if (importance) {
     if (verbose) msg("Estimating variable importance...")
     .importance <- xgboost::xgb.importance(model = mod, feature_names = colnames(x))
@@ -627,6 +617,3 @@ s.XGB <- function(x, y = NULL,
   rt
 
 } # rtemis::s.XGB
-
-# TODO: change fittedClass.raw to fitted.prob
-# add which.max / which.min dependent on maximize

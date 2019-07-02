@@ -116,7 +116,6 @@ s.ADDT <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (type != "Regression") stop("This function currently only supports Regression. Use s.AADDT for Classification")
-  # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(max.depth, lambda, minobsinnode)
   if (print.plot) {
@@ -333,8 +332,6 @@ addTree <- function(node = list(x = NULL,
     # '- If node split ====
     if (!node$partlin$terminal) {
       node$type <- "split"
-      # left.index <- node$partlin$part.index == "L"
-      # right.index <- node$partlin$part.index == "R"
       left.index <- node$partlin$left.index
       right.index <- node$partlin$right.index
       if (trace > 1) msg("Depth:", depth, "left.index:", node$partlin$left.index)
@@ -346,17 +343,7 @@ addTree <- function(node = list(x = NULL,
       if (trace > 1) msg("y.right is", y.right)
       Fval.left <- Fval[left.index] + learning.rate * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
       Fval.right <- Fval[right.index] + learning.rate * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
-      # resid.left <- y[left.index] - Fval.left
-      # resid.right <- y[right.index] - Fval.right
       coef.c.left <- coef.c.right <- coef.c
-      # coef.c.left[[paste0("depth", depth + 1)]] <- list(coef = node$partlin$lin.coef,
-      #                                                   c = node$partlin$part.c.left)
-
-      # Add rpart constant to intercept of linmod
-      # coef.c.left[[paste0("depth", depth + 1)]] <- c(node$partlin$lin.coef[1] + node$partlin$part.c.left,
-      #                                                t(node$partlin$lin.coef[-1]))
-      # coef.c.right[[paste0("depth", depth + 1)]] <- c(node$partlin$lin.coef[1] + node$partlin$part.c.right,
-      #                                                 t(node$partlin$lin.coef[-1]))
 
       # Cumulative sum of coef.c
       coef.c.left <- coef.c.left + c(node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
@@ -364,8 +351,7 @@ addTree <- function(node = list(x = NULL,
       coef.c.right <- coef.c.right + c(node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
                                        node$partlin$lin.coef.right[-1])
       if (trace > 1) msg("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
-      # coef.c.right[[paste0("depth", depth + 1)]] <- list(coef = node$partlin$lin.coef,
-      #                                                    c = node$partlin$part.c.right)
+      
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
         rule.right <- gsub("<", ">=", node$partlin$split.rule)

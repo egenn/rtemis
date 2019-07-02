@@ -53,7 +53,7 @@ s.IRF <- function(x, y = NULL,
                   trace = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-  
+
   # [ INTRO ] ====
   if (missing(x)) {
     print(args(s.IRF))
@@ -67,12 +67,12 @@ s.IRF <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "IRF"
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("iRF", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.IRF))
@@ -83,10 +83,11 @@ s.IRF <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  
+
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed, verbose = verbose)
+                    upsample = upsample, upsample.seed = upsample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -113,7 +114,7 @@ s.IRF <- function(x, y = NULL,
   if (is.null(sampsize)) {
     sampsize <- if (replace) nrow(x) else ceiling(.632*nrow(x))
   }
-  
+
   # [ iRF ] ====
   if (autotune) {
     if (verbose) msg("Tuning for mtry...")
@@ -148,10 +149,9 @@ s.IRF <- function(x, y = NULL,
                      n.bootstrap = n.bootstrap,
                      n.trees = n.trees,
                      mtry = mtry)
-  
+
   # [ FITTED ] ====
   fitted.raw <- lapply(mod$rf.list, function(i) predict(i, x))
-  # fitted <- as.data.frame(fitted.raw$predictions)
   if (type == "Classification") {
     fitted <- factor(apply(do.call(cbind, fitted.raw), 1, function(i) as.integer(mean(i))))
     levels(fitted) <- levels(y)
@@ -160,11 +160,10 @@ s.IRF <- function(x, y = NULL,
   }
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
-  
+
   # [ PREDICTED ] ====
   if (!is.null(x.test)) {
     predicted.raw <- lapply(mod$rf.list, function(i) predict(i, x.test))
-    # predicted <- as.data.frame(predicted.raw$predictions)
     if (type == "Classification") {
       predicted <- factor(apply(do.call(cbind, predicted.raw), 1, function(i) as.integer(mean(i))))
       levels(predicted) <- levels(y)
@@ -180,7 +179,7 @@ s.IRF <- function(x, y = NULL,
   } else {
     predicted.raw <- predicted <- error.test <- NULL
   }
-  
+
   # [ VARIMP ] ====
   if (importance) {
     metric <- if (type == "Classification") "MeanDecreaseAccuracy" else "%IncMSE"
@@ -189,7 +188,7 @@ s.IRF <- function(x, y = NULL,
   } else {
     varimp <- NULL
   }
-  
+
   # [ OUTRO ] ====
   extra <- list(fitted.raw = fitted.raw,
                 predicted.raw = predicted.raw)
@@ -212,7 +211,7 @@ s.IRF <- function(x, y = NULL,
                  varimp = varimp,
                  question = question,
                  extra = extra)
-  
+
   rtMod.out(rt,
             print.plot,
             plot.fitted,
@@ -223,8 +222,8 @@ s.IRF <- function(x, y = NULL,
             save.mod,
             verbose,
             plot.theme)
-  
+
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   return(rt)
-  
+
 } # rtemis::s.IRF

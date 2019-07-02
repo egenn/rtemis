@@ -93,21 +93,6 @@ x.SD2RES = function(x, z,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   xdecom.name <- "SD2RES"
-  # if (nvecs < 2) {
-  #   nvecs <- 2
-  #   warning("nvecs must be at least 2: continuing with nvecs = 2")
-  # }
-
-  # # Default to bootstrap for resampling
-  # if (length(resampler) > 1 & is.null(stratify.var)) resampler = "bootstrap"
-  # if (length(resampler) > 1 & !is.null(stratify.var)) resampler = "strat.boot"
-  # if(resampler != "strat.sub" & resampler != "bootstrap" & resampler != "strat.boot") {
-  #   warning("Resampling method", resampler, "not recognized, defaulting to stratified bootstrap.\n")
-  #   resampler = "strat.boot"
-  # }
-  # # Default to outcome as stratification var
-  # if (is.null(stratify.var)) stratify.var <- y
-  # msg("Resampling using", resampler, "...")
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("ANTsR", verbose = FALSE)) {
@@ -115,11 +100,6 @@ x.SD2RES = function(x, z,
   }
 
   # [ ARGUMENTS ] ====
-  # if (scale.first) {
-  #   inmatrix <- scale(as.matrix(x), center = scale.first.center)
-  # } else {
-  #   inmatrix <- as.matrix(x)
-  # }
   nsamp <- 1
   nvecs <- k
 
@@ -166,15 +146,12 @@ x.SD2RES = function(x, z,
                     stratify.var = stratify.var,
                     train.p = train.p, strat.n.bins = strat.n.bins,
                     target.length = target.length)[[1]]
-    # orig: bootstrap
-    # res <- sample(1:nsubj, size = mysize, replace = doreplace)
-    # mysample <- sample(1:nsubj, size = mysize, replace = doreplace) # orig
 
     mysample <- res
     submat1 <- as.matrix(mat1[mysample, ]) # delta
     submat2 <- as.matrix(mat2[mysample, ]) # delta
     sublist <- list(submat1, submat2)
-    #    print(paste("boot", boots, "sample", mysize)) # delta
+
     # [ sparseDecom2 ] ====
     if (verbose) msg("      Resample #", boots, " of ", n.res)
     myres <- ANTsR::sparseDecom2(inmatrix = sublist,
@@ -204,8 +181,6 @@ x.SD2RES = function(x, z,
           temp1 <- abs(cca1out[, j])
           temp2 <- abs(cca1[, k])
           mymult[j, k] <- .cosineDist(temp1, temp2)
-          # sum( abs( temp1/sum(temp1) - temp2/sum(temp2) ) ) mymult[j,k]<-( -1.0 * cor(
-          # temp1, temp2 ) )
         }
       }
       for (ct in 1:(ncol(cca1))) {
@@ -223,8 +198,6 @@ x.SD2RES = function(x, z,
           temp1 <- abs(cca2out[, j])
           temp2 <- abs(cca2[, k])
           mymult[j, k] <- .cosineDist(temp1, temp2)
-          # mymult[j,k]<-sum( abs( temp1/sum(temp1) - temp2/sum(temp2) ) ) mymult[j,k]<-(
-          # -1.0 * cor( temp1, temp2 ) )
         }
       }
       for (ct in 1:(ncol(cca2))) {
@@ -241,12 +214,8 @@ x.SD2RES = function(x, z,
     allmat1[,  bootInds ] <- (cca1)
     allmat2[,  bootInds ] <- (cca2)
     for (nv in 1:nvecs) {
-      # if (sparseness[1] > 0)
       bootccalist1[[nv]][boots, ] <- (cca1[, nv])
-      # else bootccalist1[[nv]][boots, ] <- (cca1[, nv])
-      # if (sparseness[2] > 0)
       bootccalist2[[nv]][boots, ] <- (cca2[, nv])
-      # else bootccalist2[[nv]][boots, ] <- (cca2[, nv])
     }
   }
 
@@ -257,10 +226,6 @@ x.SD2RES = function(x, z,
         .eanatsparsify(abs(cca1out[, k]), sparseness[1])
       cca2out[, k] <-
         .eanatsparsify(abs(cca2out[, k]), sparseness[2])
-      #    zz = abs( cca1out[,k] ) < 0.2
-      #    cca1out[zz,k] = 0
-      #    zz = abs( cca2out[,k] ) < 0.2
-      #    cca2out[zz,k] = 0
     }
   init1 <- ANTsR::initializeEigenanatomy( t( cca1out ), inmask[[1]] )
   init2 <- ANTsR::initializeEigenanatomy( t( cca2out ), inmask[[2]] )

@@ -12,18 +12,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(warning = FALSE, prompt = FALSE, comment = NA,
                       fig.width = 5, fig.height = 5)
-options(list(rt.theme = "lightgrid", rt.fit.theme = "lightgrid"))
+options(list(rt.theme = "darkgrid", rt.fit.theme = "darkgrid"))
 ```
 
-```{r, comment="", results="asis", echo=FALSE}
+```{r, comment = "", results = "asis", echo = FALSE}
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-# Welcome to rtemis
+# Welcome to __rtemis__
 __rtemis__ is a platform for advanced machine learning and visualization.  
 To view the full online documentation and vignettes, visit the [rtemis website](https://rtemis.netlify.com)
 
@@ -56,14 +56,14 @@ __rtemis__ functions are divided into the following groups:
 # Setup
 
 ## Install the latest __rtemis__ version from GitHub
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 install.packages("remotes")
 remotes::install_github("egenn/rtemis")
 ```
 
 This will install __rtemis__ with a minimal set of dependencies. A dependency check is run each time a function is called and will tell you if a package is missing. Install the following packages to begin with a reasonable lightweight setup:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 packages <- c("caret", "e1071", "gbm", "glmnet", "pbapply", "ranger", "rpart")
 install.packages(packages)
 ```
@@ -85,7 +85,7 @@ __R__ `lib` folder as explained [here](https://support.rstudio.com/hc/en-us/comm
 ### Using Apple's BLAS
 You can speed up matrix operations by using Apple's [Basic Linear Algebra Subprograms (BLAS)](https://developer.apple.com/documentation/accelerate/blas) instead of the default R BLAS.
 At the MacOS terminal:
-```{bash eval=FALSE}
+```{bash eval = FALSE}
 cd /Library/Frameworks/R.framework/Resources/lib
 ln -sf /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
 ```
@@ -123,6 +123,8 @@ install_keras()
 ```
 Learn more on the [RStudio website](https://keras.rstudio.com/)
 
+
+## Load the library
 ```{r}
 library(rtemis)
 ```
@@ -135,7 +137,7 @@ Visualization is a vital part of all data analysis. __rtemis__ has support for b
 Static plotting in __rtemis__ is handled by the `mplot3` family. `mplot3` uses base R graphics to render high quality output fast.  
 Selection of available functions:
 
-```{r echo = FALSE, results = 'asis'}
+```{r echo = FALSE, results = "asis"}
 viz <- data.frame(Command = c("mplot3.x", "mplot3.xy",
                               "mplot3.xym", "mplot3.fit",
                               "mplot3.img", "mplot3.heatmap",
@@ -152,8 +154,12 @@ viz <- data.frame(Command = c("mplot3.x", "mplot3.xy",
                              "Heatmaps with optional row and column dendrogram and colorbar",
                              "Barplots",
                              "Boxplots"))
+# datatable(viz, style = 'bootstrap')
 knitr::kable(viz)
-# xtable::xtable(viz)
+# viz.xt <- xtable::xtable(viz)
+# print(viz.xt, type = "html")
+# print(viz)
+# pander::pandoc.table(viz)
 ```
 
 

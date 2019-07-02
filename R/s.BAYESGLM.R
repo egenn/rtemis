@@ -109,10 +109,6 @@ s.BAYESGLM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  # if (verbose) parameterSummary(n.trees, mtry, pad = 4)
-  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -213,7 +209,6 @@ s.BAYESGLM <- function(x, y = NULL,
   }
 
   # [ OUTRO ] ====
-  # extra <- list(gridSearch = gs)
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

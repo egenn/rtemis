@@ -138,10 +138,6 @@ s.GBM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  # if (plot.res) {
-  #   plot.res.outdir <- paste0(outdir, "/plotRes/")
-  #   if (!dir.exists(plot.res.outdir)) dir.create(plot.res.outdir)
-  # }
   if (n.trees > max.trees) {
     if (verbose) msg("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
     n.trees <- max.trees
@@ -197,15 +193,6 @@ s.GBM <- function(x, y = NULL,
     .y <- as.integer(.y) - 1
     .y.test <- as.integer(.y.test) - 1
   }
-
-  # limit max interaction.depth to NCOL(x)
-  # keep.id <- interaction.depth <= NCOL(.x)
-  # if (any((!keep.id))) {
-  #   if (verbose) msg("Limiting interaction.depth to values <= ncol(x) = ", ncol(.x))
-  #   interaction.depth <- interaction.depth[keep.id]
-  #   if (verbose) msg("Using interaction.depth =", interaction.depth)
-  # }
-  # if (length(interaction.depth) == 0) interaction.depth <- 1
 
   if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline = TRUE)
 
@@ -525,10 +512,6 @@ gbm.select.trees <- function(object,
                              verbose = FALSE) {
   n.trees <- object$n.trees
 
-  # if (smooth) {
-    # dat <- data.frame(n.trees = seq(n.trees), valid.error = object$valid.error)
-    # dat <- complete.cases(dat)
-  # }
   valid.error.smooth <- if (smooth) {
     valid.error.smooth <- supsmu(seq(n.trees), object$valid.error)$y
   } else {

@@ -1,6 +1,7 @@
  # s.KNN.R
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
+# TODO: Consider replacing knn fn
 
 #' k-Nearest Neighbors Classification and Regression [C, R]
 #'
@@ -72,7 +73,7 @@ s.KNN <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
@@ -97,7 +98,7 @@ s.KNN <- function(x, y = NULL,
   }
 
   # [ FITTED / PREDICTED ] ====
-  # rtTODO write & incorporate predict.knn
+  # TODO: write & incorporate predict.knn / replace KNN fn
   if (type == "Classification") {
     if (is.null(x.test)) {
       fitted <- factor(mod)

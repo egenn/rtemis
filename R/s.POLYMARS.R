@@ -71,8 +71,7 @@ s.POLYMARS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
-  # if (is.null(weights)) weights <- rep(1, length(y))
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   bag <- if (is.null(bag.resample.rtset)) FALSE else bag.resample.rtset$n.resamples > 0
 
   # [ DATA ] ====

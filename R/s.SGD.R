@@ -96,10 +96,6 @@ s.SGD <- function(x, y = NULL,
     # defaults from logistic example
     if (is.null(sgd.control$reltol)) sgd.control$reltol <- 1e-5
     if (is.null(sgd.control$npasses)) sgd.control$npasses <- 200
-    # if (is.null(sgd.control$lr.control)) sgd.control$lr.control <- c(scale = 1,
-    #                                                                  gamma = 1,
-    #                                                                  alpha = 30,
-    #                                                                  c = 1)
   } else if (type == "Regression") {
     if (is.null(model)) model <- "glm"
     if (is.null(model.control$family)) {

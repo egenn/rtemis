@@ -83,7 +83,7 @@ mplot.hsv <- function(h.steps = seq(0, 1, .0125),
                          show.grid.labels = 1,
                          show.radial.grid = F,
                          radial.labels = "",
-                         boxed.radial = F)
+                         boxed.radial = FALSE)
     mtext(paste0("HSV color (V = ", v, ")"), font = 2, col  = lab.col)
   }
 

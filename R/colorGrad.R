@@ -173,7 +173,7 @@ colorGrad <- function(n = 21,
   if (preview) {
     plot(rep(1, n), col = grad, pch = 19, cex = 6,
          xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-         ann = F, axes = F)
+         ann = F, axes = FALSE)
     text(x = 0.25, y = 1.05, labels = paste0("Color gradient (n = ", n, ")"), adj = 0, cex = 1.5)
     segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
   }
@@ -203,7 +203,7 @@ colorGrad <- function(n = 21,
     if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
     plot(rep(1, cb.n), 1:cb.n, col = cb.grad, pch = 19, cex = cb.cex,
          xlim = c(.5, 1.5), ylim = c(.5, cb.n + .5),
-         ann = F, axes = F)
+         ann = F, axes = FALSE)
     # box() # to visualize position
     # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
     axis(side = 4, at = c(1, cb.midpoint, cb.n), labels = c(bar.min, bar.mid, bar.max),
@@ -236,7 +236,7 @@ colorGrad <- function(n = 21,
                  zeroline = F,
                  showline = F,
                  showticklabels = F,
-                 showgrid = F)
+                 showgrid = FALSE)
 
     t <- list(family = "Open Sans",
               size = 22,
@@ -250,7 +250,7 @@ colorGrad <- function(n = 21,
         text = as.character(c(bar.min, bar.mid, bar.max))[i],
         xref = "x",
         yref = "y",
-        showarrow = F)
+        showarrow = FALSE)
     }
 
     hovtext <- ddSci(seq(bar.min, bar.max, (bar.max - bar.min) / (n - 1)))
@@ -269,7 +269,7 @@ colorGrad <- function(n = 21,
              annotations = a,
              font = t,
              margin = margin) %>%
-      plotly::config(displayModeBar = F)
+      plotly::config(displayModeBar = FALSE)
     if (plotlycb & !rtrn.plotly) print(p)
   }
 

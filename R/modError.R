@@ -115,7 +115,7 @@ modError <- function(true,
       s.out$tau.p <- cor.test(x, y, method = "kendall")$p.value
     }
 
-    if (verbose) print(s.out, row.names = F)
+    if (verbose) print(s.out, row.names = FALSE)
     class(s.out) <- c("regError", "data.frame")
 
   } else if (type == "Classification")  {

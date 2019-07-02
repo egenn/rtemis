@@ -86,7 +86,6 @@ s.NLA <- function(x, y = NULL,
   type <- dt$type
   checkType(type, "Regression", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  # df <- data.frame(x, y = y)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE

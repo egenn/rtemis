@@ -64,7 +64,7 @@ penn.heat <- function(n = 11, space = "Lab",
   if (demo) {
     plot(rep(1, n), col = grad, pch = 19, cex = 6,
          xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-         ann = F, axes = F)
+         ann = F, axes = FALSE)
     text(x = 0.25, y = 1.05, labels = paste0("Penn heat colors (n = ", n, ")"), adj = 0, cex = 1.5)
     segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
   }
@@ -76,7 +76,7 @@ penn.heat <- function(n = 11, space = "Lab",
     if (!is.null(filename)) grDevices::pdf(filename, width = 3, height = 9)
     plot(rep(1, n), 1:n, col = grad, pch = 19, cex = 6,
          xlim = c(0.5, 1.5), ylim = c(.5, n + .5),
-         ann = F, axes = F)
+         ann = F, axes = FALSE)
     # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
     axis(side = 4, at = c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max),
          col = colorAdjust("black", 0), col.axis = col.text, col.ticks = colorAdjust("black", 0),

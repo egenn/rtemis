@@ -105,7 +105,6 @@ s.ADDTREE <- function(x, y = NULL,
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  # prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
@@ -131,8 +130,6 @@ s.ADDTREE <- function(x, y = NULL,
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  # if (verbose) parameterSummary()
-  # df.train <- data.frame(y = y, x)
   if (dt$type != "Classification") stop("Only binary classification is currently supported")
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -213,10 +210,6 @@ s.ADDTREE <- function(x, y = NULL,
   }
 
   # [ OUTRO ] ====
-  # rpart <- NULL
-  # frame <- try(preorder.addtree(mod))
-  # rpart <- list(frame = frame,
-  #               method = "user")
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,

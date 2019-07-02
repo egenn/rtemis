@@ -13,7 +13,7 @@
 save.rds <- function(object, outdir, verbose = TRUE) {
 
   if (verbose) cat("Writing data to", outdir, "...")
-  if (!dir.exists(outdir)) dir.create(outdir, recursive = T, showWarnings = F)
+  if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
   rdsPath <- paste0(outdir, "s.", object$mod.name, ".rds")
 
   saveRDS(object, rdsPath)

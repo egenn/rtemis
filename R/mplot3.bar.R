@@ -79,7 +79,7 @@ mplot3.bar <- function(x,
                        tck = -.015,
                        tick.col = NULL,
                        theme = getOption("rt.theme", "light"),
-                       palette = getOption("rt.palette", "rtCol"),
+                       palette = getOption("rt.palette", "rtCol1"),
                        axes.col = NULL,
                        labs.col = NULL,
                        grid = FALSE,
@@ -117,27 +117,11 @@ mplot3.bar <- function(x,
     space <- if (min(size(x)) > 2) c(.1, .5) else .2
   }
 
-  # Group names
-  # if (is.null(group.names)) {
-  #   if (!is.null(colnames(x))) group.names <- colnames(x)
-  # }
-
-  # if (!is.null(group.names)) {
-  #   if (is.null(group.names.at)) {
-  #     if (beside) {
-  #       group.names.at <- seq(1 + NROW(x)/2, NCOL(x) + NROW(x) * NCOL(x), NROW(x) + 1)
-  #     } else {
-  #       group.names.at <- seq(NCOL(x))
-  #     }
-  #   }
-  # }
-
   # Legend names
   if (is.null(legend.names)) {
     if (!is.null(rownames(x))) legend.names <- rownames(x)
   }
 
-  # .grouped <- !is.null(dim(x)) #wip add element labels at 45 degress if grouped
   cols <- colorAdjust(col, alpha = alpha)
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -156,7 +140,6 @@ mplot3.bar <- function(x,
 
   # [ DATA ] ====
   x <- as.matrix(x)
-  # beside <- if (NROW(x) == 1) FALSE else TRUE
   beside <- TRUE
   if (!is.null(dim(x))) {
     if (NROW(x) == 1) {
@@ -173,7 +156,6 @@ mplot3.bar <- function(x,
 
   if (theme == "lightgrid" | theme == "darkgrid") {
     if (is.null(grid.lty)) grid.lty <- 1
-    # if (is.null(zero.lty)) zero.lty <- 1
     if (is.null(grid.lwd)) grid.lwd <- 1.5
   }
   if (theme == "lightgrid") {
@@ -198,81 +180,42 @@ mplot3.bar <- function(x,
 
   if (theme == "light") {
     if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # }
-    # box.col <- "white"
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
     if (is.null(labs.col)) labs.col <- "gray10"
     if (is.null(main.col)) main.col <- "black"
     if (is.null(grid.col)) grid.col <- "black"
-    # if (is.null(diagonal.col)) diagonal.col <- "black"
-    # if (is.null(hline.col)) hline.col <- "black"
-    # gen.col <- "black"
   } else if (theme == "dark") {
     if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # }
-    # box.col <- "black"
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
     if (is.null(labs.col)) labs.col <- "gray90"
     if (is.null(main.col)) main.col <- "white"
     if (is.null(grid.col)) grid.col <- "white"
-    # if (is.null(diagonal.col)) diagonal.col <- "white"
-    # if (is.null(hline.col)) hline.col <- "white"
     gen.col <- "white"
   } else if (theme == "box") {
     if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # }
-    # if (is.null(box.col)) box.col <- "gray10"
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
     if (is.null(labs.col)) labs.col <- "gray10"
     if (is.null(main.col)) main.col <- "black"
     if (is.null(grid.col)) grid.col <- "black"
-    # if (is.null(diagonal.col)) diagonal.col <- "black"
-    # if (is.null(hline.col)) hline.col <- "black"
     gen.col <- "black"
   } else if (theme == "darkbox") {
     if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # }
-    # if (is.null(box.col)) box.col <- "gray90"
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
     if (is.null(labs.col)) labs.col <- "gray90"
     if (is.null(main.col)) main.col <- "white"
     if (is.null(grid.col)) grid.col <- "white"
-    # if (is.null(diagonal.col)) diagonal.col <- "white"
-    # if (is.null(hline.col)) hline.col <- "white"
     gen.col <- "white"
   }
 
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = bg, pty = pty, cex = cex, xpd = TRUE)
+
   # [ XLIM & YLIM ] ====
-  # if (beside) {
-  #   # if (is.null(xlim)) xlim <- c(0, length(x) + NCOL(x) + 1)
-  #   if (is.null(xlim)) xlim <- c(0, (length(x) * width * sum(space)) * 1.02)
-  #   # if (is.null(ylim)) ylim <- range(c(0, x + 1)) # works for non-negative data only
-  # } else {
-  #   if (is.null(xlim)) {
-  #     xlim <- c(0, NCOL(x) + 1.8)
-  #   }
-  #   # if (is.null(ylim)) ylim <- range(c(0, x + 1)) # works for non-negative data only
-  #   # if (is.null(ylim)) ylim <- range(c(0, apply(x, 2, sum)))
-  # }
   xlim <- range(barplot(x, beside = beside, width = width, space = space, plot = FALSE))
   xlim[1] <- xlim[1] - .5 - max(space)
   xlim[2] <- xlim[2] + .5 + max(space)
@@ -292,7 +235,6 @@ mplot3.bar <- function(x,
 
   # [ PLOT BG ] ====
   if (!is.null(plot.bg)) {
-    # bg.ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = plot.bg)
   }
@@ -325,8 +267,6 @@ mplot3.bar <- function(x,
 
   # [ MAIN ] ====
   if (!is.null(main)) {
-    # suppressWarnings(mtext(bquote(paste(bold(.(main)))), line = main.line,
-    #                        adj = main.adj, cex = cex, col = main.col))
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
   }
@@ -335,8 +275,6 @@ mplot3.bar <- function(x,
   if (is.null(group.names) & !is.null(colnames(x)))
     group.names <- colnames(x)
   if (!is.null(group.names)) {
-    # mtext(group.names, side = 1, line = group.names.line, at = barCenters,
-    #       font = group.names.font, cex = cex)
     if (is.null(group.names.at)) group.names.at <- colMeans(barCenters)
     text(x = group.names.at,
          y = min(ylim) - diff(ylim) * group.names.y.pad,
@@ -346,15 +284,6 @@ mplot3.bar <- function(x,
          font = group.names.font, cex = group.names.cex,
          col = labs.col)
   }
-
-  # # [ ROWNAMES for 1 column ] ====
-  # if (ncol(x) == 1) {
-  #   if (!is.null(rownames(x))) {
-  #     text(x = 1:nrow(x) + .8, y = -diff(ylim) * .033, labels = rownames(x), srt = 45, xpd = NA, pos = 2)
-  #     # axis(side = 1, 1:nrow(x), at = 1:nrow(x) + .5, labels = rownames(x),
-  #     #      tick = FALSE, hadj = 0, las = 3)
-  #   }
-  # }
 
   # [ LEGEND ] ====
   if (legend) {

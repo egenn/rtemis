@@ -200,7 +200,6 @@ s.GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda)
 
   # [ GLMNET ] ====
-  # reverseLevels of
   if (.gs & cv.lambda) {
     mod <- glmnet::cv.glmnet(x,
                              if (family == "binomial") reverseLevels(y) else y,
@@ -225,7 +224,6 @@ s.GLMNET <- function(x, y = NULL,
   }
 
   # [ FITTED ] ====
-  # return(list(mod = mod, x = x, type = type, y = y))
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL

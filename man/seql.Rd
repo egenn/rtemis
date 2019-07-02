@@ -7,9 +7,9 @@
 seql(x, target)
 }
 \arguments{
-\item{x}{R object with \code{length}}
+\item{x}{R object of some \code{length}}
 
-\item{target}{R object with \code{length}}
+\item{target}{R object of some \code{length}}
 }
 \description{
 Sequence generation with automatic cycling
@@ -22,7 +22,7 @@ color[seql(color, target)]
 color <- c("red", "green", "blue", "yellow", "orange")
 target <- 1:3
 color[seql(color, target)]
-# "red"   "green" "blue" 
+# "red"   "green" "blue"
 }
 \author{
 Efstathios D Gennatas

@@ -5,19 +5,19 @@
 \title{\code{mplot3} Heatmap (\code{image}; modified \code{heatmap})}
 \usage{
 mplot3.heatmap(x, colorGrad.n = 101, colorGrad.col = NULL,
-  lo = "#18A3AC", lomid = NULL, mid = "white", midhi = NULL,
-  hi = "#F48024", space = "rgb", colorbar = TRUE, cb.n = 21,
-  cb.title = NULL, cb.cex = 1, cb.title.cex = 1, cb.add.mar = NULL,
-  Rowv = NA, Colv = if (symm) Rowv else NA, distfun = dist,
-  hclustfun = hclust, reorderfun = function(d, w) reorder(d, w),
-  add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
-  scale = "none", na.rm = TRUE, margins = c(5, 5), ColSideColors,
-  RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 +
-  1/log10(nc), labRow = NULL, labCol = NULL, labCol.las = NULL,
-  main = "", main.adj = 0, main.line = NA, xlab = NULL,
-  ylab = NULL, xlab.line = NULL, ylab.line = NULL, bg = "white",
-  col.axis = "black", keep.dendro = FALSE,
-  verbose = getOption("verbose"), zlim = NULL, autorange = TRUE,
+  lo = "#18A3AC", lomid = NULL, mid = NULL, midhi = NULL,
+  hi = "#F48024", space = "rgb", theme = getOption("rt.theme",
+  "light"), colorbar = TRUE, cb.n = 21, cb.title = NULL,
+  cb.cex = 1, cb.title.cex = 1, cb.add.mar = NULL, Rowv = NA,
+  Colv = if (symm) Rowv else NA, distfun = dist, hclustfun = hclust,
+  reorderfun = function(d, w) reorder(d, w), add.expr, symm = FALSE,
+  revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE,
+  margins = NULL, ColSideColors, RowSideColors, cexRow = 0.2 +
+  1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL,
+  labCol = NULL, labCol.las = NULL, main = "", main.adj = 0,
+  main.line = NA, xlab = NULL, ylab = NULL, xlab.line = NULL,
+  ylab.line = NULL, bg = NULL, col.axis = NULL,
+  keep.dendro = FALSE, trace = 0, zlim = NULL, autorange = TRUE,
   filename = NULL, par.reset = TRUE, pdf.width = 7, pdf.height = 7,
   ...)
 }

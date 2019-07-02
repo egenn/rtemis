@@ -67,7 +67,7 @@ gp <- function(x, y,
            xlim = xlim, ylim = ylim,
            mar = c(3, 3, 3, 4),
            cex = cex,
-           par.reset = F)
+           par.reset = FALSE)
     col <- c(pennCol$orange, pennCol$blue, pennCol$red, pennCol$red)
     lty <- list(mean = 2, q95 = 3, q05 = 3)
     for (i in 1:length(xl)) {

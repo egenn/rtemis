@@ -75,7 +75,6 @@ s.H2ODL <- function(x, y = NULL,
                     distribution = "AUTO",
                     stopping.rounds = 5,
                     stopping.metric = "AUTO",
-                    # grid.resample.rtset = rtset.grid.resample(),
                     upsample = FALSE,
                     upsample.seed = NULL,
                     na.action = na.fail,
@@ -123,9 +122,7 @@ s.H2ODL <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
-  # if (is.null(weights)) weights <- rep(1, length(y))
-  # bag <- if (is.null(bag.resample.rtset)) FALSE else bag.resample.rtset$n.resamples > 0
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, upsample.seed = upsample.seed,

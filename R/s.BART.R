@@ -67,7 +67,7 @@ s.BART <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
@@ -118,10 +118,7 @@ s.BART <- function(x, y = NULL,
   # [ FITTED ] ====
   if (type == "Classification") {
     fitted.prob <- predict(mod, x, type = "prob")
-    # fitted <- factor(round(fitted.prob) + 1)
-    # levels(fitted) <- levels(y)
     fitted <- factor(levels(y)[round(fitted.prob) + 1], levels = levels(y))
-    # fitted <- predict(mod, x, type = "class")
   } else {
     fitted.prob <- NULL
     fitted <- as.numeric(predict(mod, x))
