@@ -65,6 +65,9 @@ Trains a GAM using \code{mgcv::gam} and validates it.
 Input will be used to create a formula of the form:
 \deqn{y = s(x_{1}, k = gam.k) + s(x_{2}, k = gam.k) + ... + s(x_{n}, k = gam.k)}
 }
+\details{
+\link{s.GAM.default} is the preferred way to train GAMs
+}
 \seealso{
 \link{elevate} for external cross-validation
 

@@ -379,7 +379,7 @@ print.boost <- function(x, ...) {
   n.iter <- length(x$mods)
   cat("\n  A boosted", mod.name, "model with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
-  # printls(x$mod[[1]]$parameters) # must teach printls to handle functions
+  # printls(x$mod[[1]]$parameters) # check printls can handle functions
 
 } # rtemis::print.boost
 
