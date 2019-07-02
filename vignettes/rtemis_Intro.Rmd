@@ -276,8 +276,8 @@ w <- rnorm(50)
 y <- x %*% w + rnorm(500)
 dat <- data.frame(x, y)
 res <- resample(dat)
-dat.train <- dat[res$Resample01, ]
-dat.test <- dat[-res$Resample01, ]
+dat.train <- dat[res$Subsample_1, ]
+dat.test <- dat[-res$Subsample_1, ]
 ```
 
 ```{r}
@@ -312,8 +312,8 @@ mod$plot()
 data(Sonar, package = 'mlbench')
 checkData(Sonar)
 res <- resample(Sonar)
-sonar.train <- Sonar[res$Resample01, ]
-sonar.test <- Sonar[-res$Resample01, ]
+sonar.train <- Sonar[res$Subsample_1, ]
+sonar.test <- Sonar[-res$Subsample_1, ]
 ```
 
 ### Single model
