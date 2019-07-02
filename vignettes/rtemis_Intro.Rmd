@@ -1,6 +1,6 @@
 ---
 title: "rtemis Intro Vignette"
-author: "Efstathios D. Gennatas"
+author: "Efstathios (Stathis) D. Gennatas"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 monofont: Hack
@@ -135,7 +135,7 @@ Visualization is a vital part of all data analysis. __rtemis__ has support for b
 Static plotting in __rtemis__ is handled by the `mplot3` family. `mplot3` uses base R graphics to render high quality output fast.  
 Selection of available functions:
 
-```{r echo=FALSE}
+```{r echo = FALSE, results = 'asis'}
 viz <- data.frame(Command = c("mplot3.x", "mplot3.xy",
                               "mplot3.xym", "mplot3.fit",
                               "mplot3.img", "mplot3.heatmap",
@@ -153,21 +153,8 @@ viz <- data.frame(Command = c("mplot3.x", "mplot3.xy",
                              "Barplots",
                              "Boxplots"))
 knitr::kable(viz)
+# xtable::xtable(viz)
 ```
-
-
-<!-- Command           | Input                    | Plots -->
-<!-- ----------------- | ------------------------ | ------------------------------------------------------------ -->
-<!-- `mplot3.x`        | Vector(s) `x`            | Index, histogram, density, and QQ-line plots -->
-<!-- `mplot3.xy`       | Vectors `x` and `y`      | Scatter and/or line plots with optional fit line -->
-<!-- `mplot3.fit`      | Vectors `x` and `y`      | `mplot3.xy` wrapper for true vs. estimated values -->
-<!-- `mplot3.xym`      | Vectors `x` and `y`      | `mplot3.xy` scatter with marginal histogram and/or density plots -->
-<!-- `mplot3.img`      | Matrix `x`               | 2D false color plots -->
-<!-- `mplot3.heatmap`  | Matrix `x`               | Heatmaps with optional row and column dendrogram and colorbar -->
-<!-- `mplot3.bar`      | Vector or matrix `x`     | Barplots -->
-<!-- `mplot3.box`      | Matrix `x`               | Boxplots -->
-
-
 
 
 ### `mplot3.x`
