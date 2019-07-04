@@ -50,7 +50,14 @@ data.frame / table}
 
 \item{col.text.out}{Color for metrics cells' text}
 
+\item{col.bg.out1}{Color for metrics cells' background (row1)}
+
+\item{col.bg.out2}{Color for metrics cells' background (row2)}
+
 \item{theme}{String: "light", or "dark"}
+
+\item{mid.col}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
+"black" for "dark"}
 
 \item{hi.color.pos}{Color: The hi color for correct classification.}
 
@@ -65,13 +72,6 @@ data.frame / table}
 \item{filename}{String: If specified, save plot to this path. Default = NULL}
 
 \item{...}{Not used}
-
-\item{mar}{Numeric, vector, length 4: Overall margins}
-
-\item{col.bg.out}{Color for metrics cells' background}
-
-\item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
-"black" for "dark"}
 }
 \value{
 List of metrics, invisibly

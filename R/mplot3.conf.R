@@ -13,7 +13,6 @@
 #' @param ylab String: y-axis label
 #' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
-#' @param mar Numeric, vector, length 4: Overall margins
 #' @param dim.lab Float: Height for labels
 #' @param dim.in Float: Width and height for confusion matrix cells
 #' @param dim.out Float: Height for metrics cells
@@ -24,9 +23,10 @@
 #' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells
 #' @param cex.out Float: The \code{cex} parameter for metrics cells
 #' @param col.text.out Color for metrics cells' text
-#' @param col.bg.out Color for metrics cells' background
+#' @param col.bg.out1 Color for metrics cells' background (row1)
+#' @param col.bg.out2 Color for metrics cells' background (row2)
 #' @param theme String: "light", or "dark"
-#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
+#' @param mid.col Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 #' "black" for "dark"
 #' @param hi.color.pos Color: The hi color for correct classification.
 #' @param hi.color.neg Color: The hi color for missclassification
