@@ -15,7 +15,7 @@
 #' @export
 
 getMode <- function(x, na.rm = TRUE) {
-  
+
   if (na.rm) x <- x[!is.na(x)]
   freq <- as.data.frame(table(x))
   if (is.factor(x)) {
@@ -25,7 +25,7 @@ getMode <- function(x, na.rm = TRUE) {
     # output integer
     as.integer(as.character(freq$x[which.max(freq$Freq)]))
   }
-  
+
 } # rtemis::getMode
 
 
@@ -38,75 +38,75 @@ getMode <- function(x, na.rm = TRUE) {
 #' @export
 
 anyConstant <- function(x) {
-  
+
   # var0 <- which(apply(x, 2, var) == 0)
   # if (length(var0) > 0) TRUE else FALSE
   constant.index <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
   if (length(constant.index) > 0) TRUE else FALSE
-  
+
 } # rtemis::anyConstant
 
 
 #' Check if vector is constant
-#' 
+#'
 #' @param x Vector: Input
 #' @author Efstathios D. Gennatas
 #' @export
 
 # is.constant <- function(x) {
-#   
+#
 #   all(duplicated(x)[-1])
-#   
+#
 # } # rtemis::is.constant
 
 is.constant <- function(x) {
-  
+
   all(duplicated(x)[-1L])
-  
+
 } # rtemis::is.constant
 
 
 #' Check if variable is discrete (factor or integer)
-#' 
+#'
 #' @param x Input
 #' @author Efstathios D. Gennatas
 #' @export
 
 is.discrete <- function(x) {
-  
+
   is.factor(x) || is.integer(x) || is.logical(x) || is.character(x)
-  
+
 } # rtemis::is.discrete
 
 
 #' Logit transform
-#' 
+#'
 #' @param x Float [0, 1] Input
 #' @export
 
 logit <- function(x) {
-  
+
   log(x / (1 - x))
-  
+
 } # rtemis::logit
 
 
 #' Inverse Logit
-#' 
+#'
 #' @param x Float: Input data
 #' @return The inverse logit of the input
 #' @author Efstathios D. Gennatas
 #' @export
 
 invlogit <- function(x) {
-  
+
   exp(x)/(1 + exp(x))
-  
+
 } # rtemis::invlogit
 
 
 #' Logistic function
-#' 
+#'
 #' @param x Float: Input
 #' @param x0 x-value of the midpoint. Default = 0
 #' @param L maximum value. Default = 1
@@ -114,38 +114,38 @@ invlogit <- function(x) {
 #' @export
 
 logistic <- function(x, x0 = 0, L = 1, k = 1) {
-  
+
   L / (1 + exp(-k*(x - x0)))
-  
+
 } # rtemis::logistic
 
 
 #' ReLU - Rectified Linear Unit
-#' 
+#'
 #' @param x Numeric: Input
 #' @export
 relu <- function(x) {
   unlist(Map(function(i) max(0, i), x))
-  
+
 } # rtemis::relu
 
 
 #' Softplus function
-#' 
-#' Softplus function: 
+#'
+#' Softplus function:
 #' \deqn{log(1 + e^x)}
 #' @param x Vector, Float: Input
 #' @export
 
 softplus <- function(x) {
-  
+
   log(1 + exp(x))
-  
+
 } # rtemis::softplus
 
 
 #' Sigmoid function
-#' 
+#'
 #' @param x Vector, float: Input
 #' @export
 
@@ -153,7 +153,7 @@ sigmoid <- function(x) 1/(1 + exp(-x))
 
 
 #' Softmax function
-#' 
+#'
 #' @param x Vector, Float: Input
 #' @export
 
@@ -162,37 +162,37 @@ softmax <- function(x) {
     y <- max(x)
     y + log(sum(exp(x - y)))
   }
-  
+
   exp(x - logsumexp(x))
 } # rtemis::softmax
 
 
 #' Square
-#' 
+#'
 #' @param x Vector, Float: Input
 #' @export
 
 square <- function(x) {
-  
+
   x^2
-  
+
 } # rtemis::square
 
 
 #' Cube
-#' 
+#'
 #' @param x Vector, Float: Input
 #' @export
 
 cube <- function(x) {
-  
+
   x^3
-  
+
 } # rtemis::cube
 
 
 #' Collapse data.frame to vector by getting column max
-#' 
+#'
 #' @param x Matrix or Data frame input
 #' @param na.rm Logical: passed to \code{max}, If TRUE, ignore NA values,
 #' otherwise if NA is present in any column, NA will be returned. Default = TRUE
@@ -200,48 +200,50 @@ cube <- function(x) {
 #' @export
 
 colMax <- function(x, na.rm = TRUE) {
-  
+
   apply(x, 2, function(i) max(i, na.rm = na.rm))
-  
+
 } # rtemis::colMax
 
 
 #' Collapse data.frame to vector by getting row max
-#' 
+#'
+#' @param x Input vector
+#' @param na.rm Logical. If TRUE, missing values are not considered. Default = TRUE
 #' @author Efstathios D. Gennatas
 #' @export
-#' 
+#'
 rowMax <- function(x, na.rm = TRUE) {
-  
+
   apply(x, 1, function(i) max(i, na.rm = na.rm))
-  
+
 } # rtrmis::rowMax
 
 
 #' Combine rules
-#' 
+#'
 #' @param ... String: Rules
 #' @author Efstathios D. Gennatas
 #' @export
-#' 
+#'
 
 crules <- function(...) {
-  
+
   rules <- c(...)
   paste0(rules, collapse = " & ")
-  
+
 } # rtemis::crules
 
 
 #' Say No to \code{NULL}
 #'
-#' Returns the input, unless it is NULL, in which case it returns an empty vector / list, etc 
+#' Returns the input, unless it is NULL, in which case it returns an empty vector / list, etc
 #' of defined type
 #'
 #' This can be useful when creating S4, RC, or R6 objects
 #'
 #' @param x Input of any type, may be NULL
-#' @param defType If \code{x} is NULL, return empty vector of this type. Options: list, numeric, 
+#' @param defType If \code{x} is NULL, return empty vector of this type. Options: list, numeric,
 #' character, integer
 #' @author Efstathios D. Gennatas
 #' @export
@@ -252,7 +254,7 @@ ifNotNull <- function(x, defType) {
   } else {
     return(defType())
   }
-  
+
 } # rtemis::ifNotNull
 
 
@@ -274,16 +276,16 @@ ifNotNull <- function(x, defType) {
 #' @export
 
 psd <- function(x) {
-  
+
   return(sqrt(mean(x^2) - mean(x)^2))
-  
+
 } # rtemis::psd
 
 
 #' Random Normal Matrix
-#' 
+#'
 #' Create a matrix or data frame of defined dimensions, whose columns are random normal vectors
-#' 
+#'
 #' @param nrow Integer: Number of rows. Default = 10
 #' @param ncol Integer: Number of columns. Default = 10
 #' @param mean Float: Mean. Default = 0
@@ -297,24 +299,24 @@ rnormmat <- function(nrow = 10, ncol = 10,
                      mean = 0, sd = 1,
                      return.df = FALSE,
                      seed = NULL) {
-  
+
   # [ ARGUMENTS ] ====
   if (length(mean) < ncol) mean <- rep(mean, ncol/length(mean))
   if (length(sd) < ncol) sd <- rep(sd, ncol/length(sd))
-  
+
   # [ rnorm ] ====
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(1:ncol, function(j) rnorm(nrow, mean = mean, sd = sd))
   if (return.df) mat <- as.data.frame(mat)
   mat
-  
+
 } # rtemis::rnormmat
 
 
 #' Random Uniform Matrix
-#' 
+#'
 #' Create a matrix or data frame of defined dimensions, whose columns are random uniform vectors
-#' 
+#'
 #' @param nrow Integer: Number of rows. Default = 10
 #' @param ncol Integer: Number of columns. Default = 10
 #' @param min Float: Min Default = 0
@@ -328,29 +330,29 @@ runifmat <- function(nrow = 10, ncol = 10,
                      min = 0, max = 1,
                      return.df = FALSE,
                      seed = NULL) {
-  
+
   # [ ARGUMENTS ] ====
   if (length(min) < ncol) mean <- rep(min, ncol/length(min))
   if (length(max) < ncol) max <- rep(max, ncol/length(max))
-  
+
   # [ rnorm ] ====
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(1:ncol, function(j) runif(nrow, min = min, max = max))
   if (return.df) mat <- as.data.frame(mat)
   mat
-  
+
 } # rtemis::runifmat
 
 
 #' Construct an n-length vector of letters
-#' 
+#'
 #' Returns an n-length vector of the latin alphabet, replicating for every 26 characters
-#' 
+#'
 #' @param n Length of vector to return
 #' @param caps Logical: If TRUE, return all caps
 #' @export
 rt.letters <- function(n = 100, caps = FALSE) {
-  
+
   reps <- ceiling(n / 26)
   prtlet <- function(x = NULL) paste0(x, if (caps) LETTERS else letters)
   out <- NULL
@@ -359,5 +361,5 @@ rt.letters <- function(n = 100, caps = FALSE) {
     out <- c(out, prtlet(out[(out.length - 25):out.length]))
   }
   out[1:n]
-  
+
 } # rtemis::rt.letters

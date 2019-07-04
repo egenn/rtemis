@@ -10,6 +10,7 @@
 #' @param style  Integer: {1, 2}: 1: vintage style, 2: modern style. Default = 2
 #' @param col Color: Any color support by \pkg{crayon}
 #' @param newline.pre Logical: If TRUE, start with a new line. Default = TRUE
+#' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
 #' @author Efstathios D. Gennatas
 #' @export

@@ -10,6 +10,7 @@
 #' @param x Data frame: Data to evaluate rules
 #' @param .ddSci Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
 #' give either 2 decimal places, or scientific notation if two decimal places result in 0.00
+#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @author Efstathios D. Gennatas
 #' @export
 

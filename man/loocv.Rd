@@ -6,6 +6,9 @@
 \usage{
 loocv(x)
 }
+\arguments{
+\item{x}{Input vector}
+}
 \description{
 Leave-one-out Resampling
 }

@@ -10,6 +10,10 @@ classError(true, estimated, estimated.prob = NULL, trace = 0)
 \item{true}{Vector, factor: True values}
 
 \item{estimated}{Vector, factor: Estimated values}
+
+\item{trace}{Integer: If > 0, print  diagnostic messages. Default = 0}
+
+\item{estimated}{Vector, factor: Estimated probabilities}
 }
 \description{
 Calculates Classification Metrics

@@ -30,6 +30,8 @@ colorPreview(col, main = NULL, names = TRUE, names.y = 1.045,
 
 \item{pch}{Integer or single character: The \code{pch} parameter of \code{par}}
 
+\item{bg}{Background color}
+
 \item{mar}{Float, vector, length 4: Plot margins. Default = c(0, 1.7, 0.6, 2.8)}
 
 \item{main.line}{Float: Line to plot \code{main} Default = 0}

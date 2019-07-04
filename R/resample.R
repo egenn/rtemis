@@ -241,7 +241,7 @@ print.resample <- function(x, ...) {
 #' Bootstrap Resampling
 #'
 #' @param x Input vector
-#' @param n.resample Integer: Number of resamples to make. Default = 10
+#' @param n.resamples Integer: Number of resamples to make. Default = 10
 #' @param seed Integer: If provided, set seed for reproducibility. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
@@ -265,6 +265,8 @@ bootstrap <- function(x, n.resamples = 10,
 #' K-fold Resampling
 #'
 #' @inheritParams resample
+#' @param x Input Vector
+#' @param k Integer: Number of folds. Default = 10
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -313,6 +315,7 @@ kfold <- function(x, k = 10,
 #' Resample using Stratified Subsamples
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -351,6 +354,7 @@ strat.sub <- function(x,
 #' Stratified Bootstrap Resampling
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -391,6 +395,7 @@ strat.boot <- function(x, n.resamples = 10,
 #' Leave-one-out Resampling
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 

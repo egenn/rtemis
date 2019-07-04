@@ -33,8 +33,7 @@ glmLite <- function(x, y,
                     sgd.model.control = list(lambda1 = 0,
                                              lambda2 = 0),
                     sgd.control = list(method = "ai-sgd"),
-                    save.fitted = FALSE,
-                    trace = 0, ...) {
+                    save.fitted = FALSE, ...) {
 
   # Arguments ====
   method <- match.arg(method)

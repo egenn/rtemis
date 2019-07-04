@@ -10,6 +10,6 @@ softplus(x)
 \item{x}{Vector, Float: Input}
 }
 \description{
-Softplus function: 
+Softplus function:
 \deqn{log(1 + e^x)}
 }

@@ -8,6 +8,8 @@
 #'
 #' @param true Vector, factor: True values
 #' @param estimated Vector, factor: Estimated values
+#' @param estimated Vector, factor: Estimated probabilities
+#' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' @author Efstathios D. Gennatas
 #' @export
 

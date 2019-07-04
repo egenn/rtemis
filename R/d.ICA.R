@@ -26,6 +26,7 @@
 #' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 #' Default = TRUE
+#' @param trace Integer: If > 0, print messages during ICA run. Default = 0
 #' @param ... Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}
 #' @return \link{rtDecom} object
 #' @author Efstathios D. Gennatas

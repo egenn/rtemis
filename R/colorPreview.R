@@ -15,6 +15,7 @@
 #' @param alpha Float: Alpha level. Default = 1
 #' @param ylim Float, vector, length 2: y axis limits. Default = c(0.95, 1.1)
 #' @param pch Integer or single character: The \code{pch} parameter of \code{par}
+#' @param bg Background color
 #' @param cex Float: Character expansion factor. Default = 26
 #' @param mar Float, vector, length 4: Plot margins. Default = c(0, 1.7, 0.6, 2.8)
 #' @param main.line Float: Line to plot \code{main} Default = 0

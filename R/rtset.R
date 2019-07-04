@@ -17,7 +17,6 @@ NULL
 #'
 #'
 #' @inheritParams resample
-#' @rdname rtset
 #' @export
 rtset.resample <- function(resampler = "kfold",
                            n.resamples = 10,
@@ -44,7 +43,6 @@ rtset.resample <- function(resampler = "kfold",
 #' \code{rtset.grid.resample}: \link{resample} defaults for \link{gridSearchLearn}
 #'
 #' @inheritParams resample
-#' @rdname rtset
 #' @export
 rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
                                 stratify.var = NULL, train.p = .75, strat.n.bins = 4,
@@ -63,7 +61,6 @@ rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
 #' \code{rtset.bag.resample}: \link{resample} defaults for \code{rtMod} bagging
 #'
 #' @inheritParams resample
-#' @rdname rtset
 #' @export
 rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
@@ -83,7 +80,6 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 #' \code{rtset.meta.resampler}: \link{resample} defaults for meta model training
 #'
 #' @inheritParams resample
-#' @rdname rtset
 #' @export
 rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
                                 stratify.var = NULL, train.p = .75, strat.n.bins = 4,
@@ -103,7 +99,6 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 #' \code{rtset.cv.resample}: \link{resample} defaults for cross-validation
 #'
 #' @inheritParams resample
-#' @rdname rtset
 #' @export
 rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
                               stratify.var = NULL, train.p = .75, strat.n.bins = 4,
@@ -141,7 +136,6 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
 #' @param n.cores Integer: Number of cores to use on \code{localhost} for type = "fork" (macOS, Linux only)
 #' @param ... \code{rtset.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
 #' @return List with parameters
-#' @rdname rtset
 #' @export
 
 rtset.cluster <- function(type = "fork",
@@ -156,7 +150,6 @@ rtset.cluster <- function(type = "fork",
 #' \code{rtset.color}: Set parameters for \link{colorGrad}
 #'
 #' @inheritParams colorGrad
-#' @rdname rtset
 #' @export
 
 rtset.color <- function(n = 101, colors = NULL,
@@ -180,7 +173,6 @@ rtset.color <- function(n = 101, colors = NULL,
 #'
 #' @param decom String: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
-#' @rdname rtset
 #' @export
 
 rtset.preprocess <- function(completeCases = FALSE,
@@ -222,7 +214,6 @@ rtset.preprocess <- function(completeCases = FALSE,
 #'
 #' @param decom String: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
-#' @rdname rtset
 #' @export
 
 rtset.decompose <- function(decom = "ICA",
@@ -236,7 +227,6 @@ rtset.decompose <- function(decom = "ICA",
 #' \code{rtset.ADDT}: Set parameters for \link{s.ADDT}
 #'
 #' @inheritParams s.ADDT
-#' @rdname rtset
 #' @export
 
 rtset.ADDT <- function(max.depth = 2,
@@ -262,7 +252,6 @@ rtset.ADDT <- function(max.depth = 2,
 #' \code{rtset.GBM}: Set parameters for \link{s.GBM}
 #'
 #' @inheritParams s.GBM
-#' @rdname rtset
 #' @export
 
 rtset.GBM <- function(interaction.depth = 2,
@@ -294,7 +283,6 @@ rtset.GBM <- function(interaction.depth = 2,
 #' \code{rtset.RANGER}: Set parameters for \link{s.RANGER}
 #'
 #' @inheritParams s.RANGER
-#' @rdname rtset
 #' @export
 
 rtset.RANGER <- function(n.trees = 1000,
@@ -320,7 +308,6 @@ rtset.RANGER <- function(n.trees = 1000,
 #' \code{rtset.DN}: Set parameters for \link{s.DN}
 #'
 #' @inheritParams s.DN
-#' @rdname rtset
 #' @export
 
 rtset.DN <- function(hidden = 1,
@@ -352,7 +339,6 @@ rtset.DN <- function(hidden = 1,
 #' \code{rtset.MXN}: Set parameters for \link{s.MXN}
 #'
 #' @inheritParams s.MXN
-#' @rdname rtset
 #' @export
 
 rtset.MXN <- function(n.hidden.nodes = NULL,
@@ -403,7 +389,6 @@ rtset.MXN <- function(n.hidden.nodes = NULL,
 #' \code{rtset.lincoef}: Set parameters for \link{lincoef}
 #'
 #' @inheritParams lincoef
-#' @rdname rtset
 #' @export
 
 rtset.lincoef <- function(method = c("glmnet",
@@ -445,7 +430,6 @@ rtset.lincoef <- function(method = c("glmnet",
 #' \code{rtset.MARS}: Set parameters for \link{s.MARS}
 #'
 #' @inheritParams s.MARS
-#' @rdname rtset
 #' @export
 
 rtset.MARS <- function(hidden = 1,

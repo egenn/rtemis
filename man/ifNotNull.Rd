@@ -9,11 +9,11 @@ ifNotNull(x, defType)
 \arguments{
 \item{x}{Input of any type, may be NULL}
 
-\item{defType}{If \code{x} is NULL, return empty vector of this type. Options: list, numeric, 
+\item{defType}{If \code{x} is NULL, return empty vector of this type. Options: list, numeric,
 character, integer}
 }
 \description{
-Returns the input, unless it is NULL, in which case it returns an empty vector / list, etc 
+Returns the input, unless it is NULL, in which case it returns an empty vector / list, etc
 of defined type
 }
 \details{

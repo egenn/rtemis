@@ -8,6 +8,8 @@ oneHot(x, verbose = TRUE)
 }
 \arguments{
 \item{x}{data.frame}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \value{
 data.frame where all factors are one hot encoded

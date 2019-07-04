@@ -7,6 +7,7 @@
 #' One hot encode all factors in a data.frame
 #'
 #' @param x data.frame
+#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @return data.frame where all factors are one hot encoded
 #' @author Efstathios D Gennatas
 #' @export

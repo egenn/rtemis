@@ -10,6 +10,8 @@ factorHarmonize(reference, x, verbose = TRUE)
 \item{reference}{Reference factor}
 
 \item{x}{Input factor}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \description{
 Factor harmonize

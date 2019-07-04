@@ -16,6 +16,8 @@ boxcat(x, style = 2, col = NULL, newline.pre = TRUE,
 
 \item{newline.pre}{Logical: If TRUE, start with a new line. Default = TRUE}
 
+\item{newline}{Logical: If TRUE, end with a new (empty) line. Default = FALSE}
+
 \item{pad}{Integer: Pad message with this many spaces on the left. Default = 0}
 }
 \description{

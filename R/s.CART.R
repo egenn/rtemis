@@ -11,6 +11,9 @@
 #' @param method String: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
 #' @param cp [gS] Float: Complexity threshold for allowing a split. Default = .01
 #' @param maxdepth [gS] Integer: Maximum depth of tree. Default = 20
+#' @param maxcompete Integer: The number of competitor splits saved in the output Default = 0
+#' @param maxsurrogate Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
+#' Default = 0
 #' @param minsplit [gS] Integer: Minimum number of cases that must belong in a node before considering a split.
 #' Default = 2
 #' @param minbucket [gS] Integer: Minimum number of cases allowed in a child node. Default = round(minsplit/3)

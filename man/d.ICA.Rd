@@ -28,6 +28,8 @@ Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
+\item{trace}{Integer: If > 0, print messages during ICA run. Default = 0}
+
 \item{...}{Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}}
 }
 \value{

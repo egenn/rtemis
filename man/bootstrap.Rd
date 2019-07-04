@@ -9,9 +9,9 @@ bootstrap(x, n.resamples = 10, seed = NULL)
 \arguments{
 \item{x}{Input vector}
 
-\item{seed}{Integer: If provided, set seed for reproducibility. Default = NULL}
+\item{n.resamples}{Integer: Number of resamples to make. Default = 10}
 
-\item{n.resample}{Integer: Number of resamples to make. Default = 10}
+\item{seed}{Integer: If provided, set seed for reproducibility. Default = NULL}
 }
 \description{
 Bootstrap Resampling

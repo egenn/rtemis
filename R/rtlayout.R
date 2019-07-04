@@ -4,16 +4,17 @@
 # TODO: consider creating rtenv instead of using .GlobalEnv
 
 #' Layout for plotting on multiple panels
-#' 
+#'
 #' Set layout for plotting multiple plots on the same view
 #' @param nrows Integer: N of rows
 #' @param ncols Integer: N of columns
 #' @param byrow Logical: If TRUE, draw add plots by row Default = FALSE
-#' @param filename String, optional: Save multiplot to file. Default = NULL
+#' @param autolabel Logical: If TRUE, place letter labels on the top left corner of each figure. Default = FALSE
 #' @param pdf.width Float: Width of PDF to save, if \code{filename} is provided.
 #' Default = \code{ncols * 4.5}
-#' #' @param pdf.height Float: Height of PDF to save, if \code{filename} is provided.
+#' @param pdf.height Float: Height of PDF to save, if \code{filename} is provided.
 #' Default = \code{nrows * 4.5}
+#' @param filename String, optional: Save multiplot to file. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -23,7 +24,7 @@ rtlayout <- function(nrows = NULL, ncols = NULL,
                      pdf.width = NULL,
                      pdf.height = NULL,
                      filename = NULL) {
-  
+
   if (!is.null(nrows) | !is.null(ncols)) {
     if (is.null(nrows)) nrows <- 1
     if (is.null(ncols)) ncols <- 1
@@ -45,5 +46,5 @@ rtlayout <- function(nrows = NULL, ncols = NULL,
     if (exists("autolabel", envir = rtenv)) rm(autolabel, envir = rtenv)
     if (exists("fileOpen", envir = rtenv)) dev.off()
   }
-  
+
 } # rtemis::rtlayout

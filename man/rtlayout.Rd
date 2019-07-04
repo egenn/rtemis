@@ -15,9 +15,12 @@ rtlayout(nrows = NULL, ncols = NULL, byrow = FALSE,
 
 \item{byrow}{Logical: If TRUE, draw add plots by row Default = FALSE}
 
+\item{autolabel}{Logical: If TRUE, place letter labels on the top left corner of each figure. Default = FALSE}
+
 \item{pdf.width}{Float: Width of PDF to save, if \code{filename} is provided.
-Default = \code{ncols * 4.5}
-#' @param pdf.height Float: Height of PDF to save, if \code{filename} is provided.
+Default = \code{ncols * 4.5}}
+
+\item{pdf.height}{Float: Height of PDF to save, if \code{filename} is provided.
 Default = \code{nrows * 4.5}}
 
 \item{filename}{String, optional: Save multiplot to file. Default = NULL}

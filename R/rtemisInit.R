@@ -129,6 +129,8 @@ dataSummary <- function(x, y,
 #' @param ... Variables to print
 #' @param title String: title
 #' @param pad Integer: Pad for \link{printls}
+#' @param newline.pre Logical: If TRUE, start with a newline. Default = TRUE
+#' @param newline Logical: If TRUE, end with anew (empty) line. Default = FALSE
 #' @export
 #' @author Efstathios D. Gennatas
 
