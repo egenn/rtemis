@@ -184,17 +184,14 @@ colorGrad <- function(n = 21,
     if (theme == "light") {
       if (is.null(bg)) bg <- "white"
       if (is.null(col.text)) col.text <- "black"
-      # if (is.null(mid)) mid <- "white"
     } else if (theme == "dark") {
       if (is.null(bg)) bg <- "black"
       if (is.null(col.text)) col.text <- "white"
-      # if (is.null(mid)) mid <- "black"
     }
 
     par.orig <- par(no.readonly = TRUE)
     if (par.reset & !cb.add) on.exit(suppressWarnings(par(par.orig)))
     if (cb.add) {
-      # par(mar = c(6, 0, 4, 3), pty = "m")
       par(new = cb.add, pty = "m", mar = cb.add.mar)
     } else {
       par(bg = bg, mar = cb.mar, pty = "m")
@@ -217,7 +214,6 @@ colorGrad <- function(n = 21,
 
   # [ PLOTLY CB ] ====
   if (plotlycb) {
-    # library(plotly, warn.conflicts = FALSE, quietly = TRUE)
     requireNamespace("plotly")
 
     m <- list(size = 40,
@@ -258,17 +254,17 @@ colorGrad <- function(n = 21,
     margin <- list(b = margins[1], l = margins[2], t = margins[3], r = margins[4], pad = pad)
 
     p <- plotly::plot_ly(x = rep(1, n), y = 1:n,
-                 type = "scatter",
-                 mode = "markers",
-                 marker = m,
-                 hoverinfo = "text",
-                 text = hovtext) %>%
+                         type = "scatter",
+                         mode = "markers",
+                         marker = m,
+                         hoverinfo = "text",
+                         text = hovtext) %>%
       plotly::layout(xaxis = x.ax, yaxis = y.ax,
-             width = plotly.width,
-             height = plotly.height,
-             annotations = a,
-             font = t,
-             margin = margin) %>%
+                     width = plotly.width,
+                     height = plotly.height,
+                     annotations = a,
+                     font = t,
+                     margin = margin) %>%
       plotly::config(displayModeBar = FALSE)
     if (plotlycb & !rtrn.plotly) print(p)
   }
@@ -295,7 +291,7 @@ colorvec <- function(cols) {
 
   cols <- tolower(cols)
   ncols <- nchar(cols) / 3
-  cols <- lapply(1:ncols, function(i) substr(cols, i * 3 - 2, i * 3))
+  cols <- lapply(seq(ncols), function(i) substr(cols, i * 3 - 2, i * 3))
 
   coldf <- data.frame(abbr = c("wht", "red", "grn", "blu", "blk", "yel", "rng", "prl"),
                       name = c("white", "red", "green", "blue", "black", "yellow", "orange", "purple"),
@@ -304,11 +300,11 @@ colorvec <- function(cols) {
   cols <- sapply(1:ncols, function(i) coldf[coldf$abbr == cols[i], 2])
 
   lo <- lomid <- mid <- midhi <- hi <- NULL
-  collist <- list(twocols <- c("lo", "hi"),
-                  threecols <- c("lo", "mid", "hi"),
-                  fourcols <- c("lo", "mid", "midhi", "hi"),
-                  fivecols <- c("lo", "lomid", "mid", "midhi", "hi"))
+  collist <- list(twocols = c("lo", "hi"),
+                  threecols = c("lo", "mid", "hi"),
+                  fourcols = c("lo", "mid", "midhi", "hi"),
+                  fivecols = c("lo", "lomid", "mid", "midhi", "hi"))
 
-  for (i in 1:ncols) assign(collist[[ncols - 1]][i], cols[i])
+  for (i in seq(ncols)) assign(collist[[ncols - 1]][i], cols[i])
   return(list(lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi))
 }
