@@ -9,8 +9,9 @@ The goal of rtemis is to make data science efficient and accessible  with no com
 </a>    
 </div>
 
-[__Online Documentation and vignettes__](https://rtemis.netlify.com)  
-R PDF manual [here](https://egenn.github.io/docs/rtemis.pdf)
+### Documentation
+* [__Online documentation and vignettes__](https://rtemis.netlify.com)  
+* [__R PDF manual__](https://egenn.github.io/docs/rtemis.pdf)
 
 ### Installation
 See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
