@@ -341,7 +341,7 @@ x.CCA.permute.both <- function(x, z,
   CheckVs <- getFromNamespace("CheckVs", "PMA")
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck(c("PMA", "foreach", "doParallel"), verbose = FALSE)) {
+  if (!depCheck(c("PMA", "pbapply"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
@@ -361,11 +361,6 @@ x.CCA.permute.both <- function(x, z,
   ccs = nnonzerous = nnonzerovs = numeric(length(penaltyxs))
 
   # [ CLUSTER ] ====
-  # if (verbose) msg("Starting PSOCK cluster...")
-  # cl <- parallel::makePSOCKcluster(n.cores)
-  # on.exit(parallel::stopCluster(cl))
-  # doParallel::registerDoParallel(cl)
-  # on.exit(doParallel::stopImplicitCluster())
   pbapply.type <- if (verbose) "timer" else "none"
   pbapply::pboptions(type = pbapply.type)
   if (n.cores > 1) {
