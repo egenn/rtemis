@@ -6,16 +6,18 @@
 \usage{
 preprocess(x, y = NULL, completeCases = FALSE,
   removeCases.thres = NULL, removeFeatures.thres = NULL,
-  impute = FALSE, impute.type = c("missForest", "rfImpute",
-  "meanMode"), impute.niter = 10, impute.ntree = 500,
-  missForest.parallelize = c("no", "variables", "forests"),
-  impute.discrete = getMode, impute.numeric = mean,
-  integer2factor = FALSE, integer2numeric = FALSE,
-  logical2factor = FALSE, logical2numeric = FALSE,
-  numeric2factor = FALSE, numeric2factor.levels = NULL,
-  character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
-  exclude = NULL, verbose = TRUE)
+  impute = FALSE, impute.type = c("missRanger", "missForest",
+  "rfImpute", "meanMode"), impute.missRanger.params = list(pmm.k = 0,
+  maxiter = 10), impute.missForest.params = list(maxiter = 10, ntree =
+  500, parallelize = "no"), impute.discrete = getMode,
+  impute.numeric = mean, integer2factor = FALSE,
+  integer2numeric = FALSE, logical2factor = FALSE,
+  logical2numeric = FALSE, numeric2factor = FALSE,
+  numeric2factor.levels = NULL, character2factor = FALSE,
+  nonzeroFactors = FALSE, scale = FALSE, center = FALSE,
+  removeConstant = TRUE, oneHot = FALSE, exclude = NULL,
+  verbose = TRUE, n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
 }
 \arguments{
 \item{x}{Input}
@@ -32,9 +34,15 @@ cases. Default = NULL}
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 \code{impute.numeric} for how}
 
-\item{impute.type}{String: How to impute data: "missForest" uses the package of the same name to impute by iterative
-random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation), "meanMode" will use
-mean and mode by default or any custom function defined in \code{impute.discrete} and \code{impute.numeric}}
+\item{impute.type}{String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
+impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
+"meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
+\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest")}
+
+\item{impute.missRanger.params}{Named list with elements "pmm.k" and "maxiter", which are passed to
+\code{missRanger::missRanger}
+#' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+to \code{missForest::missForest}}
 
 \item{impute.discrete}{Function that returns single value: How to impute discrete variables for
 \code{impute.type = "meanMode"}. Default = \link{getMode}}
@@ -57,6 +65,8 @@ if \code{integer2factor = FALSE})}
 \item{removeConstant}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
+
+\item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
 }
 \description{
 Prepare data for data analysis

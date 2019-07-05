@@ -74,8 +74,8 @@ data.frame / table}
 
 \item{theme}{String: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"}
 
-\item{mid.col}{Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for theme = "light",
-"black" for "dark"}
+\item{mid.col}{Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
+theme = "light", "black" for "dark"}
 
 \item{hi.color.pos}{Color: The hi color for correct classification. Default = "#18A3AC" (teal)}
 

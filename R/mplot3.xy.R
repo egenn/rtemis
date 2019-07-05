@@ -20,6 +20,8 @@
 #' forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 #' and warnings, but is powerful. Use single letters for parameter names, no numbers.
 #' @param se.fit Logical: If TRUE, draw the standard error of the fit
+#' @param mod.params List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+#' parameters
 #' @param error.x Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point
 #' @param error.y Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point
 #' @param cluster String: Clusterer name. Will cluster \code{data.frame(x, y)} and
@@ -64,7 +66,6 @@
 #' @param box.col Box color
 #' @param box.alpha Alpha for \code{box.col}
 #' @param box.lty Box line type
-#' @param bot.lwd Box line width
 #' @param fit.lwd Fit line width
 #' @param grid Logical: Should grid be drawn?
 #' @param grid.nx Integer: N of grid lines on the x axis.
@@ -102,7 +103,95 @@
 #' @param group.title String: Group title, shown above group names. e.g. if group names are
 #'   c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
+#' @param xpd
+#' @param xaxs
+#' @param yaxs
+#' @param rsq.side
+#' @param rsq.adj
+#' @param rsq.padj.shift
+#' @param rsq.col
+#' @param fit.error
+#' @param fit.error.side
+#' @param fit.error.padj
+#' @param fit.error.col
+#' @param xaxp
+#' @param yaxp
+#' @param scatter
+#' @param box.lwd
+#' @param plot.bg
+#' @param tick.col
+#' @param x.axis.side
+#' @param y.axis.side
+#' @param x.axis.at
+#' @param y.axis.at
+#' @param x.axis.labs
+#' @param y.axis.labs
+#' @param col
+#' @param pch
+#' @param point.cex
+#' @param point.col
+#' @param point.bg.col
+#' @param point.alpha
+#' @param line.col
+#' @param line.alpha
+#' @param lty
+#' @param lwd
+#' @param marker.col
+#' @param marker.alpha
+#' @param error.x.col
+#' @param error.y.col
+#' @param error.x.lty
+#' @param error.y.lty
+#' @param error.x.lwd
+#' @param error.y.lwd
+#' @param error.arrow.code
+#' @param fit.col
+#' @param fit.alpha
+#' @param fit.legend
+#' @param se.lwd
+#' @param xy.fit
+#' @param xy.fit.col
+#' @param firstpc
+#' @param firstpc.lty
+#' @param firstpc.col
+#' @param hline
+#' @param hline.col
+#' @param hline.lwd
+#' @param hline.lty
+#' @param vline
+#' @param vline.lwd
+#' @param vline.col
+#' @param vline.lty
+#' @param diagonal
+#' @param diagonal.inv
+#' @param diagonal.lwd
+#' @param diagonal.lty
+#' @param diagonal.col
+#' @param diagonal.alpha
+#' @param group.side
+#' @param group.adj
+#' @param group.padj
+#' @param group.at
+#' @param fit.legend.col
+#' @param fit.legend.side
+#' @param fit.legend.adj
+#' @param fit.legend.padj
+#' @param fit.legend.at
+#' @param labs.col
+#' @param na.rm
+#' @param palette
+#' @param order.on.x
+#' @param alpha.off
+#' @param autolabel
+#' @param set.par
+#' @param par.reset
+#' @param return.lims
+#' @param pdf.width
+#' @param pdf.height
+#' @param verbose
+#' @param filename
 #' @param ... Additional arguments to be passed to learner function
+#'
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -587,7 +676,7 @@ mplot3.xy <- function(x, y,
     if (is.null(marker.col)) marker.col <- palette
     if (length(marker.alpha) < Nxgroups) marker.alpha <- rep(marker.alpha, Nxgroups / length(marker.alpha))
     # marker.col <- lapply(marker.col, function(x) adjustcolor(x, marker.alpha))
-    marker.col <- lapply(1:Nxgroups, function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
+    marker.col <- lapply(seq(Nxgroups), function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
   }
 
   # marker.col <- marker.col[seql(marker.col, Nxgroups)]
@@ -966,7 +1055,7 @@ mplot3.xy <- function(x, y,
   myerror <- NULL
   if (is.logical(fit.error)) {
     if (fit.error) {
-      myerror <- lapply(1:Nxgroups, function(i) modError(xl[[i]], yl[[i]]))
+      myerror <- lapply(seq(Nxgroups), function(i) modError(xl[[i]], yl[[i]]))
     }
   } else {
     if (class(fit.error)[1] == "modError") myerror <- list(fit.error)
@@ -1010,7 +1099,7 @@ mplot3.xy <- function(x, y,
 
   # [ R-SQUARED ] ====
   if (rsq) {
-    if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[1:Nxgroups], 2)))
+    if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- ddSci(unlist(rsql))
     # padj_reg <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift
     # padj_exp <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift + 1.2
@@ -1029,7 +1118,7 @@ mplot3.xy <- function(x, y,
   }
 
   if (rsq.pval) {
-    if (is.null(rsq.col)) rsq.col <- c(gen.col, unlist(adjustcolor(fit.col[1:Nxgroups], 2)))
+    if (is.null(rsq.col)) rsq.col <- c(gen.col, unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- c("R-sq (p-val)", unlist(rsqpl))
     mtext(rev(annot.rsq),
           side = rsq.side,
@@ -1064,6 +1153,7 @@ mplot3.xy <- function(x, y,
 #' @inheritParams mplot3.xy
 #' @param x Vector, numeric / factor / survival for regression, classification, survival: True values
 #' @param y Vector, numeric / factor / survival for regression, classification, survival: Predicted values
+#' @param fit.error Logical: If TRUE,
 #' @param ... Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)
 #' @export
 

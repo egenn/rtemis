@@ -20,6 +20,8 @@ be passed as a string.}
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
+\item{fit.error}{Logical: If TRUE,}
+
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
 \item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"

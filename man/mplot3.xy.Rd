@@ -70,6 +70,9 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
+\item{mod.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+parameters}
+
 \item{error.x}{Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point}
 
 \item{error.y}{Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point}
@@ -216,8 +219,6 @@ options(rt.theme = 'lightgrid')}
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
 \item{...}{Additional arguments to be passed to learner function}
-
-\item{bot.lwd}{Box line width}
 }
 \description{
 Plot points and lines with optional fits and standard error bands
