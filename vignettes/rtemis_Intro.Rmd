@@ -23,7 +23,7 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-# Welcome to __rtemis__
+# Welcome to rtemis
 __rtemis__ is a platform for advanced machine learning and visualization.  
 To view the full online documentation and vignettes, visit the [rtemis website](https://rtemis.netlify.com)
 
