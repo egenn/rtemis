@@ -11,18 +11,80 @@
 #'
 #' Customized heatmap with optional colorbar
 #'
-#' The main difference from the original \code{heatmap} is the addition of a colorbar on the side.
+#' The main difference from the original \code{stats::heatmap} is the addition of a colorbar on the side.
 #' This is achieved with \link{colorGrad}.
 #' Other differences:
 #' - Dendrograms are not drawn by default. Set \code{Rowv = T} and \code{Colv = T} to get them.
 #' - Column labels are only drawn perpendicular to the x-axis if any one is
 #'   longer than two characters.
+#' Otherwise, the arguments are the same as in \code{stats::heatmap}
 #'
-#' @param colorGrad.n Integer. Number of distinct colors to generate using \link{colorGrad}
-#' @param colorGrad.col Color. See \link{colorGrad}
-#' @param colorbar Logical. Should colorbar appear next to heatmap?
-#' @param cb.n Integer. Number of steps in colorbar. 21 gives 10 above and 10 below midline.
-#'   If midline is zero, this corresponds to 10 percent increments / decrements
+#' @param x Input matrix
+#' @param colorGrad.n Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101
+#' @param colorGrad.col String: the \code{colors} argument of \link{colorGrad}: String: Acts as a shortcut to defining
+#' lo, mid, etc for a number of defaults: "french", "penn", "grnblkred"
+#' @param lo Color for low end
+#' @param lomid Color for low-mid
+#' @param mid Color for middle of the range or "mean", which will result in colorOp(c(lo, hi), "mean"). If mid = NA,
+#' then only lo and hi are used to create the color gradient.
+#' @param midhi Color for middle-high
+#' @param hi Color for high end
+#' @param space String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
+#' "white" or "black" (default), use "rgb", otherwise "Lab"
+#' @param theme String: Defaults to option "rt.theme", if set, otherwise "light"
+#' @param colorbar Logical: If TRUE, plot colorbar next to heatmap. Default = TRUE
+#' @param cb.n Integer: Number of steps in colorbar. Default = 21, which gives 10 above and 10 below midline.
+#' If midline is zero, this corresponds to 10 percent increments / decrements
+#' @param cb.title String: Title for the colorbar. Default = NULL
+#' @param cb.cex Float: Character expansion (\code{cex}) for colobar. Default = 1
+#' @param cb.title.cex Float: \code{cex} for colorbar title. Default = 1
+#' @param cb.mar Float, vector, length 4: Margins for colorbar.  (passed to \link{colorGrad}'s \code{cb.add.mar}).
+#' Default set automatically
+#' @param Rowv Logical OR a dendrogram OR integer vector that determines index for reordering OR NA to suppress.
+#' Default = NA
+#' @param Colv See \code{Rowv}
+#' @param distfun Function: used to compute the distance/dissimilarity matrix between rows and columns.
+#' Default = \code{dist}
+#' @param hclustfun Function: used to determined hierarchical clustering when \code{Rowv} or \code{Colv} are
+#' not dendrograms. Default = \code{hclust} (Should take as argument a result of distfun and return an object to which
+#' \code{as.dendrogram} can be applied)
+#' @param reorderfun Function (d, w): function of dendrogram and weights that determines reordering of row and column
+#' dendrograms. Default uses \code{reorder.dendrogram}
+#' @param add.expr Expression: will be evaluated after the call to \code{image}. Can be used to add components to the
+#' plot
+#' @param symm Logical: If TRUE, treat \code{x} symmetrically. Can only be used if \code{x} is square
+#' @param revC Logical: If TRUE, reverse column order for plotting. Default = TRUE, if Rowv and Colv are identical
+#' @param scale Character: "row", "column", or "none". Determines whether values are centered and scaled in either the
+#' row or column  direction. Default = "none"
+#' @param na.rm Logical: If TRUE, NAs are removed. Default = TRUE
+#' @param margins Float, vector, length 2: bottom and right side margins. Automatically determined by length of
+#' variable names
+#' @param ColSideColors Color, vector, length = ncol(x): Colors for a horizontal side bar to annotate columns of \code{x}
+#' @param RowSideColors Color, vector, length = nrow(x): Like \code{ColSideColors}, but for rows
+#' @param cexRow Float: \code{cex.axis} for rows
+#' @param cexCol Float: \code{cex.axis} for columns
+#' @param labRow Character, vector: Row labels to use. Default = \code{rownames(x)}
+#' @param labCol Character, vector: Column labels to use. Default = \code{colnames(x)}
+#' @param labCol.las Integer {0:3}: \code{par}'s \code{las} argument. Default set by length of \code{labCol}
+#' @param main Character: Plot title
+#' @param main.adj Float: \code{par}'s \code{adj} argument for title
+#' @param main.line Float: \code{title}'s \code{line} argument
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param xlab.line Float: \code{mtext}'s \code{line} argument for x-axis label
+#' @param ylab.line Float: \code{mtext}'s \code{line} argument for y-axis label
+#' @param bg Color: Background color. Default (white or black) set depending on \code{theme}
+#' @param col.axis Color: Axis color
+#' @param keep.dendro Logical: If TRUE, dedrogram is returned invisibly. Default = FALSE
+#' @param trace Integer: If > 0, print diagnostic messages to console. Default = 0
+#' @param zlim Float, vector, length 2: Passed to \code{graphics::image}. Default = +/- max(abs(x)) if \code{autorange = TRUE},
+#' otherwise = \code{range(x)}.
+#' @param autorange Logical: See \code{zlim}
+#' @param filename Character: If provided, save heatmap to file. Default = NULL
+#' @param par.reset Logical: If TRUE, reset \code{par} before exit. Default = TRUE
+#' @param pdf.width Float: Width of PDF output, if \code{filename} is set
+#' @param pdf.height Float: Height of PDF output, if \code{filename} is set
+#' @param ... Additional arguments passed to \code{graphics::image}
 #' @author Efstathios D Gennatas modified from original \code{stats::heatmap}
 #' by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
 #' @export
@@ -42,7 +104,7 @@ mplot3.heatmap <- function(x,
                            cb.title = NULL,
                            cb.cex = 1,
                            cb.title.cex = 1,
-                           cb.add.mar = NULL,
+                           cb.mar = NULL,
                            Rowv = NA, # was NA
                            Colv = if (symm) Rowv else NA,
                            distfun = dist,
@@ -267,7 +329,7 @@ mplot3.heatmap <- function(x,
        cex.axis = cexCol, col.axis = col.axis)
   if (!is.null(xlab)) {
     if (is.null(xlab.line)) xlab.line <- margins[1L] - 1.25
-    msg("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
+    if (trace > 0) msg("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
     mtext(xlab, side = 1, line = xlab.line)
   }
 
@@ -303,10 +365,10 @@ mplot3.heatmap <- function(x,
     frame()
     # par(xpd = NA)
     if (is.na(Colv) & is.null(main)) {
-      if (is.null(cb.add.mar)) cb.add.mar <- c(margins[1], 2, 0, 3)
+      if (is.null(cb.mar)) cb.mar <- c(margins[1], 2, 0, 3)
       cb.add.new <- FALSE
     } else {
-      if (is.null(cb.add.mar)) cb.add.mar <- c(margins[1], 0, 0, 3)
+      if (is.null(cb.mar)) cb.mar <- c(margins[1], 0, 0, 3)
       cb.add.new <- TRUE
     }
     colorGrad(colorGrad.n,
@@ -323,7 +385,7 @@ mplot3.heatmap <- function(x,
               cex = cb.cex, #1.6,
               cb.axis.pos = 1.2,
               cb.add = cb.add.new,
-              cb.add.mar = cb.add.mar,
+              cb.add.mar = cb.mar,
               bar.min = ddSci(zlim[1]),
               bar.mid = ddSci((zlim[1] + zlim[2]) / 2),
               bar.max = ddSci(zlim[2]),
