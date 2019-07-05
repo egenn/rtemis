@@ -15,7 +15,7 @@
 #' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
 #' @param oma Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)
-#' @param dim.height Float: Height for title. Default = 1
+#' @param dim.main Float: Height for title. Default = 1
 #' @param dim.lab Float: Height for labels. Default = 1
 #' @param dim.in Float: Height/Width for confusion matrix cells. Default = 4
 #' @param dim.out Float: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
@@ -54,7 +54,7 @@ mplot3.conf <- function(object,
                         plot.metrics = TRUE,
                         mod.name = NULL,
                         oma = c(0, 0, 0, 0),
-                        dim.height = 1,
+                        dim.main = 1,
                         dim.lab = 1,
                         dim.in = 4,
                         dim.out = -1,
@@ -229,7 +229,7 @@ mplot3.conf <- function(object,
   widths <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   heights <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   if (!is.null(main)) {
-    heights <- c(dim.height, dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
+    heights <- c(dim.main, dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   }
   layout(lmat, widths = widths, heights = heights, respect = TRUE)
 

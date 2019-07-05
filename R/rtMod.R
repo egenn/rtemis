@@ -1045,8 +1045,8 @@ rtModCV <- R6::R6Class("rtModCV",
                            if (self$type == "Classification") {
                              conf <- classError(y.test, predicted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
-                                         mar = c(3, 3, 5, 3),
-                                         main.height = 2,
+                                         # mar = c(3, 3, 5, 3),
+                                         dim.main = 2,
                                          theme = theme,
                                          filename = filename, ...)
                            } else if (self$type == "Regression") {
@@ -1074,10 +1074,10 @@ rtModCV <- R6::R6Class("rtModCV",
                            if (self$type == "Classification") {
                              conf <- classError(y.train, fitted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
-                                         mar = c(3, 3, 5, 3),
+                                         # mar = c(3, 3, 5, 3),
                                          filename = filename,
                                          theme = theme,
-                                         main.height = 2, ...)
+                                         dim.main = 2, ...)
                            } else if (self$type == "Regression") {
                              mplot3.fit(y.train, fitted,
                                         main = main,

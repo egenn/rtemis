@@ -6,7 +6,7 @@
 \usage{
 mplot3.conf(object, main = "auto", xlab = "Reference",
   ylab = "Estimated", plot.metrics = TRUE, mod.name = NULL,
-  oma = c(0, 0, 0, 0), dim.height = 1, dim.lab = 1, dim.in = 4,
+  oma = c(0, 0, 0, 0), dim.main = 1, dim.lab = 1, dim.in = 4,
   dim.out = -1, font.in = 2, font.out = 1, cex.main = 1.8,
   cex.in = 1.8, cex.lab = 1.8, cex.lab2 = 1.8, cex.lab3 = 1.5,
   cex.out = 1.4, col.main = "auto", col.lab = "auto",
@@ -34,7 +34,7 @@ data.frame / table}
 
 \item{oma}{Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)}
 
-\item{dim.height}{Float: Height for title. Default = 1}
+\item{dim.main}{Float: Height for title. Default = 1}
 
 \item{dim.lab}{Float: Height for labels. Default = 1}
 
