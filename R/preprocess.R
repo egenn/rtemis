@@ -23,9 +23,14 @@
 #' Default = FALSE
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 #' \code{impute.numeric} for how
-#' @param impute.type String: How to impute data: "missForest" uses the package of the same name to impute by iterative
-#' random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation), "meanMode" will use
-#' mean and mode by default or any custom function defined in \code{impute.discrete} and \code{impute.numeric}
+#' @param impute.type String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
+#' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
+#' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
+#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest")
+#' @param impute.missRanger.params Named list with elements "pmm.k" and "maxiter", which are passed to
+#' \code{missRanger::missRanger}
+#' #' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+#' to \code{missForest::missForest}
 #' @param impute.discrete Function that returns single value: How to impute discrete variables for
 #' \code{impute.type = "meanMode"}. Default = \link{getMode}
 #' @param impute.numeric Function that returns single value: How to impute continuous variables for
@@ -43,6 +48,7 @@
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
+#' @param n.cores Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -51,10 +57,12 @@ preprocess <- function(x, y = NULL,
                        removeCases.thres = NULL,
                        removeFeatures.thres = NULL,
                        impute = FALSE,
-                       impute.type = c("missForest", "rfImpute", "meanMode"),
-                       impute.niter = 10,
-                       impute.ntree = 500,
-                       missForest.parallelize = c('no', 'variables', 'forests'),
+                       impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
+                       impute.missRanger.params = list(pmm.k = 0,
+                                                       maxiter = 10),
+                       impute.missForest.params = list(maxiter = 10,
+                                                       ntree = 500,
+                                                       parallelize = "no"),
                        impute.discrete = getMode,
                        impute.numeric = mean,
                        integer2factor = FALSE,
@@ -70,7 +78,9 @@ preprocess <- function(x, y = NULL,
                        removeConstant = TRUE,
                        oneHot = FALSE,
                        exclude = NULL,
-                       verbose = TRUE) {
+                       verbose = TRUE,
+                       n.cores = rtCores,
+                       parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
 
   # Arguments ====
   impute.type <- match.arg(impute.type)
@@ -182,15 +192,23 @@ preprocess <- function(x, y = NULL,
 
   # [ Impute ] ====
   if (impute) {
-    if (impute.type == "missForest") {
-      # '- missFores ----
+    if (impute.type == "missRanger") {
+      # '- missRanger ====
+      if (verbose) msg("Imputing missing values using missRanger...")
+      x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
+                                  verbose = ifelse(verbose, 1, 0))
+    } else if (impute.type == "missForest") {
+      # '- missForest ----
       if (verbose) msg("Imputing missing values using missForest...")
-      x <- missForest::missForest(x, maxiter = impute.niter, ntree = impute.ntree,
-                                  parallelize = missForest.parallelize)$ximp
+      x <- missForest::missForest(x,
+                                  maxiter = impute.missForest.params$maxiter,
+                                  ntree = impute.missForest.params$ntree,
+                                  parallelize = impute.missForest.params$parallelize)$ximp
 
     } else if (impute.type == "rfImpute") {
       # '- rfImpute ----
-      if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use missForest instead")
+      if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
+                           missForest instead")
       x <- randomForest::rfImpute(x, y, iter = impute.niter, ntree = impute.ntree)
 
     } else {
