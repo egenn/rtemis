@@ -351,7 +351,7 @@ runifmat <- function(nrow = 10, ncol = 10,
 #' @param n Length of vector to return
 #' @param caps Logical: If TRUE, return all caps
 #' @export
-rt.letters <- function(n = 100, caps = FALSE) {
+rtLetters <- function(n = 100, caps = FALSE) {
 
   reps <- ceiling(n / 26)
   prtlet <- function(x = NULL) paste0(x, if (caps) LETTERS else letters)
@@ -362,4 +362,4 @@ rt.letters <- function(n = 100, caps = FALSE) {
   }
   out[1:n]
 
-} # rtemis::rt.letters
+} # rtemis::rtLetters

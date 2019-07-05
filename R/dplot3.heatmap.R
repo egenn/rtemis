@@ -68,8 +68,8 @@ dplot3.heatmap <- function(z,
   }
   
   # [ COLNAMES ] ====
-  if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rt.letters(NCOL(z))
-  if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rt.letters(NCOL(z), caps = TRUE)
+  if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rtLetters(NCOL(z))
+  if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rtLetters(NCOL(z), caps = TRUE)
   
   # [ MARGINS ] ====
   # By default, allow 7 px per character
