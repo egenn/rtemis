@@ -219,7 +219,7 @@ x <- mapply(rnorm, rep(10,10))
 xcor <- cor(x)
 rownames(xcor) <- LETTERS[1:10]
 colnames(xcor) <- 1:10
-mplot3.heatmap(xcor)
+mplot3.heatmap(xcor, Rowv = TRUE, Colv = TRUE)
 ```
 
 ## Dynamic graphics
