@@ -29,7 +29,7 @@ packages <- c("pbapply", "ranger")
 install.packages(packages[.add])
 ```
 
-Load rtemis and get cross-validated random forest performance on the iris dataset:
+Load __rtemis__ and get cross-validated random forest performance on the iris dataset:
 ```r
 library(rtemis)
 mod <- elevate(iris)
@@ -37,7 +37,8 @@ mod$plot()
 ```
 
 ### What's new
-* __v. 0.78__: First public release, April 2019
+* __v0.79__: 07-02-2019 "Super Papaya" Release out
+* __v0.78__: 04-02-2019 __rtemis__ moved to public repo
 
 ### Features
 * __Visualization__
@@ -69,4 +70,4 @@ mod$plot()
 
 <img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="205">  
 
-2019 Efstathios D. Gennatas  
+2019 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD  
