@@ -5,7 +5,7 @@ The goal of __rtemis__ is to make data science efficient and accessible  with no
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
-<img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png">
+<img align = "center" src="https://rtemis.netlify.com/rtemis_0.79_Release.jpeg">
 </a>    
 </div>
 
