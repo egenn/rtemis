@@ -1,6 +1,6 @@
 ---
 title: "rtemis Intro Vignette"
-author: "Efstathios (Stathis) D. Gennatas"
+author: "Efstathios (Stathis) D. Gennatas MBBS AICSM PhD"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 monofont: Hack

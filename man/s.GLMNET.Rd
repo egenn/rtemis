@@ -47,10 +47,10 @@ combinations. Default = .1}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{alpha}{Float [0, 1]: The elasticnet mixing parameter:
+\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
-\item{lambda}{Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -116,6 +116,9 @@ Train an elastic net model
 \code{grid.resample.rtset}.
 Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 alpha and resample combination
+
+\code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+automatically performed
 }
 \seealso{
 \link{elevate} for external cross-validation

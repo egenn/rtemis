@@ -9,6 +9,7 @@ s.RANGER(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
   autotune = FALSE, classwt = NULL, n.trees.try = 500,
   stepFactor = 2, mtry = NULL, mtryStart = NULL,
+  inbag.resample = NULL, stratify.on.y = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -69,6 +70,12 @@ divided by this value. Default = 1.5}
 features for classification, and a third of n of features for regression.}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
+
+\item{inbag.resample}{List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
+tree. Default = NULL}
+
+\item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
+This can help improve test set performance in imbalanced datasets. Default = FALSE}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
