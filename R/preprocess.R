@@ -6,7 +6,7 @@
 #'
 #' Prepare data for data analysis
 #'
-#' By default, only removes constant features, everything else can be specified.
+#' By default, only removes constant features, everything else must be specified.
 #'
 #' Order of operations:
 #'   * completeCases
