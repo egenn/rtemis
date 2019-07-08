@@ -17,7 +17,7 @@ synthRegData <- function(nrow = 500, ncol = 50, seed = NULL) {
   w <- rnorm(ncol)
   y <- c(x %*% w + rnorm(500))
   dat <- data.frame(x, y)
-  colnames(dat)[seq(ncol)] <- paste0("Feature", seq(ncol))
+  colnames(dat)[seq(ncol)] <- paste0("Feature_", seq(ncol))
 
   list(dat = dat,
        w = w,
