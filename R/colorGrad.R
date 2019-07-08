@@ -152,10 +152,8 @@ colorGrad <- function(n = 21,
     mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
     grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
   } else {
-    grad <- colorRampPalette(c(lo, hi), space = space)
+    grad <- colorRampPalette(c(lo, hi), space = space)(n)
   }
-
-
 
   if (cb.n != n) {
     cb.n <- as.integer(cb.n)
@@ -163,7 +161,11 @@ colorGrad <- function(n = 21,
     # if (is.null(mid)) mid <- colorOp(c(lo, hi), "mean")
     # lo2mid <- grDevices::colorRampPalette(c(lo, lomid, mid), space = space)
     # mid2hi <- grDevices::colorRampPalette(c(mid, midhi, hi), space = space)
-    cb.grad <- c(lo2mid(cb.midpoint), mid2hi(cb.n - cb.midpoint + 1)[-1])
+    if (!is.na(mid)) {
+      cb.grad <- c(lo2mid(cb.midpoint), mid2hi(cb.n - cb.midpoint + 1)[-1])
+    } else {
+      cb.grad <- colorRampPalette(c(lo, hi), space = space)(cb.n)
+    }
   } else {
     cb.grad <- grad
     cb.midpoint <- midpoint
@@ -173,7 +175,7 @@ colorGrad <- function(n = 21,
   if (preview) {
     plot(rep(1, n), col = grad, pch = 19, cex = 6,
          xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-         ann = F, axes = FALSE)
+         ann = FALSE, axes = FALSE)
     text(x = 0.25, y = 1.05, labels = paste0("Color gradient (n = ", n, ")"), adj = 0, cex = 1.5)
     segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
   }
