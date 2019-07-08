@@ -151,6 +151,8 @@ Train a Random Forest for regression or classification using \code{ranger}
 }
 \details{
 You should cconsider, or try, setting mtry to NCOL(x), especially for small number of features.
+By default mtry is set to NCOL(x) for NCOL(x) <= 20.
+For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
   value.
 [gS]: indicated parameter will be tuned by grid search if more than one value is passed

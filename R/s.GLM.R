@@ -13,6 +13,8 @@
 #' when training on resamples of a data set, especially after stratifying against a different
 #' outcome, and results in error and no prediction. \code{s.GLM} automatically finds such cases
 #' and substitutes levels present in \code{x.test} and not in \code{x} with NA.
+#' Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+#' variable standard deviation.
 #'
 #' @param x Numeric vector or matrix / data frame of features i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
@@ -202,7 +204,7 @@ s.GLM <- function(x, y = NULL,
                                        collapse = " + poly("))
     .formula <- paste0(y.name, " ~ ", features)
     }
-    
+
   # Intercept
   if (!intercept) .formula <- paste(.formula, "- 1")
   .formula <- as.formula(.formula)
@@ -311,7 +313,7 @@ s.GLM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = se.prediction,
                  error.test = error.test,
-                 varimp = mod$coefficients[-1],
+                 varimp = mod$coefficients[-1] * apply(x, 2, sd),
                  question = question,
                  extra = extra)
 

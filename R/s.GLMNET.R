@@ -13,6 +13,8 @@
 #'
 #' \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
 #' automatically performed
+#' Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+#' variable standard deviation.
 #'
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
@@ -292,7 +294,7 @@ s.GLMNET <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = as.matrix(coef(mod))[-1, ],
+                 varimp = as.matrix(coef(mod))[-1, 1] * apply(x, 2, sd),
                  question = question,
                  extra = extra)
 
