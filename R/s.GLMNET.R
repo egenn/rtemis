@@ -11,11 +11,14 @@
 #' Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 #' alpha and resample combination
 #'
+#' \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+#' automatically performed
+#'
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
-#' @param alpha Float [0, 1]: The elasticnet mixing parameter:
+#' @param alpha [gS] Float [0, 1]: The elasticnet mixing parameter:
 #'   \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty
-#' @param lambda Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
+#' @param lambda [gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
 #' @param intercept Logical: If TRUE, include intercept in the model. Default = TRUE
 #' @param res.summary.fn Function: Used to average resample runs. Default = \code{mean}
 #' @author Efstathios D. Gennatas
