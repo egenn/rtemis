@@ -138,7 +138,9 @@ s.RANGER <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (is.null(mtry)) {
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    n.features <- NCOL(x)
+    if (n.features <= 20) mtry <- n.features
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
   if (type == "Classification") nlevels <- length(levels(y))
 
@@ -191,7 +193,7 @@ s.RANGER <- function(x, y = NULL,
   # In case tuning fails, use defaults
   if (length(mtry) == 0) {
     warning("Tuning failed; setting mtry to default")
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
 
   if (length(min.node.size) == 0) {
@@ -199,7 +201,7 @@ s.RANGER <- function(x, y = NULL,
   }
 
   # [ tuneRF ] ====
-  if (is.null(mtryStart)) mtryStart <- sqrt(NCOL(x))
+  if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
   if (autotune) {
     if (verbose) msg("Tuning for mtry...")
     tuner <- try(randomForest::tuneRF(x = x, y = y,
