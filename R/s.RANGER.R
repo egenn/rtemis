@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2016-8 Efstathios D. Gennatas egenn.github.io
 # TODO: Add Survival support
+# TODO: Use inbag and resample for stratified bootstraps
 
 #' Random Forest Classification and Regression [C, R]
 #'
@@ -25,6 +26,10 @@
 #' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}
 #' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if  \code{autotune = TRUE}.
 #' For classification only; need not add up to 1
+#' @param inbag.resample List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
+#' tree. Default = NULL
+#' @param stratify.on.y Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
+#' This can help improve test set performance in imbalanced datasets. Default = FALSE
 #' @param ... Additional arguments to be passed to \code{ranger::ranger}
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
@@ -49,6 +54,8 @@ s.RANGER <- function(x, y = NULL,
                      stepFactor = 2,
                      mtry = NULL,
                      mtryStart = NULL,
+                     inbag.resample = NULL,
+                     stratify.on.y = FALSE,
                      grid.resample.rtset = rtset.resample("kfold", 5),
                      grid.search.type = c("exhaustive", "randomized"),
                      grid.randomized.p = .1,
@@ -219,6 +226,18 @@ s.RANGER <- function(x, y = NULL,
                      upsample.seed = upsample.seed)
 
   # [ RANGER ] ====
+  if (stratify.on.y) {
+    inbag.resample <- rtset.resample("strat.boot", n.trees)
+  }
+  if (!is.null(inbag.resample)) {
+    if (verbose) msg("Creating custom subsamples...")
+    # Get integer index of inbag cases
+    inbag.res <- resample(df.train$y, rtset = inbag.resample, verbose = verbose)
+    # Convert to counts for each case
+    inbag <- lapply(seq(n.trees), function(i) sapply(seq(df.train$y), function(j) sum(j == inbag.res[[i]])))
+  } else {
+    inbag <- NULL
+  }
   if (verbose) msg("Training Random Forest (ranger)", type, "with", n.trees, "trees...", newline = TRUE)
   mod <- ranger::ranger(formula = .formula,
                         data = df.train,
@@ -231,7 +250,9 @@ s.RANGER <- function(x, y = NULL,
                         probability = probability,
                         importance = importance,
                         write.forest = TRUE,
-                        num.threads = n.cores, ...)
+                        inbag = inbag,
+                        num.threads = n.cores,
+                        verbose = verbose, ...)
 
   # [ FITTED ] ====
   if (type == "Classification") {
