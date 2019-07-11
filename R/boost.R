@@ -632,7 +632,7 @@ update.rtMod.boost <- function(object, x = NULL,
   # }
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
-  object$fitted <- object$mod$init + colSums(fitted * object$mod$learning.rate)
+  object$fitted <- object$mod$init + matrixStats::colSums2(fitted * object$mod$learning.rate)
   object$error.train <- modError(object$y.train, object$fitted)
   # object$mod$error.valid <- modError(object$mod$y.valid, predicted.valid)
   if (trace > 0) {
