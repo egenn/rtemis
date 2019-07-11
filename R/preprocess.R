@@ -21,6 +21,8 @@
 #' @param x Input
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
+#' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
+#' which cases were missing data
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 #' \code{impute.numeric} for how
 #' @param impute.type String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
@@ -56,6 +58,7 @@ preprocess <- function(x, y = NULL,
                        completeCases = FALSE,
                        removeCases.thres = NULL,
                        removeFeatures.thres = NULL,
+                       missingness = FALSE,
                        impute = FALSE,
                        impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
                        impute.missRanger.params = list(pmm.k = 0,
@@ -187,6 +190,15 @@ preprocess <- function(x, y = NULL,
           }
         }
       }
+    }
+  }
+
+  # [ Missingness ] ====
+  if (missingness) {
+    cols.with.na <- which(apply(x, 2, anyNA))
+    .colnames <- colnames(x)
+    for (i in cols.with.na) {
+      x[, paste0(.colnames[i], "_missing")] <- as.numeric(is.na(x[, i]))
     }
   }
 
