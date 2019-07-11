@@ -6,17 +6,17 @@
 \usage{
 preprocess(x, y = NULL, completeCases = FALSE,
   removeCases.thres = NULL, removeFeatures.thres = NULL,
-  impute = FALSE, impute.type = c("missRanger", "missForest",
-  "rfImpute", "meanMode"), impute.missRanger.params = list(pmm.k = 0,
-  maxiter = 10), impute.missForest.params = list(maxiter = 10, ntree =
-  500, parallelize = "no"), impute.discrete = getMode,
-  impute.numeric = mean, integer2factor = FALSE,
-  integer2numeric = FALSE, logical2factor = FALSE,
-  logical2numeric = FALSE, numeric2factor = FALSE,
-  numeric2factor.levels = NULL, character2factor = FALSE,
-  nonzeroFactors = FALSE, scale = FALSE, center = FALSE,
-  removeConstant = TRUE, oneHot = FALSE, exclude = NULL,
-  verbose = TRUE, n.cores = rtCores,
+  missingness = FALSE, impute = FALSE, impute.type = c("missRanger",
+  "missForest", "rfImpute", "meanMode"),
+  impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
+  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize
+  = "no"), impute.discrete = getMode, impute.numeric = mean,
+  integer2factor = FALSE, integer2numeric = FALSE,
+  logical2factor = FALSE, logical2numeric = FALSE,
+  numeric2factor = FALSE, numeric2factor.levels = NULL,
+  character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
+  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
+  exclude = NULL, verbose = TRUE, n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
 }
 \arguments{
@@ -30,6 +30,9 @@ Default = NULL}
 
 \item{removeFeatures.thres}{Float: Remove features with missing values in >= to this fraction of
 cases. Default = NULL}
+
+\item{missingness}{Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
+which cases were missing data}
 
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 \code{impute.numeric} for how}
