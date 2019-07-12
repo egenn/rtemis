@@ -22,8 +22,9 @@ rules2medmod <- function(rules, x,
   nrules <- length(rules)
   rules.f <- character()
   frmt <- if (.ddSci) ddSci else I
+  if (verbose) msg("Converting rules...")
   for (i in seq(rules)) {
-    if (verbose) msg("Converting rule #", i, " of ", nrules, "...", sep = "")
+    if (verbose) cat("#", i, "/", nrules, "...\n", sep = "")
     dat <- x[cxr[, i] == 1, ]
     sub <- strsplit(rules[i], "&")[[1]]
     rule <- character()
