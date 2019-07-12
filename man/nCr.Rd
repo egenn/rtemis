@@ -7,9 +7,12 @@
 nCr(n, r)
 }
 \arguments{
-\item{n}{Integer. Total number of items}
+\item{n}{Integer: Total number of items}
 
-\item{r}{Integer. Number of items in each combination}
+\item{r}{Integer: Number of items in each combination}
+}
+\value{
+Integer: Number of combinations
 }
 \description{
 Calculate number of combinations
@@ -17,4 +20,7 @@ Calculate number of combinations
 \details{
 In plain language:
   You have \code{n} items. How many different cobinations of \code{r} items can you make?
+}
+\author{
+Efstathios D Gennatas
 }

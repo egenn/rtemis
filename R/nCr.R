@@ -9,8 +9,10 @@
 #' In plain language:
 #'   You have \code{n} items. How many different cobinations of \code{r} items can you make?
 #'
-#' @param n Integer. Total number of items
-#' @param r Integer. Number of items in each combination
+#' @param n Integer: Total number of items
+#' @param r Integer: Number of items in each combination
+#' @return Integer: Number of combinations
+#' @author Efstathios D Gennatas
 #' @export
 
 nCr <- function(n, r) {
