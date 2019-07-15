@@ -10,7 +10,8 @@ preprocess(x, y = NULL, completeCases = FALSE,
   "missForest", "rfImpute", "meanMode"),
   impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
   impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize
-  = "no"), impute.discrete = getMode, impute.numeric = mean,
+  = "no"), impute.rfImpute.params = list(niter = 10, ntree = 500),
+  impute.discrete = getMode, impute.numeric = mean,
   integer2factor = FALSE, integer2numeric = FALSE,
   logical2factor = FALSE, logical2numeric = FALSE,
   numeric2factor = FALSE, numeric2factor.levels = NULL,
@@ -40,12 +41,15 @@ which cases were missing data}
 \item{impute.type}{String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest")}
+\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
+compatibility with older pipelines and is no longer recommended}
 
 \item{impute.missRanger.params}{Named list with elements "pmm.k" and "maxiter", which are passed to
 \code{missRanger::missRanger}
 #' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
 to \code{missForest::missForest}}
+
+\item{impute.rfImpute.params}{Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}}
 
 \item{impute.discrete}{Function that returns single value: How to impute discrete variables for
 \code{impute.type = "meanMode"}. Default = \link{getMode}}
