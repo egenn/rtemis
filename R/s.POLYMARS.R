@@ -115,7 +115,7 @@ s.POLYMARS <- function(x, y = NULL,
   }
 
   # [ POLYMARS ] ====
-    if (verbose) msg("Training POLYMARS model...", newline = TRUE)
+    if (verbose) msg("Training POLYMARS model...", newline.pre = TRUE)
       mod <- polspline::polymars(y, x,
                                  weights = .weights,
                                  maxsize = maxsize,

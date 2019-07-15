@@ -150,21 +150,21 @@ s.LM <- function(x, y = NULL,
 
   # [ LM & POLY ] ====
     if (!robust & !gls) {
-      if (verbose) msg("Training linear model...", newline = TRUE)
+      if (verbose) msg("Training linear model...", newline.pre = TRUE)
       mod <- lm(myformula, data = df.train,
                 weights = weights,
                 na.action = na.action, ...)
     }
     # [ RLM ]
     if (robust) {
-      if (verbose) msg("Training robust linear model...", newline = TRUE)
+      if (verbose) msg("Training robust linear model...", newline.pre = TRUE)
       mod <- MASS::rlm(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)
     }
     # [ GLS ]
     if (gls) {
-      if (verbose) msg("Training generalized least squares...", newline = TRUE)
+      if (verbose) msg("Training generalized least squares...", newline.pre = TRUE)
       mod <- nlme::gls(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)

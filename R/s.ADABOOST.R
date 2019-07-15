@@ -89,9 +89,9 @@ s.ADABOOST <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ ADABOOST ] ====
-  if (verbose) msg("Training ADABOOST Classifier...", newline = TRUE)
+  if (verbose) msg("Training ADABOOST Classifier...", newline.pre = TRUE)
   mod <- ada::ada(x, y,
                   loss = loss,
                   type = .type,

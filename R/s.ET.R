@@ -84,9 +84,9 @@ s.ET <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ ET ] ====
-  if (verbose) msg("Training extraTrees model...", newline = TRUE)
+  if (verbose) msg("Training extraTrees model...", newline.pre = TRUE)
   mod <- extraTrees::extraTrees(x = x, y = y,
                                 ntree = n.trees,
                                 mtry = mtry,

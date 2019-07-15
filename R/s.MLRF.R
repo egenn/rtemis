@@ -126,7 +126,7 @@ s.MLRF <- function(x, y = NULL,
   }
 
   # [ MLRF ] ====
-  if (verbose) msg("Training MLlib Random Forest", type, "...", newline = TRUE)
+  if (verbose) msg("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
   args <- c(list(x = tbl,
                  formula = .formula,
                  type = ifelse(type == "Classification",

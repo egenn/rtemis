@@ -83,7 +83,7 @@ s.QDA <- function(x, y = NULL,
                    method = method,
                    nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
-  if (verbose) msg("Running Quadratic Discriminant Analysis...", newline = TRUE)
+  if (verbose) msg("Running Quadratic Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::qda, args = params)
 
   # [ FITTED ] ====

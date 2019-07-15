@@ -131,7 +131,7 @@ s.H2ORF <- function(x, y = NULL,
   }
 
   # [ H2ORF ] ====
-  if (verbose) msg("Training H2O Random Forest model...", newline = TRUE)
+  if (verbose) msg("Training H2O Random Forest model...", newline.pre = TRUE)
   mod <- h2o::h2o.randomForest(y = "y",
                                training_frame = df.train,
                                validation_frame = df.valid,

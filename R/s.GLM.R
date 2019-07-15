@@ -212,14 +212,14 @@ s.GLM <- function(x, y = NULL,
   # [ GLM, NNET ] ====
   if (trace > 0) msg("Using formula", .formula)
   if (mod.name != "MULTINOM") {
-      if (verbose) msg("Training GLM...", newline = TRUE)
+      if (verbose) msg("Training GLM...", newline.pre = TRUE)
       mod <- glm(.formula, family = family, data = df.train,
                  weights = .weights, na.action = na.action, ...)
   } else {
     if (!depCheck("nnet", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
-    if (verbose) msg("Training multinomial logistic regression model...", newline = TRUE)
+    if (verbose) msg("Training multinomial logistic regression model...", newline.pre = TRUE)
     mod <- nnet::multinom(.formula, data = df.train,
                           weights = .weights, na.action = na.action, ...)
   }

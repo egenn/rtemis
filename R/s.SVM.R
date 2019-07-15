@@ -224,7 +224,7 @@ s.SVM <- function(x, y = NULL,
   }
 
   # [ SVM ] ====
-  if (verbose) msg("Training SVM", type, "with", kernel, "kernel...", newline = TRUE)
+  if (verbose) msg("Training SVM", type, "with", kernel, "kernel...", newline.pre = TRUE)
   mod <- e1071::svm(x = x, y = y,
                     kernel = kernel,
                     degree = degree,

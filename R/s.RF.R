@@ -253,7 +253,7 @@ s.RF <- function(x, y = NULL,
 
   # [ RF ] ====
   if (verbose) msg("Training Random Forest", type, "with", n.trees, "trees...",
-                   newline = TRUE)
+                   newline.pre = TRUE)
   mod <- randomForest::randomForest(x = x, y = y,
                                     ntree = n.trees,
                                     mtry = mtry,

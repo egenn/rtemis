@@ -95,7 +95,7 @@ s.NLA <- function(x, y = NULL,
 
   # [ NLA ] ====
   if (verbose) msg("Training NLA model with", .activation, "activation function using",
-                   optim.method, "optimization...", newline = TRUE)
+                   optim.method, "optimization...", newline.pre = TRUE)
   mod <- nlareg(x, y,
                 activation = .activation,
                 b_o = b_o,

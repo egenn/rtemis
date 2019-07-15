@@ -100,7 +100,7 @@ s.ADDTBOOST <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, "Regression", mod.name)
-  
+
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -116,7 +116,7 @@ s.ADDTBOOST <- function(x, y = NULL,
                                 learning.rate,
                                 mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
-  if (verbose) msg("Training ADDTBOOST...", newline = TRUE)
+  if (verbose) msg("Training ADDTBOOST...", newline.pre = TRUE)
   mod <- addtboost(x = x, y = y,
                    x.valid = x.valid, y.valid = y.valid,
                    resid = resid,

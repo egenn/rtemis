@@ -141,7 +141,7 @@ s.DN <- function(x, y = NULL,
 
   # [ DN ] ====
   if (verbose) msg0("Training Artificial Neural Network for ", type, "...",
-                    newline = TRUE)
+                    newline.pre = TRUE)
   mod <- deepnet::nn.train(x, y,
                            initW = .weights,
                            initB = initB,

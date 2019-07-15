@@ -189,7 +189,7 @@ s.H2ODL <- function(x, y = NULL,
                    stopping_rounds = stopping.rounds,
                    stopping_metric = stopping.metric, ...)
   if (!is.null(hidden.dropout.ratios)) net.args$hidden_dropout_ratios <- hidden.dropout.ratios
-  if (verbose) msg("Training H2O Deep Net...", newline = TRUE)
+  if (verbose) msg("Training H2O Deep Net...", newline.pre = TRUE)
   mod <- do.call(h2o::h2o.deeplearning, net.args)
   if (trace > 0) print(summary(mod))
 

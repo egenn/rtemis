@@ -96,7 +96,7 @@ s.EVTREE <- function(x, y = NULL,
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
   # [ EVTREE ] ====
-  if (verbose) msg("Training EVTREE...", newline = TRUE)
+  if (verbose) msg("Training EVTREE...", newline.pre = TRUE)
   mod <- evtree::evtree(formula = .formula,
                         data = df.train,
                         weights = weights,

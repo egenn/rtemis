@@ -94,7 +94,7 @@ s.DA <- function(x, y = NULL,
                    nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
 
-  if (verbose) msg("Running", ifelse(da.type == "lin", "Linear", "Quadratic"), "Discriminant Analysis...", newline = TRUE)
+  if (verbose) msg("Running", ifelse(da.type == "lin", "Linear", "Quadratic"), "Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(da, args = params)
 
   # [ FITTED ] ====

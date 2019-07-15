@@ -79,7 +79,7 @@ s.LDA <- function(x, y,
                    method = method,
                    nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
-  if (verbose) msg("Running Linear Discriminant Analysis...", newline = TRUE)
+  if (verbose) msg("Running Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::lda, args = params)
 
   # [ FITTED ] ====

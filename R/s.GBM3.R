@@ -204,7 +204,7 @@ s.GBM3 <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline = TRUE)
+  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {
@@ -302,7 +302,7 @@ s.GBM3 <- function(x, y = NULL,
     # inlc.hack to check model is good: add small valid set to see if valid.error gets estimated
     .x.train <- rbind(.x, .x[1, , drop = FALSE])
     .y.train <- c(.y, .y[1])
-    if (verbose) msg("Training GBM3 on full training set...", newline = TRUE)
+    if (verbose) msg("Training GBM3 on full training set...", newline.pre = TRUE)
   }
   mod <- gbm3::gbm.fit(x = .x.train, y = .y.train,
                        offset = offset,

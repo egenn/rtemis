@@ -86,7 +86,7 @@ s.CTREE <- function(x, y = NULL,
   .formula <- as.formula(paste(y.name, "~", features))
 
   # [ CTREE ] ====
-  if (verbose) msg("Training Conditional Inference Tree...", newline = TRUE)
+  if (verbose) msg("Training Conditional Inference Tree...", newline.pre = TRUE)
   # Instead of loading the whole package
   # because partykit::ctree does this:
   # mf[[1L]] <- quote(extree_data)

@@ -194,7 +194,7 @@ s.GBM <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline = TRUE)
+  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline.pre = TRUE)
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {

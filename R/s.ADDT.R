@@ -154,7 +154,7 @@ s.ADDT <- function(x, y = NULL,
 
   # [ lin1 ] ====
   if (verbose) msg0("Training Additive Tree (max depth = ", max.depth, ")...",
-                    newline = TRUE)
+                    newline.pre = TRUE)
 
   lin1 <- MASS::lm.ridge(y ~ ., data.frame(x, y), lambda = lambda)
   coef.c <- coef(lin1)
@@ -351,7 +351,7 @@ addTree <- function(node = list(x = NULL,
       coef.c.right <- coef.c.right + c(node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
                                        node$partlin$lin.coef.right[-1])
       if (trace > 1) msg("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
-      
+
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
         rule.right <- gsub("<", ">=", node$partlin$split.rule)

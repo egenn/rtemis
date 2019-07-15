@@ -260,7 +260,7 @@ s.TFN <- function(x, y = NULL,
     # [ TF ] ====
     if (verbose) msg0("Training Neural Network ", type, " with ",
                       n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
-                      "...\n", newline = TRUE)
+                      "...\n", newline.pre = TRUE)
 
     # '- Compile ====
     net %>% keras::compile(

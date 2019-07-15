@@ -515,7 +515,7 @@ s.XGB <- function(x, y = NULL,
   }
 
   # [ FULL XGBOOST ] ====
-  if (verbose) msg("Training full XGB model with", booster, "booster...", newline = TRUE)
+  if (verbose) msg("Training full XGB model with", booster, "booster...", newline.pre = TRUE)
   if (!is.null(objective)) objective <- deparse(substitute(objective))
   if (!is.null(feval)) feval <- deparse(substitute(feval))
   if (!is.null(force.nrounds)) nrounds <- force.nrounds

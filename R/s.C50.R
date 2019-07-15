@@ -90,7 +90,7 @@ s.C50 <- function(x, y = NULL,
   parameters <- list(control = control, costs = costs, weights = .weights)
 
   # [ C5.0 ] ====
-  if (verbose) msg("Training C5.0 decision tree...", newline = TRUE)
+  if (verbose) msg("Training C5.0 decision tree...", newline.pre = TRUE)
   mod <- C50::C5.0(x, y,
                    trials = trials,
                    rules = rules,

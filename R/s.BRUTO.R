@@ -109,7 +109,7 @@ s.BRUTO <- function(x, y = NULL,
   }
 
   # [ BRUTO ] ====
-  if (verbose) msg("Training BRUTO...", newline = TRUE)
+  if (verbose) msg("Training BRUTO...", newline.pre = TRUE)
   mod <- mda::bruto(x, y,
                     w = weights,
                     wp = weights.col,

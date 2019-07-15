@@ -276,7 +276,7 @@ s.MXN <- function(x, y = NULL,
   logger <- mxnet::mx.metric.logger$new()
   if (verbose) msg0("Training Neural Network ", type, " with ",
                     n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
-                    "...\n", newline = TRUE)
+                    "...\n", newline.pre = TRUE)
 
   if (!is.null(x.valid) & !is.null(y.valid)) {
     eval.data <- list(data = data.matrix(x.valid),

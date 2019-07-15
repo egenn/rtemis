@@ -59,7 +59,6 @@ msg <- function(...,
   txt <- list(...)
   .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
-  if (newline) cat("\n")
   if (as.message) {
     message(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)))
   } else {
@@ -71,6 +70,7 @@ msg <- function(...,
     } else {
       cat(color$bold(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)), "\n"))
     }
+    if (newline) cat("\n")
   }
 
   invisible(list(call = .call,

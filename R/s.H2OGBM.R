@@ -227,9 +227,9 @@ s.H2OGBM <- function(x, y = NULL,
   if (.final) {
     # Use estimated n.trees from grid search. These will be at most n.trees defined originally
     stopping_rounds <- 0
-    if (verbose) msg("Training final H2O GBM model...", newline = TRUE)
+    if (verbose) msg("Training final H2O GBM model...", newline.pre = TRUE)
   } else {
-    if (verbose) msg("Training H2O Gradient Boosting Machine...", newline = TRUE)
+    if (verbose) msg("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
   }
 
   mod <- h2o::h2o.gbm(y = "y",

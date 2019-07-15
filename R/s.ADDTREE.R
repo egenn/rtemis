@@ -175,7 +175,7 @@ s.ADDTREE <- function(x, y = NULL,
                      upsample.seed = upsample.seed)
 
   # [ ADDTREE ] ====
-  if (verbose) msg("Training ADDTREE...", newline = TRUE)
+  if (verbose) msg("Training ADDTREE...", newline.pre = TRUE)
   mod <- mediboost(x, y,
                    catPredictors = NULL,
                    depthLimit = max.depth,

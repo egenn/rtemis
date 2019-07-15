@@ -160,7 +160,7 @@ s.GAM.default <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ GAM ] ====
-  if (verbose) msg("Training GAM...", newline = TRUE)
+  if (verbose) msg("Training GAM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  family = family,
                  data = df.train,

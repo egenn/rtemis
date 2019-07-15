@@ -95,7 +95,7 @@ s.QRNN <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
   # [ QRNN ] ====
-  if (verbose) msg("Training QRNN mmodel...", newline = TRUE)
+  if (verbose) msg("Training QRNN mmodel...", newline.pre = TRUE)
   mod <- qrnn::qrnn.fit(x = as.matrix(x), y = as.matrix(y),
                         n.hidden = n.hidden,
                         tau = tau,

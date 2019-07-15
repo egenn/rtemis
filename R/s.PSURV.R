@@ -88,7 +88,7 @@ s.PSURV <- function(x, y,
   .formula <- y ~ .
 
   # [ SURVREG ] ====
-  if (verbose) msg("Training Parametric Survival Regression model...", newline = TRUE)
+  if (verbose) msg("Training Parametric Survival Regression model...", newline.pre = TRUE)
   mod <- survival::survreg(.formula,
                            data = x,
                            weights = weights,

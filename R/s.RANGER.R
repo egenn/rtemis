@@ -242,7 +242,7 @@ s.RANGER <- function(x, y = NULL,
   } else {
     inbag <- NULL
   }
-  if (verbose) msg("Training Random Forest (ranger)", type, "with", n.trees, "trees...", newline = TRUE)
+  if (verbose) msg("Training Random Forest (ranger)", type, "with", n.trees, "trees...", newline.pre = TRUE)
   mod <- ranger::ranger(formula = .formula,
                         data = df.train,
                         num.trees = n.trees,

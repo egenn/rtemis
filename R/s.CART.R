@@ -240,7 +240,7 @@ s.CART <- function(x, y = NULL,
                      class.weights = class.weights)
 
   # [ RPART ] ====
-  if (verbose) msg("Training CART...", newline = TRUE)
+  if (verbose) msg("Training CART...", newline.pre = TRUE)
   mod <- rpart::rpart(formula = .formula,
                       data = df.train,
                       weights = .weights,

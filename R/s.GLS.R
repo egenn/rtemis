@@ -95,7 +95,7 @@ s.GLS <- function(x, y = NULL,
   .formula <- as.formula(.formula)
 
   # [ GLS ] ====
-  if (verbose) msg("Trainings GLS...", newline = TRUE)
+  if (verbose) msg("Trainings GLS...", newline.pre = TRUE)
   args <- c(list(model = .formula, data = df.train, na.action = na.action),
             list(...))
   mod <- do.call(nlme::gls, args)
