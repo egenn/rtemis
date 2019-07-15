@@ -363,6 +363,7 @@ predict.rtMod <- function(object,
   if (missing(newdata)) {
     estimated <- object$fitted
   } else {
+    newdata <- as.data.frame(newdata)
     if (object$mod.name == "ADDT") {
       if (is.null(extraArgs$learning.rate)) learning.rate <- object$parameters$learning.rate
       if (is.null(extraArgs$n.feat)) n.feat <- length(object$xnames)
@@ -1446,13 +1447,9 @@ rtMeta <- R6::R6Class("rtMeta",
                         ### Methods
                         print = function() {
                           "R6 show / print method for rtMeta"
-                          if (length(self$predicted) < 1) {
-                            boxcat(".:rtemis Fitted Meta Model")
-                          } else {
-                            boxcat(".:rtemis Fitted and Validated Meta Model")
-                          }
-                          cat(" Base: ", self$base.mod.names)
-                          cat("  Meta: ", self$meta.mod.name)
+                          cat(bold(".:rtemis Meta Model\n"))
+                          cat("   Base: ", rtHighlight$bold(paste(self$base.mod.names, collapse = ", ")), "\n")
+                          cat("   Meta: ", rtHighlight$bold(self$meta.mod.name), "\n")
                           boxcat("Training Error")
                           print(self$error.train)
                           if (length(self$error.test) > 0) {
@@ -1482,7 +1479,7 @@ predict.rtMeta <- function(object, newdata, fn = median, ...) {
   if (missing(newdata)) {
     predicted <- object$predicted
   } else {
-    base.predicted <- sapply(object$base.mods, function(mod) predict(mod, newdata = newdata, ...))
+    base.predicted <- as.data.frame(sapply(object$base.mods, function(mod) predict(mod, newdata = newdata, ...)))
     predicted <- predict(object$meta.mod, newdata = base.predicted)
   }
 
