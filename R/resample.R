@@ -51,7 +51,8 @@ resample <- function(y,
                      seed = NULL,
                      verbose = FALSE) {
 
-  # If rtset is provided, it takes precedence over all other arguments
+  # If rtset is provided, it takes precedence over all other arguments,
+  # excluding the verbose arg
   if (!is.null(rtset)) {
     resampler <- rtset$resampler
     n.resamples <- rtset$n.resamples
