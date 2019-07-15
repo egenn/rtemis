@@ -1,6 +1,8 @@
 # s.GAM.default.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
+# TODO: Update to use cv.gamsel similar to s.GLMNET
+# TODO: Add special case in rtMod predict
 
 #' Regularized Generalized Additive Model (GAMSEL) [C, R]
 #'
@@ -107,7 +109,7 @@ s.GAMSEL <- function(x, y = NULL,
 
   y0 <- y
   if (type == "Classification") {
-    y <- as.numeric(y) - 1
+    y <- 2 - as.numeric(y)
   }
 
   if (length(degrees) != n.features) degrees <- degrees[seql(degrees, seq(n.features))]
@@ -131,18 +133,18 @@ s.GAMSEL <- function(x, y = NULL,
                parallel = parallel)
   mod <- do.call(gamsel::gamsel, args)
   if (cleanup) mod$call <- NULL
+  nlambdas <- length(mod$lambdas)
 
   # [ FITTED ] ====
   if (type == "Regression") {
-    fitted <- c(predict(mod, x, index = num.lambda, type = "response"))
+    fitted <- c(predict(mod, x, index = nlambdas, type = "response"))
     error.train <- modError(y, fitted)
   } else {
-    fitted.prob <- 1 - c(predict(mod, x, index = num.lambda, type = "response"))
+    fitted.prob <- c(predict(mod, x, index = nlambdas, type = "response"))
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     levels(fitted) <- levels(y0)
     error.train <- modError(y0, fitted, fitted.prob)
   }
-
 
   if (verbose) errorSummary(error.train, mod.name)
 
@@ -150,9 +152,9 @@ s.GAMSEL <- function(x, y = NULL,
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
-      predicted <- c(predict(mod, x.test, index = num.lambda, type = "response"))
+      predicted <- c(predict(mod, x.test, index = nlambdas, type = "response"))
     } else {
-      predicted.prob <- 1 - c(predict(mod, x.test, index = num.lambda, type = "response"))
+      predicted.prob <- c(predict(mod, x.test, index = nlambdas, type = "response"))
       predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(predicted) <- levels(y0)
     }
