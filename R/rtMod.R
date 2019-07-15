@@ -821,13 +821,13 @@ rtModBag <- R6::R6Class("rtModBag",
                             cat(bold(".:rtemis Bagged Supervised Model\n"))
                             cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
-                            resamples <- switch(self$bag.resample.rtset$resampler,
-                                                strat.sub = " stratified subsamples",
-                                                bootstrap = " bootstraps",
-                                                strat.boot = " stratified bootstraps",
-                                                kfold = "-fold crossvalidation",
-                                                "custom resamples")
-                            cat("Aggregating", self$bag.resample.rtset$n.resamples, resamples, "\n")
+                            .resamples <- switch(self$bag.resample.rtset$resampler,
+                                                 strat.sub = "stratified subsamples",
+                                                 bootstrap = "bootstraps",
+                                                 strat.boot = "stratified bootstraps",
+                                                 kfold = "stratified folds",
+                                                 "custom resamples")
+                            cat("Aggregating", self$bag.resample.rtset$n.resamples, .resamples, "\n")
                             boxcat("Training Error")
                             print(self$error.train)
                             if (length(self$error.test) > 0) {
@@ -852,19 +852,19 @@ NULL
 #' @param newdata Testing set features
 #' @rdname rtModBag-methods
 #' @export
-predict.rtModBag <- function(object, newdata, fn = "median", verbose = FALSE, ...) {
+predict.rtModBag <- function(object, newdata,
+                             fn = "median",
+                             verbose = FALSE, ...) {
 
-  # special cases: GBM - include n.trees: can be supplied in '...'
-  # BRUTO: newdata must be matrix <- specified in predict.rtMod
   if (verbose) msg("Calculating estimated values using", fn, "of", length(object$mod), "bag resamples")
-  estimated.df <- sapply(object$mod, function(m) predict(m$mod1, newdata = newdata, ...))
+  estimated.df <- sapply(object$mod$mods, function(m) predict(m$mod1, newdata = newdata, ...))
   estimated <- apply(estimated.df, 1, fn)
   if (object$type == "Regression" | object$type == "Survival") {
     estimated <- as.numeric(estimated)
   } else {
     estimated <- levels(object$y.train)[estimated]
   }
-  return(estimated)
+  estimated
 
 } # rtemis::predict.rtModBag
 
