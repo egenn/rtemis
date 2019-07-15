@@ -161,7 +161,7 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
     freq <- as.data.frame(table(y))
     maxfreq.i <- which.max(freq$Freq)
     if (verbose) {
-      msg("Upsampling to create balanced set...", newline = TRUE)
+      msg("Upsampling to create balanced set...", newline.pre = TRUE)
       msg(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
@@ -202,7 +202,7 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
       } else if (ipw.type == 2) {
         weights <- class.weights / min(class.weights)
       }
-      if (verbose) msg("Imbalanced classes: using Inverse Probability Weighting", newline = TRUE)
+      if (verbose) msg("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
       weights <- weights[as.integer(y)]
     }
   }
