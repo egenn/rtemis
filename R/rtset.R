@@ -24,8 +24,7 @@ rtset.resample <- function(resampler = "kfold",
                            train.p = .75,
                            strat.n.bins = 4,
                            target.length = NULL,
-                           seed = NULL,
-                           verbose = TRUE) {
+                           seed = NULL) {
 
 
   list(resampler = resampler,
@@ -34,8 +33,7 @@ rtset.resample <- function(resampler = "kfold",
        train.p = train.p,
        strat.n.bins = strat.n.bins,
        target.length = target.length,
-       seed = seed,
-       verbose = verbose)
+       seed = seed)
 
 } # rtemis::rtset.resample
 

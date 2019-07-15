@@ -88,13 +88,12 @@ metaMod <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = F), "/")
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   names(base.params) <- base.mod.names
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     verbose = verbose)
-
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -111,7 +110,7 @@ metaMod <- function(x, y = NULL,
   }
 
   # [ RESAMPLES ] ====
-  res.part <- resample(y, rtset = base.resample.rtset)
+  res.part <- resample(y, rtset = base.resample.rtset, verbose = verbose)
 
   # [ {GRID} FUNCTION ] ====
   waffle1 <- function(index, grid, x.int, y.int, res.part, base.params, verbose, ...) {
@@ -128,27 +127,30 @@ metaMod <- function(x, y = NULL,
                  print.plot = FALSE, verbose = verbose)
     args <- c(args, params)
     base.mod1 <- do.call(modSelect(mod.name), args = args)
-    return(base.mod1)
+    base.mod1
   }
 
   # [ BASE RES MODS ] ====
-  # For each resample, for each model
+  # For each resample, for each base
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
-  if (verbose) msg("I will train ", length(base.mod.names), " base learners: ",
-                   paste(base.mod.names, collapse = ", "), sep = "", newline.pre = TRUE)
-  if (verbose) msg("using ", base.resample.rtset$n.resamples, " internal resamples (",
-                   base.resample.rtset$resampler, "),", sep = "")
+  nbases <- length(base.mod.names)
+  if (verbose) msg0("I will train ", nbases, " base learners: ",
+                    paste(base.mod.names, collapse = ", "), newline.pre = TRUE)
+  if (verbose) msg0("using ", base.resample.rtset$n.resamples, " internal resamples (",
+                   base.resample.rtset$resampler, "),")
   if (verbose) msg("and build a", meta.mod, "meta model")
-  if (verbose) msg("Training ", length(base.mod.names), " base learners (", paste(base.mod.names, collapse = ", "),
-                   ") on ", length(res.part), " training set resamples (", nrow(grid), " models total) ...\n", sep = "")
+  if (verbose) msg0("Training ", nbases, " base learners (", paste(base.mod.names, collapse = ", "),
+                    ") on ", length(res.part), " training set resamples (", nrow(grid), " models total) ...\n")
   if (verbose) {
     cat("\n")
     pbapply::pboptions(type = "timer")
   } else {
     pbapply::pboptions(type = "none")
   }
-  base.res <- pbapply::pblapply(seq(NROW(grid)), waffle1, grid = grid,
-                                x.int = x, y.int = y,
+  base.res <- pbapply::pblapply(seq(NROW(grid)), waffle1,
+                                grid = grid,
+                                x.int = x,
+                                y.int = y,
                                 res.part = res.part,
                                 base.params = base.params,
                                 verbose = verbose.base.res.mods,
@@ -159,7 +161,7 @@ metaMod <- function(x, y = NULL,
   base.res.y.test <- unlist(lapply(seq(res.part), function(res) c(y[-res.part[[res]]])))
   base.res.predicted <- as.data.frame(plyr::llply(seq(base.mod.names), function(mod) {
     cbind(plyr::ldply(seq(res.part), function(res) {
-      grid.index <- seq(mod, nrow(grid), length(base.mod.names))[res]
+      grid.index <- seq(mod, nrow(grid), nbases)[res]
       if (trace > 0) cat("mod.name is", base.mod.names[mod], "and grid.index is ", grid.index, "\n")
       cbind(base.res[[grid.index]]$predicted)
     }))}))
@@ -175,19 +177,20 @@ metaMod <- function(x, y = NULL,
   # [ META LEARNER ] ====
   if (verbose) msg("Training", toupper(meta.mod), "meta learner...")
   meta.mod <- do.call(modSelect(meta.mod.name),
-                      c(list(x = base.res.predicted, y = base.res.y.test,
-                             print.plot = FALSE), meta.params))
+                      c(list(x = base.res.predicted,
+                             y = base.res.y.test,
+                             print.plot = FALSE),
+                        meta.params))
 
   # [ FULL TRAINING BASE MODS ] ====
-  if (verbose) msg("Training", length(base.mod.names), "base learners on full training set...")
+  if (verbose) msg("Training", nbases, "base learners on full training set...")
   base.mods <- pbapply::pblapply(seq(base.mod.names),
                                  function(mod) {
                                    do.call(modSelect(base.mod.names[mod]),
                                            list(x = x, y = y,
                                                 x.test = x.test, y.test = y.test,
                                                 print.plot = print.base.plot,
-                                                verbose = verbose.base.mods))
-                                 },
+                                                verbose = verbose.base.mods))},
                                  cl = base.n.cores)
   names(base.mods) <- base.mod.names
 
