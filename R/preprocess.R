@@ -28,11 +28,13 @@
 #' @param impute.type String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 #' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 #' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest")
+#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
+#' compatibility with older pipelines and is no longer recommended
 #' @param impute.missRanger.params Named list with elements "pmm.k" and "maxiter", which are passed to
 #' \code{missRanger::missRanger}
 #' #' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
 #' to \code{missForest::missForest}
+#' @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute.discrete Function that returns single value: How to impute discrete variables for
 #' \code{impute.type = "meanMode"}. Default = \link{getMode}
 #' @param impute.numeric Function that returns single value: How to impute continuous variables for
@@ -66,6 +68,8 @@ preprocess <- function(x, y = NULL,
                        impute.missForest.params = list(maxiter = 10,
                                                        ntree = 500,
                                                        parallelize = "no"),
+                       impute.rfImpute.params = list(niter = 10,
+                                                     ntree = 500),
                        impute.discrete = getMode,
                        impute.numeric = mean,
                        integer2factor = FALSE,
@@ -221,7 +225,9 @@ preprocess <- function(x, y = NULL,
       # '- rfImpute ----
       if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
                            missForest instead")
-      x <- randomForest::rfImpute(x, y, iter = impute.niter, ntree = impute.ntree)
+      x <- randomForest::rfImpute(x, y,
+                                  iter = impute.rfImpute.params$niter,
+                                  ntree = impute.rfImpute.params$ntree)
 
     } else {
       # '- mean/mode ----
