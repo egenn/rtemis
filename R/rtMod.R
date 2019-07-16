@@ -766,6 +766,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           se.fit.bag = NULL,
                           predicted.bag = NULL,
                           se.prediction.bag = NULL,
+                          aggr.fn = NULL,
                           ### Initialize
                           initialize = function(mod.name = character(),
                                                 # call = call("NULL"),
@@ -787,6 +788,7 @@ rtModBag <- R6::R6Class("rtModBag",
                                                 predicted = numeric(),
                                                 se.prediction.bag = numeric(),
                                                 se.prediction = numeric(),
+                                                aggr.fn = character(),
                                                 error.test = list(),
                                                 varimp = NULL,
                                                 question = character(),
@@ -810,6 +812,7 @@ rtModBag <- R6::R6Class("rtModBag",
                             self$predicted <- predicted
                             self$se.prediction.bag <- se.prediction.bag
                             self$se.prediction <- se.prediction
+                            self$aggr.fn <- aggr.fn
                             self$error.test <- error.test
                             self$varimp <- varimp
                             self$question <- question
@@ -850,19 +853,32 @@ NULL
 #'
 #' @method predict rtModBag
 #' @param newdata Testing set features
+#' @param aggr.fn String: Function to aggregate models' prediction. Default = "median"
+#' @param ... Not used
 #' @rdname rtModBag-methods
 #' @export
 predict.rtModBag <- function(object, newdata,
-                             fn = "median",
+                             aggr.fn = NULL,
                              verbose = FALSE, ...) {
 
-  if (verbose) msg("Calculating estimated values using", fn, "of", length(object$mod), "bag resamples")
-  estimated.df <- sapply(object$mod$mods, function(m) predict(m$mod1, newdata = newdata, ...))
-  estimated <- apply(estimated.df, 1, fn)
-  if (object$type == "Regression" | object$type == "Survival") {
-    estimated <- as.numeric(estimated)
+  if (verbose) msg("Calculating estimated values of", length(object$mod), "bag resamples")
+  if (is.null(aggr.fn)) aggr.fn <- object$aggr.fn
+  # estimated.df <- sapply(object$mod$mods, function(m) predict(m$mod1, newdata = newdata, ...))
+  # estimated <- apply(estimated.df, 1, fn)
+  # if (object$type == "Regression" | object$type == "Survival") {
+  #   estimated <- as.numeric(estimated)
+  # } else {
+  #   estimated <- levels(object$y.train)[estimated]
+  # }
+  # No progress bar if not verbose
+  if (!verbose) pbapply::pboptions(type = "none")
+
+  estimated.bag <- pbapply::pbsapply(object$mod$mods, function(k) predict(k$mod1, newdata))
+  if (object$type == "Classification") {
+    estimated <- factor(round(apply(estimated.bag, 1, aggr.fn)))
+    levels(estimated) <- levels(object$y.train)
   } else {
-    estimated <- levels(object$y.train)[estimated]
+    estimated <- apply(estimated.bag, 1, aggr.fn)
   }
   estimated
 
