@@ -7,8 +7,8 @@
 metaMod(x, y = NULL, x.test = NULL, y.test = NULL,
   base.mods = c("mars", "ranger"), base.params = vector("list",
   length(base.mods)), base.resample.rtset = rtset.resample(resampler =
-  "strat.sub", n.resamples = 4), meta.mod = "gam",
-  meta.params = list(), x.name = NULL, y.name = NULL,
+  "kfold", n.resamples = 4), meta.mod = "gam", meta.input = c("bag",
+  "retrain"), meta.params = list(), x.name = NULL, y.name = NULL,
   save.base.res = TRUE, save.base.full = FALSE, col = NULL,
   se.lty = 3, print.base.plot = FALSE, print.plot = TRUE,
   plot.fitted = NULL, plot.predicted = NULL,

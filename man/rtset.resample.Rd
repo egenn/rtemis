@@ -6,7 +6,7 @@
 \usage{
 rtset.resample(resampler = "kfold", n.resamples = 10,
   stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
-  target.length = NULL, seed = NULL, verbose = TRUE)
+  target.length = NULL, seed = NULL)
 }
 \arguments{
 \item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
@@ -26,8 +26,6 @@ Default = \code{length(y)}}
 
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
 See \code{?base::set.seed}}
-
-\item{verbose}{Logical: If TRUE, print messages to screen}
 }
 \description{
 \code{rtset.resample}: Set \link{resample} settings
