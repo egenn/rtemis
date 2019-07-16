@@ -8,7 +8,7 @@ bag(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   mod = "cart", k = 10, mod.params = list(), ipw = TRUE,
   ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
   .resample = rtset.resample(resampler = "strat.boot", n.resamples = k),
-  aggr.fn = mean, x.name = NULL, y.name = NULL, question = NULL,
+  aggr.fn = NULL, x.name = NULL, y.name = NULL, question = NULL,
   base.verbose = FALSE, verbose = TRUE, trace = 0,
   print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
@@ -55,8 +55,8 @@ Default = NULL (random seed)}
 resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
 Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}}
 
-\item{aggr.fn}{Function: used to average base learners' predictions. Default = mean. (Note: no quotes, as you are
-passing the function itself)}
+\item{aggr.fn}{Function: used to average base learners' predictions. Default = mean for Classification, median for
+Regression}
 
 \item{x.name}{Character: Name for feature set}
 

@@ -5,11 +5,15 @@
 \alias{predict.rtModBag}
 \title{rtModBag S3 methods}
 \usage{
-\method{predict}{rtModBag}(object, newdata, fn = "median",
+\method{predict}{rtModBag}(object, newdata, aggr.fn = NULL,
   verbose = FALSE, ...)
 }
 \arguments{
 \item{newdata}{Testing set features}
+
+\item{aggr.fn}{String: Function to aggregate models' prediction. Default = "median"}
+
+\item{...}{Not used}
 }
 \description{
 S3 methods for \code{rtModBag} class that differ from those of the \code{rtMod} superclass

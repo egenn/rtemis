@@ -1,6 +1,7 @@
 # bag.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018-9 Efstathios D. Gennatas egenn.github.io
+# TODO: Add fitted.prob and predicted.prob after adding prob support for every learner in rtMod
 
 #' Bag an \pkg{rtemis} learner for regression or classification [C, R]
 #'
@@ -13,8 +14,8 @@
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
 #' resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
 #' Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}
-#' @param aggr.fn Function: used to average base learners' predictions. Default = mean. (Note: no quotes, as you are
-#' passing the function itself)
+#' @param aggr.fn Function: used to average base learners' predictions. Default = mean for Classification, median for
+#' Regression
 #' @param trace Integer: If > 0, print diagnostic info to console
 #' @param base.verbose Logical: \code{verbose} argument passed to learner
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
@@ -37,7 +38,7 @@ bag <- function(x, y = NULL,
                 upsample.seed = NULL,
                 .resample = rtset.resample(resampler = "strat.boot",
                                            n.resamples = k),
-                aggr.fn = mean,
+                aggr.fn = NULL,
                 x.name = NULL,
                 y.name = NULL,
                 question = NULL,
@@ -100,6 +101,7 @@ bag <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
+  if (is.null(aggr.fn)) aggr.fn <- if (type == "Classification") mean else median
 
   # [ BAG ] ====
   mod.name <- paste0("Bagged", toupper(mod))
@@ -122,13 +124,17 @@ bag <- function(x, y = NULL,
                  parallel.type = parallel.type)
 
   # [ FITTED ] ====
+  if (!verbose) pbapply::pboptions(type = "none")
+
   if (type == "Classification") {
-    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x)))
+    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x)),
+                                    cl = n.cores)
     fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))
     levels(fitted) <- levels(y)
   } else if (type == "Regression") {
-    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x))
-    fitted <- apply(fitted.bag[, -1], 1, aggr.fn)
+    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x),
+                                    cl = n.cores)
+    fitted <- apply(fitted.bag, 1, aggr.fn)
   }
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
@@ -137,14 +143,16 @@ bag <- function(x, y = NULL,
   predicted.bag <- predicted <- error.test <- NULL
 
   if (!is.null(x.test)) {
+    # as.numeric is to convert factors to numeric for type = Classification
+    predicted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x.test)),
+                                       cl = n.cores)
     if (type == "Classification") {
-      predicted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x.test)))
       predicted <- factor(round(apply(predicted.bag, 1, aggr.fn)))
       levels(predicted) <- levels(y)
     } else {
-      predicted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x.test))
-      predicted <- apply(predicted.bag[, -1], 1, aggr.fn)
+      predicted <- apply(predicted.bag, 1, aggr.fn)
     }
+
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted)
       if (verbose) errorSummary(error.test)
@@ -154,7 +162,7 @@ bag <- function(x, y = NULL,
   # [ VARIMP ] ====
   varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
   varimp.res[is.na(varimp.res)] <- 0
-  varimp <- apply(varimp.res, 1, mean)
+  varimp <- apply(varimp.res, 1, aggr.fn)
 
   # [ OUTRO ] ====
   parameters <- list(mod = mod.name,
@@ -178,6 +186,7 @@ bag <- function(x, y = NULL,
                      predicted = predicted,
                      se.prediction.bag = NULL,
                      se.prediction = NULL,
+                     aggr.fn = aggr.fn,
                      error.test = error.test,
                      varimp = varimp,
                      parameters = parameters,
