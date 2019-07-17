@@ -52,10 +52,11 @@ mod$plot()
 * __Cross-Decomposition__
      - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
-     [Have been temporarily removed for updating]
      - Model Stacking: **_metaMod()_**
      - Modality Stacking: **_metaFeat()_**
      - Group-weighted Stacking: **_metaGroup()_**
+
+  (metaFeat and metaGroup have been temporarily removed for updating)
 
 ### Ongoing work
 * Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
