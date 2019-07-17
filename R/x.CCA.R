@@ -380,8 +380,8 @@ x.CCA.permute.both <- function(x, z,
   # [ PERMUTATIONS ] ====
   # pbapply version
   mango <- pbapply::pblapply(seq(nperms), FUN = function(i) {
-    sampz <- sample(seq(NROW(z)))
-    sampx <- sample(seq(NROW(x)))
+    sampz <- sample(NROW(z))
+    sampx <- sample(NROW(x))
     for (j in seq(length(penaltyxs))) {
       if (trace && .Platform$OS.type != "windows")
         cat(j, fill = FALSE)
