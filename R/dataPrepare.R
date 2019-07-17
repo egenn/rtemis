@@ -125,7 +125,7 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
       }
     }
     if (!is.null(y.test)) {
-      for (i in 1:length(x)) {
+      for (i in seq(x)) {
         if (NROW(x.test[[i]]) != NROW(y.test))
           stop("Feature set #", i, ": Testing set features and outcome do not contain same number of cases")
       }
