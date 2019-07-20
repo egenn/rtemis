@@ -60,6 +60,12 @@ stderror(rnorm(100))
 x <- 10
 z <- strict(x, "numeric")
 
+# '- synthRegData ====
+dat <- synthRegData()
+
+# '- synthMultiModal ====
+dat <- synthMultiModal(trace = 1)
+
 # '- timeProc ====
 x <- timeProc(sapply(rnorm(100), exp))
 
