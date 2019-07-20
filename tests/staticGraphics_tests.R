@@ -65,6 +65,9 @@ if (requireNamespace("data.tree", quietly = TRUE)) {
 mplot3.conf(mod)
 mplot3.confbin(mod$error.train$ConfusionMatrix)
 
+# mplot3.curve ====
+mplot3.curve(atan(x), -10, 10)
+
 # mplot3.decision(mod, iris2)
 # TODO: INV mplot3.decision
 
