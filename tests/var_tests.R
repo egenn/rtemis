@@ -64,7 +64,9 @@ z <- strict(x, "numeric")
 dat <- synthRegData()
 
 # '- synthMultiModal ====
-dat <- synthMultiModal(trace = 1)
+if (requireNamespace("matrixStats", quietly = TRUE)) {
+  dat <- synthMultiModal(trace = 1)
+}
 
 # '- timeProc ====
 x <- timeProc(sapply(rnorm(100), exp))
