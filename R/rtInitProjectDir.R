@@ -3,25 +3,26 @@
 # 2019 Efstathios D Gennatas egenn.github.io
 
 #' Initialize Project Directory
-#' 
+#'
 #' Initializes Directory Structure: "R", "Data", "Results"
-#' 
+#'
 #' @author Efstathios D Gennatas
 #' @export
 
 rtInitProjectDir <- function(verbose = TRUE) {
-  
+
   wd <- getwd()
   if (verbose) msg0("Working in ", wd, "...")
-  
+
   # rtInit.log ====
   # if (verbose) cat(rtHighlight("  Writing 'rtInit.log' file..."))
   sink("rtInit.log", append = TRUE)
   cat(".:rtemis Project Directory\n")
-  cat("--------------------------")
-  sessionInfo()
+  cat(date(), "\n")
+  cat("--------------------------\n")
+  print(sessionInfo())
   sink()
-  
+
   # ./R ./Data ./Results ====
   dirs <- c("R", "Data", "Results")
   for (i in dirs) {
@@ -37,7 +38,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
       if (verbose) cat(rtOrange$bold(" Already present\n"))
     }
   }
-  
+
   if (verbose) cat(rtHighlight$bold("\n  Done\n"))
-  
+
 } # rtemis::rtInitProjectDir
