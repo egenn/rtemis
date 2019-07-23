@@ -34,6 +34,7 @@
 #' \code{atan}. Default = .05
 #' @param trace Integer: If > 0, print progress messages to console. Default = 0
 #' @param seed Integer: If set, pass to \code{set.seed} for reproducibility
+#' @param filename String: Path to file to save output. Default = NULL
 #' @author Efstathios D Gennatas
 #' @export
 #' @return List with elements x, y, index.square, index.atan, index.pair.square
@@ -65,8 +66,9 @@ synthMultiModal <- function(n.cases = 10000,
                             pair.multiply.p = .05,
                             pair.square.p = .05,
                             pair.atan.p = .05,
-                            trace = 0,
-                            seed = NULL) {
+                            verbose = TRUE,
+                            seed = NULL,
+                            filename = NULL) {
 
   if (!is.null(seed)) set.seed(seed)
 
@@ -84,21 +86,21 @@ synthMultiModal <- function(n.cases = 10000,
   index.contrib <- lapply(seq(n.groups), function(i)
     sort(sample(seq(n.feat.per.group[i]), contrib.p * n.feat.per.group[i])))
   names(index.contrib) <- names(x)
-  if (trace > 0) cat("  Got index.contrib\n")
+  if (verbose) cat("  Got index.contrib\n")
 
   # '- linear ====
   #index.linear: The features within index.contrib that will be included linearly
   index.linear <- lapply(seq(n.groups), function(i)
     sort(sample(index.contrib[[i]], linear.p * length(index.contrib[[i]]))))
   names(index.linear) <- names(x)
-  if (trace > 0) cat("  Got index.square\n")
+  if (verbose) cat("  Got index.square\n")
 
   # '- square ====
   # index.square: The features within index.contrib that will be squared
   index.square <- lapply(seq(n.groups), function(i)
     sort(sample(index.contrib[[i]], square.p * length(index.contrib[[i]]))))
   names(index.square) <- names(x)
-  if (trace > 0) cat("  Got index.square\n")
+  if (verbose) cat("  Got index.square\n")
 
   # '- atan ====
   # index.atan: The features within index.contrib that will be arctanned
@@ -107,7 +109,7 @@ synthMultiModal <- function(n.cases = 10000,
     sort(sample(index.open, atan.p * length(index.contrib[[i]])))
   })
   names(index.atan) <- names(x)
-  if (trace > 0) cat("  Got index.atan\n")
+  if (verbose) cat("  Got index.atan\n")
 
   # '- pair.multiply ====
   # index.pair.multiply
@@ -121,7 +123,7 @@ synthMultiModal <- function(n.cases = 10000,
     }
   })
   names(index.pair.multiply) <- names(x)
-  if (trace > 0) cat("  Got index.pair.multiply\n")
+  if (verbose) cat("  Got index.pair.multiply\n")
 
   # '- pair.square ====
   # index.pair.square
@@ -135,7 +137,7 @@ synthMultiModal <- function(n.cases = 10000,
     }
   })
   names(index.pair.square) <- names(x)
-  if (trace > 0) cat("  Got index.pair.square\n")
+  if (verbose) cat("  Got index.pair.square\n")
 
   # index.pair.atan ====
   index.pair.atan <- lapply(seq(n.groups), function(i) {
@@ -147,21 +149,21 @@ synthMultiModal <- function(n.cases = 10000,
       t(apply(matrix(index, ncol = 2, byrow = TRUE), 1, sort))
     }
   })
-  if (trace > 0) cat("  Got index.pair.atan\n")
+  if (verbose) cat("  Got index.pair.atan\n")
 
   # [ Outcome ] ====
   # '- linear, squares & atans ====
-  if (trace > 0) cat("  Adding linear, square and atan terms...")
+  if (verbose) cat("  Adding linear, square and atan terms...")
   y1 <- lapply(seq(n.groups), function(i)
     matrixStats::rowSums2(rnorm(1) * x[[i]][, index.linear[[i]], drop = FALSE]) +
       matrixStats::rowSums2(rnorm(1) * x[[i]][, index.square[[i]], drop = FALSE]^2) +
       matrixStats::rowSums2(rnorm(1) * atan(x[[i]][, index.atan[[i]], drop = FALSE]))
   )
   names(y1) <- names(x)
-  if (trace > 0) cat(" Done\n")
+  if (verbose) cat(" Done\n")
 
   # '- pair.multiply ====
-  if (trace > 0) cat("  Getting pair products...")
+  if (verbose) cat("  Getting pair products...")
   y2 <- vector("list", n.groups)
   names(y2) <- names(x)
   for (i in seq_len(n.groups)) {
@@ -172,10 +174,10 @@ synthMultiModal <- function(n.cases = 10000,
       rep(0, n.cases)
     }
   }
-  if (trace > 0) cat(" Done\n")
+  if (verbose) cat(" Done\n")
 
   # '- pair.square ====
-  if (trace > 0) cat("  Squaring pair products...")
+  if (verbose) cat("  Squaring pair products...")
   y3 <- vector("list", n.groups)
   names(y3) <- names(x)
   for (i in seq_len(n.groups)) {
@@ -186,10 +188,10 @@ synthMultiModal <- function(n.cases = 10000,
       rep(0, n.cases)
     }
   }
-  if (trace > 0) cat(" Done\n")
+  if (verbose) cat(" Done\n")
 
   # '- pair.atan ====
-  if (trace > 0) cat("  Atan of pair products...")
+  if (verbose) cat("  Atan of pair products...")
   y4 <- vector("list", n.groups)
   names(y4) <- names(x)
   for (i in seq_len(n.groups)) {
@@ -200,18 +202,26 @@ synthMultiModal <- function(n.cases = 10000,
       rep(0, n.cases)
     }
   }
-  if (trace > 0) cat(" Done\n")
+  if (verbose) cat(" Done\n")
 
   y <- lapply(seq_len(n.groups), function(i) y1[[i]] + y2[[i]] + y3[[i]] + y4[[i]])
   names(y) <- names(x)
 
-  list(x = x,
-       y = y,
-       index.linear = index.linear,
-       index.square = index.square,
-       index.atan = index.atan,
-       index.pair.multiply = index.pair.multiply,
-       index.pair.square = index.pair.square,
-       index.pair.atan = index.pair.atan)
+  out <- list(x = x,
+              y = y,
+              index.linear = index.linear,
+              index.square = index.square,
+              index.atan = index.atan,
+              index.pair.multiply = index.pair.multiply,
+              index.pair.square = index.pair.square,
+              index.pair.atan = index.pair.atan)
+
+  if (!is.null(filename)) {
+    filename <- paste0(gsub(".rds", "", filename), ".rds")
+    saveRDS(out, filename)
+    if (verbose) msg("Saved", filename)
+  }
+
+  out
 
 } # rtemis::synthMultiModal

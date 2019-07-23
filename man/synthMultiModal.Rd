@@ -9,7 +9,7 @@ synthMultiModal(n.cases = 10000, init.fn = "runifmat",
   n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
   contrib.p = 0.33, linear.p = 0.66, square.p = 0.1, atan.p = 0.1,
   pair.multiply.p = 0.05, pair.square.p = 0.05, pair.atan.p = 0.05,
-  trace = 0, seed = NULL)
+  verbose = TRUE, seed = NULL, filename = NULL)
 }
 \arguments{
 \item{n.cases}{Integer: Number of cases to create. Default = 10000}
@@ -48,9 +48,11 @@ Default = .05}
 \item{pair.atan.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
 \code{atan}. Default = .05}
 
-\item{trace}{Integer: If > 0, print progress messages to console. Default = 0}
-
 \item{seed}{Integer: If set, pass to \code{set.seed} for reproducibility}
+
+\item{filename}{String: Path to file to save output. Default = NULL}
+
+\item{trace}{Integer: If > 0, print progress messages to console. Default = 0}
 }
 \value{
 List with elements x, y, index.square, index.atan, index.pair.square
