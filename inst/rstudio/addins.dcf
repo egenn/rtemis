@@ -1,4 +1,4 @@
 Name: Initialize Project Directory
-Description: Creates 'R', 'Data', and 'Results' folders under working directory; saves session info.
+Description: Create 'R', 'Data', and 'Results' folders under working directory; save session info.
 Binding: rtInitProjectDir
 Interactive: false
