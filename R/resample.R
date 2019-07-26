@@ -37,6 +37,14 @@
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate}
 #' @export
+#' @examples
+#' y <- rnorm(200)
+#' # 10-fold (stratified)
+#' res <- resample(y, 10, "kfold")
+#' # 25 stratified subsamples
+#' res <- resample(y, 25, "strat.sub")
+#' # 100 stratified bootstraps
+#' res <- resample(y, 100, "strat.boot")
 
 resample <- function(y,
                      n.resamples = 10,

@@ -55,6 +55,15 @@ length of input (default) or length defined by \code{target.length}.
   different length for y of small length, so avoid all operations which rely on equal-length vectors.
   For example, you can't place resamples in a data.frame, but must use a list instead.
 }
+\examples{
+y <- rnorm(200)
+# 10-fold (stratified)
+res <- resample(y, 10, "kfold")
+# 25 stratified subsamples
+res <- resample(y, 25, "strat.sub")
+# 100 stratified bootstraps
+res <- resample(y, 100, "strat.boot")
+}
 \seealso{
 \link{elevate}
 }
