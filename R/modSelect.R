@@ -24,6 +24,7 @@ modSelect <- function(mod,
     c("RGB", "Representational Gradient Boosting", T, T, T), # that's
     c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
     c("CSL", "Conditional SuperLearner", T, T, F), # bud
+    c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
     c("ADDT", "Hybrid Additive Tree", F, T, F),
@@ -50,6 +51,7 @@ modSelect <- function(mod,
     c("GLM", "Generalized Linear Model", T, T, F),
     c("GLMLITE", "Lite GLM", F, T, F),
     c("GLMLITEBOOST", "Boosted GLM Lite", F, T, F),
+    c("GLMLITEBOOSTTV", "Boosted GLM Lite TV", F, T, F),
     c("GLMNET", "Elastic Net", T, T, T),
     c("GLS", "Generalized Least Squares", F, T, F),
     c("H2ODL", "H2O Deep Learning", T, T, F),
@@ -97,7 +99,8 @@ modSelect <- function(mod,
   # if (missing(mod) & !listAliases) {
   if (missing(mod)) {
     cat(rtHighlight$bold("\n  rtemis supports the following algorithms for training learners:\n\n"))
-    print(rtMods[-seq(3), ], quote = FALSE, row.names = FALSE)
+    # Exclude first so many
+    print(rtMods[-seq(4), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtMods))
   }
 
