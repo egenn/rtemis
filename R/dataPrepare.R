@@ -132,6 +132,7 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
     }
     # [ end for meta.list ]
   } else {
+    # x is not list
     # '- Test dimensions match ====
     if (NROW(x) != NROW(y)) stop("Training set features and outcome do not contain same number of cases")
     if (!is.null(x.test)) if (NCOL(x) != NCOL(x.test))
