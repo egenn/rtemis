@@ -65,7 +65,7 @@ dat <- synthRegData()
 
 # '- synthMultiModal ====
 if (requireNamespace("matrixStats", quietly = TRUE)) {
-  dat <- synthMultiModal(trace = 1)
+  dat <- synthMultiModal(verbose = TRUE)
 }
 
 # '- timeProc ====
