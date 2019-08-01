@@ -121,7 +121,7 @@ the strata.}
 the 'extra' field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
 

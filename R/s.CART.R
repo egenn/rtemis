@@ -37,7 +37,7 @@
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
 #' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
-#' \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded
+#' \code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation

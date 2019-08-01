@@ -48,11 +48,11 @@ Default = .05}
 \item{pair.atan.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
 \code{atan}. Default = .05}
 
+\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+
 \item{seed}{Integer: If set, pass to \code{set.seed} for reproducibility}
 
 \item{filename}{String: Path to file to save output. Default = NULL}
-
-\item{trace}{Integer: If > 0, print progress messages to console. Default = 0}
 }
 \value{
 List with elements x, y, index.square, index.atan, index.pair.square
@@ -76,7 +76,7 @@ atan.p = .1,
 pair.multiply.p = .1,
 pair.square.p = .1,
 pair.atan.p = .1,
-trace = 1,
+verbose = TRUE,
 seed = 2019)
 }
 \author{

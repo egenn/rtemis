@@ -87,7 +87,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{question}{String: the question you are attempting to answer with this model, in plain language.}
 
