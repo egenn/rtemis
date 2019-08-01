@@ -76,7 +76,6 @@ atan.p = .1,
 pair.multiply.p = .1,
 pair.square.p = .1,
 pair.atan.p = .1,
-verbose = TRUE,
 seed = 2019)
 }
 \author{
