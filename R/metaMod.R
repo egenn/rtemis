@@ -36,7 +36,7 @@ metaMod <- function(x, y = NULL,
                     base.resample.rtset = rtset.resample(resampler = "kfold",
                                                          n.resamples = 4),
                     meta.mod = "gam",
-                    meta.input = c("bag", "retrain"),
+                    # meta.input = c("retrain", "bag"),
                     meta.params = list(),
                     x.name = NULL,
                     y.name = NULL,
@@ -91,7 +91,8 @@ metaMod <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   names(base.params) <- base.mod.names
-  meta.input <- match.arg(meta.input)
+  # meta.input <- match.arg(meta.input)
+  meta.input <- "retrain"
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
