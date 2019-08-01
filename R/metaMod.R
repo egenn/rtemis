@@ -33,9 +33,10 @@ metaMod <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     base.mods = c("mars", "ranger"),
                     base.params = vector("list", length(base.mods)),
-                    base.resample.rtset = rtset.resample(resampler = "strat.sub",
+                    base.resample.rtset = rtset.resample(resampler = "kfold",
                                                          n.resamples = 4),
                     meta.mod = "gam",
+                    meta.input = c("bag", "retrain"),
                     meta.params = list(),
                     x.name = NULL,
                     y.name = NULL,
@@ -87,9 +88,10 @@ metaMod <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod & is.null(outdir)) outdir <- paste0("./", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   names(base.params) <- base.mod.names
+  meta.input <- match.arg(meta.input)
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
@@ -113,7 +115,11 @@ metaMod <- function(x, y = NULL,
   res.part <- resample(y, rtset = base.resample.rtset, verbose = verbose)
 
   # [ {GRID} FUNCTION ] ====
-  waffle1 <- function(index, grid, x.int, y.int, res.part, base.params, verbose, ...) {
+  waffle1 <- function(index, grid,
+                      x.int, y.int,
+                      res.part,
+                      base.params,
+                      verbose, ...) {
     mod.name <- grid$mod[index]
     res.id <- grid$resample.id[index]
     x.int.train <- x.int[res.part[[res.id]], ]
@@ -124,7 +130,8 @@ metaMod <- function(x, y = NULL,
     args <- list(x = x.int.train, y = y.int.train,
                  x.test = x.int.test, y.test = y.int.test,
                  x.name = "X", y.name = "y",
-                 print.plot = FALSE, verbose = verbose)
+                 print.plot = FALSE,
+                 verbose = verbose)
     args <- c(args, params)
     base.mod1 <- do.call(modSelect(mod.name), args = args)
     base.mod1
@@ -134,13 +141,14 @@ metaMod <- function(x, y = NULL,
   # For each resample, for each base
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
   nbases <- length(base.mod.names)
-  if (verbose) msg0("I will train ", nbases, " base learners: ",
-                    paste(base.mod.names, collapse = ", "), newline.pre = TRUE)
-  if (verbose) msg0("using ", base.resample.rtset$n.resamples, " internal resamples (",
-                   base.resample.rtset$resampler, "),")
-  if (verbose) msg("and build a", meta.mod, "meta model")
-  if (verbose) msg0("Training ", nbases, " base learners (", paste(base.mod.names, collapse = ", "),
-                    ") on ", length(res.part), " training set resamples (", nrow(grid), " models total) ...\n")
+  if (verbose) cat("\n  I will train ", nbases, " base learners: ",
+                    rtHighlight$bold(paste(base.mod.names, collapse = ", ")), sep = "")
+  if (verbose) cat("  using ", base.resample.rtset$n.resamples, " internal resamples (",
+                   base.resample.rtset$resampler, "),", sep = "")
+  if (verbose) cat("  and build a", rtHighlight$bold(toupper(meta.mod)), "meta model")
+  if (verbose) cat("  Training ", nbases, " base learners",
+                    " on ", length(res.part), " training set resamples (",
+                   nrow(grid), " models total)...\n", sep = "")
   if (verbose) {
     cat("\n")
     pbapply::pboptions(type = "timer")
@@ -155,7 +163,7 @@ metaMod <- function(x, y = NULL,
                                 base.params = base.params,
                                 verbose = verbose.base.res.mods,
                                 cl = base.n.cores)
-  names(base.res) <- paste0(grid$mod, ".", grid$resample.id)
+  names(base.res) <- paste0(grid$mod, "_", grid$resample.id)
 
   # Collect all grid lines' y.test and predicted
   base.res.y.test <- unlist(lapply(seq(res.part), function(res) c(y[-res.part[[res]]])))
@@ -183,16 +191,21 @@ metaMod <- function(x, y = NULL,
                         meta.params))
 
   # [ FULL TRAINING BASE MODS ] ====
-  if (verbose) msg("Training", nbases, "base learners on full training set...")
-  base.mods <- pbapply::pblapply(seq(base.mod.names),
-                                 function(mod) {
-                                   do.call(modSelect(base.mod.names[mod]),
-                                           list(x = x, y = y,
-                                                x.test = x.test, y.test = y.test,
-                                                print.plot = print.base.plot,
-                                                verbose = verbose.base.mods))},
-                                 cl = base.n.cores)
-  names(base.mods) <- base.mod.names
+  if (meta.input == "bag") {
+    if (verbose) msg("Bagging base resamples to get final base outputs...")
+    base.mods.fitted <- sapply()
+  } else {
+    if (verbose) msg("Training", nbases, "base learners on full training set...")
+    base.mods <- pbapply::pblapply(seq(base.mod.names),
+                                   function(mod) {
+                                     do.call(modSelect(base.mod.names[mod]),
+                                             list(x = x, y = y,
+                                                  x.test = x.test, y.test = y.test,
+                                                  print.plot = print.base.plot,
+                                                  verbose = verbose.base.mods))},
+                                   cl = base.n.cores)
+    names(base.mods) <- base.mod.names
+  }
 
   # [ FITTED ] ====
   base.mods.fitted <- as.data.frame(sapply(base.mods, function(mod) c(mod$fitted)))
