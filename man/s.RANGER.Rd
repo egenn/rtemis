@@ -162,6 +162,9 @@ For imbalanced datasets, setting stratify.on.y = TRUE should improve performance
 If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
   value.
 [gS]: indicated parameter will be tuned by grid search if more than one value is passed
+
+See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
+balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
 }
 \seealso{
 \link{elevate} for external cross-validation
