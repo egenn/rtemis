@@ -32,7 +32,7 @@
 #' Default = .05
 #' @param pair.atan.p Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
 #' \code{atan}. Default = .05
-#' @param trace Integer: If > 0, print progress messages to console. Default = 0
+#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param seed Integer: If set, pass to \code{set.seed} for reproducibility
 #' @param filename String: Path to file to save output. Default = NULL
 #' @author Efstathios D Gennatas
@@ -51,7 +51,7 @@
 #' pair.multiply.p = .1,
 #' pair.square.p = .1,
 #' pair.atan.p = .1,
-#' trace = 1,
+#' verbose = TRUE,
 #' seed = 2019)
 
 synthMultiModal <- function(n.cases = 10000,
