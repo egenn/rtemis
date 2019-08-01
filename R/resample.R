@@ -84,21 +84,9 @@ resample <- function(y,
       if (verbose) msg("Input contains more than one columns; will stratify on last")
       y <- y[, NCOL(y)]
     }
-    if (is.null(target.length)) target.length <- NROW(y)
+    if (is.null(target.length)) target.length <- NROW(y) # TODO: move
     if (resampler == "strat.sub" | resampler == "strat.boot") {
       if (train.p <= 0 | train.p >= 1) stop("train.p must be greater than 0 and less than 1")
-    }
-
-    # Check there are enough cases for stratification in given k
-    if (is.factor(y)) {
-      if (resampler %in% c("strat.sub", "strat.boot", "kfold")) {
-        freq <- table(y)
-        if (min(freq) < n.resamples) {
-          warning("Insufficient number of cases for ", n.resamples,
-                  " stratified resamples: will use ", min(freq)," instead")
-          n.resamples <- min(freq)
-        }
-      }
     }
 
     # [ RESAMPLE ] ====
