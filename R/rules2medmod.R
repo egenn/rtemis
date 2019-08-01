@@ -16,15 +16,16 @@
 
 rules2medmod <- function(rules, x,
                          .ddSci = TRUE,
-                         verbose = TRUE) {
+                         verbose = TRUE,
+                         trace = 0) {
 
   cxr <- matchCasesByRules(x, rules, verbose = verbose)
   nrules <- length(rules)
-  rules.f <- character()
+  rules.f <- vector("character", nrules)
   frmt <- if (.ddSci) ddSci else I
   if (verbose) msg("Converting rules...")
   for (i in seq(rules)) {
-    if (verbose) cat("#", i, "/", nrules, "...\n", sep = "")
+    if (trace > 0) cat("#", i, "/", nrules, "...\n", sep = "")
     dat <- x[cxr[, i] == 1, ]
     sub <- strsplit(rules[i], "&")[[1]]
     rule <- character()

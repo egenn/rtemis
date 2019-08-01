@@ -4,7 +4,7 @@
 \alias{rules2medmod}
 \title{\code{rtemis-internals}: Convert rules from cutoffs to median/mode and range}
 \usage{
-rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE)
+rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0)
 }
 \arguments{
 \item{rules}{String, vector: Input rules}
