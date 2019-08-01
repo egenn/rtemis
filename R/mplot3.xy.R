@@ -433,8 +433,7 @@ mplot3.xy <- function(x, y,
 
   # Reorder
   if (is.null(order.on.x)) {
-    # order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
-    order.on.x <- !is.null(fit)
+    order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
   }
 
   # [ CLUSTER ] ====
