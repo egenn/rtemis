@@ -6,10 +6,10 @@
 \usage{
 s.RANGER(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 1000, weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  autotune = FALSE, classwt = NULL, n.trees.try = 500,
-  stepFactor = 2, mtry = NULL, mtryStart = NULL,
-  inbag.resample = NULL, stratify.on.y = FALSE,
+  ipw.type = 2, ipw.case.weights = TRUE, ipw.class.weights = FALSE,
+  upsample = FALSE, upsample.seed = NULL, autotune = FALSE,
+  classwt = NULL, n.trees.try = 500, stepFactor = 2, mtry = NULL,
+  mtryStart = NULL, inbag.resample = NULL, stratify.on.y = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -50,6 +50,11 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 2: class.weights as in 0, divided by min(class.weights)
 Default = 2}
 
+\item{ipw.case.weights}{Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE
+Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}}
+
+\item{ipw.class.weights}{Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE}
+
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
@@ -58,7 +63,7 @@ Default = NULL (random seed)}
 
 \item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}
 
-\item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if  \code{autotune = TRUE}.
+\item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 For classification only; need not add up to 1}
 
 \item{n.trees.try}{Integer: Number of trees to train for tuning, if \code{autotune = TRUE}}
@@ -75,7 +80,8 @@ features for classification, and a third of n of features for regression.}
 tree. Default = NULL}
 
 \item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
-This can help improve test set performance in imbalanced datasets. Default = FALSE}
+This can help improve test set performance in imbalanced datasets. Default = FALSE. Note: Cannot be used with
+\code{ipw.case.weights}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
@@ -91,7 +97,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}}
+\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE}
 
 \item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
 

@@ -25,13 +25,17 @@
 #' @param splitrule String: For classification: "gini" (Default) or "extratrees";
 #' For regression: "variance" (Default), "extratrees" or "maxstat".
 #' For survival "logrank" (Default), "extratrees", "C" or "maxstat".
-#' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}
-#' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if  \code{autotune = TRUE}.
+#' @param ipw.case.weights Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE
+#' Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}
+#' @param ipw.class.weights Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE
+#' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE
+#' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 #' For classification only; need not add up to 1
 #' @param inbag.resample List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
 #' tree. Default = NULL
 #' @param stratify.on.y Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
-#' This can help improve test set performance in imbalanced datasets. Default = FALSE
+#' This can help improve test set performance in imbalanced datasets. Default = FALSE. Note: Cannot be used with
+#' \code{ipw.case.weights}
 #' @param ... Additional arguments to be passed to \code{ranger::ranger}
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
@@ -48,6 +52,8 @@ s.RANGER <- function(x, y = NULL,
                      weights = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
+                     ipw.case.weights = TRUE,
+                     ipw.class.weights = FALSE,
                      upsample = FALSE,
                      upsample.seed = NULL,
                      autotune = FALSE,
@@ -130,7 +136,7 @@ s.RANGER <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
+  .class.weights <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
   if (print.plot) {
@@ -214,7 +220,7 @@ s.RANGER <- function(x, y = NULL,
                                       plot = print.tune.plot,
                                       strata = strata,
                                       do.trace = tune.do.trace,
-                                      classwt = .classwt))
+                                      classwt = .class.weights))
     if (!inherits(tuner, "try-error")) {
       mtry <- tuner[which.min(tuner[, 2]), 1]
       if (verbose) msg("Best mtry :", mtry)
@@ -246,7 +252,8 @@ s.RANGER <- function(x, y = NULL,
   mod <- ranger::ranger(formula = .formula,
                         data = df.train,
                         num.trees = n.trees,
-                        case.weights = .weights,
+                        case.weights = if (ipw.case.weights) .weights else NULL,
+                        class.weights = if (ipw.case.weights) .class.weights else NULL,
                         mtry = mtry,
                         min.node.size = min.node.size,
                         splitrule = splitrule,
