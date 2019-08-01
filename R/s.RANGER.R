@@ -15,6 +15,9 @@
 #'   value.
 #' [gS]: indicated parameter will be tuned by grid search if more than one value is passed
 #'
+#' See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
+#' balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
+#'
 #'
 #' @inheritParams s.RF
 #' @inheritParams s.CART
