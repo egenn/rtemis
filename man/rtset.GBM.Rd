@@ -7,7 +7,7 @@
 rtset.GBM(interaction.depth = 2, shrinkage = 0.001, max.trees = 5000,
   min.trees = 100, bag.fraction = 0.9, n.minobsinnode = 5,
   grid.resample.rtset = rtset.resample("kfold", 5), ipw = TRUE,
-  upsample = FALSE, resample.seed = NULL, ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL, ...)
 }
 \arguments{
 \item{interaction.depth}{[gS] Integer: Interaction depth}

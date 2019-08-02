@@ -5,8 +5,8 @@
 \title{Neural Network with \pkg{tensorflow} [C, R]}
 \usage{
 s.TFN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, resample.seed = NULL,
-  net = NULL, n.hidden.nodes = NULL,
+  y.valid = NULL, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, net = NULL, n.hidden.nodes = NULL,
   initializer = c("glorot_uniform", "glorot_normal", "he_uniform",
   "he_normal", "lecun_uniform", "lecun_normal", "random_uniform",
   "random_normal", "variance_scaling", "truncated_normal", "orthogonal",

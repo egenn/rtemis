@@ -6,7 +6,7 @@
 \usage{
 rtset.RANGER(n.trees = 1000, min.node.size = 1, mtry = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5), ipw = TRUE,
-  upsample = FALSE, resample.seed = NULL, ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL, ...)
 }
 \arguments{
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}

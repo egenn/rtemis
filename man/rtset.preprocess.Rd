@@ -4,12 +4,18 @@
 \alias{rtset.preprocess}
 \title{\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{elevate}'s \code{.preprocess} argument}
 \usage{
-rtset.preprocess(completeCases = FALSE, impute = FALSE,
-  impute.type = "missForest", impute.niter = 10, impute.ntree = 500,
-  impute.discrete = getMode, impute.numeric = mean,
-  removeCases.thres = NULL, removeFeatures.thres = NULL,
-  integer2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstant = TRUE, oneHot = FALSE)
+rtset.preprocess(completeCases = FALSE, removeCases.thres = NULL,
+  removeFeatures.thres = NULL, impute = FALSE,
+  impute.type = "missRanger", impute.missRanger.params = list(pmm.k =
+  0, maxiter = 10), impute.missForest.params = list(maxiter = 10, ntree =
+  500, parallelize = "no"), impute.rfImpute.params = list(niter = 10,
+  ntree = 500), impute.discrete = getMode, impute.numeric = mean,
+  integer2factor = FALSE, integer2numeric = FALSE,
+  logical2factor = FALSE, logical2numeric = FALSE,
+  numeric2factor = FALSE, numeric2factor.levels = NULL,
+  character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
+  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
+  exclude = NULL)
 }
 \arguments{
 \item{decom}{String: Name of decomposer to use. Default = "ICA"}
