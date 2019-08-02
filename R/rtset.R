@@ -261,7 +261,8 @@ rtset.GBM <- function(interaction.depth = 2,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       ipw = TRUE,
                       upsample = FALSE,
-                      upsample.seed = NULL, ...) {
+                      downsample = FALSE,
+                      resample.seed = NULL, ...) {
 
   c(list(interaction.depth = interaction.depth,
          shrinkage = shrinkage,
@@ -272,7 +273,8 @@ rtset.GBM <- function(interaction.depth = 2,
          grid.resample.rtset = grid.resample.rtset,
          ipw = ipw,
          upsample = upsample,
-         upsample.seed = upsample.seed),
+         downsample = downsample,
+         resample.seed = resample.seed),
     list(...))
 
 } # rtemis::rtset.GBM
@@ -289,7 +291,8 @@ rtset.RANGER <- function(n.trees = 1000,
                          grid.resample.rtset = rtset.resample("kfold", 5),
                          ipw = TRUE,
                          upsample = FALSE,
-                         upsample.seed = NULL, ...) {
+                         downsample = FALSE,
+                         resample.seed = NULL, ...) {
 
   c(list(n.trees = n.trees,
          min.node.size = min.node.size,
@@ -297,7 +300,8 @@ rtset.RANGER <- function(n.trees = 1000,
          grid.resample.rtset = grid.resample.rtset,
          ipw = ipw,
          upsample = upsample,
-         upsample.seed = upsample.seed),
+         downsample = downsample,
+         resample.seed = resample.seed),
     list(...))
 
 } # rtemis::rtset.RANGER

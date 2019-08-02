@@ -40,7 +40,8 @@ s.SVM <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   kernel = "radial",
                   degree = 3,
                   gamma = NULL,
@@ -100,7 +101,8 @@ s.SVM <- function(x, y = NULL,
                     ipw = ipw,
                     ipw.type = ipw.type,
                     upsample = upsample,
-                    upsample.seed = upsample.seed,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- data.matrix(dt$x)
   y <- dt$y
@@ -111,8 +113,8 @@ s.SVM <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -149,7 +151,8 @@ s.SVM <- function(x, y = NULL,
                                                 ipw = ipw,
                                                 ipw.type = ipw.type,
                                                 upsample = upsample,
-                                                upsample.seed = upsample.seed),
+                                                downsample = downsample,
+                                                resample.seed = resample.seed),
                             search.type = grid.search.type,
                             randomized.p = grid.randomized.p,
                             metric = metric,
@@ -167,7 +170,8 @@ s.SVM <- function(x, y = NULL,
                                                 ipw = ipw,
                                                 ipw.type = ipw.type,
                                                 upsample = upsample,
-                                                upsample.seed = upsample.seed),
+                                                downsample = downsample,
+                                                resample.seed = resample.seed),
                             metric = metric,
                             maximize = maximize,
                             verbose = verbose, grid.verbose = grid.verbose, n.cores = n.cores)
@@ -186,7 +190,8 @@ s.SVM <- function(x, y = NULL,
                                                 ipw = ipw,
                                                 ipw.type = ipw.type,
                                                 upsample = upsample,
-                                                upsample.seed = upsample.seed),
+                                                downsample = downsample,
+                                                resample.seed = resample.seed),
                             metric = metric,
                             maximize = maximize,
                             verbose = verbose, grid.verbose = grid.verbose, n.cores = n.cores)
@@ -204,7 +209,8 @@ s.SVM <- function(x, y = NULL,
                                                 ipw = ipw,
                                                 ipw.type = ipw.type,
                                                 upsample = upsample,
-                                                upsample.seed = upsample.seed),
+                                                downsample = downsample,
+                                                resample.seed = resample.seed),
                             metric = metric,
                             maximize = maximize,
                             verbose = verbose, grid.verbose = grid.verbose, n.cores = n.cores)

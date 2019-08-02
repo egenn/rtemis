@@ -5,7 +5,7 @@
 \title{Neural Network with \pkg{tensorflow} [C, R]}
 \usage{
 s.TFN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, upsample.seed = NULL,
+  y.valid = NULL, upsample = FALSE, resample.seed = NULL,
   net = NULL, n.hidden.nodes = NULL,
   initializer = c("glorot_uniform", "glorot_normal", "he_uniform",
   "he_normal", "lecun_uniform", "lecun_normal", "random_uniform",
@@ -39,7 +39,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create.

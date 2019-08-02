@@ -6,6 +6,7 @@
 \usage{
 s.EVTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
   control = evtree::evtree.control(), na.action = na.exclude,
   print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
@@ -37,6 +38,13 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 1: class.weights as in 0, divided by max(class.weights)
 2: class.weights as in 0, divided by min(class.weights)
 Default = 2}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 

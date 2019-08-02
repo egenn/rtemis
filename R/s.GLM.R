@@ -42,7 +42,7 @@
 #' @param upsample Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 #' Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 #' the length of the class you are upsampling, thereby introducing randomness
-#' @param upsample.seed Integer: If provided, will be used to set the seed during upsampling.
+#' @param resample.seed Integer: If provided, will be used to set the seed during upsampling.
 #' Default = NULL (random seed)
 #' @param intercept Logical: If TRUE, fit an intercept term. Default = TRUE
 #' @param polynomial Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)
@@ -93,7 +93,8 @@ s.GLM <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   intercept = TRUE,
                   polynomial = FALSE,
                   poly.d = 3,
@@ -138,9 +139,13 @@ s.GLM <- function(x, y = NULL,
   if (trace > 0) verbose <- TRUE
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

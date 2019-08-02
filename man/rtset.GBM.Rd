@@ -7,7 +7,7 @@
 rtset.GBM(interaction.depth = 2, shrinkage = 0.001, max.trees = 5000,
   min.trees = 100, bag.fraction = 0.9, n.minobsinnode = 5,
   grid.resample.rtset = rtset.resample("kfold", 5), ipw = TRUE,
-  upsample = FALSE, upsample.seed = NULL, ...)
+  upsample = FALSE, resample.seed = NULL, ...)
 }
 \arguments{
 \item{interaction.depth}{[gS] Integer: Interaction depth}
@@ -26,7 +26,7 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{...}{Additional arguments}

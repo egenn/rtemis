@@ -5,9 +5,10 @@
 \title{Sparse Partial Least Squares Regression [C, R]}
 \usage{
 s.SPLS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, k = 2, eta = 0.5, kappa = 0.5, select = "pls2",
-  fit = "simpls", scale.x = TRUE, scale.y = TRUE, maxstep = 100,
-  classifier = c("lda", "logistic"),
+  y.name = NULL, upsample = TRUE, downsample = FALSE,
+  resample.seed = NULL, k = 2, eta = 0.5, kappa = 0.5,
+  select = "pls2", fit = "simpls", scale.x = TRUE, scale.y = TRUE,
+  maxstep = 100, classifier = c("lda", "logistic"),
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -30,6 +31,13 @@ Columns must correspond to columns in \code{x}}
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
 
 \item{k}{[gS] Integer: Number of components to estimate. Default = 2}
 

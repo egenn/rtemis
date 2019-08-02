@@ -53,7 +53,8 @@ s.CART <- function(x, y = NULL,
                    ipw = TRUE,
                    ipw.type = 2,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    method = "auto",
                    parms = NULL,
                    minsplit = 2,
@@ -133,8 +134,11 @@ s.CART <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -144,8 +148,8 @@ s.CART <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   class.weights <- dt$class.weights
-  x0 <- if (upsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   df.train <- data.frame(y = y, x)
   if (method == "auto") {
@@ -207,7 +211,7 @@ s.CART <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed),
+                                              resample.seed = resample.seed),
                           search.type = grid.search.type,
                           randomized.p = grid.randomized.p,
                           weights = weights,

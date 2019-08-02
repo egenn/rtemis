@@ -24,6 +24,9 @@ s.C50 <- function(x, y = NULL,
                   weights = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
+                  upsample = FALSE,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   control = C50::C5.0Control(),
                   costs = NULL,
                   x.name = NULL,
@@ -70,6 +73,9 @@ s.C50 <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

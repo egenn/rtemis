@@ -8,7 +8,7 @@ massCART(x, y = NULL, x.test = NULL, y.test = NULL, metric = NULL,
   minsplit = 2, minbucket = round(minsplit/3), cp = 0.01,
   maxcompete = 0, maxsurrogate = 0, usesurrogate = 2,
   surrogatestyle = 0, maxdepth = 22, xval = 0, ipw = FALSE,
-  upsample = FALSE, upsample.seed = NULL, n.cores = 1,
+  upsample = FALSE, resample.seed = NULL, n.cores = 1,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   save.mod = FALSE, grid.print.plot = FALSE, verbose = TRUE,
   grid.verbose = TRUE, print.plot = FALSE, ...)
@@ -48,7 +48,7 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{n.cores}{Integer: Number of cores to use}

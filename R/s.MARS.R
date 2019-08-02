@@ -36,7 +36,8 @@ s.MARS <- function(x, y = NULL,
                    ipw = TRUE,
                    ipw.type = 2,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    glm = NULL,
                    degree = 2,
                    penalty = 3, # if (degree > 1) 3 else 2
@@ -91,7 +92,10 @@ s.MARS <- function(x, y = NULL,
   if (missing(x)) {
     print(args(s.MARS)); stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.MARS)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) {
+    print(args(s.MARS))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   prefix <- paste0(y.name, "~", x.name)
@@ -101,9 +105,13 @@ s.MARS <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -113,8 +121,8 @@ s.MARS <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (type == "Classification" & is.null(glm)) {
     glm <- list(family = binomial)

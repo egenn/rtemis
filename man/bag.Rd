@@ -6,13 +6,13 @@
 \usage{
 bag(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   mod = "cart", k = 10, mod.params = list(), ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  .resample = rtset.resample(resampler = "strat.boot", n.resamples = k),
-  aggr.fn = NULL, x.name = NULL, y.name = NULL, question = NULL,
-  base.verbose = FALSE, verbose = TRUE, trace = 0,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  print.base.plot = FALSE, n.cores = rtCores,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, .resample = rtset.resample(resampler =
+  "strat.boot", n.resamples = k), aggr.fn = NULL, x.name = NULL,
+  y.name = NULL, question = NULL, base.verbose = FALSE,
+  verbose = TRUE, trace = 0, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), print.base.plot = FALSE, n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   outdir = NULL, ...)
 }
@@ -48,7 +48,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{.resample}{List: Resample settings to use. There is no need to edit this, unless you want to change the type of

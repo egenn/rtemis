@@ -20,7 +20,9 @@ x.test <- dat.test[, -3]
 y.test <- dat.test[, 3]
 
 # Classification Data ====
-iris2 <- iris[51:150, ]
+# iris2 <- iris[51:150, ]
+iris2 <- iris
+iris2$Species[iris2$Species  == "versicolor"] <- "setosa"
 iris2$Species <- factor(iris2$Species)
 res <- resample(iris2, seed = 2019)
 iris2.train <- iris2[res$Subsample_1, ]

@@ -23,6 +23,8 @@ s.CTREE <- function(x, y = NULL,
                     ipw = TRUE,
                     ipw.type = 2,
                     upsample = FALSE,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     x.name = NULL,
                     y.name = NULL,
                     print.plot = TRUE,
@@ -63,8 +65,12 @@ s.CTREE <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, verbose = verbose)
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

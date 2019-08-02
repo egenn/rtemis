@@ -107,7 +107,7 @@ s.ADDT <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
+                    # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

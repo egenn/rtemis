@@ -13,10 +13,10 @@ s.H2OGBM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   p.col.sample = 1, p.row.sample = 0.9, minobsinnode = 5,
   min.split.improvement = 1e-05, quantile.alpha = 0.5,
   learning.rate = 0.01, learning.rate.annealing = 1, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  na.action = na.fail, grid.n.cores = 1, n.cores = rtCores,
-  imetrics = FALSE, .gs = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, na.action = na.fail, grid.n.cores = 1,
+  n.cores = rtCores, imetrics = FALSE, .gs = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   verbose = TRUE, trace = 0, grid.verbose = TRUE, save.mod = FALSE,
   outdir = NULL, ...)
@@ -75,7 +75,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}

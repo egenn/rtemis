@@ -7,15 +7,16 @@
 s.IRF(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 1000, n.iter = 5, n.bootstrap = 30,
   interactions.return = NULL, classwt = NULL, ipw = TRUE,
-  upsample = FALSE, upsample.seed = NULL, autotune = FALSE,
-  n.trees.try = 500, stepFactor = 2, mtry = NULL, mtryStart = NULL,
-  mtry.select.prob = NULL, proximity = FALSE, importance = TRUE,
-  replace = TRUE, min.node.size = 1, strata = NULL,
-  sampsize = NULL, tune.do.trace = FALSE, print.tune.plot = FALSE,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  n.cores = rtCores, question = NULL, verbose = TRUE, trace = 0,
-  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  autotune = FALSE, n.trees.try = 500, stepFactor = 2, mtry = NULL,
+  mtryStart = NULL, mtry.select.prob = NULL, proximity = FALSE,
+  importance = TRUE, replace = TRUE, min.node.size = 1,
+  strata = NULL, sampsize = NULL, tune.do.trace = FALSE,
+  print.tune.plot = FALSE, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), n.cores = rtCores, question = NULL, verbose = TRUE,
+  trace = 0, outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE,
+  FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -41,7 +42,7 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}

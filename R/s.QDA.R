@@ -21,7 +21,8 @@ s.QDA <- function(x, y = NULL,
                   x.name = NULL,
                   y.name = NULL,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   print.plot = TRUE,
                   plot.fitted = NULL,
                   plot.predicted = NULL,
@@ -60,8 +61,11 @@ s.QDA <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

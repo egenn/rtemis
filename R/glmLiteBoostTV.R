@@ -81,10 +81,9 @@ glmLiteBoostTV <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

@@ -10,7 +10,7 @@ s.ADDTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   1000), min.hessian = 0.001, min.membership = 1,
   steps.past.min.membership = 0, gamma = 0.8, max.depth = 30,
   learning.rate = 0.1, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, imetrics = TRUE,
+  resample.seed = NULL, imetrics = TRUE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   metric = "Balanced Accuracy", maximize = TRUE, prune = TRUE,
   prune.empty.leaves = TRUE, remove.bad.parents = FALSE,
@@ -60,7 +60,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what

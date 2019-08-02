@@ -11,13 +11,13 @@ s.GLMNET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   family = NULL, alpha = seq(0, 1, 0.2), lambda = NULL,
   nlambda = 100, which.cv.lambda = c("lambda.1se", "lambda.min"),
   penalty.factor = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, res.summary.fn = mean,
-  save.grid.run = FALSE, metric = NULL, maximize = NULL,
-  .gs = FALSE, save.gs.mod = FALSE, n.cores = rtCores,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  rtclass = NULL, verbose = TRUE, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  res.summary.fn = mean, save.grid.run = FALSE, metric = NULL,
+  maximize = NULL, .gs = FALSE, save.gs.mod = FALSE,
+  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -68,7 +68,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{res.summary.fn}{Function: Used to average resample runs. Default = \code{mean}}

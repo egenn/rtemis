@@ -5,8 +5,8 @@
 \title{Spark MLlib Random Forest [C, R]}
 \usage{
 s.MLRF(x, y = NULL, x.test = NULL, y.test = NULL, upsample = FALSE,
-  upsample.seed = NULL, n.trees = 500, max.depth = 30L,
-  subsampling.rate = 1, min.instances.per.node = 1,
+  downsample = FALSE, resample.seed = NULL, n.trees = 500,
+  max.depth = 30L, subsampling.rate = 1, min.instances.per.node = 1,
   feature.subset.strategy = "auto", max.bins = 32L, x.name = NULL,
   y.name = NULL, spark.master = "local", print.plot = TRUE,
   plot.fitted = NULL, plot.predicted = NULL,
@@ -27,7 +27,7 @@ s.MLRF(x, y = NULL, x.test = NULL, y.test = NULL, upsample = FALSE,
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{n.trees}{Integer. Number of trees to train}

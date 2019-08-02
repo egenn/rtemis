@@ -8,9 +8,9 @@ s.GLM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, family = NULL, interactions = FALSE,
   nway.interactions = 0, covariate = NULL, class.method = NULL,
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, intercept = TRUE, polynomial = FALSE,
-  poly.d = 3, poly.raw = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  downsample = FALSE, resample.seed = NULL, intercept = TRUE,
+  polynomial = FALSE, poly.d = 3, poly.raw = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   na.action = na.exclude, removeMissingLevels = TRUE,
   question = NULL, rtclass = NULL, verbose = TRUE, trace = 0,
@@ -57,7 +57,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}

@@ -75,7 +75,8 @@ s.RF <- function(x, y = NULL,
                  ipw = TRUE,
                  ipw.type = 2,
                  upsample = FALSE,
-                 upsample.seed = NULL,
+                 downsample = FALSE,
+                 resample.seed = NULL,
                  importance = TRUE,
                  proximity = FALSE,
                  replace = TRUE,
@@ -138,8 +139,13 @@ s.RF <- function(x, y = NULL,
   if (proximity.tsne) proximity <- TRUE
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, ipw = ipw,
-                    upsample = upsample, upsample.seed = upsample.seed, verbose = verbose)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -148,8 +154,8 @@ s.RF <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4)
   if (print.plot) {

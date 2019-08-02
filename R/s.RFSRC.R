@@ -37,7 +37,8 @@ s.RFSRC <- function(x, y = NULL,
                     ipw = TRUE,
                     ipw.type = 2,
                     upsample = FALSE,
-                    upsample.seed = NULL,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     bootstrap = "by.root",
                     mtry = NULL,
                     importance = TRUE,
@@ -89,9 +90,13 @@ s.RFSRC <- function(x, y = NULL,
   if (is.null(trace)) trace <- if (verbose) n.trees/10 else FALSE
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

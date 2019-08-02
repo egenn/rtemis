@@ -8,8 +8,8 @@ s.BART(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = c(100, 200), k_cvs = c(2, 3),
   nu_q_cvs = list(c(3, 0.9), c(10, 0.75)), k_folds = 5,
   n.burnin = 250, n.iter = 1000, n.cores = rtCores,
-  upsample = FALSE, upsample.seed = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   rtclass = NULL, verbose = TRUE, trace = 0, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), java.mem.size = 12,
@@ -33,7 +33,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}

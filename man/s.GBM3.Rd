@@ -5,12 +5,12 @@
 \title{Gradient Boosting Machine [C, R, S]}
 \usage{
 s.GBM3(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  distribution = NULL, interaction.depth = 2, shrinkage = 0.01,
-  bag.fraction = 0.9, mFeatures = NULL, n.minobsinnode = 5,
-  n.trees = 2000, max.trees = 5000, force.n.trees = NULL,
-  n.tree.window = 0, gbm.select.smooth = TRUE, smoother = c("loess",
-  "supsmu"), n.new.trees = 500, min.trees = 50,
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, distribution = NULL, interaction.depth = 2,
+  shrinkage = 0.01, bag.fraction = 0.9, mFeatures = NULL,
+  n.minobsinnode = 5, n.trees = 2000, max.trees = 5000,
+  force.n.trees = NULL, n.tree.window = 0, gbm.select.smooth = TRUE,
+  smoother = c("loess", "supsmu"), n.new.trees = 500, min.trees = 50,
   failsafe.trees = 1000, imetrics = FALSE, .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
@@ -57,7 +57,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{interaction.depth}{[gS] Integer: Interaction depth}

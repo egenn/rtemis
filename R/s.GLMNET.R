@@ -51,7 +51,8 @@ s.GLMNET <- function(x, y = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      res.summary.fn = mean,
                      save.grid.run = FALSE,
                      metric = NULL,
@@ -107,9 +108,13 @@ s.GLMNET <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

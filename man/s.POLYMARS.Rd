@@ -8,10 +8,10 @@ s.POLYMARS(x, y = NULL, x.test = NULL, y.test = NULL,
   x.name = NULL, y.name = NULL,
   grid.resample.rtset = rtset.grid.resample(),
   bag.resample.rtset = NULL, weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  maxsize = ceiling(min(6 * (nrow(x)^{     1/3 }), nrow(x)/4, 100)),
-  classify = NULL, n.cores = rtCores, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, maxsize = ceiling(min(6 * (nrow(x)^{     1/3
+  }), nrow(x)/4, 100)), classify = NULL, n.cores = rtCores,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   verbose = TRUE, trace = 0, save.mod = FALSE, outdir = NULL, ...)
 }

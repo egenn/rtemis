@@ -16,11 +16,11 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
   max.w2 = 3.4028235e+38, nfolds = 0, initial.biases = NULL,
   initial.weights = NULL, loss = "Automatic", distribution = "AUTO",
   stopping.rounds = 5, stopping.metric = "AUTO", upsample = FALSE,
-  upsample.seed = NULL, na.action = na.fail, n.cores = rtCores,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  verbose = TRUE, trace = 0, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  downsample = FALSE, resample.seed = NULL, na.action = na.fail,
+  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), question = NULL, verbose = TRUE, trace = 0,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Vector / Matrix / Data Frame: Training set Predictors}
@@ -70,7 +70,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}

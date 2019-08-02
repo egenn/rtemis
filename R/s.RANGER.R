@@ -58,7 +58,8 @@ s.RANGER <- function(x, y = NULL,
                      ipw.case.weights = TRUE,
                      ipw.class.weights = FALSE,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      autotune = FALSE,
                      classwt = NULL,
                      n.trees.try = 500,
@@ -125,9 +126,13 @@ s.RANGER <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -140,8 +145,8 @@ s.RANGER <- function(x, y = NULL,
   if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   .class.weights <- if (is.null(classwt) & ipw) dt$class.weights else classwt
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -187,7 +192,7 @@ s.RANGER <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed),
+                                              resample.seed = resample.seed),
                           search.type = grid.search.type,
                           randomized.p = grid.randomized.p,
                           weights = weights,
@@ -236,7 +241,7 @@ s.RANGER <- function(x, y = NULL,
                      ipw = ipw,
                      ipw.type = ipw.type,
                      upsample = upsample,
-                     upsample.seed = upsample.seed)
+                     resample.seed = resample.seed)
 
   # [ RANGER ] ====
   if (stratify.on.y) {

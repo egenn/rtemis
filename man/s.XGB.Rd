@@ -8,7 +8,7 @@ s.XGB(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, booster = c("gbtree", "gblinear", "dart"),
   silent = 1, missing = NA, nrounds = 500L, force.nrounds = NULL,
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, obj = NULL, feval = NULL, maximize = NULL,
+  resample.seed = NULL, obj = NULL, feval = NULL, maximize = NULL,
   xgb.verbose = NULL, print_every_n = 100L,
   early.stopping.rounds = 50L, eta = 0.1, gamma = 0, max.depth = 3,
   min.child.weight = 5, max.delta.step = 0, subsample = 0.75,
@@ -68,7 +68,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{obj}{Function: Custom objective function. See \code{?xgboost::xgboost}}

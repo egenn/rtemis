@@ -76,7 +76,8 @@ s.H2ODL <- function(x, y = NULL,
                     stopping.rounds = 5,
                     stopping.metric = "AUTO",
                     upsample = FALSE,
-                    upsample.seed = NULL,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     na.action = na.fail,
                     n.cores = rtCores,
                     print.plot = TRUE,
@@ -125,7 +126,11 @@ s.H2ODL <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

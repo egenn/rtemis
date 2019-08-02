@@ -8,7 +8,7 @@ s.SVM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, class.weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
+  ipw.type = 2, upsample = FALSE, resample.seed = NULL,
   kernel = "radial", degree = 3, gamma = NULL, coef0 = 0,
   cost = 1, probability = TRUE, metric = NULL, maximize = NULL,
   plot.fitted = NULL, plot.predicted = NULL, print.plot = TRUE,
@@ -56,7 +56,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{kernel}{String: "linear", "polynomial", "radial", "sigmoid"}

@@ -6,16 +6,16 @@
 \usage{
 s.QDA(x, y = NULL, x.test = NULL, y.test = NULL, prior = NULL,
   method = "moment", nu = NULL, x.name = NULL, y.name = NULL,
-  upsample = FALSE, upsample.seed = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   rtclass = NULL, verbose = TRUE, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 
 s.QDA(x, y = NULL, x.test = NULL, y.test = NULL, prior = NULL,
   method = "moment", nu = NULL, x.name = NULL, y.name = NULL,
-  upsample = FALSE, upsample.seed = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   rtclass = NULL, verbose = TRUE, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
@@ -38,7 +38,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}

@@ -64,7 +64,9 @@ s.LDA <- function(x, y,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

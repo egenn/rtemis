@@ -28,7 +28,8 @@ s.POLYMARS <- function(x, y = NULL,
                        ipw = TRUE,
                        ipw.type = 2,
                        upsample = FALSE,
-                       upsample.seed = NULL,
+                       downsample = FALSE,
+                       resample.seed = NULL,
                        maxsize = ceiling(min(6 * (nrow(x)^{1/3}), nrow(x)/4, 100)),
                        classify = NULL,
                        n.cores = rtCores,
@@ -77,7 +78,9 @@ s.POLYMARS <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -88,8 +91,8 @@ s.POLYMARS <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, nrow(x))
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(classify)) classify <- ifelse(type == "Classification", TRUE, FALSE)
   if (print.plot) {

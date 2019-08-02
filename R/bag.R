@@ -35,7 +35,8 @@ bag <- function(x, y = NULL,
                 ipw = TRUE,
                 ipw.type = 2,
                 upsample = FALSE,
-                upsample.seed = NULL,
+                downsample = FALSE,
+                resample.seed = NULL,
                 .resample = rtset.resample(resampler = "strat.boot",
                                            n.resamples = k),
                 aggr.fn = NULL,
@@ -78,9 +79,13 @@ bag <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -92,8 +97,8 @@ bag <- function(x, y = NULL,
   type <- dt$type
   # .weights <- if (is.null(weights) & ipw) dt$weights else weights
   # TODO: x0, y0
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
+  # x0 <- if (upsample|downsample) dt$x0 else x
+  # y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

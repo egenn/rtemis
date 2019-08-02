@@ -5,12 +5,13 @@
 \title{Linear model}
 \usage{
 s.LM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, weights = NULL, intercept = TRUE, robust = FALSE,
-  gls = FALSE, polynomial = FALSE, poly.d = 3, poly.raw = FALSE,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  na.action = na.exclude, question = NULL, rtclass = NULL,
-  verbose = TRUE, trace = 0, outdir = NULL,
+  y.name = NULL, weights = NULL, ipw = TRUE, upsample = FALSE,
+  downsample = FALSE, resample.seed = NULL, intercept = TRUE,
+  robust = FALSE, gls = FALSE, polynomial = FALSE, poly.d = 3,
+  poly.raw = FALSE, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), na.action = na.exclude, question = NULL,
+  rtclass = NULL, verbose = TRUE, trace = 0, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
@@ -30,6 +31,16 @@ Columns must correspond to columns in \code{x}}
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+
+\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
+Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
 
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
 

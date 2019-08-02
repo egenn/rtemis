@@ -38,6 +38,9 @@
 s.SPLS <- function(x, y = NULL,
                    x.test = NULL, y.test = NULL,
                    x.name = NULL, y.name = NULL,
+                   upsample = TRUE,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    k = 2,
                    eta = .5,
                    kappa = .5,
@@ -89,7 +92,10 @@ s.SPLS <- function(x, y = NULL,
     print(args(s.SPLS))
     stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.SPLS)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) {
+    print(args(s.SPLS))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -102,7 +108,12 @@ s.SPLS <- function(x, y = NULL,
   }
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

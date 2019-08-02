@@ -59,7 +59,8 @@ s.H2OGBM <- function(x, y = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      na.action = na.fail,
                      grid.n.cores = 1,
                      n.cores = rtCores,
@@ -112,9 +113,13 @@ s.H2OGBM <- function(x, y = NULL,
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -124,8 +129,8 @@ s.H2OGBM <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
@@ -183,7 +188,7 @@ s.H2OGBM <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed,
+                                              resample.seed = resample.seed,
                                               n.stopping.rounds = n.stopping.rounds,
                                               stopping.metric = stopping.metric,
                                               min.split.improvement = min.split.improvement,

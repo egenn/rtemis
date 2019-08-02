@@ -73,7 +73,8 @@ s.XGB <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   obj = NULL,
                   feval = NULL,
                   maximize = NULL,
@@ -174,7 +175,9 @@ s.XGB <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

@@ -9,13 +9,13 @@ s.RF(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   n.trees.try = 1000, stepFactor = 1.5, mtry = NULL,
   mtryStart = mtry, grid.resample.rtset = rtset.resample("kfold", 5),
   metric = NULL, maximize = NULL, classwt = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  importance = TRUE, proximity = FALSE, replace = TRUE,
-  nodesize = NULL, maxnodes = NULL, strata = NULL, sampsize = if
-  (replace) nrow(x) else ceiling(0.632 * nrow(x)), sampsize.ratio = NULL,
-  do.trace = NULL, tune.do.trace = FALSE, imetrics = FALSE,
-  n.cores = rtCores, print.tune.plot = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, importance = TRUE, proximity = FALSE,
+  replace = TRUE, nodesize = NULL, maxnodes = NULL, strata = NULL,
+  sampsize = if (replace) nrow(x) else ceiling(0.632 * nrow(x)),
+  sampsize.ratio = NULL, do.trace = NULL, tune.do.trace = FALSE,
+  imetrics = FALSE, n.cores = rtCores, print.tune.plot = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   proximity.tsne = FALSE, discard.forest = FALSE,
   tsne.perplexity = 5, plot.tsne.train = FALSE,
@@ -72,7 +72,7 @@ Default = 2}
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}

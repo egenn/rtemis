@@ -6,11 +6,12 @@
 \usage{
 s.CART(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, method = "auto",
-  parms = NULL, minsplit = 2, minbucket = round(minsplit/3),
-  cp = 0.01, maxdepth = 20, maxcompete = 0, maxsurrogate = 0,
-  usesurrogate = 2, surrogatestyle = 0, xval = 0, cost = NULL,
-  model = TRUE, prune.cp = NULL, use.prune.rpart.rt = TRUE,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  method = "auto", parms = NULL, minsplit = 2,
+  minbucket = round(minsplit/3), cp = 0.01, maxdepth = 20,
+  maxcompete = 0, maxsurrogate = 0, usesurrogate = 2,
+  surrogatestyle = 0, xval = 0, cost = NULL, model = TRUE,
+  prune.cp = NULL, use.prune.rpart.rt = TRUE,
   return.unpruned = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
@@ -51,7 +52,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{method}{String: "auto", "anova", "poisson", "class" or "exp". Default = "auto"}

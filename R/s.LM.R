@@ -56,6 +56,10 @@ s.LM <- function(x, y = NULL,
                  x.test = NULL, y.test = NULL,
                  x.name = NULL, y.name = NULL,
                  weights = NULL,
+                 ipw = TRUE,
+                 upsample = FALSE,
+                 downsample = FALSE,
+                 resample.seed = NULL,
                  intercept = TRUE,
                  robust = FALSE,
                  gls = FALSE,
@@ -119,13 +123,20 @@ s.LM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+  .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

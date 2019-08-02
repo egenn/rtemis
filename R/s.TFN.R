@@ -51,7 +51,8 @@ s.TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   net = NULL,
                   n.hidden.nodes = NULL,
                   initializer = c("glorot_uniform", "glorot_normal", "he_uniform", "he_normal",
@@ -141,7 +142,9 @@ s.TFN <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y

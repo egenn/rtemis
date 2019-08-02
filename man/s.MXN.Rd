@@ -5,13 +5,14 @@
 \title{Neural Network with \code{mxnet} [C, R]}
 \usage{
 s.MXN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, upsample.seed = NULL,
-  net = NULL, n.hidden.nodes = NULL, output = NULL,
-  ctx = mxnet::mx.cpu(), initializer = mxnet::mx.init.Xavier(),
-  batch.normalization = TRUE, l2.normalization = FALSE,
-  activation = "relu", optimizer = "adadelta", batch.size = NULL,
-  momentum = 0.9, max.epochs = 1000, min.epochs = 25,
-  early.stop = c("train", "valid"), early.stop.absolute.threshold = NA,
+  y.valid = NULL, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, net = NULL, n.hidden.nodes = NULL,
+  output = NULL, ctx = mxnet::mx.cpu(),
+  initializer = mxnet::mx.init.Xavier(), batch.normalization = TRUE,
+  l2.normalization = FALSE, activation = "relu",
+  optimizer = "adadelta", batch.size = NULL, momentum = 0.9,
+  max.epochs = 1000, min.epochs = 25, early.stop = c("train",
+  "valid"), early.stop.absolute.threshold = NA,
   early.stop.relative.threshold = NA,
   early.stop.relativeVariance.threshold = NULL,
   early.stop.n.steps = NULL, learning.rate = NULL, dropout = 0,
@@ -39,7 +40,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{net}{MXNET Symbol: provide a previously defined network. logger will not work in this case at the moment,

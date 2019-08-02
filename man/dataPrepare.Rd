@@ -5,9 +5,9 @@
 \title{\code{rtemis-internals}: \code{dataPrepare}}
 \usage{
 dataPrepare(x, y = NULL, x.test = NULL, y.test = NULL,
-  x.valid = NULL, y.valid = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, removeDots = FALSE,
-  .preprocess = NULL, verbose = FALSE)
+  x.valid = NULL, y.valid = NULL, ipw = FALSE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  removeDots = FALSE, .preprocess = NULL, verbose = FALSE)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -28,12 +28,11 @@ Columns must correspond to columns in \code{x}}
 
 \item{ipw.type}{{1, 2}: 1:}
 
-\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
-Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
-the length of the class you are upsampling, thereby introducing randomness}
+\item{upsample}{Logical: If TRUE, downsample majority class to match size of minority class}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
-Default = NULL (random seed)}
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
+
+\item{resample.seed}{Integer: If set, use \code{set.seed} for reproducibility. Default = NULL}
 
 \item{removeDots}{Logical: If TRUE, replace dots in variable names with underscores.
 Some algorithms do not work with variable names containing dots (SparkML)}

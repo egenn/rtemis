@@ -7,9 +7,10 @@
 s.RANGER(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 1000, weights = NULL, ipw = TRUE,
   ipw.type = 2, ipw.case.weights = TRUE, ipw.class.weights = FALSE,
-  upsample = FALSE, upsample.seed = NULL, autotune = FALSE,
-  classwt = NULL, n.trees.try = 500, stepFactor = 2, mtry = NULL,
-  mtryStart = NULL, inbag.resample = NULL, stratify.on.y = FALSE,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  autotune = FALSE, classwt = NULL, n.trees.try = 500,
+  stepFactor = 2, mtry = NULL, mtryStart = NULL,
+  inbag.resample = NULL, stratify.on.y = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -58,7 +59,7 @@ Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}

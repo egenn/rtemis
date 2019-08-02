@@ -12,25 +12,21 @@
 #' @param ipw Logical: If TRUE, return class weights for inverse probability weighting
 #' (for Classification)
 #' @param ipw.type {1, 2}: 1:
-#' @param upsample Logical: If TRUE, downsample majority class to match size of minority class
-#' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
-#' @param resample.seed Integer: If set, use \code{set.seed} for reproducibility. Default = NULL
 #' @param removeDots Logical: If TRUE, replace dots in variable names with underscores.
 #' Some algorithms do not work with variable names containing dots (SparkML)
 #' @param .preprocess List: Preprocessing settings. Set with \link{rtset.preprocess}
 #' @param verbose Logical: If TRUE, print messages to console
 #' @export
 
-dataPrepare <- function(x, y = NULL,
-                        x.test = NULL, y.test = NULL,
+dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
                         x.valid = NULL, y.valid = NULL,
-                        ipw = FALSE,
+                        ipw = TRUE,
                         ipw.type = 2,
                         upsample = FALSE,
-                        downsample = FALSE,
-                        resample.seed = NULL,
+                        upsample.seed = NULL,
                         removeDots = FALSE,
                         .preprocess = NULL,
+                        # .data.table = FALSE, # for future work
                         verbose = FALSE) {
 
   if (class(x)[1] != "list") {
@@ -162,7 +158,7 @@ dataPrepare <- function(x, y = NULL,
 
   # [ UPSAMPLE: balance outcome class ] ====
   if (type == "Classification" & upsample) {
-    if (!is.null(resample.seed)) set.seed(resample.seed)
+    if (!is.null(upsample.seed)) set.seed(upsample.seed)
     freq <- as.data.frame(table(y))
     maxfreq.i <- which.max(freq$Freq)
     if (verbose) {
@@ -170,6 +166,7 @@ dataPrepare <- function(x, y = NULL,
       msg(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
+    # all <- 1:length(levels(y))
     to.upsample <- setdiff(1:length(levels(y)), maxfreq.i)
     y.upsampled.classIndex.list <- y.classIndex.list
     target.length <- length(y.classIndex.list[[maxfreq.i]])
@@ -185,31 +182,6 @@ dataPrepare <- function(x, y = NULL,
     y0 <- y
     x <- x[upsample.index, , drop = FALSE]
     y <- y[upsample.index]
-  } else {
-    x0 <- y0 <- NULL
-  }
-
-  # [ DOWNSAMPLE: balance outcome class ] ====
-  if (type == "Classification" & downsample) {
-    if (!is.null(resample.seed)) set.seed(resample.seed)
-    freq <- as.data.frame(table(y))
-    minfreq.i <- which.min(freq$Freq)
-    if (verbose) {
-      msg("Downsampling to balance outcome classes...", newline.pre = TRUE)
-      msg(levels(y)[minfreq.i], "is the minority outcome with", min(freq$Freq), "cases")
-    }
-    y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
-    to.downsample <- setdiff(seq_along(levels(y)), minfreq.i)
-    y.downsampled.classIndex.list <- y.classIndex.list
-    target.length <- length(y.classIndex.list[[minfreq.i]])
-    for (i in to.downsample) {
-      y.downsampled.classIndex.list[[i]] <- sample(y.classIndex.list[[i]], target.length)
-    }
-    downsample.index <- unlist(y.downsampled.classIndex.list)
-    x0 <- x
-    y0 <- y
-    x <- x[downsample.index, , drop = FALSE]
-    y <- y[downsample.index]
   } else {
     x0 <- y0 <- NULL
   }

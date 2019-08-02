@@ -6,7 +6,7 @@
 \usage{
 rtset.RANGER(n.trees = 1000, min.node.size = 1, mtry = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5), ipw = TRUE,
-  upsample = FALSE, upsample.seed = NULL, ...)
+  upsample = FALSE, resample.seed = NULL, ...)
 }
 \arguments{
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}
@@ -25,7 +25,7 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{...}{Additional arguments to be passed to \code{ranger::ranger}}

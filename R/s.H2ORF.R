@@ -41,6 +41,8 @@ s.H2ORF <- function(x, y = NULL,
                     weights.test = NULL,
                     balance.classes = TRUE,
                     upsample = FALSE,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     # grid.resample.rtset = rtset.grid.resample(),
                     # bag.resample.rtset = NULL,
                     na.action = na.fail,
@@ -91,7 +93,12 @@ s.H2ORF <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, verbose = verbose)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

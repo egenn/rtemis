@@ -89,7 +89,7 @@ s.ADDTBOOST <- function(x, y = NULL,
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
+                    # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
