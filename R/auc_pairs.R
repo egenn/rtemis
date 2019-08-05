@@ -1,3 +1,7 @@
+# auc_pairs.R
+# ::rtemis::
+# 2019 Efstathios D. Gennatas egenn.github.io
+
 #' Area under the Curve by pairwise concordance
 #'
 #' Get the Area under the ROC curve to assess classifier performance using pairwise concordance
