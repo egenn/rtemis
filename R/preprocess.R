@@ -21,6 +21,10 @@
 #' @param x Input
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
+#' @param removeCases.thres Float: Remove cases with >= to this fraction of missing features.
+#' Default = NULL
+#' @param removeFeatures.thres Float: Remove features with missing values in >= to this fraction of
+#' cases. Default = NULL
 #' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
 #' which cases were missing data
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
@@ -43,10 +47,6 @@
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
 #' if \code{integer2factor = FALSE})
-#' @param removeCases.thres Float: Remove cases with >= to this fraction of missing features.
-#' Default = NULL
-#' @param removeFeatures.thres Float: Remove features with missing values in >= to this fraction of
-#' cases. Default = NULL
 #' @param removeConstant Logical: If TRUE, remove all columns with zero variance. Default = TRUE
 #' @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
 #' @param scale Logical: If TRUE, scale columns of \code{x}
