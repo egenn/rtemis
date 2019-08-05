@@ -21,15 +21,15 @@ mplot3.conf(object, main = "auto", xlab = "Reference",
 \item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 data.frame / table}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
 \item{plot.metrics}{Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE}
 
-\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for
+\item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL, will look for
 \code{object$mod.name}. Default = NULL}
 
 \item{oma}{Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)}
@@ -72,7 +72,7 @@ data.frame / table}
 
 \item{col.text.lo}{Color for low confusion matrix values. Default = "auto", determined by \code{theme}}
 
-\item{theme}{String: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"}
+\item{theme}{Character: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"}
 
 \item{mid.col}{Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
 theme = "light", "black" for "dark"}
@@ -87,7 +87,7 @@ theme = "light", "black" for "dark"}
 
 \item{pdf.height}{Float: PDF height, if \code{filename} is set}
 
-\item{filename}{String: If specified, save plot to this path. Default = NULL}
+\item{filename}{Character: If specified, save plot to this path. Default = NULL}
 }
 \value{
 List of metrics, invisibly

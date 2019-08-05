@@ -41,7 +41,7 @@ mplot3.xym(x, y, margin = c("histogram", "density", "both"),
 
 \item{lwd}{Float: Line width}
 
-\item{main}{String: Main title}
+\item{main}{Character: Main title}
 
 \item{main.adj}{Float: Plot title alignment (0 = left, .5 = center, 1 = right)}
 
@@ -54,7 +54,7 @@ mplot3.xym(x, y, margin = c("histogram", "density", "both"),
 
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

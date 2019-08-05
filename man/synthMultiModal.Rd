@@ -14,7 +14,7 @@ synthMultiModal(n.cases = 10000, init.fn = "runifmat",
 \arguments{
 \item{n.cases}{Integer: Number of cases to create. Default = 10000}
 
-\item{init.fn}{String: "runifmat" or "rnormmat". Use the respective functions to generate features as random uniform
+\item{init.fn}{Character: "runifmat" or "rnormmat". Use the respective functions to generate features as random uniform
 and random normal variables, respectively.
 Default = "runifmat"}
 
@@ -52,7 +52,7 @@ Default = .05}
 
 \item{seed}{Integer: If set, pass to \code{set.seed} for reproducibility}
 
-\item{filename}{String: Path to file to save output. Default = NULL}
+\item{filename}{Character: Path to file to save output. Default = NULL}
 }
 \value{
 List with elements x, y, index.square, index.atan, index.pair.square

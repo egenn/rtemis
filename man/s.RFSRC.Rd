@@ -27,7 +27,7 @@ must have set of columns as \code{x}}
 
 \item{n.trees}{Integer: Number of trees to grow. The more the merrier.}
 
-\item{bootstrap}{String:}
+\item{bootstrap}{Character:}
 
 \item{mtry}{Integer: Number of features sampled randomly at each split}
 

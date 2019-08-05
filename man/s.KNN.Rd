@@ -23,7 +23,7 @@ must have set of columns as \code{x}}
 
 \item{k}{Integer: Number of neighbors considered}
 
-\item{algorithm}{String: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"}
+\item{algorithm}{Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"}
 
 \item{outdir}{Optional. Path to directory to save output}
 }

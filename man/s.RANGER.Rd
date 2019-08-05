@@ -87,12 +87,12 @@ This can help improve test set performance in imbalanced datasets. Default = FAL
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -106,7 +106,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{min.node.size}{[gS] Integer: Minimum node size}
 
-\item{splitrule}{String: For classification: "gini" (Default) or "extratrees";
+\item{splitrule}{Character: For classification: "gini" (Default) or "extratrees";
 For regression: "variance" (Default), "extratrees" or "maxstat".
 For survival "logrank" (Default), "extratrees", "C" or "maxstat".}
 
@@ -134,9 +134,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 

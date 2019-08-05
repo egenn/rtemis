@@ -16,7 +16,7 @@ rtset.MXN(n.hidden.nodes = NULL, output = NULL, activation = "relu",
 \arguments{
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create}
 
-\item{output}{String: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
+\item{output}{Character: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
 "Linear" for Regression. Defaults to "Logistic" for binary outcome, "Softmax" for 3+ classes, "LinearReg" for
 regression.}
 
@@ -37,7 +37,7 @@ If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbo
 
 \item{dropout.after}{Integer: Index of hidden layer after which dropout should be applied}
 
-\item{eval.metric}{String: Metrix used for evaluation during train. Default: "rmse"}
+\item{eval.metric}{Character: Metrix used for evaluation during train. Default: "rmse"}
 }
 \description{
 \code{rtset.MXN}: Set parameters for \link{s.MXN}

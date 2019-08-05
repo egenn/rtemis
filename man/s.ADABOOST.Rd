@@ -23,9 +23,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{loss}{String: "exponential" (Default), "logistic"}
+\item{loss}{Character: "exponential" (Default), "logistic"}
 
-\item{type}{String: "discrete", "real", "gentle"}
+\item{type}{Character: "discrete", "real", "gentle"}
 
 \item{iter}{Integer: Number of boosting iterations to perform. Default = 50}
 
@@ -52,11 +52,11 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

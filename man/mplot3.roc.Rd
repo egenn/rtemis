@@ -18,15 +18,15 @@ mplot3.roc(prob, labels, method = c("rt", "pROC"), type = "TPR.FPR",
 
 \item{labels}{Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))}
 
-\item{method}{String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
 to get points of the ROC. Default = "rt"}
 
-\item{type}{String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
+\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
 
 \item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE}
 
-\item{main}{String: Plot title. Default = ""}
+\item{main}{Character: Plot title. Default = ""}
 
 \item{col}{Color, vector: Colors to use for ROC curve(s)}
 

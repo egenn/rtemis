@@ -12,10 +12,10 @@ rtset.color(n = 101, colors = NULL, space = "rgb", lo = "#01256E",
 \item{n}{Integer: How many distinct colors you want. If not odd, converted to \code{n + 1}
 Defaults to 21}
 
-\item{colors}{String: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
+\item{colors}{Character: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
 "french", "penn", "grnblkred",}
 
-\item{space}{String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
+\item{space}{Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
 Recommendation: If \code{mid} is "white" or "black" (default), use "rgb", otherwise "Lab"}
 
 \item{lo}{Color for low end}

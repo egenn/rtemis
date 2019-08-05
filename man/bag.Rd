@@ -30,7 +30,7 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{mod}{String: Algorithm to bag, for options, see \link{modSelect}}
+\item{mod}{Character: Algorithm to bag, for options, see \link{modSelect}}
 
 \item{k}{Integer: Number of base learners to train}
 
@@ -62,7 +62,7 @@ Regression}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{base.verbose}{Logical: \code{verbose} argument passed to learner}
 
@@ -78,14 +78,14 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
 \item{n.cores}{Integer: Number of cores to use}
 
-\item{parallel.type}{String: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
+\item{parallel.type}{Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

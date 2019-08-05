@@ -14,7 +14,7 @@ u.HOPACH(x, dmat = NULL, metric = c("cosangle", "abscosangle",
 \item{dmat}{Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
 If NULL}
 
-\item{metric}{String: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
+\item{metric}{Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
 
 \item{K}{Integer, (0:15]: Maximum number of levels}
 

@@ -14,7 +14,7 @@ u.PAMK(x, krange = 2:10, criterion = "asw", usepam = ifelse(nrow(x) <
 
 \item{krange}{Integer vector: Range of k values to try}
 
-\item{criterion}{String: Criterion to use for selecting k: "asw", "multiasw" or "ch". See \code{fpc::pamk}}
+\item{criterion}{Character: Criterion to use for selecting k: "asw", "multiasw" or "ch". See \code{fpc::pamk}}
 
 \item{usepam}{Logical: If TRUE, use \code{cluster::pam}, otherwise use \code{cluster::clara}.
 Default = TRUE}
@@ -25,7 +25,7 @@ features, the features are divided by the corresponding value. Default = TRUE}
 \item{diss}{Logical: If TRUE, treat \code{x} as a dissimilarity matrix, otherwise as a matrix of
 cases by features. Default = TRUE, if x inherits from class \code{dist}, FALSE otherwise.}
 
-\item{metric}{String: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
+\item{metric}{Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
 
 \item{do.swap}{Logical: If TRUE, perform the swap phase (See \code{cluster::pam}), as in the
 original PAM algorithm. This is computationally intensive and can be skipped. Default = TRUE}

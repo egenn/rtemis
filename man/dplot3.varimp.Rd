@@ -15,11 +15,11 @@ dplot3.varimp(varimp, names = NULL, main = "Variable Importance",
 
 \item{names}{Vector, string: Names of features}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
 \item{col}{Vector, colors: Single value, or multiple values to define bar (feature) color(s)}
 
@@ -28,7 +28,7 @@ Default = c(50, 110, 50, 50)}
 
 \item{pad}{Integer: Pad plot by this many pixels. Default = 10}
 
-\item{font.family}{String: Font to use. Default = "Open Sans"}
+\item{font.family}{Character: Font to use. Default = "Open Sans"}
 
 \item{font.size}{Integer: Overall font size to use (essentially for the title at this point).
 Default = 14}

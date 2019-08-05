@@ -10,9 +10,9 @@ labels2niftis(datamat, labeledNifti, prefix, verbose = TRUE,
 \arguments{
 \item{datamat}{Matrix / Data Frame: Input}
 
-\item{labeledNifti}{String: Path to labeled nifti file}
+\item{labeledNifti}{Character: Path to labeled nifti file}
 
-\item{prefix}{String: File output prefix}
+\item{prefix}{Character: File output prefix}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 

@@ -19,7 +19,7 @@ lincoef(x, y, weights = NULL, method = c("glmnet", "cv.glmnet",
 
 \item{weights}{Float, vector: Case weights}
 
-\item{method}{String: Method to use:
+\item{method}{Character: Method to use:
 "glm": uses \code{stats::lm.wfit};
 "glmnet": uses \code{glmnet::glmnet};
 "cv.glmnet": uses \code{glmnet:cv.glmnet};
@@ -40,14 +40,14 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 
 \item{cv.glmnet.nfolds}{Integer: Number of folds for \code{cv.glmnet}}
 
-\item{which.cv.glmnet.lambda}{String: Whitch lambda to pick from cv.glmnet:
+\item{which.cv.glmnet.lambda}{Character: Whitch lambda to pick from cv.glmnet:
 "lambda.min": Lambda that gives minimum cross-validated error;}
 
 \item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1}
 
 \item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.}
 
-\item{sgd.model}{String: Model to use for \code{method = "sgd"}. Default = "glm"}
+\item{sgd.model}{Character: Model to use for \code{method = "sgd"}. Default = "glm"}
 
 \item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
 

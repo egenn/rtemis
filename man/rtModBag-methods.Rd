@@ -11,7 +11,7 @@
 \arguments{
 \item{newdata}{Testing set features}
 
-\item{aggr.fn}{String: Function to aggregate models' prediction. Default = "median"}
+\item{aggr.fn}{Character: Function to aggregate models' prediction. Default = "median"}
 
 \item{...}{Not used}
 }

@@ -14,7 +14,7 @@ mplot3.fit(x, y, fit = "lm", se.fit = TRUE, fit.error = TRUE,
 
 \item{y}{Vector, numeric / factor / survival for regression, classification, survival: Predicted values}
 
-\item{fit}{String: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 be passed as a string.}
 
@@ -24,7 +24,7 @@ be passed as a string.}
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

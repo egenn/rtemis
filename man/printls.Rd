@@ -10,7 +10,7 @@ printls(x, prefix = "", pad = 3, center.title = TRUE, title = NULL,
 \arguments{
 \item{x}{list or object that will be converted to a list}
 
-\item{prefix}{String: Optional prefix for names}
+\item{prefix}{Character: Optional prefix for names}
 
 \item{pad}{Integer: Pad output with this many spaces. Default = 2}
 

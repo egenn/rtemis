@@ -14,7 +14,7 @@ colorPreview(col, main = NULL, names = TRUE, names.y = 1.045,
 \item{col}{Input color. Hexadecimal or any string that R recognizes.
 (See all with \code{colors()})}
 
-\item{main}{String: Plot title. Default = NULL}
+\item{main}{Character: Plot title. Default = NULL}
 
 \item{names}{Logical: If TRUE, add l\code{names(col)} if not NULL. Default = TRUE}
 

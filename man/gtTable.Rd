@@ -9,7 +9,7 @@ gtTable(x = list(), x.name = NULL, na.rm = TRUE, verbose = TRUE)
 \arguments{
 \item{x}{List of vectors of same length}
 
-\item{x.name}{String: Name of measure being compared}
+\item{x.name}{Character: Name of measure being compared}
 
 \item{na.rm}{Passed to \code{sum} to handle missing values}
 

@@ -24,7 +24,7 @@ nlareg(x, y, b_o = mean(y), W_o = 1, b_h = 0, W_h = 0,
 \item{activation}{String or Function: Activation function to use: provide its name or the function itself.
 Default = link{softplus}}
 
-\item{optim.method}{String: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
+\item{optim.method}{Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}}
 
 \item{...}{Additional arguments}

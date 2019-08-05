@@ -13,11 +13,11 @@ d.ICA(x, k = 3, package = c("fastICA", "ica"), alg.type = "parallel",
 
 \item{k}{Integer vector of length 1 or greater. Rank of decomposition}
 
-\item{package}{String: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
+\item{package}{Character: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
 "ica" will use \code{ica::fastica}. Default = "fastICA".
 Note: only \code{fastICA} works with \code{k = 1}}
 
-\item{alg.type}{String: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"}
+\item{alg.type}{Character: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"}
 
 \item{maxit}{Integer: Maximum N of iterations}
 

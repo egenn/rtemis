@@ -13,11 +13,11 @@ d.ISOMAP(x, k = 2, dist.method = "euclidean", nsd = 0,
 
 \item{k}{Integer vector of length 1 or greater. Rank of decomposition}
 
-\item{dist.method}{String: Distance calculation method. See \code{vegan::vegdist}}
+\item{dist.method}{Character: Distance calculation method. See \code{vegan::vegdist}}
 
 \item{nsd}{Integer: Number of shortest dissimilarities retained}
 
-\item{path}{String: The \code{path} argument of \code{vegan::isomap}}
+\item{path}{Character: The \code{path} argument of \code{vegan::isomap}}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 

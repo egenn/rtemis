@@ -18,7 +18,7 @@ rtset.preprocess(completeCases = FALSE, removeCases.thres = NULL,
   exclude = NULL)
 }
 \arguments{
-\item{decom}{String: Name of decomposer to use. Default = "ICA"}
+\item{decom}{Character: Name of decomposer to use. Default = "ICA"}
 
 \item{k}{Integer: Number of dimensions to project to. Default = 2}
 }

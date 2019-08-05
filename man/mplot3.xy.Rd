@@ -60,7 +60,7 @@ If \code{data} is provided, name of variable, unquoted.}
 \item{y}{Numeric vector of list of vectors for y-axis
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{fit}{String: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 be passed as a string.}
 
@@ -77,25 +77,25 @@ parameters}
 
 \item{error.y}{Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point}
 
-\item{cluster}{String: Clusterer name. Will cluster \code{data.frame(x, y)} and
+\item{cluster}{Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
 pass result to \code{group}. Run \link{clustSelect} for options}
 
 \item{cluster.params}{List: Names list of parameters to pass to the \code{cluster} function}
 
 \item{data}{(Optional) data frame, where \code{x} and \code{y} are defined}
 
-\item{type}{String: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
+\item{type}{Character: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
 vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will give a set of points and two sets
 of lines. Otherwise, \code{type} is recycled to length of x}
 
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
 \item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
 Default = .5}
@@ -106,13 +106,16 @@ Default = .5}
 
 \item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
 
-\item{main.family}{String: Font family to use. See \code{par("family")}}
+\item{main.family}{Character: Font family to use. See \code{par("family")}}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
 \item{ylim}{Float vector, length 2: y-axis limits}
+
+\item{xpd}{Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
+NA: plotting clipped to device region. Default = TRUE}
 
 \item{rsq}{Logical: If TRUE, add legend with R-squared (if fit is not NULL)}
 
@@ -122,7 +125,7 @@ Default = .5}
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
-\item{axes.col}{String: Color for axes values (box color set with \code{box.col})}
+\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
 (See \code{?par})}
@@ -156,7 +159,7 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
-\item{annotation}{String: Add annotation at the bottom right of the plot}
+\item{annotation}{Character: Add annotation at the bottom right of the plot}
 
 \item{annotation.col}{Color for annotation}
 
@@ -196,12 +199,12 @@ See \code{density} in \code{graphics::polygon}}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
-\item{group.title}{String: Group title, shown above group names. e.g. if group names are
+\item{group.title}{Character: Group title, shown above group names. e.g. if group names are
 c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

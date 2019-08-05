@@ -31,10 +31,10 @@ See more at \code{heatmaply::heatmaply("Colv")}}
 
 \item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(z)}}
 
-\item{colors}{String: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
+\item{colors}{Character: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
 "french", "penn", "grnblkred",}
 
-\item{space}{String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
+\item{space}{Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
 Recommendation: If \code{mid} is "white" or "black" (default), use "rgb", otherwise "Lab"}
 
 \item{lo}{Color for low end}
@@ -60,13 +60,13 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{margins}{Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{key.title}{String: Title for the color key. Default = NULL (no title)}
+\item{key.title}{Character: Title for the color key. Default = NULL (no title)}
 
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}}
 }

@@ -35,7 +35,7 @@ must have set of columns as \code{x}}
 \item{nk}{[gS] Integer: Maximum number of terms created by the forward pass.
 See \code{earth::earth}}
 
-\item{pmethod}{[gS] String: Pruning method: "backward", "none", "exhaustive", "forward",
+\item{pmethod}{[gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 "seqrep", "cv". Default = "forward"}
 
 \item{nprune}{[gS] Integer: Max N of terms (incl. intercept) in the pruned model}

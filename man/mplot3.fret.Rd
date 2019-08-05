@@ -11,7 +11,7 @@ mplot3.fret(theme = c("light", "dark"), useSharps = FALSE,
   "gray20"), inlays.cex = 2, par.reset = TRUE)
 }
 \arguments{
-\item{theme}{String: "light" or "dark"}
+\item{theme}{Character: "light" or "dark"}
 
 \item{useSharps}{Logical: If TRUE, draw sharp instead of flat notes. Default = FALSE}
 

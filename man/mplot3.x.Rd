@@ -43,7 +43,7 @@ mplot3.x(x, type = c("index", "line", "histogram", "density", "qqline"),
 \item{x}{Numeric vector or list of vectors, one for each group.
 If \code{data} is provided, x is name of variable in \code{data}}
 
-\item{type}{String:"index", "line", "histogram", "density", "qqline"
+\item{type}{Character:"index", "line", "histogram", "density", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram}
 
 \item{group}{Vector denoting group membership. Will be converted to factor.
@@ -51,11 +51,11 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 
 \item{data}{Optional data frame containing x data}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
 \item{main.col}{Color for title. Defaults to black for theme "light" and "box", otherwise white}
 
@@ -66,7 +66,7 @@ Default = .5}
 
 \item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
 
-\item{main.family}{String: Font family to use. See \code{par("family")}}
+\item{main.family}{Character: Font family to use. See \code{par("family")}}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
@@ -77,15 +77,15 @@ Default = .5}
 
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
 
-\item{axes.col}{String: Color for axes values (box color set with \code{box.col})}
+\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
-\item{index.type}{String: "p" for points (Default), "l" for lines (timeseries)}
+\item{index.type}{Character: "p" for points (Default), "l" for lines (timeseries)}
 
 \item{hist.breaks}{See \code{histogram("breaks")}}
 
-\item{hist.type}{String: "bars" or "lines"}
+\item{hist.type}{Character: "bars" or "lines"}
 
 \item{hist.lwd}{Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}}
 
@@ -109,11 +109,11 @@ Default = .5}
 
 \item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
-\item{annotation}{String: Add annotation at the bottom right of the plot}
+\item{annotation}{Character: Add annotation at the bottom right of the plot}
 
 \item{group.legend}{Logical: If TRUE, include legend with group names}
 
-\item{group.title}{String: Title above group names}
+\item{group.title}{Character: Title above group names}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
@@ -146,7 +146,7 @@ Default = .5}
 
 \item{lwd}{Integer: Line width. Used for \code{type = "line" or "density"}}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

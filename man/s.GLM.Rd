@@ -36,9 +36,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
-\item{covariate}{String: Name of column to be included as interaction term in formula, must be factor}
+\item{covariate}{Character: Name of column to be included as interaction term in formula, must be factor}
 
-\item{class.method}{String: Define "logistic" or "multinom" for classification. The only purpose
+\item{class.method}{Character: Define "logistic" or "multinom" for classification. The only purpose
 of this is so you can try \code{nnet::multinom} instead of glm for binary classification}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -77,7 +77,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
@@ -85,9 +85,9 @@ Requires \code{x.test} and \code{y.test}}
 not present in \code{x} and substitutes with NA. This would result in error otherwise and no
 predictions would be made, ending \code{s.GLM} prematurely}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

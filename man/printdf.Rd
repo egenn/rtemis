@@ -21,7 +21,7 @@ formatting}
 
 \item{transpose}{Logical: If TRUE, transpose \code{x} before printing. Default = FALSE}
 
-\item{justify}{String: "right", "left". Default = "right"}
+\item{justify}{Character: "right", "left". Default = "right"}
 
 \item{colnames}{Logical: If TRUE, print column names. Default = TRUE}
 

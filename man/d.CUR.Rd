@@ -20,7 +20,7 @@ d.CUR(x, c = dim(x)[2], r = dim(x)[1], k = NULL, sv = NULL,
 
 \item{sv}{The SVD of \code{x}, if already available}
 
-\item{method}{String: "random", "top.scores", "ortho.top.scores",
+\item{method}{Character: "random", "top.scores", "ortho.top.scores",
 "exact.num.random", "highest.ranks" (Default). See \code{rCUR::CUR("method")}}
 
 \item{matrix.return}{Logical: if TRUE, matrices C, U, and R are returned. If FALSE,

@@ -33,7 +33,7 @@ mplot3.adsr(Attack = 300, Decay = 160, Sustain = 40, Release = 500,
 
 \item{O}{Float: Note off time (in milliseconds)}
 
-\item{theme}{String: "light" or "dark" (Default)}
+\item{theme}{Character: "light" or "dark" (Default)}
 
 \item{...}{Additional arguments to pass to \link{mplot3.xy}}
 }

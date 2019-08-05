@@ -26,9 +26,9 @@ dplot3(x, y = NULL, mode = NULL, group = NULL, point.size = 7,
 
 \item{y}{Numeric vector. y coordinates}
 
-\item{mode}{String: "scatter" or "density"}
+\item{mode}{Character: "scatter" or "density"}
 
-\item{group}{String: Name of variable to group by (not yet functional)}
+\item{group}{Character: Name of variable to group by (not yet functional)}
 
 \item{point.size}{Numeric scalar or vector}
 
@@ -36,7 +36,7 @@ dplot3(x, y = NULL, mode = NULL, group = NULL, point.size = 7,
 
 \item{point.alpha}{Float: Alpha of points}
 
-\item{point.symbol}{String: "circle", "square"; see plotly documentation for more
+\item{point.symbol}{Character: "circle", "square"; see plotly documentation for more
 Default = "circle"}
 
 \item{point.labels}{String, optional: Point labels displayed on mouse over}
@@ -69,13 +69,13 @@ Default = "circle"}
 
 \item{density.mean.width}{Integer: Width of \code{density.mean} line. Default = 2}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{font.family}{String: Axes' legends' font family}
+\item{font.family}{Character: Axes' legends' font family}
 
 \item{font.color}{Font color}
 

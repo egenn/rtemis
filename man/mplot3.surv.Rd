@@ -24,15 +24,15 @@ mplot3.surv(x, lty = 1, lwd = 2, alpha = 1, col = NULL,
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
-\item{group.title}{String: Group title, shown above group names. e.g. if group names are
+\item{group.title}{Character: Group title, shown above group names. e.g. if group names are
 c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}

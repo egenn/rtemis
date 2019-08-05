@@ -7,7 +7,7 @@
 crules(...)
 }
 \arguments{
-\item{...}{String: Rules}
+\item{...}{Character: Rules}
 }
 \description{
 Combine rules

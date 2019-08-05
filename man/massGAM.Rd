@@ -15,7 +15,7 @@ massGAM(x, y, covariates = NULL, x.name = NULL, y.name = NULL,
 
 \item{y}{Float, Matrix / data frame: Outcomes}
 
-\item{x.name}{String: Name of the predictor}
+\item{x.name}{Character: Name of the predictor}
 
 \item{y.name}{String, vector: Names of the outcomes}
 

@@ -9,7 +9,7 @@ labelify(x, underscoresToSpaces = TRUE, dotsToSpaces = TRUE,
   stringsToSpaces = c("\\\\$"))
 }
 \arguments{
-\item{x}{String: Input}
+\item{x}{Character: Input}
 
 \item{underscoresToSpaces}{Logical: If TRUE, convert underscores to spaces. Default = TRUE}
 

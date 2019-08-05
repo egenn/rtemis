@@ -25,7 +25,7 @@ function values of the node for \code{update = "exponential"}}
 
 \item{gamma}{Float (0, 1): Accelaration factor}
 
-\item{update}{String: "Exponential" or "Polynomial"}
+\item{update}{Character: "Exponential" or "Polynomial"}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 }

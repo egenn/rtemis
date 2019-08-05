@@ -48,7 +48,7 @@ so early stopping cannot be applied}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create}
 
-\item{output}{String: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
+\item{output}{Character: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
 "Linear" for Regression. Defaults to "Logistic" for binary outcome, "Softmax" for 3+ classes, "LinearReg" for
 regression.}
 
@@ -73,7 +73,7 @@ If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbo
 
 \item{dropout.after}{Integer: Index of hidden layer after which dropout should be applied}
 
-\item{eval.metric}{String: Metrix used for evaluation during train. Default: "rmse"}
+\item{eval.metric}{Character: Metrix used for evaluation during train. Default: "rmse"}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -89,9 +89,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

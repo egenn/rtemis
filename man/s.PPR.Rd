@@ -38,7 +38,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{optlevel}{[gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}}
 
-\item{sm.method}{[gS] String: "supsmu", "spline", "gcvspline". Smoothing method. Default = "gcvspline"}
+\item{sm.method}{[gS] Character: "supsmu", "spline", "gcvspline". Smoothing method. Default = "gcvspline"}
 
 \item{bass}{[gS] Numeric [0, 10]: for \code{sm.method} "supsmu": larger values result in greater smoother
 (Default = 5). See \code{stats::ppr}}
@@ -59,11 +59,11 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

@@ -7,7 +7,7 @@
 rtset.decompose(decom = "ICA", k = 2, ...)
 }
 \arguments{
-\item{decom}{String: Name of decomposer to use. Default = "ICA"}
+\item{decom}{Character: Name of decomposer to use. Default = "ICA"}
 
 \item{k}{Integer: Number of dimensions to project to. Default = 2}
 }

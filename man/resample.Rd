@@ -15,7 +15,7 @@ resample(y, n.resamples = 10, resampler = c("strat.sub", "strat.boot",
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
-\item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{index}{List where each element is a vector of training set indices. Use this for manual or precalculated

@@ -38,7 +38,7 @@ which cases were missing data}
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 \code{impute.numeric} for how}
 
-\item{impute.type}{String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
+\item{impute.type}{Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
 \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
@@ -71,9 +71,15 @@ if \code{integer2factor = FALSE})}
 
 \item{removeConstant}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
 
+\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
+
+\item{exclude}{Integer, vector: Exclude these columns from all preprocessing. Default = NULL}
+
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
 
 \item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
+
+\item{removeConstant}{Logical: If TRUE, remove constant columns. Default = TRUE}
 }
 \description{
 Prepare data for data analysis

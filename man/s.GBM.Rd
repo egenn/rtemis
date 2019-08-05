@@ -82,19 +82,19 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
-\item{outdir}{String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
+\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
 \item{save.rds}{Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 mod.gbm, so no need to save again.}

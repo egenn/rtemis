@@ -77,12 +77,12 @@ step. Default = NULL which results in using all features.}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -105,13 +105,13 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -119,7 +119,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
-\item{outdir}{String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
+\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
 \item{save.rds}{Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 mod.gbm, so no need to save again.}

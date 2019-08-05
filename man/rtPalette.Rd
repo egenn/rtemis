@@ -7,7 +7,7 @@
 rtPalette(palette = NULL)
 }
 \arguments{
-\item{palette}{String: Name of palette to return. Default = NULL: available palette names
+\item{palette}{Character: Name of palette to return. Default = NULL: available palette names
 are printed and no palette is returned}
 }
 \value{

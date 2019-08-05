@@ -26,7 +26,7 @@ mplot3.heatmap(x, colorGrad.n = 101, colorGrad.col = NULL,
 
 \item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
-\item{colorGrad.col}{String: the \code{colors} argument of \link{colorGrad}: String: Acts as a shortcut to defining
+\item{colorGrad.col}{Character: the \code{colors} argument of \link{colorGrad}: Character: Acts as a shortcut to defining
 lo, mid, etc for a number of defaults: "french", "penn", "grnblkred"}
 
 \item{lo}{Color for low end}
@@ -40,17 +40,17 @@ then only lo and hi are used to create the color gradient.}
 
 \item{hi}{Color for high end}
 
-\item{space}{String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
+\item{space}{Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
 "white" or "black" (default), use "rgb", otherwise "Lab"}
 
-\item{theme}{String: Defaults to option "rt.theme", if set, otherwise "light"}
+\item{theme}{Character: Defaults to option "rt.theme", if set, otherwise "light"}
 
 \item{colorbar}{Logical: If TRUE, plot colorbar next to heatmap. Default = TRUE}
 
 \item{cb.n}{Integer: Number of steps in colorbar. Default = 21, which gives 10 above and 10 below midline.
 If midline is zero, this corresponds to 10 percent increments / decrements}
 
-\item{cb.title}{String: Title for the colorbar. Default = NULL}
+\item{cb.title}{Character: Title for the colorbar. Default = NULL}
 
 \item{cb.cex}{Float: Character expansion (\code{cex}) for colobar. Default = 1}
 

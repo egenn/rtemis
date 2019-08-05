@@ -45,7 +45,7 @@ Default = NULL (random seed)}
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create.
 Can be zero (~GLM)}
 
-\item{initializer}{String: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
+\item{initializer}{Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 "truncated_normal", "orthogonal", "zeros", "ones", "constant".
 Glorot is also known as Xavier initialization. Default = "glorot_uniform"}
@@ -60,19 +60,19 @@ otherwise will be recycled. Default = 0}
 
 \item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE}
 
-\item{output}{String: Activation to use for output layer. Can be any as in \code{activation}.
+\item{output}{Character: Activation to use for output layer. Can be any as in \code{activation}.
 Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass}
 
-\item{loss}{String: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
+\item{loss}{Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
 classification, "sparse_categorical_crossentropy" for multiclass}
 
-\item{optimizer}{String: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
+\item{optimizer}{Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 Default = "rmsprop"}
 
 \item{learning.rate}{Float: learning rate. Defaults depend on \code{optimizer} used and are:
 \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
 
-\item{metric}{String: Metric used for evaluation during train. Default = "mse" for regression,
+\item{metric}{Character: Metric used for evaluation during train. Default = "mse" for regression,
 "accuracy" for classification.}
 
 \item{epochs}{Integer: Number of epochs. Default = 100}
@@ -100,9 +100,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

@@ -9,7 +9,7 @@ rtset.grid.resample(resampler = "strat.boot", n.resamples = 10,
   target.length = NULL, verbose = TRUE)
 }
 \arguments{
-\item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}

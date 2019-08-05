@@ -13,7 +13,7 @@ learn(x, y = NULL, mod = "ppr", x.test = NULL, y.test = NULL,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{mod}{String: Learner to use. To get list of options, run \code{modSelect()}}
+\item{mod}{Character: Learner to use. To get list of options, run \code{modSelect()}}
 
 \item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
@@ -26,7 +26,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{args}{Optional list of parameters to be passed to learner}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

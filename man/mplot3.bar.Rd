@@ -46,15 +46,15 @@ within group and between groups. Default = c(0, 1) if x is matrix and \code{besi
 
 \item{ylim}{Float vector, length 2: y-axis limits}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
 \item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
 \item{ylab.line}{Similar to \code{xlab.line} for the y axis}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
 \item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
 Default = .5}
@@ -65,7 +65,7 @@ Default = .5}
 
 \item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
 
-\item{main.family}{String: Font family to use. See \code{par("family")}}
+\item{main.family}{Character: Font family to use. See \code{par("family")}}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
@@ -89,12 +89,12 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 
 \item{tck}{Float: Tick length. Can be negative (See \code{?par("tck")})}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
-\item{axes.col}{String: Color for axes values (box color set with \code{box.col})}
+\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{grid}{Logical: Should grid be drawn?}
 

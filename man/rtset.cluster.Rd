@@ -10,7 +10,7 @@ we use PSOCK cluster}
 rtset.cluster(type = "fork", hosts = NULL, n.cores = rtCores, ...)
 }
 \arguments{
-\item{type}{String: "fork", "psock"}
+\item{type}{Character: "fork", "psock"}
 
 \item{hosts}{Vector of strings: For type = "psock": Host names on which to run (macOS, Linux, Windows)}
 

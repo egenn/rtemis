@@ -24,7 +24,7 @@ u.H2OKMEANS(x, x.test = NULL, k = 2, estimate.k = FALSE,
 
 \item{max.iterations}{Integer: Maximum number of iterations}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number of H2O server. Default = 54321}
 
@@ -32,10 +32,10 @@ u.H2OKMEANS(x, x.test = NULL, k = 2, estimate.k = FALSE,
 
 \item{seed}{Integer: Seed for H2O's random number generator. Default = -1 (time-based ranodm number)}
 
-\item{init}{String: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
+\item{init}{Character: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
 Default = "Furthest"}
 
-\item{categorical.encoding}{String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
+\item{categorical.encoding}{Character: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
 "OneHotExplicit", "Binary", "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited".
 Default = "AUTO"}
 

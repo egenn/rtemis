@@ -15,7 +15,7 @@ resLearn(x, y, mod, resample.rtset = rtset.cv.resample(),
 
 \item{y}{outcome - training set}
 
-\item{mod}{String: \pkg{rtemis} model. See \code{modSelect} gives available models}
+\item{mod}{Character: \pkg{rtemis} model. See \code{modSelect} gives available models}
 
 \item{resample.rtset}{List: output of \link{rtset} (or a list of same structure)}
 
@@ -28,7 +28,7 @@ resLearn(x, y, mod, resample.rtset = rtset.cv.resample(),
 \item{save.mods}{Logical: If TRUE, save all models, otherwise discard after training.
 Use with \link{elevate} when training a large number of resamples. Default = TRUE}
 
-\item{outdir}{String: Path to save output. Default = NULL}
+\item{outdir}{Character: Path to save output. Default = NULL}
 }
 \description{
 Train an \pkg{rtemis} learner on a set of resamples

@@ -8,7 +8,7 @@ boxcat(x, style = 2, col = NULL, newline.pre = TRUE,
   newline = FALSE, pad = 0)
 }
 \arguments{
-\item{x}{String: Text to be output to console}
+\item{x}{Character: Text to be output to console}
 
 \item{style}{Integer: {1, 2}: 1: vintage style, 2: modern style. Default = 2}
 

@@ -23,19 +23,19 @@ d.H2OGLRM(x, x.test = NULL, x.valid = NULL, k = 3,
 
 \item{k}{Integer: Rank of decomposition}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
-\item{transform}{String: Transformation of input prior to decomposition}
+\item{transform}{Character: Transformation of input prior to decomposition}
 
-\item{loss}{String: Numeric loss function: "Quadratic", "Absolute", "Huber", "Poisson", "Hinge", "Logistic",
+\item{loss}{Character: Numeric loss function: "Quadratic", "Absolute", "Huber", "Poisson", "Hinge", "Logistic",
 "Periodic". Default = "Quadratic"}
 
-\item{regularization.x}{String: Regularization function for X matrix: "None", "Quadratic", "L2", "L1",
+\item{regularization.x}{Character: Regularization function for X matrix: "None", "Quadratic", "L2", "L1",
 "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"}
 
-\item{regularization.y}{String: Regularization function for Y matrix: "None", "Quadratic", "L2", "L1",
+\item{regularization.y}{Character: Regularization function for Y matrix: "None", "Quadratic", "L2", "L1",
 "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"}
 
 \item{gamma.x}{Float: Regularization weight on X matrix. Default = 0}
@@ -52,15 +52,15 @@ d.H2OGLRM(x, x.test = NULL, x.valid = NULL, k = 3,
 
 \item{seed}{Integer: Seed for random number generator. Default = -1 (time-based)}
 
-\item{init}{String: Initialization mode: "Random", "SVD", "PlusPlus", "User". Default = "PlusPlus"}
+\item{init}{Character: Initialization mode: "Random", "SVD", "PlusPlus", "User". Default = "PlusPlus"}
 
-\item{svd.method}{String: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"}
+\item{svd.method}{Character: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"}
 
 \item{verbose}{Logical: If TRUE, print console messages}
 
 \item{print.plot}{Logical: If TRUE, print objective score against iteration number}
 
-\item{plot.theme}{String: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}}
+\item{plot.theme}{Character: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}}
 
 \item{n.cores}{Integer: Number of cores to use}
 

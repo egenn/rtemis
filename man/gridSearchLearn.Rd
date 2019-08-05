@@ -16,14 +16,14 @@ gridSearchLearn(x, y, mod, grid.params, fixed.params = NULL,
 
 \item{y}{outcome - training set. Will be resampled to multiple train-test sets}
 
-\item{mod}{String: \pkg{rtemis} model. See \code{modSelect()} gives available models}
+\item{mod}{Character: \pkg{rtemis} model. See \code{modSelect()} gives available models}
 
 \item{grid.params}{List of named elements, each is a vector of values}
 
 \item{fixed.params}{List of named elements, each is a single value
 (Classification will always maximize Accuracy)}
 
-\item{search.type}{String: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
+\item{search.type}{Character: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
 try all combinations of parameters. Randomized will try a random sample of size \code{randomize.p} * N
 of all combinations}
 
@@ -35,7 +35,7 @@ of all combinations}
 
 \item{error.aggregate.fn}{Function: Use this when aggregating error metrics. Default = mean}
 
-\item{metric}{String: Metric to minimize or maximize}
+\item{metric}{Character: Metric to minimize or maximize}
 
 \item{maximize}{Logical: If TRUE, maximize \code{metric}}
 

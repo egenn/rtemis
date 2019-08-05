@@ -46,9 +46,9 @@ Default = NULL (random seed)}
 \item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: controls effect of concavity of objective
 function. Default = .5}
 
-\item{select}{[gS] String: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"}
+\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"}
 
-\item{fit}{[gS] String: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
+\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
 Default = "simpls"}
 
 \item{scale.x}{Logical: if TRUE, scale features by dividing each column by its sample standard deviation}
@@ -57,17 +57,17 @@ Default = "simpls"}
 
 \item{maxstep}{[gS] Integer: Maximum number of iteration when fitting direction vectors. Default = 100}
 
-\item{classifier}{String: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"}
+\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -81,9 +81,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

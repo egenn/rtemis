@@ -17,7 +17,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{th}{Threshold for eigenvalue below which PCs are ignored if \code{k} is set to 0}
 
-\item{kernel}{String: Type of kernel to use. See \code{kernlab::kpca}}
+\item{kernel}{Character: Type of kernel to use. See \code{kernlab::kpca}}
 
 \item{kpar}{List of hyperparameters: See \code{kernlab::kpca("kpar")}}
 

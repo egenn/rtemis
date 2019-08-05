@@ -25,7 +25,7 @@ elevate(x, y = NULL, mod = "ranger", mod.params = list(),
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{mod}{String: Learner to use. Options: \link{modSelect}}
+\item{mod}{Character: Learner to use. Options: \link{modSelect}}
 
 \item{mod.params}{Optional named list of parameters to be passed to \code{mod}. All parameters can
 be passed as part of \code{...} as well}
@@ -43,7 +43,7 @@ NOTE: If set, this takes precedence over setting the individual resampling argum
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
@@ -74,9 +74,9 @@ e.g. for 10-fold on a dataset with 1000 cases, you could use group = rep(1:10, e
 
 \item{bag.fn}{Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}}
 
-\item{x.name}{String: Name of predictor dataset}
+\item{x.name}{Character: Name of predictor dataset}
 
-\item{y.name}{String: Name of outcome}
+\item{y.name}{Character: Name of outcome}
 
 \item{save.mods}{Logical: If TRUE, retain trained models in object, otherwise discard (save space
 if running many resamples). Default = TRUE}
@@ -93,7 +93,7 @@ bagged prediction on new data using the same models, use \link{predict.rtModCV}}
 \item{n.cores}{Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
 (tuning) or the learner itself is parallelized. Don't parallelize the parallelization}
 
-\item{parallel.type}{String: "psock" (Default), "fork"}
+\item{parallel.type}{Character: "psock" (Default), "fork"}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
@@ -103,13 +103,13 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{print.res.plot}{Logical: Print model performance plot for each resample.
 Defaults to FALSE
 from all resamples. Defaults to TRUE}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -119,7 +119,7 @@ from all resamples. Defaults to TRUE}
 
 \item{headless}{Logical: If TRUE, turn off all plotting.}
 
-\item{outdir}{String: Path where output should be saved}
+\item{outdir}{Character: Path where output should be saved}
 
 \item{save.plots}{Logical: If TRUE, save plots to outdir}
 

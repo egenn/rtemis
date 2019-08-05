@@ -24,7 +24,7 @@ mplot.hsv(h.steps = seq(0, 1, 0.0125), s.steps = h.steps, v = 1,
 
 \item{axes}{Logical: for \code{type = "cartesian"}: If TRUE, draw axes. Default = TRUE}
 
-\item{pty}{String: for \code{type = "cartesian"}: "s", "r", par's pty argument. Default = "s" (square plot)}
+\item{pty}{Character: for \code{type = "cartesian"}: "s", "r", par's pty argument. Default = "s" (square plot)}
 
 \item{cex}{Float: \code{par/plot}'s cex argument. Default = 1}
 
@@ -32,7 +32,7 @@ mplot.hsv(h.steps = seq(0, 1, 0.0125), s.steps = h.steps, v = 1,
 
 \item{lab.col}{Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black}
 
-\item{type}{String: "cartesian" for square plot, "polar" for radial plot. Default = "polar"}
+\item{type}{Character: "cartesian" for square plot, "polar" for radial plot. Default = "polar"}
 }
 \description{
 Plot HSV color range

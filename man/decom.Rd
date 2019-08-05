@@ -9,7 +9,7 @@ decom(x, decom = "ICA", x.test = NULL, verbose = TRUE, ...)
 \arguments{
 \item{x}{Numeric matrix / data frame: Input data}
 
-\item{decom}{String: Decomposer name. See ]link{decomSelect}. Default = "ICA"}
+\item{decom}{Character: Decomposer name. See ]link{decomSelect}. Default = "ICA"}
 
 \item{x.test}{Numeric matrix / data frame: Testing set data if supported by \code{decom}}
 

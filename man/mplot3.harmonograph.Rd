@@ -23,7 +23,7 @@ mplot3.harmonograph(steps = seq(1, 500, by = 0.01), seed = NULL,
 
 \item{lwd}{Float: Line width}
 
-\item{text}{String: Text you want printed along with the harmonograph. Default = NULL}
+\item{text}{Character: Text you want printed along with the harmonograph. Default = NULL}
 
 \item{text.side}{Integer {1, 2, 3, 4}: \code{side} argument for \code{mtext}}
 

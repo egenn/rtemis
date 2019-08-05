@@ -15,7 +15,7 @@
 \section{Fields}{
 
 \describe{
-\item{\code{decom.name}}{String: Name of decomposition algorithm}
+\item{\code{decom.name}}{Character: Name of decomposition algorithm}
 
 \item{\code{call}}{Originating call}
 

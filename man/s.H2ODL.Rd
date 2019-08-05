@@ -39,7 +39,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 
 \item{y.name}{Character: Name for outcome}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
@@ -47,7 +47,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 
 \item{epochs}{Integer: How many times to iterate through the dataset. Default = 1000}
 
-\item{activation}{String: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
+\item{activation}{Character: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
 "Maxout", "MaxoutWithDropout". Default = "Rectifier"}
 
 \item{learning.rate}{Float: Learning rate to use for training. Default = .005}
@@ -85,9 +85,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

@@ -10,7 +10,7 @@ parameterSummary(..., title = "Parameters", pad = 0,
 \arguments{
 \item{...}{Variables to print}
 
-\item{title}{String: title}
+\item{title}{Character: title}
 
 \item{pad}{Integer: Pad for \link{printls}}
 

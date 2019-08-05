@@ -16,7 +16,7 @@ mhist(x, breaks = "Sturges", measure = c("density", "counts"),
 
 \item{breaks}{See \code{hist("breaks")} Default = "Sturges"}
 
-\item{measure}{String: "density"(Default), "counts"}
+\item{measure}{Character: "density"(Default), "counts"}
 
 \item{lwd}{Float: Line width}
 
@@ -34,13 +34,13 @@ mhist(x, breaks = "Sturges", measure = c("density", "counts"),
 
 \item{yaxis.line}{Float: Number of lines into the margin to position \code{yaxis}. See \code{axis("line")}}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{xaxs}{String: 'r' (Default): Extends x-axis range by 4 percent at each end, 'i': Does not extend x-axis range}
+\item{xaxs}{Character: 'r' (Default): Extends x-axis range by 4 percent at each end, 'i': Does not extend x-axis range}
 
-\item{yaxs}{String: 'r' (Default): Extends y-axis range by 4 percent at each end, 'i': Does not extend y-axis range}
+\item{yaxs}{Character: 'r' (Default): Extends y-axis range by 4 percent at each end, 'i': Does not extend y-axis range}
 
 \item{box}{Logical: If TRUE, draws a box around plot}
 
@@ -51,7 +51,7 @@ mhist(x, breaks = "Sturges", measure = c("density", "counts"),
 \item{horiz}{Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a
 non-rotated plot - i.e. \code{xlab} will become the y-axis label}
 
-\item{main}{String: Main title}
+\item{main}{Character: Main title}
 
 \item{add}{Logical: If TRUE, add histogram to existing plot (Caution: make sure the axes line up!)}
 

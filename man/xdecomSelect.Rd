@@ -7,7 +7,7 @@
 xdecomSelect(xdecom, fn = FALSE, desc = FALSE)
 }
 \arguments{
-\item{xdecom}{String: Cross-decomposition name; case insensitive}
+\item{xdecom}{Character: Cross-decomposition name; case insensitive}
 
 \item{fn}{Logical: If TRUE, return function, otherwise return name of function. Default = FALSE}
 

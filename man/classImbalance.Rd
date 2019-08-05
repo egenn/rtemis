@@ -11,7 +11,7 @@ classImbalance(x)
 }
 \description{
 Calculate class imbalance as given by:
-\deqn{I = K\cdot\sum_{i=1}^K (n_i/N - 1/K)^2}
+\deqn{I = K\cdot\sum_{i=1}^K (n_i/N - 1/K)^2}{I = K * sum(n_i/N - 1/K)^2}
 where \eqn{K} is the number of classes, and \eqn{n_i} is the number of instances of class \eqn{i}
 }
 \author{

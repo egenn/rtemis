@@ -9,7 +9,7 @@ lotri2edgeList(A, filename = NULL, verbose = TRUE)
 \arguments{
 \item{A}{Square matrix}
 
-\item{filename}{String: Path for csv file. Defaults to "conmat2edgelist.csv"}
+\item{filename}{Character: Path for csv file. Defaults to "conmat2edgelist.csv"}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 }

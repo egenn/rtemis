@@ -50,6 +50,10 @@ x <- lotri2edgeList(cor(rnormmat(10, 10)))
 # '- nCr ====
 nCr(4, 2)
 
+# '- oneHot ====
+iris.oh <- oneHot(iris)
+iris.species.oh <- oneHot(iris$Species)
+
 # '- rsd ====
 rsd(rnorm(20))
 

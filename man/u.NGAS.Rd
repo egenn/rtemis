@@ -14,7 +14,7 @@ u.NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE,
 
 \item{k}{Integer: Number of clusters to get}
 
-\item{dist}{String: Distance measure to use: 'euclidean' or 'manhattan'}
+\item{dist}{Character: Distance measure to use: 'euclidean' or 'manhattan'}
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
