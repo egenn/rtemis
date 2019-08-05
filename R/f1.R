@@ -8,8 +8,8 @@
 #'
 #' \deqn{F1 = 2 \frac{Sensitivity \cdot PPV}{Sensitivity + PPV}}{F1 = 2 * (Sensitivity * Specificity)/(Sensitivity + Specificity)}
 #'
-#' @param sensitivity Float [0, 1]: The model sensitivity
-#' @param ppv Float [0, 1]: The model Positive Predictive Value
+#' @param sensitivity Float [0, 1]: The model Sensitivity aka Recall
+#' @param ppv Float [0, 1]: The model Positive Predictive Value aka Precision
 #' @author Efstathios D. Gennatas
 #' @export
 
