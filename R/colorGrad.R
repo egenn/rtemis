@@ -20,9 +20,9 @@
 #'
 #' @param n Integer: How many distinct colors you want. If not odd, converted to \code{n + 1}
 #'   Defaults to 21
-#' @param colors String: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
+#' @param colors Character: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
 #'   "french", "penn", "grnblkred",
-#' @param space String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
+#' @param space Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
 #'   Recommendation: If \code{mid} is "white" or "black" (default), use "rgb", otherwise "Lab"
 #' @param lo Color for low end
 #' @param lomid Color for low-mid
@@ -48,7 +48,7 @@
 #' @param filename String (Optional: Path to file to save colorbar
 #' @param pdf.width Float: Width for PDF output. Default = 3
 #' @param pdf.height Float: Height for PDF output. Default = 7
-#' @param theme String: "light", "dark"
+#' @param theme Character: "light", "dark"
 #' @param bg Color: Background color
 #' @param col.text Color: Colorbar text color
 #' @param plotlycb Logical: Create colorbar using \code{plotly} (instead of base R graphics)

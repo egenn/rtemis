@@ -855,7 +855,7 @@ NULL
 #'
 #' @method predict rtModBag
 #' @param newdata Testing set features
-#' @param aggr.fn String: Function to aggregate models' prediction. Default = "median"
+#' @param aggr.fn Character: Function to aggregate models' prediction. Default = "median"
 #' @param ... Not used
 #' @rdname rtModBag-methods
 #' @export

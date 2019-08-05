@@ -17,7 +17,7 @@
 #' @param alpha Alpha for line color \code{col}. Default = .2
 #' @param bg Color for background. Default = "black"
 #' @param lwd Float: Line width
-#' @param text String: Text you want printed along with the harmonograph. Default = NULL
+#' @param text Character: Text you want printed along with the harmonograph. Default = NULL
 #' @param text.side Integer {1, 2, 3, 4}: \code{side} argument for \code{mtext}
 #' @param text.line Float: \code{line} argument for \code{mtext}
 #' @param text.adj Float: \code{adj} argument for \code{mtext}

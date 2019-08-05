@@ -7,7 +7,7 @@
 #' Creates an \pkg{rtemis} object of your choice of class. All available class systems are supported,
 #' but at this point \code{R6} is the default and most widely tested.
 #'
-#' @param rtclass String: Which class system to use. Previously "S3", "S4", "RC", "R6".
+#' @param rtclass Character: Which class system to use. Previously "S3", "S4", "RC", "R6".
 #' Currently, only "R6", aka "rtMod" is supported.
 #' @param mod Trained model
 #' @param mod.name Model (algorithm) name

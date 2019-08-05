@@ -11,7 +11,7 @@
 #' @param estimated Vector: Estimated values
 #' @param estimated.prob Vector: Estimated probabilities for Classification, if available. Default = NULL
 #' @param verbose Logical: If TRUE, print output to screen
-#' @param type String: "Regression", "Classification", or "Survival". If not provided, will be set
+#' @param type Character: "Regression", "Classification", or "Survival". If not provided, will be set
 #' to Regression if y is numeric.
 #' @param rho Logical: If TRUE, calculate Spearman's rho. Default = TRUE
 #' @param tau Logical: If TRUE, calculate Kendall's tau. Default = FALSE

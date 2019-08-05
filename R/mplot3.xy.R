@@ -13,7 +13,7 @@
 #'   If \code{data} is provided, name of variable, unquoted.
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If \code{data} is provided, name of variable, unquoted.
-#' @param fit String: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+#' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 #'   Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 #'   be passed as a string.
 #' @param formula Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
@@ -24,21 +24,21 @@
 #' parameters
 #' @param error.x Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point
 #' @param error.y Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point
-#' @param cluster String: Clusterer name. Will cluster \code{data.frame(x, y)} and
+#' @param cluster Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
 #' pass result to \code{group}. Run \link{clustSelect} for options
 #' @param cluster.params List: Names list of parameters to pass to the \code{cluster} function
 #' @param data (Optional) data frame, where \code{x} and \code{y} are defined
 #' @param group Vector: will be converted to factor.
 #'   If \code{data} is provided, name of variable, unquoted.
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
-#' @param main String: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param main Character: Plot title
 #' @param main.line Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
 #' Default = .5
 #' @param main.adj Float: Plot title alignment (0 = left, .5 = center, 1 = right)
 #' @param main.col Color for title. Defaults to black for theme "light" and "box", otherwise white
 #' @param main.font Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more
-#' @param main.family String: Font family to use. See \code{par("family")}
+#' @param main.family Character: Font family to use. See \code{par("family")}
 #' @param cex Float: Character expansion factor (See \code{?par})
 #' @param se.lty How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
 #'   otherwise an integer defines the lty (line type) for lines to be drawn
@@ -50,14 +50,14 @@
 #'   See \code{border} in \code{graphics::polygon}
 #' @param se.density Density of shading line of polygon for \code{se.fit}.
 #'   See \code{density} in \code{graphics::polygon}
-#' @param type String: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
+#' @param type Character: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
 #'   vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will give a set of points and two sets
 #'   of lines. Otherwise, \code{type} is recycled to length of x
 #' @param xlim Float vector, length 2: x-axis limits
 #' @param ylim Float vector, length 2: y-axis limits
 #' @param axes Logical: Should the axes be drawn? Defaults to TRUE
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
-#' @param axes.col String: Color for axes values (box color set with \code{box.col})
+#' @param axes.col Character: Color for axes values (box color set with \code{box.col})
 #' @param pty "s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
 #'   (See \code{?par})
 #' @param box Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"
@@ -84,7 +84,7 @@
 #' @param zero.alpha Color alpha for \code{zero.lines}
 #' @param zero.lty Zero line line type
 #' @param zero.lwd Zero line width
-#' @param annotation String: Add annotation at the bottom right of the plot
+#' @param annotation Character: Add annotation at the bottom right of the plot
 #' @param annotation.col Color for annotation
 #' @param tck Float: Tick length. Can be negative (See \code{?par("tck")})
 #' @param x.axis.padj Adjustment for the x axis tick labels position
@@ -93,17 +93,18 @@
 #' @param ylab.line Similar to \code{xlab.line} for the y axis
 #' @param xlab.adj \code{adj} for \code{xlab} (See \code{?par})
 #' @param ylab.adj \code{adj} for \code{ylab} (See \code{?par})
-#' @param theme String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+#' @param theme Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'lightgrid')
 #' @param mar Vector, length 4: Margins; see \code{mar} in \code{?par}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
-#' @param group.title String: Group title, shown above group names. e.g. if group names are
+#' @param group.title Character: Group title, shown above group names. e.g. if group names are
 #'   c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
-#' @param xpd
+#' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
+#' NA: plotting clipped to device region. Default = TRUE
 #' @param xaxs
 #' @param yaxs
 #' @param rsq.side

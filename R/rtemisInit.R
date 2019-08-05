@@ -127,7 +127,7 @@ dataSummary <- function(x, y,
 #' If input includes multiple objects, any list's or data frame's elements' names will be printed with the
 #' name of the list or data frame prepended.
 #' @param ... Variables to print
-#' @param title String: title
+#' @param title Character: title
 #' @param pad Integer: Pad for \link{printls}
 #' @param newline.pre Logical: If TRUE, start with a newline. Default = TRUE
 #' @param newline Logical: If TRUE, end with anew (empty) line. Default = FALSE

@@ -4,7 +4,7 @@
 
 #' Convert text for label printing
 #'
-#' @param x String: Input
+#' @param x Character: Input
 #' @param underscoresToSpaces Logical: If TRUE, convert underscores to spaces. Default = TRUE
 #' @param dotsToSpaces Logical: If TRUE, convert dots to spaces. Default = TRUE
 #' @param toTitleCase Logical: If TRUE, convert to Title Case. Default = TRUE

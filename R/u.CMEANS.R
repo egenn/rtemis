@@ -9,8 +9,8 @@
 #' @inheritParams u.KMEANS
 #' @param k Integer: Number of clusters to get
 #' @param iter.max Integer: Maximum number of iterations
-#' @param dist String: Distance measure to use: 'euclidean' or 'manhattan'
-#' @param method String: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
+#' @param method Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update
 #' @param m Float (>1): Degree of fuzzification. Default = 2
 #' @param rate.par Float (0, 1): Learning rate for the online variant. (Default = .3)
 #' @param weights Float (>0): Case weights

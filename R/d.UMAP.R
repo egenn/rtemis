@@ -10,8 +10,8 @@
 #' @param x.test Optional test set matrix. Will be projected on to UMAP bases
 #' @param k Integer: Number of projections
 #' @param n.neighbors Integer: Number of keighbors
-#' @param init String: Initialization type. See \code{uwot::umap "init"}
-#' @param metric String: Distance metric to use: "euclidean", "cosine", "manhattan", "hamming", "categorical"
+#' @param init Character: Initialization type. See \code{uwot::umap "init"}
+#' @param metric Character: Distance metric to use: "euclidean", "cosine", "manhattan", "hamming", "categorical"
 #' Default = "euclidean"
 #' @param epochs Integer: Number of epochs
 #' @param learning.rate Float: Learning rate. Default = 1

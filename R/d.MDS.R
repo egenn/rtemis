@@ -16,7 +16,7 @@
 #' @inheritParams d.SVD
 #' @param x Input data
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param dist.method String: method to use to calculate distance. See \code{stats::dist("method")}
+#' @param dist.method Character: method to use to calculate distance. See \code{stats::dist("method")}
 #' @param eig Logical: If TRUE, return eigenvalues. Default = FALSE
 #' @param add Logical: If TRUE, an additive constant \code{c*} will be computed and added to the
 #' non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE

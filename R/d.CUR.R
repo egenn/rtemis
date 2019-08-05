@@ -13,7 +13,7 @@
 #' @param r Integer: Number of rows to be selected
 #' @param k Integer: Rank of decomposition (Creates \code{k} components)
 #' @param sv The SVD of \code{x}, if already available
-#' @param method String: "random", "top.scores", "ortho.top.scores",
+#' @param method Character: "random", "top.scores", "ortho.top.scores",
 #' "exact.num.random", "highest.ranks" (Default). See \code{rCUR::CUR("method")}
 #' @param matrix.return Logical: if TRUE, matrices C, U, and R are returned. If FALSE,
 #' U is not computed, which can be expensive, if r and c are large. Default = TRUE

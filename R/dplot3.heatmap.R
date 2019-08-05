@@ -28,7 +28,7 @@
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
-#' @param key.title String: Title for the color key. Default = NULL (no title)
+#' @param key.title Character: Title for the color key. Default = NULL (no title)
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
 #' @author Efstathios D. Gennatas
 #' @export

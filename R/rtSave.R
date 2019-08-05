@@ -6,7 +6,7 @@
 #'
 #' @param rtmod \pkg{rtemis} model
 #' @param outdir Path to output directory
-#' @param file.prefix String: Prefix for filename
+#' @param file.prefix Character: Prefix for filename
 #' @param verbose Logical: If TRUE, print messages to output
 #' @author Efstathios D. Gennatas
 #' @export

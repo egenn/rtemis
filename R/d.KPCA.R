@@ -18,7 +18,7 @@
 #' @param k Integer vector of length 1 or greater. N of components to return
 #'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
 #' @param th Threshold for eigenvalue below which PCs are ignored if \code{k} is set to 0
-#' @param kernel String: Type of kernel to use. See \code{kernlab::kpca}
+#' @param kernel Character: Type of kernel to use. See \code{kernlab::kpca}
 #' @param kpar List of hyperparameters: See \code{kernlab::kpca("kpar")}
 #' @param scale Logical: If TRUE, scale input data before projecting
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}

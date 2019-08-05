@@ -18,7 +18,7 @@
 #' @param bg.alpha Float: Point alpha for background / decision surface. Default = .2
 #' @param bg.pch Integer vector: pch for background / decision surface. Default = c(3, 4)
 #' @param par.reset Logical: If TRUE, reset \code{par} before exiting. Default = TRUE
-#' @param theme String: Theme for \link{mplot3.xy}, "light" or "dark". Default = "light'
+#' @param theme Character: Theme for \link{mplot3.xy}, "light" or "dark". Default = "light'
 #' @param col Color vector for classes. Default = \code{ucsfPalette}
 #' @param contour.col Color for decision boundary. Default = "black"
 #' @param contour.lwd Float: Line width for decision boundary. Default = .3

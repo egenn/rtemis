@@ -29,10 +29,10 @@
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires \code{x.test} and \code{y.test}
-#' @param plot.theme String: "zero", "dark", "box", "darkbox"
+#' @param plot.theme Character: "zero", "dark", "box", "darkbox"
 #' @param na.action How to handle missing values. See \code{?na.fail}
-#' @param question String: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass String: Class type to use. "S3", "S4", "RC", "R6"
+#' @param question Character: the question you are attempting to answer with this model, in plain language.
+#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,

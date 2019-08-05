@@ -13,14 +13,14 @@
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
-#' @param mod String: \pkg{rtemis} model. See \code{modSelect} gives available models
+#' @param mod Character: \pkg{rtemis} model. See \code{modSelect} gives available models
 #' @param resample.rtset List: output of \link{rtset} (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param res.verbose Logical: Will be passed to each \code{mod}'s \code{verbose} argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with \link{elevate} when training a large number of resamples. Default = TRUE
-#' @param outdir String: Path to save output. Default = NULL
+#' @param outdir Character: Path to save output. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
 

@@ -25,7 +25,7 @@
 #' @param mtry [gS] Integer: Number of features sampled randomly at each split. Defaults to square root of n of
 #' features for classification, and a third of n of features for regression.
 #' @param min.node.size [gS] Integer: Minimum node size
-#' @param splitrule String: For classification: "gini" (Default) or "extratrees";
+#' @param splitrule Character: For classification: "gini" (Default) or "extratrees";
 #' For regression: "variance" (Default), "extratrees" or "maxstat".
 #' For survival "logrank" (Default), "extratrees", "C" or "maxstat".
 #' @param ipw.case.weights Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE

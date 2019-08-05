@@ -16,7 +16,7 @@
 #' @param degree [gS] Integer: Maximum degree of interaction. Default = 2
 #' @param penalty [gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
 #' -1 means no penalty. Default = 3
-#' @param pmethod [gS] String: Pruning method: "backward", "none", "exhaustive", "forward",
+#' @param pmethod [gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 #' "seqrep", "cv". Default = "forward"
 #' @param nprune [gS] Integer: Max N of terms (incl. intercept) in the pruned model
 #' @param nk [gS] Integer: Maximum number of terms created by the forward pass.

@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtXDecom-class
-#' @field xdecom.name String: Name of cross-decomposition algorithm
+#' @field xdecom.name Character: Name of cross-decomposition algorithm
 #' @field k Integer: Number of projections
 #' @field xnames Character vector: Column names of x
 #' @field xdecom Cross-decomposition model output

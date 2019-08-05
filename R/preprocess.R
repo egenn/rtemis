@@ -25,7 +25,7 @@
 #' which cases were missing data
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 #' \code{impute.numeric} for how
-#' @param impute.type String: How to impute data: "missRanger" and "missForest" use the packages of the same name to
+#' @param impute.type Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 #' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 #' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
 #' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
@@ -51,6 +51,9 @@
 #' @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
+#' @param removeConstant Logical: If TRUE, remove constant columns. Default = TRUE
+#' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
+#' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
 #' @param n.cores Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores
 #' @author Efstathios D. Gennatas

@@ -23,7 +23,7 @@
 #' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
 #' @param as.message Logical: if TRUE, print using \code{message()}
 #' @param color Color for message to use with \pkg{crayon}
-#' @param sep String: Use to separate objects in \code{...}
+#' @param sep Character: Use to separate objects in \code{...}
 #' @return Invisibly: List with call, message, and date
 #' @author Efstathios D. Gennatas
 #' @export

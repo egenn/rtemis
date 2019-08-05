@@ -8,7 +8,7 @@
 #'
 #' Plot is very wide and short. Adjust plot window accordingly.
 #' Practice every day.
-#' @param theme String: "light" or "dark"
+#' @param theme Character: "light" or "dark"
 #' @param useSharps Logical: If TRUE, draw sharp instead of flat notes. Default = FALSE
 #' @param strings.col Color for strings
 #' @param frets.col Color for frets

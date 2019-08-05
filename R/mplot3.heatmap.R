@@ -21,7 +21,7 @@
 #'
 #' @param x Input matrix
 #' @param colorGrad.n Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101
-#' @param colorGrad.col String: the \code{colors} argument of \link{colorGrad}: String: Acts as a shortcut to defining
+#' @param colorGrad.col Character: the \code{colors} argument of \link{colorGrad}: Character: Acts as a shortcut to defining
 #' lo, mid, etc for a number of defaults: "french", "penn", "grnblkred"
 #' @param lo Color for low end
 #' @param lomid Color for low-mid
@@ -29,13 +29,13 @@
 #' then only lo and hi are used to create the color gradient.
 #' @param midhi Color for middle-high
 #' @param hi Color for high end
-#' @param space String: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
+#' @param space Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
 #' "white" or "black" (default), use "rgb", otherwise "Lab"
-#' @param theme String: Defaults to option "rt.theme", if set, otherwise "light"
+#' @param theme Character: Defaults to option "rt.theme", if set, otherwise "light"
 #' @param colorbar Logical: If TRUE, plot colorbar next to heatmap. Default = TRUE
 #' @param cb.n Integer: Number of steps in colorbar. Default = 21, which gives 10 above and 10 below midline.
 #' If midline is zero, this corresponds to 10 percent increments / decrements
-#' @param cb.title String: Title for the colorbar. Default = NULL
+#' @param cb.title Character: Title for the colorbar. Default = NULL
 #' @param cb.cex Float: Character expansion (\code{cex}) for colobar. Default = 1
 #' @param cb.title.cex Float: \code{cex} for colorbar title. Default = 1
 #' @param cb.mar Float, vector, length 4: Margins for colorbar.  (passed to \link{colorGrad}'s \code{cb.add.mar}).

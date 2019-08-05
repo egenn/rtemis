@@ -10,7 +10,7 @@
 #' @param x Input matrix / data.frame
 #' @param diss Logical: If TRUE, \code{x} should be a \code{dist} or dissimilarity matrix.
 #' Otherwise, \code{x} should be a matrix of cases by features. Default = FALSE
-#' @param metric String: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
+#' @param metric Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
 #' @param do.swap Logical: If TRUE, perform the swap phase (See \code{cluster::pam}), as in the
 #' original PAM algorithm. This is computationally intensive and can be skipped. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{cluster::pam}

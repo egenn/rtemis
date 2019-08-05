@@ -9,7 +9,7 @@
 #' There are no checks yet for compatibility among inputs and certain combinations may not work.
 #'
 #' @param n.cases Integer: Number of cases to create. Default = 10000
-#' @param init.fn String: "runifmat" or "rnormmat". Use the respective functions to generate features as random uniform
+#' @param init.fn Character: "runifmat" or "rnormmat". Use the respective functions to generate features as random uniform
 #' and random normal variables, respectively.
 #' Default = "runifmat"
 #' @param init.fn.params Named list with arguments "min", "max" for "runifmat" and "mean", "sd" for "rnormmat".
@@ -34,7 +34,7 @@
 #' \code{atan}. Default = .05
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param seed Integer: If set, pass to \code{set.seed} for reproducibility
-#' @param filename String: Path to file to save output. Default = NULL
+#' @param filename Character: Path to file to save output. Default = NULL
 #' @author Efstathios D Gennatas
 #' @export
 #' @return List with elements x, y, index.square, index.atan, index.pair.square

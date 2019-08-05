@@ -13,7 +13,7 @@
 #' @param y.test Testing set outcome
 #' @param x.valid Validation set features (Used to build model / tune hyperparameters)
 #' @param y.valid Validation set outcome
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port to connect to at \code{ip}
 #' @param n.trees Integer: Number of trees to grow
 #' @param epochs Numeric: How many times to iterate through the dataset. Default = 10

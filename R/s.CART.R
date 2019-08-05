@@ -8,7 +8,7 @@
 #'
 #' [gS] indicates grid search will be performed automatically if more than one value is passed
 #' @inheritParams s.GLM
-#' @param method String: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
+#' @param method Character: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
 #' @param cp [gS] Float: Complexity threshold for allowing a split. Default = .01
 #' @param maxdepth [gS] Integer: Maximum depth of tree. Default = 20
 #' @param maxcompete Integer: The number of competitor splits saved in the output Default = 0
@@ -23,10 +23,10 @@
 #' in \link{rtMod}
 #' @param grid.resample.rtset List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 #' Default = \code{rtset.resample("kfold", 5)}
-#' @param grid.search.type String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
+#' @param grid.search.type Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
 #' @param grid.randomized.p Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 #' combinations. Default = .1
-#' @param metric String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+#' @param metric Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 #' Default = NULL, which results in "Balanced Accuracy" for Classification,
 #' "MSE" for Regression, and "Coherence" for Survival Analysis.
 #' @param maximize Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE

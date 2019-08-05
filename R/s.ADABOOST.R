@@ -8,8 +8,8 @@
 #'
 #' \code{ada::ada} does not support case weights
 #' @inheritParams s.GLM
-#' @param loss String: "exponential" (Default), "logistic"
-#' @param type String: "discrete", "real", "gentle"
+#' @param loss Character: "exponential" (Default), "logistic"
+#' @param type Character: "discrete", "real", "gentle"
 #' @param iter Integer: Number of boosting iterations to perform. Default = 50
 #' @param nu Float: Shrinkage parameter for boosting. Default = .1
 #' @param bag.frac Float (0, 1]: Sampling fraction for out-of-bag samples

@@ -20,7 +20,7 @@
 #'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
 #' @param nz Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}
 #' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = TRUE
-#' @param method String: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
+#' @param method Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
 #' @param scale LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE
 #' @param center LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
 #' @param ... Additional parameters to be passed to \code{fastSPCA::fastSPCA}

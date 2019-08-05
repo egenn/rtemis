@@ -22,12 +22,12 @@
 #'   Columns must correspond to columns in \code{x}
 #' @param y.test Numeric vector of testing set outcome
 #' @param family Error distribution and link function. See \code{stats::family}
-#' @param covariate String: Name of column to be included as interaction term in formula, must be factor
+#' @param covariate Character: Name of column to be included as interaction term in formula, must be factor
 #' @param x.name Character: Name for feature set
 #' @param y.name Character: Name for outcome
 #' @param interactions Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}
 #' @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
-#' @param class.method String: Define "logistic" or "multinom" for classification. The only purpose
+#' @param class.method Character: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try \code{nnet::multinom} instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 #' over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -54,13 +54,13 @@
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires \code{x.test} and \code{y.test}
-#' @param plot.theme String: "zero", "dark", "box", "darkbox"
+#' @param plot.theme Character: "zero", "dark", "box", "darkbox"
 #' @param na.action How to handle missing values. See \code{?na.fail}
 #' @param removeMissingLevels Logical: If TRUE, finds factors in \code{x.test} that contain levels
 #' not present in \code{x} and substitutes with NA. This would result in error otherwise and no
 #' predictions would be made, ending \code{s.GLM} prematurely
-#' @param question String: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass String: Class type to use. "S3", "S4", "RC", "R6"
+#' @param question Character: the question you are attempting to answer with this model, in plain language.
+#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param trace Integer: If higher than 0, will print more information to the console. Default = 0
 #' @param outdir Path to output directory.

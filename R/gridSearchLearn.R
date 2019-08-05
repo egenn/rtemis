@@ -16,18 +16,18 @@
 #'
 #' @param x features - training set. Will be resampled to multiple train-test sets
 #' @param y outcome - training set. Will be resampled to multiple train-test sets
-#' @param mod String: \pkg{rtemis} model. See \code{modSelect()} gives available models
+#' @param mod Character: \pkg{rtemis} model. See \code{modSelect()} gives available models
 #' @param grid.params List of named elements, each is a vector of values
 #' @param fixed.params List of named elements, each is a single value
 #'   (Classification will always maximize Accuracy)
-#' @param search.type String: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
+#' @param search.type Character: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
 #' try all combinations of parameters. Randomized will try a random sample of size \code{randomize.p} * N
 #' of all combinations
 #' @param resample.rtset List: Output of \code{rtset.grid.resample()}
 #' @param randomized.p Float (0, 1): For \code{search.type == "exhaustive"}, sample this portion of combination. Default = .05
 #' @param weights Float, vector: Case weights
 #' @param error.aggregate.fn Function: Use this when aggregating error metrics. Default = mean
-#' @param metric String: Metric to minimize or maximize
+#' @param metric Character: Metric to minimize or maximize
 #' @param maximize Logical: If TRUE, maximize \code{metric}
 #' @param save.mod Logical: If TRUE, save all trained models. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to screen

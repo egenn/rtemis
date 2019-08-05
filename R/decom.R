@@ -9,7 +9,7 @@
 #' \code{decom} returns an R6 class object \code{rtDecom}
 #'
 #' @param x Numeric matrix / data frame: Input data
-#' @param decom String: Decomposer name. See ]link{decomSelect}. Default = "ICA"
+#' @param decom Character: Decomposer name. See ]link{decomSelect}. Default = "ICA"
 #' @param x.test Numeric matrix / data frame: Testing set data if supported by \code{decom}
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to \code{decom}

@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtClust-class
-#' @field clust.name String: Name of clustering algorithm
+#' @field clust.name Character: Name of clustering algorithm
 #' @field call Originating call
 #' @field xnames Column names of x
 #' @field clust Clustering algorithm output

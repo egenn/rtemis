@@ -9,7 +9,7 @@
 #' @param x Features
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
-#' @param method String: Method to use:
+#' @param method Character: Method to use:
 #' "glm": uses \code{stats::lm.wfit};
 #' "glmnet": uses \code{glmnet::glmnet};
 #' "cv.glmnet": uses \code{glmnet:cv.glmnet};
@@ -25,11 +25,11 @@
 #' \code{lambda.seq}. Default = .01
 #' @param lambda.seq Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL
 #' @param cv.glmnet.nfolds Integer: Number of folds for \code{cv.glmnet}
-#' @param which.cv.glmnet.lambda String: Whitch lambda to pick from cv.glmnet:
+#' @param which.cv.glmnet.lambda Character: Whitch lambda to pick from cv.glmnet:
 #' "lambda.min": Lambda that gives minimum cross-validated error;
 #' @param nbest Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1
 #' @param nvmax Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.
-#' @param sgd.model String: Model to use for \code{method = "sgd"}. Default = "glm"
+#' @param sgd.model Character: Model to use for \code{method = "sgd"}. Default = "glm"
 #' @param sgd.model.control List: \code{model.control} list to pass to \code{sgd::sgd}
 #' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
 #' @param ... Additional parameters to pass to \code{leaps::regsubsets}

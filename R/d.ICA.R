@@ -18,10 +18,10 @@
 #' @param x Input data
 # @param x.test Optional test set. Will be projected on to ICA basis
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param package String: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
+#' @param package Character: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
 #' "ica" will use \code{ica::fastica}. Default = "fastICA".
 #' Note: only \code{fastICA} works with \code{k = 1}
-#' @param alg.type String: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"
+#' @param alg.type Character: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"
 #' @param maxit Integer: Maximum N of iterations
 #' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.

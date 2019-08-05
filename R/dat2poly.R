@@ -7,7 +7,7 @@
 #' This is a convenience function that will take each column of the input and calculate 1:degree powers and concatenate
 #' into a data.frame of dimensions `n * (degree * p)` given an `n * p` input
 #' @param dat Numeric, matrix / data.frame: Input
-#' @param method String: "simple", "poly". "simple": raise each column of \code{dat} up to \code{degree}.
+#' @param method Character: "simple", "poly". "simple": raise each column of \code{dat} up to \code{degree}.
 #' "poly": use \code{stats::poly} with arguments \code{degree} and \code{raw}
 #' @param degree Integer: degree of polynomials to create. Default = 2
 #' @param raw Logical: If TRUE, create simple polynomial, not orthogonalized. Default = FALSE

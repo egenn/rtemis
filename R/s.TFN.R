@@ -12,7 +12,7 @@
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
 #' Can be zero (~GLM)
-#' @param initializer String: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
+#' @param initializer Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 #' "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 #' "truncated_normal", "orthogonal", "zeros", "ones", "constant".
 #' Glorot is also known as Xavier initialization. Default = "glorot_uniform"
@@ -22,15 +22,15 @@
 #' @param activation String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
 #' "exponential", "linear", "softmax", "softplus", "softsign". Default = "relu"
 #' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
-#' @param output String: Activation to use for output layer. Can be any as in \code{activation}.
+#' @param output Character: Activation to use for output layer. Can be any as in \code{activation}.
 #' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
-#' @param loss String: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
+#' @param loss Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
 #' classification, "sparse_categorical_crossentropy" for multiclass
-#' @param optimizer String: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
+#' @param optimizer Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 #' Default = "rmsprop"
 #' @param learning.rate Float: learning rate. Defaults depend on \code{optimizer} used and are:
 #' \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
-#' @param metric String: Metric used for evaluation during train. Default = "mse" for regression,
+#' @param metric Character: Metric used for evaluation during train. Default = "mse" for regression,
 #'  "accuracy" for classification.
 #' @param epochs Integer: Number of epochs. Default = 100
 #' @param batch.size Integer: Batch size. Default = N of cases

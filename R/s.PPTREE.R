@@ -8,7 +8,7 @@
 #'
 #' Note: \code{PP.Tree} does not support case weights
 #' @inheritParams s.GLM
-#' @param PPmethod String: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
+#' @param PPmethod Character: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation

@@ -17,22 +17,22 @@
 #' @inheritParams mplot3.xy
 #' @param x Numeric vector or list of vectors, one for each group.
 #'   If \code{data} is provided, x is name of variable in \code{data}
-#' @param type String:"index", "line", "histogram", "density", "qqline"
+#' @param type Character:"index", "line", "histogram", "density", "qqline"
 #'   Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
 #'   If \code{data} is provided, \code{group} is name of variable if \code{data}
 #' @param data Optional data frame containing x data
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
 #' @param index.ypad Float: Expand ylim by this much for plot type "index" Default = .1
 #' (Stops points being cut off)
-#' @param index.type String: "p" for points (Default), "l" for lines (timeseries)
+#' @param index.type Character: "p" for points (Default), "l" for lines (timeseries)
 #' @param labs.col Color for labels
 #' @param filename Path to file: If supplied, plot will be printed to file
 #' @param lwd Integer: Line width. Used for \code{type = "line" or "density"}
 #' @param lab.adj Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)
 #' @param hist.breaks See \code{histogram("breaks")}
-#' @param hist.type String: "bars" or "lines"
+#' @param hist.type Character: "bars" or "lines"
 #' @param hist.lwd Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}
 #' @param density.line Logical: If TRUE, draw line for \code{type = "density"}. Default = FALSE
 #' @param density.shade Logical: If TRUE, draw shaded polygon for \code{type = "density"}. Default = TRUE
@@ -42,7 +42,7 @@
 #' @param na.rm Logical: Will be passed to all functions that support it. If set to FALSE,
 #'   input containing NA values will result in error, depending on the \code{type}
 #' @param group.legend Logical: If TRUE, include legend with group names
-#' @param group.title String: Title above group names
+#' @param group.title Character: Title above group names
 #' @seealso \link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 #' @author Efstathios D. Gennatas
 #' @export

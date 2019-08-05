@@ -10,8 +10,8 @@
 #' The average of two colors in RGB space will often pass through gray,
 #' which is likely undesirable. Averaging in HSV space, better for most applications.
 #' @param col Input color(s)
-#' @param fn String: "invert", "mean": Function to perform
-#' @param space String: "HSV", "RGB": Colorspace to operate in - for averaging only
+#' @param fn Character: "invert", "mean": Function to perform
+#' @param space Character: "HSV", "RGB": Colorspace to operate in - for averaging only
 #' @return Color
 #' @author Efstathios D. Gennatas
 #' @export

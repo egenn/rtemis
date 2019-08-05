@@ -18,7 +18,7 @@
 #'   must have set of columns as \code{x}
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param n.trees Integer: Number of trees to grow. The more the merrier.
-#' @param bootstrap String:
+#' @param bootstrap Character:
 #' @param mtry Integer: Number of features sampled randomly at each split
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to \code{randomForestSRC::rfsrc}

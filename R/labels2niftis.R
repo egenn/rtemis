@@ -10,8 +10,8 @@
 #' Niftis are written in parallel using \code{parallel::parApply}
 #'
 #' @param datamat Matrix / Data Frame: Input
-#' @param labeledNifti String: Path to labeled nifti file
-#' @param prefix String: File output prefix
+#' @param labeledNifti Character: Path to labeled nifti file
+#' @param prefix Character: File output prefix
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param n.cores Integer: Number of cores to use
 #'

@@ -8,7 +8,7 @@
 #'
 #' @param col Input color. Hexadecimal or any string that R recognizes.
 #'   (See all with \code{colors()})
-#' @param main String: Plot title. Default = NULL
+#' @param main Character: Plot title. Default = NULL
 #' @param names Logical: If TRUE, add l\code{names(col)} if not NULL. Default = TRUE
 #' @param names.y Float: y position to place \code{names}. Adjust as needed. Default = 1.045
 #' @param srt Float: String rotation in degrees. Default = 45

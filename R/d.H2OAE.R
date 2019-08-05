@@ -13,7 +13,7 @@
 #' @param learning.rate.annealing Float: Learning rate annealing. Default = 1e-06
 #' @param stopping.rounds Integer: Stop if simple moving average of length \code{stopping.rounds} of the
 #' \code{stopping.metric} does not improve. Set to 0 to disable. Default = 50
-#' @param stopping.metric String: Stopping metric to use: "AUTO", "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
+#' @param stopping.metric Character: Stopping metric to use: "AUTO", "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 #' "AUC", "lift_top_group", "misclassification", "mean_per_class_error". Default = "AUTO" ("logloss" for Classification,
 #' "deviance" for Regression)
 #' @param scale Logical: If TRUE, scale input before training autoencoder. Default = TRUE
@@ -21,9 +21,9 @@
 #' @param extract.layer Integer: Which layer to extract. For regular autoencoder, this is the middle layer.
 #' Default = \code{ceiling(length(n.hidden.nodes)/2)}
 #' @param epochs Integer: How many times to iterate through the dataset. Default = 5000
-#' @param activation String: Activation function to use: "Tanh" (Default), "TanhWithDropout", "Rectifier", "RectifierWithDropout",
+#' @param activation Character: Activation function to use: "Tanh" (Default), "TanhWithDropout", "Rectifier", "RectifierWithDropout",
 #' "Maxout", "MaxoutWithDropout"
-#' @param loss String: "Automatic" (Default), "CrossEntropy", "Quadratic", "Huber", "Absolute"
+#' @param loss Character: "Automatic" (Default), "CrossEntropy", "Quadratic", "Huber", "Absolute"
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to \code{h2p::h2o.deeplearning}
 #' @return \link{rtDecom} object

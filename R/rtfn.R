@@ -222,7 +222,7 @@ rowMax <- function(x, na.rm = TRUE) {
 
 #' Combine rules
 #'
-#' @param ... String: Rules
+#' @param ... Character: Rules
 #' @author Efstathios D. Gennatas
 #' @export
 #'

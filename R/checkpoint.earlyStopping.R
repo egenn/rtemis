@@ -23,12 +23,12 @@
 #' @param relativeVariance.threshold Float: If relative variance over last \code{n.steps} is less than or equal to this,
 #' return \code{stop = TRUE}. See output under Value
 #' @param n.steps Integer; > 1: Calculate relative variance over this many last values of \code{x}
-#' @param combine.relative.thresholds String: "AND" or "OR": How to combine the criteria \code{relative.threshold} and
+#' @param combine.relative.thresholds Character: "AND" or "OR": How to combine the criteria \code{relative.threshold} and
 #' \code{relativeVariance.threshold}. Default = "AND", which means both must be TRUE to stop. The scenario is you might
 #' want to check relastiveVariance threshold only after a certain amount of learning has taken place, which you
 #' can't predict with \code{min.steps} but would rather quantify with \code{relative.threshold}.
 #' @param min.steps Integer: Do not calculate relativeVariance unless \code{x} is at least this length
-#' @param na.response String: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}
+#' @param na.response Character: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}
 #' @param verbose Logical: If TRUE, print messages to output
 #' @return List with the following items:
 #' \item{last.value}{Float: Last value of \code{x}}

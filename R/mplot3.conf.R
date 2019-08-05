@@ -8,11 +8,11 @@
 #'
 #' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 #' data.frame / table
-#' @param main String: Plot title
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
+#' @param main Character: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
 #' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE
-#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
+#' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
 #' @param oma Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)
 #' @param dim.main Float: Height for title. Default = 1
@@ -34,7 +34,7 @@
 #' @param col.bg.out2 Color for metrics cells' background (row2). Default = "auto", determined by \code{theme}
 #' @param col.text.hi Color for high confusion matrix values. Default = "auto", determined by \code{theme}
 #' @param col.text.lo Color for low confusion matrix values. Default = "auto", determined by \code{theme}
-#' @param theme String: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"
+#' @param theme Character: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"
 #' @param mid.col Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
 #' theme = "light", "black" for "dark"
 #' @param hi.color.pos Color: The hi color for correct classification. Default = "#18A3AC" (teal)
@@ -42,7 +42,7 @@
 #' @param par.reset Logical: If TRUE, reset par before exit. Default = TRUE
 #' @param pdf.width Float: PDF width, if \code{filename} is set
 #' @param pdf.height Float: PDF height, if \code{filename} is set
-#' @param filename String: If specified, save plot to this path. Default = NULL
+#' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
 #' @author Efstathios D. Gennatas
 #' @export

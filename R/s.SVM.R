@@ -18,7 +18,7 @@
 #' @param class.weights Float, length = n levels of outcome: Weights for each outcome class.
 #' For classification, \code{class.weights} takes precedence over \code{ipw}, therefore set
 #' \code{class.weights = NULL} if using \code{ipw}. Default = NULL
-#' @param kernel String: "linear", "polynomial", "radial", "sigmoid"
+#' @param kernel Character: "linear", "polynomial", "radial", "sigmoid"
 #' @param degree [gS] Integer: Degree for \code{kernel = "polynomial"}. Default = 3
 #' @param cost [gS] Float: Cost of constraints violation; the C constant of the regularization term in the Lagrange
 #'   formulation.

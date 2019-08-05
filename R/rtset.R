@@ -129,7 +129,7 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
 #' Some functions fail to work correctly with \code{mclapply}, like \code{nnet::multinom}, in those cases
 #' we use PSOCK cluster
 #'
-#' @param type String: "fork", "psock"
+#' @param type Character: "fork", "psock"
 #' @param hosts Vector of strings: For type = "psock": Host names on which to run (macOS, Linux, Windows)
 #' @param n.cores Integer: Number of cores to use on \code{localhost} for type = "fork" (macOS, Linux only)
 #' @param ... \code{rtset.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
@@ -169,7 +169,7 @@ rtset.color <- function(n = 101, colors = NULL,
 
 #' \code{rtset.preprocess}: Set \link{preprocess} parameters for \link{elevate}'s \code{.preprocess} argument
 #'
-#' @param decom String: Name of decomposer to use. Default = "ICA"
+#' @param decom Character: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
 #' @export
 
@@ -226,7 +226,7 @@ rtset.preprocess <- function(completeCases = FALSE,
 
 #' \code{rtset.decompose}: Set decomposition parameters for \code{elevate}'s \code{.decompose} argument
 #'
-#' @param decom String: Name of decomposer to use. Default = "ICA"
+#' @param decom Character: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
 #' @export
 

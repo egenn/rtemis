@@ -9,7 +9,7 @@
 #' One way to test is to use \link{learn} with x.name = NULL, y.name = NULL
 #'
 #' @param x Variable whose name you want to extract
-#' @param alt String: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
+#' @param alt Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
 #' @param max.nchar Integer: Maximum N of characters to allow for name
 #' @author Efstathios D Gennatas
 #' @keywords internal

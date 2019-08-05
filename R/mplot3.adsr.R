@@ -15,7 +15,7 @@
 #' @param Velocity Float: Velocity (percent)
 #' @param I Float: Note on time (in milliseconds)
 #' @param O Float: Note off time (in milliseconds)
-#' @param theme String: "light" or "dark" (Default)
+#' @param theme Character: "light" or "dark" (Default)
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
 #' @author Efstathios D. Gennatas
 #' @export

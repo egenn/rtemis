@@ -18,7 +18,7 @@
 #' and outer resample run to use a single core, which should provide an informative message.
 #' @inheritParams s.GLM
 #' @inheritParams resample
-#' @param mod String: Learner to use. Options: \link{modSelect}
+#' @param mod Character: Learner to use. Options: \link{modSelect}
 #' @param mod.params Optional named list of parameters to be passed to \code{mod}. All parameters can
 #' be passed as part of \code{...} as well
 #' @param .preprocess Optional named list of parameters to be passed to \link{preprocess}. Set using
@@ -36,23 +36,23 @@
 #' many resamples, e.g. 25 stratified subsamples,
 #' @param stratify.var Numeric vector: Used to stratify external sampling (if applicable)
 #'   Defaults to outcome \code{y}
-#' @param x.name String: Name of predictor dataset
-#' @param y.name String: Name of outcome
+#' @param x.name Character: Name of predictor dataset
+#' @param y.name Character: Name of outcome
 # #' @param save.data Logical: Save train, test, fitted, and predicted data for each resample.
 # #'   Defaults to TRUE
 #' @param cex Float: cex parameter for elevate plot
 #' @param col Color for elevate plot
 #' @param n.cores Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
 #' (tuning) or the learner itself is parallelized. Don't parallelize the parallelization
-#' @param parallel.type String: "psock" (Default), "fork"
+#' @param parallel.type Character: "psock" (Default), "fork"
 #' @param print.res.plot Logical: Print model performance plot for each resample.
 #'   Defaults to FALSE
 # @param yhat.plots Logical: Print aggregate plots for fitted vs. true and predicted vs. true
 #'   from all resamples. Defaults to TRUE
 # @param plot.mean Logical: Print plot of type \code{plot.type} plot of models' error. Defaults to TRUE
-# @param plot.type String: Type of plot to draw for all models' errors: "density" (Default), "histogram"
+# @param plot.type Character: Type of plot to draw for all models' errors: "density" (Default), "histogram"
 #' @param headless Logical: If TRUE, turn off all plotting.
-#' @param outdir String: Path where output should be saved
+#' @param outdir Character: Path where output should be saved
 #' @param save.mods Logical: If TRUE, retain trained models in object, otherwise discard (save space
 #' if running many resamples). Default = TRUE
 #' @param save.tune Logical: If TRUE, save the best.tune data frame for each resample (output of gridSearchLearn)

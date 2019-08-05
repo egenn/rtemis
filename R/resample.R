@@ -17,7 +17,7 @@
 #'
 #' @param y Numeric vector. Usually the outcome; \code{length(y)} defines sample size
 #' @param n.resamples Integer: Number of training/testing sets required
-#' @param resampler String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+#' @param resampler Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 #'   Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"
 #' @param index List where each element is a vector of training set indices. Use this for manual or precalculated
 #' train/test splits

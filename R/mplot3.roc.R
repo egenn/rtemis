@@ -8,12 +8,12 @@
 #'
 #' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
-#' @param method String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+#' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
 #' to get points of the ROC. Default = "rt"
-#' @param type String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
+#' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 #' False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"
 #' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE
-#' @param main String: Plot title. Default = ""
+#' @param main Character: Plot title. Default = ""
 #' @param col Color, vector: Colors to use for ROC curve(s)
 #' @param cex Float: Character expansion factor. Default = 1.2
 #' @param lwd Float: Line width. Default = 2.5

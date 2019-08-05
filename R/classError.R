@@ -72,7 +72,7 @@ classError <- function(true, estimated,
     Overall$F1 <- Class$F1[1]
   } else {
     # Overall$`Balanced Accuracy Mean` <- mean(Class$`Balanced Accuracy`)
-    # attr(Overall$`Balanced AccuracyMean`, "Formula") <- "mean(Class$`Balanced Accuracy`)"
+    # attr(Overall$`Balanced Accuracy Mean`, "Formula") <- "mean(Class$`Balanced Accuracy`)"
     Overall$`Balanced Accuracy` <- mean(Class$`Sensitivity`)
     # attr(Overall$`Balanced Accuracy`, "Formula") <- "mean(Class$`Sensitivity`)"
     Overall$`F1 Mean` <- mean(Class$`F1`)

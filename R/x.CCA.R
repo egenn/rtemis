@@ -16,14 +16,14 @@
 #' @param z.test Matrix (Optional): Testing z set
 #' @param y Outcome vector (Optional): If supplied, linear combinations of \code{x} and \code{z} need to be
 #'   additionaly correlated with this
-#' @param outcome String: Type of outcome \code{y}: "survival", "multiclass", "quantitative"
+#' @param outcome Character: Type of outcome \code{y}: "survival", "multiclass", "quantitative"
 #' @param k Integer: Number of components
 #' @param niter Integer: Number of iterations
 #' @param permute.niter Integer: Number of iterations to run for each permutation with \code{CCA.permute}
-#' @param typex String: "standard", "ordered". Use "standard" if columns of x are unordered; lasso
+#' @param typex Character: "standard", "ordered". Use "standard" if columns of x are unordered; lasso
 #' penalty is applied to enforce sparsity. Otherwise, use "ordered"; fused lasso penalty is applied,
 #' to enforce both sparsity and smoothness.
-#' @param typez String: "standard", "ordered". Same as \code{typex} for z dataset
+#' @param typez Character: "standard", "ordered". Same as \code{typex} for z dataset
 #' @param penaltyx Float: The penalty to be applied to the matrix x, i.e. the penalty that results
 #' in the canonical vector u. If typex is "standard" then the L1 bound on u is
 #' penaltyx*sqrt(ncol(x)). In this case penaltyx must be between 0 and 1 (larger L1 bound

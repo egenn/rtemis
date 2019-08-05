@@ -9,12 +9,12 @@
 #'
 #' @param x Numeric vector. x coordinates
 #' @param y Numeric vector. y coordinates
-#' @param mode String: "scatter" or "density"
-#' @param group String: Name of variable to group by (not yet functional)
+#' @param mode Character: "scatter" or "density"
+#' @param group Character: Name of variable to group by (not yet functional)
 #' @param point.size Numeric scalar or vector
 #' @param point.color Color of points
 #' @param point.alpha Float: Alpha of points
-#' @param point.symbol String: "circle", "square"; see plotly documentation for more
+#' @param point.symbol Character: "circle", "square"; see plotly documentation for more
 #'   Default = "circle"
 #' @param point.labels String, optional: Point labels displayed on mouse over
 #' @param fit String, optional: "lm", "gam"
@@ -31,10 +31,10 @@
 #' @param density.width Integer: Width of density line
 #' @param density.mean Logical: If TRUE, draw vertical line at \code{mean(x)}
 #' @param density.mean.width Integer: Width of \code{density.mean} line. Default = 2
-#' @param main String: Plot title
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
-#' @param font.family String: Axes' legends' font family
+#' @param main Character: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param font.family Character: Axes' legends' font family
 #' @param font.color Font color
 #' @param font.size Integer: Font size
 #' @param axes Logical: If TRUE, show x and y axes. Default = TRUE

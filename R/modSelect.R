@@ -8,7 +8,7 @@
 #'   the function itself.
 #'   If run with no parameters, prints list of available algorithms.
 #'
-#' @param mod String: Model name. Case insensitive. e.g. "XGB" for xgboost
+#' @param mod Character: Model name. Case insensitive. e.g. "XGB" for xgboost
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name / description of algorithm \code{mod}
 #' @return function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})

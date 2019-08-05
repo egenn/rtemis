@@ -8,7 +8,7 @@
 #'
 #' Data frames in R began life as lists
 #' @param x list or object that will be converted to a list
-#' @param prefix String: Optional prefix for names
+#' @param prefix Character: Optional prefix for names
 #' @param pad Integer: Pad output with this many spaces. Default = 2
 #' @param center.title Logical: If TRUE, autopad title for centering, if present. Default TRUE
 #' @param color \code{crayon} color to be applied when printing values. Default = NULL (do not use \code{crayon})
@@ -129,7 +129,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param ddSci.dp Integer: Number of decimal places to print using \link{ddSci}. Default = NULL for no
 #' formatting
 #' @param transpose Logical: If TRUE, transpose \code{x} before printing. Default = FALSE
-#' @param justify String: "right", "left". Default = "right"
+#' @param justify Character: "right", "left". Default = "right"
 #' @param colnames Logical: If TRUE, print column names. Default = TRUE
 #' @param rownames Logical: If TRUE, print row names. Default = TRUE
 #' @param column.col \code{crayon} color for printing column names. Default = \pkg{rtemis} default highlight

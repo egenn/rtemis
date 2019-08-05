@@ -10,7 +10,7 @@
 #' @param x Input matrix / data.frame
 #' @param dmat Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
 #' If NULL
-#' @param metric String: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
+#' @param metric Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
 #' @param K Integer, (0:15]: Maximum number of levels
 #' @param kmax Integer, [1:9]: Maximum number of children at each node in the tree
 #' @param khigh Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the

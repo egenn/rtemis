@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtDecom-class
-#' @field decom.name String: Name of decomposition algorithm
+#' @field decom.name Character: Name of decomposition algorithm
 #' @field call Originating call
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output
@@ -67,7 +67,7 @@ rtDecom <- R6::R6Class("rtDecom",
 #' @docType class
 #' @name rtDecomLearn-class
 #' @usage # rtDecom$new(decom.name = ...) # initialize new object
-#' @field decom.name String: Name of decomposition algorithm
+#' @field decom.name Character: Name of decomposition algorithm
 #' @field call Originating call
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output

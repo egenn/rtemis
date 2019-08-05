@@ -8,7 +8,7 @@
 #' Train a bagged ensemble using any learner
 #'
 #' @inheritParams s.GLM
-#' @param mod String: Algorithm to bag, for options, see \link{modSelect}
+#' @param mod Character: Algorithm to bag, for options, see \link{modSelect}
 #' @param k Integer: Number of base learners to train
 #' @param mod.params Named list of arguments for \code{mod}
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
@@ -21,7 +21,7 @@
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param n.cores Integer: Number of cores to use
-#' @param parallel.type String: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
+#' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
 #' @param ... Additional parameters to be passed to learner
 #' @author Efstathios D. Gennatas
 #' @export
