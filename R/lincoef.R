@@ -6,6 +6,9 @@
 #'
 #' Get linear model coefficients
 #'
+#' This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
+#' Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
+#'
 #' @param x Features
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
@@ -143,11 +146,12 @@ lincoef <- function(x, y,
   } else if (method == "solve") {
     # '-- solve ====
     if (!is.null(weights)) stop("method 'solve' does not currently support weights")
-    x <- cbind(1, x)
+    x <- cbind(`(Intercept)` = 1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
     .names <- colnames(x)
-    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
-    names(coef) <- c("(Intercept)", .names)
+    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x) - 1))
+    # names(coef) <- c("(Intercept)", .names)
+    names(coef) <- .names
   } else if (method == "sgd") {
     # '-- sgd ====
     if (!is.null(weights)) stop("provide weights for method 'sgd' using model.control$wmatrix")
