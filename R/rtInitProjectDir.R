@@ -39,6 +39,6 @@ rtInitProjectDir <- function(verbose = TRUE) {
     }
   }
 
-  if (verbose) cat(rtHighlight$bold("\n  Done\n"))
+  if (verbose) cat(rtHighlight$bold("  All done\n"))
 
 } # rtemis::rtInitProjectDir
