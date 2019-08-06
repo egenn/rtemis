@@ -7,9 +7,9 @@
 f1(sensitivity, ppv)
 }
 \arguments{
-\item{sensitivity}{Float [0, 1]: The model sensitivity}
+\item{sensitivity}{Float [0, 1]: The model Sensitivity aka Recall}
 
-\item{ppv}{Float [0, 1]: The model Positive Predictive Value}
+\item{ppv}{Float [0, 1]: The model Positive Predictive Value aka Precision}
 }
 \description{
 Calculate the F1 score for classification:

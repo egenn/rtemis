@@ -5,8 +5,9 @@
 \title{Neural Network with \pkg{tensorflow} [C, R]}
 \usage{
 s.TFN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, downsample = FALSE,
-  resample.seed = NULL, net = NULL, n.hidden.nodes = NULL,
+  y.valid = NULL, class.weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  net = NULL, n.hidden.nodes = NULL,
   initializer = c("glorot_uniform", "glorot_normal", "he_uniform",
   "he_normal", "lecun_uniform", "lecun_normal", "random_uniform",
   "random_normal", "variance_scaling", "truncated_normal", "orthogonal",
@@ -34,6 +35,14 @@ s.TFN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
+
+\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
+Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+
+\item{ipw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by max(class.weights)
+2: class.weights as in 0, divided by min(class.weights)
+Default = 2}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
