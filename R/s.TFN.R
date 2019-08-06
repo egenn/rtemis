@@ -1,6 +1,7 @@
 # s.TFN.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
+# In Classification, levels e.g. "M", "R" become 0, 1 integers; "M", "R", "C" become 0, 1, 2
 
 #' Neural Network with \pkg{tensorflow} [C, R]
 #'
@@ -50,6 +51,9 @@
 s.TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
+                  class.weights = NULL,
+                  ipw = TRUE,
+                  ipw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -142,6 +146,8 @@ s.TFN <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -155,6 +161,7 @@ s.TFN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
+  .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)
@@ -164,6 +171,12 @@ s.TFN <- function(x, y = NULL,
     y0 <- y
     y <- as.numeric(y) - 1
     n.classes <- length(levels(y0))
+    if (!is.null(.class.weights)) {
+      .class.weights.int <- as.list(.class.weights)
+      names(.class.weights.int) <- seq(n.classes) - 1
+    } else {
+      .class.weights.int <- NULL
+    }
   }
 
   # Loss
@@ -283,6 +296,7 @@ s.TFN <- function(x, y = NULL,
       batch_size = batch.size,
       validation_split = validation.split,
       callback = callback,
+      class_weight = .class.weights.int
     )
 
   # [ FITTED ] ====
@@ -292,7 +306,7 @@ s.TFN <- function(x, y = NULL,
   } else {
     fitted.prob <- keras::predict_proba(net, x.dm)
     fitted <- factor(c(keras::predict_classes(net, x.dm)))
-    levels(fitted) <- levels(y0)
+    levels(fitted) <- levels(y0) # levels are 0, 1, 2 before conversion
     error.train <- modError(y0, fitted, type = type)
   }
 
@@ -304,14 +318,8 @@ s.TFN <- function(x, y = NULL,
     if (type == "Regression") {
       predicted <- c(predict(net, data.matrix(x.test)))
     } else {
-      predicted.prob <- predict(net, data.matrix(x.test))
-      if (min(dim(predicted.prob)) == 1) {
-        # Classification with Logistic output
-        predicted <- factor(as.numeric(predicted.prob >= .5))
-      } else {
-        # Classification with Softmax output
-        predicted <- factor(apply(predicted.prob, 1, function(i) which.max(i)))
-      }
+      predicted.prob <- keras::predict_proba(net, data.matrix(x.test))
+      predicted <- factor(c(keras::predict_classes(net, data.matrix(x.test))))
       levels(predicted) <- levels(y0)
     }
     if (!is.null(y.test)) {
