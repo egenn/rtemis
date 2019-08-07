@@ -37,9 +37,10 @@
 #'
 #' The Additive Tree grows a tree using a sequence of regularized linear models and tree stumps
 #'
+#' Grid searched parameters: max.depth, lambda, minobsinnode, learning.rate, part.cp
+#'
 #' @inheritParams s.GLM
 #' @param max.depth Integer: Max depth of additive tree
-#' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
 #' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
@@ -63,7 +64,6 @@ s.ADDT <- function(x, y = NULL,
                    metric = "MSE",
                    maximize = FALSE,
                    grid.resample.rtset = rtset.grid.resample(),
-                   init = NULL,
                    keep.x = FALSE,
                    simplify = TRUE,
                    cxrcoef = FALSE,
@@ -124,7 +124,6 @@ s.ADDT <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (is.null(init)) init <- mean(y)
 
   # [ GLOBAL ] ====
   .env <- environment()
@@ -158,7 +157,7 @@ s.ADDT <- function(x, y = NULL,
 
   lin1 <- MASS::lm.ridge(y ~ ., data.frame(x, y), lambda = lambda)
   coef.c <- coef(lin1)
-  Fval <- init + learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
+  Fval <- learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
 
   # [ .addTree ] ====
   root <- list(x = x,
@@ -191,7 +190,6 @@ s.ADDT <- function(x, y = NULL,
                  simplify = simplify,
                  verbose = verbose,
                  trace = trace)
-  mod$init <- init
   mod$leafs <- list(rule = .env$leaf.rule,
                     coef = .env$leaf.coef)
   class(mod) <- c("addTree", "list")
@@ -621,7 +619,7 @@ print.addTree <- function(x, ...) {
 }
 
 
-# [ preorderMatch adddt ] ====
+# [ preorderMatch addt ] ====
 preorderMatch.addt <- function(node, x, trace = 0) {
 
   # [ EXIT ] ====
@@ -689,7 +687,7 @@ predict.addTree <- function(object, newdata = NULL,
   .cxrcoef <- cxr %*% coefs
   newdata <- data.matrix(cbind(1, newdata))
   yhat <- sapply(seq(NROW(newdata)), function(n)
-    tree$init + learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
+    learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
 
   if (cxrcoef) {
     return(list(yhat = yhat, cxrcoef = .cxrcoef))
