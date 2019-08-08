@@ -411,8 +411,9 @@ mplot3.xy <- function(x, y,
 
   # S.E. available only for LM, LOESS, GAM, and NW
   if (se.fit) {
-    if (fit != "LM" & toupper(fit) != "LOESS" & toupper(fit) != "GAM" & toupper(fit) != "NW") {
-      warning(paste("S.E. not available for", toupper(fit), "- try LM, LOESS, GAM, or NW"))
+    # if (fit != "LM" & toupper(fit) != "LOESS" & toupper(fit) != "GAM" & toupper(fit) != "NW") {
+    if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
+      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
       se.fit <- FALSE
     }
   }
@@ -988,7 +989,7 @@ mplot3.xy <- function(x, y,
       lines(xy.fitted[[i]], yl[[i]][xy.index[[i]]], col = xy.fit.col[[i]], lwd = lwd, lty = lty[[i]])
     }
     if (fit.legend) {
-      xy.fit.legend <- paste0(toupper(fit), ": x ~ y")
+      xy.fit.legend <- paste0(fit, ": x ~ y")
     }
   }
   if (fit.legend) {
