@@ -55,7 +55,8 @@ if (requireNamespace("ada", quietly = TRUE)) {
 
 if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
   mod <- s.ADDTBOOST(x, y, max.iter = 4)
-  mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
+  mod <- s.ADDTBOOST(dat.train, dat.test, max.iter = 4)
+  mod <- s.HYTREE(dat.train, dat.test, max.depth = 3)
   mod <- s.ADDTREE(iris2.train, iris2.test, max.depth = 3)
   mod <- cartLinBoostTV(x, y, max.iter = 4)
   mod <- cartLite(x, y)
