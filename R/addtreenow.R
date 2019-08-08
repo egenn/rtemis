@@ -7,7 +7,7 @@
 #' Train an Additive Tree for Regression
 #'
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.ADDT
+#' @inheritParams s.HYTREE
 #' @param x data.frame
 #' @author Efstathios D. Gennatas
 #' @keywords internal

@@ -1,7 +1,6 @@
 # s.HYTREE.R
 # ::rtemis::
-# 2018 Gilmer Valdes, Efstathios D Gennatas egenn.github.io
-# Fix depth = 0 intercept
+# 2019 Efstathios D Gennatas egenn.github.io
 
 # Grow rule along with tree in global env, extract leaf rules an
 # Added rpart.control min.bucket = 5
@@ -39,12 +38,16 @@
 #'
 #' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
 #'
-#' Grid searched parameters: max.depth, lambda, minobsinnode, learning.rate, part.cp
+#' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 #'
 #' @inheritParams s.GLM
-#' @param max.depth Integer: Max depth of additive tree
+#' @param max.depth [gS] Integer: Max depth of additive tree. Default = 3
+#' @param alpha [gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha
+#' @param lambda [gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda
 #' @param lincoef.params Named List: Output of \link{rtset.lincoef}
-#' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
+#' @param minobsinnode [gS] Integer: Minimum N observations needed in node, before considering splitting
+#' @param learning.rate [gS] Float (0, 1): Learning rate. Default = 1
+#' @param part.cp [gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param cxrcoef Logical: Passed to \link{predict.hytree}, if TRUE, returns cases by coefficients matrix.
 #' Default = FALSE
@@ -53,11 +56,10 @@
 
 s.HYTREE <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
-                     max.depth = 5,
-                     lambda = NULL,
-                     lincoef.params = rtset.lincoef("glmnet",
-                                                    alpha = 0,
-                                                    lambda = .1),
+                     max.depth = 3,
+                     alpha = 0,
+                     lambda = .1,
+                     lincoef.params = rtset.lincoef("glmnet"),
                      minobsinnode = 2,
                      minobsinnode.lin = 10,
                      learning.rate = 1,
@@ -85,7 +87,7 @@ s.HYTREE <- function(x, y = NULL,
                      plot.predicted = NULL,
                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
                      save.mod = FALSE) {
-  
+
   # [ INTRO ] ====
   if (missing(x)) {
     print(args(s.HYTREE))
@@ -99,17 +101,17 @@ s.HYTREE <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "HYTREE"
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ ARGUMENTS ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
-  
+
   # [ DATA ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
@@ -125,14 +127,14 @@ s.HYTREE <- function(x, y = NULL,
   if (type != "Regression") stop("This function currently only supports Regression. Use s.AADDT for Classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(max.depth, minobsinnode, lincoef.params)
-  
+
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # Check lincoef method
   if (NCOL(x) == 1) {
     if (!lincoef.params$method %in% c("glm", "sgd", "solve")) {
@@ -141,16 +143,17 @@ s.HYTREE <- function(x, y = NULL,
       lincoef.params$method <- "glm"
     }
   }
-  
+
   # [ GLOBAL ] ====
   .env <- environment()
-  
+
   # [ GRID SEARCH ] ====
-  if (gridCheck(max.depth, lambda, minobsinnode, learning.rate, part.cp)) {
+  if (gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
                           resample.rtset = grid.resample.rtset,
                           grid.params = list(max.depth = max.depth,
+                                             alpha = alpha,
                                              lambda = lambda,
                                              minobsinnode = minobsinnode,
                                              learning.rate = learning.rate,
@@ -160,6 +163,7 @@ s.HYTREE <- function(x, y = NULL,
                           verbose = verbose,
                           n.cores = n.cores)
     max.depth <- gs$best.tune$max.depth
+    alpha <- gs$best.tune$alpha
     lambda <- gs$best.tune$lambda
     minobsinnode <- gs$best.tune$minobsinnode
     learning.rate <- gs$best.tune$learning.rate
@@ -167,14 +171,16 @@ s.HYTREE <- function(x, y = NULL,
   } else {
     gs <- NULL
   }
-  
+
   # [ lin1 ] ====
   if (verbose) msg0("Training Additive Tree (max depth = ", max.depth, ")...",
                     newline.pre = TRUE)
-  
+
+  lincoef.params$alpha <- alpha
+  lincoef.params$lambda <- lambda
   coef.c <- do.call(lincoef, c(list(x = x, y  = y), lincoef.params))
   Fval <- learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)
-  
+
   # [ .hytree ] ====
   root <- list(x = x,
                y = y,
@@ -195,7 +201,8 @@ s.HYTREE <- function(x, y = NULL,
                 minobsinnode = minobsinnode,
                 minobsinnode.lin = minobsinnode.lin,
                 learning.rate = learning.rate,
-                lambda = lambda,
+                # alpha = alpha,
+                # lambda = lambda,
                 lincoef.params = lincoef.params,
                 coef.c = coef.c,
                 part.minsplit = part.minsplit,
@@ -211,13 +218,14 @@ s.HYTREE <- function(x, y = NULL,
                     coef = .env$leaf.coef)
   mod$learning.rate = learning.rate
   class(mod) <- c("hytree", "list")
-  
+
   parameters <- list(max.depth = max.depth,
                      minobsinnode = minobsinnode,
                      learning.rate = learning.rate,
+                     alpha = alpha,
                      lambda = lambda,
                      lincoef.params = lincoef.params)
-  
+
   # [ FITTED ] ====
   fitted <- predict.hytree(mod, x,
                            learning.rate = learning.rate,
@@ -233,7 +241,7 @@ s.HYTREE <- function(x, y = NULL,
   }
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
-  
+
   # [ PREDICTED ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
@@ -246,7 +254,7 @@ s.HYTREE <- function(x, y = NULL,
       if (verbose) errorSummary(error.test)
     }
   }
-  
+
   # [ OUTRO ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
@@ -267,7 +275,7 @@ s.HYTREE <- function(x, y = NULL,
                  varimp = NULL,
                  question = question,
                  extra = extra)
-  
+
   rtMod.out(rt,
             print.plot,
             plot.fitted,
@@ -278,10 +286,10 @@ s.HYTREE <- function(x, y = NULL,
             save.mod,
             verbose,
             plot.theme)
-  
+
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-  
+
 } # rtemis:: s.HYTREE
 
 
@@ -307,7 +315,8 @@ hytree <- function(node = list(x = NULL,
                    minobsinnode = 2,
                    minobsinnode.lin = 5,
                    learning.rate = 1,
-                   lambda = .01,
+                   # alpha = 0,
+                   # lambda = .01,
                    lincoef.params = rtset.lincoef(),
                    part.minsplit = 2,
                    part.xval = 0,
@@ -318,10 +327,13 @@ hytree <- function(node = list(x = NULL,
                    simplify = FALSE,
                    verbose = TRUE,
                    trace = 0) {
-  
+
   # [ EXIT ] ====
   if (node$terminal) return(node)
-  
+
+  # lincoef.params$alpha <- alpha
+  # lincoef.params$lambda <- lambda
+
   x <- node$x
   y <- node$y
   depth <- node$depth
@@ -330,12 +342,11 @@ hytree <- function(node = list(x = NULL,
   if (trace > 1) msg("Fval is", Fval)
   resid <- y - Fval
   nobsinnode <- length(node$index)
-  
+
   # [ Add partlin to node ] ====
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
     if (trace > 1) msg("y1 (resid) is", resid)
     node$partlin <- partLin(x1 = x, y1 = resid,
-                            lambda = lambda,
                             lincoef.params = lincoef.params,
                             part.minsplit = part.minsplit,
                             part.xval = part.xval,
@@ -347,7 +358,7 @@ hytree <- function(node = list(x = NULL,
     # Fval <- Fval + learning.rate * (node$partlin$part.val + node$partlin$lin.val)
     # resid <- y - Fval
     if (trace > 1) msg("Fval is", Fval)
-    
+
     # '- If node split ====
     if (!node$partlin$terminal) {
       node$type <- "split"
@@ -363,14 +374,14 @@ hytree <- function(node = list(x = NULL,
       Fval.left <- Fval[left.index] + learning.rate * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
       Fval.right <- Fval[right.index] + learning.rate * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
-      
+
       # Cumulative sum of coef.c
       coef.c.left <- coef.c.left + c(node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
                                      node$partlin$lin.coef.left[-1])
       coef.c.right <- coef.c.right + c(node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
                                        node$partlin$lin.coef.right[-1])
       if (trace > 1) msg("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
-      
+
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
         rule.right <- gsub("<", ">=", node$partlin$split.rule)
@@ -378,7 +389,7 @@ hytree <- function(node = list(x = NULL,
         rule.left <- node$partlin$split.rule
         rule.right <- paste0("!", rule.left) # fix: get cutFeat.name levels and find complement
       }
-      
+
       # Init Left and Right nodes
       node$left <- list(x = x.left,
                         y = y.left,
@@ -404,13 +415,13 @@ hytree <- function(node = list(x = NULL,
                          terminal = FALSE,
                          type = NULL,
                          rule = paste0(node$rule, " & ", node$partlin$rule.right))
-      
+
       if (!keep.x) node$x <- NULL
       node$split.rule <- node$partlin$split.rule
       if (simplify) {
         node$y <- node$Fval <- node$index <- node$depth <- node$lin <- node$part <- node$type <- node$partlin <- NULL
       }
-      
+
       # Run Left and Right nodes
       # [ LEFT ] ====
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
@@ -420,7 +431,6 @@ hytree <- function(node = list(x = NULL,
                           minobsinnode = minobsinnode,
                           minobsinnode.lin = minobsinnode.lin,
                           learning.rate = learning.rate,
-                          lambda = lambda,
                           lincoef.params = lincoef.params,
                           part.minsplit = part.minsplit,
                           part.xval = part.xval,
@@ -439,7 +449,6 @@ hytree <- function(node = list(x = NULL,
                            minobsinnode = minobsinnode,
                            minobsinnode.lin = minobsinnode.lin,
                            learning.rate = learning.rate,
-                           lambda = lambda,
                            lincoef.params = lincoef.params,
                            part.minsplit = part.minsplit,
                            part.xval = part.xval,
@@ -460,7 +469,7 @@ hytree <- function(node = list(x = NULL,
       if (trace > 0) msg("STOP: nosplit")
       if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     } # !node$terminal
-    
+
   } else {
     # max.depth or minobsinnode reached
     node$terminal <- TRUE
@@ -476,9 +485,9 @@ hytree <- function(node = list(x = NULL,
     if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     return(node)
   } # max.depth, minobsinnode
-  
+
   node
-  
+
 } # rtemis::hytree
 
 
@@ -486,7 +495,6 @@ hytree <- function(node = list(x = NULL,
 #'
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
 partLin <- function(x1, y1,
-                    lambda = 1,
                     lincoef.params = rtset.lincoef(),
                     part.minsplit = 2,
                     part.xval = 0,
@@ -495,7 +503,7 @@ partLin <- function(x1, y1,
                     minobsinnode.lin = 5,
                     verbose = TRUE,
                     trace = 0) {
-  
+
   # [ PART ] ====
   dat <- data.frame(x1, y1)
   part <- rpart::rpart(y1 ~., dat,
@@ -505,7 +513,7 @@ partLin <- function(x1, y1,
                                                       minbucket = 5,
                                                       cp = part.cp))
   part.val <- predict(part)
-  
+
   if (is.null(part$splits)) {
     if (trace > 0) msg("Note: rpart did not split")
     terminal <- TRUE
@@ -560,7 +568,7 @@ partLin <- function(x1, y1,
       }
     }
   }
-  
+
   # [ LIN ] ====
   resid <- y1 - part.val
   resid.left <- resid[left.index]
@@ -575,7 +583,7 @@ partLin <- function(x1, y1,
       lin.coef.left <- do.call(lincoef, c(list(x = x1[left.index, , drop = FALSE], y  = resid.left), lincoef.params))
       lin.val.left <- (data.matrix(cbind(1, x1[left.index, , drop = FALSE])) %*% lin.coef.left)
     } # if (is.constant(resid.left))
-    
+
     if (is.constant(resid.right) | length(resid.right) < minobsinnode.lin) {
       if (trace > 0) msg("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
       lin.val.right <- rep(0, length(right.index))
@@ -584,10 +592,10 @@ partLin <- function(x1, y1,
       lin.coef.right <- do.call(lincoef, c(list(x = x1[right.index, , drop = FALSE], y  = resid.right), lincoef.params))
       lin.val.right <- (data.matrix(cbind(1, x1[right.index, , drop = FALSE])) %*% lin.coef.right)
     } # if (is.constant(resid.right))
-    
+
   } # if (!is.null(cutFeat.name))
-  
-  
+
+
   list(lin.coef.left = lin.coef.left,
        lin.coef.right = lin.coef.right,
        part.c.left = part.c.left,
@@ -605,7 +613,7 @@ partLin <- function(x1, y1,
        rule.left = split.rule.left,
        rule.right = split.rule.right,
        terminal = terminal)
-  
+
 } # rtemis::partLin
 
 
@@ -616,18 +624,18 @@ partLin <- function(x1, y1,
 #' @export
 
 print.hytree <- function(x, ...) {
-  
+
   cat("\n  An Hybrid Additive Tree model\n\n")
-  
+
 }
 
 
 # [ preorderMatch hytree ] ====
 preorderMatch.hytree <- function(node, x, trace = 0) {
-  
+
   # [ EXIT ] ====
   if (node$terminal) return(node)
-  
+
   if (trace > 1) msg("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
     # [ LEFT ] ====
@@ -638,9 +646,9 @@ preorderMatch.hytree <- function(node, x, trace = 0) {
     if (trace > 1) msg("           Right --->")
     node <- preorderMatch.hytree(node$right, x, trace = trace)
   }
-  
+
   node
-  
+
 } # rtemis::preorderMatch.hytree
 
 
@@ -662,7 +670,7 @@ predict.hytree <- function(object, newdata = NULL,
                            n.feat = NULL,
                            verbose = FALSE,
                            cxrcoef = FALSE, ...) {
-  
+
   if (inherits(object, "rtMod")) {
     if (verbose) msg("Found rtMod object")
     tree <- object$mod
@@ -677,12 +685,12 @@ predict.hytree <- function(object, newdata = NULL,
   } else {
     stop("Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'hytree' object")
   }
-  
+
   if (is.null(newdata)) return(object$fitted)
-  
+
   # [ newdata colnames ] ====
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
-  
+
   # [ PREDICT ] ====
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   rules <- plyr::ldply(tree$leafs$rule)[, 1]
@@ -692,13 +700,13 @@ predict.hytree <- function(object, newdata = NULL,
   newdata <- data.matrix(cbind(1, newdata))
   yhat <- sapply(seq(NROW(newdata)), function(n)
     learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
-  
+
   if (cxrcoef) {
     return(list(yhat = yhat, cxrcoef = .cxrcoef))
   } else {
     return(yhat)
   }
-  
+
 } # rtemis:: predict.hytreeree
 
 
@@ -713,7 +721,7 @@ predict.hytree <- function(object, newdata = NULL,
 betas.hytree <- function(object, newdata,
                          verbose = FALSE,
                          trace = 0) {
-  
+
   if (inherits(object, "rtMod")) {
     tree <- object$mod
   } else if (inherits(object, "hytree")) {
@@ -721,15 +729,15 @@ betas.hytree <- function(object, newdata,
   } else {
     stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'hytree' object")
   }
-  
+
   # [ newdata colnames ] ====
   newdata <- as.data.frame(newdata)
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
-  
+
   # [ BETAS ] ====
   ncases <- NROW(newdata)
   betas <- as.data.frame(matrix(nrow = NROW(newdata), ncol = NCOL(newdata) + 1))
-  
+
   # TODO: replace with fast data.table matchRules on leafs rules and coefs list
   for (i in seq(ncases)) {
     leaf <- preorderMatch.hytree(tree, newdata[i, , drop = FALSE], trace = trace)
@@ -738,16 +746,16 @@ betas.hytree <- function(object, newdata,
   }
   colnames(betas) <- c("Intercept", colnames(newdata))
   betas
-  
+
 } # rtemis:: betas.hytree
 
 
 # [ preorder adddt ] ====
 preorder.hytree <- function(node, x, trace = 0) {
-  
+
   # [ EXIT ] ====
   if (node$terminal) return(node)
-  
+
   if (trace > 1) msg("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
     # [ LEFT ] ====
@@ -758,9 +766,9 @@ preorder.hytree <- function(node, x, trace = 0) {
     if (trace > 1) msg("           Right --->")
     node <- preorder.hytree(node$right, x, trace = trace)
   }
-  
+
   node
-  
+
 } # rtemis::preorder.hytree
 
 
@@ -776,7 +784,7 @@ preorder.hytree <- function(node, x, trace = 0) {
 coef.hytree <- function(object, newdata,
                         verbose = FALSE,
                         trace = 0, ...) {
-  
+
   if (inherits(object, "rtMod")) {
     tree <- object$mod
   } else if (inherits(object, "hytree")) {
@@ -784,15 +792,15 @@ coef.hytree <- function(object, newdata,
   } else {
     stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'hytree' object")
   }
-  
+
   # [ newdata colnames ] ====
   newdata <- as.data.frame(newdata)
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
-  
+
   # [ BETAS ] ====
   ncases <- NROW(newdata)
   betas <- as.data.frame(matrix(nrow = NROW(newdata), ncol = NCOL(newdata) + 1))
-  
+
   # TODO: replace with fast data.table matchRules on leafs rules and coefs list
   for (i in seq(ncases)) {
     leaf <- preorderMatch.hytree(tree, newdata[i, , drop = FALSE], trace = trace)
@@ -801,5 +809,5 @@ coef.hytree <- function(object, newdata,
   }
   colnames(betas) <- c("Intercept", colnames(newdata))
   betas
-  
+
 } # rtemis:: betas.hytree

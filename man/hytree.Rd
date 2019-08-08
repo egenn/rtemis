@@ -8,7 +8,7 @@ hytree(node = list(x = NULL, y = NULL, Fval = NULL, index = NULL, depth =
   NULL, partlin = NULL, left = NULL, right = NULL, lin = NULL, part = NULL,
   coef.c = NULL, terminal = NULL, type = NULL, rule = NULL), coef.c = 0,
   max.depth = 7, minobsinnode = 2, minobsinnode.lin = 5,
-  learning.rate = 1, lambda = 0.01, lincoef.params = rtset.lincoef(),
+  learning.rate = 1, lincoef.params = rtset.lincoef(),
   part.minsplit = 2, part.xval = 0, part.max.depth = 1,
   part.cp = 0, .env = NULL, keep.x = FALSE, simplify = FALSE,
   verbose = TRUE, trace = 0)

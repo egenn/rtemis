@@ -4,18 +4,18 @@
 \alias{s.HYTREE}
 \title{The Hybrid Tree: Additive Tree with Linear Nodes [R]}
 \usage{
-s.HYTREE(x, y = NULL, x.test = NULL, y.test = NULL, max.depth = 5,
-  lambda = NULL, lincoef.params = rtset.lincoef("glmnet", alpha = 0,
-  lambda = 0.1), minobsinnode = 2, minobsinnode.lin = 10,
-  learning.rate = 1, part.minsplit = 2, part.xval = 0,
-  part.max.depth = 1, part.cp = 0, weights = NULL, metric = "MSE",
-  maximize = FALSE, grid.resample.rtset = rtset.grid.resample(),
-  keep.x = FALSE, simplify = TRUE, cxrcoef = FALSE,
-  n.cores = rtCores, verbose = TRUE, verbose.predict = FALSE,
-  trace = 0, x.name = NULL, y.name = NULL, question = NULL,
-  outdir = NULL, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), save.mod = FALSE)
+s.HYTREE(x, y = NULL, x.test = NULL, y.test = NULL, max.depth = 3,
+  alpha = 0, lambda = 0.1, lincoef.params = rtset.lincoef("glmnet"),
+  minobsinnode = 2, minobsinnode.lin = 10, learning.rate = 1,
+  part.minsplit = 2, part.xval = 0, part.max.depth = 1,
+  part.cp = 0, weights = NULL, metric = "MSE", maximize = FALSE,
+  grid.resample.rtset = rtset.grid.resample(), keep.x = FALSE,
+  simplify = TRUE, cxrcoef = FALSE, n.cores = rtCores,
+  verbose = TRUE, verbose.predict = FALSE, trace = 0,
+  x.name = NULL, y.name = NULL, question = NULL, outdir = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  save.mod = FALSE)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -27,13 +27,21 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{max.depth}{Integer: Max depth of additive tree}
+\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
+
+\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
+
+\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
 \item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
 
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+
+\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+
+\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -76,7 +84,7 @@ Train an Hybrid Tree for Regression
 \details{
 The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
 
-Grid searched parameters: max.depth, lambda, minobsinnode, learning.rate, part.cp
+Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 }
 \author{
 Efstathios D. Gennatas

@@ -238,22 +238,22 @@ rtset.decompose <- function(decom = "ICA",
 } # rtemis::rtset.decompose
 
 
-#' \code{rtset.ADDT}: Set parameters for \link{s.ADDT}
+#' \code{rtset.ADDT}: Set parameters for \link{s.HYTREE}
 #'
-#' @inheritParams s.ADDT
+#' @inheritParams s.HYTREE
 #' @export
 
-rtset.ADDT <- function(max.depth = 2,
-                       learning.rate = 1,
-                       lin.type = "glmnet",
-                       alpha = 0,
-                       lambda = .1,
-                       minobsinnode = 2,
-                       minobsinnode.lin = 20, ...) {
+rtset.HYTREE <- function(max.depth = 2,
+                         learning.rate = 1,
+                         lincoef.params = rtset.lincoef("glmnet"),
+                         alpha = 0,
+                         lambda = .1,
+                         minobsinnode = 2,
+                         minobsinnode.lin = 20, ...) {
 
   c(list(max.depth = max.depth,
          learning.rate = learning.rate,
-         lin.type = lin.type,
+         lincoef.params = lincoef.params,
          alpha = alpha,
          lambda = lambda,
          minobsinnode = minobsinnode,

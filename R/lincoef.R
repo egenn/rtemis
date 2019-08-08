@@ -1,6 +1,7 @@
 # lincoef.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
+# TODO: Check and Document lambda vs lambda.seq
 
 #' Linear Model Coefficients
 #'
