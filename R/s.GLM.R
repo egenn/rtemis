@@ -50,7 +50,7 @@
 #' @param poly.raw Logical: if TRUE, use raw polynomials.
 #'   Default, which should not really be changed is FALSE
 #' @param print.plot Logical: if TRUE, produce plot using \code{mplot3}
-#'   Takes precedence over \code{plot.fitted} and \code{plot.predicted}
+#'   Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires \code{x.test} and \code{y.test}
