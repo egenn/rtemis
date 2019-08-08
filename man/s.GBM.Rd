@@ -80,7 +80,7 @@ The two measures are highly correlated.}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 

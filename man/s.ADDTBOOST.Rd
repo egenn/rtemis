@@ -64,7 +64,7 @@ Requires \code{x.test} and \code{y.test}}
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}

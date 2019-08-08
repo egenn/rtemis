@@ -62,7 +62,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 }
 \description{
 Predict outcome from each predictor separately and rank by percent Variance explained

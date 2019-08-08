@@ -25,8 +25,6 @@ addtreenow(x, y, max.depth = 5, alpha = 0, lambda = 1,
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{init}{Initial value. Default = \code{mean(y)}}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}

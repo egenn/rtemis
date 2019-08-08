@@ -82,7 +82,7 @@ If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbo
 \item{plot.graphviz}{Logical: if TRUE, plot the network structure using \code{graphviz}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

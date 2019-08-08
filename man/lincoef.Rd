@@ -62,6 +62,10 @@ Coefficients
 \description{
 Get linear model coefficients
 }
+\details{
+This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
+Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
+}
 \author{
 Efstathios D. Gennatas
 }

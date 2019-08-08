@@ -40,7 +40,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
