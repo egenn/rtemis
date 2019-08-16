@@ -19,12 +19,13 @@
 #' If an error is detected, \code{gbm.fit} is rerun until successful and the procedure continues normally
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
-#' @param n.trees Integer: Initial number of trees to fit
-#' @param interaction.depth [gS] Integer: Interaction depth
-#' @param shrinkage [gS] Float: Shrinkage (learning rate)
+#' @param n.trees Integer: Initial number of trees to fit. Default = 2000
+#' @param max.trees Integer: Maximum number of trees to fit. Default = 5000
+#' @param interaction.depth [gS] Integer: Interaction depth. Default = 3
+#' @param shrinkage [gS] Float: Shrinkage (learning rate). Default = .01
 #' @param n.minobsinnode [gS] Integer: Minimum number of observation allowed in node
 #' @param bag.fraction [gS] Float (0, 1): Fraction of cases to use to train each tree.
-#' Helps avoid overfitting. Default = .75
+#' Helps avoid overfitting. Default = .9
 #' @param mFeatures [gS] Integer: Number of features to randomly choose from all available features to train at each
 #' step. Default = NULL which results in using all features.
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
@@ -53,7 +54,7 @@ s.GBM3 <- function(x, y = NULL,
                    downsample = FALSE,
                    resample.seed = NULL,
                    distribution = NULL,
-                   interaction.depth = 2,
+                   interaction.depth = 3,
                    shrinkage = .01,
                    bag.fraction = 0.9,
                    mFeatures = NULL,

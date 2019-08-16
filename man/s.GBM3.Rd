@@ -6,7 +6,7 @@
 \usage{
 s.GBM3(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
-  resample.seed = NULL, distribution = NULL, interaction.depth = 2,
+  resample.seed = NULL, distribution = NULL, interaction.depth = 3,
   shrinkage = 0.01, bag.fraction = 0.9, mFeatures = NULL,
   n.minobsinnode = 5, n.trees = 2000, max.trees = 5000,
   force.n.trees = NULL, n.tree.window = 0, gbm.select.smooth = TRUE,
@@ -60,19 +60,21 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{interaction.depth}{[gS] Integer: Interaction depth}
+\item{interaction.depth}{[gS] Integer: Interaction depth. Default = 3}
 
-\item{shrinkage}{[gS] Float: Shrinkage (learning rate)}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate). Default = .01}
 
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
-Helps avoid overfitting. Default = .75}
+Helps avoid overfitting. Default = .9}
 
 \item{mFeatures}{[gS] Integer: Number of features to randomly choose from all available features to train at each
 step. Default = NULL which results in using all features.}
 
 \item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node}
 
-\item{n.trees}{Integer: Initial number of trees to fit}
+\item{n.trees}{Integer: Initial number of trees to fit. Default = 2000}
+
+\item{max.trees}{Integer: Maximum number of trees to fit. Default = 5000}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
