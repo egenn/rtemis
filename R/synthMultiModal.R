@@ -215,7 +215,9 @@ synthMultiModal <- function(n.cases = 10000,
               index.pair.square = index.pair.square,
               index.pair.atan = index.pair.atan)
 
+  # Save RDS ====
   if (!is.null(filename)) {
+    if (verbose) cat("Saving data to file...\n")
     filename <- paste0(gsub(".rds", "", filename), ".rds")
     saveRDS(out, filename)
     if (verbose) msg("Saved", filename)
