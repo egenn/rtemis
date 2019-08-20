@@ -73,6 +73,7 @@ dplot3.bar <-  function(x,
 
   # Arguments ====
   barmode <- match.arg(barmode)
+  main <- paste0("<b>", main, "</b>")
 
   dat <- as.data.frame(x)
 
