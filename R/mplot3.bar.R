@@ -150,13 +150,9 @@ mplot3.bar <- function(x,
   if (!is.null(error)) error <- as.matrix(error)
 
   # [ THEMES ] ====
-  # Defaults for all themes
-  if (is.null(grid.lty)) grid.lty <- 1
-  if (is.null(grid.lwd)) grid.lwd <- 1
-
-  if (theme == "lightgrid" | theme == "darkgrid") {
+  if (theme %in% c("lightgrid", "darkgrid")) {
     if (is.null(grid.lty)) grid.lty <- 1
-    if (is.null(grid.lwd)) grid.lwd <- 1.5
+    if (is.null(grid.lwd)) grid.lwd <- 1
   }
   if (theme == "lightgrid") {
     theme <- "light"
