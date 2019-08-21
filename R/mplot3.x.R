@@ -1,7 +1,7 @@
 # mplot3.x.R
 # ::rtemis::
 # 2016-8 Efstathios D. Gennatas egenn.github.io
-# TODO: Cleanup themes
+# TODO: This is old code: will be cleaned up or rewritten
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'
@@ -32,7 +32,7 @@
 #' @param lwd Integer: Line width. Used for \code{type = "line" or "density"}
 #' @param lab.adj Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)
 #' @param hist.breaks See \code{histogram("breaks")}
-#' @param hist.type Character: "bars" or "lines"
+#' @param hist.type Character: "bars" or "lines". Default = "bars"
 #' @param hist.lwd Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}
 #' @param density.line Logical: If TRUE, draw line for \code{type = "density"}. Default = FALSE
 #' @param density.shade Logical: If TRUE, draw shaded polygon for \code{type = "density"}. Default = TRUE
@@ -638,7 +638,7 @@ mplot3.x <- function(x,
       breaks <- hist(unlist(xl), breaks = hist.breaks, plot = FALSE)$breaks
       dist <- diff(breaks)[1] # mean(diff(breaks))
       breaksl <- lapply(1:length(xl), function(i) {
-        c(breaks - ((i - 1)/length(xl) * dist), max(breaks)- ((i - 1)/length(xl) * dist) + dist)
+        c(breaks - ((i - 1)/length(xl) * dist), max(breaks) - ((i - 1)/length(xl) * dist) + dist)
       })
     } else {
       # breaksl <- list(hist(xl[[1]], breaks = hist.breaks, plot = FALSE)$breaks)
