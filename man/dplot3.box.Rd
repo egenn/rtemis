@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.box.R
 \name{dplot3.box}
 \alias{dplot3.box}
-\title{Dynamic Boxplots}
+\title{Interactive Boxplots}
 \usage{
 dplot3.box(x, groups = "cols", main = NULL, xlab = NULL,
   ylab = NULL, col = NULL, alpha = 0.6, bg = NULL,
@@ -72,7 +72,7 @@ dplot3.box(x, groups = "cols", main = NULL, xlab = NULL,
 \code{colnames(x)}}
 }
 \description{
-Draw a dynamic boxplot using \code{plotly}
+Draw a interactive boxplot using \code{plotly}
 }
 \examples{
 \dontrun{

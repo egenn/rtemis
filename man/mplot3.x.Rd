@@ -85,7 +85,7 @@ Default = .5}
 
 \item{hist.breaks}{See \code{histogram("breaks")}}
 
-\item{hist.type}{Character: "bars" or "lines"}
+\item{hist.type}{Character: "bars" or "lines". Default = "bars"}
 
 \item{hist.lwd}{Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}}
 

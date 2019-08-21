@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.heatmap.R
 \name{dplot3.heatmap}
 \alias{dplot3.heatmap}
-\title{Dynamic Heatmap}
+\title{Interactive Heatmaps}
 \usage{
 dplot3.heatmap(z, Rowv = TRUE, Colv = TRUE, cluster = FALSE,
   symm = FALSE, cellnote = NULL, colorGrad.n = 101, colors = NULL,
@@ -71,7 +71,7 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}}
 }
 \description{
-Draw a dynamic heatmap using \code{heatmaply}
+Draw interactive heatmaps using \code{heatmaply}
 }
 \author{
 Efstathios D. Gennatas

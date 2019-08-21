@@ -4,9 +4,9 @@
 \alias{dplot3.table}
 \title{Simple HTML table}
 \usage{
-dplot3.table(x, main = NULL, main.col = "black", main.x = 0,
-  main.xanchor = "auto", fill.col = "#18A3AC", table.bg = "white",
-  bg = "white", line.col = "white", lwd = 1,
+dplot3.table(x, .ddSci = TRUE, main = NULL, main.col = "black",
+  main.x = 0, main.xanchor = "auto", fill.col = "#18A3AC",
+  table.bg = "white", bg = "white", line.col = "white", lwd = 1,
   header.font.col = "white", table.font.col = "gray20",
   font.size = 14, font.family = "Helvetica Neue", margin = list(l =
   0, r = 5, t = 30, b = 0, pad = 0))
@@ -42,6 +42,8 @@ Default = "#18A3AC"  (teal)}
 \item{font.family}{Character: Font family. Default = "Helvetica Neue"}
 
 \item{margin}{List: plotly's margins. Default = \code{list(l = 0, r = 5, t = 30, b = 0, pad = 0)}}
+
+\item{ddSci}{Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE}
 }
 \description{
 Draw an html table using \code{plotly}

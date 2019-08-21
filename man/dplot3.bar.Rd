@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.bar.R
 \name{dplot3.bar}
 \alias{dplot3.bar}
-\title{Dynamic Barplots}
+\title{Interactive Barplots}
 \usage{
 dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
   alpha = 0.8, bg = NULL, plot.bg = NULL,
@@ -73,7 +73,7 @@ dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
 \item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
 }
 \description{
-Draw a dynamic barplot using \code{plotly}
+Draw a interactive barplot using \code{plotly}
 }
 \examples{
 \dontrun{
