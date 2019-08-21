@@ -7,6 +7,7 @@
 #' Draw an html table using \code{plotly}
 #'
 #' @param x data.frame: Table to draw
+#' @param ddSci Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE
 #' @param main Character: Table tile. Default = NULL
 #' @param main.col Color: Title color. Default = "black"
 #' @param main.x Float [0, 1]: Align title: 0: left, .5: center, 1: right. Default = 0
@@ -26,6 +27,7 @@
 #' @export
 
 dplot3.table <- function(x,
+                         .ddSci = TRUE,
                          main = NULL,
                          main.col = "black",
                          main.x = 0,
@@ -43,26 +45,24 @@ dplot3.table <- function(x,
                                        t = 30, b = 0,
                                        pad = 0)) {
 
-  # n.rows <- NROW(x)
-  # n.cols <- NCOL(x)
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("plotly", "dplyr", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
 
+  # Input ====
   x <- as.data.frame(x)
+  if (.ddSci) x <- dplyr::mutate_if(x, is.numeric, ddSci)
 
   # Colnames ====
-  # if (is.null(colnames(x))) colnames(x) <- paste("Column", seq(n.cols))
   if (!is.null(colnames(x))) colnames(x) <- paste0("<b>", colnames(x), "</b>")
 
   # Rownames ====
-  # if (is.null(rownames(x))) rownames(x) <- paste("Row", seq(n.cols))
   if (!is.null(rownames(x))) rownames(x) <- paste0("<b>", rownames(x), "</b>")
-
-  # # Pad
-  # x <- cbind(x, NA)
-  # x <- rbind(x, NA)
 
   # plotly ====
 
-  plt <- plot_ly(x)
+  plt <- plotly::plot_ly(x)
   plt <- plotly::add_table(plt,
                            header = list(
                              line = list(width = lwd,
@@ -76,11 +76,10 @@ dplot3.table <- function(x,
                                          size = font.size)
                            ),
                            cells = list(
-                             format = c(NA, ".3f"),
+                             # format = c(NA, ".3f"),
                              line = list(width = lwd,
                                          color = c(plotly::toRGB(line.col),
                                                    plotly::toRGB(fill.col))
-                                         # color = c("white", rep(fill.col, n.cols), "white")
                                          ),
                              fill = list(color = c(plotly::toRGB(fill.col),
                                                    plotly::toRGB(table.bg))),

@@ -1,10 +1,11 @@
 # dplot3.R
 # ::rtemis::
 # 2016 Efstathios D. Gennatas egenn.github.io
+# TODO: replace with new dplot3.x and dplot3.xy
 
-#' Dynamic Plots (\code{plotly})
+#' Interactive Plots (\code{plotly})
 #'
-#' Build dynamic plots that can be viewed in RStudio Viewer, a web browser, or exported to a static image.
+#' Build interactive plots that can be viewed in RStudio Viewer, a web browser, or exported to a static image.
 #' Support for (x, y) scatter plots with optional fit line(lm, or gam), and density plots.
 #'
 #' @param x Numeric vector. x coordinates
@@ -308,7 +309,7 @@ dplot3 <- function(x, y = NULL,
   p <- plotly::layout(p, title = main,
                       xaxis = xaxis,
                       yaxis = yaxis,
-                      legend = if(legend) .legend else NULL,
+                      legend = if (legend) .legend else NULL,
                       margin = margin,
                       plot_bgcolor = bg)
   p

@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-#' Dynamic Boxplots
+#' Interactive Boxplots
 #'
-#' Draw a dynamic boxplot using \code{plotly}
+#' Draw a interactive boxplot using \code{plotly}
 #'
 #' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
@@ -71,6 +71,11 @@ dplot3.box <-  function(x,
                         legend = FALSE,
                         legend.col = NULL,
                         margin = list(t = 35)) {
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("plotly", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
 
   # Arguments ====
   boxmode <- match.arg(boxmode)

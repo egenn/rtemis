@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-#' Dynamic Barplots
+#' Interactive Barplots
 #'
-#' Draw a dynamic barplot using \code{plotly}
+#' Draw a interactive barplot using \code{plotly}
 #'
 #' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
@@ -71,9 +71,14 @@ dplot3.bar <-  function(x,
                         legend.col = NULL,
                         margin = list(t = 35)) {
 
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("plotly", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
   # Arguments ====
   barmode <- match.arg(barmode)
-  main <- paste0("<b>", main, "</b>")
+  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   dat <- as.data.frame(x)
 
@@ -115,8 +120,7 @@ dplot3.bar <-  function(x,
   if (length(col) < p) col <- rep(col, p/length(col))
 
   # Themes ====
-  # Defaults
-  # no box
+  # Defaults: no box
   axes.visible <- FALSE
   axes.mirrored <- FALSE
 
