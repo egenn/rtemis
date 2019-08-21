@@ -76,7 +76,6 @@ dplot3.table <- function(x,
                                          size = font.size)
                            ),
                            cells = list(
-                             # format = c(NA, ".3f"),
                              line = list(width = lwd,
                                          color = c(plotly::toRGB(line.col),
                                                    plotly::toRGB(fill.col))
