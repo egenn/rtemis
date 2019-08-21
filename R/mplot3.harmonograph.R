@@ -47,7 +47,7 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
                                 new = FALSE,
                                 par.reset = TRUE) {
 
-  set.seed(seed)
+  if (!is.null(seed)) set.seed(seed)
   f1 <- jitter(sample(c(2, 3), 1))
   f2 <- jitter(sample(c(2, 3), 1))
   f3 <- jitter(sample(c(2, 3), 1))
@@ -65,7 +65,6 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
   t <- steps
   x <- xt(t)
   y <- yt(t)
-  # dat <- data.frame(t = t, x = xt(t), y = yt(t))
 
   # Plot ====
   par.orig <- par(no.readonly = TRUE)
