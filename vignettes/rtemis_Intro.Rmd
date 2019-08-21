@@ -222,15 +222,15 @@ colnames(xcor) <- 1:10
 mplot3.heatmap(xcor, Rowv = TRUE, Colv = TRUE)
 ```
 
-## Dynamic graphics
-### Scatter: `dplot3`
+## Interactive graphics
+### Scatter: `dplot3.xy`
 `dplot3` uses the powerful [`plotly`](https://plot.ly/) API for `R` to produce interactive plots that can be viewed as HTML in a browser or exported to bitmap graphics.  
 (Try these in RStudio)
 ```{r, eval = FALSE}
 set.seed(4242)
 x <- rnorm(100)
 y <- .8 * x ^ 3 + 34 + rnorm(100)
-dplot3(x, y, fit = "gam")
+dplot3.xy(x, y, fit = "gam", se.fit = TRUE)
 ```
 
 ### Heatmap: `dplot3.heatmap`
@@ -240,6 +240,8 @@ x <- mapply(rnorm, rep(10,10))
 x.cor <- cor(x)
 dplot3.heatmap(x.cor)
 ```
+
+Also check out, `mplot3.bar` and `dplot3.bar` for barplots, `mplot3.box` and `dplot3.box` for boxplots.
 
 # Unsupervised Learning: Decomposition
 __rtemis__ includes a number of algorithms for decomposition / dimensionality reduction
@@ -273,7 +275,7 @@ mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
           xlab = "1st NMF component", ylab = "2nd NMF component", main = "K-MEANS on iris")
 ```
 
-## Regression
+## Supervised Learning: Regression
 
 ### Check Data
 ```{r synth reg data}
@@ -311,7 +313,7 @@ mod$plot()
 ```
 
 
-## Classification
+## Supervised Learning: Classification
 
 ### Check Data
 ```{r}
