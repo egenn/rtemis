@@ -50,3 +50,20 @@ boxcat <- function(x,
   if (newline) cat("\n")
 
 } # rtemis::boxcat
+
+
+# objcat.R
+# ::rtemis::
+# 2019 Efstathios D. Gennatas egenn.github.io
+
+#' `rtemis-internal`: Object cat
+#'
+#' @param x Character: Object description
+#' @author Efstathios D. Gennatas
+#' @keywords internal
+
+objcat <- function(x) {
+
+  cat(bold(".:rtemis"), rtOrange$bold(x), "\n")
+
+} # rtemis::boxcat
