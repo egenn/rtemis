@@ -50,7 +50,7 @@ rtDecom <- R6::R6Class("rtDecom",
                           ### Methods
                           print = function() {
                             "show / print method for rtDecom"
-                            cat(bold(".:rtemis Decomposition\n"))
+                            objcat("Decomposition object")
                             cat(rtHighlight$bold(self$decom.name), " (", decomSelect(self$decom.name, desc = TRUE),
                                 ")\n", sep = "")
                             if (length(self$parameters) > 0) printls(self$parameters,

@@ -226,7 +226,7 @@ plot.resample <- function(x, res, col = NULL, ...) {
 
 print.resample <- function(x, ...) {
 
-  boxcat(".:rtemis resample object", newline.pre = FALSE)
+  objcat("resample object")
   .attributes <- attributes(x)
   .attributes$names <- .attributes$class <- NULL
   # .attributes[[1]] <- .attributes[[2]] <- NULL

@@ -104,7 +104,7 @@ rtMod <- R6::R6Class("rtMod",
                        ### Methods
                        print = function() {
                          "show / print method for rtMod"
-                         cat(bold(".:rtemis Supervised Model\n"))
+                         objcat("Supervised Model")
                          cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                              ")\n", sep = "")
                          boxcat("Training Error")
@@ -823,7 +823,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           ### Methods
                           print = function() {
                             "show / print method for rtModBag"
-                            cat(bold(".:rtemis Bagged Supervised Model\n"))
+                            objcat("Bagged Supervised Model")
                             cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
                             .resamples <- switch(self$bag.resample.rtset$resampler,
@@ -1028,7 +1028,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          ### Methods
                          print = function() {
                            "R6 show / print method for rtModCV"
-                           cat(bold(".:rtemis Cross-Validated Model\n"))
+                           objcat("Cross-Validated Model")
                            cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                                ")\n", sep = "")
                            cat("                 Algorithm: ", self$mod.name, " (",
@@ -1465,7 +1465,7 @@ rtMeta <- R6::R6Class("rtMeta",
                         ### Methods
                         print = function() {
                           "R6 show / print method for rtMeta"
-                          cat(bold(".:rtemis Meta Model\n"))
+                          objcat("Meta Model")
                           cat("   Base: ", rtHighlight$bold(paste(self$base.mod.names, collapse = ", ")), "\n")
                           cat("   Meta: ", rtHighlight$bold(self$meta.mod.name), "\n")
                           boxcat("Training Error")
@@ -1568,7 +1568,7 @@ rtModLite <- R6::R6Class("rtModLite",
                            ### Methods
                            print = function() {
                              "show / print method for rtModLite"
-                             boxcat(".:rtemis Lite Supervised Model")
+                             objcat("Lite Supervised Model")
                              cat(self$mod.name, " (", modSelect(self$mod.name, desc = TRUE),
                                  ")\n", sep = "")
                            }
