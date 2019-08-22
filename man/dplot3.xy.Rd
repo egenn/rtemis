@@ -4,93 +4,100 @@
 \alias{dplot3.xy}
 \title{Interactive Scatter Plots}
 \usage{
-dplot3.xy(x, y, group = NULL, point.size = 7, point.color = NULL,
-  point.alpha = 0.66, point.symbol = "circle", point.labels = NULL,
-  fit = "none", axes.fixedratio = FALSE, xlim = NULL, ylim = NULL,
-  gam.k = 4, fit.width = 3, fit.color = "#18A3AC", fit.alpha = 1,
-  se.fit = TRUE, se.times = 2, se.color = NULL, se.alpha = 0.2,
-  main = NULL, xlab = "x", ylab = "y",
-  font.family = "Helvetica Neue", font.color = "gray50",
-  font.size = 18, axes = FALSE, grid = TRUE, grid.col = "#fff",
-  zero.lines = TRUE, zero.col = "#7F7F7F", zero.lwd = 1,
-  legend = TRUE, legend.bgcol = "#00000000",
-  legend.bordercol = "gray50", legend.borderwidth = 0,
-  legend.fontcol = "#000000", margins = c(60, 70, 40, 20), pad = 4,
-  bg = "#E5E5E5", showlegend = TRUE, legend.xy = c(0, 1),
-  axes.square = FALSE, height = NULL, width = NULL)
+dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
+  cluster = NULL, group = NULL, formula = NULL, rsq = NULL,
+  rsq.pval = FALSE, mode = c("scatter", "line"), type = c("p", "l"),
+  main = NULL, xlab = NULL, ylab = NULL, col = NULL,
+  alpha = 0.66, bg = NULL, plot.bg = NULL,
+  theme = getOption("rt.theme", "light"),
+  palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
+  zero.lines = TRUE, group.names = NULL, font.size = 16,
+  font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
+  marker.col = NULL, fit.col = NULL, fit.alpha = 0.8, fit.lwd = 1,
+  se.col = NULL, se.alpha = 0.4, main.col = NULL, axes.col = NULL,
+  labs.col = NULL, grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8,
+  tick.col = NULL, legend = NULL, legend.xy = c(0, 1),
+  legend.col = NULL, legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00", margin = list(t = 35),
+  zerolines = TRUE, mod.params = list(), width = NULL,
+  height = NULL, trace = 0, ...)
 }
 \arguments{
-\item{x}{Numeric vector. x coordinates}
+\item{x}{Numeric, vector: Input}
 
-\item{y}{Numeric vector. y coordinates}
+\item{main}{Character: Plot title. Default = NULL}
 
-\item{group}{Character: Name of variable to group by (not yet functional)}
+\item{xlab}{Character: x-axis label. Default = NULL}
 
-\item{point.size}{Numeric scalar or vector. Default = 7}
+\item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{point.color}{Color of points}
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
 
-\item{point.alpha}{Float: Alpha of points}
+\item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{point.symbol}{Character: "circle", "square"; see plotly documentation for more
-Default = "circle"}
+\item{bg}{Color: Background color. Default = "white"}
 
-\item{point.labels}{String, optional: Point labels displayed on mouse over}
+\item{plot.bg}{Color: Background color for plot area. Default = "white"}
 
-\item{fit}{String, optional: "lm", "gam"}
+\item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
 
-\item{gam.k}{Integer: Number of bases for \code{mgcv::gam}'s smoothing spline}
+\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
-\item{fit.width}{Float: Width of fit line}
+\item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
+Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
+to draw the largest square available. This means that resizing the device window will not automatically resize the
+plot.}
 
-\item{fit.color}{Color of fit line}
+\item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
-\item{fit.alpha}{Float: Alpha of fit line}
+\item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{se.fit}{Logical: If TRUE, draws +/- \code{se.times * standard error}}
+\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
 
-\item{se.times}{Float: Multiplier for standard error band. Default = 2}
+\item{font.col}{Color: Font color. Default = "black"}
 
-\item{se.color}{Color of S.E. band}
+\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
 
-\item{se.alpha}{Float: Alpha of S.E. band}
+\item{main.col}{Color: Title color. Default = NULL, determined by theme}
 
-\item{main}{Character: Plot title}
+\item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
 
-\item{xlab}{Character: x-axis label}
+\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
 
-\item{ylab}{Character: y-axis label}
+\item{grid.col}{Color: Grid color. Default = "gray85"}
 
-\item{font.family}{Character: Axes' legends' font family}
+\item{grid.lwd}{Float: Grid line width. Default = 1}
 
-\item{font.color}{Font color}
+\item{grid.alpha}{Float (0, 1]: Transparency for \code{grid.col}. Default = .8}
 
-\item{font.size}{Integer: Font size}
+\item{tick.col}{Color: Color for ticks and tick labels. Default = NULL, determined, by theme}
 
-\item{axes}{Logical: If TRUE, show x and y axes. Default = TRUE}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
+1 element}
 
-\item{grid}{Logical: If TRUE, draw grid lines. Default = FALSE}
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{pad}{Numeric: Distance of tick labels from axes}
+\item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
 
-\item{showlegend}{Logical: If TRUE, show legends}
+\item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
-\item{legend.xy}{Vector, length 2 [0, 1]: x, y coordinates of legend. 0 means left and bottom for x and y axis
-respectively; 1 means right and top. Default = c(0, 1) (i.e. top-left)}
+\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
-\item{axes.square}{Logical: If TRUE, make axes square}
+\item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
 
-\item{margin}{Vector, length 4: Plot margins. Default = c(60, 70, 40, 20)}
+\item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
+
+\item{histfunc}{Character: "count", "sum", "avg", "min", "max". Default = "count"}
+
+\item{hist.n.bins}{Integer: Number of bins to use if type = "histogram". Default = 20}
 }
 \description{
-Draw interactive plots using \code{plotly}
+Draw interactive scatter plots using \code{plotly}
 }
-\details{
-Plotly graphs can be viewed in RStudio Viewer, a web browser, or exported to a static image.
-This is an old version that will be updated soon.
+\examples{
+#' \dontrun{
+dplot3.x(split(iris$Sepal.Length, iris$Species))
 }
-\seealso{
-\link{mplot3}
 }
 \author{
 Efstathios D. Gennatas

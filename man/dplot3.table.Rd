@@ -8,8 +8,8 @@ dplot3.table(x, .ddSci = TRUE, main = NULL, main.col = "black",
   main.x = 0, main.xanchor = "auto", fill.col = "#18A3AC",
   table.bg = "white", bg = "white", line.col = "white", lwd = 1,
   header.font.col = "white", table.font.col = "gray20",
-  font.size = 14, font.family = "Helvetica Neue", margin = list(l =
-  0, r = 5, t = 30, b = 0, pad = 0))
+  font.size = 14, font.family = "Helvetica Neue", padding = 10,
+  margin = list(l = 0, r = 5, t = 30, b = 0, pad = 0))
 }
 \arguments{
 \item{x}{data.frame: Table to draw}

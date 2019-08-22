@@ -2,13 +2,13 @@
 % Please edit documentation in R/dplot3.varimp.R
 \name{dplot3.varimp}
 \alias{dplot3.varimp}
-\title{Plot variable importance using \code{plotly}}
+\title{Interactive Variable Importance Plot}
 \usage{
 dplot3.varimp(varimp, names = NULL, main = "Variable Importance",
   xlab = "", ylab = "", col = colorAdjust(colorGrad(length(names),
   "penn"), 0.8), mar = c(50, 110, 50, 50), pad = 10,
-  font.family = "Open Sans", font.size = 14, axis.font.size = 18,
-  font.color = "000", showlegend = TRUE)
+  font.family = "Helvetica Neue", font.size = 14,
+  axis.font.size = 14, font.color = "000", showlegend = TRUE)
 }
 \arguments{
 \item{varimp}{Vector, float: Variable importance of features}
@@ -41,8 +41,11 @@ Default = 14}
 \item{showlegend}{Logical: If TRUE, show legend}
 }
 \description{
+Plot variable importance using \code{plotly}
+}
+\details{
 A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, which can be used
-to visualized variable importance, model coefficients, etc.
+to visualize variable importance, model coefficients, etc.
 }
 \author{
 Efstathios D. Gennatas
