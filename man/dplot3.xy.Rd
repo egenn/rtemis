@@ -20,7 +20,7 @@ dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   legend.col = NULL, legend.bg = "#FFFFFF00",
   legend.border.col = "#FFFFFF00", margin = list(t = 35),
   zerolines = TRUE, mod.params = list(), width = NULL,
-  height = NULL, verbose = TRUE, trace = 0, ...)
+  height = NULL, padding = 0, verbose = TRUE, trace = 0, ...)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}

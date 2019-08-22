@@ -78,6 +78,7 @@ dplot3.xy <- function(x, y,
                       mod.params = list(),
                       width = NULL,
                       height = NULL,
+                      padding = 0,
                       verbose = TRUE,
                       trace = 0, ...) {
 
@@ -417,10 +418,9 @@ dplot3.xy <- function(x, y,
                         showlegend = legend,
                         legend = .legend)
 
-  # Remove padding
-  plt$sizingPolicy$padding <- 0
+  # Padding
+  plt$sizingPolicy$padding <- padding
 
   plt
-  # invisible(plt)
 
 }  # rtemis::dplot3.xy
