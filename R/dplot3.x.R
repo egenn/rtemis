@@ -262,6 +262,9 @@ dplot3.x <- function(x,
                         showlegend = legend,
                         legend = .legend)
 
+  # Remove padding
+  plt$sizingPolicy$padding <- 0
+
   plt
   # invisible(plt)
 

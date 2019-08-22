@@ -723,7 +723,7 @@ mplot3.xy <- function(x, y,
   if (!is.null(fit)) {
     learner <- modSelect(fit, fn = FALSE)
     fitted <- list()
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       x <- xl[[i]]
       y <- yl[[i]]
       # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
@@ -754,7 +754,7 @@ mplot3.xy <- function(x, y,
     xy.fitted <- list()
     xy.se <- list()
     xy.index <- list()
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       xy.index[[i]] <- order(yl[[i]])
       x <- xl[[i]][xy.index[[i]]]
       y <- yl[[i]][xy.index[[i]]]

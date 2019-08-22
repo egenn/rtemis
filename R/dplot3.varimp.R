@@ -1,11 +1,14 @@
 # dplot3.varimp.R
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
+# TODO: Forgot this existed, not have to add theme support
 
+#' Interactive Variable Importance Plot
+#'
 #' Plot variable importance using \code{plotly}
-#' 
+#'
 #' A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, which can be used
-#' to visualized variable importance, model coefficients, etc.
+#' to visualize variable importance, model coefficients, etc.
 #' @inheritParams mplot3.xy
 #' @param varimp Vector, float: Variable importance of features
 #' @param names Vector, string: Names of features
@@ -30,47 +33,53 @@ dplot3.varimp <- function(varimp, names = NULL,
                           col = colorAdjust(colorGrad(length(names), "penn"), .8),
                           mar = c(50, 110, 50, 50),
                           pad = 10,
-                          font.family = "Open Sans",
+                          font.family = "Helvetica Neue",
                           font.size = 14,
-                          axis.font.size = 18,
+                          axis.font.size = 14,
                           font.color = "000",
                           showlegend = TRUE) {
-  
+
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-  
+
   # [ DATA ] ====
   index <- order(varimp)
   x <- varimp[index]
-  y <- factor(names[index], levels = names[index])
   if (is.null(names)) {
-    names <- if (!is.null(names(varimp))) names(varimp) else paste0("Feature", 1:length(varimp))
+    names <- if (!is.null(names(varimp))) names(varimp) else paste0("Feature", seq_len(varimp))
   }
-  
-  # [ AES ] ====
+  y <- factor(names[index], levels = names[index])
+
+  # [ plotly ] ====
   f <- list(family = font.family,
             size = axis.font.size,
             color = font.color)
-  
-  p <- plotly::plot_ly(x = ~x, y = ~y, type = 'bar', orientation = 'h',
-                       marker = list(color = col),
-                       showlegend = showlegend) %>%
-    plotly::layout(title = main,
-                   margin = list(l = mar[2],
-                                 t = mar[3],
-                                 r = mar[4],
-                                 b = mar[1],
-                                 pad = pad),
-                   font = list(family = font.family,
-                               size = font.size,
-                               color = font.color),
-                   xaxis = list(title = xlab,
-                                titlefont = f,
-                                tickfont = f),
-                   yaxis = list(title = ylab,
-                                titlefont = f,
-                                tickfont = f))
-  p
+
+  plt <- plotly::plot_ly(x = x, y = y, type = 'bar', orientation = 'h',
+                         marker = list(color = col),
+                         showlegend = showlegend)
+
+  # Layout ====
+  plt <- plotly::layout(plt, title = main,
+                        margin = list(l = mar[2],
+                                      t = mar[3],
+                                      r = mar[4],
+                                      b = mar[1],
+                                      pad = pad),
+                        font = list(family = font.family,
+                                    size = font.size,
+                                    color = font.color),
+                        xaxis = list(title = xlab,
+                                     titlefont = f,
+                                     tickfont = f,
+                                     zeroline = FALSE),
+                        yaxis = list(title = ylab,
+                                     titlefont = f,
+                                     tickfont = f))
+  # Remove padding
+  plt$sizingPolicy$padding <- 0
+
+  plt
 } # dplot3.varimp

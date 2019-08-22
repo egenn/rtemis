@@ -1,249 +1,423 @@
 # dplot3.xy.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
-# TODO: this is temp dplot3.xy
+# 2019 Efstathios D. Gennatas egenn.github.io
 
 #' Interactive Scatter Plots
 #'
-#' Draw interactive plots using \code{plotly}
+#' Draw interactive scatter plots using \code{plotly}
 #'
-#' Plotly graphs can be viewed in RStudio Viewer, a web browser, or exported to a static image.
-#' This is an old version that will be updated soon.
-#'
-#' @param x Numeric vector. x coordinates
-#' @param y Numeric vector. y coordinates
-#' @param group Character: Name of variable to group by (not yet functional)
-#' @param point.size Numeric scalar or vector. Default = 7
-#' @param point.color Color of points
-#' @param point.alpha Float: Alpha of points
-#' @param point.symbol Character: "circle", "square"; see plotly documentation for more
-#'   Default = "circle"
-#' @param point.labels String, optional: Point labels displayed on mouse over
-#' @param fit String, optional: "lm", "gam"
-#' @param gam.k Integer: Number of bases for \code{mgcv::gam}'s smoothing spline
-#' @param fit.width Float: Width of fit line
-#' @param fit.color Color of fit line
-#' @param fit.alpha Float: Alpha of fit line
-#' @param se.fit Logical: If TRUE, draws +/- \code{se.times * standard error}
-#' @param se.times Float: Multiplier for standard error band. Default = 2
-#' @param se.color Color of S.E. band
-#' @param se.alpha Float: Alpha of S.E. band
-#' @param main Character: Plot title
-#' @param xlab Character: x-axis label
-#' @param ylab Character: y-axis label
-#' @param font.family Character: Axes' legends' font family
-#' @param font.color Font color
-#' @param font.size Integer: Font size
-#' @param axes Logical: If TRUE, show x and y axes. Default = TRUE
-#' @param grid Logical: If TRUE, draw grid lines. Default = FALSE
-#' @param margin Vector, length 4: Plot margins. Default = c(60, 70, 40, 20)
-#' @param pad Numeric: Distance of tick labels from axes
-#' @param legend.xy Vector, length 2 [0, 1]: x, y coordinates of legend. 0 means left and bottom for x and y axis
-#' respectively; 1 means right and top. Default = c(0, 1) (i.e. top-left)
-#' @param axes.square Logical: If TRUE, make axes square
-#' @param showlegend Logical: If TRUE, show legends
+#' @inheritParams dplot3.bar
+#' @param x Numeric, vector: Input
+#' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
+#' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
+#' to draw the largest square available. This means that resizing the device window will not automatically resize the
+#' plot.
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
+#' 1 element
+#' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
+#' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
+#' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
+#' @param hist.n.bins Integer: Number of bins to use if type = "histogram". Default = 20
+#' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
+#' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
 #' @author Efstathios D. Gennatas
-#' @seealso \link{mplot3}
 #' @export
+#' @examples
+#' #' \dontrun{
+#' dplot3.x(split(iris$Sepal.Length, iris$Species))
+#' }
 
 dplot3.xy <- function(x, y,
+                      fit = NULL,
+                      se.fit = FALSE,
+                      se.times = 1.96,
+                      cluster =  NULL,
                       group = NULL,
-                      point.size = 7,
-                      point.color = NULL,
-                      point.alpha = .66,
-                      point.symbol = "circle",
-                      point.labels = NULL,
-                      fit = "none",
-                      axes.fixedratio = FALSE,
-                      xlim = NULL,
-                      ylim = NULL,
-                      gam.k = 4,
-                      fit.width = 3,
-                      fit.color = "#18A3AC",
-                      fit.alpha = 1,
-                      se.fit = TRUE,
-                      se.times = 2,
-                      se.color = NULL,
-                      se.alpha = .2,
+                      formula = NULL,
+                      rsq = NULL,
+                      rsq.pval = FALSE,
+                      mode = c("scatter", "line"),
+                      type = c("p", "l"),
                       main = NULL,
-                      xlab = "x",
-                      ylab = "y",
-                      font.family = "Helvetica Neue",
-                      font.color = "gray50",
-                      font.size = 18,
-                      axes = FALSE,
-                      grid = TRUE,
-                      grid.col = "#fff",
-                      zero.lines = TRUE,
-                      zero.col = "#7F7F7F",
-                      zero.lwd = 1,
-                      legend = TRUE,
-                      legend.bgcol = "#00000000",
-                      legend.bordercol = "gray50",
-                      legend.borderwidth = 0,
-                      legend.fontcol = "#000000",
-                      margins = c(60, 70, 40, 20),
-                      pad = 4,   # amount of padding in px between the plotting area and the axis lines
-                      bg = "#E5E5E5",
-                      showlegend = TRUE,
-                      legend.xy = c(0, 1),
+                      xlab = NULL,
+                      ylab = NULL,
+                      col = NULL,
+                      alpha = .66,
+                      bg = NULL,
+                      plot.bg = NULL,
+                      theme = getOption("rt.theme", "light"),
+                      palette = getOption("rt.palette", "rtCol1"),
                       axes.square = FALSE,
+                      zero.lines = TRUE,
+                      group.names = NULL,
+                      font.size = 16,
+                      font.alpha = .8,
+                      font.col = NULL,
+                      font.family = "Helvetica Neue",
+                      marker.col = NULL,
+                      fit.col = NULL,
+                      fit.alpha = .8,
+                      fit.lwd = 1,
+                      se.col = NULL,
+                      se.alpha = .4,
+                      main.col = NULL,
+                      axes.col = NULL,
+                      labs.col = NULL,
+                      grid.col = NULL,
+                      grid.lwd = 1,
+                      grid.alpha = .8,
+                      tick.col = NULL,
+                      legend = NULL,
+                      legend.xy = c(0, 1),
+                      legend.col = NULL,
+                      legend.bg = "#FFFFFF00",
+                      legend.border.col = "#FFFFFF00",
+                      margin = list(t = 35),
+                      zerolines = TRUE,
+                      mod.params = list(),
+                      width = NULL,
                       height = NULL,
-                      width = NULL) {
+                      trace = 0, ...) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ COLORS ] ====
-  if (is.null(point.color)) {
-    point.color <- if (fit == "none") "#18A3AC" else "#505050"
+  # [ ARGUMENTS ] ====
+  type <- match.arg(type)
+  mode <- match.arg(mode)
+  if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
+  if (is.logical(fit)) if (fit) fit <- "GAM"
+  if (is.null(fit)) se.fit <- FALSE
+  if (!is.null(fit)) fit <- toupper(fit)
+  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  .mode <- switch(mode,
+                  scatter = "markers",
+                  line = "lines")
+
+  # fit & formula
+  if (!is.null(formula)) fit <- "NLS"
+
+  # rsq
+  # if (is.null(rsq)) rsq <- if (!is.null(fit)) TRUE else FALSE
+  # if (!rsq) rsq.pval <- FALSE
+  # if (fit.error) rsq <- rsq.pval <- FALSE
+  # if (is.null(rsq.pval)) {
+  #   if (!is.null(fit)) {
+  #     rsq.pval <- TRUE
+  #     rsq <- FALSE
+  #   } else {
+  #     rsq.pval <- rsq <- FALSE
+  #   }
+  # }
+  # if (rsq.pval) {
+  #   if (!fit %in% c("LM", "GLM", "GAM")) {
+  #     rsq.pval <- FALSE
+  #     rsq <- TRUE
+  #   }
+  # }
+
+  # order.on.x ====
+  order.on.x <- if (!is.null(fit) | mode == "line") TRUE else FALSE
+
+  # [ CLUSTER ] ====
+  if (!is.null(cluster)) {
+    group <- suppressWarnings(do.call(clustSelect(cluster),
+                                      c(list(x = data.frame(x, y),
+                                             verbose = verbose),
+                                        cluster.params))$clusters.train)
   }
+
+  # [ DATA ] ====
+  # xlab, ylab ====
+  # The gsubs remove all text up to and including a "$" symbol if present
+  if (is.null(xlab)) {
+    if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+  }
+  if (!is.null(y) & is.null(ylab)) {
+    if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+  }
+
+  # '- Group ====
+  if (!is.null(group)) {
+    group <- as.factor(group)
+    x <- split(x, group)
+    y <- split(y, group)
+    if (is.null(group.names)) group.names <- levels(group)
+    names(x) <- names(y) <- group.names
+  }
+
+  # Convert to lists ====
+  x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
+  y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
+  if (length(x) == 1 & length(y) > 1) {
+    x <- rep(x, length(y))
+    .names <- names(y)
+  }
+  if (length(y) == 1 & length(x) > 1) {
+    y <- rep(y, length(x))
+    .names <- names(x)
+  }
+  n.groups <- length(x)
+
+  if (is.null(legend)) legend <- n.groups > 1
+  if (is.null(.names)) .names <- paste("Group", seq_len(n.groups))
+
+  # Reorder ====
+  if (order.on.x) {
+    index <- lapply(x, order)
+    x <- lapply(seq(x), function(i) x[[i]][index[[i]]])
+    y <- lapply(seq(x), function(i) y[[i]][index[[i]]])
+  }
+
+  # s.e. fit ====
+  if (se.fit) {
+    if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
+      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
+      se.fit <- FALSE
+    }
+  }
+
+  # Colors ====
+  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.null(col)) {
+    if (n.groups == 1) {
+      col <- palette[1]
+    } else {
+      col <- palette[seq_len(n.groups)]
+    }
+  }
+
+  if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
+
+  # Themes ====
+  # Defaults: no box
+  axes.visible <- FALSE
+  axes.mirrored <- FALSE
+
+  if (theme %in% c("lightgrid", "darkgrid")) {
+    grid <- TRUE
+  } else {
+    grid <- FALSE
+  }
+  if (theme == "lightgrid") {
+    theme <- "light"
+    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray90")
+    grid <- TRUE
+    if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
+    if (is.null(tick.col)) tick.col <- "rgba(0,0,0,1)"
+  }
+  if (theme == "darkgrid") {
+    theme <- "dark"
+    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray15")
+    grid <- TRUE
+    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
+    if (is.null(tick.col)) tick.col <- "rgba(255,255,255,1)"
+  }
+  themes <- c("light", "dark", "lightbox", "darkbox")
+  if (!theme %in% themes) {
+    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
+    theme <- "light"
+  }
+
+  if (theme == "light") {
+    if (is.null(bg)) bg <- "white"
+    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
+    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
+    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
+  } else if (theme == "dark") {
+    if (is.null(bg)) bg <- "black"
+    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
+    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
+    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
+    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
+    # gen.col <- "white"
+  } else if (theme == "lightbox") {
+    axes.visible <- axes.mirrored <- TRUE
+    if (is.null(bg)) bg <- "rgba(255,255,255,1)"
+    if (is.null(plot.bg)) plot.bg <- "rgba(255,255,255,1)"
+    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
+    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
+    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
+    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
+    if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
+    # gen.col <- "black"
+  } else if (theme == "darkbox") {
+    axes.visible <- axes.mirrored <- TRUE
+    if (is.null(bg)) bg <- "rgba(0,0,0,1)"
+    if (is.null(plot.bg)) plot.bg <- "rgba(0,0,0,1)"
+    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
+    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
+    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
+    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
+    # gen.col <- "white"
+  }
+
+  # marker.col, se.col ===
+  if (is.null(marker.col)) {
+    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("gray50", n.groups)) else col
+  }
+
+  if (!is.null(fit)) {
+    if (is.null(fit.col)) fit.col <- col
+  }
+
+  if (se.fit & is.null(se.col)) {
+    se.col <- col
+  }
+
+  # Derived
+  if (is.null(legend.col)) legend.col <- labs.col
 
   # [ SIZE ] ====
   if (axes.square) {
     width <- height <- min(dev.size("px")) - 10
   }
 
-  # [ xy SCATTER ] ====
-  if (class(x) == "numeric") {
-    index <- order(x)
-  } else {
-    index <- 1:NROW(x)
-  }
-
-  x <- x[index]
-  if (!is.null(y)) y <- y[index]
-
-  # '- POINTS ====
-  m <- list(size = point.size,
-            color = point.color,
-            opacity = point.alpha,
-            symbol = point.symbol)
-  if (!is.null(point.labels)) {
-    point.labels <- paste0("(", ddSci(x), ", ", ddSci(y), ")\n", point.labels)
-  } else {
-    point.labels <- paste0("x =", ddSci(x), "; y =", ddSci(y))
-  }
-
-  # '- PLOT ====
-  p <- plotly::plot_ly(x = x, y = y,
-                       type = "scatter",
-                       name = "Raw",
-                       mode = "markers",
-                       marker = m,
-                       split = group,
-                       showlegend = showlegend,
-                       text = point.labels,
-                       hoverinfo = "text",
-                       width = width,
-                       height = height)
-
-  # '- FITTED & S.E. ====
-  fitted <- NULL
+  # [ fitted & se.fit ] ====
+  # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
+  if (se.fit) se <- list() else se <- NULL
+  # if (rsq) rsql <- rsqp <- list() else rsql <- NULL
+  # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    if (fit == "lm") {
-      modfit <- s.LM(x, y, print.plot = FALSE)
-      fitted <- fitted(modfit)
-      se.fitted <- modfit$se.fit
-    } else if (fit == "gam") {
-      modfit <- s.GAM(x, y, k = gam.k, print.plot = FALSE, verbose = FALSE)
-      fitted <- fitted(modfit)
-      se.fitted <- modfit$se.fit
+    learner <- modSelect(fit, fn = FALSE)
+    fitted <- list()
+    for (i in seq_len(n.groups)) {
+      x1 <- x[[i]]
+      y1 <- y[[i]]
+      # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
+      learner.args <- c(list(x = x1, y = y1, verbose = trace > 0),
+                        mod.params,
+                        list(...))
+      if (learner == "s.NLS") learner.args <- c(learner.args,
+                                                list(formula = formula, save.func = TRUE))
+      mod <- do.call(learner, learner.args)
+      fitted[[i]] <- fitted(mod)
+      if (se.fit) se[[i]] <- se(mod)
+      # if (rsq) rsql[[i]] <- mod$error.train$Rsq
+      # if (rsq.pval) {
+      #   if (fit  %in% c("LM", "GLM")) {
+      #     rsqp[[i]] <- paste0(ddSci(mod$error.train$Rsq), " (",
+      #                          ddSci(summary(mod$mod)$coefficients[2, 4]), ")")
+      #   } else if (fit == "GAM") {
+      #     rsqp[[i]] <- paste0(ddSci(mod$error.train$Rsq), " (",
+      #                          ddSci(summary(mod$mod)$s.pv), ")")
+      #   }
+      # }
     }
   }
 
-  # '- S.E. BAND ====
-  if (se.fit & !is.null(fitted)) {
-    if (is.null(se.color)) se.color <- fit.color
-    shade.name <- paste("+/-", se.times, "s.e.")
-    p <- plotly::add_trace(p, x = x, y = fitted + se.times * se.fitted,
-                           type = "scatter",
-                           mode = "lines",
-                           line = list(color = "transparent"),
-                           showlegend = FALSE,
-                           hoverinfo = "none", # delta
-                           inherit = FALSE)
-    p <- plotly::add_trace(p, x = x, y = fitted - se.times * se.fitted,
-                           type = "scatter",
-                           mode = "lines",
-                           fill = "tonexty",
-                           fillcolor = plotly::toRGB(se.color, alpha = se.alpha),
-                           line = list(color = "transparent"),
-                           name = shade.name,
-                           showlegend = showlegend,
-                           hoverinfo = "none", # delta
-                           inherit = FALSE)
+  # [ plotly ] ====
+  plt <- plotly::plot_ly(width = width,
+                         height = height)
+  for (i in seq_len(n.groups)) {
+    # '- { Scatter } ====
+    plt <- plotly::add_trace(plt, x = x[[i]],
+                             y = y[[i]],
+                             type = "scatter",
+                             mode = .mode,
+                             # fillcolor = plotly::toRGB(col[[i]], alpha),
+                             name = .names[i],
+                             # text = .text[[i]],
+                             # hoverinfo = "text",
+                             marker = list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)),
+                             legendgroup = .names[i],
+                             showlegend = legend)
+    if (se.fit) {
+      # '- { SE band } ====
+      plt <- plotly::add_trace(plt,
+                               x = x[[i]],
+                               y = fitted[[i]] + se.times * se[[i]],
+                             type = "scatter",
+                             mode = "lines",
+                             line = list(color = "transparent"),
+                             legendgroup = .names[i],
+                             showlegend = FALSE,
+                             hoverinfo = "none",
+                             inherit = FALSE)
+      plt <- plotly::add_trace(plt, x = x[[i]],
+                               y = fitted[[i]] - se.times * se[[i]],
+                             type = "scatter",
+                             mode = "lines",
+                             fill = "tonexty",
+                             fillcolor = plotly::toRGB(se.col[[i]], alpha = se.alpha),
+                             line = list(color = "transparent"),
+                             # name = shade.name,
+                             legendgroup = .names[i],
+                             showlegend = FALSE,
+                             hoverinfo = "none",
+                             inherit = FALSE)
+    }
+    if (!is.null(fit)) {
+      # '- { Fitted line } ====
+      lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
+                  width = fit.lwd)
+      plt <- plotly::add_trace(plt, x = x[[i]], y = fitted[[i]],
+                             type = "scatter",
+                             mode = "lines",
+                             line = lfit,
+                             # name = paste(toupper(fit), "fit"),
+                             legendgroup = .names[i],
+                             showlegend = FALSE,
+                             inherit = FALSE)
+    }
   }
 
-  # '- FIT LINE ====
-  if (!is.null(fitted)) {
-    lfit = list(color = plotly::toRGB(fit.color, alpha = fit.alpha),
-                width = fit.width)
-    p <- plotly::add_trace(p, x = x, y = fitted,
-                           type = "scatter",
-                           mode = "lines",
-                           line = lfit,
-                           name = paste(toupper(fit), "fit"),
-                           showlegend = showlegend,
-                           inherit = FALSE)
-  }
-
-  # [ B.1 AXES ] ====
+  # [ Layout ] ====
+  # '- layout ====
   f <- list(family = font.family,
             size = font.size,
-            color = font.color)
+            color = labs.col)
+  tickfont <- list(family = font.family,
+                   size = font.size,
+                   color = tick.col)
+  .legend <- list(x = legend.xy[1],
+                  y = legend.xy[2],
+                  font = list(family = font.family,
+                              size = font.size,
+                              color = legend.col),
+                  bgcolor = legend.bg,
+                  bordercolor = legend.border.col)
 
-  xaxis <- list(title = xlab,
-                titlefont = f,
-                tickfont = f,
-                showline = axes,
-                showgrid = grid,
-                gridcolor = grid.col,
-                zeroline = zero.lines,
-                zerolinecolor = zero.col,
-                zerolinewidth = zero.lwd,
-                dash = "dashed",
-                range = xlim)
+  plt <- plotly::layout(plt,
+                        yaxis = list(title = ylab,
+                                     showline = axes.visible,
+                                     mirror = axes.mirrored,
+                                     titlefont = f,
+                                     showgrid = grid,
+                                     gridcolor = grid.col,
+                                     gridwidth = grid.lwd,
+                                     tickcolor = tick.col,
+                                     tickfont = tickfont,
+                                     zeroline = zerolines),
+                        xaxis = list(title = xlab,
+                                     showline = axes.visible,
+                                     mirror = axes.mirrored,
+                                     titlefont = f,
+                                     showgrid = grid,
+                                     gridcolor = grid.col,
+                                     gridwidth = grid.lwd,
+                                     tickcolor = tick.col,
+                                     tickfont = tickfont,
+                                     zeroline = FALSE),
+                        # barmode = barmode,  # group works without actual groups too
+                        # title = main,
+                        title = list(text = main,
+                                     font = list(family = font.family,
+                                                 size = font.size,
+                                                 color = main.col)),
+                        # titlefont = list(),
+                        paper_bgcolor = bg,
+                        plot_bgcolor = plot.bg,
+                        margin = margin,
+                        showlegend = legend,
+                        legend = .legend)
 
-  yaxis <- list(title = ylab,
-                titlefont = f,
-                tickfont = f,
-                showline = axes,
-                showgrid = grid,
-                gridcolor = grid.col,
-                zeroline = zero.lines,
-                zerolinecolor = zero.col,
-                zerolinewidth = zero.lwd,
-                scaleanchor = if (axes.fixedratio) "x" else NULL,
-                range = ylim)
+  # Remove padding
+  plt$sizingPolicy$padding <- 0
 
-  # [ B.2 LEGEND ] ====
-  font <- list(family = font.family,
-               size = font.size,
-               color = legend.fontcol)
+  plt
+  # invisible(plt)
 
-  .legend <- list(font = font,
-                  bgcolor = legend.bgcol,
-                  bordercolor = legend.bordercol,
-                  borderwidth = legend.borderwidth,
-                  x = legend.xy[1],
-                  y = legend.xy[2])
-
-  # [ C LAYOUT ] ====
-  margin <- list(b = margins[1],
-                 l = margins[2],
-                 t = margins[3],
-                 r = margins[4],
-                 pad = pad)
-  p <- plotly::layout(p, title = main,
-                      xaxis = xaxis,
-                      yaxis = yaxis,
-                      legend = if (legend) .legend else NULL,
-                      margin = margin,
-                      plot_bgcolor = bg)
-  p
-  return(p)
-
-} # rtemis::dplot3.xy
+}  # rtemis::dplot3.xy

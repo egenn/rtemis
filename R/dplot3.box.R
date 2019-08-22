@@ -244,6 +244,9 @@ dplot3.box <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
+  # Remove padding
+  plt$sizingPolicy$padding <- 0
+
   plt
 
 } # rtemis::dplot3.box.R

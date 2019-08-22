@@ -41,6 +41,7 @@ dplot3.table <- function(x,
                          table.font.col = "gray20",
                          font.size = 14,
                          font.family = "Helvetica Neue",
+                         padding = 10,
                          margin = list(l = 0, r = 5,
                                        t = 30, b = 0,
                                        pad = 0)) {
@@ -100,6 +101,9 @@ dplot3.table <- function(x,
                                      xanchor = main.xanchor),
                         paper_bgcolor = plotly::toRGB(bg),
                         margin = margin)
+
+  # Remove padding
+  plt$sizingPolicy$padding <- padding
 
   plt
 

@@ -240,6 +240,9 @@ dplot3.bar <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
+  # Remove padding
+  plt$sizingPolicy$padding <- 0
+
   plt
 
 } # rtemis::dplot3.bar.R
