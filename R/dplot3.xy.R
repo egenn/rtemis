@@ -148,7 +148,7 @@ dplot3.xy <- function(x, y,
     x <- split(x, group)
     y <- split(y, group)
     if (is.null(group.names)) group.names <- levels(group)
-    names(x) <- names(y) <- group.names
+    names(x) <- names(y) <- .names <- group.names
   }
 
   # Convert to lists ====
