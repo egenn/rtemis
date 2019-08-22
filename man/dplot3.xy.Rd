@@ -5,11 +5,11 @@
 \title{Interactive Scatter Plots}
 \usage{
 dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
-  cluster = NULL, group = NULL, formula = NULL, rsq = NULL,
-  rsq.pval = FALSE, mode = c("scatter", "line"), type = c("p", "l"),
-  main = NULL, xlab = NULL, ylab = NULL, col = NULL,
-  alpha = 0.66, bg = NULL, plot.bg = NULL,
-  theme = getOption("rt.theme", "light"),
+  cluster = NULL, cluster.params = list(k = 2), group = NULL,
+  formula = NULL, rsq = NULL, rsq.pval = FALSE, mode = c("scatter",
+  "line"), type = c("p", "l"), main = NULL, xlab = NULL,
+  ylab = NULL, col = NULL, alpha = 0.66, bg = NULL,
+  plot.bg = NULL, theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
@@ -20,7 +20,7 @@ dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   legend.col = NULL, legend.bg = "#FFFFFF00",
   legend.border.col = "#FFFFFF00", margin = list(t = 35),
   zerolines = TRUE, mod.params = list(), width = NULL,
-  height = NULL, trace = 0, ...)
+  height = NULL, verbose = TRUE, trace = 0, ...)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}

@@ -32,6 +32,7 @@ dplot3.xy <- function(x, y,
                       se.fit = FALSE,
                       se.times = 1.96,
                       cluster =  NULL,
+                      cluster.params = list(k = 2),
                       group = NULL,
                       formula = NULL,
                       rsq = NULL,
@@ -77,6 +78,7 @@ dplot3.xy <- function(x, y,
                       mod.params = list(),
                       width = NULL,
                       height = NULL,
+                      verbose = TRUE,
                       trace = 0, ...) {
 
   # [ DEPENDENCIES ] ====
@@ -95,6 +97,7 @@ dplot3.xy <- function(x, y,
   .mode <- switch(mode,
                   scatter = "markers",
                   line = "lines")
+  .names <- group.names
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
@@ -125,7 +128,7 @@ dplot3.xy <- function(x, y,
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
-                                             verbose = verbose),
+                                             verbose = trace > 0),
                                         cluster.params))$clusters.train)
   }
 
