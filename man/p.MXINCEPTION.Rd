@@ -4,12 +4,36 @@
 \alias{p.MXINCEPTION}
 \title{Classify Images using pre-trained Inception network with \code{mxnet} [C]}
 \usage{
-p.MXINCEPTION(img, img.path = NULL, iteration = 39,
+p.MXINCEPTION(img, img.path = NULL,
+  inception.path = "~/.rtemis/Inception/", iteration = 39,
   plot.input = FALSE, plot.normed = FALSE, plot.graphviz = FALSE,
   verbose = TRUE)
 }
+\arguments{
+\item{img}{Image, "cimg" class: Input image - e.g. as read using \code{imager::load.image}. Alternatively, specify
+\code{img.path}}
+
+\item{img.path}{Character: Path to input image}
+
+\item{inception.path}{Character: Path to downloaded pretrained MXNet Inception network.
+Default = "~/.rtemis/Inception/Inception_BN"}
+
+\item{iteration}{Integer: Load this iteration from the inception model. Default = 39}
+
+\item{plot.input}{Logical: If TRUE, plot input image. Default = FALSE}
+
+\item{plot.normed}{Logical: If TRUE, plot normed image. Default = FALSE}
+
+\item{plot.graphviz}{Logical: If TRUE, plot network using graphviz. Default = FALSE}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+}
 \description{
 Predict using Inception
+}
+\details{
+Download the pre-trained network from http://data.mxnet.io/mxnet/data/Inception.zip and save it under
+"~/.rtemis/"
 }
 \seealso{
 Other Deep Learning: \code{\link{d.H2OAE}},
