@@ -23,7 +23,7 @@
 #' @author Efstathios D. Gennatas
 #' @export
 #' @examples
-#' #' \dontrun{
+#' \dontrun{
 #' dplot3.x(split(iris$Sepal.Length, iris$Species))
 #' }
 
