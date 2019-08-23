@@ -76,7 +76,7 @@ Draw a interactive boxplot using \code{plotly}
 }
 \examples{
 \dontrun{
-dplot3.box(VADeaths)
+# dplot3.box(VADeaths)
 }
 }
 \author{

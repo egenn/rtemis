@@ -77,7 +77,7 @@ Draw a interactive barplot using \code{plotly}
 }
 \examples{
 \dontrun{
-dplot3.bar(VADeaths)
+# dplot3.bar(VADeaths)
 }
 }
 \author{
