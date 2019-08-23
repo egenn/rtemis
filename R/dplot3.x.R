@@ -24,7 +24,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dplot3.x(split(iris$Sepal.Length, iris$Species))
+#' # dplot3.x(split(iris$Sepal.Length, iris$Species))
 #' }
 
 dplot3.x <- function(x,
@@ -266,6 +266,5 @@ dplot3.x <- function(x,
   plt$sizingPolicy$padding <- 0
 
   plt
-  # invisible(plt)
 
 }  # rtemis::dplot3.x

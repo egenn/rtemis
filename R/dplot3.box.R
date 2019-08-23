@@ -40,7 +40,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dplot3.box(VADeaths)
+#' # dplot3.box(VADeaths)
 #' }
 
 dplot3.box <-  function(x,
