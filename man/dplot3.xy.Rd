@@ -13,14 +13,15 @@ dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
-  marker.col = NULL, fit.col = NULL, fit.alpha = 0.8, fit.lwd = 1,
-  se.col = NULL, se.alpha = 0.4, main.col = NULL, axes.col = NULL,
-  labs.col = NULL, grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8,
-  tick.col = NULL, legend = NULL, legend.xy = c(0, 1),
-  legend.col = NULL, legend.bg = "#FFFFFF00",
-  legend.border.col = "#FFFFFF00", margin = list(t = 35),
-  zerolines = TRUE, mod.params = list(), width = NULL,
-  height = NULL, padding = 0, verbose = TRUE, trace = 0, ...)
+  marker.col = NULL, fit.col = NULL, fit.alpha = 0.8,
+  fit.lwd = 2.5, se.col = NULL, se.alpha = 0.4, main.col = NULL,
+  axes.col = NULL, labs.col = NULL, grid.col = NULL, grid.lwd = 1,
+  grid.alpha = 0.8, tick.col = NULL, legend = TRUE,
+  legend.xy = c(0, 1), legend.col = NULL, legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00", legend.group.gap = 0,
+  margin = list(t = 35), zerolines = TRUE, mod.params = list(),
+  width = NULL, height = NULL, padding = 0, verbose = TRUE,
+  trace = 0, ...)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}

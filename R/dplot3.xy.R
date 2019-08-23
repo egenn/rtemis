@@ -58,7 +58,7 @@ dplot3.xy <- function(x, y,
                       marker.col = NULL,
                       fit.col = NULL,
                       fit.alpha = .8,
-                      fit.lwd = 1,
+                      fit.lwd = 2.5,
                       se.col = NULL,
                       se.alpha = .4,
                       main.col = NULL,
@@ -68,11 +68,12 @@ dplot3.xy <- function(x, y,
                       grid.lwd = 1,
                       grid.alpha = .8,
                       tick.col = NULL,
-                      legend = NULL,
+                      legend = TRUE,
                       legend.xy = c(0, 1),
                       legend.col = NULL,
                       legend.bg = "#FFFFFF00",
                       legend.border.col = "#FFFFFF00",
+                      legend.group.gap = 0,
                       margin = list(t = 35),
                       zerolines = TRUE,
                       mod.params = list(),
@@ -165,8 +166,14 @@ dplot3.xy <- function(x, y,
   }
   n.groups <- length(x)
 
-  if (is.null(legend)) legend <- n.groups > 1
-  if (is.null(.names)) .names <- paste("Group", seq_len(n.groups))
+  # if (is.null(legend)) legend <- n.groups > 1
+  if (is.null(.names)) {
+    if (n.groups > 1) {
+      .names <- paste("Group", seq_len(n.groups))
+    } else {
+      .names <- if (!is.null(fit)) fit else NULL
+    }
+  }
 
   # Reorder ====
   if (order.on.x) {
@@ -313,6 +320,9 @@ dplot3.xy <- function(x, y,
   }
 
   # [ plotly ] ====
+  if (n.groups > 1) {
+    legendgroup = .names
+  }
   plt <- plotly::plot_ly(width = width,
                          height = height)
   for (i in seq_len(n.groups)) {
@@ -322,49 +332,49 @@ dplot3.xy <- function(x, y,
                              type = "scatter",
                              mode = .mode,
                              # fillcolor = plotly::toRGB(col[[i]], alpha),
-                             name = .names[i],
+                             name = if (n.groups > 1) .names[i] else "Raw",
                              # text = .text[[i]],
                              # hoverinfo = "text",
                              marker = list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)),
-                             legendgroup = .names[i],
+                             legendgroup = if (n.groups > 1) .names[i] else "Raw",
                              showlegend = legend)
     if (se.fit) {
       # '- { SE band } ====
       plt <- plotly::add_trace(plt,
                                x = x[[i]],
                                y = fitted[[i]] + se.times * se[[i]],
-                             type = "scatter",
-                             mode = "lines",
-                             line = list(color = "transparent"),
-                             legendgroup = .names[i],
-                             showlegend = FALSE,
-                             hoverinfo = "none",
-                             inherit = FALSE)
+                               type = "scatter",
+                               mode = "lines",
+                               line = list(color = "transparent"),
+                               legendgroup = .names[i],
+                               showlegend = FALSE,
+                               hoverinfo = "none",
+                               inherit = FALSE)
       plt <- plotly::add_trace(plt, x = x[[i]],
                                y = fitted[[i]] - se.times * se[[i]],
-                             type = "scatter",
-                             mode = "lines",
-                             fill = "tonexty",
-                             fillcolor = plotly::toRGB(se.col[[i]], alpha = se.alpha),
-                             line = list(color = "transparent"),
-                             # name = shade.name,
-                             legendgroup = .names[i],
-                             showlegend = FALSE,
-                             hoverinfo = "none",
-                             inherit = FALSE)
+                               type = "scatter",
+                               mode = "lines",
+                               fill = "tonexty",
+                               fillcolor = plotly::toRGB(se.col[[i]], alpha = se.alpha),
+                               line = list(color = "transparent"),
+                               # name = shade.name,
+                               legendgroup = .names[i],
+                               showlegend = FALSE,
+                               hoverinfo = "none",
+                               inherit = FALSE)
     }
     if (!is.null(fit)) {
       # '- { Fitted line } ====
       lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
                   width = fit.lwd)
       plt <- plotly::add_trace(plt, x = x[[i]], y = fitted[[i]],
-                             type = "scatter",
-                             mode = "lines",
-                             line = lfit,
-                             # name = paste(toupper(fit), "fit"),
-                             legendgroup = .names[i],
-                             showlegend = FALSE,
-                             inherit = FALSE)
+                               type = "scatter",
+                               mode = "lines",
+                               line = lfit,
+                               name = fit,
+                               legendgroup = .names[i],
+                               showlegend = if (legend & n.groups == 1) TRUE else FALSE,
+                               inherit = FALSE)
     }
   }
 
@@ -382,7 +392,8 @@ dplot3.xy <- function(x, y,
                               size = font.size,
                               color = legend.col),
                   bgcolor = legend.bg,
-                  bordercolor = legend.border.col)
+                  bordercolor = legend.border.col,
+                  tracegroupgap = legend.group.gap)
 
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
