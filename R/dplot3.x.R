@@ -24,7 +24,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # dplot3.x(split(iris$Sepal.Length, iris$Species))
+#' dplot3.x(split(iris$Sepal.Length, iris$Species))
 #' }
 
 dplot3.x <- function(x,

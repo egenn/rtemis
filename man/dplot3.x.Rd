@@ -97,7 +97,7 @@ Draw interactive univariate plots using \code{plotly}
 }
 \examples{
 \dontrun{
-# dplot3.x(split(iris$Sepal.Length, iris$Species))
+dplot3.x(split(iris$Sepal.Length, iris$Species))
 }
 }
 \author{

@@ -96,8 +96,8 @@ plot.}
 Draw interactive scatter plots using \code{plotly}
 }
 \examples{
-#' \dontrun{
-dplot3.x(split(iris$Sepal.Length, iris$Species))
+\dontrun{
+dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
 }
 }
 \author{

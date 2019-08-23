@@ -23,8 +23,8 @@
 #' @author Efstathios D. Gennatas
 #' @export
 #' @examples
-#' #' \dontrun{
-#' dplot3.x(split(iris$Sepal.Length, iris$Species))
+#' \dontrun{
+#' dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
 #' }
 
 dplot3.xy <- function(x, y,
