@@ -78,13 +78,15 @@ plot.}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
+\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
+
+\item{padding}{Integer: N pixels to pad plot. Default = 0}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 

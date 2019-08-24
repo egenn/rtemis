@@ -15,14 +15,15 @@ dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
   grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8, tick.col = NULL,
   legend = NULL, legend.xy = c(0, 1), legend.col = NULL,
   legend.bg = "#FFFFFF00", legend.border.col = "#FFFFFF00",
-  margin = list(t = 35), zerolines = FALSE, histnorm = c(NULL,
-  "percent", "probability", "density", "probability density"),
-  histfunc = c("count", "sum", "avg", "min", "max"), hist.n.bins = 20,
-  barmode = "overlay", width = NULL, height = NULL,
-  filename = NULL, file.width = 500, file.height = 500)
+  margin = list(b = 50, l = 50, t = 50, r = 20), padding = 0,
+  zerolines = FALSE, histnorm = c(NULL, "percent", "probability",
+  "density", "probability density"), histfunc = c("count", "sum", "avg",
+  "min", "max"), hist.n.bins = 20, barmode = "overlay", width = NULL,
+  height = NULL, filename = NULL, file.width = 500,
+  file.height = 500)
 }
 \arguments{
-\item{x}{Numeric, vector: Input}
+\item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -76,7 +77,9 @@ plot.}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
+\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+
+\item{padding}{Integer: N pixels to pad plot. Default = 0}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
@@ -102,9 +105,13 @@ plot.}
 \description{
 Draw interactive univariate plots using \code{plotly}
 }
+\details{
+If input is data.frame, non-numeric variables will be removed
+}
 \examples{
 \dontrun{
-dplot3.x(split(iris$Sepal.Length, iris$Species))
+dplot3.x(iris)
+dplot3.x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 }
 }
 \author{

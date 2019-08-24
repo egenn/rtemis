@@ -12,8 +12,9 @@ dplot3.box(x, groups = "cols", main = NULL, xlab = NULL,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
   main.col = NULL, axes.col = NULL, labs.col = NULL,
   grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8, tick.col = NULL,
-  legend = FALSE, legend.col = NULL, margin = list(t = 35),
-  filename = NULL, file.width = 500, file.height = 500)
+  legend = FALSE, legend.col = NULL, margin = list(b = 50, l = 50, t
+  = 50, r = 20), filename = NULL, file.width = 500,
+  file.height = 500)
 }
 \arguments{
 \item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}
