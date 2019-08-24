@@ -4,7 +4,7 @@
 
 #' Interactive Barplots
 #'
-#' Draw a interactive barplot using \code{plotly}
+#' Draw interactive barplots using \code{plotly}
 #'
 #' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
@@ -34,7 +34,8 @@
 #' @param tick.col Color: Color for ticks and tick labels. Default = NULL, determined, by theme
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
-#' @param margin Named list: plot margins. Default = \code{list(t = 35)}
+#' @param margin Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}
+#' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
 #' @param file.width Integer: File width in pixels for when \code{filename} is set. Default = 500
 #' @param file.height Integer: File height in pixels for when \code{filename} is set. Default = 500
@@ -72,7 +73,8 @@ dplot3.bar <-  function(x,
                         tick.col = NULL,
                         legend = TRUE,
                         legend.col = NULL,
-                        margin = list(t = 35),
+                        margin = list(b = 50, l = 50, t = 50, r = 20),
+                        padding = 0,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500) {
@@ -87,6 +89,7 @@ dplot3.bar <-  function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   dat <- as.data.frame(x)
+  # dat <- dplyr::select_if(dat, is.numeric)
 
   # Group names ====
   .group.names <- group.names
@@ -102,7 +105,7 @@ dplot3.bar <-  function(x,
   .feature.names <- feature.names
   if (is.null(.feature.names)) {
     if (!is.null(colnames(dat))) {
-      .feature.names <- colnames(dat)
+      .feature.names <- labelify(colnames(dat))
     } else {
       .feature.names <- paste0("Feature", seq(NCOL(dat)))
     }
@@ -246,8 +249,8 @@ dplot3.bar <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
-  # Remove padding
-  plt$sizingPolicy$padding <- 0
+  # Set padding
+  plt$sizingPolicy$padding <- padding
 
   # Write to file ====
   if (!is.null(filename)) {
