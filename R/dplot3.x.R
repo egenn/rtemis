@@ -6,8 +6,9 @@
 #'
 #' Draw interactive univariate plots using \code{plotly}
 #'
+#' If input is data.frame, non-numeric variables will be removed
 #' @inheritParams dplot3.bar
-#' @param x Numeric, vector: Input
+#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
@@ -24,7 +25,8 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dplot3.x(split(iris$Sepal.Length, iris$Species))
+#' dplot3.x(iris)
+#' dplot3.x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 #' }
 
 dplot3.x <- function(x,
@@ -57,7 +59,8 @@ dplot3.x <- function(x,
                      legend.col = NULL,
                      legend.bg = "#FFFFFF00",
                      legend.border.col = "#FFFFFF00",
-                     margin = list(t = 35),
+                     margin = list(b = 50, l = 50, t = 50, r = 20),
+                     padding = 0,
                      zerolines = FALSE,
                      histnorm = c(NULL, "percent", "probability", "density",
                                   "probability density"),
@@ -80,9 +83,17 @@ dplot3.x <- function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   # [ DATA ] ====
-  if (!is.list(x)) x <- list(x)
+  if (!is.list(x)) x <- as.data.frame(x)
+
+  # Remove non-numeric columns
+  if (is.data.frame(x)) x <- dplyr::select_if(x, is.numeric)
+
   if (is.null(legend)) legend <- length(x) > 1
-  .names <- names(x)
+  if (!is.null(group.names)) {
+    .names <- group.names
+  } else {
+    .names <- labelify(names(x))
+  }
   if (is.null(.names)) .names <- paste("Feature", seq_along(x))
 
   # Colors ====
@@ -242,10 +253,11 @@ dplot3.x <- function(x,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = zerolines),
-                        xaxis = list(title = xlab,
+                        xaxis = list(title = list(text = xlab,
+                                                  font = f),
                                      showline = axes.visible,
                                      mirror = axes.mirrored,
-                                     titlefont = f,
+                                     # titlefont = f,
                                      showgrid = grid,
                                      gridcolor = grid.col,
                                      gridwidth = grid.lwd,
@@ -265,8 +277,8 @@ dplot3.x <- function(x,
                         showlegend = legend,
                         legend = .legend)
 
-  # Remove padding
-  plt$sizingPolicy$padding <- 0
+  # Set padding
+  plt$sizingPolicy$padding <- padding
 
   # Write to file ====
   if (!is.null(filename)) {
