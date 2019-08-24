@@ -70,7 +70,10 @@ dplot3.box <-  function(x,
                         tick.col = NULL,
                         legend = FALSE,
                         legend.col = NULL,
-                        margin = list(t = 35)) {
+                        margin = list(t = 35),
+                        filename = NULL,
+                        file.width = 500,
+                        file.height = 500) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -246,6 +249,12 @@ dplot3.box <-  function(x,
 
   # Remove padding
   plt$sizingPolicy$padding <- 0
+
+  # Write to file ====
+  if (!is.null(filename)) {
+    filename <- file.path(filename)
+    plotly::plotly_IMAGE(plt, width = file.width, height = file.height, out_file = filename)
+  }
 
   plt
 

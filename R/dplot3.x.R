@@ -65,7 +65,10 @@ dplot3.x <- function(x,
                      hist.n.bins = 20,
                      barmode = "overlay", # TODO: alternatives
                      width = NULL,
-                     height = NULL) {
+                     height = NULL,
+                     filename = NULL,
+                     file.width = 500,
+                     file.height = 500) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -265,6 +268,11 @@ dplot3.x <- function(x,
   # Remove padding
   plt$sizingPolicy$padding <- 0
 
+  # Write to file ====
+  if (!is.null(filename)) {
+    filename <- file.path(filename)
+    plotly::plotly_IMAGE(plt, width = file.width, height = file.height, out_file = filename)
+  }
   plt
 
 }  # rtemis::dplot3.x

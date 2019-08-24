@@ -80,8 +80,10 @@ dplot3.xy <- function(x, y,
                       width = NULL,
                       height = NULL,
                       padding = 0,
-                      verbose = TRUE,
-                      trace = 0, ...) {
+                      trace = 0,
+                      filename = NULL,
+                      file.width = 500,
+                      file.height = 500, ...) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -431,6 +433,12 @@ dplot3.xy <- function(x, y,
 
   # Padding
   plt$sizingPolicy$padding <- padding
+
+  # Write to file ====
+  if (!is.null(filename)) {
+    filename <- file.path(filename)
+    plotly::plotly_IMAGE(plt, width = file.width, height = file.height, out_file = filename)
+  }
 
   plt
 

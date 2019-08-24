@@ -20,8 +20,8 @@ dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   legend.xy = c(0, 1), legend.col = NULL, legend.bg = "#FFFFFF00",
   legend.border.col = "#FFFFFF00", legend.group.gap = 0,
   margin = list(t = 35), zerolines = TRUE, mod.params = list(),
-  width = NULL, height = NULL, padding = 0, verbose = TRUE,
-  trace = 0, ...)
+  width = NULL, height = NULL, padding = 0, trace = 0,
+  filename = NULL, file.width = 500, file.height = 500, ...)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}
@@ -85,6 +85,12 @@ plot.}
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
+
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
 
 \item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
 

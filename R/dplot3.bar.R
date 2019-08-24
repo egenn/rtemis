@@ -35,6 +35,9 @@
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
 #' @param margin Named list: plot margins. Default = \code{list(t = 35)}
+#' @param filename Character: Path to file to save static plot. Default = NULL
+#' @param file.width Integer: File width in pixels for when \code{filename} is set. Default = 500
+#' @param file.height Integer: File height in pixels for when \code{filename} is set. Default = 500
 #'
 #' @author Efstathios D. Gennatas
 #' @export
@@ -69,7 +72,10 @@ dplot3.bar <-  function(x,
                         tick.col = NULL,
                         legend = TRUE,
                         legend.col = NULL,
-                        margin = list(t = 35)) {
+                        margin = list(t = 35),
+                        filename = NULL,
+                        file.width = 500,
+                        file.height = 500) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -242,6 +248,12 @@ dplot3.bar <-  function(x,
 
   # Remove padding
   plt$sizingPolicy$padding <- 0
+
+  # Write to file ====
+  if (!is.null(filename)) {
+    filename <- file.path(filename)
+    plotly::plotly_IMAGE(plt, width = file.width, height = file.height, out_file = filename)
+  }
 
   plt
 

@@ -13,7 +13,8 @@ dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
   font.col = NULL, font.family = "Helvetica Neue", main.col = NULL,
   axes.col = NULL, labs.col = NULL, grid.col = NULL, grid.lwd = 1,
   grid.alpha = 0.8, tick.col = NULL, legend = TRUE,
-  legend.col = NULL, margin = list(t = 35))
+  legend.col = NULL, margin = list(t = 35), filename = NULL,
+  file.width = 500, file.height = 500)
 }
 \arguments{
 \item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}
@@ -71,6 +72,12 @@ dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
+
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
 }
 \description{
 Draw a interactive barplot using \code{plotly}

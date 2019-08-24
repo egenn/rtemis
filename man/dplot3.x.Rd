@@ -18,7 +18,8 @@ dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
   margin = list(t = 35), zerolines = FALSE, histnorm = c(NULL,
   "percent", "probability", "density", "probability density"),
   histfunc = c("count", "sum", "avg", "min", "max"), hist.n.bins = 20,
-  barmode = "overlay", width = NULL, height = NULL)
+  barmode = "overlay", width = NULL, height = NULL,
+  filename = NULL, file.width = 500, file.height = 500)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}
@@ -91,6 +92,12 @@ plot.}
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
+
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
 }
 \description{
 Draw interactive univariate plots using \code{plotly}
