@@ -5,9 +5,9 @@
 \title{Interactive Univariate Plots}
 \usage{
 dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
-  main = NULL, xlab = NULL, ylab = NULL, col = NULL,
-  alpha = 0.75, bg = NULL, plot.bg = NULL,
-  theme = getOption("rt.theme", "light"),
+  mode = c("overlap", "ridge"), main = NULL, xlab = NULL,
+  ylab = NULL, col = NULL, alpha = 0.75, bg = NULL,
+  plot.bg = NULL, theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
@@ -18,9 +18,10 @@ dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
   margin = list(b = 50, l = 50, t = 50, r = 20), padding = 0,
   zerolines = FALSE, histnorm = c(NULL, "percent", "probability",
   "density", "probability density"), histfunc = c("count", "sum", "avg",
-  "min", "max"), hist.n.bins = 20, barmode = "overlay", width = NULL,
-  height = NULL, filename = NULL, file.width = 500,
-  file.height = 500)
+  "min", "max"), hist.n.bins = 20, barmode = "overlay",
+  ridge.sharex = TRUE, ridge.y.labs = FALSE,
+  ridge.order.on.mean = TRUE, width = NULL, height = NULL,
+  filename = NULL, file.width = 500, file.height = 500)
 }
 \arguments{
 \item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
@@ -75,6 +76,9 @@ plot.}
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
 1 element}
 
+\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = c(0, 1), which places the
+legend top left within the plot area. Set to NULL to place legend top right beside the plot area}
+
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
@@ -91,6 +95,13 @@ plot.}
 
 \item{barmode}{Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
 "relative" for stacked bars, which handles negative values correctly, unlike "stack", as of writing.}
+
+\item{ridge.sharex}{Logical: If TRUE, draw single x-axis when \code{mode = "ridge"}. Default = TRUE}
+
+\item{ridge.y.labs}{Lofical: If TRUE, show individual y labs when \code{mode = "ridge"}. Default = FALSE}
+
+\item{ridge.order.on.mean}{Logical: If TRUE, order groups by mean value when \code{mode = "ridge"}. Defaul = TRUE.
+Turn to FALSE, if, for example, groups are ordered by date or similar.}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
