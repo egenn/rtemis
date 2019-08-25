@@ -5,8 +5,8 @@
 \title{Hieararchical Ordered Partitioning and Collapsing Hybrid}
 \usage{
 u.HOPACH(x, dmat = NULL, metric = c("cosangle", "abscosangle",
-  "euclid", "abseuclid", "cor", "abscor"), K = 15, kmax = 9,
-  khigh = 9, verbose = TRUE, ...)
+  "euclid", "abseuclid", "cor", "abscor"), k = 15, kmax = 9,
+  khigh = 9, trace = 0, verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -16,12 +16,14 @@ If NULL}
 
 \item{metric}{Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
 
-\item{K}{Integer, (0:15]: Maximum number of levels}
+\item{k}{Integer, (0:15]: Maximum number of levels}
 
 \item{kmax}{Integer, [1:9]: Maximum number of children at each node in the tree}
 
 \item{khigh}{Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
 the Mean/Median Split Silhouette. Usually same as \code{kmax}}
+
+\item{trace}{Integer: If trace > 0, print messages during HOPACH run. Default = 0}
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
