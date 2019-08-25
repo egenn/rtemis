@@ -189,6 +189,11 @@ dplot3.x <- function(x,
             size = font.size,
             color = labs.col)
 
+  # '- Tick font ====
+  tickfont <- list(family = font.family,
+                   size = font.size,
+                   color = tick.col)
+
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
@@ -284,9 +289,6 @@ dplot3.x <- function(x,
 
   # [ Layout ] ====
   # '- layout ====
-  tickfont <- list(family = font.family,
-                   size = font.size,
-                   color = tick.col)
   .legend <- list(x = legend.xy[1],
                   y = legend.xy[2],
                   font = list(family = font.family,
