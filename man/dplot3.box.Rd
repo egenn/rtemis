@@ -2,18 +2,19 @@
 % Please edit documentation in R/dplot3.box.R
 \name{dplot3.box}
 \alias{dplot3.box}
-\title{Interactive Boxplots}
+\title{Interactive Boxplots & Violin plots}
 \usage{
-dplot3.box(x, groups = "cols", main = NULL, xlab = NULL,
-  ylab = NULL, col = NULL, alpha = 0.6, bg = NULL,
-  plot.bg = NULL, theme = getOption("rt.theme", "light"),
+dplot3.box(x, groups = "cols", type = c("box", "violin"),
+  main = NULL, xlab = NULL, ylab = NULL, col = NULL, alpha = 0.6,
+  bg = NULL, plot.bg = NULL, theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), boxmode = c("group",
-  "relative", "stack", "overlay"), group.names = NULL, font.size = 16,
-  font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
-  main.col = NULL, axes.col = NULL, labs.col = NULL,
-  grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8, tick.col = NULL,
-  legend = FALSE, legend.col = NULL, margin = list(b = 50, l = 50, t
-  = 50, r = 20), filename = NULL, file.width = 500,
+  "relative", "stack", "overlay"), violin.box = TRUE,
+  group.names = NULL, font.size = 16, font.alpha = 0.8,
+  font.col = NULL, font.family = "Helvetica Neue", main.col = NULL,
+  axes.col = NULL, labs.col = NULL, grid.col = NULL, grid.lwd = 1,
+  grid.alpha = 0.8, tick.col = NULL, legend = FALSE,
+  legend.col = NULL, legend.xy = NULL, margin = list(t = 35),
+  padding = 0, filename = NULL, file.width = 500,
   file.height = 500)
 }
 \arguments{
@@ -68,13 +69,19 @@ dplot3.box(x, groups = "cols", main = NULL, xlab = NULL,
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
+\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
+the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area}
+
 \item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
 
 \item{feature.names}{Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 \code{colnames(x)}}
 }
 \description{
-Draw a interactive boxplot using \code{plotly}
+Draw interactive boxplots or violin plots using \code{plotly}
+}
+\details{
+Any non-numeric variable in \code{x} will be removed
 }
 \examples{
 \dontrun{

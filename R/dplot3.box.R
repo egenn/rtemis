@@ -2,9 +2,11 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-#' Interactive Boxplots
+#' Interactive Boxplots & Violin plots
 #'
-#' Draw a interactive boxplot using \code{plotly}
+#' Draw interactive boxplots or violin plots using \code{plotly}
+#'
+#' Any non-numeric variable in \code{x} will be removed
 #'
 #' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
@@ -34,6 +36,8 @@
 #' @param tick.col Color: Color for ticks and tick labels. Default = NULL, determined, by theme
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
+#' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
+#' the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area
 #' @param margin Named list: plot margins. Default = \code{list(t = 35)}
 #'
 #' @author Efstathios D. Gennatas
@@ -45,6 +49,7 @@
 
 dplot3.box <-  function(x,
                         groups = "cols",
+                        type = c("box", "violin"),
                         main = NULL,
                         xlab = NULL,
                         ylab = NULL,
@@ -55,8 +60,8 @@ dplot3.box <-  function(x,
                         theme = getOption("rt.theme", "light"),
                         palette = getOption("rt.palette", "rtCol1"),
                         boxmode = c("group", "relative", "stack", "overlay"),
+                        violin.box = TRUE,
                         group.names = NULL,
-                        # feature.names = NULL,
                         font.size = 16,
                         font.alpha = .8,
                         font.col = NULL,
@@ -70,7 +75,9 @@ dplot3.box <-  function(x,
                         tick.col = NULL,
                         legend = FALSE,
                         legend.col = NULL,
-                        margin = list(b = 50, l = 50, t = 50, r = 20),
+                        legend.xy = NULL,
+                        margin = list(t = 35),
+                        padding = 0,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500) {
@@ -82,19 +89,11 @@ dplot3.box <-  function(x,
 
   # Arguments ====
   boxmode <- match.arg(boxmode)
+  type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
-
   dat <- as.data.frame(x)
+  dat <- dplyr::select_if(dat, is.numeric)
 
-  # Feature names ====
-  # .feature.names <- feature.names
-  # if (is.null(.feature.names)) {
-  #   if (!is.null(colnames(dat))) {
-  #     .feature.names <- colnames(dat)
-  #   } else {
-  #     .feature.names <- paste0("Feature", seq(NCOL(dat)))
-  #   }
-  # }
   if (!is.null(colnames(dat))) {
     .feature.names <- colnames(dat)
   } else {
@@ -102,10 +101,6 @@ dplot3.box <-  function(x,
   }
 
   # Colors ====
-  # plot.bg <- plotly::toRGB(plot.bg)
-  # font.col <- plotly::toRGB(font.col, font.alpha)
-  # grid.col <- plotly::toRGB(grid.col, grid.alpha)
-
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) {
@@ -160,7 +155,6 @@ dplot3.box <-  function(x,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
     if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    # gen.col <- "white"
   } else if (theme == "lightbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(255,255,255,1)"
@@ -170,7 +164,6 @@ dplot3.box <-  function(x,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
     if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
     if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-    # gen.col <- "black"
   } else if (theme == "darkbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(0,0,0,1)"
@@ -179,20 +172,21 @@ dplot3.box <-  function(x,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
     if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    # gen.col <- "white"
   }
 
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
   # plotly ====
-  plt <- plotly::plot_ly(y = dat[, 1],
-                         color = plotly::toRGB(col[1], alpha),
-                         type = 'box',
-                         name = .feature.names[1],
-                         line = list(color = plotly::toRGB(col[1])),
-                         fillcolor = plotly::toRGB(col[1], alpha),
-                         marker = list(color = plotly::toRGB(col[1], alpha)))
+  args <- list(y = dat[, 1],
+               color = plotly::toRGB(col[1], alpha),
+               type = type,
+               name = .feature.names[1],
+               line = list(color = plotly::toRGB(col[1])),
+               fillcolor = plotly::toRGB(col[1], alpha),
+               marker = list(color = plotly::toRGB(col[1], alpha)))
+  if (type == "violin") args$box <- list(visible = violin.box)
+  plt <- do.call(plotly::plot_ly, args)
   if (p > 1) {
     for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, y = dat[, i],
                                                        color = plotly::toRGB(col[i], alpha),
@@ -209,7 +203,9 @@ dplot3.box <-  function(x,
   tickfont <- list(family = font.family,
                    size = font.size,
                    color = tick.col)
-  .legend <- list(font = list(family = font.family,
+  .legend <- list(x = legend.xy[1],
+                  y = legend.xy[2],
+                  font = list(family = font.family,
                               size = font.size,
                               color = legend.col))
 
@@ -234,20 +230,18 @@ dplot3.box <-  function(x,
                                      tickcolor = grid.col,
                                      tickfont = tickfont),
                         # boxmode = boxmode,  # CHECK: online docs show this, but gives error
-                        # title = main,
                         title = list(text = main,
                                      font = list(family = font.family,
                                                  size = font.size,
                                                  color = main.col)),
-                        # titlefont = list(),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
                         margin = margin,
                         showlegend = legend,
                         legend = .legend)
 
-  # Remove padding
-  plt$sizingPolicy$padding <- 0
+  # Set padding
+  plt$sizingPolicy$padding <- padding
 
   # Write to file ====
   if (!is.null(filename)) {
