@@ -134,6 +134,7 @@ dplot3.xy <- function(x, y,
                                       c(list(x = data.frame(x, y),
                                              verbose = trace > 0),
                                         cluster.params))$clusters.train)
+    group <- paste("Cluster", group)
   }
 
   # [ DATA ] ====

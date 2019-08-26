@@ -444,6 +444,7 @@ mplot3.xy <- function(x, y,
                                       c(list(x = data.frame(x, y),
                                              verbose = verbose),
                                         cluster.params))$clusters.train)
+    group <- paste("Cluster", group)
   }
 
   # [ DATA ] ====
