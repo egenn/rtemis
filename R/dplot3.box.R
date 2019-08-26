@@ -8,7 +8,7 @@
 #'
 #' Any non-numeric variable in \code{x} will be removed
 #'
-#' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
+#' @param x Vector or List of vectors: Input
 #' @param main Character: Plot title. Default = NULL
 #' @param xlab Character: x-axis label. Default = NULL
 #' @param ylab  Character: y-axis label. Default = NULL
@@ -91,27 +91,37 @@ dplot3.box <-  function(x,
   boxmode <- match.arg(boxmode)
   type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
-  dat <- as.data.frame(x)
-  dat <- dplyr::select_if(dat, is.numeric)
+  if (!is.list(x)) x <- list(x)
+  n.groups <- length(x)
 
-  if (!is.null(colnames(dat))) {
-    .feature.names <- colnames(dat)
-  } else {
-    .feature.names <- paste0("Feature", seq(NCOL(dat)))
+  # Remove non-numeric vectors
+  which.nonnum <- which(sapply(x, function(i) !is.numeric(i)))
+  if (length(which.nonnum) > 0) x[[which.nonnum]] <- NULL
+
+  .group.names <- group.names
+  if (is.null(.group.names)) {
+    .group.names <- names(x)
+    if (is.null(.group.names)) .group.names <- paste0("Feature", seq(n.groups))
   }
+
+  # if (!is.null(colnames(dat))) {
+  #   .feature.names <- colnames(dat)
+  # } else {
+  #   .feature.names <- paste0("Feature", seq(NCOL(dat)))
+  # }
 
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
-  p <- NCOL(dat)
+  # p <- NCOL(dat)
   if (is.null(col)) {
-    if (p == 1) {
+    if (n.groups == 1) {
       col <- palette[1]
     } else {
-      col <- palette[seq(p)]
+      col <- palette[seq(n.groups)]
     }
   }
 
-  if (length(col) < p) col <- rep(col, p/length(col))
+  if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
   # Themes ====
   # Defaults
@@ -178,19 +188,19 @@ dplot3.box <-  function(x,
   if (is.null(legend.col)) legend.col <- labs.col
 
   # plotly ====
-  args <- list(y = dat[, 1],
+  args <- list(y = x[[1]],
                color = plotly::toRGB(col[1], alpha),
                type = type,
-               name = .feature.names[1],
+               name = .group.names[1],
                line = list(color = plotly::toRGB(col[1])),
                fillcolor = plotly::toRGB(col[1], alpha),
                marker = list(color = plotly::toRGB(col[1], alpha)))
   if (type == "violin") args$box <- list(visible = violin.box)
   plt <- do.call(plotly::plot_ly, args)
-  if (p > 1) {
-    for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, y = dat[, i],
+  if (n.groups > 1) {
+    for (i in seq_len(n.groups)[-1]) plt <- plotly::add_trace(plt, y = x[[i]],
                                                        color = plotly::toRGB(col[i], alpha),
-                                                       name = .feature.names[i],
+                                                       name = .group.names[i],
                                                        line = list(color = plotly::toRGB(col[i])),
                                                        fillcolor = plotly::toRGB(col[i], alpha),
                                                        marker = list(color = plotly::toRGB(col[i], alpha)))

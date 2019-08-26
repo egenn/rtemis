@@ -18,7 +18,7 @@ dplot3.box(x, groups = "cols", type = c("box", "violin"),
   file.height = 500)
 }
 \arguments{
-\item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}
+\item{x}{Vector or List of vectors: Input}
 
 \item{main}{Character: Plot title. Default = NULL}
 
