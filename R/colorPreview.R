@@ -37,6 +37,7 @@ colorPreview <- function(col,
                          pch = 18,
                          bg = "white",
                          mar = c(0, 1.7, 1, 2.8),
+                         main.col = "black",
                          main.line = 0,
                          filename = NULL,
                          par.reset = TRUE,
@@ -60,7 +61,9 @@ colorPreview <- function(col,
        # xlim = c(0.9, 1.1),
        ylim = ylim, ann = FALSE, axes = FALSE, pch = pch, col = .col, cex = cex, xpd = TRUE,
        xaxs = "r", yaxs = "i")
-  if (!is.null(main)) mtext(main, line = main.line, font = 2, xpd = TRUE, adj = 0)
+  if (!is.null(main)) mtext(main, line = main.line,
+                            font = 2, xpd = TRUE, adj = 0,
+                            col = main.col)
 
   if (names) {
     if (!is.null(names(col))) {
