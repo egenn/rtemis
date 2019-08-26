@@ -17,7 +17,7 @@
 #' @inheritParams mplot3.xy
 #' @param x Numeric vector or list of vectors, one for each group.
 #'   If \code{data} is provided, x is name of variable in \code{data}
-#' @param type Character:"index", "line", "histogram", "density", "qqline"
+#' @param type Character: "density", "histogram",  "index", "line", "qqline"
 #'   Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
 #'   If \code{data} is provided, \code{group} is name of variable if \code{data}
@@ -48,7 +48,7 @@
 #' @export
 
 mplot3.x <- function(x,
-                     type = c("index", "line", "histogram", "density", "qqline"),
+                     type = c("density", "histogram", "index", "line", "qqline"),
                      group = NULL,
                      data = NULL,
                      xlab = NULL,
@@ -207,8 +207,13 @@ mplot3.x <- function(x,
   }
 
   # Convert data to lists
-  if (!is.list(x)) xl <- as.list(as.data.frame(x)) else xl <- x
-  # if (length(xl) == 1 & length(yl) > 1) xl <- rep(xl, length(yl))
+  # if (!is.list(x)) xl <- as.list(as.data.frame(x)) else xl <- x
+  xl <- if (!is.list(x)) list(x) else x
+
+  # Remove non-numeric vectors
+  which.nonnum <- which(sapply(xl, function(i) !is.numeric(i)))
+  if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
+
   if (type == "index") yl <- lapply(1:length(xl), function(i) seq(1, length(xl[[i]])))
   if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
 

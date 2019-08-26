@@ -4,7 +4,7 @@
 \alias{mplot3.x}
 \title{\code{mplot3}: Univariate plots: index, histogram, density, QQ-line}
 \usage{
-mplot3.x(x, type = c("index", "line", "histogram", "density", "qqline"),
+mplot3.x(x, type = c("density", "histogram", "index", "line", "qqline"),
   group = NULL, data = NULL, xlab = NULL, ylab = NULL,
   main = NULL, main.col = NULL, main.adj = 0, main.line = 0.5,
   main.font = 2, main.family = "", xlim = NULL, ylim = NULL,
@@ -43,7 +43,7 @@ mplot3.x(x, type = c("index", "line", "histogram", "density", "qqline"),
 \item{x}{Numeric vector or list of vectors, one for each group.
 If \code{data} is provided, x is name of variable in \code{data}}
 
-\item{type}{Character:"index", "line", "histogram", "density", "qqline"
+\item{type}{Character: "density", "histogram",  "index", "line", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram}
 
 \item{group}{Vector denoting group membership. Will be converted to factor.
