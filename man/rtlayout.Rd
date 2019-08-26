@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtlayout.R
 \name{rtlayout}
 \alias{rtlayout}
-\title{Layout for plotting on multiple panels}
+\title{Creat multipanel plots with the \code{mplot3} family}
 \usage{
 rtlayout(nrows = NULL, ncols = NULL, byrow = FALSE,
   autolabel = FALSE, pdf.width = NULL, pdf.height = NULL,
@@ -26,7 +26,7 @@ Default = \code{nrows * 4.5}}
 \item{filename}{String, optional: Save multiplot to file. Default = NULL}
 }
 \description{
-Set layout for plotting multiple plots on the same view
+Set layout for drawing multiple plots in the same view
 }
 \author{
 Efstathios D. Gennatas

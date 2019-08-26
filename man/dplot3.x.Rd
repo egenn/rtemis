@@ -5,8 +5,8 @@
 \title{Interactive Univariate Plots}
 \usage{
 dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
-  mode = c("overlap", "ridge"), main = NULL, xlab = NULL,
-  ylab = NULL, col = NULL, alpha = 0.75, bg = NULL,
+  mode = c("overlap", "ridge"), group = NULL, main = NULL,
+  xlab = NULL, ylab = NULL, col = NULL, alpha = 0.75, bg = NULL,
   plot.bg = NULL, theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
@@ -25,6 +25,8 @@ dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
 }
 \arguments{
 \item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
+
+\item{group}{Vector: Will be converted to factor; levels define group members. Default = NULL}
 
 \item{main}{Character: Plot title. Default = NULL}
 
