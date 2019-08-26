@@ -95,10 +95,14 @@ dplot3.x <- function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   # [ DATA ] ====
-  if (!is.list(x)) x <- as.data.frame(x)
+  if (!is.list(x)) x <- list(x)
 
-  # Remove non-numeric columns
-  if (is.data.frame(x)) x <- dplyr::select_if(x, is.numeric)
+  if (!is.list(x)) x <- list(x)
+  n.groups <- length(x)
+
+  # Remove non-numeric vectors
+  which.nonnum <- which(sapply(x, function(i) !is.numeric(i)))
+  if (length(which.nonnum) > 0) x[[which.nonnum]] <- NULL
 
   if (is.null(legend)) legend <- length(x) > 1
   if (!is.null(group.names)) {
@@ -209,7 +213,8 @@ dplot3.x <- function(x,
   if (type ==  "density") {
     if (is.null(ylab)) ylab <- "Density"
     xl.density <- lapply(x, density)
-    .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i))))
+    .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i)),
+                                         "\nsd =", ddSci(sd(i))))
 
     if (mode == "overlap") {
       # '- Density overlap ====
