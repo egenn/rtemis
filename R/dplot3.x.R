@@ -9,6 +9,7 @@
 #' If input is data.frame, non-numeric variables will be removed
 #' @inheritParams dplot3.bar
 #' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element
+#' @param group Vector: Will be converted to factor; levels define group members. Default = NULL
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
@@ -38,6 +39,7 @@
 dplot3.x <- function(x,
                      type = c("density", "histogram", "index", "path", "qqline"),
                      mode = c("overlap", "ridge"),
+                     group = NULL,
                      main = NULL,
                      xlab = NULL,
                      ylab = NULL,
@@ -95,6 +97,17 @@ dplot3.x <- function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   # [ DATA ] ====
+
+  # '- Group ====
+  if (!is.null(group)) {
+    group <- as.factor(group)
+    x <- as.data.frame(x)
+    x <- split(x, group)
+    x <- sapply(x, as.vector)
+    if (is.null(group.names)) group.names <- levels(group)
+    names(x) <- .names <- group.names
+  }
+
   if (!is.list(x)) x <- list(x)
 
   if (!is.list(x)) x <- list(x)

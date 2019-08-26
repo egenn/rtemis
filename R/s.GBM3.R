@@ -302,11 +302,12 @@ s.GBM3 <- function(x, y = NULL,
   # If we are in .gs, rbind train and test to get perf to tune n.trees
   # .xtrain and .ytrain to allow diff b/n .gs and full model
   if (.gs) {
-    .x.train <- rbind(.x, .x.test) # will be split to train/test by nTrain
+    # This .x.test is the inner validation set, not the final test set
+    .x.train <- rbind(.x, .x.test) # will be split to train/validation by nTrain
     .y.train <- c(.y, .y.test)
   } else {
     ### Fit the final model on the whole internal set using the optimal n of trees estimated above
-    # inlc.hack to check model is good: add small valid set to see if valid.error gets estimated
+    # incl. hack to check model is good: add single validation case to see if valid.error gets estimated
     .x.train <- rbind(.x, .x[1, , drop = FALSE])
     .y.train <- c(.y, .y[1])
     if (verbose) msg("Training GBM3 on full training set...", newline.pre = TRUE)

@@ -1,11 +1,11 @@
 # rtlayout.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
-# TODO: consider creating rtenv instead of using .GlobalEnv
 
-#' Layout for plotting on multiple panels
+#' Creat multipanel plots with the \code{mplot3} family
 #'
-#' Set layout for plotting multiple plots on the same view
+#' Set layout for drawing multiple plots in the same view
+#'
 #' @param nrows Integer: N of rows
 #' @param ncols Integer: N of columns
 #' @param byrow Logical: If TRUE, draw add plots by row Default = FALSE
