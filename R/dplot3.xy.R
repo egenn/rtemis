@@ -296,6 +296,7 @@ dplot3.xy <- function(x, y,
   if (!is.null(fit)) {
     learner <- modSelect(fit, fn = FALSE)
     fitted <- list()
+    fitted.text <- character()
     for (i in seq_len(n.groups)) {
       x1 <- x[[i]]
       y1 <- y[[i]]
@@ -303,11 +304,15 @@ dplot3.xy <- function(x, y,
       learner.args <- c(list(x = x1, y = y1, verbose = trace > 0),
                         mod.params,
                         list(...))
-      if (learner == "s.NLS") learner.args <- c(learner.args,
+      if (fit == "NLS") learner.args <- c(learner.args,
                                                 list(formula = formula, save.func = TRUE))
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
       if (se.fit) se[[i]] <- se(mod)
+      fitted.text[i] <- switch(fit,
+                               NLS = mod$extra$model,
+                               NLA = mod$mod$formula,
+                               fit)
       # if (rsq) rsql[[i]] <- mod$error.train$Rsq
       # if (rsq.pval) {
       #   if (fit  %in% c("LM", "GLM")) {
@@ -322,9 +327,9 @@ dplot3.xy <- function(x, y,
   }
 
   # [ plotly ] ====
-  if (n.groups > 1) {
-    legendgroup = .names
-  }
+  # if (n.groups > 1) {
+  #   legendgroup = .names
+  # }
   plt <- plotly::plot_ly(width = width,
                          height = height)
   for (i in seq_len(n.groups)) {
@@ -373,7 +378,7 @@ dplot3.xy <- function(x, y,
                                type = "scatter",
                                mode = "lines",
                                line = lfit,
-                               name = fit,
+                               name = fitted.text[i],
                                legendgroup = .names[i],
                                showlegend = if (legend & n.groups == 1) TRUE else FALSE,
                                inherit = FALSE)
