@@ -1,6 +1,7 @@
 # mplot3.box
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
+# TODO: make x vector or list
 
 #' \code{mplot3}: Boxplot
 #'
