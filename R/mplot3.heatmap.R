@@ -41,7 +41,7 @@
 #' @param cb.mar Float, vector, length 4: Margins for colorbar.  (passed to \link{colorGrad}'s \code{cb.add.mar}).
 #' Default set automatically
 #' @param Rowv Logical OR a dendrogram OR integer vector that determines index for reordering OR NA to suppress.
-#' Default = NA
+#' Default = TRUE
 #' @param Colv See \code{Rowv}
 #' @param distfun Function: used to compute the distance/dissimilarity matrix between rows and columns.
 #' Default = \code{dist}
@@ -105,8 +105,8 @@ mplot3.heatmap <- function(x,
                            cb.cex = 1,
                            cb.title.cex = 1,
                            cb.mar = NULL,
-                           Rowv = NA, # was NA
-                           Colv = if (symm) Rowv else NA,
+                           Rowv = TRUE,
+                           Colv = TRUE, # if (symm) Rowv else NA,
                            distfun = dist,
                            hclustfun = hclust,
                            reorderfun = function(d, w) reorder(d, w),

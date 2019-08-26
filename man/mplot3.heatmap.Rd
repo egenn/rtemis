@@ -8,8 +8,8 @@ mplot3.heatmap(x, colorGrad.n = 101, colorGrad.col = NULL,
   lo = "#18A3AC", lomid = NULL, mid = NULL, midhi = NULL,
   hi = "#F48024", space = "rgb", theme = getOption("rt.theme",
   "light"), colorbar = TRUE, cb.n = 21, cb.title = NULL,
-  cb.cex = 1, cb.title.cex = 1, cb.mar = NULL, Rowv = NA,
-  Colv = if (symm) Rowv else NA, distfun = dist, hclustfun = hclust,
+  cb.cex = 1, cb.title.cex = 1, cb.mar = NULL, Rowv = TRUE,
+  Colv = TRUE, distfun = dist, hclustfun = hclust,
   reorderfun = function(d, w) reorder(d, w), add.expr, symm = FALSE,
   revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE,
   margins = NULL, ColSideColors, RowSideColors, cexRow = 0.2 +
@@ -60,7 +60,7 @@ If midline is zero, this corresponds to 10 percent increments / decrements}
 Default set automatically}
 
 \item{Rowv}{Logical OR a dendrogram OR integer vector that determines index for reordering OR NA to suppress.
-Default = NA}
+Default = TRUE}
 
 \item{Colv}{See \code{Rowv}}
 
