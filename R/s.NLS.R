@@ -129,7 +129,7 @@ s.NLS <- function(x, y = NULL,
   }
 
   # [ FITTED ] ====
-    fitted <- predict(mod, x)
+  fitted <- predict(mod, x)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
