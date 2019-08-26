@@ -189,12 +189,22 @@ gridSearchLearn <- function(x, y, mod,
   }
 
   # '- GBM, H2OGBM ====
-  if (learner == "s.H2OGBM" | learner == "s.GBM" | learner == "s.GBM3") {
+  if (learner %in% c("s.H2OGBM", "s.GBM", "s.GBM3")) {
     est.n.trees.all <- data.frame(n.trees = plyr::laply(grid.run, function(x) x$est.n.trees))
     est.n.trees.all$param.id <- rep(1:n.param.combs, each = n.resamples)
     est.n.trees.by.param.id <- aggregate(n.trees ~ param.id, est.n.trees.all,
                                          error.aggregate.fn)
     tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
+    n.params <- n.params + 1
+  }
+
+  # '- XGBoost ====
+  if (learner == "XGB") {
+    est.nrounds.all <- data.frame(nrounds = plyr::laply(grid.run, function(x) x$best_iteration))
+    est.nrounds.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+    est.nrounds.by.param.id <- aggregate(nrounds ~ param.id, est.nrounds.all,
+                                         error.aggregate.fn)
+    tune.results <- cbind(nrounds = round(est.nrounds.by.param.id$nrounds), tune.results)
     n.params <- n.params + 1
   }
 
