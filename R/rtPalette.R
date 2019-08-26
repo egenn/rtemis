@@ -653,6 +653,22 @@ techCol <- list(techGold = "#B3A369",
                 blue = "#00263A")
 
 
+# Jefferson ====
+#' Jefferson University Colors
+#'
+#' \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
+#' @name rtPalettes
+#' @export
+
+jeffersonCol <- list(jeffDeepBlue = "#152456",
+                     jeffBrightBlue = "#59B7df",
+                     legacyMaroon = "#9f2943",
+                     red = "#e53e30",
+                     voltGreen = "#ece819",
+                     silver = "#dfe1df",
+                     darkGray = "#8e9089",
+                     black = "#231f20")
+
 # NIH ====
 #' NIH Colors
 #'
@@ -955,6 +971,7 @@ rtPalettes <- list(pennCol = pennCol,
                    nyuCol = nyuCol,
                    texasCol = texasCol,
                    techCol = techCol,
+                   jeffersonCol = jeffersonCol,
                    nihCol = nihCol,
                    torontoCol = torontoCol,
                    mcgillCol = mcgillCol,

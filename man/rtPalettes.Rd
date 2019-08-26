@@ -35,6 +35,7 @@
 \alias{nyuCol}
 \alias{texasCol}
 \alias{techCol}
+\alias{jeffersonCol}
 \alias{nihCol}
 \alias{torontoCol}
 \alias{mcgillCol}
@@ -111,6 +112,8 @@ nyuCol
 texasCol
 
 techCol
+
+jeffersonCol
 
 nihCol
 
@@ -197,6 +200,8 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{texasCol}: University of Texas color palette (https://brand.utexas.edu/identity/color/)
 
 \code{techCol}: Georgia Tech color palette (http://www.licensing.gatech.edu/super-block/239)
+
+\code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 
