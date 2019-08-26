@@ -7,16 +7,40 @@
 \alias{pennPalette}
 \alias{pennLightPalette}
 \alias{imperialCol}
+\alias{stanfordCol}
 \alias{ucsfCol}
 \alias{ucsfPalette}
+\alias{ucdCol}
 \alias{berkeleyCol}
-\alias{stanfordCol}
-\alias{usfCol}
-\alias{ucsdCol}
+\alias{ucscCol}
+\alias{ucmercedCol}
+\alias{ucsbCol}
 \alias{uclaCol}
+\alias{ucrColor}
+\alias{uciCol}
+\alias{ucsdCol}
 \alias{ucCol}
+\alias{cmuCol}
+\alias{mitCol}
+\alias{princetonCol}
+\alias{columbiaCol}
+\alias{brownCol}
+\alias{yaleCol}
+\alias{cornellCol}
+\alias{hmsCol}
+\alias{dartmouthCol}
+\alias{usfCol}
 \alias{uwCol}
+\alias{jhuCol}
+\alias{nyuCol}
+\alias{texasCol}
+\alias{techCol}
 \alias{nihCol}
+\alias{torontoCol}
+\alias{mcgillCol}
+\alias{nhsCol}
+\alias{ethCol}
+\alias{rwthCol}
 \alias{appleCol}
 \alias{googleCol}
 \alias{amazonCol}
@@ -32,25 +56,73 @@ pennLightPalette
 
 imperialCol
 
+stanfordCol
+
 ucsfCol
 
 ucsfPalette
 
+ucdCol
+
 berkeleyCol
 
-stanfordCol
+ucscCol
 
-usfCol
+ucmercedCol
 
-ucsdCol
+ucsbCol
 
 uclaCol
 
+ucrColor
+
+uciCol
+
+ucsdCol
+
 ucCol
+
+cmuCol
+
+mitCol
+
+princetonCol
+
+columbiaCol
+
+brownCol
+
+yaleCol
+
+cornellCol
+
+hmsCol
+
+dartmouthCol
+
+usfCol
 
 uwCol
 
+jhuCol
+
+nyuCol
+
+texasCol
+
+techCol
+
 nihCol
+
+torontoCol
+
+mcgillCol
+
+nhsCol
+
+ethCol
+
+rwthCol
 
 appleCol
 
@@ -63,30 +135,80 @@ microsoftCol
 \description{
 \code{pennCol}: Penn color palette (http://www.upenn.edu/about/styleguide-color-type)
 
-\code{imperialCol}: Imperial College London color palette (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
+\code{imperialCol}: Imperial College London colour palette (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
+
+\code{stanfordCol}: Stanford color palette (https://identity.stanford.edu/color.html#digital-color)
 
 \code{ucsfCol}: UCSF color palette (http://identity.ucsf.edu/color)
 
 \code{ucsfPalette}: Subset of \code{ucsfCol} for use with \link{mplot3}, etc
 
+\code{ucdCol}: UC Davis color palette (https://marketingtoolbox.ucdavis.edu/visual-identity/color.html)
+
 \code{berkeleyCol}: Berkeley color palette (https://brand.berkeley.edu/colors/)
 
-\code{stanfordCol}: Stanford color palette (https://identity.stanford.edu/color.html#digital-color)
+\code{ucscCol}: UC Santa Cruz color palette (https://communications.ucsc.edu/visual-design/color/)
 
-\code{usfCol}: USF color palette (https://myusf.usfca.edu/marketing-communications/resources/graphics-resources/brand-standards/color-palette)
-Color conversions performed using https://www.pantone.com/color-finder/
+\code{ucmercedCol}: UC Merced color palette (https://publicrelations.ucmerced.edu/color-guidelines)
 
-\code{ucsdCol}: UC San Diego color palette (https://ucpa.ucsd.edu/brand/elements/color-palette/)
+\code{ucsbCol}: UC Santa Barbaara color palette (https://www.ucsb.edu/visual-identity/color)
 
 \code{uclaCol}: UCLA color palette (http://brand.ucla.edu/identity/colors)
+
+\code{ucrCol}: UC Riverside color palette (https://brand.ucr.edu/ucr-colors)
+
+\code{uciCol}: UCI color palette (https://communications.uci.edu/campus-resources/graphic-standards/colors.php)
+
+\code{ucsdCol}: UC San Diego color palette (https://ucpa.ucsd.edu/brand/elements/color-palette/)
 
 \code{ucCol}: University of California color palette
 (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 
+\code{cmuCol}: Carnegie Mellon color palette (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)
+
+\code{mitCol}: MIT color palette (http://web.mit.edu/graphicidentity/colors.html)
+
+\code{princetonCol}: Princeton color palette (https://communications.princeton.edu/guides-tools/logo-graphic-identity)
+
+\code{columbiaCol}: Columbia color palette (https://visualidentity.columbia.edu/content/web-0)
+
+\code{brownCol}: Brown color palette
+(https://www.brown.edu/university-identity/sites/university-identity/files/Brown_Visual_Identity_Policy_2016-07-22.pdf)
+
+\code{yaleCol}: Yale color palette (https://yaleidentity.yale.edu/web)
+
+\code{cornellCol}: Yale color palette (https://brand.cornell.edu/design-center/colors/
+
+\code{hmsCol}: Harvard Medical School color palette (https://identityguide.hms.harvard.edu/color)
+
+\code{dartmouthCol}: Dartmouth color palette (https://communications.dartmouth.edu/visual-identity/design-elements/color-palette#web%20palette)
+
+\code{usfCol}: USF color palette (https://myusf.usfca.edu/marketing-communications/resources/graphics-resources/brand-standards/color-palette)
+Color conversions performed using https://www.pantone.com/color-finder/
+
 \code{uwCol}: University of Washington color palette
 (http://www.washington.edu/brand/graphic-elements/primary-color-palette/)
 
+\code{jhuCol}: Johns Hopkins University color palette (https://brand.jhu.edu/color/)
+
+\code{nyuCol}: NYU color palette
+(https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
+
+\code{texasCol}: University of Texas color palette (https://brand.utexas.edu/identity/color/)
+
+\code{techCol}: Georgia Tech color palette (http://www.licensing.gatech.edu/super-block/239)
+
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
+
+\code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
+
+\code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
+
+\code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
+
+\code{ethCol}: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
+
+\code{rwthCol}: RWTH Aachen color palette (http://www9.rwth-aachen.de/global/show_document.asp?id=aaaaaaaaaadpbhq)
 
 \code{appleCol}: Apple Human Interface Guidelines color palette
 (https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)

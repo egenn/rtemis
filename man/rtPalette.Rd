@@ -14,10 +14,10 @@ are printed and no palette is returned}
 A list of available palettes, invisibly
 }
 \description{
-\code{rtPalettes} prints names of available color palettes
+\code{rtPalette} prints names of available color palettes
 Each palette is a named list of hexadecimal color definitions which can be used with any
 graphics function.
 }
 \examples{
-rtPalette()
+rtPalette("imperial")
 }
