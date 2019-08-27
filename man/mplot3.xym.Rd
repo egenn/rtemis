@@ -48,11 +48,16 @@ mplot3.xym(x, y, margin = c("histogram", "density", "both"),
 \item{axes.density}{Logical: If TRUE, plot margin plot axes for density (debugging only)}
 
 \item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-(See \code{?par})}
+(See \code{par("pty")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
+\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
 
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
+
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
+Default = "r"}
+
+\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
 
 \item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
@@ -60,6 +65,12 @@ You can set a system-wide default in your \code{.Rprofile} by including a line l
 options(rt.theme = 'lightgrid')}
 
 \item{par.reset}{Logical. Resest \code{par} to original settings}
+
+\item{filename}{Character: Path to file to save plot. Default = NULL}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
 
 \item{...}{Additional arguments to be passed to \code{mplot3.xy}}
 }

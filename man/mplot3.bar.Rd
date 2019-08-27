@@ -76,18 +76,22 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 \code{mar} and \code{legend.inset} if you want to place the legend outside the plot
 (can use e.g.\code{legend.inset = c(-.5, 0)})}
 
-\item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
+\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
 
 \item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-(See \code{?par})}
+(See \code{par("pty")})}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
 \item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
+\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
+
 \item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
 
-\item{tck}{Float: Tick length. Can be negative (See \code{?par("tck")})}
+\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
+
+\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
 
 \item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
@@ -101,13 +105,21 @@ options(rt.theme = 'lightgrid')}
 \item{grid.ny}{Integer: N of grid lines on the y axis
 Use with caution, probably along with \code{yaxs = "i"}}
 
-\item{grid.lty}{Grid line type (See \code{?par("lty")})}
+\item{grid.lty}{Grid line type (See \code{par("lty")})}
 
 \item{grid.lwd}{Grid line width}
 
 \item{grid.col}{Grid color}
 
 \item{grid.alpha}{Alpha for \code{grid.col}}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
+
+\item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to \code{graphics::barplot}}
 }

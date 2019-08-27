@@ -37,6 +37,8 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
 \item{...}{Additional arguments to pass to \link{mplot3.xy}}
 }
 \description{

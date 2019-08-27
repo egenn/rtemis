@@ -11,15 +11,14 @@ mplot3.xy(x, y, fit = NULL, formula = NULL, se.fit = FALSE,
   main = NULL, main.line = 0.5, main.adj = 0, main.col = NULL,
   main.font = 2, main.family = "", cex = 1.2, xlim = NULL,
   ylim = NULL, xpd = TRUE, xaxs = "r", yaxs = "r", rsq = NULL,
-  rsq.pval = FALSE, rsq.side = 1, rsq.adj = 0.98,
-  rsq.padj.shift = 0, rsq.col = NULL, fit.error = FALSE,
-  fit.error.side = 1, fit.error.padj = NA, fit.error.col = NULL,
-  xaxp = NULL, yaxp = NULL, scatter = TRUE, axes = TRUE,
-  axes.equal = FALSE, axes.col = NULL, pty = "s", box = NULL,
-  bty = "o", box.col = NULL, box.alpha = 1, box.lty = 1,
-  box.lwd = 1.5, grid = FALSE, grid.nx = NULL, grid.ny = NULL,
-  grid.col = NULL, grid.alpha = 1, grid.lty = 1, grid.lwd = 1.5,
-  bg = NULL, plot.bg = NULL, annotation = NULL,
+  rsq.pval = FALSE, rsq.side = 1, rsq.adj = 0.98, rsq.col = NULL,
+  fit.error = FALSE, fit.error.side = 1, fit.error.padj = NA,
+  fit.error.col = NULL, xaxp = NULL, yaxp = NULL, scatter = TRUE,
+  axes = TRUE, axes.equal = FALSE, axes.col = NULL, pty = "s",
+  box = NULL, bty = "o", box.col = NULL, box.alpha = 1,
+  box.lty = 1, box.lwd = 1.5, grid = FALSE, grid.nx = NULL,
+  grid.ny = NULL, grid.col = NULL, grid.alpha = 1, grid.lty = 1,
+  grid.lwd = 1.5, bg = NULL, plot.bg = NULL, annotation = NULL,
   annotation.col = NULL, tick.col = NULL, tck = 0.015,
   x.axis.side = 1, y.axis.side = 2, x.axis.at = NULL,
   y.axis.at = NULL, x.axis.labs = TRUE, y.axis.labs = TRUE,
@@ -50,8 +49,8 @@ mplot3.xy(x, y, fit = NULL, formula = NULL, se.fit = FALSE,
   zero.col = NULL, zero.alpha = 1, zero.lty = 1, zero.lwd = 1.5,
   order.on.x = NULL, alpha.off = FALSE, autolabel = letters,
   new = FALSE, set.par = TRUE, par.reset = TRUE,
-  return.lims = FALSE, pdf.width = 6, pdf.height = 6,
-  verbose = FALSE, filename = NULL, ...)
+  return.lims = FALSE, pdf.width = 6, pdf.height = 6, trace = 0,
+  filename = NULL, ...)
 }
 \arguments{
 \item{x}{Numeric vector or list of vectors for x-axis.
@@ -117,9 +116,35 @@ Default = .5}
 \item{xpd}{Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
 NA: plotting clipped to device region. Default = TRUE}
 
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
+Default = "r"}
+
+\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
+
 \item{rsq}{Logical: If TRUE, add legend with R-squared (if fit is not NULL)}
 
 \item{rsq.pval}{Logical: If TRUE, add legend with R-squared and its p-value (if fit is not NULL)}
+
+\item{rsq.side}{Integer: [1:4] Where to place the \code{rsq} annotation. Default = 1 (i.e. bottom)}
+
+\item{rsq.adj}{Float: Adjust \code{rsq} annotation. See \code{mtext "adj"}}
+
+\item{rsq.col}{Color: Color for \code{rsq} annotation. Default = NULL, which results in \code{fit.col}}
+
+\item{fit.error}{Logical: If TRUE: draw fit error annotation. Default = NULL, which results in TRUE, if fit is set}
+
+\item{fit.error.side}{Integer [1:4]: Which side to draw \code{fit.error} on. Default = 1}
+
+\item{fit.error.padj}{Float: See \code{mtext:padg} Default = NA}
+
+\item{fit.error.col}{Color: Color for \code{fit.error} annotation. Default = NULL, which results in a
+theme-appropriate gray}
+
+\item{xaxp}{See \code{par("xaxp")}}
+
+\item{yaxp}{See \code{par("yaxp")}}
+
+\item{scatter}{Logical: If TRUE, plot (x, y) scatter points. Default = TRUE}
 
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
 
@@ -128,18 +153,20 @@ NA: plotting clipped to device region. Default = TRUE}
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-(See \code{?par})}
+(See \code{par("pty")})}
 
 \item{box}{Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"}
 
 \item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-(See \code{?par})}
+(See \code{par("bty")})}
 
 \item{box.col}{Box color}
 
 \item{box.alpha}{Alpha for \code{box.col}}
 
 \item{box.lty}{Box line type}
+
+\item{box.lwd}{Float: Box line width. Default = 1.5}
 
 \item{grid}{Logical: Should grid be drawn?}
 
@@ -153,17 +180,34 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{grid.alpha}{Alpha for \code{grid.col}}
 
-\item{grid.lty}{Grid line type (See \code{?par("lty")})}
+\item{grid.lty}{Grid line type (See \code{par("lty")})}
 
 \item{grid.lwd}{Grid line width}
 
 \item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
+\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
+
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
 \item{annotation.col}{Color for annotation}
 
-\item{tck}{Float: Tick length. Can be negative (See \code{?par("tck")})}
+\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
+
+\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
+
+\item{x.axis.side}{Integer {1, 3}: Side to place x-axis. Default = 1}
+
+\item{y.axis.side}{Integer {2, 4}: Side to place y-axis. Default = 2}
+
+\item{x.axis.at}{Float, vector: x coordinates to place tick marks. Default = NULL, determined by
+\code{graphics::axis} aautomatically}
+
+\item{y.axis.at}{As \code{x.axis.at} for y-axis}
+
+\item{x.axis.labs}{See \code{axis("labels")}}
+
+\item{y.axis.labs}{See \code{axis("labels")}}
 
 \item{x.axis.padj}{Adjustment for the x axis tick labels position}
 
@@ -173,11 +217,11 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{ylab.line}{Similar to \code{xlab.line} for the y axis}
 
-\item{xlab.adj}{\code{adj} for \code{xlab} (See \code{?par})}
+\item{xlab.adj}{\code{adj} for \code{xlab} (See \code{par("adj")})}
 
-\item{ylab.adj}{\code{adj} for \code{ylab} (See \code{?par})}
+\item{ylab.adj}{\code{adj} for \code{ylab} (See \code{par("adj")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
+\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
 
 \item{fit.lwd}{Fit line width}
 
@@ -220,6 +264,18 @@ options(rt.theme = 'lightgrid')}
 \item{zero.lwd}{Zero line width}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
+\item{return.lims}{Logical: If TRUE, return xlim and ylim. Default = FALSE}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
+
+\item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
+
+\item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to be passed to learner function}
 }

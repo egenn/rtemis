@@ -79,6 +79,8 @@ Default = .5}
 
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
+\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
+
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
 \item{index.type}{Character: "p" for points (Default), "l" for lines (timeseries)}
@@ -103,11 +105,13 @@ Default = .5}
 
 \item{grid.alpha}{Alpha for \code{grid.col}}
 
-\item{grid.lty}{Grid line type (See \code{?par("lty")})}
+\item{grid.lty}{Grid line type (See \code{par("lty")})}
 
 \item{grid.lwd}{Grid line width}
 
 \item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+
+\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
@@ -117,7 +121,7 @@ Default = .5}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{tck}{Float: Tick length. Can be negative (See \code{?par("tck")})}
+\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
 \item{x.axis.padj}{Adjustment for the x axis tick labels position}
 
@@ -130,7 +134,7 @@ Default = .5}
 \item{labs.col}{Color for labels}
 
 \item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-(See \code{?par})}
+(See \code{par("bty")})}
 
 \item{box}{Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"}
 
@@ -139,6 +143,8 @@ Default = .5}
 \item{box.alpha}{Alpha for \code{box.col}}
 
 \item{box.lty}{Box line type}
+
+\item{box.lwd}{Float: Box line width. Default = 1.5}
 
 \item{lab.adj}{Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)}
 
@@ -162,16 +168,27 @@ options(rt.theme = 'lightgrid')}
 \item{zero.lwd}{Zero line width}
 
 \item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-(See \code{?par})}
+(See \code{par("pty")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
+\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
+Default = "r"}
+
+\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
 \item{na.rm}{Logical: Will be passed to all functions that support it. If set to FALSE,
 input containing NA values will result in error, depending on the \code{type}}
 
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
 \item{filename}{Path to file: If supplied, plot will be printed to file}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
 
 \item{...}{Additional arguments to be passed to learner function}
 }

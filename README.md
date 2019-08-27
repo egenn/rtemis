@@ -1,7 +1,7 @@
 **_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of __rtemis__ is to make data science efficient and accessible  with no compromise on flexibility.
+The goal of __rtemis__ is to make data science efficient and accessible with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
