@@ -118,14 +118,7 @@ dplot3.bar <-  function(x,
 
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
-  if (is.null(col)) {
-    if (p == 1) {
-      col <- palette[1]
-    } else {
-      col <- palette[seq(p)]
-    }
-  }
-
+  if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))
 
   # Themes ====

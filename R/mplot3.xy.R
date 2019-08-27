@@ -59,10 +59,10 @@
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
 #' @param axes.col Character: Color for axes values (box color set with \code{box.col})
 #' @param pty "s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-#'   (See \code{?par})
+#'   (See \code{par("pty")})
 #' @param box Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"
 #' @param bty Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-#'   (See \code{?par})
+#'   (See \code{par("bty")})
 #' @param box.col Box color
 #' @param box.alpha Alpha for \code{box.col}
 #' @param box.lty Box line type
@@ -74,7 +74,7 @@
 #' Use with caution, probably along with \code{yaxs = "i"}
 #' @param grid.col Grid color
 #' @param grid.alpha Alpha for \code{grid.col}
-#' @param grid.lty Grid line type (See \code{?par("lty")})
+#' @param grid.lty Grid line type (See \code{par("lty")})
 #' @param grid.lwd Grid line width
 #' @param bg Background color. Defaults to white for themes "light" and "box", black otherwise.
 #' @param rsq Logical: If TRUE, add legend with R-squared (if fit is not NULL)
@@ -86,18 +86,18 @@
 #' @param zero.lwd Zero line width
 #' @param annotation Character: Add annotation at the bottom right of the plot
 #' @param annotation.col Color for annotation
-#' @param tck Float: Tick length. Can be negative (See \code{?par("tck")})
+#' @param tck Float: Tick length. Can be negative (See \code{par("tck")})
 #' @param x.axis.padj Adjustment for the x axis tick labels position
 #' @param xlab.line Adjustment for the x axis label position (See code{line} in \code{?mtext})
 #' @param y.axis.padj Similar to \code{x.axis.padj} for the y axis
 #' @param ylab.line Similar to \code{xlab.line} for the y axis
-#' @param xlab.adj \code{adj} for \code{xlab} (See \code{?par})
-#' @param ylab.adj \code{adj} for \code{ylab} (See \code{?par})
+#' @param xlab.adj \code{adj} for \code{xlab} (See \code{par("adj")})
+#' @param ylab.adj \code{adj} for \code{ylab} (See \code{par("adj")})
 #' @param theme Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'lightgrid')
-#' @param mar Vector, length 4: Margins; see \code{mar} in \code{?par}
+#' @param mar Vector, length 4: Margins; see \code{par("mar")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
 #' @param group.title Character: Group title, shown above group names. e.g. if group names are
@@ -105,28 +105,30 @@
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
 #' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
 #' NA: plotting clipped to device region. Default = TRUE
-#' @param xaxs
-#' @param yaxs
-#' @param rsq.side
-#' @param rsq.adj
-#' @param rsq.padj.shift
-#' @param rsq.col
-#' @param fit.error
-#' @param fit.error.side
-#' @param fit.error.padj
-#' @param fit.error.col
-#' @param xaxp
-#' @param yaxp
-#' @param scatter
-#' @param box.lwd
-#' @param plot.bg
-#' @param tick.col
-#' @param x.axis.side
-#' @param y.axis.side
-#' @param x.axis.at
-#' @param y.axis.at
-#' @param x.axis.labs
-#' @param y.axis.labs
+#' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
+#' Default = "r"
+#' @param yaxs Character: as \code{xaxs} for the y-axis. Default = "r"
+#' @param rsq.side Integer: [1:4] Where to place the \code{rsq} annotation. Default = 1 (i.e. bottom)
+#' @param rsq.adj Float: Adjust \code{rsq} annotation. See \code{mtext "adj"}
+#' @param rsq.col Color: Color for \code{rsq} annotation. Default = NULL, which results in \code{fit.col}
+#' @param fit.error  Logical: If TRUE: draw fit error annotation. Default = NULL, which results in TRUE, if fit is set
+#' @param fit.error.side Integer [1:4]: Which side to draw \code{fit.error} on. Default = 1
+#' @param fit.error.padj Float: See \code{mtext:padg} Default = NA
+#' @param fit.error.col  Color: Color for \code{fit.error} annotation. Default = NULL, which results in a
+#' theme-appropriate gray
+#' @param xaxp See \code{par("xaxp")}
+#' @param yaxp See \code{par("yaxp")}
+#' @param scatter Logical: If TRUE, plot (x, y) scatter points. Default = TRUE
+#' @param box.lwd Float: Box line width. Default = 1.5
+#' @param plot.bg Color: Background color. Default = NULL, which results in theme-appropriate color
+#' @param tick.col Color: Tick color. Default = NULL, which results in theme-appropriate color
+#' @param x.axis.side Integer {1, 3}: Side to place x-axis. Default = 1
+#' @param y.axis.side Integer {2, 4}: Side to place y-axis. Default = 2
+#' @param x.axis.at Float, vector: x coordinates to place tick marks. Default = NULL, determined by
+#' \code{graphics::axis} aautomatically
+#' @param y.axis.at As \code{x.axis.at} for y-axis
+#' @param x.axis.labs See \code{axis("labels")}
+#' @param y.axis.labs See \code{axis("labels")}
 #' @param col
 #' @param pch
 #' @param point.cex
@@ -185,12 +187,12 @@
 #' @param alpha.off
 #' @param autolabel
 #' @param set.par
-#' @param par.reset
-#' @param return.lims
-#' @param pdf.width
-#' @param pdf.height
-#' @param verbose
-#' @param filename
+#' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
+#' @param return.lims Logical: If TRUE, return xlim and ylim. Default = FALSE
+#' @param pdf.width Float: Width in inches for pdf output (if \code{filename} is set). Default = 6
+#' @param pdf.height Float: Height in inches for pdf output. Default = 6
+#' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0
+#' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to learner function
 #'
 #' @author Efstathios D. Gennatas
@@ -226,7 +228,6 @@ mplot3.xy <- function(x, y,
                       rsq.pval = FALSE,
                       rsq.side = 1,
                       rsq.adj = .98,
-                      rsq.padj.shift = 0,
                       rsq.col = NULL,
                       fit.error = FALSE,
                       fit.error.side = 1,
@@ -353,7 +354,7 @@ mplot3.xy <- function(x, y,
                       return.lims = FALSE,
                       pdf.width = 6,
                       pdf.height = 6,
-                      verbose = FALSE,
+                      trace = 0,
                       filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
@@ -442,7 +443,7 @@ mplot3.xy <- function(x, y,
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
-                                             verbose = verbose),
+                                             verbose = trace > 0),
                                         cluster.params))$clusters.train)
     group <- paste("Cluster", group)
   }
@@ -728,7 +729,7 @@ mplot3.xy <- function(x, y,
       x <- xl[[i]]
       y <- yl[[i]]
       # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
-      learner.args <- c(list(x = x, y = y, verbose = verbose),
+      learner.args <- c(list(x = x, y = y, verbose = trace > 0),
                         mod.params,
                         list(...))
       if (learner == "s.NLS") learner.args <- c(learner.args,
@@ -759,7 +760,7 @@ mplot3.xy <- function(x, y,
       xy.index[[i]] <- order(yl[[i]])
       x <- xl[[i]][xy.index[[i]]]
       y <- yl[[i]][xy.index[[i]]]
-      mod <- learner(y, x, verbose = verbose, print.plot = FALSE, ...)
+      mod <- learner(y, x, verbose = trace > 0, print.plot = FALSE, ...)
       xy.fitted[[i]] <- fitted(mod)
       if (se.fit) xy.se[[i]] <- se(mod)
     }

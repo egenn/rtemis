@@ -112,15 +112,7 @@ dplot3.box <-  function(x,
 
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
-  # p <- NCOL(dat)
-  if (is.null(col)) {
-    if (n.groups == 1) {
-      col <- palette[1]
-    } else {
-      col <- palette[seq(n.groups)]
-    }
-  }
-
+  if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
   # Themes ====
