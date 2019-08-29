@@ -19,7 +19,8 @@
 \alias{ucrColor}
 \alias{uciCol}
 \alias{ucsdCol}
-\alias{ucCol}
+\alias{californiaCol}
+\alias{caltechCol}
 \alias{cmuCol}
 \alias{mitCol}
 \alias{princetonCol}
@@ -33,12 +34,17 @@
 \alias{uwCol}
 \alias{jhuCol}
 \alias{nyuCol}
+\alias{chicagoCol}
+\alias{pennstateCol}
 \alias{texasCol}
 \alias{techCol}
 \alias{jeffersonCol}
+\alias{hawaiiCol}
 \alias{nihCol}
 \alias{torontoCol}
 \alias{mcgillCol}
+\alias{uclCol}
+\alias{oxfordCol}
 \alias{nhsCol}
 \alias{ethCol}
 \alias{rwthCol}
@@ -81,7 +87,9 @@ uciCol
 
 ucsdCol
 
-ucCol
+californiaCol
+
+caltechCol
 
 cmuCol
 
@@ -109,17 +117,27 @@ jhuCol
 
 nyuCol
 
+chicagoCol
+
+pennstateCol
+
 texasCol
 
 techCol
 
 jeffersonCol
 
+hawaiiCol
+
 nihCol
 
 torontoCol
 
 mcgillCol
+
+uclCol
+
+oxfordCol
 
 nhsCol
 
@@ -164,8 +182,10 @@ microsoftCol
 
 \code{ucsdCol}: UC San Diego color palette (https://ucpa.ucsd.edu/brand/elements/color-palette/)
 
-\code{ucCol}: University of California color palette
+\code{californiaCol}: University of California color palette
 (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
+
+\code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
 
 \code{cmuCol}: Carnegie Mellon color palette (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)
 
@@ -197,17 +217,28 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{nyuCol}: NYU color palette
 (https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
 
+\code{chicagoCol}: University of Chicago color palette
+(https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
+
+\code{texasCol}: Penn State color palette (https://brand.utexas.edu/identity/color/)
+
 \code{texasCol}: University of Texas color palette (https://brand.utexas.edu/identity/color/)
 
 \code{techCol}: Georgia Tech color palette (http://www.licensing.gatech.edu/super-block/239)
 
 \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 
+\code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
+
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 
 \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
 
 \code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
+
+\code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
+
+\code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
 
 \code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
 

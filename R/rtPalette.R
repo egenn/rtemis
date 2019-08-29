@@ -343,28 +343,56 @@ ucsdCol <- list(blue = "#182B49",
 # University of California ====
 #' University of California Colors
 #'
-#' \code{ucCol}: University of California color palette
+#' \code{californiaCol}: University of California color palette
 #' (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 #' @name rtPalettes
 #' @export
 
-ucCol <- list(ucBlue = "#1295D8",
-              ucGold = "#FFB511",
-              blue = "#005581",
-              lightBlue = "#72CDF4",
-              gold = "#FFD200",
-              lightgold = "#FFE552",
-              orange = "#FF6E1B",
-              lightOrange = "#FF8F28",
-              pink = "#E44C9A",
-              lightPink = "#FEB2E0",
-              teal = "#00778B",
-              lightTeal = "#00A3AD",
-              ucGray = "#7C7E7F",
-              warmGray8 = "#8F8884",
-              warmGray3 = "#BEB6AF",
-              warmGray1 = "#DBD5CD",
-              metallicGold = "#B4975A")
+californiaCol <- list(ucBlue = "#1295D8",
+                      ucGold = "#FFB511",
+                      blue = "#005581",
+                      lightBlue = "#72CDF4",
+                      gold = "#FFD200",
+                      lightgold = "#FFE552",
+                      orange = "#FF6E1B",
+                      lightOrange = "#FF8F28",
+                      pink = "#E44C9A",
+                      lightPink = "#FEB2E0",
+                      teal = "#00778B",
+                      lightTeal = "#00A3AD",
+                      ucGray = "#7C7E7F",
+                      warmGray8 = "#8F8884",
+                      warmGray3 = "#BEB6AF",
+                      warmGray1 = "#DBD5CD",
+                      metallicGold = "#B4975A")
+
+
+# Caltech ====
+#' Caltech Colors
+#'
+#' \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
+#' @name rtPalettes
+#' @export
+
+caltechCol <- list(orange = "#FF6C0C",
+                   coolGray9 = "#76777B",
+                   coolGray3c = "#C8C8C8",
+                   pms414 = "#AAA99F",
+                   pms5497c = "#849895",
+                   pms7494c = "#9DAE88",
+                   pms451c = "#C7B784",
+                   pms7403c = "#F1D384",
+                   pms548c = "#003B4C",
+                   pms3292c = "#005851",
+                   pms668c = "#644B78",
+                   pms195c = "#7A303F",
+                   pms186c = "#CF0A2C",
+                   pms299c = "#00A1DF",
+                   pms7473c = "#1E988A",
+                   pms7489c = "#73A950",
+                   pms7408c = "#F9BE00",
+                   pms605c = "#E2CC00",
+                   pms1915c = "#F54D80")
 
 
 # CMU ====
@@ -622,6 +650,70 @@ nyuCol <- list(brightPurple = "#8900e1",
                yellow = "#ffc107")
 
 
+# Chicago ====
+#' U Chicago Colors
+#'
+#' \code{chicagoCol}: University of Chicago color palette
+#' (https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
+#' @name rtPalettes
+#' @export
+
+chicagoCol <- list(maroon = "#800000",
+                   darkGray  = "#767676",
+                   lightGray = "#D6D6CE",
+                   yellowTint = "#FFB547",
+                   yellowCore = "#FFA319",
+                   yellowShade = "#C68220",
+                   orangeTint = "#D49464",
+                   orangeCore = "#C16622",
+                   orangeShade = "#9A5324",
+                   redTint = "#B1746F",
+                   redCore = "#8F3931",
+                   redShade = "#642822",
+                   lightGreenTint = "#ADB17D",
+                   lightGreenCore = "#8A9045",
+                   lightGreenShade = "#616530",
+                   darkGreenTint = "#8A8B79",
+                   darkGreenCore = "#58593F",
+                   darkGreenShade = "#3E3E23",
+                   blueTint = "#5B8FA8",
+                   blueCore = "#155F83",
+                   blueShade = "#0F425C",
+                   violetTint = "#725663",
+                   violetCore = "#350E20",
+                   cyan = "#47B5FF",
+                   magenta = "#FF3399")
+
+
+# Penn State ====
+#' Penn State Colors
+#'
+#' \code{texasCol}: Penn State color palette (https://brand.utexas.edu/identity/color/)
+#' @name rtPalettes
+#' @export
+
+pennstateCol <- list(nittanyNavy = "#001E44",
+                     beaverBlue = "#1E407C",
+                     pennsylvaniaSky = "#009CDE",
+                     limestone = "#91959C",
+                     creek = "#3EA39E",
+                     slate = "#314D64",
+                     pennsForest = "#4A7729",
+                     oldCoaly = "#54585A",
+                     landGrant = "#6A3028",
+                     lionsRoar = "#BF8226",
+                     lionShrine = "#B88965",
+                     statelyAtherton = "#AC8DCE",
+                     pughBlue = "#96BEE6",
+                     original1887 = "#BC204B",
+                     brightkeystone = "#FFD100",
+                     inventOrange = "#E98300",
+                     dawnOfDiscovery = "#F2665E",
+                     perpetualWonder = "#491D70",
+                     greenOpportunity = "#008755",
+                     futuresCalling = "#99CC00")
+
+
 # U Texas ====
 #' U Texas Colors
 #'
@@ -668,6 +760,27 @@ jeffersonCol <- list(jeffDeepBlue = "#152456",
                      silver = "#dfe1df",
                      darkGray = "#8e9089",
                      black = "#231f20")
+
+
+# Hawaii ====
+#' University of Hawaii Colors
+#'
+#' \code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
+#' @name rtPalettes
+#' @export
+
+hawaiiCol <- list(manoa = "#024731",
+                  hilo = "#DA291C",
+                  westOahu = "#A71930",
+                  hawaiiCC = "#91004B",
+                  honoluluCC = "#00747A",
+                  kapiolaniCC = "#002395",
+                  kauaiCC = "#716FB3",
+                  leeward = "#3D7EDB",
+                  mauiCC = "#005172",
+                  windward = "#7AB800",
+                  system = "#B3995D")
+
 
 # NIH ====
 #' NIH Colors
@@ -725,6 +838,71 @@ mcgillCol <- list(mcgillRed = "#ED1B2F",
                   mutedPink = "#9B5678",
                   darkPink = "#673567",
                   darkRed = "#9E0918")
+
+
+# UCL ====
+#' UCL Colours
+#'
+#' \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
+#' @name rtPalettes
+#' @export
+
+uclCol <- list(darkGreen = "#555025",
+               darkRed = "#651D32",
+               darkPurple = "#4B384C",
+               darkBlue = "#003D4C",
+               darkBrown = "#4E3629",
+               midGreen = "#8F993E",
+               midRed = "#93272C",
+               midPurple = "#500778",
+               midBlue = "#002855",
+               stone = "#D6D2C4",
+               brightGreen = "#B5BD00",
+               brightRed = "#D50032",
+               brightBlue = "#0097A9",
+               brightPink = "#AC145A",
+               lightGreen = "#BBC592",
+               lightRed = "#E03C31",
+               lightPurple = "#C6B0BC",
+               lightBlue = "#8DB9CA",
+               yellow = "#F6BE00",
+               orange = "#EA7600",
+               grey = "#8C8279",
+               blueCeleste = "#A4DBE8",
+               IOEblue = "#24509A")
+
+
+# Oxford ====
+#' Oxford Colours
+#'
+#' \code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
+#' @name rtPalettes
+#' @export
+
+oxfordCol <- list(oxfordBlue = "#002147",
+                  pantone279 = "#4891DC",
+                  pantone291 = "#9ECEEB",
+                  pantone5405 = "#44687D",
+                  pantone549 = "#5F9BAF",
+                  pantone551 = "#A1C4D0",
+                  pantone562 = "#007770",
+                  pantone624 = "#7BA296",
+                  pantone559 = "#BCD2C3",
+                  pantone576 = "#69913B",
+                  pantone578 = "#B9CF96",
+                  pantone580 = "#CEDBAF",
+                  pantone583 = "#AAB300",
+                  pantone585 = "#DBDE72",
+                  pantone587 = "#E3E597",
+                  pantone7412 = "#CF7A30",
+                  pantone129 = "#F5CF47",
+                  pantone127 = "#F3DE74",
+                  pantone202 = "#872434",
+                  pantone200 = "#BE0F34",
+                  pantone196 = "#EBC4CB",
+                  pantoneWarmGray6 = "#A79D96",
+                  pantoneWarmGray3 = "#C7C2BC",
+                  pantoneWarmGray1 = "#E0DED9")
 
 
 # NHS ====
@@ -946,6 +1124,7 @@ rtCol3 <- desaturate(colorMix(list(blue = c(pennCol$lightestBlue, pennCol$darkes
 # rtPalettes ====
 rtPalettes <- list(pennCol = pennCol,
                    imperialCol = imperialCol,
+                   stanfordCol = stanfordCol,
                    ucsfCol = ucsfCol,
                    ucdCol = ucdCol,
                    berkeleyCol = berkeleyCol,
@@ -956,7 +1135,8 @@ rtPalettes <- list(pennCol = pennCol,
                    ucrColor = ucrColor,
                    uciCol = uciCol,
                    ucsdCol = ucsdCol,
-                   stanfordCol = stanfordCol,
+                   californiaCol = californiaCol,
+                   caltechCol = caltechCol,
                    cmuCol = cmuCol,
                    princetonCol = princetonCol,
                    columbiaCol = columbiaCol,
@@ -965,16 +1145,21 @@ rtPalettes <- list(pennCol = pennCol,
                    cornellCol = cornellCol,
                    hmsCol = hmsCol,
                    dartmouthCol = dartmouthCol,
-                   jhuCol = jhuCol,
-                   uwCol = uwCol,
                    usfCol = usfCol,
+                   uwCol = uwCol,
+                   jhuCol = jhuCol,
                    nyuCol = nyuCol,
+                   chicagoCol = chicagoCol,
+                   pennstateCol = pennstateCol,
                    texasCol = texasCol,
                    techCol = techCol,
                    jeffersonCol = jeffersonCol,
+                   hawaiiCol = hawaiiCol,
                    nihCol = nihCol,
                    torontoCol = torontoCol,
                    mcgillCol = mcgillCol,
+                   uclCol = uclCol,
+                   oxfordCol = oxfordCol,
                    nhsCol = nhsCol,
                    ethCol = ethCol,
                    rwthCol = rwthCol,
