@@ -84,7 +84,7 @@ classError <- function(true, estimated,
   # Prob-based ====
   if (!is.null(estimated.prob) & n.classes == 2) {
     Overall$AUC <- auc(estimated.prob, true)
-    Overall$`Log loss` <- logloss(estimated.prob, 2 - as.numeric(true))
+    Overall$`Log loss` <- logloss(true, estimated.prob)
   }
 
   # Outro ====
