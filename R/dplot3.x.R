@@ -37,7 +37,7 @@
 #' }
 
 dplot3.x <- function(x,
-                     type = c("density", "histogram", "index", "path", "qqline"),
+                     type = c("density", "histogram"),
                      mode = c("overlap", "ridge"),
                      group = NULL,
                      main = NULL,
@@ -71,7 +71,7 @@ dplot3.x <- function(x,
                      margin = list(b = 50, l = 50, t = 50, r = 20),
                      padding = 0,
                      zerolines = FALSE,
-                     histnorm = c(NULL, "percent", "probability", "density",
+                     histnorm = c("density", "percent", "probability",
                                   "probability density"),
                      histfunc = c("count", "sum", "avg", "min", "max"),
                      hist.n.bins = 20,
@@ -213,15 +213,30 @@ dplot3.x <- function(x,
     width <- height <- min(dev.size("px")) - 10
   }
 
+  # Ridge ====
+  if (mode == "ridge") {
+    axis <- list(showline = axes.visible,
+                 mirror = axes.mirrored,
+                 showgrid = grid,
+                 gridcolor = grid.col,
+                 gridwidth = grid.lwd,
+                 tickcolor = tick.col,
+                 tickfont = tickfont,
+                 zeroline = zerolines)
+    ridge.groups <- if (ridge.order.on.mean) order(sapply(x, mean), decreasing = TRUE) else seq_len(n.groups)
+  }
+
   # [ plotly ] ====
   # z <- if (mode == "overlap") rep(1, n.groups) else seq_len(n.groups)
   # plt <- vector("list", n.groups)
+
+  .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i)),
+                                       "\nsd =", ddSci(sd(i))))
+
   # '- { Density } ====
   if (type ==  "density") {
     if (is.null(ylab)) ylab <- "Density"
     xl.density <- lapply(x, density)
-    .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i)),
-                                         "\nsd =", ddSci(sd(i))))
 
     if (mode == "overlap") {
       # '- Density overlap ====
@@ -240,33 +255,22 @@ dplot3.x <- function(x,
                                  showlegend = legend)
       }
     } else {
-      plt <- vector("list",  n.groups)
-      axis <- list(showline = axes.visible,
-                   mirror = axes.mirrored,
-                   showgrid = grid,
-                   gridcolor = grid.col,
-                   gridwidth = grid.lwd,
-                   tickcolor = tick.col,
-                   tickfont = tickfont,
-                   zeroline = zerolines)
-
       # '- Density ridge ====
-      ridge.groups <- if (ridge.order.on.mean) order(sapply(x, mean), decreasing = TRUE) else seq_len(n.groups)
       plt <- lapply(ridge.groups, function(i) plotly::plot_ly(x = xl.density[[i]]$x,
-                                                                   y = xl.density[[i]]$y,
-                                                                   type = "scatter",
-                                                                   mode = "none",
-                                                                   fill = 'tozeroy',
-                                                                   fillcolor = plotly::toRGB(col[[i]], alpha),
-                                                                   name = .names[i],
-                                                                   text = .text[[i]],
-                                                                   hoverinfo = "text",
-                                                                   showlegend = legend,
-                                                                   width = width,
-                                                                   height = height) %>%
+                                                              y = xl.density[[i]]$y,
+                                                              type = "scatter",
+                                                              mode = "none",
+                                                              fill = 'tozeroy',
+                                                              fillcolor = plotly::toRGB(col[[i]], alpha),
+                                                              name = .names[i],
+                                                              text = .text[[i]],
+                                                              hoverinfo = "text",
+                                                              showlegend = legend,
+                                                              width = width,
+                                                              height = height) %>%
                       plotly::layout(xaxis = axis,
                                      yaxis = c(list(title = list(text = .names[i],
-                                                            font = f)),
+                                                                 font = f)),
                                                axis)))
     }
 
@@ -278,19 +282,41 @@ dplot3.x <- function(x,
     histfunc <- match.arg(histfunc)
     # if (is.null(ylab)) ylab <- "Count"
 
-    # '-  PLOT ====
-    plt <- plotly::plot_ly(width = width,
-                           height = height)
-    for (i in seq_len(n.groups)) {
-      plt <- plotly::add_histogram(plt, x = x[[i]],
-                                   marker = list(color = plotly::toRGB(col[i], alpha)),
-                                   name = .names[i],
-                                   histnorm = histnorm,
-                                   histfunc = histfunc,
-                                   nbinsx = hist.n.bins,
-                                   showlegend = legend)
+    if (mode == "overlap") {
+      # '-  Histogram overlap ====
+      plt <- plotly::plot_ly(width = width,
+                             height = height)
+      for (i in seq_len(n.groups)) {
+        plt <- plotly::add_histogram(plt, x = x[[i]],
+                                     marker = list(color = plotly::toRGB(col[i], alpha)),
+                                     name = .names[i],
+                                     text = .text[[i]],
+                                     hoverinfo = "text",
+                                     histnorm = histnorm,
+                                     histfunc = histfunc,
+                                     nbinsx = hist.n.bins,
+                                     showlegend = legend)
+      }
+      plt <- plotly::layout(plt, barmode = barmode)
+    } else {
+      # '- Histogram ridge ====
+      plt <- lapply(ridge.groups, function(i) plotly::plot_ly(x = x[[i]],
+                                                              type = "histogram",
+                                                              histnorm = histnorm,
+                                                              histfunc = histfunc,
+                                                              nbinsx = hist.n.bins,
+                                                              marker = list(color = plotly::toRGB(col[i], alpha)),
+                                                              name = .names[i],
+                                                              text = .text[[i]],
+                                                              hoverinfo = "text",
+                                                              showlegend = legend,
+                                                              width = width,
+                                                              height = height) %>%
+                      plotly::layout(xaxis = axis,
+                                     yaxis = c(list(title = list(text = .names[i],
+                                                                 font = f)),
+                                               axis)))
     }
-    plt <- plotly::layout(plt, barmode = barmode)
   }
 
   # return(plt)

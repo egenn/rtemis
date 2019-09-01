@@ -4,10 +4,10 @@
 \alias{dplot3.x}
 \title{Interactive Univariate Plots}
 \usage{
-dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
-  mode = c("overlap", "ridge"), group = NULL, main = NULL,
-  xlab = NULL, ylab = NULL, col = NULL, alpha = 0.75, bg = NULL,
-  plot.bg = NULL, theme = getOption("rt.theme", "light"),
+dplot3.x(x, type = c("density", "histogram"), mode = c("overlap",
+  "ridge"), group = NULL, main = NULL, xlab = NULL, ylab = NULL,
+  col = NULL, alpha = 0.75, bg = NULL, plot.bg = NULL,
+  theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
@@ -16,12 +16,12 @@ dplot3.x(x, type = c("density", "histogram", "index", "path", "qqline"),
   legend = NULL, legend.xy = c(0, 1), legend.col = NULL,
   legend.bg = "#FFFFFF00", legend.border.col = "#FFFFFF00",
   margin = list(b = 50, l = 50, t = 50, r = 20), padding = 0,
-  zerolines = FALSE, histnorm = c(NULL, "percent", "probability",
-  "density", "probability density"), histfunc = c("count", "sum", "avg",
-  "min", "max"), hist.n.bins = 20, barmode = "overlay",
-  ridge.sharex = TRUE, ridge.y.labs = FALSE,
-  ridge.order.on.mean = TRUE, width = NULL, height = NULL,
-  filename = NULL, file.width = 500, file.height = 500)
+  zerolines = FALSE, histnorm = c("density", "percent", "probability",
+  "probability density"), histfunc = c("count", "sum", "avg", "min",
+  "max"), hist.n.bins = 20, barmode = "overlay", ridge.sharex = TRUE,
+  ridge.y.labs = FALSE, ridge.order.on.mean = TRUE, width = NULL,
+  height = NULL, filename = NULL, file.width = 500,
+  file.height = 500)
 }
 \arguments{
 \item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
