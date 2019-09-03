@@ -6,9 +6,10 @@
 \usage{
 dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   cluster = NULL, cluster.params = list(k = 2), group = NULL,
-  formula = NULL, mode = "markers", order.on.x = NULL, main = NULL,
-  xlab = NULL, ylab = NULL, col = NULL, alpha = 0.66, bg = NULL,
-  plot.bg = NULL, theme = getOption("rt.theme", "light"),
+  formula = NULL, rsq = TRUE, mode = "markers", order.on.x = NULL,
+  main = NULL, xlab = NULL, ylab = NULL, col = NULL,
+  alpha = 0.66, bg = NULL, plot.bg = NULL,
+  theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
@@ -51,6 +52,8 @@ If \code{data} is provided, name of variable, unquoted.}
 \item{formula}{Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
 forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 and warnings, but is powerful. Use single letters for parameter names, no numbers.}
+
+\item{rsq}{Logical: If TRUE, print R-squared values in legend if \code{fit} is set}
 
 \item{mode}{Character, vector: "markers", "lines", "markers+lines". Default = "markers"}
 

@@ -9,6 +9,7 @@
 #' @inheritParams dplot3.bar
 #' @inheritParams mplot3.xy
 #' @param x Numeric, vector: Input
+#' @param rsq Logical: If TRUE, print R-squared values in legend if \code{fit} is set
 #' @param mode Character, vector: "markers", "lines", "markers+lines". Default = "markers"
 #' @param order.on.x Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
 #' \code{TRUE} if \code{mode} includes lines.
@@ -40,7 +41,7 @@ dplot3.xy <- function(x, y,
                       cluster.params = list(k = 2),
                       group = NULL,
                       formula = NULL,
-                      # rsq = NULL,
+                      rsq = TRUE,
                       # rsq.pval = FALSE,
                       mode = "markers",
                       order.on.x = NULL,
@@ -292,7 +293,7 @@ dplot3.xy <- function(x, y,
   # [ fitted & se.fit ] ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se.fit) se <- list() else se <- NULL
-  # if (rsq) rsql <- rsqp <- list() else rsql <- NULL
+  if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
     learner <- modSelect(fit, fn = FALSE)
@@ -314,7 +315,13 @@ dplot3.xy <- function(x, y,
                                NLS = mod$extra$model,
                                NLA = mod$mod$formula,
                                fit)
-      # if (rsq) rsql[[i]] <- mod$error.train$Rsq
+      if (rsq) {
+        fitted.text[i] <- paste0(fitted.text[i],
+                                 if (n.groups == 1) " (" else " ",
+                                 " R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+                                 if (n.groups == 1) ")")
+
+      }
       # if (rsq.pval) {
       #   if (fit  %in% c("LM", "GLM")) {
       #     rsqp[[i]] <- paste0(ddSci(mod$error.train$Rsq), " (",
@@ -331,6 +338,9 @@ dplot3.xy <- function(x, y,
   # if (n.groups > 1) {
   #   legendgroup = .names
   # }
+
+  if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
+
   plt <- plotly::plot_ly(width = width,
                          height = height,)
   for (i in seq_len(n.groups)) {
