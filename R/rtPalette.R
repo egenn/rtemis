@@ -1,6 +1,6 @@
 # rtPalette.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.github.io
 
 # Penn ====
 #' rtemis Color Palettes
@@ -102,6 +102,7 @@ imperialCol <- list(navy = "#002147",
 
 stanfordCol <- list(cardinal = "#8c1515",
                     coolGrey = "#4d4f53",
+                    black = "#2e2d29",
                     brightRed = "#B1040E",
                     chocolate = "#2F2424",
                     stone = "#544948",
