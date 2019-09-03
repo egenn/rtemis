@@ -47,10 +47,10 @@ mplot3.xym(x, y, margin = c("histogram", "density", "both"),
 
 \item{axes.density}{Logical: If TRUE, plot margin plot axes for density (debugging only)}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
 

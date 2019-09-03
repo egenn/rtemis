@@ -48,11 +48,11 @@ within group and between groups. Default = c(0, 1) if x is matrix and \code{besi
 
 \item{xlab}{Character: x-axis label}
 
-\item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
 \item{ylab}{Character: y-axis label}
 
-\item{ylab.line}{Similar to \code{xlab.line} for the y axis}
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{main}{Character: Plot title}
 
@@ -76,18 +76,18 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 \code{mar} and \code{legend.inset} if you want to place the legend outside the plot
 (can use e.g.\code{legend.inset = c(-.5, 0)})}
 
-\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
-\item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
 \item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
-\item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
@@ -100,18 +100,18 @@ options(rt.theme = 'lightgrid')}
 
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
-\item{grid}{Logical: Should grid be drawn?}
+\item{grid}{Logical: If TRUE, draw grid}
 
 \item{grid.ny}{Integer: N of grid lines on the y axis
 Use with caution, probably along with \code{yaxs = "i"}}
 
-\item{grid.lty}{Grid line type (See \code{par("lty")})}
+\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
 
-\item{grid.lwd}{Grid line width}
+\item{grid.lwd}{Float: Grid line width}
 
-\item{grid.col}{Grid color}
+\item{grid.col}{Color: Grid color}
 
-\item{grid.alpha}{Alpha for \code{grid.col}}
+\item{grid.alpha}{Float: Alpha for \code{grid.col}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

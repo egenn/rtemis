@@ -38,11 +38,11 @@ mplot3.box(x, col = NULL, alpha = 0.66, border = NULL,
 
 \item{xlab}{Character: x-axis label}
 
-\item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
 \item{ylab}{Character: y-axis label}
 
-\item{ylab.line}{Similar to \code{xlab.line} for the y axis}
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{main}{Character: Plot title}
 
@@ -59,18 +59,18 @@ Default = .5}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
-\item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
 \item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
-\item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
@@ -83,15 +83,15 @@ options(rt.theme = 'lightgrid')}
 
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
-\item{grid}{Logical: Should grid be drawn?}
+\item{grid}{Logical: If TRUE, draw grid}
 
-\item{grid.lty}{Grid line type (See \code{par("lty")})}
+\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
 
-\item{grid.lwd}{Grid line width}
+\item{grid.lwd}{Float: Grid line width}
 
-\item{grid.col}{Grid color}
+\item{grid.col}{Color: Grid color}
 
-\item{grid.alpha}{Alpha for \code{grid.col}}
+\item{grid.alpha}{Float: Alpha for \code{grid.col}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

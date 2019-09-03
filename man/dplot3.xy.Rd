@@ -6,9 +6,8 @@
 \usage{
 dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   cluster = NULL, cluster.params = list(k = 2), group = NULL,
-  formula = NULL, rsq = NULL, rsq.pval = FALSE, mode = c("scatter",
-  "line"), type = c("p", "l"), main = NULL, xlab = NULL,
-  ylab = NULL, col = NULL, alpha = 0.66, bg = NULL,
+  formula = NULL, mode = "markers", order.on.x = NULL, main = NULL,
+  xlab = NULL, ylab = NULL, col = NULL, alpha = 0.66, bg = NULL,
   plot.bg = NULL, theme = getOption("rt.theme", "light"),
   palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
   zero.lines = TRUE, group.names = NULL, font.size = 16,
@@ -17,14 +16,46 @@ dplot3.xy(x, y, fit = NULL, se.fit = FALSE, se.times = 1.96,
   fit.lwd = 2.5, se.col = NULL, se.alpha = 0.4, main.col = NULL,
   axes.col = NULL, labs.col = NULL, grid.col = NULL, grid.lwd = 1,
   grid.alpha = 0.8, tick.col = NULL, legend = TRUE,
-  legend.xy = c(0, 1), legend.col = NULL, legend.bg = "#FFFFFF00",
-  legend.border.col = "#FFFFFF00", legend.group.gap = 0,
-  margin = list(t = 35), zerolines = TRUE, mod.params = list(),
-  width = NULL, height = NULL, padding = 0, trace = 0,
-  filename = NULL, file.width = 500, file.height = 500, ...)
+  legend.xy = c(0, 1), legend.xanchor = "left",
+  legend.yanchor = "auto", legend.orientation = "v",
+  legend.col = NULL, legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00", legend.borderwidth = 0,
+  legend.group.gap = 0, margin = list(t = 35), zerolines = TRUE,
+  mod.params = list(), width = NULL, height = NULL, padding = 0,
+  trace = 0, filename = NULL, file.width = 500, file.height = 500,
+  ...)
 }
 \arguments{
 \item{x}{Numeric, vector: Input}
+
+\item{y}{Numeric vector of list of vectors for y-axis
+If \code{data} is provided, name of variable, unquoted.}
+
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
+be passed as a string.}
+
+\item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
+
+\item{se.times}{Draw polygon or lines at +/- \code{se.times} * standard error of fit. Defaults to 2
+(1.96 * standard error corresponds to 95\% confidence interval)}
+
+\item{cluster}{Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
+pass result to \code{group}. Run \link{clustSelect} for options}
+
+\item{cluster.params}{List: Names list of parameters to pass to the \code{cluster} function}
+
+\item{group}{Vector: will be converted to factor.
+If \code{data} is provided, name of variable, unquoted.}
+
+\item{formula}{Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
+forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
+and warnings, but is powerful. Use single letters for parameter names, no numbers.}
+
+\item{mode}{Character, vector: "markers", "lines", "markers+lines". Default = "markers"}
+
+\item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
+\code{TRUE} if \code{mode} includes lines.}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -49,6 +80,8 @@ Default = FALSE. Note: If TRUE, the device size at time of call is captured and 
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
+\item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
+
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
@@ -58,6 +91,12 @@ plot.}
 \item{font.col}{Color: Font color. Default = "black"}
 
 \item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
+
+\item{fit.lwd}{Float: Fit line width}
+
+\item{se.col}{Color for \code{se.fit}}
+
+\item{se.alpha}{Alpha for \code{se.fit}}
 
 \item{main.col}{Color: Title color. Default = NULL, determined by theme}
 
@@ -76,11 +115,16 @@ plot.}
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
 1 element}
 
+\item{legend.orientation}{Character: "v": vertical, or "h": horizontal. Default = "v"}
+
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
+
+\item{mod.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+parameters}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
@@ -88,11 +132,15 @@ plot.}
 
 \item{padding}{Integer: N pixels to pad plot. Default = 0}
 
+\item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
+
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
 
 \item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+
+\item{...}{Additional arguments to be passed to learner function}
 
 \item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
 

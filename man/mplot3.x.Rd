@@ -99,17 +99,22 @@ Default = .5}
 
 \item{qqline.alpha}{Float: Alpha for Q-Q line}
 
-\item{grid}{Logical: Should grid be drawn?}
+\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
 
-\item{grid.col}{Grid color}
+\item{diagonal.col}{Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
+themes}
 
-\item{grid.alpha}{Alpha for \code{grid.col}}
+\item{grid}{Logical: If TRUE, draw grid}
 
-\item{grid.lty}{Grid line type (See \code{par("lty")})}
+\item{grid.col}{Color: Grid color}
 
-\item{grid.lwd}{Grid line width}
+\item{grid.alpha}{Float: Alpha for \code{grid.col}}
 
-\item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
+
+\item{grid.lwd}{Float: Grid line width}
+
+\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
 \item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
@@ -123,26 +128,26 @@ Default = .5}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
-\item{x.axis.padj}{Adjustment for the x axis tick labels position}
+\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 
-\item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
-\item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
-\item{ylab.line}{Similar to \code{xlab.line} for the y axis}
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{labs.col}{Color for labels}
 
 \item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
 (See \code{par("bty")})}
 
-\item{box}{Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"}
+\item{box}{Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"}
 
-\item{box.col}{Box color}
+\item{box.col}{Color: Box color}
 
-\item{box.alpha}{Alpha for \code{box.col}}
+\item{box.alpha}{Float: Alpha for \code{box.col}}
 
-\item{box.lty}{Box line type}
+\item{box.lty}{Integer: Box line type}
 
 \item{box.lwd}{Float: Box line width. Default = 1.5}
 
@@ -163,14 +168,14 @@ options(rt.theme = 'lightgrid')}
 
 \item{zero.alpha}{Color alpha for \code{zero.lines}}
 
-\item{zero.lty}{Zero line line type}
+\item{zero.lty}{Integer: Zero line line type}
 
-\item{zero.lwd}{Zero line width}
+\item{zero.lwd}{Float: Zero line width}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
 Default = "r"}

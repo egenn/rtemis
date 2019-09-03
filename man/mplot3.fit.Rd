@@ -24,6 +24,8 @@ be passed as a string.}
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
+\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+
 \item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like

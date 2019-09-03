@@ -14,7 +14,7 @@ mplot3.xy(x, y, fit = NULL, formula = NULL, se.fit = FALSE,
   rsq.pval = FALSE, rsq.side = 1, rsq.adj = 0.98, rsq.col = NULL,
   fit.error = FALSE, fit.error.side = 1, fit.error.padj = NA,
   fit.error.col = NULL, xaxp = NULL, yaxp = NULL, scatter = TRUE,
-  axes = TRUE, axes.equal = FALSE, axes.col = NULL, pty = "s",
+  axes = TRUE, axes.equal = FALSE, axes.col = NULL, pty = "m",
   box = NULL, bty = "o", box.col = NULL, box.alpha = 1,
   box.lty = 1, box.lwd = 1.5, grid = FALSE, grid.nx = NULL,
   grid.ny = NULL, grid.col = NULL, grid.alpha = 1, grid.lty = 1,
@@ -38,10 +38,10 @@ mplot3.xy(x, y, fit = NULL, formula = NULL, se.fit = FALSE,
   firstpc.lty = 3, firstpc.col = NULL, hline = NULL,
   hline.col = NULL, hline.lwd = 1.5, hline.lty = 3, vline = NULL,
   vline.lwd = 1.5, vline.col = "blue", vline.lty = 3,
-  diagonal = FALSE, diagonal.inv = FALSE, diagonal.lwd = 1.5,
-  diagonal.lty = 1, diagonal.col = NULL, diagonal.alpha = 0.5,
-  group.legend = NULL, group.title = NULL, group.names = NULL,
-  group.side = 3, group.adj = 0.02, group.padj = 2, group.at = NA,
+  diagonal = FALSE, diagonal.lwd = 1.5, diagonal.lty = 1,
+  diagonal.col = NULL, diagonal.alpha = 0.5, group.legend = NULL,
+  group.title = NULL, group.names = NULL, group.side = 3,
+  group.adj = 0.02, group.padj = 2, group.at = NA,
   fit.legend.col = NULL, fit.legend.side = 3, fit.legend.adj = 0.02,
   fit.legend.padj = 2, fit.legend.at = NA, labs.col = NULL,
   na.rm = TRUE, theme = getOption("rt.theme", "lightgrid"),
@@ -152,23 +152,23 @@ theme-appropriate gray}
 
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{box}{Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"}
+\item{box}{Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"}
 
 \item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
 (See \code{par("bty")})}
 
-\item{box.col}{Box color}
+\item{box.col}{Color: Box color}
 
-\item{box.alpha}{Alpha for \code{box.col}}
+\item{box.alpha}{Float: Alpha for \code{box.col}}
 
-\item{box.lty}{Box line type}
+\item{box.lty}{Integer: Box line type}
 
 \item{box.lwd}{Float: Box line width. Default = 1.5}
 
-\item{grid}{Logical: Should grid be drawn?}
+\item{grid}{Logical: If TRUE, draw grid}
 
 \item{grid.nx}{Integer: N of grid lines on the x axis.
 Use with caution, probably along with \code{xaxs = "i"}}
@@ -176,15 +176,15 @@ Use with caution, probably along with \code{xaxs = "i"}}
 \item{grid.ny}{Integer: N of grid lines on the y axis
 Use with caution, probably along with \code{yaxs = "i"}}
 
-\item{grid.col}{Grid color}
+\item{grid.col}{Color: Grid color}
 
-\item{grid.alpha}{Alpha for \code{grid.col}}
+\item{grid.alpha}{Float: Alpha for \code{grid.col}}
 
-\item{grid.lty}{Grid line type (See \code{par("lty")})}
+\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
 
-\item{grid.lwd}{Grid line width}
+\item{grid.lwd}{Float: Grid line width}
 
-\item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
 \item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
@@ -209,21 +209,21 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{y.axis.labs}{See \code{axis("labels")}}
 
-\item{x.axis.padj}{Adjustment for the x axis tick labels position}
+\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 
-\item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
-\item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
-\item{ylab.line}{Similar to \code{xlab.line} for the y axis}
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
-\item{xlab.adj}{\code{adj} for \code{xlab} (See \code{par("adj")})}
+\item{xlab.adj}{Float: \code{adj} for \code{xlab} (See \code{par("adj")})}
 
-\item{ylab.adj}{\code{adj} for \code{ylab} (See \code{par("adj")})}
+\item{ylab.adj}{Float: \code{adj} for \code{ylab} (See \code{par("adj")})}
 
-\item{mar}{Vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{fit.lwd}{Fit line width}
+\item{fit.lwd}{Float: Fit line width}
 
 \item{se.lty}{How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
 otherwise an integer defines the lty (line type) for lines to be drawn}
@@ -240,6 +240,17 @@ See \code{border} in \code{graphics::polygon}}
 
 \item{se.density}{Density of shading line of polygon for \code{se.fit}.
 See \code{density} in \code{graphics::polygon}}
+
+\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+
+\item{diagonal.lwd}{Float: Line width for \code{diagonal}. Default = 1.5}
+
+\item{diagonal.lty}{Integer: Line type for \code{diagonal}. Default = 1}
+
+\item{diagonal.col}{Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
+themes}
+
+\item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
@@ -259,9 +270,9 @@ options(rt.theme = 'lightgrid')}
 
 \item{zero.alpha}{Color alpha for \code{zero.lines}}
 
-\item{zero.lty}{Zero line line type}
+\item{zero.lty}{Integer: Zero line line type}
 
-\item{zero.lwd}{Zero line width}
+\item{zero.lwd}{Float: Zero line width}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
