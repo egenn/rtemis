@@ -7,13 +7,18 @@
 #' Draw interactive scatter plots using \code{plotly}
 #'
 #' @inheritParams dplot3.bar
+#' @inheritParams mplot3.xy
 #' @param x Numeric, vector: Input
+#' @param mode Character, vector: "markers", "lines", "markers+lines". Default = "markers"
+#' @param order.on.x Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
+#' \code{TRUE} if \code{mode} includes lines.
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
 #' plot.
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
 #' 1 element
+#' @param legend.orientation Character: "v": vertical, or "h": horizontal. Default = "v"
 #' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
 #' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
 #' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
@@ -35,10 +40,10 @@ dplot3.xy <- function(x, y,
                       cluster.params = list(k = 2),
                       group = NULL,
                       formula = NULL,
-                      rsq = NULL,
-                      rsq.pval = FALSE,
-                      mode = c("scatter", "line"),
-                      type = c("p", "l"),
+                      # rsq = NULL,
+                      # rsq.pval = FALSE,
+                      mode = "markers",
+                      order.on.x = NULL,
                       main = NULL,
                       xlab = NULL,
                       ylab = NULL,
@@ -70,9 +75,13 @@ dplot3.xy <- function(x, y,
                       tick.col = NULL,
                       legend = TRUE,
                       legend.xy = c(0, 1),
+                      legend.xanchor = "left",
+                      legend.yanchor = "auto",
+                      legend.orientation = "v",
                       legend.col = NULL,
                       legend.bg = "#FFFFFF00",
                       legend.border.col = "#FFFFFF00",
+                      legend.borderwidth = 0,
                       legend.group.gap = 0,
                       margin = list(t = 35),
                       zerolines = TRUE,
@@ -91,16 +100,12 @@ dplot3.xy <- function(x, y,
   }
 
   # [ ARGUMENTS ] ====
-  type <- match.arg(type)
-  mode <- match.arg(mode)
   if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
   if (is.logical(fit)) if (fit) fit <- "GAM"
   if (is.null(fit)) se.fit <- FALSE
   if (!is.null(fit)) fit <- toupper(fit)
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
-  .mode <- switch(mode,
-                  scatter = "markers",
-                  line = "lines")
+  .mode <- mode
   .names <- group.names
 
   # fit & formula
@@ -126,7 +131,7 @@ dplot3.xy <- function(x, y,
   # }
 
   # order.on.x ====
-  order.on.x <- if (!is.null(fit) | mode == "line") TRUE else FALSE
+  order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
 
   # [ CLUSTER ] ====
   if (!is.null(cluster)) {
@@ -168,6 +173,8 @@ dplot3.xy <- function(x, y,
     .names <- names(x)
   }
   n.groups <- length(x)
+
+  if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n.groups > 1
   if (is.null(.names)) {
@@ -325,18 +332,19 @@ dplot3.xy <- function(x, y,
   #   legendgroup = .names
   # }
   plt <- plotly::plot_ly(width = width,
-                         height = height)
+                         height = height,)
   for (i in seq_len(n.groups)) {
     # '- { Scatter } ====
     plt <- plotly::add_trace(plt, x = x[[i]],
                              y = y[[i]],
                              type = "scatter",
-                             mode = .mode,
+                             mode = .mode[i],
                              # fillcolor = plotly::toRGB(col[[i]], alpha),
                              name = if (n.groups > 1) .names[i] else "Raw",
                              # text = .text[[i]],
                              # hoverinfo = "text",
-                             marker = list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)),
+                             marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+                             line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
                              showlegend = legend)
     if (se.fit) {
@@ -388,12 +396,16 @@ dplot3.xy <- function(x, y,
                    size = font.size,
                    color = tick.col)
   .legend <- list(x = legend.xy[1],
+                  xanchor = legend.xanchor,
                   y = legend.xy[2],
+                  yanchor = legend.yanchor,
                   font = list(family = font.family,
                               size = font.size,
                               color = legend.col),
-                  bgcolor = legend.bg,
-                  bordercolor = legend.border.col,
+                  orientation = legend.orientation,
+                  bgcolor = plotly::toRGB(legend.bg),
+                  bordercolor = plotly::toRGB(legend.border.col),
+                  borderwidth = legend.borderwidth,
                   tracegroupgap = legend.group.gap)
 
   plt <- plotly::layout(plt,
