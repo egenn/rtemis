@@ -58,46 +58,46 @@
 #' @param axes Logical: Should the axes be drawn? Defaults to TRUE
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
 #' @param axes.col Character: Color for axes values (box color set with \code{box.col})
-#' @param pty "s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
+#' @param pty Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 #'   (See \code{par("pty")})
-#' @param box Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"
+#' @param box Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"
 #' @param bty Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
 #'   (See \code{par("bty")})
-#' @param box.col Box color
-#' @param box.alpha Alpha for \code{box.col}
-#' @param box.lty Box line type
-#' @param fit.lwd Fit line width
-#' @param grid Logical: Should grid be drawn?
+#' @param box.col Color: Box color
+#' @param box.alpha Float: Alpha for \code{box.col}
+#' @param box.lty Integer: Box line type
+#' @param fit.lwd Float: Fit line width
+#' @param grid Logical: If TRUE, draw grid
 #' @param grid.nx Integer: N of grid lines on the x axis.
 #' Use with caution, probably along with \code{xaxs = "i"}
 #' @param grid.ny Integer: N of grid lines on the y axis
 #' Use with caution, probably along with \code{yaxs = "i"}
-#' @param grid.col Grid color
-#' @param grid.alpha Alpha for \code{grid.col}
-#' @param grid.lty Grid line type (See \code{par("lty")})
-#' @param grid.lwd Grid line width
-#' @param bg Background color. Defaults to white for themes "light" and "box", black otherwise.
+#' @param grid.col Color: Grid color
+#' @param grid.alpha Float: Alpha for \code{grid.col}
+#' @param grid.lty Integer: Grid line type (See \code{par("lty")})
+#' @param grid.lwd Float: Grid line width
+#' @param bg Color: Background color. Defaults to white for themes "light" and "box", black otherwise.
 #' @param rsq Logical: If TRUE, add legend with R-squared (if fit is not NULL)
 #' @param rsq.pval Logical: If TRUE, add legend with R-squared and its p-value (if fit is not NULL)
 #' @param zero.lines Logical: If TRUE, draw lines at x = 0 and y = 0
 #' @param zero.col Color for \code{zero.lines}
 #' @param zero.alpha Color alpha for \code{zero.lines}
-#' @param zero.lty Zero line line type
-#' @param zero.lwd Zero line width
+#' @param zero.lty Integer: Zero line line type
+#' @param zero.lwd Float: Zero line width
 #' @param annotation Character: Add annotation at the bottom right of the plot
 #' @param annotation.col Color for annotation
 #' @param tck Float: Tick length. Can be negative (See \code{par("tck")})
-#' @param x.axis.padj Adjustment for the x axis tick labels position
-#' @param xlab.line Adjustment for the x axis label position (See code{line} in \code{?mtext})
-#' @param y.axis.padj Similar to \code{x.axis.padj} for the y axis
-#' @param ylab.line Similar to \code{xlab.line} for the y axis
-#' @param xlab.adj \code{adj} for \code{xlab} (See \code{par("adj")})
-#' @param ylab.adj \code{adj} for \code{ylab} (See \code{par("adj")})
+#' @param x.axis.padj Float: Adjustment for the x axis tick labels position
+#' @param xlab.line Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})
+#' @param y.axis.padj Float: Similar to \code{x.axis.padj} for the y axis
+#' @param ylab.line Float: Similar to \code{xlab.line} for the y axis
+#' @param xlab.adj Float: \code{adj} for \code{xlab} (See \code{par("adj")})
+#' @param ylab.adj Float: \code{adj} for \code{ylab} (See \code{par("adj")})
 #' @param theme Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'lightgrid')
-#' @param mar Vector, length 4: Margins; see \code{par("mar")}
+#' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
 #' @param group.title Character: Group title, shown above group names. e.g. if group names are
@@ -165,12 +165,12 @@
 #' @param vline.lwd
 #' @param vline.col
 #' @param vline.lty
-#' @param diagonal
-#' @param diagonal.inv
-#' @param diagonal.lwd
-#' @param diagonal.lty
-#' @param diagonal.col
-#' @param diagonal.alpha
+#' @param diagonal Logical: If TRUE, draw diagonal line. Default = FALSE
+#' @param diagonal.lwd Float: Line width for \code{diagonal}. Default = 1.5
+#' @param diagonal.lty Integer: Line type for \code{diagonal}. Default = 1
+#' @param diagonal.col Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
+#' themes
+#' @param diagonal.alpha Float: Alpha for \code{diagonal} Default = .5
 #' @param group.side
 #' @param group.adj
 #' @param group.padj
@@ -239,7 +239,7 @@ mplot3.xy <- function(x, y,
                       axes = TRUE,
                       axes.equal = FALSE,
                       axes.col = NULL,
-                      pty = "s",
+                      pty = "m",
                       box = NULL,
                       bty = "o",
                       box.col = NULL,
