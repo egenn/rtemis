@@ -92,12 +92,12 @@ dplot3.box <-  function(x,
   type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
   if (!is.list(x)) x <- list(x)
-  n.groups <- length(x)
 
   # Remove non-numeric vectors
   which.nonnum <- which(sapply(x, function(i) !is.numeric(i)))
   if (length(which.nonnum) > 0) x[[which.nonnum]] <- NULL
 
+  n.groups <- length(x)
   .group.names <- group.names
   if (is.null(.group.names)) {
     .group.names <- names(x)
@@ -191,11 +191,11 @@ dplot3.box <-  function(x,
   plt <- do.call(plotly::plot_ly, args)
   if (n.groups > 1) {
     for (i in seq_len(n.groups)[-1]) plt <- plotly::add_trace(plt, y = x[[i]],
-                                                       color = plotly::toRGB(col[i], alpha),
-                                                       name = .group.names[i],
-                                                       line = list(color = plotly::toRGB(col[i])),
-                                                       fillcolor = plotly::toRGB(col[i], alpha),
-                                                       marker = list(color = plotly::toRGB(col[i], alpha)))
+                                                              color = plotly::toRGB(col[i], alpha),
+                                                              name = .group.names[i],
+                                                              line = list(color = plotly::toRGB(col[i])),
+                                                              fillcolor = plotly::toRGB(col[i], alpha),
+                                                              marker = list(color = plotly::toRGB(col[i], alpha)))
   }
 
   # '- layout ====
