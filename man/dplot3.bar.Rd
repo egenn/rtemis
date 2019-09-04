@@ -6,7 +6,7 @@
 \usage{
 dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
   alpha = 0.8, bg = NULL, plot.bg = NULL,
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"), barmode = c("group",
   "relative", "stack", "overlay"), group.names = NULL,
   feature.names = NULL, font.size = 16, font.alpha = 0.8,
