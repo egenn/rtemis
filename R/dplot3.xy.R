@@ -318,7 +318,7 @@ dplot3.xy <- function(x, y,
       if (rsq) {
         fitted.text[i] <- paste0(fitted.text[i],
                                  if (n.groups == 1) " (" else " ",
-                                 " R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+                                 "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
                                  if (n.groups == 1) ")")
 
       }
