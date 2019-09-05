@@ -95,6 +95,7 @@ dplot3.x <- function(x,
   type <- match.arg(type)
   mode <- match.arg(mode)
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  .xname <- labelify(deparse(substitute(x)))
 
   # [ DATA ] ====
 
@@ -112,6 +113,10 @@ dplot3.x <- function(x,
 
   if (!is.list(x)) x <- list(x)
   n.groups <- length(x)
+
+  if (n.groups == 1 & is.null(xlab)) {
+    xlab <- .xname
+  }
 
   # Remove non-numeric vectors
   which.nonnum <- which(sapply(x, function(i) !is.numeric(i)))
