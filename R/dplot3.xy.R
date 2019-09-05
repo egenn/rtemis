@@ -435,7 +435,7 @@ dplot3.xy <- function(x, y = NULL,
                                      gridwidth = grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE),
+                                     zeroline = zerolines),
                         # barmode = barmode,  # group works without actual groups too
                         # title = main,
                         title = list(text = main,
