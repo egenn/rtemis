@@ -14,12 +14,13 @@ dplot3.xyz(x, y = NULL, z = NULL, cluster = NULL,
   font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
   marker.col = NULL, main.col = NULL, axes.col = NULL,
   labs.col = NULL, grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8,
-  tick.col = NULL, legend = NULL, legend.xy = c(0, 1),
-  legend.xanchor = "left", legend.yanchor = "auto",
-  legend.orientation = "v", legend.col = NULL,
-  legend.bg = "#FFFFFF00", legend.border.col = "#FFFFFF00",
-  legend.borderwidth = 0, legend.group.gap = 0, margin = list(t =
-  35), zerolines = TRUE, mod.params = list(), width = NULL,
+  tick.col = NULL, tick.font.size = 12, spike.col = NULL,
+  legend = NULL, legend.xy = c(0, 1), legend.xanchor = "left",
+  legend.yanchor = "auto", legend.orientation = "v",
+  legend.col = NULL, legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00", legend.borderwidth = 0,
+  legend.group.gap = 0, margin = list(t = 30, b = 0, l = 0, r = 0),
+  zerolines = TRUE, mod.params = list(), width = NULL,
   height = NULL, padding = 0, trace = 0, filename = NULL,
   file.width = 500, file.height = 500, ...)
 }
@@ -102,7 +103,8 @@ groups, or \code{fit} is set}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+\item{margin}{Numeric, named list: Margins for top, bottom, left, right.
+Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 

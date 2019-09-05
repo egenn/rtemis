@@ -10,6 +10,8 @@
 #' @inheritParams dplot3.xy
 #' @param z Numeric, vector/data.frame/list: z-axis data
 #' @param zlab Character: z-axis label
+#' @param margin Numeric, named list: Margins for top, bottom, left, right.
+#' Default = \code{list(t = 30, b = 0, l = 0, r = 0}
 #' @author Efstathios D. Gennatas
 #' @export
 #' @examples
@@ -53,6 +55,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        grid.lwd = 1,
                        grid.alpha = .8,
                        tick.col = NULL,
+                       tick.font.size = 12,
+                       spike.col = NULL,
                        legend = NULL,
                        legend.xy = c(0, 1),
                        legend.xanchor = "left",
@@ -63,7 +67,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        legend.border.col = "#FFFFFF00",
                        legend.borderwidth = 0,
                        legend.group.gap = 0,
-                       margin = list(t = 35),
+                       margin = list(t = 30, b = 0, l = 0, r = 0),
                        zerolines = TRUE,
                        mod.params = list(),
                        width = NULL,
@@ -81,9 +85,13 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
 
   # [ ARGUMENTS ] ====
   if (is.null(y) & is.null(z) & NCOL(x) > 2) {
+    .colnames <- labelify(colnames(x))
     y <- x[, 2]
     z <- x[, 3]
     x <- x[, 1]
+    if (is.null(xlab)) xlab <- .colnames[1]
+    if (is.null(ylab)) ylab <- .colnames[2]
+    if (is.null(zlab)) zlab <- .colnames[3]
   }
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
   .mode <- mode
@@ -187,6 +195,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   # se.col <- plotly::toRGB(se.col)
   tick.col <- plotly::toRGB(tick.col)
   grid.col <- plotly::toRGB(grid.col)
+  spike.col <- plotly::toRGB(spike.col)
 
   # Themes ====
   # Defaults: no box
@@ -225,13 +234,13 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
     if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
+    if (is.null(spike.col)) spike.col <- plotly::toRGB("gray30")
   } else if (theme == "dark") {
     if (is.null(bg)) bg <- "black"
     if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    # if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    # if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
+    if (is.null(spike.col)) spike.col <-  plotly::toRGB("gray70")
   } else if (theme == "lightbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(255,255,255,1)"
@@ -240,8 +249,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
     if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
-    # if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-    # if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
+    if (is.null(spike.col)) spike.col <- plotly::toRGB("gray30")
   } else if (theme == "darkbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(0,0,0,1)"
@@ -249,7 +257,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    # if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
+    if (is.null(spike.col)) spike.col <-  plotly::toRGB("gray70")
   }
 
   # marker.col, se.col ===
@@ -377,7 +385,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
             size = font.size,
             color = labs.col)
   tickfont <- list(family = font.family,
-                   size = font.size,
+                   size = tick.font.size,
                    color = tick.col)
   .legend <- list(x = legend.xy[1],
                   xanchor = legend.xanchor,
@@ -403,7 +411,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                      gridwidth = grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = zerolines),
+                                     zeroline = FALSE,
+                                     spikecolor = spike.col),
                         xaxis = list(title = xlab,
                                      showline = axes.visible,
                                      mirror = axes.mirrored,
@@ -413,7 +422,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                      gridwidth = grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE),
+                                     zeroline = FALSE,
+                                     spikecolor = spike.col),
                         zaxis = list(title = zlab,
                                      showline = axes.visible,
                                      mirror = axes.mirrored,
@@ -423,7 +433,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                      gridwidth = grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE)
+                                     zeroline = FALSE,
+                                     spikecolor = spike.col)
                         ),
                         title = list(text = main,
                                      font = list(family = font.family,
