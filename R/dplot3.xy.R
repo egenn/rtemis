@@ -8,7 +8,9 @@
 #'
 #' @inheritParams dplot3.bar
 #' @inheritParams mplot3.xy
-#' @param x Numeric, vector: Input
+#' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
+#' \code{x} and \code{y}, respectively
+#' @param y Numeric, vector/data.frame/list: y-axis data
 #' @param rsq Logical: If TRUE, print R-squared values in legend if \code{fit} is set
 #' @param mode Character, vector: "markers", "lines", "markers+lines". Default = "markers"
 #' @param order.on.x Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
@@ -17,8 +19,8 @@
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
 #' plot.
-#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
-#' 1 element
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
+#' groups, or \code{fit} is set
 #' @param legend.orientation Character: "v": vertical, or "h": horizontal. Default = "v"
 #' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
 #' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
@@ -33,7 +35,7 @@
 #' dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
 #' }
 
-dplot3.xy <- function(x, y,
+dplot3.xy <- function(x, y = NULL,
                       fit = NULL,
                       se.fit = FALSE,
                       se.times = 1.96,
@@ -74,7 +76,7 @@ dplot3.xy <- function(x, y,
                       grid.lwd = 1,
                       grid.alpha = .8,
                       tick.col = NULL,
-                      legend = TRUE,
+                      legend = NULL,
                       legend.xy = c(0, 1),
                       legend.xanchor = "left",
                       legend.yanchor = "auto",
@@ -101,6 +103,12 @@ dplot3.xy <- function(x, y,
   }
 
   # [ ARGUMENTS ] ====
+  if (is.null(y) & NCOL(x) > 1) {
+    if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
+    if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
+    y <- x[, 2]
+    x <- x[, 1]
+  }
   if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
   if (is.logical(fit)) if (fit) fit <- "GAM"
   if (is.null(fit)) se.fit <- FALSE
@@ -111,25 +119,6 @@ dplot3.xy <- function(x, y,
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
-
-  # rsq
-  # if (is.null(rsq)) rsq <- if (!is.null(fit)) TRUE else FALSE
-  # if (!rsq) rsq.pval <- FALSE
-  # if (fit.error) rsq <- rsq.pval <- FALSE
-  # if (is.null(rsq.pval)) {
-  #   if (!is.null(fit)) {
-  #     rsq.pval <- TRUE
-  #     rsq <- FALSE
-  #   } else {
-  #     rsq.pval <- rsq <- FALSE
-  #   }
-  # }
-  # if (rsq.pval) {
-  #   if (!fit %in% c("LM", "GLM", "GAM")) {
-  #     rsq.pval <- FALSE
-  #     rsq <- TRUE
-  #   }
-  # }
 
   # order.on.x ====
   order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
@@ -175,6 +164,8 @@ dplot3.xy <- function(x, y,
   }
   n.groups <- length(x)
 
+  legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
+
   if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n.groups > 1
@@ -205,6 +196,16 @@ dplot3.xy <- function(x, y,
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
+
+  # Convert inputs to RGB
+  bg <- plotly::toRGB(bg)
+  plot.bg <- plotly::toRGB(plot.bg)
+  font.col <- plotly::toRGB(font.col)
+  # marker.col <- plotly::toRGB(marker.col)
+  # fit.col <- plotly::toRGB(fit.col)
+  # se.col <- plotly::toRGB(se.col)
+  tick.col <- plotly::toRGB(tick.col)
+  grid.col <- plotly::toRGB(grid.col)
 
   # Themes ====
   # Defaults: no box
@@ -247,7 +248,6 @@ dplot3.xy <- function(x, y,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
     if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    # gen.col <- "white"
   } else if (theme == "lightbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(255,255,255,1)"
@@ -257,7 +257,6 @@ dplot3.xy <- function(x, y,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
     if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
     if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-    # gen.col <- "black"
   } else if (theme == "darkbox") {
     axes.visible <- axes.mirrored <- TRUE
     if (is.null(bg)) bg <- "rgba(0,0,0,1)"
@@ -266,7 +265,6 @@ dplot3.xy <- function(x, y,
     if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
     if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
     if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    # gen.col <- "white"
   }
 
   # marker.col, se.col ===
@@ -302,7 +300,6 @@ dplot3.xy <- function(x, y,
     for (i in seq_len(n.groups)) {
       x1 <- x[[i]]
       y1 <- y[[i]]
-      # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
       learner.args <- c(list(x = x1, y = y1, verbose = trace > 0),
                         mod.params,
                         list(...))
