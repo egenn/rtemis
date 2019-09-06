@@ -1157,6 +1157,7 @@ mplot3.xy <- function(x, y,
 #' @param x Vector, numeric / factor / survival for regression, classification, survival: True values
 #' @param y Vector, numeric / factor / survival for regression, classification, survival: Predicted values
 #' @param fit.error Logical: If TRUE,
+#' @param pty Character: "s" for square plot, "m" to fill device. Default = "s"
 #' @param ... Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)
 #' @export
 
@@ -1168,6 +1169,7 @@ mplot3.fit <- function(x, y,
                        diagonal = TRUE,
                        theme = getOption("rt.fit.theme", "lightgrid"),
                        col = NULL,
+                       pty = "s",
                        zero.lines = FALSE,
                        fit.legend = FALSE, ...) {
 
@@ -1188,14 +1190,15 @@ mplot3.fit <- function(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
+                pty = pty,
                 fit.legend = fit.legend, ...)
     } else {
       mplot3.xy(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
-                point.col = col,
-                fit.col = col,
+                point.col = col, fit.col = col,
+                pty = pty,
                 fit.legend = fit.legend, ...)
     }
 
