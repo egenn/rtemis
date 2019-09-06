@@ -279,7 +279,7 @@ kfold <- function(x, k = 10,
   stratify.var <- as.numeric(stratify.var)
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
-    if (verbose) msg("Using max n bins possible = ", max.bins)
+    if (verbose) msg("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
 
