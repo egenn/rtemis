@@ -4,15 +4,16 @@
 \alias{dplot3.xyz}
 \title{Interactive 3D Plots}
 \usage{
-dplot3.xyz(x, y = NULL, z = NULL, cluster = NULL,
-  cluster.params = list(k = 2), group = NULL, mode = "markers",
-  order.on.x = FALSE, main = NULL, xlab = NULL, ylab = NULL,
-  zlab = NULL, col = NULL, alpha = 0.8, bg = NULL,
-  plot.bg = NULL, theme = getOption("rt.theme", "lightgrid"),
-  palette = getOption("rt.palette", "rtCol1"), axes.square = FALSE,
-  zero.lines = TRUE, group.names = NULL, font.size = 16,
-  font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
-  marker.col = NULL, main.col = NULL, axes.col = NULL,
+dplot3.xyz(x, y = NULL, z = NULL, fit = NULL, cluster = NULL,
+  cluster.params = list(k = 2), group = NULL, formula = NULL,
+  rsq = TRUE, mode = "markers", order.on.x = FALSE, main = NULL,
+  xlab = NULL, ylab = NULL, zlab = NULL, col = NULL, alpha = 0.8,
+  bg = NULL, plot.bg = NULL, theme = getOption("rt.theme",
+  "lightgrid"), palette = getOption("rt.palette", "rtCol1"),
+  axes.square = FALSE, zero.lines = TRUE, group.names = NULL,
+  font.size = 16, font.alpha = 0.8, font.col = NULL,
+  font.family = "Helvetica Neue", marker.col = NULL, fit.col = NULL,
+  fit.alpha = 0.7, fit.lwd = 2.5, main.col = NULL, axes.col = NULL,
   labs.col = NULL, grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8,
   tick.col = NULL, tick.font.size = 12, spike.col = NULL,
   legend = NULL, legend.xy = c(0, 1), legend.xanchor = "left",
@@ -32,6 +33,10 @@ dplot3.xyz(x, y = NULL, z = NULL, cluster = NULL,
 
 \item{z}{Numeric, vector/data.frame/list: z-axis data}
 
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
+be passed as a string.}
+
 \item{cluster}{Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
 pass result to \code{group}. Run \link{clustSelect} for options}
 
@@ -39,6 +44,12 @@ pass result to \code{group}. Run \link{clustSelect} for options}
 
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
+
+\item{formula}{Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
+forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
+and warnings, but is powerful. Use single letters for parameter names, no numbers.}
+
+\item{rsq}{Logical: If TRUE, print R-squared values in legend if \code{fit} is set}
 
 \item{mode}{Character, vector: "markers", "lines", "markers+lines". Default = "markers"}
 
@@ -81,6 +92,8 @@ plot.}
 \item{font.col}{Color: Font color. Default = "black"}
 
 \item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
+
+\item{fit.lwd}{Float: Fit line width}
 
 \item{main.col}{Color: Title color. Default = NULL, determined by theme}
 

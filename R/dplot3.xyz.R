@@ -1,7 +1,6 @@
 # dplot3.xyz.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
-# TODO: Add fit planes
 
 #' Interactive 3D Plots
 #'
@@ -20,9 +19,12 @@
 #' }
 
 dplot3.xyz <- function(x, y = NULL, z = NULL,
+                       fit = NULL,
                        cluster =  NULL,
                        cluster.params = list(k = 2),
                        group = NULL,
+                       formula = NULL,
+                       rsq = TRUE,
                        mode = "markers",
                        order.on.x = FALSE,
                        main = NULL,
@@ -43,9 +45,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        font.col = NULL,
                        font.family = "Helvetica Neue",
                        marker.col = NULL,
-                       # fit.col = NULL,
-                       # fit.alpha = .8,
-                       # fit.lwd = 2.5,
+                       fit.col = NULL,
+                       fit.alpha = .7,
+                       fit.lwd = 2.5,
                        # se.col = NULL,
                        # se.alpha = .4,
                        main.col = NULL,
@@ -94,9 +96,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (is.null(zlab)) zlab <- .colnames[3]
   }
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(fit)) fit <- toupper(fit)
   .mode <- mode
   .names <- group.names
-  fit <- NULL
 
   # order.on.x ====
   # order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
@@ -151,7 +153,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   }
   n.groups <- length(x)
 
-  legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
+  # legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
+  legend <- if (is.null(legend) & n.groups == 1) FALSE else TRUE
 
   if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
@@ -160,7 +163,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (n.groups > 1) {
       .names <- paste("Group", seq_len(n.groups))
     } else {
-      # .names <- if (!is.null(fit)) fit else NULL
+      .names <- if (!is.null(fit)) fit else NULL
       .names <- NULL
     }
   }
@@ -174,6 +177,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   }
 
   # s.e. fit ====
+  se.fit <- FALSE
   # if (se.fit) {
   #   if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
   #     warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
@@ -191,7 +195,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   plot.bg <- plotly::toRGB(plot.bg)
   font.col <- plotly::toRGB(font.col)
   # marker.col <- plotly::toRGB(marker.col)
-  # fit.col <- plotly::toRGB(fit.col)
+  fit.col <- plotly::toRGB(fit.col)
   # se.col <- plotly::toRGB(se.col)
   tick.col <- plotly::toRGB(tick.col)
   grid.col <- plotly::toRGB(grid.col)
@@ -265,9 +269,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("gray50", n.groups)) else col
   }
 
-  # if (!is.null(fit)) {
-  #   if (is.null(fit.col)) fit.col <- col
-  # }
+  if (!is.null(fit)) {
+    if (is.null(fit.col)) fit.col <- col
+  }
 
   # if (se.fit & is.null(se.col)) {
   #   se.col <- col
@@ -281,40 +285,40 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     width <- height <- min(dev.size("px")) - 10
   }
 
-  # # [ fitted & se.fit ] ====
-  # # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
-  # if (se.fit) se <- list() else se <- NULL
-  # if (rsq) .rsq <- list() else .rsq <- NULL
-  # # if (rsq.pval) rsqp <- list() else rsqp <- NULL
-  # if (!is.null(fit)) {
-  #   learner <- modSelect(fit, fn = FALSE)
-  #   fitted <- list()
-  #   fitted.text <- character()
-  #   for (i in seq_len(n.groups)) {
-  #     x1 <- x[[i]]
-  #     y1 <- y[[i]]
-  #     # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
-  #     learner.args <- c(list(x = x1, y = y1, verbose = trace > 0),
-  #                       mod.params,
-  #                       list(...))
-  #     if (fit == "NLS") learner.args <- c(learner.args,
-  #                                         list(formula = formula, save.func = TRUE))
-  #     mod <- do.call(learner, learner.args)
-  #     fitted[[i]] <- fitted(mod)
-  #     if (se.fit) se[[i]] <- se(mod)
-  #     fitted.text[i] <- switch(fit,
-  #                              NLS = mod$extra$model,
-  #                              NLA = mod$mod$formula,
-  #                              fit)
-  #     if (rsq) {
-  #       fitted.text[i] <- paste0(fitted.text[i],
-  #                                if (n.groups == 1) " (" else " ",
-  #                                "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
-  #                                if (n.groups == 1) ")")
-  #
-  #     }
-  #   }
-  # }
+  # return(list(x = x, y = y, z = z))
+  # [ fitted & se.fit ] ====
+  # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
+  if (se.fit) se <- list() else se <- NULL
+  if (rsq) .rsq <- list() else .rsq <- NULL
+  # if (rsq.pval) rsqp <- list() else rsqp <- NULL
+  if (!is.null(fit)) {
+    learner <- modSelect(fit, fn = FALSE)
+    fitted <- list()
+    fitted.text <- character()
+    for (i in seq_len(n.groups)) {
+      feat1 <- data.frame(x[[i]], y[[i]])
+      y1 <- z[[i]]
+      learner.args <- c(list(x = feat1, y = y1, verbose = trace > 0),
+                        mod.params,
+                        list(...))
+      if (fit == "NLS") learner.args <- c(learner.args,
+                                          list(formula = formula, save.func = TRUE))
+      mod <- do.call(learner, learner.args)
+      fitted[[i]] <- fitted(mod)
+      if (se.fit) se[[i]] <- se(mod)
+      fitted.text[i] <- switch(fit,
+                               NLS = mod$extra$model,
+                               NLA = mod$mod$formula,
+                               fit)
+      if (rsq) {
+        fitted.text[i] <- paste0(fitted.text[i],
+                                 if (n.groups == 1) " (" else " ",
+                                 "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+                                 if (n.groups == 1) ")")
+
+      }
+    }
+  }
 
   # [ plotly ] ====
 
@@ -364,21 +368,33 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     #                            hoverinfo = "none",
     #                            inherit = FALSE)
     # }
-    # if (!is.null(fit)) {
-    #   # '- { Fitted line } ====
-    #   lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
-    #               width = fit.lwd)
-    #   plt <- plotly::add_trace(plt, x = x[[i]], y = fitted[[i]],
-    #                            type = "scatter",
-    #                            mode = "lines",
-    #                            line = lfit,
-    #                            name = fitted.text[i],
-    #                            legendgroup = .names[i],
-    #                            showlegend = if (legend & n.groups == 1) TRUE else FALSE,
-    #                            inherit = FALSE)
-    # }
+
+    # return(list(plt = plt, x = x, y = y, z = z,
+    #             fitted = fitted, fitted.text = fitted.txt,
+    #             fit.col = fit.col,
+    #             legend =  legend,
+    #             n.groups = n.groups))
+    if (!is.null(fit)) {
+      # '- { Fitted mesh } ====
+      # lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
+      #             width = fit.lwd)
+      plt <- plotly::add_trace(plt,
+                               x = x[[i]],
+                               y = y[[i]],
+                               z = fitted[[i]],
+                               type = "mesh3d",
+                               opacity = fit.alpha,
+                               name = fitted.text[i],
+                               legendgroup = .names[i],
+                               showlegend = if (legend & n.groups == 1) TRUE else FALSE,
+                               inherit = FALSE,
+                               showscale = FALSE,
+                               intensity =  1,
+                               colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]]))))
+    }
   }
 
+  # return(plt)
   # [ Layout ] ====
   # '- layout ====
   f <- list(family = font.family,
