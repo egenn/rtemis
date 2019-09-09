@@ -121,7 +121,9 @@ dplot3.xy <- function(x, y = NULL,
   if (!is.null(formula)) fit <- "NLS"
 
   # order.on.x ====
-  order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
+  if (is.null(order.on.x)) {
+    order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
+  }
 
   # [ CLUSTER ] ====
   if (!is.null(cluster)) {

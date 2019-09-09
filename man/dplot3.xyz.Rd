@@ -6,7 +6,7 @@
 \usage{
 dplot3.xyz(x, y = NULL, z = NULL, fit = NULL, cluster = NULL,
   cluster.params = list(k = 2), group = NULL, formula = NULL,
-  rsq = TRUE, mode = "markers", order.on.x = FALSE, main = NULL,
+  rsq = TRUE, mode = "markers", order.on.x = NULL, main = NULL,
   xlab = NULL, ylab = NULL, zlab = NULL, col = NULL, alpha = 0.8,
   bg = NULL, plot.bg = NULL, theme = getOption("rt.theme",
   "lightgrid"), palette = getOption("rt.palette", "rtCol1"),
