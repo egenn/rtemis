@@ -287,7 +287,7 @@ kfold <- function(x, k = 10,
   ids <- seq_along(x)
   # cuts
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
-  cut.bins <- unique(cuts)
+  cut.bins <- sort(unique(cuts))
 
   # ids by cut
   idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
@@ -338,7 +338,7 @@ strat.sub <- function(x,
   }
   ids <- seq_along(x)
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
-  cut.bins <- unique(cuts)
+  cut.bins <- sort(unique(cuts))
   idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
   # idl.length <- sapply(idl, length)
   idl.length <- as.numeric(table(cuts))
