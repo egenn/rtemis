@@ -172,7 +172,7 @@ elevate <- function(x, y = NULL,
   if (headless) print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
   if (!is.null(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
   # If learner is multicore, run CV in series
-  # Note: only set n.cores > 1 for mod "XGB" and "XGBLIN" if not using OpenMP
+  # Note: for mod "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
   # Override all resampler arguments if .resample given
   if (!is.null(.resample)) {
