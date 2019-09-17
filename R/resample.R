@@ -277,30 +277,33 @@ kfold <- function(x, k = 10,
 
   if (is.null(stratify.var)) stratify.var <- x
   stratify.var <- as.numeric(stratify.var)
+  # ->> update
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
     if (verbose) msg("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
 
-  ids <- seq(length(x))
+  ids <- seq_along(x)
   # cuts
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
+  cut.bins <- unique(cuts)
+
   # ids by cut
-  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
   # length of each cut
   # idl.length <- sapply(idl, length)
   idl.length <- as.numeric(table(cuts))
 
   # split each idl into k folds after randomizing them
-  idl.k <- vector("list", strat.n.bins)
-  for (i in seq(strat.n.bins)) {
+  idl.k <- vector("list", length(cut.bins))
+  for (i in seq_along(cut.bins)) {
     cut1 <- cut(sample(idl.length[i]), breaks = k, labels = FALSE)
     idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
   }
 
   # res <- lapply(seq(k), function(i) sort(unlist(lapply(seq(bins), function(j) idl.k[[j]][[i]]))))
-  res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq(strat.n.bins), function(j) idl.k[[j]][[i]])))])
+  res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), function(j) idl.k[[j]][[i]])))])
 
   names(res) <- paste0("Fold_", seq(k))
   attr(res, "strat.n.bins") <- strat.n.bins
@@ -333,13 +336,14 @@ strat.sub <- function(x,
     if (verbose) msg("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
-  ids <- seq(length(x))
+  ids <- seq_along(x)
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
-  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  cut.bins <- unique(cuts)
+  idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
   # idl.length <- sapply(idl, length)
   idl.length <- as.numeric(table(cuts))
   res <- lapply(seq(n.resamples), function(i)
-    sort(unlist(sapply(seq(strat.n.bins), function(j)
+    sort(unlist(sapply(seq_along(cut.bins), function(j)
       sample(idl[[j]], train.p * idl.length[j])))))
   names(res) <- paste0("Subsample_", seq(n.resamples))
   attr(res, "strat.n.bins") <- strat.n.bins
