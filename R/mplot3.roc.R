@@ -109,7 +109,9 @@ mplot3.roc <- function(prob, labels,
               line.alpha = 1, line.col = col, group.legend = group.legend,
               diagonal.inv = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
               xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
+              type = "l",
+              order.on.x = FALSE,
+              lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
     # annotation = paste("AUC =", ddSci(AUC)))
@@ -133,7 +135,9 @@ mplot3.roc <- function(prob, labels,
               line.alpha = 1, line.col = col, group.legend = group.legend,
               diagonal = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
               xlim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
+              type = "l",
+              order.on.x = FALSE,
+              lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
     # annotation = paste("AUC =", ddSci(AUC)), annotation.col = annotation.col)
@@ -177,5 +181,11 @@ mplot3.roc <- function(prob, labels,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
+
+  if (type == "Sens.Spec") {
+    invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
+  } else {
+    invisible(list(FPR = FPR, TPR = TPR))
+  }
 
 } # rtemis::mplot3.roc
