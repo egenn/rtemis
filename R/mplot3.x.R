@@ -180,7 +180,7 @@ mplot3.x <- function(x,
   # if (is.null(yaxs)) yaxs <- if (type == "density") "i" else "r"
 
   # [ xlab & ylab ] ====
-  if (is.list(x) & type == "density" & is.null(xlab)) xlab <- "x"
+  if (is.list(x) & type == "density" & is.null(xlab)) xlab <- ""
   # if (is.null(xlab)) xlab <- deparse(substitute(x))
   xname <- deparse(substitute(x))
 
@@ -202,7 +202,7 @@ mplot3.x <- function(x,
   if (!is.null(group)) {
     group <- as.factor(group)
     x <- split(x, group)
-    if (is.null(group.names)) group.names <- levels(group)
+    if (is.null(group.names)) group.names <- labelify(levels(group))
     names(x) <- group.names
   }
 
@@ -214,16 +214,16 @@ mplot3.x <- function(x,
   which.nonnum <- which(sapply(xl, function(i) !is.numeric(i)))
   if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
 
-  if (type == "index") yl <- lapply(1:length(xl), function(i) seq(1, length(xl[[i]])))
+  if (type == "index") yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
   if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
 
   # Group names
   if (!is.null(group.names)) group.names <- c(group.title, group.names)
   if (is.null(group.names)) {
     if (!is.null(names(xl))) {
-      group.names <- c(group.title, names(xl))
+      group.names <- c(group.title, labelify(names(xl)))
     } else {
-      group.names <- c(group.title, paste(" ", toupper(letters[1:length(xl)])) )
+      group.names <- c(group.title, paste(" ", toupper(letters[seq_along(xl)])) )
     }
   }
   if (length(lty) != length(xl)) lty <- as.list(rep(lty, length(xl)/length(lty)))
@@ -429,7 +429,7 @@ mplot3.x <- function(x,
   # [ DATA: QQLINE ] ====
   if (type == "qqline") {
     yl <- list()
-    for (i in 1:length(xl)) {
+    for (i in seq_along(xl)) {
       x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
       # x <- xl
       xl[[i]] <- x.qqnorm$x
@@ -442,6 +442,7 @@ mplot3.x <- function(x,
 
   # [ DATA: DENSITY ] ====
   if (type == "density") {
+    if (is.null(ylab)) ylab <- "Density"
     densityl <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
     densityl <- lapply(densityl, function(d) data.frame(x = d$x, y = d$y))
     meanl <- lapply(xl, mean)
@@ -565,7 +566,7 @@ mplot3.x <- function(x,
     #       if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = 2, col = "gray50", lty = 3)
     #       if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = 2, col = "gray50", lty = 3)
     #   }
-    for (i in 1:length(xl)) {
+    for (i in seq_along(xl)) {
       # circles = rep(point.rad, length(xl[[i]])) # old
       #       symbols(yl[[i]], xl[[i]], circles = point.rad[[i]],
       #               inches = point.inches, fg = point.fg.col, bg = marker.col[[i]], add = T)
@@ -597,7 +598,7 @@ mplot3.x <- function(x,
   if (type == "density") {
     # if (is.null(main)) main <- "Density"
     if (!axes.swap) {
-      for (i in 1:length(xl)) {
+      for (i in seq_along(xl)) {
         if (density.shade) {
           polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(densityl[[i]]$y, rep(0, length(densityl[[i]]$y))),
                   col = marker.col[[i]], border = NA)
@@ -611,7 +612,7 @@ mplot3.x <- function(x,
       if (is.null(xlab)) xlab <- labelify(xname)
       ylab <- "Density"
     } else {
-      for (i in 1:length(xl)) {
+      for (i in seq_along(xl)) {
         if (density.shade) {
           polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(densityl[[i]]$x, rep(0, length(densityl[[i]]$x))),
                   col = marker.col[[i]], border = NA)
@@ -642,7 +643,7 @@ mplot3.x <- function(x,
     if (length(xl) > 1) {
       breaks <- hist(unlist(xl), breaks = hist.breaks, plot = FALSE)$breaks
       dist <- diff(breaks)[1] # mean(diff(breaks))
-      breaksl <- lapply(1:length(xl), function(i) {
+      breaksl <- lapply(seq_along(xl), function(i) {
         c(breaks - ((i - 1)/length(xl) * dist), max(breaks) - ((i - 1)/length(xl) * dist) + dist)
       })
     } else {
@@ -654,11 +655,11 @@ mplot3.x <- function(x,
   if (type == "histogram") {
     # if (is.null(main)) main <- "Histogram"
     if (hist.type == "bars") {
-      for (i in 1:length(xl)) {
+      for (i in seq_along(xl)) {
         hist(xl[[i]], breaks = hist.breaks, col = marker.col[[i]], add = TRUE, border = bg, xlim = xlim)
       }
     } else {
-      for (i in 1:length(xl)) {
+      for (i in seq_along(xl)) {
         mhist(xl[[i]], measure = "count", breaks = breaksl[[i]], col = marker.col[[i]], add = TRUE,
               lwd = hist.lwd,
               xlim = xlim, ylim = ylim, plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
@@ -683,7 +684,7 @@ mplot3.x <- function(x,
 
     # Regular
     mtext(group.names,
-          col = c(main.col, unlist(col[1:length(xl)])),
+          col = c(main.col, unlist(col[seq_along(xl)])),
           side = group.side,
           adj = group.adj,
           at = group.at,
@@ -706,10 +707,10 @@ mplot3.x <- function(x,
     }
   }
   qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
-  if(length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col, length(xl) / length(qqline.col))
+  if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col, length(xl) / length(qqline.col))
 
   if (type == "qqline") {
-    for (i in 1:length(xl)) {
+    for (i in seq_along(xl)) {
       #       symbols(xl[[i]], yl[[i]], circles = rep(point.rad, length(xl[[i]])),
       #               inches = point.inches, fg = point.fg.col, bg = marker.col[[i]], add = T)
       points(xl[[i]], yl[[i]],
@@ -721,7 +722,7 @@ mplot3.x <- function(x,
              cex = point.cex)
     }
 
-    for (i in 1:length(xl)) {
+    for (i in seq_along(xl)) {
       qqline(xl[[i]], col = qqline.col[[i]], lwd = qqline.lwd)
     }
   }
@@ -735,7 +736,7 @@ mplot3.x <- function(x,
   if (type == "density" & density.mean) {
     mtext(c("Mean (SD)", lapply(seq(xl),
                                 function(j) paste0(ddSci(meanl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
-          col = c(main.col, unlist(col[1:length(xl)])),
+          col = c(main.col, unlist(col[seq_along(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = cex,
           padj = seq(2, 2 + 1.5 * length(xl), 1.5))
   }
