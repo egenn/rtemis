@@ -46,6 +46,7 @@ mplot3.roc <- function(prob, labels,
                        mar = c(2.5, 3, 2.5, 1),
                        theme = getOption("rt.theme", "lightgrid"),
                        palette = getOption("rt.palette", "rtCol1"),
+                       verbose = TRUE,
                        par.reset = TRUE,
                        filename = NULL,
                        pdf.width = 5,
@@ -66,6 +67,7 @@ mplot3.roc <- function(prob, labels,
   labelsl <- if (!is.list(labels)) list(labels) else labels
   # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
   if (length(labelsl) < length(probl)) {
+    if (verbose) msg("Assuming same labels for each set of probabilities")
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
