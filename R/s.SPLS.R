@@ -112,7 +112,7 @@ s.SPLS <- function(x, y = NULL,
                     x.test, y.test,
                     upsample = upsample,
                     downsample = downsample,
-                    resample.seed = resample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
