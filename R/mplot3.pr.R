@@ -42,6 +42,7 @@ mplot3.pr <- function(prob, labels,
                       theme = getOption("rt.theme", "lightgrid"),
                       palette = getOption("rt.palette", "rtCol1"),
                       par.reset = TRUE,
+                      verbose = TRUE,
                       filename = NULL,
                       pdf.width = 5,
                       pdf.height = 5, ...) {
@@ -62,6 +63,10 @@ mplot3.pr <- function(prob, labels,
 
   probl <- if (!is.list(prob)) list(prob) else prob
   labelsl <- if (!is.list(labels)) list(labels) else labels
+  if (length(labelsl) < length(probl)) {
+    if (verbose) msg("Assuming same labels for each set of probabilities")
+    labelsl <- rep(labelsl, length(probl) / length(labelsl))
+  }
 
   # [ PR ] ====
   pr <- lapply(seq_along(probl), function(i)

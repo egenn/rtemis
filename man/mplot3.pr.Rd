@@ -11,7 +11,8 @@ mplot3.pr(prob, labels, f1 = FALSE, main = "", col = NULL,
   annot.font = 1, mar = c(2.5, 3, 2.5, 1),
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"), par.reset = TRUE,
-  filename = NULL, pdf.width = 5, pdf.height = 5, ...)
+  verbose = TRUE, filename = NULL, pdf.width = 5, pdf.height = 5,
+  ...)
 }
 \arguments{
 \item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}
