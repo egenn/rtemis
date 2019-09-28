@@ -455,8 +455,8 @@ predict.rtMod <- function(object,
         levels(estimated) <- levels(object$y.train)
       } else {
         estimated <- c(predict.MXFeedForwardModel(object$mod,
-                                                          X = data.matrix(newdata),
-                                                          array.layout = "rowmajor"))
+                                                  X = data.matrix(newdata),
+                                                  array.layout = "rowmajor"))
       }
     } else if (object$mod.name == "SGD") {
       estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
@@ -709,26 +709,62 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                filename = filename, ...)
                                           }
                                         },
-                                        plotROCfitted = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotROCfitted = function(main = "ROC Training",
+                                                                 theme = getOption("rt.fit.theme", "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3.roc(self$fitted.prob, self$y.train,
-                                                       main = "ROC Training",
-                                                       col = "#18A3AC",
+                                                       main = main,
                                                        theme = theme,
                                                        filename = filename, ...)
                                           } else {
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
-                                        plotROCpredicted = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotROCpredicted = function(main = "ROC Testing",
+                                                                    theme = getOption("rt.fit.theme", "lightgrid"),
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3.roc(self$predicted.prob, self$y.test,
-                                                       main = "ROC Testing",
-                                                       col = "#18A3AC",
+                                                       main = main,
                                                        theme = theme,
                                                        filename = filename, ...)
+                                          } else {
+                                            msg("Estimated probabilities are not available")
+                                          }
+                                        },
+                                        plotPR = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                                          filename = NULL, ...) {
+                                          if (length(self$fitted.prob) == 0)
+                                            stop("Estimated probabilities are not available")
+                                          if (length(self$predicted.prob) > 0) {
+                                            self$plotPRpredicted(theme = theme,
+                                                                 filename = filename, ...)
+                                          } else {
+                                            self$plotPRfitted(theme = theme,
+                                                              filename = filename, ...)
+                                          }
+                                        },
+                                        plotPRfitted = function(main = "P-R Training",
+                                                                theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                filename = NULL, ...) {
+                                          if (length(self$fitted.prob) > 0) {
+                                            mplot3.pr(self$fitted.prob, self$y.train,
+                                                      main = main,
+                                                      theme = theme,
+                                                      filename = filename, ...)
+                                          } else {
+                                            msg("Estimated probabilities are not available")
+                                          }
+                                        },
+                                        plotPRpredicted = function(main = "P-R Testing",
+                                                                   theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                   filename = NULL, ...) {
+                                          if (length(self$predicted.prob) > 0) {
+                                            mplot3.pr(self$predicted.prob, self$y.test,
+                                                      main = main,
+                                                      theme = theme,
+                                                      filename = filename, ...)
                                           } else {
                                             msg("Estimated probabilities are not available")
                                           }
@@ -1342,22 +1378,45 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotROC = function(which.repeat = 1, ...) {
                                             self$plotROCpredicted(which.repeat = which.repeat, ...)
                                           },
-                                          plotROCfitted = function(which.repeat = 1, ...) {
+                                          plotROCfitted = function(which.repeat = 1,
+                                                                   main = "ROC Training", ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
                                               mplot3.roc(self$fitted.prob.aggr[[which.repeat]],
                                                          self$y.train.res.aggr[[which.repeat]],
-                                                         main = "ROC Training",
-                                                         col = "#18A3AC", ...)
+                                                         main = main, ...)
                                             } else {
                                               msg("Estimated probabilities are not available")
                                             }
                                           },
-                                          plotROCpredicted = function(which.repeat = 1, ...) {
+                                          plotROCpredicted = function(which.repeat = 1,
+                                                                      main = "ROC Testing", ...) {
                                             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
                                               mplot3.roc(self$predicted.prob.aggr[[which.repeat]],
                                                          self$y.test.res.aggr[[which.repeat]],
-                                                         main = "ROC Testing",
-                                                         col = "#18A3AC", ...)
+                                                         main = main, ...)
+                                            } else {
+                                              msg("Estimated probabilities are not available")
+                                            }
+                                          },
+                                          plotPR = function(which.repeat = 1, ...) {
+                                            self$plotPRpredicted(which.repeat = which.repeat, ...)
+                                          },
+                                          plotPRfitted = function(which.repeat = 1,
+                                                                  main = "P-R Training", ...) {
+                                            if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
+                                              mplot3.pr(self$fitted.prob.aggr[[which.repeat]],
+                                                        self$y.train.res.aggr[[which.repeat]],
+                                                        main = main, ...)
+                                            } else {
+                                              msg("Estimated probabilities are not available")
+                                            }
+                                          },
+                                          plotPRpredicted = function(which.repeat = 1,
+                                                                     main = "P-R Testing", ...) {
+                                            if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
+                                              mplot3.pr(self$predicted.prob.aggr[[which.repeat]],
+                                                        self$y.test.res.aggr[[which.repeat]],
+                                                        main = main, ...)
                                             } else {
                                               msg("Estimated probabilities are not available")
                                             }
