@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+library(rtemis)
+
 if (requireNamespace("plotly", quietly = TRUE)) {
   dplot3.bar(VADeaths)
   x <- rnormmat(20, 5, return.df = T, seed = 2019)
