@@ -1,6 +1,7 @@
 # rtROC.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
+# TODO: consider renaming to estimated.probabilities
 
 #' Build an ROC curve
 #'
