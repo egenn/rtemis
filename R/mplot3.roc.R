@@ -35,7 +35,7 @@ mplot3.roc <- function(prob, labels,
                        lwd = 2.5,
                        diagonal = TRUE,
                        diagonal.lwd = 2.5,
-                       diagonal.lty = 1,
+                       diagonal.lty = 3,
                        group.legend = FALSE,
                        annotation = TRUE,
                        annotation.col = col,
@@ -176,7 +176,7 @@ mplot3.roc <- function(prob, labels,
           line = annot.line,
           adj = annot.adj,
           cex = cex,
-          col = c("gray30", unlist(col)[1:length(probl)]))
+          col = c("gray50", unlist(col)[seq_along(probl)]))
   }
 
   # [ OUTRO ] ====
