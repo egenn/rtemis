@@ -6,6 +6,7 @@
 #'
 #' Plot ROC curve for a binary classifier
 #'
+#' @inheritParams mplot3.x
 #' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
 #' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
@@ -30,7 +31,7 @@ mplot3.roc <- function(prob, labels,
                        type = "TPR.FPR",
                        balanced.accuracy = FALSE,
                        main = "",
-                       col = ucsfPalette,
+                       col = NULL,
                        cex = 1.2,
                        lwd = 2.5,
                        diagonal = TRUE,
@@ -44,6 +45,7 @@ mplot3.roc <- function(prob, labels,
                        annot.font = 1,
                        mar = c(2.5, 3, 2.5, 1),
                        theme = getOption("rt.theme", "lightgrid"),
+                       palette = getOption("rt.palette", "rtCol1"),
                        par.reset = TRUE,
                        filename = NULL,
                        pdf.width = 5,
@@ -97,6 +99,9 @@ mplot3.roc <- function(prob, labels,
     BA.max.index <- lapply(seq(probl), function(l) which.max(BA[[l]]))
   }
 
+  # Colors ====
+  if (is.null(col)) col <- rtPalette(palette)
+
   # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
@@ -120,8 +125,10 @@ mplot3.roc <- function(prob, labels,
         points(x = Specificity[[i]][BA.max.index[[i]]],
                y = Sensitivity[[i]][BA.max.index[[i]]],
                col = col[[i]])
-        text(x = Specificity[[i]][BA.max.index[[i]]] - .05,
-             y = Sensitivity[[i]][BA.max.index[[i]]],
+        text(
+             # x = .05, y = .95,
+             x = Specificity[[i]][BA.max.index[[i]]] - .05,
+             y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
              labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
                              ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
              col = col[[i]],
@@ -140,7 +147,6 @@ mplot3.roc <- function(prob, labels,
               lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
-    # annotation = paste("AUC =", ddSci(AUC)), annotation.col = annotation.col)
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
@@ -148,8 +154,8 @@ mplot3.roc <- function(prob, labels,
                col = col[[i]])
         text(x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05,
              y = Sensitivity[[i]][BA.max.index[[i]]],
-             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
-                             ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
+             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(thresh = ",
+                             ddSci(.roc[[i]]$Thresholds[BA.max.index[[i]]]), ")"),
              col = col[[i]],
              pos = 4)
       }
@@ -159,16 +165,7 @@ mplot3.roc <- function(prob, labels,
 
   # [ AUC ANNOTATION ] ====
   if (annotation) {
-    # auc <- ddSci(unlist(AUC))
     auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
-    # mtext(text = auc, side = 1)
-    # mtext(c("AUC", auc),
-    #       side = 1,
-    #       line = - 2 * length(probl),
-    #       adj = .98,
-    #       cex = cex,
-    #       col = c("black", unlist(col)[1:length(probl)]),
-    #       padj = seq(-1 * length(probl), -1 + 1.5 * length(probl), 1.5))
     if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
     mtext(c("AUC   ", auc),
           font = annot.font,
