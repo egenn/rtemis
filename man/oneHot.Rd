@@ -27,7 +27,7 @@ One hot encode a vector or factors in a data.frame
 }
 \details{
 A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
-only column of type factor will be one-hot encoded. This function is used by \link{preprocess(oneHot = TRUE)}
+only column of type factor will be one-hot encoded. This function is used by \link{preprocess}
 }
 \author{
 Efstathios D Gennatas

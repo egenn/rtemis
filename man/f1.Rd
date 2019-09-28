@@ -4,18 +4,18 @@
 \alias{f1}
 \title{F1 score}
 \usage{
-f1(sensitivity, ppv)
+f1(precision, recall)
 }
 \arguments{
-\item{sensitivity}{Float [0, 1]: The model Sensitivity aka Recall}
+\item{precision}{Float [0, 1]: The model Precision aka Positive Predictive Value}
 
-\item{ppv}{Float [0, 1]: The model Positive Predictive Value aka Precision}
+\item{recall}{Float [0, 1]: The model Recall aka Sensitivity}
 }
 \description{
 Calculate the F1 score for classification:
 }
 \details{
-\deqn{F1 = 2 \frac{Sensitivity \cdot PPV}{Sensitivity + PPV}}{F1 = 2 * (Sensitivity * Specificity)/(Sensitivity + Specificity)}
+\deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
 }
 \author{
 Efstathios D. Gennatas
