@@ -6,15 +6,15 @@
 #'
 #' Calculate the F1 score for classification:
 #'
-#' \deqn{F1 = 2 \frac{Sensitivity \cdot PPV}{Sensitivity + PPV}}{F1 = 2 * (Sensitivity * Specificity)/(Sensitivity + Specificity)}
+#' \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
 #'
-#' @param sensitivity Float [0, 1]: The model Sensitivity aka Recall
-#' @param ppv Float [0, 1]: The model Positive Predictive Value aka Precision
+#' @param recall Float [0, 1]: The model Recall aka Sensitivity
+#' @param precision Float [0, 1]: The model Precision aka Positive Predictive Value
 #' @author Efstathios D. Gennatas
 #' @export
 
-f1 <- function(sensitivity, ppv) {
+f1 <- function(precision, recall) {
 
-  2 * (sensitivity * ppv) / (sensitivity + ppv)
+  2 * (recall * precision) / (recall + precision)
 
 } # rtemis::f1
