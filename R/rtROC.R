@@ -49,6 +49,7 @@ rtROC <- function(true.labels, predicted.probabilities,
   if (plot) {
     mplot3.xy(1 - specificity.t, sensitivity.t, type = "l",
               zero.lines = FALSE, diagonal = TRUE, xaxs = "i", yaxs = "i",
+              order.on.x = FALSE,
               xlab = "False Positive Rate", ylab = "True Positive Rate",
               xlim = c(0, 1), ylim = c(0, 1),
               theme = theme)
