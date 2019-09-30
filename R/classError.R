@@ -11,6 +11,7 @@
 #' @param estimated Vector, factor: Estimated probabilities
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' @author Efstathios D. Gennatas
+#' @return S3 object of type  "classError"
 #' @export
 
 classError <- function(true, estimated,
