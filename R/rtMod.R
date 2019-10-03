@@ -897,6 +897,7 @@ NULL
 #' @export
 predict.rtModBag <- function(object, newdata,
                              aggr.fn = NULL,
+                             n.cores = 1,
                              verbose = FALSE, ...) {
 
   if (verbose) msg("Calculating estimated values of", length(object$mod), "bag resamples")
@@ -911,13 +912,16 @@ predict.rtModBag <- function(object, newdata,
   # No progress bar if not verbose
   if (!verbose) pbapply::pboptions(type = "none")
 
-  estimated.bag <- pbapply::pbsapply(object$mod$mods, function(k) predict(k$mod1, newdata))
+  estimated.bag <- pbapply::pblapply(object$mod$mods, function(k) predict(k$mod1, newdata),
+                                     cl = n.cores)
+  estimated.bag <- do.call(cbind, estimated.bag)
   if (object$type == "Classification") {
-    estimated <- factor(round(apply(estimated.bag, 1, aggr.fn)))
+    estimated <- factor(round(apply(estimated.bag, 1, function(i) aggr.fn(i))))
     levels(estimated) <- levels(object$y.train)
   } else {
     estimated <- apply(estimated.bag, 1, aggr.fn)
   }
+  attr(estimated, "names") <- NULL
   estimated
 
 } # rtemis::predict.rtModBag
