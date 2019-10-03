@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
 # TODO: Add fitted.prob and predicted.prob after adding prob support for every learner in rtMod
+# TODO: varimp only if available
 
 #' Bag an \pkg{rtemis} learner for regression or classification [C, R]
 #'
@@ -91,8 +92,8 @@ bag <- function(x, y = NULL,
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
-  x.valid <- dt$x.valid
-  y.valid <- dt$y.valid
+  # x.valid <- dt$x.valid
+  # y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
   # .weights <- if (is.null(weights) & ipw) dt$weights else weights
