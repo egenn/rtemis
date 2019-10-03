@@ -364,7 +364,12 @@ predict.rtMod <- function(object,
     estimated <- object$fitted
   } else {
     newdata <- as.data.frame(newdata)
-    if (object$mod.name == "ADDT") {
+    # This is "GLM" which gets names "LOGISTIC" for better or worse
+    if (object$mod.name == "LOGISTIC") {
+      estimated.prob <- predict(object$mod, newdata = newdata, type = "response")
+      estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(estimated) <- levels(object$y.train)
+    } else if (object$mod.name == "ADDT") {
       if (is.null(extraArgs$learning.rate)) learning.rate <- object$parameters$learning.rate
       if (is.null(extraArgs$n.feat)) n.feat <- length(object$xnames)
       estimated <- predict(object$mod, newdata = newdata,
