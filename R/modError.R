@@ -299,6 +299,33 @@ bacc <- function(true, predicted,
 
 }
 
+#' Precision (aka PPV)
+#'
+#' The first factor level is considered the positive case.
+#'
+#' @param true Factor: True labels
+#' @param estimated Factor: Estimated labels
+#' @param harmonize Logical: If TRUE, run \link{factorHarmonize} first
+#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @export
+
+precision <- function(true, estimated,
+                        harmonize = FALSE,
+                        verbose = TRUE) {
+
+  if (harmonize) estimated <- factorHarmonize(true, estimated, verbose = verbose)
+  tbl <- table(estimated, true)
+  predicted.totals <- rowSums(tbl)[1]
+  hits <- diag(tbl)[1]
+
+  if (hits == 0 & predicted.totals == 0) {
+    1
+  } else {
+    hits/predicted.totals
+  }
+
+} # rtemis::precision
+
 #' Factor harmonize
 #'
 #' @param x Input factor

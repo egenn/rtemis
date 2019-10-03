@@ -15,6 +15,9 @@ classError(true, estimated, estimated.prob = NULL, trace = 0)
 
 \item{estimated}{Vector, factor: Estimated probabilities}
 }
+\value{
+S3 object of type  "classError"
+}
 \description{
 Calculates Classification Metrics
 }
