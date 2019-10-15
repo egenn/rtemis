@@ -22,13 +22,16 @@
 #' @param y N x 1 vector of labels with values in {-1,1}
 #' @param catPredictors Logical vector with the same length as the feature vector, where TRUE
 #'    means that the corresponding column of x is a categorical variable
-#' @param gamma [gS] acceleration factor = lambda / (1 + lambda)
-#' @param max.depth [gS] maximum depth of the tree
+#' @param gamma [gS] acceleration factor = lambda / (1 + lambda). Default = .8
+#' @param max.depth [gS] maximum depth of the tree. Default = 30
 #' @param learning.rate [gS] learning rate for the Newton Raphson step that updates the function values
 #' of the node
-#' @param min.hessian [gS] Minimum second derivative to continue splitting
+#' @param min.hessian [gS] Minimum second derivative to continue splitting. Default = .001
+#' @param min.membership Integer: Minimum number of cases in a node. Default = 1
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-#' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting
+#' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE
+#' @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
+#' @param
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
 #' @family Supervised Learning
@@ -134,8 +137,8 @@ s.ADDTREE <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (dt$type != "Classification") stop("Only binary classification is currently supported")
   if (print.plot) {
@@ -246,11 +249,14 @@ s.ADDTREE <- function(x, y = NULL,
   rt$mod$addtree <- data.tree::as.Node(rt$mod$frame, pathName = "Path")
 
   # [ PRUNE ] ====
-  if (verbose) msg("Pruning tree...")
-  rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
-                                         prune.empty.leaves = prune.empty.leaves,
-                                         remove.bad.parents = remove.bad.parents,
-                                         verbose = prune.verbose)
+  if (prune) {
+    if (verbose) msg("Pruning tree...")
+    rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
+                                           prune.empty.leaves = prune.empty.leaves,
+                                           remove.bad.parents = remove.bad.parents,
+                                           verbose = prune.verbose)
+  }
+
   if (match.rules) {
     rules <- data.tree::Get(data.tree::Traverse(rt$mod$addtree.pruned), "Rule")
     xt <- data.table::as.data.table(cbind(x, y))

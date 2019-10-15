@@ -40,11 +40,13 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{min.hessian}{[gS] Minimum second derivative to continue splitting}
+\item{min.hessian}{[gS] Minimum second derivative to continue splitting. Default = .001}
 
-\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda)}
+\item{min.membership}{Integer: Minimum number of cases in a node. Default = 1}
 
-\item{max.depth}{[gS] maximum depth of the tree}
+\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda). Default = .8}
+
+\item{max.depth}{[gS] maximum depth of the tree. Default = 30}
 
 \item{learning.rate}{[gS] learning rate for the Newton Raphson step that updates the function values
 of the node}
@@ -64,8 +66,10 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{prune}{Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE}
+
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting}
+percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

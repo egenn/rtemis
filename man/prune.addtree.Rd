@@ -16,7 +16,7 @@ prune.addtree(addtree, prune.empty.leaves = TRUE,
 give their children to their parent. Default = TRUE}
 }
 \description{
-Prune an ADDTREE tree in Node format using \code{data.tree}
+Prune an ADDTREE tree in Node format using \code{data.tree} to remove sister nodes with same class estimate.
 }
 \author{
 Efstathios D. Gennatasd
