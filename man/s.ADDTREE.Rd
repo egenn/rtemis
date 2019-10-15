@@ -42,8 +42,9 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{min.hessian}{[gS] Minimum second derivative to continue splitting}
 
-\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda)
-#' @param max.depth [gS] maximum depth of the tree}
+\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda)}
+
+\item{max.depth}{[gS] maximum depth of the tree}
 
 \item{learning.rate}{[gS] learning rate for the Newton Raphson step that updates the function values
 of the node}
@@ -104,8 +105,9 @@ Object of class \link{rtMod}
 Train an Additive Tree model
 }
 \details{
-For binary classification, outcome must be factor with two levels, the first level
-is the 'positive' class
+This function is for binary classification. The outcome must be a factor with two levels, the first level
+is the 'positive' class. Ensure there are no missing values in the data and that variables are either numeric
+(including integers) or factors. Use \link{preprocess} as needed to impute and convert characters to factors.
 
 Factor levels should not contain the "/" character (it is used to separate conditions
 in the addtree object)
@@ -115,9 +117,10 @@ internal resampling
 lambda <- gamma/(1 - gamma)
 }
 \references{
-Valdes G, Luna JM, Eaton E, Simone CB, Ungar LH, Solberg TD. MediBoost: a Patient
-Stratification Tool for Interpretable Decision Making in the Era of Precision Medicine.
-Sci Rep. 2016;6:37854. doi:10.1038/srep37854.
+Jose Marcio Luna, Efstathios D Gennatas, Lyle H Ungar, Eric Eaton, Eric S Diffenderfer, Shane T Jensen,
+Charles B Simone, Jerome H Friedman, Timothy D Solberg, Gilmer Valdes
+Building more accurate decision trees with the additive tree
+Proc Natl Acad Sci U S A. 2019 Oct 1;116(40):19887-19893. doi: 10.1073/pnas.1816748116
 }
 \seealso{
 Other Supervised Learning: \code{\link{s.ADABOOST}},
