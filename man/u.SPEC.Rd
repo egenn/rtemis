@@ -14,7 +14,7 @@ u.SPEC(x, k = 2, kernel = "rbfdot", kpar = "automatic",
 
 \item{k}{Integer: Number of clusters to get}
 
-\item{kernel}{String: Kernel to use: "rbfdot", "polydot", "vanilladot", tanhdot", "laplacedot", "besseldot",
+\item{kernel}{Character: Kernel to use: "rbfdot", "polydot", "vanilladot", tanhdot", "laplacedot", "besseldot",
 "anovadot", "splinedot", "stringdot"}
 
 \item{kpar}{String OR List: "automatic", "local" OR list with: sigma (for "rbfdor", "laplacedot");

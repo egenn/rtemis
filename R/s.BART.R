@@ -30,7 +30,8 @@ s.BART <- function(x, y = NULL,
                    n.iter = 1000,
                    n.cores = rtCores,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    print.plot = TRUE,
                    plot.fitted = NULL,
                    plot.predicted = NULL,
@@ -70,8 +71,11 @@ s.BART <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -103,7 +107,7 @@ s.BART <- function(x, y = NULL,
   java.mem <- paste0("-Xmx", java.mem.size, "g")
   options(java.parameters = java.mem)
   bartMachine::set_bart_machine_num_cores(n.cores)
-  if (verbose) msg("Training Bayesian Additive Regression Trees...", newline = TRUE)
+  if (verbose) msg("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
   mod <- bartMachine::bartMachineCV(x, y.train,
                                     num_tree_cvs = n.trees,
                                     k_cvs = k_cvs,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtlayout.R
 \name{rtlayout}
 \alias{rtlayout}
-\title{Layout for plotting on multiple panels}
+\title{Creat multipanel plots with the \code{mplot3} family}
 \usage{
 rtlayout(nrows = NULL, ncols = NULL, byrow = FALSE,
   autolabel = FALSE, pdf.width = NULL, pdf.height = NULL,
@@ -15,15 +15,18 @@ rtlayout(nrows = NULL, ncols = NULL, byrow = FALSE,
 
 \item{byrow}{Logical: If TRUE, draw add plots by row Default = FALSE}
 
+\item{autolabel}{Logical: If TRUE, place letter labels on the top left corner of each figure. Default = FALSE}
+
 \item{pdf.width}{Float: Width of PDF to save, if \code{filename} is provided.
-Default = \code{ncols * 4.5}
-#' @param pdf.height Float: Height of PDF to save, if \code{filename} is provided.
+Default = \code{ncols * 4.5}}
+
+\item{pdf.height}{Float: Height of PDF to save, if \code{filename} is provided.
 Default = \code{nrows * 4.5}}
 
 \item{filename}{String, optional: Save multiplot to file. Default = NULL}
 }
 \description{
-Set layout for plotting multiple plots on the same view
+Set layout for drawing multiple plots in the same view
 }
 \author{
 Efstathios D. Gennatas

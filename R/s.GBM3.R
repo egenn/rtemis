@@ -19,18 +19,19 @@
 #' If an error is detected, \code{gbm.fit} is rerun until successful and the procedure continues normally
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
-#' @param n.trees Integer: Initial number of trees to fit
-#' @param interaction.depth [gS] Integer: Interaction depth
-#' @param shrinkage [gS] Float: Shrinkage (learning rate)
+#' @param n.trees Integer: Initial number of trees to fit. Default = 2000
+#' @param max.trees Integer: Maximum number of trees to fit. Default = 5000
+#' @param interaction.depth [gS] Integer: Interaction depth. Default = 3
+#' @param shrinkage [gS] Float: Shrinkage (learning rate). Default = .01
 #' @param n.minobsinnode [gS] Integer: Minimum number of observation allowed in node
 #' @param bag.fraction [gS] Float (0, 1): Fraction of cases to use to train each tree.
-#' Helps avoid overfitting. Default = .75
+#' Helps avoid overfitting. Default = .9
 #' @param mFeatures [gS] Integer: Number of features to randomly choose from all available features to train at each
 #' step. Default = NULL which results in using all features.
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 #'   Object size adds up quickly
 #' @param stratify.var   If resampling is stratified, stratify against this variable. Defaults to outcome
-#' @param outdir         String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
+#' @param outdir         Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
 #' @param save.rds       Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 #'   mod.gbm, so no need to save again.
 #' @param relInf         Logical: If TRUE (Default), estimate variables' relative influence.
@@ -50,9 +51,10 @@ s.GBM3 <- function(x, y = NULL,
                    ipw = TRUE,
                    ipw.type = 2,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    distribution = NULL,
-                   interaction.depth = 2,
+                   interaction.depth = 3,
                    shrinkage = .01,
                    bag.fraction = 0.9,
                    mFeatures = NULL,
@@ -155,9 +157,13 @@ s.GBM3 <- function(x, y = NULL,
   smoother <- match.arg(smoother)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -166,8 +172,8 @@ s.GBM3 <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   n.classes <- length(levels(y0))
   if (type == "Classificationn" && n.classes != 2) stop("GBM3 only supports binary classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -204,7 +210,7 @@ s.GBM3 <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline = TRUE)
+  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {
@@ -238,7 +244,8 @@ s.GBM3 <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed,
+                                              downsample = downsample,
+                                              resample.seed = resample.seed,
                                               relInf = FALSE,
                                               plot.tune.error = plot.tune.error,
                                               .gs = TRUE),
@@ -295,14 +302,15 @@ s.GBM3 <- function(x, y = NULL,
   # If we are in .gs, rbind train and test to get perf to tune n.trees
   # .xtrain and .ytrain to allow diff b/n .gs and full model
   if (.gs) {
-    .x.train <- rbind(.x, .x.test) # will be split to train/test by nTrain
+    # This .x.test is the inner validation set, not the final test set
+    .x.train <- rbind(.x, .x.test) # will be split to train/validation by nTrain
     .y.train <- c(.y, .y.test)
   } else {
     ### Fit the final model on the whole internal set using the optimal n of trees estimated above
-    # inlc.hack to check model is good: add small valid set to see if valid.error gets estimated
+    # incl. hack to check model is good: add single validation case to see if valid.error gets estimated
     .x.train <- rbind(.x, .x[1, , drop = FALSE])
     .y.train <- c(.y, .y[1])
-    if (verbose) msg("Training GBM3 on full training set...", newline = TRUE)
+    if (verbose) msg("Training GBM3 on full training set...", newline.pre = TRUE)
   }
   mod <- gbm3::gbm.fit(x = .x.train, y = .y.train,
                        offset = offset,

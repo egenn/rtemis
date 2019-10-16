@@ -8,7 +8,7 @@
 #'
 #' Note: \code{PP.Tree} does not support case weights
 #' @inheritParams s.GLM
-#' @param PPmethod String: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
+#' @param PPmethod Character: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
@@ -26,7 +26,8 @@ s.PPTREE <- function(x, y = NULL,
                      temp = 1,
                      energy = .01,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      x.name = NULL,
                      y.name = NULL,
                      print.plot = TRUE,
@@ -68,8 +69,11 @@ s.PPTREE <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -87,7 +91,7 @@ s.PPTREE <- function(x, y = NULL,
   }
 
   # [ PPTREE ] ====
-  if (verbose) msg("Training Projection Pursuit Tree...", newline = TRUE)
+  if (verbose) msg("Training Projection Pursuit Tree...", newline.pre = TRUE)
   mod <- PPtree::PP.Tree(PPmethod = PPmethod,
                          i.class = y,
                          i.data = x,

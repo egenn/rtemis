@@ -1,15 +1,19 @@
 # lincoef.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
+# TODO: Check and Document lambda vs lambda.seq
 
 #' Linear Model Coefficients
 #'
 #' Get linear model coefficients
 #'
+#' This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
+#' Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
+#'
 #' @param x Features
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
-#' @param method String: Method to use:
+#' @param method Character: Method to use:
 #' "glm": uses \code{stats::lm.wfit};
 #' "glmnet": uses \code{glmnet::glmnet};
 #' "cv.glmnet": uses \code{glmnet:cv.glmnet};
@@ -25,11 +29,11 @@
 #' \code{lambda.seq}. Default = .01
 #' @param lambda.seq Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL
 #' @param cv.glmnet.nfolds Integer: Number of folds for \code{cv.glmnet}
-#' @param which.cv.glmnet.lambda String: Whitch lambda to pick from cv.glmnet:
+#' @param which.cv.glmnet.lambda Character: Whitch lambda to pick from cv.glmnet:
 #' "lambda.min": Lambda that gives minimum cross-validated error;
 #' @param nbest Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1
 #' @param nvmax Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.
-#' @param sgd.model String: Model to use for \code{method = "sgd"}. Default = "glm"
+#' @param sgd.model Character: Model to use for \code{method = "sgd"}. Default = "glm"
 #' @param sgd.model.control List: \code{model.control} list to pass to \code{sgd::sgd}
 #' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
 #' @param ... Additional parameters to pass to \code{leaps::regsubsets}
@@ -143,11 +147,12 @@ lincoef <- function(x, y,
   } else if (method == "solve") {
     # '-- solve ====
     if (!is.null(weights)) stop("method 'solve' does not currently support weights")
-    x <- cbind(1, x)
+    x <- cbind(`(Intercept)` = 1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
     .names <- colnames(x)
-    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
-    names(coef) <- c("(Intercept)", .names)
+    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x) - 1))
+    # names(coef) <- c("(Intercept)", .names)
+    names(coef) <- .names
   } else if (method == "sgd") {
     # '-- sgd ====
     if (!is.null(weights)) stop("provide weights for method 'sgd' using model.control$wmatrix")

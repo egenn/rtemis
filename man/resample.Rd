@@ -15,7 +15,7 @@ resample(y, n.resamples = 10, resampler = c("strat.sub", "strat.boot",
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
-\item{resampler}{String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{index}{List where each element is a vector of training set indices. Use this for manual or precalculated
@@ -54,6 +54,15 @@ length of input (default) or length defined by \code{target.length}.
 \link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples of slightly
   different length for y of small length, so avoid all operations which rely on equal-length vectors.
   For example, you can't place resamples in a data.frame, but must use a list instead.
+}
+\examples{
+y <- rnorm(200)
+# 10-fold (stratified)
+res <- resample(y, 10, "kfold")
+# 25 stratified subsamples
+res <- resample(y, 25, "strat.sub")
+# 100 stratified bootstraps
+res <- resample(y, 100, "strat.boot")
 }
 \seealso{
 \link{elevate}

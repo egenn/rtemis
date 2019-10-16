@@ -100,7 +100,7 @@ s.NW <- function(x, y = NULL,
     if (plot.bw) plot(bw, plot.errors.method = "asymptotic")
   }
 
-  if (verbose) msg("Training Kernel Regression model...", newline = TRUE)
+  if (verbose) msg("Training Kernel Regression model...", newline.pre = TRUE)
   mod <- np::npreg(bw, txdat = x, tydat = y)
   if (trace > 0) summary(mod)
 

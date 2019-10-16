@@ -13,7 +13,7 @@
 #' @param y.test Testing set outcome
 #' @param x.valid Validation set features (Used to build model / tune hyperparameters)
 #' @param y.valid Validation set outcome
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port to connect to at \code{ip}
 #' @param n.trees Integer: Number of trees to grow
 #' @param epochs Numeric: How many times to iterate through the dataset. Default = 10
@@ -41,6 +41,8 @@ s.H2ORF <- function(x, y = NULL,
                     weights.test = NULL,
                     balance.classes = TRUE,
                     upsample = FALSE,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     # grid.resample.rtset = rtset.grid.resample(),
                     # bag.resample.rtset = NULL,
                     na.action = na.fail,
@@ -91,7 +93,12 @@ s.H2ORF <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, verbose = verbose)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -131,7 +138,7 @@ s.H2ORF <- function(x, y = NULL,
   }
 
   # [ H2ORF ] ====
-  if (verbose) msg("Training H2O Random Forest model...", newline = TRUE)
+  if (verbose) msg("Training H2O Random Forest model...", newline.pre = TRUE)
   mod <- h2o::h2o.randomForest(y = "y",
                                training_frame = df.train,
                                validation_frame = df.valid,

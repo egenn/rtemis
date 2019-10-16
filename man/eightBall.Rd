@@ -7,7 +7,7 @@
 eightBall(question = NULL)
 }
 \arguments{
-\item{question}{String: Your question for the magic 8-ball}
+\item{question}{Character: Your question for the magic 8-ball}
 }
 \description{
 Magic 8-Ball

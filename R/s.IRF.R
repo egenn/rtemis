@@ -28,7 +28,8 @@ s.IRF <- function(x, y = NULL,
                   classwt = NULL,
                   ipw = TRUE,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   autotune = FALSE,
                   n.trees.try = 500,
                   stepFactor = 2,
@@ -85,8 +86,11 @@ s.IRF <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -130,7 +134,7 @@ s.IRF <- function(x, y = NULL,
     mtry <- tuner[which.min(tuner[, 2]), 1]
     if (verbose) msg("Best mtry :", mtry)
   }
-  if (verbose) msg("Running Iterative Random Forest (iRF)", type, "with", n.trees, "trees...", newline = TRUE)
+  if (verbose) msg("Running Iterative Random Forest (iRF)", type, "with", n.trees, "trees...", newline.pre = TRUE)
   mod <- iRF::iRF(x = data.matrix(x), y = y,
                   n.iter = n.iter,
                   ntree = n.trees,

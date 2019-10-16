@@ -18,9 +18,9 @@ d.UMAP(x, x.test = NULL, k = 2, n.neighbors = 15,
 
 \item{n.neighbors}{Integer: Number of keighbors}
 
-\item{init}{String: Initialization type. See \code{uwot::umap "init"}}
+\item{init}{Character: Initialization type. See \code{uwot::umap "init"}}
 
-\item{metric}{String: Distance metric to use: "euclidean", "cosine", "manhattan", "hamming", "categorical"
+\item{metric}{Character: Distance metric to use: "euclidean", "cosine", "manhattan", "hamming", "categorical"
 Default = "euclidean"}
 
 \item{epochs}{Integer: Number of epochs}

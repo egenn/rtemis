@@ -17,7 +17,7 @@ rtModSet(rtclass = "rtMod", mod = list(), mod.name = character(),
   question = character(), extra = list())
 }
 \arguments{
-\item{rtclass}{String: Which class system to use. Previously "S3", "S4", "RC", "R6".
+\item{rtclass}{Character: Which class system to use. Previously "S3", "S4", "RC", "R6".
 Currently, only "R6", aka "rtMod" is supported.}
 
 \item{mod}{Trained model}

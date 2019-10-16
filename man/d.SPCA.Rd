@@ -20,7 +20,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{nneg}{Logical: If TRUE, calculate non-negative loadings only. Default = TRUE}
 
-\item{method}{String: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"}
+\item{method}{Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"}
 
 \item{scale}{LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE}
 

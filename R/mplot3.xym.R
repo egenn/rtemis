@@ -22,7 +22,7 @@
 #' @param hist.alpha Alpha for barplots
 #' @param hist.space Space between bars in barplots
 #' @param lwd Float: Line width
-#' @param main String: Main title
+#' @param main Character: Main title
 #' @param axes.density Logical: If TRUE, plot margin plot axes for density (debugging only)
 #' @param par.reset Logical. Resest \code{par} to original settings
 #' @param ... Additional arguments to be passed to \code{mplot3.xy}

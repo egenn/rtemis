@@ -10,11 +10,12 @@
 #' @param x Input matrix / data.frame
 #' @param dmat Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
 #' If NULL
-#' @param metric String: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
-#' @param K Integer, (0:15]: Maximum number of levels
+#' @param metric Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
+#' @param k Integer, (0:15]: Maximum number of levels
 #' @param kmax Integer, [1:9]: Maximum number of children at each node in the tree
 #' @param khigh Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
 #' the Mean/Median Split Silhouette. Usually same as \code{kmax}
+#' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
 #' @param ... Additional parameters to be passed to \code{cluster::hopach}
 #' @author Efstathios D. Gennatas
 #' @family Clustering
@@ -23,9 +24,10 @@
 u.HOPACH <- function(x,
                      dmat = NULL,
                      metric = c("cosangle", "abscosangle", "euclid", "abseuclid", "cor", "abscor"),
-                     K = 15,
+                     k = 15,
                      kmax = 9,
                      khigh = 9,
+                     trace = 0,
                      verbose = TRUE, ...) {
 
   # [ INTRO ] ====
@@ -50,10 +52,10 @@ u.HOPACH <- function(x,
   clust <- hopach::hopach(x,
                           dmat = dmat,
                           d = metric,
-                          K = K,
+                          K = k,
                           kmax = kmax,
                           khigh = khigh,
-                          verbose = verbose, ...)
+                          verbose = trace > 0, ...)
   if (verbose) msg("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
       paste(clust$clustering$sizes, collapse = ", "), ")", sep = "")
 
@@ -67,7 +69,7 @@ u.HOPACH <- function(x,
                     clust = clust,
                     clusters.train = clusters.train,
                     clusters.test = NULL,
-                    parameters = list(K = K,
+                    parameters = list(k = k,
                                       kmax = kmax,
                                       khigh = khigh),
                     extra = list())

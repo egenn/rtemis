@@ -26,7 +26,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{mod}{String: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"}
+\item{mod}{Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"}
 
 \item{resid}{Float, vector, length = length(y): Residuals to work on. Do not change unless you know
 what you're doing. Default = NULL, for regular boosting}
@@ -50,7 +50,7 @@ end of training. If integer, plot training and validation error curve every this
 during training. "none" for no plot.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 }
 \description{
 Expand a \link{boost} object by adding more iterations

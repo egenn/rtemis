@@ -16,18 +16,18 @@
 #'
 #' @param x features - training set. Will be resampled to multiple train-test sets
 #' @param y outcome - training set. Will be resampled to multiple train-test sets
-#' @param mod String: \pkg{rtemis} model. See \code{modSelect()} gives available models
+#' @param mod Character: \pkg{rtemis} model. See \code{modSelect()} gives available models
 #' @param grid.params List of named elements, each is a vector of values
 #' @param fixed.params List of named elements, each is a single value
 #'   (Classification will always maximize Accuracy)
-#' @param search.type String: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
+#' @param search.type Character: "exhaustive" (Default), "randomized". Type of grid search to use. Exhaustive search will
 #' try all combinations of parameters. Randomized will try a random sample of size \code{randomize.p} * N
 #' of all combinations
 #' @param resample.rtset List: Output of \code{rtset.grid.resample()}
 #' @param randomized.p Float (0, 1): For \code{search.type == "exhaustive"}, sample this portion of combination. Default = .05
 #' @param weights Float, vector: Case weights
 #' @param error.aggregate.fn Function: Use this when aggregating error metrics. Default = mean
-#' @param metric String: Metric to minimize or maximize
+#' @param metric Character: Metric to minimize or maximize
 #' @param maximize Logical: If TRUE, maximize \code{metric}
 #' @param save.mod Logical: If TRUE, save all trained models. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to screen
@@ -189,12 +189,22 @@ gridSearchLearn <- function(x, y, mod,
   }
 
   # '- GBM, H2OGBM ====
-  if (learner == "s.H2OGBM" | learner == "s.GBM" | learner == "s.GBM3") {
+  if (learner %in% c("s.H2OGBM", "s.GBM", "s.GBM3")) {
     est.n.trees.all <- data.frame(n.trees = plyr::laply(grid.run, function(x) x$est.n.trees))
     est.n.trees.all$param.id <- rep(1:n.param.combs, each = n.resamples)
     est.n.trees.by.param.id <- aggregate(n.trees ~ param.id, est.n.trees.all,
                                          error.aggregate.fn)
     tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
+    n.params <- n.params + 1
+  }
+
+  # '- XGBoost ====
+  if (learner == "XGB") {
+    est.nrounds.all <- data.frame(nrounds = plyr::laply(grid.run, function(x) x$best_iteration))
+    est.nrounds.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+    est.nrounds.by.param.id <- aggregate(nrounds ~ param.id, est.nrounds.all,
+                                         error.aggregate.fn)
+    tune.results <- cbind(nrounds = round(est.nrounds.by.param.id$nrounds), tune.results)
     n.params <- n.params + 1
   }
 
@@ -275,7 +285,7 @@ gridCheck <- function(...) {
 
 print.gridSearch <- function(x, ...) {
 
-  boxcat(".:rtemis gridSearch object")
+  objcat("gridSearch object")
   type <- if (x$type == "exhaustive") "An exhaustive grid search"
                  else paste0("A randomized grid search (p = ", x$p, ")")
   resamples <- if (x$resample.rtset$resample == "kfold") {

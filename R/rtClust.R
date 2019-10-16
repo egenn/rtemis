@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtClust-class
-#' @field clust.name String: Name of clustering algorithm
+#' @field clust.name Character: Name of clustering algorithm
 #' @field call Originating call
 #' @field xnames Column names of x
 #' @field clust Clustering algorithm output
@@ -50,7 +50,7 @@ rtClust <- R6::R6Class("rtClust",
                           ### Methods
                           print = function() {
                             "show / print method for rtClust"
-                            cat(bold(".:rtemis Clustering\n"))
+                            objcat("Clustering object")
                             cat(rtHighlight$bold(self$clust.name), " (", clustSelect(self$clust.name, desc = TRUE),
                                 ")\n", sep = "")
                             if (length(self$parameters) > 0) printls(self$parameters,

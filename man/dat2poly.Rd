@@ -10,7 +10,7 @@ dat2poly(dat, method = c("simple", "poly"), degree = 2, raw = FALSE,
 \arguments{
 \item{dat}{Numeric, matrix / data.frame: Input}
 
-\item{method}{String: "simple", "poly". "simple": raise each column of \code{dat} up to \code{degree}.
+\item{method}{Character: "simple", "poly". "simple": raise each column of \code{dat} up to \code{degree}.
 "poly": use \code{stats::poly} with arguments \code{degree} and \code{raw}}
 
 \item{degree}{Integer: degree of polynomials to create. Default = 2}

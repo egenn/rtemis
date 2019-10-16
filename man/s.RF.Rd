@@ -9,13 +9,13 @@ s.RF(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   n.trees.try = 1000, stepFactor = 1.5, mtry = NULL,
   mtryStart = mtry, grid.resample.rtset = rtset.resample("kfold", 5),
   metric = NULL, maximize = NULL, classwt = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  importance = TRUE, proximity = FALSE, replace = TRUE,
-  nodesize = NULL, maxnodes = NULL, strata = NULL, sampsize = if
-  (replace) nrow(x) else ceiling(0.632 * nrow(x)), sampsize.ratio = NULL,
-  do.trace = NULL, tune.do.trace = FALSE, imetrics = FALSE,
-  n.cores = rtCores, print.tune.plot = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, importance = TRUE, proximity = FALSE,
+  replace = TRUE, nodesize = NULL, maxnodes = NULL, strata = NULL,
+  sampsize = if (replace) nrow(x) else ceiling(0.632 * nrow(x)),
+  sampsize.ratio = NULL, do.trace = NULL, tune.do.trace = FALSE,
+  imetrics = FALSE, n.cores = rtCores, print.tune.plot = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   proximity.tsne = FALSE, discard.forest = FALSE,
   tsne.perplexity = 5, plot.tsne.train = FALSE,
@@ -53,7 +53,7 @@ divided by this value. Default = 1.5}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -72,7 +72,7 @@ Default = 2}
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
@@ -107,19 +107,19 @@ If an integer, \code{randomForest} will report progress every this many trees. D
 the 'extra' field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{proximity.tsne}{Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
 \link{rtMod}. Default = FALSE}
@@ -133,9 +133,9 @@ Default = FALSE}
 
 \item{plot.tsne.test}{Logical: If TRUE, plot testing set tSNE projections}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

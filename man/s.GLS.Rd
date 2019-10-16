@@ -31,7 +31,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
-\item{covariate}{String: Name of column to be included as interaction term in formula, must be factor}
+\item{covariate}{Character: Name of column to be included as interaction term in formula, must be factor}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -40,20 +40,20 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

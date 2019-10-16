@@ -26,6 +26,9 @@ s.EVTREE <- function(x, y = NULL,
                      weights = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
+                     upsample = FALSE,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      control = evtree::evtree.control(),
                      na.action = na.exclude,
                      print.plot = TRUE,
@@ -71,8 +74,13 @@ s.EVTREE <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -96,7 +104,7 @@ s.EVTREE <- function(x, y = NULL,
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
   # [ EVTREE ] ====
-  if (verbose) msg("Training EVTREE...", newline = TRUE)
+  if (verbose) msg("Training EVTREE...", newline.pre = TRUE)
   mod <- evtree::evtree(formula = .formula,
                         data = df.train,
                         weights = weights,

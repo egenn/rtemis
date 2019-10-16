@@ -16,7 +16,7 @@
 #' @param W_o Float: Output weight. Defaults to 1
 #' @param b_h Float: Hidden layer bias. Defaults to 0
 #' @param W_h Float, vector (length \code{NCOL(x)}): Hidden layer weights. Defaults to 0
-#' @param optim.method String: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
+#' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
 #' @param ... Additional arguments to be passed to \code{sigreg}
 #' @return Object of class \pkg{rtemis}
@@ -95,7 +95,7 @@ s.NLA <- function(x, y = NULL,
 
   # [ NLA ] ====
   if (verbose) msg("Training NLA model with", .activation, "activation function using",
-                   optim.method, "optimization...", newline = TRUE)
+                   optim.method, "optimization...", newline.pre = TRUE)
   mod <- nlareg(x, y,
                 activation = .activation,
                 b_o = b_o,

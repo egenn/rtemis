@@ -19,10 +19,10 @@
 #' @param y.test Vector: Testing set outcome
 #' @param x.valid Vector / Matrix / Data Frame: Validation set Predictors
 #' @param y.valid Vector: Validation set outcome
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
 #' @param n.hidden.nodes Integer vector of length equal to the number of hidden layers you wish to create
-#' @param activation String: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
+#' @param activation Character: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
 #' "Maxout", "MaxoutWithDropout". Default = "Rectifier"
 #' @param input.dropout.ratio Float (0, 1): Dropout ratio for inputs
 #' @param hidden.dropout.ratios Vector, Float (0, 2): Dropout ratios for hidden layers
@@ -76,7 +76,8 @@ s.H2ODL <- function(x, y = NULL,
                     stopping.rounds = 5,
                     stopping.metric = "AUTO",
                     upsample = FALSE,
-                    upsample.seed = NULL,
+                    downsample = FALSE,
+                    resample.seed = NULL,
                     na.action = na.fail,
                     n.cores = rtCores,
                     print.plot = TRUE,
@@ -125,7 +126,11 @@ s.H2ODL <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -189,7 +194,7 @@ s.H2ODL <- function(x, y = NULL,
                    stopping_rounds = stopping.rounds,
                    stopping_metric = stopping.metric, ...)
   if (!is.null(hidden.dropout.ratios)) net.args$hidden_dropout_ratios <- hidden.dropout.ratios
-  if (verbose) msg("Training H2O Deep Net...", newline = TRUE)
+  if (verbose) msg("Training H2O Deep Net...", newline.pre = TRUE)
   mod <- do.call(h2o::h2o.deeplearning, net.args)
   if (trace > 0) print(summary(mod))
 

@@ -21,7 +21,7 @@ d.H2OAE(x, x.test = NULL, x.valid = NULL, ip = "localhost",
 
 \item{x.valid}{Vector / Matrix / Data Frame: Validation set Predictors}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
@@ -32,10 +32,10 @@ Default = \code{ceiling(length(n.hidden.nodes)/2)}}
 
 \item{epochs}{Integer: How many times to iterate through the dataset. Default = 5000}
 
-\item{activation}{String: Activation function to use: "Tanh" (Default), "TanhWithDropout", "Rectifier", "RectifierWithDropout",
+\item{activation}{Character: Activation function to use: "Tanh" (Default), "TanhWithDropout", "Rectifier", "RectifierWithDropout",
 "Maxout", "MaxoutWithDropout"}
 
-\item{loss}{String: "Automatic" (Default), "CrossEntropy", "Quadratic", "Huber", "Absolute"}
+\item{loss}{Character: "Automatic" (Default), "CrossEntropy", "Quadratic", "Huber", "Absolute"}
 
 \item{input.dropout.ratio}{Float (0, 1): Dropout ratio for inputs}
 
@@ -54,7 +54,7 @@ Default = \code{ceiling(length(n.hidden.nodes)/2)}}
 \item{stopping.rounds}{Integer: Stop if simple moving average of length \code{stopping.rounds} of the
 \code{stopping.metric} does not improve. Set to 0 to disable. Default = 50}
 
-\item{stopping.metric}{String: Stopping metric to use: "AUTO", "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
+\item{stopping.metric}{Character: Stopping metric to use: "AUTO", "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 "AUC", "lift_top_group", "misclassification", "mean_per_class_error". Default = "AUTO" ("logloss" for Classification,
 "deviance" for Regression)}
 

@@ -1,6 +1,7 @@
 # s.TFN.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
+# In Classification, levels e.g. "M", "R" become 0, 1 integers; "M", "R", "C" become 0, 1, 2
 
 #' Neural Network with \pkg{tensorflow} [C, R]
 #'
@@ -12,7 +13,7 @@
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
 #' Can be zero (~GLM)
-#' @param initializer String: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
+#' @param initializer Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 #' "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 #' "truncated_normal", "orthogonal", "zeros", "ones", "constant".
 #' Glorot is also known as Xavier initialization. Default = "glorot_uniform"
@@ -22,15 +23,15 @@
 #' @param activation String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
 #' "exponential", "linear", "softmax", "softplus", "softsign". Default = "relu"
 #' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
-#' @param output String: Activation to use for output layer. Can be any as in \code{activation}.
+#' @param output Character: Activation to use for output layer. Can be any as in \code{activation}.
 #' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
-#' @param loss String: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
+#' @param loss Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
 #' classification, "sparse_categorical_crossentropy" for multiclass
-#' @param optimizer String: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
+#' @param optimizer Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 #' Default = "rmsprop"
 #' @param learning.rate Float: learning rate. Defaults depend on \code{optimizer} used and are:
 #' \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
-#' @param metric String: Metric used for evaluation during train. Default = "mse" for regression,
+#' @param metric Character: Metric used for evaluation during train. Default = "mse" for regression,
 #'  "accuracy" for classification.
 #' @param epochs Integer: Number of epochs. Default = 100
 #' @param batch.size Integer: Batch size. Default = N of cases
@@ -50,24 +51,38 @@
 s.TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
+                  class.weights = NULL,
+                  ipw = TRUE,
+                  ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   net = NULL,
                   n.hidden.nodes = NULL,
-                  initializer = c("glorot_uniform", "glorot_normal", "he_uniform", "he_normal",
-                                  "lecun_uniform", "lecun_normal", "random_uniform", "random_normal",
-                                  "variance_scaling", "truncated_normal", "orthogonal", "zeros", "ones", "constant"),
+                  initializer = c("glorot_uniform", "glorot_normal",
+                                  "he_uniform", "he_normal",
+                                  "lecun_uniform", "lecun_normal",
+                                  "random_uniform", "random_normal",
+                                  "variance_scaling", "truncated_normal",
+                                  "orthogonal", "zeros",
+                                  "ones", "constant"),
                   initializer.seed = NULL,
                   dropout = 0,
-                  activation = c("relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh", "exponential", "linear",
-                                 "softmax", "softplus", "softsign"),
+                  activation = c("relu", "selu",
+                                 "elu", "sigmoid",
+                                 "hard_sigmoid", "tanh",
+                                 "exponential", "linear",
+                                 "softmax", "softplus",
+                                 "softsign"),
                   l1 = 0,
                   l2 = 0,
                   batch.normalization = TRUE,
                   output = NULL,
                   loss = NULL,
-                  optimizer = c("rmsprop", "adadelta", "adagrad", "adam", "adamax",
-                                "nadam", "sgd"),
+                  optimizer = c("rmsprop", "adadelta",
+                                "adagrad", "adam",
+                                "adamax", "nadam",
+                                "sgd"),
                   learning.rate = NULL,
                   metric = NULL,
                   epochs = 50,
@@ -141,7 +156,11 @@ s.TFN <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -152,6 +171,7 @@ s.TFN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
+  .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)
@@ -161,6 +181,12 @@ s.TFN <- function(x, y = NULL,
     y0 <- y
     y <- as.numeric(y) - 1
     n.classes <- length(levels(y0))
+    if (!is.null(.class.weights)) {
+      .class.weights.int <- as.list(.class.weights)
+      names(.class.weights.int) <- seq(n.classes) - 1
+    } else {
+      .class.weights.int <- NULL
+    }
   }
 
   # Loss
@@ -260,7 +286,7 @@ s.TFN <- function(x, y = NULL,
     # [ TF ] ====
     if (verbose) msg0("Training Neural Network ", type, " with ",
                       n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
-                      "...\n", newline = TRUE)
+                      "...\n", newline.pre = TRUE)
 
     # '- Compile ====
     net %>% keras::compile(
@@ -280,6 +306,7 @@ s.TFN <- function(x, y = NULL,
       batch_size = batch.size,
       validation_split = validation.split,
       callback = callback,
+      class_weight = .class.weights.int
     )
 
   # [ FITTED ] ====
@@ -289,7 +316,7 @@ s.TFN <- function(x, y = NULL,
   } else {
     fitted.prob <- keras::predict_proba(net, x.dm)
     fitted <- factor(c(keras::predict_classes(net, x.dm)))
-    levels(fitted) <- levels(y0)
+    levels(fitted) <- levels(y0) # levels are 0, 1, 2 before conversion
     error.train <- modError(y0, fitted, type = type)
   }
 
@@ -301,14 +328,8 @@ s.TFN <- function(x, y = NULL,
     if (type == "Regression") {
       predicted <- c(predict(net, data.matrix(x.test)))
     } else {
-      predicted.prob <- predict(net, data.matrix(x.test))
-      if (min(dim(predicted.prob)) == 1) {
-        # Classification with Logistic output
-        predicted <- factor(as.numeric(predicted.prob >= .5))
-      } else {
-        # Classification with Softmax output
-        predicted <- factor(apply(predicted.prob, 1, function(i) which.max(i)))
-      }
+      predicted.prob <- keras::predict_proba(net, data.matrix(x.test))
+      predicted <- factor(c(keras::predict_classes(net, data.matrix(x.test))))
       levels(predicted) <- levels(y0)
     }
     if (!is.null(y.test)) {

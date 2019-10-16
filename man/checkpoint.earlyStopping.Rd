@@ -29,14 +29,14 @@ return \code{stop = TRUE}. See output under Value}
 
 \item{n.steps}{Integer; > 1: Calculate relative variance over this many last values of \code{x}}
 
-\item{combine.relative.thresholds}{String: "AND" or "OR": How to combine the criteria \code{relative.threshold} and
+\item{combine.relative.thresholds}{Character: "AND" or "OR": How to combine the criteria \code{relative.threshold} and
 \code{relativeVariance.threshold}. Default = "AND", which means both must be TRUE to stop. The scenario is you might
 want to check relastiveVariance threshold only after a certain amount of learning has taken place, which you
 can't predict with \code{min.steps} but would rather quantify with \code{relative.threshold}.}
 
 \item{min.steps}{Integer: Do not calculate relativeVariance unless \code{x} is at least this length}
 
-\item{na.response}{String: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}}
+\item{na.response}{Character: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 }

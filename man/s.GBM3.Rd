@@ -5,12 +5,12 @@
 \title{Gradient Boosting Machine [C, R, S]}
 \usage{
 s.GBM3(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  distribution = NULL, interaction.depth = 2, shrinkage = 0.01,
-  bag.fraction = 0.9, mFeatures = NULL, n.minobsinnode = 5,
-  n.trees = 2000, max.trees = 5000, force.n.trees = NULL,
-  n.tree.window = 0, gbm.select.smooth = TRUE, smoother = c("loess",
-  "supsmu"), n.new.trees = 500, min.trees = 50,
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, distribution = NULL, interaction.depth = 3,
+  shrinkage = 0.01, bag.fraction = 0.9, mFeatures = NULL,
+  n.minobsinnode = 5, n.trees = 2000, max.trees = 5000,
+  force.n.trees = NULL, n.tree.window = 0, gbm.select.smooth = TRUE,
+  smoother = c("loess", "supsmu"), n.new.trees = 500, min.trees = 50,
   failsafe.trees = 1000, imetrics = FALSE, .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
@@ -57,39 +57,41 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{interaction.depth}{[gS] Integer: Interaction depth}
+\item{interaction.depth}{[gS] Integer: Interaction depth. Default = 3}
 
-\item{shrinkage}{[gS] Float: Shrinkage (learning rate)}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate). Default = .01}
 
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
-Helps avoid overfitting. Default = .75}
+Helps avoid overfitting. Default = .9}
 
 \item{mFeatures}{[gS] Integer: Number of features to randomly choose from all available features to train at each
 step. Default = NULL which results in using all features.}
 
 \item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node}
 
-\item{n.trees}{Integer: Initial number of trees to fit}
+\item{n.trees}{Integer: Initial number of trees to fit. Default = 2000}
+
+\item{max.trees}{Integer: Maximum number of trees to fit. Default = 5000}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{relInf}{Logical: If TRUE (Default), estimate variables' relative influence.}
 
@@ -103,15 +105,15 @@ The two measures are highly correlated.}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -119,7 +121,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
-\item{outdir}{String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
+\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
 \item{save.rds}{Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 mod.gbm, so no need to save again.}

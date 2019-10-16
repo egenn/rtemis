@@ -8,7 +8,10 @@
 #'
 #' @param true Vector, factor: True values
 #' @param estimated Vector, factor: Estimated values
+#' @param estimated Vector, factor: Estimated probabilities
+#' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' @author Efstathios D. Gennatas
+#' @return S3 object of type  "classError"
 #' @export
 
 classError <- function(true, estimated,
@@ -69,8 +72,10 @@ classError <- function(true, estimated,
     Overall$NPV <- Class$NPV[1]
     Overall$F1 <- Class$F1[1]
   } else {
-    Overall$`Balanced Accuracy Mean` <- mean(Class$`Balanced Accuracy`)
-    # attr(Overall$`Balanced AccuracyMean`, "Formula") <- "mean(Class$`Balanced Accuracy`)"
+    # Overall$`Balanced Accuracy Mean` <- mean(Class$`Balanced Accuracy`)
+    # attr(Overall$`Balanced Accuracy Mean`, "Formula") <- "mean(Class$`Balanced Accuracy`)"
+    Overall$`Balanced Accuracy` <- mean(Class$`Sensitivity`)
+    # attr(Overall$`Balanced Accuracy`, "Formula") <- "mean(Class$`Sensitivity`)"
     Overall$`F1 Mean` <- mean(Class$`F1`)
     # attr(Overall$`F1 Mean`, "Formula") <- "mean(Class$F1)"
   }
@@ -80,7 +85,7 @@ classError <- function(true, estimated,
   # Prob-based ====
   if (!is.null(estimated.prob) & n.classes == 2) {
     Overall$AUC <- auc(estimated.prob, true)
-    Overall$`Log loss` <- logloss(estimated.prob, 2 - as.numeric(true))
+    Overall$`Log loss` <- logloss(true, estimated.prob)
   }
 
   # Outro ====

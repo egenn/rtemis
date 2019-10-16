@@ -8,14 +8,14 @@ s.XGB(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, booster = c("gbtree", "gblinear", "dart"),
   silent = 1, missing = NA, nrounds = 500L, force.nrounds = NULL,
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, obj = NULL, feval = NULL, maximize = NULL,
-  xgb.verbose = NULL, print_every_n = 100L,
-  early.stopping.rounds = 50L, eta = 0.1, gamma = 0, max.depth = 3,
-  min.child.weight = 5, max.delta.step = 0, subsample = 0.75,
-  colsample.bytree = NULL, colsample.bylevel = 1, lambda = NULL,
-  lambda.bias = 0, alpha = 0, tree.method = "auto",
-  sketch.eps = 0.03, num.parallel.tree = 1, base.score = NULL,
-  objective = NULL, sample.type = "uniform",
+  downsample = FALSE, resample.seed = NULL, obj = NULL,
+  feval = NULL, maximize = NULL, xgb.verbose = NULL,
+  print_every_n = 100L, early.stopping.rounds = 50L, eta = 0.1,
+  gamma = 0, max.depth = 3, min.child.weight = 5,
+  max.delta.step = 0, subsample = 0.75, colsample.bytree = NULL,
+  colsample.bylevel = 1, lambda = NULL, lambda.bias = 0, alpha = 0,
+  tree.method = "auto", sketch.eps = 0.03, num.parallel.tree = 1,
+  base.score = NULL, objective = NULL, sample.type = "uniform",
   normalize.type = "forest", rate.drop = 0.1, skip.drop = 0.5,
   resampler = "strat.sub", n.resamples = 10, train.p = 0.75,
   strat.n.bins = 4, stratify.var = NULL, target.length = NULL,
@@ -41,7 +41,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{booster}{String: Booster to use. Options: "gbtree", "gblinear"}
+\item{booster}{Character: Booster to use. Options: "gbtree", "gblinear"}
 
 \item{silent}{0: print XGBoost messages; 1: print no XGBoost messages}
 
@@ -68,7 +68,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{obj}{Function: Custom objective function. See \code{?xgboost::xgboost}}
@@ -114,18 +114,18 @@ does not improve for this many rounds}
 \item{normalize.type}{(Default = "forest")}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

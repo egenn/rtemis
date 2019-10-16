@@ -13,6 +13,8 @@
 #' when training on resamples of a data set, especially after stratifying against a different
 #' outcome, and results in error and no prediction. \code{s.GLM} automatically finds such cases
 #' and substitutes levels present in \code{x.test} and not in \code{x} with NA.
+#' Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+#' variable standard deviation.
 #'
 #' @param x Numeric vector or matrix / data frame of features i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
@@ -20,12 +22,12 @@
 #'   Columns must correspond to columns in \code{x}
 #' @param y.test Numeric vector of testing set outcome
 #' @param family Error distribution and link function. See \code{stats::family}
-#' @param covariate String: Name of column to be included as interaction term in formula, must be factor
+#' @param covariate Character: Name of column to be included as interaction term in formula, must be factor
 #' @param x.name Character: Name for feature set
 #' @param y.name Character: Name for outcome
 #' @param interactions Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}
 #' @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
-#' @param class.method String: Define "logistic" or "multinom" for classification. The only purpose
+#' @param class.method Character: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try \code{nnet::multinom} instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 #' over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -40,7 +42,7 @@
 #' @param upsample Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 #' Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 #' the length of the class you are upsampling, thereby introducing randomness
-#' @param upsample.seed Integer: If provided, will be used to set the seed during upsampling.
+#' @param resample.seed Integer: If provided, will be used to set the seed during upsampling.
 #' Default = NULL (random seed)
 #' @param intercept Logical: If TRUE, fit an intercept term. Default = TRUE
 #' @param polynomial Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)
@@ -48,17 +50,17 @@
 #' @param poly.raw Logical: if TRUE, use raw polynomials.
 #'   Default, which should not really be changed is FALSE
 #' @param print.plot Logical: if TRUE, produce plot using \code{mplot3}
-#'   Takes precedence over \code{plot.fitted} and \code{plot.predicted}
+#'   Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires \code{x.test} and \code{y.test}
-#' @param plot.theme String: "zero", "dark", "box", "darkbox"
+#' @param plot.theme Character: "zero", "dark", "box", "darkbox"
 #' @param na.action How to handle missing values. See \code{?na.fail}
 #' @param removeMissingLevels Logical: If TRUE, finds factors in \code{x.test} that contain levels
 #' not present in \code{x} and substitutes with NA. This would result in error otherwise and no
 #' predictions would be made, ending \code{s.GLM} prematurely
-#' @param question String: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass String: Class type to use. "S3", "S4", "RC", "R6"
+#' @param question Character: the question you are attempting to answer with this model, in plain language.
+#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param trace Integer: If higher than 0, will print more information to the console. Default = 0
 #' @param outdir Path to output directory.
@@ -91,7 +93,8 @@ s.GLM <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   intercept = TRUE,
                   polynomial = FALSE,
                   poly.d = 3,
@@ -136,9 +139,13 @@ s.GLM <- function(x, y = NULL,
   if (trace > 0) verbose <- TRUE
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -202,7 +209,7 @@ s.GLM <- function(x, y = NULL,
                                        collapse = " + poly("))
     .formula <- paste0(y.name, " ~ ", features)
     }
-    
+
   # Intercept
   if (!intercept) .formula <- paste(.formula, "- 1")
   .formula <- as.formula(.formula)
@@ -210,14 +217,14 @@ s.GLM <- function(x, y = NULL,
   # [ GLM, NNET ] ====
   if (trace > 0) msg("Using formula", .formula)
   if (mod.name != "MULTINOM") {
-      if (verbose) msg("Training GLM...", newline = TRUE)
+      if (verbose) msg("Training GLM...", newline.pre = TRUE)
       mod <- glm(.formula, family = family, data = df.train,
                  weights = .weights, na.action = na.action, ...)
   } else {
     if (!depCheck("nnet", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
-    if (verbose) msg("Training multinomial logistic regression model...", newline = TRUE)
+    if (verbose) msg("Training multinomial logistic regression model...", newline.pre = TRUE)
     mod <- nnet::multinom(.formula, data = df.train,
                           weights = .weights, na.action = na.action, ...)
   }
@@ -311,7 +318,7 @@ s.GLM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = se.prediction,
                  error.test = error.test,
-                 varimp = mod$coefficients[-1],
+                 varimp = mod$coefficients[-1] * apply(x, 2, sd),
                  question = question,
                  extra = extra)
 

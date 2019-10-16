@@ -15,13 +15,13 @@
 #' @param eta [gS] Float [0, 1): Thresholding parameter. Default = .5
 #' @param kappa [gS] Float [0, .5]: Only relevant for multivariate responses: controls effect of concavity of objective
 #'   function. Default = .5
-#' @param select [gS] String: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"
-#' @param fit [gS] String: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
+#' @param select [gS] Character: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"
+#' @param fit [gS] Character: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
 #'   Default = "simpls"
 #' @param scale.x Logical: if TRUE, scale features by dividing each column by its sample standard deviation
 #' @param scale.y Logical: if TRUE, scale outcomes by dividing each column by its sample standard deviation
 #' @param maxstep [gS] Integer: Maximum number of iteration when fitting direction vectors. Default = 100
-#' @param classifier String: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"
+#' @param classifier Character: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"
 #' @param n.cores Integer: Number of cores to be used by \link{gridSearchLearn}, if applicable
 #' @param ... Additional parameters to be passed to \code{npreg}
 #' @return Object of class \pkg{rtemis}
@@ -38,6 +38,9 @@
 s.SPLS <- function(x, y = NULL,
                    x.test = NULL, y.test = NULL,
                    x.name = NULL, y.name = NULL,
+                   upsample = TRUE,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    k = 2,
                    eta = .5,
                    kappa = .5,
@@ -89,7 +92,10 @@ s.SPLS <- function(x, y = NULL,
     print(args(s.SPLS))
     stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.SPLS)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) {
+    print(args(s.SPLS))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -102,7 +108,12 @@ s.SPLS <- function(x, y = NULL,
   }
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -159,7 +170,7 @@ s.SPLS <- function(x, y = NULL,
 
   # [ SPLS ] ====
   if (verbose) msg0("Training Sparse Partial Least Squares ", type , "...",
-                     newline = TRUE)
+                     newline.pre = TRUE)
   if (type == "Classification") {
     # Cannot include select, scale.y, or trace options; see source
     mod <- spls::splsda(data.matrix(x), y1,

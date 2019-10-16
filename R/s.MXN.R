@@ -25,7 +25,7 @@
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create
 #' @param activation String vector: Activation types to use: 'relu', 'sigmoid', 'softrelu', 'tanh'.
 #'  If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbol.Activation}
-#' @param output String: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
+#' @param output Character: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
 #' "Linear" for Regression. Defaults to "Logistic" for binary outcome, "Softmax" for 3+ classes, "LinearReg" for
 #' regression.
 #' @param net MXNET Symbol: provide a previously defined network. logger will not work in this case at the moment,
@@ -40,7 +40,7 @@
 #' @param dropout Float (0, 1): Probability of dropping nodes
 #' @param dropout.before Integer: Index of hidden layer before which dropout should be applied
 #' @param dropout.after Integer: Index of hidden layer after which dropout should be applied
-#' @param eval.metric String: Metrix used for evaluation during train. Default: "rmse"
+#' @param eval.metric Character: Metrix used for evaluation during train. Default: "rmse"
 #' @param plot.graphviz Logical: if TRUE, plot the network structure using \code{graphviz}
 #' @param n.cores Integer: Number of cores to use. Caution: Only set to >1 if you're sure MXNET is not using already
 #'   using multiple cores
@@ -55,7 +55,8 @@ s.MXN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   net = NULL,
                   n.hidden.nodes = NULL,
                   output = NULL,
@@ -140,7 +141,9 @@ s.MXN <- function(x, y = NULL,
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid, y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -276,7 +279,7 @@ s.MXN <- function(x, y = NULL,
   logger <- mxnet::mx.metric.logger$new()
   if (verbose) msg0("Training Neural Network ", type, " with ",
                     n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
-                    "...\n", newline = TRUE)
+                    "...\n", newline.pre = TRUE)
 
   if (!is.null(x.valid) & !is.null(y.valid)) {
     eval.data <- list(data = data.matrix(x.valid),

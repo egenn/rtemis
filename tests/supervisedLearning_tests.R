@@ -8,27 +8,25 @@ library(rtemis)
 x <- rnormmat(50, 2, seed = 2018)
 w <- rnorm(2)
 y <- c(x %*% w + rnorm(50))
-
 x[10, 1] <- NA
 x <- preprocess(x, impute = TRUE, impute.type = "meanMode")
-
-# res <- resample(y)
-res <- list(Resample01 = sample(seq(y), length(y), T))
+res <- resample(y, seed = 2019)
 dat <- data.frame(x, y)
-dat.train <- dat[res$Resample01, ]
-dat.test <- dat[-res$Resample01, ]
+dat.train <- dat[res$Subsample_1, ]
+dat.test <- dat[-res$Subsample_1, ]
 x <- dat.train[, -3]
 y <- dat.train[, 3]
 x.test <- dat.test[, -3]
 y.test <- dat.test[, 3]
 
 # Classification Data ====
-iris2 <- iris[51:150, ]
+# iris2 <- iris[51:150, ]
+iris2 <- iris
+iris2$Species[iris2$Species  == "versicolor"] <- "setosa"
 iris2$Species <- factor(iris2$Species)
-# res <- resample(iris2)
-res <- list(Resample01 = sample(seq(iris2$Species), length(iris2$Species), T))
-iris2.train <- iris2[res$Resample01, ]
-iris2.test <- iris2[-res$Resample01, ]
+res <- resample(iris2, seed = 2019)
+iris2.train <- iris2[res$Subsample_1, ]
+iris2.test <- iris2[-res$Subsample_1, ]
 checkData(iris2, str = TRUE)
 
 # Test different ways of data input (dataPrepare) ====
@@ -56,8 +54,8 @@ if (requireNamespace("ada", quietly = TRUE)) {
 }
 
 if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("glmnet", quietly = TRUE)) {
-  mod <- s.ADDTBOOST(x, y, max.iter = 4)
-  mod <- s.ADDT(dat.train, dat.test, max.depth = 3)
+  mod <- s.HYTBOOST(dat.train, dat.test, max.iter = 4)
+  mod <- s.HYTREE(dat.train, dat.test, max.depth = 3)
   mod <- s.ADDTREE(iris2.train, iris2.test, max.depth = 3)
   mod <- cartLinBoostTV(x, y, max.iter = 4)
   mod <- cartLite(x, y)
@@ -256,4 +254,14 @@ if (requireNamespace("randomForest", quietly = TRUE)) {
 # gp ====
 if (requireNamespace("tgp", quietly = TRUE)) {
   mod <- gp(x, y)
+}
+
+# Ranger IPW ====
+if (requireNamespace("mlbench", quietly = TRUE)) {
+  data(Sonar, package = "mlbench")
+  sonar.train <- Sonar[-res$Subsample_1, ]
+  sonar.test <- Sonar[-res$Subsample_1, ]
+  mod.rf.ipw <- s.RANGER(sonar.train, sonar.test, ipw = F, upsample = F, ipw.case.weights = F, ipw.class.weights = F)
+  mod.rf.ipw <- s.RANGER(sonar.train, sonar.test, ipw = T, upsample = F, ipw.case.weights = T, ipw.class.weights = F)
+  mod.rf.ipw <- s.RANGER(sonar.train, sonar.test, ipw = T, upsample = F, ipw.case.weights = F, ipw.class.weights = T)
 }

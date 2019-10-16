@@ -11,7 +11,7 @@ rtSave(rtmod, outdir, file.prefix = "s.", verbose = TRUE)
 
 \item{outdir}{Path to output directory}
 
-\item{file.prefix}{String: Prefix for filename}
+\item{file.prefix}{Character: Prefix for filename}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 }

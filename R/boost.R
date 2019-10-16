@@ -12,7 +12,7 @@
 #' @inheritParams s.GLM
 #' @param x.valid Data.frame; optional: Validation data
 #' @param y.valid Float, vector; optional: Validation outcome
-#' @param mod String: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"
+#' @param mod Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"
 #' @param resid Float, vector, length = length(y): Residuals to work on. Do not change unless you know
 #' what you're doing. Default = NULL, for regular boosting
 #' @param boost.obj [Internal use]
@@ -31,7 +31,7 @@
 #' during training. "none" for no plot.
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
-#' @param plot.type String: "l" or "p". Plot using lines or points. Default = "l"
+#' @param plot.type Character: "l" or "p". Plot using lines or points. Default = "l"
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to learner define by \code{mod}
 #' @author Efstathios D. Gennatas
@@ -97,8 +97,6 @@ boost <- function(x, y = NULL,
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     x.valid, y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -108,9 +106,6 @@ boost <- function(x, y = NULL,
   y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
-  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -632,7 +627,7 @@ update.rtMod.boost <- function(object, x = NULL,
   # }
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
-  object$fitted <- object$mod$init + colSums(fitted * object$mod$learning.rate)
+  object$fitted <- object$mod$init + matrixStats::colSums2(fitted * object$mod$learning.rate)
   object$error.train <- modError(object$y.train, object$fitted)
   # object$mod$error.valid <- modError(object$mod$y.valid, predicted.valid)
   if (trace > 0) {

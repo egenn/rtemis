@@ -10,7 +10,7 @@
 #' Warning: If you get an HTTP 500 error at random, use \code{h2o.shutdown()} to shutdown the server.
 #' It will be restarted when \code{s.H2OGBM} is called
 #' @inheritParams s.GLM
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
 #' @param n.trees Integer: Number of trees to grow. Maximum number of trees if \code{n.stopping.rounds > 0}
 #' @param max.depth [gS] Integer: Depth of trees to grow
@@ -21,7 +21,7 @@
 #' @param minobsinnode [gS]
 #' @param n.stopping.rounds Integer: If > 0, stop training if \code{stopping.metric} does not improve for this
 #' many rounds
-#' @param stopping.metric String: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
+#' @param stopping.metric Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 #' "AUC", "lift_top_group", "misclassification", "mean_per_class_error"
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
@@ -59,7 +59,8 @@ s.H2OGBM <- function(x, y = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      na.action = na.fail,
                      grid.n.cores = 1,
                      n.cores = rtCores,
@@ -112,9 +113,13 @@ s.H2OGBM <- function(x, y = NULL,
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -124,8 +129,8 @@ s.H2OGBM <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
@@ -183,7 +188,7 @@ s.H2OGBM <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed,
+                                              resample.seed = resample.seed,
                                               n.stopping.rounds = n.stopping.rounds,
                                               stopping.metric = stopping.metric,
                                               min.split.improvement = min.split.improvement,
@@ -227,9 +232,9 @@ s.H2OGBM <- function(x, y = NULL,
   if (.final) {
     # Use estimated n.trees from grid search. These will be at most n.trees defined originally
     stopping_rounds <- 0
-    if (verbose) msg("Training final H2O GBM model...", newline = TRUE)
+    if (verbose) msg("Training final H2O GBM model...", newline.pre = TRUE)
   } else {
-    if (verbose) msg("Training H2O Gradient Boosting Machine...", newline = TRUE)
+    if (verbose) msg("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
   }
 
   mod <- h2o::h2o.gbm(y = "y",

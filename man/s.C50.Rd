@@ -6,6 +6,7 @@
 \usage{
 s.C50(x, y = NULL, x.test = NULL, y.test = NULL, trials = 10,
   rules = FALSE, weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
   control = C50::C5.0Control(), costs = NULL, x.name = NULL,
   y.name = NULL, print.plot = TRUE, plot.fitted = NULL,
   plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
@@ -39,23 +40,30 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 2: class.weights as in 0, divided by min(class.weights)
 Default = 2}
 
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

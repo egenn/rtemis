@@ -27,7 +27,8 @@ massCART <- function(x, y = NULL,
                      xval = 0,
                      ipw = FALSE,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample  = FALSE,
+                     resample.seed = NULL,
                      n.cores = 1,
                      parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                      save.mod = FALSE,
@@ -48,8 +49,12 @@ massCART <- function(x, y = NULL,
   }
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, ipw = ipw,
-                    upsample = upsample, upsample.seed = upsample.seed, verbose = verbose)
+  dt <- dataPrepare(x, y, x.test, y.test,
+                    ipw = ipw,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   # df.train <- data.frame(x, y)

@@ -21,7 +21,8 @@ s.DA <- function(x, y = NULL,
                  method = "moment",
                  nu = NULL,
                  upsample = FALSE,
-                 upsample.seed = NULL,
+                 downsample = FALSE,
+                 resample.seed = NULL,
                  x.name = NULL,
                  y.name = NULL,
                  print.plot = TRUE,
@@ -71,7 +72,10 @@ s.DA <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed)
+                    upsample = upsample,
+                    downsample =  downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -94,7 +98,7 @@ s.DA <- function(x, y = NULL,
                    nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
 
-  if (verbose) msg("Running", ifelse(da.type == "lin", "Linear", "Quadratic"), "Discriminant Analysis...", newline = TRUE)
+  if (verbose) msg("Running", ifelse(da.type == "lin", "Linear", "Quadratic"), "Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(da, args = params)
 
   # [ FITTED ] ====
@@ -141,7 +145,8 @@ s.DA <- function(x, y = NULL,
                                    method = method,
                                    nu = nu,
                                    upsample = upsample,
-                                   upsample.seed = upsample.seed),
+                                   downsample = downsample,
+                                   resample.seed = resample.seed),
                  question = question,
                  extra = extra)
 

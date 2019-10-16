@@ -7,25 +7,31 @@
 mplot3.fit(x, y, fit = "lm", se.fit = TRUE, fit.error = TRUE,
   axes.equal = TRUE, diagonal = TRUE,
   theme = getOption("rt.fit.theme", "lightgrid"), col = NULL,
-  zero.lines = FALSE, fit.legend = FALSE, ...)
+  pty = "s", zero.lines = FALSE, fit.legend = FALSE, ...)
 }
 \arguments{
 \item{x}{Vector, numeric / factor / survival for regression, classification, survival: True values}
 
 \item{y}{Vector, numeric / factor / survival for regression, classification, survival: Predicted values}
 
-\item{fit}{String: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 be passed as a string.}
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
+\item{fit.error}{Logical: If TRUE,}
+
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
+
+\item{pty}{Character: "s" for square plot, "m" to fill device. Default = "s"}
 
 \item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
 

@@ -16,11 +16,11 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
   max.w2 = 3.4028235e+38, nfolds = 0, initial.biases = NULL,
   initial.weights = NULL, loss = "Automatic", distribution = "AUTO",
   stopping.rounds = 5, stopping.metric = "AUTO", upsample = FALSE,
-  upsample.seed = NULL, na.action = na.fail, n.cores = rtCores,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  verbose = TRUE, trace = 0, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  downsample = FALSE, resample.seed = NULL, na.action = na.fail,
+  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), question = NULL, verbose = TRUE, trace = 0,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Vector / Matrix / Data Frame: Training set Predictors}
@@ -39,7 +39,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 
 \item{y.name}{Character: Name for outcome}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
@@ -47,7 +47,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 
 \item{epochs}{Integer: How many times to iterate through the dataset. Default = 1000}
 
-\item{activation}{String: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
+\item{activation}{Character: Activation function to use: "Tanh", "TanhWithDropout", "Rectifier", "RectifierWithDropout",
 "Maxout", "MaxoutWithDropout". Default = "Rectifier"}
 
 \item{learning.rate}{Float: Learning rate to use for training. Default = .005}
@@ -70,7 +70,7 @@ s.H2ODL(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
@@ -78,16 +78,16 @@ Default = NULL (random seed)}
 \item{n.cores}{Integer: Number of cores to use}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

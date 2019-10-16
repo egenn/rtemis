@@ -9,10 +9,10 @@
 #'
 #' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 #' data.frame / table
-#' @param main String: Plot title
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
-#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
+#' @param main Character: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
 #' @param mar Numeric, vector, length 4: Overall margins
 #' @param dim.lab Float: Height for labels
@@ -26,7 +26,7 @@
 #' @param cex.out Float: The \code{cex} parameter for metrics cells
 #' @param col.text.out Color for metrics cells' text
 #' @param col.bg.out Color for metrics cells' background
-#' @param theme String: "light", or "dark"
+#' @param theme Character: "light", or "dark"
 #' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 #' "black" for "dark"
 #' @param hi.color.pos Color: The hi color for correct classification.
@@ -35,7 +35,7 @@
 #' @param pdf.width Float: PDF width, if \code{filename} is set
 #' @param pdf.height Float: PDF height, if \code{filename} is set
 #' @param ... Not used
-#' @param filename String: If specified, save plot to this path. Default = NULL
+#' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
 #' @author Efstathios D. Gennatas
 #' @export

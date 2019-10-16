@@ -6,15 +6,15 @@
 \usage{
 colorPreview(col, main = NULL, names = TRUE, names.y = 1.045,
   srt = 45, alpha = 1, ylim = c(0.95, 1.1), cex = 12, pch = 18,
-  bg = "white", mar = c(0, 1.7, 1, 2.8), main.line = 0,
-  filename = NULL, par.reset = TRUE, pdf.width = length(col) * 0.5,
-  pdf.height = 2)
+  bg = "white", mar = c(0, 1.7, 1, 2.8), main.col = "black",
+  main.line = 0, filename = NULL, par.reset = TRUE,
+  pdf.width = length(col) * 0.5, pdf.height = 2)
 }
 \arguments{
 \item{col}{Input color. Hexadecimal or any string that R recognizes.
 (See all with \code{colors()})}
 
-\item{main}{String: Plot title. Default = NULL}
+\item{main}{Character: Plot title. Default = NULL}
 
 \item{names}{Logical: If TRUE, add l\code{names(col)} if not NULL. Default = TRUE}
 
@@ -29,6 +29,8 @@ colorPreview(col, main = NULL, names = TRUE, names.y = 1.045,
 \item{cex}{Float: Character expansion factor. Default = 26}
 
 \item{pch}{Integer or single character: The \code{pch} parameter of \code{par}}
+
+\item{bg}{Background color}
 
 \item{mar}{Float, vector, length 4: Plot margins. Default = c(0, 1.7, 0.6, 2.8)}
 

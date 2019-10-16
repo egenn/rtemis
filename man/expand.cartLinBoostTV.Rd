@@ -47,7 +47,7 @@ end of training. If integer, plot training and validation error curve every this
 during training. "none" for no plot.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 }
 \description{
 Expand a \link{cartLinBoostTV} object by adding more iterations

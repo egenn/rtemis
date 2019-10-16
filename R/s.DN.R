@@ -16,7 +16,8 @@ s.DN <- function(x, y = NULL,
                  ipw = TRUE,
                  ipw.type = 2,
                  upsample = FALSE,
-                 upsample.seed = NULL,
+                 downsample =  FALSE,
+                 resample.seed = NULL,
                  initW = NULL,
                  initB = NULL,
                  hidden = 10,
@@ -74,7 +75,8 @@ s.DN <- function(x, y = NULL,
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
-                    upsample.seed = upsample.seed,
+                    downsample =  downsample,
+                    resample.seed = resample.seed,
                     .preprocess = .preprocess,
                     verbose = verbose)
   x <- data.matrix(dt$x)
@@ -141,7 +143,7 @@ s.DN <- function(x, y = NULL,
 
   # [ DN ] ====
   if (verbose) msg0("Training Artificial Neural Network for ", type, "...",
-                    newline = TRUE)
+                    newline.pre = TRUE)
   mod <- deepnet::nn.train(x, y,
                            initW = .weights,
                            initB = initB,

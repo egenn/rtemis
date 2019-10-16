@@ -8,13 +8,14 @@
 #'
 #' @param col Input color. Hexadecimal or any string that R recognizes.
 #'   (See all with \code{colors()})
-#' @param main String: Plot title. Default = NULL
+#' @param main Character: Plot title. Default = NULL
 #' @param names Logical: If TRUE, add l\code{names(col)} if not NULL. Default = TRUE
 #' @param names.y Float: y position to place \code{names}. Adjust as needed. Default = 1.045
 #' @param srt Float: String rotation in degrees. Default = 45
 #' @param alpha Float: Alpha level. Default = 1
 #' @param ylim Float, vector, length 2: y axis limits. Default = c(0.95, 1.1)
 #' @param pch Integer or single character: The \code{pch} parameter of \code{par}
+#' @param bg Background color
 #' @param cex Float: Character expansion factor. Default = 26
 #' @param mar Float, vector, length 4: Plot margins. Default = c(0, 1.7, 0.6, 2.8)
 #' @param main.line Float: Line to plot \code{main} Default = 0
@@ -36,6 +37,7 @@ colorPreview <- function(col,
                          pch = 18,
                          bg = "white",
                          mar = c(0, 1.7, 1, 2.8),
+                         main.col = "black",
                          main.line = 0,
                          filename = NULL,
                          par.reset = TRUE,
@@ -59,7 +61,9 @@ colorPreview <- function(col,
        # xlim = c(0.9, 1.1),
        ylim = ylim, ann = FALSE, axes = FALSE, pch = pch, col = .col, cex = cex, xpd = TRUE,
        xaxs = "r", yaxs = "i")
-  if (!is.null(main)) mtext(main, line = main.line, font = 2, xpd = TRUE, adj = 0)
+  if (!is.null(main)) mtext(main, line = main.line,
+                            font = 2, xpd = TRUE, adj = 0,
+                            col = main.col)
 
   if (names) {
     if (!is.null(names(col))) {

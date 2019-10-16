@@ -29,7 +29,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{mod}{String: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"}
+\item{mod}{Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"}
 
 \item{resid}{Float, vector, length = length(y): Residuals to work on. Do not change unless you know
 what you're doing. Default = NULL, for regular boosting}
@@ -58,7 +58,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{base.verbose}{Logical: \code{verbose} argument passed to learner}
 
@@ -74,7 +74,7 @@ during training. "none" for no plot.}
 
 \item{prefix}{Internal}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -82,12 +82,12 @@ during training. "none" for no plot.}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
-\item{plot.type}{String: "l" or "p". Plot using lines or points. Default = "l"}
+\item{plot.type}{Character: "l" or "p". Plot using lines or points. Default = "l"}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

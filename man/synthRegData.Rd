@@ -4,14 +4,21 @@
 \alias{synthRegData}
 \title{Synthesize Simple Regression Data}
 \usage{
-synthRegData(nrow = 500, ncol = 50, seed = NULL)
+synthRegData(nrow = 500, ncol = 50,
+  resample.rtset = rtset.resample(), seed = NULL)
 }
 \arguments{
 \item{nrow}{Integer: Number of rows. Default = 500}
 
 \item{ncol}{Integer: Number of columns. Default = 50}
 
+\item{resample.rtset}{Output of \link{rtset.resample} defining training/testing split. The first resulting resample
+will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}}
+
 \item{seed}{Integer: Seed for random number generator. Default = NULL}
+}
+\value{
+List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
 }
 \description{
 Synthesize Simple Regression Data

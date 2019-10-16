@@ -23,7 +23,7 @@
 #' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
 #' @param as.message Logical: if TRUE, print using \code{message()}
 #' @param color Color for message to use with \pkg{crayon}
-#' @param sep String: Use to separate objects in \code{...}
+#' @param sep Character: Use to separate objects in \code{...}
 #' @return Invisibly: List with call, message, and date
 #' @author Efstathios D. Gennatas
 #' @export
@@ -59,7 +59,6 @@ msg <- function(...,
   txt <- list(...)
   .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
-  if (newline) cat("\n")
   if (as.message) {
     message(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)))
   } else {
@@ -71,6 +70,7 @@ msg <- function(...,
     } else {
       cat(color$bold(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)), "\n"))
     }
+    if (newline) cat("\n")
   }
 
   invisible(list(call = .call,

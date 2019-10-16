@@ -13,14 +13,14 @@
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
-#' @param mod String: \pkg{rtemis} model. See \code{modSelect} gives available models
+#' @param mod Character: \pkg{rtemis} model. See \code{modSelect} gives available models
 #' @param resample.rtset List: output of \link{rtset} (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param res.verbose Logical: Will be passed to each \code{mod}'s \code{verbose} argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with \link{elevate} when training a large number of resamples. Default = TRUE
-#' @param outdir String: Path to save output. Default = NULL
+#' @param outdir Character: Path to save output. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -35,12 +35,12 @@ resLearn <- function(x, y, mod,
                      outdir = NULL,
                      n.cores = rtCores,
                      parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
-  
+
   # [ INTRO ] ====
   start.time <- intro(verbose = trace > 0,
                       message = "Starting resLearn...",
                       newline.pre = TRUE)
-  
+
   # [ ARGUMENTS ] ====
   n.cores <- as.numeric(n.cores)[1]
   if (missing(x) | missing(y)) {
@@ -53,14 +53,14 @@ resLearn <- function(x, y, mod,
     if (!dir.exists(outdir)) dir.create(outdir, showWarnings = TRUE,
                                         recursive = TRUE, mode = "0777")
   }
-  
+
   # [ RESAMPLES ] ====
   learner <- modSelect(mod)
   res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
   resampler <- attr(res, "type") # for res.group and res.index
-  
+
   if (n.cores > resample.rtset$n.resamples) n.cores <- resample.rtset$n.resamples
-  
+
   # [ {GRID} FUNCTION ] ====
   learner1 <- function(index, learner,
                        x, y,
@@ -78,7 +78,7 @@ resLearn <- function(x, y, mod,
     } else {
       outdir1 <- NULL
     }
-    
+
     if (!is.null(weights)) params$weights <- weights
     args <- list(x = x.train1, y = y.train1,
                  x.test = x.test1, y.test = y.test1,
@@ -96,7 +96,7 @@ resLearn <- function(x, y, mod,
                  # type = mod1$type,
                  params = params)
   }
-  
+
   # [ RES RUN ] ====
   # if (verbose & length(params) > 0) {
   #   cat("\n")
@@ -109,7 +109,7 @@ resLearn <- function(x, y, mod,
                  bootstrap = "bootstrap resamples",
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
-  
+
   if (verbose) msg0("Training ", modSelect(mod, desc = TRUE), " on ",
                     length(res), " ", desc, "...", newline.pre = TRUE)
   # if (verbose) msg(length(res), " resamples; running on ",
@@ -129,8 +129,8 @@ resLearn <- function(x, y, mod,
   } else {
     cl <- 1
   }
-  
-  res.run <- pbapply::pblapply(seq(res), learner1,
+
+  res.run <- pbapply::pblapply(seq_along(res), learner1,
                                learner,
                                x, y,
                                weights,
@@ -142,9 +142,9 @@ resLearn <- function(x, y, mod,
                                cl = cl)
   names(res.run) <- paste0(toupper(mod), seq(res))
   if (res.verbose) cat("\n")
-  
+
   # [ OUTRO ] ====
   outro(start.time, verbose = trace > 0)
   list(res = res, mods = res.run)
-  
+
 } # rtemis::resLearn

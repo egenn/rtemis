@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtDecom-class
-#' @field decom.name String: Name of decomposition algorithm
+#' @field decom.name Character: Name of decomposition algorithm
 #' @field call Originating call
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output
@@ -50,7 +50,7 @@ rtDecom <- R6::R6Class("rtDecom",
                           ### Methods
                           print = function() {
                             "show / print method for rtDecom"
-                            cat(bold(".:rtemis Decomposition\n"))
+                            objcat("Decomposition object")
                             cat(rtHighlight$bold(self$decom.name), " (", decomSelect(self$decom.name, desc = TRUE),
                                 ")\n", sep = "")
                             if (length(self$parameters) > 0) printls(self$parameters,
@@ -67,7 +67,7 @@ rtDecom <- R6::R6Class("rtDecom",
 #' @docType class
 #' @name rtDecomLearn-class
 #' @usage # rtDecom$new(decom.name = ...) # initialize new object
-#' @field decom.name String: Name of decomposition algorithm
+#' @field decom.name Character: Name of decomposition algorithm
 #' @field call Originating call
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output

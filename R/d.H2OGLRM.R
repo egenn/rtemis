@@ -15,14 +15,14 @@
 #' @param x.test Optional test set. Will be projected on to NMF basis
 #' @param x.valid Optional validation set
 #' @param k Integer: Rank of decomposition
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
-#' @param transform String: Transformation of input prior to decomposition
-#' @param loss String: Numeric loss function: "Quadratic", "Absolute", "Huber", "Poisson", "Hinge", "Logistic",
+#' @param transform Character: Transformation of input prior to decomposition
+#' @param loss Character: Numeric loss function: "Quadratic", "Absolute", "Huber", "Poisson", "Hinge", "Logistic",
 #'   "Periodic". Default = "Quadratic"
-#' @param regularization.x String: Regularization function for X matrix: "None", "Quadratic", "L2", "L1",
+#' @param regularization.x Character: Regularization function for X matrix: "None", "Quadratic", "L2", "L1",
 #' "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"
-#' @param regularization.y String: Regularization function for Y matrix: "None", "Quadratic", "L2", "L1",
+#' @param regularization.y Character: Regularization function for Y matrix: "None", "Quadratic", "L2", "L1",
 #' "NonNegative", "OneSparse", "UnitOneSparse", "Simplex". Default = "None"
 #' @param gamma.x Float: Regularization weight on X matrix. Default = 0
 #' @param gamma.y Float: Regularization weight on Y matrix. Default = 0
@@ -31,11 +31,11 @@
 #' @param init_step_size Float: Initial step size. Default = 1
 #' @param min_step_size Float: Minimum step size. Default = .0001
 #' @param seed Integer: Seed for random number generator. Default = -1 (time-based)
-#' @param init String: Initialization mode: "Random", "SVD", "PlusPlus", "User". Default = "PlusPlus"
-#' @param svd.method String: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"
+#' @param init Character: Initialization mode: "Random", "SVD", "PlusPlus", "User". Default = "PlusPlus"
+#' @param svd.method Character: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"
 #' @param verbose Logical: If TRUE, print console messages
 #' @param print.plot Logical: If TRUE, print objective score against iteration number
-#' @param plot.theme String: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}
+#' @param plot.theme Character: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to \code{h2o::h2o.glrm}
 #' @return \link{rtDecom} object

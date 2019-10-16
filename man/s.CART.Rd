@@ -6,11 +6,12 @@
 \usage{
 s.CART(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, method = "auto",
-  parms = NULL, minsplit = 2, minbucket = round(minsplit/3),
-  cp = 0.01, maxdepth = 20, maxcompete = 0, maxsurrogate = 0,
-  usesurrogate = 2, surrogatestyle = 0, xval = 0, cost = NULL,
-  model = TRUE, prune.cp = NULL, use.prune.rpart.rt = TRUE,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  method = "auto", parms = NULL, minsplit = 2,
+  minbucket = round(minsplit/3), cp = 0.01, maxdepth = 20,
+  maxcompete = 0, maxsurrogate = 0, usesurrogate = 2,
+  surrogatestyle = 0, xval = 0, cost = NULL, model = TRUE,
+  prune.cp = NULL, use.prune.rpart.rt = TRUE,
   return.unpruned = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
@@ -51,10 +52,10 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{method}{String: "auto", "anova", "poisson", "class" or "exp". Default = "auto"}
+\item{method}{Character: "auto", "anova", "poisson", "class" or "exp". Default = "auto"}
 
 \item{parms}{List of additional parameters for the splitting function.
 See \code{rpart::rpart("parms")}}
@@ -67,6 +68,11 @@ Default = 2}
 \item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
 
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
+
+\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+
+\item{maxsurrogate}{Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
+Default = 0}
 
 \item{cost}{Vector, Float (> 0): One for each variable in the model.
 See \code{rpart::rpart("cost")}}
@@ -83,12 +89,12 @@ in \link{rtMod}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -97,19 +103,19 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

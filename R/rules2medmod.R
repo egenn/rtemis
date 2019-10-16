@@ -10,19 +10,22 @@
 #' @param x Data frame: Data to evaluate rules
 #' @param .ddSci Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
 #' give either 2 decimal places, or scientific notation if two decimal places result in 0.00
+#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @author Efstathios D. Gennatas
 #' @export
 
 rules2medmod <- function(rules, x,
                          .ddSci = TRUE,
-                         verbose = TRUE) {
+                         verbose = TRUE,
+                         trace = 0) {
 
   cxr <- matchCasesByRules(x, rules, verbose = verbose)
   nrules <- length(rules)
-  rules.f <- character()
+  rules.f <- vector("character", nrules)
   frmt <- if (.ddSci) ddSci else I
+  if (verbose) msg("Converting rules...")
   for (i in seq(rules)) {
-    if (verbose) msg("Converting rule #", i, " of ", nrules, "...", sep = "")
+    if (trace > 0) cat("#", i, "/", nrules, "...\n", sep = "")
     dat <- x[cxr[, i] == 1, ]
     sub <- strsplit(rules[i], "&")[[1]]
     rule <- character()

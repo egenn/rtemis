@@ -6,9 +6,9 @@
 \usage{
 s.ADABOOST(x, y = NULL, x.test = NULL, y.test = NULL,
   loss = "exponential", type = "discrete", iter = 50, nu = 0.1,
-  bag.frac = 0.5, upsample = FALSE, upsample.seed = NULL,
-  x.name = NULL, y.name = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  bag.frac = 0.5, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, x.name = NULL, y.name = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   rtclass = NULL, verbose = TRUE, trace = 0, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
@@ -23,9 +23,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{loss}{String: "exponential" (Default), "logistic"}
+\item{loss}{Character: "exponential" (Default), "logistic"}
 
-\item{type}{String: "discrete", "real", "gentle"}
+\item{type}{Character: "discrete", "real", "gentle"}
 
 \item{iter}{Integer: Number of boosting iterations to perform. Default = 50}
 
@@ -37,7 +37,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{x.name}{Character: Name for feature set}
@@ -45,18 +45,18 @@ Default = NULL (random seed)}
 \item{y.name}{Character: Name for outcome}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

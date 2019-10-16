@@ -26,6 +26,9 @@ s.SGD <- function(x, y = NULL,
                   model.control = list(lambda1 = 0,
                                        lambda2 = 0),
                   sgd.control = list(method = "ai-sgd"),
+                  upsample = FALSE,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   print.plot = TRUE,
                   plot.fitted = NULL,
                   plot.predicted = NULL,
@@ -67,7 +70,12 @@ s.SGD <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -111,7 +119,7 @@ s.SGD <- function(x, y = NULL,
   }
 
   # [ SGD ] ====
-  if (verbose) msg("Training SGD model...", newline = TRUE)
+  if (verbose) msg("Training SGD model...", newline.pre = TRUE)
   mod <- sgd::sgd(x = x, y = y,
                   model = model,
                   model.control = model.control,

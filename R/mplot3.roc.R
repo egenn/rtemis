@@ -6,14 +6,15 @@
 #'
 #' Plot ROC curve for a binary classifier
 #'
+#' @inheritParams mplot3.x
 #' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
-#' @param method String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+#' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
 #' to get points of the ROC. Default = "rt"
-#' @param type String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
+#' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 #' False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"
 #' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE
-#' @param main String: Plot title. Default = ""
+#' @param main Character: Plot title. Default = ""
 #' @param col Color, vector: Colors to use for ROC curve(s)
 #' @param cex Float: Character expansion factor. Default = 1.2
 #' @param lwd Float: Line width. Default = 2.5
@@ -30,12 +31,12 @@ mplot3.roc <- function(prob, labels,
                        type = "TPR.FPR",
                        balanced.accuracy = FALSE,
                        main = "",
-                       col = ucsfPalette,
+                       col = NULL,
                        cex = 1.2,
                        lwd = 2.5,
                        diagonal = TRUE,
                        diagonal.lwd = 2.5,
-                       diagonal.lty = 1,
+                       diagonal.lty = 3,
                        group.legend = FALSE,
                        annotation = TRUE,
                        annotation.col = col,
@@ -44,6 +45,8 @@ mplot3.roc <- function(prob, labels,
                        annot.font = 1,
                        mar = c(2.5, 3, 2.5, 1),
                        theme = getOption("rt.theme", "lightgrid"),
+                       palette = getOption("rt.palette", "rtCol1"),
+                       verbose = TRUE,
                        par.reset = TRUE,
                        filename = NULL,
                        pdf.width = 5,
@@ -64,6 +67,7 @@ mplot3.roc <- function(prob, labels,
   labelsl <- if (!is.list(labels)) list(labels) else labels
   # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
   if (length(labelsl) < length(probl)) {
+    if (verbose) msg("Assuming same labels for each set of probabilities")
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
@@ -97,6 +101,9 @@ mplot3.roc <- function(prob, labels,
     BA.max.index <- lapply(seq(probl), function(l) which.max(BA[[l]]))
   }
 
+  # Colors ====
+  if (is.null(col)) col <- rtPalette(palette)
+
   # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
@@ -109,7 +116,9 @@ mplot3.roc <- function(prob, labels,
               line.alpha = 1, line.col = col, group.legend = group.legend,
               diagonal.inv = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
               xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
+              type = "l",
+              order.on.x = FALSE,
+              lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
     # annotation = paste("AUC =", ddSci(AUC)))
@@ -118,8 +127,10 @@ mplot3.roc <- function(prob, labels,
         points(x = Specificity[[i]][BA.max.index[[i]]],
                y = Sensitivity[[i]][BA.max.index[[i]]],
                col = col[[i]])
-        text(x = Specificity[[i]][BA.max.index[[i]]] - .05,
-             y = Sensitivity[[i]][BA.max.index[[i]]],
+        text(
+             # x = .05, y = .95,
+             x = Specificity[[i]][BA.max.index[[i]]] - .05,
+             y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
              labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
                              ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
              col = col[[i]],
@@ -133,10 +144,11 @@ mplot3.roc <- function(prob, labels,
               line.alpha = 1, line.col = col, group.legend = group.legend,
               diagonal = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
               xlim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l", lwd = lwd, theme = theme, zero.lines = FALSE,
+              type = "l",
+              order.on.x = FALSE,
+              lwd = lwd, theme = theme, zero.lines = FALSE,
               mar = mar,
               xpd = TRUE, par.reset = FALSE, ...)
-    # annotation = paste("AUC =", ddSci(AUC)), annotation.col = annotation.col)
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
@@ -144,8 +156,8 @@ mplot3.roc <- function(prob, labels,
                col = col[[i]])
         text(x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05,
              y = Sensitivity[[i]][BA.max.index[[i]]],
-             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
-                             ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
+             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(thresh = ",
+                             ddSci(.roc[[i]]$Thresholds[BA.max.index[[i]]]), ")"),
              col = col[[i]],
              pos = 4)
       }
@@ -155,16 +167,7 @@ mplot3.roc <- function(prob, labels,
 
   # [ AUC ANNOTATION ] ====
   if (annotation) {
-    # auc <- ddSci(unlist(AUC))
     auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
-    # mtext(text = auc, side = 1)
-    # mtext(c("AUC", auc),
-    #       side = 1,
-    #       line = - 2 * length(probl),
-    #       adj = .98,
-    #       cex = cex,
-    #       col = c("black", unlist(col)[1:length(probl)]),
-    #       padj = seq(-1 * length(probl), -1 + 1.5 * length(probl), 1.5))
     if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
     mtext(c("AUC   ", auc),
           font = annot.font,
@@ -172,10 +175,16 @@ mplot3.roc <- function(prob, labels,
           line = annot.line,
           adj = annot.adj,
           cex = cex,
-          col = c("gray30", unlist(col)[1:length(probl)]))
+          col = c("gray50", unlist(col)[seq_along(probl)]))
   }
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
+
+  if (type == "Sens.Spec") {
+    invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
+  } else {
+    invisible(list(FPR = FPR, TPR = TPR))
+  }
 
 } # rtemis::mplot3.roc

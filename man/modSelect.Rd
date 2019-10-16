@@ -7,7 +7,7 @@
 modSelect(mod, fn = FALSE, desc = FALSE)
 }
 \arguments{
-\item{mod}{String: Model name. Case insensitive. e.g. "XGB" for xgboost}
+\item{mod}{Character: Model name. Case insensitive. e.g. "XGB" for xgboost}
 
 \item{fn}{Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE}
 

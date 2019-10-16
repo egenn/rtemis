@@ -13,7 +13,7 @@
 #' @inheritParams s.GLM
 #' @param nterms [gS] Integer: number of terms to include in the final model
 #' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}
-#' @param sm.method [gS] String: "supsmu", "spline", "gcvspline". Smoothing method. Default = "gcvspline"
+#' @param sm.method [gS] Character: "supsmu", "spline", "gcvspline". Smoothing method. Default = "gcvspline"
 #' @param bass [gS] Numeric [0, 10]: for \code{sm.method} "supsmu": larger values result in greater smoother
 #'   (Default = 5). See \code{stats::ppr}
 #' @param span [gS] Numeric [0, 1]: for \code{sm.method} "supsmu": 0 (Default) results in automatic span selection by
@@ -137,7 +137,7 @@ s.PPR <- function(x, y = NULL,
   if (verbose) parameterSummary(nterms, optlevel, sm.method, bass, span, df, gcvpen)
 
   # [ PPR ] ====
-  if (verbose) msg("Running Projection Pursuit Regression...", newline = TRUE)
+  if (verbose) msg("Running Projection Pursuit Regression...", newline.pre = TRUE)
   mod <- ppr(x, y,
              weights = weights,
              nterms = nterms,

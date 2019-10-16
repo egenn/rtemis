@@ -28,7 +28,8 @@ s.GAM.default <- function(x, y = NULL,
                           ipw = TRUE,
                           ipw.type = 2,
                           upsample = FALSE,
-                          upsample.seed = NULL,
+                          downsample = FALSE,
+                          resample.seed = NULL,
                           method = "REML",
                           select = FALSE,
                           removeMissingLevels = TRUE,
@@ -77,9 +78,13 @@ s.GAM.default <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -160,7 +165,7 @@ s.GAM.default <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ GAM ] ====
-  if (verbose) msg("Training GAM...", newline = TRUE)
+  if (verbose) msg("Training GAM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  family = family,
                  data = df.train,
@@ -237,7 +242,8 @@ s.GAM.default <- function(x, y = NULL,
                                    ipw = ipw,
                                    ipw.type = ipw.type,
                                    upsample = upsample,
-                                   upsample.seed = upsample.seed),
+                                   downsample = downsample,
+                                   resample.seed = resample.seed),
                  question = question)
 
   rtMod.out(rt,

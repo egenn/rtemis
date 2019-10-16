@@ -8,6 +8,10 @@ kfold(x, k = 10, stratify.var = NULL, strat.n.bins = 4,
   seed = NULL, verbose = TRUE)
 }
 \arguments{
+\item{x}{Input Vector}
+
+\item{k}{Integer: Number of folds. Default = 10}
+
 \item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for

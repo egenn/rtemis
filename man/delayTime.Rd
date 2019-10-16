@@ -9,7 +9,7 @@ delayTime(bpm = 120, note = "1/4")
 \arguments{
 \item{bpm}{Integer: Beats per minute. Default = 120}
 
-\item{note}{String: Delay/Reverb time in note duration: "2", "1", "1/2", "1/2T", "1/4D", "1/4", "1/4T", 
+\item{note}{Character: Delay/Reverb time in note duration: "2", "1", "1/2", "1/2T", "1/4D", "1/4", "1/4T", 
 "1/8D", "1/8", "1/8T", "1/16D", "1/16", "1/16T", "1/32D", "1/32", "1/32T".
 "2" means a double note, "1" a whole, and so on. "T" denotes a triple note, "D" denotes a dotted note.
 Case insensitive. Default = "1/4" (quarter note)}

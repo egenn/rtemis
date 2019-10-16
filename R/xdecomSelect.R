@@ -8,7 +8,7 @@
 #'   the function itself.
 #'   If run with no parameters, prints list of available algorithms.
 #'
-#' @param xdecom String: Cross-decomposition name; case insensitive
+#' @param xdecom Character: Cross-decomposition name; case insensitive
 #' @param fn Logical: If TRUE, return function, otherwise return name of function. Default = FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm. Default = FALSE
 #' @return Function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})

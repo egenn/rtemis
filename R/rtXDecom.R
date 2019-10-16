@@ -8,7 +8,7 @@
 #'
 #' @docType class
 #' @name rtXDecom-class
-#' @field xdecom.name String: Name of cross-decomposition algorithm
+#' @field xdecom.name Character: Name of cross-decomposition algorithm
 #' @field k Integer: Number of projections
 #' @field xnames Character vector: Column names of x
 #' @field xdecom Cross-decomposition model output
@@ -59,7 +59,7 @@ rtXDecom <- R6::R6Class("rtXDecom",
                           ### Methods
                           print = function() {
                             "show / print method for rtXDecom"
-                            cat(bold(".:rtemis Cross-Decomposition\n"))
+                            objcat("Cross-Decomposition object")
                             cat(rtHighlight$bold(self$xdecom.name), " (", xdecomSelect(self$xdecom.name, desc = TRUE),
                                 ")\n", sep = "")
                             if (length(self$parameters) > 0) printls(self$parameters,

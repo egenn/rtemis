@@ -7,7 +7,7 @@
 decomSelect(decom, fn = FALSE, desc = FALSE)
 }
 \arguments{
-\item{decom}{String: Decomposition name. Case insensitive. e.g. "iso" for isomap}
+\item{decom}{Character: Decomposition name. Case insensitive. e.g. "iso" for isomap}
 
 \item{fn}{Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE}
 

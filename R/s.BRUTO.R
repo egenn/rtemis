@@ -71,7 +71,9 @@ s.BRUTO <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, verbose = verbose)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    verbose = verbose)
   x <- data.matrix(dt$x)
   y <- data.matrix(dt$y)
   if (!is.null(dt$x.test)) x.test <- data.matrix(dt$x.test)
@@ -109,7 +111,7 @@ s.BRUTO <- function(x, y = NULL,
   }
 
   # [ BRUTO ] ====
-  if (verbose) msg("Training BRUTO...", newline = TRUE)
+  if (verbose) msg("Training BRUTO...", newline.pre = TRUE)
   mod <- mda::bruto(x, y,
                     w = weights,
                     wp = weights.col,

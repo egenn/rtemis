@@ -11,13 +11,13 @@ s.GLMNET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   family = NULL, alpha = seq(0, 1, 0.2), lambda = NULL,
   nlambda = 100, which.cv.lambda = c("lambda.1se", "lambda.min"),
   penalty.factor = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, res.summary.fn = mean,
-  save.grid.run = FALSE, metric = NULL, maximize = NULL,
-  .gs = FALSE, save.gs.mod = FALSE, n.cores = rtCores,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  rtclass = NULL, verbose = TRUE, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  res.summary.fn = mean, save.grid.run = FALSE, metric = NULL,
+  maximize = NULL, .gs = FALSE, save.gs.mod = FALSE,
+  n.cores = rtCores, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -36,7 +36,7 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
@@ -47,10 +47,10 @@ combinations. Default = .1}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{alpha}{Float [0, 1]: The elasticnet mixing parameter:
+\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
-\item{lambda}{Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -68,33 +68,33 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{res.summary.fn}{Function: Used to average resample runs. Default = \code{mean}}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -116,6 +116,11 @@ Train an elastic net model
 \code{grid.resample.rtset}.
 Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 alpha and resample combination
+
+\code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+automatically performed
+Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+variable standard deviation.
 }
 \seealso{
 \link{elevate} for external cross-validation

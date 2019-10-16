@@ -101,8 +101,8 @@ cartLinBoostTV <- function(x, y = NULL,
   type <- dt$type
   checkType(type, "Regression", "CARTLINBOOST")
   # .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
+  # x0 <- if (upsample|downsample) dt$x0 else x
+  # y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

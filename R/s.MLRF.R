@@ -30,7 +30,8 @@
 s.MLRF <- function(x, y = NULL,
                    x.test = NULL, y.test = NULL,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    n.trees = 500,
                    max.depth = 30L,
                    subsampling.rate = 1,
@@ -80,8 +81,11 @@ s.MLRF <- function(x, y = NULL,
   # verbose <- verbose | !is.null(logFile)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -126,7 +130,7 @@ s.MLRF <- function(x, y = NULL,
   }
 
   # [ MLRF ] ====
-  if (verbose) msg("Training MLlib Random Forest", type, "...", newline = TRUE)
+  if (verbose) msg("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
   args <- c(list(x = tbl,
                  formula = .formula,
                  type = ifelse(type == "Classification",

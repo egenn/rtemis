@@ -13,7 +13,7 @@ d.MDS(x, k = 2, dist.method = c("euclidean", "maximum", "manhattan",
 
 \item{k}{Integer vector of length 1 or greater. Rank of decomposition}
 
-\item{dist.method}{String: method to use to calculate distance. See \code{stats::dist("method")}}
+\item{dist.method}{Character: method to use to calculate distance. See \code{stats::dist("method")}}
 
 \item{eig}{Logical: If TRUE, return eigenvalues. Default = FALSE}
 

@@ -5,9 +5,10 @@
 \title{Sparse Partial Least Squares Regression [C, R]}
 \usage{
 s.SPLS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, k = 2, eta = 0.5, kappa = 0.5, select = "pls2",
-  fit = "simpls", scale.x = TRUE, scale.y = TRUE, maxstep = 100,
-  classifier = c("lda", "logistic"),
+  y.name = NULL, upsample = TRUE, downsample = FALSE,
+  resample.seed = NULL, k = 2, eta = 0.5, kappa = 0.5,
+  select = "pls2", fit = "simpls", scale.x = TRUE, scale.y = TRUE,
+  maxstep = 100, classifier = c("lda", "logistic"),
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -31,6 +32,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{k}{[gS] Integer: Number of components to estimate. Default = 2}
 
 \item{eta}{[gS] Float [0, 1): Thresholding parameter. Default = .5}
@@ -38,9 +46,9 @@ Columns must correspond to columns in \code{x}}
 \item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: controls effect of concavity of objective
 function. Default = .5}
 
-\item{select}{[gS] String: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"}
+\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"}
 
-\item{fit}{[gS] String: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
+\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
 Default = "simpls"}
 
 \item{scale.x}{Logical: if TRUE, scale features by dividing each column by its sample standard deviation}
@@ -49,33 +57,33 @@ Default = "simpls"}
 
 \item{maxstep}{[gS] Integer: Maximum number of iteration when fitting direction vectors. Default = 100}
 
-\item{classifier}{String: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"}
+\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

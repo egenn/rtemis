@@ -9,7 +9,7 @@
 #' @inheritParams u.KMEANS
 #' @param x Input matrix / data.frame
 #' @param k Integer: Number of clusters to get
-#' @param kernel String: Kernel to use: "rbfdot", "polydot", "vanilladot", tanhdot", "laplacedot", "besseldot",
+#' @param kernel Character: Kernel to use: "rbfdot", "polydot", "vanilladot", tanhdot", "laplacedot", "besseldot",
 #' "anovadot", "splinedot", "stringdot"
 #' @param kpar String OR List: "automatic", "local" OR list with: sigma (for "rbfdor", "laplacedot");
 #' degree, scale, offset (for "polydot");

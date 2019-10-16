@@ -10,7 +10,7 @@
 #'
 #' The output can be read, for example, into gephi
 #' @param A Square matrix
-#' @param filename String: Path for csv file. Defaults to "conmat2edgelist.csv"
+#' @param filename Character: Path for csv file. Defaults to "conmat2edgelist.csv"
 #' @param verbose Logical: If TRUE, print messages to console
 #' @author Efstathios D. Gennatas
 #' @export

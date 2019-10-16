@@ -15,7 +15,7 @@ rtXDecom
 \section{Fields}{
 
 \describe{
-\item{\code{xdecom.name}}{String: Name of cross-decomposition algorithm}
+\item{\code{xdecom.name}}{Character: Name of cross-decomposition algorithm}
 
 \item{\code{k}}{Integer: Number of projections}
 

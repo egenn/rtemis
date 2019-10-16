@@ -8,7 +8,7 @@
 #'   the function itself.
 #'   If run with no parameters, prints list of available algorithms.
 #'
-#' @param decom String: Decomposition name. Case insensitive. e.g. "iso" for isomap
+#' @param decom Character: Decomposition name. Case insensitive. e.g. "iso" for isomap
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm \code{decom}
 #' @return Function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})

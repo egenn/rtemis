@@ -81,10 +81,9 @@ glmLiteBoostTV <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -372,7 +371,7 @@ print.glmLiteBoostTV <- function(x, ...) {
 #' @param newdata Set of predictors
 #' @param n.feat Integer: N of features to use. Default = NCOL(newdata)
 #' @param n.iter Integer: N of iterations to predict from. Default = (all available)
-#' @param as.matrix Logical: If TRUE, return predictions from each iterations. Default = FALSE
+#' @param as.matrix Logical: If TRUE, return predictions from each iteration. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param n.cores Integer: Number of cores to use. Default = \code{rtCores}
 #' @method predict glmLiteBoostTV
@@ -410,7 +409,7 @@ predict.glmLiteBoostTV <- function(object,
   if (is.null(n.iter)) n.iter <- length(object$mods)
 
   if (!as.matrix) {
-    predicted <- matrixStats::rowSums2(cbind(rep(object$init, NROW(newdata)),
+    predicted <- matrixStats::rowSums2(cbind(rep(object$init, NROW(newdata)), # no need to rep, will be done automatically
                                pbapply::pbsapply(seq(n.iter), function(i)
                                  predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i],
                                  cl = n.cores)))
@@ -612,7 +611,7 @@ update.glmLiteBoostTV <- function(object,
   # }
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
-  object$mod$fitted_tv <- object$mod$init + colSums(fitted * object$mod$learning.rate)
+  object$mod$fitted_tv <- object$mod$init + matrixStats::colSums2(fitted * object$mod$learning.rate)
   object$fitted <- object$mod$fitted_tv[seq(object$mod$train.ncases)]
   object$error.train <- modError(object$y.train, object$mod$fitted_tv[seq(object$mod$train.ncases)])
   if (trace > 0) {

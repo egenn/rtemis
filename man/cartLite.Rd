@@ -24,6 +24,8 @@ Default = 2}
 
 \item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
 
+\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
 
 \item{save.fitted}{Logical: If TRUE, save fitted values in output. Default = FALSE}

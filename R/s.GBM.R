@@ -29,7 +29,7 @@
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 #'   Object size adds up quickly
 #' @param stratify.var   If resampling is stratified, stratify against this variable. Defaults to outcome
-#' @param outdir         String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
+#' @param outdir         Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
 #' @param save.rds       Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 #'   mod.gbm, so no need to save again.
 #' @param relInf         Logical: If TRUE (Default), estimate variables' relative influence.
@@ -49,7 +49,8 @@ s.GBM <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   distribution = NULL,
                   interaction.depth = 2,
                   shrinkage = .01,
@@ -144,9 +145,13 @@ s.GBM <- function(x, y = NULL,
   }
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -155,8 +160,8 @@ s.GBM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   n.classes <- length(levels(y0))
   if (type == "Classificationn" && n.classes != 2) stop("GBM only supports binary classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -194,7 +199,7 @@ s.GBM <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline = TRUE)
+  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline.pre = TRUE)
 
   # [ GRID SEARCH ] ====
   if (is.null(metric)) {
@@ -231,7 +236,7 @@ s.GBM <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed,
+                                              resample.seed = resample.seed,
                                               relInf = FALSE,
                                               plot.tune.error = plot.tune.error,
                                               .gs = TRUE),

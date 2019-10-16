@@ -6,14 +6,14 @@
 \usage{
 s.RFSRC(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 1000, weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  bootstrap = "by.root", mtry = NULL, importance = TRUE,
-  proximity = TRUE, nodesize = if (!is.null(y) && !is.factor(y)) 5 else
-  1, nodedepth = NULL, na.action = "na.impute", trace = FALSE,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  rtclass = NULL, verbose = TRUE, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, bootstrap = "by.root", mtry = NULL,
+  importance = TRUE, proximity = TRUE, nodesize = if (!is.null(y) &&
+  !is.factor(y)) 5 else 1, nodedepth = NULL, na.action = "na.impute",
+  trace = FALSE, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix of features, i.e. independent variables}
@@ -27,7 +27,7 @@ must have set of columns as \code{x}}
 
 \item{n.trees}{Integer: Number of trees to grow. The more the merrier.}
 
-\item{bootstrap}{String:}
+\item{bootstrap}{Character:}
 
 \item{mtry}{Integer: Number of features sampled randomly at each split}
 

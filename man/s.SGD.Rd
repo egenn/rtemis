@@ -7,6 +7,7 @@
 s.SGD(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, model = NULL, model.control = list(lambda1 = 0,
   lambda2 = 0), sgd.control = list(method = "ai-sgd"),
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
   print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   verbose = TRUE, outdir = NULL, save.mod = ifelse(!is.null(outdir),
@@ -87,17 +88,24 @@ proportional hazards model), \code{"gmm"} (generalized method of moments),
   \item{\code{verbose}}{logical. Should the algorithm print progress?}
 }}
 
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

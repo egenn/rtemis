@@ -21,7 +21,7 @@
 #' \code{xgboost}'s return values and is therefore not compatible with older versions
 #' \link{s.XGBLIN} is a wrapper for \code{s.XGB} with \code{booster = "gblinear"}
 #' @inheritParams s.GLM
-#' @param booster String: Booster to use. Options: "gbtree", "gblinear"
+#' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
 #' @param silent 0: print XGBoost messages; 1: print no XGBoost messages
 #' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number as early stopping
 #'   will limit nrounds by monitoring inner CV error
@@ -73,7 +73,8 @@ s.XGB <- function(x, y = NULL,
                   ipw = TRUE,
                   ipw.type = 2,
                   upsample = FALSE,
-                  upsample.seed = NULL,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   obj = NULL,
                   feval = NULL,
                   maximize = NULL,
@@ -174,7 +175,9 @@ s.XGB <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -515,7 +518,7 @@ s.XGB <- function(x, y = NULL,
   }
 
   # [ FULL XGBOOST ] ====
-  if (verbose) msg("Training full XGB model with", booster, "booster...", newline = TRUE)
+  if (verbose) msg("Training full XGB model with", booster, "booster...", newline.pre = TRUE)
   if (!is.null(objective)) objective <- deparse(substitute(objective))
   if (!is.null(feval)) feval <- deparse(substitute(feval))
   if (!is.null(force.nrounds)) nrounds <- force.nrounds

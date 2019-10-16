@@ -6,13 +6,13 @@
 \usage{
 bag(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
   mod = "cart", k = 10, mod.params = list(), ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  .resample = rtset.resample(resampler = "strat.boot", n.resamples = k),
-  aggr.fn = mean, x.name = NULL, y.name = NULL, question = NULL,
-  base.verbose = FALSE, verbose = TRUE, trace = 0,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  print.base.plot = FALSE, n.cores = rtCores,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, .resample = rtset.resample(resampler =
+  "strat.boot", n.resamples = k), aggr.fn = NULL, x.name = NULL,
+  y.name = NULL, question = NULL, base.verbose = FALSE,
+  verbose = TRUE, trace = 0, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), print.base.plot = FALSE, n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   outdir = NULL, ...)
 }
@@ -30,7 +30,7 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{mod}{String: Algorithm to bag, for options, see \link{modSelect}}
+\item{mod}{Character: Algorithm to bag, for options, see \link{modSelect}}
 
 \item{k}{Integer: Number of base learners to train}
 
@@ -48,21 +48,21 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{.resample}{List: Resample settings to use. There is no need to edit this, unless you want to change the type of
 resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
 Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}}
 
-\item{aggr.fn}{Function: used to average base learners' predictions. Default = mean. (Note: no quotes, as you are
-passing the function itself)}
+\item{aggr.fn}{Function: used to average base learners' predictions. Default = mean for Classification, median for
+Regression}
 
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{base.verbose}{Logical: \code{verbose} argument passed to learner}
 
@@ -71,21 +71,21 @@ passing the function itself)}
 \item{trace}{Integer: If > 0, print diagnostic info to console}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
 \item{n.cores}{Integer: Number of cores to use}
 
-\item{parallel.type}{String: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
+\item{parallel.type}{Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

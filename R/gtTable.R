@@ -7,7 +7,7 @@
 #' Compare vectors element-wise, and tabulate N times each vector is greater than the others
 #' 
 #' @param x List of vectors of same length
-#' @param x.name String: Name of measure being compared
+#' @param x.name Character: Name of measure being compared
 #' @param na.rm Passed to \code{sum} to handle missing values
 #' @param verbose Logical: If TRUE, write output to console
 #' @author Efstathios D. Gennatas

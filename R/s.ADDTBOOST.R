@@ -1,10 +1,10 @@
-# s.ADDTBOOST.R
+# s.HYTBOOST.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
 #' Boosting of Additive Trees [R]
 #'
-#' Boost an additive tree using \link{addtboost}
+#' Boost an hybrid additive tree using \link{addtboost}
 #'
 #' @inheritParams addtboost
 #' @inheritParams s.GLM
@@ -26,12 +26,12 @@
 #' @export
 
 
-s.ADDTBOOST <- function(x, y = NULL,
+s.HYTBOOST <- function(x, y = NULL,
                         x.test = NULL, y.test = NULL,
                         x.valid = NULL, y.valid = NULL,
                         resid = NULL,
                         boost.obj = NULL,
-                        mod.params = rtset.ADDT(),
+                        mod.params = rtset.HYTREE(),
                         case.p = 1,
                         weights = NULL,
                         max.iter = 10,
@@ -68,7 +68,7 @@ s.ADDTBOOST <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "ADDTBOOST"
+  mod.name <- "HYTBOOST"
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", "glmnet", verbose = FALSE)) {
@@ -89,7 +89,7 @@ s.ADDTBOOST <- function(x, y = NULL,
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
+                    # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -100,7 +100,7 @@ s.ADDTBOOST <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, "Regression", mod.name)
-  
+
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -110,13 +110,13 @@ s.ADDTBOOST <- function(x, y = NULL,
   }
   # if (is.null(init)) init <- mean(y)
 
-  # [ ADDTBOOST ] ====
+  # [ HYTBOOST ] ====
   if (verbose) parameterSummary(init,
                                 max.iter,
                                 learning.rate,
                                 mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
-  if (verbose) msg("Training ADDTBOOST...", newline = TRUE)
+  if (verbose) msg("Training HYTBOOST...", newline.pre = TRUE)
   mod <- addtboost(x = x, y = y,
                    x.valid = x.valid, y.valid = y.valid,
                    resid = resid,
@@ -195,4 +195,4 @@ s.ADDTBOOST <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.ADDTBOOST
+} # rtemis::s.HYTBOOST

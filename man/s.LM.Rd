@@ -5,8 +5,10 @@
 \title{Linear model}
 \usage{
 s.LM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, weights = NULL, intercept = TRUE, robust = FALSE,
-  gls = FALSE, polynomial = FALSE, poly.d = 3, poly.raw = FALSE,
+  y.name = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  intercept = TRUE, robust = FALSE, gls = FALSE,
+  polynomial = FALSE, poly.d = 3, poly.raw = FALSE,
   print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   na.action = na.exclude, question = NULL, rtclass = NULL,
@@ -31,6 +33,21 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
+\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
+Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+
+\item{ipw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by max(class.weights)
+2: class.weights as in 0, divided by min(class.weights)
+Default = 2}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
 
 \item{robust}{Logical: if TRUE, use \code{MASS::rlm()} instead of base \code{lm()}}
@@ -52,13 +69,13 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

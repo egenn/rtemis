@@ -14,7 +14,7 @@
 #'   must have set of columns as \code{x}
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param k Integer: Number of neighbors considered
-#' @param algorithm String: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
+#' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
@@ -87,7 +87,7 @@ s.KNN <- function(x, y = NULL,
   if (verbose) parameterSummary(k, algorithm)
 
   # [ KNN ] ====
-  if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline = TRUE)
+  if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
   .x.test <- if (is.null(x.test)) x else x.test
   if (type == "Classification") {
     mod <- FNN::knn(train = x, test = .x.test, cl = y,

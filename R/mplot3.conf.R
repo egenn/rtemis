@@ -8,33 +8,41 @@
 #'
 #' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 #' data.frame / table
-#' @param main String: Plot title
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
-#' @param mod.name String: Name of the algorithm used to make predictions. If NULL, will look for
+#' @param main Character: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE
+#' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. Default = NULL
-#' @param mar Numeric, vector, length 4: Overall margins
-#' @param dim.lab Float: Height for labels
-#' @param dim.in Float: Width and height for confusion matrix cells
-#' @param dim.out Float: Height for metrics cells
-#' @param font.in Integer: The \code{font} parameter for confusion matrix cells
-#' @param font.out Integer: The \code{font} parameter for metrics cells
-#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells
-#' @param cex.lab Float: The \code{cex} parameter for first line of label cells
-#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells
-#' @param cex.out Float: The \code{cex} parameter for metrics cells
-#' @param col.text.out Color for metrics cells' text
-#' @param col.bg.out Color for metrics cells' background
-#' @param theme String: "light", or "dark"
-#' @param mid.color Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
-#' "black" for "dark"
-#' @param hi.color.pos Color: The hi color for correct classification.
-#' @param hi.color.neg Color: The hi color for missclassification
+#' @param oma Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)
+#' @param dim.main Float: Height for title. Default = 1
+#' @param dim.lab Float: Height for labels. Default = 1
+#' @param dim.in Float: Height/Width for confusion matrix cells. Default = 4
+#' @param dim.out Float: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
+#' @param font.in Integer: The \code{font} parameter for confusion matrix cells. Default = 2
+#' @param font.out Integer: The \code{font} parameter for metrics cells. Default = 1
+#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells. Default = 1.8
+#' @param cex.lab Float: The \code{cex} parameter for first line of label cells. Default = 1.8
+#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells. Default = 1.8
+#' @param cex.lab3 Float: The \code{cex} parameter for classification metrics. Default = 1.5
+#' @param cex.out Float: The \code{cex} parameter for metrics cells. Default = 1.4
+#' @param col.main Color for title. Default = "auto", determined by \code{theme}
+#' @param col.lab Color for labels. Default = "auto", determined by \code{theme}
+#' @param col.text.out Color for metrics cells' text. Default = "auto", determined by \code{theme}
+#' @param col.bg Color for background. Default = "auto", determined by \code{theme}
+#' @param col.bg.out1 Color for metrics cells' background (row1). Default = "auto", determined by \code{theme}
+#' @param col.bg.out2 Color for metrics cells' background (row2). Default = "auto", determined by \code{theme}
+#' @param col.text.hi Color for high confusion matrix values. Default = "auto", determined by \code{theme}
+#' @param col.text.lo Color for low confusion matrix values. Default = "auto", determined by \code{theme}
+#' @param theme Character: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"
+#' @param mid.col Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
+#' theme = "light", "black" for "dark"
+#' @param hi.color.pos Color: The hi color for correct classification. Default = "#18A3AC" (teal)
+#' @param hi.color.neg Color: The hi color for missclassification. Default = "#F48024" (orange)
 #' @param par.reset Logical: If TRUE, reset par before exit. Default = TRUE
 #' @param pdf.width Float: PDF width, if \code{filename} is set
 #' @param pdf.height Float: PDF height, if \code{filename} is set
-#' @param ... Not used
-#' @param filename String: If specified, save plot to this path. Default = NULL
+#' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
 #' @author Efstathios D. Gennatas
 #' @export
@@ -46,7 +54,7 @@ mplot3.conf <- function(object,
                         plot.metrics = TRUE,
                         mod.name = NULL,
                         oma = c(0, 0, 0, 0),
-                        main.height = 1,
+                        dim.main = 1,
                         dim.lab = 1,
                         dim.in = 4,
                         dim.out = -1,
@@ -73,7 +81,7 @@ mplot3.conf <- function(object,
                         par.reset = TRUE,
                         pdf.width = 4.5,
                         pdf.height = 4.5,
-                        filename = NULL, ...) {
+                        filename = NULL) {
 
   # [ ARGUMENTS ] ====
   if (strtrim(theme, width = 4) == "dark") theme <- "dark"
@@ -221,7 +229,7 @@ mplot3.conf <- function(object,
   widths <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   heights <- c(dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   if (!is.null(main)) {
-    heights <- c(main.height, dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
+    heights <- c(dim.main, dim.lab, dim.lab, rep(dim.in, n.classes), dim.out, dim.out)
   }
   layout(lmat, widths = widths, heights = heights, respect = TRUE)
 

@@ -1,6 +1,7 @@
 # mplot3.box
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
+# TODO: make x vector or list
 
 #' \code{mplot3}: Boxplot
 #'
@@ -20,6 +21,7 @@ mplot3.box <- function(x,
                        alpha = .66,
                        border = NULL,
                        border.alpha = 1,
+                       pch = 16,
                        space = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -38,10 +40,10 @@ mplot3.box <- function(x,
                        group.names = NULL,
                        group.names.at = NULL,
                        group.names.y = NULL,
-                       group.names.line = 0.5,
+                       # group.names.line = 0.5,
                        group.names.font = 1,
-                       group.names.adj = 1,
-                       group.names.srt = 90,
+                       group.names.adj = .5,
+                       group.names.srt = 0,
                        legend = FALSE,
                        legend.names = NULL,
                        legend.position = "topright",
@@ -77,9 +79,9 @@ mplot3.box <- function(x,
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) {
     if (NCOL(x) == 1) {
-      col <- rtCol
+      col <- palette[1]
     } else {
-      col <- rtCol[seq(NROW(x))]
+      col <- palette[seq(NCOL(x))]
     }
   }
 
@@ -226,8 +228,13 @@ mplot3.box <- function(x,
   if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = NULL, nx = 0)
 
   # [ BOXPLOT ] ====
-  boxplot(x, col = cols, border = border, ylim = ylim, axes = boxplot.axes,
-          add = TRUE, xlab = NULL, ...)
+  bp <- boxplot(x, col = cols,
+                pch = pch,
+                border = border,
+                ylim = ylim,
+                axes = boxplot.axes,
+                add = TRUE,
+                xlab = NULL, ...)
 
   # [ y AXIS ] ====
   if (yaxis) axis(2, col = axes.col, col.axis = labs.col, col.ticks = tick.col,
@@ -243,13 +250,17 @@ mplot3.box <- function(x,
 
   # [ GROUP NAMES ] ====
   if (is.null(group.names.y)) {
-    group.names.y <- -diff(ylim) * .05
+    group.names.y <- min(ylim) - diff(ylim) * .2
   }
   if (!is.null(group.names)) {
     # mtext(group.names, side = 1, line = group.names.line, at = group.names.at,
     #       font = group.names.font, cex = cex)
-    text(x = group.names.at, y = group.names.y, labels = group.names,
-         adj = group.names.adj, srt = group.names.srt, xpd = TRUE, font = group.names.font)
+    text(x = group.names.at, y = group.names.y,
+         labels = group.names,
+         adj = group.names.adj,
+         srt = group.names.srt, xpd = TRUE,
+         font = group.names.font,
+         col = labs.col)
   }
 
   # # [ LEGEND ] ====
@@ -264,5 +275,7 @@ mplot3.box <- function(x,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
+
+  invisible(bp)
 
 } # rtemis::mplot3.box

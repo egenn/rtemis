@@ -17,7 +17,7 @@
 #'
 #' @param y Numeric vector. Usually the outcome; \code{length(y)} defines sample size
 #' @param n.resamples Integer: Number of training/testing sets required
-#' @param resampler String: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+#' @param resampler Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
 #'   Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"
 #' @param index List where each element is a vector of training set indices. Use this for manual or precalculated
 #' train/test splits
@@ -37,6 +37,14 @@
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate}
 #' @export
+#' @examples
+#' y <- rnorm(200)
+#' # 10-fold (stratified)
+#' res <- resample(y, 10, "kfold")
+#' # 25 stratified subsamples
+#' res <- resample(y, 25, "strat.sub")
+#' # 100 stratified bootstraps
+#' res <- resample(y, 100, "strat.boot")
 
 resample <- function(y,
                      n.resamples = 10,
@@ -51,7 +59,8 @@ resample <- function(y,
                      seed = NULL,
                      verbose = FALSE) {
 
-  # If rtset is provided, it takes precedence over all other arguments
+  # If rtset is provided, it takes precedence over all other arguments,
+  # excluding the verbose arg
   if (!is.null(rtset)) {
     resampler <- rtset$resampler
     n.resamples <- rtset$n.resamples
@@ -75,21 +84,9 @@ resample <- function(y,
       if (verbose) msg("Input contains more than one columns; will stratify on last")
       y <- y[, NCOL(y)]
     }
-    if (is.null(target.length)) target.length <- NROW(y)
+    if (is.null(target.length)) target.length <- NROW(y) # TODO: move
     if (resampler == "strat.sub" | resampler == "strat.boot") {
       if (train.p <= 0 | train.p >= 1) stop("train.p must be greater than 0 and less than 1")
-    }
-
-    # Check there are enough cases for stratification in given k
-    if (is.factor(y)) {
-      if (resampler %in% c("strat.sub", "strat.boot", "kfold")) {
-        freq <- table(y)
-        if (min(freq) < n.resamples) {
-          warning("Insufficient number of cases for ", n.resamples,
-                  " stratified resamples: will use ", min(freq)," instead")
-          n.resamples <- min(freq)
-        }
-      }
     }
 
     # [ RESAMPLE ] ====
@@ -229,7 +226,7 @@ plot.resample <- function(x, res, col = NULL, ...) {
 
 print.resample <- function(x, ...) {
 
-  boxcat(".:rtemis resample object", newline.pre = FALSE)
+  objcat("resample object")
   .attributes <- attributes(x)
   .attributes$names <- .attributes$class <- NULL
   # .attributes[[1]] <- .attributes[[2]] <- NULL
@@ -241,7 +238,7 @@ print.resample <- function(x, ...) {
 #' Bootstrap Resampling
 #'
 #' @param x Input vector
-#' @param n.resample Integer: Number of resamples to make. Default = 10
+#' @param n.resamples Integer: Number of resamples to make. Default = 10
 #' @param seed Integer: If provided, set seed for reproducibility. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
@@ -265,6 +262,8 @@ bootstrap <- function(x, n.resamples = 10,
 #' K-fold Resampling
 #'
 #' @inheritParams resample
+#' @param x Input Vector
+#' @param k Integer: Number of folds. Default = 10
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -278,30 +277,33 @@ kfold <- function(x, k = 10,
 
   if (is.null(stratify.var)) stratify.var <- x
   stratify.var <- as.numeric(stratify.var)
+  # ->> update
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
-    if (verbose) msg("Using max n bins possible = ", max.bins)
+    if (verbose) msg("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
 
-  ids <- seq(length(x))
+  ids <- seq_along(x)
   # cuts
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
+  cut.bins <- sort(unique(cuts))
+
   # ids by cut
-  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
   # length of each cut
   # idl.length <- sapply(idl, length)
   idl.length <- as.numeric(table(cuts))
 
   # split each idl into k folds after randomizing them
-  idl.k <- vector("list", strat.n.bins)
-  for (i in seq(strat.n.bins)) {
+  idl.k <- vector("list", length(cut.bins))
+  for (i in seq_along(cut.bins)) {
     cut1 <- cut(sample(idl.length[i]), breaks = k, labels = FALSE)
     idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
   }
 
   # res <- lapply(seq(k), function(i) sort(unlist(lapply(seq(bins), function(j) idl.k[[j]][[i]]))))
-  res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq(strat.n.bins), function(j) idl.k[[j]][[i]])))])
+  res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), function(j) idl.k[[j]][[i]])))])
 
   names(res) <- paste0("Fold_", seq(k))
   attr(res, "strat.n.bins") <- strat.n.bins
@@ -313,6 +315,7 @@ kfold <- function(x, k = 10,
 #' Resample using Stratified Subsamples
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -333,13 +336,14 @@ strat.sub <- function(x,
     if (verbose) msg("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
-  ids <- seq(length(x))
+  ids <- seq_along(x)
   cuts <- cut(stratify.var, breaks = strat.n.bins, labels = FALSE)
-  idl <- lapply(seq(strat.n.bins), function(i) ids[cuts == i])
+  cut.bins <- sort(unique(cuts))
+  idl <- lapply(seq_along(cut.bins), function(i) ids[cuts == cut.bins[i]])
   # idl.length <- sapply(idl, length)
   idl.length <- as.numeric(table(cuts))
   res <- lapply(seq(n.resamples), function(i)
-    sort(unlist(sapply(seq(strat.n.bins), function(j)
+    sort(unlist(sapply(seq_along(cut.bins), function(j)
       sample(idl[[j]], train.p * idl.length[j])))))
   names(res) <- paste0("Subsample_", seq(n.resamples))
   attr(res, "strat.n.bins") <- strat.n.bins
@@ -351,6 +355,7 @@ strat.sub <- function(x,
 #' Stratified Bootstrap Resampling
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -391,6 +396,7 @@ strat.boot <- function(x, n.resamples = 10,
 #' Leave-one-out Resampling
 #'
 #' @inheritParams resample
+#' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
 

@@ -15,7 +15,7 @@ rtClust
 \section{Fields}{
 
 \describe{
-\item{\code{clust.name}}{String: Name of clustering algorithm}
+\item{\code{clust.name}}{Character: Name of clustering algorithm}
 
 \item{\code{call}}{Originating call}
 

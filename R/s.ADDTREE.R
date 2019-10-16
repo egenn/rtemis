@@ -7,8 +7,9 @@
 #'
 #' Train an Additive Tree model
 #'
-#' For binary classification, outcome must be factor with two levels, the first level
-#' is the 'positive' class
+#' This function is for binary classification. The outcome must be a factor with two levels, the first level
+#' is the 'positive' class. Ensure there are no missing values in the data and that variables are either numeric
+#' (including integers) or factors. Use \link{preprocess} as needed to impute and convert characters to factors.
 #'
 #' Factor levels should not contain the "/" character (it is used to separate conditions
 #' in the addtree object)
@@ -21,22 +22,26 @@
 #' @param y N x 1 vector of labels with values in {-1,1}
 #' @param catPredictors Logical vector with the same length as the feature vector, where TRUE
 #'    means that the corresponding column of x is a categorical variable
-#' @param gamma [gS] acceleration factor = lambda / (1 + lambda)
-#' #' @param max.depth [gS] maximum depth of the tree
+#' @param gamma [gS] acceleration factor = lambda / (1 + lambda). Default = .8
+#' @param max.depth [gS] maximum depth of the tree. Default = 30
 #' @param learning.rate [gS] learning rate for the Newton Raphson step that updates the function values
 #' of the node
-#' @param min.hessian [gS] Minimum second derivative to continue splitting
+#' @param min.hessian [gS] Minimum second derivative to continue splitting. Default = .001
+#' @param min.membership Integer: Minimum number of cases in a node. Default = 1
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-#' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting
+#' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE
+#' @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
+#' @param
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models
 #' @references
-#' Valdes G, Luna JM, Eaton E, Simone CB, Ungar LH, Solberg TD. MediBoost: a Patient
-#' Stratification Tool for Interpretable Decision Making in the Era of Precision Medicine.
-#' Sci Rep. 2016;6:37854. doi:10.1038/srep37854.
+#' Jose Marcio Luna, Efstathios D Gennatas, Lyle H Ungar, Eric Eaton, Eric S Diffenderfer, Shane T Jensen,
+#' Charles B Simone, Jerome H Friedman, Timothy D Solberg, Gilmer Valdes
+#' Building more accurate decision trees with the additive tree
+#' Proc Natl Acad Sci U S A. 2019 Oct 1;116(40):19887-19893. doi: 10.1073/pnas.1816748116
 #' @export
 
 s.ADDTREE <- function(x, y = NULL,
@@ -54,7 +59,8 @@ s.ADDTREE <- function(x, y = NULL,
                       ipw = TRUE,
                       ipw.type = 2,
                       upsample = FALSE,
-                      upsample.seed = NULL,
+                      downsample = FALSE,
+                      resample.seed = NULL,
                       imetrics = TRUE,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       metric = "Balanced Accuracy",
@@ -116,9 +122,13 @@ s.ADDTREE <- function(x, y = NULL,
   if (!verbose) prune.verbose <- FALSE
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -127,8 +137,8 @@ s.ADDTREE <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (dt$type != "Classification") stop("Only binary classification is currently supported")
   if (print.plot) {
@@ -151,7 +161,7 @@ s.ADDTREE <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed),
+                                              resample.seed = resample.seed),
                           weights = weights,
                           metric = metric,
                           maximize = maximize,
@@ -172,10 +182,10 @@ s.ADDTREE <- function(x, y = NULL,
                      ipw = ipw,
                      ipw.type = ipw.type,
                      upsample = upsample,
-                     upsample.seed = upsample.seed)
+                     resample.seed = resample.seed)
 
   # [ ADDTREE ] ====
-  if (verbose) msg("Training ADDTREE...", newline = TRUE)
+  if (verbose) msg("Training ADDTREE...", newline.pre = TRUE)
   mod <- mediboost(x, y,
                    catPredictors = NULL,
                    depthLimit = max.depth,
@@ -239,11 +249,14 @@ s.ADDTREE <- function(x, y = NULL,
   rt$mod$addtree <- data.tree::as.Node(rt$mod$frame, pathName = "Path")
 
   # [ PRUNE ] ====
-  if (verbose) msg("Pruning tree...")
-  rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
-                                         prune.empty.leaves = prune.empty.leaves,
-                                         remove.bad.parents = remove.bad.parents,
-                                         verbose = prune.verbose)
+  if (prune) {
+    if (verbose) msg("Pruning tree...")
+    rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
+                                           prune.empty.leaves = prune.empty.leaves,
+                                           remove.bad.parents = remove.bad.parents,
+                                           verbose = prune.verbose)
+  }
+
   if (match.rules) {
     rules <- data.tree::Get(data.tree::Traverse(rt$mod$addtree.pruned), "Rule")
     xt <- data.table::as.data.table(cbind(x, y))

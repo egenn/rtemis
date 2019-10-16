@@ -64,7 +64,9 @@ s.LDA <- function(x, y,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -79,7 +81,7 @@ s.LDA <- function(x, y,
                    method = method,
                    nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
-  if (verbose) msg("Running Linear Discriminant Analysis...", newline = TRUE)
+  if (verbose) msg("Running Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::lda, args = params)
 
   # [ FITTED ] ====

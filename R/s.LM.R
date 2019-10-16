@@ -29,10 +29,10 @@
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires \code{x.test} and \code{y.test}
-#' @param plot.theme String: "zero", "dark", "box", "darkbox"
+#' @param plot.theme Character: "zero", "dark", "box", "darkbox"
 #' @param na.action How to handle missing values. See \code{?na.fail}
-#' @param question String: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass String: Class type to use. "S3", "S4", "RC", "R6"
+#' @param question Character: the question you are attempting to answer with this model, in plain language.
+#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,
@@ -56,6 +56,11 @@ s.LM <- function(x, y = NULL,
                  x.test = NULL, y.test = NULL,
                  x.name = NULL, y.name = NULL,
                  weights = NULL,
+                 ipw = TRUE,
+                 ipw.type = 2,
+                 upsample = FALSE,
+                 downsample = FALSE,
+                 resample.seed = NULL,
                  intercept = TRUE,
                  robust = FALSE,
                  gls = FALSE,
@@ -119,13 +124,20 @@ s.LM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+  .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -150,21 +162,21 @@ s.LM <- function(x, y = NULL,
 
   # [ LM & POLY ] ====
     if (!robust & !gls) {
-      if (verbose) msg("Training linear model...", newline = TRUE)
+      if (verbose) msg("Training linear model...", newline.pre = TRUE)
       mod <- lm(myformula, data = df.train,
                 weights = weights,
                 na.action = na.action, ...)
     }
     # [ RLM ]
     if (robust) {
-      if (verbose) msg("Training robust linear model...", newline = TRUE)
+      if (verbose) msg("Training robust linear model...", newline.pre = TRUE)
       mod <- MASS::rlm(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)
     }
     # [ GLS ]
     if (gls) {
-      if (verbose) msg("Training generalized least squares...", newline = TRUE)
+      if (verbose) msg("Training generalized least squares...", newline.pre = TRUE)
       mod <- nlme::gls(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)

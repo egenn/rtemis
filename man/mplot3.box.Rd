@@ -5,13 +5,13 @@
 \title{\code{mplot3}: Boxplot}
 \usage{
 mplot3.box(x, col = NULL, alpha = 0.66, border = NULL,
-  border.alpha = 1, space = NULL, xlim = NULL, ylim = NULL,
-  xlab = NULL, xlab.line = 1.5, ylab = NULL, ylab.line = 1.5,
-  main = NULL, main.line = 0.5, main.adj = 0, main.col = NULL,
-  main.font = 2, main.family = "", names.arg = NULL,
-  axisnames = FALSE, group.names = NULL, group.names.at = NULL,
-  group.names.y = NULL, group.names.line = 0.5, group.names.font = 1,
-  group.names.adj = 1, group.names.srt = 90, legend = FALSE,
+  border.alpha = 1, pch = 16, space = NULL, xlim = NULL,
+  ylim = NULL, xlab = NULL, xlab.line = 1.5, ylab = NULL,
+  ylab.line = 1.5, main = NULL, main.line = 0.5, main.adj = 0,
+  main.col = NULL, main.font = 2, main.family = "",
+  names.arg = NULL, axisnames = FALSE, group.names = NULL,
+  group.names.at = NULL, group.names.y = NULL, group.names.font = 1,
+  group.names.adj = 0.5, group.names.srt = 0, legend = FALSE,
   legend.names = NULL, legend.position = "topright",
   legend.inset = c(0, 0), mar = c(4, 2, 2.5, 0.5), pty = "m",
   cex = 1.2, cex.axis = cex, cex.names = cex, bg = NULL,
@@ -36,15 +36,15 @@ mplot3.box(x, col = NULL, alpha = 0.66, border = NULL,
 
 \item{ylim}{Float vector, length 2: y-axis limits}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{xlab.line}{Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{ylab.line}{Similar to \code{xlab.line} for the y axis}
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
 \item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
 Default = .5}
@@ -55,39 +55,51 @@ Default = .5}
 
 \item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
 
-\item{main.family}{String: Font family to use. See \code{par("family")}}
+\item{main.family}{Character: Font family to use. See \code{par("family")}}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{mar}{Vector, length 4: Margins; see \code{mar} in \code{?par}}
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{pty}{"s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-(See \code{?par})}
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
+(See \code{par("pty")})}
 
 \item{cex}{Float: Character expansion factor (See \code{?par})}
 
-\item{bg}{Background color. Defaults to white for themes "light" and "box", black otherwise.}
+\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
 
-\item{y.axis.padj}{Similar to \code{x.axis.padj} for the y axis}
+\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
-\item{tck}{Float: Tick length. Can be negative (See \code{?par("tck")})}
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
-\item{theme}{String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
+
+\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
+
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
-\item{axes.col}{String: Color for axes values (box color set with \code{box.col})}
+\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
-\item{grid}{Logical: Should grid be drawn?}
+\item{grid}{Logical: If TRUE, draw grid}
 
-\item{grid.lty}{Grid line type (See \code{?par("lty")})}
+\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
 
-\item{grid.lwd}{Grid line width}
+\item{grid.lwd}{Float: Grid line width}
 
-\item{grid.col}{Grid color}
+\item{grid.col}{Color: Grid color}
 
-\item{grid.alpha}{Alpha for \code{grid.col}}
+\item{grid.alpha}{Float: Alpha for \code{grid.col}}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
+
+\item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to \code{graphics::boxplot}}
 }

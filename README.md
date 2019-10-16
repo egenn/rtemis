@@ -1,15 +1,17 @@
 **_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
 ===============================================
 A platform for advanced Machine Learning research and applications.  
-The goal of rtemis is to make data science efficient and accessible  with no compromise on flexibility.
+The goal of __rtemis__ is to make data science efficient and accessible with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
-<img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png">
+<img align = "center" src="https://rtemis.netlify.com/rtemis_0.79_Release.jpeg">
 </a>    
 </div>
 
-[__Online Documentation and vignettes__](https://rtemis.netlify.com)
+### Documentation
+* [__Online documentation and vignettes__](https://rtemis.netlify.com)  
+* [__R PDF manual__](https://egenn.github.io/docs/rtemis.pdf)
 
 ### Installation
 See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
@@ -19,6 +21,9 @@ install.packages("remotes")
 remotes::install_github("egenn/rtemis")
 ```
 
+**Note:** *Make sure to keep your installation updated by running* `remotes::install_github("egenn/rtemis")` *regularly: it will only proceed if there are updates available*
+
+
 ### 10-second intro to __rtemis__
 Install dependencies if they are not already installed:
 ```r
@@ -27,7 +32,7 @@ packages <- c("pbapply", "ranger")
 install.packages(packages[.add])
 ```
 
-Load rtemis and get cross-validated random forest performance on the iris dataset:
+Load __rtemis__ and get cross-validated random forest performance on the iris dataset:
 ```r
 library(rtemis)
 mod <- elevate(iris)
@@ -35,7 +40,8 @@ mod$plot()
 ```
 
 ### What's new
-* __v. 0.78__: First public release, April 2019
+* __v0.79__: 07-02-2019 "Super Papaya" Release out
+* __v0.78__: 04-02-2019 __rtemis__ moved to public repo
 
 ### Features
 * __Visualization__
@@ -49,10 +55,11 @@ mod$plot()
 * __Cross-Decomposition__
      - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
-     [Have been temporarily removed for updating]
      - Model Stacking: **_metaMod()_**
      - Modality Stacking: **_metaFeat()_**
      - Group-weighted Stacking: **_metaGroup()_**
+
+  (metaFeat and metaGroup have been temporarily removed for updating)
 
 ### Ongoing work
 * Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
@@ -67,4 +74,4 @@ mod$plot()
 
 <img align = "center" src="https://rtemis.netlify.com/rtemis_hex_trans.png" width="205">  
 
-2019 Efstathios D. Gennatas  
+2019 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD  

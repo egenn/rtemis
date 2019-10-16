@@ -8,9 +8,9 @@ s.GLM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, family = NULL, interactions = FALSE,
   nway.interactions = 0, covariate = NULL, class.method = NULL,
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, intercept = TRUE, polynomial = FALSE,
-  poly.d = 3, poly.raw = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  downsample = FALSE, resample.seed = NULL, intercept = TRUE,
+  polynomial = FALSE, poly.d = 3, poly.raw = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   na.action = na.exclude, removeMissingLevels = TRUE,
   question = NULL, rtclass = NULL, verbose = TRUE, trace = 0,
@@ -36,9 +36,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
 
-\item{covariate}{String: Name of column to be included as interaction term in formula, must be factor}
+\item{covariate}{Character: Name of column to be included as interaction term in formula, must be factor}
 
-\item{class.method}{String: Define "logistic" or "multinom" for classification. The only purpose
+\item{class.method}{Character: Define "logistic" or "multinom" for classification. The only purpose
 of this is so you can try \code{nnet::multinom} instead of glm for binary classification}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -57,7 +57,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
@@ -70,14 +70,14 @@ Default = NULL (random seed)}
 Default, which should not really be changed is FALSE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
@@ -85,9 +85,9 @@ Requires \code{x.test} and \code{y.test}}
 not present in \code{x} and substitutes with NA. This would result in error otherwise and no
 predictions would be made, ending \code{s.GLM} prematurely}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -117,6 +117,8 @@ levels than those in the same predictor in the training set, resulting in error.
 when training on resamples of a data set, especially after stratifying against a different
 outcome, and results in error and no prediction. \code{s.GLM} automatically finds such cases
 and substitutes levels present in \code{x.test} and not in \code{x} with NA.
+Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+variable standard deviation.
 }
 \examples{
 x <- rnorm(100)

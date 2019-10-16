@@ -12,21 +12,25 @@
 #' @param ipw Logical: If TRUE, return class weights for inverse probability weighting
 #' (for Classification)
 #' @param ipw.type {1, 2}: 1:
+#' @param upsample Logical: If TRUE, downsample majority class to match size of minority class
+#' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
+#' @param resample.seed Integer: If set, use \code{set.seed} for reproducibility. Default = NULL
 #' @param removeDots Logical: If TRUE, replace dots in variable names with underscores.
 #' Some algorithms do not work with variable names containing dots (SparkML)
 #' @param .preprocess List: Preprocessing settings. Set with \link{rtset.preprocess}
 #' @param verbose Logical: If TRUE, print messages to console
 #' @export
 
-dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
+dataPrepare <- function(x, y = NULL,
+                        x.test = NULL, y.test = NULL,
                         x.valid = NULL, y.valid = NULL,
-                        ipw = TRUE,
+                        ipw = FALSE,
                         ipw.type = 2,
                         upsample = FALSE,
-                        upsample.seed = NULL,
+                        downsample = FALSE,
+                        resample.seed = NULL,
                         removeDots = FALSE,
                         .preprocess = NULL,
-                        # .data.table = FALSE, # for future work
                         verbose = FALSE) {
 
   if (class(x)[1] != "list") {
@@ -125,13 +129,14 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
       }
     }
     if (!is.null(y.test)) {
-      for (i in 1:length(x)) {
+      for (i in seq(x)) {
         if (NROW(x.test[[i]]) != NROW(y.test))
           stop("Feature set #", i, ": Testing set features and outcome do not contain same number of cases")
       }
     }
     # [ end for meta.list ]
   } else {
+    # x is not list
     # '- Test dimensions match ====
     if (NROW(x) != NROW(y)) stop("Training set features and outcome do not contain same number of cases")
     if (!is.null(x.test)) if (NCOL(x) != NCOL(x.test))
@@ -157,15 +162,14 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
 
   # [ UPSAMPLE: balance outcome class ] ====
   if (type == "Classification" & upsample) {
-    if (!is.null(upsample.seed)) set.seed(upsample.seed)
+    if (!is.null(resample.seed)) set.seed(resample.seed)
     freq <- as.data.frame(table(y))
     maxfreq.i <- which.max(freq$Freq)
     if (verbose) {
-      msg("Upsampling to create balanced set...", newline = TRUE)
+      msg("Upsampling to create balanced set...", newline.pre = TRUE)
       msg(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
-    # all <- 1:length(levels(y))
     to.upsample <- setdiff(1:length(levels(y)), maxfreq.i)
     y.upsampled.classIndex.list <- y.classIndex.list
     target.length <- length(y.classIndex.list[[maxfreq.i]])
@@ -181,6 +185,31 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
     y0 <- y
     x <- x[upsample.index, , drop = FALSE]
     y <- y[upsample.index]
+  } else {
+    x0 <- y0 <- NULL
+  }
+
+  # [ DOWNSAMPLE: balance outcome class ] ====
+  if (type == "Classification" & downsample) {
+    if (!is.null(resample.seed)) set.seed(resample.seed)
+    freq <- as.data.frame(table(y))
+    minfreq.i <- which.min(freq$Freq)
+    if (verbose) {
+      msg("Downsampling to balance outcome classes...", newline.pre = TRUE)
+      msg(levels(y)[minfreq.i], "is the minority outcome with", min(freq$Freq), "cases")
+    }
+    y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
+    to.downsample <- setdiff(seq_along(levels(y)), minfreq.i)
+    y.downsampled.classIndex.list <- y.classIndex.list
+    target.length <- length(y.classIndex.list[[minfreq.i]])
+    for (i in to.downsample) {
+      y.downsampled.classIndex.list[[i]] <- sample(y.classIndex.list[[i]], target.length)
+    }
+    downsample.index <- unlist(y.downsampled.classIndex.list)
+    x0 <- x
+    y0 <- y
+    x <- x[downsample.index, , drop = FALSE]
+    y <- y[downsample.index]
   } else {
     x0 <- y0 <- NULL
   }
@@ -202,7 +231,7 @@ dataPrepare <- function(x, y = NULL, x.test = NULL, y.test = NULL,
       } else if (ipw.type == 2) {
         weights <- class.weights / min(class.weights)
       }
-      if (verbose) msg("Imbalanced classes: using Inverse Probability Weighting", newline = TRUE)
+      if (verbose) msg("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
       weights <- weights[as.integer(y)]
     }
   }

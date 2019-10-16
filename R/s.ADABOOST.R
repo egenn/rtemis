@@ -8,8 +8,8 @@
 #'
 #' \code{ada::ada} does not support case weights
 #' @inheritParams s.GLM
-#' @param loss String: "exponential" (Default), "logistic"
-#' @param type String: "discrete", "real", "gentle"
+#' @param loss Character: "exponential" (Default), "logistic"
+#' @param type Character: "discrete", "real", "gentle"
 #' @param iter Integer: Number of boosting iterations to perform. Default = 50
 #' @param nu Float: Shrinkage parameter for boosting. Default = .1
 #' @param bag.frac Float (0, 1]: Sampling fraction for out-of-bag samples
@@ -29,7 +29,8 @@ s.ADABOOST <- function(x, y = NULL,
                        nu = .1,
                        bag.frac = .5,
                        upsample = FALSE,
-                       upsample.seed = NULL,
+                       downsample = FALSE,
+                       resample.seed = NULL,
                        x.name = NULL,
                        y.name = NULL,
                        print.plot = TRUE,
@@ -73,7 +74,10 @@ s.ADABOOST <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test, upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y, x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -89,9 +93,9 @@ s.ADABOOST <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ ADABOOST ] ====
-  if (verbose) msg("Training ADABOOST Classifier...", newline = TRUE)
+  if (verbose) msg("Training ADABOOST Classifier...", newline.pre = TRUE)
   mod <- ada::ada(x, y,
                   loss = loss,
                   type = .type,

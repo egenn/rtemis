@@ -11,10 +11,10 @@ labels2nii(label.vals, labeledNifti, prefix, datatype = "auto",
 \item{label.vals}{Vector: The index of this vector should correspond to label numbers.
 Its values will replace the corresponding label numbers to form the new nifti file.}
 
-\item{labeledNifti}{String: Path to the labeled file whose labels corresponds to the values in
+\item{labeledNifti}{Character: Path to the labeled file whose labels corresponds to the values in
 \code{label.vals}}
 
-\item{prefix}{String: Prefix of the output file. ".nii.gz" will be added automatically}
+\item{prefix}{Character: Prefix of the output file. ".nii.gz" will be added automatically}
 
 \item{datatype}{Integer or "auto": Defines the datatype of the output. Options:
 2: uint8, 4: int16, 8: int32, 16: float (Default), 64: double. Default = "auto"}

@@ -78,7 +78,7 @@ s.LOESS <- function(x, y = NULL,
   df.train <- data.frame(y = y, x)
   features <- paste0(xnames, collapse = " + ")
   formula <- as.formula(paste0("y", " ~ ", features))
-  if (verbose) msg("Training LOESS model...", newline = TRUE)
+  if (verbose) msg("Training LOESS model...", newline.pre = TRUE)
   mod <- loess(formula, data = df.train, ...)
   if (trace > 0) print(summary(mod))
 

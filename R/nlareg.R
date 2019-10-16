@@ -11,7 +11,7 @@
 #' @param W_o Float: Output weight. Defaults to 1
 #' @param b_h Float: Hidden layer bias. Defaults to 0
 #' @param W_h Float, vector (length \code{NCOL(x)}): Hidden layer weights. Defaults to 0
-#' @param optim.method String: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
+#' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
 #' @export
 #' @author Efstathios D. Gennatas

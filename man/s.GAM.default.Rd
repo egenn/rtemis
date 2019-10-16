@@ -7,13 +7,13 @@
 \method{s.GAM}{default}(x, y = NULL, x.test = NULL, y.test = NULL,
   x.name = NULL, y.name = NULL, data = NULL, data.test = NULL,
   k = 6, family = NULL, weights = NULL, ipw = TRUE, ipw.type = 2,
-  upsample = FALSE, upsample.seed = NULL, method = "REML",
-  select = FALSE, removeMissingLevels = TRUE, spline.index = NULL,
-  verbose = TRUE, trace = 0, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), na.action = na.exclude, question = NULL,
-  n.cores = rtCores, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  method = "REML", select = FALSE, removeMissingLevels = TRUE,
+  spline.index = NULL, verbose = TRUE, trace = 0,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  na.action = na.exclude, question = NULL, n.cores = rtCores,
+  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -49,7 +49,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{removeMissingLevels}{Logical: If TRUE, finds factors in \code{x.test} that contain levels
@@ -61,18 +61,18 @@ predictions would be made, ending \code{s.GLM} prematurely}
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

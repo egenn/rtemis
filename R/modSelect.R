@@ -8,7 +8,7 @@
 #'   the function itself.
 #'   If run with no parameters, prints list of available algorithms.
 #'
-#' @param mod String: Model name. Case insensitive. e.g. "XGB" for xgboost
+#' @param mod Character: Model name. Case insensitive. e.g. "XGB" for xgboost
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name / description of algorithm \code{mod}
 #' @return function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})
@@ -24,10 +24,9 @@ modSelect <- function(mod,
     c("RGB", "Representational Gradient Boosting", T, T, T), # that's
     c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
     c("CSL", "Conditional SuperLearner", T, T, F), # bud
+    c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
-    c("ADDT", "Hybrid Additive Tree", F, T, F),
-    c("ADDTBOOST", "Boosting of Additive Trees", F, T, F),
     c("ADDTBOOSTTV", "Boosting of Additive Trees TV", F, T, F),
     c("BAG", "Bagged Learner", T, T, F),
     c("BART", "Bayesian Additive Regression Trees", T, T, F),
@@ -50,11 +49,14 @@ modSelect <- function(mod,
     c("GLM", "Generalized Linear Model", T, T, F),
     c("GLMLITE", "Lite GLM", F, T, F),
     c("GLMLITEBOOST", "Boosted GLM Lite", F, T, F),
+    c("GLMLITEBOOSTTV", "Boosted GLM Lite TV", F, T, F),
     c("GLMNET", "Elastic Net", T, T, T),
     c("GLS", "Generalized Least Squares", F, T, F),
     c("H2ODL", "H2O Deep Learning", T, T, F),
     c("H2OGBM", "H2O Gradient Boosting Machine", T, T, F),
     c("H2ORF", "H2O Random Forest", T, T, F),
+    c("HYTBOOST", "Boosting of Additive Trees", F, T, F),
+    c("HYTREE", "Hybrid Additive Tree", F, T, F),
     c("KNN", "k-Nearest Neighbor", T, T, F),
     c("LDA", "Linear Discriminant Analysis", T, F, F),
     c("LGB", "Light GBM", T, T, F),
@@ -83,21 +85,22 @@ modSelect <- function(mod,
     # c("RRF", "Regularized Random Forest", T, T, F),
     c("RFSRC", "Random Forest SRC", T, T, T),
     c("RLM", "Robust Linear Model", F, T, F),
-    c("RULEFEAT", "ruleFeat Ensemble Model", T, T, F),
+    c("RULEFEAT", "RuleFeat Ensemble Model", T, T, F),
     c("SGD", "Stochastic Gradient Descent", F, T, F),
     c("SPLS", "Sparse Partial Least Squares", F, T, F),
     c("SVM", "Support Vector Machine", T, T, F),
     c("TFN", "TensorFlow Neural Network", T, T, F),
     c("TLS", "Total Least Squares", F, T, F),
-    c("XGB", "Extreme Gradient Boosting", T, T, F),
-    c("XGBLIN", "Extreme Gradient Boosting of Linear Models", F, T, F)
+    c("XGB", "XGBoost", T, T, F),
+    c("XGBLIN", "XGBoost with Linear Models", F, T, F)
   ))
   colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 
   # if (missing(mod) & !listAliases) {
   if (missing(mod)) {
     cat(rtHighlight$bold("\n  rtemis supports the following algorithms for training learners:\n\n"))
-    print(rtMods[-seq(3), ], quote = FALSE, row.names = FALSE)
+    # Exclude first so many
+    print(rtMods[-seq(4), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtMods))
   }
 

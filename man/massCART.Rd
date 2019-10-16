@@ -8,10 +8,10 @@ massCART(x, y = NULL, x.test = NULL, y.test = NULL, metric = NULL,
   minsplit = 2, minbucket = round(minsplit/3), cp = 0.01,
   maxcompete = 0, maxsurrogate = 0, usesurrogate = 2,
   surrogatestyle = 0, maxdepth = 22, xval = 0, ipw = FALSE,
-  upsample = FALSE, upsample.seed = NULL, n.cores = 1,
-  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
-  save.mod = FALSE, grid.print.plot = FALSE, verbose = TRUE,
-  grid.verbose = TRUE, print.plot = FALSE, ...)
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
+  n.cores = 1, parallel.type = ifelse(.Platform$OS.type == "unix",
+  "fork", "psock"), save.mod = FALSE, grid.print.plot = FALSE,
+  verbose = TRUE, grid.verbose = TRUE, print.plot = FALSE, ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -23,7 +23,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -34,6 +34,11 @@ Default = 2}
 
 \item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
 
+\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+
+\item{maxsurrogate}{Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
+Default = 0}
+
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
@@ -43,7 +48,7 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{n.cores}{Integer: Number of cores to use}
@@ -57,7 +62,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 }
 \description{
 Predict outcome from each predictor separately and rank by percent Variance explained

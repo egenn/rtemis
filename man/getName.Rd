@@ -9,7 +9,7 @@ getName(x, alt = "x", max.nchar = 20)
 \arguments{
 \item{x}{Variable whose name you want to extract}
 
-\item{alt}{String: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead}
+\item{alt}{Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead}
 
 \item{max.nchar}{Integer: Maximum N of characters to allow for name}
 }

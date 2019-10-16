@@ -17,7 +17,7 @@
 
 \item{n.iter}{Integer: N of iterations to predict from. Default = (all available)}
 
-\item{as.matrix}{Logical: If TRUE, return predictions from each iterations. Default = FALSE}
+\item{as.matrix}{Logical: If TRUE, return predictions from each iteration. Default = FALSE}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
 

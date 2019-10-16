@@ -4,7 +4,7 @@
 \alias{rules2medmod}
 \title{\code{rtemis-internals}: Convert rules from cutoffs to median/mode and range}
 \usage{
-rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE)
+rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0)
 }
 \arguments{
 \item{rules}{String, vector: Input rules}
@@ -13,6 +13,8 @@ rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE)
 
 \item{.ddSci}{Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
 give either 2 decimal places, or scientific notation if two decimal places result in 0.00}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \description{
 Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format

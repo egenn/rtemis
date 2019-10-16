@@ -8,8 +8,9 @@ s.ET(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 500, mtry = if (!is.null(y) &&
   !is.factor(y)) max(floor(NCOL(x)/3), 1) else floor(sqrt(NCOL(x))),
   nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
-  n.cores = parallel::detectCores(), print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  weights = NULL, ipw = TRUE, upsample = FALSE, downsample = FALSE,
+  resample.seed = resample.seed, n.cores = parallel::detectCores(),
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   rtclass = NULL, verbose = TRUE, trace = 0, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
@@ -28,21 +29,35 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
+\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
+over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
+Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+
+\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
+Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{n.cores}{Integer. N of cores to use}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical. Print summary to screen}
 

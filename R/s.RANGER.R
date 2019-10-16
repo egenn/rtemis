@@ -2,15 +2,21 @@
 # ::rtemis::
 # 2016-8 Efstathios D. Gennatas egenn.github.io
 # TODO: Add Survival support
+# TODO: Use inbag and resample for stratified bootstraps
 
 #' Random Forest Classification and Regression [C, R]
 #'
 #' Train a Random Forest for regression or classification using \code{ranger}
 #'
 #' You should cconsider, or try, setting mtry to NCOL(x), especially for small number of features.
+#' By default mtry is set to NCOL(x) for NCOL(x) <= 20.
+#' For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 #' If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
 #'   value.
 #' [gS]: indicated parameter will be tuned by grid search if more than one value is passed
+#'
+#' See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
+#' balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
 #'
 #'
 #' @inheritParams s.RF
@@ -19,12 +25,20 @@
 #' @param mtry [gS] Integer: Number of features sampled randomly at each split. Defaults to square root of n of
 #' features for classification, and a third of n of features for regression.
 #' @param min.node.size [gS] Integer: Minimum node size
-#' @param splitrule String: For classification: "gini" (Default) or "extratrees";
+#' @param splitrule Character: For classification: "gini" (Default) or "extratrees";
 #' For regression: "variance" (Default), "extratrees" or "maxstat".
 #' For survival "logrank" (Default), "extratrees", "C" or "maxstat".
-#' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}
-#' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if  \code{autotune = TRUE}.
+#' @param ipw.case.weights Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE
+#' Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}
+#' @param ipw.class.weights Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE
+#' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE
+#' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 #' For classification only; need not add up to 1
+#' @param inbag.resample List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
+#' tree. Default = NULL
+#' @param stratify.on.y Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
+#' This can help improve test set performance in imbalanced datasets. Default = FALSE. Note: Cannot be used with
+#' \code{ipw.case.weights}
 #' @param ... Additional arguments to be passed to \code{ranger::ranger}
 #' @return \link{rtMod} object
 #' @author Efstathios D. Gennatas
@@ -41,14 +55,19 @@ s.RANGER <- function(x, y = NULL,
                      weights = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
+                     ipw.case.weights = TRUE,
+                     ipw.class.weights = FALSE,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      autotune = FALSE,
                      classwt = NULL,
                      n.trees.try = 500,
                      stepFactor = 2,
                      mtry = NULL,
                      mtryStart = NULL,
+                     inbag.resample = NULL,
+                     stratify.on.y = FALSE,
                      grid.resample.rtset = rtset.resample("kfold", 5),
                      grid.search.type = c("exhaustive", "randomized"),
                      grid.randomized.p = .1,
@@ -107,9 +126,13 @@ s.RANGER <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -121,9 +144,9 @@ s.RANGER <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
-  x0 <- if (upsample) dt$x0 else x
-  y0 <- if (upsample) dt$y0 else y
+  .class.weights <- if (is.null(classwt) & ipw) dt$class.weights else classwt
+  x0 <- if (upsample|downsample) dt$x0 else x
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -131,7 +154,9 @@ s.RANGER <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (is.null(mtry)) {
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    n.features <- NCOL(x)
+    if (n.features <= 20) mtry <- n.features
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
   if (type == "Classification") nlevels <- length(levels(y))
 
@@ -167,7 +192,7 @@ s.RANGER <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed),
+                                              resample.seed = resample.seed),
                           search.type = grid.search.type,
                           randomized.p = grid.randomized.p,
                           weights = weights,
@@ -184,7 +209,7 @@ s.RANGER <- function(x, y = NULL,
   # In case tuning fails, use defaults
   if (length(mtry) == 0) {
     warning("Tuning failed; setting mtry to default")
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
 
   if (length(min.node.size) == 0) {
@@ -192,7 +217,7 @@ s.RANGER <- function(x, y = NULL,
   }
 
   # [ tuneRF ] ====
-  if (is.null(mtryStart)) mtryStart <- sqrt(NCOL(x))
+  if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
   if (autotune) {
     if (verbose) msg("Tuning for mtry...")
     tuner <- try(randomForest::tuneRF(x = x, y = y,
@@ -203,7 +228,7 @@ s.RANGER <- function(x, y = NULL,
                                       plot = print.tune.plot,
                                       strata = strata,
                                       do.trace = tune.do.trace,
-                                      classwt = .classwt))
+                                      classwt = .class.weights))
     if (!inherits(tuner, "try-error")) {
       mtry <- tuner[which.min(tuner[, 2]), 1]
       if (verbose) msg("Best mtry :", mtry)
@@ -216,14 +241,27 @@ s.RANGER <- function(x, y = NULL,
                      ipw = ipw,
                      ipw.type = ipw.type,
                      upsample = upsample,
-                     upsample.seed = upsample.seed)
+                     resample.seed = resample.seed)
 
   # [ RANGER ] ====
-  if (verbose) msg("Training Random Forest (ranger)", type, "with", n.trees, "trees...", newline = TRUE)
+  if (stratify.on.y) {
+    inbag.resample <- rtset.resample("strat.boot", n.trees)
+  }
+  if (!is.null(inbag.resample)) {
+    if (verbose) msg("Creating custom subsamples...")
+    # Get integer index of inbag cases
+    inbag.res <- resample(df.train$y, rtset = inbag.resample, verbose = verbose)
+    # Convert to counts for each case
+    inbag <- lapply(seq(n.trees), function(i) sapply(seq(df.train$y), function(j) sum(j == inbag.res[[i]])))
+  } else {
+    inbag <- NULL
+  }
+  if (verbose) msg("Training Random Forest (ranger)", type, "with", n.trees, "trees...", newline.pre = TRUE)
   mod <- ranger::ranger(formula = .formula,
                         data = df.train,
                         num.trees = n.trees,
-                        case.weights = .weights,
+                        case.weights = if (ipw.case.weights) .weights else NULL,
+                        class.weights = if (ipw.case.weights) .class.weights else NULL,
                         mtry = mtry,
                         min.node.size = min.node.size,
                         splitrule = splitrule,
@@ -231,7 +269,9 @@ s.RANGER <- function(x, y = NULL,
                         probability = probability,
                         importance = importance,
                         write.forest = TRUE,
-                        num.threads = n.cores, ...)
+                        inbag = inbag,
+                        num.threads = n.cores,
+                        verbose = verbose, ...)
 
   # [ FITTED ] ====
   if (type == "Classification") {

@@ -3,9 +3,9 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 # TODO: automatically adjust (lower) margin depending on label length
 
-#' Dynamic Heatmap
+#' Interactive Heatmaps
 #'
-#' Draw a dynamic heatmap using \code{heatmaply}
+#' Draw interactive heatmaps using \code{heatmaply}
 #'
 #' @inheritParams colorGrad
 #' @inheritParams mplot3.xy
@@ -28,7 +28,7 @@
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
-#' @param key.title String: Title for the color key. Default = NULL (no title)
+#' @param key.title Character: Title for the color key. Default = NULL (no title)
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
 #' @author Efstathios D. Gennatas
 #' @export
@@ -66,11 +66,11 @@ dplot3.heatmap <- function(z,
     cat("\n")
     stop("Please install dependencies and try again")
   }
-  
+
   # [ COLNAMES ] ====
-  if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rt.letters(NCOL(z))
-  if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rt.letters(NCOL(z), caps = TRUE)
-  
+  if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rtLetters(NCOL(z))
+  if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rtLetters(NCOL(z), caps = TRUE)
+
   # [ MARGINS ] ====
   # By default, allow 7 px per character
   if (is.null(margins)) {
@@ -78,7 +78,7 @@ dplot3.heatmap <- function(z,
     left <- max(nchar(rownames(z))) * 7 + 10
     margins <- c(bottom, left, 50, 50)
   }
-  
+
   # [ TICK LABELS ] ====
   if (is.null(showticklabels)) {
     showticklabels <- c(ifelse(NCOL(z) < 50, TRUE, FALSE),

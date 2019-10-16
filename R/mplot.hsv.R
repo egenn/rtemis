@@ -11,11 +11,11 @@
 #' @param pch Integer: pch plot parameter. Default = 15 (square)
 #' @param bg Colot: Background color. Default = "black"
 #' @param axes Logical: for \code{type = "cartesian"}: If TRUE, draw axes. Default = TRUE
-#' @param pty String: for \code{type = "cartesian"}: "s", "r", par's pty argument. Default = "s" (square plot)
+#' @param pty Character: for \code{type = "cartesian"}: "s", "r", par's pty argument. Default = "s" (square plot)
 #' @param cex Float: \code{par/plot}'s cex argument. Default = 1
 #' @param mar Float, vector: for \code{type = "cartesian"}: \code{par}'s mar argument. Default = c(3, 3, 2, .5)
 #' @param lab.col Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black
-#' @param type String: "cartesian" for square plot, "polar" for radial plot. Default = "polar"
+#' @param type Character: "cartesian" for square plot, "polar" for radial plot. Default = "polar"
 #' @author Efstathios D. Gennatas
 #' @export
 

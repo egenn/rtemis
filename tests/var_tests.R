@@ -50,6 +50,10 @@ x <- lotri2edgeList(cor(rnormmat(10, 10)))
 # '- nCr ====
 nCr(4, 2)
 
+# '- oneHot ====
+iris.oh <- oneHot(iris)
+iris.species.oh <- oneHot(iris$Species)
+
 # '- rsd ====
 rsd(rnorm(20))
 
@@ -59,6 +63,14 @@ stderror(rnorm(100))
 # '- strict ====
 x <- 10
 z <- strict(x, "numeric")
+
+# '- synthRegData ====
+dat <- synthRegData()
+
+# '- synthMultiModal ====
+if (requireNamespace("matrixStats", quietly = TRUE)) {
+  dat <- synthMultiModal(verbose = TRUE)
+}
 
 # '- timeProc ====
 x <- timeProc(sapply(rnorm(100), exp))

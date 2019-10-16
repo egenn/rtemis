@@ -13,12 +13,12 @@
 #' @param estimate.k Logical: if TRUE, estimate k up to a maximum set by the \code{k} argument
 #' @param nfolds Integer: Number of cross-validation folds
 #' @param max.iterations Integer: Maximum number of iterations
-#' @param ip String: IP address of H2O server. Default = "localhost"
+#' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number of H2O server. Default = 54321
 #' @param seed Integer: Seed for H2O's random number generator. Default = -1 (time-based ranodm number)
-#' @param init String: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
+#' @param init Character: Initialization mode: "Furthest", "Random", "PlusPlus", "User".
 #' Default = "Furthest"
-#' @param categorical.encoding String: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
+#' @param categorical.encoding Character: How to encode categorical variables: "AUTO", "Enum", "OneHotInternal",
 #' "OneHotExplicit", "Binary", "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited".
 #' Default = "AUTO"
 #' @param n.cores Integer: Number of cores to use

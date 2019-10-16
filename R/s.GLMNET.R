@@ -11,11 +11,16 @@
 #' Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 #' alpha and resample combination
 #'
+#' \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+#' automatically performed
+#' Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
+#' variable standard deviation.
+#'
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
-#' @param alpha Float [0, 1]: The elasticnet mixing parameter:
+#' @param alpha [gS] Float [0, 1]: The elasticnet mixing parameter:
 #'   \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty
-#' @param lambda Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
+#' @param lambda [gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
 #' @param intercept Logical: If TRUE, include intercept in the model. Default = TRUE
 #' @param res.summary.fn Function: Used to average resample runs. Default = \code{mean}
 #' @author Efstathios D. Gennatas
@@ -46,7 +51,8 @@ s.GLMNET <- function(x, y = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
                      upsample = FALSE,
-                     upsample.seed = NULL,
+                     downsample = FALSE,
+                     resample.seed = NULL,
                      res.summary.fn = mean,
                      save.grid.run = FALSE,
                      metric = NULL,
@@ -102,9 +108,13 @@ s.GLMNET <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -211,7 +221,7 @@ s.GLMNET <- function(x, y = NULL,
                              intercept = intercept,
                              penalty.factor = penalty.factor, ...)
   } else {
-    if (verbose) msg("Training elastic net model...", newline = TRUE)
+    if (verbose) msg("Training elastic net model...", newline.pre = TRUE)
     mod <- glmnet::glmnet(x,
                           if (family == "binomial") reverseLevels(y) else y,
                           family = family,
@@ -289,7 +299,7 @@ s.GLMNET <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = as.matrix(coef(mod))[-1, ],
+                 varimp = as.matrix(coef(mod))[-1, 1] * apply(x, 2, sd),
                  question = question,
                  extra = extra)
 

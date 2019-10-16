@@ -12,9 +12,11 @@ modError(true, estimated, estimated.prob = NULL, verbose = FALSE,
 
 \item{estimated}{Vector: Estimated values}
 
+\item{estimated.prob}{Vector: Estimated probabilities for Classification, if available. Default = NULL}
+
 \item{verbose}{Logical: If TRUE, print output to screen}
 
-\item{type}{String: "Regression", "Classification", or "Survival". If not provided, will be set
+\item{type}{Character: "Regression", "Classification", or "Survival". If not provided, will be set
 to Regression if y is numeric.}
 
 \item{rho}{Logical: If TRUE, calculate Spearman's rho. Default = TRUE}

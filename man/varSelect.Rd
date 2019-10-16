@@ -12,7 +12,7 @@ varSelect(x, y, method = c("RANGER", "XGBLIN"), xgb.params = list(alpha
 
 \item{y}{Outcome vector}
 
-\item{method}{String: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"}
+\item{method}{Character: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"}
 
 \item{xgb.params}{List of parameters for \code{method = "XGBLIN"}}
 

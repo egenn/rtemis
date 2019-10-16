@@ -38,7 +38,6 @@ cartLiteBoostTV <- function(x, y = NULL,
                             resid = NULL,
                             boost.obj = NULL,
                             mod.params = list(),
-                            # case.p = 1,
                             weights.p = 1,
                             weights.0 = 0,
                             weights = NULL,
@@ -90,8 +89,6 @@ cartLiteBoostTV <- function(x, y = NULL,
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
-                    # upsample = upsample, upsample.seed = upsample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -102,8 +99,8 @@ cartLiteBoostTV <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   # .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  # x0 <- if (upsample) dt$x0 else x
-  # y0 <- if (upsample) dt$y0 else y
+  # x0 <- if (upsample|downsample) dt$x0 else x
+  # y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

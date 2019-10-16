@@ -8,9 +8,12 @@
 #'
 #' [gS] indicates grid search will be performed automatically if more than one value is passed
 #' @inheritParams s.GLM
-#' @param method String: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
+#' @param method Character: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
 #' @param cp [gS] Float: Complexity threshold for allowing a split. Default = .01
 #' @param maxdepth [gS] Integer: Maximum depth of tree. Default = 20
+#' @param maxcompete Integer: The number of competitor splits saved in the output Default = 0
+#' @param maxsurrogate Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
+#' Default = 0
 #' @param minsplit [gS] Integer: Minimum number of cases that must belong in a node before considering a split.
 #' Default = 2
 #' @param minbucket [gS] Integer: Minimum number of cases allowed in a child node. Default = round(minsplit/3)
@@ -20,10 +23,10 @@
 #' in \link{rtMod}
 #' @param grid.resample.rtset List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 #' Default = \code{rtset.resample("kfold", 5)}
-#' @param grid.search.type String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
+#' @param grid.search.type Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
 #' @param grid.randomized.p Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 #' combinations. Default = .1
-#' @param metric String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+#' @param metric Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 #' Default = NULL, which results in "Balanced Accuracy" for Classification,
 #' "MSE" for Regression, and "Coherence" for Survival Analysis.
 #' @param maximize Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE
@@ -34,7 +37,7 @@
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
 #' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
-#' \code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded
+#' \code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
@@ -50,7 +53,8 @@ s.CART <- function(x, y = NULL,
                    ipw = TRUE,
                    ipw.type = 2,
                    upsample = FALSE,
-                   upsample.seed = NULL,
+                   downsample = FALSE,
+                   resample.seed = NULL,
                    method = "auto",
                    parms = NULL,
                    minsplit = 2,
@@ -130,8 +134,11 @@ s.CART <- function(x, y = NULL,
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
-                    upsample = upsample, upsample.seed = upsample.seed,
+                    ipw = ipw,
+                    ipw.type = ipw.type,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -141,8 +148,8 @@ s.CART <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   class.weights <- dt$class.weights
-  x0 <- if (upsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
-  y0 <- if (upsample) dt$y0 else y
+  x0 <- if (upsample|downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+  y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   df.train <- data.frame(y = y, x)
   if (method == "auto") {
@@ -204,7 +211,7 @@ s.CART <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              upsample.seed = upsample.seed),
+                                              resample.seed = resample.seed),
                           search.type = grid.search.type,
                           randomized.p = grid.randomized.p,
                           weights = weights,
@@ -237,7 +244,7 @@ s.CART <- function(x, y = NULL,
                      class.weights = class.weights)
 
   # [ RPART ] ====
-  if (verbose) msg("Training CART...", newline = TRUE)
+  if (verbose) msg("Training CART...", newline.pre = TRUE)
   mod <- rpart::rpart(formula = .formula,
                       data = df.train,
                       weights = .weights,

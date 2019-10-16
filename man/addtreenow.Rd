@@ -17,15 +17,19 @@ addtreenow(x, y, max.depth = 5, alpha = 0, lambda = 1,
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{max.depth}{Integer: Max depth of additive tree}
+\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
 
-\item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
 
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
+\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
+
+\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+
+\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{init}{Initial value. Default = \code{mean(y)}}
+\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

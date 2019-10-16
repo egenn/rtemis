@@ -23,7 +23,7 @@ x.CCA(x, z, x.test = NULL, z.test = NULL, y = NULL, outcome = NULL,
 \item{y}{Outcome vector (Optional): If supplied, linear combinations of \code{x} and \code{z} need to be
 additionaly correlated with this}
 
-\item{outcome}{String: Type of outcome \code{y}: "survival", "multiclass", "quantitative"}
+\item{outcome}{Character: Type of outcome \code{y}: "survival", "multiclass", "quantitative"}
 
 \item{k}{Integer: Number of components}
 
@@ -34,11 +34,11 @@ The higher, the better.}
 
 \item{permute.niter}{Integer: Number of iterations to run for each permutation with \code{CCA.permute}}
 
-\item{typex}{String: "standard", "ordered". Use "standard" if columns of x are unordered; lasso
+\item{typex}{Character: "standard", "ordered". Use "standard" if columns of x are unordered; lasso
 penalty is applied to enforce sparsity. Otherwise, use "ordered"; fused lasso penalty is applied,
 to enforce both sparsity and smoothness.}
 
-\item{typez}{String: "standard", "ordered". Same as \code{typex} for z dataset}
+\item{typez}{Character: "standard", "ordered". Same as \code{typex} for z dataset}
 
 \item{penaltyx}{Float: The penalty to be applied to the matrix x, i.e. the penalty that results
 in the canonical vector u. If typex is "standard" then the L1 bound on u is

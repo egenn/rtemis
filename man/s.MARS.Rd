@@ -7,8 +7,8 @@
 s.MARS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, grid.resample.rtset = rtset.grid.resample(),
   weights = NULL, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, glm = NULL, degree = 2, penalty = 3,
-  nk = NULL, thresh = 0, minspan = 0, endspan = 0,
+  downsample = FALSE, resample.seed = NULL, glm = NULL, degree = 2,
+  penalty = 3, nk = NULL, thresh = 0, minspan = 0, endspan = 0,
   newvar.penalty = 0, fast.k = 2, fast.beta = 1, linpreds = FALSE,
   pmethod = "forward", nprune = NULL, nfold = 4, ncross = 1,
   stratify = TRUE, wp = NULL, na.action = na.fail, metric = NULL,
@@ -35,7 +35,7 @@ must have set of columns as \code{x}}
 \item{nk}{[gS] Integer: Maximum number of terms created by the forward pass.
 See \code{earth::earth}}
 
-\item{pmethod}{[gS] String: Pruning method: "backward", "none", "exhaustive", "forward",
+\item{pmethod}{[gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 "seqrep", "cv". Default = "forward"}
 
 \item{nprune}{[gS] Integer: Max N of terms (incl. intercept) in the pruned model}

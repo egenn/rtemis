@@ -5,7 +5,8 @@
 \title{Neural Network with \pkg{tensorflow} [C, R]}
 \usage{
 s.TFN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, upsample.seed = NULL,
+  y.valid = NULL, class.weights = NULL, ipw = TRUE, ipw.type = 2,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
   net = NULL, n.hidden.nodes = NULL,
   initializer = c("glorot_uniform", "glorot_normal", "he_uniform",
   "he_normal", "lecun_uniform", "lecun_normal", "random_uniform",
@@ -35,17 +36,25 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
+Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+
+\item{ipw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by max(class.weights)
+2: class.weights as in 0, divided by min(class.weights)
+Default = 2}
+
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create.
 Can be zero (~GLM)}
 
-\item{initializer}{String: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
+\item{initializer}{Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 "truncated_normal", "orthogonal", "zeros", "ones", "constant".
 Glorot is also known as Xavier initialization. Default = "glorot_uniform"}
@@ -60,19 +69,19 @@ otherwise will be recycled. Default = 0}
 
 \item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE}
 
-\item{output}{String: Activation to use for output layer. Can be any as in \code{activation}.
+\item{output}{Character: Activation to use for output layer. Can be any as in \code{activation}.
 Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass}
 
-\item{loss}{String: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
+\item{loss}{Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
 classification, "sparse_categorical_crossentropy" for multiclass}
 
-\item{optimizer}{String: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
+\item{optimizer}{Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 Default = "rmsprop"}
 
 \item{learning.rate}{Float: learning rate. Defaults depend on \code{optimizer} used and are:
 \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
 
-\item{metric}{String: Metric used for evaluation during train. Default = "mse" for regression,
+\item{metric}{Character: Metric used for evaluation during train. Default = "mse" for regression,
 "accuracy" for classification.}
 
 \item{epochs}{Integer: Number of epochs. Default = 100}
@@ -93,16 +102,16 @@ scaling ahead of prediction on new data}
 \item{y.name}{Character: Name for outcome}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

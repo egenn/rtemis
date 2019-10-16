@@ -91,7 +91,7 @@ s.NLS <- function(x, y = NULL,
       }
     }
     if (is.null(start)) {
-      if (verbose) msg("Initializing all parameters as", default.start, newline = TRUE)
+      if (verbose) msg("Initializing all parameters as", default.start, newline.pre = TRUE)
       params <- getTerms2(formula, data = df)
       start <- lapply(seq(params), function(i) start[[i]] <- default.start)
       names(start) <- params
@@ -109,7 +109,7 @@ s.NLS <- function(x, y = NULL,
   }
 
   # [ NLS ] ====
-  if (verbose) msg("Training NLS model...", newline = TRUE)
+  if (verbose) msg("Training NLS model...", newline.pre = TRUE)
   mod <- nls(formula,
              data = df,
              start = start,
@@ -129,7 +129,7 @@ s.NLS <- function(x, y = NULL,
   }
 
   # [ FITTED ] ====
-    fitted <- predict(mod, x)
+  fitted <- predict(mod, x)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 

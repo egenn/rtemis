@@ -5,28 +5,29 @@
 \title{\code{mplot3} ROC curves}
 \usage{
 mplot3.roc(prob, labels, method = c("rt", "pROC"), type = "TPR.FPR",
-  balanced.accuracy = FALSE, main = "", col = ucsfPalette,
-  cex = 1.2, lwd = 2.5, diagonal = TRUE, diagonal.lwd = 2.5,
-  diagonal.lty = 1, group.legend = FALSE, annotation = TRUE,
-  annotation.col = col, annot.line = NULL, annot.adj = 1,
-  annot.font = 1, mar = c(2.5, 3, 2.5, 1),
-  theme = getOption("rt.theme", "lightgrid"), par.reset = TRUE,
-  filename = NULL, pdf.width = 5, pdf.height = 5, ...)
+  balanced.accuracy = FALSE, main = "", col = NULL, cex = 1.2,
+  lwd = 2.5, diagonal = TRUE, diagonal.lwd = 2.5, diagonal.lty = 3,
+  group.legend = FALSE, annotation = TRUE, annotation.col = col,
+  annot.line = NULL, annot.adj = 1, annot.font = 1, mar = c(2.5, 3,
+  2.5, 1), theme = getOption("rt.theme", "lightgrid"),
+  palette = getOption("rt.palette", "rtCol1"), verbose = TRUE,
+  par.reset = TRUE, filename = NULL, pdf.width = 5, pdf.height = 5,
+  ...)
 }
 \arguments{
 \item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}
 
 \item{labels}{Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))}
 
-\item{method}{String: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
+\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
 to get points of the ROC. Default = "rt"}
 
-\item{type}{String: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
+\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
 False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
 
 \item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE}
 
-\item{main}{String: Plot title. Default = ""}
+\item{main}{Character: Plot title. Default = ""}
 
 \item{col}{Color, vector: Colors to use for ROC curve(s)}
 
@@ -41,6 +42,23 @@ False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
 \item{diagonal.lty}{Integer: Line type for diagonal. Default = 1}
 
 \item{group.legend}{Logical}
+
+\item{annotation}{Character: Add annotation at the bottom right of the plot}
+
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
+You can set a system-wide default in your \code{.Rprofile} by including a line like
+options(rt.theme = 'lightgrid')}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+
+\item{filename}{Path to file: If supplied, plot will be printed to file}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+
+\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
 
 \item{...}{Additional parameters to pass to \link{mplot3.xy}}
 }

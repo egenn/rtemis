@@ -5,13 +5,13 @@
 \title{Gradient Boosting Machine [C, R, S]}
 \usage{
 s.GBM(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  distribution = NULL, interaction.depth = 2, shrinkage = 0.01,
-  bag.fraction = 0.9, n.minobsinnode = 5, n.trees = 2000,
-  max.trees = 5000, force.n.trees = NULL, n.tree.window = 0,
-  gbm.select.smooth = TRUE, n.new.trees = 500, min.trees = 50,
-  failsafe.trees = 1000, imetrics = FALSE, .gs = FALSE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, distribution = NULL, interaction.depth = 2,
+  shrinkage = 0.01, bag.fraction = 0.9, n.minobsinnode = 5,
+  n.trees = 2000, max.trees = 5000, force.n.trees = NULL,
+  n.tree.window = 0, gbm.select.smooth = TRUE, n.new.trees = 500,
+  min.trees = 50, failsafe.trees = 1000, imetrics = FALSE,
+  .gs = FALSE, grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = "exhaustive", metric = NULL, maximize = NULL,
   plot.tune.error = FALSE, exclude.test.lt.train = FALSE,
   exclude.lt.min.trees = FALSE, res.fail.thres = 0.99,
@@ -54,7 +54,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{interaction.depth}{[gS] Integer: Interaction depth}
@@ -80,21 +80,21 @@ The two measures are highly correlated.}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
-\item{outdir}{String: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
+\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
 \item{save.rds}{Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 mod.gbm, so no need to save again.}

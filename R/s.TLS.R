@@ -69,7 +69,7 @@ s.TLS <- function(x, y = NULL,
   }
 
   # [ TLS ] ====
-  if (verbose) msg("Running Total Least Squares...", newline = TRUE)
+  if (verbose) msg("Running Total Least Squares...", newline.pre = TRUE)
   M <- cbind(as.matrix(x), y)
   m <- nrow(x)
   n <- NCOL(x)

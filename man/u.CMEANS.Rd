@@ -15,9 +15,9 @@ u.CMEANS(x, k = 2, iter.max = 100, dist = "euclidean",
 
 \item{iter.max}{Integer: Maximum number of iterations}
 
-\item{dist}{String: Distance measure to use: 'euclidean' or 'manhattan'}
+\item{dist}{Character: Distance measure to use: 'euclidean' or 'manhattan'}
 
-\item{method}{String: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update}
+\item{method}{Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update}
 
 \item{m}{Float (>1): Degree of fuzzification. Default = 2}
 

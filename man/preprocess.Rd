@@ -6,16 +6,19 @@
 \usage{
 preprocess(x, y = NULL, completeCases = FALSE,
   removeCases.thres = NULL, removeFeatures.thres = NULL,
-  impute = FALSE, impute.type = c("missForest", "rfImpute",
-  "meanMode"), impute.niter = 10, impute.ntree = 500,
-  missForest.parallelize = c("no", "variables", "forests"),
+  missingness = FALSE, impute = FALSE, impute.type = c("missRanger",
+  "missForest", "rfImpute", "meanMode"),
+  impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
+  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize
+  = "no"), impute.rfImpute.params = list(niter = 10, ntree = 500),
   impute.discrete = getMode, impute.numeric = mean,
   integer2factor = FALSE, integer2numeric = FALSE,
   logical2factor = FALSE, logical2numeric = FALSE,
   numeric2factor = FALSE, numeric2factor.levels = NULL,
   character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
   center = FALSE, removeConstant = TRUE, oneHot = FALSE,
-  exclude = NULL, verbose = TRUE)
+  exclude = NULL, verbose = TRUE, n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
 }
 \arguments{
 \item{x}{Input}
@@ -29,12 +32,24 @@ Default = NULL}
 \item{removeFeatures.thres}{Float: Remove features with missing values in >= to this fraction of
 cases. Default = NULL}
 
+\item{missingness}{Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
+which cases were missing data}
+
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 \code{impute.numeric} for how}
 
-\item{impute.type}{String: How to impute data: "missForest" uses the package of the same name to impute by iterative
-random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation), "meanMode" will use
-mean and mode by default or any custom function defined in \code{impute.discrete} and \code{impute.numeric}}
+\item{impute.type}{Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
+impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
+"meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
+\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
+compatibility with older pipelines and is no longer recommended}
+
+\item{impute.missRanger.params}{Named list with elements "pmm.k" and "maxiter", which are passed to
+\code{missRanger::missRanger}
+#' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+to \code{missForest::missForest}}
+
+\item{impute.rfImpute.params}{Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}}
 
 \item{impute.discrete}{Function that returns single value: How to impute discrete variables for
 \code{impute.type = "meanMode"}. Default = \link{getMode}}
@@ -56,13 +71,21 @@ if \code{integer2factor = FALSE})}
 
 \item{removeConstant}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
 
+\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
+
+\item{exclude}{Integer, vector: Exclude these columns from all preprocessing. Default = NULL}
+
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
+
+\item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
+
+\item{removeConstant}{Logical: If TRUE, remove constant columns. Default = TRUE}
 }
 \description{
 Prepare data for data analysis
 }
 \details{
-By default, only removes constant features, everything else can be specified.
+By default, only removes constant features, everything else must be specified.
 
 Order of operations:
   * completeCases

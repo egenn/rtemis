@@ -8,10 +8,11 @@ s.SVM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, class.weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  kernel = "radial", degree = 3, gamma = NULL, coef0 = 0,
-  cost = 1, probability = TRUE, metric = NULL, maximize = NULL,
-  plot.fitted = NULL, plot.predicted = NULL, print.plot = TRUE,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, kernel = "radial", degree = 3,
+  gamma = NULL, coef0 = 0, cost = 1, probability = TRUE,
+  metric = NULL, maximize = NULL, plot.fitted = NULL,
+  plot.predicted = NULL, print.plot = TRUE,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   n.cores = rtCores, question = NULL, rtclass = NULL,
   verbose = TRUE, grid.verbose = TRUE, outdir = NULL,
@@ -35,7 +36,7 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
@@ -56,10 +57,10 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{kernel}{String: "linear", "polynomial", "radial", "sigmoid"}
+\item{kernel}{Character: "linear", "polynomial", "radial", "sigmoid"}
 
 \item{degree}{[gS] Integer: Degree for \code{kernel = "polynomial"}. Default = 3}
 
@@ -70,7 +71,7 @@ Default = NULL (random seed)}
 \item{cost}{[gS] Float: Cost of constraints violation; the C constant of the regularization term in the Lagrange
 formulation.}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
@@ -82,16 +83,16 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

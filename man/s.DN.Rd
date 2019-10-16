@@ -5,18 +5,18 @@
 \title{Artificial Neural Network [C, R]}
 \usage{
 s.DN(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  initW = NULL, initB = NULL, hidden = 10, activation = NULL,
-  learning.rate = 0.8, momentum = 0.5, learningrate_scale = 1,
-  output = NULL, numepochs = 200, batchsize = NULL,
-  hidden_dropout = 0, visible_dropout = 0, metric = NULL,
-  maximize = NULL, grid.resample.rtset = rtset.grid.resample(),
-  .preprocess = NULL, verbose = TRUE, verbose.predict = FALSE,
-  trace = 0, n.cores = rtCores, x.name = NULL, y.name = NULL,
-  question = NULL, outdir = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  save.mod = FALSE)
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, initW = NULL, initB = NULL, hidden = 10,
+  activation = NULL, learning.rate = 0.8, momentum = 0.5,
+  learningrate_scale = 1, output = NULL, numepochs = 200,
+  batchsize = NULL, hidden_dropout = 0, visible_dropout = 0,
+  metric = NULL, maximize = NULL,
+  grid.resample.rtset = rtset.grid.resample(), .preprocess = NULL,
+  verbose = TRUE, verbose.predict = FALSE, trace = 0,
+  n.cores = rtCores, x.name = NULL, y.name = NULL, question = NULL,
+  outdir = NULL, print.plot = TRUE, plot.fitted = NULL,
+  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
+  "lightgrid"), save.mod = FALSE)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
@@ -44,7 +44,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
@@ -55,21 +55,21 @@ Default = NULL (random seed)}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{save.mod}{Logical. If TRUE, save all output as RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}

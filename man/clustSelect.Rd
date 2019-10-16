@@ -7,7 +7,7 @@
 clustSelect(clust, fn = FALSE, desc = FALSE)
 }
 \arguments{
-\item{clust}{String: Clustering algorithm name. Case insensitive, supports partial matching. e.g. "hop" for HOPACH}
+\item{clust}{Character: Clustering algorithm name. Case insensitive, supports partial matching. e.g. "hop" for HOPACH}
 
 \item{fn}{Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE}
 

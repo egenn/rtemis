@@ -29,6 +29,11 @@ s.ET <- function(x, y = NULL,
                  mtry = if (!is.null(y) && !is.factor(y))
                    max(floor(NCOL(x)/3), 1) else floor(sqrt(NCOL(x))),
                  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
+                 weights = NULL,
+                 ipw = TRUE,
+                 upsample = FALSE,
+                 downsample = FALSE,
+                 resample.seed = resample.seed,
                  n.cores = parallel::detectCores(),
                  print.plot = TRUE,
                  plot.fitted = NULL,
@@ -58,7 +63,10 @@ s.ET <- function(x, y = NULL,
   }
 
   # [ ARGUMENTS ] ====
-  if (missing(x)) { print(args(s.ET)); stop("x is missing") }
+  if (missing(x)) {
+    print(args(s.ET))
+    stop("x is missing")
+  }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.NW)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -69,13 +77,20 @@ s.ET <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    ipw = ipw,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
+                    verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+  .weights <- if (is.null(weights) & ipw) dt$weights else weights
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
@@ -84,13 +99,14 @@ s.ET <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  
+
   # [ ET ] ====
-  if (verbose) msg("Training extraTrees model...", newline = TRUE)
+  if (verbose) msg("Training extraTrees model...", newline.pre = TRUE)
   mod <- extraTrees::extraTrees(x = x, y = y,
                                 ntree = n.trees,
                                 mtry = mtry,
                                 nodesize = nodesize,
+                                weights = .weights,
                                 numThreads = n.cores, ...)
   if (trace > 0) summary(mod)
 

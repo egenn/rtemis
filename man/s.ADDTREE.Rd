@@ -10,7 +10,7 @@ s.ADDTREE(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   1000), min.hessian = 0.001, min.membership = 1,
   steps.past.min.membership = 0, gamma = 0.8, max.depth = 30,
   learning.rate = 0.1, ipw = TRUE, ipw.type = 2, upsample = FALSE,
-  upsample.seed = NULL, imetrics = TRUE,
+  downsample = FALSE, resample.seed = NULL, imetrics = TRUE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   metric = "Balanced Accuracy", maximize = TRUE, prune = TRUE,
   prune.empty.leaves = TRUE, remove.bad.parents = FALSE,
@@ -40,10 +40,13 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{min.hessian}{[gS] Minimum second derivative to continue splitting}
+\item{min.hessian}{[gS] Minimum second derivative to continue splitting. Default = .001}
 
-\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda)
-#' @param max.depth [gS] maximum depth of the tree}
+\item{min.membership}{Integer: Minimum number of cases in a node. Default = 1}
+
+\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda). Default = .8}
+
+\item{max.depth}{[gS] maximum depth of the tree. Default = 30}
 
 \item{learning.rate}{[gS] learning rate for the Newton Raphson step that updates the function values
 of the node}
@@ -60,25 +63,27 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{prune}{Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE}
+
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting}
+percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{String: Class type to use. "S3", "S4", "RC", "R6"}
+\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -104,8 +109,9 @@ Object of class \link{rtMod}
 Train an Additive Tree model
 }
 \details{
-For binary classification, outcome must be factor with two levels, the first level
-is the 'positive' class
+This function is for binary classification. The outcome must be a factor with two levels, the first level
+is the 'positive' class. Ensure there are no missing values in the data and that variables are either numeric
+(including integers) or factors. Use \link{preprocess} as needed to impute and convert characters to factors.
 
 Factor levels should not contain the "/" character (it is used to separate conditions
 in the addtree object)
@@ -115,9 +121,10 @@ internal resampling
 lambda <- gamma/(1 - gamma)
 }
 \references{
-Valdes G, Luna JM, Eaton E, Simone CB, Ungar LH, Solberg TD. MediBoost: a Patient
-Stratification Tool for Interpretable Decision Making in the Era of Precision Medicine.
-Sci Rep. 2016;6:37854. doi:10.1038/srep37854.
+Jose Marcio Luna, Efstathios D Gennatas, Lyle H Ungar, Eric Eaton, Eric S Diffenderfer, Shane T Jensen,
+Charles B Simone, Jerome H Friedman, Timothy D Solberg, Gilmer Valdes
+Building more accurate decision trees with the additive tree
+Proc Natl Acad Sci U S A. 2019 Oct 1;116(40):19887-19893. doi: 10.1073/pnas.1816748116
 }
 \seealso{
 Other Supervised Learning: \code{\link{s.ADABOOST}},

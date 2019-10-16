@@ -13,30 +13,32 @@
 #'   If \code{data} is provided, name of variable, unquoted.
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If \code{data} is provided, name of variable, unquoted.
-#' @param fit String: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
+#' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 #'   Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 #'   be passed as a string.
 #' @param formula Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
 #' forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 #' and warnings, but is powerful. Use single letters for parameter names, no numbers.
 #' @param se.fit Logical: If TRUE, draw the standard error of the fit
+#' @param mod.params List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+#' parameters
 #' @param error.x Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point
 #' @param error.y Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point
-#' @param cluster String: Clusterer name. Will cluster \code{data.frame(x, y)} and
+#' @param cluster Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
 #' pass result to \code{group}. Run \link{clustSelect} for options
 #' @param cluster.params List: Names list of parameters to pass to the \code{cluster} function
 #' @param data (Optional) data frame, where \code{x} and \code{y} are defined
 #' @param group Vector: will be converted to factor.
 #'   If \code{data} is provided, name of variable, unquoted.
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
-#' @param main String: Plot title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param main Character: Plot title
 #' @param main.line Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
 #' Default = .5
 #' @param main.adj Float: Plot title alignment (0 = left, .5 = center, 1 = right)
 #' @param main.col Color for title. Defaults to black for theme "light" and "box", otherwise white
 #' @param main.font Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more
-#' @param main.family String: Font family to use. See \code{par("family")}
+#' @param main.family Character: Font family to use. See \code{par("family")}
 #' @param cex Float: Character expansion factor (See \code{?par})
 #' @param se.lty How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
 #'   otherwise an integer defines the lty (line type) for lines to be drawn
@@ -48,61 +50,151 @@
 #'   See \code{border} in \code{graphics::polygon}
 #' @param se.density Density of shading line of polygon for \code{se.fit}.
 #'   See \code{density} in \code{graphics::polygon}
-#' @param type String: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
+#' @param type Character: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
 #'   vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will give a set of points and two sets
 #'   of lines. Otherwise, \code{type} is recycled to length of x
 #' @param xlim Float vector, length 2: x-axis limits
 #' @param ylim Float vector, length 2: y-axis limits
 #' @param axes Logical: Should the axes be drawn? Defaults to TRUE
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
-#' @param axes.col String: Color for axes values (box color set with \code{box.col})
-#' @param pty "s" gives a square plot, "m" gives a plot that fills graphics device size. Defaults to "s"
-#'   (See \code{?par})
-#' @param box Logical: Should a box be drawn around the plot? Defaults to TRUE for themes "box" and "darkbox"
+#' @param axes.col Character: Color for axes values (box color set with \code{box.col})
+#' @param pty Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
+#'   (See \code{par("pty")})
+#' @param box Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"
 #' @param bty Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-#'   (See \code{?par})
-#' @param box.col Box color
-#' @param box.alpha Alpha for \code{box.col}
-#' @param box.lty Box line type
-#' @param bot.lwd Box line width
-#' @param fit.lwd Fit line width
-#' @param grid Logical: Should grid be drawn?
+#'   (See \code{par("bty")})
+#' @param box.col Color: Box color
+#' @param box.alpha Float: Alpha for \code{box.col}
+#' @param box.lty Integer: Box line type
+#' @param fit.lwd Float: Fit line width
+#' @param grid Logical: If TRUE, draw grid
 #' @param grid.nx Integer: N of grid lines on the x axis.
 #' Use with caution, probably along with \code{xaxs = "i"}
 #' @param grid.ny Integer: N of grid lines on the y axis
 #' Use with caution, probably along with \code{yaxs = "i"}
-#' @param grid.col Grid color
-#' @param grid.alpha Alpha for \code{grid.col}
-#' @param grid.lty Grid line type (See \code{?par("lty")})
-#' @param grid.lwd Grid line width
-#' @param bg Background color. Defaults to white for themes "light" and "box", black otherwise.
+#' @param grid.col Color: Grid color
+#' @param grid.alpha Float: Alpha for \code{grid.col}
+#' @param grid.lty Integer: Grid line type (See \code{par("lty")})
+#' @param grid.lwd Float: Grid line width
+#' @param bg Color: Background color. Defaults to white for themes "light" and "box", black otherwise.
 #' @param rsq Logical: If TRUE, add legend with R-squared (if fit is not NULL)
 #' @param rsq.pval Logical: If TRUE, add legend with R-squared and its p-value (if fit is not NULL)
 #' @param zero.lines Logical: If TRUE, draw lines at x = 0 and y = 0
 #' @param zero.col Color for \code{zero.lines}
 #' @param zero.alpha Color alpha for \code{zero.lines}
-#' @param zero.lty Zero line line type
-#' @param zero.lwd Zero line width
-#' @param annotation String: Add annotation at the bottom right of the plot
+#' @param zero.lty Integer: Zero line line type
+#' @param zero.lwd Float: Zero line width
+#' @param annotation Character: Add annotation at the bottom right of the plot
 #' @param annotation.col Color for annotation
-#' @param tck Float: Tick length. Can be negative (See \code{?par("tck")})
-#' @param x.axis.padj Adjustment for the x axis tick labels position
-#' @param xlab.line Adjustment for the x axis label position (See code{line} in \code{?mtext})
-#' @param y.axis.padj Similar to \code{x.axis.padj} for the y axis
-#' @param ylab.line Similar to \code{xlab.line} for the y axis
-#' @param xlab.adj \code{adj} for \code{xlab} (See \code{?par})
-#' @param ylab.adj \code{adj} for \code{ylab} (See \code{?par})
-#' @param theme String: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+#' @param tck Float: Tick length. Can be negative (See \code{par("tck")})
+#' @param x.axis.padj Float: Adjustment for the x axis tick labels position
+#' @param xlab.line Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})
+#' @param y.axis.padj Float: Similar to \code{x.axis.padj} for the y axis
+#' @param ylab.line Float: Similar to \code{xlab.line} for the y axis
+#' @param xlab.adj Float: \code{adj} for \code{xlab} (See \code{par("adj")})
+#' @param ylab.adj Float: \code{adj} for \code{ylab} (See \code{par("adj")})
+#' @param theme Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'lightgrid')
-#' @param mar Vector, length 4: Margins; see \code{mar} in \code{?par}
+#' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
-#' @param group.title String: Group title, shown above group names. e.g. if group names are
+#' @param group.title Character: Group title, shown above group names. e.g. if group names are
 #'   c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
+#' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
+#' NA: plotting clipped to device region. Default = TRUE
+#' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
+#' Default = "r"
+#' @param yaxs Character: as \code{xaxs} for the y-axis. Default = "r"
+#' @param rsq.side Integer: [1:4] Where to place the \code{rsq} annotation. Default = 1 (i.e. bottom)
+#' @param rsq.adj Float: Adjust \code{rsq} annotation. See \code{mtext "adj"}
+#' @param rsq.col Color: Color for \code{rsq} annotation. Default = NULL, which results in \code{fit.col}
+#' @param fit.error  Logical: If TRUE: draw fit error annotation. Default = NULL, which results in TRUE, if fit is set
+#' @param fit.error.side Integer [1:4]: Which side to draw \code{fit.error} on. Default = 1
+#' @param fit.error.padj Float: See \code{mtext:padg} Default = NA
+#' @param fit.error.col  Color: Color for \code{fit.error} annotation. Default = NULL, which results in a
+#' theme-appropriate gray
+#' @param xaxp See \code{par("xaxp")}
+#' @param yaxp See \code{par("yaxp")}
+#' @param scatter Logical: If TRUE, plot (x, y) scatter points. Default = TRUE
+#' @param box.lwd Float: Box line width. Default = 1.5
+#' @param plot.bg Color: Background color. Default = NULL, which results in theme-appropriate color
+#' @param tick.col Color: Tick color. Default = NULL, which results in theme-appropriate color
+#' @param x.axis.side Integer {1, 3}: Side to place x-axis. Default = 1
+#' @param y.axis.side Integer {2, 4}: Side to place y-axis. Default = 2
+#' @param x.axis.at Float, vector: x coordinates to place tick marks. Default = NULL, determined by
+#' \code{graphics::axis} aautomatically
+#' @param y.axis.at As \code{x.axis.at} for y-axis
+#' @param x.axis.labs See \code{axis("labels")}
+#' @param y.axis.labs See \code{axis("labels")}
+#' @param col
+#' @param pch
+#' @param point.cex
+#' @param point.col
+#' @param point.bg.col
+#' @param point.alpha
+#' @param line.col
+#' @param line.alpha
+#' @param lty
+#' @param lwd
+#' @param marker.col
+#' @param marker.alpha
+#' @param error.x.col
+#' @param error.y.col
+#' @param error.x.lty
+#' @param error.y.lty
+#' @param error.x.lwd
+#' @param error.y.lwd
+#' @param error.arrow.code
+#' @param fit.col
+#' @param fit.alpha
+#' @param fit.legend
+#' @param se.lwd
+#' @param xy.fit
+#' @param xy.fit.col
+#' @param firstpc
+#' @param firstpc.lty
+#' @param firstpc.col
+#' @param hline
+#' @param hline.col
+#' @param hline.lwd
+#' @param hline.lty
+#' @param vline
+#' @param vline.lwd
+#' @param vline.col
+#' @param vline.lty
+#' @param diagonal Logical: If TRUE, draw diagonal line. Default = FALSE
+#' @param diagonal.lwd Float: Line width for \code{diagonal}. Default = 1.5
+#' @param diagonal.lty Integer: Line type for \code{diagonal}. Default = 1
+#' @param diagonal.col Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
+#' themes
+#' @param diagonal.alpha Float: Alpha for \code{diagonal} Default = .5
+#' @param group.side
+#' @param group.adj
+#' @param group.padj
+#' @param group.at
+#' @param fit.legend.col
+#' @param fit.legend.side
+#' @param fit.legend.adj
+#' @param fit.legend.padj
+#' @param fit.legend.at
+#' @param labs.col
+#' @param na.rm
+#' @param palette
+#' @param order.on.x
+#' @param alpha.off
+#' @param autolabel
+#' @param set.par
+#' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
+#' @param return.lims Logical: If TRUE, return xlim and ylim. Default = FALSE
+#' @param pdf.width Float: Width in inches for pdf output (if \code{filename} is set). Default = 6
+#' @param pdf.height Float: Height in inches for pdf output. Default = 6
+#' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0
+#' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to learner function
+#'
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -136,7 +228,6 @@ mplot3.xy <- function(x, y,
                       rsq.pval = FALSE,
                       rsq.side = 1,
                       rsq.adj = .98,
-                      rsq.padj.shift = 0,
                       rsq.col = NULL,
                       fit.error = FALSE,
                       fit.error.side = 1,
@@ -148,7 +239,7 @@ mplot3.xy <- function(x, y,
                       axes = TRUE,
                       axes.equal = FALSE,
                       axes.col = NULL,
-                      pty = "s",
+                      pty = "m",
                       box = NULL,
                       bty = "o",
                       box.col = NULL,
@@ -263,7 +354,7 @@ mplot3.xy <- function(x, y,
                       return.lims = FALSE,
                       pdf.width = 6,
                       pdf.height = 6,
-                      verbose = FALSE,
+                      trace = 0,
                       filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
@@ -321,8 +412,9 @@ mplot3.xy <- function(x, y,
 
   # S.E. available only for LM, LOESS, GAM, and NW
   if (se.fit) {
-    if (fit != "LM" & toupper(fit) != "LOESS" & toupper(fit) != "GAM" & toupper(fit) != "NW") {
-      warning(paste("S.E. not available for", toupper(fit), "- try LM, LOESS, GAM, or NW"))
+    # if (fit != "LM" & toupper(fit) != "LOESS" & toupper(fit) != "GAM" & toupper(fit) != "NW") {
+    if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
+      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
       se.fit <- FALSE
     }
   }
@@ -344,16 +436,16 @@ mplot3.xy <- function(x, y,
 
   # Reorder
   if (is.null(order.on.x)) {
-    # order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
-    order.on.x <- !is.null(fit)
+    order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
   }
 
   # [ CLUSTER ] ====
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
-                                             verbose = verbose),
+                                             verbose = trace > 0),
                                         cluster.params))$clusters.train)
+    group <- paste("Cluster", group)
   }
 
   # [ DATA ] ====
@@ -587,7 +679,7 @@ mplot3.xy <- function(x, y,
     if (is.null(marker.col)) marker.col <- palette
     if (length(marker.alpha) < Nxgroups) marker.alpha <- rep(marker.alpha, Nxgroups / length(marker.alpha))
     # marker.col <- lapply(marker.col, function(x) adjustcolor(x, marker.alpha))
-    marker.col <- lapply(1:Nxgroups, function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
+    marker.col <- lapply(seq(Nxgroups), function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
   }
 
   # marker.col <- marker.col[seql(marker.col, Nxgroups)]
@@ -633,11 +725,11 @@ mplot3.xy <- function(x, y,
   if (!is.null(fit)) {
     learner <- modSelect(fit, fn = FALSE)
     fitted <- list()
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       x <- xl[[i]]
       y <- yl[[i]]
       # mod <- learner(x, y, verbose = verbose, print.plot = FALSE, ...)
-      learner.args <- c(list(x = x, y = y, verbose = verbose),
+      learner.args <- c(list(x = x, y = y, verbose = trace > 0),
                         mod.params,
                         list(...))
       if (learner == "s.NLS") learner.args <- c(learner.args,
@@ -664,11 +756,11 @@ mplot3.xy <- function(x, y,
     xy.fitted <- list()
     xy.se <- list()
     xy.index <- list()
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       xy.index[[i]] <- order(yl[[i]])
       x <- xl[[i]][xy.index[[i]]]
       y <- yl[[i]][xy.index[[i]]]
-      mod <- learner(y, x, verbose = verbose, print.plot = FALSE, ...)
+      mod <- learner(y, x, verbose = trace > 0, print.plot = FALSE, ...)
       xy.fitted[[i]] <- fitted(mod)
       if (se.fit) xy.se[[i]] <- se(mod)
     }
@@ -899,7 +991,7 @@ mplot3.xy <- function(x, y,
       lines(xy.fitted[[i]], yl[[i]][xy.index[[i]]], col = xy.fit.col[[i]], lwd = lwd, lty = lty[[i]])
     }
     if (fit.legend) {
-      xy.fit.legend <- paste0(toupper(fit), ": x ~ y")
+      xy.fit.legend <- paste0(fit, ": x ~ y")
     }
   }
   if (fit.legend) {
@@ -966,7 +1058,7 @@ mplot3.xy <- function(x, y,
   myerror <- NULL
   if (is.logical(fit.error)) {
     if (fit.error) {
-      myerror <- lapply(1:Nxgroups, function(i) modError(xl[[i]], yl[[i]]))
+      myerror <- lapply(seq(Nxgroups), function(i) modError(xl[[i]], yl[[i]]))
     }
   } else {
     if (class(fit.error)[1] == "modError") myerror <- list(fit.error)
@@ -1010,7 +1102,7 @@ mplot3.xy <- function(x, y,
 
   # [ R-SQUARED ] ====
   if (rsq) {
-    if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[1:Nxgroups], 2)))
+    if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- ddSci(unlist(rsql))
     # padj_reg <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift
     # padj_exp <- -3.5 - (Nxgroups - 1) * 1.5 + rsq.padj.shift + 1.2
@@ -1029,7 +1121,7 @@ mplot3.xy <- function(x, y,
   }
 
   if (rsq.pval) {
-    if (is.null(rsq.col)) rsq.col <- c(gen.col, unlist(adjustcolor(fit.col[1:Nxgroups], 2)))
+    if (is.null(rsq.col)) rsq.col <- c(gen.col, unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- c("R-sq (p-val)", unlist(rsqpl))
     mtext(rev(annot.rsq),
           side = rsq.side,
@@ -1064,6 +1156,8 @@ mplot3.xy <- function(x, y,
 #' @inheritParams mplot3.xy
 #' @param x Vector, numeric / factor / survival for regression, classification, survival: True values
 #' @param y Vector, numeric / factor / survival for regression, classification, survival: Predicted values
+#' @param fit.error Logical: If TRUE,
+#' @param pty Character: "s" for square plot, "m" to fill device. Default = "s"
 #' @param ... Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)
 #' @export
 
@@ -1075,6 +1169,7 @@ mplot3.fit <- function(x, y,
                        diagonal = TRUE,
                        theme = getOption("rt.fit.theme", "lightgrid"),
                        col = NULL,
+                       pty = "s",
                        zero.lines = FALSE,
                        fit.legend = FALSE, ...) {
 
@@ -1095,14 +1190,15 @@ mplot3.fit <- function(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
+                pty = pty,
                 fit.legend = fit.legend, ...)
     } else {
       mplot3.xy(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
-                point.col = col,
-                fit.col = col,
+                point.col = col, fit.col = col,
+                pty = pty,
                 fit.legend = fit.legend, ...)
     }
 

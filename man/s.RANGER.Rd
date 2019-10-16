@@ -6,9 +6,11 @@
 \usage{
 s.RANGER(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   y.name = NULL, n.trees = 1000, weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
+  ipw.type = 2, ipw.case.weights = TRUE, ipw.class.weights = FALSE,
+  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
   autotune = FALSE, classwt = NULL, n.trees.try = 500,
   stepFactor = 2, mtry = NULL, mtryStart = NULL,
+  inbag.resample = NULL, stratify.on.y = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1, metric = NULL, maximize = NULL,
@@ -49,15 +51,20 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 2: class.weights as in 0, divided by min(class.weights)
 Default = 2}
 
+\item{ipw.case.weights}{Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE
+Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}}
+
+\item{ipw.class.weights}{Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE}
+
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}
 
-\item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if  \code{autotune = TRUE}.
+\item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 For classification only; need not add up to 1}
 
 \item{n.trees.try}{Integer: Number of trees to train for tuning, if \code{autotune = TRUE}}
@@ -70,21 +77,28 @@ features for classification, and a third of n of features for regression.}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
+\item{inbag.resample}{List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
+tree. Default = NULL}
+
+\item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
+This can help improve test set performance in imbalanced datasets. Default = FALSE. Note: Cannot be used with
+\code{ipw.case.weights}}
+
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
 
-\item{grid.search.type}{String: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
 
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{metric}{String: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}}
+\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE}
 
 \item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
 
@@ -92,7 +106,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{min.node.size}{[gS] Integer: Minimum node size}
 
-\item{splitrule}{String: For classification: "gini" (Default) or "extratrees";
+\item{splitrule}{Character: For classification: "gini" (Default) or "extratrees";
 For regression: "variance" (Default), "extratrees" or "maxstat".
 For survival "logrank" (Default), "extratrees", "C" or "maxstat".}
 
@@ -108,21 +122,21 @@ the strata.}
 the 'extra' field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unles option \code{rt.cores} is set at the time the library is loaded}
+\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
@@ -144,9 +158,14 @@ Train a Random Forest for regression or classification using \code{ranger}
 }
 \details{
 You should cconsider, or try, setting mtry to NCOL(x), especially for small number of features.
+By default mtry is set to NCOL(x) for NCOL(x) <= 20.
+For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
   value.
 [gS]: indicated parameter will be tuned by grid search if more than one value is passed
+
+See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
+balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
 }
 \seealso{
 \link{elevate} for external cross-validation

@@ -17,13 +17,13 @@ mplot3.confbin(object, main = NULL, xlab = "True",
 \item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
 data.frame / table}
 
-\item{main}{String: Plot title}
+\item{main}{Character: Plot title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
-\item{mod.name}{String: Name of the algorithm used to make predictions. If NULL, will look for
+\item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL, will look for
 \code{object$mod.name}. Default = NULL}
 
 \item{mar}{Numeric, vector, length 4: Overall margins}
@@ -50,7 +50,7 @@ data.frame / table}
 
 \item{col.bg.out}{Color for metrics cells' background}
 
-\item{theme}{String: "light", or "dark"}
+\item{theme}{Character: "light", or "dark"}
 
 \item{mid.color}{Color: The mid color for the confusion matrix. Default = "white" for theme = "light",
 "black" for "dark"}
@@ -65,7 +65,7 @@ data.frame / table}
 
 \item{pdf.height}{Float: PDF height, if \code{filename} is set}
 
-\item{filename}{String: If specified, save plot to this path. Default = NULL}
+\item{filename}{Character: If specified, save plot to this path. Default = NULL}
 
 \item{...}{Not used}
 }

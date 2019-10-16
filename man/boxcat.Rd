@@ -8,13 +8,15 @@ boxcat(x, style = 2, col = NULL, newline.pre = TRUE,
   newline = FALSE, pad = 0)
 }
 \arguments{
-\item{x}{String: Text to be output to console}
+\item{x}{Character: Text to be output to console}
 
 \item{style}{Integer: {1, 2}: 1: vintage style, 2: modern style. Default = 2}
 
 \item{col}{Color: Any color support by \pkg{crayon}}
 
 \item{newline.pre}{Logical: If TRUE, start with a new line. Default = TRUE}
+
+\item{newline}{Logical: If TRUE, end with a new (empty) line. Default = FALSE}
 
 \item{pad}{Integer: Pad message with this many spaces on the left. Default = 0}
 }

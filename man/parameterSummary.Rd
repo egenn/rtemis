@@ -10,9 +10,13 @@ parameterSummary(..., title = "Parameters", pad = 0,
 \arguments{
 \item{...}{Variables to print}
 
-\item{title}{String: title}
+\item{title}{Character: title}
 
 \item{pad}{Integer: Pad for \link{printls}}
+
+\item{newline.pre}{Logical: If TRUE, start with a newline. Default = TRUE}
+
+\item{newline}{Logical: If TRUE, end with anew (empty) line. Default = FALSE}
 }
 \description{
 Pretty print a collection of objects

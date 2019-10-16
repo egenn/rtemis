@@ -30,7 +30,7 @@ checkData <- function(x,
 
 
   if (is.null(name)) name <- deparse(substitute(x))
-  cat("\n  Dataset:", rtHighlight$bold(name), "\n")
+  cat("  Dataset:", rtHighlight$bold(name), "\n")
   boxcat("Summary", pad = 2)
   x <- as.data.frame(x)
 

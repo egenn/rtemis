@@ -30,7 +30,7 @@ msg0(..., date = TRUE, call.depth = 1, caller.id = 1,
 
 \item{color}{Color for message to use with \pkg{crayon}}
 
-\item{sep}{String: Use to separate objects in \code{...}}
+\item{sep}{Character: Use to separate objects in \code{...}}
 }
 \value{
 Invisibly: List with call, message, and date

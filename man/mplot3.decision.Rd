@@ -28,7 +28,7 @@ boundaries. Default = c(1, 2)}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} before exiting. Default = TRUE}
 
-\item{theme}{String: Theme for \link{mplot3.xy}, "light" or "dark". Default = "light'}
+\item{theme}{Character: Theme for \link{mplot3.xy}, "light" or "dark". Default = "light'}
 
 \item{col}{Color vector for classes. Default = \code{ucsfPalette}}
 

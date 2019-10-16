@@ -13,10 +13,10 @@ s.H2OGBM(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
   p.col.sample = 1, p.row.sample = 0.9, minobsinnode = 5,
   min.split.improvement = 1e-05, quantile.alpha = 0.5,
   learning.rate = 0.01, learning.rate.annealing = 1, weights = NULL,
-  ipw = TRUE, ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  na.action = na.fail, grid.n.cores = 1, n.cores = rtCores,
-  imetrics = FALSE, .gs = FALSE, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw = TRUE, ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, na.action = na.fail, grid.n.cores = 1,
+  n.cores = rtCores, imetrics = FALSE, .gs = FALSE,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   verbose = TRUE, trace = 0, grid.verbose = TRUE, save.mod = FALSE,
   outdir = NULL, ...)
@@ -35,7 +35,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{ip}{String: IP address of H2O server. Default = "localhost"}
+\item{ip}{Character: IP address of H2O server. Default = "localhost"}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
@@ -46,7 +46,7 @@ Columns must correspond to columns in \code{x}}
 \item{n.stopping.rounds}{Integer: If > 0, stop training if \code{stopping.metric} does not improve for this
 many rounds}
 
-\item{stopping.metric}{String: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
+\item{stopping.metric}{Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 "AUC", "lift_top_group", "misclassification", "mean_per_class_error"}
 
 \item{p.col.sample}{[gS]}
@@ -75,7 +75,7 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
@@ -85,16 +85,16 @@ Default = NULL (random seed)}
 \item{.gs}{Internal use only}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

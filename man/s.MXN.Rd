@@ -5,13 +5,14 @@
 \title{Neural Network with \code{mxnet} [C, R]}
 \usage{
 s.MXN(x, y = NULL, x.test = NULL, y.test = NULL, x.valid = NULL,
-  y.valid = NULL, upsample = FALSE, upsample.seed = NULL,
-  net = NULL, n.hidden.nodes = NULL, output = NULL,
-  ctx = mxnet::mx.cpu(), initializer = mxnet::mx.init.Xavier(),
-  batch.normalization = TRUE, l2.normalization = FALSE,
-  activation = "relu", optimizer = "adadelta", batch.size = NULL,
-  momentum = 0.9, max.epochs = 1000, min.epochs = 25,
-  early.stop = c("train", "valid"), early.stop.absolute.threshold = NA,
+  y.valid = NULL, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, net = NULL, n.hidden.nodes = NULL,
+  output = NULL, ctx = mxnet::mx.cpu(),
+  initializer = mxnet::mx.init.Xavier(), batch.normalization = TRUE,
+  l2.normalization = FALSE, activation = "relu",
+  optimizer = "adadelta", batch.size = NULL, momentum = 0.9,
+  max.epochs = 1000, min.epochs = 25, early.stop = c("train",
+  "valid"), early.stop.absolute.threshold = NA,
   early.stop.relative.threshold = NA,
   early.stop.relativeVariance.threshold = NULL,
   early.stop.n.steps = NULL, learning.rate = NULL, dropout = 0,
@@ -39,7 +40,7 @@ Columns must correspond to columns in \code{x}}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{net}{MXNET Symbol: provide a previously defined network. logger will not work in this case at the moment,
@@ -47,7 +48,7 @@ so early stopping cannot be applied}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create}
 
-\item{output}{String: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
+\item{output}{Character: "Logistic" for binary classification, "Softmax" for classification of 2 or more classes,
 "Linear" for Regression. Defaults to "Logistic" for binary outcome, "Softmax" for 3+ classes, "LinearReg" for
 regression.}
 
@@ -72,7 +73,7 @@ If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbo
 
 \item{dropout.after}{Integer: Index of hidden layer after which dropout should be applied}
 
-\item{eval.metric}{String: Metrix used for evaluation during train. Default: "rmse"}
+\item{eval.metric}{Character: Metrix used for evaluation during train. Default: "rmse"}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -81,16 +82,16 @@ If length < n of hidden layers, elements are recycled. See \code{mxnet::mx.symbo
 \item{plot.graphviz}{Logical: if TRUE, plot the network structure using \code{graphviz}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

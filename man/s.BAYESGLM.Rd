@@ -10,9 +10,9 @@ s.BAYESGLM(x, y = NULL, x.test = NULL, y.test = NULL,
   prior.df.for.intercept = 1, min.prior.scale = 1e-12, scaled = TRUE,
   keep.order = TRUE, drop.baseline = TRUE, maxit = 100,
   x.name = NULL, y.name = NULL, weights = NULL, ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, upsample.seed = NULL,
-  metric = NULL, maximize = NULL, print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
+  ipw.type = 2, upsample = FALSE, downsample = FALSE,
+  resample.seed = NULL, metric = NULL, maximize = NULL,
+  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
   grid.verbose = TRUE, verbose = TRUE, outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
@@ -82,20 +82,20 @@ Default = 2}
 Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
 
-\item{upsample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
 \item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
 Requires \code{x.test} and \code{y.test}}
 
-\item{plot.theme}{String: "zero", "dark", "box", "darkbox"}
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{question}{String: the question you are attempting to answer with this model, in plain language.}
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

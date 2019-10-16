@@ -9,6 +9,8 @@ strat.boot(x, n.resamples = 10, train.p = 0.75, stratify.var = NULL,
   verbose = TRUE)
 }
 \arguments{
+\item{x}{Input vector}
+
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
 \item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}

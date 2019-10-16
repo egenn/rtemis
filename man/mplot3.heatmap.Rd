@@ -8,8 +8,8 @@ mplot3.heatmap(x, colorGrad.n = 101, colorGrad.col = NULL,
   lo = "#18A3AC", lomid = NULL, mid = NULL, midhi = NULL,
   hi = "#F48024", space = "rgb", theme = getOption("rt.theme",
   "light"), colorbar = TRUE, cb.n = 21, cb.title = NULL,
-  cb.cex = 1, cb.title.cex = 1, cb.add.mar = NULL, Rowv = NA,
-  Colv = if (symm) Rowv else NA, distfun = dist, hclustfun = hclust,
+  cb.cex = 1, cb.title.cex = 1, cb.mar = NULL, Rowv = TRUE,
+  Colv = TRUE, distfun = dist, hclustfun = hclust,
   reorderfun = function(d, w) reorder(d, w), add.expr, symm = FALSE,
   revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE,
   margins = NULL, ColSideColors, RowSideColors, cexRow = 0.2 +
@@ -22,25 +22,135 @@ mplot3.heatmap(x, colorGrad.n = 101, colorGrad.col = NULL,
   ...)
 }
 \arguments{
-\item{colorGrad.n}{Integer. Number of distinct colors to generate using \link{colorGrad}}
+\item{x}{Input matrix}
 
-\item{colorGrad.col}{Color. See \link{colorGrad}}
+\item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
-\item{colorbar}{Logical. Should colorbar appear next to heatmap?}
+\item{colorGrad.col}{Character: the \code{colors} argument of \link{colorGrad}: Character: Acts as a shortcut to defining
+lo, mid, etc for a number of defaults: "french", "penn", "grnblkred"}
 
-\item{cb.n}{Integer. Number of steps in colorbar. 21 gives 10 above and 10 below midline.
+\item{lo}{Color for low end}
+
+\item{lomid}{Color for low-mid}
+
+\item{mid}{Color for middle of the range or "mean", which will result in colorOp(c(lo, hi), "mean"). If mid = NA,
+then only lo and hi are used to create the color gradient.}
+
+\item{midhi}{Color for middle-high}
+
+\item{hi}{Color for high end}
+
+\item{space}{Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb". Recommendation: If mid is
+"white" or "black" (default), use "rgb", otherwise "Lab"}
+
+\item{theme}{Character: Defaults to option "rt.theme", if set, otherwise "light"}
+
+\item{colorbar}{Logical: If TRUE, plot colorbar next to heatmap. Default = TRUE}
+
+\item{cb.n}{Integer: Number of steps in colorbar. Default = 21, which gives 10 above and 10 below midline.
 If midline is zero, this corresponds to 10 percent increments / decrements}
+
+\item{cb.title}{Character: Title for the colorbar. Default = NULL}
+
+\item{cb.cex}{Float: Character expansion (\code{cex}) for colobar. Default = 1}
+
+\item{cb.title.cex}{Float: \code{cex} for colorbar title. Default = 1}
+
+\item{cb.mar}{Float, vector, length 4: Margins for colorbar.  (passed to \link{colorGrad}'s \code{cb.add.mar}).
+Default set automatically}
+
+\item{Rowv}{Logical OR a dendrogram OR integer vector that determines index for reordering OR NA to suppress.
+Default = TRUE}
+
+\item{Colv}{See \code{Rowv}}
+
+\item{distfun}{Function: used to compute the distance/dissimilarity matrix between rows and columns.
+Default = \code{dist}}
+
+\item{hclustfun}{Function: used to determined hierarchical clustering when \code{Rowv} or \code{Colv} are
+not dendrograms. Default = \code{hclust} (Should take as argument a result of distfun and return an object to which
+\code{as.dendrogram} can be applied)}
+
+\item{reorderfun}{Function (d, w): function of dendrogram and weights that determines reordering of row and column
+dendrograms. Default uses \code{reorder.dendrogram}}
+
+\item{add.expr}{Expression: will be evaluated after the call to \code{image}. Can be used to add components to the
+plot}
+
+\item{symm}{Logical: If TRUE, treat \code{x} symmetrically. Can only be used if \code{x} is square}
+
+\item{revC}{Logical: If TRUE, reverse column order for plotting. Default = TRUE, if Rowv and Colv are identical}
+
+\item{scale}{Character: "row", "column", or "none". Determines whether values are centered and scaled in either the
+row or column  direction. Default = "none"}
+
+\item{na.rm}{Logical: If TRUE, NAs are removed. Default = TRUE}
+
+\item{margins}{Float, vector, length 2: bottom and right side margins. Automatically determined by length of
+variable names}
+
+\item{ColSideColors}{Color, vector, length = ncol(x): Colors for a horizontal side bar to annotate columns of \code{x}}
+
+\item{RowSideColors}{Color, vector, length = nrow(x): Like \code{ColSideColors}, but for rows}
+
+\item{cexRow}{Float: \code{cex.axis} for rows}
+
+\item{cexCol}{Float: \code{cex.axis} for columns}
+
+\item{labRow}{Character, vector: Row labels to use. Default = \code{rownames(x)}}
+
+\item{labCol}{Character, vector: Column labels to use. Default = \code{colnames(x)}}
+
+\item{labCol.las}{Integer {0:3}: \code{par}'s \code{las} argument. Default set by length of \code{labCol}}
+
+\item{main}{Character: Plot title}
+
+\item{main.adj}{Float: \code{par}'s \code{adj} argument for title}
+
+\item{main.line}{Float: \code{title}'s \code{line} argument}
+
+\item{xlab}{Character: x-axis label}
+
+\item{ylab}{Character: y-axis label}
+
+\item{xlab.line}{Float: \code{mtext}'s \code{line} argument for x-axis label}
+
+\item{ylab.line}{Float: \code{mtext}'s \code{line} argument for y-axis label}
+
+\item{bg}{Color: Background color. Default (white or black) set depending on \code{theme}}
+
+\item{col.axis}{Color: Axis color}
+
+\item{keep.dendro}{Logical: If TRUE, dedrogram is returned invisibly. Default = FALSE}
+
+\item{trace}{Integer: If > 0, print diagnostic messages to console. Default = 0}
+
+\item{zlim}{Float, vector, length 2: Passed to \code{graphics::image}. Default = +/- max(abs(x)) if \code{autorange = TRUE},
+otherwise = \code{range(x)}.}
+
+\item{autorange}{Logical: See \code{zlim}}
+
+\item{filename}{Character: If provided, save heatmap to file. Default = NULL}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} before exit. Default = TRUE}
+
+\item{pdf.width}{Float: Width of PDF output, if \code{filename} is set}
+
+\item{pdf.height}{Float: Height of PDF output, if \code{filename} is set}
+
+\item{...}{Additional arguments passed to \code{graphics::image}}
 }
 \description{
 Customized heatmap with optional colorbar
 }
 \details{
-The main difference from the original \code{heatmap} is the addition of a colorbar on the side.
+The main difference from the original \code{stats::heatmap} is the addition of a colorbar on the side.
 This is achieved with \link{colorGrad}.
 Other differences:
 - Dendrograms are not drawn by default. Set \code{Rowv = T} and \code{Colv = T} to get them.
 - Column labels are only drawn perpendicular to the x-axis if any one is
   longer than two characters.
+Otherwise, the arguments are the same as in \code{stats::heatmap}
 }
 \author{
 Efstathios D Gennatas modified from original \code{stats::heatmap}
