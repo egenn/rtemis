@@ -6,7 +6,8 @@
 #'
 #' Prepare data for data analysis
 #'
-#' By default, only removes constant features, everything else must be specified.
+#' By default, only removes constant features and duplicated cases
+#' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
 #' Order of operations:
 #'   * completeCases
@@ -16,7 +17,7 @@
 #'   * nonzeroFactors
 #'   * impute
 #'   * scale/center
-#'   * removeConstant
+#'   * removeConstants
 #'
 #' @param x Input
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
@@ -47,11 +48,12 @@
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
 #' if \code{integer2factor = FALSE})
-#' @param removeConstant Logical: If TRUE, remove all columns with zero variance. Default = TRUE
+#' @param removeConstants Logical: If TRUE, remove all columns with zero variance. Default = TRUE
 #' @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
-#' @param removeConstant Logical: If TRUE, remove constant columns. Default = TRUE
+#' @param removeConstants Logical: If TRUE, remove constant columns. Default = TRUE
+#' @param removeDuplicates Logical: If TRUE, remove duplicated cases. Default = TRUE
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
@@ -85,7 +87,8 @@ preprocess <- function(x, y = NULL,
                        nonzeroFactors = FALSE,
                        scale = FALSE,
                        center = FALSE,
-                       removeConstant = TRUE,
+                       removeConstants = TRUE,
+                       removeDuplicates = TRUE,
                        oneHot = FALSE,
                        exclude = NULL,
                        verbose = TRUE,
@@ -108,6 +111,16 @@ preprocess <- function(x, y = NULL,
     excluded <- x[, exclude, drop = FALSE]
     excluded.names <- colnames(x)[exclude]
     x <- x[, -exclude, drop = FALSE]
+  }
+
+  # [ Remove duplicates ] ====
+  if (removeDuplicates) {
+    dup.index <- which(duplicated(x))
+    Ndups <- length(dup.index)
+    if (Ndups > 0) {
+      if (verbose) msg0("Removing ", singorplu(Ndups, "duplicated case"), "...")
+      for (i in dup.index) x <- x[-i, ]
+    }
   }
 
   # [ Remove Cases by missing feature threshold ] ====
@@ -275,7 +288,7 @@ preprocess <- function(x, y = NULL,
   }
 
   # [ Remove constants ] ====
-  if (removeConstant) {
+  if (removeConstants) {
     constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
     if (length(constant) > 0) {
       if (verbose) msg("Removing constant features...")
