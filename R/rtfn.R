@@ -363,3 +363,13 @@ rtLetters <- function(n = 100, caps = FALSE) {
   out[1:n]
 
 } # rtemis::rtLetters
+
+
+singorplu <- function(n, x) {
+
+  switch(as.character(n),
+         `0` = paste0("no ", x, "s"),
+         `1` = paste("1", x),
+         paste0(n, " ", x, "s"))
+
+}
