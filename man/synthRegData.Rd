@@ -4,7 +4,7 @@
 \alias{synthRegData}
 \title{Synthesize Simple Regression Data}
 \usage{
-synthRegData(nrow = 500, ncol = 50, noise.sd.factor = 2,
+synthRegData(nrow = 500, ncol = 50, noise.sd.factor = 1,
   resample.rtset = rtset.resample(), seed = NULL)
 }
 \arguments{

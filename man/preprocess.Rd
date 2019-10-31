@@ -72,6 +72,8 @@ if \code{integer2factor = FALSE})}
 
 \item{removeConstants}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
 
+\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases. Default = TRUE}
+
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
 \item{exclude}{Integer, vector: Exclude these columns from all preprocessing. Default = NULL}
