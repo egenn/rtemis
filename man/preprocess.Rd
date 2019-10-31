@@ -16,9 +16,10 @@ preprocess(x, y = NULL, completeCases = FALSE,
   logical2factor = FALSE, logical2numeric = FALSE,
   numeric2factor = FALSE, numeric2factor.levels = NULL,
   character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
-  exclude = NULL, verbose = TRUE, n.cores = rtCores,
-  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
+  center = FALSE, removeConstants = TRUE, removeDuplicates = TRUE,
+  oneHot = FALSE, exclude = NULL, verbose = TRUE,
+  n.cores = rtCores, parallel.type = ifelse(.Platform$OS.type ==
+  "unix", "fork", "psock"))
 }
 \arguments{
 \item{x}{Input}
@@ -69,7 +70,7 @@ if \code{integer2factor = FALSE})}
 
 \item{center}{Logical: If TRUE, center columns of \code{x}}
 
-\item{removeConstant}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
+\item{removeConstants}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
 
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
@@ -79,13 +80,14 @@ if \code{integer2factor = FALSE})}
 
 \item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
 
-\item{removeConstant}{Logical: If TRUE, remove constant columns. Default = TRUE}
+\item{removeConstants}{Logical: If TRUE, remove constant columns. Default = TRUE}
 }
 \description{
 Prepare data for data analysis
 }
 \details{
-By default, only removes constant features, everything else must be specified.
+By default, only removes constant features and duplicated cases
+(removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 
 Order of operations:
   * completeCases
@@ -95,7 +97,7 @@ Order of operations:
   * nonzeroFactors
   * impute
   * scale/center
-  * removeConstant
+  * removeConstants
 }
 \author{
 Efstathios D. Gennatas
