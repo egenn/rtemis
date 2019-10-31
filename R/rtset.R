@@ -193,7 +193,7 @@ rtset.preprocess <- function(completeCases = FALSE,
                              nonzeroFactors = FALSE,
                              scale = FALSE,
                              center = FALSE,
-                             removeConstant = TRUE,
+                             removeConstants = TRUE,
                              oneHot = FALSE,
                              exclude = NULL) {
 
@@ -217,7 +217,7 @@ rtset.preprocess <- function(completeCases = FALSE,
        nonzeroFactors = nonzeroFactors,
        scale = scale,
        center = center,
-       removeConstant = removeConstant,
+       removeConstants = removeConstants,
        oneHot = oneHot,
        exclude = exclude)
 
