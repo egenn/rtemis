@@ -24,6 +24,7 @@ modSelect <- function(mod,
     c("RGB", "Representational Gradient Boosting", T, T, T), # that's
     c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
     c("CSL", "Conditional SuperLearner", T, T, F), # bud
+    c("SHYTREE", "Stepwise Hybrid Tree", T, T, F), # !
     c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),

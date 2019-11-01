@@ -14,7 +14,7 @@ rtset.preprocess(completeCases = FALSE, removeCases.thres = NULL,
   logical2factor = FALSE, logical2numeric = FALSE,
   numeric2factor = FALSE, numeric2factor.levels = NULL,
   character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstant = TRUE, oneHot = FALSE,
+  center = FALSE, removeConstants = TRUE, oneHot = FALSE,
   exclude = NULL)
 }
 \arguments{

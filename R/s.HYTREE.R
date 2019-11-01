@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 Efstathios D Gennatas egenn.github.io
 
-# Grow rule along with tree in global env, extract leaf rules an
+# Grow rule along with tree in global env, extract leaf rules and coefficients
 # Added rpart.control min.bucket = 5
 # was s.ADDTminobslin
 # tree structure:
