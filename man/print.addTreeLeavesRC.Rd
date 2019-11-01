@@ -4,7 +4,7 @@
 \alias{print.addTreeLeavesRC}
 \title{Print method for \code{addTreeLeavesRC} object}
 \usage{
-\method{print}{addTree}(x, ...)
+\method{print}{addTreeLeavesRC}(x, ...)
 }
 \arguments{
 \item{x}{\code{addTreeLeavesRC} object}

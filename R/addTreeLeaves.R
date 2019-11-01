@@ -5,7 +5,7 @@
 # 3.14.2019: delta: ddlt
 # TODO: fix or remove g$n.nodes
 
-#' \pkg{rtemis internal}: Low-level Asymmetric Additive Tree procedure
+#' \pkg{rtemis internal}: Low-level Asymmetric Additive Tree (Stepwise Hybrid Tree) procedure
 #'
 #' Train an Asymmetric Additive Tree for Classification & Regression
 #'
@@ -981,7 +981,7 @@ predict.addTreeLeavesRC <- function(object, newdata,
 # [[---F5---]] ====
 #' Print method for \code{addTreeLeavesRC} object
 #'
-#' @method print addTree
+#' @method print addTreeLeavesRC
 #' @param x \code{addTreeLeavesRC} object
 #' @author Efstathios D. Gennatas
 #' @export

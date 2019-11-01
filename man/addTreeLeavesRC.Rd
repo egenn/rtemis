@@ -2,7 +2,7 @@
 % Please edit documentation in R/addTreeLeaves.R
 \name{addTreeLeavesRC}
 \alias{addTreeLeavesRC}
-\title{\pkg{rtemis internal}: Low-level Asymmetric Additive Tree procedure}
+\title{\pkg{rtemis internal}: Low-level Asymmetric Additive Tree (Stepwise Hybrid Tree) procedure}
 \usage{
 addTreeLeavesRC(x, y, x.valid = NULL, y.valid = NULL, weights = NULL,
   max.leaves = 5, select.leaves.smooth = TRUE, gamma = 0.1,
