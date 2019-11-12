@@ -173,7 +173,7 @@ s.HYTREE <- function(x, y = NULL,
   }
 
   # [ lin1 ] ====
-  if (verbose) msg0("Training Additive Tree (max depth = ", max.depth, ")...",
+  if (verbose) msg0("Training Hybrid Additive Tree (max depth = ", max.depth, ")...",
                     newline.pre = TRUE)
 
   lincoef.params$alpha <- alpha
@@ -772,7 +772,7 @@ preorder.hytree <- function(node, x, trace = 0) {
 } # rtemis::preorder.hytree
 
 
-#' Extract coefficients from Additive Tree leaves
+#' Extract coefficients from Hybrid Additive Tree leaves
 #'
 #' @param object \code{hytree} object
 #' @param newdata matrix/data.frame of features
