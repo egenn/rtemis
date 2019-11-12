@@ -8,16 +8,16 @@
 #' data analysis. This function makes no changes to data, but reports potential course of action
 #' that can be taken using \link{preprocess}
 #'
-#' @param x Input dataset; will be converted to data.frame
-#' @param name String, optional: Name of dataset. (This is helpful when applying \code{preprocess}
-#' on a list of items using by vectorization, e.g. using *ply commands, where the names of the list
+#' @param x Input dataset: will be converted to data.frame
+#' @param name String (optional): Name of dataset. (This is helpful when applying \code{preprocess}
+#' on a list of items by vectorization, e.g. using *ply commands, where the names of the list
 #' elements will not be displayed correctly)
-#' @param str Logical: If TRUE, show output of \code{str}
+#' @param str Logical: If TRUE, show output of \code{str}. Default = FALSE
 #' @param recommend Logical: If TRUE, print recommendations based on check. Default = TRUE
 #' @param reportCases.thres Float (0, 1]: Report, by number, all cases missing greater or equal to
-#' this fraction of features
+#' this fraction of features. Default = NULL
 #' @param reportFeatures.thres Float (0, 1]: Report, by name, all features missing in greater or
-#' equal to this fraction of cases
+#' equal to this fraction of cases. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -77,7 +77,14 @@ checkData <- function(x,
   # [ Constants ] ====
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
-  cat("  *", bold(n.constant), "constant", ifelse(n.constant == 1, "feature", "features"), "\n")
+  .col <- if (n.constant > 0) red$bold else bold
+  cat("  *", .col(n.constant), "constant", ifelse(n.constant == 1, "feature", "features"), "\n")
+
+  # [ Duplicates ] ====
+  cindex.dups <- which(duplicated(x))
+  n.dups <- length(cindex.dups)
+  .col <- if (n.dups > 0) red$bold else bold
+  cat("  *", .col(n.dups), "duplicated", ifelse(n.dups == 1, "case", "cases"), "\n")
 
   # [ NAs ] ====
   cols.anyna <- which(sapply(x, anyNA))
@@ -87,29 +94,26 @@ checkData <- function(x,
 
   # Get percent of NA values per feature and per case
   if (n.cols.anyna > 0) {
-    # na.feature.pct <- sapply(1:n.cols.anyna, function(i)
-    #   sum(is.na(x[, cols.anyna[i]])) / length(x[, cols.anyna[i]]))
     na.feature.pct <- data.frame(Feature = names(cols.anyna),
-                                 Pct.NA = sapply(1:n.cols.anyna, function(i)
+                                 Pct.NA = sapply(seq_len(n.cols.anyna), function(i)
                                    sum(is.na(x[, cols.anyna[i]])) / length(x[, cols.anyna[i]])))
 
     index.incomplete <- which(!complete.cases(x))
     n.incomplete <- length(index.incomplete)
-    # na.case.pct <- sapply(1:length(index.incomplete), function(i)
-    #   sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ]))
     na.case.pct <- data.frame(Case = index.incomplete,
-                              Pct.NA = sapply(1:n.incomplete, function(i)
+                              Pct.NA = sapply(seq_len(n.incomplete), function(i)
                                 sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])))
 
   }
-  cat("  * ", bold(n.cols.anyna), ifelse(n.cols.anyna == 1, " feature includes", " features include"), " 'NA' values",
-      ifelse(n.cols.anyna > 0, paste(";", bold(n.na), "'NA'", ifelse(n.na == 1, "value", "values"), "total"), ""),
+  .col <- if (n.cols.anyna > 0) rtOrange$bold else bold
+  cat("  * ", .col(n.cols.anyna), ifelse(n.cols.anyna == 1, " feature includes", " features include"), " 'NA' values",
+      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", ifelse(n.na == 1, "value", "values"), "total"), ""),
       "\n", sep = "")
   if (n.cols.anyna > 0) {
     if (!is.null(reportFeatures.thres)) {
       features.na.over.thres <- na.feature.pct[na.feature.pct$Pct.NA >= reportFeatures.thres, ]
       if (NROW(features.na.over.thres) > 0) {
-        cat("    ** ", bold(NROW(features.na.over.thres)), " features missing in >= ",
+        cat("    ** ", .col(NROW(features.na.over.thres)), " features missing in >= ",
             reportFeatures.thres*100, "% of cases:\n      *** ",
             paste0(features.na.over.thres$Feature, ": ", ddSci(features.na.over.thres$Pct.NA),
                    collapse = "\n      *** "), "\n",
@@ -117,7 +121,7 @@ checkData <- function(x,
       }
     } else {
       max.na.feature.name <- names(cols.anyna)[which.max(na.feature.pct$Pct.NA)]
-      cat("    ** Max percent missing in a feature is ", bold(ddSci(max(na.feature.pct$Pct.NA)*100), "%"), " (",
+      cat("    ** Max percent missing in a feature is ", .col(ddSci(max(na.feature.pct$Pct.NA)*100)), .col("%"), " (",
           bold(max.na.feature.name), ")\n", sep = "")
     }
 
@@ -125,7 +129,7 @@ checkData <- function(x,
       cases.na.over.thres <- na.case.pct[na.case.pct$Pct.NA >= reportCases.thres, ]
       n.cases.na.over.thres <- NROW(cases.na.over.thres)
       if (n.cases.na.over.thres > 0 ) {
-        cat("    ** ", bold(n.cases.na.over.thres), ifelse(n.cases.na.over.thres > 1, " cases", " case"),
+        cat("    ** ", .col(n.cases.na.over.thres), ifelse(n.cases.na.over.thres > 1, " cases", " case"),
             " missing >= ", reportCases.thres*100, "% of features:\n      *** ",
             paste0("#", cases.na.over.thres$Case, ": ", ddSci(cases.na.over.thres$Pct.NA),
                    collapse = "\n      *** "), "\n",
@@ -133,7 +137,7 @@ checkData <- function(x,
       }
     } else {
       max.na.case.number <- index.incomplete[which.max(na.case.pct$Pct.NA)]
-      cat("    ** Max percent missing in a case is ", bold(ddSci(max(na.case.pct$Pct.NA)*100), "%"), " (case #",
+      cat("    ** Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA)*100)), .col("%"), " (case #",
           bold(max.na.case.number), ")\n", sep = "")
     }
 
@@ -141,38 +145,40 @@ checkData <- function(x,
 
   # [ str() ] ====
   if (str) {
-    # cat("\n  Feature info\n  -------------------------------\n")
     boxcat("Feature structure", pad = 2)
     str(x)
   }
 
   # [ Recomend ] ====
   if (recommend) {
-    # cat("\n  Recommendations\n  -------------------------------\n")
     boxcat("Recommendations", pad = 2)
     if (n.constant > 0 | n.cols.anyna > 0 | n.gt2levels.nonordered > 0) {
       if (n.constant > 0) {
-        cat(bold("  * Remove the constant", ifelse(n.constant == 1, "feature", "features"), "\n"))
+        cat(rtHighlight$bold("  * Remove the constant", ifelse(n.constant == 1, "feature", "features"), "\n"))
+      }
+
+      if (n.dups > 0) {
+        cat(rtHighlight$bold("  * Remove the duplicated", ifelse(n.dups == 1, "case", "cases"), "\n"))
       }
 
       if (n.cols.anyna > 0) {
-        cat(bold("  * Consider imputing missing values or use complete cases only\n"))
+        cat(rtHighlight$bold("  * Consider imputing missing values or use complete cases only\n"))
       }
 
       if (n.gt2levels.nonordered > 0) {
-        cat(bold("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
+        cat(rtHighlight$bold("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
             "unordered categorical",
             ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
             " with more than 2 levels and consider\n    if ordering would make sense\n", sep = ""))
       }
       if (n.integer > 0) {
-        cat(bold("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
+        cat(rtHighlight$bold("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
             "integer", ifelse(n.integer > 1, " features", " feature"),
             " and consider if", ifelse(n.integer > 1, " they", " it"), " should be converted to ",
             ifelse(n.integer > 1, "factors\n", "factor\n"), sep = ""))
       }
     } else {
-      cat(bold("  * Everything looks good\n"))
+      cat(green$bold("  * Everything looks good\n"))
     }
 
   }
