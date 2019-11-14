@@ -27,7 +27,7 @@
 #' @param removeFeatures.thres Float: Remove features with missing values in >= to this fraction of
 #' cases. Default = NULL
 #' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
-#' which cases were missing data
+#' which cases were missing data. Default = FALSE
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 #' \code{impute.numeric} for how
 #' @param impute.type Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
