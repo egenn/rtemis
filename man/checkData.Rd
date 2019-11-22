@@ -25,7 +25,7 @@ this fraction of features. Default = NULL}
 equal to this fraction of cases. Default = NULL}
 }
 \description{
-Performs a series of simple checks on a dataset that may be important to perform ahead of
+Runs a series of simple checks on a dataset that may be important to perform ahead of
 data analysis. This function makes no changes to data, but reports potential course of action
 that can be taken using \link{preprocess}
 }
