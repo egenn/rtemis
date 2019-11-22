@@ -8,24 +8,24 @@ checkData(x, name = NULL, str = FALSE, recommend = TRUE,
   reportCases.thres = NULL, reportFeatures.thres = NULL)
 }
 \arguments{
-\item{x}{Input dataset; will be converted to data.frame}
+\item{x}{Input dataset: will be converted to data.frame}
 
-\item{name}{String, optional: Name of dataset. (This is helpful when applying \code{preprocess}
-on a list of items using by vectorization, e.g. using *ply commands, where the names of the list
+\item{name}{String (optional): Name of dataset. (This is helpful when applying \code{preprocess}
+on a list of items by vectorization, e.g. using *ply commands, where the names of the list
 elements will not be displayed correctly)}
 
-\item{str}{Logical: If TRUE, show output of \code{str}}
+\item{str}{Logical: If TRUE, show output of \code{str}. Default = FALSE}
 
 \item{recommend}{Logical: If TRUE, print recommendations based on check. Default = TRUE}
 
 \item{reportCases.thres}{Float (0, 1]: Report, by number, all cases missing greater or equal to
-this fraction of features}
+this fraction of features. Default = NULL}
 
 \item{reportFeatures.thres}{Float (0, 1]: Report, by name, all features missing in greater or
-equal to this fraction of cases}
+equal to this fraction of cases. Default = NULL}
 }
 \description{
-Performs a series of simple checks on a dataset that may be important to perform ahead of
+Runs a series of simple checks on a dataset that may be important to perform ahead of
 data analysis. This function makes no changes to data, but reports potential course of action
 that can be taken using \link{preprocess}
 }

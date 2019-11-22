@@ -125,7 +125,7 @@ gridSearchLearn <- function(x, y, mod,
       out1$lambda.min <- mod1$mod$lambda.min
       out1$lambda.1se <- mod1$mod$lambda.1se
     }
-    if (learner == "s.AADDT") out1$est.n.leaves <- mod1$mod$opt.n.leaves
+    if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$opt.n.leaves
     if (save.mod) out1$mod1 <- mod1
     out1
   }
@@ -221,8 +221,8 @@ gridSearchLearn <- function(x, y, mod,
     }
   }
 
-  # '- AADDT ====
-  if (learner == "s.AADDT") {
+  # '- SHYTREE ====
+  if (learner == "s.SHYTREE") {
     est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
     est.n.leaves.all$param.id <- rep(1:n.param.combs, each = n.resamples)
     est.n.leaves.by.param.id <- aggregate(n.leaves ~ param.id, est.n.leaves.all,

@@ -79,7 +79,7 @@ s.SVM <- function(x, y = NULL,
   mod.name <- "SVM"
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("e1071", "plyr", verbose = FALSE)) {
+  if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 

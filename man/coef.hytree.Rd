@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.HYTREE.R
 \name{coef.hytree}
 \alias{coef.hytree}
-\title{Extract coefficients from Additive Tree leaves}
+\title{Extract coefficients from Hybrid Additive Tree leaves}
 \usage{
 \method{coef}{hytree}(object, newdata, verbose = FALSE, trace = 0, ...)
 }
@@ -18,7 +18,7 @@
 \item{...}{Not used}
 }
 \description{
-Extract coefficients from Additive Tree leaves
+Extract coefficients from Hybrid Additive Tree leaves
 }
 \author{
 Efstathios D. Gennatas

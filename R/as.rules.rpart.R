@@ -1,6 +1,6 @@
-# as.data.tree.rpart
+# as.rules.rpart
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.github.io
 
 #' Convert \code{rpart} rules to \code{data.tree} object
 #'
@@ -12,7 +12,7 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-as.data.tree.rpart <- function(object, verbose = FALSE) {
+as.rules.rpart <- function(object, verbose = FALSE) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", "data.tree", verbose = FALSE)) {
@@ -30,15 +30,17 @@ as.data.tree.rpart <- function(object, verbose = FALSE) {
     stop("Input must be rpart object or rtemis CART model")
   }
 
-  frame <- object$frame
+  leaf.index <- which(object$frame$var == "<leaf>")
+  frame <- object$frame[leaf.index, ]
   node.id <- rownames(frame)
   rules <- rpart::path.rpart(object, node.id, print.it = verbose)
   rules <- plyr::ldply(rules, function(s) paste(s, collapse = "/"), .id = NULL)
   names(rules) <- "Condition"
-  rules$Condition <- gsub("root", "All cases", rules$Condition)
-  # rules$Condition <- gsub(">=", " >= ", rules$Condition)
-  rules$Condition <- gsub("< ", "<", rules$Condition)
+  rules$Condition <- gsub("root/", "", rules$Condition)
+  rules$Condition <- gsub(">=", " >= ", rules$Condition)
+  rules$Condition <- gsub("< ", " < ", rules$Condition)
   # rules$Condition <- gsub("=", " = ", rules$Condition)
+  rules$Condition <- gsub("/", " & ", rules$Condition)
   rules$Var <- frame$var
   rules$N <- frame$n
   rules$Weight <- frame$wt
@@ -56,8 +58,6 @@ as.data.tree.rpart <- function(object, verbose = FALSE) {
     }
   }
   rules$node.id <- node.id
-  tree <- data.tree::as.Node(rules, pathName = "Condition")
+  rules
 
-  tree
-
-} # rtemis::as.data.tree.rpart
+} # rtemis::as.rules.rpart
