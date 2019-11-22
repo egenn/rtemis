@@ -34,7 +34,7 @@ Default = NULL}
 cases. Default = NULL}
 
 \item{missingness}{Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
-which cases were missing data}
+which cases were missing data. Default = FALSE}
 
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 \code{impute.numeric} for how}
