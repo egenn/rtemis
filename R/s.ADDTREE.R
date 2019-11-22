@@ -255,6 +255,9 @@ s.ADDTREE <- function(x, y = NULL,
                                            prune.empty.leaves = prune.empty.leaves,
                                            remove.bad.parents = remove.bad.parents,
                                            verbose = prune.verbose)
+    rt$mod$rules <- data.tree::Get(data.tree::Traverse(rt$mod$addtree.pruned,
+                                                       filterFun = function(node) node$isLeaf), "Rule")
+    names(rt$mod$rules) <- NULL
   }
 
   if (match.rules) {
