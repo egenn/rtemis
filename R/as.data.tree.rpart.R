@@ -36,9 +36,9 @@ as.data.tree.rpart <- function(object, verbose = FALSE) {
   rules <- plyr::ldply(rules, function(s) paste(s, collapse = "/"), .id = NULL)
   names(rules) <- "Condition"
   rules$Condition <- gsub("root", "All cases", rules$Condition)
-  rules$Condition <- gsub(">=", " >= ", rules$Condition)
-  rules$Condition <- gsub("< ", " < ", rules$Condition)
-  rules$Condition <- gsub("=", " = ", rules$Condition)
+  # rules$Condition <- gsub(">=", " >= ", rules$Condition)
+  rules$Condition <- gsub("< ", "<", rules$Condition)
+  # rules$Condition <- gsub("=", " = ", rules$Condition)
   rules$Var <- frame$var
   rules$N <- frame$n
   rules$Weight <- frame$wt
