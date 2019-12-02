@@ -5,7 +5,7 @@
 \alias{rtDecom-class}
 \alias{rtDecom}
 \title{R6 Class for \pkg{rtemis} Decompositions}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtDecom
 }

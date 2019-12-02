@@ -4,7 +4,7 @@
 \name{rtModClass}
 \alias{rtModClass}
 \title{\pkg{rtemis} Classification Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtModClass
 }

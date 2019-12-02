@@ -5,7 +5,7 @@
 \alias{rtModCVclass-class}
 \alias{rtModCVclass}
 \title{\pkg{rtemis} Cross-Validated Classification Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtModCVclass
 }

@@ -5,7 +5,7 @@
 \alias{rtModLog-class}
 \alias{rtModLog}
 \title{\pkg{rtemis} Supervised Model Log Class}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtModLog
 }

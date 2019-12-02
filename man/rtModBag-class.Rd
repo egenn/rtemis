@@ -5,7 +5,7 @@
 \alias{rtModBag-class}
 \alias{rtModBag}
 \title{\pkg{rtemis} Bagged Supervised Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtModBag
 }

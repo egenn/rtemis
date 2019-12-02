@@ -5,7 +5,7 @@
 \alias{rtDecomLearn-class}
 \alias{rtDecomLearn}
 \title{R6 class for \pkg{rtemis} decomLearn}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 # rtDecom$new(decom.name = ...) # initialize new object
 }

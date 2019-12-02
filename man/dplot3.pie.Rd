@@ -16,7 +16,9 @@ dplot3.pie(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
   file.height = 500)
 }
 \arguments{
-\item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}
+\item{x}{data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
+b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defines using
+the \code{category.names} argument}
 
 \item{main}{Character: Plot title. Default = NULL, which results in colnames(x)[1],}
 

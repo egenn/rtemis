@@ -5,7 +5,7 @@
 \alias{rtXDecom-class}
 \alias{rtXDecom}
 \title{R6 class for \pkg{rtemis} cross-decompositions}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtXDecom
 }

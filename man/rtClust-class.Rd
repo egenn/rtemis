@@ -5,7 +5,7 @@
 \alias{rtClust-class}
 \alias{rtClust}
 \title{R6 class for \pkg{rtemis} clustering}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 rtClust
 }
