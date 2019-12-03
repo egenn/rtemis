@@ -1,6 +1,7 @@
 # dplot3.x.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
+# TIP: Use plotly::schema() to explore arguments/parameters to plotly functions
 
 #' Interactive Univariate Plots
 #'
@@ -18,6 +19,7 @@
 #' 1 element
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = c(0, 1), which places the
 #' legend top left within the plot area. Set to NULL to place legend top right beside the plot area
+#' @param bargap Float: The gap between adjacent histogram bars in plot fraction. Default = .05
 #' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
 #' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
 #' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
@@ -68,6 +70,7 @@ dplot3.x <- function(x,
                      legend.col = NULL,
                      legend.bg = "#FFFFFF00",
                      legend.border.col = "#FFFFFF00",
+                     bargap = .05,
                      margin = list(b = 50, l = 50, t = 50, r = 20),
                      padding = 0,
                      zerolines = FALSE,
@@ -302,7 +305,9 @@ dplot3.x <- function(x,
                                      nbinsx = hist.n.bins,
                                      showlegend = legend)
       }
-      plt <- plotly::layout(plt, barmode = barmode)
+      plt <- plotly::layout(plt,
+                            barmode = barmode,
+                            bargap = bargap)
     } else {
       # '- Histogram ridge ====
       plt <- lapply(ridge.groups, function(i) plotly::plot_ly(x = x[[i]],
@@ -320,7 +325,8 @@ dplot3.x <- function(x,
                       plotly::layout(xaxis = axis,
                                      yaxis = c(list(title = list(text = .names[i],
                                                                  font = f)),
-                                               axis)))
+                                               axis),
+                                     bargap = bargap))
     }
   }
 
