@@ -1,4 +1,4 @@
-# labelify
+# labelify.R
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
 
