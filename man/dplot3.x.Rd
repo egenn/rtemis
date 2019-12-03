@@ -15,13 +15,13 @@ dplot3.x(x, type = c("density", "histogram"), mode = c("overlap",
   grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8, tick.col = NULL,
   legend = NULL, legend.xy = c(0, 1), legend.col = NULL,
   legend.bg = "#FFFFFF00", legend.border.col = "#FFFFFF00",
-  margin = list(b = 50, l = 50, t = 50, r = 20), padding = 0,
-  zerolines = FALSE, histnorm = c("density", "percent", "probability",
-  "probability density"), histfunc = c("count", "sum", "avg", "min",
-  "max"), hist.n.bins = 20, barmode = "overlay", ridge.sharex = TRUE,
-  ridge.y.labs = FALSE, ridge.order.on.mean = TRUE, width = NULL,
-  height = NULL, filename = NULL, file.width = 500,
-  file.height = 500)
+  bargap = 0.05, margin = list(b = 50, l = 50, t = 50, r = 20),
+  padding = 0, zerolines = FALSE, histnorm = c("density", "percent",
+  "probability", "probability density"), histfunc = c("count", "sum",
+  "avg", "min", "max"), hist.n.bins = 20, barmode = "overlay",
+  ridge.sharex = TRUE, ridge.y.labs = FALSE,
+  ridge.order.on.mean = TRUE, width = NULL, height = NULL,
+  filename = NULL, file.width = 500, file.height = 500)
 }
 \arguments{
 \item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
@@ -82,6 +82,8 @@ plot.}
 legend top left within the plot area. Set to NULL to place legend top right beside the plot area}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+
+\item{bargap}{Float: The gap between adjacent histogram bars in plot fraction. Default = .05}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 

@@ -1,7 +1,6 @@
 # msg.R
 # ::rtemis::
 # 2016 Efstathios D. Gennatas egenn.github.io
-# TODO: Add color to msg0
 
 #' Message with provenance
 #'
@@ -22,7 +21,7 @@
 #' @param newline Logical: If TRUE end with a new line. Default = FALSE
 #' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
 #' @param as.message Logical: if TRUE, print using \code{message()}
-#' @param color Color for message to use with \pkg{crayon}
+#' @param color Crayon color for message e.g. \code{crayon::red}
 #' @param sep Character: Use to separate objects in \code{...}
 #' @return Invisibly: List with call, message, and date
 #' @author Efstathios D. Gennatas

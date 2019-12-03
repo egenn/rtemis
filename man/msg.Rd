@@ -28,7 +28,7 @@ msg0(..., date = TRUE, call.depth = 1, caller.id = 1,
 
 \item{as.message}{Logical: if TRUE, print using \code{message()}}
 
-\item{color}{Color for message to use with \pkg{crayon}}
+\item{color}{Crayon color for message e.g. \code{crayon::red}}
 
 \item{sep}{Character: Use to separate objects in \code{...}}
 }
