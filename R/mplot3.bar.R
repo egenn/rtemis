@@ -49,7 +49,7 @@ mplot3.bar <- function(x,
                        main.font = 2,
                        main.family = "",
                        names.arg = NULL,
-                       axisnames = FALSE,
+                       axisnames = NULL,
                        las = 1.5,
                        group.names = NULL,
                        group.names.srt = 0,
@@ -60,7 +60,7 @@ mplot3.bar <- function(x,
                        group.names.y.pad = .08,
                        group.names.at = NULL,
                        color.bygroup = FALSE,
-                       legend = FALSE,
+                       legend = NULL,
                        legend.names = NULL,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
@@ -148,6 +148,18 @@ mplot3.bar <- function(x,
     }
   }
   if (!is.null(error)) error <- as.matrix(error)
+
+  if (is.null(dim(x))) {
+    if (is.null(axisnames)) axisnames <- TRUE
+    if (is.null(legend)) legend <- FALSE
+  } else {
+    if (is.null(axisnames)) axisnames <- FALSE
+    if (is.null(legend)) legend <- TRUE
+  }
+
+  # if (is.null(axisnames)) {
+  #   axisnames <- if (is.null(dim(x))) TRUE else FALSE
+  # }
 
   # [ THEMES ] ====
   if (theme %in% c("lightgrid", "darkgrid")) {
@@ -244,6 +256,7 @@ mplot3.bar <- function(x,
                         border = border, ylim = ylim, axes = barplot.axes,
                         cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
                         axisnames = axisnames, names.arg = names.arg, las = las,
+                        col.axis = labs.col,
                         width = width, space = space, ...)
 
   # [ ERROR BARS ] ====
