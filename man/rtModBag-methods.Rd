@@ -5,8 +5,7 @@
 \alias{predict.rtModBag}
 \title{rtModBag S3 methods}
 \usage{
-\method{predict}{rtModBag}(object, newdata, aggr.fn = NULL,
-  n.cores = 1, verbose = FALSE, ...)
+\method{predict}{rtModBag}(object, newdata, aggr.fn = NULL, n.cores = 1, verbose = FALSE, ...)
 }
 \arguments{
 \item{newdata}{Testing set features}

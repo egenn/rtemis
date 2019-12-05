@@ -4,12 +4,27 @@
 \alias{s.PSURV}
 \title{Parametric Survival Regression [S]}
 \usage{
-s.PSURV(x, y, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, weights = NULL, dist = "weibull",
-  control = survival::survreg.control(), print.plot = TRUE,
-  plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), question = NULL,
-  verbose = TRUE, trace = 0, save.mod = FALSE, outdir = NULL, ...)
+s.PSURV(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  dist = "weibull",
+  control = survival::survreg.control(),
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix of features, i.e. independent variables}

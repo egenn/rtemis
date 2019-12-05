@@ -4,11 +4,25 @@
 \alias{massGAM}
 \title{Mass-univariate GAM Analysis}
 \usage{
-massGAM(x, y, covariates = NULL, x.name = NULL, y.name = NULL,
-  k = NULL, family = gaussian(), weights = NULL, method = "REML",
-  n.cores = rtCores, save.mods = FALSE, save.summary = TRUE,
-  print.plots = FALSE, outdir = NULL, labeledNifti = NULL,
-  save.plots = FALSE, new.x.breaks = 9)
+massGAM(
+  x,
+  y,
+  covariates = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  k = NULL,
+  family = gaussian(),
+  weights = NULL,
+  method = "REML",
+  n.cores = rtCores,
+  save.mods = FALSE,
+  save.summary = TRUE,
+  print.plots = FALSE,
+  outdir = NULL,
+  labeledNifti = NULL,
+  save.plots = FALSE,
+  new.x.breaks = 9
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

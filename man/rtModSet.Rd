@@ -4,17 +4,35 @@
 \alias{rtModSet}
 \title{\pkg{rtemis} model}
 \usage{
-rtModSet(rtclass = "rtMod", mod = list(), mod.name = character(),
-  type = character(), parameters = list(), call = "",
-  y.train = numeric(), y.test = numeric(), x.name = character(),
-  y.name = character(), xnames = character(),
-  bag.resample.rtset = list(), fitted.bag = numeric(),
-  fitted = numeric(), fitted.prob = numeric(),
-  se.fit.bag = numeric(), se.fit = numeric(), error.train = list(),
-  predicted.bag = numeric(), predicted = numeric(),
-  predicted.prob = numeric(), se.prediction.bag = numeric(),
-  se.prediction = numeric(), error.test = list(), varimp = numeric(),
-  question = character(), extra = list())
+rtModSet(
+  rtclass = "rtMod",
+  mod = list(),
+  mod.name = character(),
+  type = character(),
+  parameters = list(),
+  call = "",
+  y.train = numeric(),
+  y.test = numeric(),
+  x.name = character(),
+  y.name = character(),
+  xnames = character(),
+  bag.resample.rtset = list(),
+  fitted.bag = numeric(),
+  fitted = numeric(),
+  fitted.prob = numeric(),
+  se.fit.bag = numeric(),
+  se.fit = numeric(),
+  error.train = list(),
+  predicted.bag = numeric(),
+  predicted = numeric(),
+  predicted.prob = numeric(),
+  se.prediction.bag = numeric(),
+  se.prediction = numeric(),
+  error.test = list(),
+  varimp = numeric(),
+  question = character(),
+  extra = list()
+)
 }
 \arguments{
 \item{rtclass}{Character: Which class system to use. Previously "S3", "S4", "RC", "R6".

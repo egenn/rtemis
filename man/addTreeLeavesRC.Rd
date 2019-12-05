@@ -4,16 +4,37 @@
 \alias{addTreeLeavesRC}
 \title{\pkg{rtemis internal}: Low-level Asymmetric Additive Tree (Stepwise Hybrid Tree) procedure}
 \usage{
-addTreeLeavesRC(x, y, x.valid = NULL, y.valid = NULL, weights = NULL,
-  max.leaves = 5, select.leaves.smooth = TRUE, gamma = 0.1,
-  min.update = 10, alpha = 0, lambda = 0.01, lambda.seq = NULL,
-  minobsinnode = 2, minobsinnode.lin = 10, learning.rate = 1,
-  part.minsplit = 2, part.xval = 0, part.max.depth = 1,
-  part.cp = 0, .rho = TRUE, rho.max = 1000, lin.type = c("glmnet",
-  "cv.glmnet", "glm"), cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min", loss.fn = if (is.factor(y))
-  class.loss else msew, verbose = TRUE, plot.tune.error = FALSE,
-  trace = 0, n.cores = future::availableCores())
+addTreeLeavesRC(
+  x,
+  y,
+  x.valid = NULL,
+  y.valid = NULL,
+  weights = NULL,
+  max.leaves = 5,
+  select.leaves.smooth = TRUE,
+  gamma = 0.1,
+  min.update = 10,
+  alpha = 0,
+  lambda = 0.01,
+  lambda.seq = NULL,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  learning.rate = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  .rho = TRUE,
+  rho.max = 1000,
+  lin.type = c("glmnet", "cv.glmnet", "glm"),
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
+  loss.fn = if (is.factor(y)) class.loss else msew,
+  verbose = TRUE,
+  plot.tune.error = FALSE,
+  trace = 0,
+  n.cores = future::availableCores()
+)
 }
 \arguments{
 \item{x}{Data frame}

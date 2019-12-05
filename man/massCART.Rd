@@ -4,14 +4,34 @@
 \alias{massCART}
 \title{Mass-univariate CART prediction and variable importance}
 \usage{
-massCART(x, y = NULL, x.test = NULL, y.test = NULL, metric = NULL,
-  minsplit = 2, minbucket = round(minsplit/3), cp = 0.01,
-  maxcompete = 0, maxsurrogate = 0, usesurrogate = 2,
-  surrogatestyle = 0, maxdepth = 22, xval = 0, ipw = FALSE,
-  upsample = FALSE, downsample = FALSE, resample.seed = NULL,
-  n.cores = 1, parallel.type = ifelse(.Platform$OS.type == "unix",
-  "fork", "psock"), save.mod = FALSE, grid.print.plot = FALSE,
-  verbose = TRUE, grid.verbose = TRUE, print.plot = FALSE, ...)
+massCART(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  metric = NULL,
+  minsplit = 2,
+  minbucket = round(minsplit/3),
+  cp = 0.01,
+  maxcompete = 0,
+  maxsurrogate = 0,
+  usesurrogate = 2,
+  surrogatestyle = 0,
+  maxdepth = 22,
+  xval = 0,
+  ipw = FALSE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  n.cores = 1,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
+  save.mod = FALSE,
+  grid.print.plot = FALSE,
+  verbose = TRUE,
+  grid.verbose = TRUE,
+  print.plot = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

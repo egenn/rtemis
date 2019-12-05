@@ -4,8 +4,7 @@
 \alias{u.KMEANS}
 \title{K-means Clustering}
 \usage{
-u.KMEANS(x, x.test = NULL, k = 2, dist = "euclidean",
-  verbose = TRUE, ...)
+u.KMEANS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -24,11 +23,16 @@ u.KMEANS(x, x.test = NULL, k = 2, dist = "euclidean",
 Perform K-means clustering using \code{flexclust::cclust}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.HOPACH}},
-  \code{\link{u.NGAS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

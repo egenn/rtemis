@@ -4,8 +4,13 @@
 \alias{labels2niftis}
 \title{Write Matrix to Multiple Nifti Files}
 \usage{
-labels2niftis(datamat, labeledNifti, prefix, verbose = TRUE,
-  n.cores = parallel::detectCores())
+labels2niftis(
+  datamat,
+  labeledNifti,
+  prefix,
+  verbose = TRUE,
+  n.cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{datamat}{Matrix / Data Frame: Input}

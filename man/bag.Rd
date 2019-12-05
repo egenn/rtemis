@@ -4,17 +4,38 @@
 \alias{bag}
 \title{Bag an \pkg{rtemis} learner for regression or classification [C, R]}
 \usage{
-bag(x, y = NULL, x.test = NULL, y.test = NULL, weights = NULL,
-  mod = "cart", k = 10, mod.params = list(), ipw = TRUE,
-  ipw.type = 2, upsample = FALSE, downsample = FALSE,
-  resample.seed = NULL, .resample = rtset.resample(resampler =
-  "strat.boot", n.resamples = k), aggr.fn = NULL, x.name = NULL,
-  y.name = NULL, question = NULL, base.verbose = FALSE,
-  verbose = TRUE, trace = 0, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), print.base.plot = FALSE, n.cores = rtCores,
+bag(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  weights = NULL,
+  mod = "cart",
+  k = 10,
+  mod.params = list(),
+  ipw = TRUE,
+  ipw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  .resample = rtset.resample(resampler = "strat.boot", n.resamples = k),
+  aggr.fn = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  print.base.plot = FALSE,
+  n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
-  outdir = NULL, ...)
+  outdir = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

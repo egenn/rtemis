@@ -4,9 +4,17 @@
 \alias{predict.addtboost}
 \title{Predict method for \code{addtboost} object}
 \usage{
-\method{predict}{addtboost}(object, newdata = NULL,
-  n.feat = NCOL(newdata), n.iter = NULL, fixed.cxr = NULL,
-  as.matrix = FALSE, n.cores = 1, verbose = FALSE, ...)
+\method{predict}{addtboost}(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  fixed.cxr = NULL,
+  as.matrix = FALSE,
+  n.cores = 1,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{\link{addtboost} object}

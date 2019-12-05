@@ -4,10 +4,19 @@
 \alias{rtset.DN}
 \title{\code{rtset.DN}: Set parameters for \link{s.DN}}
 \usage{
-rtset.DN(hidden = 1, activation = NULL, learning.rate = 0.8,
-  momentum = 0.5, learningrate_scale = 1, output = NULL,
-  numepochs = 100, batchsize = NULL, hidden_dropout = 0,
-  visible_dropout = 0, ...)
+rtset.DN(
+  hidden = 1,
+  activation = NULL,
+  learning.rate = 0.8,
+  momentum = 0.5,
+  learningrate_scale = 1,
+  output = NULL,
+  numepochs = 100,
+  batchsize = NULL,
+  hidden_dropout = 0,
+  visible_dropout = 0,
+  ...
+)
 }
 \description{
 \code{rtset.DN}: Set parameters for \link{s.DN}

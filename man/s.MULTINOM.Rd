@@ -4,8 +4,7 @@
 \alias{s.MULTINOM}
 \title{Multinomial Logistic Regression}
 \usage{
-s.MULTINOM(x, y, x.test = NULL, y.test = NULL,
-  class.method = "multinom", ...)
+s.MULTINOM(x, y, x.test = NULL, y.test = NULL, class.method = "multinom", ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

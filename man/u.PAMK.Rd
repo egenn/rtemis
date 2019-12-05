@@ -4,10 +4,19 @@
 \alias{u.PAMK}
 \title{Partitioning Around Medoids with k Estimation}
 \usage{
-u.PAMK(x, krange = 2:10, criterion = "asw", usepam = ifelse(nrow(x) <
-  2000, TRUE, FALSE), scaling = TRUE, diss = inherits(data, "dist"),
-  metric = "euclidean", do.swap = TRUE, trace = 0, verbose = TRUE,
-  ...)
+u.PAMK(
+  x,
+  krange = 2:10,
+  criterion = "asw",
+  usepam = ifelse(nrow(x) < 2000, TRUE, FALSE),
+  scaling = TRUE,
+  diss = inherits(data, "dist"),
+  metric = "euclidean",
+  do.swap = TRUE,
+  trace = 0,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -43,11 +52,16 @@ original PAM algorithm. This is computationally intensive and can be skipped. De
 Estimate PAM clustering solution and optimal k using \code{fpc::pamk}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.HOPACH}},
-  \code{\link{u.KMEANS}}, \code{\link{u.NGAS}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

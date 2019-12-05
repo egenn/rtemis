@@ -4,17 +4,41 @@
 \alias{x.SD2RES}
 \title{Sparse CCA with Initialization By Resampling}
 \usage{
-x.SD2RES(x, z, x.test = NULL, z.test = NULL, k = 4, inmask = c(NA,
-  NA), sparseness = c(0.01, 1), scale.first.x = FALSE,
-  scale.first.center.x = FALSE, scale.first.z = FALSE,
-  scale.first.center.z = FALSE, resampler = "strat.boot", n.res = 4,
-  stratify.var = NULL, train.p = 0.75, strat.n.bins = 5,
-  target.length = NROW(z), its = 20, cthresh = c(0, 0), perms = 0,
-  uselong = 0, row.sparseness = 0, smooth = 0, robust = 0,
-  mycoption = 1, initializationList = list(),
-  initializationList2 = list(), l1 = 0.05, doseg = TRUE,
-  priorWeight = 0, verbose = TRUE, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE))
+x.SD2RES(
+  x,
+  z,
+  x.test = NULL,
+  z.test = NULL,
+  k = 4,
+  inmask = c(NA, NA),
+  sparseness = c(0.01, 1),
+  scale.first.x = FALSE,
+  scale.first.center.x = FALSE,
+  scale.first.z = FALSE,
+  scale.first.center.z = FALSE,
+  resampler = "strat.boot",
+  n.res = 4,
+  stratify.var = NULL,
+  train.p = 0.75,
+  strat.n.bins = 5,
+  target.length = NROW(z),
+  its = 20,
+  cthresh = c(0, 0),
+  perms = 0,
+  uselong = 0,
+  row.sparseness = 0,
+  smooth = 0,
+  robust = 0,
+  mycoption = 1,
+  initializationList = list(),
+  initializationList2 = list(),
+  l1 = 0.05,
+  doseg = TRUE,
+  priorWeight = 0,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -86,8 +110,9 @@ Run sparse CCA on a pair of matrices using \code{ANTsR}
 This is based on \code{ANTsR::sparseDecom2boot} by Brian B. Avants
 }
 \seealso{
-Other Cross-Decomposition: \code{\link{x.CCA}},
-  \code{\link{xdecomSelect}}
+Other Cross-Decomposition: 
+\code{\link{x.CCA}()},
+\code{\link{xdecomSelect}()}
 }
 \author{
 Efstathios D. Gennatas; original ANTsR code by Brian B. Avants

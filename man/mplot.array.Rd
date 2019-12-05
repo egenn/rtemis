@@ -4,8 +4,14 @@
 \alias{mplot.array}
 \title{Plot Array as Image}
 \usage{
-mplot.array(x, mono = FALSE, mono.fn = mean, bg = "gray10",
-  par.reset = TRUE, verbose = TRUE)
+mplot.array(
+  x,
+  mono = FALSE,
+  mono.fn = mean,
+  bg = "gray10",
+  par.reset = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Array, 2D or 3D: Input describing grayscale or color image in RGB space}

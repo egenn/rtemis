@@ -4,8 +4,18 @@
 \alias{d.KPCA}
 \title{Kernel Principal Component Analysis}
 \usage{
-d.KPCA(x, x.test = NULL, k = 2, th = 1e-04, kernel = "rbfdot",
-  kpar = NULL, scale = TRUE, center = FALSE, verbose = TRUE, ...)
+d.KPCA(
+  x,
+  x.test = NULL,
+  k = 2,
+  th = 1e-04,
+  kernel = "rbfdot",
+  kpar = NULL,
+  scale = TRUE,
+  center = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -43,13 +53,20 @@ and p represents number of features.
 KPCA will be applied to the transpose of the n x p matrix.
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

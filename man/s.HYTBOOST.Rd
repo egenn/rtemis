@@ -4,17 +4,41 @@
 \alias{s.HYTBOOST}
 \title{Boosting of Additive Trees [R]}
 \usage{
-s.HYTBOOST(x, y = NULL, x.test = NULL, y.test = NULL,
-  x.valid = NULL, y.valid = NULL, resid = NULL, boost.obj = NULL,
-  mod.params = rtset.HYTREE(), case.p = 1, weights = NULL,
-  max.iter = 10, learning.rate = 0.1, init = mean(y),
-  cxrcoef = FALSE, print.progress.every = 5,
-  print.error.plot = "final", x.name = NULL, y.name = NULL,
-  question = NULL, base.verbose = FALSE, verbose = TRUE, trace = 0,
-  prefix = NULL, plot.fitted = NULL, plot.predicted = NULL,
+s.HYTBOOST(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  resid = NULL,
+  boost.obj = NULL,
+  mod.params = rtset.HYTREE(),
+  case.p = 1,
+  weights = NULL,
+  max.iter = 10,
+  learning.rate = 0.1,
+  init = mean(y),
+  cxrcoef = FALSE,
+  print.progress.every = 5,
+  print.error.plot = "final",
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  prefix = NULL,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  print.plot = TRUE, print.base.plot = FALSE, plot.type = "l",
-  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+  print.plot = TRUE,
+  print.base.plot = FALSE,
+  plot.type = "l",
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Data frame: Input features}

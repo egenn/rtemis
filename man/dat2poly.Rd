@@ -4,8 +4,13 @@
 \alias{dat2poly}
 \title{Create n-degree polynomial from data frame}
 \usage{
-dat2poly(dat, method = c("simple", "poly"), degree = 2, raw = FALSE,
-  as.data.frame = TRUE)
+dat2poly(
+  dat,
+  method = c("simple", "poly"),
+  degree = 2,
+  raw = FALSE,
+  as.data.frame = TRUE
+)
 }
 \arguments{
 \item{dat}{Numeric, matrix / data.frame: Input}

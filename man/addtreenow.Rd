@@ -4,13 +4,30 @@
 \alias{addtreenow}
 \title{\pkg{rtemis} internal: Low-level Additive Tree procedure}
 \usage{
-addtreenow(x, y, max.depth = 5, alpha = 0, lambda = 1,
-  lambda.seq = NULL, minobsinnode = 2, minobsinnode.lin = 10,
-  learning.rate = 1, part.minsplit = 2, part.xval = 0,
-  part.max.depth = 1, part.cp = 0, part.minbucket = 5,
-  init = mean(y), lin.type = c("glmnet", "cv.glmnet", "lm.ridge",
-  "glm"), cv.glmnet.nfolds = 5, cv.glmnet.lambda = "lambda.min",
-  verbose = FALSE, trace = 0, n.cores = rtCores, ...)
+addtreenow(
+  x,
+  y,
+  max.depth = 5,
+  alpha = 0,
+  lambda = 1,
+  lambda.seq = NULL,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  learning.rate = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  init = mean(y),
+  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
+  verbose = FALSE,
+  trace = 0,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{x}{data.frame}

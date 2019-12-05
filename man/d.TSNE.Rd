@@ -4,10 +4,21 @@
 \alias{d.TSNE}
 \title{t-distributed Stochastic Neighbor Embedding}
 \usage{
-d.TSNE(x, k = 3, initial.dims = 50, perplexity = 15, theta = 0,
-  check.duplicates = TRUE, pca = TRUE, max.iter = 1000,
-  scale = FALSE, center = FALSE, is.distance = FALSE,
-  verbose = TRUE, outdir = "./")
+d.TSNE(
+  x,
+  k = 3,
+  initial.dims = 50,
+  perplexity = 15,
+  theta = 0,
+  check.duplicates = TRUE,
+  pca = TRUE,
+  max.iter = 1000,
+  scale = FALSE,
+  center = FALSE,
+  is.distance = FALSE,
+  verbose = TRUE,
+  outdir = "./"
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -45,13 +56,20 @@ d.TSNE(x, k = 3, initial.dims = 50, perplexity = 15, theta = 0,
 Perform t-SNE decomposition using \code{Rtsne::Rtsne}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.NMF}},
-  \code{\link{d.PCA}}, \code{\link{d.SPCA}},
-  \code{\link{d.SVD}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

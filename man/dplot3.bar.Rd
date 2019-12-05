@@ -4,18 +4,39 @@
 \alias{dplot3.bar}
 \title{Interactive Barplots}
 \usage{
-dplot3.bar(x, main = NULL, xlab = NULL, ylab = NULL, col = NULL,
-  alpha = 0.8, bg = NULL, plot.bg = NULL,
+dplot3.bar(
+  x,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = 0.8,
+  bg = NULL,
+  plot.bg = NULL,
   theme = getOption("rt.theme", "lightgrid"),
-  palette = getOption("rt.palette", "rtCol1"), barmode = c("group",
-  "relative", "stack", "overlay"), group.names = NULL,
-  feature.names = NULL, font.size = 16, font.alpha = 0.8,
-  font.col = NULL, font.family = "Helvetica Neue", main.col = NULL,
-  axes.col = NULL, labs.col = NULL, grid.col = NULL, grid.lwd = 1,
-  grid.alpha = 0.8, tick.col = NULL, legend = TRUE,
-  legend.col = NULL, margin = list(b = 50, l = 50, t = 50, r = 20),
-  padding = 0, filename = NULL, file.width = 500,
-  file.height = 500)
+  palette = getOption("rt.palette", "rtCol1"),
+  barmode = c("group", "relative", "stack", "overlay"),
+  group.names = NULL,
+  feature.names = NULL,
+  font.size = 16,
+  font.alpha = 0.8,
+  font.col = NULL,
+  font.family = "Helvetica Neue",
+  main.col = NULL,
+  axes.col = NULL,
+  labs.col = NULL,
+  grid.col = NULL,
+  grid.lwd = 1,
+  grid.alpha = 0.8,
+  tick.col = NULL,
+  legend = TRUE,
+  legend.col = NULL,
+  margin = list(b = 50, l = 50, t = 50, r = 20),
+  padding = 0,
+  filename = NULL,
+  file.width = 500,
+  file.height = 500
+)
 }
 \arguments{
 \item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}

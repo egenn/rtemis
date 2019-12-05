@@ -5,15 +5,14 @@
 \alias{rtMeta-class}
 \alias{rtMeta}
 \title{\pkg{rtemis} Meta Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtMeta
-}
 \description{
 R6 Class for \pkg{rtemis} Meta Models
 }
-\section{Fields}{
-
+\section{Super class}{
+\code{\link[rtemis:rtMod]{rtemis::rtMod}} -> \code{rtMeta}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{mod.name}}{Model (algorithm) name}
 
@@ -44,6 +43,123 @@ R6 Class for \pkg{rtemis} Meta Models
 \item{\code{question}}{Question the model is hoping to answer}
 
 \item{\code{extra}}{Algorithm-specific output}
-}}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{mod.name}}{Model (algorithm) name}
 
-\keyword{datasets}
+\item{\code{y.train}}{Training y data}
+
+\item{\code{y.test}}{Testing y data}
+
+\item{\code{x.name}}{Name of x data}
+
+\item{\code{y.name}}{Name of y data}
+
+\item{\code{xnames}}{Character vector: Column names of x}
+
+\item{\code{mod}}{Trained model}
+
+\item{\code{fitted}}{Fitted values}
+
+\item{\code{se.fit}}{Standard error of the fit}
+
+\item{\code{error.train}}{Training error}
+
+\item{\code{predicted}}{Predicted values}
+
+\item{\code{se.prediction}}{Standard error of the prediction}
+
+\item{\code{error.test}}{Testing error}
+
+\item{\code{question}}{Question the model is hoping to answer}
+
+\item{\code{extra}}{Algorithm-specific output}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtMeta$new()}}
+\item \href{#method-print}{\code{rtMeta$print()}}
+\item \href{#method-clone}{\code{rtMeta$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe">}\href{../../rtemis/html/rtMod.html#method-describe}{\code{rtemis::rtMod$describe()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot">}\href{../../rtemis/html/rtMod.html#method-plot}{\code{rtemis::rtMod$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted">}\href{../../rtemis/html/rtMod.html#method-plotFitted}{\code{rtemis::rtMod$plotFitted()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted">}\href{../../rtemis/html/rtMod.html#method-plotFittedPredicted}{\code{rtemis::rtMod$plotFittedPredicted()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted">}\href{../../rtemis/html/rtMod.html#method-plotPredicted}{\code{rtemis::rtMod$plotPredicted()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp">}\href{../../rtemis/html/rtMod.html#method-plotVarImp}{\code{rtemis::rtMod$plotVarImp()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary">}\href{../../rtemis/html/rtMod.html#method-summary}{\code{rtemis::rtMod$summary()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMeta$new(
+  mod.name = character(),
+  y.train = numeric(),
+  y.test = numeric(),
+  x.name = character(),
+  y.name = character(),
+  xnames = character(),
+  grid = data.frame(),
+  base.resample.rtset = list(),
+  base.mod.names = character(),
+  base.params = list(),
+  base.res.y.test = numeric(),
+  base.res.predicted = numeric(),
+  base.mods = list(),
+  base.mods.error.train = list(),
+  base.mods.error.test = list(),
+  meta.mod.name = character(),
+  meta.params = list(),
+  meta.mod = list(),
+  type = character(),
+  fitted = numeric(),
+  se.fit = numeric(),
+  error.train = list(),
+  predicted = numeric(),
+  se.prediction = numeric(),
+  error.test = list(),
+  question = character(),
+  extra = list()
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMeta$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMeta$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

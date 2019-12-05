@@ -4,15 +4,32 @@
 \alias{d.H2OGLRM}
 \title{Generalized Low-Rank Models (GLRM) on H2O}
 \usage{
-d.H2OGLRM(x, x.test = NULL, x.valid = NULL, k = 3,
-  ip = "localhost", port = 54321, transform = "NONE",
-  loss = "Quadratic", regularization.x = "None",
-  regularization.y = "None", gamma.x = 0, gamma.y = 0,
-  max_iterations = 1000, max_updates = 2 * max_iterations,
-  init_step_size = 1, min_step_size = 1e-04, seed = -1,
-  init = "PlusPlus", svd.method = "Randomized", verbose = TRUE,
-  print.plot = TRUE, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), n.cores = rtCores, ...)
+d.H2OGLRM(
+  x,
+  x.test = NULL,
+  x.valid = NULL,
+  k = 3,
+  ip = "localhost",
+  port = 54321,
+  transform = "NONE",
+  loss = "Quadratic",
+  regularization.x = "None",
+  regularization.y = "None",
+  gamma.x = 0,
+  gamma.y = 0,
+  max_iterations = 1000,
+  max_updates = 2 * max_iterations,
+  init_step_size = 1,
+  min_step_size = 1e-04,
+  seed = -1,
+  init = "PlusPlus",
+  svd.method = "Randomized",
+  verbose = TRUE,
+  print.plot = TRUE,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -79,13 +96,20 @@ Learn more about GLRM from the H2O tutorial
 \url{https://github.com/h2oai/h2o-tutorials/blob/master/tutorials/glrm/glrm-tutorial.md}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.ICA}},
-  \code{\link{d.ISOMAP}}, \code{\link{d.KPCA}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

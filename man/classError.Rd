@@ -9,11 +9,9 @@ classError(true, estimated, estimated.prob = NULL, trace = 0)
 \arguments{
 \item{true}{Vector, factor: True values}
 
-\item{estimated}{Vector, factor: Estimated values}
+\item{estimated}{Vector, factor: Estimated probabilities}
 
 \item{trace}{Integer: If > 0, print  diagnostic messages. Default = 0}
-
-\item{estimated}{Vector, factor: Estimated probabilities}
 }
 \value{
 S3 object of type  "classError"

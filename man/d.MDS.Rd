@@ -4,9 +4,19 @@
 \alias{d.MDS}
 \title{Multidimensional Scaling}
 \usage{
-d.MDS(x, k = 2, dist.method = c("euclidean", "maximum", "manhattan",
-  "canberra", "binary", "minkowski"), eig = FALSE, add = FALSE,
-  x.ret = FALSE, scale = TRUE, center = TRUE, verbose = TRUE, ...)
+d.MDS(
+  x,
+  k = 2,
+  dist.method = c("euclidean", "maximum", "manhattan", "canberra", "binary",
+    "minkowski"),
+  eig = FALSE,
+  add = FALSE,
+  x.ret = FALSE,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -46,13 +56,20 @@ fastMDS will be applied to the transpose of the n x p matrix.
 fastMDS will fail if there are any NA values or constant features: remove them using \link{preprocess}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

@@ -4,9 +4,16 @@
 \alias{predict.boost}
 \title{Predict method for \code{boost} object}
 \usage{
-\method{predict}{boost}(object, newdata = NULL, n.feat = NCOL(newdata),
-  n.iter = NULL, as.matrix = FALSE, verbose = FALSE,
-  n.cores = rtCores, ...)
+\method{predict}{boost}(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  as.matrix = FALSE,
+  verbose = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \description{
 Predict method for \code{boost} object

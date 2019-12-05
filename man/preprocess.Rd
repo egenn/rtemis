@@ -4,22 +4,38 @@
 \alias{preprocess}
 \title{Data preprocessing}
 \usage{
-preprocess(x, y = NULL, completeCases = FALSE,
-  removeCases.thres = NULL, removeFeatures.thres = NULL,
-  missingness = FALSE, impute = FALSE, impute.type = c("missRanger",
-  "missForest", "rfImpute", "meanMode"),
+preprocess(
+  x,
+  y = NULL,
+  completeCases = FALSE,
+  removeCases.thres = NULL,
+  removeFeatures.thres = NULL,
+  missingness = FALSE,
+  impute = FALSE,
+  impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
   impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
-  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize
-  = "no"), impute.rfImpute.params = list(niter = 10, ntree = 500),
-  impute.discrete = getMode, impute.numeric = mean,
-  integer2factor = FALSE, integer2numeric = FALSE,
-  logical2factor = FALSE, logical2numeric = FALSE,
-  numeric2factor = FALSE, numeric2factor.levels = NULL,
-  character2factor = FALSE, nonzeroFactors = FALSE, scale = FALSE,
-  center = FALSE, removeConstants = TRUE, removeDuplicates = TRUE,
-  oneHot = FALSE, exclude = NULL, verbose = TRUE,
-  n.cores = rtCores, parallel.type = ifelse(.Platform$OS.type ==
-  "unix", "fork", "psock"))
+  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize = "no"),
+  impute.rfImpute.params = list(niter = 10, ntree = 500),
+  impute.discrete = getMode,
+  impute.numeric = mean,
+  integer2factor = FALSE,
+  integer2numeric = FALSE,
+  logical2factor = FALSE,
+  logical2numeric = FALSE,
+  numeric2factor = FALSE,
+  numeric2factor.levels = NULL,
+  character2factor = FALSE,
+  nonzeroFactors = FALSE,
+  scale = FALSE,
+  center = FALSE,
+  removeConstants = TRUE,
+  removeDuplicates = TRUE,
+  oneHot = FALSE,
+  exclude = NULL,
+  verbose = TRUE,
+  n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+)
 }
 \arguments{
 \item{x}{Input}
@@ -70,7 +86,7 @@ if \code{integer2factor = FALSE})}
 
 \item{center}{Logical: If TRUE, center columns of \code{x}}
 
-\item{removeConstants}{Logical: If TRUE, remove all columns with zero variance. Default = TRUE}
+\item{removeConstants}{Logical: If TRUE, remove constant columns. Default = TRUE}
 
 \item{removeDuplicates}{Logical: If TRUE, remove duplicated cases. Default = TRUE}
 
@@ -81,8 +97,6 @@ if \code{integer2factor = FALSE})}
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
 
 \item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
-
-\item{removeConstants}{Logical: If TRUE, remove constant columns. Default = TRUE}
 }
 \description{
 Prepare data for data analysis

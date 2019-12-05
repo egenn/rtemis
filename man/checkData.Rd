@@ -4,8 +4,14 @@
 \alias{checkData}
 \title{Check Data}
 \usage{
-checkData(x, name = NULL, str = FALSE, recommend = TRUE,
-  reportCases.thres = NULL, reportFeatures.thres = NULL)
+checkData(
+  x,
+  name = NULL,
+  str = FALSE,
+  recommend = TRUE,
+  reportCases.thres = NULL,
+  reportFeatures.thres = NULL
+)
 }
 \arguments{
 \item{x}{Input dataset: will be converted to data.frame}

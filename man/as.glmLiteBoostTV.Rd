@@ -4,8 +4,16 @@
 \alias{as.glmLiteBoostTV}
 \title{Place model in \link{glmLiteBoostTV} structure}
 \usage{
-as.glmLiteBoostTV(object, x, y = NULL, x.valid = NULL,
-  y.valid = NULL, learning.rate = 1, init = 0, apply.lr = TRUE)
+as.glmLiteBoostTV(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  learning.rate = 1,
+  init = 0,
+  apply.lr = TRUE
+)
 }
 \arguments{
 \item{object}{rtMod model}

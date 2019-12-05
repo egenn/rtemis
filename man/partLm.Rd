@@ -4,11 +4,24 @@
 \alias{partLm}
 \title{\pkg{rtemis} internal: Ridge and Stump}
 \usage{
-partLm(x1, y1, alpha = 0.1, lambda = 1, lambda.seq = NULL,
-  part.minsplit = 2, part.xval = 0, part.max.depth = 1,
-  part.cp = 0, part.minbucket = 5, minobsinnode.lin = 5,
-  lin.type = "glmnet", cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min", verbose = TRUE, trace = 0)
+partLm(
+  x1,
+  y1,
+  alpha = 0.1,
+  lambda = 1,
+  lambda.seq = NULL,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  minobsinnode.lin = 5,
+  lin.type = "glmnet",
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
+  verbose = TRUE,
+  trace = 0
+)
 }
 \description{
 Fit a linear model on (x, y) and a tree on the residual yhat - y

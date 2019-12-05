@@ -4,8 +4,14 @@
 \alias{s.LOGISTIC}
 \title{Logistic Regression}
 \usage{
-s.LOGISTIC(x, y, x.test = NULL, y.test = NULL, family = binomial(link
-  = "logit"), ...)
+s.LOGISTIC(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  family = binomial(link = "logit"),
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

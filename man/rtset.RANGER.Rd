@@ -4,9 +4,17 @@
 \alias{rtset.RANGER}
 \title{\code{rtset.RANGER}: Set parameters for \link{s.RANGER}}
 \usage{
-rtset.RANGER(n.trees = 1000, min.node.size = 1, mtry = NULL,
-  grid.resample.rtset = rtset.resample("kfold", 5), ipw = TRUE,
-  upsample = FALSE, downsample = FALSE, resample.seed = NULL, ...)
+rtset.RANGER(
+  n.trees = 1000,
+  min.node.size = 1,
+  mtry = NULL,
+  grid.resample.rtset = rtset.resample("kfold", 5),
+  ipw = TRUE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}

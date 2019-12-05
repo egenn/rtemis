@@ -4,9 +4,16 @@
 \alias{strat.boot}
 \title{Stratified Bootstrap Resampling}
 \usage{
-strat.boot(x, n.resamples = 10, train.p = 0.75, stratify.var = NULL,
-  strat.n.bins = 4, target.length = NULL, seed = NULL,
-  verbose = TRUE)
+strat.boot(
+  x,
+  n.resamples = 10,
+  train.p = 0.75,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  target.length = NULL,
+  seed = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Input vector}

@@ -4,18 +4,43 @@
 \alias{s.HYTREE}
 \title{The Hybrid Tree: Additive Tree with Linear Nodes [R]}
 \usage{
-s.HYTREE(x, y = NULL, x.test = NULL, y.test = NULL, max.depth = 3,
-  alpha = 0, lambda = 0.1, lincoef.params = rtset.lincoef("glmnet"),
-  minobsinnode = 2, minobsinnode.lin = 10, learning.rate = 1,
-  part.minsplit = 2, part.xval = 0, part.max.depth = 1,
-  part.cp = 0, weights = NULL, metric = "MSE", maximize = FALSE,
-  grid.resample.rtset = rtset.grid.resample(), keep.x = FALSE,
-  simplify = TRUE, cxrcoef = FALSE, n.cores = rtCores,
-  verbose = TRUE, verbose.predict = FALSE, trace = 0,
-  x.name = NULL, y.name = NULL, question = NULL, outdir = NULL,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
+s.HYTREE(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  max.depth = 3,
+  alpha = 0,
+  lambda = 0.1,
+  lincoef.params = rtset.lincoef("glmnet"),
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  learning.rate = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  weights = NULL,
+  metric = "MSE",
+  maximize = FALSE,
+  grid.resample.rtset = rtset.grid.resample(),
+  keep.x = FALSE,
+  simplify = TRUE,
+  cxrcoef = FALSE,
+  n.cores = rtCores,
+  verbose = TRUE,
+  verbose.predict = FALSE,
+  trace = 0,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  outdir = NULL,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  save.mod = FALSE)
+  save.mod = FALSE
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

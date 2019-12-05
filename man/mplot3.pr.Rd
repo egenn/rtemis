@@ -4,15 +4,33 @@
 \alias{mplot3.pr}
 \title{\code{mplot3} Precision Recall curves}
 \usage{
-mplot3.pr(prob, labels, f1 = FALSE, main = "", col = NULL,
-  cex = 1.2, lwd = 2.5, diagonal = TRUE, diagonal.lwd = 2.5,
-  diagonal.lty = 3, group.legend = FALSE, annotation = TRUE,
-  annotation.col = col, annot.line = NULL, annot.adj = 1,
-  annot.font = 1, mar = c(2.5, 3, 2.5, 1),
+mplot3.pr(
+  prob,
+  labels,
+  f1 = FALSE,
+  main = "",
+  col = NULL,
+  cex = 1.2,
+  lwd = 2.5,
+  diagonal = TRUE,
+  diagonal.lwd = 2.5,
+  diagonal.lty = 3,
+  group.legend = FALSE,
+  annotation = TRUE,
+  annotation.col = col,
+  annot.line = NULL,
+  annot.adj = 1,
+  annot.font = 1,
+  mar = c(2.5, 3, 2.5, 1),
   theme = getOption("rt.theme", "lightgrid"),
-  palette = getOption("rt.palette", "rtCol1"), par.reset = TRUE,
-  verbose = TRUE, filename = NULL, pdf.width = 5, pdf.height = 5,
-  ...)
+  palette = getOption("rt.palette", "rtCol1"),
+  par.reset = TRUE,
+  verbose = TRUE,
+  filename = NULL,
+  pdf.width = 5,
+  pdf.height = 5,
+  ...
+)
 }
 \arguments{
 \item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}

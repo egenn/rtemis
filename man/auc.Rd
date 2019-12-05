@@ -4,8 +4,7 @@
 \alias{auc}
 \title{Area under the ROC Curve}
 \usage{
-auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"),
-  verbose = FALSE)
+auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"), verbose = FALSE)
 }
 \arguments{
 \item{prob}{Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)}

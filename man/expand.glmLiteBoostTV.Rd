@@ -4,12 +4,27 @@
 \alias{expand.glmLiteBoostTV}
 \title{Expand boosting series}
 \usage{
-expand.glmLiteBoostTV(object, x, y = NULL, x.valid = NULL,
-  y.valid = NULL, x.test = NULL, y.test = NULL, resid = NULL,
-  mod.params = NULL, max.iter = 10, learning.rate = NULL,
-  weights.p = 1, weights.0 = 0, seed = NULL, prefix = NULL,
-  verbose = TRUE, trace = 0, print.error.plot = "final",
-  print.plot = FALSE)
+expand.glmLiteBoostTV(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  resid = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  weights.p = 1,
+  weights.0 = 0,
+  seed = NULL,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final",
+  print.plot = FALSE
+)
 }
 \arguments{
 \item{object}{\link{glmLiteBoostTV} object}

@@ -4,9 +4,14 @@
 \alias{labelify}
 \title{Convert text for label printing}
 \usage{
-labelify(x, underscoresToSpaces = TRUE, dotsToSpaces = TRUE,
-  toTitleCase = TRUE, capitalize.strings = c("id"),
-  stringsToSpaces = c("\\\\$"))
+labelify(
+  x,
+  underscoresToSpaces = TRUE,
+  dotsToSpaces = TRUE,
+  toTitleCase = TRUE,
+  capitalize.strings = c("id"),
+  stringsToSpaces = c("\\\\$")
+)
 }
 \arguments{
 \item{x}{Character: Input}

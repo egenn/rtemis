@@ -4,13 +4,33 @@
 \alias{dplot3.heatmap}
 \title{Interactive Heatmaps}
 \usage{
-dplot3.heatmap(z, Rowv = TRUE, Colv = TRUE, cluster = FALSE,
-  symm = FALSE, cellnote = NULL, colorGrad.n = 101, colors = NULL,
-  space = "rgb", lo = "#18A3AC", lomid = NULL, mid = "white",
-  midhi = NULL, hi = "#F48024", k.row = NA, k.col = NA,
-  grid.gap = 0, limits = NULL, margins = NULL, main = NULL,
-  xlab = NULL, ylab = NULL, key.title = NULL,
-  showticklabels = NULL, ...)
+dplot3.heatmap(
+  z,
+  Rowv = TRUE,
+  Colv = TRUE,
+  cluster = FALSE,
+  symm = FALSE,
+  cellnote = NULL,
+  colorGrad.n = 101,
+  colors = NULL,
+  space = "rgb",
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = "white",
+  midhi = NULL,
+  hi = "#F48024",
+  k.row = NA,
+  k.col = NA,
+  grid.gap = 0,
+  limits = NULL,
+  margins = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  key.title = NULL,
+  showticklabels = NULL,
+  ...
+)
 }
 \arguments{
 \item{z}{Input matrix}

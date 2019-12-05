@@ -4,9 +4,18 @@
 \alias{d.SPCA}
 \title{Sparse Principal Component Analysis}
 \usage{
-d.SPCA(x, x.test = NULL, k = 1, nz = 0.5 * NCOL(x), nneg = TRUE,
-  method = c("cumulative", "vanilla"), scale = TRUE, center = FALSE,
-  verbose = TRUE, ...)
+d.SPCA(
+  x,
+  x.test = NULL,
+  k = 1,
+  nz = 0.5 * NCOL(x),
+  nneg = TRUE,
+  method = c("cumulative", "vanilla"),
+  scale = TRUE,
+  center = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -45,13 +54,20 @@ and p represents number of features.
 SPCA will be applied to the transpose of the n x p matrix.
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.NMF}},
-  \code{\link{d.PCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

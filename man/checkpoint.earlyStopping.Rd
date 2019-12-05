@@ -4,11 +4,18 @@
 \alias{checkpoint.earlyStopping}
 \title{Early stopping checkpoint}
 \usage{
-checkpoint.earlyStopping(x, absolute.threshold = NA,
-  relative.threshold = NA, minimize = TRUE,
-  relativeVariance.threshold = NA, n.steps = 10,
-  combine.relative.thresholds = "AND", min.steps = 50,
-  na.response = c("stop", "continue"), verbose = TRUE)
+checkpoint.earlyStopping(
+  x,
+  absolute.threshold = NA,
+  relative.threshold = NA,
+  minimize = TRUE,
+  relativeVariance.threshold = NA,
+  n.steps = 10,
+  combine.relative.thresholds = "AND",
+  min.steps = 50,
+  na.response = c("stop", "continue"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Float, vector: Input - this would normally be the loss at each iteration}

@@ -4,8 +4,15 @@
 \alias{update.cartLiteBoostTV}
 \title{\pkg{rtemis} internals: Update \link{cartLiteBoostTV} object's fitted values}
 \usage{
-\method{update}{cartLiteBoostTV}(object, x = NULL, x.valid = NULL,
-  trace = 0, last.step.only = FALSE, n.cores = rtCores, ...)
+\method{update}{cartLiteBoostTV}(
+  object,
+  x = NULL,
+  x.valid = NULL,
+  trace = 0,
+  last.step.only = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{object}{\link{cartLiteBoostTV} object}

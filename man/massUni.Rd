@@ -4,8 +4,15 @@
 \alias{massUni}
 \title{Mass-univariate Analysis}
 \usage{
-massUni(x, y, mod = "gam", save.mods = FALSE, verbose = TRUE,
-  n.cores = rtCores, ...)
+massUni(
+  x,
+  y,
+  mod = "gam",
+  save.mods = FALSE,
+  verbose = TRUE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{x}{Matrix / data frame of features}

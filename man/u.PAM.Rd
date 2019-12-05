@@ -4,8 +4,15 @@
 \alias{u.PAM}
 \title{Partitioning Around Medoids}
 \usage{
-u.PAM(x, k = 2, diss = FALSE, metric = "euclidean", do.swap = TRUE,
-  verbose = TRUE, ...)
+u.PAM(
+  x,
+  k = 2,
+  diss = FALSE,
+  metric = "euclidean",
+  do.swap = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -28,11 +35,16 @@ original PAM algorithm. This is computationally intensive and can be skipped. De
 Perform PAM clustering using \code{cluster::pam}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.HOPACH}},
-  \code{\link{u.KMEANS}}, \code{\link{u.NGAS}},
-  \code{\link{u.PAMK}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

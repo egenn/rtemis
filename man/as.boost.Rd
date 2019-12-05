@@ -4,9 +4,18 @@
 \alias{as.boost}
 \title{\code{as.boost} Place model in \link{boost} structure}
 \usage{
-as.boost(object, x = NULL, y = NULL, x.valid = NULL,
-  y.valid = NULL, learning.rate = 1, init = 0, apply.lr = TRUE,
-  tolerance = 1e-05, tolerance.valid = 1e-05)
+as.boost(
+  object,
+  x = NULL,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  learning.rate = 1,
+  init = 0,
+  apply.lr = TRUE,
+  tolerance = 1e-05,
+  tolerance.valid = 1e-05
+)
 }
 \arguments{
 \item{object}{rtMod model}

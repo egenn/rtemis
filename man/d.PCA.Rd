@@ -4,8 +4,15 @@
 \alias{d.PCA}
 \title{Principal Component Analysis}
 \usage{
-d.PCA(x, x.test = NULL, k = NULL, scale = TRUE, center = TRUE,
-  verbose = TRUE, ...)
+d.PCA(
+  x,
+  x.test = NULL,
+  k = NULL,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -33,13 +40,20 @@ Same solution as \link{d.SVD}. d.PCA runs \code{prcomp}, which has useful
 \code{summary} output
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.NMF}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

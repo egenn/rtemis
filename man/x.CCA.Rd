@@ -4,12 +4,30 @@
 \alias{x.CCA}
 \title{Sparse Canonical Correlation Analysis (CCA)}
 \usage{
-x.CCA(x, z, x.test = NULL, z.test = NULL, y = NULL, outcome = NULL,
-  k = 3, niter = 20, nperms = 50, permute.niter = 15,
-  typex = "standard", typez = "standard", penaltyx = NULL,
-  penaltyz = NULL, standardize = TRUE, upos = FALSE, vpos = FALSE,
-  verbose = TRUE, n.cores = rtCores, outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+x.CCA(
+  x,
+  z,
+  x.test = NULL,
+  z.test = NULL,
+  y = NULL,
+  outcome = NULL,
+  k = 3,
+  niter = 20,
+  nperms = 50,
+  permute.niter = 15,
+  typex = "standard",
+  typez = "standard",
+  penaltyx = NULL,
+  penaltyz = NULL,
+  standardize = TRUE,
+  upos = FALSE,
+  vpos = FALSE,
+  verbose = TRUE,
+  n.cores = rtCores,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Matrix: Training x dataset}
@@ -79,8 +97,9 @@ using x.CCA.permute (adapted to run in parallel)
 \link{x.SD2RES} also performs sparse decompositions / CCA using \code{ANTsR}
 }
 \seealso{
-Other Cross-Decomposition: \code{\link{x.SD2RES}},
-  \code{\link{xdecomSelect}}
+Other Cross-Decomposition: 
+\code{\link{x.SD2RES}()},
+\code{\link{xdecomSelect}()}
 }
 \author{
 Efstathios D. Gennatas

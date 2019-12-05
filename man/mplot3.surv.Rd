@@ -4,12 +4,27 @@
 \alias{mplot3.surv}
 \title{\code{mplot3}: Survival Plots}
 \usage{
-mplot3.surv(x, lty = 1, lwd = 2, alpha = 1, col = NULL,
-  normalize = TRUE, cex = 1.2, xlab = "Time", ylab = "Survival",
-  main = "Kaplan-Meier estimate with 95\% CI", group.legend = NULL,
-  group.title = "", group.names = NULL, group.side = 3,
-  group.adj = 0.98, group.padj = 2, group.at = NA,
-  par.reset = TRUE, ...)
+mplot3.surv(
+  x,
+  lty = 1,
+  lwd = 2,
+  alpha = 1,
+  col = NULL,
+  normalize = TRUE,
+  cex = 1.2,
+  xlab = "Time",
+  ylab = "Survival",
+  main = "Kaplan-Meier estimate with 95\% CI",
+  group.legend = NULL,
+  group.title = "",
+  group.names = NULL,
+  group.side = 3,
+  group.adj = 0.98,
+  group.padj = 2,
+  group.at = NA,
+  par.reset = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Survival object / list of Survival objects created using \code{survival::Surv}}

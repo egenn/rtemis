@@ -4,8 +4,12 @@
 \alias{prune.addtree}
 \title{Prune ADDTREE tree}
 \usage{
-prune.addtree(addtree, prune.empty.leaves = TRUE,
-  remove.bad.parents = TRUE, verbose = TRUE)
+prune.addtree(
+  addtree,
+  prune.empty.leaves = TRUE,
+  remove.bad.parents = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{addtree}{rtMod trained with \link{s.ADDTREE}}

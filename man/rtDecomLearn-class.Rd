@@ -5,15 +5,17 @@
 \alias{rtDecomLearn-class}
 \alias{rtDecomLearn}
 \title{R6 class for \pkg{rtemis} decomLearn}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
 \usage{
 # rtDecom$new(decom.name = ...) # initialize new object
 }
 \description{
 \pkg{rtemis} decomLearn R6 object
 }
-\section{Fields}{
-
+\author{
+Efstathios D Gennatas
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{decom.name}}{Character: Name of decomposition algorithm}
 
@@ -28,9 +30,61 @@
 \item{\code{projections.test}}{Input test data projected on new axes / basis}
 
 \item{\code{extra}}{List: Algorithm-specific output}
-}}
-
-\author{
-Efstathios D Gennatas
 }
-\keyword{datasets}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{call}}{Originating call}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtDecomLearn$new()}}
+\item \href{#method-clone}{\code{rtDecomLearn$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtDecomLearn$new(
+  mod.name = character(),
+  decom.name = character(),
+  decom.params = list(),
+  decom.param.grid = list(),
+  tuner.name = character(),
+  tuner.params = list(),
+  best.tune = list(),
+  learner.name = character(),
+  learner.params = list(),
+  xnames = character(),
+  decom = list(),
+  mod = list(),
+  projections.train = numeric(),
+  projections.test = numeric(),
+  extra = list()
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtDecomLearn$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

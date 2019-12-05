@@ -4,9 +4,18 @@
 \alias{penn.heat}
 \title{Create a color gradient}
 \usage{
-penn.heat(n = 11, space = "Lab", demo = FALSE, colorbar = FALSE,
-  bar.min = -1, bar.mid = 0, bar.max = 1, cex = 1.2,
-  filename = NULL, col.text = "black")
+penn.heat(
+  n = 11,
+  space = "Lab",
+  demo = FALSE,
+  colorbar = FALSE,
+  bar.min = -1,
+  bar.mid = 0,
+  bar.max = 1,
+  cex = 1.2,
+  filename = NULL,
+  col.text = "black"
+)
 }
 \arguments{
 \item{n}{Integer. How many distinct colors you want. Defaults to 11}

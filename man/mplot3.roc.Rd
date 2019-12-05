@@ -4,15 +4,35 @@
 \alias{mplot3.roc}
 \title{\code{mplot3} ROC curves}
 \usage{
-mplot3.roc(prob, labels, method = c("rt", "pROC"), type = "TPR.FPR",
-  balanced.accuracy = FALSE, main = "", col = NULL, cex = 1.2,
-  lwd = 2.5, diagonal = TRUE, diagonal.lwd = 2.5, diagonal.lty = 3,
-  group.legend = FALSE, annotation = TRUE, annotation.col = col,
-  annot.line = NULL, annot.adj = 1, annot.font = 1, mar = c(2.5, 3,
-  2.5, 1), theme = getOption("rt.theme", "lightgrid"),
-  palette = getOption("rt.palette", "rtCol1"), verbose = TRUE,
-  par.reset = TRUE, filename = NULL, pdf.width = 5, pdf.height = 5,
-  ...)
+mplot3.roc(
+  prob,
+  labels,
+  method = c("rt", "pROC"),
+  type = "TPR.FPR",
+  balanced.accuracy = FALSE,
+  main = "",
+  col = NULL,
+  cex = 1.2,
+  lwd = 2.5,
+  diagonal = TRUE,
+  diagonal.lwd = 2.5,
+  diagonal.lty = 3,
+  group.legend = FALSE,
+  annotation = TRUE,
+  annotation.col = col,
+  annot.line = NULL,
+  annot.adj = 1,
+  annot.font = 1,
+  mar = c(2.5, 3, 2.5, 1),
+  theme = getOption("rt.theme", "lightgrid"),
+  palette = getOption("rt.palette", "rtCol1"),
+  verbose = TRUE,
+  par.reset = TRUE,
+  filename = NULL,
+  pdf.width = 5,
+  pdf.height = 5,
+  ...
+)
 }
 \arguments{
 \item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}

@@ -4,13 +4,20 @@
 \alias{rtset.lincoef}
 \title{\code{rtset.lincoef}: Set parameters for \link{lincoef}}
 \usage{
-rtset.lincoef(method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-  "forwardStepwise", "backwardStepwise", "glm", "sgd", "solve"),
-  alpha = 0, lambda = 0.01, lambda.seq = NULL,
-  cv.glmnet.nfolds = 5, which.cv.glmnet.lambda = c("lambda.min",
-  "lambda.1se"), nbest = 1, nvmax = 8, sgd.model = "glm",
+rtset.lincoef(
+  method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
+    "backwardStepwise", "glm", "sgd", "solve"),
+  alpha = 0,
+  lambda = 0.01,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+  nbest = 1,
+  nvmax = 8,
+  sgd.model = "glm",
   sgd.model.control = list(lambda1 = 0, lambda2 = 0),
-  sgd.control = list(method = "ai-sgd"))
+  sgd.control = list(method = "ai-sgd")
+)
 }
 \arguments{
 \item{method}{Character: Method to use:

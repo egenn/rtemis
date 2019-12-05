@@ -4,8 +4,7 @@
 \alias{u.NGAS}
 \title{Neural Gas Clustering}
 \usage{
-u.NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE,
-  ...)
+u.NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -27,11 +26,16 @@ u.NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE,
 Perform Neural Gas clustering using \code{flexclust::cclust}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.HOPACH}},
-  \code{\link{u.KMEANS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

@@ -4,17 +4,43 @@
 \alias{colorGrad}
 \title{Color Gradient}
 \usage{
-colorGrad(n = 21, colors = NULL, space = c("rgb", "Lab"),
-  lo = "#18A3AC", lomid = NULL, mid = NULL, midhi = NULL,
-  hi = "#F48024", preview = FALSE, colorbar = FALSE, cb.n = 21,
-  cb.mar = c(1, 1, 1, 1), cb.add = FALSE, cb.add.mar = c(5, 0, 2, 5),
-  cb.axis.pos = 1.1, cb.axis.las = 1, cb.axis.hadj = 0, cb.cex = 6,
-  bar.min = -1, bar.mid = 0, bar.max = 1, cex = 1.2,
-  filename = NULL, pdf.width = 3, pdf.height = 7,
-  theme = getOption("rt.theme", "light"), bg = NULL, col.text = NULL,
-  plotlycb = FALSE, plotly.width = 80, plotly.height = 500,
-  rtrn.plotly = FALSE, margins = c(0, 0, 0, 0), pad = 0,
-  par.reset = TRUE)
+colorGrad(
+  n = 21,
+  colors = NULL,
+  space = c("rgb", "Lab"),
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  preview = FALSE,
+  colorbar = FALSE,
+  cb.n = 21,
+  cb.mar = c(1, 1, 1, 1),
+  cb.add = FALSE,
+  cb.add.mar = c(5, 0, 2, 5),
+  cb.axis.pos = 1.1,
+  cb.axis.las = 1,
+  cb.axis.hadj = 0,
+  cb.cex = 6,
+  bar.min = -1,
+  bar.mid = 0,
+  bar.max = 1,
+  cex = 1.2,
+  filename = NULL,
+  pdf.width = 3,
+  pdf.height = 7,
+  theme = getOption("rt.theme", "light"),
+  bg = NULL,
+  col.text = NULL,
+  plotlycb = FALSE,
+  plotly.width = 80,
+  plotly.height = 500,
+  rtrn.plotly = FALSE,
+  margins = c(0, 0, 0, 0),
+  pad = 0,
+  par.reset = TRUE
+)
 }
 \arguments{
 \item{n}{Integer: How many distinct colors you want. If not odd, converted to \code{n + 1}

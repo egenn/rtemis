@@ -5,15 +5,14 @@
 \alias{rtXDecom-class}
 \alias{rtXDecom}
 \title{R6 class for \pkg{rtemis} cross-decompositions}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtXDecom
-}
 \description{
 \pkg{rtemis} cross-decomposition R6 object
 }
-\section{Fields}{
-
+\author{
+Efstathios D Gennatas
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{xdecom.name}}{Character: Name of cross-decomposition algorithm}
 
@@ -28,9 +27,68 @@ rtXDecom
 \item{\code{projections.test}}{Input test data projected on new axes / basis}
 
 \item{\code{extra}}{List: Algorithm-specific output}
-}}
-
-\author{
-Efstathios D Gennatas
 }
-\keyword{datasets}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{projections.train}}{Input data projected on new axes / basis}
+
+\item{\code{projections.test}}{Input test data projected on new axes / basis}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtXDecom$new()}}
+\item \href{#method-print}{\code{rtXDecom$print()}}
+\item \href{#method-clone}{\code{rtXDecom$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtXDecom$new(
+  xdecom.name = character(),
+  k = integer(),
+  xnames = character(),
+  znames = character(),
+  xdecom = list(),
+  xprojections.train = numeric(),
+  xprojections.test = numeric(),
+  zprojections.train = numeric(),
+  zprojections.test = numeric(),
+  parameters = list(),
+  extra = list()
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtXDecom$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtXDecom$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

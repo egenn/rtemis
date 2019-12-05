@@ -4,8 +4,12 @@
 \alias{typeset}
 \title{Set type of columns}
 \usage{
-typeset(x, factor.index = NULL, orderedfactor.index = NULL,
-  integer.index = NULL)
+typeset(
+  x,
+  factor.index = NULL,
+  orderedfactor.index = NULL,
+  integer.index = NULL
+)
 }
 \arguments{
 \item{x}{data frame: input whose columns' types you want to edit}

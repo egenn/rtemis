@@ -4,14 +4,34 @@
 \alias{mplot3.confbin}
 \title{Plot extended confusion matrix for binary classification}
 \usage{
-mplot3.confbin(object, main = NULL, xlab = "True",
-  ylab = "Estimated", mod.name = NULL, mar = c(4, 5, 4, 3),
-  dim.lab = 1, dim.in = 4, dim.out = 2, font.in = 2,
-  font.out = 2, cex.in = 1.2, cex.lab = 1.2, cex.lab2 = 1,
-  cex.out = 1, col.text.out = "white", col.bg.out = "gray50",
-  theme = "light", mid.color = NULL, hi.color.pos = ucsfCol$teal,
-  hi.color.neg = ucsfCol$purple, par.reset = TRUE, pdf.width = 8.7,
-  pdf.height = 8.7, filename = NULL, ...)
+mplot3.confbin(
+  object,
+  main = NULL,
+  xlab = "True",
+  ylab = "Estimated",
+  mod.name = NULL,
+  mar = c(4, 5, 4, 3),
+  dim.lab = 1,
+  dim.in = 4,
+  dim.out = 2,
+  font.in = 2,
+  font.out = 2,
+  cex.in = 1.2,
+  cex.lab = 1.2,
+  cex.lab2 = 1,
+  cex.out = 1,
+  col.text.out = "white",
+  col.bg.out = "gray50",
+  theme = "light",
+  mid.color = NULL,
+  hi.color.pos = ucsfCol$teal,
+  hi.color.neg = ucsfCol$purple,
+  par.reset = TRUE,
+  pdf.width = 8.7,
+  pdf.height = 8.7,
+  filename = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /

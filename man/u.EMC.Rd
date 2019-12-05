@@ -4,8 +4,15 @@
 \alias{u.EMC}
 \title{Expectation Maximization Clustering}
 \usage{
-u.EMC(x, x.test = NULL, k = 2, lab = NULL, EMC = EMCluster::.EMC,
-  verbose = TRUE, ...)
+u.EMC(
+  x,
+  x.test = NULL,
+  k = 2,
+  lab = NULL,
+  EMC = EMCluster::.EMC,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -32,11 +39,16 @@ followed by \code{EMCluster::emcluster(x, emobj = emobj, assign.class = TRUE, ..
 This can be very slow.
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.H2OKMEANS}}, \code{\link{u.HARDCL}},
-  \code{\link{u.HOPACH}}, \code{\link{u.KMEANS}},
-  \code{\link{u.NGAS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

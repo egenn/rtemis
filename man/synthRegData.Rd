@@ -4,8 +4,13 @@
 \alias{synthRegData}
 \title{Synthesize Simple Regression Data}
 \usage{
-synthRegData(nrow = 500, ncol = 50, noise.sd.factor = 1,
-  resample.rtset = rtset.resample(), seed = NULL)
+synthRegData(
+  nrow = 500,
+  ncol = 50,
+  noise.sd.factor = 1,
+  resample.rtset = rtset.resample(),
+  seed = NULL
+)
 }
 \arguments{
 \item{nrow}{Integer: Number of rows. Default = 500}

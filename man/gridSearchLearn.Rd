@@ -4,12 +4,26 @@
 \alias{gridSearchLearn}
 \title{\pkg{rtemis} internal: Grid Search for Hyperparameter Tuning of \pkg{rtemis} Learners}
 \usage{
-gridSearchLearn(x, y, mod, grid.params, fixed.params = NULL,
+gridSearchLearn(
+  x,
+  y,
+  mod,
+  grid.params,
+  fixed.params = NULL,
   search.type = c("exhaustive", "randomized"),
-  resample.rtset = rtset.resample(), randomized.p = 0.05,
-  weights = NULL, error.aggregate.fn = mean, metric = NULL,
-  maximize = NULL, save.mod = FALSE, verbose = TRUE,
-  call.depth = 1, grid.verbose = FALSE, n.cores = rtCores, ...)
+  resample.rtset = rtset.resample(),
+  randomized.p = 0.05,
+  weights = NULL,
+  error.aggregate.fn = mean,
+  metric = NULL,
+  maximize = NULL,
+  save.mod = FALSE,
+  verbose = TRUE,
+  call.depth = 1,
+  grid.verbose = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{x}{features - training set. Will be resampled to multiple train-test sets}

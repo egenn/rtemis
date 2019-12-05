@@ -4,9 +4,22 @@
 \alias{d.LLE}
 \title{Locally Linear Embedding}
 \usage{
-d.LLE(x, k = 2, nn = 0, nn.min = 1, nn.max = 20,
-  plot.calcnn = FALSE, id = FALSE, iLLE = FALSE, nnk = TRUE,
-  reg = 2, v = 0.9, verbose = TRUE, n.cores = 1, ...)
+d.LLE(
+  x,
+  k = 2,
+  nn = 0,
+  nn.min = 1,
+  nn.max = 20,
+  plot.calcnn = FALSE,
+  id = FALSE,
+  iLLE = FALSE,
+  nnk = TRUE,
+  reg = 2,
+  v = 0.9,
+  verbose = TRUE,
+  n.cores = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -56,13 +69,20 @@ and p represents number of features.
 LLE will be applied to the transpose of the n x p matrix.
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

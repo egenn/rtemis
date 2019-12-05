@@ -4,8 +4,7 @@
 \alias{rsd}
 \title{Coefficient of Variation (Relative standard deviation)}
 \usage{
-rsd(x, as.percentage = TRUE, na.rm = TRUE, adjust = FALSE,
-  adjust.lo = 1)
+rsd(x, as.percentage = TRUE, na.rm = TRUE, adjust = FALSE, adjust.lo = 1)
 }
 \arguments{
 \item{x}{Numeric: Input}

@@ -4,10 +4,21 @@
 \alias{mplot3.fit}
 \title{\code{mplot3}: True vs. Fitted plot}
 \usage{
-mplot3.fit(x, y, fit = "lm", se.fit = TRUE, fit.error = TRUE,
-  axes.equal = TRUE, diagonal = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"), col = NULL,
-  pty = "s", zero.lines = FALSE, fit.legend = FALSE, ...)
+mplot3.fit(
+  x,
+  y,
+  fit = "lm",
+  se.fit = TRUE,
+  fit.error = TRUE,
+  axes.equal = TRUE,
+  diagonal = TRUE,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  col = NULL,
+  pty = "s",
+  zero.lines = FALSE,
+  fit.legend = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Vector, numeric / factor / survival for regression, classification, survival: True values}

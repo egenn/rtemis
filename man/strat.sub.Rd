@@ -4,8 +4,15 @@
 \alias{strat.sub}
 \title{Resample using Stratified Subsamples}
 \usage{
-strat.sub(x, n.resamples = 10, train.p = 0.75, stratify.var = NULL,
-  strat.n.bins = 4, seed = NULL, verbose = TRUE)
+strat.sub(
+  x,
+  n.resamples = 10,
+  train.p = 0.75,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  seed = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Input vector}

@@ -4,8 +4,15 @@
 \alias{predict.hytree}
 \title{Predict method for \code{hytree} object}
 \usage{
-\method{predict}{hytree}(object, newdata = NULL, learning.rate = NULL,
-  n.feat = NULL, verbose = FALSE, cxrcoef = FALSE, ...)
+\method{predict}{hytree}(
+  object,
+  newdata = NULL,
+  learning.rate = NULL,
+  n.feat = NULL,
+  verbose = FALSE,
+  cxrcoef = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{an \link{rtMod} trained with \link{s.HYTREE} or an \code{hytree} object}

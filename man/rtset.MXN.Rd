@@ -4,14 +4,28 @@
 \alias{rtset.MXN}
 \title{\code{rtset.MXN}: Set parameters for \link{s.MXN}}
 \usage{
-rtset.MXN(n.hidden.nodes = NULL, output = NULL, activation = "relu",
-  ctx = mxnet::mx.cpu(), optimizer = "sgd",
-  initializer = mxnet::mx.init.Xavier(), batch.size = NULL,
-  momentum = 0.9, max.epochs = 2000, min.epochs = 25,
-  early.stop = "train", early.stop.n.steps = NULL,
-  early.stop.relativeVariance.threshold = NULL, learning.rate = NULL,
-  dropout = 0, dropout.before = 1, dropout.after = 0,
-  eval.metric = NULL, arg.params = NULL, mx.seed = NULL)
+rtset.MXN(
+  n.hidden.nodes = NULL,
+  output = NULL,
+  activation = "relu",
+  ctx = mxnet::mx.cpu(),
+  optimizer = "sgd",
+  initializer = mxnet::mx.init.Xavier(),
+  batch.size = NULL,
+  momentum = 0.9,
+  max.epochs = 2000,
+  min.epochs = 25,
+  early.stop = "train",
+  early.stop.n.steps = NULL,
+  early.stop.relativeVariance.threshold = NULL,
+  learning.rate = NULL,
+  dropout = 0,
+  dropout.before = 1,
+  dropout.after = 0,
+  eval.metric = NULL,
+  arg.params = NULL,
+  mx.seed = NULL
+)
 }
 \arguments{
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create}

@@ -4,8 +4,14 @@
 \alias{runifmat}
 \title{Random Uniform Matrix}
 \usage{
-runifmat(nrow = 10, ncol = 10, min = 0, max = 1,
-  return.df = FALSE, seed = NULL)
+runifmat(
+  nrow = 10,
+  ncol = 10,
+  min = 0,
+  max = 1,
+  return.df = FALSE,
+  seed = NULL
+)
 }
 \arguments{
 \item{nrow}{Integer: Number of rows. Default = 10}

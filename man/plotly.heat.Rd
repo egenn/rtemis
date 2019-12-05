@@ -4,9 +4,17 @@
 \alias{plotly.heat}
 \title{Heatmap with \code{plotly}}
 \usage{
-plotly.heat(z, x = NULL, y = NULL, title = NULL,
-  col = penn.heat(21), xlab = NULL, ylab = NULL, zlab = NULL,
-  transpose = TRUE)
+plotly.heat(
+  z,
+  x = NULL,
+  y = NULL,
+  title = NULL,
+  col = penn.heat(21),
+  xlab = NULL,
+  ylab = NULL,
+  zlab = NULL,
+  transpose = TRUE
+)
 }
 \arguments{
 \item{z}{Input matrix}

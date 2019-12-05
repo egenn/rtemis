@@ -4,15 +4,30 @@
 \alias{s.RULEFEAT}
 \title{ruleFeat [C, R]}
 \usage{
-s.RULEFEAT(x, y = NULL, x.test = NULL, y.test = NULL,
-  n.trees = 100, gbm.params = list(bag.fraction = 0.5, shrinkage =
-  0.001, interaction.depth = 5, ipw = TRUE), meta.alpha = 1,
-  meta.lambda = NULL, meta.extra.params = list(ipw = TRUE),
-  cases.by.rules = NULL, x.name = NULL, y.name = NULL,
-  question = NULL, verbose = TRUE, n.cores = rtCores,
-  print.plot = TRUE, plot.fitted = NULL, plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"), outdir = NULL,
-  save.mod = if (!is.null(outdir)) TRUE else FALSE)
+s.RULEFEAT(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  n.trees = 100,
+  gbm.params = list(bag.fraction = 0.5, shrinkage = 0.001, interaction.depth = 5, ipw =
+    TRUE),
+  meta.alpha = 1,
+  meta.lambda = NULL,
+  meta.extra.params = list(ipw = TRUE),
+  cases.by.rules = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  verbose = TRUE,
+  n.cores = rtCores,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  outdir = NULL,
+  save.mod = if (!is.null(outdir)) TRUE else FALSE
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

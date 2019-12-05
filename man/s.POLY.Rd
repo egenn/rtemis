@@ -4,8 +4,7 @@
 \alias{s.POLY}
 \title{Polynomial Regression}
 \usage{
-s.POLY(x, y, x.test = NULL, y.test = NULL, poly.d = 3,
-  poly.raw = FALSE, ...)
+s.POLY(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FALSE, ...)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

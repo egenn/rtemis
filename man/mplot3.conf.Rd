@@ -4,18 +4,43 @@
 \alias{mplot3.conf}
 \title{Plot confusion matrix}
 \usage{
-mplot3.conf(object, main = "auto", xlab = "Reference",
-  ylab = "Estimated", plot.metrics = TRUE, mod.name = NULL,
-  oma = c(0, 0, 0, 0), dim.main = 1, dim.lab = 1, dim.in = 4,
-  dim.out = -1, font.in = 2, font.out = 1, cex.main = 1.8,
-  cex.in = 1.8, cex.lab = 1.8, cex.lab2 = 1.8, cex.lab3 = 1.5,
-  cex.out = 1.4, col.main = "auto", col.lab = "auto",
-  col.text.out = "auto", col.bg = "auto", col.bg.out1 = "auto",
-  col.bg.out2 = "auto", col.text.hi = "auto", col.text.lo = "auto",
-  theme = getOption("rt.theme", "light"), mid.col = "auto",
-  hi.color.pos = "#18A3AC", hi.color.neg = "#F48024",
-  par.reset = TRUE, pdf.width = 4.5, pdf.height = 4.5,
-  filename = NULL)
+mplot3.conf(
+  object,
+  main = "auto",
+  xlab = "Reference",
+  ylab = "Estimated",
+  plot.metrics = TRUE,
+  mod.name = NULL,
+  oma = c(0, 0, 0, 0),
+  dim.main = 1,
+  dim.lab = 1,
+  dim.in = 4,
+  dim.out = -1,
+  font.in = 2,
+  font.out = 1,
+  cex.main = 1.8,
+  cex.in = 1.8,
+  cex.lab = 1.8,
+  cex.lab2 = 1.8,
+  cex.lab3 = 1.5,
+  cex.out = 1.4,
+  col.main = "auto",
+  col.lab = "auto",
+  col.text.out = "auto",
+  col.bg = "auto",
+  col.bg.out1 = "auto",
+  col.bg.out2 = "auto",
+  col.text.hi = "auto",
+  col.text.lo = "auto",
+  theme = getOption("rt.theme", "light"),
+  mid.col = "auto",
+  hi.color.pos = "#18A3AC",
+  hi.color.neg = "#F48024",
+  par.reset = TRUE,
+  pdf.width = 4.5,
+  pdf.height = 4.5,
+  filename = NULL
+)
 }
 \arguments{
 \item{object}{Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /

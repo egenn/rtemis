@@ -4,9 +4,17 @@
 \alias{u.HOPACH}
 \title{Hieararchical Ordered Partitioning and Collapsing Hybrid}
 \usage{
-u.HOPACH(x, dmat = NULL, metric = c("cosangle", "abscosangle",
-  "euclid", "abseuclid", "cor", "abscor"), k = 15, kmax = 9,
-  khigh = 9, trace = 0, verbose = TRUE, ...)
+u.HOPACH(
+  x,
+  dmat = NULL,
+  metric = c("cosangle", "abscosangle", "euclid", "abseuclid", "cor", "abscor"),
+  k = 15,
+  kmax = 9,
+  khigh = 9,
+  trace = 0,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -33,11 +41,16 @@ the Mean/Median Split Silhouette. Usually same as \code{kmax}}
 Perform HOPACH clustering using \code{hopach::hopach}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.KMEANS}},
-  \code{\link{u.NGAS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

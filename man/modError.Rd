@@ -4,8 +4,16 @@
 \alias{modError}
 \title{Error Metrics for Supervised Learning}
 \usage{
-modError(true, estimated, estimated.prob = NULL, verbose = FALSE,
-  type = NULL, rho = TRUE, tau = FALSE, na.rm = TRUE)
+modError(
+  true,
+  estimated,
+  estimated.prob = NULL,
+  verbose = FALSE,
+  type = NULL,
+  rho = TRUE,
+  tau = FALSE,
+  na.rm = TRUE
+)
 }
 \arguments{
 \item{true}{Vector: True values}

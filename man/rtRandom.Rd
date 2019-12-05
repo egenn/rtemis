@@ -4,9 +4,16 @@
 \alias{rtRandom}
 \title{Random \pkg{rtemis} art}
 \usage{
-rtRandom(pch = sample(15:18, 1), col = rtCol, text = "rtemis",
-  text.col = "gray50", text.as.legend = FALSE, legend.bg = NULL,
-  legend.alpha = 1, random.bg = TRUE)
+rtRandom(
+  pch = sample(15:18, 1),
+  col = rtCol,
+  text = "rtemis",
+  text.col = "gray50",
+  text.as.legend = FALSE,
+  legend.bg = NULL,
+  legend.alpha = 1,
+  random.bg = TRUE
+)
 }
 \arguments{
 \item{pch}{Point character to use}

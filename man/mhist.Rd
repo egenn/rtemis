@@ -4,12 +4,30 @@
 \alias{mhist}
 \title{Histograms}
 \usage{
-mhist(x, breaks = "Sturges", measure = c("density", "counts"),
-  lwd = 3, xlim = NULL, ylim = NULL, plot.axes = FALSE,
-  xaxis = TRUE, yaxis = TRUE, xaxis.line = 0, yaxis.line = 0,
-  xlab = NULL, ylab = measure, xaxs = "r", yaxs = "r",
-  box = FALSE, grid = FALSE, col = pennCol$lighterBlue,
-  horiz = FALSE, main = "", add = FALSE, ...)
+mhist(
+  x,
+  breaks = "Sturges",
+  measure = c("density", "counts"),
+  lwd = 3,
+  xlim = NULL,
+  ylim = NULL,
+  plot.axes = FALSE,
+  xaxis = TRUE,
+  yaxis = TRUE,
+  xaxis.line = 0,
+  yaxis.line = 0,
+  xlab = NULL,
+  ylab = measure,
+  xaxs = "r",
+  yaxs = "r",
+  box = FALSE,
+  grid = FALSE,
+  col = pennCol$lighterBlue,
+  horiz = FALSE,
+  main = "",
+  add = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input vector}

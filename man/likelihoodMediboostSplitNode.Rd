@@ -4,11 +4,29 @@
 \alias{likelihoodMediboostSplitNode}
 \title{\pkg{rtemis} internal: likelihoodMediboostSplitNode}
 \usage{
-likelihoodMediboostSplitNode(x, y, weights, catPredictors, obsValues,
-  nodeValue, colIdx, depth, depthLimit, learningRate, gamma, membership,
-  min.membership, steps.past.min.membership, min.mem.counter, update,
-  min.update = ifelse(update == "exponential", 1000, 10), hessian,
-  min.hessian, save.rpart, verbose = TRUE)
+likelihoodMediboostSplitNode(
+  x,
+  y,
+  weights,
+  catPredictors,
+  obsValues,
+  nodeValue,
+  colIdx,
+  depth,
+  depthLimit,
+  learningRate,
+  gamma,
+  membership,
+  min.membership,
+  steps.past.min.membership,
+  min.mem.counter,
+  update,
+  min.update = ifelse(update == "exponential", 1000, 10),
+  hessian,
+  min.hessian,
+  save.rpart,
+  verbose = TRUE
+)
 }
 \description{
 Recursive function that returns a node structure under the MediBoost paradigm

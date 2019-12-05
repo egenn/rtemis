@@ -4,8 +4,17 @@
 \alias{as.addtboost}
 \title{\code{as.addboost} Place model in \link{addtboost} structure}
 \usage{
-as.addtboost(object, x, y, x.valid, y.valid, learning.rate = 0.1,
-  init.learning.rate = learning.rate, init = 0, apply.lr = TRUE)
+as.addtboost(
+  object,
+  x,
+  y,
+  x.valid,
+  y.valid,
+  learning.rate = 0.1,
+  init.learning.rate = learning.rate,
+  init = 0,
+  apply.lr = TRUE
+)
 }
 \description{
 \code{as.addboost} Place model in \link{addtboost} structure

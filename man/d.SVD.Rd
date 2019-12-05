@@ -4,8 +4,16 @@
 \alias{d.SVD}
 \title{Singular Value Decomposition}
 \usage{
-d.SVD(x, x.test = NULL, k = 2, nu = 0, scale = TRUE,
-  center = TRUE, verbose = TRUE, ...)
+d.SVD(
+  x,
+  x.test = NULL,
+  k = 2,
+  nu = 0,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -34,13 +42,20 @@ Perform SVD decomposition using \code{base::svd}
 Same solution as \link{d.PCA}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.NMF}},
-  \code{\link{d.PCA}}, \code{\link{d.SPCA}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

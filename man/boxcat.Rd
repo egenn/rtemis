@@ -4,8 +4,7 @@
 \alias{boxcat}
 \title{Box cat}
 \usage{
-boxcat(x, style = 2, col = NULL, newline.pre = TRUE,
-  newline = FALSE, pad = 0)
+boxcat(x, style = 2, col = NULL, newline.pre = TRUE, newline = FALSE, pad = 0)
 }
 \arguments{
 \item{x}{Character: Text to be output to console}

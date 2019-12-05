@@ -11,8 +11,15 @@
 
 \method{summary}{rtModCV}(object, ...)
 
-\method{predict}{rtModCV}(object, newdata, which.repeat = 1,
-  bag.fn = mean, verbose = TRUE, n.cores = 1, ...)
+\method{predict}{rtModCV}(
+  object,
+  newdata,
+  which.repeat = 1,
+  bag.fn = mean,
+  verbose = TRUE,
+  n.cores = 1,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{rtModCV} object}

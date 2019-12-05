@@ -4,10 +4,16 @@
 \alias{p.MXINCEPTION}
 \title{Classify Images using pre-trained Inception network with \code{mxnet} [C]}
 \usage{
-p.MXINCEPTION(img, img.path = NULL,
-  inception.path = "~/.rtemis/Inception/", iteration = 39,
-  plot.input = FALSE, plot.normed = FALSE, plot.graphviz = FALSE,
-  verbose = TRUE)
+p.MXINCEPTION(
+  img,
+  img.path = NULL,
+  inception.path = "~/.rtemis/Inception/",
+  iteration = 39,
+  plot.input = FALSE,
+  plot.normed = FALSE,
+  plot.graphviz = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{img}{Image, "cimg" class: Input image - e.g. as read using \code{imager::load.image}. Alternatively, specify
@@ -36,9 +42,11 @@ Download the pre-trained network from http://data.mxnet.io/mxnet/data/Inception.
 "~/.rtemis/"
 }
 \seealso{
-Other Deep Learning: \code{\link{d.H2OAE}},
-  \code{\link{s.H2ODL}}, \code{\link{s.MXN}},
-  \code{\link{s.TFN}}
+Other Deep Learning: 
+\code{\link{d.H2OAE}()},
+\code{\link{s.H2ODL}()},
+\code{\link{s.MXN}()},
+\code{\link{s.TFN}()}
 }
 \author{
 Efstathios D. Gennatas

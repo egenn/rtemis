@@ -4,9 +4,16 @@
 \alias{dat2bsplinemat}
 \title{B-Spline matrix from dataset}
 \usage{
-dat2bsplinemat(x, df = NULL, knots = NULL, degree = 3L,
-  intercept = FALSE, Boundary.knots = range(x, na.rm = TRUE),
-  return.deriv = FALSE, as.data.frame = TRUE)
+dat2bsplinemat(
+  x,
+  df = NULL,
+  knots = NULL,
+  degree = 3L,
+  intercept = FALSE,
+  Boundary.knots = range(x, na.rm = TRUE),
+  return.deriv = FALSE,
+  as.data.frame = TRUE
+)
 }
 \arguments{
 \item{x}{data.frame: Input}

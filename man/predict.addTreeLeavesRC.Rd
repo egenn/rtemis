@@ -4,10 +4,20 @@
 \alias{predict.addTreeLeavesRC}
 \title{Predict method for \code{addTreeLeavesRC} object}
 \usage{
-\method{predict}{addTreeLeavesRC}(object, newdata, type = c("response",
-  "probability", "all", "step"), n.leaves = NULL,
-  n.feat = NCOL(newdata), fixed.cxr = NULL, cxr.newdata = NULL,
-  cxr = FALSE, cxrcoef = FALSE, verbose = FALSE, trace = 0, ...)
+\method{predict}{addTreeLeavesRC}(
+  object,
+  newdata,
+  type = c("response", "probability", "all", "step"),
+  n.leaves = NULL,
+  n.feat = NCOL(newdata),
+  fixed.cxr = NULL,
+  cxr.newdata = NULL,
+  cxr = FALSE,
+  cxrcoef = FALSE,
+  verbose = FALSE,
+  trace = 0,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{addTreeRaw}}

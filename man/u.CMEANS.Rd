@@ -4,9 +4,19 @@
 \alias{u.CMEANS}
 \title{Fuzzy C-means Clustering}
 \usage{
-u.CMEANS(x, k = 2, iter.max = 100, dist = "euclidean",
-  method = "cmeans", m = 2, rate.par = NULL, weights = 1,
-  control = list(), verbose = TRUE, ...)
+u.CMEANS(
+  x,
+  k = 2,
+  iter.max = 100,
+  dist = "euclidean",
+  method = "cmeans",
+  m = 2,
+  rate.par = NULL,
+  weights = 1,
+  control = list(),
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -38,11 +48,16 @@ u.CMEANS(x, k = 2, iter.max = 100, dist = "euclidean",
 Perform fuzzy C-means clustering using \code{e1071::cmeans}
 }
 \seealso{
-Other Clustering: \code{\link{u.EMC}},
-  \code{\link{u.H2OKMEANS}}, \code{\link{u.HARDCL}},
-  \code{\link{u.HOPACH}}, \code{\link{u.KMEANS}},
-  \code{\link{u.NGAS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

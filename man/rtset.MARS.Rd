@@ -4,10 +4,19 @@
 \alias{rtset.MARS}
 \title{\code{rtset.MARS}: Set parameters for \link{s.MARS}}
 \usage{
-rtset.MARS(hidden = 1, activation = NULL, learning.rate = 0.8,
-  momentum = 0.5, learningrate_scale = 1, output = NULL,
-  numepochs = 100, batchsize = NULL, hidden_dropout = 0,
-  visible_dropout = 0, ...)
+rtset.MARS(
+  hidden = 1,
+  activation = NULL,
+  learning.rate = 0.8,
+  momentum = 0.5,
+  learningrate_scale = 1,
+  output = NULL,
+  numepochs = 100,
+  batchsize = NULL,
+  hidden_dropout = 0,
+  visible_dropout = 0,
+  ...
+)
 }
 \arguments{
 \item{...}{Additional parameters to pass to \code{earth::earth}}

@@ -4,10 +4,19 @@
 \alias{u.SPEC}
 \title{Spectral Clustering}
 \usage{
-u.SPEC(x, k = 2, kernel = "rbfdot", kpar = "automatic",
-  nystrom.red = FALSE, nystrom.sample = dim(x)[1]/6,
-  iterations = 200, mod.sample = 0.75, na.action = na.omit,
-  verbose = TRUE, ...)
+u.SPEC(
+  x,
+  k = 2,
+  kernel = "rbfdot",
+  kpar = "automatic",
+  nystrom.red = FALSE,
+  nystrom.sample = dim(x)[1]/6,
+  iterations = 200,
+  mod.sample = 0.75,
+  na.action = na.omit,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -43,11 +52,16 @@ Default = \code{dim(x)[1]/6}}
 Perform Spectral Clustering using \code{kernlab::specc}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.H2OKMEANS}},
-  \code{\link{u.HARDCL}}, \code{\link{u.HOPACH}},
-  \code{\link{u.KMEANS}}, \code{\link{u.NGAS}},
-  \code{\link{u.PAMK}}, \code{\link{u.PAM}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.H2OKMEANS}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()}
 }
 \author{
 Efstathios D. Gennatas

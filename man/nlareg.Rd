@@ -4,9 +4,20 @@
 \alias{nlareg}
 \title{\pkg{rtemis} internal: NonLinear Activation regression (NLAreg)}
 \usage{
-nlareg(x, y, b_o = mean(y), W_o = 1, b_h = 0, W_h = 0,
-  activation = softplus, optim.method = "BFGS", control = list(),
-  lower = -Inf, upper = Inf, ...)
+nlareg(
+  x,
+  y,
+  b_o = mean(y),
+  W_o = 1,
+  b_h = 0,
+  W_h = 0,
+  activation = softplus,
+  optim.method = "BFGS",
+  control = list(),
+  lower = -Inf,
+  upper = Inf,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

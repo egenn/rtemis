@@ -4,8 +4,14 @@
 \alias{rnormmat}
 \title{Random Normal Matrix}
 \usage{
-rnormmat(nrow = 10, ncol = 10, mean = 0, sd = 1,
-  return.df = FALSE, seed = NULL)
+rnormmat(
+  nrow = 10,
+  ncol = 10,
+  mean = 0,
+  sd = 1,
+  return.df = FALSE,
+  seed = NULL
+)
 }
 \arguments{
 \item{nrow}{Integer: Number of rows. Default = 10}

@@ -4,10 +4,19 @@
 \alias{d.UMAP}
 \title{Uniform Manifold Approximation and Projection}
 \usage{
-d.UMAP(x, x.test = NULL, k = 2, n.neighbors = 15,
-  init = "spectral", metric = c("euclidean", "cosine", "manhattan",
-  "hamming", "categorical"), epochs = NULL, learning.rate = 1,
-  scale = TRUE, verbose = TRUE, ...)
+d.UMAP(
+  x,
+  x.test = NULL,
+  k = 2,
+  n.neighbors = 15,
+  init = "spectral",
+  metric = c("euclidean", "cosine", "manhattan", "hamming", "categorical"),
+  epochs = NULL,
+  learning.rate = 1,
+  scale = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix}
@@ -40,13 +49,20 @@ Default = "euclidean"}
 Perform UMAP decomposition using github package \code{jlmelville/uwot}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.NMF}},
-  \code{\link{d.PCA}}, \code{\link{d.SPCA}},
-  \code{\link{d.SVD}}, \code{\link{d.TSNE}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()}
 }
 \author{
 Efstathios D. Gennatas

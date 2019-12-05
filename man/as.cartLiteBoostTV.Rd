@@ -4,8 +4,16 @@
 \alias{as.cartLiteBoostTV}
 \title{Place model in \link{cartLiteBoostTV} structure}
 \usage{
-as.cartLiteBoostTV(object, x, y = NULL, x.valid = NULL,
-  y.valid = NULL, learning.rate = 1, init = 0, apply.lr = TRUE)
+as.cartLiteBoostTV(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  learning.rate = 1,
+  init = 0,
+  apply.lr = TRUE
+)
 }
 \arguments{
 \item{object}{rtMod model}

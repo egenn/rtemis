@@ -4,9 +4,15 @@
 \alias{rtset.grid.resample}
 \title{\code{rtset.grid.resample}: \link{resample} defaults for \link{gridSearchLearn}}
 \usage{
-rtset.grid.resample(resampler = "strat.boot", n.resamples = 10,
-  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
-  target.length = NULL, verbose = TRUE)
+rtset.grid.resample(
+  resampler = "strat.boot",
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = 0.75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".

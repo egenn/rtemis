@@ -16,19 +16,32 @@
 
 \method{fitted}{rtMod}(object, ...)
 
-\method{predict}{rtMod}(object, newdata, trace = 0, verbose = TRUE,
-  ...)
+\method{predict}{rtMod}(object, newdata, trace = 0, verbose = TRUE, ...)
 
 \method{residuals}{rtMod}(object, ...)
 
-\method{plot}{rtMod}(x, estimate = NULL,
-  theme = getOption("rt.fit.theme", "lightgrid"), filename = NULL, ...)
+\method{plot}{rtMod}(
+  x,
+  estimate = NULL,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
+  ...
+)
 
-\method{summary}{rtMod}(object, plots = TRUE, cex = 1,
-  fit.true.line = "lm", resid.fit.line = "gam", fit.legend = TRUE,
-  se.fit = TRUE, single.fig = TRUE, summary = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"), title.col = NULL,
-  ...)
+\method{summary}{rtMod}(
+  object,
+  plots = TRUE,
+  cex = 1,
+  fit.true.line = "lm",
+  resid.fit.line = "gam",
+  fit.legend = TRUE,
+  se.fit = TRUE,
+  single.fig = TRUE,
+  summary = TRUE,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  title.col = NULL,
+  ...
+)
 
 \method{coef}{rtMod}(object, verbose = TRUE, ...)
 
@@ -37,7 +50,7 @@
 \arguments{
 \item{...}{Additional arguments to be passed to \link{mplot3}}
 
-\item{object}{\pkg{rtemis} model}
+\item{object}{Trained model of class \code{rtMod}}
 
 \item{newdata}{Testing set features}
 
@@ -62,10 +75,6 @@ Options: \code{modSelect()}}
 \item{summary}{Logical. Should summary be printed? Defaults to TRUE}
 
 \item{title.col}{Color for main title}
-
-\item{object}{Trained model of class \code{rtMod}}
-
-\item{newdata}{Testing set features}
 }
 \description{
 S3 methods for \code{rtMod} class.

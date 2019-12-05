@@ -4,10 +4,23 @@
 \alias{expand.addtboost}
 \title{Expand boosting series}
 \usage{
-expand.addtboost(object, x, y = NULL, x.valid = NULL, y.valid = NULL,
-  resid = NULL, mod.params = NULL, max.iter = 10,
-  learning.rate = NULL, case.p = 1, cxrcoef = FALSE, prefix = NULL,
-  verbose = TRUE, trace = 0, print.error.plot = "final")
+expand.addtboost(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  resid = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  case.p = 1,
+  cxrcoef = FALSE,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final"
+)
 }
 \arguments{
 \item{object}{\link{boost} object}

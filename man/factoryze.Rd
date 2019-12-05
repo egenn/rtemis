@@ -4,13 +4,26 @@
 \alias{factoryze}
 \title{Factor Analysis}
 \usage{
-factoryze(x, n.factors = NULL, method = "minres",
-  rotation = "oblimin", scores = "regression", cor = "cor",
-  fa.n.iter = 100, omega.method = "minres",
-  omega.rotation = c("oblimin", "simplimax", "promax", "cluster",
-  "target"), omega.n.iter = 1, x.name = NULL, print.plot = TRUE,
-  do.pa = TRUE, do.fa = TRUE, do.bifactor = TRUE,
-  do.hclust = FALSE, verbose = TRUE, ...)
+factoryze(
+  x,
+  n.factors = NULL,
+  method = "minres",
+  rotation = "oblimin",
+  scores = "regression",
+  cor = "cor",
+  fa.n.iter = 100,
+  omega.method = "minres",
+  omega.rotation = c("oblimin", "simplimax", "promax", "cluster", "target"),
+  omega.n.iter = 1,
+  x.name = NULL,
+  print.plot = TRUE,
+  do.pa = TRUE,
+  do.fa = TRUE,
+  do.bifactor = TRUE,
+  do.hclust = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Data. Will be coerced to data frame}

@@ -4,10 +4,31 @@
 \alias{x.CCA.permute.both}
 \title{modified PMA:::CCA.permute.both for parallel execution}
 \usage{
-x.CCA.permute.both(x, z, typex, typez, penaltyxs, penaltyzs, niter, v,
-  trace, nperms, standardize, chromx, chromz, upos, uneg, vpos, vneg,
-  outcome, y, cens, verbose = TRUE, n.cores = rtCores,
-  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"))
+x.CCA.permute.both(
+  x,
+  z,
+  typex,
+  typez,
+  penaltyxs,
+  penaltyzs,
+  niter,
+  v,
+  trace,
+  nperms,
+  standardize,
+  chromx,
+  chromz,
+  upos,
+  uneg,
+  vpos,
+  vneg,
+  outcome,
+  y,
+  cens,
+  verbose = TRUE,
+  n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+)
 }
 \description{
 Run PMA::CCA.permute.both permutations in parallel

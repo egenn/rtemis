@@ -4,11 +4,20 @@
 \alias{resample}
 \title{Resampling methods}
 \usage{
-resample(y, n.resamples = 10, resampler = c("strat.sub", "strat.boot",
-  "kfold", "bootstrap", "loocv"), index = NULL, group = NULL,
-  stratify.var = y, train.p = 0.75, strat.n.bins = 4,
-  target.length = NROW(y), rtset = NULL, seed = NULL,
-  verbose = FALSE)
+resample(
+  y,
+  n.resamples = 10,
+  resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
+  index = NULL,
+  group = NULL,
+  stratify.var = y,
+  train.p = 0.75,
+  strat.n.bins = 4,
+  target.length = NROW(y),
+  rtset = NULL,
+  seed = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{y}{Numeric vector. Usually the outcome; \code{length(y)} defines sample size}

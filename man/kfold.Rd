@@ -4,8 +4,14 @@
 \alias{kfold}
 \title{K-fold Resampling}
 \usage{
-kfold(x, k = 10, stratify.var = NULL, strat.n.bins = 4,
-  seed = NULL, verbose = TRUE)
+kfold(
+  x,
+  k = 10,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  seed = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Input Vector}

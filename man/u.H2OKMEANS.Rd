@@ -4,12 +4,23 @@
 \alias{u.H2OKMEANS}
 \title{K-Means Clustering on H2O}
 \usage{
-u.H2OKMEANS(x, x.test = NULL, k = 2, estimate.k = FALSE,
-  nfolds = 0, max.iterations = 10, ip = "localhost", port = 54321,
-  n.cores = rtCores, seed = -1, init = c("Furthest", "Random",
-  "PlusPlus", "User"), categorical.encoding = c("AUTO", "Enum",
-  "OneHotInternal", "OneHotExplicit", "Binary", "Eigen", "LabelEncoder",
-  "SortByResponse", "EnumLimited"), verbose = TRUE, ...)
+u.H2OKMEANS(
+  x,
+  x.test = NULL,
+  k = 2,
+  estimate.k = FALSE,
+  nfolds = 0,
+  max.iterations = 10,
+  ip = "localhost",
+  port = 54321,
+  n.cores = rtCores,
+  seed = -1,
+  init = c("Furthest", "Random", "PlusPlus", "User"),
+  categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit", "Binary",
+    "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input matrix / data.frame}
@@ -55,11 +66,16 @@ e.g. if running on localhost, point your web browser to \code{localhost:54321}
 For additional information, see help on \code{h2o::h2o.kmeans}
 }
 \seealso{
-Other Clustering: \code{\link{u.CMEANS}},
-  \code{\link{u.EMC}}, \code{\link{u.HARDCL}},
-  \code{\link{u.HOPACH}}, \code{\link{u.KMEANS}},
-  \code{\link{u.NGAS}}, \code{\link{u.PAMK}},
-  \code{\link{u.PAM}}, \code{\link{u.SPEC}}
+Other Clustering: 
+\code{\link{u.CMEANS}()},
+\code{\link{u.EMC}()},
+\code{\link{u.HARDCL}()},
+\code{\link{u.HOPACH}()},
+\code{\link{u.KMEANS}()},
+\code{\link{u.NGAS}()},
+\code{\link{u.PAMK}()},
+\code{\link{u.PAM}()},
+\code{\link{u.SPEC}()}
 }
 \author{
 Efstathios D. Gennatas

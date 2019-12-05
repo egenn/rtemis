@@ -4,9 +4,15 @@
 \alias{rtset.resample}
 \title{\code{rtset.resample}: Set \link{resample} settings}
 \usage{
-rtset.resample(resampler = "kfold", n.resamples = 10,
-  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
-  target.length = NULL, seed = NULL)
+rtset.resample(
+  resampler = "kfold",
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = 0.75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  seed = NULL
+)
 }
 \arguments{
 \item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".

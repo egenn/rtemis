@@ -4,10 +4,20 @@
 \alias{printdf}
 \title{Print data frame}
 \usage{
-printdf(x, pad = 0, spacing = 1, ddSci.dp = NULL,
-  transpose = FALSE, justify = "right", colnames = TRUE,
-  rownames = TRUE, column.col = rtHighlight$bold, row.col = silver,
-  newline.pre = FALSE, newline = FALSE)
+printdf(
+  x,
+  pad = 0,
+  spacing = 1,
+  ddSci.dp = NULL,
+  transpose = FALSE,
+  justify = "right",
+  colnames = TRUE,
+  rownames = TRUE,
+  column.col = rtHighlight$bold,
+  row.col = silver,
+  newline.pre = FALSE,
+  newline = FALSE
+)
 }
 \arguments{
 \item{x}{data frame}

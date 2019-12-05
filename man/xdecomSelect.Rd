@@ -22,8 +22,9 @@ Accepts decomposer name (supports abbreviations) and returns \pkg{rtemis} functi
   If run with no parameters, prints list of available algorithms.
 }
 \seealso{
-Other Cross-Decomposition: \code{\link{x.CCA}},
-  \code{\link{x.SD2RES}}
+Other Cross-Decomposition: 
+\code{\link{x.CCA}()},
+\code{\link{x.SD2RES}()}
 }
 \author{
 Efstathios D. Gennatas

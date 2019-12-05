@@ -4,9 +4,15 @@
 \alias{rtlayout}
 \title{Creat multipanel plots with the \code{mplot3} family}
 \usage{
-rtlayout(nrows = NULL, ncols = NULL, byrow = FALSE,
-  autolabel = FALSE, pdf.width = NULL, pdf.height = NULL,
-  filename = NULL)
+rtlayout(
+  nrows = NULL,
+  ncols = NULL,
+  byrow = FALSE,
+  autolabel = FALSE,
+  pdf.width = NULL,
+  pdf.height = NULL,
+  filename = NULL
+)
 }
 \arguments{
 \item{nrows}{Integer: N of rows}

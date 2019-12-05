@@ -4,9 +4,15 @@
 \alias{intro}
 \title{\code{rtemis-internals}: \code{intro}}
 \usage{
-intro(message = NULL, verbose = TRUE, as.message = FALSE,
-  color = silver, logFile = NULL, call.depth = 1,
-  newline.pre = FALSE)
+intro(
+  message = NULL,
+  verbose = TRUE,
+  as.message = FALSE,
+  color = silver,
+  logFile = NULL,
+  call.depth = 1,
+  newline.pre = FALSE
+)
 }
 \description{
 Intro

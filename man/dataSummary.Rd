@@ -4,8 +4,7 @@
 \alias{dataSummary}
 \title{\code{rtemis-internals}: \code{dataSummary}}
 \usage{
-dataSummary(x, y, x.test = NULL, y.test = NULL, type = NULL,
-  testSet = TRUE)
+dataSummary(x, y, x.test = NULL, y.test = NULL, type = NULL, testSet = TRUE)
 }
 \description{
 Print input data dimensions and test dimensions match

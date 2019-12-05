@@ -4,8 +4,17 @@
 \alias{d.NMF}
 \title{Non-negative Matrix Factorization (NMF)}
 \usage{
-d.NMF(x, x.test = NULL, k = 2, method = "brunet", nrun = 30,
-  scale = TRUE, center = FALSE, verbose = TRUE, ...)
+d.NMF(
+  x,
+  x.test = NULL,
+  k = 2,
+  method = "brunet",
+  nrun = 30,
+  scale = TRUE,
+  center = FALSE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -40,13 +49,20 @@ and p represents number of features.
 NMF will be applied to the transpose of the n x p matrix.
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.ISOMAP}},
-  \code{\link{d.KPCA}}, \code{\link{d.LLE}},
-  \code{\link{d.MDS}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

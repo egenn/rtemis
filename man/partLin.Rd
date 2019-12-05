@@ -4,9 +4,18 @@
 \alias{partLin}
 \title{\pkg{rtemis} internal: Ridge and Stump}
 \usage{
-partLin(x1, y1, lincoef.params = rtset.lincoef(), part.minsplit = 2,
-  part.xval = 0, part.max.depth = 1, part.cp = 0,
-  minobsinnode.lin = 5, verbose = TRUE, trace = 0)
+partLin(
+  x1,
+  y1,
+  lincoef.params = rtset.lincoef(),
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  minobsinnode.lin = 5,
+  verbose = TRUE,
+  trace = 0
+)
 }
 \description{
 Fit a linear model on (x, y) and a tree on the residual yhat - y

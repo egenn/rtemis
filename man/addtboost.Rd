@@ -4,13 +4,30 @@
 \alias{addtboost}
 \title{\pkg{rtemis} internal: Gradient Boosting of Additive Trees}
 \usage{
-addtboost(x, y, x.valid = NULL, y.valid = NULL, resid = NULL,
-  boost.obj = NULL, mod.params = list(), case.p = 1,
-  learning.rate = 0.1, max.iter = 10, init = mean(y),
-  cxrcoef = FALSE, print.progress.every = 5,
-  print.error.plot = "final", base.verbose = FALSE, verbose = TRUE,
-  trace = 0, prefix = NULL, print.plot = TRUE,
-  plot.theme = "darkgrid", plot.type = "l", ...)
+addtboost(
+  x,
+  y,
+  x.valid = NULL,
+  y.valid = NULL,
+  resid = NULL,
+  boost.obj = NULL,
+  mod.params = list(),
+  case.p = 1,
+  learning.rate = 0.1,
+  max.iter = 10,
+  init = mean(y),
+  cxrcoef = FALSE,
+  print.progress.every = 5,
+  print.error.plot = "final",
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  prefix = NULL,
+  print.plot = TRUE,
+  plot.theme = "darkgrid",
+  plot.type = "l",
+  ...
+)
 }
 \arguments{
 \item{x}{Data frame: Input features}

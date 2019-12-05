@@ -5,15 +5,14 @@
 \alias{rtClust-class}
 \alias{rtClust}
 \title{R6 class for \pkg{rtemis} clustering}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtClust
-}
 \description{
 \pkg{rtemis} clustering object
 }
-\section{Fields}{
-
+\author{
+Efstathios D. Gennatas
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{clust.name}}{Character: Name of clustering algorithm}
 
@@ -28,9 +27,63 @@ rtClust
 \item{\code{clusters.test}}{Cluster assignment for testing set (if supported by algorithm and test set provided)}
 
 \item{\code{extra}}{List: Algorithm-specific output}
-}}
-
-\author{
-Efstathios D. Gennatas
 }
-\keyword{datasets}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{call}}{Originating call}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtClust$new()}}
+\item \href{#method-print}{\code{rtClust$print()}}
+\item \href{#method-clone}{\code{rtClust$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtClust$new(
+  clust.name = character(),
+  k = NULL,
+  xnames = character(),
+  clust = list(),
+  clusters.train = numeric(),
+  clusters.test = numeric(),
+  parameters = list(),
+  extra = list()
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtClust$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtClust$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

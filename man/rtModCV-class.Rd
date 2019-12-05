@@ -5,15 +5,11 @@
 \alias{rtModCV-class}
 \alias{rtModCV}
 \title{\pkg{rtemis} Cross-Validated Supervised Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtModCV
-}
 \description{
 R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 }
-\section{Fields}{
-
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{mod.name}}{Model (algorithm) name}
 
@@ -49,6 +45,161 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \item{\code{question}}{Question the model is hoping to answer}
 
 \item{\code{extra}}{Algorithm-specific output}
-}}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{y.test}}{Testing set y data}
 
-\keyword{datasets}
+\item{\code{resampler}}{List of settings for \link{resample}. Set using \link{rtset.cv.resample}}
+
+\item{\code{fitted}}{Fitted values}
+
+\item{\code{se.fit}}{Standard error of the fit}
+
+\item{\code{error.train}}{Training error}
+
+\item{\code{predicted}}{Predicted values}
+
+\item{\code{se.prediction}}{Standard error of the prediction}
+
+\item{\code{error.test}}{Testing error}
+
+\item{\code{extra}}{Algorithm-specific output}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtModCV$new()}}
+\item \href{#method-print}{\code{rtModCV$print()}}
+\item \href{#method-plot}{\code{rtModCV$plot()}}
+\item \href{#method-plotPredicted}{\code{rtModCV$plotPredicted()}}
+\item \href{#method-plotFitted}{\code{rtModCV$plotFitted()}}
+\item \href{#method-plotVarImp}{\code{rtModCV$plotVarImp()}}
+\item \href{#method-describe}{\code{rtModCV$describe()}}
+\item \href{#method-clone}{\code{rtModCV$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$new(
+  mod = NULL,
+  mod.name = NULL,
+  type = NULL,
+  y.train = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  xnames = NULL,
+  parameters = NULL,
+  n.repeats = NULL,
+  resampler.params = NULL,
+  resamples = NULL,
+  y.train.res = NULL,
+  y.train.res.aggr = NULL,
+  fitted.res = NULL,
+  fitted.res.aggr = NULL,
+  error.train.res = NULL,
+  error.train.res.mean = NULL,
+  error.train.res.aggr = NULL,
+  error.train.repeats = NULL,
+  error.train.repeats.mean = NULL,
+  error.train.repeats.sd = NULL,
+  y.test.res = NULL,
+  y.test.res.aggr = NULL,
+  predicted.res = NULL,
+  predicted.res.aggr = NULL,
+  error.test.res = NULL,
+  error.test.res.mean = NULL,
+  error.test.res.aggr = NULL,
+  error.test.repeats = NULL,
+  error.test.repeats.mean = NULL,
+  error.test.repeats.sd = NULL,
+  fitted.bag = NULL,
+  error.bag = NULL,
+  varimp = NULL,
+  question = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\subsection{Method \code{plot()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plot(which.repeat = 1, ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotPredicted"></a>}}
+\subsection{Method \code{plotPredicted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotPredicted(
+  which.repeat = 1,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotFitted"></a>}}
+\subsection{Method \code{plotFitted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotFitted(
+  which.repeat = 1,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotVarImp"></a>}}
+\subsection{Method \code{plotVarImp()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(which.repeat = 1, plot.top = 12, ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-describe"></a>}}
+\subsection{Method \code{describe()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$describe()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

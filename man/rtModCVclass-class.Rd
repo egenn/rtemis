@@ -5,11 +5,145 @@
 \alias{rtModCVclass-class}
 \alias{rtModCVclass}
 \title{\pkg{rtemis} Cross-Validated Classification Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtModCVclass
-}
 \description{
 R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
-\keyword{datasets}
+\section{Super class}{
+\code{\link[rtemis:rtModCV]{rtemis::rtModCV}} -> \code{rtModCVclass}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtModCVclass$new()}}
+\item \href{#method-plotROC}{\code{rtModCVclass$plotROC()}}
+\item \href{#method-plotROCfitted}{\code{rtModCVclass$plotROCfitted()}}
+\item \href{#method-plotROCpredicted}{\code{rtModCVclass$plotROCpredicted()}}
+\item \href{#method-plotPR}{\code{rtModCVclass$plotPR()}}
+\item \href{#method-plotPRfitted}{\code{rtModCVclass$plotPRfitted()}}
+\item \href{#method-plotPRpredicted}{\code{rtModCVclass$plotPRpredicted()}}
+\item \href{#method-clone}{\code{rtModCVclass$clone()}}
+}
+}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="describe">}\href{../../rtemis/html/rtModCV.html#method-describe}{\code{rtemis::rtModCV$describe()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plot">}\href{../../rtemis/html/rtModCV.html#method-plot}{\code{rtemis::rtModCV$plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotFitted">}\href{../../rtemis/html/rtModCV.html#method-plotFitted}{\code{rtemis::rtModCV$plotFitted()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotPredicted">}\href{../../rtemis/html/rtModCV.html#method-plotPredicted}{\code{rtemis::rtModCV$plotPredicted()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotVarImp">}\href{../../rtemis/html/rtModCV.html#method-plotVarImp}{\code{rtemis::rtModCV$plotVarImp()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="print">}\href{../../rtemis/html/rtModCV.html#method-print}{\code{rtemis::rtModCV$print()}}\out{</span>}
+}
+\out{</details>}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$new(
+  mod = NULL,
+  mod.name = NULL,
+  type = NULL,
+  y.train = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  xnames = NULL,
+  parameters = NULL,
+  n.repeats = NULL,
+  resampler.params = NULL,
+  resamples = NULL,
+  y.train.res = NULL,
+  y.train.res.aggr = NULL,
+  fitted.res = NULL,
+  fitted.res.aggr = NULL,
+  fitted.prob.aggr = NULL,
+  error.train.res = NULL,
+  error.train.res.mean = NULL,
+  error.train.res.aggr = NULL,
+  error.train.repeats = NULL,
+  error.train.repeats.mean = NULL,
+  error.train.repeats.sd = NULL,
+  y.test.res = NULL,
+  y.test.res.aggr = NULL,
+  predicted.res = NULL,
+  predicted.res.aggr = NULL,
+  predicted.prob.aggr = NULL,
+  error.test.res = NULL,
+  error.test.res.mean = NULL,
+  error.test.res.aggr = NULL,
+  error.test.repeats = NULL,
+  error.test.repeats.mean = NULL,
+  error.test.repeats.sd = NULL,
+  fitted.bag = NULL,
+  error.bag = NULL,
+  varimp = NULL,
+  question = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotROC"></a>}}
+\subsection{Method \code{plotROC()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROC(which.repeat = 1, ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotROCfitted"></a>}}
+\subsection{Method \code{plotROCfitted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCfitted(which.repeat = 1, main = "ROC Training", ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotROCpredicted"></a>}}
+\subsection{Method \code{plotROCpredicted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCpredicted(which.repeat = 1, main = "ROC Testing", ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotPR"></a>}}
+\subsection{Method \code{plotPR()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPR(which.repeat = 1, ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotPRfitted"></a>}}
+\subsection{Method \code{plotPRfitted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRfitted(which.repeat = 1, main = "P-R Training", ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotPRpredicted"></a>}}
+\subsection{Method \code{plotPRpredicted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRpredicted(which.repeat = 1, main = "P-R Testing", ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

@@ -4,9 +4,16 @@
 \alias{predict.glmLiteBoostTV}
 \title{Predict method for \code{glmLiteBoostTV} object}
 \usage{
-\method{predict}{glmLiteBoostTV}(object, newdata = NULL,
-  n.feat = NCOL(newdata), n.iter = NULL, as.matrix = FALSE,
-  verbose = FALSE, n.cores = rtCores, ...)
+\method{predict}{glmLiteBoostTV}(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  as.matrix = FALSE,
+  verbose = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{glmLiteBoostTV} object}

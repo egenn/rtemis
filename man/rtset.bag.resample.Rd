@@ -4,9 +4,15 @@
 \alias{rtset.bag.resample}
 \title{\code{rtset.bag.resample}: \link{resample} defaults for \code{rtMod} bagging}
 \usage{
-rtset.bag.resample(resampler = "strat.sub", n.resamples = 10,
-  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
-  target.length = NULL, verbose = TRUE)
+rtset.bag.resample(
+  resampler = "strat.sub",
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = 0.75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".

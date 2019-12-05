@@ -4,11 +4,22 @@
 \alias{mplot3.decision}
 \title{\code{mplot3}: Decision boundaries}
 \usage{
-mplot3.decision(rtmod, data, vars = c(1, 2), dots.per.axis = 100,
-  bg.cex = 0.5, bg.alpha = 0.2, bg.pch = 15, par.reset = TRUE,
-  theme = "light", col = c("#18A3AC", "#F48024"),
-  contour.col = "black", contour.lwd = 0.3, point.pch = c(3, 4),
-  point.alpha = 1)
+mplot3.decision(
+  rtmod,
+  data,
+  vars = c(1, 2),
+  dots.per.axis = 100,
+  bg.cex = 0.5,
+  bg.alpha = 0.2,
+  bg.pch = 15,
+  par.reset = TRUE,
+  theme = "light",
+  col = c("#18A3AC", "#F48024"),
+  contour.col = "black",
+  contour.lwd = 0.3,
+  point.pch = c(3, 4),
+  point.alpha = 1
+)
 }
 \arguments{
 \item{rtmod}{rtemics trained model}

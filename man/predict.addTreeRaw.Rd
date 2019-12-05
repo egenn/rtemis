@@ -4,9 +4,18 @@
 \alias{predict.addTreeRaw}
 \title{Predict method for \code{addTreeLite} object}
 \usage{
-\method{predict}{addTreeRaw}(object, newdata, n.feat = NCOL(newdata),
-  fixed.cxr = NULL, cxr.newdata = NULL, cxr = FALSE,
-  cxrcoef = FALSE, verbose = FALSE, trace = 0, ...)
+\method{predict}{addTreeRaw}(
+  object,
+  newdata,
+  n.feat = NCOL(newdata),
+  fixed.cxr = NULL,
+  cxr.newdata = NULL,
+  cxr = FALSE,
+  cxrcoef = FALSE,
+  verbose = FALSE,
+  trace = 0,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{addTreeRaw}}

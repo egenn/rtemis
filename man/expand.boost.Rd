@@ -4,11 +4,26 @@
 \alias{expand.boost}
 \title{Expand boosting series}
 \usage{
-expand.boost(object, x, y = NULL, x.valid = NULL, y.valid = NULL,
-  x.test = NULL, y.test = NULL, mod = NULL, resid = NULL,
-  mod.params = NULL, max.iter = 10, learning.rate = NULL,
-  case.p = 1, prefix = NULL, verbose = TRUE, trace = 0,
-  print.error.plot = "final", print.plot = FALSE)
+expand.boost(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  mod = NULL,
+  resid = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  case.p = 1,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final",
+  print.plot = FALSE
+)
 }
 \arguments{
 \item{object}{\link{boost} object}

@@ -4,18 +4,38 @@
 \alias{metaMod}
 \title{Meta Models for Regression (Model Stacking)}
 \usage{
-metaMod(x, y = NULL, x.test = NULL, y.test = NULL,
-  base.mods = c("mars", "ranger"), base.params = vector("list",
-  length(base.mods)), base.resample.rtset = rtset.resample(resampler =
-  "kfold", n.resamples = 4), meta.mod = "gam", meta.params = list(),
-  x.name = NULL, y.name = NULL, save.base.res = TRUE,
-  save.base.full = FALSE, col = NULL, se.lty = 3,
-  print.base.plot = FALSE, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), question = NULL, verbose.base.res.mods = FALSE,
-  verbose.base.mods = FALSE, verbose = TRUE, trace = 0,
-  base.n.cores = 1, n.cores = rtCores, save.mod = FALSE,
-  outdir = NULL, ...)
+metaMod(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  base.mods = c("mars", "ranger"),
+  base.params = vector("list", length(base.mods)),
+  base.resample.rtset = rtset.resample(resampler = "kfold", n.resamples = 4),
+  meta.mod = "gam",
+  meta.params = list(),
+  x.name = NULL,
+  y.name = NULL,
+  save.base.res = TRUE,
+  save.base.full = FALSE,
+  col = NULL,
+  se.lty = 3,
+  print.base.plot = FALSE,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  question = NULL,
+  verbose.base.res.mods = FALSE,
+  verbose.base.mods = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  base.n.cores = 1,
+  n.cores = rtCores,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix of features, i.e. independent variables}

@@ -4,8 +4,15 @@
 \alias{varSelect}
 \title{Variable Selection by Variable Importace}
 \usage{
-varSelect(x, y, method = c("RANGER", "XGBLIN"), xgb.params = list(alpha
-  = 0.1, lambda = 0.1), p = 0.2, print.plot = TRUE, verbose = TRUE)
+varSelect(
+  x,
+  y,
+  method = c("RANGER", "XGBLIN"),
+  xgb.params = list(alpha = 0.1, lambda = 0.1),
+  p = 0.2,
+  print.plot = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Matrix / Data Frame of Predictors}

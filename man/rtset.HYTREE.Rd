@@ -4,9 +4,16 @@
 \alias{rtset.HYTREE}
 \title{\code{rtset.ADDT}: Set parameters for \link{s.HYTREE}}
 \usage{
-rtset.HYTREE(max.depth = 2, learning.rate = 1,
-  lincoef.params = rtset.lincoef("glmnet"), alpha = 0, lambda = 0.1,
-  minobsinnode = 2, minobsinnode.lin = 20, ...)
+rtset.HYTREE(
+  max.depth = 2,
+  learning.rate = 1,
+  lincoef.params = rtset.lincoef("glmnet"),
+  alpha = 0,
+  lambda = 0.1,
+  minobsinnode = 2,
+  minobsinnode.lin = 20,
+  ...
+)
 }
 \arguments{
 \item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}

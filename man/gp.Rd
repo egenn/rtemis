@@ -4,8 +4,18 @@
 \alias{gp}
 \title{Bayesian Gaussian Processes [R]}
 \usage{
-gp(x, y, new.x = NULL, x.name = "x", y.name = "y",
-  print.plot = TRUE, lwd = 3, cex = 1.2, par.reset = TRUE, ...)
+gp(
+  x,
+  y,
+  new.x = NULL,
+  x.name = "x",
+  y.name = "y",
+  print.plot = TRUE,
+  lwd = 3,
+  cex = 1.2,
+  par.reset = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix of features, i.e. independent variables}

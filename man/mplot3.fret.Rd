@@ -4,11 +4,16 @@
 \alias{mplot3.fret}
 \title{\code{mplot3}: Guitar Fretboard}
 \usage{
-mplot3.fret(theme = c("light", "dark"), useSharps = FALSE,
+mplot3.fret(
+  theme = c("light", "dark"),
+  useSharps = FALSE,
   strings.col = ifelse(theme == "light", "black", "white"),
   frets.col = ifelse(theme == "light", "black", "white"),
-  inlays = TRUE, inlays.col = ifelse(theme == "light", "gray80",
-  "gray20"), inlays.cex = 2, par.reset = TRUE)
+  inlays = TRUE,
+  inlays.col = ifelse(theme == "light", "gray80", "gray20"),
+  inlays.cex = 2,
+  par.reset = TRUE
+)
 }
 \arguments{
 \item{theme}{Character: "light" or "dark"}

@@ -4,9 +4,18 @@
 \alias{d.ICA}
 \title{Independent Component Analysis}
 \usage{
-d.ICA(x, k = 3, package = c("fastICA", "ica"), alg.type = "parallel",
-  maxit = 100, scale = TRUE, center = TRUE, verbose = TRUE,
-  trace = 0, ...)
+d.ICA(
+  x,
+  k = 3,
+  package = c("fastICA", "ica"),
+  alg.type = "parallel",
+  maxit = 100,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  trace = 0,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -47,13 +56,20 @@ fastICA will be applied to the transpose of the n x p matrix.
 fastICA will fail if there are any NA values or constant features: remove them using \link{preprocess}
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ISOMAP}}, \code{\link{d.KPCA}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

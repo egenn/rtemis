@@ -4,9 +4,22 @@
 \alias{cartLite}
 \title{Bare bones decision tree derived from \code{rpart}}
 \usage{
-cartLite(x, y, weights = NULL, minsplit = 2, minbucket = 1, cp = 0,
-  maxcompete = 0, usesurrogate = 2, surrogatestyle = 0,
-  maxdepth = 3, xval = 0, save.fitted = FALSE, trace = 0, ...)
+cartLite(
+  x,
+  y,
+  weights = NULL,
+  minsplit = 2,
+  minbucket = 1,
+  cp = 0,
+  maxcompete = 0,
+  usesurrogate = 2,
+  surrogatestyle = 0,
+  maxdepth = 3,
+  xval = 0,
+  save.fitted = FALSE,
+  trace = 0,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

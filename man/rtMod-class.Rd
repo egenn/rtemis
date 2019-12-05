@@ -5,10 +5,6 @@
 \alias{rtMod-class}
 \alias{rtMod}
 \title{\pkg{rtemis} Supervised Model Class}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtMod
-}
 \description{
 R6 Class for \pkg{rtemis} Supervised Models
 }
@@ -23,8 +19,11 @@ The validation set is used during model tuning. Within rtemis, validation sets a
 created automatically by \link{resample} when appropriate, they are not generally
 input by the user, with few exceptions, as documented in individual functions.
 }
-\section{Fields}{
-
+\author{
+Efstathios D. Gennatas
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{mod.name}}{Learner algorithm name}
 
@@ -61,9 +60,166 @@ input by the user, with few exceptions, as documented in individual functions.
 \item{\code{extra}}{Algorithm-specific output}
 
 \item{\code{sessionInfo}}{The output of \code{sessionInfo()} at the time the model was trained}
-}}
-
-\author{
-Efstathios D. Gennatas
 }
-\keyword{datasets}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtMod$new()}}
+\item \href{#method-print}{\code{rtMod$print()}}
+\item \href{#method-plot}{\code{rtMod$plot()}}
+\item \href{#method-plotFitted}{\code{rtMod$plotFitted()}}
+\item \href{#method-plotPredicted}{\code{rtMod$plotPredicted()}}
+\item \href{#method-plotFittedPredicted}{\code{rtMod$plotFittedPredicted()}}
+\item \href{#method-plotVarImp}{\code{rtMod$plotVarImp()}}
+\item \href{#method-summary}{\code{rtMod$summary()}}
+\item \href{#method-describe}{\code{rtMod$describe()}}
+\item \href{#method-clone}{\code{rtMod$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$new(
+  mod.name = character(),
+  y.train = numeric(),
+  y.test = numeric(),
+  x.name = character(),
+  y.name = character(),
+  xnames = character(),
+  mod = list(),
+  type = character(),
+  parameters = list(),
+  fitted = numeric(),
+  se.fit = NULL,
+  error.train = list(),
+  predicted = NULL,
+  se.prediction = NULL,
+  error.test = NULL,
+  varimp = NULL,
+  question = character(),
+  extra = list(),
+  sessionInfo = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\subsection{Method \code{plot()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
+  estimate = NULL,
+  filename = NULL,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotFitted"></a>}}
+\subsection{Method \code{plotFitted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
+  print.plot = TRUE,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotPredicted"></a>}}
+\subsection{Method \code{plotPredicted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
+  print.plot = TRUE,
+  filename = NULL,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotFittedPredicted"></a>}}
+\subsection{Method \code{plotFittedPredicted()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFittedPredicted(
+  print.plot = TRUE,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plotVarImp"></a>}}
+\subsection{Method \code{plotVarImp()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
+  plot.top = 12,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-summary"></a>}}
+\subsection{Method \code{summary()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$summary(
+  plots = TRUE,
+  cex = 1,
+  fit.true.line = "lm",
+  resid.fit.line = "gam",
+  fit.legend = TRUE,
+  se.fit = TRUE,
+  single.fig = TRUE,
+  summary = TRUE,
+  theme = getOption("rt.fit.theme", "lightgrid"),
+  title.col = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-describe"></a>}}
+\subsection{Method \code{describe()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$describe()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

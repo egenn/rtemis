@@ -4,15 +4,39 @@
 \alias{mplot3.xym}
 \title{\code{mplot3} Scatter plot with marginal density and/or histogram}
 \usage{
-mplot3.xym(x, y, margin = c("histogram", "density", "both"),
-  fit = "gam", se.fit = TRUE, xlim = NULL, ylim = NULL,
-  col = "#18A3AC", density.alpha = 0.66, hist.breaks = 30,
-  hist.alpha = 0.66, hist.space = 0.05, hist.lwd = 3, lwd = 4,
-  main = NULL, main.adj = 0, axes.density = FALSE, pty = "m",
-  mar = c(3, 3, 0, 0), mar.mar = 0.2, axes = TRUE, xaxs = "r",
-  yaxs = "r", theme = getOption("rt.theme", "lightgrid"),
-  par.reset = TRUE, widths = c(5, 1), heights = c(1, 5),
-  filename = NULL, pdf.width = 7, pdf.height = 7, ...)
+mplot3.xym(
+  x,
+  y,
+  margin = c("histogram", "density", "both"),
+  fit = "gam",
+  se.fit = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  col = "#18A3AC",
+  density.alpha = 0.66,
+  hist.breaks = 30,
+  hist.alpha = 0.66,
+  hist.space = 0.05,
+  hist.lwd = 3,
+  lwd = 4,
+  main = NULL,
+  main.adj = 0,
+  axes.density = FALSE,
+  pty = "m",
+  mar = c(3, 3, 0, 0),
+  mar.mar = 0.2,
+  axes = TRUE,
+  xaxs = "r",
+  yaxs = "r",
+  theme = getOption("rt.theme", "lightgrid"),
+  par.reset = TRUE,
+  widths = c(5, 1),
+  heights = c(1, 5),
+  filename = NULL,
+  pdf.width = 7,
+  pdf.height = 7,
+  ...
+)
 }
 \arguments{
 \item{x}{x-data}

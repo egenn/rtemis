@@ -4,15 +4,33 @@
 \alias{d.H2OAE}
 \title{Autoencoder using H2O}
 \usage{
-d.H2OAE(x, x.test = NULL, x.valid = NULL, ip = "localhost",
-  port = 54321, n.hidden.nodes = c(ncol(x), 3, ncol(x)),
-  extract.layer = ceiling(length(n.hidden.nodes)/2), epochs = 5000,
-  activation = "Tanh", loss = "Automatic", input.dropout.ratio = 0,
+d.H2OAE(
+  x,
+  x.test = NULL,
+  x.valid = NULL,
+  ip = "localhost",
+  port = 54321,
+  n.hidden.nodes = c(ncol(x), 3, ncol(x)),
+  extract.layer = ceiling(length(n.hidden.nodes)/2),
+  epochs = 5000,
+  activation = "Tanh",
+  loss = "Automatic",
+  input.dropout.ratio = 0,
   hidden.dropout.ratios = rep(0, length(n.hidden.nodes)),
-  learning.rate = 0.005, learning.rate.annealing = 1e-06, l1 = 0,
-  l2 = 0, stopping.rounds = 50, stopping.metric = "AUTO",
-  scale = TRUE, center = TRUE, n.cores = rtCores, verbose = TRUE,
-  save.mod = FALSE, outdir = NULL, ...)
+  learning.rate = 0.005,
+  learning.rate.annealing = 1e-06,
+  l1 = 0,
+  l2 = 0,
+  stopping.rounds = 50,
+  stopping.metric = "AUTO",
+  scale = TRUE,
+  center = TRUE,
+  n.cores = rtCores,
+  verbose = TRUE,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Vector / Matrix / Data Frame: Training set Predictors}
@@ -87,17 +105,26 @@ e.g. if running on localhost, point your web browser to \code{localhost:54321}
 \seealso{
 \link{decom}
 
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OGLRM}}, \code{\link{d.ICA}},
-  \code{\link{d.ISOMAP}}, \code{\link{d.KPCA}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 
-Other Deep Learning: \code{\link{p.MXINCEPTION}},
-  \code{\link{s.H2ODL}}, \code{\link{s.MXN}},
-  \code{\link{s.TFN}}
+Other Deep Learning: 
+\code{\link{p.MXINCEPTION}()},
+\code{\link{s.H2ODL}()},
+\code{\link{s.MXN}()},
+\code{\link{s.TFN}()}
 }
 \author{
 Efstathios D. Gennatas

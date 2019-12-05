@@ -5,13 +5,28 @@
 \alias{msg0}
 \title{Message with provenance}
 \usage{
-msg(..., date = TRUE, call.depth = 1, caller.id = 1,
-  newline = FALSE, newline.pre = FALSE, as.message = FALSE,
-  color = NULL, sep = " ")
+msg(
+  ...,
+  date = TRUE,
+  call.depth = 1,
+  caller.id = 1,
+  newline = FALSE,
+  newline.pre = FALSE,
+  as.message = FALSE,
+  color = NULL,
+  sep = " "
+)
 
-msg0(..., date = TRUE, call.depth = 1, caller.id = 1,
-  newline = FALSE, newline.pre = FALSE, as.message = FALSE,
-  color = NULL)
+msg0(
+  ...,
+  date = TRUE,
+  call.depth = 1,
+  caller.id = 1,
+  newline = FALSE,
+  newline.pre = FALSE,
+  as.message = FALSE,
+  color = NULL
+)
 }
 \arguments{
 \item{...}{Message to print}

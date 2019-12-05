@@ -4,12 +4,23 @@
 \alias{synthMultiModal}
 \title{Create "Multimodal" Synthetic Data}
 \usage{
-synthMultiModal(n.cases = 10000, init.fn = "runifmat",
-  init.fn.params = list(min = -10, max = 10), n.groups = 4,
+synthMultiModal(
+  n.cases = 10000,
+  init.fn = "runifmat",
+  init.fn.params = list(min = -10, max = 10),
+  n.groups = 4,
   n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
-  contrib.p = 0.33, linear.p = 0.66, square.p = 0.1, atan.p = 0.1,
-  pair.multiply.p = 0.05, pair.square.p = 0.05, pair.atan.p = 0.05,
-  verbose = TRUE, seed = NULL, filename = NULL)
+  contrib.p = 0.33,
+  linear.p = 0.66,
+  square.p = 0.1,
+  atan.p = 0.1,
+  pair.multiply.p = 0.05,
+  pair.square.p = 0.05,
+  pair.atan.p = 0.05,
+  verbose = TRUE,
+  seed = NULL,
+  filename = NULL
+)
 }
 \arguments{
 \item{n.cases}{Integer: Number of cases to create. Default = 10000}

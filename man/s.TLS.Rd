@@ -4,11 +4,24 @@
 \alias{s.TLS}
 \title{Total Least Squares Regression [R]}
 \usage{
-s.TLS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = "x",
-  y.name = "y", print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
-  outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...)
+s.TLS(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = "x",
+  y.name = "y",
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  question = NULL,
+  rtclass = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

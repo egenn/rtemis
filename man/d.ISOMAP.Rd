@@ -4,9 +4,16 @@
 \alias{d.ISOMAP}
 \title{Isomap}
 \usage{
-d.ISOMAP(x, k = 2, dist.method = "euclidean", nsd = 0,
-  path = c("shortest", "extended"), verbose = TRUE,
-  n.cores = rtCores, ...)
+d.ISOMAP(
+  x,
+  k = 2,
+  dist.method = "euclidean",
+  nsd = 0,
+  path = c("shortest", "extended"),
+  verbose = TRUE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{x}{Input data}
@@ -39,13 +46,20 @@ and p represents number of features.
 ISOMAP will be applied to the transpose of the n x p matrix.
 }
 \seealso{
-Other Decomposition: \code{\link{d.CUR}},
-  \code{\link{d.H2OAE}}, \code{\link{d.H2OGLRM}},
-  \code{\link{d.ICA}}, \code{\link{d.KPCA}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.CUR}()},
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

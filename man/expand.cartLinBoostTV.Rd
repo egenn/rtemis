@@ -4,12 +4,29 @@
 \alias{expand.cartLinBoostTV}
 \title{Expand boosting series}
 \usage{
-expand.cartLinBoostTV(object, x, y = NULL, x.valid = NULL,
-  y.valid = NULL, x.test = NULL, y.test = NULL, resid = NULL,
-  cart.params = NULL, glm.params = NULL, mod.params = NULL,
-  max.iter = 10, learning.rate = NULL, weights.p = 1,
-  weights.0 = 0, seed = NULL, prefix = NULL, verbose = TRUE,
-  trace = 0, print.error.plot = "final", print.plot = FALSE)
+expand.cartLinBoostTV(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  resid = NULL,
+  cart.params = NULL,
+  glm.params = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  weights.p = 1,
+  weights.0 = 0,
+  seed = NULL,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final",
+  print.plot = FALSE
+)
 }
 \arguments{
 \item{object}{\link{cartLinBoostTV} object}

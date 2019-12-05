@@ -4,9 +4,20 @@
 \alias{learn}
 \title{Supervised Learning with \pkg{rtemis}}
 \usage{
-learn(x, y = NULL, mod = "ppr", x.test = NULL, y.test = NULL,
-  x.name = NULL, y.name = NULL, args = list(), question = NULL,
-  verbose = TRUE, print.plot = TRUE, ...)
+learn(
+  x,
+  y = NULL,
+  mod = "ppr",
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  args = list(),
+  question = NULL,
+  verbose = TRUE,
+  print.plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

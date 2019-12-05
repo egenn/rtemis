@@ -4,9 +4,19 @@
 \alias{mplot3.prp}
 \title{Plot CART Decision Tree}
 \usage{
-mplot3.prp(object, type = 0, extra = "auto", branch.lty = 1,
-  under = FALSE, fallen.leaves = TRUE, palette = NULL,
-  filename = NULL, pdf.width = 7, pdf.height = 5, ...)
+mplot3.prp(
+  object,
+  type = 0,
+  extra = "auto",
+  branch.lty = 1,
+  under = FALSE,
+  fallen.leaves = TRUE,
+  palette = NULL,
+  filename = NULL,
+  pdf.width = 7,
+  pdf.height = 5,
+  ...
+)
 }
 \arguments{
 \item{object}{Output of \link{s.CART}}

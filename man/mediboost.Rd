@@ -4,12 +4,24 @@
 \alias{mediboost}
 \title{MediBoost}
 \usage{
-mediboost(x, y, catPredictors = NULL, depthLimit = 8,
-  learningRate = 1, gamma = 0, update = "exponential",
+mediboost(
+  x,
+  y,
+  catPredictors = NULL,
+  depthLimit = 8,
+  learningRate = 1,
+  gamma = 0,
+  update = "exponential",
   min.update = ifelse(update == "polynomial", 10, 1000),
-  weights = NULL, autoweights = FALSE, min.hessian = 0.01,
-  min.membership = 0, steps.past.min.membership = 2,
-  save.rpart = FALSE, verbose = TRUE, trace = 1)
+  weights = NULL,
+  autoweights = FALSE,
+  min.hessian = 0.01,
+  min.membership = 0,
+  steps.past.min.membership = 2,
+  save.rpart = FALSE,
+  verbose = TRUE,
+  trace = 1
+)
 }
 \arguments{
 \item{x}{Matrix / Data frame of features}

@@ -4,8 +4,15 @@
 \alias{update.glmLiteBoostTV}
 \title{\pkg{rtemis} internals: Update \link{glmLiteBoostTV} object's fitted values}
 \usage{
-\method{update}{glmLiteBoostTV}(object, x = NULL, x.valid = NULL,
-  trace = 0, last.step.only = FALSE, n.cores = rtCores, ...)
+\method{update}{glmLiteBoostTV}(
+  object,
+  x = NULL,
+  x.valid = NULL,
+  trace = 0,
+  last.step.only = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{object}{\link{glmLiteBoostTV} object}

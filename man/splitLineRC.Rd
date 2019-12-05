@@ -4,11 +4,23 @@
 \alias{splitLineRC}
 \title{\code{rtemis} internal: Ridge and Stump}
 \usage{
-splitLineRC(g, type, node.index, alpha = 0, lambda = 0.01,
-  lambda.seq = NULL, cv.glmnet.nfolds = 5, part.minsplit = 2,
-  part.xval = 0, part.max.depth = 1, part.cp = 0,
-  minobsinnode.lin = 5, lin.type = "glmnet", verbose = TRUE,
-  trace = 0)
+splitLineRC(
+  g,
+  type,
+  node.index,
+  alpha = 0,
+  lambda = 0.01,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  minobsinnode.lin = 5,
+  lin.type = "glmnet",
+  verbose = TRUE,
+  trace = 0
+)
 }
 \arguments{
 \item{node.index}{Open nodes to work on

@@ -4,11 +4,26 @@
 \alias{mplot3.harmonograph}
 \title{Plot a harmonograph}
 \usage{
-mplot3.harmonograph(steps = seq(1, 500, by = 0.01), seed = NULL,
-  col = "white", alpha = 0.2, bg = "black", lwd = 1, text = NULL,
-  text.side = 1, text.line = -1, text.adj = 0, text.padj = 0,
-  text.col = col, mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0),
-  xlim = NULL, ylim = NULL, new = FALSE, par.reset = TRUE)
+mplot3.harmonograph(
+  steps = seq(1, 500, by = 0.01),
+  seed = NULL,
+  col = "white",
+  alpha = 0.2,
+  bg = "black",
+  lwd = 1,
+  text = NULL,
+  text.side = 1,
+  text.line = -1,
+  text.adj = 0,
+  text.padj = 0,
+  text.col = col,
+  mar = c(0, 0, 0, 0),
+  oma = c(0, 0, 0, 0),
+  xlim = NULL,
+  ylim = NULL,
+  new = FALSE,
+  par.reset = TRUE
+)
 }
 \arguments{
 \item{steps}{Float, vector}

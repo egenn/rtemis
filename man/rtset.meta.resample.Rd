@@ -4,9 +4,15 @@
 \alias{rtset.meta.resample}
 \title{\code{rtset.meta.resampler}: \link{resample} defaults for meta model training}
 \usage{
-rtset.meta.resample(resampler = "strat.sub", n.resamples = 4,
-  stratify.var = NULL, train.p = 0.75, strat.n.bins = 4,
-  target.length = NULL, verbose = TRUE)
+rtset.meta.resample(
+  resampler = "strat.sub",
+  n.resamples = 4,
+  stratify.var = NULL,
+  train.p = 0.75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".

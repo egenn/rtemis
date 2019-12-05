@@ -4,16 +4,42 @@
 \alias{boost}
 \title{Boost an \pkg{rtemis} learner for regression}
 \usage{
-boost(x, y = NULL, x.valid = NULL, y.valid = NULL, x.test = NULL,
-  y.test = NULL, mod = "cart", resid = NULL, boost.obj = NULL,
-  mod.params = list(), case.p = 1, weights = NULL,
-  learning.rate = 0.1, tolerance = 0, tolerance.valid = 1e-05,
-  max.iter = 10, init = NULL, x.name = NULL, y.name = NULL,
-  question = NULL, base.verbose = FALSE, verbose = TRUE, trace = 0,
-  print.progress.every = 5, print.error.plot = "final",
-  prefix = NULL, plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  plot.fitted = NULL, plot.predicted = NULL, print.plot = FALSE,
-  print.base.plot = FALSE, plot.type = "l", outdir = NULL, ...)
+boost(
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  mod = "cart",
+  resid = NULL,
+  boost.obj = NULL,
+  mod.params = list(),
+  case.p = 1,
+  weights = NULL,
+  learning.rate = 0.1,
+  tolerance = 0,
+  tolerance.valid = 1e-05,
+  max.iter = 10,
+  init = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  print.progress.every = 5,
+  print.error.plot = "final",
+  prefix = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  print.plot = FALSE,
+  print.base.plot = FALSE,
+  plot.type = "l",
+  outdir = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

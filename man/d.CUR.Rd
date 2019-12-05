@@ -4,10 +4,20 @@
 \alias{d.CUR}
 \title{CUR Decomposition}
 \usage{
-d.CUR(x, c = dim(x)[2], r = dim(x)[1], k = NULL, sv = NULL,
-  method = "highest.ranks", matrix.return = TRUE,
-  error.return = FALSE, scale = TRUE, center = TRUE,
-  verbose = TRUE, ...)
+d.CUR(
+  x,
+  c = dim(x)[2],
+  r = dim(x)[1],
+  k = NULL,
+  sv = NULL,
+  method = "highest.ranks",
+  matrix.return = TRUE,
+  error.return = FALSE,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric matrix / data.frame: Input data}
@@ -48,13 +58,20 @@ Note that \code{k} here does not correspond with \code{k} in the other decomposi
 Use \code{c} to determine dimensionality of resulting decomposition
 }
 \seealso{
-Other Decomposition: \code{\link{d.H2OAE}},
-  \code{\link{d.H2OGLRM}}, \code{\link{d.ICA}},
-  \code{\link{d.ISOMAP}}, \code{\link{d.KPCA}},
-  \code{\link{d.LLE}}, \code{\link{d.MDS}},
-  \code{\link{d.NMF}}, \code{\link{d.PCA}},
-  \code{\link{d.SPCA}}, \code{\link{d.SVD}},
-  \code{\link{d.TSNE}}, \code{\link{d.UMAP}}
+Other Decomposition: 
+\code{\link{d.H2OAE}()},
+\code{\link{d.H2OGLRM}()},
+\code{\link{d.ICA}()},
+\code{\link{d.ISOMAP}()},
+\code{\link{d.KPCA}()},
+\code{\link{d.LLE}()},
+\code{\link{d.MDS}()},
+\code{\link{d.NMF}()},
+\code{\link{d.PCA}()},
+\code{\link{d.SPCA}()},
+\code{\link{d.SVD}()},
+\code{\link{d.TSNE}()},
+\code{\link{d.UMAP}()}
 }
 \author{
 Efstathios D. Gennatas

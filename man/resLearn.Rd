@@ -4,11 +4,21 @@
 \alias{resLearn}
 \title{\pkg{rtemis} internal: Resample Learn}
 \usage{
-resLearn(x, y, mod, resample.rtset = rtset.cv.resample(),
-  weights = NULL, params = list(), verbose = TRUE,
-  res.verbose = FALSE, trace = 0, save.mods = TRUE, outdir = NULL,
-  n.cores = rtCores, parallel.type = ifelse(.Platform$OS.type ==
-  "unix", "fork", "psock"))
+resLearn(
+  x,
+  y,
+  mod,
+  resample.rtset = rtset.cv.resample(),
+  weights = NULL,
+  params = list(),
+  verbose = TRUE,
+  res.verbose = FALSE,
+  trace = 0,
+  save.mods = TRUE,
+  outdir = NULL,
+  n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+)
 }
 \arguments{
 \item{x}{features - training set}

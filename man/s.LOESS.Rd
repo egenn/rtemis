@@ -4,12 +4,25 @@
 \alias{s.LOESS}
 \title{Local Polynomial Regression (LOESS) [R]}
 \usage{
-s.LOESS(x, y = NULL, x.test = NULL, y.test = NULL, x.name = NULL,
-  y.name = NULL, print.plot = TRUE, plot.fitted = NULL,
-  plot.predicted = NULL, plot.theme = getOption("rt.fit.theme",
-  "lightgrid"), question = NULL, rtclass = NULL, verbose = TRUE,
-  trace = 0, outdir = NULL, save.mod = ifelse(!is.null(outdir), TRUE,
-  FALSE), ...)
+s.LOESS(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  question = NULL,
+  rtclass = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}

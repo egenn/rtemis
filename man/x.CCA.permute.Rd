@@ -4,13 +4,30 @@
 \alias{x.CCA.permute}
 \title{modified PMA::CCA.permute for parallel execution}
 \usage{
-x.CCA.permute(x, z, typex = c("standard", "ordered"),
-  typez = c("standard", "ordered"), penaltyxs = NULL,
-  penaltyzs = NULL, niter = 3, v = NULL, trace = TRUE,
-  nperms = 25, standardize = TRUE, chromx = NULL, chromz = NULL,
-  upos = FALSE, uneg = FALSE, vpos = FALSE, vneg = FALSE,
-  outcome = NULL, y = NULL, cens = NULL, verbose = TRUE,
-  n.cores = rtCores)
+x.CCA.permute(
+  x,
+  z,
+  typex = c("standard", "ordered"),
+  typez = c("standard", "ordered"),
+  penaltyxs = NULL,
+  penaltyzs = NULL,
+  niter = 3,
+  v = NULL,
+  trace = TRUE,
+  nperms = 25,
+  standardize = TRUE,
+  chromx = NULL,
+  chromz = NULL,
+  upos = FALSE,
+  uneg = FALSE,
+  vpos = FALSE,
+  vneg = FALSE,
+  outcome = NULL,
+  y = NULL,
+  cens = NULL,
+  verbose = TRUE,
+  n.cores = rtCores
+)
 }
 \description{
 Run PMA::CCA.permute permutation in parallel

@@ -4,9 +4,19 @@
 \alias{rtset.color}
 \title{\code{rtset.color}: Set parameters for \link{colorGrad}}
 \usage{
-rtset.color(n = 101, colors = NULL, space = "rgb", lo = "#01256E",
-  lomid = NULL, mid = "white", midhi = NULL, hi = "#95001A",
-  colorbar = FALSE, cb.mar = c(1, 1, 1, 1), ...)
+rtset.color(
+  n = 101,
+  colors = NULL,
+  space = "rgb",
+  lo = "#01256E",
+  lomid = NULL,
+  mid = "white",
+  midhi = NULL,
+  hi = "#95001A",
+  colorbar = FALSE,
+  cb.mar = c(1, 1, 1, 1),
+  ...
+)
 }
 \arguments{
 \item{n}{Integer: How many distinct colors you want. If not odd, converted to \code{n + 1}

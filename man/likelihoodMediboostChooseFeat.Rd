@@ -6,8 +6,15 @@
 Selects a feature with maximum information gain and provides the decision values
 and column index for the chosen feature}
 \usage{
-likelihoodMediboostChooseFeat(x, y, catPredictors, funcValue, weights,
-  colIdx, verbose = TRUE)
+likelihoodMediboostChooseFeat(
+  x,
+  y,
+  catPredictors,
+  funcValue,
+  weights,
+  colIdx,
+  verbose = TRUE
+)
 }
 \description{
 \pkg{rtemis} internal: likelihoodMediboostChooseFeat

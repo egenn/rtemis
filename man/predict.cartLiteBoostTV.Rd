@@ -4,9 +4,16 @@
 \alias{predict.cartLiteBoostTV}
 \title{Predict method for \code{cartLiteBoostTV} object}
 \usage{
-\method{predict}{cartLiteBoostTV}(object, newdata = NULL,
-  n.feat = NCOL(newdata), n.iter = NULL, as.matrix = FALSE,
-  verbose = FALSE, n.cores = rtCores, ...)
+\method{predict}{cartLiteBoostTV}(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  as.matrix = FALSE,
+  verbose = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{cartLiteBoostTV} object}

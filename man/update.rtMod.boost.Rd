@@ -4,8 +4,15 @@
 \alias{update.rtMod.boost}
 \title{\pkg{rtemis} internals: Update \code{rtMod} \link{boost} object's fitted values in-place}
 \usage{
-\method{update}{rtMod.boost}(object, x = NULL, x.test = NULL,
-  trace = 0, last.step.only = FALSE, n.cores = rtCores, ...)
+\method{update}{rtMod.boost}(
+  object,
+  x = NULL,
+  x.test = NULL,
+  trace = 0,
+  last.step.only = FALSE,
+  n.cores = rtCores,
+  ...
+)
 }
 \arguments{
 \item{object}{\link{boost} object}

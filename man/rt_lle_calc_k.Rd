@@ -4,8 +4,16 @@
 \alias{rt_lle_calc_k}
 \title{\pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}}
 \usage{
-rt_lle_calc_k(x, m, kmin = 1, kmax = 20, plotres = TRUE,
-  iLLE = FALSE, n.cores = rtCores, verbose = TRUE)
+rt_lle_calc_k(
+  x,
+  m,
+  kmin = 1,
+  kmax = 20,
+  plotres = TRUE,
+  iLLE = FALSE,
+  n.cores = rtCores,
+  verbose = TRUE
+)
 }
 \description{
 \pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}

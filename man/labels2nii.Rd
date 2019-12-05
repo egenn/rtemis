@@ -4,8 +4,7 @@
 \alias{labels2nii}
 \title{Write Data to a Nifti File}
 \usage{
-labels2nii(label.vals, labeledNifti, prefix, datatype = "auto",
-  verbose = TRUE)
+labels2nii(label.vals, labeledNifti, prefix, datatype = "auto", verbose = TRUE)
 }
 \arguments{
 \item{label.vals}{Vector: The index of this vector should correspond to label numbers.

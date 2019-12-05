@@ -4,18 +4,42 @@
 \alias{dplot3.box}
 \title{Interactive Boxplots & Violin plots}
 \usage{
-dplot3.box(x, groups = "cols", type = c("box", "violin"),
-  main = NULL, xlab = NULL, ylab = NULL, col = NULL, alpha = 0.6,
-  bg = NULL, plot.bg = NULL, theme = getOption("rt.theme",
-  "lightgrid"), palette = getOption("rt.palette", "rtCol1"),
+dplot3.box(
+  x,
+  groups = "cols",
+  type = c("box", "violin"),
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = 0.6,
+  bg = NULL,
+  plot.bg = NULL,
+  theme = getOption("rt.theme", "lightgrid"),
+  palette = getOption("rt.palette", "rtCol1"),
   boxmode = c("group", "relative", "stack", "overlay"),
-  violin.box = TRUE, group.names = NULL, font.size = 16,
-  font.alpha = 0.8, font.col = NULL, font.family = "Helvetica Neue",
-  main.col = NULL, axes.col = NULL, labs.col = NULL,
-  grid.col = NULL, grid.lwd = 1, grid.alpha = 0.8, tick.col = NULL,
-  legend = FALSE, legend.col = NULL, legend.xy = NULL,
-  margin = list(t = 35), padding = 0, filename = NULL,
-  file.width = 500, file.height = 500)
+  violin.box = TRUE,
+  group.names = NULL,
+  font.size = 16,
+  font.alpha = 0.8,
+  font.col = NULL,
+  font.family = "Helvetica Neue",
+  main.col = NULL,
+  axes.col = NULL,
+  labs.col = NULL,
+  grid.col = NULL,
+  grid.lwd = 1,
+  grid.alpha = 0.8,
+  tick.col = NULL,
+  legend = FALSE,
+  legend.col = NULL,
+  legend.xy = NULL,
+  margin = list(t = 35),
+  padding = 0,
+  filename = NULL,
+  file.width = 500,
+  file.height = 500
+)
 }
 \arguments{
 \item{x}{Vector or List of vectors: Input}

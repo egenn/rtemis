@@ -4,9 +4,17 @@
 \alias{ruleDist}
 \title{Rule distance}
 \usage{
-ruleDist(x, rules1, rules2 = NULL, print.plot = TRUE,
-  plot.type = c("static", "interactive"), heat.lo = "black",
-  heat.mid = NA, heat.hi = "#F48024", verbose = TRUE)
+ruleDist(
+  x,
+  rules1,
+  rules2 = NULL,
+  print.plot = TRUE,
+  plot.type = c("static", "interactive"),
+  heat.lo = "black",
+  heat.mid = NA,
+  heat.hi = "#F48024",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{Data frame / matrix: Input features (cases by features)}

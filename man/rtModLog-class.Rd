@@ -5,15 +5,16 @@
 \alias{rtModLog-class}
 \alias{rtModLog}
 \title{\pkg{rtemis} Supervised Model Log Class}
-\format{An object of class \code{R6ClassGenerator} of length 25.}
-\usage{
-rtModLog
-}
 \description{
 \pkg{rtemis} Supervised Model Log Class
-}
-\section{Fields}{
 
+\pkg{rtemis} Supervised Model Log Class
+}
+\author{
+Efstathios D. Gennatas
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{mod.name}}{Learner algorithm name}
 
@@ -24,9 +25,52 @@ rtModLog
 \item{\code{error.test}}{Testing error}
 
 \item{\code{sessionInfo}}{The output of \code{sessionInfo()} at the time the model was trained}
-}}
-
-\author{
-Efstathios D. Gennatas
 }
-\keyword{datasets}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{rtModLog$new()}}
+\item \href{#method-print}{\code{rtModLog$print()}}
+\item \href{#method-clone}{\code{rtModLog$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\subsection{Method \code{new()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModLog$new(
+  mod.name = character(),
+  parameters = list(),
+  error.train = list(),
+  error.test = NULL
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\subsection{Method \code{print()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModLog$print()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModLog$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

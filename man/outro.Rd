@@ -4,8 +4,15 @@
 \alias{outro}
 \title{\code{rtemis-internals}: \code{outro}}
 \usage{
-outro(start.time, message = NULL, verbose = TRUE, as.message = FALSE,
-  sinkOff = FALSE, color = silver, newline.pre = TRUE)
+outro(
+  start.time,
+  message = NULL,
+  verbose = TRUE,
+  as.message = FALSE,
+  sinkOff = FALSE,
+  color = silver,
+  newline.pre = TRUE
+)
 }
 \description{
 Outro

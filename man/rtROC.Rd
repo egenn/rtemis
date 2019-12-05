@@ -4,9 +4,14 @@
 \alias{rtROC}
 \title{Build an ROC curve}
 \usage{
-rtROC(true.labels, predicted.probabilities, thresholds = NULL,
-  plot = FALSE, theme = getOption("rt.theme", "lightgrid"),
-  verbose = TRUE)
+rtROC(
+  true.labels,
+  predicted.probabilities,
+  thresholds = NULL,
+  plot = FALSE,
+  theme = getOption("rt.theme", "lightgrid"),
+  verbose = TRUE
+)
 }
 \description{
 Calculate the points of an ROC curve and the AUC

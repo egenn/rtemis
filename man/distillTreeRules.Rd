@@ -4,8 +4,16 @@
 \alias{distillTreeRules}
 \title{Distill rules from trained RF and GBM learners}
 \usage{
-distillTreeRules(mod, x, y = NULL, n.trees = NULL, maxdepth = 100,
-  maxDecay = 0.05, typeDecay = 2, verbose = TRUE)
+distillTreeRules(
+  mod,
+  x,
+  y = NULL,
+  n.trees = NULL,
+  maxdepth = 100,
+  maxDecay = 0.05,
+  typeDecay = 2,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{mod}{A trained RF or GBM model}
