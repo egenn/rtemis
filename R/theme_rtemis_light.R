@@ -11,6 +11,8 @@
 #' @param axis.text.size.rel Float: Relative size for axis text. Default = 1
 #' @param legend.key.fill Color: Fill color for legend. Default = NA (no color)
 #' @param legend.text.size.rel Float: Relative size for legend text. Default = 1
+#' @param legend.position String: Legend position, "top", "bottom", "right", "left" Default  = "right"
+#' @param strip.background.fill Color: Fill color from facet labels. Default = "grey85"
 #' @author Efstathios D. Gennatas
 #' @export
 #' @examples
@@ -25,7 +27,8 @@ theme_rtemis_light <- function(base_size = 14,
                                axis.text.size.rel = 1,
                                legend.key.fill = NA,
                                legend.text.size.rel = 1,
-                               legend.position = "right") {
+                               legend.position = "right",
+                               strip.background.fill = "grey85") {
 
   half_line <- base_size/2
 
@@ -108,7 +111,7 @@ theme_rtemis_light <- function(base_size = 14,
         panel.spacing.x = NULL,
         panel.spacing.y = NULL,
         panel.ontop = FALSE,
-        strip.background = element_rect(fill = "grey85",
+        strip.background = element_rect(fill = strip.background.fill,
                                         colour = NA),
         strip.text = element_text(colour = "grey10",
                                   size = rel(0.8),

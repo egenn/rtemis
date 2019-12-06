@@ -12,7 +12,8 @@ theme_rtemis_light(
   axis.text.size.rel = 1,
   legend.key.fill = NA,
   legend.text.size.rel = 1,
-  legend.position = "right"
+  legend.position = "right",
+  strip.background.fill = "grey85"
 )
 }
 \arguments{
@@ -29,6 +30,10 @@ theme_rtemis_light(
 \item{legend.key.fill}{Color: Fill color for legend. Default = NA (no color)}
 
 \item{legend.text.size.rel}{Float: Relative size for legend text. Default = 1}
+
+\item{legend.position}{String: Legend position, "top", "bottom", "right", "left" Default  = "right"}
+
+\item{strip.background.fill}{Color: Fill color from facet labels. Default = "grey85"}
 }
 \description{
 \pkg{rtemis} \code{ggplot2} light theme

@@ -5,6 +5,7 @@
 #' \pkg{rtemis} \code{ggplot2} dark theme
 #'
 #' @inheritParams theme_rtemis_light
+#' @param strip.background.fill Color: Fill color from facet labels. Default = "grey25"
 #' @author Efstathios D. Gennatas
 #' @export
 #' @examples
@@ -19,7 +20,8 @@ theme_rtemis_dark <- function(base_size = 14,
                               axis.text.size.rel = 1,
                               legend.key.fill = NA,
                               legend.text.size.rel = 1,
-                              legend.position = "right") {
+                              legend.position = "right",
+                              strip.background.fill = "grey25") {
 
   half_line <- base_size/2
 
@@ -102,9 +104,9 @@ theme_rtemis_dark <- function(base_size = 14,
                  panel.spacing.x = NULL,
                  panel.spacing.y = NULL,
                  panel.ontop = FALSE,
-                 strip.background = ggplot2::element_rect(fill = "grey90",
+                 strip.background = ggplot2::element_rect(fill = strip.background.fill,
                                                           colour = NA),
-                 strip.text = ggplot2::element_text(colour = "grey10",
+                 strip.text = ggplot2::element_text(colour = "grey90",
                                                     size = ggplot2::rel(0.8),
                                                     margin = ggplot2::margin(0.8 * half_line, 0.8 * half_line, 0.8 * half_line, 0.8 * half_line)),
                  strip.text.x = NULL,
