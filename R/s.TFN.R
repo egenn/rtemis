@@ -1,15 +1,14 @@
 # s.TFN.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
-# In Classification, levels e.g. "M", "R" become 0, 1 integers; "M", "R", "C" become 0, 1, 2
 
-#' Neural Network with \pkg{tensorflow} [C, R]
+#' Artificial Neural Network with \pkg{tensorflow} [C, R]
 #'
-#' Train a Neural Network using \pkg{keras} and \pkg{tensorflow}
+#' Train an Artificial Neural Network using \pkg{keras} and \pkg{tensorflow}
 #'
-#' For more information on argument and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
-#' It is important to define network structure and adjust hyperparameters. You cannot expect defaults to work
-#' on any dataset.
+#' For more information on arguments and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
+#' It is important to define network structure and adjust hyperparameters based on your problem. You cannot expect
+#' defaults to work on any given dataset.
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
 #' Can be zero (~GLM)
@@ -21,7 +20,8 @@
 #' @param dropout Floar, vector, (0, 1): Probability of dropping nodes. Can be a vector of length equal to N of layers,
 #' otherwise will be recycled. Default = 0
 #' @param activation String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
-#' "exponential", "linear", "softmax", "softplus", "softsign". Default = "relu"
+#' "exponential", "linear", "softmax", "softplus", "softsign". Defaults to "relu" for Classification and
+#' "tanh" for Regression
 #' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
 #' @param output Character: Activation to use for output layer. Can be any as in \code{activation}.
 #' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
@@ -30,7 +30,7 @@
 #' @param optimizer Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 #' Default = "rmsprop"
 #' @param learning.rate Float: learning rate. Defaults depend on \code{optimizer} used and are:
-#' \code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
+#' \code{rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
 #' @param metric Character: Metric used for evaluation during train. Default = "mse" for regression,
 #'  "accuracy" for classification.
 #' @param epochs Integer: Number of epochs. Default = 100
@@ -85,7 +85,7 @@ s.TFN <- function(x, y = NULL,
                                 "sgd"),
                   learning.rate = NULL,
                   metric = NULL,
-                  epochs = 50,
+                  epochs = 100,
                   batch.size = NULL,
                   validation.split = .2,
                   callback = keras::callback_early_stopping(patience = 150),
@@ -135,14 +135,14 @@ s.TFN <- function(x, y = NULL,
   initializer <- paste0("initializer_", initializer)
   initializer <- getFromNamespace(initializer, "keras")
 
-  activation.name <- match.arg(activation)
-  activation <- paste0("layer_activation_", activation.name)
-  activation <- getFromNamespace(activation, "keras")
+  # activation.name <- match.arg(activation)
+  # activation <- paste0("activation_", activation.name)
+  # activation <- getFromNamespace(activation, "keras")
 
   optimizer <- match.arg(optimizer)
   if (is.null(learning.rate)) {
     learning.rate <- switch(optimizer,
-                            rmsprop = .001,
+                            rmsprop = .01,
                             adadelta = 1,
                             adagrad = .01,
                             adamax = .002,
@@ -175,6 +175,11 @@ s.TFN <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)
+
+  # Activation
+  if (length(activation) > 1) {
+    activation <- ifelse(type == "Classification", "relu", "tanh")
+  }
 
   # Outcome
   .class.weights.int <- NULL
@@ -252,6 +257,7 @@ s.TFN <- function(x, y = NULL,
       for (i in seq(n.hlayers)) {
         net <- keras::layer_dense(net,
                                   units = n.hnodes[i],
+                                  activation = activation,
                                   input_shape = n.features,
                                   kernel_initializer = initializer(seed = initializer.seed),
                                   name = paste0("rt_Dense_", i))
@@ -259,8 +265,10 @@ s.TFN <- function(x, y = NULL,
                                                                             l1 = l1, l2 = l2,
                                                                             name = paste0("rt_Reg_", i))
         if (batch.normalization) net <- keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
-        net <- activation(net,
-                          name = paste0("rt_Activation_", activation.name, "_", i))
+        # Following works with layer_activation: removed because some activation types, like tanh, no longer available
+        # as layer_actication_*name*
+        # net <- activation(net,
+        #                   name = paste0("rt_Activation_", activation.name, "_", i))
         net <- keras::layer_dropout(net, rate = dropout[i],
                                     name = paste0("rt_Dropout_", i))
       }
@@ -281,6 +289,19 @@ s.TFN <- function(x, y = NULL,
                               units = n.outputs,
                               activation = output,
                               name = "rt_Output")
+
+    # Parameters ====
+    parameters <- list(n.hidden.nodes = n.hidden.nodes,
+                       batch.size = batch.size,
+                       batch.normalization = batch.normalization,
+                       epochs = epochs,
+                       optimizer = optimizer,
+                       learning.rate = learning.rate,
+                       metric = metric)
+    if (verbose) printls(parameters, title = "ANN parameters",
+                         center.title = TRUE,
+                         pad = 0,
+                         newline.pre = TRUE)
 
     # [ TF ] ====
     if (verbose) msg0("Training Neural Network ", type, " with ",
@@ -341,17 +362,6 @@ s.TFN <- function(x, y = NULL,
   extra <- list(scale = scale,
                 col_means_train = if (scale) col_means_train else NULL,
                 col_stddevs_train = if (scale) col_stddevs_train else NULL)
-  parameters <- list(n.hidden.nodes = n.hidden.nodes,
-                     epochs = epochs,
-                     # max.epochs = max.epochs,
-                     optimizer = optimizer,
-                     batch.size = batch.size,
-                     learning.rate = learning.rate,
-                     # early.stop = early.stop,
-                     # early.stop.n.steps = early.stop.n.steps,
-                     # early.stop.relativeVariance.threshold = early.stop.relativeVariance.threshold,
-                     # momentum = momentum,
-                     metric = metric)
   rt <- rtModSet(mod.name = mod.name,
                  type = type,
                  y.train = if (type == "Classification") y0 else y,
