@@ -16,7 +16,7 @@ resample(
   target.length = NROW(y),
   rtset = NULL,
   seed = NULL,
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.TFN.R
 \name{s.TFN}
 \alias{s.TFN}
-\title{Neural Network with \pkg{tensorflow} [C, R]}
+\title{Artificial Neural Network with \pkg{tensorflow} [C, R]}
 \usage{
 s.TFN(
   x,
@@ -34,7 +34,7 @@ s.TFN(
   optimizer = c("rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd"),
   learning.rate = NULL,
   metric = NULL,
-  epochs = 50,
+  epochs = 100,
   batch.size = NULL,
   validation.split = 0.2,
   callback = keras::callback_early_stopping(patience = 150),
@@ -94,7 +94,8 @@ Glorot is also known as Xavier initialization. Default = "glorot_uniform"}
 otherwise will be recycled. Default = 0}
 
 \item{activation}{String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
-"exponential", "linear", "softmax", "softplus", "softsign". Default = "relu"}
+"exponential", "linear", "softmax", "softplus", "softsign". Defaults to "relu" for Classification and
+"tanh" for Regression}
 
 \item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE}
 
@@ -108,7 +109,7 @@ classification, "sparse_categorical_crossentropy" for multiclass}
 Default = "rmsprop"}
 
 \item{learning.rate}{Float: learning rate. Defaults depend on \code{optimizer} used and are:
-\code{rmsprop = .001, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
+\code{rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
 
 \item{metric}{Character: Metric used for evaluation during train. Default = "mse" for regression,
 "accuracy" for classification.}
@@ -155,12 +156,12 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional parameters}
 }
 \description{
-Train a Neural Network using \pkg{keras} and \pkg{tensorflow}
+Train an Artificial Neural Network using \pkg{keras} and \pkg{tensorflow}
 }
 \details{
-For more information on argument and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
-It is important to define network structure and adjust hyperparameters. You cannot expect defaults to work
-on any dataset.
+For more information on arguments and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
+It is important to define network structure and adjust hyperparameters based on your problem. You cannot expect
+defaults to work on any given dataset.
 }
 \seealso{
 \link{elevate} for external cross-validation
