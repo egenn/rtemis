@@ -81,7 +81,7 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create.
-Can be zero (~GLM)}
+Can be zero, in which case you get a linear model. Default = N of features, i.e. NCOL(x)}
 
 \item{initializer}{Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",

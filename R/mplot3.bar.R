@@ -119,7 +119,7 @@ mplot3.bar <- function(x,
 
   # Legend names
   if (is.null(legend.names)) {
-    if (!is.null(rownames(x))) legend.names <- rownames(x)
+    legend.names <- if (!is.null(rownames(x))) rownames(x) else paste0("Case", seq_len(NROW(x)))
   }
 
   cols <- colorAdjust(col, alpha = alpha)
@@ -156,6 +156,7 @@ mplot3.bar <- function(x,
     if (is.null(axisnames)) axisnames <- FALSE
     if (is.null(legend)) legend <- TRUE
   }
+  if (is.null(legend)) legend <- FALSE
 
   # if (is.null(axisnames)) {
   #   axisnames <- if (is.null(dim(x))) TRUE else FALSE
@@ -295,7 +296,7 @@ mplot3.bar <- function(x,
   }
 
   # [ LEGEND ] ====
-  if (legend) {
+  if (isTRUE(legend)) {
     legend(legend.position, legend = legend.names,
            fill = cols, border = cols,
            text.col = labs.col,

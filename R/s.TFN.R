@@ -11,7 +11,7 @@
 #' defaults to work on any given dataset.
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
-#' Can be zero (~GLM)
+#' Can be zero, in which case you get a linear model. Default = N of features, i.e. NCOL(x)
 #' @param initializer Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 #' "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 #' "truncated_normal", "orthogonal", "zeros", "ones", "constant".
