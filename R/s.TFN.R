@@ -135,10 +135,6 @@ s.TFN <- function(x, y = NULL,
   initializer <- paste0("initializer_", initializer)
   initializer <- getFromNamespace(initializer, "keras")
 
-  # activation.name <- match.arg(activation)
-  # activation <- paste0("activation_", activation.name)
-  # activation <- getFromNamespace(activation, "keras")
-
   optimizer <- match.arg(optimizer)
   if (is.null(learning.rate)) {
     learning.rate <- switch(optimizer,
@@ -265,10 +261,6 @@ s.TFN <- function(x, y = NULL,
                                                                             l1 = l1, l2 = l2,
                                                                             name = paste0("rt_Reg_", i))
         if (batch.normalization) net <- keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
-        # Following works with layer_activation: removed because some activation types, like tanh, no longer available
-        # as layer_actication_*name*
-        # net <- activation(net,
-        #                   name = paste0("rt_Activation_", activation.name, "_", i))
         net <- keras::layer_dropout(net, rate = dropout[i],
                                     name = paste0("rt_Dropout_", i))
       }
