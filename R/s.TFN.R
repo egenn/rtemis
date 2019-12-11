@@ -177,6 +177,7 @@ s.TFN <- function(x, y = NULL,
   n.features <- NCOL(x)
 
   # Outcome
+  .class.weights.int <- NULL
   if (type == "Classification") {
     y0 <- y
     y <- as.numeric(y) - 1
@@ -184,8 +185,6 @@ s.TFN <- function(x, y = NULL,
     if (!is.null(.class.weights)) {
       .class.weights.int <- as.list(.class.weights)
       names(.class.weights.int) <- seq(n.classes) - 1
-    } else {
-      .class.weights.int <- NULL
     }
   }
 

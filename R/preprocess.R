@@ -115,11 +115,10 @@ preprocess <- function(x, y = NULL,
 
   # [ Remove duplicates ] ====
   if (removeDuplicates) {
-    dup.index <- which(duplicated(x))
-    Ndups <- length(dup.index)
+    Ndups <- sum(duplicated(x))
     if (Ndups > 0) {
       if (verbose) msg0("Removing ", singorplu(Ndups, "duplicated case"), "...")
-      for (i in dup.index) x <- x[-i, ]
+      x <- unique(x)
     }
   }
 

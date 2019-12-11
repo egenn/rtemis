@@ -360,7 +360,7 @@ mplot3.xy <- function(x, y,
   # [ ARGUMENTS ] ====
   if (is.null(type)) type <- "p"
   if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
-  if (is.logical(fit)) if (fit) fit <- "GAM"
+  if (isTRUE(fit)) fit <- "GAM"
   if (is.null(fit)) se.fit <- FALSE
   if (!is.null(fit)) fit <- toupper(fit)
   if (is.character(palette)) palette <- rtPalette(palette)
@@ -383,7 +383,7 @@ mplot3.xy <- function(x, y,
   if (is.null(rsq)) {
     rsq <- if (!is.null(fit)) TRUE else FALSE
   }
-  if (is.logical(rsq)) if (!rsq) rsq.pval <- FALSE
+  if (isFALSE(rsq)) rsq.pval <- FALSE
   if (fit.error[1] != FALSE) rsq <- rsq.pval <- FALSE
   if (is.null(rsq.pval)) {
     if (!is.null(fit)) {

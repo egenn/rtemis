@@ -12,7 +12,8 @@
 rtInitProjectDir <- function(verbose = TRUE) {
 
   wd <- getwd()
-  if (verbose) msg0("Working in ", wd, "...")
+  if (verbose) msg0(rtHighlight$bold("rtemis"), ": Initializing project directory...")
+  if (verbose) cat("Working in ", wd, "...", sep = "")
 
   # rtInit.log ====
   # if (verbose) cat(rtHighlight("  Writing 'rtInit.log' file..."))
