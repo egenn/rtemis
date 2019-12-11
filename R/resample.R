@@ -57,7 +57,7 @@ resample <- function(y,
                      target.length = NROW(y),
                      rtset = NULL,
                      seed = NULL,
-                     verbose = FALSE) {
+                     verbose = TRUE) {
 
   # If rtset is provided, it takes precedence over all other arguments,
   # excluding the verbose arg
