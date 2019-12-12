@@ -1,8 +1,8 @@
-# mplot.array.R
+# mplot.raster.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
-#' Plot Array as Image
+#' Plot Array as Raster Image
 #'
 #' Plots 2D (grayscale) or 3D (color) array as Raster Image
 #'
@@ -17,10 +17,10 @@
 #' @examples
 #' \dontrun{
 #' img <- imager::load.image("https://www.r-project.org/logo/Rlogo.png")
-#' mplot.array(img)
+#' mplot.raster(img)
 #' }
 
-mplot.array <- function(x,
+mplot.raster <- function(x,
                         mono = FALSE,
                         mono.fn = mean,
                         bg = "gray10",
@@ -44,4 +44,4 @@ mplot.array <- function(x,
   plot(NULL, NULL, xlim = c(0, 100), ylim = c(0, 100), axes = FALSE, ann = FALSE)
   rasterImage(x, 0, 0, 100, 100)
 
-} # rtemis::mplot.array
+} # rtemis::mplot.raster
