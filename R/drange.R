@@ -24,9 +24,8 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
   }
 
   if (NCOL(x) > 1) {
-    x <- as.data.frame(x)
     if (byCol) {
-      new.x <- sapply(x, function(x) dr(x, lo, hi))
+      new.x <- apply(x, 2, function(x) dr(x, lo, hi))
     } else {
       new.x <- dr(x, lo, hi)
     }

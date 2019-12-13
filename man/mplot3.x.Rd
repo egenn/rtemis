@@ -6,7 +6,7 @@
 \usage{
 mplot3.x(
   x,
-  type = c("density", "histogram", "index", "line", "qqline"),
+  type = c("density", "histogram", "index", "ts", "qqline"),
   group = NULL,
   data = NULL,
   xlab = NULL,
@@ -119,7 +119,7 @@ mplot3.x(
 \item{x}{Numeric vector or list of vectors, one for each group.
 If \code{data} is provided, x is name of variable in \code{data}}
 
-\item{type}{Character: "density", "histogram",  "index", "line", "qqline"
+\item{type}{Character: "density", "histogram",  "index", "ts", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram}
 
 \item{group}{Vector denoting group membership. Will be converted to factor.
@@ -231,7 +231,7 @@ themes}
 
 \item{density.mean}{Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE, for \code{type = "density"}}
 
-\item{lwd}{Integer: Line width. Used for \code{type = "line" or "density"}}
+\item{lwd}{Integer: Line width. Used for \code{type = "ts" or "density"}}
 
 \item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.

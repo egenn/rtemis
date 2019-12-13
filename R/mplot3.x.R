@@ -1,7 +1,6 @@
 # mplot3.x.R
 # ::rtemis::
 # 2016-8 Efstathios D. Gennatas egenn.github.io
-# TODO: This is old code: will be cleaned up or rewritten
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'
@@ -17,7 +16,7 @@
 #' @inheritParams mplot3.xy
 #' @param x Numeric vector or list of vectors, one for each group.
 #'   If \code{data} is provided, x is name of variable in \code{data}
-#' @param type Character: "density", "histogram",  "index", "line", "qqline"
+#' @param type Character: "density", "histogram",  "index", "ts", "qqline"
 #'   Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
 #'   If \code{data} is provided, \code{group} is name of variable if \code{data}
@@ -29,7 +28,7 @@
 #' @param index.type Character: "p" for points (Default), "l" for lines (timeseries)
 #' @param labs.col Color for labels
 #' @param filename Path to file: If supplied, plot will be printed to file
-#' @param lwd Integer: Line width. Used for \code{type = "line" or "density"}
+#' @param lwd Integer: Line width. Used for \code{type = "ts" or "density"}
 #' @param lab.adj Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)
 #' @param hist.breaks See \code{histogram("breaks")}
 #' @param hist.type Character: "bars" or "lines". Default = "bars"
@@ -48,7 +47,7 @@
 #' @export
 
 mplot3.x <- function(x,
-                     type = c("density", "histogram", "index", "line", "qqline"),
+                     type = c("density", "histogram", "index", "ts", "qqline"),
                      group = NULL,
                      data = NULL,
                      xlab = NULL,
@@ -171,7 +170,7 @@ mplot3.x <- function(x,
 
   # [ ARGUMENTS ] ====
   type <- match.arg(type)
-  if (type == "line") {
+  if (type == "ts") {
     type <- "index"
     index.type <- "l"
   }
@@ -190,10 +189,7 @@ mplot3.x <- function(x,
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
   }
 
-  if (alpha.off) {
-    # line.alpha = 1
-    alpha = 1
-  }
+  if (alpha.off) alpha <- 1
 
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
   if (is.character(palette)) palette <- rtPalette(palette)
@@ -227,90 +223,9 @@ mplot3.x <- function(x,
     }
   }
   if (length(lty) != length(xl)) lty <- as.list(rep(lty, length(xl)/length(lty)))
-  # if (type == "density" | type == "histogram") axes.equal = FALSE
-  # if (type == "qqline") axes.equal <- TRUE
 
   # If not defined, group legend defaults to T, if more than one group
   if (is.null(group.legend)) group.legend <- ifelse(length(xl) > 1, TRUE, FALSE)
-
-  # Scale point size by cex
-  # if (is.null(point.inches)) point.inches <- cex * 1/20
-
-  # [ THEMES OLD ] ====
-  # if (length(theme) > 1) theme <- "light"
-  # if (theme == "lightgrid") {
-  #   theme <- "light"
-  #   if (is.null(plot.bg)) plot.bg <- "gray90"
-  #   grid <- TRUE
-  #   grid.col <- "white"
-  #   grid.lty <- zero.lty <- 1
-  #   grid.lwd <- zero.lwd <- 1.5
-  # }
-  # if (theme == "darkgrid") {
-  #   theme <- "dark"
-  #   if (is.null(plot.bg)) plot.bg <- "gray15"
-  #   grid <- TRUE
-  #   grid.col <- "black"
-  #   grid.lty <- zero.lty <- 1
-  #   grid.lwd <- zero.lwd <- 1.5
-  # }
-  # themes <- c("light", "dark", "box", "darkbox")
-  # if (!theme %in% themes) {
-  #   warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-  #   theme <- "light"
-  # }
-  #
-  # if (theme == "light") {
-  #   if (is.null(bg)) bg <- "white"
-  #   #     if (is.null(col) & length(xl) == 1) {
-  #   #       col <- as.list(adjustcolor("black", alpha.f = point.alpha)) }
-  #   # box.col <- "white"
-  #   col.axis <- adjustcolor("white", alpha.f = 0)
-  #   col.ticks <- "gray10"
-  #   if (is.null(labs.col)) labs.col <- "gray10"
-  #   main.col <- "black"
-  #   if (is.null(grid.col)) grid.col <- "black"
-  #   # if (is.null(diagonal.col)) diagonal.col <- "black"
-  #   if (is.null(zero.col)) zero.col <- "black"
-  #   if (is.null(hline.col)) hline.col <- "black"
-  # } else if (theme == "dark") {
-  #   if (is.null(bg)) bg <- "black"
-  #   #     if (is.null(col) & length(xl) == 1) {
-  #   #       col <- as.list(adjustcolor("white", alpha.f = point.alpha)) }
-  #   # box.col <- "black"
-  #   col.axis <- adjustcolor("black", alpha.f = 0)
-  #   col.ticks <- "gray90"
-  #   if (is.null(labs.col)) labs.col <- "gray90"
-  #   main.col <- "white"
-  #   if (is.null(grid.col)) grid.col <- "white"
-  #   # if (is.null(diagonal.col)) diagonal.col <- "white"
-  #   if (is.null(zero.col)) zero.col <- "white"
-  #   if (is.null(hline.col)) hline.col <- "white"
-  # } else if (theme == "box") {
-  #   if (is.null(bg)) bg <- "white"
-  #   #     if (is.null(col) & length(xl) == 1) {
-  #   #       col <- as.list(adjustcolor("black", alpha.f = point.alpha)) }
-  #   if (is.null(box.col)) box.col <- "gray10"
-  #   col.axis <- adjustcolor("white", alpha.f = 0)
-  #   col.ticks <- "gray10"
-  #   if (is.null(labs.col)) labs.col <- "gray10"
-  #   main.col <- "black"
-  #   if (is.null(grid.col)) grid.col <- "black"
-  #   # if (is.null(diagonal.col)) diagonal.col <- "black"
-  #   if (is.null(hline.col)) hline.col <- "black"
-  # } else if (theme == "darkbox") {
-  #   if (is.null(bg)) bg <- "black"
-  #   #     if (is.null(col) & length(xl) == 1) {
-  #   #       col <- as.list(adjustcolor("white", alpha.f = point.alpha)) }
-  #   if (is.null(box.col)) box.col <- "gray90"
-  #   col.axis <- adjustcolor("black", alpha.f = 0)
-  #   col.ticks <- "gray90"
-  #   if (is.null(labs.col)) labs.col <- "gray90"
-  #   main.col <- "white"
-  #   if (is.null(grid.col)) grid.col <- "white"
-  #   # if (is.null(diagonal.col)) diagonal.col <- "white"
-  #   if (is.null(hline.col)) hline.col <- "white"
-  # }
 
   # [ COLORS ] ====
   if (is.null(col)) {

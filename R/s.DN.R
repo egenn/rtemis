@@ -7,6 +7,8 @@
 #' Train an DN for Regression or Classification using \pkg{deepnet}
 #'
 #' @inheritParams s.GLM
+#' @param n.hidden.nodes Integer, vector: Length indicated number of hidden layers, value of each element determines
+#' number of nodes for given layer
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -20,7 +22,7 @@ s.DN <- function(x, y = NULL,
                  resample.seed = NULL,
                  initW = NULL,
                  initB = NULL,
-                 hidden = 10,
+                 n.hidden.nodes = 10,
                  activation = NULL,
                  learning.rate = 0.8,
                  momentum = 0.5,
@@ -110,7 +112,7 @@ s.DN <- function(x, y = NULL,
     if (!is.null(x.test)) y.test <- 2 - as.numeric(y.test)
   }
 
-  if (verbose) parameterSummary(hidden,
+  if (verbose) parameterSummary(n.hidden.nodes,
                                 activation,
                                 output,
                                 batchsize,
@@ -147,7 +149,7 @@ s.DN <- function(x, y = NULL,
   mod <- deepnet::nn.train(x, y,
                            initW = .weights,
                            initB = initB,
-                           hidden = hidden,
+                           hidden = n.hidden.nodes,
                            activationfun = activation,
                            learningrate = learning.rate,
                            momentum = momentum,
@@ -192,7 +194,7 @@ s.DN <- function(x, y = NULL,
                  type = type,
                  parameters = list(initW = .weights,
                                     initB = initB,
-                                    hidden = hidden,
+                                    hidden = n.hidden.nodes,
                                     activation = activation,
                                     learningrate = learning.rate,
                                     momentum = momentum,

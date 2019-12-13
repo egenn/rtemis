@@ -17,7 +17,7 @@ s.DN(
   resample.seed = NULL,
   initW = NULL,
   initB = NULL,
-  hidden = 10,
+  n.hidden.nodes = 10,
   activation = NULL,
   learning.rate = 0.8,
   momentum = 0.5,
@@ -74,6 +74,9 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
+
+\item{n.hidden.nodes}{Integer, vector: Length indicated number of hidden layers, value of each element determines
+number of nodes for given layer}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
