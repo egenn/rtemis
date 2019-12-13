@@ -152,7 +152,7 @@ checkData <- function(x,
   # [ Recomend ] ====
   if (recommend) {
     boxcat("Recommendations", pad = 2)
-    if (n.constant > 0 | n.cols.anyna > 0 | n.gt2levels.nonordered > 0) {
+    if (n.constant > 0 | n.dups > 0 | n.cols.anyna > 0 | n.gt2levels.nonordered > 0) {
       if (n.constant > 0) {
         cat(rtHighlight$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
       }
