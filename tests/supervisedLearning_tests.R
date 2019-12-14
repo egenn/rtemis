@@ -120,10 +120,11 @@ if (requireNamespace("gbm", quietly = TRUE)) {
   mod <- s.GBM(iris2.train, iris2.test, force.n.trees = 10)
 }
 
-if (requireNamespace("gbm3", quietly = TRUE)) {
-  mod <- s.GBM3(dat.train, dat.test, force.n.trees = 10)
-  mod <- s.GBM3(iris2.train, iris2.test, force.n.trees = 10)
-}
+# Development has moved back to CRAN gbm
+# if (requireNamespace("gbm3", quietly = TRUE)) {
+#   mod <- s.GBM3(dat.train, dat.test, force.n.trees = 10)
+#   mod <- s.GBM3(iris2.train, iris2.test, force.n.trees = 10)
+# }
 
 mod <- s.GLM(dat.train, dat.test)
 mod <- s.GLM(iris2.train, iris2.test)
