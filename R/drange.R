@@ -20,7 +20,8 @@
 drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
 
   dr <- function(x, lo, hi) {
-   (x - min(x, na.rm = TRUE)) / max(x - min(x, na.rm = TRUE), na.rm = TRUE) * (hi - lo) + lo
+    .min <- min(x, na.rm = TRUE)
+   (x - .min) / max(x - .min, na.rm = TRUE) * (hi - lo) + lo
   }
 
   if (NCOL(x) > 1) {
