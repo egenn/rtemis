@@ -154,15 +154,15 @@ checkData <- function(x,
     boxcat("Recommendations", pad = 2)
     if (n.constant > 0 | n.dups > 0 | n.cols.anyna > 0 | n.gt2levels.nonordered > 0) {
       if (n.constant > 0) {
-        cat(rtHighlight$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
+        cat(crayon::yellow$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
       }
 
       if (n.dups > 0) {
-        cat(rtHighlight$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
+        cat(rtOrange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
       }
 
       if (n.cols.anyna > 0) {
-        cat(rtHighlight$bold("  * Consider imputing missing values or use complete cases only\n"))
+        cat(rtOrange$bold("  * Consider imputing missing values or use complete cases only\n"))
       }
 
       if (n.gt2levels.nonordered > 0) {
