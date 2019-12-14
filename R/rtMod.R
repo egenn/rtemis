@@ -1579,28 +1579,6 @@ predict.rtMeta <- function(object, newdata, fn = median, ...) {
 } # rtemis::predict.rtMeta
 
 
-rtemis <- as.character("
-                                                                                            ;kx,
-                    '.                                                                      KMMO
-                   lMK
-                  .WMK
-  XXd  ,xXWMMW.'xKMMMWXXXXXX.      ;xKWMMMWXOc.        KXx .o0NMMMWXk:   :kXWMMMWKx,        oXXl      .ckKWMMMMWX0x,
-  WMX'XM0l;,;; .,,dMMX,,,,,,     :NMWx:'..;oNMWo       WMMOMOc,'',lKMMXlNNx:'.';oNMMk       xMMo     :WMNo;'..';lxO.
-  WMMMk.          :MMK          oMMO.        OMMO      WMMN'        OMMM0        .NMM:      xMMo     NMM,
-  WMMx            :MMK         'MMN          .MMM;     WMMc         :MMM.         xMMd      xMMo     xMMK:.
-  WMM'            :MMK         dMMNOOOOOOOOOO0MMMl     WMM'         :MMN          dMMd      xMMo      ,kWMMXkl,.
-  WMM.            :MMK         xMMKllllllllllllll'     WMM.         :MMN          dMMd      xMMo         .:d0WMMNx,
-  WMM.            :MMK         lMMK                    WMM.         :MMN          dMMd      xMMo              'lXMMO
-  WMM.            ;MMK          XMMo                   WMM.         :MMN          dMMd      xMMo                 XMM'
-  WMM.            .WMMc         .KMMO;.       .,.      WMM.         :MMN          dMMd      xMMo     ;'.        cWMX
-  WMM.             ,NMMN0O0K'     ;0MMMNK0KKNMMMl      WMM.         :MMN          dMMd      xMMo     XMMNK0OO0XMMWd.
-  ;::                'clool:         ':looooc:'.       ;::          .::;          .::.      .::.      .;clooolc;.
-
-
-")
-cat(rtemis)
-
-
 # rtModLite R6 ====
 #' \pkg{rtemis} Lite Supervised Model Class
 #'
@@ -1743,3 +1721,103 @@ rtMod.out <- function(rt,
   }
   if (save.mod) rtSave(rt, outdir, verbose = verbose)
 }
+
+
+# rtemis <- as.character("
+#                                                                                             ;kx,
+#                     '.                                                                      KMMO
+#                    lMK
+#                   .WMK
+#   XXd  ,xXWMMW.'xKMMMWXXXXXX.      ;xKWMMMWXOc.        KXx .o0NMMMWXk:   :kXWMMMWKx,        oXXl      .ckKWMMMMWX0x,
+#   WMX'XM0l;,;; .,,dMMX,,,,,,     :NMWx:'..;oNMWo       WMMOMOc,'',lKMMXlNNx:'.';oNMMk       xMMo     :WMNo;'..';lxO.
+#   WMMMk.          :MMK          oMMO.        OMMO      WMMN'        OMMM0        .NMM:      xMMo     NMM,
+#   WMMx            :MMK         'MMN          .MMM;     WMMc         :MMM.         xMMd      xMMo     xMMK:.
+#   WMM'            :MMK         dMMNOOOOOOOOOO0MMMl     WMM'         :MMN          dMMd      xMMo      ,kWMMXkl,.
+#   WMM.            :MMK         xMMKllllllllllllll'     WMM.         :MMN          dMMd      xMMo         .:d0WMMNx,
+#   WMM.            :MMK         lMMK                    WMM.         :MMN          dMMd      xMMo              'lXMMO
+#   WMM.            ;MMK          XMMo                   WMM.         :MMN          dMMd      xMMo                 XMM'
+#   WMM.            .WMMc         .KMMO;.       .,.      WMM.         :MMN          dMMd      xMMo     ;'.        cWMX
+#   WMM.             ,NMMN0O0K'     ;0MMMNK0KKNMMMl      WMM.         :MMN          dMMd      xMMo     XMMNK0OO0XMMWd.
+#   ;::                'clool:         ':looooc:'.       ;::          .::;          .::.      .::.      .;clooolc;.
+#
+#
+# ")
+#
+# rtemisML <- as.character("
+#
+#                         MM
+#                        MLL
+#              MM      MMLLL                 MMM                     MMM           MMM                           MMMM
+# MMMMMLLM MMLLLLLMM MMLLLLLMMMMMMMM    MMMMMMMMMLMM    MMMMMLLM MMMLLLLLLM   MMMLLLLLLMM      MMMMMLL       MMMMMMMMMLLM
+#    MLLLMMMM    MM     MLLL          MMLM       MLLLM    MMLLLMMM    MMLLLMMMM     MMLLLM       MLLLL      MLLM      MMM
+#    MLLLMM       M     MLLL         MLLM         MLLLM    MLLLM        MLLLM         MLLLM       MLLL     MLLLM       MM
+#     LLLM       MLM    MLLL        MLLLMMMMMMMMMMMLLLM    MLLLM         MLLM         MLLLM       MLLL      MLLLMM
+#     LLLM       MLM    MLLL        LLLMMMMMMMMMMMMMMMM    MLLLM         MLLL          LLLM       MLLL       MMLLLLMMM
+#     LLLM              MLLL        LLLM                   MLLLM         MLLL          LLLM       MLLL          MMMLLLMMM
+#     LLLM              MLLL        MLLLM                  MLLLM         MLLL          LLLM       MLLL              MMLLLM
+#     LLLM              MLLL         MLLLM                 MLLLM         MLLL          LLLM       MLLL     MM        MLLLM
+#    MLLLM              MLLLM         MMLLMMMM    MMMM     MLLLM         MLLL          LLLM       MLLL     MMM       MLLMM
+# MMMMLLLLMMM            MMLLLMMMMMM    MMMLLLLLLLMM    MMMLLLLMMMM   MMMLLLLMMMM  MMMMLLLLMMMMMMMLLLLMMMM MLLMMMMMMMMMM
+# MMMMMMMMMMMM              MMMMM          MMMMMM       MMMMMMMMMMM  MMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMMMMMM   MMMMMMMMM
+#
+#                          ")
+#
+# rtemisML2 <- as.character("
+#
+#                        MLM
+#                       MMLM
+#             MMM      MLLLM                MM                      MMM          MMM                          MMMM
+# MMMMMLLM MMLLLLLM MMLLLLLMMMMMMMM    MMMMMMMMMMMM   MMMMMMLM MMMLLLLLLMM  MMMLLLLLLMM     MMMMMLLM      MMMMMMMMMLLM
+#   MMLLLMMMM   MMM    MLLLM         MMLM       MLLMM    MLLLMMM     MLLLLMMM     MMLLLM       MLLLM     MLLM      MMM
+#    MLLLM       MM    MLLLM        MLLM         MLLM     LLLM        MLLLM         MLLLM      MLLLM    MLLLM        M
+#    MLLLM       MLM   MLLLM       MLLLMMMMMMMMMMMLLLM    LLLM         MLLL         MLLLM       LLLM     MLLLMM
+#    MLLLM      MMMM   MLLLM       MLLLMMMMMMMMMMMMMM     LLLM         MLLL          LLLM       LLLM      MMLLLLMMM
+#    MLLLM             MLLLM       MLLL                   LLLM         MLLL          LLLM       LLLM         MMMLLLMMM
+#    MLLLM             MLLLM       MLLLM                  LLLM         MLLL          LLLM       LLLM             MMLLLM
+#    MLLLM             MLLLM        MLLLM                 LLLM         MLLL          LLLM       LLLM    MM         LLLM
+#    MLLLM              MLLMM        MMLLMMMM    MMMM     LLLM         MLLLM        MLLLM      MLLLM    MLM       MLLMM
+# MMMMLLLMMMM            MMLLMMMMMM    MMMLLLLLLLMM    MMMLLLLMMM   MMMMLLLMMMM  MMMMLLLLMMMMMMMLLLMMMM  MLMMMMMMMMMM
+# MMMMMMMMMMM              MMMMM          MMMMMM      MMMMMMMMMMM   MMMMMMMMMMM  MMMMMMMMMMMMMMMMMMMMMM   MMMMMMMMM
+#
+# ")
+
+rtemis1 <- as.character('
+                  s                                      .       .x+=:.
+                 :8                                     @88>    z`    ^%
+   .u    .      .88                  ..    .     :      %8P        .   <k
+ .d88B :@8c    :888ooo      .u     .888: x888  x888.     .       .@8Ned8"
+="8888f8888r -*8888888   ud8888.  ~`8888~`888X`?888f`  .@88u   .@^%8888"
+  4888>`88"    8888    :888`8888.   X888  888X `888>  ``888E` x88:  `)8b.
+  4888> `      8888    d888 `88%"   X888  888X `888>    888E  8888N=*8888
+  4888>        8888    8888.+"      X888  888X `888>    888E   %8"    R88
+ .d888L .+    .8888Lu= 8888L        X888  888X `888>    888E    @8Wou 9%
+ ^"8888*"     ^%888*   `8888c. .+  "*88%""*88" `888!`   888&  .888888P`
+    "Y"         `Y"     "88888%      `~    "    `"`     R888" `   ^"F
+                          "YP`                           ""
+')
+
+# rtemis2 <- as.character("
+#  ██▀███  ▄▄▄█████▓▓█████  ███▄ ▄███▓ ██▓  ██████
+# ▓██ ▒ ██▒▓  ██▒ ▓▒▓█   ▀ ▓██▒▀█▀ ██▒▓██▒▒██    ▒
+# ▓██ ░▄█ ▒▒ ▓██░ ▒░▒███   ▓██    ▓██░▒██▒░ ▓██▄
+# ▒██▀▀█▄  ░ ▓██▓ ░ ▒▓█  ▄ ▒██    ▒██ ░██░  ▒   ██▒
+# ░██▓ ▒██▒  ▒██▒ ░ ░▒████▒▒██▒   ░██▒░██░▒██████▒▒
+# ░ ▒▓ ░▒▓░  ▒ ░░   ░░ ▒░ ░░ ▒░   ░  ░░▓  ▒ ▒▓▒ ▒ ░
+#   ░▒ ░ ▒░    ░     ░ ░  ░░  ░      ░ ▒ ░░ ░▒  ░ ░
+#   ░░   ░   ░         ░   ░      ░    ▒ ░░  ░  ░
+#    ░                 ░  ░       ░    ░        ░
+#
+# ")
+# cat(rtemis2)
+
+
+rtemis3 <- as.character("
+██████╗ ████████╗███████╗███╗   ███╗██╗███████╗
+██╔══██╗╚══██╔══╝██╔════╝████╗ ████║██║██╔════╝
+██████╔╝   ██║   █████╗  ██╔████╔██║██║███████╗
+██╔══██╗   ██║   ██╔══╝  ██║╚██╔╝██║██║╚════██║
+██║  ██║   ██║   ███████╗██║ ╚═╝ ██║██║███████║
+╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝     ╚═╝╚═╝╚══════╝
+
+")
+cat(rtemis3)
