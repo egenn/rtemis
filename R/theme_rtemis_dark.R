@@ -10,7 +10,9 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point() + theme_rtemis_light())
+#' (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
+#' geom_point() +
+#' theme_rtemis_light())
 #' }
 
 theme_rtemis_dark <- function(base_size = 14,
