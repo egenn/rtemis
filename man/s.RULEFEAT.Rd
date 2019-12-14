@@ -21,6 +21,7 @@ s.RULEFEAT(
   question = NULL,
   verbose = TRUE,
   n.cores = rtCores,
+  which.gbm = c("gbm", "gbm3"),
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
