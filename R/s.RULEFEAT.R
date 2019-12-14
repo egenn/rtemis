@@ -42,6 +42,7 @@ s.RULEFEAT <- function(x, y = NULL,
                        question = NULL,
                        verbose = TRUE,
                        n.cores = rtCores,
+                       which.gbm = c("gbm", "gbm3"),
                        print.plot = TRUE,
                        plot.fitted = NULL,
                        plot.predicted = NULL,
@@ -62,9 +63,11 @@ s.RULEFEAT <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RULEFEAT"
+  which.gbm <- match.arg(which.gbm)
+  .gbm <- ifelse(which.gbm == "gbm", "s.GBM", "s.GBM3")
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("gbm3", "glmnet", "gsubfn", "inTrees", "data.table", verbose = FALSE)) {
+  if (!depCheck(which.gbm, "glmnet", "gsubfn", "inTrees", "data.table", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
@@ -103,11 +106,11 @@ s.RULEFEAT <- function(x, y = NULL,
                        n.cores = n.cores),
                   gbm.params)
     if (verbose) msg("Running Gradient Boosting...")
-    mod.gbm <- do.call(s.GBM3, gbm.args)
+    mod.gbm <- do.call(.gbm, gbm.args)
 
     # [ Get Rules ] ====
     if (verbose) msg("Collecting Gradient Boosting Rules (Trees)...")
-    gbm.list <- rt.GBM2List(mod.gbm$mod, X = x)
+    gbm.list <- rt.GBM2List(mod.gbm$mod, X = x, which.gbm = which.gbm)
     gbm.rules <- inTrees::extractRules(gbm.list, X = x, ntree = n.trees,
                                        maxdepth = gbm.params$interaction.depth)
     if (verbose) msg("Extracted", length(gbm.rules), "rules...")
@@ -313,11 +316,16 @@ predict.ruleFeat <- function(object, newdata = NULL,
 } # rtemis::predict.ruleFeat
 
 
-rt.GBM2List <- function(gbm1, X) {
-  treeList <- list(ntree = gbm1$params$num_trees)
-  treeList$list <- vector("list", gbm1$params$num_trees)
+rt.GBM2List <- function(gbm1, X, which.gbm = "gbm") {
+
+  treeList <- if (which.gbm == "gbm") list(ntree = gbm1$n.trees) else list(ntree = gbm1$params$num_trees)
+  treeList$list <- vector("list", treeList$ntree)
   for (i in seq(treeList$ntree)) {
-    treeList$list[[i]] <- gbm3::pretty_gbm_tree(gbm1, tree_index = i)
+    if (which.gbm == "gbm") {
+      treeList$list[[i]] <- gbm::pretty.gbm.tree(gbm1, i.tree = i)
+    } else {
+      treeList$list[[i]] <- gbm3::pretty_gbm_tree(gbm1, tree_index = i)
+    }
   }
   v2int <- function(v) {
     sum((-v + 1)/2 * 2^seq(0, (length(v) - 1), 1))
