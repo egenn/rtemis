@@ -40,7 +40,9 @@ theme_rtemis_light(
 }
 \examples{
 \dontrun{
-(p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) + geom_point() + theme_rtemis_light())
+(p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
+geom_point() +
+theme_rtemis_light())
 }
 }
 \author{
