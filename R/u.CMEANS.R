@@ -7,10 +7,10 @@
 #' Perform fuzzy C-means clustering using \code{e1071::cmeans}
 #'
 #' @inheritParams u.KMEANS
-#' @param k Integer: Number of clusters to get
-#' @param iter.max Integer: Maximum number of iterations
-#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
-#' @param method Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update
+#' @param k Integer: Number of clusters to get. Default = 2
+#' @param iter.max Integer: Maximum number of iterations. Default = 100
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'. Default = "euclidean"
+#' @param method Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update. Default = "cmeans"
 #' @param m Float (>1): Degree of fuzzification. Default = 2
 #' @param rate.par Float (0, 1): Learning rate for the online variant. (Default = .3)
 #' @param weights Float (>0): Case weights
