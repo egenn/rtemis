@@ -71,10 +71,6 @@ s.GAMSEL <- function(x, y = NULL,
   }
 
   # [ ARGUMENTS ] ====
-  if (missing(x)) {
-    print(args(s.GAM))
-    stop("x is missing")
-  }
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.GAMSEL))
     stop("y is missing")
