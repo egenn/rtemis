@@ -21,13 +21,13 @@ u.CMEANS(
 \arguments{
 \item{x}{Input matrix / data.frame}
 
-\item{k}{Integer: Number of clusters to get}
+\item{k}{Integer: Number of clusters to get. Default = 2}
 
-\item{iter.max}{Integer: Maximum number of iterations}
+\item{iter.max}{Integer: Maximum number of iterations. Default = 100}
 
-\item{dist}{Character: Distance measure to use: 'euclidean' or 'manhattan'}
+\item{dist}{Character: Distance measure to use: 'euclidean' or 'manhattan'. Default = "euclidean"}
 
-\item{method}{Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update}
+\item{method}{Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update. Default = "cmeans"}
 
 \item{m}{Float (>1): Degree of fuzzification. Default = 2}
 

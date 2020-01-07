@@ -123,6 +123,8 @@ Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
+\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
+
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{grid}{Logical: If TRUE, draw grid}

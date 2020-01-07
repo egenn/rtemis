@@ -138,6 +138,8 @@ plot.}
 
 \item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
 
+\item{fit.col}{Color: Color of the fit line.}
+
 \item{fit.lwd}{Float: Fit line width}
 
 \item{se.col}{Color for \code{se.fit}}

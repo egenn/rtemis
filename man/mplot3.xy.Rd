@@ -335,6 +335,8 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
+\item{fit.col}{Color: Color of the fit line.}
+
 \item{fit.lwd}{Float: Fit line width}
 
 \item{se.lty}{How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
@@ -376,6 +378,8 @@ Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
+\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
+
 \item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
 
 \item{zero.col}{Color for \code{zero.lines}}
@@ -385,6 +389,9 @@ options(rt.theme = 'lightgrid')}
 \item{zero.lty}{Integer: Zero line line type}
 
 \item{zero.lwd}{Float: Zero line width}
+
+\item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
+otherwise FALSE}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
