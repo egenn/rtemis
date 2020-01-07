@@ -6,6 +6,7 @@
 #' Multivariate adaptive regression splines (MARS) [C, R]
 #'
 #' Trains a MARS model using \code{earth::earth}.
+#' [gS] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
 #' For more info on algorithm hyperparameters, see \code{?earth::earth}
 #'
 #' @param x Numeric vector or matrix of features, i.e. independent variables
