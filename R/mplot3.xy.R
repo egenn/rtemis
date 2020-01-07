@@ -148,7 +148,7 @@
 #' @param error.x.lwd
 #' @param error.y.lwd
 #' @param error.arrow.code
-#' @param fit.col
+#' @param fit.col Color: Color of the fit line.
 #' @param fit.alpha
 #' @param fit.legend
 #' @param se.lwd
@@ -182,8 +182,9 @@
 #' @param fit.legend.at
 #' @param labs.col
 #' @param na.rm
-#' @param palette
-#' @param order.on.x
+#' @param palette Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}
+#' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
+#' otherwise FALSE
 #' @param alpha.off
 #' @param autolabel
 #' @param set.par
@@ -435,9 +436,12 @@ mplot3.xy <- function(x, y,
       dir.create(dirname(filename), recursive = TRUE)
 
   # Reorder
-  if (is.null(order.on.x)) {
-    order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
-  }
+  # delta
+  # if (is.null(order.on.x)) {
+  #   order.on.x <- if (!is.null(fit) | "l" %in% type) TRUE else FALSE
+  # }
+  if (!is.null(fit)) order.on.x <- TRUE
+  if (is.null(order.on.x)) order.on.x <- FALSE
 
   # [ CLUSTER ] ====
   if (!is.null(cluster)) {
@@ -559,10 +563,9 @@ mplot3.xy <- function(x, y,
 
   if (theme == "light") {
     if (is.null(bg)) bg <- "white"
-    if (is.null(col) & Nxgroups == 1) {
-      # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-      col <- list("gray30")
-    }
+    # if (is.null(col) & Nxgroups == 1) {
+    #   col <- list("gray30")
+    # } # delta
     # box.col <- "white"
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
@@ -575,10 +578,10 @@ mplot3.xy <- function(x, y,
     gen.col <- "black"
   } else if (theme == "dark") {
     if (is.null(bg)) bg <- "black"
-    if (is.null(col) & Nxgroups == 1) {
-      # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-      col <- list("gray70")
-    }
+    # if (is.null(col) & Nxgroups == 1) {
+    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
+    #   col <- list("gray70")
+    # } # delta
     # box.col <- "black"
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
@@ -591,10 +594,10 @@ mplot3.xy <- function(x, y,
     gen.col <- "white"
   } else if (theme == "lightbox") {
     if (is.null(bg)) bg <- "white"
-    if (is.null(col) & Nxgroups == 1) {
-      # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-      col <- list("gray30")
-    }
+    # if (is.null(col) & Nxgroups == 1) {
+    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
+    #   col <- list("gray30")
+    # } # delta
     # if (is.null(box.col)) box.col <- "gray10"
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
@@ -606,10 +609,10 @@ mplot3.xy <- function(x, y,
     gen.col <- "black"
   } else if (theme == "darkbox") {
     if (is.null(bg)) bg <- "black"
-    if (is.null(col) & Nxgroups == 1) {
-      # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-      col <- list("gray70")
-    }
+    # if (is.null(col) & Nxgroups == 1) {
+    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
+    #   col <- list("gray70")
+    # } # delta
     # if (is.null(box.col)) box.col <- "gray90"
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
@@ -687,7 +690,8 @@ mplot3.xy <- function(x, y,
   ### Fit & SE color
   if (!is.null(fit)) {
     if (is.null(fit.col)) {
-      if (Nxgroups == 1) fit.col <- ucsfCol$teal else fit.col <- palette
+      # if (Nxgroups == 1) fit.col <- "#18A3AC" else fit.col <- palette # delta
+      if (Nxgroups == 1) fit.col <- palette
     }
   }
   if (se.fit) {
@@ -1168,7 +1172,8 @@ mplot3.fit <- function(x, y,
                        axes.equal = TRUE,
                        diagonal = TRUE,
                        theme = getOption("rt.fit.theme", "lightgrid"),
-                       col = NULL,
+                       point.col = NULL,
+                       fit.col = NULL,
                        pty = "s",
                        zero.lines = FALSE,
                        fit.legend = FALSE, ...) {
@@ -1185,22 +1190,22 @@ mplot3.fit <- function(x, y,
   } else if (type == "Survival") {
     msg("Not currently supported")
   } else {
-    if (is.null(col)) {
+    # if (is.null(col)) {
+    #   mplot3.xy(x, y,
+    #             fit = fit, se.fit = se.fit, fit.error = fit.error,
+    #             axes.equal = axes.equal, diagonal = diagonal,
+    #             theme = theme, zero.lines = zero.lines,
+    #             pty = pty,
+    #             fit.legend = fit.legend, ...)
+    # } else {
       mplot3.xy(x, y,
                 fit = fit, se.fit = se.fit, fit.error = fit.error,
                 axes.equal = axes.equal, diagonal = diagonal,
                 theme = theme, zero.lines = zero.lines,
+                point.col = point.col, fit.col = fit.col,
                 pty = pty,
                 fit.legend = fit.legend, ...)
-    } else {
-      mplot3.xy(x, y,
-                fit = fit, se.fit = se.fit, fit.error = fit.error,
-                axes.equal = axes.equal, diagonal = diagonal,
-                theme = theme, zero.lines = zero.lines,
-                point.col = col, fit.col = col,
-                pty = pty,
-                fit.legend = fit.legend, ...)
-    }
+    # }
 
   }
 
