@@ -100,12 +100,12 @@ s.LM <- function(x, y = NULL,
 
   # [ DEPENDENCIES ] ====
   if (robust) {
-    if (!depCheck("MASS")) {
+    if (!depCheck("MASS", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
   }
   if (gls) {
-    if (!depCheck("nlme")) {
+    if (!depCheck("nlme", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
     }
   }
@@ -114,7 +114,6 @@ s.LM <- function(x, y = NULL,
   if (is.null(y) & NCOL(x) < 2) { print(args(s.LM)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  prefix <- paste0(y.name, "~", x.name)
   if (sum(c(robust, gls, polynomial)) > 1) {
     stop("Can only specify one of 'robust', 'gls', or 'polynomial'")
   }
@@ -137,7 +136,7 @@ s.LM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
