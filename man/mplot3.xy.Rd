@@ -6,7 +6,7 @@
 \usage{
 mplot3.xy(
   x,
-  y,
+  y = NULL,
   fit = NULL,
   formula = NULL,
   se.fit = FALSE,

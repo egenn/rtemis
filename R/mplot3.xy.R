@@ -199,7 +199,7 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-mplot3.xy <- function(x, y,
+mplot3.xy <- function(x, y = NULL,
                       fit = NULL,
                       formula = NULL,
                       se.fit = FALSE,
@@ -359,6 +359,12 @@ mplot3.xy <- function(x, y,
                       filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
+  if (is.null(y) & NCOL(x) > 1) {
+    if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
+    if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
+    y <- x[, 2]
+    x <- x[, 1]
+  }
   if (is.null(type)) type <- "p"
   if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
   if (isTRUE(fit)) fit <- "GAM"
