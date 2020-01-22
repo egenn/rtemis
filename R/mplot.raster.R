@@ -42,6 +42,7 @@ mplot.raster <- function(x,
   }
   par(pty = "s", bg = bg, mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   plot(NULL, NULL, xlim = c(0, 100), ylim = c(0, 100), axes = FALSE, ann = FALSE)
+  if (max(x) > 1) x <- x/max(x)
   rasterImage(x, 0, 0, 100, 100)
 
 } # rtemis::mplot.raster
