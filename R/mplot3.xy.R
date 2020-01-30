@@ -569,10 +569,9 @@ mplot3.xy <- function(x, y = NULL,
 
   if (theme == "light") {
     if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & Nxgroups == 1) {
-    #   col <- list("gray30")
-    # } # delta
-    # box.col <- "white"
+    if (is.null(col) & Nxgroups == 1) {
+      col <- list("gray30")
+    }
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
     if (is.null(labs.col)) labs.col <- "gray10"
@@ -584,11 +583,9 @@ mplot3.xy <- function(x, y = NULL,
     gen.col <- "black"
   } else if (theme == "dark") {
     if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & Nxgroups == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # } # delta
-    # box.col <- "black"
+    if (is.null(col) & Nxgroups == 1) {
+      col <- list("gray70")
+    }
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
     if (is.null(labs.col)) labs.col <- "gray90"
@@ -600,11 +597,9 @@ mplot3.xy <- function(x, y = NULL,
     gen.col <- "white"
   } else if (theme == "lightbox") {
     if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & Nxgroups == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # } # delta
-    # if (is.null(box.col)) box.col <- "gray10"
+    if (is.null(col) & Nxgroups == 1) {
+      col <- list("gray30")
+    }
     if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray10"
     if (is.null(labs.col)) labs.col <- "gray10"
@@ -615,11 +610,9 @@ mplot3.xy <- function(x, y = NULL,
     gen.col <- "black"
   } else if (theme == "darkbox") {
     if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & Nxgroups == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # } # delta
-    # if (is.null(box.col)) box.col <- "gray90"
+    if (is.null(col) & Nxgroups == 1) {
+      col <- list("gray70")
+    }
     if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
     if (is.null(tick.col)) tick.col <- "gray90"
     if (is.null(labs.col)) labs.col <- "gray90"
@@ -632,16 +625,13 @@ mplot3.xy <- function(x, y = NULL,
 
   # [ COLORS ] ====
   # Point colors
-  # if (length(col) < Nygroups) col <- as.list(rep(col, Nygroups / length(col)))
-  # marker.col <- lapply(col, function(x) adjustcolor(x, point.alpha)) # marker = points and/or lines
-
   ### Point and Line colors
   if (all(type == "p")) {
     # ONLY POINTS
     if (length(type) == 1) {
       # SINGLE XY PAIR
       if (is.null(point.col)) {
-        if (is.null(fit)) point.col <- palette[1] else point.col <- col
+        point.col <- if (is.null(fit)) palette[1] else col
       } else if (length(point.col) > 1) {
         if (length(point.col) < length(xl[[1]])) {
           point.col <- rep(point.col, length(xl[[1]]/length(point.col)))
@@ -880,18 +870,6 @@ mplot3.xy <- function(x, y = NULL,
   }
 
   # [ POINTS AND LINES ] ====
-  # return(point.size)
-  #   for (i in 1:Nxgroups) {
-  #     if (type[[i]] == "p") {
-  #       symbols(xl[[i]], yl[[i]], circles = point.size[[i]], # rep(point.size[[i]], length(xl[[i]]) / length(size[[i]])),
-  #               inches = point.inches, fg = point.fg.col, bg = marker.col[[i]], add = T)
-  #       # inches = point.inches, fg = marker.col[[i]], bg = marker.col[[i]], add = T)
-  #       # if (is.null(main)) main <- paste(ylab, "vs.", xlab)
-  #     } else {
-  #       lines(xl[[i]], yl[[i]], col = marker.col[[i]], lwd = lwd)
-  #     }
-  #   }
-
   if (scatter) {
 
     if (!is.null(error.y)) {
@@ -964,12 +942,7 @@ mplot3.xy <- function(x, y = NULL,
     for (i in 1:Nxgroups) {
       lines(xl[[i]], fitted[[i]], col = fit.col[[i]], lwd = fit.lwd, lty = lty[[i]])
     }
-    #     if (fit.legend) {
-    #       legend.fit <- ifelse(!is.null(xy.fit), paste0(fit, ": y ~ x"), paste(toupper(fit), "fit"))
-    #     }
   }
-
-  #orig fit.legend: padj = seq(2, 2 + 1.5 * (Nxgroups - 1), 1.5))
 
 
   # [ FIT LEGEND ] ====
