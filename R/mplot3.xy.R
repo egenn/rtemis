@@ -686,8 +686,7 @@ mplot3.xy <- function(x, y = NULL,
   ### Fit & SE color
   if (!is.null(fit)) {
     if (is.null(fit.col)) {
-      # if (Nxgroups == 1) fit.col <- "#18A3AC" else fit.col <- palette # delta
-      if (Nxgroups == 1) fit.col <- palette
+      fit.col <- palette
     }
   }
   if (se.fit) {
@@ -704,8 +703,6 @@ mplot3.xy <- function(x, y = NULL,
   if (is.null(error.x.col)) {
     error.x.col <- marker.col
   } else {
-    # if (!is.list(error.x.col)) error.x.col <- as.list(error.x.col)
-    # if (length(error.x.col) < Nxgroups) error.x.col <- rep(error.x.col, Nxgroups/length(error.x.col))
     error.x.col <- error.x.col[seql(error.x.col, Nxgroups)]
   }
 
