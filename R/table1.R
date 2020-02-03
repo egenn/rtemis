@@ -23,6 +23,8 @@
 table1 <- function(x,
                    summaryFn1 = mean,
                    summaryFn2 = sd,
+                   summaryFn1.extraArgs = list(na.rm = TRUE),
+                   summaryFn2.extraArgs = list(na.rm = TRUE),
                    labelify = TRUE,
                    verbose = TRUE,
                    filename  = NULL) {
@@ -49,8 +51,12 @@ table1 <- function(x,
 
   ## '- Continuous Features ====
   if (length(index.cont) > 0) {
-    .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn1)
-    .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn2)
+    # .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn1)
+    .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i)
+      do.call(summaryFn1, c(list(i), summaryFn1.extraArgs)))
+    # .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn2)
+    .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i)
+      do.call(summaryFn2, c(list(i), summaryFn2.extraArgs)))
     .summary_cont <- paste0(ddSci(.summary1_cont), " (", ddSci(.summary2_cont), ")")
   } else {
     .summary_cont <- NULL
