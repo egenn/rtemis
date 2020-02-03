@@ -15,19 +15,11 @@
 depCheck <- function(..., verbose = TRUE) {
 
   ns <- as.list(c(...))
-  err <- vector()
+  err <- !sapply(ns, function(i) requireNamespace(i, quietly = TRUE))
 
-  for (i in 1:length(ns)) {
-    if (requireNamespace(ns[[i]], quietly = TRUE)) {
-      err <- c(err, 0)
-    } else {
-      err <- c(err, 1)
-    }
-  }
-
-  if (sum(err) > 0) {
-    msg("Dependencies missing:", as.message = TRUE)
-    message(paste("    ", ns[as.logical(err)], collapse = "\n"))
+  if (any(err)) {
+    msg("Please install the following missing dependencies:", as.message = TRUE)
+    message(paste("    *", ns[err], collapse = "\n"))
     return(FALSE)
     # stop("Please install dependencies and try again") # Error appears in Traceback; not pretty in RStudio
   } else {
