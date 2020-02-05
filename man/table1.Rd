@@ -8,6 +8,8 @@ table1(
   x,
   summaryFn1 = mean,
   summaryFn2 = sd,
+  summaryFn1.extraArgs = list(na.rm = TRUE),
+  summaryFn2.extraArgs = list(na.rm = TRUE),
   labelify = TRUE,
   verbose = TRUE,
   filename = NULL

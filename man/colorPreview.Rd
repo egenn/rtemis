@@ -6,11 +6,15 @@
 \usage{
 colorPreview(
   col,
+  x = seq(col),
+  y = rep(1, length(col)),
   main = NULL,
   names = TRUE,
-  names.y = 1.045,
+  names.x = x,
+  names.y = y + 0.045,
   srt = 45,
   alpha = 1,
+  xlim = NULL,
   ylim = c(0.95, 1.1),
   cex = 12,
   pch = 18,
