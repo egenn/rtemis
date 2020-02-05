@@ -27,11 +27,15 @@
 #' @export
 
 colorPreview <- function(col,
+                         x = seq(col),
+                         y = rep(1, length(col)),
                          main = NULL,
                          names = TRUE,
-                         names.y = 1.045,
+                         names.x = x,
+                         names.y = y + .045,
                          srt = 45,
                          alpha = 1,
+                         xlim = NULL,
                          ylim = c(0.95, 1.1),
                          cex = 12,
                          pch = 18,
@@ -57,17 +61,20 @@ colorPreview <- function(col,
   par(mar = mar, bg = bg)
 
   .col <- adjustcolor(col, alpha)
-  plot(seq(col), rep(1, length(col)),
-       # xlim = c(0.9, 1.1),
+
+  # Plot ====
+  plot(x, y,
+       xlim = xlim,
        ylim = ylim, ann = FALSE, axes = FALSE, pch = pch, col = .col, cex = cex, xpd = TRUE,
        xaxs = "r", yaxs = "i")
   if (!is.null(main)) mtext(main, line = main.line,
                             font = 2, xpd = TRUE, adj = 0,
                             col = main.col)
 
+  # Annotation ====
   if (names) {
     if (!is.null(names(col))) {
-      text(seq(col), y = names.y, names(col),
+      text(x = names.x, y = names.y, names(col),
            col = .col, adj = 0,
            srt = srt, xpd = TRUE)
     }
