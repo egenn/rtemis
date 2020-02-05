@@ -1206,3 +1206,24 @@ rtBlue <- make_style(rtBlue = "#005581")
 rtOrange <- make_style(rtOrange = "#F48024")
 rtHighlight.color <- getOption("rt.highlight.color", "#18A3AC")
 rtHighlight <- make_style(rtHighlight = rtHighlight.color)
+
+#' Access rtemis palette colors
+#'
+#' Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
+#'
+#' @param n Integer: Number of colors to output
+#' @param palette Character: Palette to use. See available options with \code{rtPalette()}.
+#' Default = \code{getOption("rt.palette", "rtCol1")}
+#' @export
+#' @author Efstathios D Gennatas
+#' @example
+#' rtemis_palette(3)
+
+rtemis_palette <- function(n,
+                           palette = getOption("rt.palette", "rtCol1")) {
+
+  .palette <- unlist(rtPalette(palette))
+  names(.palette) <- NULL
+  .palette[seq_len(n)]
+
+} # rtemis::rtemis_palette
