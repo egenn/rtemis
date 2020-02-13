@@ -78,7 +78,7 @@ gridSearchLearn <- function(x, y, mod,
   # Since these will not be present in best.tune, assignment to the non-existent named elements will result in NULL,
   # as required. This is needed for functions with parameters that can take NULL value
   grid.params <- Filter(Negate(is.null), grid.params)
-  param.grid <- expand.grid(c(list(res.id = 1:n.resamples), grid.params), stringsAsFactors = FALSE)
+  param.grid <- expand.grid(c(list(res.id = seq(n.resamples)), grid.params), stringsAsFactors = FALSE)
   n.param.combs <- NROW(param.grid) / n.resamples
   if (search.type == "randomized") {
     index.per.resample <- sample(n.param.combs, round(randomized.p * n.param.combs))
@@ -125,7 +125,9 @@ gridSearchLearn <- function(x, y, mod,
       out1$lambda.min <- mod1$mod$lambda.min
       out1$lambda.1se <- mod1$mod$lambda.1se
     }
-    if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$opt.n.leaves
+    # delta 02.06.2020
+    # if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$opt.n.leaves
+    if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$n.leaves
     if (save.mod) out1$mod1 <- mod1
     out1
   }
@@ -172,16 +174,20 @@ gridSearchLearn <- function(x, y, mod,
   # [ AGGREGATE ] ====
   n.params <- length(grid.params)
   # Average train and test errors
-  if (grid.run[[1]]$type %in% c("Regression", "Survival")) {
-    error.test.all <- plyr::ldply(grid.run, function(x) x$error.test)
-    error.test.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+  if (type %in% c("Regression", "Survival")) {
+    # delta 02.05.2020
+    # error.test.all <- plyr::ldply(grid.run, function(x) x$error.test)
+    error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test))))
+    error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     error.test.mean.by.param.id <- aggregate(error.test.all,
                                              by = list(param.id = error.test.all$param.id),
                                              error.aggregate.fn)[, -1]
     tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
-  } else if (grid.run[[1]]$type == "Classification") {
-    error.test.all <- plyr::ldply(grid.run, function(x) x$error.test$Overall)
-    error.test.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+  } else if (type == "Classification") {
+    # delta 02.05.2020
+    # error.test.all <- plyr::ldply(grid.run, function(x) x$error.test$Overall)
+    error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test$Overall))))
+    error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     error.test.mean.by.param.id <- aggregate(error.test.all,
                                              by = list(param.id = error.test.all$param.id),
                                              error.aggregate.fn)[, -1]
@@ -223,15 +229,18 @@ gridSearchLearn <- function(x, y, mod,
 
   # '- SHYTREE ====
   if (learner == "s.SHYTREE") {
+    # ERROR
     est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
-    est.n.leaves.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+    est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.leaves.by.param.id <- aggregate(n.leaves ~ param.id, est.n.leaves.all,
                                           error.aggregate.fn)
     tune.results <- cbind(n.leaves = round(est.n.leaves.by.param.id$n.leaves), tune.results)
     n.params <- n.params + 1
   }
 
-  best.tune <- tune.results[select.fn(tune.results[[metric]]), seq(n.params),
+  # TODO: consider explicitly ordering hyperparam values in increasing order if this makes sense,
+  # so that in case of tie, lowest value is chose, again, if that makes sense, e.g. n.leaves, etc.
+  best.tune <- tune.results[select.fn(tune.results[[metric]]), seq_len(n.params),
                             drop = FALSE]
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
 
