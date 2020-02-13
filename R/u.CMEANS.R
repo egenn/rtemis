@@ -37,9 +37,9 @@ u.CMEANS <- function(x,
   clust.name <- "CMEANS"
 
   # [ DATA ] ====
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.data.frame(x)
-  xnames <- colnames(x)
+  xnames <- colnames(x) <- .colnames
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("e1071", verbose = FALSE)) {
