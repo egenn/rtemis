@@ -258,12 +258,12 @@ Let's select all variables from the iris dataset, excluding the group names:
 x <- iris[, 1:4]
 ```
 
-## Non-negative Matrix Factorization (NMF)
-```{r}
-iris.NMF <- d.NMF(x, k = 2)
-mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2], group = iris$Species,
-          xlab = "1st NMF component", ylab = "2nd NMF component", main = "NMF on iris")
-```
+<!-- ## Non-negative Matrix Factorization (NMF) -->
+<!-- ```{r} -->
+<!-- iris.NMF <- d.NMF(x, k = 2) -->
+<!-- mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2], group = iris$Species, -->
+<!--           xlab = "1st NMF component", ylab = "2nd NMF component", main = "NMF on iris") -->
+<!-- ``` -->
 
 # Unsupervised Learning: Clustering
 ## K-means
