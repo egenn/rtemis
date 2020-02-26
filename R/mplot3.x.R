@@ -368,6 +368,7 @@ mplot3.x <- function(x,
   # [ DATA: HISTOGRAM ] ====
   if (type == "histogram") {
     histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks, plot = FALSE))
+    if (is.null(xlab)) xlab <- labelify(xname)
   }
 
   # [ AXES LIMITS ] ====
