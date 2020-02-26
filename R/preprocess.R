@@ -19,7 +19,7 @@
 #'   * scale/center
 #'   * removeConstants
 #'
-#' @param x Input
+#' @param x Input data frame
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
 #' @param removeCases.thres Float: Remove cases with >= to this fraction of missing features.
@@ -69,7 +69,8 @@ preprocess <- function(x, y = NULL,
                        impute = FALSE,
                        impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
                        impute.missRanger.params = list(pmm.k = 0,
-                                                       maxiter = 10),
+                                                       maxiter = 10,
+                                                       num.trees = 500),
                        impute.missForest.params = list(maxiter = 10,
                                                        ntree = 500,
                                                        parallelize = "no"),
@@ -218,6 +219,7 @@ preprocess <- function(x, y = NULL,
     .colnames <- colnames(x)
     for (i in cols.with.na) {
       x[, paste0(.colnames[i], "_missing")] <- as.numeric(is.na(x[, i]))
+      if (verbose) msg("Created missingness indicator for", .colnames[i])
     }
   }
 
