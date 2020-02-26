@@ -38,7 +38,7 @@ mplot3.img <- function(z,
                        xnames = NULL,
                        xnames.y = 0,
                        ynames = NULL,
-                       ynames.x = 0,
+                       # ynames.x = 0,
                        main = NULL,
                        main.adj = 0,
                        main.line = 1.5,
@@ -73,8 +73,8 @@ mplot3.img <- function(z,
                        cex.ax = NULL,
                        cex.x = NULL,
                        cex.y = NULL,
-                       x.srt = NULL,
-                       y.srt = 0,
+                       # x.srt = NULL,
+                       # y.srt = 0,
                        zlim = NULL,
                        autorange = TRUE,
                        pty = "m",
@@ -96,7 +96,7 @@ mplot3.img <- function(z,
   # [ ARGUMENTS ] ====
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
-  
+
   # [ ZLIM ] ====
   if (is.null(zlim)) {
     if (autorange) {
@@ -119,7 +119,7 @@ mplot3.img <- function(z,
   }
   if (is.null(cex.x)) cex.x <- cex.ax
   if (is.null(cex.y)) cex.y <- cex.ax
-  
+
   # [ THEMES ] ====
   if (theme == "light") {
     if (is.null(main.col)) main.col <- "black"
@@ -264,7 +264,7 @@ mplot3.img <- function(z,
     text(rep(x, length(y)), rep(y, times = 1, each = length(x)), labels = cell.labs,
          col = cell.labs.col)
   }
-  
+
   if (!is.null(filename)) grDevices::dev.off()
 
 } # rtemis::img
