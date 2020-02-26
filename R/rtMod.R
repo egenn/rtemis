@@ -1501,7 +1501,6 @@ rtMeta <- R6::R6Class("rtMeta",
                                               question = character(),
                                               extra = list()) {
                           self$mod.name <- mod.name
-                          # self$call <- call
                           self$y.train <- y.train
                           self$y.test <- y.test
                           self$x.name <- x.name
