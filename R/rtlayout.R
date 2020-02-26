@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-#' Creat multipanel plots with the \code{mplot3} family
+#' Create multipanel plots with the \code{mplot3} family
 #'
 #' Set layout for drawing multiple plots in the same view
 #'
