@@ -10,6 +10,7 @@
 #' @param resample.rtset Output of \link{rtset.resample} defining training/testing split. The first resulting resample
 #' will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}
 #' @param seed Integer: Seed for random number generator. Default = NULL
+#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @author Efstathios D. Gennatas
 #' @return List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
 #' @export
@@ -18,7 +19,8 @@ synthRegData <- function(nrow = 500,
                          ncol = 50,
                          noise.sd.factor = 1,
                          resample.rtset = rtset.resample(),
-                         seed = NULL) {
+                         seed = NULL,
+                         verbose = FALSE) {
 
   if (!is.null(seed)) set.seed(seed)
   x <- rnormmat(nrow, ncol)
