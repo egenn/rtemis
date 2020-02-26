@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtlayout.R
 \name{rtlayout}
 \alias{rtlayout}
-\title{Creat multipanel plots with the \code{mplot3} family}
+\title{Create multipanel plots with the \code{mplot3} family}
 \usage{
 rtlayout(
   nrows = NULL,

@@ -13,7 +13,7 @@ preprocess(
   missingness = FALSE,
   impute = FALSE,
   impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
-  impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
+  impute.missRanger.params = list(pmm.k = 0, maxiter = 10, num.trees = 500),
   impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize = "no"),
   impute.rfImpute.params = list(niter = 10, ntree = 500),
   impute.discrete = getMode,
@@ -38,7 +38,7 @@ preprocess(
 )
 }
 \arguments{
-\item{x}{Input}
+\item{x}{Input data frame}
 
 \item{completeCases}{Logical: If TRUE, only retain complete cases (no missing data).
 Default = FALSE}

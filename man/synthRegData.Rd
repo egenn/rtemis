@@ -9,7 +9,8 @@ synthRegData(
   ncol = 50,
   noise.sd.factor = 1,
   resample.rtset = rtset.resample(),
-  seed = NULL
+  seed = NULL,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ synthRegData(
 will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}}
 
 \item{seed}{Integer: Seed for random number generator. Default = NULL}
+
+\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
 }
 \value{
 List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
