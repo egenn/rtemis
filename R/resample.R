@@ -302,7 +302,6 @@ kfold <- function(x, k = 10,
     idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
   }
 
-  # res <- lapply(seq(k), function(i) sort(unlist(lapply(seq(bins), function(j) idl.k[[j]][[i]]))))
   res <- lapply(seq(k), function(i) seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), function(j) idl.k[[j]][[i]])))])
 
   names(res) <- paste0("Fold_", seq(k))
