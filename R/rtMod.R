@@ -1084,10 +1084,10 @@ rtModCV <- R6::R6Class("rtModCV",
                                ", type = ", self$resampler.params$resampler, "\n", sep = "")
                            cat("              N of repeats:", self$n.repeats, "\n")
                            if (self$type == "Classification") {
-                             cat(" Average Balanced Accuracy across repeats =",
-                                 self$error.test.repeats.mean$`Balanced Accuracy`, "\n")
+                             cat(" Mean Balanced Accuracy across repeats =",
+                                 self$error.test.repeats.mean$Balanced.Accuracy, "\n")
                            } else {
-                             cat(" Average MSE % reduction across repeats =",
+                             cat(" Mean MSE % reduction across repeats =",
                                  self$error.test.repeats.mean$MSE.RED * 100, "\n")
                            }
                          },
