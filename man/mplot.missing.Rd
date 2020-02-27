@@ -35,6 +35,6 @@ Plot missingness
 }
 \examples{
 dat <- iris
-dat[c(1, 5, 17:20, 110, 115, 140), 1] <- x[c(12, 15, 55, 73, 100:103), 2] <- x[sample(1:150, 25), 4] <- NA
+dat[c(1, 5, 17:20, 110, 115, 140), 1] <- dat[c(12, 15, 55, 73, 100:103), 2] <- dat[sample(1:150, 25), 4] <- NA
 mplot.missing(dat)
 }
