@@ -1,18 +1,16 @@
 # addTreeLeavesRC.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
-# This is the RC fork
-# 3.14.2019: delta: ddlt
-# TODO: fix or remove g$n.nodes
+# Allow early stopping
 
-#' \pkg{rtemis internal}: Low-level Asymmetric Additive Tree (Stepwise Hybrid Tree) procedure
+#' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
-#' Train an Asymmetric Additive Tree for Classification & Regression
+#' Train an Stepwise Hybrid Tree for Classification & Regression
 #'
 #' With \code{max.nodes = 0}, the model is logistic regression trained according to \code{lin.type}
 #' (i.e. standard or regularized using glmnet, etc.)
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#'
+#' @inheritParams s.ADDT
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 #' model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
@@ -25,11 +23,13 @@
 # [[---F1---]] ====
 addTreeLeavesRC <- function(x, y,
                             x.valid = NULL, y.valid = NULL,
+                            early.stopping = FALSE,
                             weights = NULL,
                             max.leaves = 5,
+                            nvmax = 2,
                             select.leaves.smooth = TRUE,
                             gamma = .1,
-                            min.update = 10,
+                            # min.update = 10,
                             alpha = 0,
                             lambda = .01,
                             lambda.seq = NULL,
@@ -40,9 +40,12 @@ addTreeLeavesRC <- function(x, y,
                             part.xval = 0,
                             part.max.depth = 1,
                             part.cp = 0,
+                            part.minbucket = 5,
                             .rho = TRUE,
                             rho.max = 1000,
-                            lin.type = c("glmnet", "cv.glmnet", "glm"),
+                            lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
+                                         "backwardStepwise", "glm",
+                                         "solve"),
                             cv.glmnet.nfolds = 5,
                             cv.glmnet.lambda = "lambda.min",
                             loss.fn = if (is.factor(y)) class.loss else msew,
@@ -65,7 +68,9 @@ addTreeLeavesRC <- function(x, y,
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
-  early.stopping <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
+  # Changed: Specify early.stopping directly
+  # early.stopping <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
+  if (early.stopping && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
@@ -92,10 +97,11 @@ addTreeLeavesRC <- function(x, y,
   # [ ARGUMENTS ] ====
   lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
-  if (trace > 0) msg("Using lin.type", lin.type)
+  if (trace > 0) msg0("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ====
   g <- new.env()
+  # ENH do not save both x and xm
   g$x <- x
   g$xm <- model.matrix(~. - 1, data = x)
   g$y <- y
@@ -106,7 +112,7 @@ addTreeLeavesRC <- function(x, y,
   g$learning.rate <- learning.rate
   g$tree <- list()
   g$n.nodes <- 0
-  g$n.leaves <- 0 # TODO: change starting to 1
+  g$n.leaves <- 0 # FIX: change starting to 1
   g$nosplit <- integer()
   g$terminal <- integer()
   g$allrules <- character()
@@ -114,7 +120,7 @@ addTreeLeavesRC <- function(x, y,
   g$error <- numeric()
   g$loss.fn <- loss.fn
   g$type <- type
-  g$min.update <- min.update
+  # g$min.update <- min.update
   g$.rho <- .rho
   g$rho.max <- rho.max
 
@@ -148,12 +154,13 @@ addTreeLeavesRC <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ====
-  if (verbose) msg("Training Asymmetric Additive Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
+  if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
 
   coef <- lincoef(x = g$xm, y = resid,
                   weights = weights,
                   method = lin.type,
+                  nvmax = nvmax,
                   alpha = alpha,
                   lambda = lambda,
                   lambda.seq = lambda.seq,
@@ -174,7 +181,6 @@ addTreeLeavesRC <- function(x, y,
   }
 
   Fval <- Fval + learning.rate * rho * linVal # n
-  # coef[1] <- coef[1] + init #delta # ???
 
   # Special case: if max.leaves == 1 ====
   # return linear model
@@ -188,6 +194,7 @@ addTreeLeavesRC <- function(x, y,
                  learning.rate = learning.rate,
                  tree = NULL,
                  n.nodes = 0,
+                 n.leaves = 1,
                  included = NULL,
                  terminal = NULL,
                  open = NULL,
@@ -215,9 +222,9 @@ addTreeLeavesRC <- function(x, y,
                     split.rule = NULL,
                     rule = "TRUE")
 
-  # Init nodes list
+  # '- Init nodes list ====
   g$tree[["1"]] <- root
-  # open nodes are candidates
+  # open nodes are candidates for splitting
   g$open <- 1
   g$closed <- integer()
 
@@ -245,8 +252,10 @@ addTreeLeavesRC <- function(x, y,
                     part.xval = part.xval,
                     part.max.depth = part.max.depth,
                     part.cp = part.cp,
+                    part.minbucket = part.minbucket,
                     minobsinnode.lin = minobsinnode.lin,
                     lin.type = lin.type,
+                    nvmax = nvmax,
                     verbose = verbose,
                     trace = trace)
       } else {
@@ -292,7 +301,7 @@ addTreeLeavesRC <- function(x, y,
       }
 
       if ((selected.red)) {
-        if (trace > 0) msg(" >>> Selected node #", selected, sep = "")
+        if (trace > 0) msg(">>> Selected node #", selected, sep = "")
         if (trace > 1) msg("g$terminal is", g$terminal)
         # +tree: Remove selected from terminal
         if (trace > 1) msg("Removing selected from terminal nodes")
@@ -421,11 +430,13 @@ addTreeLeavesRC <- function(x, y,
 
   # change verbose
   if (early.stopping) {
-    opt.leaves = aaddt.select.leaves(.mod, x = x, y = y,
-                                     x.valid = x.valid, y.valid = y.valid,
-                                     smooth = select.leaves.smooth,
-                                     plot = plot.tune.error)
-    .mod$opt.n.leaves <- opt.leaves$n.leaves
+    opt.leaves = shytree.select.leaves(.mod, x = x, y = y,
+                                       x.valid = x.valid, y.valid = y.valid,
+                                       smooth = select.leaves.smooth,
+                                       plot = plot.tune.error)
+    # delta 02.06.2020
+    # .mod$opt.n.leaves <- opt.leaves$n.leaves
+    .mod$n.leaves <- opt.leaves$n.leaves
     .mod$valid.error.smooth <- opt.leaves$valid.error.smooth
   }
 
@@ -458,7 +469,8 @@ setNodeRC <- function(g,
        type = type,
        rule = rule,
        split.rule = split.rule,
-       loss = g$loss.fn(g$y, Fval, weights),
+       # loss = g$loss.fn(g$y, Fval, weights), # check: remove weights? # delta: removed weights
+       loss = g$loss.fn(g$y, Fval),
        split.loss = NULL,
        split.loss.red = NULL)
 
@@ -488,8 +500,10 @@ splitLineRC <- function(g,
                         part.xval = 0,
                         part.max.depth = 1,
                         part.cp = 0,
+                        part.minbucket = 5,
                         minobsinnode.lin = 5,
-                        lin.type = "glmnet",
+                        lin.type,
+                        nvmax = nvmax,
                         verbose = TRUE,
                         trace = 0) {
 
@@ -513,7 +527,7 @@ splitLineRC <- function(g,
                        control = rpart::rpart.control(minsplit = part.minsplit,
                                                       xval = part.xval,
                                                       maxdepth = part.max.depth,
-                                                      minbucket = 5,
+                                                      minbucket = part.minbucket,
                                                       cp = part.cp))
 
   if (is.null(part$splits)) {
@@ -548,7 +562,6 @@ splitLineRC <- function(g,
     }
     part.c.left <- part$frame$yval[left.yval.row]
     part.c.right <- part$frame$yval[right.yval.row]
-
 
     g$tree[[paste(node.index)]]$type <- "split"
     g$tree[[paste(node.index)]]$terminal <- FALSE
@@ -680,7 +693,7 @@ splitLineRC <- function(g,
     Fval[left.index] <- Fval[left.index] + nodeVal.left
     Fval[right.index] <- Fval[right.index] + nodeVal.right
 
-    if (trace > 1) {
+    if (.class && trace > 1) {
       # msg("firstDerLeft = ", firstDerLeft, "; firstDerRgit = ", firstDerRight, sep = "")
       msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
           weightedFirstDerRight, sep = "")
@@ -717,6 +730,7 @@ splitLineRC <- function(g,
       linCoef.left <- lincoef(x = g$xm, y = resid2,
                               weights = weights.left,
                               method = lin.type,
+                              nvmax = nvmax,
                               alpha = alpha,
                               lambda = lambda,
                               lambda.seq = lambda.seq,
@@ -750,6 +764,7 @@ splitLineRC <- function(g,
       linCoef.right <- lincoef(x = g$xm, y = resid2,
                                weights = weights.right,
                                method = lin.type,
+                               nvmax = nvmax,
                                alpha = alpha,
                                lambda = lambda,
                                lambda.seq = lambda.seq,
@@ -777,6 +792,7 @@ splitLineRC <- function(g,
 
   # '- Side-effects -' ====
 
+  # ENH: do we need this?
   depth <- g$tree[[paste(node.index)]]$depth + 1
 
   # Get combined error of children
@@ -785,7 +801,7 @@ splitLineRC <- function(g,
   Fval1[right.index] <- Fval.right
 
   # Assignt loss reduction to parent
-  g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1)
+  g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1) # check: do we need weights?
   g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
 
   # Set id numbers by preorder indexing
@@ -981,14 +997,14 @@ predict.addTreeLeavesRC <- function(object, newdata,
 # [[---F5---]] ====
 #' Print method for \code{addTreeLeavesRC} object
 #'
-#' @method print addTreeLeavesRC
+#' @method print addTree
 #' @param x \code{addTreeLeavesRC} object
 #' @author Efstathios D. Gennatas
 #' @export
 
 print.addTreeLeavesRC <- function(x, ...) {
 
-  cat("\n  An Asymmetric Additive Tree model with", x$n.nodes, "nodes\n\n")
+  cat("\n  A Stepwise Additive Tree model with", x$n.nodes, "nodes\n\n")
 
 }
 
@@ -1015,12 +1031,12 @@ class.loss <- function(y, Fval, weights) {
 }
 
 
-aaddt.select.leaves <- function(object,
-                                x, y,
-                                x.valid, y.valid,
-                                smooth = TRUE,
-                                plot = FALSE,
-                                verbose = FALSE) {
+shytree.select.leaves <- function(object,
+                                  x, y,
+                                  x.valid, y.valid,
+                                  smooth = TRUE,
+                                  plot = FALSE,
+                                  verbose = FALSE) {
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
 
@@ -1072,4 +1088,4 @@ aaddt.select.leaves <- function(object,
   list(n.leaves = which.min(valid.error),
        valid.error.smooth = valid.error.smooth)
 
-} # rtemis::aaddt.select.leaves
+} # rtemis::shytree.select.leaves
