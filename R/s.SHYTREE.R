@@ -20,7 +20,7 @@
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tune.error Logical: If TRUE, plot validation error during gridsearch
-#' @author Gilmer Valdes (algorithm), Efstathios D. Gennatas (R code)
+#' @author Efstathios D. Gennatas
 #' @export
 
 s.SHYTREE <- function(x, y = NULL,
@@ -165,7 +165,7 @@ s.SHYTREE <- function(x, y = NULL,
 
   if (n.cores > 1) plot.tune.error <- FALSE
   # if (!.gs && (gc | is.null(force.max.leaves))) {
-  if ((!.gs && gc) | (!.gs && early.stopping)) {
+  if ((!.gs && gc) | (!.gs && early.stopping && max.leaves > 1)) {
     grid.params <- if (early.stopping) list() else list(max.leaves = max.leaves)
     grid.params <- c(grid.params, list(nvmax = nvmax,
                                        gamma = gamma,
@@ -206,8 +206,10 @@ s.SHYTREE <- function(x, y = NULL,
     minobsinnode <- gs$best.tune$minobsinnode
     learning.rate <- gs$best.tune$learning.rate
     part.cp <- gs$best.tune$part.cp
+    nvmax <- gs$best.tune$nvmax
     # Return special from gridSearchLearn
     max.leaves <- gs$best.tune$n.leaves
+
     # if (n.trees == -1) {
     #   warning("Tuning failed to find n.trees, defaulting to failsafe.trees = ", failsafe.trees)
     #   n.trees <- failsafe.trees
@@ -226,7 +228,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # [ addTreeLeaves ] ====
+  # [ shytreeLeaves ] ====
   # Check:
   if (.gs) {
     if (early.stopping) {
@@ -240,7 +242,7 @@ s.SHYTREE <- function(x, y = NULL,
     msg("Training SHYTREE on full training set...", newline = TRUE)
   }
 
-  mod <- addTreeLeavesRC(x, y,
+  mod <- shytreeLeavesRC(x, y,
                          x.valid = x.valid, y.valid = y.valid,
                          early.stopping = early.stopping,
                          max.leaves = max.leaves,
@@ -288,11 +290,11 @@ s.SHYTREE <- function(x, y = NULL,
 
   # [ FITTED ] ====
   if (type == "Classification") {
-    .fitted <- predict.addTreeLeavesRC(mod, x, type = "all")
+    .fitted <- predict.shytreeLeavesRC(mod, x, type = "all")
     fitted <- .fitted$estimate
     fitted.prob <- .fitted$probability
   } else {
-    fitted <- predict.addTreeLeavesRC(mod, x)
+    fitted <- predict.shytreeLeavesRC(mod, x)
     fitted.prob <- NULL
   }
   error.train <- modError(y, fitted)
@@ -302,7 +304,7 @@ s.SHYTREE <- function(x, y = NULL,
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      .predicted <- predict.addTreeLeavesRC(mod, x.test,
+      .predicted <- predict.shytreeLeavesRC(mod, x.test,
                                             type = "all",
                                             learning.rate = learning.rate,
                                             trace = trace,
@@ -310,7 +312,7 @@ s.SHYTREE <- function(x, y = NULL,
       predicted <- .predicted$estimate
       predicted.prob <- .predicted$probability
     } else {
-      predicted <- predict.addTreeLeavesRC(mod, x.test,
+      predicted <- predict.shytreeLeavesRC(mod, x.test,
                                            learning.rate = learning.rate,
                                            trace = trace,
                                            verbose = verbose.predict)
@@ -363,7 +365,7 @@ s.SHYTREE <- function(x, y = NULL,
 } # rtemis:: s.SHYTREE
 
 # Unfinished
-# addTree.optimal.leaves <- function(object,
+# shytree.optimal.leaves <- function(object,
 #                                    smooth = TRUE,
 #                                    plot = FALSE,
 #                                    verbose = FALSE) {
@@ -393,4 +395,4 @@ s.SHYTREE <- function(x, y = NULL,
 #   list(n.trees = which.min(valid.error),
 #        valid.error.smooth = valid.error.smooth)
 #
-# } # rtemis::addTree.optimal.leaves
+# } # rtemis::shytree.optimal.leaves

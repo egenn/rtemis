@@ -1,4 +1,4 @@
-# addTreeLeavesRC.R
+# shytreeLeavesRC.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
 # Allow early stopping
@@ -21,7 +21,7 @@
 #' @keywords internal
 
 # [[---F1---]] ====
-addTreeLeavesRC <- function(x, y,
+shytreeLeavesRC <- function(x, y,
                             x.valid = NULL, y.valid = NULL,
                             early.stopping = FALSE,
                             weights = NULL,
@@ -90,7 +90,7 @@ addTreeLeavesRC <- function(x, y,
                                rules = "TRUE",
                                coefs = coefs),
                  ylevels = ylevels)
-    class(.mod) <- c("addTreeLeavesRC", "list")
+    class(.mod) <- c("shytreeLeavesRC", "list")
     return(.mod)
   }
 
@@ -204,7 +204,7 @@ addTreeLeavesRC <- function(x, y,
                  all.step.leaves = leaves, # This is needed for predict()
                  stepindex = g$stepindex,
                  ylevels = ylevels)
-    class(.mod) <- c("addTreeLeavesRC", "list")
+    class(.mod) <- c("shytreeLeavesRC", "list")
     return(.mod)
   }
 
@@ -426,7 +426,7 @@ addTreeLeavesRC <- function(x, y,
                # opt.n.leaves = g$n.leaves, #??
                early.stopping = early.stopping,
                valid.error.smooth = NULL)
-  class(.mod) <- c("addTreeLeavesRC", "list")
+  class(.mod) <- c("shytreeLeavesRC", "list")
 
   # change verbose
   if (early.stopping) {
@@ -442,7 +442,7 @@ addTreeLeavesRC <- function(x, y,
 
   .mod
 
-} # rtemis::addTreeLeavesRC
+} # rtemis::shytreeLeavesRC
 
 # [[---F2---]]====
 # setNodeRC
@@ -838,10 +838,10 @@ splitLineRC <- function(g,
 
 
 # [[---F4---]] ====
-#' Predict method for \code{addTreeLeavesRC} object
+#' Predict method for \code{shytreeLeavesRC} object
 #'
-#' @method predict addTreeLeavesRC
-#' @param object \code{addTreeRaw}
+#' @method predict shytreeLeavesRC
+#' @param object \code{shytreeRaw}
 #' @param newdata Data frame of predictors
 #' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
 #' Defaults to all
@@ -855,7 +855,7 @@ splitLineRC <- function(g,
 #' @export
 #' @author Efstathios D. Gennatas
 
-predict.addTreeLeavesRC <- function(object, newdata,
+predict.shytreeLeavesRC <- function(object, newdata,
                                     type = c("response", "probability", "all", "step"),
                                     n.leaves = NULL,
                                     n.feat = NCOL(newdata),
@@ -992,28 +992,28 @@ predict.addTreeLeavesRC <- function(object, newdata,
     yhat.l
   }
 
-} # rtemis:: predict.addTreeLeavesRC
+} # rtemis:: predict.shytreeLeavesRC
 
 # [[---F5---]] ====
-#' Print method for \code{addTreeLeavesRC} object
+#' Print method for \code{shytreeLeavesRC} object
 #'
-#' @method print addTree
-#' @param x \code{addTreeLeavesRC} object
+#' @method print shytreeLeavesRC
+#' @param x \code{shytreeLeavesRC} object
 #' @author Efstathios D. Gennatas
 #' @export
 
-print.addTreeLeavesRC <- function(x, ...) {
+print.shytreeLeavesRC <- function(x, ...) {
 
   cat("\n  A Stepwise Additive Tree model with", x$n.nodes, "nodes\n\n")
 
 }
 
 
-#' Convert \link{addTreeLeavesRC} to \code{data.tree} object
+#' Convert \link{shytreeLeavesRC} to \code{data.tree} object
 #'
-#' @param object \link{addTreeLeavesRC} object
+#' @param object \link{shytreeLeavesRC} object
 
-as.data.tree.addTreeLeavesRC <- function(object) {
+as.data.tree.shytreeLeavesRC <- function(object) {
 
   as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
   dat <- object$leaves$rules
@@ -1021,7 +1021,7 @@ as.data.tree.addTreeLeavesRC <- function(object) {
   dat$rule <- gsub("TRUE", "All cases", dat$rule)
   as.Node.data.frame(dat, pathName = "rule")
 
-} # rtemis::as.data.tree.addTreeLeaves
+} # rtemis::as.data.tree.shytreeLeaves
 
 
 class.loss <- function(y, Fval, weights) {
@@ -1045,10 +1045,10 @@ shytree.select.leaves <- function(object,
   # dat <- complete.cases(dat)
   # }
 
-  train.estimate.l <- predict.addTreeLeavesRC(object, newdata = x,
+  train.estimate.l <- predict.shytreeLeavesRC(object, newdata = x,
                                               type = "step",
                                               verbose = verbose)
-  valid.estimate.l <- predict.addTreeLeavesRC(object, newdata = x.valid,
+  valid.estimate.l <- predict.shytreeLeavesRC(object, newdata = x.valid,
                                               type = "step",
                                               verbose = verbose)
   # valid.error.l <- plyr::llply(seq(valid.estimate.l), function(j)
