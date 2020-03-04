@@ -173,26 +173,17 @@ gridSearchLearn <- function(x, y, mod,
 
   # [ AGGREGATE ] ====
   n.params <- length(grid.params)
-  # Average train and test errors
+  # Average test errors
   if (type %in% c("Regression", "Survival")) {
-    # delta 02.05.2020
-    # error.test.all <- plyr::ldply(grid.run, function(x) x$error.test)
     error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test))))
-    error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
-    error.test.mean.by.param.id <- aggregate(error.test.all,
-                                             by = list(param.id = error.test.all$param.id),
-                                             error.aggregate.fn)[, -1]
-    tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
   } else if (type == "Classification") {
-    # delta 02.05.2020
-    # error.test.all <- plyr::ldply(grid.run, function(x) x$error.test$Overall)
     error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test$Overall))))
-    error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
-    error.test.mean.by.param.id <- aggregate(error.test.all,
-                                             by = list(param.id = error.test.all$param.id),
-                                             error.aggregate.fn)[, -1]
-    tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
   }
+  error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
+  error.test.mean.by.param.id <- aggregate(error.test.all,
+                                           by = list(param.id = error.test.all$param.id),
+                                           error.aggregate.fn)[, -1]
+  tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
 
   # '- GBM, H2OGBM ====
   if (learner %in% c("s.H2OGBM", "s.GBM", "s.GBM3")) {
@@ -239,7 +230,7 @@ gridSearchLearn <- function(x, y, mod,
   }
 
   # TODO: consider explicitly ordering hyperparam values in increasing order if this makes sense,
-  # so that in case of tie, lowest value is chose, again, if that makes sense, e.g. n.leaves, etc.
+  # so that in case of tie, lowest value is chosen - if that makes sense, e.g. n.leaves, etc.
   best.tune <- tune.results[select.fn(tune.results[[metric]]), seq_len(n.params),
                             drop = FALSE]
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))

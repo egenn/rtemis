@@ -153,8 +153,8 @@ s.RANGER <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
+  n.features <- NCOL(x)
   if (is.null(mtry)) {
-    n.features <- NCOL(x)
     if (n.features <= 20) mtry <- n.features
     mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
