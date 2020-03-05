@@ -88,9 +88,10 @@ table1 <- function(x,
   if (!is.null(filename)) {
     # Add .csv extension if not present
     filename <- ifelse(grepl("\\.csv$", filename), filename, paste0(filename, ".csv"))
-    if (file.exists(filename)) {
-      warning(filename, "already exists")
-      filename <- paste0
+    i <- 1
+    while (file.exists(filename)) {
+      filename <- gsub("\\.csv$", paste0("_", i, ".csv"), filename)
+      i <- i + 1
     }
     write.csv(.table1, filename, row.names = FALSE)
 
