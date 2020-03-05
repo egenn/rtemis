@@ -23,6 +23,7 @@ mplot3.roc(
   annot.line = NULL,
   annot.adj = 1,
   annot.font = 1,
+  pty = "s",
   mar = c(2.5, 3, 2.5, 1),
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
@@ -64,6 +65,9 @@ False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
 \item{group.legend}{Logical}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
+
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
+(See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
