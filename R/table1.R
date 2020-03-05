@@ -15,7 +15,7 @@
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @return
 #' A data.frame, invisibly, with two columns: "Feature", "Value mean (sd) | N"
-#' @example
+#' @examples
 #' table1(iris)
 #' @author Efstathios D. Gennatas
 #' @export
