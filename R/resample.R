@@ -394,7 +394,6 @@ strat.boot <- function(x, n.resamples = 10,
 
 #' Leave-one-out Resampling
 #'
-#' @inheritParams resample
 #' @param x Input vector
 #' @author Efstathios D. Gennatas
 #' @export
