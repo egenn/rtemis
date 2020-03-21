@@ -36,6 +36,9 @@ Build Table 1. Subject characteristics
 The output will look like "summaryFn1 (summaryFn2)".
 Using defaults this will be "mean (sd)"
 }
+\examples{
+table1(iris)
+}
 \author{
 Efstathios D. Gennatas
 }

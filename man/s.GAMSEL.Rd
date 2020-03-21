@@ -71,7 +71,33 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{lambda}{
+User-supplied \code{lambda} sequence.  For best performance, leave as \code{NULL} and allow the routine to automatically select \code{lambda}.  Otherwise, supply a (preferably gradually) decreasing sequence.
+}
+
 \item{family}{Error distribution and link function. See \code{stats::family}}
+
+\item{degrees}{
+An integer vector of length \code{nvars} specifying the maximum number
+of spline basis functions to use for each variable.  
+}
+
+\item{gamma}{
+Penalty mixing parameter \eqn{0 \le\gamma\le 1}.  Values \eqn{ \gamma <
+  0.5}  penalize linear fit less than non-linear fit.  The default is \eqn{\gamma = 0.4}, which encourages a linear term over a nonlinear term.
+}
+
+\item{dfs}{
+Numeric vector of length \code{nvars} specifying the maximum (end-of-path) degrees of freedom for each variable.  
+}
+
+\item{tol}{
+  Convergence threshold for coordinate descent.  The coordinate descent loop continues until the total change in objective after a pass over all variables is less than \code{tol}.  Default is \code{1e-4}.
+}
+
+\item{parallel}{passed on to the \code{pseudo.bases()} function. Uses
+  multiple process if available.
+}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -107,7 +133,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \link{rtMod}
 }
 \description{
-Trains a GAMSEL using \code{gamsel::gamsel} and validates it.
+Trains a GAMSEL model using \code{gamsel::gamsel}.
 Input will be used to create a formula of the form:
 \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 }

@@ -20,9 +20,10 @@ u.HOPACH(
 \item{x}{Input matrix / data.frame}
 
 \item{dmat}{Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
-If NULL}
+If NULL, it is computed based on \code{metric}}
 
-\item{metric}{Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'}
+\item{metric}{Character: Dissimilarity metric to be used. Options: "cosangle", "abscosangle", "euclid",
+"abseuclid", "cor", "abscor"}
 
 \item{k}{Integer, (0:15]: Maximum number of levels}
 
