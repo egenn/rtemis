@@ -63,11 +63,11 @@ msg <- function(...,
   } else {
     if (newline.pre) cat("\n")
     if (is.null(color)) {
-      # cat(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)), "\n")
-      cat(silver(paste0("[", .dt, .call, "] ")))
+      cat(silver(paste0("[", .dt, bold(.call), "] ")))
       cat(paste(txt, collapse = sep), "\n")
     } else {
-      cat(color$bold(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)), "\n"))
+      cat(silver(paste0("[", .dt, bold(.call), "] ")))
+      cat(paste(color(txt), collapse = sep), "\n")
     }
     if (newline) cat("\n")
   }
