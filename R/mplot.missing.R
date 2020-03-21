@@ -68,7 +68,7 @@ mplot.missing <- function(x,
        labels = rev(case.names)[rev(indl)],
        adj = 0,
        xpd = TRUE)
-  mtext("Cases", 2, line = 2.2)
+  mtext("Case", 2, line = 2.6)
   lo.y <- 0 - diff(range(y)) * .06
   polygon(c(0.5, 0.5, max(x) + .5, max(x) + .5), c(lo.y, 0, 0, lo.y),
           col = "gray85",
