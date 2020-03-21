@@ -6,11 +6,12 @@
 
 #' Regularized Generalized Additive Model (GAMSEL) [C, R]
 #'
-#' Trains a GAMSEL using \code{gamsel::gamsel} and validates it.
+#' Trains a GAMSEL model using \code{gamsel::gamsel}.
 #' Input will be used to create a formula of the form:
 #' \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 #'
 #' @inheritParams s.GLM
+#' @inheritParams gamsel::gamsel
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to \code{mgcv::gam}
 #' @return \link{rtMod}
