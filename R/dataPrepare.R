@@ -220,12 +220,9 @@ dataPrepare <- function(x, y = NULL,
     freq <- as.data.frame(table(y))[, 2]
     class.weights <- rev(freq/sum(freq)) # add to 1
     names(class.weights) <- levels(y)
-    # if (sum(diff(freq[, 2])) == 0) {
     if (sum(diff(freq)) == 0) {
-      # class.weights <- rep(1, length(levels(y)))/length(levels(y))
       weights <- rep(1, NROW(y))
     } else {
-      # class.weights <- 1 / (freq[, 2]/sum(freq[, 2]))
       if (ipw.type == 1) {
         weights <- class.weights / max(class.weights)
       } else if (ipw.type == 2) {
@@ -235,7 +232,6 @@ dataPrepare <- function(x, y = NULL,
       weights <- weights[as.integer(y)]
     }
   }
-  # maybe return weights <- rep(1, NROW(y))
 
   # [ SURVIVAL ] ====
   if (survival::is.Surv(y)) {
