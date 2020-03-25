@@ -1,13 +1,50 @@
 # Random Forest Model -----------------------------------------------------
 
 trainRandomForest <- function(data,
-                              response,
-                              predictors = names(data)[names(data) != response],    # Default to all variables except the response variable
-                              requiredCostReduction = 0.2,                          # Defualt to 0.2
-                              samplePredictorCount = floor(length(predictors)^0.5), # Defualt to m = sqrt(p)
-                              treeCount,                                            # NEW to determine number of decision trees to grow
-                              bootstrapRatio = 0.8){                                # NEW to determine bootstrap sample size
-  
+                     n.trees = 1000,
+                     weights = NULL,
+                     ipw = TRUE,
+                     ipw.type = 2,
+                     ipw.case.weights = TRUE,
+                     ipw.class.weights = FALSE,
+                     upsample = FALSE,
+                     downsample = FALSE,
+                     resample.seed = NULL,
+                     autotune = FALSE,
+                     classwt = NULL,
+                     treeCount = 500,
+                     stepFactor = 2,
+                     mtry = NULL,
+                     mtryStart = NULL,
+                     inbag.resample = NULL,
+                     stratify.on.y = FALSE,
+                     grid.resample.rtset = rtset.resample("kfold", 5),
+                     grid.search.type = c("exhaustive", "randomized"),
+                     grid.randomized.p = .1,
+                     metric = NULL,
+                     maximize = NULL,
+                     probability = FALSE,
+                     importance = "impurity",
+                     replace = TRUE,
+                     min.node.size = NULL,
+                     splitrule = NULL,
+                     strata = NULL,
+                     sampsize = if (replace) nrow(x) else ceiling(.632*nrow(x)),
+                     tune.do.trace = FALSE,
+                     imetrics = FALSE,
+                     n.cores = rtCores,
+                     print.tune.plot = FALSE,
+                     print.plot = TRUE,
+                     plot.fitted = NULL,
+                     plot.predicted = NULL,
+                     plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                     question = NULL,
+                     grid.verbose = TRUE,
+                     verbose = TRUE,
+                     outdir = NULL,
+			   bootstrapRatio = 0.8,
+                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) 
+  {
   # A bit of housekeeping ---------------------------------------------------
   
   # Set progress bar
@@ -29,14 +66,20 @@ trainRandomForest <- function(data,
     setTxtProgressBar(pb, i)
     
     # Perform our bootstrap selection of observations
-    #sample.data <- data[sample(nrow(data),floor(nrow(data)*bootstrapRatio), replace = TRUE),]
-    res <- resample(data, n.resamples = 10, resampler = "kfold", verbose = TRUE)
-    data.train <- data[res$Fold_1, ]
-    data.test <- data[-res$Fold_1, ]
-      
-      
+    
+    ## 75% of the sample size
+	smp_size <- floor(0.75 * nrow(mtcars))
+
+	## set the seed to make your partition reproducible
+	set.seed(123)
+	train_ind <- sample(seq_len(nrow(mtcars)), size = smp_size)
+
+	train <- data[train_ind, ]
+	test <- data[-train_ind, ]
+
+    
     # Train decision tree i on our bootstrapped data
-    output[[i]] <- rtemis::s.ADDTREE(data.train,x.test = data.test, gamma = .8, learning.rate = .1)
+    output[[i]] <- s.ADDTREE(train ,test, gamma = .8, learning.rate = .1)
   
   }
   
