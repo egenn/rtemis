@@ -29,10 +29,14 @@ trainRandomForest <- function(data,
     setTxtProgressBar(pb, i)
     
     # Perform our bootstrap selection of observations
-    sample.data <- data[sample(nrow(data),floor(nrow(data)*bootstrapRatio), replace = TRUE),]
-    
+    #sample.data <- data[sample(nrow(data),floor(nrow(data)*bootstrapRatio), replace = TRUE),]
+    res <- resample(data, n.resamples = 10, resampler = "kfold", verbose = TRUE)
+    data.train <- data[res$Fold_1, ]
+    data.test <- data[-res$Fold_1, ]
+      
+      
     # Train decision tree i on our bootstrapped data
-    output[[i]] <- s.ADDTREE(sample.data, gamma = .8, learning.rate = .1)
+    output[[i]] <- rtemis::s.ADDTREE(data.train,x.test = data.test, gamma = .8, learning.rate = .1)
   
   }
   
