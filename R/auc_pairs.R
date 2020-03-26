@@ -12,7 +12,11 @@
 #' @param estimated.score Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)
 #' @param true.labels True labels of outcomes (e.g. c(0, 1, 1))
 #' @param verbose Logical: If TRUE, print messages to output
-#' @export
+#' @examples
+#' true.labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+#' estimated.score = c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#' auc_pairs(estimated.score, true.labels, verbose = T)
+#' #' @export
 
 
 auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
