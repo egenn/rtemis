@@ -172,7 +172,7 @@ bag <- function(x, y = NULL,
   }
 
   # [ VARIMP ] ====
-  if (!is.null(rl$mods[[1]]$mod1$varimp)) {
+  if (length(rl$mods[[1]]$mod1$varimp) > 0) {
     varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
     varimp.res[is.na(varimp.res)] <- 0
     varimp <- apply(varimp.res, 1, aggr.fn)
