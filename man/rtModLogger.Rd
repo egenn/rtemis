@@ -25,6 +25,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$new(mods = list())}\if{html}{\out{</div>}}
@@ -33,6 +34,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$print()}\if{html}{\out{</div>}}
@@ -41,6 +43,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-add"></a>}}
+\if{latex}{\out{\hypertarget{method-add}{}}}
 \subsection{Method \code{add()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$add(mod, verbose = TRUE)}\if{html}{\out{</div>}}
@@ -49,6 +52,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-summarize"></a>}}
+\if{latex}{\out{\hypertarget{method-summarize}{}}}
 \subsection{Method \code{summarize()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$summarize(
@@ -63,6 +67,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-summary}{}}}
 \subsection{Method \code{summary()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$summary(
@@ -75,6 +80,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-tabulate"></a>}}
+\if{latex}{\out{\hypertarget{method-tabulate}{}}}
 \subsection{Method \code{tabulate()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$tabulate(filename = NULL)}\if{html}{\out{</div>}}
@@ -83,6 +89,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLogger$plot(names = NULL, col = unlist(ucsfPalette), mar = NULL, ...)}\if{html}{\out{</div>}}
@@ -91,6 +98,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

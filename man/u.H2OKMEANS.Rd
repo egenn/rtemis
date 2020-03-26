@@ -16,8 +16,8 @@ u.H2OKMEANS(
   n.cores = rtCores,
   seed = -1,
   init = c("Furthest", "Random", "PlusPlus", "User"),
-  categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit", "Binary",
-    "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
+  categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit",
+    "Binary", "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
   verbose = TRUE,
   ...
 )

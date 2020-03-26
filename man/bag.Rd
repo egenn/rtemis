@@ -12,6 +12,7 @@ bag(
   weights = NULL,
   mod = "cart",
   k = 10,
+  mtry = NULL,
   mod.params = list(),
   ipw = TRUE,
   ipw.type = 2,
@@ -54,6 +55,8 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{mod}{Character: Algorithm to bag, for options, see \link{modSelect}}
 
 \item{k}{Integer: Number of base learners to train}
+
+\item{mtry}{Integer: Number of features to randomly sample for each base learner.}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 

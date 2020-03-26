@@ -80,6 +80,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$new(
@@ -108,6 +109,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$print()}\if{html}{\out{</div>}}
@@ -116,6 +118,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
@@ -129,6 +132,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotFitted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotFitted}{}}}
 \subsection{Method \code{plotFitted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
@@ -142,6 +146,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPredicted}{}}}
 \subsection{Method \code{plotPredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
@@ -155,6 +160,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotFittedPredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotFittedPredicted}{}}}
 \subsection{Method \code{plotFittedPredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFittedPredicted(
@@ -168,6 +174,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotVarImp"></a>}}
+\if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
@@ -180,6 +187,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-summary}{}}}
 \subsection{Method \code{summary()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$summary(
@@ -200,6 +208,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-describe"></a>}}
+\if{latex}{\out{\hypertarget{method-describe}{}}}
 \subsection{Method \code{describe()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$describe()}\if{html}{\out{</div>}}
@@ -208,6 +217,7 @@ Efstathios D. Gennatas
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

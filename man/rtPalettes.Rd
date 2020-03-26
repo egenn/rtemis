@@ -53,7 +53,105 @@
 \alias{amazonCol}
 \alias{microsoftCol}
 \title{rtemis Color Palettes}
-\format{An object of class \code{list} of length 30.}
+\format{
+An object of class \code{list} of length 30.
+
+An object of class \code{list} of length 11.
+
+An object of class \code{list} of length 5.
+
+An object of class \code{list} of length 26.
+
+An object of class \code{list} of length 27.
+
+An object of class \code{list} of length 13.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 18.
+
+An object of class \code{list} of length 18.
+
+An object of class \code{list} of length 9.
+
+An object of class \code{list} of length 7.
+
+An object of class \code{list} of length 10.
+
+An object of class \code{list} of length 13.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 11.
+
+An object of class \code{list} of length 17.
+
+An object of class \code{list} of length 19.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 19.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 10.
+
+An object of class \code{list} of length 14.
+
+An object of class \code{list} of length 14.
+
+An object of class \code{list} of length 14.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 21.
+
+An object of class \code{list} of length 17.
+
+An object of class \code{list} of length 25.
+
+An object of class \code{list} of length 20.
+
+An object of class \code{list} of length 10.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 11.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 27.
+
+An object of class \code{list} of length 23.
+
+An object of class \code{list} of length 24.
+
+An object of class \code{list} of length 21.
+
+An object of class \code{list} of length 10.
+
+An object of class \code{list} of length 60.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 4.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 4.
+}
 \usage{
 pennCol
 

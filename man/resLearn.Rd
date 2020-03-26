@@ -11,6 +11,7 @@ resLearn(
   resample.rtset = rtset.cv.resample(),
   weights = NULL,
   params = list(),
+  mtry = NULL,
   verbose = TRUE,
   res.verbose = FALSE,
   trace = 0,

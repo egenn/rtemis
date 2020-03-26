@@ -38,6 +38,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$new(
@@ -67,6 +68,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROC"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(
@@ -79,6 +81,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCfitted(
@@ -92,6 +95,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCpredicted(
@@ -105,6 +109,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPR"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(
@@ -117,6 +122,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRfitted(
@@ -130,6 +136,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRpredicted(
@@ -143,6 +150,7 @@ R6 Class for \pkg{rtemis} Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

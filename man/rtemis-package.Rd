@@ -4,9 +4,6 @@
 \name{rtemis-package}
 \alias{rtemis-package}
 \title{\pkg{rtemis}: Machine Learning and Visualization}
-\description{
-\pkg{rtemis}: Machine Learning and Visualization
-}
 \section{Online Documentation and Vignettes}{
 
 \url{https://rtemis.netlify.com}

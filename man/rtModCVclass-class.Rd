@@ -38,6 +38,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$new(
@@ -84,6 +85,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROC"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROC(which.repeat = 1, ...)}\if{html}{\out{</div>}}
@@ -92,6 +94,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCfitted(which.repeat = 1, main = "ROC Training", ...)}\if{html}{\out{</div>}}
@@ -100,6 +103,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCpredicted(which.repeat = 1, main = "ROC Testing", ...)}\if{html}{\out{</div>}}
@@ -108,6 +112,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPR"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPR(which.repeat = 1, ...)}\if{html}{\out{</div>}}
@@ -116,6 +121,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRfitted(which.repeat = 1, main = "P-R Training", ...)}\if{html}{\out{</div>}}
@@ -124,6 +130,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRpredicted(which.repeat = 1, main = "P-R Testing", ...)}\if{html}{\out{</div>}}
@@ -132,6 +139,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
