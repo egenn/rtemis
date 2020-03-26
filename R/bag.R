@@ -172,9 +172,14 @@ bag <- function(x, y = NULL,
   }
 
   # [ VARIMP ] ====
-  varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
-  varimp.res[is.na(varimp.res)] <- 0
-  varimp <- apply(varimp.res, 1, aggr.fn)
+  if (!is.null(rl$mods[[1]]$mod1$varimp)) {
+    varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
+    varimp.res[is.na(varimp.res)] <- 0
+    varimp <- apply(varimp.res, 1, aggr.fn)
+  } else {
+    varimp <- NULL
+  }
+
 
   # [ OUTRO ] ====
   parameters <- list(mod = mod.name,
