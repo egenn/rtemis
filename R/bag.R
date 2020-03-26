@@ -1,8 +1,7 @@
 # bag.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
-# TODO: Add fitted.prob and predicted.prob after adding prob support for every learner in rtMod
-# TODO: varimp only if available
+# check fitted.prob and predicted.prob; varimp
 
 #' Bag an \pkg{rtemis} learner for regression or classification [C, R]
 #'
@@ -12,6 +11,7 @@
 #' @param mod Character: Algorithm to bag, for options, see \link{modSelect}
 #' @param k Integer: Number of base learners to train
 #' @param mod.params Named list of arguments for \code{mod}
+#' @param mtry Integer: Number of features to randomly sample for each base learner.
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
 #' resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
 #' Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}
@@ -32,6 +32,7 @@ bag <- function(x, y = NULL,
                 weights = NULL,
                 mod = 'cart',
                 k = 10,
+                mtry = NULL,
                 mod.params = list(),
                 ipw = TRUE,
                 ipw.type = 2,
@@ -108,6 +109,11 @@ bag <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
   if (is.null(aggr.fn)) aggr.fn <- if (type == "Classification") mean else median
+  n.features <- NCOL(x)
+  if (is.null(mtry)) {
+    if (n.features <= 20) mtry <- n.features
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
+  }
 
   # [ BAG ] ====
   mod.name <- paste0("Bagged", toupper(mod))

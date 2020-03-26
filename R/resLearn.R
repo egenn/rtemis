@@ -28,6 +28,7 @@ resLearn <- function(x, y, mod,
                      resample.rtset = rtset.cv.resample(),
                      weights = NULL,
                      params = list(),
+                     mtry = NULL,
                      verbose = TRUE,
                      res.verbose = FALSE,
                      trace = 0,
@@ -65,12 +66,18 @@ resLearn <- function(x, y, mod,
   learner1 <- function(index, learner,
                        x, y,
                        weights = NULL,
+                       mtry,
                        res, params, verbose, outdir, save.mods) {
     if (verbose) msg("Running resample #", index, sep = "")
     res1 <- res[[index]]
-    x.train1 <- x[res1, , drop = FALSE]
+    if (is.null(mtry)) {
+      feat.index <- seq(NCOL(x))
+    } else {
+      feat.index <- sample(seq(NCOL), mtry, replace = FALSE)
+    }
+    x.train1 <- x[res1, feat.index, drop = FALSE]
     y.train1 <- y[res1]
-    x.test1 <- x[-res1, , drop = FALSE]
+    x.test1 <- x[-res1, feat.index, drop = FALSE]
     y.test1 <- y[-res1]
     if (!is.null(weights)) weights <- weights[res1]
     if (!is.null(outdir) & parallel.type != "psock") {
@@ -134,6 +141,7 @@ resLearn <- function(x, y, mod,
                                learner,
                                x, y,
                                weights,
+                               mtry,
                                res,
                                params,
                                verbose = res.verbose,
