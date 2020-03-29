@@ -20,7 +20,7 @@ s.SHYTREE(
   force.max.leaves = NULL,
   early.stopping = TRUE,
   gamma = 0.1,
-  alpha = 0,
+  alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,
   minobsinnode = 2,

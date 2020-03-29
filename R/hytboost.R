@@ -1,11 +1,11 @@
-# addtboost.R
+# hytboost.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 # made learning.rate into vector
 
-#' \pkg{rtemis} internal: Gradient Boosting of Additive Trees
+#' \pkg{rtemis} internal: Boosting of Hybrid Trees
 #'
-#' Boosted additive trees. This is lower-level than \code{s.*} functions
+#' Boosted Hybrid Trees. This is lower-level than \code{s.*} functions
 #' @inheritParams s.GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
@@ -13,7 +13,7 @@
 #' @param mod.params Named list of arguments for \code{mod}
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.addTreeRaw}
+#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreeRaw}
 #' @param tolerance Float: If training error <= this value, training stops
 #' @param tolerance.valid Float: If validation error <= this value, training stops
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
@@ -24,33 +24,33 @@
 #' during training
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
-#' @return \code{addtboost} object
+#' @return \code{hytboost} object
 #' @author Efstathios D. Gennatas
 #' @keywords internal
 
-addtboost <- function(x, y,
-                      x.valid = NULL, y.valid = NULL,
-                      resid = NULL,
-                      boost.obj = NULL,
-                      mod.params = list(),
-                      case.p = 1,
-                      # weights = NULL,
-                      learning.rate = .1,
-                      # tolerance = 0,
-                      # tolerance.valid = 0,
-                      max.iter = 10,
-                      init = mean(y),
-                      cxrcoef = FALSE,
-                      print.progress.every = 5,
-                      print.error.plot = "final",
-                      base.verbose = FALSE,
-                      verbose = TRUE,
-                      trace = 0,
-                      prefix = NULL,
-                      print.plot = TRUE,
-                      plot.theme = "darkgrid",
-                      # print.base.plot = FALSE,
-                      plot.type = 'l', ...) {
+hytboost <- function(x, y,
+                     x.valid = NULL, y.valid = NULL,
+                     resid = NULL,
+                     boost.obj = NULL,
+                     mod.params = list(),
+                     case.p = 1,
+                     # weights = NULL,
+                     learning.rate = .1,
+                     # tolerance = 0,
+                     # tolerance.valid = 0,
+                     max.iter = 10,
+                     init = mean(y),
+                     cxrcoef = FALSE,
+                     print.progress.every = 5,
+                     print.error.plot = "final",
+                     base.verbose = FALSE,
+                     verbose = TRUE,
+                     trace = 0,
+                     prefix = NULL,
+                     print.plot = TRUE,
+                     plot.theme = "darkgrid",
+                     # print.base.plot = FALSE,
+                     plot.type = 'l', ...) {
 
   # [ ARGUMENTS ] ====
   if (!verbose) print.plot <- FALSE
@@ -59,13 +59,13 @@ addtboost <- function(x, y,
 
   # [ BOOST ] ====
   if (trace > 0) parameterSummary(mod.params = mod.params,
-                                  title = "addtboost Parameters",
+                                  title = "hytboost Parameters",
                                   init = init,
                                   max.iter = max.iter,
                                   learning.rate = learning.rate
                                   # tolerance = tolerance,
                                   # tolerance.valid = tolerance.valid
-                                  )
+  )
   if (trace > 0) msg("Initial MSE =", mse(y, init))
 
   # '- New series ====
@@ -85,7 +85,7 @@ addtboost <- function(x, y,
       error.valid <- predicted.valid <- Fvalid <- NULL
     }
     i <- 1
-    if (verbose) msg("[ Boosting Additive Tree... ]", sep = "")
+    if (verbose) msg("[ Boosting Hybrid Tree... ]", sep = "")
   } else {
     # '- Expand series ====
     .learning.rate <- boost.obj$learning.rate
@@ -101,7 +101,7 @@ addtboost <- function(x, y,
     max.iter <- max.iter + length(mods)
     i <- length(mods) + 1
     if (trace > 0) msg("i =", i)
-    if (verbose) msg("[ Expanding boosted Additive Tree... ]", sep = "")
+    if (verbose) msg("[ Expanding boosted Hybrid Tree... ]", sep = "")
   }
 
   if (is.null(resid)) resid <- y - Fval
@@ -145,24 +145,24 @@ addtboost <- function(x, y,
                        # x.test = x.valid, y.test = y.valid,
                        verbose = base.verbose),
                   mod.params)
-    mods[[i]] <- do.call(addtreenow, args = mod.args)
+    mods[[i]] <- do.call(hytreenow, args = mod.args)
     if (cxrcoef) {
       if (trace > 0) msg("Updating cxrcoef")
-      fitted0 <- predict.addTreeRaw(mods[[i]], x, cxr = TRUE, cxrcoef = TRUE)
+      fitted0 <- predict.hytreeRaw(mods[[i]], x, cxr = TRUE, cxrcoef = TRUE)
       fitted <- fitted0$yhat
       mods[[i]]$cxr <- fitted0$cxr
       mods[[i]]$cxrcoef <- fitted0$cxrcoef
     } else {
-      fitted <- predict.addTreeRaw(mods[[i]], x)
+      fitted <- predict.hytreeRaw(mods[[i]], x)
     }
-    names(mods)[i] <- paste0("addtree.", i)
+    names(mods)[i] <- paste0("hytree.", i)
 
     Fval <- Fval + .learning.rate[i] * fitted
     if (i == max.iter - 1) penult.fitted <- Fval
     resid <- y - Fval
     error[[i]] <- mse(y, Fval)
     if (!is.null(x.valid)) {
-      predicted.valid <- predict.addTreeRaw(mods[[i]], x.valid)
+      predicted.valid <- predict.hytreeRaw(mods[[i]], x.valid)
       Fvalid <- Fvalid + .learning.rate[i] * predicted.valid
       error.valid[[i]] <- mse(y.valid, Fvalid)
       if (verbose && i %in% print.progress.index) if (verbose) msg("Iteration #", i, ": Training MSE = ",
@@ -179,13 +179,13 @@ addtboost <- function(x, y,
         mplot3.xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "ADDT Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, "HYTREE Boosting"), zero.lines = FALSE,
                   theme = plot.theme)
       } else {
         mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "ADDT Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, "HYTREE Boosting"), zero.lines = FALSE,
                   theme = plot.theme)
       }
     }
@@ -199,13 +199,13 @@ addtboost <- function(x, y,
       mplot3.xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
                 x.axis.at = seq(error),
-                main = paste0(prefix, "ADDT Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, "HYTREE Boosting"), zero.lines = FALSE,
                 theme = plot.theme)
     } else {
       mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
                 x.axis.at = seq(error),
-                main = paste0(prefix, "ADDT Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, "HYTREE Boosting"), zero.lines = FALSE,
                 theme = plot.theme)
     }
   }
@@ -222,44 +222,44 @@ addtboost <- function(x, y,
               error.valid = error.valid,
               mod.params = mod.params,
               mods = mods)
-  class(obj) <- c("addtboost", "list")
+  class(obj) <- c("hytboost", "list")
 
   obj
 
-} # rtemis::addtboost
+} # rtemis::hytboost
 
 
 #' Print method for \link{boost} object
 #'
-#' @method print addtboost
+#' @method print hytboost
 #' @author Efstathios D. Gennatas
 #' @export
 
-print.addtboost <- function(x, ...) {
+print.hytboost <- function(x, ...) {
 
   n.iter <- length(x$mods)
-  cat("\n  A boosted Additive Tree with", n.iter, "iterations\n")
+  cat("\n  A boosted Hybrid Tree with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
   # printls(x$mod[[1]]$parameters) # must teach printls to handle functions
 
-} # rtemis::print.addtboost
+} # rtemis::print.hytboost
 
 
-#' Predict method for \code{addtboost} object
+#' Predict method for \code{hytboost} object
 #'
-#' @param object \link{addtboost} object
-#' @method predict addtboost
+#' @param object \link{hytboost} object
+#' @method predict hytboost
 #' @author Efstathios D. Gennatas
 #' @export
 
-predict.addtboost <- function(object,
-                              newdata = NULL,
-                              n.feat = NCOL(newdata),
-                              n.iter = NULL,
-                              fixed.cxr = NULL,
-                              as.matrix = FALSE,
-                              n.cores = 1,
-                              verbose = FALSE, ...) {
+predict.hytboost <- function(object,
+                             newdata = NULL,
+                             n.feat = NCOL(newdata),
+                             n.iter = NULL,
+                             fixed.cxr = NULL,
+                             as.matrix = FALSE,
+                             n.cores = 1,
+                             verbose = FALSE, ...) {
 
   if (is.null(newdata)) return(object$fitted)
 
@@ -277,14 +277,14 @@ predict.addtboost <- function(object,
 
   if (!as.matrix) {
     predicted <- rowSums(cbind(rep(object$init, NROW(newdata)),
-                                  pbapply::pbsapply(seq(n.iter), function(i)
-                                    predict.addTreeRaw(object$mods[[i]], newdata,
-                                                       fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
-                                    cl = n.cores)))
+                               pbapply::pbsapply(seq(n.iter), function(i)
+                                 predict.hytreeRaw(object$mods[[i]], newdata,
+                                                   fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
+                                 cl = n.cores)))
   } else {
     predicted.n <- pbapply::pbsapply(seq(n.iter), function(i)
-      predict.addTreeRaw(object$mods[[i]], newdata,
-                         fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
+      predict.hytreeRaw(object$mods[[i]], newdata,
+                        fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
       cl = n.cores)
 
     predicted <- matrix(nrow = NROW(newdata), ncol = n.iter)
@@ -296,78 +296,78 @@ predict.addtboost <- function(object,
 
   predicted
 
-} # rtemis::predict.addtboost
+} # rtemis::predict.hytboost
 
 
 #' Expand boosting series
 #'
 #' Add iterations to a \link{boost} object
 #'
-#' @inheritParams addtboost
+#' @inheritParams hytboost
 #' @param object \link{boost} object
 #' @author Efstathios D. Gennatas
 #' @export
 
-expand.addtboost <- function(object,
-                             x, y = NULL,
-                             x.valid = NULL, y.valid = NULL,
-                             resid = NULL,
-                             mod.params = NULL,
-                             max.iter = 10,
-                             learning.rate = NULL,
-                             case.p = 1,
-                             # tolerance = NULL,
-                             cxrcoef = FALSE,
-                             prefix = NULL,
-                             verbose = TRUE,
-                             trace = 0,
-                             print.error.plot = "final") {
+expand.hytboost <- function(object,
+                            x, y = NULL,
+                            x.valid = NULL, y.valid = NULL,
+                            resid = NULL,
+                            mod.params = NULL,
+                            max.iter = 10,
+                            learning.rate = NULL,
+                            case.p = 1,
+                            # tolerance = NULL,
+                            cxrcoef = FALSE,
+                            prefix = NULL,
+                            verbose = TRUE,
+                            trace = 0,
+                            print.error.plot = "final") {
 
   if (is.null(mod.params)) mod.params <- object$mod.params
   if (is.null(learning.rate)) learning.rate <- rev(object$learning.rate)[1]
   if (trace > 0) msg("learning.rate =", learning.rate)
 
-  addtboost(x = x, y = y,
-            x.valid = x.valid, y.valid = y.valid,
-            resid = resid,
-            boost.obj = object,
-            mod.params = mod.params,
-            learning.rate = learning.rate,
-            max.iter = max.iter,
-            init = object$init,
-            case.p = case.p,
-            cxrcoef = cxrcoef,
-            # tolerance = tolerance,
-            prefix = prefix,
-            verbose = verbose,
-            trace = trace,
-            print.error.plot = print.error.plot)
+  hytboost(x = x, y = y,
+           x.valid = x.valid, y.valid = y.valid,
+           resid = resid,
+           boost.obj = object,
+           mod.params = mod.params,
+           learning.rate = learning.rate,
+           max.iter = max.iter,
+           init = object$init,
+           case.p = case.p,
+           cxrcoef = cxrcoef,
+           # tolerance = tolerance,
+           prefix = prefix,
+           verbose = verbose,
+           trace = trace,
+           print.error.plot = print.error.plot)
 
-} # rtemis::expand.addtboost
+} # rtemis::expand.hytboost
 
 
-#' \code{as.addboost} Place model in \link{addtboost} structure
+#' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
 #' @author Efstathios D. Gennatas
 #' @export
 
-as.addtboost <- function(object,
-                         x, y,
-                         x.valid, y.valid, # not currently used
-                         learning.rate = .1,
-                         init.learning.rate = learning.rate,
-                         init = 0,
-                         apply.lr = TRUE
-                         # tolerance = .00001,
-                         # tolerance.valid = .00001
-                         ) {
+as.hytboost <- function(object,
+                        x, y,
+                        x.valid, y.valid, # not currently used
+                        learning.rate = .1,
+                        init.learning.rate = learning.rate,
+                        init = 0,
+                        apply.lr = TRUE
+                        # tolerance = .00001,
+                        # tolerance.valid = .00001
+) {
 
-  if (!inherits(object, "addTreeRaw")) {
-    stop("Please provide addTreeRaw object")
+  if (!inherits(object, "hytreeRaw")) {
+    stop("Please provide hytreeRaw object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.addTreeRaw(object, x) * init.learning.rate else predict.addTreeRaw(object, x)
+  fitted <- if (apply.lr) predict.hytreeRaw(object, x) * init.learning.rate else predict.hytreeRaw(object, x)
   obj <- list(init = init,
               learning.rate = ifelse(apply.lr, init.learning.rate, 1),
               fitted = fitted,
@@ -375,11 +375,11 @@ as.addtboost <- function(object,
               error = mse(y, fitted),
               error.valid = NULL,
               mods = mods)
-  class(obj) <- c("addtboost", "list")
+  class(obj) <- c("hytboost", "list")
 
   obj
 
-} # rtemis::as.addtboost
+} # rtemis::as.hytboost
 
 
 #' Update \link{boost} object's fitted values
@@ -389,19 +389,19 @@ as.addtboost <- function(object,
 #'
 #' All this will eventually be automated using an R6 object, maybe
 #'
-#' @method update addtboost
-#' @param object \link{addtboost} object
-#' @return \link{addtboost} object
+#' @method update hytboost
+#' @param object \link{hytboost} object
+#' @return \link{hytboost} object
 #' @author Efstathios D. Gennatas
 #' @export
 # TODO: save penultimate fitted, add last
 
-update.addtboost <- function(object, x, y = NULL,
-                             trace = 0, ...) {
+update.hytboost <- function(object, x, y = NULL,
+                            trace = 0, ...) {
 
   if (trace > 0) fitted.orig <- object$fitted
 
-  fitted <- object$penult.fitted + rev(object$learning.rate)[1] * predict.addTreeRaw(object$mods[[length(object$mods)]], x)
+  fitted <- object$penult.fitted + rev(object$learning.rate)[1] * predict.hytreeRaw(object$mods[[length(object$mods)]], x)
 
   object$error[length(object$error)] <- mse(object$y.train, fitted)
   if (trace > 0 && !is.null(y)) {
@@ -413,27 +413,27 @@ update.addtboost <- function(object, x, y = NULL,
   if (trace > 0) msg("Object updated")
   object
 
-} # rtemis::update.addtboost
+} # rtemis::update.hytboost
 
 
-#' \code{as.addtboost} Place model in \link{addtboost} structure
+#' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
 #' @author Efstathios D. Gennatas
 #' @export
 
-as.addtboost2 <- function(object,
-                          x, y,
-                          learning.rate = .1,
-                          init.learning.rate = learning.rate,
-                          init = 0,
-                          apply.lr = TRUE) {
+as.hytboost2 <- function(object,
+                         x, y,
+                         learning.rate = .1,
+                         init.learning.rate = learning.rate,
+                         init = 0,
+                         apply.lr = TRUE) {
 
-  if (!inherits(object, "addTreeRaw")) {
-    stop("Please provide addTreeRaw object")
+  if (!inherits(object, "hytreeRaw")) {
+    stop("Please provide hytreeRaw object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.addTreeRaw(object, x) * init.learning.rate else predict.addTreeRaw(object, x)
+  fitted <- if (apply.lr) predict.hytreeRaw(object, x) * init.learning.rate else predict.hytreeRaw(object, x)
   obj <- list(init = init,
               learning.rate = c(init.learning.rate, learning.rate),
               fitted = fitted,
@@ -441,8 +441,8 @@ as.addtboost2 <- function(object,
               error = mse(y, fitted),
               error.valid = NULL,
               mods = mods)
-  class(obj) <- c("addtboost", "list")
+  class(obj) <- c("hytboost", "list")
 
   obj
 
-} # rtemis::as.addtboost2
+} # rtemis::as.hytboost2

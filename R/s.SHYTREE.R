@@ -36,7 +36,7 @@ s.SHYTREE <- function(x, y = NULL,
                       force.max.leaves = NULL,
                       early.stopping = TRUE,
                       gamma = .1,
-                      alpha = 0,
+                      alpha = 1,
                       lambda = .05,
                       lambda.seq = NULL,
                       minobsinnode = 2,
@@ -141,6 +141,8 @@ s.SHYTREE <- function(x, y = NULL,
   if (type == "Classification" && length(levels(y)) != 2)
     stop("s.SHYTREE currently supports only binary classification")
 
+  if (!is.null(force.max.leaves)) early.stopping <- FALSE
+
   # [ GRID SEARCH ] ====
   if (metric == "auto") {
     if (type == "Classification") {
@@ -157,11 +159,16 @@ s.SHYTREE <- function(x, y = NULL,
   }
 
   .final <- FALSE
-  if (early.stopping) {
-    gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
+  if (is.null(force.max.leaves)) {
+    if (early.stopping) {
+      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
+    } else {
+      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+    }
   } else {
-    gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+    gc <- FALSE
   }
+
 
   if (n.cores > 1) plot.tune.error <- FALSE
   # if (!.gs && (gc | is.null(force.max.leaves))) {

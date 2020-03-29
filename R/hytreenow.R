@@ -1,10 +1,10 @@
-# addtreenow.R
+# hytreenow.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-#' \pkg{rtemis} internal: Low-level Additive Tree procedure
+#' \pkg{rtemis} internal: Low-level Hybrid Tree procedure
 #'
-#' Train an Additive Tree for Regression
+#' Train a Hybrid Tree for Regression
 #'
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s.HYTREE
@@ -12,26 +12,26 @@
 #' @author Efstathios D. Gennatas
 #' @keywords internal
 
-addtreenow <- function(x, y,
-                       max.depth = 5,
-                       alpha = 0,
-                       lambda = 1,
-                       lambda.seq = NULL,
-                       minobsinnode = 2,
-                       minobsinnode.lin = 10,
-                       learning.rate = 1,
-                       part.minsplit = 2,
-                       part.xval = 0,
-                       part.max.depth = 1,
-                       part.cp = 0,
-                       part.minbucket = 5,
-                       init = mean(y),
-                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
-                       cv.glmnet.nfolds = 5,
-                       cv.glmnet.lambda = "lambda.min",
-                       verbose = FALSE,
-                       trace = 0,
-                       n.cores = rtCores, ...) {
+hytreenow <- function(x, y,
+                      max.depth = 5,
+                      alpha = 0,
+                      lambda = 1,
+                      lambda.seq = NULL,
+                      minobsinnode = 2,
+                      minobsinnode.lin = 10,
+                      learning.rate = 1,
+                      part.minsplit = 2,
+                      part.xval = 0,
+                      part.max.depth = 1,
+                      part.cp = 0,
+                      part.minbucket = 5,
+                      init = mean(y),
+                      lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+                      cv.glmnet.nfolds = 5,
+                      cv.glmnet.lambda = "lambda.min",
+                      verbose = FALSE,
+                      trace = 0,
+                      n.cores = rtCores, ...) {
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
@@ -41,7 +41,7 @@ addtreenow <- function(x, y,
                  learning.rate = learning.rate,
                  rules = "TRUE",
                  coefs = coefs)
-    class(.mod) <- c("addTreeRaw", "list")
+    class(.mod) <- c("hytreeRaw", "list")
     return(.mod)
   }
 
@@ -53,7 +53,7 @@ addtreenow <- function(x, y,
   .env <- environment()
 
   # [ lin1 ] ====
-  if (verbose) msg("Training Additive Tree (max depth = ", max.depth, ")...", sep = "")
+  if (verbose) msg("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
 
   if (lin.type == "glmnet") {
     lin1 <- glmnet::glmnet(data.matrix(x), y, family = 'gaussian',
@@ -75,7 +75,7 @@ addtreenow <- function(x, y,
 
   Fval <- init + learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
 
-  # [ Run addt ] ====
+  # [ Run hyt ] ====
   root <- list(x = x,
                y = y,
                Fval = Fval,
@@ -90,75 +90,75 @@ addtreenow <- function(x, y,
                terminal = FALSE,
                type = NULL,
                rule = "TRUE")
-  mod <- addt(node = root,
-              max.depth = max.depth,
-              minobsinnode = minobsinnode,
-              minobsinnode.lin = minobsinnode.lin,
-              learning.rate = learning.rate,
-              alpha = alpha,
-              lambda = lambda,
-              lambda.seq = lambda.seq,
-              coef.c = coef.c,
-              part.minsplit = part.minsplit,
-              part.xval = part.xval,
-              part.max.depth = part.max.depth,
-              part.cp = part.cp,
-              part.minbucket = part.minbucket,
-              .env = .env,
-              keep.x = FALSE,
-              simplify = TRUE,
-              lin.type = lin.type,
-              cv.glmnet.nfolds = cv.glmnet.nfolds,
-              verbose = verbose,
-              trace = trace)
+  mod <- hyt(node = root,
+             max.depth = max.depth,
+             minobsinnode = minobsinnode,
+             minobsinnode.lin = minobsinnode.lin,
+             learning.rate = learning.rate,
+             alpha = alpha,
+             lambda = lambda,
+             lambda.seq = lambda.seq,
+             coef.c = coef.c,
+             part.minsplit = part.minsplit,
+             part.xval = part.xval,
+             part.max.depth = part.max.depth,
+             part.cp = part.cp,
+             part.minbucket = part.minbucket,
+             .env = .env,
+             keep.x = FALSE,
+             simplify = TRUE,
+             lin.type = lin.type,
+             cv.glmnet.nfolds = cv.glmnet.nfolds,
+             verbose = verbose,
+             trace = trace)
 
   # [ MOD ] ====
   .mod <- list(init = init,
                learning.rate = learning.rate,
                rules = .env$leaf.rule,
                coefs = .env$leaf.coef)
-  class(.mod) <- c("addTreeRaw", "list")
+  class(.mod) <- c("hytreeRaw", "list")
 
   .mod
 
-} # rtemis::addtree
+} # rtemis::hytree
 
 
-addt <- function(node = list(x = NULL,
-                             y = NULL,
-                             Fval = NULL,
-                             index = NULL,
-                             depth = NULL,
-                             partlin = NULL,    # To hold the output of partLm()
-                             left = NULL,       # \  To hold the left and right nodes,
-                             right = NULL,      # /  if partLm splits
-                             lin = NULL,
-                             part = NULL,
-                             coef.c = NULL,
-                             terminal = NULL,
-                             type = NULL,
-                             rule = NULL),
-                 coef.c = 0,
-                 max.depth = 7,
-                 minobsinnode = 2,
-                 minobsinnode.lin = 5,
-                 learning.rate = 1,
-                 alpha = .1,
-                 lambda = .1,
-                 lambda.seq = NULL,
-                 part.minsplit = 2,
-                 part.xval = 0,
-                 part.max.depth = 1,
-                 part.minbucket = 5,
-                 part.cp = 0,
-                 .env = NULL,
-                 keep.x = FALSE,
-                 simplify = TRUE,
-                 lin.type = "glmnet",
-                 cv.glmnet.nfolds = 5,
-                 cv.glmnet.lambda = "lambda.min",
-                 verbose = TRUE,
-                 trace = 0) {
+hyt <- function(node = list(x = NULL,
+                            y = NULL,
+                            Fval = NULL,
+                            index = NULL,
+                            depth = NULL,
+                            partlin = NULL,    # To hold the output of partLm()
+                            left = NULL,       # \  To hold the left and right nodes,
+                            right = NULL,      # /  if partLm splits
+                            lin = NULL,
+                            part = NULL,
+                            coef.c = NULL,
+                            terminal = NULL,
+                            type = NULL,
+                            rule = NULL),
+                coef.c = 0,
+                max.depth = 7,
+                minobsinnode = 2,
+                minobsinnode.lin = 5,
+                learning.rate = 1,
+                alpha = .1,
+                lambda = .1,
+                lambda.seq = NULL,
+                part.minsplit = 2,
+                part.xval = 0,
+                part.max.depth = 1,
+                part.minbucket = 5,
+                part.cp = 0,
+                .env = NULL,
+                keep.x = FALSE,
+                simplify = TRUE,
+                lin.type = "glmnet",
+                cv.glmnet.nfolds = 5,
+                cv.glmnet.lambda = "lambda.min",
+                verbose = TRUE,
+                trace = 0) {
 
   # [ EXIT ] ====
   if (node$terminal) return(node)
@@ -256,8 +256,30 @@ addt <- function(node = list(x = NULL,
       # Run Left and Right nodes
       # [ LEFT ] ====
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
-      node$left <- addt(node$left,
-                        coef.c = coef.c.left,
+      node$left <- hyt(node$left,
+                       coef.c = coef.c.left,
+                       max.depth = max.depth,
+                       minobsinnode = minobsinnode,
+                       minobsinnode.lin = minobsinnode.lin,
+                       learning.rate = learning.rate,
+                       alpha = alpha,
+                       lambda = lambda,
+                       lambda.seq = lambda.seq,
+                       part.minsplit = part.minsplit,
+                       part.xval = part.xval,
+                       part.max.depth = part.max.depth,
+                       part.cp = part.cp,
+                       part.minbucket = part.minbucket,
+                       .env = .env,
+                       keep.x = keep.x,
+                       simplify = simplify,
+                       lin.type = lin.type,
+                       verbose = verbose,
+                       trace = trace)
+      # [ RIGHT ] ====
+      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
+      node$right <- hyt(node$right,
+                        coef.c = coef.c.right,
                         max.depth = max.depth,
                         minobsinnode = minobsinnode,
                         minobsinnode.lin = minobsinnode.lin,
@@ -276,28 +298,6 @@ addt <- function(node = list(x = NULL,
                         lin.type = lin.type,
                         verbose = verbose,
                         trace = trace)
-      # [ RIGHT ] ====
-      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
-      node$right <- addt(node$right,
-                         coef.c = coef.c.right,
-                         max.depth = max.depth,
-                         minobsinnode = minobsinnode,
-                         minobsinnode.lin = minobsinnode.lin,
-                         learning.rate = learning.rate,
-                         alpha = alpha,
-                         lambda = lambda,
-                         lambda.seq = lambda.seq,
-                         part.minsplit = part.minsplit,
-                         part.xval = part.xval,
-                         part.max.depth = part.max.depth,
-                         part.cp = part.cp,
-                         part.minbucket = part.minbucket,
-                         .env = .env,
-                         keep.x = keep.x,
-                         simplify = simplify,
-                         lin.type = lin.type,
-                         verbose = verbose,
-                         trace = trace)
       if (simplify) node$coef.c <- NULL
     } else {
       # partLm did not split
@@ -327,7 +327,7 @@ addt <- function(node = list(x = NULL,
 
   node
 
-} # rtemis::addt
+} # rtemis::hyt
 
 
 #' \pkg{rtemis} internal: Ridge and Stump
@@ -509,10 +509,10 @@ partLm <- function(x1, y1,
 } # rtemis::partLm
 
 
-#' Predict method for \code{addTreeLite} object
+#' Predict method for \code{hytreeLite} object
 #'
-#' @method predict addTreeRaw
-#' @param object \code{addTreeRaw}
+#' @method predict hytreeRaw
+#' @param object \code{hytreeRaw}
 #' @param newdata Data frame of predictors
 #' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
 #' Defaults to all
@@ -526,14 +526,14 @@ partLm <- function(x1, y1,
 #' @export
 #' @author Efstathios D. Gennatas
 
-predict.addTreeRaw <- function(object, newdata,
-                               n.feat = NCOL(newdata),
-                               fixed.cxr = NULL,
-                               cxr.newdata = NULL,
-                               cxr = FALSE,
-                               cxrcoef = FALSE,
-                               verbose = FALSE,
-                               trace = 0, ...) {
+predict.hytreeRaw <- function(object, newdata,
+                              n.feat = NCOL(newdata),
+                              fixed.cxr = NULL,
+                              cxr.newdata = NULL,
+                              cxr = FALSE,
+                              cxrcoef = FALSE,
+                              verbose = FALSE,
+                              trace = 0, ...) {
 
   # [ newdata colnames ] ====
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
@@ -568,4 +568,4 @@ predict.addTreeRaw <- function(object, newdata,
 
   out
 
-} # rtemis:: predict.addTreeRaw
+} # rtemis:: predict.hytreeRaw

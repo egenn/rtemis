@@ -2,11 +2,11 @@
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 
-#' Boosting of Additive Trees [R]
+#' Boosting of Hybrid Trees [R]
 #'
-#' Boost an hybrid additive tree using \link{addtboost}
+#' Boost an hybrid additive tree using \link{hytboost}
 #'
-#' @inheritParams addtboost
+#' @inheritParams hytboost
 #' @inheritParams s.GLM
 #' @param mod.params Named list of arguments for \code{mod}
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
@@ -27,34 +27,34 @@
 
 
 s.HYTBOOST <- function(x, y = NULL,
-                        x.test = NULL, y.test = NULL,
-                        x.valid = NULL, y.valid = NULL,
-                        resid = NULL,
-                        boost.obj = NULL,
-                        mod.params = rtset.HYTREE(),
-                        case.p = 1,
-                        weights = NULL,
-                        max.iter = 10,
-                        learning.rate = .1,
-                        init = mean(y),
-                        cxrcoef = FALSE,
-                        print.progress.every = 5,
-                        print.error.plot = "final",
-                        x.name = NULL,
-                        y.name = NULL,
-                        question = NULL,
-                        base.verbose = FALSE,
-                        verbose = TRUE,
-                        trace = 0,
-                        prefix = NULL,
-                        plot.fitted = NULL,
-                        plot.predicted = NULL,
-                        plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                        print.plot = TRUE,
-                        print.base.plot = FALSE,
-                        plot.type = 'l',
-                        outdir = NULL,
-                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                       x.test = NULL, y.test = NULL,
+                       x.valid = NULL, y.valid = NULL,
+                       resid = NULL,
+                       boost.obj = NULL,
+                       mod.params = rtset.HYTREE(),
+                       case.p = 1,
+                       weights = NULL,
+                       max.iter = 10,
+                       learning.rate = .1,
+                       init = mean(y),
+                       cxrcoef = FALSE,
+                       print.progress.every = 5,
+                       print.error.plot = "final",
+                       x.name = NULL,
+                       y.name = NULL,
+                       question = NULL,
+                       base.verbose = FALSE,
+                       verbose = TRUE,
+                       trace = 0,
+                       prefix = NULL,
+                       plot.fitted = NULL,
+                       plot.predicted = NULL,
+                       plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                       print.plot = TRUE,
+                       print.base.plot = FALSE,
+                       plot.type = 'l',
+                       outdir = NULL,
+                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -117,24 +117,24 @@ s.HYTBOOST <- function(x, y = NULL,
                                 mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
   if (verbose) msg("Training HYTBOOST...", newline.pre = TRUE)
-  mod <- addtboost(x = x, y = y,
-                   x.valid = x.valid, y.valid = y.valid,
-                   resid = resid,
-                   boost.obj = boost.obj,
-                   mod.params = mod.params,
-                   case.p = case.p,
-                   learning.rate = learning.rate,
-                   max.iter = max.iter,
-                   init = init,
-                   cxrcoef = cxrcoef,
-                   print.error.plot = print.error.plot,
-                   print.progress.every = print.progress.every,
-                   base.verbose = base.verbose,
-                   verbose = verbose,
-                   trace = trace,
-                   prefix = prefix,
-                   print.plot = print.plot,
-                   plot.type = 'l')
+  mod <- hytboost(x = x, y = y,
+                  x.valid = x.valid, y.valid = y.valid,
+                  resid = resid,
+                  boost.obj = boost.obj,
+                  mod.params = mod.params,
+                  case.p = case.p,
+                  learning.rate = learning.rate,
+                  max.iter = max.iter,
+                  init = init,
+                  cxrcoef = cxrcoef,
+                  print.error.plot = print.error.plot,
+                  print.progress.every = print.progress.every,
+                  base.verbose = base.verbose,
+                  verbose = verbose,
+                  trace = trace,
+                  prefix = prefix,
+                  print.plot = print.plot,
+                  plot.type = 'l')
 
   # [ FITTED ] ====
   fitted <- mod$fitted
