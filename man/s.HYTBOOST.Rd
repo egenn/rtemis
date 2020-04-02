@@ -41,9 +41,9 @@ s.HYTBOOST(
 )
 }
 \arguments{
-\item{x}{Data frame: Input features}
+\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
-\item{y}{Vector: Output}
+\item{y}{Numeric vector of outcome, i.e. dependent variable}
 
 \item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
@@ -61,8 +61,6 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
-
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.addTreeRaw}}
 
 \item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
 end of training. If integer, plot training and validation error curve every this many iterations

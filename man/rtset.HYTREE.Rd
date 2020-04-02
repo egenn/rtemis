@@ -15,19 +15,6 @@ rtset.HYTREE(
   ...
 )
 }
-\arguments{
-\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
-
-\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
-
-\item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
-
-\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
-
-\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
-
-\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
-}
 \description{
 \code{rtset.ADDT}: Set parameters for \link{s.HYTREE}
 }
