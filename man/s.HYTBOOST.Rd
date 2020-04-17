@@ -9,16 +9,35 @@ s.HYTBOOST(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  x.valid = NULL,
-  y.valid = NULL,
   resid = NULL,
   boost.obj = NULL,
-  mod.params = rtset.HYTREE(),
+  learning.rate = 0.5,
+  max.depth = 5,
+  alpha = 0,
+  lambda = 1,
+  lambda.seq = NULL,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  shrinkage = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
   case.p = 1,
-  weights = NULL,
   max.iter = 10,
-  learning.rate = 0.1,
-  init = mean(y),
+  tune.n.iter = TRUE,
+  earlystop.params = rtset.earlystop(),
+  lookback = TRUE,
+  init = NULL,
+  .gs = FALSE,
+  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.search.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
   cxrcoef = FALSE,
   print.progress.every = 5,
   print.error.plot = "final",
@@ -27,6 +46,7 @@ s.HYTBOOST(
   question = NULL,
   base.verbose = FALSE,
   verbose = TRUE,
+  grid.verbose = FALSE,
   trace = 0,
   prefix = NULL,
   plot.fitted = NULL,
@@ -34,8 +54,11 @@ s.HYTBOOST(
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   print.plot = TRUE,
   print.base.plot = FALSE,
+  print.tune.plot = TRUE,
   plot.type = "l",
+  save.gridrun = FALSE,
   outdir = NULL,
+  n.cores = 1,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
 )
@@ -50,15 +73,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{mod.params}{Named list of arguments for \code{mod}}
-
-\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+\item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
 \item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
-
-\item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
 
@@ -102,13 +119,12 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional parameters to be passed to learner}
-
-\item{tolerance}{Float: If training error <= this value, training stops}
-
-\item{tolerance.valid}{Float: If validation error <= this value, training stops}
 }
 \description{
-Boost an hybrid additive tree using \link{hytboost}
+Boost a hybrid tree using \link{hytboost}
+}
+\details{
+By default, early stopping works by checking training loss.
 }
 \author{
 Efstathios D. Gennatas

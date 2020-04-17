@@ -13,7 +13,7 @@ hytreenow(
   lambda.seq = NULL,
   minobsinnode = 2,
   minobsinnode.lin = 10,
-  learning.rate = 1,
+  shrinkage = 1,
   part.minsplit = 2,
   part.xval = 0,
   part.max.depth = 1,
@@ -41,8 +41,6 @@ hytreenow(
 \item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
 \item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
-
-\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 

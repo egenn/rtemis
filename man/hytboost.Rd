@@ -11,10 +11,26 @@ hytboost(
   y.valid = NULL,
   resid = NULL,
   boost.obj = NULL,
-  mod.params = list(),
   case.p = 1,
   learning.rate = 0.1,
   max.iter = 10,
+  max.depth = 5,
+  alpha = 0,
+  lambda = 1,
+  lambda.seq = NULL,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  shrinkage = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
+  earlystop.params = rtset.earlystop(),
+  earlystop.using = "train",
   init = mean(y),
   cxrcoef = FALSE,
   print.progress.every = 5,
@@ -25,16 +41,13 @@ hytboost(
   prefix = NULL,
   print.plot = TRUE,
   plot.theme = "darkgrid",
-  plot.type = "l",
-  ...
+  plot.type = "l"
 )
 }
 \arguments{
 \item{x}{Data frame: Input features}
 
 \item{y}{Vector: Output}
-
-\item{mod.params}{Named list of arguments for \code{mod}}
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
@@ -60,13 +73,15 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{...}{Additional parameters to be passed to learner}
-
 \item{mod}{Algorithm to boost, for options, see \link{modSelect}}
+
+\item{mod.params}{Named list of arguments for \code{mod}}
 
 \item{tolerance}{Float: If training error <= this value, training stops}
 
 \item{tolerance.valid}{Float: If validation error <= this value, training stops}
+
+\item{...}{Additional parameters to be passed to learner}
 }
 \value{
 \code{hytboost} object
