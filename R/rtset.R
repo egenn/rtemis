@@ -237,8 +237,23 @@ rtset.decompose <- function(decom = "ICA",
 
 } # rtemis::rtset.decompose
 
+#' \code{rtset.earlystop}: Set parameters for \link{earlystop}
+#'
+#' @inheritParams earlystop
+#' @export
 
-#' \code{rtset.ADDT}: Set parameters for \link{s.HYTREE}
+rtset.earlystop <- function(window = 150,
+                            window_decrease_pct_min = 0.01,
+                            total_decrease_pct_max = NULL) {
+
+  list(window = window,
+       window_decrease_pct_min = window_decrease_pct_min,
+       total_decrease_pct_max = total_decrease_pct_max)
+
+} # rtemis::rtset.earlystop
+
+
+#' \code{rtset.HYTREE}: Set parameters for \link{s.HYTREE}
 #'
 #' @inheritParams s.HYTREE
 #' @export
