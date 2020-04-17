@@ -115,6 +115,7 @@ gridSearchLearn <- function(x, y, mod,
                  error.test = mod1$error.test,
                  type = mod1$type,
                  params = args)
+
     # '-- Learner-specific collect ====
     if (learner == "s.H2OGBM") out1$est.n.trees <- mod1$mod@model$model_summary$number_of_trees
     if (learner == "s.GBM" | learner == "s.GBM3") {
@@ -128,6 +129,7 @@ gridSearchLearn <- function(x, y, mod,
     # delta 02.06.2020
     # if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$opt.n.leaves
     if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$n.leaves
+    if (learner == "s.HYTBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
     if (save.mod) out1$mod1 <- mod1
     out1
   }
@@ -185,10 +187,13 @@ gridSearchLearn <- function(x, y, mod,
                                            error.aggregate.fn)[, -1]
   tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
 
+  # N of iterations is the one hyperparameter that may be determined automatically,
+  # we therefore need to extract it and average it
+
   # '- GBM, H2OGBM ====
   if (learner %in% c("s.H2OGBM", "s.GBM", "s.GBM3")) {
     est.n.trees.all <- data.frame(n.trees = plyr::laply(grid.run, function(x) x$est.n.trees))
-    est.n.trees.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+    est.n.trees.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.trees.by.param.id <- aggregate(n.trees ~ param.id, est.n.trees.all,
                                          error.aggregate.fn)
     tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
@@ -198,7 +203,7 @@ gridSearchLearn <- function(x, y, mod,
   # '- XGBoost ====
   if (learner == "XGB") {
     est.nrounds.all <- data.frame(nrounds = plyr::laply(grid.run, function(x) x$best_iteration))
-    est.nrounds.all$param.id <- rep(1:n.param.combs, each = n.resamples)
+    est.nrounds.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.nrounds.by.param.id <- aggregate(nrounds ~ param.id, est.nrounds.all,
                                          error.aggregate.fn)
     tune.results <- cbind(nrounds = round(est.nrounds.by.param.id$nrounds), tune.results)
@@ -229,11 +234,22 @@ gridSearchLearn <- function(x, y, mod,
     n.params <- n.params + 1
   }
 
+  # '- HYTBOOST ====
+  if (learner == "s.HYTBOOST") {
+    est.n.steps.all <- data.frame(n.steps = plyr::laply(grid.run, function(x) x$sel.n.steps))
+    est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
+    est.n.steps.by.param.id <- aggregate(n.steps ~ param.id, est.n.steps.all,
+                                          error.aggregate.fn)
+    tune.results <- cbind(n.steps = round(est.n.steps.by.param.id$n.steps), tune.results)
+    n.params <- n.params + 1
+  }
+
   # TODO: consider explicitly ordering hyperparam values in increasing order if this makes sense,
   # so that in case of tie, lowest value is chosen - if that makes sense, e.g. n.leaves, etc.
   best.tune <- tune.results[select.fn(tune.results[[metric]]), seq_len(n.params),
                             drop = FALSE]
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
+
 
   # [ OUTRO ] ====
   outro(start.time, verbose = verbose)
