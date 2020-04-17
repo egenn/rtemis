@@ -491,14 +491,14 @@ rt.mx.callback.earlyStop <- function(period,
     }
 
     early.stop.metric <- if (which.error == "train") logger$train else logger$eval
-    early.stop.check <- checkpoint.earlyStopping(x = early.stop.metric,
-                                                 absolute.threshold = early.stop.absolute.threshold,
-                                                 relative.threshold = early.stop.relative.threshold,
-                                                 minimize = minimize,
-                                                 relativeVariance.threshold = early.stop.relativeVariance.threshold,
-                                                 n.steps = early.stop.n.steps,
-                                                 min.steps = min.epochs,
-                                                 verbose = verbose.checkpoint)
+    early.stop.check <- checkpoint_earlystop(x = early.stop.metric,
+                                  absolute.threshold = early.stop.absolute.threshold,
+                                  relative.threshold = early.stop.relative.threshold,
+                                  minimize = minimize,
+                                  relativeVariance.threshold = early.stop.relativeVariance.threshold,
+                                  n.steps = early.stop.n.steps,
+                                  min.steps = min.epochs,
+                                  verbose = verbose.checkpoint)
 
     if (early.stop.check$stop) {
       if (verbose) msg0("Early stopping threshold reached.", as.message = TRUE)
