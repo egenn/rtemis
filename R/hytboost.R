@@ -32,13 +32,33 @@ hytboost <- function(x, y,
                      x.valid = NULL, y.valid = NULL,
                      resid = NULL,
                      boost.obj = NULL,
-                     mod.params = list(),
+                     # mod.params = list(),
                      case.p = 1,
                      # weights = NULL,
                      learning.rate = .1,
                      # tolerance = 0,
                      # tolerance.valid = 0,
                      max.iter = 10,
+                     # ++ hytreenow params ++
+                     max.depth = 5,
+                     alpha = 0,
+                     lambda = 1,
+                     lambda.seq = NULL,
+                     minobsinnode = 2,
+                     minobsinnode.lin = 10,
+                     shrinkage = 1,
+                     part.minsplit = 2,
+                     part.xval = 0,
+                     part.max.depth = 1,
+                     part.cp = 0,
+                     part.minbucket = 5,
+                     # init = mean(y),
+                     lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+                     cv.glmnet.nfolds = 5,
+                     cv.glmnet.lambda = "lambda.min",
+                     # -- hytreenow params --
+                     earlystop.params = rtset.earlystop(),
+                     earlystop.using = "train",
                      init = mean(y),
                      cxrcoef = FALSE,
                      print.progress.every = 5,
@@ -50,22 +70,38 @@ hytboost <- function(x, y,
                      print.plot = TRUE,
                      plot.theme = "darkgrid",
                      # print.base.plot = FALSE,
-                     plot.type = 'l', ...) {
+                     plot.type = 'l') {
 
   # [ ARGUMENTS ] ====
   if (!verbose) print.plot <- FALSE
-  extra.args <- list(...)
-  mod.params <- c(mod.params, extra.args)
+  # extra.args <- list(...)
+  # mod.params <- c(mod.params, extra.args)
+  if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
   # [ BOOST ] ====
-  if (trace > 0) parameterSummary(mod.params = mod.params,
-                                  title = "hytboost Parameters",
+  mod.params <- list(max.depth = max.depth,
+                     alpha = alpha,
+                     lambda = lambda,
+                     lambda.seq = lambda.seq,
+                     minobsinnode = minobsinnode,
+                     minobsinnode.lin = minobsinnode.lin,
+                     shrinkage = shrinkage,
+                     part.minsplit = part.minsplit,
+                     part.xval = part.xval,
+                     part.max.depth = part.max.depth,
+                     part.cp = part.cp,
+                     part.minbucket = part.minbucket,
+                     # init = mean(y),
+                     lin.type = lin.type,
+                     cv.glmnet.nfolds = cv.glmnet.nfolds,
+                     cv.glmnet.lambda = cv.glmnet.lambda)
+  if (trace > 0) parameterSummary(mod.params,
                                   init = init,
                                   max.iter = max.iter,
-                                  learning.rate = learning.rate
+                                  learning.rate = learning.rate,
                                   # tolerance = tolerance,
                                   # tolerance.valid = tolerance.valid
-  )
+                                  title = "hytboost Parameters")
   if (trace > 0) msg("Initial MSE =", mse(y, init))
 
   # '- New series ====
@@ -76,7 +112,7 @@ hytboost <- function(x, y,
     .learning.rate <- numeric()
 
     error <- vector("numeric")
-    error[[1]] <- mse(y, Fval) # will be overwritten, needed for while statement
+    error[1] <- mse(y, Fval) # will be overwritten, needed for while statement
 
     if (!is.null(x.valid)) {
       error.valid <- vector("numeric")
@@ -135,7 +171,7 @@ hytboost <- function(x, y,
       n.cases <- NROW(x)
       index <- sample(n.cases, case.p * n.cases)
       x1 <- x[index, , drop = FALSE]
-      y1 <- y[index]
+      # y1 <- y[index] # not used, we use resid1
       resid1 <- resid[index]
     } else {
       x1 <- x
@@ -160,19 +196,28 @@ hytboost <- function(x, y,
     Fval <- Fval + .learning.rate[i] * fitted
     if (i == max.iter - 1) penult.fitted <- Fval
     resid <- y - Fval
-    error[[i]] <- mse(y, Fval)
+    error[i] <- mse(y, Fval)
+
     if (!is.null(x.valid)) {
       predicted.valid <- predict.hytreeRaw(mods[[i]], x.valid)
       Fvalid <- Fvalid + .learning.rate[i] * predicted.valid
-      error.valid[[i]] <- mse(y.valid, Fvalid)
-      if (verbose && i %in% print.progress.index) if (verbose) msg("Iteration #", i, ": Training MSE = ",
-                                                                   ddSci(error[[i]]),
-                                                                   "; Validation MSE = ", ddSci(error.valid[[i]]),
-                                                                   sep = "")
+      error.valid[i] <- mse(y.valid, Fvalid)
+      if (verbose && i %in% print.progress.index) {
+        msg("Iteration #", i, ": Training MSE = ", ddSci(error[i]),
+            "; Validation MSE = ", ddSci(error.valid[i]), sep = "")
+      }
+      # if (!is.null(earlystop.params)) {
+      #   es <- do.call(earlystop, c(list(x = error.valid), earlystop.params))
+      #   if (es) break
+      # }
     } else {
       if (verbose && i %in% print.progress.index) {
-        msg("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
+        msg("Iteration #", i, ": Training MSE = ", ddSci(error[i]), sep = "")
       }
+      # if (!is.null(earlystop)) {
+      #   es <- do.call(earlystop, c(list(x = error), earlystop.params))
+      #   if (es) break
+      # }
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
       if (is.null(x.valid)) {
@@ -187,6 +232,19 @@ hytboost <- function(x, y,
                   x.axis.at = seq(error),
                   main = paste0(prefix, "HYTREE Boosting"), zero.lines = FALSE,
                   theme = plot.theme)
+      }
+    }
+
+    # '- Early stopping ====
+    if (!is.null(earlystop.params)) {
+      if (earlystop.using == "valid" && !is.null(x.valid)) {
+        es <- do.call(earlystop, c(list(x = error.valid), earlystop.params))
+      } else {
+        es <- do.call(earlystop, c(list(x = error), earlystop.params))
+      }
+      if (es) {
+        break
+        msg("Breaking out of iteration", i)
       }
     }
 

@@ -1,6 +1,7 @@
 # hytreenow.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
+# TODO: use lincoef
 
 #' \pkg{rtemis} internal: Low-level Hybrid Tree procedure
 #'
@@ -19,7 +20,7 @@ hytreenow <- function(x, y,
                       lambda.seq = NULL,
                       minobsinnode = 2,
                       minobsinnode.lin = 10,
-                      learning.rate = 1,
+                      shrinkage = 1,
                       part.minsplit = 2,
                       part.xval = 0,
                       part.max.depth = 1,
@@ -38,7 +39,7 @@ hytreenow <- function(x, y,
     coefs <- list(rep(0, NCOL(x) + 1))
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(init = init,
-                 learning.rate = learning.rate,
+                 shrinkage = shrinkage,
                  rules = "TRUE",
                  coefs = coefs)
     class(.mod) <- c("hytreeRaw", "list")
@@ -73,7 +74,7 @@ hytreenow <- function(x, y,
     coef.c <- lm.fit(model.matrix(y ~ ., dat), y)$coefficients
   }
 
-  Fval <- init + learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
+  Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
 
   # [ Run hyt ] ====
   root <- list(x = x,
@@ -94,7 +95,7 @@ hytreenow <- function(x, y,
              max.depth = max.depth,
              minobsinnode = minobsinnode,
              minobsinnode.lin = minobsinnode.lin,
-             learning.rate = learning.rate,
+             shrinkage = shrinkage,
              alpha = alpha,
              lambda = lambda,
              lambda.seq = lambda.seq,
@@ -114,7 +115,7 @@ hytreenow <- function(x, y,
 
   # [ MOD ] ====
   .mod <- list(init = init,
-               learning.rate = learning.rate,
+               shrinkage = shrinkage,
                rules = .env$leaf.rule,
                coefs = .env$leaf.coef)
   class(.mod) <- c("hytreeRaw", "list")
@@ -142,7 +143,7 @@ hyt <- function(node = list(x = NULL,
                 max.depth = 7,
                 minobsinnode = 2,
                 minobsinnode.lin = 5,
-                learning.rate = 1,
+                shrinkage = 1,
                 alpha = .1,
                 lambda = .1,
                 lambda.seq = NULL,
@@ -203,8 +204,8 @@ hyt <- function(node = list(x = NULL,
       y.right <- y[right.index]
       if (trace > 1) msg("y.left is", y.left)
       if (trace > 1) msg("y.right is", y.right)
-      Fval.left <- Fval[left.index] + learning.rate * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
-      Fval.right <- Fval[right.index] + learning.rate * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
+      Fval.left <- Fval[left.index] + shrinkage * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
+      Fval.right <- Fval[right.index] + shrinkage * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
 
       # Cumulative sum of coef.c
@@ -261,7 +262,7 @@ hyt <- function(node = list(x = NULL,
                        max.depth = max.depth,
                        minobsinnode = minobsinnode,
                        minobsinnode.lin = minobsinnode.lin,
-                       learning.rate = learning.rate,
+                       shrinkage = shrinkage,
                        alpha = alpha,
                        lambda = lambda,
                        lambda.seq = lambda.seq,
@@ -283,7 +284,7 @@ hyt <- function(node = list(x = NULL,
                         max.depth = max.depth,
                         minobsinnode = minobsinnode,
                         minobsinnode.lin = minobsinnode.lin,
-                        learning.rate = learning.rate,
+                        shrinkage = shrinkage,
                         alpha = alpha,
                         lambda = lambda,
                         lambda.seq = lambda.seq,
@@ -543,7 +544,7 @@ predict.hytreeRaw <- function(object, newdata,
   rules <- plyr::ldply(object$rules)[, 1]
   if (is.null(fixed.cxr)) {
     cases <- if (is.null(cxr.newdata)) newdata else cxr.newdata
-    .cxr <- matchCasesByRules(cases, rules)
+    .cxr <- matchCasesByRules(cases, rules, verbose = verbose)
   } else {
     .cxr <- fixed.cxr
   }
@@ -555,7 +556,7 @@ predict.hytreeRaw <- function(object, newdata,
   # Add column of ones for intercept
   newdata <- data.matrix(cbind(1, newdata))
   yhat <- sapply(seq(NROW(newdata)), function(n)
-    object$init + object$learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
+    object$init + object$shrinkage * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
 
 
   if (!cxrcoef & !cxr) {
