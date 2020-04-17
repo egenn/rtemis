@@ -1,18 +1,19 @@
 # s.HYTBOOST.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
+# boosting learning.rate vs. hytree learning.rate
+# ... added to allow "weights = NULL" from gridSearchLearn
 
 #' Boosting of Hybrid Trees [R]
 #'
-#' Boost an hybrid additive tree using \link{hytboost}
+#' Boost a hybrid tree using \link{hytboost}
+#'
+#' By default, early stopping works by checking training loss.
 #'
 #' @inheritParams hytboost
 #' @inheritParams s.GLM
-#' @param mod.params Named list of arguments for \code{mod}
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param tolerance Float: If training error <= this value, training stops
-#' @param tolerance.valid Float: If validation error <= this value, training stops
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
 #' @param base.verbose Logical: \code{verbose} argument passed to learner
@@ -28,15 +29,42 @@
 
 s.HYTBOOST <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
-                       x.valid = NULL, y.valid = NULL,
+                       # x.valid = NULL, y.valid = NULL,
                        resid = NULL,
                        boost.obj = NULL,
-                       mod.params = rtset.HYTREE(),
+                       learning.rate = .5, # overwrite mod.params$learning.rate
+                       # mod.params = rtset.HYTREE(),
+                       # ++ hytreenow params ++
+                       max.depth = 5,
+                       alpha = 0,
+                       lambda = 1,
+                       lambda.seq = NULL,
+                       minobsinnode = 2,
+                       minobsinnode.lin = 10,
+                       shrinkage = 1,
+                       part.minsplit = 2,
+                       part.xval = 0,
+                       part.max.depth = 1,
+                       part.cp = 0,
+                       part.minbucket = 5,
+                       # init = mean(y),
+                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+                       cv.glmnet.nfolds = 5,
+                       cv.glmnet.lambda = "lambda.min",
+                       # -- hytreenow params --
                        case.p = 1,
-                       weights = NULL,
+                       # weights = NULL,
                        max.iter = 10,
-                       learning.rate = .1,
-                       init = mean(y),
+                       tune.n.iter = TRUE,
+                       # cv.n.iter = TRUE, # By default, CV to find best n.iter
+                       earlystop.params = rtset.earlystop(),
+                       lookback = TRUE,
+                       init = NULL,
+                       .gs = FALSE,
+                       grid.resample.rtset = rtset.resample("kfold", 5),
+                       grid.search.type = "exhaustive",
+                       metric = NULL,
+                       maximize = NULL,
                        cxrcoef = FALSE,
                        print.progress.every = 5,
                        print.error.plot = "final",
@@ -45,6 +73,7 @@ s.HYTBOOST <- function(x, y = NULL,
                        question = NULL,
                        base.verbose = FALSE,
                        verbose = TRUE,
+                       grid.verbose = FALSE,
                        trace = 0,
                        prefix = NULL,
                        plot.fitted = NULL,
@@ -52,8 +81,11 @@ s.HYTBOOST <- function(x, y = NULL,
                        plot.theme = getOption("rt.fit.theme", "lightgrid"),
                        print.plot = TRUE,
                        print.base.plot = FALSE,
+                       print.tune.plot = TRUE,
                        plot.type = 'l',
+                       save.gridrun = FALSE,
                        outdir = NULL,
+                       n.cores = 1,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # [ INTRO ] ====
@@ -82,12 +114,16 @@ s.HYTBOOST <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   # if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  extra.args <- list(...)
-  mod.params <- c(mod.params, extra.args)
+  # extra.args <- list(...)
+  # mod.params <- c(mod.params, extra.args)
+  # mod.params$max.depth <- max.depth
+  # mod.params$learning.rate <- learning.rate
+  # if (!is.null(force.n.iter)) max.iter <- force.n.iter
 
   # [ DATA ] ====
-  dt <- dataPrepare(x, y, x.test, y.test,
-                    x.valid = x.valid, y.valid = y.valid,
+  dt <- dataPrepare(x, y,
+                    x.test, y.test,
+                    # x.valid = x.valid, y.valid = y.valid,
                     # ipw = ipw, ipw.type = ipw.type,
                     # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
@@ -95,8 +131,8 @@ s.HYTBOOST <- function(x, y = NULL,
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
-  x.valid <- dt$x.valid
-  y.valid <- dt$y.valid
+  # x.valid <- dt$x.valid
+  # y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, "Regression", mod.name)
@@ -108,23 +144,113 @@ s.HYTBOOST <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  # if (is.null(init)) init <- mean(y)
+  if (is.null(init)) init <- mean(y)
+
+  # [ GRID SEARCH ] ====
+  if (is.null(metric)) {
+    if (type == "Classification") {
+      metric <- "Balanced Accuracy"
+      if (is.null(maximize)) maximize <- TRUE
+    } else if (type == "Regression") {
+      metric <- "MSE"
+      if (is.null(maximize)) maximize <- FALSE
+    }
+  }
+
+  if (is.null(maximize)) {
+    maximize <- if (type == "Classification") TRUE else FALSE
+  }
+
+  # .final <- FALSE
+  gc <- gridCheck(max.depth, learning.rate,
+                  # hytreenow params
+                  shrinkage,
+                  alpha, lambda)
+  if (!.gs && (gc | tune.n.iter )) {
+    gs <- gridSearchLearn(x = x, y = y,
+                          mod = mod.name,
+                          resample.rtset = grid.resample.rtset,
+                          grid.params = list(learning.rate = learning.rate,
+                                             max.depth = max.depth,
+                                             shrinkage = shrinkage,
+                                             alpha = alpha,
+                                             lambda = lambda),
+                          fixed.params = list(max.iter = max.iter,
+                                              earlystop.params = earlystop.params,
+                                              lookback = lookback,
+                                              lambda.seq = lambda.seq,
+                                              minobsinnode = minobsinnode,
+                                              minobsinnode.lin = minobsinnode.lin,
+                                              part.minsplit = part.minsplit,
+                                              part.xval = part.xval,
+                                              part.max.depth = part.max.depth,
+                                              part.cp = part.cp,
+                                              part.minbucket = part.minbucket,
+                                              lin.type = lin.type,
+                                              cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                              cv.glmnet.lambda = cv.glmnet.lambda,
+                                              .gs = TRUE),
+                          search.type = grid.search.type,
+                          # weights = weights,
+                          metric = metric,
+                          maximize = maximize,
+                          save.mod = save.gridrun,
+                          verbose = verbose,
+                          grid.verbose = grid.verbose,
+                          n.cores = n.cores)
+
+    max.depth <- gs$best.tune$max.depth
+    learning.rate <- gs$best.tune$learning.rate
+    max.iter <- gs$best.tune$n.steps
+
+    # Now ready to train final full model
+    # .final <- TRUE
+    .gs <- FALSE
+  } else {
+    gs <- NULL
+  }
 
   # [ HYTBOOST ] ====
   if (verbose) parameterSummary(init,
                                 max.iter,
-                                learning.rate,
-                                mod.params)
+                                learning.rate)
+                                # mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
   if (verbose) msg("Training HYTBOOST...", newline.pre = TRUE)
+  if (.gs) {
+    .xval <- x.test # this is the validation set carved out of the training set during gridSearch
+    .yval <- y.test
+  } else {
+    .xval <- .yval <- NULL
+    # .xval <- x.valid # these may be null
+    # .yval <- y.valid
+  }
   mod <- hytboost(x = x, y = y,
-                  x.valid = x.valid, y.valid = y.valid,
+                  x.valid = .xval, y.valid = .yval,
                   resid = resid,
                   boost.obj = boost.obj,
-                  mod.params = mod.params,
-                  case.p = case.p,
                   learning.rate = learning.rate,
+                  # mod.params = mod.params,
+                  # ++ hytreenow params ++
+                  max.depth = max.depth,
+                  shrinkage = shrinkage,
+                  alpha = alpha,
+                  lambda = lambda,
+                  lambda.seq = lambda.seq,
+                  minobsinnode = minobsinnode,
+                  minobsinnode.lin = minobsinnode.lin,
+                  part.minsplit = part.minsplit,
+                  part.xval = part.xval,
+                  part.max.depth = part.max.depth,
+                  part.cp = part.cp,
+                  part.minbucket = part.minbucket,
+                  lin.type = lin.type,
+                  cv.glmnet.nfolds = cv.glmnet.nfolds,
+                  cv.glmnet.lambda = cv.glmnet.lambda,
+                  # -- hytreenow params --
+                  case.p = case.p,
                   max.iter = max.iter,
+                  earlystop.params = earlystop.params,
                   init = init,
                   cxrcoef = cxrcoef,
                   print.error.plot = print.error.plot,
@@ -136,18 +262,34 @@ s.HYTBOOST <- function(x, y = NULL,
                   print.plot = print.plot,
                   plot.type = 'l')
 
+  # if lookback, use best n.iter to get fitted and predicted
+  if (.gs && lookback) {
+    sni <- selectiter(mod$error.valid, mod$error, plot = print.tune.plot)
+    n.iter <- sni$best.nsteps
+    if (verbose) msg("Selected", n.iter, "iterations based on smoothed",
+                     ifelse(is.null(mod$error.valid), "training", "validation"), "loss curve")
+    mod$selected.n.steps <- sni$best.nsteps
+  } else {
+    n.iter <- NULL # will use all iterations, will not be max.iter if earlystopping on training
+  }
+
   # [ FITTED ] ====
-  fitted <- mod$fitted
+  if (is.null(n.iter)) {
+    fitted <- mod$fitted
+  } else {
+    fitted <- predict(mod, x, n.iter = n.iter)
+  }
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
   # [ VALID ] ====
-  error.valid <- if (!is.null(y.valid)) mod$error.valid else NULL
+  # error.valid <- if (!is.null(y.valid)) mod$error.valid else NULL
 
   # [ PREDICTED ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict(mod, x.test)
+    if (verbose) cat("\n"); msg("Getting predicted values...")
+    predicted <- predict(mod, x.test, n.iter = n.iter)
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted)
       if (verbose) errorSummary(error.test)
@@ -157,9 +299,12 @@ s.HYTBOOST <- function(x, y = NULL,
   # [ OUTRO ] ====
   parameters <- list(init = init,
                      max.iter = max.iter,
-                     learning.rate = learning.rate,
-                     mod.params = mod.params)
-  extra <- list(error.valid = error.valid)
+                     earlystop.params = earlystop.params,
+                     learning.rate = learning.rate
+                     # mod.params = mod.params
+                     )
+  extra <- list(gs = gs)
+                # error.valid = error.valid)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
