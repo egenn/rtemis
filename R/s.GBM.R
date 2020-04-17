@@ -216,7 +216,7 @@ s.GBM <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  .final <- FALSE
+  # .final <- FALSE
   gc <- gridCheck(interaction.depth, shrinkage, bag.fraction, n.minobsinnode)
   if (!.gs && (gc | is.null(force.n.trees))) {
     gs <- gridSearchLearn(x = x0, y = y0,
@@ -264,7 +264,7 @@ s.GBM <- function(x, y = NULL,
     }
 
     # Now ready to train final full model
-    .final <- TRUE
+    # .final <- TRUE
     .gs <- FALSE
   } else {
     gs <- NULL
@@ -518,7 +518,7 @@ gbm.select.trees <- function(object,
   n.trees <- object$n.trees
 
   valid.error.smooth <- if (smooth) {
-    valid.error.smooth <- supsmu(seq(n.trees), object$valid.error)$y
+    supsmu(seq(n.trees), object$valid.error)$y
   } else {
     NULL
   }
