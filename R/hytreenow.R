@@ -16,7 +16,7 @@
 hytreenow <- function(x, y,
                       max.depth = 5,
                       alpha = 0,
-                      lambda = 1,
+                      lambda = .1,
                       lambda.seq = NULL,
                       minobsinnode = 2,
                       minobsinnode.lin = 10,
@@ -31,8 +31,7 @@ hytreenow <- function(x, y,
                       cv.glmnet.nfolds = 5,
                       cv.glmnet.lambda = "lambda.min",
                       verbose = FALSE,
-                      trace = 0,
-                      n.cores = rtCores, ...) {
+                      trace = 0) {
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
