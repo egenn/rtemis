@@ -85,7 +85,7 @@ s.HYTBOOST <- function(x, y = NULL,
                        plot.type = 'l',
                        save.gridrun = FALSE,
                        outdir = NULL,
-                       n.cores = 1,
+                       n.cores = rtCores,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # [ INTRO ] ====
