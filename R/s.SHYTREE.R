@@ -13,6 +13,8 @@
 #'
 #' @inheritParams s.GLM
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow
+#' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+#' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
 #' @param early.stopping Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
@@ -128,7 +130,7 @@ s.SHYTREE <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(max.leaves, lambda, minobsinnode)
+  if (verbose) parameterSummary(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -143,6 +145,11 @@ s.SHYTREE <- function(x, y = NULL,
     stop("s.SHYTREE currently supports only binary classification")
 
   if (!is.null(force.max.leaves)) early.stopping <- FALSE
+
+  # Remove nvmax values that are greater than N features
+  if (lin.type %in% c("allSubsets", "forwardStepwise", "backwardStepwise")) {
+    nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
+  }
 
   # [ GRID SEARCH ] ====
   if (metric == "auto") {
