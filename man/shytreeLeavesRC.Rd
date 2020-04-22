@@ -54,6 +54,9 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
 
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
 \item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}

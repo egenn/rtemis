@@ -96,6 +96,9 @@ Default = NULL (random seed)}
 
 \item{max.leaves}{Integer: Maximum number of terminal nodes to grow}
 
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+
 \item{early.stopping}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
