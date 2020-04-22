@@ -963,7 +963,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
 
       cases <- if (is.null(cxr.newdata)) newdata else cxr.newdata
       cxr.l <- plyr::llply(seq(max.leaves), function(j)
-        matchCasesByRules(cases, rules.l[[j]]), verbose = verbose)
+        matchCasesByRules(cases, rules.l[[j]], verbose = verbose))
 
       # get coefs for each leaf for each step in list
       coefs.l <- plyr::llply(seq(max.leaves), function(k)
