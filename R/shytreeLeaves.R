@@ -1,7 +1,7 @@
 # shytreeLeavesRC.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
-# Allow early stopping
+# shytreeLeavesRC with no-line option
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
@@ -45,7 +45,7 @@ shytreeLeavesRC <- function(x, y,
                             rho.max = 1000,
                             lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
                                          "backwardStepwise", "glm",
-                                         "solve"),
+                                         "solve", "none"),
                             cv.glmnet.nfolds = 5,
                             cv.glmnet.lambda = "lambda.min",
                             loss.fn = if (is.factor(y)) class.loss else msew,

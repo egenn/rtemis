@@ -52,11 +52,10 @@ s.SHYTREE <- function(x, y = NULL,
                       init = NULL,
                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
                                    "forwardStepwise", "backwardStepwise", "glm",
-                                   "solve"),
+                                   "solve", "none"),
                       cv.glmnet.nfolds = 5,
                       cv.glmnet.lambda = "lambda.min",
                       metric = "auto",
-                      .gs = FALSE,
                       maximize = NULL,
                       grid.resample.rtset = rtset.grid.resample(),
                       grid.search.type = "exhaustive",
@@ -79,7 +78,8 @@ s.SHYTREE <- function(x, y = NULL,
                       plot.fitted = NULL,
                       plot.predicted = NULL,
                       plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                      save.mod = FALSE) {
+                      save.mod = FALSE,
+                      .gs = FALSE) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -107,6 +107,7 @@ s.SHYTREE <- function(x, y = NULL,
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
+  if (.gs && nvmax == 0) lin.type = "none"
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
