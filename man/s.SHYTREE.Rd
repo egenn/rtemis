@@ -35,11 +35,10 @@ s.SHYTREE(
   rho.max = 1000,
   init = NULL,
   lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
-    "backwardStepwise", "glm", "solve"),
+    "backwardStepwise", "glm", "solve", "none"),
   cv.glmnet.nfolds = 5,
   cv.glmnet.lambda = "lambda.min",
   metric = "auto",
-  .gs = FALSE,
   maximize = NULL,
   grid.resample.rtset = rtset.grid.resample(),
   grid.search.type = "exhaustive",
@@ -62,7 +61,8 @@ s.SHYTREE(
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
-  save.mod = FALSE
+  save.mod = FALSE,
+  .gs = FALSE
 )
 }
 \arguments{
@@ -106,8 +106,6 @@ Default = NULL (random seed)}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
 
-\item{.gs}{internal use only}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{plot.tune.error}{Logical: If TRUE, plot validation error during gridsearch}
@@ -137,6 +135,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{save.mod}{Logical. If TRUE, save all output as RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{.gs}{internal use only}
 }
 \description{
 Train a Stepwise Hybrid Tree for Regression or Binary Classification

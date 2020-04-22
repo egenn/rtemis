@@ -25,7 +25,7 @@ glmLite(
 )
 }
 \arguments{
-\item{x}{Features}
+\item{x}{Features. Will be coerced to data.frame for method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
 
 \item{y}{Outcome}
 
@@ -40,7 +40,8 @@ glmLite(
 "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 "sgd": uses \code{sgd::sgd}
-"solve": uses \code{base::solve}}
+"solve": uses \code{base::solve}
+"none": returns all zeroes, for special uses}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 

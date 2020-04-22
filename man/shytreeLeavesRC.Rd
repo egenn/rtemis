@@ -29,7 +29,7 @@ shytreeLeavesRC(
   .rho = TRUE,
   rho.max = 1000,
   lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-    "backwardStepwise", "glm", "solve"),
+    "backwardStepwise", "glm", "solve", "none"),
   cv.glmnet.nfolds = 5,
   cv.glmnet.lambda = "lambda.min",
   loss.fn = if (is.factor(y)) class.loss else msew,
