@@ -107,7 +107,7 @@ s.SHYTREE <- function(x, y = NULL,
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
-  if (.gs && nvmax == 0) lin.type = "none"
+  # if (.gs && nvmax == 0) lin.type = "none"
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
@@ -159,7 +159,7 @@ s.SHYTREE <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  .final <- FALSE
+  # .final <- FALSE
   if (is.null(force.max.leaves)) {
     if (early.stopping) {
       gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
@@ -228,7 +228,7 @@ s.SHYTREE <- function(x, y = NULL,
     # }
 
     # Now ready to train final full model
-    .final <- TRUE
+    # .final <- TRUE
     .gs <- FALSE
     early.stopping <- FALSE
   } else {
@@ -250,6 +250,7 @@ s.SHYTREE <- function(x, y = NULL,
     msg("Training SHYTREE on full training set...", newline = TRUE)
   }
 
+  if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
   mod <- shytreeLeavesRC(x, y,
                          x.valid = x.valid, y.valid = y.valid,
                          early.stopping = early.stopping,
