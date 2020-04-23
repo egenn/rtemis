@@ -416,7 +416,7 @@ partLm <- function(x1, y1,
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
-    if (is.constant(resid.left) | all(sapply(x1, is.constant)) | length(resid.left) < minobsinnode.lin) {
+    if (is.constant(resid.left) | all(sapply(x1[left.index, , drop = FALSE], is.constant)) | length(resid.left) < minobsinnode.lin) {
       if (trace > 0) msg("Not fitting any more lines here")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
@@ -451,7 +451,7 @@ partLm <- function(x1, y1,
       }
     } # if (is.constant(resid.left))
 
-    if (is.constant(resid.right) | all(sapply(x1, is.constant)) | length(resid.right) < minobsinnode.lin) {
+    if (is.constant(resid.right) | all(sapply(x1[right.index, , drop = FALSE], is.constant)) | length(resid.right) < minobsinnode.lin) {
       if (trace > 0) msg("Not fitting any more lines here")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
