@@ -800,7 +800,7 @@ splitLineRC <- function(g,
   Fval1[left.index] <- Fval.left
   Fval1[right.index] <- Fval.right
 
-  # Assignt loss reduction to parent
+  # Assign loss reduction to parent
   g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1) # check: do we need weights?
   g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
 

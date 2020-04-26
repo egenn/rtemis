@@ -244,7 +244,6 @@ s.SHYTREE <- function(x, y = NULL,
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
   # [ shytreeLeaves ] ====
-  # Check:
   if (.gs) {
     if (early.stopping) {
       x.valid <- x.test
