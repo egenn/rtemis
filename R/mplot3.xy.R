@@ -909,7 +909,7 @@ mplot3.xy <- function(x, y = NULL,
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  if (!is.null(main)) {
+  if (!is.null(main) && length(main) > 0) {
     mtext(main, line = main.line, font = main.font, family = main.family,
           adj = main.adj, cex = cex, col = main.col)
   }
