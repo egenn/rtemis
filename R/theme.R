@@ -1,6 +1,46 @@
 
-#' Set theme for \code{mplot3} functions
+#' Themes for \code{mplot3} functions
 #'
+#' @param bg Color: Figure background
+#' @param plot.bg Color: Plot region background
+#' @param fg Color: Foreground color used as default for multiple elements like axes and labels, which can
+#' be defined separately
+#' @param pch Integer: Point character. Default = 16
+#' @param cex Float: Character expansion factor. Default = 1.2
+#' @param lwd Float: Line width. Default = 2
+#' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". Default = "n" (no box)
+#' @param box.col Box color if \code{bty != "n"}
+#' @param box.alpha Float: Box alpha
+#' @param box.lty Integer: Box line type
+#' @param box.lwd Float: Box line width
+#' @param grid Logical: If TRUE, draw grid in plot regions
+#' @param grid.nx Integer: N of vertical grid lines
+#' @param grid.ny Integer: N of horizontal grid lines
+#' @param grid.col Grid color
+#' @param grid.alpha Float: Grid alpha
+#' @param grid.lty Integer: Grid line type
+#' @param grid.lwd Float: Grid line width
+#' @param axes Logical: If TRUE, draw axes
+#' @param axes.col Axes colors
+#' @param tick.col Tick color
+#' @param tick.alpha Float: Tick alpha
+#' @param tick.labels.col Tick labels' color
+#' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
+#' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
+#' @param labs.col Labels' color
+#' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within plot limits
+#' @param zerolines.col Zerolines color
+#' @param zerolines.alpha Float: Zerolines alpha
+#' @param zerolines.lty Integer: Zerolines line type
+#' @param zerolines.lwd Float: Zerolines line width
+#' @param main.line Float: How many lines away from the plot region to draw title. Default = .5
+#' @param main.adj Float: How to align title. Default = 0 (left-align)
+#' @param main.font Integer: 1: Regular, 2: Bold
+#' @param main.col Title color
+#' @param font.family String: Font to be used throughout plot. Must be available to the OS
+#'
+#' @rdname theme
+#' @export
 theme_blackgrid <- function(bg = "#000000",
                             plot.bg = NA,
                             fg = "#ffffff",
@@ -87,6 +127,9 @@ theme_blackgrid <- function(bg = "#000000",
 
 } # rtemis::theme_blackgrid
 
+
+#' @rdname theme
+#' @export
 theme_darkgrid <- function(bg = "#000000",
                            plot.bg = "#1A1A1A",
                            fg = "#ffffff",
@@ -173,6 +216,8 @@ theme_darkgrid <- function(bg = "#000000",
 
 } # rtemis::theme_darkgrid
 
+#' @rdname theme
+#' @export
 theme_black <- function(bg = "#000000",
                         plot.bg = NA,
                         fg = "#ffffff",
@@ -259,6 +304,8 @@ theme_black <- function(bg = "#000000",
 
 } # rtemis::theme_black
 
+#' @rdname theme
+#' @export
 theme_whitegrid <- function(bg = "#ffffff",
                             plot.bg = NA,
                             fg = "#000000",
@@ -345,6 +392,8 @@ theme_whitegrid <- function(bg = "#ffffff",
 
 } # rtemis::theme_whitegrid
 
+#' @rdname theme
+#' @export
 theme_lightgrid <- function(bg = "#ffffff",
                             plot.bg = "#E6E6E6",
                             fg = "#000000",
@@ -431,6 +480,8 @@ theme_lightgrid <- function(bg = "#ffffff",
 
 } # rtemis::theme_darkgrid
 
+#' @rdname theme
+#' @export
 theme_white <- function(bg = "#ffffff",
                         plot.bg = NA,
                         fg = "#000000",

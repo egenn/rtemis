@@ -11,6 +11,7 @@ mplot3.bar(
   error.col = "white",
   error.lwd = 2,
   alpha = 1,
+  beside = TRUE,
   border = NA,
   width = 1,
   space = NULL,
@@ -21,51 +22,32 @@ mplot3.bar(
   ylab = NULL,
   ylab.line = 1.5,
   main = NULL,
-  main.line = 0.5,
-  main.adj = 0,
-  main.col = NULL,
-  main.font = 2,
-  main.family = "",
-  names.arg = NULL,
-  axisnames = NULL,
   las = 1.5,
-  group.names = NULL,
-  group.names.srt = 0,
-  group.names.adj = ifelse(group.names.srt == 0, 0.5, 1),
-  group.names.line = 0.5,
-  group.names.font = 1,
-  group.names.cex = 1,
-  group.names.y.pad = 0.08,
-  group.names.at = NULL,
+  xnames = NULL,
+  xnames.srt = 0,
+  xnames.adj = ifelse(xnames.srt == 0, 0.5, 1),
+  xnames.line = 0.5,
+  xnames.font = 1,
+  xnames.cex = 1,
+  xnames.y.pad = 0.08,
+  xnames.at = NULL,
   color.bygroup = FALSE,
-  legend = NULL,
-  legend.names = NULL,
+  group.legend = NULL,
+  legend.adj = 0,
+  legend.at = NA,
+  group.names = NULL,
   legend.position = "topright",
   legend.inset = c(0, 0),
-  toplabels = NULL,
+  bartoplabels = NULL,
   mar = c(3, 2.5, 2.5, 1),
   pty = "m",
-  cex = 1.2,
-  cex.axis = cex,
-  cex.names = 1,
-  bg = NULL,
-  plot.bg = NULL,
   barplot.axes = FALSE,
   yaxis = TRUE,
   ylim.pad = 0.04,
   y.axis.padj = 1,
   tck = -0.015,
-  tick.col = NULL,
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "blackgrid"),
   palette = getOption("rt.palette", "rtCol1"),
-  axes.col = NULL,
-  labs.col = NULL,
-  grid = FALSE,
-  grid.ny = NULL,
-  grid.lty = NULL,
-  grid.lwd = NULL,
-  grid.col = NULL,
-  grid.alpha = 1,
   par.reset = TRUE,
   pdf.width = 6,
   pdf.height = 6,
@@ -102,64 +84,28 @@ within group and between groups. Default = c(0, 1) if x is matrix and \code{besi
 
 \item{main}{Character: Plot title}
 
-\item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
-Default = .5}
-
-\item{main.adj}{Float: Plot title alignment (0 = left, .5 = center, 1 = right)}
-
-\item{main.col}{Color for title. Defaults to black for theme "light" and "box", otherwise white}
-
-\item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
-
-\item{main.family}{Character: Font family to use. See \code{par("family")}}
-
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
-
 \item{color.bygroup}{Logical: If TRUE, and input is a matrix, each group's bars will be given the same color,
 otherwise bars across groups will be given the same sequence of colors. Default = FALSE}
 
-\item{legend}{Logical: If TRUE, and input is matrix, draw legend for each case. Note: you may need to adjust
-\code{mar} and \code{legend.inset} if you want to place the legend outside the plot
-(can use e.g.\code{legend.inset = c(-.5, 0)})}
+\item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
+
+\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{cex}{Float: Character expansion factor (See \code{?par})}
-
-\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
-
-\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
-
 \item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
-\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
-
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
-
-\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
-
-\item{grid}{Logical: If TRUE, draw grid}
-
-\item{grid.ny}{Integer: N of grid lines on the y axis
-Use with caution, probably along with \code{yaxs = "i"}}
-
-\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
-
-\item{grid.lwd}{Float: Grid line width}
-
-\item{grid.col}{Color: Grid color}
-
-\item{grid.alpha}{Float: Alpha for \code{grid.col}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 
@@ -170,6 +116,10 @@ Use with caution, probably along with \code{yaxs = "i"}}
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to \code{graphics::barplot}}
+
+\item{legend}{Logical: If TRUE, and input is matrix, draw legend for each case. Note: you may need to adjust
+\code{mar} and \code{legend.inset} if you want to place the legend outside the plot
+(can use e.g.\code{legend.inset = c(-.5, 0)})}
 }
 \description{
 Draw barplots

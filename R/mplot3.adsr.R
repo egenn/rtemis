@@ -48,8 +48,8 @@ mplot3.adsr <- function(Attack = 300,
                         grid.lty = 1,
                         grid.lwd = .4,
                         grid.col = NULL,
-                        zero.col = "gray50",
-                        theme = "dark",
+                        zerolines.col = "gray50",
+                        theme = "black",
                         labs.col = "gray70",
                         # axes.col = "",
                         tick.col = "gray70",
@@ -77,7 +77,7 @@ mplot3.adsr <- function(Attack = 300,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   mplot3.xy(x, y, type = 'l', theme = theme, xaxs = xaxs, yaxs = yaxs,
-            scatter = FALSE, zero.lines = FALSE,
+            scatter = FALSE, zerolines = FALSE,
             xlab = "Time (ms)", ylab = "% Velocity",
             xlim = c(0, O + R + 300),
             ylim = c(0, 100),
@@ -85,7 +85,7 @@ mplot3.adsr <- function(Attack = 300,
             par.reset = FALSE, labs.col = labs.col,
             tck = -.02, tick.col = tick.col,
             grid = grid, grid.lty = grid.lty, grid.lwd = grid.lwd, grid.col = grid.col,
-            zero.col = zero.col,
+            zerolines.col = zerolines.col,
             pty = pty,
             mar = mar,
             main = main, main.col = main.col, main.line = main.line, ...)
@@ -102,7 +102,7 @@ mplot3.adsr <- function(Attack = 300,
   # lines(c(I, O), c(-2, -2), col = adjustcolor(on.col, on.alpha),
   #       lwd = on.lwd, lty = on.lty)
   # Pre
-  lines(c(0, I), c(0, 0), col = zero.col, lwd = lwd, lty = lty, xpd = TRUE)
+  lines(c(0, I), c(0, 0), col = zerolines.col, lwd = lwd, lty = lty, xpd = TRUE)
   # Attack
   lines(c(I, I + A), c(0, V), col = Attack.col, lwd = lwd, lty = lty)
   # Decay
@@ -118,7 +118,7 @@ mplot3.adsr <- function(Attack = 300,
   # Release
   lines(c(O, O + R), c(S, 0), col = Release.col, lwd = lwd, lty = lty)
   # Post
-  lines(c(O + R, 2 * O + R), c(0, 0), col = zero.col, lwd = lwd, lty = lty, xpd = TRUE)
+  lines(c(O + R, 2 * O + R), c(0, 0), col = zerolines.col, lwd = lwd, lty = lty, xpd = TRUE)
 
   # [ Verticals ] ====
   if (draw.verticals) {

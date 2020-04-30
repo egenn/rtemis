@@ -12,11 +12,11 @@ mplot3.fit(
   fit.error = TRUE,
   axes.equal = TRUE,
   diagonal = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
-  point.col = NULL,
+  theme = getOption("rt.fit.theme", "whitegrid"),
+  marker.col = NULL,
   fit.col = NULL,
   pty = "s",
-  zero.lines = FALSE,
+  zerolines = FALSE,
   fit.legend = FALSE,
   ...
 )
@@ -38,7 +38,7 @@ be passed as a string.}
 
 \item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
 
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
@@ -46,8 +46,6 @@ options(rt.theme = 'lightgrid')}
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{pty}{Character: "s" for square plot, "m" to fill device. Default = "s"}
-
-\item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
 
 \item{...}{Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)}
 }

@@ -86,7 +86,7 @@ mplot3.img <- function(z,
                        cell.labs.col = NULL,
                        cell.labs.autocol = TRUE, # WIP add autocol w cutoffs at abs(.4)
                        bg = NULL,
-                       theme = "light",
+                       theme = getOption("rt.theme", "white"),
                        filename = NULL,
                        file.width = NULL,
                        file.height = NULL,
@@ -96,6 +96,17 @@ mplot3.img <- function(z,
   # [ ARGUMENTS ] ====
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
+
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
 
   # [ ZLIM ] ====
   if (is.null(zlim)) {
@@ -121,23 +132,8 @@ mplot3.img <- function(z,
   if (is.null(cex.y)) cex.y <- cex.ax
 
   # [ THEMES ] ====
-  if (theme == "light") {
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(axlab.col)) axlab.col <- "black"
-    if (is.null(axes.col)) axes.col <- "black"
-    if (is.null(labs.col)) labs.col <- "black"
-    if (is.null(tick.col)) tick.col <- "black"
-    if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- "white"
-    if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- "black"
-  } else {
-    if (is.null(main.col)) main.col <- "gray90"
-    if (is.null(axlab.col)) axlab.col <- "gray90"
-    if (is.null(axes.col)) axes.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- "gray90"
-    if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- "gray90"
-  }
+  if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- theme$fg
+  if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$bg
 
   # [ IMAGE ] ====
   if (!is.null(filename)) {
@@ -161,17 +157,11 @@ mplot3.img <- function(z,
   if (!is.null(filename)) do.call(graphics, args = list(file = filename,
                                                         width = file.width, height = file.height))
 
-  if (is.null(bg)) {
-    bg <- if (theme == "dark") "black" else "white"
-  }
-
   # rtlayout support
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  par(pty = pty, mar = mar, bg = bg)
-
-  #  & min(size(z)) > 1
+  par(pty = pty, mar = mar, bg = theme$bg)
 
   image(x, y, data.matrix(z), col = col, zlim = zlim,
         asp = asp, ann = ann, axes = axes, ...)
@@ -182,73 +172,52 @@ mplot3.img <- function(z,
   NR <- NROW(z)
   NC <- NCOL(z)
 
-  #
-  # if (as.mat) ynames <- rev(ynames)
-
-  # if (!is.null(xnames)) {
-  #   if (xlab.direction == "vertical") {
-  #     mtext(xnames, side = 1, at = x, line = 0.5)
-  #   } else {
-  # text(x, xnames.y, xnames, cex = cex.x, col = xnames.col,
-  #      xpd = TRUE, srt = x.srt, adj = x.tick.labs.adj)
-  #   }
-  # }
-  # if (!is.null(ynames)) {
-  #   text(ynames.x, y, ynames, cex = cex.y, col = ynames.col, xpd = TRUE, srt = y.srt, adj = y.tick.labs.adj)
-  #   # mtext(ynames, side = 2, at = y, line = 0.5)
-  # }
-
   if (!is.null(xnames)) {
-    axis(x.axis.side, 1:NR,
+    axis(side = theme$x.axis.side, at = 1:NR,
          labels = xnames,
-         line = x.axis.line,
+         col = theme$axes.col,
          tick = FALSE,
          las = x.axis.las,
-         col = axes.col,
-         col.axis = labs.col,
-         col.ticks = tick.col)
-    # text(x, xnames.y, labels = xnames, adj = x.tick.labs.adj, pos = x.axis.side, offset = 0,
-    #      cex = cex.x, col = xnames.col, xpd = TRUE, srt = x.srt)
+         col.axis = theme$tick.labels.col,
+         cex = theme$cex,
+         family = theme$font.family)
   }
   if (!is.null(ynames)) {
-    axis(y.axis.side, 1:NC,
+    axis(side = theme$y.axis.side, at = 1:NC,
          labels = ynames,
-         line = y.axis.line,
+         col = theme$axes.col,
          tick = FALSE,
          las = y.axis.las,
-         col = axes.col,
-         col.axis = labs.col,
-         col.ticks = tick.col)
-    # text(ynames.x, y, labels = ynames, adj = y.tick.labs.adj, pos = y.axis.side, offset = 0,
-    #      cex = cex.y, col = ynames.col, xpd = TRUE, srt = y.srt)
+         col.axis = theme$tick.labels.col,
+         cex = theme$cex,
+         family = theme$font.family)
+  }
+
+  # [ MAIN TITLE ] ====
+  if (exists("autolabel", envir = rtenv)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
+  }
+
+  if (length(main) > 0) {
+    mtext(main, line = theme$main.line,
+          font = theme$main.font, adj = theme$main.adj,
+          cex = theme$cex, col = theme$main.col,
+          family = theme$font.family)
   }
 
   # [ AXES & MAIN LABELS ] ====
-  if (!is.null(xlab)) mtext(xlab, side = xlab.side, col = axlab.col, cex = cex,
-                             line = xlab.line, adj = xlab.adj, padj = xlab.padj)
-  if (!is.null(ylab)) mtext(ylab, side = ylab.side, col = axlab.col, cex = cex,
-                            line = ylab.line, adj = ylab.adj, padj = ylab.padj)
-  if (!is.null(main)) suppressWarnings(mtext(bquote(paste(bold(.(main)))), line = main.line,
-                                             adj = main.adj, cex = cex, col = main.col))
+  if (!is.null(xlab)) mtext(xlab, side = theme$x.axis.side,
+        line = xlab.line, cex = theme$cex,
+        adj = xlab.adj, col = theme$labs.col,
+        family = theme$font.family)
+  if (!is.null(ylab)) mtext(ylab, side = theme$y.axis.side,
+        line = ylab.line, cex = theme$cex,
+        adj = ylab.adj, col = theme$labs.col,
+        family = theme$font.family)
 
   # [ CELL LABELS ] ====
-  # cell.labs vector to matrix
-  # if (!is.null(cell.labs)) {
-  #   if (as.mat) {
-  #     cell.labs <- t(apply(cell.labs, 2, rev))
-  #   }
-  #   NR.labs <- NROW(cell.labs)
-  #   NC.labs <- NCOL(cell.labs)
-  #   if (NC.labs != NR | NR.labs != NC) {
-  #     if ((NR.labs * NC.labs) != (NR * NC)) {
-  #       cell.labs <- matrix(cell.labs, NR)
-  #     } else {
-  #       warning("cell.labs dimensions do not match z")
-  #     }
-  #   }
-  # }
-
-  # cell.labs.col
   if (is.null(cell.labs.col)) {
     cell.labs.col <- ifelse(z >= quantile(zlim)[4], cell.lab.hi.col, cell.lab.lo.col)
   }
@@ -267,4 +236,4 @@ mplot3.img <- function(z,
 
   if (!is.null(filename)) grDevices::dev.off()
 
-} # rtemis::img
+} # rtemis::mplot3.img

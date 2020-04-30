@@ -10,23 +10,17 @@ mplot3.xy(
   fit = NULL,
   formula = NULL,
   se.fit = FALSE,
-  mod.params = NULL,
+  fit.params = NULL,
   error.x = NULL,
   error.y = NULL,
   cluster = NULL,
   cluster.params = list(),
   data = NULL,
-  type = NULL,
+  type = "p",
   group = NULL,
   xlab = NULL,
   ylab = NULL,
   main = NULL,
-  main.line = 0.5,
-  main.adj = 0,
-  main.col = NULL,
-  main.font = 2,
-  main.family = "",
-  cex = 1.2,
   xlim = NULL,
   ylim = NULL,
   xpd = TRUE,
@@ -40,7 +34,6 @@ mplot3.xy(
   fit.error = FALSE,
   fit.error.side = 1,
   fit.error.padj = NA,
-  fit.error.col = NULL,
   xaxp = NULL,
   yaxp = NULL,
   scatter = TRUE,
@@ -48,50 +41,29 @@ mplot3.xy(
   axes.equal = FALSE,
   axes.col = NULL,
   pty = "m",
-  box = NULL,
-  bty = "o",
-  box.col = NULL,
-  box.alpha = 1,
-  box.lty = 1,
-  box.lwd = 1.5,
-  grid = FALSE,
-  grid.nx = NULL,
-  grid.ny = NULL,
-  grid.col = NULL,
-  grid.alpha = 1,
-  grid.lty = 1,
-  grid.lwd = 1.5,
-  bg = NULL,
-  plot.bg = NULL,
   annotation = NULL,
   annotation.col = NULL,
   tick.col = NULL,
   tck = 0.015,
-  x.axis.side = 1,
-  y.axis.side = 2,
   x.axis.at = NULL,
   y.axis.at = NULL,
   x.axis.labs = TRUE,
   y.axis.labs = TRUE,
   x.axis.padj = -1.1,
-  xlab.line = 1.3,
+  xlab.line = 1.4,
   y.axis.padj = 0.9,
   ylab.line = 1.6,
   xlab.adj = 0.5,
   ylab.adj = 0.5,
   mar = c(2.5, 2.5, 1.5, 1),
-  col = NULL,
   pch = ifelse(is.null(point.bg.col), 16, 21),
   point.cex = 0.85,
-  point.col = NULL,
   point.bg.col = NULL,
-  point.alpha = 0.66,
   line.col = NULL,
   line.alpha = 0.66,
   lty = 1,
-  lwd = 2,
   marker.col = NULL,
-  marker.alpha = 0.66,
+  marker.alpha = 0.5,
   error.x.col = NULL,
   error.y.col = NULL,
   error.x.lty = 1,
@@ -101,7 +73,7 @@ mplot3.xy(
   error.arrow.code = 3,
   fit.col = NULL,
   fit.lwd = 2.5,
-  fit.alpha = 0.66,
+  fit.alpha = 1,
   fit.legend = ifelse(is.null(fit), FALSE, TRUE),
   se.lty = "poly",
   se.lwd = 1,
@@ -110,11 +82,6 @@ mplot3.xy(
   se.times = 2,
   se.border = FALSE,
   se.density = NULL,
-  xy.fit = NULL,
-  xy.fit.col = NULL,
-  firstpc = FALSE,
-  firstpc.lty = 3,
-  firstpc.col = NULL,
   hline = NULL,
   hline.col = NULL,
   hline.lwd = 1.5,
@@ -127,7 +94,7 @@ mplot3.xy(
   diagonal.inv = FALSE,
   diagonal.lwd = 1.5,
   diagonal.lty = 1,
-  diagonal.col = NULL,
+  diagonal.col = "gray50",
   diagonal.alpha = 0.5,
   group.legend = NULL,
   group.title = NULL,
@@ -143,13 +110,8 @@ mplot3.xy(
   fit.legend.at = NA,
   labs.col = NULL,
   na.rm = TRUE,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme", "whitegrid"),
   palette = getOption("rt.palette", "rtCol1"),
-  zero.lines = NULL,
-  zero.col = NULL,
-  zero.alpha = 1,
-  zero.lty = 1,
-  zero.lwd = 1.5,
   order.on.x = NULL,
   alpha.off = FALSE,
   autolabel = letters,
@@ -181,7 +143,7 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
-\item{mod.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+\item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
 parameters}
 
 \item{error.x}{Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point}
@@ -207,19 +169,6 @@ If \code{data} is provided, name of variable, unquoted.}
 \item{ylab}{Character: y-axis label}
 
 \item{main}{Character: Plot title}
-
-\item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
-Default = .5}
-
-\item{main.adj}{Float: Plot title alignment (0 = left, .5 = center, 1 = right)}
-
-\item{main.col}{Color for title. Defaults to black for theme "light" and "box", otherwise white}
-
-\item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
-
-\item{main.family}{Character: Font family to use. See \code{par("family")}}
-
-\item{cex}{Float: Character expansion factor (See \code{?par})}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
@@ -249,9 +198,6 @@ Default = "r"}
 
 \item{fit.error.padj}{Float: See \code{mtext:padg} Default = NA}
 
-\item{fit.error.col}{Color: Color for \code{fit.error} annotation. Default = NULL, which results in a
-theme-appropriate gray}
-
 \item{xaxp}{See \code{par("xaxp")}}
 
 \item{yaxp}{See \code{par("yaxp")}}
@@ -267,50 +213,11 @@ theme-appropriate gray}
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{box}{Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"}
-
-\item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-(See \code{par("bty")})}
-
-\item{box.col}{Color: Box color}
-
-\item{box.alpha}{Float: Alpha for \code{box.col}}
-
-\item{box.lty}{Integer: Box line type}
-
-\item{box.lwd}{Float: Box line width. Default = 1.5}
-
-\item{grid}{Logical: If TRUE, draw grid}
-
-\item{grid.nx}{Integer: N of grid lines on the x axis.
-Use with caution, probably along with \code{xaxs = "i"}}
-
-\item{grid.ny}{Integer: N of grid lines on the y axis
-Use with caution, probably along with \code{yaxs = "i"}}
-
-\item{grid.col}{Color: Grid color}
-
-\item{grid.alpha}{Float: Alpha for \code{grid.col}}
-
-\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
-
-\item{grid.lwd}{Float: Grid line width}
-
-\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
-
-\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
-
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
 \item{annotation.col}{Color for annotation}
 
-\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
-
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
-
-\item{x.axis.side}{Integer {1, 3}: Side to place x-axis. Default = 1}
-
-\item{y.axis.side}{Integer {2, 4}: Side to place y-axis. Default = 2}
 
 \item{x.axis.at}{Float, vector: x coordinates to place tick marks. Default = NULL, determined by
 \code{graphics::axis} aautomatically}
@@ -335,12 +242,16 @@ Use with caution, probably along with \code{yaxs = "i"}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
+\item{point.cex}{Float: Character expansion for points. Default = .85}
+
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{fit.lwd}{Float: Fit line width}
 
 \item{se.lty}{How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
 otherwise an integer defines the lty (line type) for lines to be drawn}
+
+\item{se.lwd}{Float: Line width for standard error bounds}
 
 \item{se.col}{Color for \code{se.fit}}
 
@@ -354,6 +265,22 @@ See \code{border} in \code{graphics::polygon}}
 
 \item{se.density}{Density of shading line of polygon for \code{se.fit}.
 See \code{density} in \code{graphics::polygon}}
+
+\item{hline}{Vector: y-value(s) for horizontal lines. Default = NULL}
+
+\item{hline.col}{Color for horizontal line(s)}
+
+\item{hline.lwd}{Float: Width for horizontal line(s)}
+
+\item{hline.lty}{Integer: Line type for horizontal line(s)}
+
+\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+
+\item{vline.lwd}{Float: Width for vertical lines}
+
+\item{vline.col}{Color for vertical lines}
+
+\item{vline.lty}{Integer: Line type for vertical lines}
 
 \item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
 
@@ -373,22 +300,12 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
-
-\item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
-
-\item{zero.col}{Color for \code{zero.lines}}
-
-\item{zero.alpha}{Color alpha for \code{zero.lines}}
-
-\item{zero.lty}{Integer: Zero line line type}
-
-\item{zero.lwd}{Float: Zero line width}
 
 \item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 otherwise FALSE}
@@ -407,7 +324,7 @@ otherwise FALSE}
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
-\item{...}{Additional arguments to be passed to learner function}
+\item{...}{Additional arguments to be passed to theme function}
 }
 \description{
 Plot points and lines with optional fits and standard error bands

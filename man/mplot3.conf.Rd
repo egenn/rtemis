@@ -32,14 +32,15 @@ mplot3.conf(
   col.bg.out2 = "auto",
   col.text.hi = "auto",
   col.text.lo = "auto",
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "white"),
   mid.col = "auto",
   hi.color.pos = "#18A3AC",
   hi.color.neg = "#F48024",
   par.reset = TRUE,
   pdf.width = 4.5,
   pdf.height = 4.5,
-  filename = NULL
+  filename = NULL,
+  ...
 )
 }
 \arguments{

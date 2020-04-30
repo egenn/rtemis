@@ -22,7 +22,7 @@ mplot3.pr(
   annot.adj = 1,
   annot.font = 1,
   mar = c(2.5, 3, 2.5, 1),
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme", "whitegrid"),
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   verbose = TRUE,
@@ -59,7 +59,7 @@ mplot3.pr(
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

@@ -12,11 +12,6 @@ mplot3.x(
   xlab = NULL,
   ylab = NULL,
   main = NULL,
-  main.col = NULL,
-  main.adj = 0,
-  main.line = 0.5,
-  main.font = 2,
-  main.family = "",
   xlim = NULL,
   ylim = NULL,
   index.ypad = 0.1,
@@ -46,14 +41,11 @@ mplot3.x(
   hline = NULL,
   vline = NULL,
   diagonal = FALSE,
-  diagonal.col = NULL,
   grid = FALSE,
   grid.col = NULL,
   grid.alpha = 0.5,
   grid.lty = 3,
   grid.lwd = 1,
-  bg = NULL,
-  plot.bg = NULL,
   annotation = NULL,
   annot.col = NULL,
   group.legend = NULL,
@@ -74,12 +66,6 @@ mplot3.x(
   y.axis.padj = 0.9,
   ylab.line = 1.6,
   labs.col = NULL,
-  bty = "o",
-  box = NULL,
-  box.col = NULL,
-  box.alpha = 1,
-  box.lty = 1,
-  box.lwd = 2,
   lab.adj = 0.5,
   density.mean = ifelse(type == "density", TRUE, FALSE),
   hline.col = "black",
@@ -95,10 +81,6 @@ mplot3.x(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   zero.lines = NULL,
-  zero.col = NULL,
-  zero.alpha = 0.66,
-  zero.lty = 1,
-  zero.lwd = 1.5,
   pty = "s",
   mar = c(2.5, 2.5, 1.5, 1),
   xaxs = "r",
@@ -133,17 +115,6 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 
 \item{main}{Character: Plot title}
 
-\item{main.col}{Color for title. Defaults to black for theme "light" and "box", otherwise white}
-
-\item{main.adj}{Float: Plot title alignment (0 = left, .5 = center, 1 = right)}
-
-\item{main.line}{Float: \code{mtext line} argument for the title. Higher numbers move title upwards.
-Default = .5}
-
-\item{main.font}{Integer: 1: regular, 2: bold, 3: italic. See \code{par("font")} for more}
-
-\item{main.family}{Character: Font family to use. See \code{par("family")}}
-
 \item{xlim}{Float vector, length 2: x-axis limits}
 
 \item{ylim}{Float vector, length 2: y-axis limits}
@@ -154,10 +125,6 @@ Default = .5}
 \item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
 
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
-
-\item{tick.col}{Color: Tick color. Default = NULL, which results in theme-appropriate color}
-
-\item{cex}{Float: Character expansion factor (See \code{?par})}
 
 \item{index.type}{Character: "p" for points (Default), "l" for lines (timeseries)}
 
@@ -175,24 +142,13 @@ Default = .5}
 
 \item{qqline.alpha}{Float: Alpha for Q-Q line}
 
+\item{point.cex}{Float: Character expansion for points. Default = .85}
+
+\item{hline}{Vector: y-value(s) for horizontal lines. Default = NULL}
+
+\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+
 \item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
-
-\item{diagonal.col}{Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
-themes}
-
-\item{grid}{Logical: If TRUE, draw grid}
-
-\item{grid.col}{Color: Grid color}
-
-\item{grid.alpha}{Float: Alpha for \code{grid.col}}
-
-\item{grid.lty}{Integer: Grid line type (See \code{par("lty")})}
-
-\item{grid.lwd}{Float: Grid line width}
-
-\item{bg}{Color: Background color. Defaults to white for themes "light" and "box", black otherwise.}
-
-\item{plot.bg}{Color: Background color. Default = NULL, which results in theme-appropriate color}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
@@ -214,41 +170,30 @@ themes}
 
 \item{labs.col}{Color for labels}
 
-\item{bty}{Character: "o", "l", "7", "c", "u", or "]" result in a box resembling each character.
-(See \code{par("bty")})}
-
-\item{box}{Logical: If TRUE, draw a box around the plot. Default = TRUE for themes "box" and "darkbox"}
-
-\item{box.col}{Color: Box color}
-
-\item{box.alpha}{Float: Alpha for \code{box.col}}
-
-\item{box.lty}{Integer: Box line type}
-
-\item{box.lwd}{Float: Box line width. Default = 1.5}
-
 \item{lab.adj}{Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)}
 
 \item{density.mean}{Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE, for \code{type = "density"}}
 
+\item{hline.col}{Color for horizontal line(s)}
+
+\item{hline.lwd}{Float: Width for horizontal line(s)}
+
+\item{hline.lty}{Integer: Line type for horizontal line(s)}
+
+\item{vline.col}{Color for vertical lines}
+
+\item{vline.lwd}{Float: Width for vertical lines}
+
+\item{vline.lty}{Integer: Line type for vertical lines}
+
 \item{lwd}{Integer: Line width. Used for \code{type = "ts" or "density"}}
 
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
-
-\item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
-
-\item{zero.col}{Color for \code{zero.lines}}
-
-\item{zero.alpha}{Color alpha for \code{zero.lines}}
-
-\item{zero.lty}{Integer: Zero line line type}
-
-\item{zero.lwd}{Float: Zero line width}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
@@ -273,7 +218,7 @@ input containing NA values will result in error, depending on the \code{type}}
 
 \item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
 
-\item{...}{Additional arguments to be passed to learner function}
+\item{...}{Additional arguments to be passed to theme function}
 }
 \description{
 Draw plots of 1-dimensional data: index, histogram, density, and Q-Q plots.

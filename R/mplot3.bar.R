@@ -32,7 +32,7 @@ mplot3.bar <- function(x,
                        error.col = "white",
                        error.lwd = 2,
                        alpha = 1,
-                       # beside = TRUE,
+                       beside = TRUE,
                        border = NA,
                        width = 1,
                        space = NULL, #c(1, .2),
@@ -43,51 +43,33 @@ mplot3.bar <- function(x,
                        ylab = NULL,
                        ylab.line = 1.5,
                        main = NULL,
-                       main.line = .5,
-                       main.adj = 0,
-                       main.col = NULL,
-                       main.font = 2,
-                       main.family = "",
-                       names.arg = NULL,
-                       axisnames = NULL,
                        las = 1.5,
-                       group.names = NULL,
-                       group.names.srt = 0,
-                       group.names.adj = ifelse(group.names.srt == 0, .5, 1),
-                       group.names.line = 0.5,
-                       group.names.font = 1,
-                       group.names.cex = 1,
-                       group.names.y.pad = .08,
-                       group.names.at = NULL,
+                       xnames = NULL,
+                       xnames.srt = 0,
+                       xnames.adj = ifelse(xnames.srt == 0, .5, 1),
+                       xnames.line = 0.5,
+                       xnames.font = 1,
+                       xnames.cex = 1,
+                       xnames.y.pad = .08,
+                       xnames.at = NULL,
                        color.bygroup = FALSE,
-                       legend = NULL,
-                       legend.names = NULL,
+                       group.legend = NULL,
+                       # legend.side = 3,
+                       legend.adj = 0,
+                       legend.at = NA,
+                       group.names = NULL,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
-                       toplabels = NULL,
+                       bartoplabels = NULL,
                        mar = c(3, 2.5, 2.5, 1),
                        pty = "m",
-                       cex = 1.2,
-                       cex.axis = cex,
-                       cex.names = 1,
-                       bg = NULL,
-                       plot.bg = NULL,
                        barplot.axes = FALSE,
                        yaxis = TRUE,
                        ylim.pad = .04,
                        y.axis.padj = 1,
                        tck = -.015,
-                       tick.col = NULL,
-                       theme = getOption("rt.theme", "light"),
+                       theme = getOption("rt.theme", "blackgrid"),
                        palette = getOption("rt.palette", "rtCol1"),
-                       axes.col = NULL,
-                       labs.col = NULL,
-                       grid = FALSE,
-                       grid.ny = NULL,
-                       grid.lty = NULL,
-                       grid.lwd = NULL,
-                       grid.col = NULL,
-                       grid.alpha = 1,
                        par.reset = TRUE,
                        pdf.width = 6,
                        pdf.height = 6,
@@ -97,6 +79,18 @@ mplot3.bar <- function(x,
   # Compatibility with rtlayout()
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   if (is.character(palette)) palette <- rtPalette(palette)
+  x <- as.matrix(x)
+  if (!is.null(error)) error <- as.matrix(error)
+  if (NCOL(x) == 1) {
+    xnames <- rownames(x)
+    x <- c(x)
+    error <- c(error)
+  } else if (NROW(x) == 1) {
+    xnames <- colnames(x)
+    x <- c(x)
+    error <- c(error)
+  }
+
   p <- NCOL(x)
   n <- NROW(x)
   if (is.null(col)) {
@@ -114,115 +108,75 @@ mplot3.bar <- function(x,
   if (length(col) < p) col <- rep(col, p/length(col))
 
   if (is.null(space)) {
-    space <- if (min(size(x)) > 2) c(.1, .5) else .2
+    space <- if (min(size(x)) >= 2 && beside) c(.1, .5) else .2
   }
 
   # Legend names
-  if (is.null(legend.names)) {
-    legend.names <- if (!is.null(rownames(x))) rownames(x) else paste0("Case", seq_len(NROW(x)))
+  if (is.null(group.names)) {
+    group.names <- if (!is.null(rownames(x))) rownames(x) else paste0("Case", seq_len(NROW(x)))
   }
 
   cols <- colorAdjust(col, alpha = alpha)
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   # Output directory
-  if (!is.null(filename))
-    if (!dir.exists(dirname(filename)))
-      dir.create(dirname(filename), recursive = TRUE)
-
-  # [ NAMES for vectors ] ====
-  if (is.null(names.arg)) {
-    if (NROW(x) == 1 & !is.null(colnames(x))) names.arg <- colnames(x)
-    if (NCOL(x) == 1 & !is.null(rownames(x))) names.arg <- rownames(x)
-    if (is.vector(x) & !is.null(names(x))) names.arg <- names(x)
+  if (!is.null(filename) && !dir.exists(dirname(filename))) {
+    dir.create(dirname(filename), recursive = TRUE)
   }
 
-  # [ DATA ] ====
-  x <- as.matrix(x)
-  beside <- TRUE
-  if (!is.null(dim(x))) {
-    if (NROW(x) == 1) {
-      x <- as.numeric(x)
-      if (!is.null(error)) error <- as.numeric(error)
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  if (!is.null(error)) error <- as.matrix(error)
 
-  if (is.null(dim(x))) {
-    if (is.null(axisnames)) axisnames <- TRUE
-    if (is.null(legend)) legend <- FALSE
-  } else {
-    if (is.null(axisnames)) axisnames <- FALSE
-    if (is.null(legend)) legend <- TRUE
-  }
-  if (is.null(legend)) legend <- FALSE
-
-  # if (is.null(axisnames)) {
-  #   axisnames <- if (is.null(dim(x))) TRUE else FALSE
+  # [ NAMES for vectors ] ====
+  # if (is.null(xnames)) {
+  #   # if (NROW(x) == 1 & !is.null(colnames(x))) xnames <- colnames(x)
+  #   # if (NCOL(x) == 1 & !is.null(rownames(x))) xnames <- rownames(x)
+  #   if (is.vector(x) & !is.null(names(x))) {
+  #     xnames <- names(x)
+  #   } else {
+  #     xnames <- colnames(x)
+  #   }
   # }
+  if (is.null(xnames)) xnames <- colnames(x)
 
-  # [ THEMES ] ====
-  if (theme %in% c("lightgrid", "darkgrid")) {
-    if (is.null(grid.lty)) grid.lty <- 1
-    if (is.null(grid.lwd)) grid.lwd <- 1
-  }
-  if (theme == "lightgrid") {
-    theme <- "light"
-    if (is.null(plot.bg)) plot.bg <- "gray90"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "white"
-    if (is.null(tick.col)) tick.col <- "white"
-  }
-  if (theme == "darkgrid") {
-    theme <- "dark"
-    if (is.null(plot.bg)) plot.bg <- "gray15"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "black"
-    if (is.null(tick.col)) tick.col <- "black"
-  }
-  themes <- c("light", "dark", "box", "darkbox")
-  if (!theme %in% themes) {
-    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-    theme <- "light"
-  }
+  # [ DATA ] ====
+  # x must be vector or matrix for barplot()
+  # if (min(size(x)) > 1) x <- as.matrix(x)
 
-  if (theme == "light") {
-    if (is.null(bg)) bg <- "white"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-  } else if (theme == "dark") {
-    if (is.null(bg)) bg <- "black"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    gen.col <- "white"
-  } else if (theme == "box") {
-    if (is.null(bg)) bg <- "white"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-    gen.col <- "black"
-  } else if (theme == "darkbox") {
-    if (is.null(bg)) bg <- "black"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    gen.col <- "white"
+  # if (!is.null(dim(x))) {
+  #   if (NROW(x) == 1) {
+  #     x <- as.numeric(x)
+  #     if (!is.null(error)) error <- as.numeric(error)
+  #   }
+  # }
+  # if (!is.null(error)) error <- as.matrix(error)
+
+  # if (is.null(dim(x))) {
+  #   if (is.null(group.legend)) group.legend <- FALSE
+  # } else {
+  #   if (is.null(group.legend)) group.legend <- TRUE
+  # }
+  # if (is.null(group.legend)) group.legend <- FALSE
+
+  # 2up
+  if (is.null(group.legend)) {
+    group.legend <- if (!is.null(dim(x))) TRUE else FALSE
   }
 
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(mar = mar, bg = bg, pty = pty, cex = cex, xpd = TRUE)
+  par.orig <- par(no.readonly = TRUE)
+  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+
+  # Expand right margin for legend
+  if (group.legend) mar[4] <- mar[4] + max(strwidth(group.names)) + 2
+  par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
 
   # [ XLIM & YLIM ] ====
   xlim <- range(barplot(x, beside = beside, width = width, space = space, plot = FALSE))
@@ -230,7 +184,7 @@ mplot3.bar <- function(x,
   xlim[2] <- xlim[2] + .5 + max(space)
   if (is.null(ylim)) {
     if (is.null(error)) {
-      ylim <- range(c(0, x))
+      ylim <- if (beside) range(c(0, x)) else range(c(0, colSums(x)))
     } else {
       ylim <- range(c(0, x + error))
     }
@@ -239,26 +193,32 @@ mplot3.bar <- function(x,
   # Add x% either side (unless zero)
   if (ylim[1] != 0) ylim[1] <- ylim[1] - ylim.pad * diff(ylim)
   ylim[2] <- ylim[2] + ylim.pad * diff(ylim)
-  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
+  plot(NULL, NULL, xlim = xlim, ylim = ylim,
+       bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
   # [ PLOT BG ] ====
-  if (!is.null(plot.bg)) {
-    bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
-    rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = plot.bg)
+  if (!is.na(theme$plot.bg)) {
+    rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
   # [ GRID ] ====
-  grid.col <- colorAdjust(grid.col, grid.alpha)
-  if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = grid.ny, nx = 0)
+  if (theme$grid) {
+    grid(nx = 0,
+         ny = theme$grid.ny,
+         col = colorAdjust(theme$grid.col, theme$grid.alpha),
+         lty = theme$grid.lty,
+         lwd = theme$grid.lwd)
+  }
 
   # [ BARPLOT ] ====
   barCenters <- barplot(x, beside = beside, col = cols,
                         border = border, ylim = ylim, axes = barplot.axes,
                         cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
-                        axisnames = axisnames, names.arg = names.arg, las = las,
+                        axisnames = FALSE,
+                        las = las,
                         col.axis = labs.col,
-                        width = width, space = space, ...)
+                        width = width, space = space)
 
   # [ ERROR BARS ] ====
   if (!is.null(error)) {
@@ -272,44 +232,64 @@ mplot3.bar <- function(x,
   }
 
   # [ y AXIS ] ====
-  if (yaxis) axis(2, col = axes.col, col.axis = labs.col, col.ticks = tick.col,
-                  padj = y.axis.padj, tck = tck, cex = cex)
-
-  # [ MAIN ] ====
-  if (!is.null(main)) {
-    mtext(main, line = main.line, font = main.font, family = main.family,
-          adj = main.adj, cex = cex, col = main.col)
+  if (yaxis) {
+    axis(side = 2,
+         col = theme$axes.col,
+         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+         col.axis = theme$tick.labels.col,
+         padj = y.axis.padj, tck = tck,
+         cex = theme$cex,
+         family = theme$font.family)
   }
 
-  # [ GROUP NAMES ] ====
-  if (is.null(group.names) & !is.null(colnames(x)))
-    group.names <- colnames(x)
-  if (!is.null(group.names)) {
-    if (is.null(group.names.at)) group.names.at <- colMeans(barCenters)
-    text(x = group.names.at,
-         y = min(ylim) - diff(ylim) * group.names.y.pad,
-         # y = -diff(ylim) * group.names.y.pad,
-         labels = group.names,
-         srt = group.names.srt, adj = group.names.adj, xpd = TRUE,
-         font = group.names.font, cex = group.names.cex,
-         col = labs.col)
+  # [ MAIN TITLE ] ====
+  if (exists("autolabel", envir = rtenv)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # [ LEGEND ] ====
-  if (isTRUE(legend)) {
-    legend(legend.position, legend = legend.names,
-           fill = cols, border = cols,
-           text.col = labs.col,
-           inset = legend.inset, xpd = TRUE, bty = "n")
+  if (length(main) > 0) {
+    mtext(main, line = theme$main.line,
+          font = theme$main.font, adj = theme$main.adj,
+          cex = theme$cex, col = theme$main.col,
+          family = theme$font.family)
+  }
+
+  # [ XNAMES ] ====
+  if (!is.null(xnames)) {
+    if (is.null(xnames.at)) {
+      xnames.at <- if (NCOL(x) == 1 | (NROW(x) > 1 && !beside)) c(barCenters) else colMeans(barCenters)
+    }
+    text(x = xnames.at,
+         y = min(ylim) - diff(ylim) * xnames.y.pad,
+         labels = xnames,
+         srt = xnames.srt, adj = xnames.adj, xpd = TRUE,
+         font = xnames.font,
+         cex = 1, # multiplied by par("cex"), which is already theme$cex
+         col = theme$labs.col,
+         family = theme$font.family)
+  }
+
+  # [ GROUP LEGEND ] ====
+  if (group.legend) {
+    text(rep(xlim[2] + .04 * diff(xlim), n),
+         seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n),
+         group.names,
+         adj = 0,
+         cex = 1,
+         col = unlist(col[seq_len(n)]),
+         xpd = TRUE,
+         family = theme$font.family)
   }
 
   # [ AXIS LABS ] ====
-  if (!is.null(xlab))  mtext(xlab, 1, cex = cex, line = xlab.line)
-  if (!is.null(ylab))  mtext(ylab, 2, cex = cex, line = ylab.line)
+  if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = xlab.line, family = theme$font.family)
+  if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = ylab.line, family = theme$font.family)
 
-  # [ TOP LABELS ] ====
-  if (!is.null(toplabels)) {
-    mtext(toplabels, 3, at = barCenters)
+  # [ BARTOP LABELS ] ====
+  if (!is.null(bartoplabels)) {
+    mtext(bartoplabels, 3, at = barCenters, family = theme$font.family)
   }
 
   # [ OUTRO ] ====

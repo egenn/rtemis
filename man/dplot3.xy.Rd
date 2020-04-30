@@ -126,8 +126,6 @@ Default = FALSE. Note: If TRUE, the device size at time of call is captured and 
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
-\item{zero.lines}{Logical: If TRUE, draw lines at x = 0 and y = 0}
-
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
@@ -171,9 +169,6 @@ groups, or \code{fit} is set}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
-\item{mod.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
-parameters}
-
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
@@ -188,7 +183,7 @@ parameters}
 
 \item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
 
-\item{...}{Additional arguments to be passed to learner function}
+\item{...}{Additional arguments to be passed to theme function}
 
 \item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
 

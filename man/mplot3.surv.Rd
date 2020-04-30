@@ -37,8 +37,6 @@ mplot3.surv(
 
 \item{normalize}{Logical: If TRUE: \link{drange} \code{x} to 0:100}
 
-\item{cex}{Float: Character expansion factor (See \code{?par})}
-
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}

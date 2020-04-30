@@ -67,8 +67,6 @@ mplot3.xym(
 
 \item{main}{Character: Main title}
 
-\item{main.adj}{Float: Plot title alignment (0 = left, .5 = center, 1 = right)}
-
 \item{axes.density}{Logical: If TRUE, plot margin plot axes for density (debugging only)}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
@@ -83,7 +81,7 @@ Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
 
-\item{theme}{Character: "light", "dark", "lightgrid", "darkgrid", "lightbox", "darkbox"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}

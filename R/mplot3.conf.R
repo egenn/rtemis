@@ -74,18 +74,25 @@ mplot3.conf <- function(object,
                         col.bg.out2 = "auto",
                         col.text.hi = "auto",
                         col.text.lo = "auto",
-                        theme = getOption("rt.theme", "light"),
+                        theme = getOption("rt.theme", "white"),
                         mid.col = "auto",
                         hi.color.pos = "#18A3AC",
                         hi.color.neg = "#F48024",
                         par.reset = TRUE,
                         pdf.width = 4.5,
                         pdf.height = 4.5,
-                        filename = NULL) {
+                        filename = NULL, ...) {
 
-  # [ ARGUMENTS ] ====
-  if (strtrim(theme, width = 4) == "dark") theme <- "dark"
-  if (strtrim(theme, width = 5) == "light") theme <- "light"
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
 
   # [ DATA ] ====
   .test <- NULL
@@ -108,27 +115,26 @@ mplot3.conf <- function(object,
     if (!is.null(main) && main == "auto") main <- NULL
   }
 
-  # Themes ====
-  if (theme == "light") {
-    if (col.bg == "auto") col.bg <- "white"
-    if (col.lab == "auto") col.lab <- "gray25"
-    if (mid.col == "auto") mid.col <- "white"
-    if (col.text.hi == "auto") col.text.hi <- "white"
-    if (col.text.lo == "auto") col.text.lo <- "gray50"
-    if (col.bg.out1 == "auto") col.bg.out1 <- "gray90"
-    if (col.bg.out2 == "auto") col.bg.out2 <- "gray95"
-    if (col.text.out == "auto") col.text.out <- "gray30"
-  } else {
-    if (col.bg == "auto") col.bg <- "black"
-    if (col.lab == "auto") col.lab <- "gray75"
-    if (mid.col == "auto") mid.col <- "black"
-    if (col.text.hi == "auto") col.text.hi <- "white"
-    if (col.text.lo == "auto") col.text.lo <- "white"
-    if (col.bg.out1 == "auto") col.bg.out1 <- "gray15"
-    if (col.bg.out2 == "auto") col.bg.out2 <- "gray10"
-    if (col.text.out == "auto") col.text.out <- "gray70"
+  # Theme ====
+  if (col.bg == "auto") col.bg <- theme$bg
+  mean.bg <- mean(col2rgb(col.bg))
+  if (col.lab == "auto") {
+    col.lab <- ifelse(mean.bg < 127, "gray75", "gray25")
   }
-  if (col.main == "auto") col.main <- col.lab
+  if (mid.col == "auto") mid.col <- theme$bg
+  if (col.text.hi == "auto") col.text.hi <- "white"
+  if (col.text.lo == "auto") {
+    col.text.lo <- ifelse(mean.bg < 127, "white", "gray50")
+  }
+  if (col.bg.out1 == "auto") {
+    col.bg.out1 <- ifelse(mean.bg < 127, "gray15", "gray90")
+  }
+  if (col.bg.out2 == "auto") {
+    col.bg.out2 <- ifelse(mean.bg < 127, "gray10", "gray95")
+  }
+  if (col.text.out == "auto") {
+    col.text.out <- ifelse(mean.bg < 127, "gray70", "gray30")
+  }
 
   # File out ====
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
@@ -137,9 +143,7 @@ mplot3.conf <- function(object,
   color.neg <- colorRampPalette(c(mid.col, hi.color.neg))(100)
   class.labels <- colnames(tbl)
   n.classes <-  length(class.labels)
-
   if (dim.out == -1) dim.out <- if (n.classes == 2) 1.2 else 1
-
 
   # metrics ====
   class.totals <- colSums(tbl)
@@ -326,9 +330,17 @@ mplot3.conf <- function(object,
   #      col = col.text.out, cex = cex.out, font = font.out)
 
   # '- Main ====
-  if (!is.null(main)) {
+  if (exists("autolabel", envir = rtenv)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
+  }
+
+  if (length(main) > 0) {
     plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg, cex = 50, pch = 15, xaxs = 'i')
-    text(-1, 0, main, font = 2, cex = cex.main, col = col.main, adj = 0, xpd = TRUE)
+    text(-1, 0, main, font = 2,
+         cex = cex.main,
+         col = theme$main.col, adj = 0, xpd = TRUE)
   }
 
   if (!is.null(filename)) grDevices::dev.off()

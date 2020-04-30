@@ -30,8 +30,8 @@ mplot3.varimp <- function(x,
                           labelify = TRUE,
                           col = NULL,
                           palette = NULL,
-                          alpha = .8,
-                          error.col = "white",
+                          alpha = 1,
+                          error.col = theme$fg,
                           error.lwd = 2,
                           beside = TRUE,
                           border = NA,
@@ -44,39 +44,50 @@ mplot3.varimp <- function(x,
                           ylab = NULL,
                           ylab.line = 1.5,
                           main = NULL,
-                          main.line = .5,
-                          main.adj = 0,
-                          main.col = NULL,
-                          main.font = 2,
-                          main.family = "",
+                          # main.line = .5,
+                          # main.adj = 0,
+                          # main.col = NULL,
+                          # main.font = 2,
+                          # main.family = "",
                           names.arg = NULL,
                           axisnames = FALSE,
                           sidelabels = NULL,
                           mar = NULL,
                           pty = "m",
-                          cex = 1.2,
-                          cex.axis = cex,
-                          cex.names = cex,
-                          bg = NULL,
-                          plot.bg = NULL,
+                          # cex = 1.2,
+                          # cex.axis = cex,
+                          # cex.names = cex,
+                          # bg = NULL,
+                          # plot.bg = NULL,
                           barplot.axes = FALSE,
                           xaxis = TRUE,
                           x.axis.padj = -1.2,
                           tck = -.015,
-                          tick.col = NULL,
-                          theme = getOption("rt.theme", "light"),
-                          axes.col = NULL,
-                          labs.col = NULL,
-                          grid = FALSE,
-                          grid.lty = NULL,
-                          grid.lwd = NULL,
-                          grid.col = NULL,
-                          grid.alpha = 1,
+                          # tick.col = NULL,
+                          theme = getOption("rt.theme", "whitegrid"),
+                          zerolines = FALSE,
+                          # axes.col = NULL,
+                          # labs.col = NULL,
+                          # grid = FALSE,
+                          # grid.lty = NULL,
+                          # grid.lwd = NULL,
+                          # grid.col = NULL,
+                          # grid.alpha = 1,
                           par.reset = TRUE,
                           pdf.width = NULL,
                           pdf.height = NULL,
                           trace = 0,
                           filename = NULL, ...) {
+
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
 
   # [ DATA ] ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
@@ -134,79 +145,16 @@ mplot3.varimp <- function(x,
     xlim <- range(c(0, x.min, x.max))
   }
 
-  # Add x% either side (unless zero)
-  # ylim[1] <- ylim[1] - ylim.pad * diff(ylim)
-  # ylim[2] <- ylim[2] + ylim.pad * diff(ylim)
-
-  # [ THEMES ] ====
-  # Defaults for all themes
-  if (is.null(grid.lty)) grid.lty <- 1
-  if (is.null(grid.lwd)) grid.lwd <- 1
-
-  if (theme == "lightgrid" | theme == "darkgrid") {
-    if (is.null(grid.lty)) grid.lty <- 1
-    # if (is.null(zero.lty)) zero.lty <- 1
-    if (is.null(grid.lwd)) grid.lwd <- 1.5
+  if (is.null(col)) {
+    if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
+    col <- colorGrad.x(x, palette)
   }
-  if (theme == "lightgrid") {
-    theme <- "light"
-    if (is.null(plot.bg)) plot.bg <- "gray90"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "white"
-    if (is.null(tick.col)) tick.col <- "white"
-  }
-  if (theme == "darkgrid") {
-    theme <- "dark"
-    if (is.null(plot.bg)) plot.bg <- "gray15"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "black"
-    if (is.null(tick.col)) tick.col <- "black"
-  }
-  themes <- c("light", "dark", "lightbox", "darkbox")
-  if (!theme %in% themes) {
-    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-    theme <- "light"
-  }
-
-  if (length(grep("light", theme) > 0)) {
-    # light themes
-    if (is.null(bg)) bg <- "white"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-    if (is.null(col)) {
-      if (is.null(palette)) palette <- c("gray20", "#18A3AC")
-      col <- colorGrad.x(x, palette)
-    }
-  } else {
-    # dark themes
-    if (is.null(bg)) bg <- "black"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    if (is.null(col)) {
-      if (is.null(palette)) palette <- c("gray80", "#18A3AC")
-      col <- colorGrad.x(x, palette)
-    }
-  }
-
   cols <- colorAdjust(col, alpha = alpha)
 
   # [ AUTOMARGINS ] ====
   if (is.null(mar)) {
-    maxchar <- max(nchar(.names))
-    # This gets too large as n increases; rerun with average-width character
-    # measure using 'w' - a wide character (helvetica)
-    # nchar = 1; mar2 = 1; 1.5
-    # nchar = 28; mar2 = 13; 18
-    # x <- c(1, 28); y <- c(1.5, 13)
-    # modlm <- s.LM(x, y)
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
-    mar2 <- 1.0741 + 0.4259 * maxchar
+    mar2 <- max(strwidth(.names)) + 1
     mar3 <- if (is.null(main)) .5 else 2
     mar <- c(mar1, mar2, mar3, .6)
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
@@ -215,25 +163,29 @@ mplot3.varimp <- function(x,
   # [ PLOT ] ====
   # '- PDF autosize ====
   if (!is.null(filename)) {
-    if (is.null(pdf.height)) pdf.height <- length(x) *.2 + .5
-    if (is.null(pdf.width)) pdf.width <- mar2 *.7
+    if (is.null(pdf.height)) pdf.height <- length(x) * .2 + .5
+    if (is.null(pdf.width)) pdf.width <- mar2 * .7
   }
 
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(mar = mar, bg = bg, pty = pty, cex = cex)
+  par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
   # [ PLOT BG ] ====
-  if (!is.null(plot.bg)) {
-    # bg.ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
+  if (!is.na(theme$plot.bg)) {
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
-    rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = plot.bg)
+    rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = theme$plot.bg)
   }
 
   # [ GRID ] ====
-  grid.col <- colorAdjust(grid.col, grid.alpha)
-  if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd, ny = 0, nx = NULL)
+  if (theme$grid) {
+    grid(nx = theme$grid.nx,
+         ny = 0,
+         col = colorAdjust(theme$grid.col, theme$grid.alpha),
+         lty = theme$grid.lty,
+         lwd = theme$grid.lwd)
+  }
 
   # [ BARPLOT ] ====
   barCenters <- barplot(x, col = cols, border = border,
@@ -243,7 +195,7 @@ mplot3.varimp <- function(x,
                         width = width, space = space, horiz = TRUE,
                         # xpd = FALSE,
                         xaxs = "i", yaxs = "i", ...)
-  if (xlim[1] < 0 & 0 < xlim[2]) abline(v = 0, col = labs.col, lwd = 1.5)
+  if (min(x) < 0 & max(x) > 0) abline(v = 0, col = theme$labs.col, lwd = theme$grid.lwd)
 
   # [ ERROR BARS ] ====
   if (!is.null(error)) {
@@ -258,41 +210,38 @@ mplot3.varimp <- function(x,
   }
 
   # [ x AXIS ] ====
-  if (xaxis) axis(1, col = axes.col, col.axis = labs.col, col.ticks = tick.col,
-                  padj = x.axis.padj, tck = tck, cex = cex)
+  if (xaxis) axis(1, col = theme$axes.col, col.axis = theme$labs.col, col.ticks = theme$tick.col,
+                  padj = x.axis.padj, tck = tck, cex = theme$cex)
 
-  # [ MAIN ] ====
-  if (!is.null(main)) {
-    # suppressWarnings(mtext(bquote(paste(bold(.(main)))), line = main.line,
-    #                        adj = main.adj, cex = cex, col = main.col))
-    mtext(main, line = main.line, font = main.font, family = main.family,
-          adj = main.adj, cex = cex, col = main.col)
+  # [ MAIN TITLE ] ====
+  if (exists("autolabel", envir = rtenv)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # [ ROWNAMES for 1 column ] ====
-  # if (ncol(x) == 1) {
-  #   if (!is.null(rownames(x))) {
-  #     text(x = 1:nrow(x) + .8, y = -diff(ylim) * .033, labels = rownames(x), srt = 45, xpd = NA, pos = 2)
-  #     # axis(side = 1, 1:nrow(x), at = 1:nrow(x) + .5, labels = rownames(x),
-  #     #      tick = FALSE, hadj = 0, las = 3)
-  #   }
-  # }
+  if (length(main) > 0) {
+    mtext(main, line = theme$main.line,
+          font = theme$main.font, adj = theme$main.adj,
+          cex = theme$cex, col = theme$main.col,
+          family = theme$font.family)
+  }
 
   # [ NAMES ] ====
   text(x = min(xlim) - names.pad * diff(xlim),
        y = barCenters,
        labels = .names, adj = 1, xpd = TRUE,
-       col = labs.col)
+       col = theme$labs.col)
 
   # [ AXIS LABS ] ====
   if (!is.null(xlab))  mtext(xlab, 1,
-                             cex = cex,
+                             cex = theme$cex,
                              line = xlab.line,
-                             col = labs.col)
+                             col = theme$labs.col)
   if (!is.null(ylab))  mtext(ylab, 2,
-                             cex = cex,
+                             cex = theme$cex,
                              line = ylab.line,
-                             col = labs.col)
+                             col = theme$labs.col)
 
   # [ SIDE LABELS ] ====
   if (!is.null(sidelabels)) {

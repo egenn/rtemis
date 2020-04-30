@@ -6,8 +6,8 @@ library(rtemis)
 
 # Synth data ====
 x <- rnorm(50)
-y <- .33 * x + 12 + rnorm(50)
-z <- rnormmat(10, 5, seed = 2018)
+y <- .33 * x + 12 + rnorm(50)/3
+z <- rnormmat(10, 5, seed = 2018, return.df = T)
 
 true <- sample(0:1, 20, TRUE)
 estimated <- true
@@ -18,7 +18,7 @@ estimated[index] <- 1 - as.numeric(estimated[index])
 mhist(x)
 
 # mplot3 ====
-mplot3(x)
+# mplot3(x)
 
 # mplot3.adsr ====
 mplot3.adsr()
@@ -27,19 +27,21 @@ mplot3.adsr()
 # '- a. vector ====
 set.seed(2019)
 x1 <- rnorm(10)
-names(x1) <- paste0("C_", seq(x1))
+names(x1) <- paste0("c", seq(x1))
 mplot3.bar(x1, theme = "lightgrid")
 
 # '- b. matrix ====
 x1 <- rnormmat(3, 6, seed = 2019)
-colnames(x1) <- paste("Feat", seq(6))
+colnames(x1) <- paste("F", seq(6))
 rownames(x1) <- paste("Case", seq(nrow(x1)))
 mplot3.bar(x1)
 mplot3.bar(x1, col = colorGrad(nrow(x1), lo = pennCol$lighterBlue, mid = pennCol$red, hi = "white")[seq(nrow(x1))])
-mplot3.bar(x1, legend = T)
+# Suppress group legend
+mplot3.bar(x1, group.legend = FALSE)
 
 # mplot3.box ====
-mplot3.box(z, theme = "darkbox")
+mplot3.box(z)
+mplot3.box(z, theme = "whitegrid")
 mplot3.box(z, theme = "lightgrid")
 
 # mplot3.xy ===
@@ -51,7 +53,7 @@ mplot3.xy(x, list(Raw = x * .3,
                   N3 = x * .3 + 1.5*rnorm(50),
                   N4 = x * .3 + 2*rnorm(50),
                   N5 = x * .3 + 2.5*rnorm(50)),
-          fit = 'glm', theme = "darkbox")
+          fit = 'glm', theme = "darkgrid")
 mplot3.xym(x, y)
 
 iris2 <- iris[51:150, ]
@@ -65,9 +67,6 @@ if (requireNamespace("data.tree", quietly = TRUE)) {
 # mplot3.conf ====
 mplot3.conf(mod)
 mplot3.confbin(mod$error.train$ConfusionMatrix)
-
-# mplot3.curve ====
-mplot3.curve(atan(x), -10, 10)
 
 # mplot3.decision(mod, iris2)
 # TODO: INV mplot3.decision

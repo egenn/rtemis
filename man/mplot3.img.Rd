@@ -54,7 +54,7 @@ mplot3.img(
   cell.labs.col = NULL,
   cell.labs.autocol = TRUE,
   bg = NULL,
-  theme = "light",
+  theme = getOption("rt.theme", "white"),
   filename = NULL,
   file.width = NULL,
   file.height = NULL,

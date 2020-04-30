@@ -1,6 +1,6 @@
-# mplot3.roc
+# mplot3.pr
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3} Precision Recall curves
 #'
@@ -39,7 +39,7 @@ mplot3.pr <- function(prob, labels,
                       annot.adj = 1,
                       annot.font = 1,
                       mar = c(2.5, 3, 2.5, 1),
-                      theme = getOption("rt.theme", "lightgrid"),
+                      theme = getOption("rt.theme", "whitegrid"),
                       palette = getOption("rt.palette", "rtCol1"),
                       par.reset = TRUE,
                       verbose = TRUE,
@@ -57,7 +57,7 @@ mplot3.pr <- function(prob, labels,
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
-  # method <- match.arg(method)
+
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
 
@@ -68,10 +68,21 @@ mplot3.pr <- function(prob, labels,
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
+  theme$zerolines <- FALSE
+
   # [ PR ] ====
   pr <- lapply(seq_along(probl), function(i)
     PRROC::pr.curve(scores.class0 = probl[[i]], weights.class0 = 2 - as.numeric(labelsl[[i]]),
-                                                             curve = TRUE))
+                    curve = TRUE))
   Recall <- lapply(pr, function(i) i$curve[, 1])
   Precision <- lapply(pr, function(i) i$curve[, 2])
   AUPRC <- lapply(pr, function(i) i$auc.integral)
@@ -93,13 +104,13 @@ mplot3.pr <- function(prob, labels,
   mplot3.xy(Recall, Precision,
             main = main,
             ylab = "Precision", xlab = "Recall",
+            type = "l",
             line.alpha = 1, line.col = col, group.legend = group.legend,
             xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
-            type = "l",
             order.on.x = FALSE,
-            lwd = lwd, theme = theme, zero.lines = FALSE,
+            lwd = lwd, theme = theme,
             mar = mar,
-            xpd = TRUE, par.reset = FALSE, ...)
+            xpd = TRUE, par.reset = FALSE)
   if (f1) {
     for (i in seq_along(probl)) {
       points(x = Recall[[i]][F1.max.index[[i]]],
@@ -110,27 +121,29 @@ mplot3.pr <- function(prob, labels,
            labels = paste0("max F1 = ", ddSci(max(F1[[i]])), "\n(Thresh = ",
                            ddSci(Threshold[[i]][F1.max.index[[i]]]), ")"),
            col = col[[i]],
-           pos = 4, xpd = TRUE)
+           pos = 4, xpd = TRUE,
+           family = theme$font.family)
     }
   }
 
 
-# [ PR ANNOTATION ] ====
-if (annotation) {
-  auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
-  if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
-  mtext(c("AUPRC   ", auprc),
-        font = annot.font,
-        side = 1,
-        line = annot.line,
-        adj = annot.adj,
-        cex = cex,
-        col = c("gray50", unlist(col)[1:length(probl)]))
-}
+  # [ PR ANNOTATION ] ====
+  if (annotation) {
+    auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
+    if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
+    mtext(c("AUPRC   ", auprc),
+          font = annot.font,
+          side = 1,
+          line = annot.line,
+          adj = annot.adj,
+          cex = cex,
+          col = c("gray50", unlist(col)[1:length(probl)]),
+          family = theme$font.family)
+  }
 
-# [ OUTRO ] ====
-if (!is.null(filename)) dev.off()
+  # [ OUTRO ] ====
+  if (!is.null(filename)) dev.off()
 
-invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))
+  invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))
 
 } # rtemis::mplot3.roc

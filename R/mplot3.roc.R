@@ -45,7 +45,7 @@ mplot3.roc <- function(prob, labels,
                        annot.font = 1,
                        pty = "s",
                        mar = c(2.5, 3, 2.5, 1),
-                       theme = getOption("rt.theme", "lightgrid"),
+                       theme = getOption("rt.theme", "whitegrid"),
                        palette = getOption("rt.palette", "rtCol1"),
                        verbose = TRUE,
                        par.reset = TRUE,
@@ -62,6 +62,16 @@ mplot3.roc <- function(prob, labels,
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
 
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
+  theme$zerolines <- FALSE
 
   # [ ROC ] ====
   probl <- if (!is.list(prob)) list(prob) else prob
@@ -120,23 +130,23 @@ mplot3.roc <- function(prob, labels,
               xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
               type = "l",
               order.on.x = FALSE,
-              lwd = lwd, theme = theme, zero.lines = FALSE,
+              lwd = lwd, theme = theme, zerolines = FALSE,
               mar = mar,
-              xpd = TRUE, par.reset = FALSE, ...)
-    # annotation = paste("AUC =", ddSci(AUC)))
+              xpd = TRUE, par.reset = FALSE)
+
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = Specificity[[i]][BA.max.index[[i]]],
                y = Sensitivity[[i]][BA.max.index[[i]]],
                col = col[[i]])
         text(
-             # x = .05, y = .95,
-             x = Specificity[[i]][BA.max.index[[i]]] - .05,
-             y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
-             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
-                             ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
-             col = col[[i]],
-             pos = 4)
+          x = Specificity[[i]][BA.max.index[[i]]] - .05,
+          y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
+          labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
+                          ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
+          col = col[[i]],
+          pos = 4,
+          family = theme$font.family)
       }
     }
   } else {
@@ -149,9 +159,9 @@ mplot3.roc <- function(prob, labels,
               type = "l",
               pty = pty,
               order.on.x = FALSE,
-              lwd = lwd, theme = theme, zero.lines = FALSE,
+              lwd = lwd, theme = theme, zerolines = FALSE,
               mar = mar,
-              xpd = TRUE, par.reset = FALSE, ...)
+              xpd = TRUE, par.reset = FALSE)
     if (balanced.accuracy) {
       for (i in seq(probl)) {
         points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
@@ -162,7 +172,8 @@ mplot3.roc <- function(prob, labels,
              labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(thresh = ",
                              ddSci(.roc[[i]]$Thresholds[BA.max.index[[i]]]), ")"),
              col = col[[i]],
-             pos = 4)
+             pos = 4,
+             family = theme$font.family)
       }
     }
   }
@@ -178,7 +189,8 @@ mplot3.roc <- function(prob, labels,
           line = annot.line,
           adj = annot.adj,
           cex = cex,
-          col = c("gray50", unlist(col)[seq_along(probl)]))
+          col = c("gray50", unlist(col)[seq_along(probl)]),
+          family = theme$font.family)
   }
 
   # [ OUTRO ] ====

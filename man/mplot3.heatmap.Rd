@@ -14,7 +14,7 @@ mplot3.heatmap(
   midhi = NULL,
   hi = "#F48024",
   space = "rgb",
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "black"),
   colorbar = TRUE,
   cb.n = 21,
   cb.title = NULL,
@@ -46,8 +46,6 @@ mplot3.heatmap(
   ylab = NULL,
   xlab.line = NULL,
   ylab.line = NULL,
-  bg = NULL,
-  col.axis = NULL,
   keep.dendro = FALSE,
   trace = 0,
   zlim = NULL,
@@ -154,10 +152,6 @@ variable names}
 \item{xlab.line}{Float: \code{mtext}'s \code{line} argument for x-axis label}
 
 \item{ylab.line}{Float: \code{mtext}'s \code{line} argument for y-axis label}
-
-\item{bg}{Color: Background color. Default (white or black) set depending on \code{theme}}
-
-\item{col.axis}{Color: Axis color}
 
 \item{keep.dendro}{Logical: If TRUE, dedrogram is returned invisibly. Default = FALSE}
 

@@ -53,11 +53,6 @@ mplot3.x <- function(x,
                      xlab = NULL,
                      ylab = NULL,
                      main = NULL,
-                     main.col = NULL,
-                     main.adj = 0,
-                     main.line = .5,
-                     main.font = 2,
-                     main.family = "",
                      xlim = NULL,
                      ylim = NULL,
                      index.ypad = .1,
@@ -73,6 +68,7 @@ mplot3.x <- function(x,
                      hist.breaks = "Sturges",
                      hist.type = c("bars", "lines"),
                      hist.lwd = 3,
+                     # hist.border = "#000000",
                      density.line = FALSE,
                      density.shade = TRUE,
                      density.legend.side = 3,
@@ -86,20 +82,18 @@ mplot3.x <- function(x,
                      pch = 16,
                      point.col = NULL,
                      point.cex = 1,
-                     # point.fg.col = NULL,
+                     # point.fg = NULL,
                      point.bg.col = NULL,
                      point.alpha = .66,
                      hline = NULL,
                      vline = NULL,
                      diagonal = FALSE,
-                     diagonal.col = NULL,
+                     # diagonal.col = NULL,
                      grid = FALSE,
                      grid.col = NULL,
                      grid.alpha = .5,
                      grid.lty = 3,
                      grid.lwd = 1,
-                     bg = NULL,
-                     plot.bg = NULL,
                      annotation = NULL,
                      annot.col = NULL,
                      group.legend = NULL,
@@ -127,12 +121,12 @@ mplot3.x <- function(x,
                      ylab.line = 1.6,
                      labs.col = NULL,
                      # pch = NULL,
-                     bty = "o",
-                     box = NULL,
-                     box.col = NULL,
-                     box.alpha = 1,
-                     box.lty = 1,
-                     box.lwd = 2,
+                     # bty = "o",
+                     # box = NULL,
+                     # box.col = NULL,
+                     # box.alpha = 1,
+                     # box.lty = 1,
+                     # box.lwd = 2,
                      lab.adj = .5,
                      density.mean = ifelse(type == "density", TRUE, FALSE),
                      # line.alpha = .7,
@@ -149,10 +143,6 @@ mplot3.x <- function(x,
                      theme = getOption("rt.theme", "lightgrid"),
                      palette = getOption("rt.palette", "rtCol1"),
                      zero.lines = NULL,
-                     zero.col = NULL,
-                     zero.alpha = .66,
-                     zero.lty = 1,
-                     zero.lwd = 1.5,
                      pty = "s",
                      mar = c(2.5, 2.5, 1.5, 1),
                      xaxs = "r",
@@ -176,10 +166,19 @@ mplot3.x <- function(x,
   }
   index.type <- match.arg(index.type)
   hist.type <- match.arg(hist.type)
-  # if (is.null(yaxs)) yaxs <- if (type == "density") "i" else "r"
+
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
 
   # [ xlab & ylab ] ====
-  if (is.list(x) & type == "density" & is.null(xlab)) xlab <- ""
+  if (is.list(x) && type == "density" && is.null(xlab)) xlab <- ""
   # if (is.null(xlab)) xlab <- deparse(substitute(x))
   xname <- deparse(substitute(x))
 
@@ -203,7 +202,6 @@ mplot3.x <- function(x,
   }
 
   # Convert data to lists
-  # if (!is.list(x)) xl <- as.list(as.data.frame(x)) else xl <- x
   xl <- if (!is.list(x)) list(x) else x
 
   # Remove non-numeric vectors
@@ -230,123 +228,18 @@ mplot3.x <- function(x,
   # [ COLORS ] ====
   if (is.null(col)) {
     if (type == "qqline" & length(xl) < 2) {
-      col <- if (theme == "light" | theme == "lightgrid") "black" else "white"
+      col <- theme$fg
     } else {
-      # if (theme == "light" | theme == "lightgrid") {
-      #   col <- paletteLight
-      # } else {
-      #   col <- paletteDark
-      # }
       col <- palette
     }
   }
-  marker.col <- lapply(col, function(cl) adjustcolor(cl, alpha.f = alpha))
-
-  # [ THEMES ] ====
-  if (theme == "lightbox") {
-    theme <- "light"
-    box <- TRUE
-    if (is.null(zero.lines)) zero.lines <- FALSE
-  }
-  if (theme == "darkbox") {
-    theme <- "dark"
-    box <- TRUE
-    if (is.null(zero.lines)) zero.lines <- FALSE
-  }
-
-  # if (length(theme) > 1) theme <- "light"
-  if (theme == "lightgrid") {
-    theme <- "light"
-    if (is.null(plot.bg)) plot.bg <- "gray90"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "white"
-    grid.lty <- zero.lty <- 1
-    grid.lwd <- zero.lwd <- 1.5
-    if (is.null(tick.col)) tick.col <- grid.col
-  }
-  if (theme == "darkgrid") {
-    theme <- "dark"
-    if (is.null(plot.bg)) plot.bg <- "gray15"
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "black"
-    grid.lty <- zero.lty <- 1
-    grid.lwd <- zero.lwd <- 1.5
-    if (is.null(tick.col)) tick.col <- grid.col
-  }
-  themes <- c("light", "dark", "box", "darkbox")
-  if (!theme %in% themes) {
-    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-    theme <- "light"
-  }
-
-  if (theme == "light") {
-    if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # }
-    # box.col <- "white"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-    if (is.null(diagonal.col)) diagonal.col <- "black"
-    if (is.null(hline.col)) hline.col <- "black"
-    # gen.col <- "black"
-  } else if (theme == "dark") {
-    if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # }
-    # box.col <- "black"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    if (is.null(diagonal.col)) diagonal.col <- "white"
-    if (is.null(hline.col)) hline.col <- "white"
-    gen.col <- "white"
-  } else if (theme == "box") {
-    if (is.null(bg)) bg <- "white"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("black", alpha.f = point.alpha))
-    #   col <- list("gray30")
-    # }
-    # if (is.null(box.col)) box.col <- "gray10"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray10"
-    if (is.null(labs.col)) labs.col <- "gray10"
-    if (is.null(main.col)) main.col <- "black"
-    if (is.null(grid.col)) grid.col <- "black"
-    if (is.null(diagonal.col)) diagonal.col <- "black"
-    if (is.null(hline.col)) hline.col <- "black"
-    gen.col <- "black"
-  } else if (theme == "darkbox") {
-    if (is.null(bg)) bg <- "black"
-    # if (is.null(col) & length(xl) == 1) {
-    #   # col <- as.list(adjustcolor("white", alpha.f = point.alpha))
-    #   col <- list("gray70")
-    # }
-    # if (is.null(box.col)) box.col <- "gray90"
-    if (is.null(axes.col)) axes.col <- adjustcolor("black", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- "gray90"
-    if (is.null(labs.col)) labs.col <- "gray90"
-    if (is.null(main.col)) main.col <- "white"
-    if (is.null(grid.col)) grid.col <- "white"
-    if (is.null(diagonal.col)) diagonal.col <- "white"
-    if (is.null(hline.col)) hline.col <- "white"
-    gen.col <- "white"
-  }
+  col.alpha <- lapply(col, function(cl) adjustcolor(cl, alpha.f = alpha))
 
   # [ DATA: QQLINE ] ====
   if (type == "qqline") {
     yl <- list()
     for (i in seq_along(xl)) {
       x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
-      # x <- xl
       xl[[i]] <- x.qqnorm$x
       yl[[i]] <- x.qqnorm$y
       xlab <- "Theoretical Quantiles"
@@ -386,7 +279,6 @@ mplot3.x <- function(x,
     ypadding <-  index.ypad * diff(ylim)
     # xpadding <- xpad * diff(xlim)
     ylim <- c(ylim[1] - ypadding, ylim[2] + ypadding)
-    # xlim <- c(xlim[1] - xpadding, xlim[2] + xpadding)
   }
 
   # [ PLOT ] ====
@@ -394,7 +286,7 @@ mplot3.x <- function(x,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(bg = bg, cex = cex, pty = pty, new = new, mar = mar) # tck = -.02
+  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar) # tck = -.02
   if (!axes.swap) {
     plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
   } else {
@@ -402,20 +294,26 @@ mplot3.x <- function(x,
   }
 
   # [ PLOT BG ] ====
-  if (!is.null(plot.bg)) {
+  if (!is.na(theme$plot.bg)) {
     x1 <- if (xaxs == "r") min(xlim) - .04 * diff(range(xlim)) else min(xlim)
     y1 <- if (yaxs == "r") min(ylim) - .04 * diff(range(ylim)) else min(ylim)
     x2 <- if (xaxs == "r") max(xlim) + .04 * diff(range(xlim)) else max(xlim)
     y2 <- if (yaxs == "r") max(ylim) + .04 * diff(range(ylim)) else max(ylim)
     if (!axes.swap) {
-      rect(x1, y1, x2, y2, border = NA, col = plot.bg)
+      rect(x1, y1, x2, y2, border = NA, col = theme$plot.bg)
     } else {
       rect(y1, x1, y2, x2, border = NA, col = plot.bg)
     }
   }
 
   # [ GRID ] ====
-  if (grid) grid(col = grid.col, lty = grid.lty, lwd = grid.lwd)
+  if (theme$grid) {
+    grid(nx = theme$grid.nx,
+         ny = theme$grid.ny,
+         col = colorAdjust(theme$grid.col, theme$grid.alpha),
+         lty = theme$grid.lty,
+         lwd = theme$grid.lwd)
+  }
 
   # [ AXES ] ====
   if (axes) {
@@ -428,43 +326,39 @@ mplot3.x <- function(x,
         if (is.null(ylab)) ylab <- "Index"
       }
     }
-    # if (type == "histogram") {
-    #   if (!axes.swap) {
-    #     ylab <- "Count"
-    #   } else {
-    #     ylab <- xlab
-    #     xlab <- "Count"
-    #   }
-    # }
-    axis(1, col = axes.col, col.axis = labs.col, col.ticks = tick.col, padj = x.axis.padj, tck = tck)
-    axis(2, col = axes.col, col.axis = labs.col, col.ticks = tick.col, padj = y.axis.padj, tck = tck)
-    mtext(xlab, side = 1, line = xlab.line, cex = cex, adj = lab.adj, col = labs.col)
-    mtext(ylab, side = 2, line = ylab.line, cex = cex, adj = lab.adj, col = labs.col)
+
+    axis(side = theme$x.axis.side, at = x.axis.at,
+         labels = x.axis.labs, col = theme$axes.col,
+         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+         col.axis = theme$tick.labels.col,
+         padj = x.axis.padj, tck = tck,
+         cex = theme$cex,
+         family = theme$font.family)
+    axis(side = theme$y.axis.side, at = y.axis.at,
+         labels = y.axis.labs, col = theme$axes.col,
+         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+         col.axis = theme$tick.labels.col,
+         padj = y.axis.padj, tck = tck,
+         cex = theme$cex,
+         family = theme$font.family)
+    mtext(xlab, side = 1, line = xlab.line,
+          cex = theme$cex, adj = xlab.adj,
+          col = theme$labs.col, family = theme$font.family)
+    mtext(ylab, side = 2, line = ylab.line,
+          cex = theme$cex, adj = ylab.adj,
+          col = theme$labs.col, family = theme$font.family)
   }
 
   # [ ZERO LINES ] ====
-  if (is.null(zero.lines)) {
-    zero.lines <- if (type == "index" && (theme == "light" | theme == "dark")) TRUE else FALSE
+  if (type == "index" && theme$zerolines) {
+    zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
+    if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
+    if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
   }
-  if (zero.lines) {
-    if (is.null(zero.col)) {
-      if (theme == "light" | theme == "box") zero.col <- "black" else zero.col <- "white"
-    }
-    zero.col <- adjustcolor(zero.col, zero.alpha)
-    if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = zero.lwd, col = zero.col, lty = zero.lty)
-    if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = zero.lwd, col = zero.col, lty = zero.lty)
-  }
-
-  # [ BOX ] ====
-  if (is.null(box)) {
-    if (theme == "box" | theme == "darkbox") box <- TRUE else box <- FALSE
-  }
-  if (box) {
-    if (is.null(box.col)) {
-      if (theme == "light" | theme == "box") box.col <- "gray10" else box.col <- "gray90"
-    }
-    box.col <- adjustcolor(box.col, box.alpha)
-    box(col = box.col, lty = box.lty, lwd = box.lwd, bty = bty)
+  
+  if (theme$bty != "n") {
+    box(col = adjustcolor(theme$box.col, theme$box.alpha),
+        lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty)
   }
 
   # [ PLOT: INDEX ] ====
@@ -485,26 +379,23 @@ mplot3.x <- function(x,
     for (i in seq_along(xl)) {
       # circles = rep(point.rad, length(xl[[i]])) # old
       #       symbols(yl[[i]], xl[[i]], circles = point.rad[[i]],
-      #               inches = point.inches, fg = point.fg.col, bg = marker.col[[i]], add = T)
+      #               inches = point.inches, fg = point.fg, bg = marker.col[[i]], add = T)
       if (!axes.swap) {
         points(yl[[i]], xl[[i]],
                type = index.type[[i]],
-               col = marker.col[[i]],
+               col = col[[i]],
                bg = point.bg.col,
                lwd = lwd,
                pch = pch,
                cex = point.cex)
-        # ylab <- xlab
-        # xlab <- "Index"
       } else {
         points(xl[[i]], yl[[i]],
                type = index.type[[i]],
-               col = marker.col[[i]],
+               col = col[[i]],
                bg = point.bg.col,
                lwd = lwd,
                pch = pch,
                cex = point.cex)
-        # ylab <- "Index"
       }
     }
 
@@ -517,11 +408,11 @@ mplot3.x <- function(x,
       for (i in seq_along(xl)) {
         if (density.shade) {
           polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(densityl[[i]]$y, rep(0, length(densityl[[i]]$y))),
-                  col = marker.col[[i]], border = NA)
+                  col = col.alpha[[i]], border = NA)
         }
         if (density.line) {
           lines(densityl[[i]]$x, densityl[[i]]$y, xlim = xlim, ylim = ylim, ann = FALSE,
-                col = marker.col[[i]],
+                col = col.alpha[[i]],
                 lwd = density.lwd, type = "l", lty = lty[[i]])
         }
       }
@@ -531,11 +422,11 @@ mplot3.x <- function(x,
       for (i in seq_along(xl)) {
         if (density.shade) {
           polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(densityl[[i]]$x, rep(0, length(densityl[[i]]$x))),
-                  col = marker.col[[i]], border = NA)
+                  col = col.alpha[[i]], border = NA)
         }
         if (density.line) {
           lines(densityl[[i]]$y, densityl[[i]]$x, xlim = ylim, ylim = xlim, ann = FALSE,
-                col = marker.col[[i]],
+                col = col.alpha[[i]],
                 lwd = density.lwd, type = "l", lty = lty[[i]])
         }
       }
@@ -545,16 +436,6 @@ mplot3.x <- function(x,
   } # type == "density"
 
   # [ PLOT: HISTOGRAM ] ====
-
-  # # Stagger hist breaks for more than one group
-  # if (is.null(hist.breaks)) {
-  #   if (length(xl) == 1) {
-  #     breaks <- "Sturges"
-  #   } else {
-  #     breaks <- 10
-  #   }
-  # }
-
   if (type == "histogram") {
     if (length(xl) > 1) {
       breaks <- hist(unlist(xl), breaks = hist.breaks, plot = FALSE)$breaks
@@ -563,20 +444,19 @@ mplot3.x <- function(x,
         c(breaks - ((i - 1)/length(xl) * dist), max(breaks) - ((i - 1)/length(xl) * dist) + dist)
       })
     } else {
-      # breaksl <- list(hist(xl[[1]], breaks = hist.breaks, plot = FALSE)$breaks)
       breaksl <- list(histl[[1]]$breaks)
     }
   }
 
   if (type == "histogram") {
-    # if (is.null(main)) main <- "Histogram"
     if (hist.type == "bars") {
       for (i in seq_along(xl)) {
-        hist(xl[[i]], breaks = hist.breaks, col = marker.col[[i]], add = TRUE, border = bg, xlim = xlim)
+        hist(xl[[i]], breaks = hist.breaks, col = col.alpha[[i]], add = TRUE,
+             border = theme$bg, xlim = xlim)
       }
     } else {
       for (i in seq_along(xl)) {
-        mhist(xl[[i]], measure = "count", breaks = breaksl[[i]], col = marker.col[[i]], add = TRUE,
+        mhist(xl[[i]], measure = "count", breaks = breaksl[[i]], col = col.alpha[[i]], add = TRUE,
               lwd = hist.lwd,
               xlim = xlim, ylim = ylim, plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
       }
@@ -590,34 +470,36 @@ mplot3.x <- function(x,
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  if (!is.null(main)) {
-    mtext(main, line = main.line, font = main.font, family = main.family,
-          adj = main.adj, cex = cex, col = main.col)
+  if (length(main) > 0) {
+    mtext(main, line = theme$main.line,
+          font = theme$main.font, adj = theme$main.adj,
+          cex = theme$cex, col = theme$main.col,
+          family = theme$font.family)
   }
 
   # [ GROUP LEGEND ] ====
   if (group.legend) {
-
-    # Regular
     mtext(group.names,
-          col = c(main.col, unlist(col[seq_along(xl)])),
+          col = c(theme$fg, unlist(col[seq_along(xl)])),
           side = group.side,
           adj = group.adj,
           at = group.at,
-          cex = cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
+          cex = theme$cex,
+          padj = seq(2, 2 + 1.5 * length(xl), 1.5),
+          family = theme$font.family)
   }
 
   # [ ANNOTATION ] ====
   if (!is.null(annotation)) {
     if (is.null(annot.col)) annot.col = col[[1]]
-    mtext(annotation, 1, -1.5, adj = .97, cex = cex, col = annot.col)
+    mtext(annotation, 1, -1.5, adj = .97, cex = theme$cex, col = annot.col,
+          family = theme$family)
   }
 
   # [ QQ LINE ] ====
   if (is.null(qqline.col)) {
     if (length(xl) == 1) {
-      qqline.col <- "#045ea7"
+      qqline.col <- "#045ea7" # check
     } else {
       qqline.col <- pennPalette
     }
@@ -627,11 +509,9 @@ mplot3.x <- function(x,
 
   if (type == "qqline") {
     for (i in seq_along(xl)) {
-      #       symbols(xl[[i]], yl[[i]], circles = rep(point.rad, length(xl[[i]])),
-      #               inches = point.inches, fg = point.fg.col, bg = marker.col[[i]], add = T)
       points(xl[[i]], yl[[i]],
              type = "p",
-             col = marker.col[[i]],
+             col = col.alpha[[i]],
              bg = point.bg.col,
              lwd = lwd,
              pch = pch,
@@ -644,41 +524,15 @@ mplot3.x <- function(x,
   }
 
   # [ DENSITY PLOT MEAN X ] ====
-  # if (type == "density" & density.mean & is.null(legend.tr)) {
-  #   mtext(c("Mean", lapply(meanl, ddSci)), col = c(main.col, unlist(col[1:length(xl)])),
-  #         side = 3, adj = .98, cex = cex,
-  #         padj = seq(2, 2 + 1.5 * length(xl), 1.5))
-  # }
   if (type == "density" & density.mean) {
     mtext(c("Mean (SD)", lapply(seq(xl),
                                 function(j) paste0(ddSci(meanl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
-          col = c(main.col, unlist(col[seq_along(xl)])),
-          side = density.legend.side, adj = density.legend.adj, cex = cex,
+          col = c(theme$fg, unlist(col[seq_along(xl)])),
+          side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
           padj = seq(2, 2 + 1.5 * length(xl), 1.5))
   }
 
   # [ MISC LEGENDS ] ====
-  # if (!is.null(legend.tl)) {
-  #   mtext(legend.tl,
-  #         col = legend.tl.col,
-  #         side = 3, adj = 0.02, cex = cex,
-  #         padj = seq(2, 2 + 1.5 * (length(legend.tl) - 1), 1.5) )
-  # }
-  #
-  # if (!is.null(legend.tr)) {
-  #   mtext(legend.tr,
-  #         col = legend.tr.col,
-  #         side = 3, adj = 0.98, cex = cex,
-  #         padj = 2)
-  # }
-  #
-  # if (!is.null(legend.tc)) {
-  #   mtext(legend.tc,
-  #         col = legend.tc.col,
-  #         side = 3, adj = 0.5, cex = cex,
-  #         padj = 2)
-  # }
-
   if (!is.null(text.xy)) {
     if (is.null(text.x)) text.x <- mean(xlim)
     if (is.null(text.y)) text.y <- mean(ylim)
@@ -688,12 +542,6 @@ mplot3.x <- function(x,
   # [ HLINE & VLINE ] ====
   if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
   if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
-
-  # # [ Autolabel ] ====
-  # if (exists("autolabel", envir = rtenv)) {
-  #   mtext(letters[rtenv$autolabel], line = autolabel.line, adj = 1, col = autolabel.col, cex = cex)
-  #   rtenv$autolabel <- rtenv$autolabel + 1
-  # }
 
   # [ OUTRO ] ====
   if (!is.null(filename)) grDevices::dev.off()

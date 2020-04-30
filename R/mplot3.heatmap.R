@@ -73,8 +73,6 @@
 #' @param ylab Character: y-axis label
 #' @param xlab.line Float: \code{mtext}'s \code{line} argument for x-axis label
 #' @param ylab.line Float: \code{mtext}'s \code{line} argument for y-axis label
-#' @param bg Color: Background color. Default (white or black) set depending on \code{theme}
-#' @param col.axis Color: Axis color
 #' @param keep.dendro Logical: If TRUE, dedrogram is returned invisibly. Default = FALSE
 #' @param trace Integer: If > 0, print diagnostic messages to console. Default = 0
 #' @param zlim Float, vector, length 2: Passed to \code{graphics::image}. Default = +/- max(abs(x)) if \code{autorange = TRUE},
@@ -98,7 +96,7 @@ mplot3.heatmap <- function(x,
                            midhi = NULL,
                            hi = "#F48024",
                            space = "rgb",
-                           theme = getOption("rt.theme", "light"),
+                           theme = getOption("rt.theme", "black"),
                            colorbar = TRUE,
                            cb.n = 21,
                            cb.title = NULL,
@@ -131,8 +129,6 @@ mplot3.heatmap <- function(x,
                            ylab = NULL,
                            xlab.line = NULL,
                            ylab.line = NULL,
-                           bg = NULL,
-                           col.axis = NULL,
                            keep.dendro = FALSE,
                            trace = 0,
                            zlim = NULL,                     # rtemis
@@ -142,17 +138,18 @@ mplot3.heatmap <- function(x,
                            pdf.width = 7,
                            pdf.height = 7, ...) {
 
-  # [ THEMES ] ====
-  theme <- ifelse(substr(theme, 1, 5) == "light", "light", "dark")
-  if (theme == "light") {
-    if (is.null(bg)) bg = "white"
-    if (is.null(mid)) mid <- "white"
-    if (is.null(col.axis)) col.axis <- "black"
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
   } else {
-    if (is.null(bg)) bg = "black"
-    if (is.null(mid)) mid <- "black"
-    if (is.null(col.axis)) col.axis <- "white"
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
   }
+  if (is.null(mid)) mid <- theme$bg
+  col.axis <- theme$fg
 
   # [ AUTOMARGINS ] ====
   if (is.null(margins)) {
@@ -274,7 +271,6 @@ mplot3.heatmap <- function(x,
   if (colorbar) lmat <- cbind(lmat, c(0, 4)) # rtemis adding a column for colorbar
 
   # [ COLORBAR ] ====
-  # if (colorbar) lwid <- c(lwid, .4) # rtemis
   if (colorbar) {
     if (is.na(Colv)) {
       lwid <- c(lwid, 1)
@@ -298,16 +294,16 @@ mplot3.heatmap <- function(x,
 
   layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
   if (!missing(RowSideColors)) {
-    par(mar = c(margins[1L], 0, 0, 0), bg = bg) # orig c(margins[1L], 0, 0, 0.5)
+    par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg) # orig c(margins[1L], 0, 0, 0.5)
     image(rbind(if (revC)
       nr:1L
       else 1L:nr), col = RowSideColors[rowInd], axes = FALSE)
   }
   if (!missing(ColSideColors)) {
-    par(mar = c(0.5, 0, 0, margins[2L]), bg = bg)
+    par(mar = c(0.5, 0, 0, margins[2L]), bg = theme$bg)
     image(cbind(1L:nc), col = ColSideColors[colInd], axes = FALSE)
   }
-  par(mar = c(margins[1L], 0, 0, margins[2L]), bg = bg)
+  par(mar = c(margins[1L], 0, 0, margins[2L]), bg = theme$bg)
   if (!symm || scale != "none")
     x <- t(x)
   if (revC) {
@@ -344,19 +340,19 @@ mplot3.heatmap <- function(x,
     eval.parent(substitute(add.expr))
 
   # [ PLOT ] ====
-  par(mar = c(margins[1L], 0, 0, 0), bg = bg)
+  par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)
   if (doRdend)
     plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
          edgePar = list(col = col.axis))
   else frame()
-  par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2L]), bg = bg)
+  par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2L]), bg = theme$bg)
   if (doCdend)
     plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none",
          edgePar = list(col = col.axis))
   else if (!is.null(main))
     frame()
   if (!is.null(main)) {
-    par(xpd = NA, mar = c(0, 0, 0, 0), bg = bg)
+    par(xpd = NA, mar = c(0, 0, 0, 0), bg = theme$bg)
     title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
   }
 
