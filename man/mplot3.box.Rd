@@ -39,7 +39,7 @@ mplot3.box(
   ylim.pad = 0,
   y.axis.padj = 1.7,
   tck = -0.015,
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "white"),
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   pdf.width = 6,

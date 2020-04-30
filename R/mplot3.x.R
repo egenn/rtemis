@@ -327,25 +327,27 @@ mplot3.x <- function(x,
       }
     }
 
-    axis(side = theme$x.axis.side, at = x.axis.at,
-         labels = x.axis.labs, col = theme$axes.col,
+    axis(side = theme$x.axis.side,
+         col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
          padj = x.axis.padj, tck = tck,
          cex = theme$cex,
          family = theme$font.family)
-    axis(side = theme$y.axis.side, at = y.axis.at,
-         labels = y.axis.labs, col = theme$axes.col,
+    axis(side = theme$y.axis.side,
+         col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
          padj = y.axis.padj, tck = tck,
          cex = theme$cex,
          family = theme$font.family)
     mtext(xlab, side = 1, line = xlab.line,
-          cex = theme$cex, adj = xlab.adj,
+          cex = theme$cex,
+          # adj = xlab.adj,
           col = theme$labs.col, family = theme$font.family)
     mtext(ylab, side = 2, line = ylab.line,
-          cex = theme$cex, adj = ylab.adj,
+          cex = theme$cex,
+          # adj = ylab.adj,
           col = theme$labs.col, family = theme$font.family)
   }
 
@@ -355,7 +357,7 @@ mplot3.x <- function(x,
     if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
     if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
   }
-  
+
   if (theme$bty != "n") {
     box(col = adjustcolor(theme$box.col, theme$box.alpha),
         lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty)

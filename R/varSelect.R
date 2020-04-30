@@ -24,10 +24,13 @@ varSelect <- function(x, y,
                       print.plot = TRUE,
                       verbose = TRUE) {
 
+  # [ Intro ] ====
   method <- match.arg(method)
   n <- NCOL(x)
   if (n < 2) stop("You need 2 or more variables to select from")
   start.time <- intro(verbose = verbose)
+
+  # [ Model ] ====
   if (method == "RANGER") {
     if (verbose) msg("Running Variable Selection using Random Forest...")
     mod <- s.RANGER(x, y)
@@ -38,6 +41,7 @@ varSelect <- function(x, y,
     importance <- xgboost::xgb.importance(feature_names = mod$xnames, model = mod$mod)$Weight
   }
 
+  # [ Plot ] ====
   if (print.plot) mplot3.x(importance)
   importance.rank <- order(abs(importance), decreasing = TRUE)
   top.rank <- importance.rank[1:(p * n)]
