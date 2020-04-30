@@ -5,14 +5,15 @@
 \title{\code{mplot3}: Guitar Fretboard}
 \usage{
 mplot3.fret(
-  theme = c("light", "dark"),
+  theme = "white",
   useSharps = FALSE,
-  strings.col = ifelse(theme == "light", "black", "white"),
-  frets.col = ifelse(theme == "light", "black", "white"),
+  strings.col = "black",
+  frets.col = "black",
   inlays = TRUE,
-  inlays.col = ifelse(theme == "light", "gray80", "gray20"),
+  inlays.col = "auto",
   inlays.cex = 2,
-  par.reset = TRUE
+  par.reset = TRUE,
+  ...
 )
 }
 \arguments{

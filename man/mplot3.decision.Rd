@@ -13,7 +13,7 @@ mplot3.decision(
   bg.alpha = 0.2,
   bg.pch = 15,
   par.reset = TRUE,
-  theme = "light",
+  theme = "white",
   col = c("#18A3AC", "#F48024"),
   contour.col = "black",
   contour.lwd = 0.3,
