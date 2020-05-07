@@ -121,7 +121,7 @@ hytreenow <- function(x, y,
 
   .mod
 
-} # rtemis::hytree
+} # rtemis::hytreenow
 
 
 hyt <- function(node = list(x = NULL,
