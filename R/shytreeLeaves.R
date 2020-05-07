@@ -48,7 +48,7 @@ shytreeLeavesRC <- function(x, y,
                                          "solve", "none"),
                             cv.glmnet.nfolds = 5,
                             cv.glmnet.lambda = "lambda.min",
-                            loss.fn = if (is.factor(y)) class.loss else msew,
+                            loss.fn = if (is.factor(y)) class.loss else mse,
                             verbose = TRUE,
                             plot.tune.error = FALSE,
                             trace = 0,
@@ -101,7 +101,7 @@ shytreeLeavesRC <- function(x, y,
 
   # [ GLOBAL ] ====
   g <- new.env()
-  # ENH do not save both x and xm
+  # ENH: do not save both x and xm
   g$x <- x
   g$xm <- model.matrix(~. - 1, data = x)
   g$y <- y
@@ -445,7 +445,6 @@ shytreeLeavesRC <- function(x, y,
 } # rtemis::shytreeLeavesRC
 
 # [[---F2---]]====
-# setNodeRC
 setNodeRC <- function(g,
                       id,
                       index,
@@ -485,9 +484,9 @@ setNodeRC <- function(g,
 #' @param tree Node within tree environment
 #' @param node.index Open nodes to work on
 #'
-#' Fit a linear model on (x, y) and a tree on the residual y - yhat
-#' Input: environment holding tree and inde of node
-#' Output: None; Expands tree within env by splitting indexed node
+#' Fit a linear model on (x, y) and split on the gradient
+#' Input: environment holding tree and index of node
+#' Output: None; Expands tree within environment g by splitting indexed node
 
 splitLineRC <- function(g,
                         type,
@@ -792,7 +791,7 @@ splitLineRC <- function(g,
 
   # '- Side-effects -' ====
 
-  # ENH: do we need this?
+  # Check: do we need this?
   depth <- g$tree[[paste(node.index)]]$depth + 1
 
   # Get combined error of children
@@ -1024,7 +1023,13 @@ as.data.tree.shytreeLeavesRC <- function(object) {
 } # rtemis::as.data.tree.shytreeLeaves
 
 
-class.loss <- function(y, Fval, weights) {
+class.loss <- function(y, Fval) {
+
+  c(log(1 + exp(-2 * y * Fval)))
+
+}
+
+class.lossw <- function(y, Fval, weights) {
 
   c(log(1 + exp(-2 * y * Fval)) %*% weights)
 
