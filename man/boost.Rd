@@ -18,6 +18,8 @@ boost(
   case.p = 1,
   weights = NULL,
   learning.rate = 0.1,
+  earlystop.params = rtset.earlystop(window = 30, window_decrease_pct_min = 0.01),
+  earlystop.using = "train",
   tolerance = 0,
   tolerance.valid = 1e-05,
   max.iter = 10,
