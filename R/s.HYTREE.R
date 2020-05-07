@@ -32,11 +32,13 @@
 #    '-terminal      TRUE if it is a terminal node
 #    '-type          "split", "nosplit", "max.depth", "minobsinnode"
 
-#' The Hybrid Tree: Additive Tree with Linear Nodes [R]
+#' The Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]
 #'
-#' Train an Hybrid Tree for Regression
+#' Train a Hard Hybrid Tree for Regression
 #'
 #' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+#' Use s.SHYTREE for the standard Hybrid Tree Algorithm, which grows branches stepwise and includes all
+#' observations weighted by gamma
 #'
 #' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 #'
