@@ -146,9 +146,9 @@ if (requireNamespace("h2o", quietly = TRUE)) {
   mod <- s.H2ORF(iris2.train, iris2.test)
 }
 
-if (requireNamespace("iRF", quietly = TRUE)) {
-  mod <- s.IRF(dat.train, dat.test)
-}
+# if (requireNamespace("iRF", quietly = TRUE)) {
+#   mod <- s.IRF(dat.train, dat.test)
+# }
 
 mod <- s.LOESS(dat.train, dat.test)
 
