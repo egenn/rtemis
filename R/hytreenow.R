@@ -1,11 +1,10 @@
 # hytreenow.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
-# TODO: use lincoef
 
 #' \pkg{rtemis} internal: Low-level Hybrid Tree procedure
 #'
-#' Train a Hybrid Tree for Regression
+#' Train a Hard Hybrid Tree (no weights) for Regression
 #'
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s.HYTREE
@@ -15,21 +14,23 @@
 
 hytreenow <- function(x, y,
                       max.depth = 5,
+                      shrinkage = 1,
+                      init = mean(y),
+                      # lincoef --
                       alpha = 0,
                       lambda = .1,
                       lambda.seq = NULL,
+                      lin.type = "glmnet",
+                      cv.glmnet.nfolds = 5,
+                      cv.glmnet.lambda = "lambda.min",
+                      # rpart --
                       minobsinnode = 2,
                       minobsinnode.lin = 10,
-                      shrinkage = 1,
                       part.minsplit = 2,
                       part.xval = 0,
                       part.max.depth = 1,
                       part.cp = 0,
                       part.minbucket = 5,
-                      init = mean(y),
-                      lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
-                      cv.glmnet.nfolds = 5,
-                      cv.glmnet.lambda = "lambda.min",
                       verbose = FALSE,
                       trace = 0) {
 
@@ -45,34 +46,16 @@ hytreenow <- function(x, y,
     return(.mod)
   }
 
-  # [ ARGUMENTS ] ====
-  lin.type <- match.arg(lin.type)
-  if (NCOL(x) == 1) lin.type <- "glm"
-
   # [ GLOBAL ] ====
   .env <- environment()
 
   # [ lin1 ] ====
   if (verbose) msg("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
 
-  if (lin.type == "glmnet") {
-    lin1 <- glmnet::glmnet(data.matrix(x), y, family = 'gaussian',
-                           alpha = alpha, lambda = lambda.seq)
-    coef.c <- as.matrix(coef(lin1, s = lambda))[, 1]
-  } else if (lin.type == "cv.glmnet") {
-    lin1 <- glmnet::cv.glmnet(data.matrix(x), y, family = 'gaussian',
-                              alpha = alpha, lambda = lambda.seq,
-                              nfolds = cv.glmnet.nfolds)
-    coef.c <- as.matrix(coef(lin1, s = lin1[[cv.glmnet.lambda]]))[, 1]
-  } else if (lin.type == "lm.ridge") {
-    dat <- data.frame(x, y)
-    lin1 <- MASS::lm.ridge(y ~ ., dat, lambda = lambda)
-    coef.c <- coef(lin1)
-  } else {
-    dat <- data.frame(x, y)
-    coef.c <- lm.fit(model.matrix(y ~ ., dat), y)$coefficients
-  }
-
+  coef.c <- lincoef(x, y, method = lin.type,
+                    alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+                    cv.glmnet.nfolds = cv.glmnet.nfolds,
+                    cv.glmnet.lambda = cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
 
   # [ Run hyt ] ====
@@ -421,34 +404,12 @@ partLm <- function(x1, y1,
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
     } else {
-      if (lin.type == "glmnet") {
-        lin.left <- glmnet::glmnet(data.matrix(x1[left.index, , drop = FALSE]),
-                                   resid.left,
-                                   family = 'gaussian',
-                                   alpha = alpha, lambda = lambda.seq)
-        lin.coef.left <- as.matrix(coef(lin.left, s = lambda))[, 1]
-      } else if (lin.type == "cv.glmnet") {
-        lin.left <- glmnet::cv.glmnet(data.matrix(x1[left.index, , drop = FALSE]),
-                                      resid.left,
-                                      family = 'gaussian',
-                                      alpha = alpha, lambda = lambda.seq,
-                                      nfolds = cv.glmnet.nfolds)
-        lin.coef.left <- as.matrix(coef(lin.left, s = lin.left[[cv.glmnet.lambda]]))[, 1]
-      } else if (lin.type == "lm.ridge") {
-        dat <- data.frame(x1[left.index, , drop = FALSE], resid.left)
-        lin.left <- MASS::lm.ridge(resid.left ~ ., dat, lambda = lambda)
-        lin.coef.left <- coef(lin.left)
-      } else {
-        dat <- data.frame(x1[left.index, , drop = FALSE], resid.left)
-        lin.left <- lm.fit(model.matrix(resid.left ~ ., dat), resid.left)
-        lin.coef.left <- lin.left$coefficients
-      }
-
-      if (NCOL(x1) > 1) {
-        lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*% lin.coef.left)[, 1]
-      } else {
-        lin.val.left <- predict(lin.left, x1[left.index, , drop = FALSE])
-      }
+      lin.coef.left <- lincoef(x1[left.index, , drop = FALSE], resid.left,
+                                    method = lin.type,
+                                    alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+                                    cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                    cv.glmnet.lambda = cv.glmnet.lambda)
+      lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*% lin.coef.left)[, 1]
     } # if (is.constant(resid.left))
 
     if (is.constant(resid.right) | all(sapply(x1[right.index, , drop = FALSE], is.constant)) | length(resid.right) < minobsinnode.lin) {
@@ -456,33 +417,12 @@ partLm <- function(x1, y1,
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {
-      if (lin.type == "glmnet") {
-        lin.right <- glmnet::glmnet(data.matrix(x1[right.index, , drop = FALSE]),
-                                    resid.right,
-                                    family = 'gaussian',
-                                    alpha = alpha, lambda = lambda.seq)
-        lin.coef.right <- as.matrix(coef(lin.right, lambda = lambda))[, 1]
-      } else if (lin.type == "cv.glmnet") {
-        lin.right <- glmnet::cv.glmnet(data.matrix(x1[right.index, , drop = FALSE]),
-                                       resid.right,
-                                       family = 'gaussian',
-                                       alpha = alpha, lambda = lambda.seq,
-                                       nfolds = cv.glmnet.nfolds)
-        lin.coef.right <- as.matrix(coef(lin.right, s = lin.right[[cv.glmnet.lambda]]))[, 1]
-      } else if (lin.type == "lm.ridge") {
-        dat <- data.frame(x1[right.index, , drop = FALSE], resid.right)
-        lin.right <- MASS::lm.ridge(resid.right ~ ., dat, lambda = lambda)
-        lin.coef.right <- coef(lin.right)
-      } else {
-        dat <- data.frame(x1[right.index, , drop = FALSE], resid.right)
-        lin.right <- lm.fit(model.matrix(resid.right ~ ., dat), resid.right)
-        lin.coef.right <- lin.right$coefficients
-      }
-      if (NCOL(x1) > 1) {
-        lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*% lin.coef.right)[, 1]
-      } else {
-        lin.val.right <- predict(lin.right, x1[right.index, , drop = FALSE])
-      }
+      lin.coef.right <- lincoef(x1[right.index, , drop = FALSE], resid.right,
+                               method = lin.type,
+                               alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+                               cv.glmnet.nfolds = cv.glmnet.nfolds,
+                               cv.glmnet.lambda = cv.glmnet.lambda)
+      lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*% lin.coef.right)[, 1]
     } # if (is.constant(resid.right))
 
   } # if (!is.null(cutFeat.name))
