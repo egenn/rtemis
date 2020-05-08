@@ -48,7 +48,8 @@ s.HYTBOOST <- function(x, y = NULL,
                        part.cp = 0,
                        part.minbucket = 5,
                        # init = mean(y),
-                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
+                                    "backwardStepwise", "glm", "sgd", "solve", "none"),
                        cv.glmnet.nfolds = 5,
                        cv.glmnet.lambda = "lambda.min",
                        # -- hytreenow params --
@@ -101,6 +102,7 @@ s.HYTBOOST <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "HYTBOOST"
+  lin.type <- match.arg(lin.type)
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", "glmnet", verbose = FALSE)) {
