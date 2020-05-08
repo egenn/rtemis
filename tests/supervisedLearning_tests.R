@@ -242,9 +242,6 @@ if (requireNamespace("rpart", quietly = TRUE) & requireNamespace("pbapply", quie
 logger <- rtModLogger$new()
 logger$add(mod)
 
-# eightBall ====
-eightBall("Are you ready?")
-
 # distillTreeRules ====
 if (requireNamespace("randomForest", quietly = TRUE)) {
   mod <- s.RF(iris, n.trees = 3)
