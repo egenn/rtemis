@@ -1,7 +1,7 @@
 # hytboost.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
-# made learning.rate into vector
+# 05-2020: switched to hytreew
 
 #' \pkg{rtemis} internal: Boosting of Hybrid Trees
 #'
@@ -13,7 +13,7 @@
 #' @param mod.params Named list of arguments for \code{mod}
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreeRaw}
+#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}
 #' @param tolerance Float: If training error <= this value, training stops
 #' @param tolerance.valid Float: If validation error <= this value, training stops
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
@@ -181,15 +181,15 @@ hytboost <- function(x, y,
                        # x.test = x.valid, y.test = y.valid,
                        verbose = base.verbose),
                   mod.params)
-    mods[[i]] <- do.call(hytreenow, args = mod.args)
+    mods[[i]] <- do.call(hytreew, args = mod.args)
     if (cxrcoef) {
       if (trace > 0) msg("Updating cxrcoef")
-      fitted0 <- predict.hytreeRaw(mods[[i]], x, cxr = TRUE, cxrcoef = TRUE)
+      fitted0 <- predict.hytreew(mods[[i]], x, cxr = TRUE, cxrcoef = TRUE)
       fitted <- fitted0$yhat
       mods[[i]]$cxr <- fitted0$cxr
       mods[[i]]$cxrcoef <- fitted0$cxrcoef
     } else {
-      fitted <- predict.hytreeRaw(mods[[i]], x)
+      fitted <- predict.hytreew(mods[[i]], x)
     }
     names(mods)[i] <- paste0("hytree.", i)
 
@@ -199,7 +199,7 @@ hytboost <- function(x, y,
     error[i] <- mse(y, Fval)
 
     if (!is.null(x.valid)) {
-      predicted.valid <- predict.hytreeRaw(mods[[i]], x.valid)
+      predicted.valid <- predict.hytreew(mods[[i]], x.valid)
       Fvalid <- Fvalid + .learning.rate[i] * predicted.valid
       error.valid[i] <- mse(y.valid, Fvalid)
       if (verbose && i %in% print.progress.index) {
@@ -336,12 +336,12 @@ predict.hytboost <- function(object,
   if (!as.matrix) {
     predicted <- rowSums(cbind(rep(object$init, NROW(newdata)),
                                pbapply::pbsapply(seq(n.iter), function(i)
-                                 predict.hytreeRaw(object$mods[[i]], newdata,
+                                 predict.hytreew(object$mods[[i]], newdata,
                                                    fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
                                  cl = n.cores)))
   } else {
     predicted.n <- pbapply::pbsapply(seq(n.iter), function(i)
-      predict.hytreeRaw(object$mods[[i]], newdata,
+      predict.hytreew(object$mods[[i]], newdata,
                         fixed.cxr = fixed.cxr[[i]]) * object$learning.rate[i],
       cl = n.cores)
 
@@ -419,12 +419,12 @@ as.hytboost <- function(object,
                         # tolerance.valid = .00001
 ) {
 
-  if (!inherits(object, "hytreeRaw")) {
-    stop("Please provide hytreeRaw object")
+  if (!inherits(object, "hytreew")) {
+    stop("Please provide hytreew object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.hytreeRaw(object, x) * init.learning.rate else predict.hytreeRaw(object, x)
+  fitted <- if (apply.lr) predict.hytreew(object, x) * init.learning.rate else predict.hytreew(object, x)
   obj <- list(init = init,
               learning.rate = ifelse(apply.lr, init.learning.rate, 1),
               fitted = fitted,
@@ -458,7 +458,7 @@ update.hytboost <- function(object, x, y = NULL,
 
   if (trace > 0) fitted.orig <- object$fitted
 
-  fitted <- object$penult.fitted + rev(object$learning.rate)[1] * predict.hytreeRaw(object$mods[[length(object$mods)]], x)
+  fitted <- object$penult.fitted + rev(object$learning.rate)[1] * predict.hytreew(object$mods[[length(object$mods)]], x)
 
   object$error[length(object$error)] <- mse(object$y.train, fitted)
   if (trace > 0 && !is.null(y)) {
@@ -485,12 +485,12 @@ as.hytboost2 <- function(object,
                          init = 0,
                          apply.lr = TRUE) {
 
-  if (!inherits(object, "hytreeRaw")) {
-    stop("Please provide hytreeRaw object")
+  if (!inherits(object, "hytreew")) {
+    stop("Please provide hytreew object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.hytreeRaw(object, x) * init.learning.rate else predict.hytreeRaw(object, x)
+  fitted <- if (apply.lr) predict.hytreew(object, x) * init.learning.rate else predict.hytreew(object, x)
   obj <- list(init = init,
               learning.rate = c(init.learning.rate, learning.rate),
               fitted = fitted,
