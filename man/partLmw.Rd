@@ -9,18 +9,20 @@ partLmw(
   y1,
   weights,
   .env,
-  alpha = 1,
-  lambda = 0.1,
-  lambda.seq = NULL,
-  part.minsplit = 2,
-  part.xval = 0,
-  part.max.depth = 1,
-  part.cp = 0,
-  part.minbucket = 5,
-  minobsinnode.lin = 5,
-  lin.type = "glmnet",
-  verbose = TRUE,
-  trace = 0
+  minobsinnode.lin,
+  lin.type,
+  alpha,
+  lambda,
+  lambda.seq,
+  cv.glmnet.nfolds,
+  cv.glmnet.lambda,
+  part.minsplit,
+  part.xval,
+  part.max.depth,
+  part.cp,
+  part.minbucket,
+  verbose,
+  trace
 )
 }
 \description{

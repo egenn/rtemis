@@ -79,7 +79,7 @@ hytreew <- function(x, y,
                weights = weights,
                index = rep(1, length(y)),
                depth = 0,
-               partlin = NULL,    # To hold the output of partLmw()
+               partlin = NULL,    # To hold the output of partLmw
                left = NULL,       # \  To hold the left and right nodes,
                right = NULL,      # /  if partLmw splits
                lin = NULL,
@@ -96,6 +96,8 @@ hytreew <- function(x, y,
               alpha = alpha,
               lambda = lambda,
               lambda.seq = lambda.seq,
+              cv.glmnet.nfolds = cv.glmnet.nfolds,
+              cv.glmnet.lambda = cv.glmnet.lambda,
               coef.c = coef.c,
               part.minsplit = part.minsplit,
               part.xval = part.xval,
@@ -122,13 +124,14 @@ hytreew <- function(x, y,
 } # rtemis::hytree
 
 
+# Recursive function
 hytw <- function(node = list(x = NULL,
                              y = NULL,
                              Fval = NULL,
                              weights = NULL,
                              index = NULL,
                              depth = NULL,
-                             partlin = NULL,    # To hold the output of partLmw()
+                             partlin = NULL,    # To hold the output of partLmw
                              left = NULL,       # \  To hold the left and right nodes,
                              right = NULL,      # /  if partLmw splits
                              lin = NULL,
@@ -142,9 +145,14 @@ hytw <- function(node = list(x = NULL,
                  minobsinnode = 2,
                  minobsinnode.lin = 5,
                  shrinkage = 1,
-                 alpha = .1,
+                 # lincoef --
+                 lin.type = "glmnet",
+                 alpha = 1,
                  lambda = .1,
                  lambda.seq = NULL,
+                 cv.glmnet.nfolds = 5,
+                 cv.glmnet.lambda = "lambda.min",
+                 # rpart --
                  part.minsplit = 2,
                  part.xval = 0,
                  part.max.depth = 1,
@@ -153,13 +161,11 @@ hytw <- function(node = list(x = NULL,
                  .env = NULL,
                  keep.x = FALSE,
                  simplify = TRUE,
-                 lin.type = "glmnet",
                  verbose = TRUE,
                  trace = 0) {
 
   # [ EXIT ] ====
   if (node$terminal) return(node)
-
   # x <- node$x
   # y <- node$y
   x <- .env$x
@@ -179,15 +185,20 @@ hytw <- function(node = list(x = NULL,
     node$partlin <- partLmw(x1 = x, y1 = resid,  # remove x
                             weights = node$weights,
                             .env = .env,
+                            minobsinnode.lin = minobsinnode.lin,
+                            # lincoef --
+                            lin.type = lin.type,
+                            alpha = alpha,
                             lambda = lambda,
                             lambda.seq = lambda.seq,
+                            cv.glmnet.nfolds = cv.glmnet.nfolds,
+                            cv.glmnet.lambda = cv.glmnet.lambda,
+                            # rpart --
                             part.minsplit = part.minsplit,
                             part.xval = part.xval,
                             part.max.depth = part.max.depth,
                             part.cp = part.cp,
                             part.minbucket = part.minbucket,
-                            minobsinnode.lin = minobsinnode.lin,
-                            lin.type = lin.type,
                             verbose = verbose,
                             trace = trace)
     # Fval <- Fval + shrinkage * (node$partlin$part.val + node$partlin$lin.val)
@@ -243,7 +254,7 @@ hytw <- function(node = list(x = NULL,
                         index = left.index,
                         depth = depth + 1,
                         coef.c = coef.c.left,
-                        partlin = NULL,    # To hold the output of partLmw()
+                        partlin = NULL,    # To hold the output of partLmw
                         left = NULL,       # \  To hold the left and right nodes,
                         right = NULL,      # /  if partLmw splits
                         terminal = FALSE,
@@ -256,7 +267,7 @@ hytw <- function(node = list(x = NULL,
                          index = right.index,
                          depth = depth + 1,
                          coef.c = coef.c.right,
-                         partlin = NULL,    # To hold the output of partLmw()
+                         partlin = NULL,    # To hold the output of partLmw
                          left = NULL,       # \  To hold the right and right nodes,
                          right = NULL,      # /  if partLmw splits
                          terminal = FALSE,
@@ -278,9 +289,14 @@ hytw <- function(node = list(x = NULL,
                         minobsinnode = minobsinnode,
                         minobsinnode.lin = minobsinnode.lin,
                         shrinkage = shrinkage,
+                        # lincoef --
+                        lin.type = lin.type,
                         alpha = alpha,
                         lambda = lambda,
                         lambda.seq = lambda.seq,
+                        cv.glmnet.nfolds = cv.glmnet.nfolds,
+                        cv.glmnet.lambda = cv.glmnet.lambda,
+                        # rpart --
                         part.minsplit = part.minsplit,
                         part.xval = part.xval,
                         part.max.depth = part.max.depth,
@@ -289,7 +305,6 @@ hytw <- function(node = list(x = NULL,
                         .env = .env,
                         keep.x = keep.x,
                         simplify = simplify,
-                        lin.type = lin.type,
                         verbose = verbose,
                         trace = trace)
       # [ RIGHT ] ====
@@ -300,9 +315,14 @@ hytw <- function(node = list(x = NULL,
                          minobsinnode = minobsinnode,
                          minobsinnode.lin = minobsinnode.lin,
                          shrinkage = shrinkage,
+                         # lincoef --
+                         lin.type = lin.type,
                          alpha = alpha,
                          lambda = lambda,
                          lambda.seq = lambda.seq,
+                         cv.glmnet.nfolds = cv.glmnet.nfolds,
+                         cv.glmnet.lambda = cv.glmnet.lambda,
+                         # rpart --
                          part.minsplit = part.minsplit,
                          part.xval = part.xval,
                          part.max.depth = part.max.depth,
@@ -311,7 +331,6 @@ hytw <- function(node = list(x = NULL,
                          .env = .env,
                          keep.x = keep.x,
                          simplify = simplify,
-                         lin.type = lin.type,
                          verbose = verbose,
                          trace = trace)
       if (simplify) node$coef.c <- NULL
@@ -352,18 +371,22 @@ hytw <- function(node = list(x = NULL,
 partLmw <- function(x1, y1,    # remove x, use .env$x
                     weights,
                     .env,
-                    alpha = 1,
-                    lambda = .1,
-                    lambda.seq = NULL,
-                    part.minsplit = 2,
-                    part.xval = 0,
-                    part.max.depth = 1,
-                    part.cp = 0,
-                    part.minbucket = 5,
-                    minobsinnode.lin = 5,
-                    lin.type = "glmnet",
-                    verbose = TRUE,
-                    trace = 0) {
+                    minobsinnode.lin,
+                    # lincoef --
+                    lin.type,
+                    alpha,
+                    lambda,
+                    lambda.seq,
+                    cv.glmnet.nfolds,
+                    cv.glmnet.lambda,
+                    # rpart --
+                    part.minsplit,
+                    part.xval,
+                    part.max.depth,
+                    part.cp,
+                    part.minbucket,
+                    verbose,
+                    trace) {
 
   # [ PART ] ====
   if (trace > 1) msg("partLmw")

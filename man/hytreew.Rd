@@ -61,7 +61,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 }
 \description{
-Train an Hybrid Tree for Regression
+Train a Hybrid Tree for Regression
 }
 \details{
 Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
