@@ -15,6 +15,7 @@ hytboost(
   learning.rate = 0.1,
   max.iter = 10,
   max.depth = 5,
+  gamma = 0.1,
   alpha = 0,
   lambda = 1,
   lambda.seq = NULL,

@@ -688,6 +688,7 @@ predict.hytree <- function(object, newdata = NULL,
     stop("Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'hytree' object")
   }
 
+  # ENH: consider removing
   if (is.null(newdata)) return(object$fitted)
 
   # [ newdata colnames ] ====

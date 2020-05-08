@@ -34,8 +34,9 @@ s.HYTBOOST <- function(x, y = NULL,
                        boost.obj = NULL,
                        learning.rate = .5, # overwrite mod.params$learning.rate
                        # mod.params = rtset.HYTREE(),
-                       # ++ hytreenow params ++
+                       # ++ hytreew params ++
                        max.depth = 5,
+                       gamma = .1,
                        alpha = 0,
                        lambda = 1,
                        lambda.seq = NULL,
@@ -233,8 +234,9 @@ s.HYTBOOST <- function(x, y = NULL,
                   boost.obj = boost.obj,
                   learning.rate = learning.rate,
                   # mod.params = mod.params,
-                  # ++ hytreenow params ++
+                  # ++ hytreew params ++
                   max.depth = max.depth,
+                  gamma = gamma,
                   shrinkage = shrinkage,
                   alpha = alpha,
                   lambda = lambda,

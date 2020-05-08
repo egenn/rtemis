@@ -13,6 +13,7 @@ s.HYTBOOST(
   boost.obj = NULL,
   learning.rate = 0.5,
   max.depth = 5,
+  gamma = 0.1,
   alpha = 0,
   lambda = 1,
   lambda.seq = NULL,

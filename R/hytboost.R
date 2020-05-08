@@ -39,8 +39,9 @@ hytboost <- function(x, y,
                      # tolerance = 0,
                      # tolerance.valid = 0,
                      max.iter = 10,
-                     # ++ hytreenow params ++
+                     # ++ hytreew params ++
                      max.depth = 5,
+                     gamma = .1,
                      alpha = 0,
                      lambda = 1,
                      lambda.seq = NULL,
@@ -56,7 +57,7 @@ hytboost <- function(x, y,
                      lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
                      cv.glmnet.nfolds = 5,
                      cv.glmnet.lambda = "lambda.min",
-                     # -- hytreenow params --
+                     # -- earlystop --
                      earlystop.params = rtset.earlystop(),
                      earlystop.using = "train",
                      init = mean(y),
@@ -79,22 +80,25 @@ hytboost <- function(x, y,
   if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
   # [ BOOST ] ====
+  # hytreew params ====
   mod.params <- list(max.depth = max.depth,
+                     gamma = gamma,
+                     shrinkage = shrinkage,
+                     minobsinnode.lin = minobsinnode.lin,
+                     # licoef params --
                      alpha = alpha,
                      lambda = lambda,
                      lambda.seq = lambda.seq,
                      minobsinnode = minobsinnode,
-                     minobsinnode.lin = minobsinnode.lin,
-                     shrinkage = shrinkage,
+                     lin.type = lin.type,
+                     cv.glmnet.nfolds = cv.glmnet.nfolds,
+                     cv.glmnet.lambda = cv.glmnet.lambda,
+                     # rpart params --
                      part.minsplit = part.minsplit,
                      part.xval = part.xval,
                      part.max.depth = part.max.depth,
                      part.cp = part.cp,
-                     part.minbucket = part.minbucket,
-                     # init = mean(y),
-                     lin.type = lin.type,
-                     cv.glmnet.nfolds = cv.glmnet.nfolds,
-                     cv.glmnet.lambda = cv.glmnet.lambda)
+                     part.minbucket = part.minbucket)
   if (trace > 0) parameterSummary(mod.params,
                                   init = init,
                                   max.iter = max.iter,
