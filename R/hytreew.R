@@ -18,19 +18,19 @@
 hytreew <- function(x, y,
                     max.depth = 5,
                     weights = rep(1, NROW(y)),
-                    gamma = .1,
                     init = mean(y),
+                    gamma = .1,
+                    shrinkage = 1,
                     # lincoef --
                     lin.type = "glmnet",
                     cv.glmnet.nfolds = 5,
                     cv.glmnet.lambda = "lambda.min",
                     alpha = 1,
                     lambda = .05,
-                    lambda.seq = .05,
+                    lambda.seq = NULL,
                     # rpart --
                     minobsinnode = 2,
                     minobsinnode.lin = 10,
-                    shrinkage = 1,
                     part.minsplit = 2,
                     part.xval = 0,
                     part.max.depth = 1,
@@ -171,11 +171,9 @@ hytw <- function(node = list(x = NULL,
   x <- .env$x
   y <- .env$y
   depth <- node$depth
-  if (trace > 0) msg("hytw node$Fval   is", head(node$Fval), color = crayon::red)
   Fval <- node$Fval            # n
-  # if (trace > 1) msg("y is", y)
-  # if (trace > 1) msg("hytw Fval is", Fval)
   resid <- y - Fval            # n
+  if (trace > 0) msg("hytw Fval   is", head(Fval), color = crayon::red)
   if (trace > 0) msg("hytw resid   is", head(resid), color = crayon::red)
   nobsinnode <- length(node$index)
 

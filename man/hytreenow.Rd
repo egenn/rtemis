@@ -10,7 +10,7 @@ hytreenow(
   max.depth = 5,
   shrinkage = 1,
   init = mean(y),
-  alpha = 0,
+  alpha = 1,
   lambda = 0.1,
   lambda.seq = NULL,
   lin.type = "glmnet",

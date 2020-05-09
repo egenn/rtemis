@@ -17,7 +17,7 @@ hytreenow <- function(x, y,
                       shrinkage = 1,
                       init = mean(y),
                       # lincoef --
-                      alpha = 0,
+                      alpha = 1,
                       lambda = .1,
                       lambda.seq = NULL,
                       lin.type = "glmnet",
@@ -42,7 +42,7 @@ hytreenow <- function(x, y,
                  shrinkage = shrinkage,
                  rules = "TRUE",
                  coefs = coefs)
-    class(.mod) <- c("hytreeRaw", "list")
+    class(.mod) <- c("hytreenow", "list")
     return(.mod)
   }
 
@@ -57,6 +57,7 @@ hytreenow <- function(x, y,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
                     cv.glmnet.lambda = cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
+  if (trace > 0) msg("hytreenow Fval is", head(Fval), color = crayon::red)
 
   # [ Run hyt ] ====
   root <- list(x = x,
@@ -100,7 +101,7 @@ hytreenow <- function(x, y,
                shrinkage = shrinkage,
                rules = .env$leaf.rule,
                coefs = .env$leaf.coef)
-  class(.mod) <- c("hytreeRaw", "list")
+  class(.mod) <- c("hytreenow", "list")
 
   .mod
 
@@ -150,9 +151,11 @@ hyt <- function(node = list(x = NULL,
   y <- node$y
   depth <- node$depth
   Fval <- node$Fval
-  if (trace > 1) msg("y is", y)
-  if (trace > 1) msg("Fval is", Fval)
+  # if (trace > 1) msg("y is", y)
+  # if (trace > 1) msg("Fval is", head(Fval))
   resid <- y - Fval
+  if (trace > 0) msg("hyt Fval   is", head(Fval), color = crayon::red)
+  if (trace > 0) msg("hyt resid   is", head(resid), color = crayon::red)
   nobsinnode <- length(node$index)
 
   # [ Add partlin to node ] ====
@@ -172,7 +175,7 @@ hyt <- function(node = list(x = NULL,
                            verbose = verbose,
                            trace = trace)
 
-    if (trace > 1) msg("Fval is", Fval)
+    if (trace > 1) msg("Fval is", head(Fval))
 
     # '- If node split ====
     if (!node$partlin$terminal) {
@@ -451,8 +454,8 @@ partLm <- function(x1, y1,
 
 #' Predict method for \code{hytreeLite} object
 #'
-#' @method predict hytreeRaw
-#' @param object \code{hytreeRaw}
+#' @method predict hytreenow
+#' @param object \code{hytreenow}
 #' @param newdata Data frame of predictors
 #' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
 #' Defaults to all
@@ -466,7 +469,7 @@ partLm <- function(x1, y1,
 #' @export
 #' @author Efstathios D. Gennatas
 
-predict.hytreeRaw <- function(object, newdata,
+predict.hytreenow <- function(object, newdata,
                               n.feat = NCOL(newdata),
                               fixed.cxr = NULL,
                               cxr.newdata = NULL,
@@ -508,4 +511,4 @@ predict.hytreeRaw <- function(object, newdata,
 
   out
 
-} # rtemis:: predict.hytreeRaw
+} # rtemis:: predict.hytreenow

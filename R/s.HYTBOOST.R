@@ -33,6 +33,7 @@ s.HYTBOOST <- function(x, y = NULL,
                        resid = NULL,
                        boost.obj = NULL,
                        learning.rate = .5, # overwrite mod.params$learning.rate
+                       case.p = 1,
                        # mod.params = rtset.HYTREE(),
                        # ++ hytreew params ++
                        max.depth = 5,
@@ -53,8 +54,7 @@ s.HYTBOOST <- function(x, y = NULL,
                                     "backwardStepwise", "glm", "sgd", "solve", "none"),
                        cv.glmnet.nfolds = 5,
                        cv.glmnet.lambda = "lambda.min",
-                       # -- hytreenow params --
-                       case.p = 1,
+                       # -- hytreew params --
                        # weights = NULL,
                        max.iter = 10,
                        tune.n.iter = TRUE,
@@ -233,6 +233,7 @@ s.HYTBOOST <- function(x, y = NULL,
                   resid = resid,
                   boost.obj = boost.obj,
                   learning.rate = learning.rate,
+                  case.p = case.p,
                   # mod.params = mod.params,
                   # ++ hytreew params ++
                   max.depth = max.depth,
@@ -251,8 +252,7 @@ s.HYTBOOST <- function(x, y = NULL,
                   lin.type = lin.type,
                   cv.glmnet.nfolds = cv.glmnet.nfolds,
                   cv.glmnet.lambda = cv.glmnet.lambda,
-                  # -- hytreenow params --
-                  case.p = case.p,
+                  # -- hytreew params --
                   max.iter = max.iter,
                   earlystop.params = earlystop.params,
                   init = init,
