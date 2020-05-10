@@ -490,7 +490,7 @@ s.GBM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = if (!is.null(mod.summary.rel)) mod.summary.rel[, 2, drop = FALSE] else NULL,
+                 varimp = if (!is.null(mod.summary.rel)) t(mod.summary.rel[, 2, drop = FALSE]) else NULL,
                  question = question,
                  extra = extra)
 
