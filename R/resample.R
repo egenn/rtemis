@@ -127,7 +127,7 @@ resample <- function(y,
                         stratify.var = .stratify.var,
                         strat.n.bins = strat.n.bins,
                         seed = seed,
-                        verbose = TRUE)
+                        verbose = verbose)
     } else if (resampler == "loocv") {
       # '- LOOCV ====
       res.part <- loocv(x = y)
