@@ -228,12 +228,6 @@ elevate <- function(x, y = NULL,
     if (nclasses != length(unique(y))) warning("elevate: Outcome contains empty classes")
   }
 
-  # [ PREPROCESS ] ====
-  if (!is.null(.preprocess)) {
-    preproc.params <- c(list(x = x), .preprocess, verbose = verbose)
-    x <- do.call(preprocess, preproc.params)
-  }
-
   # [ DECOMPOSE ] ====
   if (!is.null(.decompose)) {
     decomposer <- decomSelect(.decompose$decom)
@@ -275,6 +269,7 @@ elevate <- function(x, y = NULL,
                              resample.rtset = resample.rtset,
                              weights = weights,
                              params = mod.params,
+                             .preprocess = .preprocess,
                              verbose = verbose,
                              res.verbose = res.verbose,
                              trace = trace,
