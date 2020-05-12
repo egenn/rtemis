@@ -103,7 +103,8 @@ shytreeLeavesRC <- function(x, y,
   g <- new.env()
   # ENH: do not save both x and xm
   g$x <- x
-  g$xm <- model.matrix(~. - 1, data = x)
+  g$xm <- cbind(1, model.matrix(~. - 1, data = x))
+  g$ncolxm <- NCOL(g$xm)
   g$y <- y
   g$x.valid <- x.valid
   g$y.valid <- y.valid
@@ -157,7 +158,7 @@ shytreeLeavesRC <- function(x, y,
   if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
 
-  coef <- lincoef(x = g$xm, y = resid,
+  coef <- lincoef(x = g$xm[, -1], y = resid,
                   weights = weights,
                   method = lin.type,
                   nvmax = nvmax,
@@ -169,7 +170,8 @@ shytreeLeavesRC <- function(x, y,
   g$n.leaves <- 1 # ddlt
 
   # linVal <-  (data.matrix(cbind(1, x)) %*% coef)[, 1] # n
-  linVal <- c(cbind(1, g$xm) %*% coef) # n
+  # linVal <- c(cbind(1, g$xm) %*% coef) # n
+  linVal <- g$xm %*% coef # n
 
   if (.class & .rho) {
     firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
@@ -546,7 +548,8 @@ splitLineRC <- function(g,
     left.index <- right.index <- NA
     # split.rule.left <- split.rule.right <- FALSE # never used
     linVal.left <- linVal.right <- 0
-    linCoef.left <- linCoef.right <- rep(0, NCOL(g$xm) + 1)
+    # linCoef.left <- linCoef.right <- rep(0, NCOL(g$xm) + 1)
+    linCoef.left <- linCoef.right <- rep(0, g$ncolxm)
     # Weights remain unchanged
     weights.left <- weights.right <- weights
   } else {
@@ -724,9 +727,9 @@ splitLineRC <- function(g,
                          ": ", length(left.index),
                          " cases belong to this node: Not fitting any more lines here", sep = "")
       linVal.left <- rep(0, length(resid2))
-      linCoef.left <- rep(0, NCOL(g$xm) + 1)
+      linCoef.left <- rep(0, g$ncolxm)
     } else {
-      linCoef.left <- lincoef(x = g$xm, y = resid2,
+      linCoef.left <- lincoef(x = g$xm[, -1], y = resid2,
                               weights = weights.left,
                               method = lin.type,
                               nvmax = nvmax,
@@ -735,7 +738,8 @@ splitLineRC <- function(g,
                               lambda.seq = lambda.seq,
                               cv.glmnet.nfolds = cv.glmnet.nfolds)
 
-      linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
+      # linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
+      linVal.left <- c(g$xm %*% linCoef.left)
 
       # Lin Updates, Left ====
       if (.class & g$.rho) {
@@ -758,9 +762,9 @@ splitLineRC <- function(g,
                          ": ", length(right.index),
                          " cases belong to this node: Not fitting any more lines here", sep = "")
       linVal.right <- rep(0, length(resid2))
-      linCoef.right <- rep(0, NCOL(g$xm) + 1)
+      linCoef.right <- rep(0, g$ncolxm)
     } else {
-      linCoef.right <- lincoef(x = g$xm, y = resid2,
+      linCoef.right <- lincoef(x = g$xm[, -1], y = resid2,
                                weights = weights.right,
                                method = lin.type,
                                nvmax = nvmax,
@@ -769,7 +773,8 @@ splitLineRC <- function(g,
                                lambda.seq = lambda.seq,
                                cv.glmnet.nfolds = cv.glmnet.nfolds)
 
-      linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
+      # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
+      linVal.right <- c(g$xm %*% linCoef.right)
 
       # Lin Updates, Right ====
 
@@ -873,8 +878,8 @@ predict.shytreeLeavesRC <- function(object, newdata,
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
   newdata <- newdata[, seq(n.feat), drop = FALSE]
-  # Add column of ones for intercept
-  newdata <- data.matrix(cbind(1, newdata))
+  # Add column of ones for intercept and convert factors to dummies
+  newdata <- cbind(1, model.matrix(~. -1, data = newdata))
 
   if (type != "step") {
     # '-- Rules ====
