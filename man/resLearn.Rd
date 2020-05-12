@@ -12,6 +12,7 @@ resLearn(
   weights = NULL,
   params = list(),
   mtry = NULL,
+  .preprocess = NULL,
   verbose = TRUE,
   res.verbose = FALSE,
   trace = 0,
