@@ -171,7 +171,7 @@ shytreeLeavesRC <- function(x, y,
 
   # linVal <-  (data.matrix(cbind(1, x)) %*% coef)[, 1] # n
   # linVal <- c(cbind(1, g$xm) %*% coef) # n
-  linVal <- g$xm %*% coef # n
+  linVal <- c(g$xm %*% coef) # n
 
   if (.class & .rho) {
     firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
