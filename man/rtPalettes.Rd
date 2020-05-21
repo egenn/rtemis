@@ -48,6 +48,8 @@
 \alias{nhsCol}
 \alias{ethCol}
 \alias{rwthCol}
+\alias{mozillaCol}
+\alias{firefoxCol}
 \alias{appleCol}
 \alias{googleCol}
 \alias{amazonCol}
@@ -143,6 +145,10 @@ An object of class \code{list} of length 21.
 An object of class \code{list} of length 10.
 
 An object of class \code{list} of length 60.
+
+An object of class \code{list} of length 8.
+
+An object of class \code{list} of length 8.
 
 An object of class \code{list} of length 8.
 
@@ -242,6 +248,10 @@ nhsCol
 ethCol
 
 rwthCol
+
+mozillaCol
+
+firefoxCol
 
 appleCol
 
@@ -343,6 +353,12 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{ethCol}: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
 
 \code{rwthCol}: RWTH Aachen color palette (http://www9.rwth-aachen.de/global/show_document.asp?id=aaaaaaaaaadpbhq)
+
+\code{mozillaCol}: Mozilla design colors
+(https://mozilla.design/mozilla/color/)
+
+\code{firefoxCol}: Firefox design colors
+(https://mozilla.design/firefox/color/)
 
 \code{appleCol}: Apple Human Interface Guidelines color palette
 (https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)

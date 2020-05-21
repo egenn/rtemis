@@ -1,22 +1,22 @@
-# checkpoint.earlyStopping.R
+# checkpoint_earlystop.R
 # ::rtemis::
 # 2018 Efstathios D Gennatas egenn.github.io
 
-#' Early stopping checkpoint
-#' 
+#' Early stopping check
+#'
 #' Returns list with relative variance over n.steps, absolute.threshold, last value,
 #' and logical "stop", if conditions are met and training should stop.
 #' The final stop decision is:
 #' \code{check.thresh | (check.rthresh & check.rvar)} if \code{combine.relative.thresholds = "AND"}
 #' or
 #' \code{check.thresh | (check.rthresh | check.rvar)} if \code{combine.relative.thresholds = "OR"}
-#' 
+#'
 #' @param x Float, vector: Input - this would normally be the loss at each iteration
-#' @param absolute.threshold Float: If set and the last value of \code{x} is less than or equal to this 
-#' (if \code{minimize = TRUE}) or greater than or equal to this (if \code{minimize = FALSE}), then return 
+#' @param absolute.threshold Float: If set and the last value of \code{x} is less than or equal to this
+#' (if \code{minimize = TRUE}) or greater than or equal to this (if \code{minimize = FALSE}), then return
 #' \code{stop = TRUE}. See output under Value. Default = NA
 #' @param relative.threshold Float: If set, checks if the relative change from the first to last value of \code{x}
-#' exceeds this number. i.e. if set to .9 and \code{minimize = TRUE}, if there is a 90\% drop from \code{x[1]} to 
+#' exceeds this number. i.e. if set to .9 and \code{minimize = TRUE}, if there is a 90\% drop from \code{x[1]} to
 #' \code{x[length(x)]}, then the function returns \code{stop = TRUE}. If \code{minimize = FALSE}, then checks if there
 #' is a 90\% increase, accordingly.
 #' @param minimize Logical: See \code{absolute.threshold}. Default = TRUE
@@ -39,17 +39,17 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-checkpoint.earlyStopping <- function(x,
-                                     absolute.threshold = NA,
-                                     relative.threshold = NA,
-                                     minimize = TRUE,
-                                     relativeVariance.threshold = NA,
-                                     n.steps = 10,
-                                     combine.relative.thresholds = "AND",
-                                     min.steps = 50,
-                                     na.response = c("stop", "continue"),
-                                     verbose = TRUE) {
-  
+checkpoint_earlystop <- function(x,
+                      absolute.threshold = NA,
+                      relative.threshold = NA,
+                      minimize = TRUE,
+                      relativeVariance.threshold = NA,
+                      n.steps = 10,
+                      combine.relative.thresholds = "AND",
+                      min.steps = 50,
+                      na.response = c("stop", "continue"),
+                      verbose = TRUE) {
+
   na.response <- match.arg(na.response)
   last.value <- x[length(x)]
   if (is.na(last.value) & na.response == "stop") {
@@ -66,10 +66,10 @@ checkpoint.earlyStopping <- function(x,
                 stop = TRUE,
                 restart = TRUE))
   }
-  
+
   # Check absolute threshold ====
   if (!is.na(absolute.threshold)) {
-    
+
     if (is.na(last.value)) {
       warning("Last value was NA; this may mean trouble")
       check.thresh <- FALSE
@@ -80,12 +80,12 @@ checkpoint.earlyStopping <- function(x,
         ifelse(last.value >= absolute.threshold, TRUE, FALSE)
       }
     }
-    
+
   } else {
     check.thresh <- FALSE
   }
-  
-  
+
+
   # Check relative threshold ====
   if (!is.na(relative.threshold)) {
     relative.threshold <- if (minimize)  -(abs(relative.threshold)) else abs(relative.threshold)
@@ -104,7 +104,7 @@ checkpoint.earlyStopping <- function(x,
     relative.change <- NA
     check.rthresh <- FALSE
   }
-  
+
   # Check relative variance ====
   min.steps <- max(n.steps, min.steps)
   if (!is.na(relativeVariance.threshold) & length(x) >= min.steps) {
@@ -119,7 +119,7 @@ checkpoint.earlyStopping <- function(x,
     relativeVariance <- NA
     check.rvar <- FALSE
   }
-  
+
   # Out ====
   if (!is.na(relative.threshold)) {
     if (combine.relative.thresholds == "AND") {
@@ -130,13 +130,13 @@ checkpoint.earlyStopping <- function(x,
   } else {
     .stop <- check.thresh | check.rvar
   }
-  
+
   if (verbose) {
     # msg0("Last value = ", ddSci(last.value), "(thresh = ", absolute.threshold, ") | ",
     #      "Pct change = ", ddSci(relative.change * 100), "(thresh = ", relative.threshold * 100, ") | ",
     #      "Relative variance over last ", n.steps, " steps = ", ddSci(relativeVariance),
     #      "(thresh = ", relativeVariance.threshold, ")")
-    
+
     # msg0("Last: ", ddSci(last.value), " (", absolute.threshold, ") | ",
     #      "Pct: ", ddSci(relative.change * 100), " (", relative.threshold * 100, ") | ",
     #      "Rvar", n.steps, ": ", ddSci(relativeVariance),
@@ -150,13 +150,13 @@ checkpoint.earlyStopping <- function(x,
     # printls(.msg)
     msg0("Last: ", ddSci(last.value), "; RelDelta: ", ddSci(relative.change * 100),
          "; RelVar: ", ddSci(relativeVariance), "; Min:", minimize, "; Stop: ", .stop)
-    # 
+    #
     # msg0("Last: ", ddSci(last.value), " (", absolute.threshold, ")\n",
     #      "Pct: ", ddSci(relative.change * 100), " (", relative.threshold * 100, ")\n",
     #      "Rvar", n.steps, ": ", ddSci(relativeVariance),
     #      " (", relativeVariance.threshold, ")")
   }
-  
+
   list(absolute.threshold = absolute.threshold,
        minimize = minimize,
        last.value = last.value,
@@ -169,5 +169,5 @@ checkpoint.earlyStopping <- function(x,
        check.rvar = check.rvar,
        stop = .stop,
        restart = FALSE)
-  
-} # rtemis::checkpoint.earlyStopping
+
+} # rtemis::checkpoint_earlystop

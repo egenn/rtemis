@@ -85,3 +85,7 @@ if (requireNamespace("ranger", quietly = TRUE)) {
 
   vs <- varSelect(x, y)
 }
+
+# eightball ====
+eightball("Are you ready?")
+

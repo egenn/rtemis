@@ -10,7 +10,7 @@
 #' This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
 #' Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
 #'
-#' @param x Features
+#' @param x Features. Will be coerced to data.frame for method = "allSubsets", "forwardStepwise", or "backwardStepwise"
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
 #' @param method Character: Method to use:
@@ -23,6 +23,7 @@
 #' "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 #' "sgd": uses \code{sgd::sgd}
 #' "solve": uses \code{base::solve}
+#' "none": returns all zeroes, for special uses
 #' @param alpha Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0
 #' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
 #' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for prediction. Training uses
@@ -52,7 +53,8 @@ lincoef <- function(x, y,
                                "backwardStepwise",
                                "glm",
                                "sgd",
-                               "solve"),
+                               "solve",
+                               "none"),
                     alpha = 0,
                     lambda = .01,
                     lambda.seq = NULL,
@@ -67,6 +69,7 @@ lincoef <- function(x, y,
                     ...) {
 
   method <- match.arg(method)
+  if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq(NCOL(x)))
 
   if (method == "glm") {
     # '-- "glm": base::lm.wfit ====
@@ -108,9 +111,7 @@ lincoef <- function(x, y,
     .coef <- coef(mod, id = nvmax)
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
-    .names <- colnames(x)
-    if (is.null(.names)) .names <- seq(.nfeat)
-    names(coef) <- c("(Intercept)", .names)
+    names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "backwardStepwise") {
     # '-- "backwardStepwise": leaps::regsubsets ====
@@ -122,9 +123,7 @@ lincoef <- function(x, y,
     .coef <- coef(mod, id = nvmax)
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
-    .names <- colnames(x)
-    if (is.null(.names)) .names <- seq(.nfeat)
-    names(coef) <- c("(Intercept)", .names)
+    names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "allSubsets") {
     # '-- "allSubsets": leaps::regsubsets ====
@@ -140,19 +139,14 @@ lincoef <- function(x, y,
     .coef <- coef(mod, id = id)
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
-    .names <- colnames(x)
-    if (is.null(.names)) .names <- seq(.nfeat)
-    names(coef) <- c("(Intercept)", .names)
+    names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "solve") {
     # '-- solve ====
     if (!is.null(weights)) stop("method 'solve' does not currently support weights")
     x <- cbind(`(Intercept)` = 1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
-    .names <- colnames(x)
-    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x) - 1))
-    # names(coef) <- c("(Intercept)", .names)
-    names(coef) <- .names
+    names(coef) <- colnames(x)
   } else if (method == "sgd") {
     # '-- sgd ====
     if (!is.null(weights)) stop("provide weights for method 'sgd' using model.control$wmatrix")
@@ -162,10 +156,11 @@ lincoef <- function(x, y,
                     model.control = sgd.model.control,
                     sgd.control = sgd.control)
     coef <- c(mod$coefficients)
-    .names <- colnames(x)
-    .names <- if (!is.null(.names)) .names else paste0("Feature", seq(NCOL(x)))
-    names(coef) <- c("(Intercept)", .names)
-
+    names(coef) <- c("(Intercept)", colnames(x))
+  } else {
+    # "none"
+    coef <- rep(0, NCOL(x) + 1)
+    names(coef) <- c("(Intercept)", colnames(x))
   }
 
   coef

@@ -48,6 +48,8 @@ boost <- function(x, y = NULL,
                   case.p = 1,
                   weights = NULL,
                   learning.rate = .1,
+                  earlystop.params = rtset.earlystop(window = 30, window_decrease_pct_min = .01),
+                  earlystop.using = "train",
                   tolerance = 0,
                   tolerance.valid = .00001,
                   max.iter = 10,
@@ -245,12 +247,12 @@ boost <- function(x, y = NULL,
       if (is.null(x.valid)) {
         mplot3.xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
-                  main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       } else {
         mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
-                  main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       }
 
@@ -263,6 +265,20 @@ boost <- function(x, y = NULL,
       if (verbose) msg("Reached validationn error tolerance, breaking")
       break
     }
+
+    # '- Early stopping ====
+    if (!is.null(earlystop.params)) {
+      if (earlystop.using == "valid" && !is.null(x.valid)) {
+        es <- do.call(earlystop, c(list(x = error.valid), earlystop.params))
+      } else {
+        es <- do.call(earlystop, c(list(x = error), earlystop.params))
+      }
+      if (es) {
+        break
+        if (verbose) msg("Breaking out of iteration", i)
+      }
+    }
+
     i <- i + 1
   }
   if (verbose && i > max.iter) msg("Reached max iterations")
@@ -271,12 +287,12 @@ boost <- function(x, y = NULL,
     if (is.null(x.valid)) {
       mplot3.xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
-                main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     } else {
       mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
-                main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     }
   }

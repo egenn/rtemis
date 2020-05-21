@@ -9,7 +9,7 @@ lincoef(
   y,
   weights = NULL,
   method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
-    "backwardStepwise", "glm", "sgd", "solve"),
+    "backwardStepwise", "glm", "sgd", "solve", "none"),
   alpha = 0,
   lambda = 0.01,
   lambda.seq = NULL,
@@ -24,7 +24,7 @@ lincoef(
 )
 }
 \arguments{
-\item{x}{Features}
+\item{x}{Features. Will be coerced to data.frame for method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
 
 \item{y}{Outcome}
 
@@ -39,7 +39,8 @@ lincoef(
 "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 "sgd": uses \code{sgd::sgd}
-"solve": uses \code{base::solve}}
+"solve": uses \code{base::solve}
+"none": returns all zeroes, for special uses}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 

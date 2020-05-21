@@ -1,6 +1,7 @@
 # s.GLMNET.R
 # ::rtemis::
 # 2016-7 Efstathios D. Gennatas egenn.github.io
+# TODO: Consider fixing foldid
 
 #' GLM with Elastic Net Regularization [C, R, S]
 #'
@@ -43,10 +44,6 @@ s.GLMNET <- function(x, y = NULL,
                      nlambda = 100,
                      which.cv.lambda = c("lambda.1se", "lambda.min"),
                      penalty.factor = NULL,
-                     # polynomial = FALSE,
-                     # poly.d = 2,
-                     # adaptive = FALSE,
-                     # gamma = 1,
                      weights = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
@@ -210,7 +207,7 @@ s.GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda)
 
   # [ GLMNET ] ====
-  if (.gs & cv.lambda) {
+  if (.gs && cv.lambda) {
     mod <- glmnet::cv.glmnet(x,
                              if (family == "binomial") reverseLevels(y) else y,
                              family = family,

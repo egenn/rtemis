@@ -216,7 +216,7 @@ s.GBM <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  .final <- FALSE
+  # .final <- FALSE
   gc <- gridCheck(interaction.depth, shrinkage, bag.fraction, n.minobsinnode)
   if (!.gs && (gc | is.null(force.n.trees))) {
     gs <- gridSearchLearn(x = x0, y = y0,
@@ -264,7 +264,7 @@ s.GBM <- function(x, y = NULL,
     }
 
     # Now ready to train final full model
-    .final <- TRUE
+    # .final <- TRUE
     .gs <- FALSE
   } else {
     gs <- NULL
@@ -472,6 +472,19 @@ s.GBM <- function(x, y = NULL,
                            depth = interaction.depth,
                            n.nodes = (2 ^ interaction.depth) * n.trees)
   }
+
+  if (!is.null(mod.summary.perm)) {
+    varimp <- mod.summary.perm[, 2]
+    names(varimp) <- mod.summary.perm[, 1]
+    attr(varimp, "type") <- "permutation-based variable importance"
+  } else if (!is.null(mod.summary.rel)) {
+    varimp <- mod.summary.rel[, 2]
+    names(varimp) <- mod.summary.rel[, 1]
+    attr(varimp, "type") <- "relative influence"
+  } else {
+    varimp <- NULL
+  }
+
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
@@ -490,7 +503,7 @@ s.GBM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = if (!is.null(mod.summary.rel)) mod.summary.rel[, 2, drop = FALSE] else NULL,
+                 varimp = varimp,
                  question = question,
                  extra = extra)
 
@@ -518,7 +531,7 @@ gbm.select.trees <- function(object,
   n.trees <- object$n.trees
 
   valid.error.smooth <- if (smooth) {
-    valid.error.smooth <- supsmu(seq(n.trees), object$valid.error)$y
+    supsmu(seq(n.trees), object$valid.error)$y
   } else {
     NULL
   }

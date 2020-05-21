@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.HYTREE}
 \alias{rtset.HYTREE}
-\title{\code{rtset.ADDT}: Set parameters for \link{s.HYTREE}}
+\title{\code{rtset.HYTREE}: Set parameters for \link{s.HYTREE}}
 \usage{
 rtset.HYTREE(
   max.depth = 2,
@@ -16,5 +16,5 @@ rtset.HYTREE(
 )
 }
 \description{
-\code{rtset.ADDT}: Set parameters for \link{s.HYTREE}
+\code{rtset.HYTREE}: Set parameters for \link{s.HYTREE}
 }

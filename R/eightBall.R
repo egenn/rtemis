@@ -1,4 +1,4 @@
-# eightBall.R
+# eightball.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
@@ -8,7 +8,7 @@
 #' @export
 #' @author Efstathios D. Gennatas
 
-eightBall <- function(question = NULL) {
+eightball <- function(question = NULL) {
 
   response <- c("It is certain.",
                 "It is decidedly so.",
@@ -36,12 +36,12 @@ eightBall <- function(question = NULL) {
   .response <- response[rn]
   .type <- type[rn]
   col <- switch(.type,
-                 affirmative = crayon::green,
-                 `non-commital` = crayon::yellow,
-                 negative = crayon::red)
+                 affirmative = crayon::green$bold$italic,
+                 `non-commital` = crayon::yellow$bold$italic,
+                 negative = crayon::red$bold$italic)
 
-  if (!is.null(question)) cat(cyan(">>", question), "\n")
-  cat(col("  ", .response), "\n")
+  if (!is.null(question)) cat("  ", bold(question), "\n")
+  cat(col(">>", .response), "\n")
 
   if (length(grep("darwin", sessionInfo()$platform)) == 1) {
     system(paste("say -v Samantha", gsub("'", "", .response)))
