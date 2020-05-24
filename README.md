@@ -72,6 +72,6 @@ mod$plot()
 
 ---  
 
-<img align = "center" src="https://rtemis.netlify.com/rtemis_hex_2020.png" width="205">  
+<img align = "center" src="https://egenn.github.io/imgs/rtemis_hex_2020.png" width="205">  
 
 2019 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD  
