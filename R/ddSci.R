@@ -50,8 +50,9 @@ ddSci <- function(x,
     if (is.na(x[[i]])) {
       xf[[i]] <- NA
     } else {
-      if (decs & x[[i]] == 0) { # x[[i]] is zero but others have decimals
-        xf[[i]] <- format(0, nsmall = 2)
+      # if (decs & x[[i]] == 0) { # x[[i]] is zero but others have decimals
+      if (x[[i]] == 0) { # always give requested decimal places
+        xf[[i]] <- format(0, nsmall = decimal.places)
       } else {
         if (abs(x[[i]]) >= hi) {
           xf[[i]] <- format(round(x[[i]], decimal.places), scientific = TRUE, digits = decimal.places,
