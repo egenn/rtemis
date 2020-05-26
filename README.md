@@ -5,7 +5,7 @@ The goal of __rtemis__ is to make data science efficient and accessible with no 
 
 <div style="text-align:center">
 <a href="https://rtemis.netlify.com">
-<img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>    
+<img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>
 </div>
 
 ### Documentation
@@ -39,10 +39,12 @@ mod$plot()
 ```
 
 ### What's new
+* Multiple additions and improvements are being added quietly, building up to the next major release - coming soon
 * __v0.79__: 07-02-2019 "Super Papaya" Release out
 * __v0.78__: 04-02-2019 __rtemis__ moved to public repo
 
 ### Features
+
 * __Visualization__
      - Static: **_mplot3_** family (base graphics)
      - Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
@@ -61,6 +63,7 @@ mod$plot()
   (metaFeat and metaGroup have been temporarily removed for updating)
 
 ### Ongoing work
+
 * Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
 * R Documentation is ongoing and should be completed soon.
 * __rtemis__ is under active development with many enhancements and extensions in the works
