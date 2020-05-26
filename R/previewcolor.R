@@ -30,6 +30,7 @@ previewcolor <- function(x,
                          labels.y = 1.55,
                          label.cex = NULL) {
 
+  x <- unlist(x)
   .par <- par(no.readonly = TRUE)
   on.exit(par(.par))
 
