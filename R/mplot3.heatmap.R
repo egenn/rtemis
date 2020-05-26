@@ -274,7 +274,6 @@ mplot3.heatmap <- function(x,
   if (colorbar) lmat <- cbind(lmat, c(0, 4)) # rtemis adding a column for colorbar
 
   # [ COLORBAR ] ====
-  # if (colorbar) lwid <- c(lwid, .4) # rtemis
   if (colorbar) {
     if (is.na(Colv)) {
       lwid <- c(lwid, 1)
