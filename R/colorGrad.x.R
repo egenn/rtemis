@@ -4,7 +4,7 @@
 
 #' Color gradient for continuous variable
 #'
-#' @param x FLoat, vector
+#' @param x Float, vector
 #' @param color Color, vector, length 2
 #' @author Efstathios D Gennatas
 #' @export
