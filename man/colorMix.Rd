@@ -18,15 +18,15 @@ Create an alternating sequence of graded colors
 \examples{
 color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
               gray = c("gray10", "gray85"))
-colorPreview(desaturate(colorMix(color, 6), .3))
+previewcolor(desaturate(colorMix(color, 6), .3))
 
 color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestRed),
               gray = c("gray10", "gray85"))
-colorPreview(desaturate(colorMix(color, 6), .3))
+previewcolor(desaturate(colorMix(color, 6), .3))
 
 color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
               purple = c(pennCol$darkestPurple, pennCol$lightestPurple))
-colorPreview(desaturate(colorMix(color, 5), .3))
+previewcolor(desaturate(colorMix(color, 5), .3))
 }
 \author{
 Efstathios D Gennatas
