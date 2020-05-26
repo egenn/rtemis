@@ -1,6 +1,7 @@
 # s.RULEFEAT.R
 # ::rtemis::
 # 2017-8 Efstathios D. Gennatas egenn.github.io
+# TODO: Add option to include raw features as well as rules
 
 #' ruleFeat [C, R]
 #'

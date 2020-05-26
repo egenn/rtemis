@@ -146,9 +146,9 @@ if (requireNamespace("h2o", quietly = TRUE)) {
   mod <- s.H2ORF(iris2.train, iris2.test)
 }
 
-if (requireNamespace("iRF", quietly = TRUE)) {
-  mod <- s.IRF(dat.train, dat.test)
-}
+# if (requireNamespace("iRF", quietly = TRUE)) {
+#   mod <- s.IRF(dat.train, dat.test)
+# }
 
 mod <- s.LOESS(dat.train, dat.test)
 
@@ -241,9 +241,6 @@ if (requireNamespace("rpart", quietly = TRUE) & requireNamespace("pbapply", quie
 # rtModLog ====
 logger <- rtModLogger$new()
 logger$add(mod)
-
-# eightBall ====
-eightBall("Are you ready?")
 
 # distillTreeRules ====
 if (requireNamespace("randomForest", quietly = TRUE)) {

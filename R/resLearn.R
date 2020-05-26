@@ -29,6 +29,7 @@ resLearn <- function(x, y, mod,
                      weights = NULL,
                      params = list(),
                      mtry = NULL,
+                     .preprocess = NULL,
                      verbose = TRUE,
                      res.verbose = FALSE,
                      trace = 0,
@@ -67,7 +68,12 @@ resLearn <- function(x, y, mod,
                        x, y,
                        weights = NULL,
                        mtry,
-                       res, params, verbose, outdir, save.mods) {
+                       res,
+                       params,
+                       .preprocess,
+                       verbose,
+                       outdir,
+                       save.mods) {
     if (verbose) msg("Running resample #", index, sep = "")
     res1 <- res[[index]]
     if (is.null(mtry)) {
@@ -79,6 +85,13 @@ resLearn <- function(x, y, mod,
     y.train1 <- y[res1]
     x.test1 <- x[-res1, feat.index, drop = FALSE]
     y.test1 <- y[-res1]
+    if (!is.null(.preprocess)) {
+      # This allows imputing training and testing sets separately
+      preproc.params <- c(list(x = x.train1), .preprocess, verbose = verbose)
+      x.train1 <- do.call(preprocess, preproc.params)
+      preproc.params <- c(list(x = x.test1), .preprocess, verbose = verbose)
+      x.test1 <- do.call(preprocess, preproc.params)
+    }
     if (!is.null(weights)) weights <- weights[res1]
     if (!is.null(outdir) & parallel.type != "psock") {
       outdir1 <- paste0(outdir, "/", mod.name, ".resLearn.", index)
@@ -144,6 +157,7 @@ resLearn <- function(x, y, mod,
                                mtry,
                                res,
                                params,
+                               .preprocess,
                                verbose = res.verbose,
                                outdir = outdir,
                                save.mods = save.mods,

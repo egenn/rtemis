@@ -33,9 +33,11 @@ s.HYTBOOST <- function(x, y = NULL,
                        resid = NULL,
                        boost.obj = NULL,
                        learning.rate = .5, # overwrite mod.params$learning.rate
+                       case.p = 1,
                        # mod.params = rtset.HYTREE(),
-                       # ++ hytreenow params ++
+                       # ++ hytreew params ++
                        max.depth = 5,
+                       gamma = .1,
                        alpha = 0,
                        lambda = 1,
                        lambda.seq = NULL,
@@ -48,11 +50,11 @@ s.HYTBOOST <- function(x, y = NULL,
                        part.cp = 0,
                        part.minbucket = 5,
                        # init = mean(y),
-                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+                       lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
+                                    "backwardStepwise", "glm", "sgd", "solve", "none"),
                        cv.glmnet.nfolds = 5,
                        cv.glmnet.lambda = "lambda.min",
-                       # -- hytreenow params --
-                       case.p = 1,
+                       # -- hytreew params --
                        # weights = NULL,
                        max.iter = 10,
                        tune.n.iter = TRUE,
@@ -101,6 +103,7 @@ s.HYTBOOST <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "HYTBOOST"
+  lin.type <- match.arg(lin.type)
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", "glmnet", verbose = FALSE)) {
@@ -230,9 +233,11 @@ s.HYTBOOST <- function(x, y = NULL,
                   resid = resid,
                   boost.obj = boost.obj,
                   learning.rate = learning.rate,
+                  case.p = case.p,
                   # mod.params = mod.params,
-                  # ++ hytreenow params ++
+                  # ++ hytreew params ++
                   max.depth = max.depth,
+                  gamma = gamma,
                   shrinkage = shrinkage,
                   alpha = alpha,
                   lambda = lambda,
@@ -247,8 +252,7 @@ s.HYTBOOST <- function(x, y = NULL,
                   lin.type = lin.type,
                   cv.glmnet.nfolds = cv.glmnet.nfolds,
                   cv.glmnet.lambda = cv.glmnet.lambda,
-                  # -- hytreenow params --
-                  case.p = case.p,
+                  # -- hytreew params --
                   max.iter = max.iter,
                   earlystop.params = earlystop.params,
                   init = init,

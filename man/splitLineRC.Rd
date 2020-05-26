@@ -27,9 +27,9 @@ splitLineRC(
 \arguments{
 \item{node.index}{Open nodes to work on
 
-Fit a linear model on (x, y) and a tree on the residual y - yhat
-Input: environment holding tree and inde of node
-Output: None; Expands tree within env by splitting indexed node}
+Fit a linear model on (x, y) and split on the gradient
+Input: environment holding tree and index of node
+Output: None; Expands tree within environment g by splitting indexed node}
 
 \item{tree}{Node within tree environment}
 }

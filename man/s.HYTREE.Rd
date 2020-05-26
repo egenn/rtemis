@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.HYTREE.R
 \name{s.HYTREE}
 \alias{s.HYTREE}
-\title{The Hybrid Tree: Additive Tree with Linear Nodes [R]}
+\title{The Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]}
 \usage{
 s.HYTREE(
   x,
@@ -104,10 +104,12 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \description{
-Train an Hybrid Tree for Regression
+Train a Hard Hybrid Tree for Regression
 }
 \details{
 The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+Use s.SHYTREE for the standard Hybrid Tree Algorithm, which grows branches stepwise and includes all
+observations weighted by gamma
 
 Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 }

@@ -34,6 +34,8 @@
 #' @field predicted Predicted values
 #' @field se.prediction Standard error of the prediction
 #' @field error.test Testing error
+#' @field varimp Variable Importance. Note that this is a general concept and different ML algorithms provide very
+#' different approaches
 #' @field question Question the model is hoping to answer
 #' @field extra Algorithm-specific output
 #' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained

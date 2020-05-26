@@ -7,7 +7,7 @@
 colorGrad.x(x, color = c("gray20", "#18A3AC"))
 }
 \arguments{
-\item{x}{FLoat, vector}
+\item{x}{Float, vector}
 
 \item{color}{Color, vector, length 2}
 }

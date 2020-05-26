@@ -1022,6 +1022,40 @@ rwthCol <- list(blau1 = "#00549F",
                 lila4 = "#DEDAEB",
                 lila5 = "#F2F0F7")
 
+# Mozilla ====
+#' Mozilla Colors
+#'
+#' \code{mozillaCol}: Mozilla design colors
+#' (https://mozilla.design/mozilla/color/)
+#' @name rtPalettes
+#' @export
+
+mozillaCol <- list(neonBlue = "#00ffff",
+                   lemonYellow = "#fff44f",
+                   warmRed = "#ff4f5e",
+                   neonGreen = "#54ffbd",
+                   darkPurple = "#6e008b",
+                   darkGreen = "#005e5e",
+                   darkBlue = "#00458b",
+                   lightGrey = "#e7e5e2")
+
+# Firefox ====
+#' Firefox Colors
+#'
+#' \code{firefoxCol}: Firefox design colors
+#' (https://mozilla.design/firefox/color/)
+#' @name rtPalettes
+#' @export
+
+firefoxCol <- list(green = "#53FEBE",
+                   blue = "#0290EE",
+                   purple = "#AC71FF",
+                   lightPurple = "#D64CF1",
+                   magenta = "#FE4AA3",
+                   brownRed = "#FF6A75",
+                   orangeBrown = "#FE8A4F",
+                   orange = "#FFBD4F")
+
 # Apple ====
 #' Apple Colors
 #'
@@ -1164,6 +1198,8 @@ rtPalettes <- list(pennCol = pennCol,
                    nhsCol = nhsCol,
                    ethCol = ethCol,
                    rwthCol = rwthCol,
+                   firefoxCol = firefoxCol,
+                   mozillaCol = mozillaCol,
                    appleCol = appleCol,
                    googleCol = googleCol,
                    amazonCol = amazonCol,

@@ -32,7 +32,7 @@ shytreeLeavesRC(
     "backwardStepwise", "glm", "solve", "none"),
   cv.glmnet.nfolds = 5,
   cv.glmnet.lambda = "lambda.min",
-  loss.fn = if (is.factor(y)) class.loss else msew,
+  loss.fn = if (is.factor(y)) class.loss else mse,
   verbose = TRUE,
   plot.tune.error = FALSE,
   trace = 0,

@@ -12,7 +12,9 @@ s.HYTBOOST(
   resid = NULL,
   boost.obj = NULL,
   learning.rate = 0.5,
+  case.p = 1,
   max.depth = 5,
+  gamma = 0.1,
   alpha = 0,
   lambda = 1,
   lambda.seq = NULL,
@@ -24,10 +26,10 @@ s.HYTBOOST(
   part.max.depth = 1,
   part.cp = 0,
   part.minbucket = 5,
-  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "glm"),
+  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
+    "backwardStepwise", "glm", "sgd", "solve", "none"),
   cv.glmnet.nfolds = 5,
   cv.glmnet.lambda = "lambda.min",
-  case.p = 1,
   max.iter = 10,
   tune.n.iter = TRUE,
   earlystop.params = rtset.earlystop(),
@@ -79,7 +81,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
 
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreeRaw}}
+\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
 
 \item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
 end of training. If integer, plot training and validation error curve every this many iterations

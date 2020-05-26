@@ -1,6 +1,6 @@
 # var_tests.R
 # ::rtemmis::
-#  2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.github.io
 
 # Library  ====
 library(rtemis)
@@ -17,8 +17,8 @@ classImbalance(iris$Species)
 # '- colorOp ====
 colorOp("#8c1515", fn = "invert")
 
-# '- colorPreview ====
-colorPreview(stanfordCol$cardinal)
+# '- previewcolor ====
+previewcolor(firefoxCol)
 
 # '- cols2list ====
 lst <- cols2list(dat)
@@ -85,3 +85,7 @@ if (requireNamespace("ranger", quietly = TRUE)) {
 
   vs <- varSelect(x, y)
 }
+
+# eightball ====
+eightball("Are you ready?")
+

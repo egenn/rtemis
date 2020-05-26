@@ -55,6 +55,9 @@ Efstathios D. Gennatas
 
 \item{\code{error.test}}{Testing error}
 
+\item{\code{varimp}}{Variable Importance. Note that this is a general concept and different ML algorithms provide very
+different approaches}
+
 \item{\code{question}}{Question the model is hoping to answer}
 
 \item{\code{extra}}{Algorithm-specific output}
