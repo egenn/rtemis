@@ -378,36 +378,3 @@ s.SHYTREE <- function(x, y = NULL,
   rt
 
 } # rtemis:: s.SHYTREE
-
-# Unfinished
-# shytree.optimal.leaves <- function(object,
-#                                    smooth = TRUE,
-#                                    plot = FALSE,
-#                                    verbose = FALSE) {
-#   n.leaves <- NROW(object$leaves$rules)
-#
-#   # if (smooth) {
-#   # dat <- data.frame(n.trees = seq(n.trees), valid.error = object$valid.error)
-#   # dat <- complete.cases(dat)
-#   # }
-#
-#   valid.error.smooth <- if (smooth) {
-#     valid.error.smooth <- supsmu(seq(n.leaves), object$valid.error)$y
-#   } else {
-#     NULL
-#   }
-#   valid.error <- if (smooth) valid.error.smooth else object$valid.error
-#
-#   if (plot) mplot3.xy(seq(n.trees), list(Training = object$train.error,
-#                                          Validation = object$valid.error,
-#                                          `Smoothed Validation` = valid.error.smooth),
-#                       type = 'l', group.adj = .95,
-#                       line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
-#                       vline = c(which.min(object$valid.error), which.min(valid.error.smooth)),
-#                       vline.col = c(ucsfCol$red, ucsfCol$purple),
-#                       xlab = "N trees", ylab = "Loss")
-#
-#   list(n.trees = which.min(valid.error),
-#        valid.error.smooth = valid.error.smooth)
-#
-# } # rtemis::shytree.optimal.leaves
