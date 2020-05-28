@@ -157,6 +157,7 @@ shytreeLeavesRC <- function(x, y,
   # '- Lin1 ====
   if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
+  if (is.constant(resid)) stop("First gradient is constant")
 
   coef <- lincoef(x = g$xm[, -1], y = resid,
                   weights = weights,
