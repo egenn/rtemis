@@ -1,7 +1,7 @@
-# shytreeLeavesRC.R
+# shyoptleaves.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
-# shytreeLeavesRC with no-line option
+# shyoptleaves with no-line option
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
@@ -21,38 +21,39 @@
 #' @keywords internal
 
 # [[---F1---]] ====
-shytreeLeavesRC <- function(x, y,
-                            x.valid = NULL, y.valid = NULL,
-                            early.stopping = FALSE,
-                            weights = NULL,
-                            max.leaves = 5,
-                            nvmax = 2,
-                            select.leaves.smooth = TRUE,
-                            gamma = .1,
-                            # min.update = 10,
-                            alpha = 0,
-                            lambda = .01,
-                            lambda.seq = NULL,
-                            minobsinnode = 2,
-                            minobsinnode.lin = 10,
-                            learning.rate = 1,
-                            part.minsplit = 2,
-                            part.xval = 0,
-                            part.max.depth = 1,
-                            part.cp = 0,
-                            part.minbucket = 5,
-                            .rho = TRUE,
-                            rho.max = 1000,
-                            lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-                                         "backwardStepwise", "glm",
-                                         "solve", "none"),
-                            cv.glmnet.nfolds = 5,
-                            cv.glmnet.lambda = "lambda.min",
-                            loss.fn = if (is.factor(y)) class.loss else mse,
-                            verbose = TRUE,
-                            plot.tune.error = FALSE,
-                            trace = 0,
-                            n.cores = future::availableCores()) {
+shyoptleaves <- function(x, y,
+                         x.valid = NULL, y.valid = NULL,
+                         early.stopping = FALSE,
+                         weights = NULL,
+                         max.leaves = 5,
+                         nvmax = 2,
+                         select.leaves.smooth = TRUE,
+                         gamma = .1,
+                         # min.update = 10,
+                         alpha = 0,
+                         lambda = .01,
+                         lambda.seq = NULL,
+                         minobsinnode = 2,
+                         minobsinnode.lin = 10,
+                         learning.rate = 1,
+                         part.minsplit = 2,
+                         part.xval = 0,
+                         part.max.depth = 1,
+                         part.cp = 0,
+                         part.minbucket = 5,
+                         .rho = TRUE,
+                         rho.max = 1000,
+                         lin.type = c("glmnet", "cv.glmnet",
+                                      "forwardStepwise", "backwardStepwise",
+                                      "allSubsets", "lm.ridge",
+                                      "glm", "solve", "none"),
+                         cv.glmnet.nfolds = 5,
+                         cv.glmnet.lambda = "lambda.min",
+                         loss.fn = if (is.factor(y)) class.loss else mse,
+                         verbose = TRUE,
+                         plot.tune.error = FALSE,
+                         trace = 0,
+                         n.cores = future::availableCores()) {
 
   # [ Arguments ] ====
   type <- if (is.factor(y))  "Classification" else "Regression"
@@ -90,7 +91,7 @@ shytreeLeavesRC <- function(x, y,
                                rules = "TRUE",
                                coefs = coefs),
                  ylevels = ylevels)
-    class(.mod) <- c("shytreeLeavesRC", "list")
+    class(.mod) <- c("shyoptleaves", "list")
     return(.mod)
   }
 
@@ -105,6 +106,7 @@ shytreeLeavesRC <- function(x, y,
   g$x <- x
   g$xm <- cbind(1, model.matrix(~. - 1, data = x))
   g$ncolxm <- NCOL(g$xm)
+  g$featurenames <- colnames(x)
   g$y <- y
   g$x.valid <- x.valid
   g$y.valid <- y.valid
@@ -157,7 +159,6 @@ shytreeLeavesRC <- function(x, y,
   # '- Lin1 ====
   if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
-  if (is.constant(resid)) stop("First gradient is constant")
 
   coef <- lincoef(x = g$xm[, -1], y = resid,
                   weights = weights,
@@ -207,7 +208,7 @@ shytreeLeavesRC <- function(x, y,
                  all.step.leaves = leaves, # This is needed for predict()
                  stepindex = g$stepindex,
                  ylevels = ylevels)
-    class(.mod) <- c("shytreeLeavesRC", "list")
+    class(.mod) <- c("shyoptleaves", "list")
     return(.mod)
   }
 
@@ -244,23 +245,23 @@ shytreeLeavesRC <- function(x, y,
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
         if (verbose) msg0("Working on node id #", i, "...")
         if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
-        splitLineRC(g = g,
-                    type = type,
-                    node.index = i,
-                    alpha = alpha,
-                    lambda = lambda,
-                    lambda.seq = lambda.seq,
-                    cv.glmnet.nfolds = cv.glmnet.nfolds,
-                    part.minsplit = part.minsplit,
-                    part.xval = part.xval,
-                    part.max.depth = part.max.depth,
-                    part.cp = part.cp,
-                    part.minbucket = part.minbucket,
-                    minobsinnode.lin = minobsinnode.lin,
-                    lin.type = lin.type,
-                    nvmax = nvmax,
-                    verbose = verbose,
-                    trace = trace)
+        splitlinjl(g = g,
+                   type = type,
+                   node.index = i,
+                   alpha = alpha,
+                   lambda = lambda,
+                   lambda.seq = lambda.seq,
+                   cv.glmnet.nfolds = cv.glmnet.nfolds,
+                   part.minsplit = part.minsplit,
+                   part.xval = part.xval,
+                   part.max.depth = part.max.depth,
+                   part.cp = part.cp,
+                   part.minbucket = part.minbucket,
+                   minobsinnode.lin = minobsinnode.lin,
+                   lin.type = lin.type,
+                   nvmax = nvmax,
+                   verbose = verbose,
+                   trace = trace)
       } else {
         if (trace > 0) msg("Node #", i, " already processed", sep = "")
       }
@@ -429,7 +430,7 @@ shytreeLeavesRC <- function(x, y,
                # opt.n.leaves = g$n.leaves, #??
                early.stopping = early.stopping,
                valid.error.smooth = NULL)
-  class(.mod) <- c("shytreeLeavesRC", "list")
+  class(.mod) <- c("shyoptleaves", "list")
 
   # change verbose
   if (early.stopping) {
@@ -445,7 +446,7 @@ shytreeLeavesRC <- function(x, y,
 
   .mod
 
-} # rtemis::shytreeLeavesRC
+} # rtemis::shyoptleaves
 
 # [[---F2---]]====
 setNodeRC <- function(g,
@@ -491,23 +492,23 @@ setNodeRC <- function(g,
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
 
-splitLineRC <- function(g,
-                        type,
-                        node.index,
-                        alpha = 0,
-                        lambda = .01,
-                        lambda.seq = NULL,
-                        cv.glmnet.nfolds = 5,
-                        part.minsplit = 2,
-                        part.xval = 0,
-                        part.max.depth = 1,
-                        part.cp = 0,
-                        part.minbucket = 5,
-                        minobsinnode.lin = 5,
-                        lin.type,
-                        nvmax = nvmax,
-                        verbose = TRUE,
-                        trace = 0) {
+splitlinjl <- function(g,
+                       type,
+                       node.index,
+                       alpha = 0,
+                       lambda = .01,
+                       lambda.seq = NULL,
+                       cv.glmnet.nfolds = 5,
+                       part.minsplit = 2,
+                       part.xval = 0,
+                       part.max.depth = 1,
+                       part.cp = 0,
+                       part.minbucket = 5,
+                       minobsinnode.lin = 5,
+                       lin.type,
+                       nvmax = nvmax,
+                       verbose = TRUE,
+                       trace = 0) {
 
   # '- Node ====
   .class <- type == "Classification"
@@ -523,16 +524,20 @@ splitLineRC <- function(g,
 
   # '- [ Split ] ====
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
-  dat <- data.frame(g$x, resid1)
-  part <- rpart::rpart(resid1 ~., dat,
-                       weights = weights,
-                       control = rpart::rpart.control(minsplit = part.minsplit,
-                                                      xval = part.xval,
-                                                      maxdepth = part.max.depth,
-                                                      minbucket = part.minbucket,
-                                                      cp = part.cp))
+  # dat <- data.frame(g$x, resid1)
+  if (trace > 0) msg("Running JL_splitlin...", color = crayon::red)
+  part <- JL_splitlin(g$x, resid1, wts = weights, lambda = lambda)
+  # part <- rpart::rpart(resid1 ~., dat,
+  #                      weights = weights,
+  #                      control = rpart::rpart.control(minsplit = part.minsplit,
+  #                                                     xval = part.xval,
+  #                                                     maxdepth = part.max.depth,
+  #                                                     minbucket = part.minbucket,
+  #                                                     cp = part.cp))
 
-  if (is.null(part$splits)) {
+  # if (is.null(part$splits)) {
+  # TODO: add support for no split
+  if (is.na(part$featindex)) {
     # '-- Node did not split ====
     if (trace > 0) msg0("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
@@ -556,47 +561,60 @@ splitLineRC <- function(g,
   } else {
     # '-- Node did split --' ====
     # Get correct Left & Right values - for Regression
-    if (part$splits[1, 2] == 1) {
-      left.yval.row <- 3
-      right.yval.row <- 2
-    } else {
-      left.yval.row <- 2
-      right.yval.row <- 3
-    }
-    part.c.left <- part$frame$yval[left.yval.row]
-    part.c.right <- part$frame$yval[right.yval.row]
+    # if (part$splits[1, 2] == 1) {
+    #   left.yval.row <- 3
+    #   right.yval.row <- 2
+    # } else {
+    #   left.yval.row <- 2
+    #   right.yval.row <- 3
+    # }
+    # part.c.left <- part$frame$yval[left.yval.row]
+    # part.c.right <- part$frame$yval[right.yval.row]
+    index <- x[, part[1]] < part[2]
+    part.c.left <- mean(resid1[index])
+    part.c.right <- mean(resid1[!index])
+
 
     g$tree[[paste(node.index)]]$type <- "split"
     g$tree[[paste(node.index)]]$terminal <- FALSE
-    cutFeat.name <- rownames(part$splits)[1]
-    cutFeat.point <- cutFeat.category <- NULL
-    if (!is.null(cutFeat.name)) {
-      cutFeat.index <- which(names(g$x) == cutFeat.name)
-      if (is.numeric(g$x[[cutFeat.name]])) {
-        # Split was on a categorical feature
-        cutFeat.point <- part$splits[1, "index"]
-        if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-                           "\"; Cut Point = ", ddSci(cutFeat.point),
-                           sep = "")
-        split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
-        split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
-      } else {
-        # Split was on a continuous feature
-        cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
-        if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-                           "\"; Cut Category is \"", cutFeat.category,
-                           "\"", sep = "")
-        split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-        split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-      }
-      if (length(cutFeat.point) > 0) {
-        left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
-        right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
-      } else {
-        left.index <- intersect(node$index, which(is.element(g$x[, cutFeat.index], cutFeat.category)))
-        right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
-      }
-    } # /Split on Categorical vs Continuous feature
+    # cutFeat.name <- rownames(part$splits)[1]
+    cutFeat.index <- part[1]
+    cutFeat.name <- g$featurenames[part[1]]
+    cutFeat.point <- part[2]
+    split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
+    split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
+    left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
+    right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+    # cutFeat.point <- cutFeat.category <- NULL
+    # if (!is.null(cutFeat.name)) {
+    # cutFeat.index <- which(names(g$x) == cutFeat.name)
+    # cutFeat.index <- part[1]
+    # if (is.numeric(g$x[[cutFeat.name]])) {
+    #   # Split was on a categorical feature
+    #   cutFeat.point <- part$splits[1, "index"]
+    #   if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+    #                      "\"; Cut Point = ", ddSci(cutFeat.point),
+    #                      sep = "")
+    # split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
+    # split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
+    # } else {
+    #   # Split was on a continuous feature
+    #   cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
+    #   if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+    #                      "\"; Cut Category is \"", cutFeat.category,
+    #                      "\"", sep = "")
+    #   split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
+    #   split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
+    # }
+
+    #   if (length(cutFeat.point) > 0) {
+    #     left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
+    #     right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+    #   } else {
+    #     left.index <- intersect(node$index, which(is.element(g$x[, cutFeat.index], cutFeat.category)))
+    #     right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+    #   }
+    # } # /Split on Categorical vs Continuous feature
 
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
 
@@ -839,13 +857,13 @@ splitLineRC <- function(g,
                                          condition = split.rule.right,
                                          split.rule = NULL,
                                          rule = crules(node$rule, split.rule.right))
-} # rtemis::splitLineRC
+} # rtemis::splitlinjl
 
 
 # [[---F4---]] ====
-#' Predict method for \code{shytreeLeavesRC} object
+#' Predict method for \code{shyoptleaves} object
 #'
-#' @method predict shytreeLeavesRC
+#' @method predict shyoptleaves
 #' @param object \code{shytreeRaw}
 #' @param newdata Data frame of predictors
 #' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
@@ -860,16 +878,16 @@ splitLineRC <- function(g,
 #' @export
 #' @author Efstathios D. Gennatas
 
-predict.shytreeLeavesRC <- function(object, newdata,
-                                    type = c("response", "probability", "all", "step"),
-                                    n.leaves = NULL,
-                                    n.feat = NCOL(newdata),
-                                    fixed.cxr = NULL,
-                                    cxr.newdata = NULL,
-                                    cxr = FALSE,
-                                    cxrcoef = FALSE,
-                                    verbose = FALSE,
-                                    trace = 0, ...) {
+predict.shyoptleaves <- function(object, newdata,
+                                 type = c("response", "probability", "all", "step"),
+                                 n.leaves = NULL,
+                                 n.feat = NCOL(newdata),
+                                 fixed.cxr = NULL,
+                                 cxr.newdata = NULL,
+                                 cxr = FALSE,
+                                 cxrcoef = FALSE,
+                                 verbose = FALSE,
+                                 trace = 0, ...) {
 
   init <- object$init
   type <- match.arg(type)
@@ -997,28 +1015,28 @@ predict.shytreeLeavesRC <- function(object, newdata,
     yhat.l
   }
 
-} # rtemis:: predict.shytreeLeavesRC
+} # rtemis:: predict.shyoptleaves
 
 # [[---F5---]] ====
-#' Print method for \code{shytreeLeavesRC} object
+#' Print method for \code{shyoptleaves} object
 #'
-#' @method print shytreeLeavesRC
-#' @param x \code{shytreeLeavesRC} object
+#' @method print shyoptleaves
+#' @param x \code{shyoptleaves} object
 #' @author Efstathios D. Gennatas
 #' @export
 
-print.shytreeLeavesRC <- function(x, ...) {
+print.shyoptleaves <- function(x, ...) {
 
-  cat("\n  A Stepwise Additive Tree model with", x$n.nodes, "nodes\n\n")
+  cat("\n  A Stepwise Hybrid Optimized Tree model with", x$n.nodes, "nodes\n\n")
 
 }
 
 
-#' Convert \link{shytreeLeavesRC} to \code{data.tree} object
+#' Convert \link{shyoptleaves} to \code{data.tree} object
 #'
-#' @param object \link{shytreeLeavesRC} object
+#' @param object \link{shyoptleaves} object
 
-as.data.tree.shytreeLeavesRC <- function(object) {
+as.data.tree.shyoptleaves <- function(object) {
 
   as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
   dat <- object$leaves$rules
@@ -1056,12 +1074,12 @@ shytree.select.leaves <- function(object,
   # dat <- complete.cases(dat)
   # }
 
-  train.estimate.l <- predict.shytreeLeavesRC(object, newdata = x,
-                                              type = "step",
-                                              verbose = verbose)
-  valid.estimate.l <- predict.shytreeLeavesRC(object, newdata = x.valid,
-                                              type = "step",
-                                              verbose = verbose)
+  train.estimate.l <- predict.shyoptleaves(object, newdata = x,
+                                           type = "step",
+                                           verbose = verbose)
+  valid.estimate.l <- predict.shyoptleaves(object, newdata = x.valid,
+                                           type = "step",
+                                           verbose = verbose)
   # valid.error.l <- plyr::llply(seq(valid.estimate.l), function(j)
   #   modError(y.valid, valid.estimate.l[[j]]))
 

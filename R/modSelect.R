@@ -26,6 +26,7 @@ modSelect <- function(mod,
     c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
     c("CSL", "Conditional SuperLearner", T, T, F), # bud
     c("SHYTREE", "Stepwise Hybrid Tree", T, T, F), # !
+    c("SHYOPTREE", "Stepwise Hybrid Optimized Tree", T, T, F), # !
     c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
@@ -102,7 +103,7 @@ modSelect <- function(mod,
   if (missing(mod)) {
     cat(rtHighlight$bold("\n  rtemis supports the following algorithms for training learners:\n\n"))
     # Exclude first so many
-    print(rtMods[-seq(5), ], quote = FALSE, row.names = FALSE)
+    print(rtMods[-seq(6), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtMods))
   }
 

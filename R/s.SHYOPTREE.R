@@ -1,4 +1,4 @@
-# s.SHYTREE.R
+# s.SHYOPTREE.R
 # ::rtemis::
 # 2019-20 Efstathios D Gennatas egenn.github.io
 # Allow early stopping
@@ -25,67 +25,67 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-s.SHYTREE <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      weights = NULL,
-                      ipw = TRUE,
-                      ipw.type = 2,
-                      upsample = FALSE,
-                      downsample = FALSE,
-                      resample.seed = NULL,
-                      max.leaves = 6,
-                      nvmax = 2,
-                      force.max.leaves = NULL,
-                      early.stopping = TRUE,
-                      gamma = .1,
-                      alpha = 1,
-                      lambda = .05,
-                      lambda.seq = NULL,
-                      minobsinnode = 2,
-                      minobsinnode.lin = 10,
-                      learning.rate = 1,
-                      part.minsplit = 2,
-                      part.xval = 0,
-                      part.max.depth = 1,
-                      part.cp = 0,
-                      part.minbucket = 5,
-                      .rho = TRUE,
-                      rho.max = 1000,
-                      init = NULL,
-                      lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-                                   "forwardStepwise", "backwardStepwise", "glm",
-                                   "solve", "none"),
-                      cv.glmnet.nfolds = 5,
-                      cv.glmnet.lambda = "lambda.min",
-                      metric = "auto",
-                      maximize = NULL,
-                      grid.resample.rtset = rtset.grid.resample(),
-                      grid.search.type = "exhaustive",
-                      save.gridrun = FALSE,
-                      grid.verbose = TRUE,
-                      keep.x = FALSE,
-                      simplify = TRUE,
-                      cxrcoef = FALSE,
-                      n.cores = rtCores,
-                      .preprocess = NULL,
-                      verbose = TRUE,
-                      plot.tune.error = FALSE,
-                      verbose.predict = FALSE,
-                      trace = 0,
-                      x.name = NULL,
-                      y.name = NULL,
-                      question = NULL,
-                      outdir = NULL,
-                      print.plot = TRUE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                      save.mod = FALSE,
-                      .gs = FALSE) {
+s.SHYOPTREE <- function(x, y = NULL,
+                        x.test = NULL, y.test = NULL,
+                        weights = NULL,
+                        ipw = TRUE,
+                        ipw.type = 2,
+                        upsample = FALSE,
+                        downsample = FALSE,
+                        resample.seed = NULL,
+                        max.leaves = 6,
+                        nvmax = 2,
+                        force.max.leaves = NULL,
+                        early.stopping = TRUE,
+                        gamma = .1,
+                        alpha = 1,
+                        lambda = .05,
+                        lambda.seq = NULL,
+                        minobsinnode = 2,
+                        minobsinnode.lin = 10,
+                        learning.rate = .1,
+                        part.minsplit = 2,
+                        part.xval = 0,
+                        part.max.depth = 1,
+                        part.cp = 0,
+                        part.minbucket = 5,
+                        .rho = TRUE,
+                        rho.max = 1000,
+                        init = NULL,
+                        lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
+                                     "forwardStepwise", "backwardStepwise", "glm",
+                                     "solve", "none"),
+                        cv.glmnet.nfolds = 5,
+                        cv.glmnet.lambda = "lambda.min",
+                        metric = "auto",
+                        maximize = NULL,
+                        grid.resample.rtset = rtset.grid.resample(),
+                        grid.search.type = "exhaustive",
+                        save.gridrun = FALSE,
+                        grid.verbose = TRUE,
+                        keep.x = FALSE,
+                        simplify = TRUE,
+                        cxrcoef = FALSE,
+                        n.cores = rtCores,
+                        .preprocess = NULL,
+                        verbose = TRUE,
+                        plot.tune.error = FALSE,
+                        verbose.predict = FALSE,
+                        trace = 0,
+                        x.name = NULL,
+                        y.name = NULL,
+                        question = NULL,
+                        outdir = NULL,
+                        print.plot = TRUE,
+                        plot.fitted = NULL,
+                        plot.predicted = NULL,
+                        plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                        save.mod = FALSE,
+                        .gs = FALSE) {
 
   # [ INTRO ] ====
   if (missing(x)) {
-    print(args(s.SHYTREE))
+    print(args(s.SHYOPTREE))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -95,7 +95,7 @@ s.SHYTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "SHYTREE"
+  mod.name <- "SHYOPTREE"
   # delta 02.06.2020
   # if (max.leaves <= 1) force.max.leaves <- 1
 
@@ -142,7 +142,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   init <- if (type == "Classification") 0 else mean(y)
   if (type == "Classification" && length(levels(y)) != 2)
-    stop("s.SHYTREE currently supports only binary classification")
+    stop("s.SHYOPTREE currently supports only binary classification")
 
   if (!is.null(force.max.leaves)) early.stopping <- FALSE
 
@@ -243,7 +243,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # [ shytreeLeaves ] ====
+  # [ shyoptreeLeaves ] ====
   if (.gs) {
     if (early.stopping) {
       x.valid <- x.test
@@ -253,37 +253,37 @@ s.SHYTREE <- function(x, y = NULL,
     }
   } else {
     x.valid <- y.valid <- NULL
-    msg("Training SHYTREE on full training set...", newline = TRUE)
+    msg("Training SHYOPTREE on full training set...", newline = TRUE)
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
-  mod <- shytreeLeavesRC(x, y,
-                         x.valid = x.valid, y.valid = y.valid,
-                         early.stopping = early.stopping,
-                         max.leaves = max.leaves,
-                         nvmax = nvmax,
-                         gamma = gamma,
-                         alpha = alpha,
-                         lambda = lambda,
-                         lambda.seq = lambda.seq,
-                         minobsinnode = minobsinnode,
-                         minobsinnode.lin = minobsinnode.lin,
-                         learning.rate = learning.rate,
-                         part.minsplit = part.minsplit,
-                         part.xval = part.xval,
-                         part.max.depth = part.max.depth,
-                         part.cp = part.cp,
-                         part.minbucket = part.minbucket,
-                         .rho = .rho,
-                         rho.max = rho.max,
-                         weights = .weights,
-                         lin.type = lin.type,
-                         cv.glmnet.nfolds = cv.glmnet.nfolds,
-                         cv.glmnet.lambda = cv.glmnet.lambda,
-                         verbose = verbose,
-                         plot.tune.error = plot.tune.error,
-                         trace = trace,
-                         n.cores = n.cores)
+  mod <- shyoptleaves(x, y,
+                      x.valid = x.valid, y.valid = y.valid,
+                      early.stopping = early.stopping,
+                      max.leaves = max.leaves,
+                      nvmax = nvmax,
+                      gamma = gamma,
+                      alpha = alpha,
+                      lambda = lambda,
+                      lambda.seq = lambda.seq,
+                      minobsinnode = minobsinnode,
+                      minobsinnode.lin = minobsinnode.lin,
+                      learning.rate = learning.rate,
+                      part.minsplit = part.minsplit,
+                      part.xval = part.xval,
+                      part.max.depth = part.max.depth,
+                      part.cp = part.cp,
+                      part.minbucket = part.minbucket,
+                      .rho = .rho,
+                      rho.max = rho.max,
+                      weights = .weights,
+                      lin.type = lin.type,
+                      cv.glmnet.nfolds = cv.glmnet.nfolds,
+                      cv.glmnet.lambda = cv.glmnet.lambda,
+                      verbose = verbose,
+                      plot.tune.error = plot.tune.error,
+                      trace = trace,
+                      n.cores = n.cores)
 
   parameters <- list(max.leaves = max.leaves,
                      n.leaves = mod$n.leaves,
@@ -305,11 +305,11 @@ s.SHYTREE <- function(x, y = NULL,
 
   # [ FITTED ] ====
   if (type == "Classification") {
-    .fitted <- predict.shytreeLeavesRC(mod, x, type = "all")
+    .fitted <- predict.shyoptleaves(mod, x, type = "all")
     fitted <- .fitted$estimate
     fitted.prob <- .fitted$probability
   } else {
-    fitted <- predict.shytreeLeavesRC(mod, x)
+    fitted <- predict.shyoptleaves(mod, x)
     fitted.prob <- NULL
   }
   error.train <- modError(y, fitted)
@@ -319,18 +319,18 @@ s.SHYTREE <- function(x, y = NULL,
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      .predicted <- predict.shytreeLeavesRC(mod, x.test,
-                                            type = "all",
-                                            learning.rate = learning.rate,
-                                            trace = trace,
-                                            verbose = verbose.predict)
+      .predicted <- predict.shyoptleaves(mod, x.test,
+                                         type = "all",
+                                         learning.rate = learning.rate,
+                                         trace = trace,
+                                         verbose = verbose.predict)
       predicted <- .predicted$estimate
       predicted.prob <- .predicted$probability
     } else {
-      predicted <- predict.shytreeLeavesRC(mod, x.test,
-                                           learning.rate = learning.rate,
-                                           trace = trace,
-                                           verbose = verbose.predict)
+      predicted <- predict.shyoptleaves(mod, x.test,
+                                        learning.rate = learning.rate,
+                                        trace = trace,
+                                        verbose = verbose.predict)
       predicted.prob <- NULL
     }
 
@@ -377,4 +377,37 @@ s.SHYTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis:: s.SHYTREE
+} # rtemis:: s.SHYOPTREE
+
+# Unfinished
+# shyoptree.optimal.leaves <- function(object,
+#                                    smooth = TRUE,
+#                                    plot = FALSE,
+#                                    verbose = FALSE) {
+#   n.leaves <- NROW(object$leaves$rules)
+#
+#   # if (smooth) {
+#   # dat <- data.frame(n.trees = seq(n.trees), valid.error = object$valid.error)
+#   # dat <- complete.cases(dat)
+#   # }
+#
+#   valid.error.smooth <- if (smooth) {
+#     valid.error.smooth <- supsmu(seq(n.leaves), object$valid.error)$y
+#   } else {
+#     NULL
+#   }
+#   valid.error <- if (smooth) valid.error.smooth else object$valid.error
+#
+#   if (plot) mplot3.xy(seq(n.trees), list(Training = object$train.error,
+#                                          Validation = object$valid.error,
+#                                          `Smoothed Validation` = valid.error.smooth),
+#                       type = 'l', group.adj = .95,
+#                       line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
+#                       vline = c(which.min(object$valid.error), which.min(valid.error.smooth)),
+#                       vline.col = c(ucsfCol$red, ucsfCol$purple),
+#                       xlab = "N trees", ylab = "Loss")
+#
+#   list(n.trees = which.min(valid.error),
+#        valid.error.smooth = valid.error.smooth)
+#
+# } # rtemis::shyoptree.optimal.leaves
