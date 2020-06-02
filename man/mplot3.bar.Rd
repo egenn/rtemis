@@ -38,7 +38,7 @@ mplot3.bar(
   group.names = NULL,
   legend.position = "topright",
   legend.inset = c(0, 0),
-  legen.font = 1,
+  legend.font = 1,
   bartoplabels = NULL,
   mar = c(3, 2.5, 2.5, 1),
   pty = "m",
