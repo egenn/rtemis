@@ -60,6 +60,7 @@ mplot3.bar <- function(x,
                        group.names = NULL,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
+                       legend.font = 1, #1: regular, 2: bold
                        bartoplabels = NULL,
                        mar = c(3, 2.5, 2.5, 1),
                        pty = "m",
@@ -175,7 +176,8 @@ mplot3.bar <- function(x,
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   # Expand right margin for legend
-  if (group.legend) mar[4] <- mar[4] + max(strwidth(group.names)) + 2
+  # if (group.legend) mar[4] <- mar[4] + max(strwidth(group.names)) + 3
+  if (group.legend) mar[4] <- mar[4] + .5*max(nchar(group.names)) + .2
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
 
   # [ XLIM & YLIM ] ====
@@ -273,19 +275,26 @@ mplot3.bar <- function(x,
 
   # [ GROUP LEGEND ] ====
   if (group.legend) {
-    text(rep(xlim[2] + .04 * diff(xlim), n),
+    text(rep(xlim[2] + .01 * diff(xlim), n),
          seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n),
          group.names,
          adj = 0,
          cex = 1,
          col = unlist(col[seq_len(n)]),
          xpd = TRUE,
+         font = legend.font,
          family = theme$font.family)
   }
 
   # [ AXIS LABS ] ====
-  if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = xlab.line, family = theme$font.family)
-  if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = ylab.line, family = theme$font.family)
+  if (!is.null(xlab))  {
+    mtext(xlab, 1, cex = theme$cex, line = xlab.line,
+          col = theme$labs.col, , family = theme$font.family)
+  }
+  if (!is.null(ylab))  {
+    mtext(ylab, 2, cex = theme$cex, line = ylab.line,
+          col = theme$labs.col, family = theme$font.family)
+  }
 
   # [ BARTOP LABELS ] ====
   if (!is.null(bartoplabels)) {
