@@ -242,7 +242,7 @@ shytreeLeavesRC <- function(x, y,
     # Work on all candidate splits (open nodes)
     for (i in g$open) {
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
-        if (verbose) msg0("Working on node id #", i, "...")
+        if (trace > 0) msg0("Working on node id #", i, "...")
         if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
         splitLineRC(g = g,
                     type = type,

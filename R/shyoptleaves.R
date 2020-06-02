@@ -30,8 +30,8 @@ shyoptleaves <- function(x, y,
                          select.leaves.smooth = TRUE,
                          gamma = .1,
                          # min.update = 10,
-                         alpha = 0,
-                         lambda = .01,
+                         alpha = 1,
+                         lambda = .1,
                          lambda.seq = NULL,
                          minobsinnode = 2,
                          minobsinnode.lin = 10,
@@ -43,10 +43,7 @@ shyoptleaves <- function(x, y,
                          part.minbucket = 5,
                          .rho = TRUE,
                          rho.max = 1000,
-                         lin.type = c("glmnet", "cv.glmnet",
-                                      "forwardStepwise", "backwardStepwise",
-                                      "allSubsets", "lm.ridge",
-                                      "glm", "solve", "none"),
+                         lin.type = "glmnet",
                          cv.glmnet.nfolds = 5,
                          cv.glmnet.lambda = "lambda.min",
                          loss.fn = if (is.factor(y)) class.loss else mse,
@@ -71,7 +68,9 @@ shyoptleaves <- function(x, y,
 
   # Changed: Specify early.stopping directly
   # early.stopping <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
-  if (early.stopping && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
+  if (early.stopping && is.null(x.valid)) {
+    stop("You have asked for early stopping without providing a validation set.")
+  }
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
@@ -96,7 +95,6 @@ shyoptleaves <- function(x, y,
   }
 
   # [ ARGUMENTS ] ====
-  lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
   if (trace > 0) msg0("Using lin.type '", lin.type, "'")
 
@@ -110,7 +108,7 @@ shyoptleaves <- function(x, y,
   g$y <- y
   g$x.valid <- x.valid
   g$y.valid <- y.valid
-  g$weights <- weights
+  g$weights <- weights # ENH: not needed
   g$gamma <- gamma
   g$learning.rate <- learning.rate
   g$tree <- list()
@@ -133,7 +131,8 @@ shyoptleaves <- function(x, y,
   names(g$stepindex) <- paste(seq(max.leaves))
   g$stepindex$`1` <- 1
 
-  # [ LOOP: step splitLine ] ====
+
+  # { LOOP } step splitLine ====
   if (.class) {
     # vector: Initial probabilities
     probability <- weights / NROW(y) # n
@@ -157,7 +156,8 @@ shyoptleaves <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ====
-  if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
+  if (verbose) msg("Training Stepwise Hybrid Tree ", type,
+                   " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
 
   coef <- lincoef(x = g$xm[, -1], y = resid,
@@ -170,9 +170,6 @@ shyoptleaves <- function(x, y,
                   cv.glmnet.nfolds = cv.glmnet.nfolds)
 
   g$n.leaves <- 1 # ddlt
-
-  # linVal <-  (data.matrix(cbind(1, x)) %*% coef)[, 1] # n
-  # linVal <- c(cbind(1, g$xm) %*% coef) # n
   linVal <- c(g$xm %*% coef) # n
 
   if (.class & .rho) {
@@ -232,7 +229,7 @@ shyoptleaves <- function(x, y,
   g$open <- 1
   g$closed <- integer()
 
-  # '- Start loop ====
+  # { Loop } ====
   stepid <- 1
   while (g$n.leaves < max.leaves && length(g$open) > 0) {
     if (trace > 1) msg("g$closed is", g$closed)
@@ -243,25 +240,25 @@ shyoptleaves <- function(x, y,
     # Work on all candidate splits (open nodes)
     for (i in g$open) {
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
-        if (verbose) msg0("Working on node id #", i, "...")
-        if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
-        splitlinjl(g = g,
-                   type = type,
-                   node.index = i,
-                   alpha = alpha,
-                   lambda = lambda,
-                   lambda.seq = lambda.seq,
-                   cv.glmnet.nfolds = cv.glmnet.nfolds,
-                   part.minsplit = part.minsplit,
-                   part.xval = part.xval,
-                   part.max.depth = part.max.depth,
-                   part.cp = part.cp,
-                   part.minbucket = part.minbucket,
-                   minobsinnode.lin = minobsinnode.lin,
-                   lin.type = lin.type,
-                   nvmax = nvmax,
-                   verbose = verbose,
-                   trace = trace)
+        if (trace > 0) msg0("Working on node id #", i, "...")
+        # if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
+        splitlin_(g = g,
+                  type = type,
+                  node.index = i,
+                  alpha = alpha,
+                  lambda = lambda,
+                  lambda.seq = lambda.seq,
+                  cv.glmnet.nfolds = cv.glmnet.nfolds,
+                  part.minsplit = part.minsplit,
+                  part.xval = part.xval,
+                  part.max.depth = part.max.depth,
+                  part.cp = part.cp,
+                  part.minbucket = part.minbucket,
+                  minobsinnode.lin = minobsinnode.lin,
+                  lin.type = lin.type,
+                  nvmax = nvmax,
+                  verbose = verbose,
+                  trace = trace)
       } else {
         if (trace > 0) msg("Node #", i, " already processed", sep = "")
       }
@@ -434,10 +431,10 @@ shyoptleaves <- function(x, y,
 
   # change verbose
   if (early.stopping) {
-    opt.leaves = shytree.select.leaves(.mod, x = x, y = y,
-                                       x.valid = x.valid, y.valid = y.valid,
-                                       smooth = select.leaves.smooth,
-                                       plot = plot.tune.error)
+    opt.leaves = shyoptree.select.leaves(.mod, x = x, y = y,
+                                         x.valid = x.valid, y.valid = y.valid,
+                                         smooth = select.leaves.smooth,
+                                         plot = plot.tune.error)
     # delta 02.06.2020
     # .mod$opt.n.leaves <- opt.leaves$n.leaves
     .mod$n.leaves <- opt.leaves$n.leaves
@@ -492,23 +489,23 @@ setNodeRC <- function(g,
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
 
-splitlinjl <- function(g,
-                       type,
-                       node.index,
-                       alpha = 0,
-                       lambda = .01,
-                       lambda.seq = NULL,
-                       cv.glmnet.nfolds = 5,
-                       part.minsplit = 2,
-                       part.xval = 0,
-                       part.max.depth = 1,
-                       part.cp = 0,
-                       part.minbucket = 5,
-                       minobsinnode.lin = 5,
-                       lin.type,
-                       nvmax = nvmax,
-                       verbose = TRUE,
-                       trace = 0) {
+splitlin_ <- function(g,
+                      type,
+                      node.index,
+                      alpha = 1,
+                      lambda = .05,
+                      lambda.seq = NULL,
+                      cv.glmnet.nfolds = 5,
+                      part.minsplit = 2,
+                      part.xval = 0,
+                      part.max.depth = 1,
+                      part.cp = 0,
+                      part.minbucket = 5,
+                      minobsinnode.lin = 5,
+                      lin.type,
+                      nvmax = nvmax,
+                      verbose = TRUE,
+                      trace = 0) {
 
   # '- Node ====
   .class <- type == "Classification"
@@ -522,21 +519,19 @@ splitlinjl <- function(g,
 
   weights <- node$weights
 
-  # '- [ Split ] ====
+  # '- [ Split with splitline ] ====
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
   # dat <- data.frame(g$x, resid1)
-  if (trace > 0) msg("Running JL_splitlin...", color = crayon::red)
-  part <- JL_splitlin(g$x, resid1, wts = weights, lambda = lambda)
-  # part <- rpart::rpart(resid1 ~., dat,
-  #                      weights = weights,
-  #                      control = rpart::rpart.control(minsplit = part.minsplit,
-  #                                                     xval = part.xval,
-  #                                                     maxdepth = part.max.depth,
-  #                                                     minbucket = part.minbucket,
-  #                                                     cp = part.cp))
+  if (trace > 0) msg("Running splitline...", color = crayon::red)
+  part <- splitline(g$xm[, -1], resid1,
+                    caseweights = weights,
+                    gamma = g$gamma,
+                    alpha = alpha,
+                    lambda = lambda,
+                    minbucket = part.minbucket,
+                    trace = trace)
 
-  # if (is.null(part$splits)) {
-  # TODO: add support for no split
+  # TODO: check support for no split
   if (is.na(part$featindex)) {
     # '-- Node did not split ====
     if (trace > 0) msg0("Node #", node.index, " did not split")
@@ -548,6 +543,7 @@ splitlinjl <- function(g,
     g$open <- setdiff(g$open, g$nosplit)
     # +tree: Add nosplit node to closed
     g$closed <- c(g$closed, node.index)
+    # check: cutGeat.category not used
     cutFeat.name <- cutFeat.point <- cutFeat.category <- NA
     g$tree[[paste(node.index)]]$split.rule <- NA
     # part.c.left <- part.c.right <- 0
@@ -560,244 +556,59 @@ splitlinjl <- function(g,
     weights.left <- weights.right <- weights
   } else {
     # '-- Node did split --' ====
-    # Get correct Left & Right values - for Regression
-    # if (part$splits[1, 2] == 1) {
-    #   left.yval.row <- 3
-    #   right.yval.row <- 2
-    # } else {
-    #   left.yval.row <- 2
-    #   right.yval.row <- 3
-    # }
-    # part.c.left <- part$frame$yval[left.yval.row]
-    # part.c.right <- part$frame$yval[right.yval.row]
-    index <- x[, part[1]] < part[2]
-    part.c.left <- mean(resid1[index])
-    part.c.right <- mean(resid1[!index])
-
-
     g$tree[[paste(node.index)]]$type <- "split"
     g$tree[[paste(node.index)]]$terminal <- FALSE
-    # cutFeat.name <- rownames(part$splits)[1]
-    cutFeat.index <- part[1]
-    cutFeat.name <- g$featurenames[part[1]]
-    cutFeat.point <- part[2]
+    cutFeat.index <- part[[1]]
+    cutFeat.name <- g$featurenames[part[[1]]]
+    cutFeat.point <- part[[2]]
     split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
     split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
     left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
     right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
-    # cutFeat.point <- cutFeat.category <- NULL
-    # if (!is.null(cutFeat.name)) {
-    # cutFeat.index <- which(names(g$x) == cutFeat.name)
-    # cutFeat.index <- part[1]
-    # if (is.numeric(g$x[[cutFeat.name]])) {
-    #   # Split was on a categorical feature
-    #   cutFeat.point <- part$splits[1, "index"]
-    #   if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-    #                      "\"; Cut Point = ", ddSci(cutFeat.point),
-    #                      sep = "")
-    # split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
-    # split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
-    # } else {
-    #   # Split was on a continuous feature
-    #   cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
-    #   if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-    #                      "\"; Cut Category is \"", cutFeat.category,
-    #                      "\"", sep = "")
-    #   split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-    #   split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-    # }
-
-    #   if (length(cutFeat.point) > 0) {
-    #     left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
-    #     right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
-    #   } else {
-    #     left.index <- intersect(node$index, which(is.element(g$x[, cutFeat.index], cutFeat.category)))
-    #     right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
-    #   }
-    # } # /Split on Categorical vs Continuous feature
-
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
-
-    # '--> Split updates -' ====
-    # Observations, weights and node coefficients
-    # Calculate left weights and outputs
-    left.y <- g$y[left.index] # < n
-    left.weights <- weights[left.index] # < n
-    # Calculate right weights and outputs
-    right.y <- g$y[right.index] # < n
-    right.weights <- weights[right.index] # < n
-
-    # Calculate the current value of the function for right and left node
-    # Vector, length < y
-    Fval.left <- node$Fval[left.index] # < n
-    Fval.right <- node$Fval[right.index] # < n
-
-    # ''- Left ====
-    # Compute the coefficients of the left child node
-    # Vector, length < y
-    # ddlt
-    if (.class) {
-      firstDerLeft <- -2 * left.y / (1 + exp(2 * left.y * Fval.left)) # < n
-      # Remove NaNs (from when there are no cases in node)
-      firstDerLeft[is.na(firstDerLeft)] <- 0 # < n
-      # Scalar
-      weightedFirstDerLeft <- c(left.weights %*% firstDerLeft) # 1
-      # Vector
-      secDerLeft <- abs(firstDerLeft) * (2 - abs(firstDerLeft))
-      # Scalar
-      weightedSecDerLeft <- c(left.weights %*% secDerLeft)
-    } else {
-      firstDerLeft <- weightedFirstDerLeft <- secDerLeft <- weightedSecDerLeft <- NA
-    }
-
-    # ''- UPDATE nodeVal.left ====
-    # check
-    coef.left <- node$coef
-    if (.class) {
-      if (weightedFirstDerLeft == 0) {
-        if (trace > 1) msg("weightedFirstDerLeft is 0")
-        nodeVal.left <- 0 # do nothing
-      } else if (weightedSecDerLeft == 0) {
-        if (trace > 1) msg("weightedSecDerLeft is 0")
-        nodeVal.left <- -sign(weightedFirstDerLeft) * Inf
-      } else {
-        if (g$.rho) {
-          rho <- abs(weightedFirstDerLeft / weightedSecDerLeft)
-        } else {
-          rho <- 1
-        }
-        nodeVal.left <- g$learning.rate * sign((weightedFirstDerLeft)) *
-          min(g$rho.max, rho) # 1
-      }
-    } else {
-      nodeVal.left <- g$learning.rate * part.c.left
-    }
-    coef.left[1] <- coef.left[1] + part.c.left
-
-    # ''- Right ====
-    if (.class) {
-      # Compute the coefficients for the right child node
-      firstDerRight <- -2 * right.y / (1 + exp(2 * right.y * Fval.right)) # < n
-      firstDerRight[is.na(firstDerRight)] <- 0
-      secDerRight <- abs(firstDerRight) * (2 - abs(firstDerRight)) # < n
-      weightedFirstDerRight <- c(right.weights %*% firstDerRight) # 1
-      weightedSecDerRight <- c(right.weights %*% secDerRight) # 1
-    } else {
-      firstDerRight <- weightedFirstDerRight <- secDerRight <- weightedSecDerRight <- NA
-    }
-
-    # ''- UPDATE nodeVal.right ====
-    coef.right <- node$coef
-    if (.class) {
-      if (weightedFirstDerRight == 0) {
-        if (trace > 1) msg("weightedFirstDerRight is 0")
-        nodeVal.right <- 0
-      } else if (weightedSecDerRight == 0) {
-        if (trace > 1) msg("weightedSecDerRight is 0")
-        nodeVal.right <- -sign(weightedFirstDerRight) * Inf
-      } else {
-        if (g$.rho) {
-          rho <- abs(weightedFirstDerRight / weightedSecDerRight)
-        } else {
-          rho <- 1
-        }
-        nodeVal.right <- g$learning.rate * sign(weightedFirstDerRight) *
-          min(g$rho.max, rho)
-      }
-    } else {
-      nodeVal.right <- g$learning.rate * part.c.right
-    }
-
-    coef.right[1] <- coef.right[1] + part.c.right
-
-    Fval <- node$Fval
-    Fval[left.index] <- Fval[left.index] + nodeVal.left
-    Fval[right.index] <- Fval[right.index] + nodeVal.right
-
-    if (.class && trace > 1) {
-      # msg("firstDerLeft = ", firstDerLeft, "; firstDerRgit = ", firstDerRight, sep = "")
-      msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
-          weightedFirstDerRight, sep = "")
-      msg("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
-          weightedSecDerRight, sep = "")
-      # msg("nodeVal.left = ", nodeVal.left, "; nodeVal.right = ", nodeVal.right, sep = "")
-    }
-
-    # '- Weights -' ====
+    # '- Update Weights -' ====
     weights.left <- weights.right <- weights
     weights.left[right.index] <- weights.left[right.index] * g$gamma
     weights.right[left.index] <- weights.right[left.index] * g$gamma
 
-  } # /if (is.null(part$splits)) aka Node did split
+    # !! Lincoefs Left ====
+    linCoef.left <- lincoef(x = g$xm[, -1], y = resid1,
+                            weights = weights.left,
+                            method = lin.type,
+                            nvmax = nvmax,
+                            alpha = alpha,
+                            lambda = lambda,
+                            lambda.seq = lambda.seq,
+                            cv.glmnet.nfolds = cv.glmnet.nfolds)
 
-  # '- [ Line ] -' ====
-  if (.class) {
-    firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
-    resid2 <- -firstDer
-  } else {
-    resid2 <- g$y - Fval
-  }
+    # linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
+    linVal.left <- c(g$xm %*% linCoef.left)
 
-  if (!is.null(cutFeat.name) & !is.constant(resid2)) {
-    # Node split and resid2 is not constant
-    if (length(left.index) < minobsinnode.lin) {
-      # Too few observations to fit linear model
-      if (trace > 0) msg("Preparing Node #", node.index * 2,
-                         ": ", length(left.index),
-                         " cases belong to this node: Not fitting any more lines here", sep = "")
-      linVal.left <- rep(0, length(resid2))
-      linCoef.left <- rep(0, g$ncolxm)
+    # Lin Updates, Left ====
+    if (.class & g$.rho) {
+      firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.left)[1]
+      secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
+      rho.left <- -firstDer.rho.left / secDer.rho.left
+      rho.left <- sign(rho.left) * min(g$rho.max, rho.left, na.rm = TRUE)[1]
     } else {
-      linCoef.left <- lincoef(x = g$xm[, -1], y = resid2,
-                              weights = weights.left,
-                              method = lin.type,
-                              nvmax = nvmax,
-                              alpha = alpha,
-                              lambda = lambda,
-                              lambda.seq = lambda.seq,
-                              cv.glmnet.nfolds = cv.glmnet.nfolds)
+      rho.left <- 1
+    }
 
-      # linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
-      linVal.left <- c(g$xm %*% linCoef.left)
+    Fval.left <- node$Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index] # n
+    coef.left <- node$coef + linCoef.left
 
-      # Lin Updates, Left ====
-      if (.class & g$.rho) {
-        firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.left)[1]
-        secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
-        rho.left <- -firstDer.rho.left / secDer.rho.left
-        rho.left <- sign(rho.left) * min(g$rho.max, rho.left, na.rm = TRUE)[1]
-      } else {
-        rho.left <- 1
-      }
+    # !! LinCoefs Right ====
+    linCoef.right <- lincoef(x = g$xm[, -1], y = resid1,
+                             weights = weights.right,
+                             method = lin.type,
+                             nvmax = nvmax,
+                             alpha = alpha,
+                             lambda = lambda,
+                             lambda.seq = lambda.seq,
+                             cv.glmnet.nfolds = cv.glmnet.nfolds)
 
-      Fval.left <- Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index] # n
-      coef.left <- coef.left + linCoef.left
-
-    } # /if (length(left.index) < minobsinnode.lin)
-
-    if (length(right.index) < minobsinnode.lin) {
-      # Too few observations to fit linear model
-      if (trace > 0) msg("Preparing Node #", node.index * 2 + 1,
-                         ": ", length(right.index),
-                         " cases belong to this node: Not fitting any more lines here", sep = "")
-      linVal.right <- rep(0, length(resid2))
-      linCoef.right <- rep(0, g$ncolxm)
-    } else {
-      linCoef.right <- lincoef(x = g$xm[, -1], y = resid2,
-                               weights = weights.right,
-                               method = lin.type,
-                               nvmax = nvmax,
-                               alpha = alpha,
-                               lambda = lambda,
-                               lambda.seq = lambda.seq,
-                               cv.glmnet.nfolds = cv.glmnet.nfolds)
-
-      # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
-      linVal.right <- c(g$xm %*% linCoef.right)
-
-      # Lin Updates, Right ====
-
-    } # /if (length(right.index) < minobsinnode.lin)
+    # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
+    linVal.right <- c(g$xm %*% linCoef.right)
 
     if (.class & g$.rho) {
       firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.right)[1]
@@ -808,23 +619,23 @@ splitlinjl <- function(g,
       rho.right <- 1
     }
 
-    Fval.right <- Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
-    coef.right <- coef.right + linCoef.right
+    Fval.right <- node$Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+    coef.right <- node$coef + linCoef.right
 
-  }
+  } # /if (is.null(part$splits)) aka Node did split
 
   # '- Side-effects -' ====
 
-  # Check: do we need this?
+  # Check: should we keep this
   depth <- g$tree[[paste(node.index)]]$depth + 1
 
   # Get combined error of children
-  Fval1 <- Fval
-  Fval1[left.index] <- Fval.left
-  Fval1[right.index] <- Fval.right
+  Fval <- node$Fval
+  Fval[left.index] <- Fval.left
+  Fval[right.index] <- Fval.right
 
   # Assign loss reduction to parent
-  g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1) # check: do we need weights?
+  g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval)
   g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
 
   # Set id numbers by preorder indexing
@@ -833,10 +644,10 @@ splitlinjl <- function(g,
   g$tree[[paste(left.id)]] <- setNodeRC(g = g,
                                         id = left.id,
                                         index = left.index,
-                                        Fval = Fval1,
+                                        Fval = Fval,
                                         weights = weights.left,
                                         depth = depth,
-                                        coef = coef.left,
+                                        coef = linCoef.left,
                                         terminal = TRUE,
                                         type = "terminal",
                                         condition = split.rule.left,
@@ -844,20 +655,20 @@ splitlinjl <- function(g,
                                         rule = crules(node$rule, split.rule.left))
 
   # Right
-  right.id <- node$id * 2 + 1
+  right.id <- left.id + 1
   g$tree[[paste(right.id)]] <- setNodeRC(g = g,
                                          id = right.id,
                                          index = right.index,
-                                         Fval = Fval1,
+                                         Fval = Fval,
                                          weights = weights.right,
                                          depth = depth,
-                                         coef = coef.right,
+                                         coef = linCoef.right,
                                          terminal = TRUE,
                                          type = "terminal",
                                          condition = split.rule.right,
                                          split.rule = NULL,
                                          rule = crules(node$rule, split.rule.right))
-} # rtemis::splitlinjl
+} # rtemis::splitlin_
 
 
 # [[---F4---]] ====
@@ -1060,12 +871,12 @@ class.lossw <- function(y, Fval, weights) {
 }
 
 
-shytree.select.leaves <- function(object,
-                                  x, y,
-                                  x.valid, y.valid,
-                                  smooth = TRUE,
-                                  plot = FALSE,
-                                  verbose = FALSE) {
+shyoptree.select.leaves <- function(object,
+                                    x, y,
+                                    x.valid, y.valid,
+                                    smooth = TRUE,
+                                    plot = FALSE,
+                                    verbose = FALSE) {
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
 
@@ -1117,4 +928,4 @@ shytree.select.leaves <- function(object,
   list(n.leaves = which.min(valid.error),
        valid.error.smooth = valid.error.smooth)
 
-} # rtemis::shytree.select.leaves
+} # rtemis::shyoptree.select.leaves

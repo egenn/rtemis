@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2019-20 Efstathios D Gennatas egenn.github.io
 # Allow early stopping
+# SHYOPTREE -> shyoptleaves -> splitlin ->
 
 #' Stepwise Hybrid Tree [C, R]
 #'
@@ -55,6 +56,7 @@ s.SHYOPTREE <- function(x, y = NULL,
                         lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
                                      "forwardStepwise", "backwardStepwise", "glm",
                                      "solve", "none"),
+                        splitter = "splitline",
                         cv.glmnet.nfolds = 5,
                         cv.glmnet.lambda = "lambda.min",
                         metric = "auto",
@@ -71,7 +73,7 @@ s.SHYOPTREE <- function(x, y = NULL,
                         verbose = TRUE,
                         plot.tune.error = FALSE,
                         verbose.predict = FALSE,
-                        trace = 0,
+                        trace = 1,
                         x.name = NULL,
                         y.name = NULL,
                         question = NULL,
@@ -130,7 +132,8 @@ s.SHYOPTREE <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+  if (verbose) parameterSummary(gamma, lambda, minobsinnode, minobsinnode.lin,
+                                learning.rate, max.leaves, nvmax)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -243,7 +246,7 @@ s.SHYOPTREE <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # [ shyoptreeLeaves ] ====
+  # [ shyoptleaves ] ====
   if (.gs) {
     if (early.stopping) {
       x.valid <- x.test
