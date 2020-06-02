@@ -52,7 +52,7 @@ s.SHYTREE(
   verbose = TRUE,
   plot.tune.error = FALSE,
   verbose.predict = FALSE,
-  trace = 0,
+  trace = 1,
   x.name = NULL,
   y.name = NULL,
   question = NULL,

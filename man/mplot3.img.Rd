@@ -11,7 +11,7 @@ mplot3.img(
   xnames = NULL,
   xnames.y = 0,
   ynames = NULL,
-  main = NULL,
+  main = "Row > Column",
   main.adj = 0,
   main.line = 1.5,
   x.axis.side = 3,
