@@ -39,7 +39,7 @@ mplot3.img <- function(z,
                        xnames.y = 0,
                        ynames = NULL,
                        # ynames.x = 0,
-                       main = NULL,
+                       main = "Row > Column",
                        main.adj = 0,
                        main.line = 1.5,
                        x.axis.side = 3,
@@ -133,7 +133,7 @@ mplot3.img <- function(z,
 
   # [ THEMES ] ====
   if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- theme$fg
-  if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$bg
+  if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$fg
 
   # [ IMAGE ] ====
   if (!is.null(filename)) {
