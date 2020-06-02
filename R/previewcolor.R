@@ -14,6 +14,8 @@
 #' @param main.y Float: y coordinate for \code{main}. Default = 0
 #' @param main.adj Float: \code{adj} argument to mtext for \code{main}.
 #' @param width Float: Plot width. Default = NULL, i.e. set automatically
+#' @param xlim Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically
+#' @param ylim Vector, length 2: y-axis limits. Default = \code{c(0.7, 2)}
 #' @param asp Float: Plot aspect ratio. Default = 1
 #' @param labels.y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
 #' @param label.cex Float: Character expansion for labels. Default = NULL, and is calculated automatically based on
@@ -30,10 +32,11 @@ previewcolor <- function(x,
                          bg = "#333333",
                          main = NULL,
                          main.col = "#b3b3b3",
-                         main.x = .75,
-                         main.y = 0.3,
+                         main.x = .7,
+                         main.y = 0.2,
                          width = NULL,
-                         ylim = c(0.7, 2),
+                         xlim = NULL,
+                         ylim = c(0, 2.2),
                          asp = 1,
                          labels.y = 1.55,
                          label.cex = NULL,
@@ -47,7 +50,7 @@ previewcolor <- function(x,
   }
 
   if (is.null(width)) width <- max(3, .3 * length(x))
-  xlim <- c(0.3, width + .7)
+  if (is.null(xlim)) xlim <- c(0.3, width + .7)
   par(bg = bg, xaxs = "i", yaxs = "i", mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
 
   # Plot ====
@@ -75,7 +78,7 @@ previewcolor <- function(x,
   } else {
     labels <- names(x)
   }
-  text(xmid - .2, labels.y, labels, col = x, srt = 45, adj = 0, offset = 0, cex = label.cex)
+  text(xmid + .1, labels.y, labels, col = x, srt = 45, adj = 0, offset = 0, cex = label.cex)
 
   # '- Title ====
   if (!is.null(main)) {
