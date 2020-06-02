@@ -224,7 +224,7 @@ gridSearchLearn <- function(x, y, mod,
   }
 
   # '- SHYTREE ====
-  if (learner == "s.SHYTREE") {
+  if (learner %in% c("s.SHYTREE", "s.SHYOPTREE")) {
     # ERROR
     est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
     est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
