@@ -1170,7 +1170,7 @@ microsoftCol <- list(orange = "#f65314",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
 
-# rtCol ====
+# rtemis experimental ====
 rtCol <- desaturate(c(pennCol$lighterBlue,
                       pennCol$lightestBlue,
                       pennCol$blue,
@@ -1184,8 +1184,10 @@ rtCol <- desaturate(c(pennCol$lighterBlue,
                       pennCol$lightestPurple,
                       pennCol$purple), .3)
 
-rtCol1 <- desaturate(c(ucsfCol$teal,
-                       ucsfCol$orange,
+rtCol1 <- desaturate(c("#80ffff",
+                       "#FFDB71",
+                       # ucsfCol$teal,
+                       # ucsfCol$orange,
                        pennCol$lighterBlue,
                        pennCol$lighterRed,
                        pennCol$lighterOrange,
@@ -1214,6 +1216,13 @@ rtCol2 <- desaturate(c(pennCol$lightestBlue,
 
 rtCol3 <- desaturate(colorMix(list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
                                    gray = c("gray10", "gray85")), 6), .3)
+
+rtcoldev <- list(rtemisblue = "#80ffff",
+                  rtemisbluetoo = "#00D6FF",
+                  lavender = "#ff80ffff",
+                  orange = "#ffb200ff")
+
+grays <- list("gray10", "gray30", "gray50", "gray70", "gray90")
 
 # rtPalettes ====
 rtPalettes <- list(pennCol = pennCol,
@@ -1266,7 +1275,8 @@ rtPalettes <- list(pennCol = pennCol,
                    rtCol = rtCol,
                    rtCol1 = rtCol1,
                    rtCol2 = rtCol2,
-                   rtCol3 = rtCol3)
+                   rtCol3 = rtCol3,
+                   grays = grays)
 
 #' \pkg{rtemis} Color Palettes
 #'
@@ -1323,3 +1333,23 @@ rtemis_palette <- function(n,
   .palette[seq_len(n)]
 
 } # rtemis::rtemis_palette
+
+
+#' Convert R color to hexadecimal code
+#'
+#' Convert any color that R understands into the corresponding hexadecimal code
+#'
+#' @param color Color(s) that R understands
+#' @author Efstathios D. Gennatas
+#' @export
+#' @examples
+#' col2hex(c("gray50", "skyblue"))
+
+col2hex <- function(color) {
+
+  .rgb <- col2rgb(color)
+  sapply(seq(color), function(i) {
+    paste0("#", as.hexmode(.rgb[1, i]), as.hexmode(.rgb[2, i]), as.hexmode(.rgb[3, i]))
+  })
+
+}
