@@ -7,7 +7,7 @@
 \alias{oneHot.default}
 \title{One hot encoding}
 \usage{
-oneHot(x, verbose = TRUE)
+oneHot(x, verbose = FALSE)
 
 \method{oneHot}{data.frame}(x, verbose = TRUE)
 

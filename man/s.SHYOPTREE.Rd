@@ -25,7 +25,7 @@ s.SHYOPTREE(
   lambda.seq = NULL,
   minobsinnode = 2,
   minobsinnode.lin = 10,
-  learning.rate = 0.1,
+  learning.rate = 1,
   part.minsplit = 2,
   part.xval = 0,
   part.max.depth = 1,

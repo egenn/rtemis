@@ -6,9 +6,10 @@
 
 #' Stepwise Hybrid Tree [C, R]
 #'
-#' Train a Stepwise Hybrid Tree for Regression or Binary Classification
+#' Train a Stepwise Hybrid Optimized Tree
 #'
-#' The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+#' The Stepwise Hybrid Tree grows a tree by finding splits that minimize loss after linear models
+#' are fit on each child.
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
