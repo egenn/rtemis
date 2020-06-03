@@ -15,7 +15,7 @@
 #' @author Efstathios D Gennatas
 #' @export
 
-oneHot <- function(x, verbose = TRUE) {
+oneHot <- function(x, verbose = FALSE) {
 
   UseMethod("oneHot", x)
 
