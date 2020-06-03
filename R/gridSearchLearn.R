@@ -126,9 +126,7 @@ gridSearchLearn <- function(x, y, mod,
       out1$lambda.min <- mod1$mod$lambda.min
       out1$lambda.1se <- mod1$mod$lambda.1se
     }
-    # delta 02.06.2020
-    # if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$opt.n.leaves
-    if (learner == "s.SHYTREE") out1$est.n.leaves <- mod1$mod$n.leaves
+    if (learner %in% c("s.SHYTREE", "s.SHYOPTREE")) out1$est.n.leaves <- mod1$mod$n.leaves
     if (learner == "s.HYTBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
     if (save.mod) out1$mod1 <- mod1
     out1
