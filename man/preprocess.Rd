@@ -30,6 +30,7 @@ preprocess(
   center = FALSE,
   removeConstants = TRUE,
   removeDuplicates = TRUE,
+  factorizeThresh = 0,
   oneHot = FALSE,
   exclude = NULL,
   verbose = TRUE,

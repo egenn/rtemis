@@ -8,20 +8,20 @@ splitlin_(
   g,
   type,
   node.index,
-  alpha = 1,
-  lambda = 0.05,
-  lambda.seq = NULL,
-  cv.glmnet.nfolds = 5,
-  part.minsplit = 2,
-  part.xval = 0,
-  part.max.depth = 1,
-  part.cp = 0,
-  part.minbucket = 5,
-  minobsinnode.lin = 5,
+  gamma,
+  n.quantiles,
+  minobsinnode,
+  minbucket,
   lin.type,
-  nvmax = nvmax,
-  verbose = TRUE,
-  trace = 0
+  alpha,
+  lambda,
+  lambda.seq,
+  cv.glmnet.nfolds,
+  which.cv.glmnet.lambda,
+  nbest,
+  nvmax,
+  n.cores,
+  trace
 )
 }
 \arguments{

@@ -16,29 +16,26 @@ s.SHYOPTREE(
   downsample = FALSE,
   resample.seed = NULL,
   max.leaves = 6,
-  nvmax = 2,
+  learning.rate = 1,
+  select.leaves.smooth = TRUE,
   force.max.leaves = NULL,
   early.stopping = TRUE,
   gamma = 0.1,
+  n.quantiles = 20,
+  minobsinnode = 2,
+  minbucket = 5,
+  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
+    "backwardStepwise", "glm", "solve", "none"),
   alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,
-  minobsinnode = 2,
-  minobsinnode.lin = 10,
-  learning.rate = 1,
-  part.minsplit = 2,
-  part.xval = 0,
-  part.max.depth = 1,
-  part.cp = 0,
-  part.minbucket = 5,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 3,
   .rho = TRUE,
   rho.max = 1000,
   init = NULL,
-  lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
-    "backwardStepwise", "glm", "solve", "none"),
-  splitter = "splitline",
-  cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
   metric = "auto",
   maximize = NULL,
   grid.resample.rtset = rtset.grid.resample(),
@@ -50,10 +47,8 @@ s.SHYOPTREE(
   cxrcoef = FALSE,
   n.cores = rtCores,
   .preprocess = NULL,
-  verbose = TRUE,
   plot.tune.error = FALSE,
   verbose.predict = FALSE,
-  trace = 1,
   x.name = NULL,
   y.name = NULL,
   question = NULL,
@@ -63,7 +58,9 @@ s.SHYOPTREE(
   plot.predicted = NULL,
   plot.theme = getOption("rt.fit.theme", "lightgrid"),
   save.mod = FALSE,
-  .gs = FALSE
+  .gs = FALSE,
+  verbose = TRUE,
+  trace = 1
 )
 }
 \arguments{
@@ -97,24 +94,18 @@ Default = NULL (random seed)}
 
 \item{max.leaves}{Integer: Maximum number of terminal nodes to grow}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
-
 \item{early.stopping}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
-
-\item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
 \item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 
-\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+\item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
 
-\item{verbose}{Logical: If TRUE, print summary to screen.}
-
 \item{plot.tune.error}{Logical: If TRUE, plot validation error during gridsearch}
-
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -141,12 +132,19 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{internal use only}
+
+\item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+
+\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 }
 \description{
-Train a Stepwise Hybrid Tree for Regression or Binary Classification
+Train a Stepwise Hybrid Optimized Tree
 }
 \details{
-The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+The Stepwise Hybrid Tree grows a tree by finding splits that minimize loss after linear models
+are fit on each child.
 We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 because depending on the other parameters and the datasets, splitting may stop early.
 }

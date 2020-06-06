@@ -38,7 +38,8 @@ Defaults to all}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{trace}{Not used}
+\item{trace}{Integer: 0, 1, or 2. Provides increasing amount to information printed to the
+console}
 }
 \description{
 Predict method for \code{shytreeLeavesRC} object

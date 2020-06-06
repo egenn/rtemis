@@ -12,25 +12,22 @@ shyoptleaves(
   early.stopping = FALSE,
   weights = NULL,
   max.leaves = 5,
-  nvmax = 2,
+  learning.rate = 1,
   select.leaves.smooth = TRUE,
   gamma = 0.1,
+  n.quantiles = 20,
+  minobsinnode = round(0.1 * length(y)),
+  minbucket = round(0.05 * length(y)),
+  lin.type = "glmnet",
   alpha = 1,
   lambda = 0.1,
   lambda.seq = NULL,
-  minobsinnode = 2,
-  minobsinnode.lin = 10,
-  learning.rate = 1,
-  part.minsplit = 2,
-  part.xval = 0,
-  part.max.depth = 1,
-  part.cp = 0,
-  part.minbucket = 5,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 8,
   .rho = TRUE,
   rho.max = 1000,
-  lin.type = "glmnet",
-  cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
   loss.fn = if (is.factor(y)) class.loss else mse,
   verbose = TRUE,
   plot.tune.error = FALSE,
@@ -53,14 +50,12 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
-
-\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
 \item{loss.fn}{Function with arguments y, Fval, weights. Allows you to define a custom loss function.}
 

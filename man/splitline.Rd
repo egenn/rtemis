@@ -9,20 +9,30 @@ splitline(
   y,
   caseweights = rep(1, length(y)),
   gamma = 0.1,
-  search = "quantile",
-  n_quantiles = 20,
-  minbucket = 5,
+  n.quantiles = 20,
+  minobsinnode = round(0.1 * length(y)),
+  minbucket = round(0.05 * length(y)),
+  lin.type = "glmnet",
   alpha = 1,
   lambda = 0.1,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 8,
+  n.cores = 1,
   trace = 0
 )
 }
 \arguments{
-\item{search}{String: "quantile" or "exhaustive". Default = "quantile"}
+\item{n.quantiles}{Integer: Number of quantiles to use if \code{search = "quantile"}}
 
-\item{n_quantiles}{Integer: Number of quantiles to use if \code{search = "quantile"}}
+\item{minobsinnode}{Integer: Minimum number of caseweights that must be equal to 1 before
+attempting split}
 
 \item{trace}{Integer: If greater than 0, print diagnostic messages to console}
+
+\item{search}{String: "quantile" or "exhaustive". Default = "quantile"}
 }
 \description{
 Perform split in a feature of x to minimize sum of group loss in y
@@ -33,10 +43,10 @@ Rtistic style.
 }
 \examples{
 \dontrun{
-x = Array(rnormmat(1000, 20, seed = 2020))
-y = x[:, 3] .+ x[:, 5] .^ 2 .+ randn(1000)
-xysplit = splitline(x, y)
-xysplit = splitline(x, y, lambda = [0.1])
+x <- rnormmat(1000, 20, seed = 2020)
+y <- x[, 3] + x[, 5] ^ 2 + rnorm(1000)
+xysplit <- splitline(x, y)
+xysplit <- splitline(x, y, lambda = .1)
 }
 }
 \author{

@@ -10,7 +10,8 @@
 #' This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
 #' Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
 #'
-#' @param x Features. Will be coerced to data.frame for method = "allSubsets", "forwardStepwise", or "backwardStepwise"
+#' @param x Feature matrix or data.frame. Will be coerced to data.frame for method = "allSubsets",
+#' "forwardStepwise", or "backwardStepwise"
 #' @param y Outcome
 #' @param weights Float, vector: Case weights
 #' @param method Character: Method to use:
