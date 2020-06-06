@@ -9,67 +9,144 @@
 #' This is an R port of splitline.jl from Rtemis.jl. It could be rewritten in a more
 #' Rtistic style.
 #' @param search String: "quantile" or "exhaustive". Default = "quantile"
-#' @param n_quantiles Integer: Number of quantiles to use if \code{search = "quantile"}
+#' @param n.quantiles Integer: Number of quantiles to use if \code{search = "quantile"}
+#' @param minobsinnode Integer: Minimum number of caseweights that must be equal to 1 before
+#' attempting split
 #' @param trace Integer: If greater than 0, print diagnostic messages to console
 #' @keywords internal
 #' @author Efstathios D. Gennatas
 #' @examples
 #' \dontrun{
-#' x = Array(rnormmat(1000, 20, seed = 2020))
-#' y = x[:, 3] .+ x[:, 5] .^ 2 .+ randn(1000)
-#' xysplit = splitline(x, y)
-#' xysplit = splitline(x, y, lambda = [0.1])
+#' x <- rnormmat(1000, 20, seed = 2020)
+#' y <- x[, 3] + x[, 5] ^ 2 + rnorm(1000)
+#' xysplit <- splitline(x, y)
+#' xysplit <- splitline(x, y, lambda = .1)
 #' }
 
 splitline <- function(x, y,
                       caseweights = rep(1, length(y)),
                       gamma = .1,
-                      search = "quantile",
-                      n_quantiles = 20,
-                      minbucket = 5,
-                      # Lasso
-                      alpha = 1.0,
+                      n.quantiles = 20,
+                      minobsinnode = round(.1 * length(y)),
+                      minbucket = round(.05 * length(y)),
+                      # lincoef
+                      lin.type = "glmnet",
+                      alpha = 1,
                       lambda = .1,
+                      lambda.seq = NULL,
+                      cv.glmnet.nfolds = 5,
+                      which.cv.glmnet.lambda = "lambda.min",
+                      nbest = 1,
+                      nvmax = 8,
+                      # /lincoef
+                      n.cores = 1,
+                      trace = 0) {
+
+  if (sum(caseweights == 1) > minobsinnode) {
+    nfeatures <- NCOL(x)
+    # for each feature: c(cutpoint, loss)
+    minloss_perfeat <- pbapply::pbsapply(seq(nfeatures), function(i) {
+      cutnsplit(x, y,
+                caseweights = caseweights,
+                index = i,
+                n.quantiles = n.quantiles,
+                gamma = gamma,
+                # lincoef
+                lin.type = lin.type,
+                alpha = alpha,
+                lambda = lambda,
+                lambda.seq = lambda.seq,
+                cv.glmnet.nfolds = cv.glmnet.nfolds,
+                which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                nbest = nbest,
+                nvmax = nvmax,
+                # /lincoef
+                minbucket = minbucket,
+                trace = trace)
+
+    }, cl = n.cores)
+
+    featindex <- which.min(minloss_perfeat[2, ])
+    list(featindex = featindex,
+         cutoff = minloss_perfeat[1, featindex],
+         loss = minloss_perfeat[2, featindex])
+  } else {
+    if (trace > 0) msg("Node has N caseweights equal to 1 fewer than minobsinnode threshold of",
+                       minobsinnode)
+    list(featindex = NA,
+         cutoff = NA,
+         loss = NA)
+  }
+
+} # rtemis::splitline
+
+# Input: Matrix with all features, but work on one. Output: cutpoints and loss
+cutnsplit <- function(x, y,
+                      caseweights,
+                      index,
+                      n.quantiles = 20,
+                      gamma = .05,
+                      # lincoef
+                      lin.type,
+                      alpha = 1,
+                      lambda = .1,
+                      lambda.seq = NULL,
+                      cv.glmnet.nfolds = 5,
+                      which.cv.glmnet.lambda = "lambda.min",
+                      nbest = 1,
+                      nvmax = 8,
+                      # /lincoef
+                      minbucket = 10,
                       trace = 0) {
 
   ncases <- NROW(x)
-  nfeatures <- NCOL(x)
-  minloss_perfeat <- matrix(Inf, nfeatures, 2)
 
-  for (i in seq(nfeatures)) {
-    # '- cutpoints ====
-    if (search == "quantile") {
-      cutpoints <- quantile(x[, i], probs = seq(0, 1, length.out = n_quantiles + 1))[-c(1, n_quantiles + 1)]
-    } else {
-      cutpoints <- sort(unique(x[, i]))
-      cutpoints <- cutpoints[-length(cutpoints)]
+  cutpoints <- quantile(x[, index],
+                        probs = seq(0, 1, length.out = n.quantiles + 1),
+                        names = FALSE)[-c(1, n.quantiles + 1)]
+
+  loss <- sapply(seq(cutpoints), function(i) {
+    if (trace > 1) msg0("Testing cutpoint ", i, "...")
+    indexLeft <- x[, index] < cutpoints[i]
+    # Check minbucket
+    if (sum(indexLeft) < minbucket | (ncases - sum(indexLeft) < minbucket)) return(c(NA, Inf))
+    weightsLeft <- weightsRight <- caseweights
+    weightsLeft[!indexLeft] <- weightsLeft[!indexLeft] * gamma
+    weightsRight[indexLeft] <- weightsRight[indexLeft] * gamma
+
+    # Check either y is constant
+    .constant <- is.constant(y) | is.constant(y * weightsLeft) | is.constant(y * weightsRight)
+    if (.constant) {
+      if (trace > 0) msg("y is constant, abort split", color = crayon::bgMagenta)
+      return(c(NA, Inf))
     }
-    loss1 <- rep(Inf, length(cutpoints))
-    for (j in seq(cutpoints)) {
-      if (trace > 1) msg0("Testing feature ", i, "; cutpoint ", j, "...")
-      indexLeft <- x[, i] < cutpoints[j]
-      if (sum(indexLeft) < minbucket | (ncases - sum(indexLeft) < minbucket)) break
-      weightsLeft <- weightsRight <- caseweights
-      weightsLeft[!indexLeft] <- weightsLeft[!indexLeft] * gamma
-      weightsRight[indexLeft] <- weightsRight[indexLeft] * gamma
-      # '- lm left ====
-      elnetLeft <- c(predict(glmnet::glmnet(x, y,
-                                            weights = weightsLeft,
-                                            alpha = alpha, lambda = lambda), x))
-      # '- lm right ====
-      elnetRight <- c(predict(glmnet::glmnet(x, y,
-                                             weights = weightsRight,
-                                             alpha = alpha, lambda = lambda), x))
-      loss1[j] <- sum((y[indexLeft] - elnetLeft[indexLeft])^2) +
-        sum(y[!indexLeft] * (y[!indexLeft] - elnetRight[!indexLeft])^2)
-    } # loop through cutpoints
-    whichmin <- which.min(loss1)
-    minloss_perfeat[i, ] <- c(cutpoints[whichmin], loss1[whichmin])
-  } # loop through features
 
-  featindex <- which.min(minloss_perfeat[, 2])
+    # '- lm left ====
+    elnetLeft <- cbind(1, x) %*% lincoef(x, y, weightsLeft,
+                                         method = lin.type,
+                                         alpha = alpha,
+                                         lambda = lambda,
+                                         lambda.seq = lambda.seq,
+                                         cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                                         nbest = nbest,
+                                         nvmax = nvmax)
+    # '- lm right ====
+    elnetRight <- cbind(1, x) %*% lincoef(x, y, weightsRight,
+                                          method = lin.type,
+                                          alpha = alpha,
+                                          lambda = lambda,
+                                          lambda.seq = lambda.seq,
+                                          cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                                          nbest = nbest,
+                                          nvmax = nvmax)
 
-  list(featindex = featindex,
-       cutoff = minloss_perfeat[featindex, 1],
-       loss = minloss_perfeat[featindex, 2])
-} # rtemis::splitline
+    mean(c((y[indexLeft] - elnetLeft[indexLeft])^2,
+           y[!indexLeft] * (y[!indexLeft] - elnetRight[!indexLeft])^2))
+
+  })
+  index <- which.min(loss)
+  c(cutpoints[index], loss[index])
+
+} # cutnsplit
