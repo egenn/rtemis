@@ -122,8 +122,8 @@ s.MARS <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (type == "Classification" & is.null(glm)) {
     glm <- list(family = binomial)
@@ -229,6 +229,16 @@ s.MARS <- function(x, y = NULL,
     }
   }
 
+  # [ Variable importance ] ====
+  .evimp <- as.matrix(earth::evimp(mod))
+  .evimp <- earth::evimp(mod)
+  varimp <- rep(0, NCOL(x))
+  names(varimp) <- xnames
+  .evimpnames <- rownames(.evimp)
+  for (i in seq(NROW(.evimp))) {
+    varimp[which(.evimpnames[i] == xnames)] <- .evimp[i, 4]
+  }
+
   # [ OUTRO ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = "rtMod",
@@ -248,6 +258,7 @@ s.MARS <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
+                 varimp = varimp,
                  parameters = params,
                  question = question,
                  extra = extra)
