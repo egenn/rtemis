@@ -97,7 +97,7 @@ shytreeLeavesRC <- function(x, y,
   # [ ARGUMENTS ] ====
   lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
-  if (trace > 0) msg0("Using lin.type '", lin.type, "'")
+  if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ====
   g <- new.env()
@@ -159,7 +159,7 @@ shytreeLeavesRC <- function(x, y,
   if (trace > 0) msg("Training first Linear Model...")
   if (is.constant(resid)) stop("First gradient is constant")
 
-  coef <- lincoef(x = g$xm[, -1], y = resid,
+  coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid,
                   weights = weights,
                   method = lin.type,
                   nvmax = nvmax,
@@ -262,7 +262,7 @@ shytreeLeavesRC <- function(x, y,
                     verbose = verbose,
                     trace = trace)
       } else {
-        if (trace > 0) msg("Node #", i, " already processed", sep = "")
+        if (trace > 1) msg("Node #", i, " already processed", sep = "")
       }
     } # /for (i in g$open) splitLine
 
@@ -304,7 +304,7 @@ shytreeLeavesRC <- function(x, y,
       }
 
       if ((selected.red)) {
-        if (trace > 0) msg(">>> Selected node #", selected, sep = "")
+        if (trace > 1) msg(">>> Selected node #", selected, sep = "")
         if (trace > 1) msg("g$terminal is", g$terminal)
         # +tree: Remove selected from terminal
         if (trace > 1) msg("Removing selected from terminal nodes")
@@ -327,13 +327,13 @@ shytreeLeavesRC <- function(x, y,
         # +tree: Add selected's children to open
         # Add selected's children to open
         g$open <- c(g$open, selected * 2, selected * 2 + 1)
-        if (trace > 0) msg("g$open is now", g$open)
+        if (trace > 1) msg("g$open is now", g$open)
 
         # Nodes in tree are all closed nodes plus the terminals
         g$include <- union(union(g$closed, g$terminal), g$open)
         # -1 subtracts the root from the count
         g$n.nodes <- length(g$include) - 1
-        if (trace > 0) msg("g$n.nodes is", g$n.nodes)
+        if (trace > 1) msg("g$n.nodes is", g$n.nodes)
         g$n.leaves <- length(g$terminal)
       } else {
         g$closed <- c(g$closed, selected)
@@ -343,7 +343,7 @@ shytreeLeavesRC <- function(x, y,
     } # /if (length(g$tree) == 3)
 
     # Update stepindex
-    if (trace > 0) msg("Updating steprules...")
+    if (trace > 1) msg("Updating steprules...")
     stepid <- stepid + 1
     g$stepindex[[stepid]] <- g$terminal
 
@@ -363,7 +363,7 @@ shytreeLeavesRC <- function(x, y,
     g$terminal <- c(2, 3)
     included <- c(1, 2, 3)
   } else {
-    if (trace > 0) msg("Purging excluded nodes...")
+    if (trace > 1) msg("Purging excluded nodes...")
     # old:
     # for (k in c(g$open, g$nosplit)) g$tree[[paste(k)]] <- NULL
     # new: remove !g$included
@@ -534,11 +534,11 @@ splitLineRC <- function(g,
 
   if (is.null(part$splits)) {
     # '-- Node did not split ====
-    if (trace > 0) msg0("Node #", node.index, " did not split")
+    if (trace > 1) msg0("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
     g$tree[[paste(node.index)]]$type <- "nosplit"
     g$nosplit <- c(g$nosplit, node.index)
-    if (trace > 0) msg("Moving nosplit nodes from open to closed list...")
+    if (trace > 1) msg("Moving nosplit nodes from open to closed list...")
     # +tree: Remove nosplit node from open
     g$open <- setdiff(g$open, g$nosplit)
     # +tree: Add nosplit node to closed
@@ -575,7 +575,7 @@ splitLineRC <- function(g,
       if (is.numeric(g$x[[cutFeat.name]])) {
         # Split was on a categorical feature
         cutFeat.point <- part$splits[1, "index"]
-        if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+        if (trace > 1) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                            "\"; Cut Point = ", ddSci(cutFeat.point),
                            sep = "")
         split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
@@ -583,7 +583,7 @@ splitLineRC <- function(g,
       } else {
         # Split was on a continuous feature
         cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
-        if (trace > 0) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+        if (trace > 1) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                            "\"; Cut Category is \"", cutFeat.category,
                            "\"", sep = "")
         split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
@@ -724,13 +724,13 @@ splitLineRC <- function(g,
     # Node split and resid2 is not constant
     if (length(left.index) < minobsinnode.lin) {
       # Too few observations to fit linear model
-      if (trace > 0) msg("Preparing Node #", node.index * 2,
+      if (trace > 1) msg("Looking at Node #", node.index * 2,
                          ": ", length(left.index),
                          " cases belong to this node: Not fitting any more lines here", sep = "")
       linVal.left <- rep(0, length(resid2))
       linCoef.left <- rep(0, g$ncolxm)
     } else {
-      linCoef.left <- lincoef(x = g$xm[, -1], y = resid2,
+      linCoef.left <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
                               weights = weights.left,
                               method = lin.type,
                               nvmax = nvmax,
@@ -759,13 +759,13 @@ splitLineRC <- function(g,
 
     if (length(right.index) < minobsinnode.lin) {
       # Too few observations to fit linear model
-      if (trace > 0) msg("Preparing Node #", node.index * 2 + 1,
+      if (trace > 1) msg("Looking at Node #", node.index * 2 + 1,
                          ": ", length(right.index),
                          " cases belong to this node: Not fitting any more lines here", sep = "")
       linVal.right <- rep(0, length(resid2))
       linCoef.right <- rep(0, g$ncolxm)
     } else {
-      linCoef.right <- lincoef(x = g$xm[, -1], y = resid2,
+      linCoef.right <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
                                weights = weights.right,
                                method = lin.type,
                                nvmax = nvmax,
@@ -856,7 +856,8 @@ splitLineRC <- function(g,
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param trace Not used
+#' @param trace Integer: 0, 1, or 2. Provides increasing amount to information printed to the
+#' console
 #' @export
 #' @author Efstathios D. Gennatas
 

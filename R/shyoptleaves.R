@@ -1,7 +1,6 @@
 # shyoptleaves.R
 # ::rtemis::
 # 2018-9 Efstathios D. Gennatas egenn.github.io
-# shyoptleaves with no-line option
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
@@ -26,26 +25,27 @@ shyoptleaves <- function(x, y,
                          early.stopping = FALSE,
                          weights = NULL,
                          max.leaves = 5,
-                         nvmax = 2,
+                         learning.rate = 1,
+                         # nvmax = 2,
                          select.leaves.smooth = TRUE,
+                         # splitline
                          gamma = .1,
-                         # min.update = 10,
+                         n.quantiles = 20,
+                         minobsinnode = round(.1 * length(y)),
+                         minbucket = round(.05 * length(y)),
+                         # --lincoef
+                         lin.type = "glmnet",
                          alpha = 1,
                          lambda = .1,
                          lambda.seq = NULL,
-                         minobsinnode = 2,
-                         minobsinnode.lin = 10,
-                         learning.rate = 1,
-                         part.minsplit = 2,
-                         part.xval = 0,
-                         part.max.depth = 1,
-                         part.cp = 0,
-                         part.minbucket = 5,
+                         cv.glmnet.nfolds = 5,
+                         which.cv.glmnet.lambda = "lambda.min",
+                         nbest = 1,
+                         nvmax = 8,
+                         # /--lincoef
+                         # /splitline
                          .rho = TRUE,
                          rho.max = 1000,
-                         lin.type = "glmnet",
-                         cv.glmnet.nfolds = 5,
-                         cv.glmnet.lambda = "lambda.min",
                          loss.fn = if (is.factor(y)) class.loss else mse,
                          verbose = TRUE,
                          plot.tune.error = FALSE,
@@ -96,7 +96,7 @@ shyoptleaves <- function(x, y,
 
   # [ ARGUMENTS ] ====
   if (NCOL(x) == 1) lin.type <- "glm"
-  if (trace > 0) msg0("Using lin.type '", lin.type, "'")
+  if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ====
   g <- new.env()
@@ -108,8 +108,7 @@ shyoptleaves <- function(x, y,
   g$y <- y
   g$x.valid <- x.valid
   g$y.valid <- y.valid
-  g$weights <- weights # ENH: not needed
-  g$gamma <- gamma
+  g$weights <- weights
   g$learning.rate <- learning.rate
   g$tree <- list()
   g$n.nodes <- 0
@@ -160,7 +159,7 @@ shyoptleaves <- function(x, y,
                    " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
 
-  coef <- lincoef(x = g$xm[, -1], y = resid,
+  coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid,
                   weights = weights,
                   method = lin.type,
                   nvmax = nvmax,
@@ -245,22 +244,24 @@ shyoptleaves <- function(x, y,
         splitlin_(g = g,
                   type = type,
                   node.index = i,
+                  gamma = gamma,
+                  n.quantiles = n.quantiles,
+                  minobsinnode = minobsinnode,
+                  minbucket = minbucket,
+                  # lincoef
+                  lin.type = lin.type,
                   alpha = alpha,
                   lambda = lambda,
                   lambda.seq = lambda.seq,
                   cv.glmnet.nfolds = cv.glmnet.nfolds,
-                  part.minsplit = part.minsplit,
-                  part.xval = part.xval,
-                  part.max.depth = part.max.depth,
-                  part.cp = part.cp,
-                  part.minbucket = part.minbucket,
-                  minobsinnode.lin = minobsinnode.lin,
-                  lin.type = lin.type,
+                  which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                  nbest = nbest,
                   nvmax = nvmax,
-                  verbose = verbose,
+                  # /lincoef
+                  n.cores = n.cores,
                   trace = trace)
       } else {
-        if (trace > 0) msg("Node #", i, " already processed", sep = "")
+        if (trace > 1) msg("Node #", i, " already processed", sep = "")
       }
     } # /for (i in g$open) splitLine
 
@@ -302,7 +303,7 @@ shyoptleaves <- function(x, y,
       }
 
       if ((selected.red)) {
-        if (trace > 0) msg(">>> Selected node #", selected, sep = "")
+        if (trace > 1) msg(">>> Selected node #", selected, sep = "")
         if (trace > 1) msg("g$terminal is", g$terminal)
         # +tree: Remove selected from terminal
         if (trace > 1) msg("Removing selected from terminal nodes")
@@ -325,13 +326,13 @@ shyoptleaves <- function(x, y,
         # +tree: Add selected's children to open
         # Add selected's children to open
         g$open <- c(g$open, selected * 2, selected * 2 + 1)
-        if (trace > 0) msg("g$open is now", g$open)
+        if (trace > 1) msg("g$open is now", g$open)
 
         # Nodes in tree are all closed nodes plus the terminals
         g$include <- union(union(g$closed, g$terminal), g$open)
         # -1 subtracts the root from the count
         g$n.nodes <- length(g$include) - 1
-        if (trace > 0) msg("g$n.nodes is", g$n.nodes)
+        if (trace > 1) msg("g$n.nodes is", g$n.nodes)
         g$n.leaves <- length(g$terminal)
       } else {
         g$closed <- c(g$closed, selected)
@@ -341,7 +342,7 @@ shyoptleaves <- function(x, y,
     } # /if (length(g$tree) == 3)
 
     # Update stepindex
-    if (trace > 0) msg("Updating steprules...")
+    if (trace > 1) msg("Updating steprules...")
     stepid <- stepid + 1
     g$stepindex[[stepid]] <- g$terminal
 
@@ -361,7 +362,7 @@ shyoptleaves <- function(x, y,
     g$terminal <- c(2, 3)
     included <- c(1, 2, 3)
   } else {
-    if (trace > 0) msg("Purging excluded nodes...")
+    if (trace > 1) msg("Purging excluded nodes...")
     # old:
     # for (k in c(g$open, g$nosplit)) g$tree[[paste(k)]] <- NULL
     # new: remove !g$included
@@ -492,20 +493,22 @@ setNodeRC <- function(g,
 splitlin_ <- function(g,
                       type,
                       node.index,
-                      alpha = 1,
-                      lambda = .05,
-                      lambda.seq = NULL,
-                      cv.glmnet.nfolds = 5,
-                      part.minsplit = 2,
-                      part.xval = 0,
-                      part.max.depth = 1,
-                      part.cp = 0,
-                      part.minbucket = 5,
-                      minobsinnode.lin = 5,
+                      gamma,
+                      n.quantiles,
+                      minobsinnode,
+                      minbucket,
+                      # lincoef
                       lin.type,
-                      nvmax = nvmax,
-                      verbose = TRUE,
-                      trace = 0) {
+                      alpha,
+                      lambda,
+                      lambda.seq,
+                      cv.glmnet.nfolds,
+                      which.cv.glmnet.lambda,
+                      nbest,
+                      nvmax,
+                      # /lincoef
+                      n.cores,
+                      trace) {
 
   # '- Node ====
   .class <- type == "Classification"
@@ -522,23 +525,33 @@ splitlin_ <- function(g,
   # '- [ Split with splitline ] ====
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
   # dat <- data.frame(g$x, resid1)
-  if (trace > 0) msg("Running splitline...", color = crayon::red)
-  part <- splitline(g$xm[, -1], resid1,
+  if (trace > 0) msg("Running splitline...", color = rtOrange)
+  part <- splitline(g$xm[, -1, drop = FALSE], resid1,
                     caseweights = weights,
-                    gamma = g$gamma,
+                    gamma = gamma,
+                    n.quantiles = n.quantiles,
+                    minobsinnode = minobsinnode,
+                    minbucket = minbucket,
+                    # lincoef
+                    lin.type = lin.type,
                     alpha = alpha,
                     lambda = lambda,
-                    minbucket = part.minbucket,
+                    lambda.seq = lambda.seq,
+                    cv.glmnet.nfolds = cv.glmnet.nfolds,
+                    which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                    nbest = nbest,
+                    nvmax = nvmax,
+                    # /lincoef
+                    n.cores = n.cores,
                     trace = trace)
 
-  # TODO: check support for no split
   if (is.na(part$featindex)) {
     # '-- Node did not split ====
-    if (trace > 0) msg0("Node #", node.index, " did not split")
+    if (trace > 1) msg0("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
     g$tree[[paste(node.index)]]$type <- "nosplit"
     g$nosplit <- c(g$nosplit, node.index)
-    if (trace > 0) msg("Moving nosplit nodes from open to closed list...")
+    if (trace > 1) msg("Moving nosplit nodes from open to closed list...")
     # +tree: Remove nosplit node from open
     g$open <- setdiff(g$open, g$nosplit)
     # +tree: Add nosplit node to closed
@@ -546,7 +559,6 @@ splitlin_ <- function(g,
     # check: cutGeat.category not used
     cutFeat.name <- cutFeat.point <- cutFeat.category <- NA
     g$tree[[paste(node.index)]]$split.rule <- NA
-    # part.c.left <- part.c.right <- 0
     left.index <- right.index <- NA
     # split.rule.left <- split.rule.right <- FALSE # never used
     linVal.left <- linVal.right <- 0
@@ -568,11 +580,11 @@ splitlin_ <- function(g,
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
     # '- Update Weights -' ====
     weights.left <- weights.right <- weights
-    weights.left[right.index] <- weights.left[right.index] * g$gamma
-    weights.right[left.index] <- weights.right[left.index] * g$gamma
+    weights.left[right.index] <- weights.left[right.index] * gamma
+    weights.right[left.index] <- weights.right[left.index] * gamma
 
     # !! Lincoefs Left ====
-    linCoef.left <- lincoef(x = g$xm[, -1], y = resid1,
+    linCoef.left <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid1,
                             weights = weights.left,
                             method = lin.type,
                             nvmax = nvmax,
@@ -598,7 +610,7 @@ splitlin_ <- function(g,
     coef.left <- node$coef + linCoef.left
 
     # !! LinCoefs Right ====
-    linCoef.right <- lincoef(x = g$xm[, -1], y = resid1,
+    linCoef.right <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid1,
                              weights = weights.right,
                              method = lin.type,
                              nvmax = nvmax,

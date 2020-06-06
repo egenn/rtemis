@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019-20 Efstathios D Gennatas egenn.github.io
 # Allow early stopping
-# SHYOPTREE -> shyoptleaves -> splitlin ->
+# SHYOPTREE -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 
 #' Stepwise Hybrid Tree [C, R]
 #'
@@ -36,30 +36,29 @@ s.SHYOPTREE <- function(x, y = NULL,
                         downsample = FALSE,
                         resample.seed = NULL,
                         max.leaves = 6,
-                        nvmax = 2,
+                        learning.rate = 1,
+                        select.leaves.smooth = TRUE,
                         force.max.leaves = NULL,
                         early.stopping = TRUE,
-                        gamma = .1,
-                        alpha = 1,
-                        lambda = .05,
-                        lambda.seq = NULL,
+                        # splitline
+                        gamma = 0,
+                        n.quantiles = 20,
                         minobsinnode = 2,
-                        minobsinnode.lin = 10,
-                        learning.rate = 1,
-                        part.minsplit = 2,
-                        part.xval = 0,
-                        part.max.depth = 1,
-                        part.cp = 0,
-                        part.minbucket = 5,
-                        .rho = TRUE,
-                        rho.max = 1000,
-                        init = NULL,
+                        minbucket = 5,
                         lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
                                      "forwardStepwise", "backwardStepwise", "glm",
                                      "solve", "none"),
-                        splitter = "splitline",
+                        alpha = 1,
+                        lambda = .05,
+                        lambda.seq = NULL,
                         cv.glmnet.nfolds = 5,
-                        cv.glmnet.lambda = "lambda.min",
+                        which.cv.glmnet.lambda = "lambda.min",
+                        nbest = 1,
+                        nvmax = 3,
+                        # /splitline
+                        .rho = TRUE,
+                        rho.max = 1000,
+                        init = NULL,
                         metric = "auto",
                         maximize = NULL,
                         grid.resample.rtset = rtset.grid.resample(),
@@ -71,10 +70,8 @@ s.SHYOPTREE <- function(x, y = NULL,
                         cxrcoef = FALSE,
                         n.cores = rtCores,
                         .preprocess = NULL,
-                        verbose = TRUE,
                         plot.tune.error = FALSE,
                         verbose.predict = FALSE,
-                        trace = 1,
                         x.name = NULL,
                         y.name = NULL,
                         question = NULL,
@@ -84,7 +81,9 @@ s.SHYOPTREE <- function(x, y = NULL,
                         plot.predicted = NULL,
                         plot.theme = getOption("rt.fit.theme", "lightgrid"),
                         save.mod = FALSE,
-                        .gs = FALSE) {
+                        .gs = FALSE,
+                        verbose = TRUE,
+                        trace = 1) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -133,7 +132,7 @@ s.SHYOPTREE <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(gamma, lambda, minobsinnode, minobsinnode.lin,
+  if (verbose) parameterSummary(gamma, lambda, minobsinnode,
                                 learning.rate, max.leaves, nvmax)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -147,6 +146,8 @@ s.SHYOPTREE <- function(x, y = NULL,
   init <- if (type == "Classification") 0 else mean(y)
   if (type == "Classification" && length(levels(y)) != 2)
     stop("s.SHYOPTREE currently supports only binary classification")
+
+  loss.fn <- if (type == "Classification") class.loss else mse
 
   if (!is.null(force.max.leaves)) early.stopping <- FALSE
 
@@ -173,9 +174,9 @@ s.SHYOPTREE <- function(x, y = NULL,
   # .final <- FALSE
   if (is.null(force.max.leaves)) {
     if (early.stopping) {
-      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
+      gc <- gridCheck(gamma, lambda, learning.rate, nvmax, minobsinnode, minbucket)
     } else {
-      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+      gc <- gridCheck(gamma, lambda, learning.rate, max.leaves, nvmax, minobsinnode, minbucket)
     }
   } else {
     gc <- FALSE
@@ -189,14 +190,17 @@ s.SHYOPTREE <- function(x, y = NULL,
     grid.params <- c(grid.params, list(nvmax = nvmax,
                                        gamma = gamma,
                                        lambda = lambda,
-                                       minobsinnode = minobsinnode,
                                        learning.rate = learning.rate,
-                                       part.cp = part.cp))
+                                       minobsinnode = minobsinnode,
+                                       minbucket = minbucket))
     fixed.params <- if (early.stopping) list(max.leaves = max.leaves) else list()
     fixed.params <- c(fixed.params, list(init = init,
+                                         n.quantiles = n.quantiles,
                                          lin.type = lin.type,
+                                         lambda.seq = lambda.seq,
                                          cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                         cv.glmnet.lambda = cv.glmnet.lambda,
+                                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                                         nbest = nbest,
                                          metric = metric,
                                          ipw = ipw,
                                          ipw.type = ipw.type,
@@ -222,12 +226,12 @@ s.SHYOPTREE <- function(x, y = NULL,
     # lambda, minobsinnode, learning.rate, part.cp
     gamma <- gs$best.tune$gamma
     lambda <- gs$best.tune$lambda
-    minobsinnode <- gs$best.tune$minobsinnode
     learning.rate <- gs$best.tune$learning.rate
-    part.cp <- gs$best.tune$part.cp
     nvmax <- gs$best.tune$nvmax
-    # Return special from gridSearchLearn
+    # max.leaves is a return special from gridSearchLearn
     max.leaves <- gs$best.tune$n.leaves
+    minobsinnode <- gs$best.tune$minobsinnode
+    minbucket <- gs$best.tune$minbucket
 
     # if (n.trees == -1) {
     #   warning("Tuning failed to find n.trees, defaulting to failsafe.trees = ", failsafe.trees)
@@ -264,26 +268,27 @@ s.SHYOPTREE <- function(x, y = NULL,
   mod <- shyoptleaves(x, y,
                       x.valid = x.valid, y.valid = y.valid,
                       early.stopping = early.stopping,
+                      weights = .weights,
                       max.leaves = max.leaves,
-                      nvmax = nvmax,
+                      learning.rate = learning.rate,
+                      select.leaves.smooth = select.leaves.smooth,
                       gamma = gamma,
+                      n.quantiles = n.quantiles,
+                      minobsinnode = minobsinnode,
+                      minbucket = minbucket,
+                      # --lincoef
+                      lin.type = lin.type,
                       alpha = alpha,
                       lambda = lambda,
                       lambda.seq = lambda.seq,
-                      minobsinnode = minobsinnode,
-                      minobsinnode.lin = minobsinnode.lin,
-                      learning.rate = learning.rate,
-                      part.minsplit = part.minsplit,
-                      part.xval = part.xval,
-                      part.max.depth = part.max.depth,
-                      part.cp = part.cp,
-                      part.minbucket = part.minbucket,
+                      cv.glmnet.nfolds = cv.glmnet.nfolds,
+                      which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                      nbest = nbest,
+                      nvmax = nvmax,
+                      # /--lincoef
                       .rho = .rho,
                       rho.max = rho.max,
-                      weights = .weights,
-                      lin.type = lin.type,
-                      cv.glmnet.nfolds = cv.glmnet.nfolds,
-                      cv.glmnet.lambda = cv.glmnet.lambda,
+                      loss.fn = loss.fn,
                       verbose = verbose,
                       plot.tune.error = plot.tune.error,
                       trace = trace,
@@ -294,18 +299,14 @@ s.SHYOPTREE <- function(x, y = NULL,
                      alpha = alpha,
                      lambda = lambda,
                      lambda.seq = lambda.seq,
-                     minobsinnode = minobsinnode,
-                     minobsinnode.lin = minobsinnode.lin,
                      learning.rate = learning.rate,
-                     part.minsplit = part.minsplit,
-                     part.xval = part.xval,
-                     part.max.depth = part.max.depth,
-                     part.cp = part.cp,
+                     minobsinnode = minobsinnode,
+                     minbucket = minbucket,
                      weights = .weights,
                      init = init,
                      lin.type = lin.type,
                      cv.glmnet.nfolds = cv.glmnet.nfolds,
-                     cv.glmnet.lambda = cv.glmnet.lambda)
+                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
   # [ FITTED ] ====
   if (type == "Classification") {
