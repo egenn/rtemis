@@ -63,7 +63,7 @@ dplot3.shytree <- function(tree,
                            tooltip.coefs = TRUE,
                            table.font.size = "14px",
                            table.dat.padding = "0px",
-                           table.lo.col = "#80FFFF",
+                           table.lo.col = "#2B27F1",
                            table.hi.col = "#FFBE00",
                            trace = 0) {
 
@@ -119,10 +119,18 @@ dplot3.shytree <- function(tree,
   # for vertical coefsl
   if (tooltip.coefs) {
       # '- custom ====
-      dat.col <- matrix(colorgradient.x(unlist(coefs), symmetric = TRUE,
-                                        lo.col = table.lo.col,
-                                        hi.col = table.hi.col),
-                        NROW(coefs))
+      # dat.col1 <- matrix(colorgradient.x(unlist(coefs), symmetric = TRUE,
+      #                                   lo.col = table.lo.col,
+      #                                   hi.col = table.hi.col),
+      #                   NROW(coefs))
+
+    # exclude intercept so that it doesn't soak up all the range
+      dat.col <- matrix(colorgradient.x(unlist(coefs[-1, ]), symmetric = TRUE,
+                          lo.col = table.lo.col,
+                          hi.col = table.hi.col),
+                        NROW(coefs) - 1)
+      dat.col <- rbind(rep("gray50", NCOL(coefs)), dat.col)
+
       coefs.html <- lapply(seq(coefsl), function(i) {
         twocol2html(coefsl[[i]], font.family = font.family,
                     dat.col = dat.col[, i], font.size = table.font.size,
