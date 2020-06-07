@@ -66,6 +66,11 @@ splitline <- function(x, y,
 
     }, cl = n.cores)
 
+    if (all(minloss_perfeat[2, ] == Inf)) {
+      return(list(featindex = NA,
+                  cutoff = NA,
+                  loss = NA))
+    }
     featindex <- which.min(minloss_perfeat[2, ])
     list(featindex = featindex,
          cutoff = minloss_perfeat[1, featindex],
@@ -108,8 +113,9 @@ cutnsplit <- function(x, y,
   loss <- sapply(seq(cutpoints), function(i) {
     if (trace > 1) msg0("Testing cutpoint ", i, "...")
     indexLeft <- x[, index] < cutpoints[i]
+
     # Check minbucket
-    if (sum(indexLeft) < minbucket | (ncases - sum(indexLeft) < minbucket)) return(c(NA, Inf))
+    if (sum(indexLeft) < minbucket | (ncases - sum(indexLeft) < minbucket)) return(Inf)
     weightsLeft <- weightsRight <- caseweights
     weightsLeft[!indexLeft] <- weightsLeft[!indexLeft] * gamma
     weightsRight[indexLeft] <- weightsRight[indexLeft] * gamma
@@ -117,30 +123,37 @@ cutnsplit <- function(x, y,
     # Check either y is constant
     .constant <- is.constant(y) | is.constant(y * weightsLeft) | is.constant(y * weightsRight)
     if (.constant) {
-      if (trace > 0) msg("y is constant, abort split", color = crayon::bgMagenta)
-      return(c(NA, Inf))
+      if (trace > 1) msg("y is constant, abort split", color = crayon::magenta)
+      return(Inf)
     }
 
     # '- lm left ====
-    elnetLeft <- cbind(1, x) %*% lincoef(x, y, weightsLeft,
-                                         method = lin.type,
-                                         alpha = alpha,
-                                         lambda = lambda,
-                                         lambda.seq = lambda.seq,
-                                         cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-                                         nbest = nbest,
-                                         nvmax = nvmax)
+    elnetLeft <- try(cbind(1, x) %*% lincoef(x, y, weightsLeft,
+                                             method = lin.type,
+                                             alpha = alpha,
+                                             lambda = lambda,
+                                             lambda.seq = lambda.seq,
+                                             cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                             which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                                             nbest = nbest,
+                                             nvmax = nvmax),
+                     outFile = stdout(),
+                     silent = trace < 2)
+    if (inherits(elnetLeft, "try-error")) return(Inf)
+
     # '- lm right ====
-    elnetRight <- cbind(1, x) %*% lincoef(x, y, weightsRight,
-                                          method = lin.type,
-                                          alpha = alpha,
-                                          lambda = lambda,
-                                          lambda.seq = lambda.seq,
-                                          cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-                                          nbest = nbest,
-                                          nvmax = nvmax)
+    elnetRight <- try(cbind(1, x) %*% lincoef(x, y, weightsRight,
+                                              method = lin.type,
+                                              alpha = alpha,
+                                              lambda = lambda,
+                                              lambda.seq = lambda.seq,
+                                              cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                              which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                                              nbest = nbest,
+                                              nvmax = nvmax),
+                      outFile = stdout(),
+                      silent = trace < 2)
+    if (inherits(elnetRight, "try-error")) return(Inf)
 
     mean(c((y[indexLeft] - elnetLeft[indexLeft])^2,
            y[!indexLeft] * (y[!indexLeft] - elnetRight[!indexLeft])^2))
