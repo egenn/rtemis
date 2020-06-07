@@ -28,7 +28,7 @@ dplot3.shytree(
   tooltip.coefs = TRUE,
   table.font.size = "14px",
   table.dat.padding = "0px",
-  table.lo.col = "#80FFFF",
+  table.lo.col = "#2B27F1",
   table.hi.col = "#FFBE00",
   trace = 0
 )

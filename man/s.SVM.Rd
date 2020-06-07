@@ -127,7 +127,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
-\item{save.mod}{Logical. If TRUE, save all output as RDS file in \code{outdir}
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 

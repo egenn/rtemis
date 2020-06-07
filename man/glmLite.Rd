@@ -25,7 +25,8 @@ glmLite(
 )
 }
 \arguments{
-\item{x}{Features. Will be coerced to data.frame for method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
+\item{x}{Feature matrix or data.frame. Will be coerced to data.frame for method = "allSubsets",
+"forwardStepwise", or "backwardStepwise"}
 
 \item{y}{Outcome}
 

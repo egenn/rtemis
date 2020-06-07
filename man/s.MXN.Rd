@@ -135,7 +135,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{n.cores}{Integer: Number of cores to use. Caution: Only set to >1 if you're sure MXNET is not using already
 using multiple cores}
 
-\item{save.mod}{Logical. If TRUE, save all output as RDS file in \code{outdir}
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 

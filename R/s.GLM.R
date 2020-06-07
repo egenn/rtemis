@@ -66,7 +66,7 @@
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,
 #'   as well as full model output, if \code{save.mod} is TRUE
-#' @param save.mod Logical. If TRUE, save all output as RDS file in \code{outdir}
+#' @param save.mod Logical: If TRUE, save all output to an RDS file in \code{outdir}
 #'   \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 #'   is defined, outdir defaults to \code{paste0("./s.", mod.name)}
 #' @param ... Additional arguments

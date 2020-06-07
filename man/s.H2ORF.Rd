@@ -94,7 +94,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
-\item{save.mod}{Logical. If TRUE, save all output as RDS file in \code{outdir}
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
