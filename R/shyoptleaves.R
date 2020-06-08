@@ -26,7 +26,6 @@ shyoptleaves <- function(x, y,
                          weights = NULL,
                          max.leaves = 5,
                          learning.rate = 1,
-                         # nvmax = 2,
                          select.leaves.smooth = TRUE,
                          # splitline
                          gamma = .1,
@@ -41,7 +40,7 @@ shyoptleaves <- function(x, y,
                          cv.glmnet.nfolds = 5,
                          which.cv.glmnet.lambda = "lambda.min",
                          nbest = 1,
-                         nvmax = 8,
+                         nvmax = 3,
                          # /--lincoef
                          # /splitline
                          .rho = TRUE,
@@ -112,7 +111,7 @@ shyoptleaves <- function(x, y,
   g$learning.rate <- learning.rate
   g$tree <- list()
   g$n.nodes <- 0
-  g$n.leaves <- 0 # FIX: change starting to 1
+  g$n.leaves <- 0
   g$nosplit <- integer()
   g$terminal <- integer()
   g$allrules <- character()
@@ -470,7 +469,6 @@ setNodeRC <- function(g,
        type = type,
        rule = rule,
        split.rule = split.rule,
-       # loss = g$loss.fn(g$y, Fval, weights), # check: remove weights? # delta: removed weights
        loss = g$loss.fn(g$y, Fval),
        split.loss = NULL,
        split.loss.red = NULL)
@@ -547,6 +545,7 @@ splitlin_ <- function(g,
 
   if (is.na(part$featindex)) {
     # '-- Node did not split ====
+    # TODO: work on g and exit
     if (trace > 1) msg0("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
     g$tree[[paste(node.index)]]$type <- "nosplit"
@@ -556,7 +555,7 @@ splitlin_ <- function(g,
     g$open <- setdiff(g$open, g$nosplit)
     # +tree: Add nosplit node to closed
     g$closed <- c(g$closed, node.index)
-    # check: cutGeat.category not used
+    # check: cutFeat.category not used
     cutFeat.name <- cutFeat.point <- cutFeat.category <- NA
     g$tree[[paste(node.index)]]$split.rule <- NA
     left.index <- right.index <- NA
@@ -599,14 +598,14 @@ splitlin_ <- function(g,
     # Lin Updates, Left ====
     if (.class & g$.rho) {
       firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.left)[1]
-      secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
+      secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.left)[1]
       rho.left <- -firstDer.rho.left / secDer.rho.left
       rho.left <- sign(rho.left) * min(g$rho.max, rho.left, na.rm = TRUE)[1]
     } else {
       rho.left <- 1
     }
 
-    Fval.left <- node$Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index] # n
+    # Fval.left <- node$Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index]
     coef.left <- node$coef + linCoef.left
 
     # !! LinCoefs Right ====
@@ -623,63 +622,64 @@ splitlin_ <- function(g,
     linVal.right <- c(g$xm %*% linCoef.right)
 
     if (.class & g$.rho) {
-      firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.right)[1]
-      secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.right)[1]
+      firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.right)[1]
+      secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.right)[1]
       rho.right <- -firstDer.rho.right / secDer.rho.right
       rho.right <- sign(rho.right) * min(g$rho.max, rho.right, na.rm = TRUE)[1]
     } else {
       rho.right <- 1
     }
 
-    Fval.right <- node$Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+    # Fval.right <- node$Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
     coef.right <- node$coef + linCoef.right
+
+    # '- Side-effects -' ====
+
+    # Check: should we keep this
+    depth <- g$tree[[paste(node.index)]]$depth + 1
+
+    # Get combined error of children
+    Fval <- node$Fval
+    Fval[left.index] <- node$Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index]
+    Fval[right.index] <- node$Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+
+    # Assign loss reduction to parent
+    g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval)
+    g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
+
+    # Set id numbers by preorder indexing
+    # Left
+    left.id <- node$id * 2
+    g$tree[[paste(left.id)]] <- setNodeRC(g = g,
+                                          id = left.id,
+                                          index = left.index,
+                                          Fval = Fval,
+                                          weights = weights.left,
+                                          depth = depth,
+                                          coef = coef.left,
+                                          terminal = TRUE,
+                                          type = "terminal",
+                                          condition = split.rule.left,
+                                          split.rule = NULL,
+                                          rule = crules(node$rule, split.rule.left))
+
+    # Right
+    right.id <- left.id + 1
+    g$tree[[paste(right.id)]] <- setNodeRC(g = g,
+                                           id = right.id,
+                                           index = right.index,
+                                           Fval = Fval,
+                                           weights = weights.right,
+                                           depth = depth,
+                                           coef = coef.right,
+                                           terminal = TRUE,
+                                           type = "terminal",
+                                           condition = split.rule.right,
+                                           split.rule = NULL,
+                                           rule = crules(node$rule, split.rule.right))
 
   } # /if (is.null(part$splits)) aka Node did split
 
-  # '- Side-effects -' ====
-
-  # Check: should we keep this
-  depth <- g$tree[[paste(node.index)]]$depth + 1
-
-  # Get combined error of children
-  Fval <- node$Fval
-  Fval[left.index] <- Fval.left
-  Fval[right.index] <- Fval.right
-
-  # Assign loss reduction to parent
-  g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval)
-  g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
-
-  # Set id numbers by preorder indexing
-  # Left
-  left.id <- node$id * 2
-  g$tree[[paste(left.id)]] <- setNodeRC(g = g,
-                                        id = left.id,
-                                        index = left.index,
-                                        Fval = Fval,
-                                        weights = weights.left,
-                                        depth = depth,
-                                        coef = coef.left,
-                                        terminal = TRUE,
-                                        type = "terminal",
-                                        condition = split.rule.left,
-                                        split.rule = NULL,
-                                        rule = crules(node$rule, split.rule.left))
-
-  # Right
-  right.id <- left.id + 1
-  g$tree[[paste(right.id)]] <- setNodeRC(g = g,
-                                         id = right.id,
-                                         index = right.index,
-                                         Fval = Fval,
-                                         weights = weights.right,
-                                         depth = depth,
-                                         coef = coef.right,
-                                         terminal = TRUE,
-                                         type = "terminal",
-                                         condition = split.rule.right,
-                                         split.rule = NULL,
-                                         rule = crules(node$rule, split.rule.right))
 } # rtemis::splitlin_
 
 
@@ -850,7 +850,7 @@ predict.shyoptleaves <- function(object, newdata,
 
 print.shyoptleaves <- function(x, ...) {
 
-  cat("\n  A Stepwise Hybrid Optimized Tree model with", x$n.nodes, "nodes\n\n")
+  cat("\n  A Stepwise Hybrid Optimized Tree model with", x$n.leaves, "leaves\n\n")
 
 }
 

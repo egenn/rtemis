@@ -34,16 +34,16 @@ s.SHYTREE <- function(x, y = NULL,
                       downsample = FALSE,
                       resample.seed = NULL,
                       max.leaves = 6,
-                      nvmax = 2,
+                      nvmax = 3,
                       force.max.leaves = NULL,
                       early.stopping = TRUE,
-                      gamma = .1,
+                      gamma = 0,
                       alpha = 1,
                       lambda = .05,
                       lambda.seq = NULL,
                       minobsinnode = 2,
                       minobsinnode.lin = 10,
-                      learning.rate = 1,
+                      learning.rate =.5,
                       part.minsplit = 2,
                       part.xval = 0,
                       part.max.depth = 1,
@@ -52,14 +52,13 @@ s.SHYTREE <- function(x, y = NULL,
                       .rho = TRUE,
                       rho.max = 1000,
                       init = NULL,
-                      lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-                                   "forwardStepwise", "backwardStepwise", "glm",
-                                   "solve", "none"),
+                      lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge",
+                                   "allSubsets", "backwardStepwise", "glm", "solve", "none"),
                       cv.glmnet.nfolds = 5,
                       cv.glmnet.lambda = "lambda.min",
                       metric = "auto",
                       maximize = NULL,
-                      grid.resample.rtset = rtset.grid.resample(),
+                      grid.resample.rtset = rtset.resample("kfold", 5),
                       grid.search.type = "exhaustive",
                       save.gridrun = FALSE,
                       grid.verbose = TRUE,
@@ -166,7 +165,6 @@ s.SHYTREE <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  # .final <- FALSE
   if (is.null(force.max.leaves)) {
     if (early.stopping) {
       gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
@@ -179,7 +177,6 @@ s.SHYTREE <- function(x, y = NULL,
 
 
   if (n.cores > 1) plot.tune.error <- FALSE
-  # if (!.gs && (gc | is.null(force.max.leaves))) {
   if ((!.gs && gc) | (!.gs && early.stopping && max.leaves > 1)) {
     grid.params <- if (early.stopping) list() else list(max.leaves = max.leaves)
     grid.params <- c(grid.params, list(nvmax = nvmax,
@@ -215,7 +212,6 @@ s.SHYTREE <- function(x, y = NULL,
                           grid.verbose = grid.verbose,
                           n.cores = n.cores)
 
-    # lambda, minobsinnode, learning.rate, part.cp
     gamma <- gs$best.tune$gamma
     lambda <- gs$best.tune$lambda
     minobsinnode <- gs$best.tune$minobsinnode
@@ -235,7 +231,6 @@ s.SHYTREE <- function(x, y = NULL,
     # }
 
     # Now ready to train final full model
-    # .final <- TRUE
     .gs <- FALSE
     early.stopping <- FALSE
   } else {

@@ -12,7 +12,7 @@
 #' @inheritParams s.GLM
 #' @inheritParams s.CART
 #' @param n.trees Integer: Number of trees to grow. Default = 1000
-#' @param autotune Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}
+#' @param autotune Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}
 #' @param n.trees.try Integer: Number of trees to train for tuning, if \code{autotune = TRUE}
 #' @param stepFactor Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 #' divided by this value. Default = 1.5

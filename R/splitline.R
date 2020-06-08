@@ -37,7 +37,7 @@ splitline <- function(x, y,
                       cv.glmnet.nfolds = 5,
                       which.cv.glmnet.lambda = "lambda.min",
                       nbest = 1,
-                      nvmax = 8,
+                      nvmax = 4,
                       # /lincoef
                       n.cores = 1,
                       trace = 0) {
@@ -99,7 +99,7 @@ cutnsplit <- function(x, y,
                       cv.glmnet.nfolds = 5,
                       which.cv.glmnet.lambda = "lambda.min",
                       nbest = 1,
-                      nvmax = 8,
+                      nvmax = 4,
                       # /lincoef
                       minbucket = 10,
                       trace = 0) {

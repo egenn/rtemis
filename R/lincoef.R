@@ -38,7 +38,7 @@
 #' @param sgd.model Character: Model to use for \code{method = "sgd"}. Default = "glm"
 #' @param sgd.model.control List: \code{model.control} list to pass to \code{sgd::sgd}
 #' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
-#' @param ... Additional parameters to pass to \code{leaps::regsubsets}
+# #' @param ... Additional parameters to pass to \code{leaps::regsubsets}
 #' "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.
 #' @return Coefficients
 #' @export
@@ -67,7 +67,7 @@ lincoef <- function(x, y,
                     sgd.model.control = list(lambda1 = 0,
                                              lambda2 = 0),
                     sgd.control = list(method = "ai-sgd"),
-                    ...) {
+                    trace = 0) {
 
   method <- match.arg(method)
   if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq(NCOL(x)))
@@ -108,7 +108,7 @@ lincoef <- function(x, y,
     mod <- leaps::regsubsets(x, y,
                              weights = weights,
                              method = "forward",
-                             nvmax = nvmax, ...)
+                             nvmax = nvmax)
     .coef <- coef(mod, id = nvmax)
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
@@ -120,7 +120,7 @@ lincoef <- function(x, y,
     mod <- leaps::regsubsets(x, y,
                              weights = weights,
                              method = "backward",
-                             nvmax = nvmax, ...)
+                             nvmax = nvmax)
     .coef <- coef(mod, id = nvmax)
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
@@ -134,7 +134,7 @@ lincoef <- function(x, y,
                              method = "exhaustive",
                              really.big = TRUE,
                              nbest = nbest,
-                             nvmax = nvmax, ...)
+                             nvmax = nvmax)
     mod.summary <- summary(mod)
     id <- which.max(mod.summary$rsq)
     .coef <- coef(mod, id = id)

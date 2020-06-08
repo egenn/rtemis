@@ -129,7 +129,7 @@ dplot3.shytree <- function(tree,
                           lo.col = table.lo.col,
                           hi.col = table.hi.col),
                         NROW(coefs) - 1)
-      dat.col <- rbind(rep("gray50", NCOL(coefs)), dat.col)
+      dat.col <- rbind(rep("#333333", NCOL(coefs)), dat.col)
 
       coefs.html <- lapply(seq(coefsl), function(i) {
         twocol2html(coefsl[[i]], font.family = font.family,
