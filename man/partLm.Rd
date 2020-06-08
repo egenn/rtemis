@@ -18,7 +18,7 @@ partLm(
   minobsinnode.lin = 5,
   lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   verbose = TRUE,
   trace = 0
 )

@@ -20,7 +20,7 @@ lincoef(
   sgd.model = "glm",
   sgd.model.control = list(lambda1 = 0, lambda2 = 0),
   sgd.control = list(method = "ai-sgd"),
-  ...
+  trace = 0
 )
 }
 \arguments{
@@ -64,9 +64,7 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 
 \item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
 
-\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}}
-
-\item{...}{Additional parameters to pass to \code{leaps::regsubsets}
+\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
 }
 \value{

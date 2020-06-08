@@ -74,7 +74,7 @@ group}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}
+\item{autotune}{Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}}
 
 \item{n.trees.try}{Integer: Number of trees to train for tuning, if \code{autotune = TRUE}}
 

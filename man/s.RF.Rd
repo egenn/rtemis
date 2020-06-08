@@ -73,7 +73,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}
 
-\item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}
+\item{autotune}{Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}}
 
 \item{n.trees.try}{Integer: Number of trees to train for tuning, if \code{autotune = TRUE}}
 

@@ -19,7 +19,7 @@ splitline(
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   nbest = 1,
-  nvmax = 8,
+  nvmax = 4,
   n.cores = 1,
   trace = 0
 )

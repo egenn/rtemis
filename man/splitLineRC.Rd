@@ -8,6 +8,7 @@ splitLineRC(
   g,
   type,
   node.index,
+  gamma = 0.01,
   alpha = 0,
   lambda = 0.01,
   lambda.seq = NULL,

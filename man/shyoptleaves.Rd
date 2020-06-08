@@ -25,7 +25,7 @@ shyoptleaves(
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   nbest = 1,
-  nvmax = 8,
+  nvmax = 3,
   .rho = TRUE,
   rho.max = 1000,
   loss.fn = if (is.factor(y)) class.loss else mse,

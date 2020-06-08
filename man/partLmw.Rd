@@ -15,7 +15,7 @@ partLmw(
   lambda,
   lambda.seq,
   cv.glmnet.nfolds,
-  cv.glmnet.lambda,
+  which.cv.glmnet.lambda,
   part.minsplit,
   part.xval,
   part.max.depth,

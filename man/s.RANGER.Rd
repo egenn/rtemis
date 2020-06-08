@@ -95,7 +95,7 @@ group}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{autotune}{Logical: If TRUE, use ]code{randomForest::tuneRF} to determine \code{mtry}}
+\item{autotune}{Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}}
 
 \item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 For classification only; need not add up to 1}

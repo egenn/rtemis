@@ -15,7 +15,7 @@ hytreenow(
   lambda.seq = NULL,
   lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   minobsinnode = 2,
   minobsinnode.lin = 10,
   part.minsplit = 2,

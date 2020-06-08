@@ -14,7 +14,7 @@ hytreew(
   shrinkage = 1,
   lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,

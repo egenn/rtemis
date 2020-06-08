@@ -53,7 +53,8 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 
 \item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
 
-\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}}
+\item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}
+"lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
 }
 \description{
 \code{rtset.lincoef}: Set parameters for \link{lincoef}
