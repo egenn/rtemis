@@ -22,7 +22,7 @@ hytreenow <- function(x, y,
                       lambda.seq = NULL,
                       lin.type = "glmnet",
                       cv.glmnet.nfolds = 5,
-                      cv.glmnet.lambda = "lambda.min",
+                      which.cv.glmnet.lambda = "lambda.min",
                       # rpart --
                       minobsinnode = 2,
                       minobsinnode.lin = 10,
@@ -55,7 +55,7 @@ hytreenow <- function(x, y,
   coef.c <- lincoef(x, y, method = lin.type,
                     alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
-                    cv.glmnet.lambda = cv.glmnet.lambda)
+                    which.cv.glmnet.lambda = which.cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
   if (trace > 0) msg("hytreenow Fval is", head(Fval), color = crayon::red)
 
@@ -140,7 +140,7 @@ hyt <- function(node = list(x = NULL,
                 simplify = TRUE,
                 lin.type = "glmnet",
                 cv.glmnet.nfolds = 5,
-                cv.glmnet.lambda = "lambda.min",
+                which.cv.glmnet.lambda = "lambda.min",
                 verbose = TRUE,
                 trace = 0) {
 
@@ -332,7 +332,7 @@ partLm <- function(x1, y1,
                    minobsinnode.lin = 5,
                    lin.type = "glmnet",
                    cv.glmnet.nfolds = 5,
-                   cv.glmnet.lambda = "lambda.min",
+                   which.cv.glmnet.lambda = "lambda.min",
                    verbose = TRUE,
                    trace = 0) {
 
@@ -411,7 +411,7 @@ partLm <- function(x1, y1,
                                     method = lin.type,
                                     alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                                     cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                    cv.glmnet.lambda = cv.glmnet.lambda)
+                                    which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*% lin.coef.left)[, 1]
     } # if (is.constant(resid.left))
 
@@ -424,7 +424,7 @@ partLm <- function(x1, y1,
                                method = lin.type,
                                alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                                cv.glmnet.nfolds = cv.glmnet.nfolds,
-                               cv.glmnet.lambda = cv.glmnet.lambda)
+                               which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*% lin.coef.right)[, 1]
     } # if (is.constant(resid.right))
 

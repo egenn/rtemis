@@ -24,7 +24,7 @@ hytreew <- function(x, y,
                     # lincoef --
                     lin.type = "glmnet",
                     cv.glmnet.nfolds = 5,
-                    cv.glmnet.lambda = "lambda.min",
+                    which.cv.glmnet.lambda = "lambda.min",
                     alpha = 1,
                     lambda = .05,
                     lambda.seq = NULL,
@@ -68,7 +68,7 @@ hytreew <- function(x, y,
   coef.c <- lincoef(x, y, method = lin.type,
                     alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
-                    cv.glmnet.lambda = cv.glmnet.lambda)
+                    which.cv.glmnet.lambda = which.cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1] # n
   if (trace > 0) msg("hytreew Fval is", head(Fval), color = crayon::red)
 
@@ -97,7 +97,7 @@ hytreew <- function(x, y,
               lambda = lambda,
               lambda.seq = lambda.seq,
               cv.glmnet.nfolds = cv.glmnet.nfolds,
-              cv.glmnet.lambda = cv.glmnet.lambda,
+              which.cv.glmnet.lambda = which.cv.glmnet.lambda,
               coef.c = coef.c,
               part.minsplit = part.minsplit,
               part.xval = part.xval,
@@ -151,7 +151,7 @@ hytw <- function(node = list(x = NULL,
                  lambda = .1,
                  lambda.seq = NULL,
                  cv.glmnet.nfolds = 5,
-                 cv.glmnet.lambda = "lambda.min",
+                 which.cv.glmnet.lambda = "lambda.min",
                  # rpart --
                  part.minsplit = 2,
                  part.xval = 0,
@@ -190,7 +190,7 @@ hytw <- function(node = list(x = NULL,
                             lambda = lambda,
                             lambda.seq = lambda.seq,
                             cv.glmnet.nfolds = cv.glmnet.nfolds,
-                            cv.glmnet.lambda = cv.glmnet.lambda,
+                            which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                             # rpart --
                             part.minsplit = part.minsplit,
                             part.xval = part.xval,
@@ -293,7 +293,7 @@ hytw <- function(node = list(x = NULL,
                         lambda = lambda,
                         lambda.seq = lambda.seq,
                         cv.glmnet.nfolds = cv.glmnet.nfolds,
-                        cv.glmnet.lambda = cv.glmnet.lambda,
+                        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                         # rpart --
                         part.minsplit = part.minsplit,
                         part.xval = part.xval,
@@ -319,7 +319,7 @@ hytw <- function(node = list(x = NULL,
                          lambda = lambda,
                          lambda.seq = lambda.seq,
                          cv.glmnet.nfolds = cv.glmnet.nfolds,
-                         cv.glmnet.lambda = cv.glmnet.lambda,
+                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                          # rpart --
                          part.minsplit = part.minsplit,
                          part.xval = part.xval,
@@ -376,7 +376,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
                     lambda,
                     lambda.seq,
                     cv.glmnet.nfolds,
-                    cv.glmnet.lambda,
+                    which.cv.glmnet.lambda,
                     # rpart --
                     part.minsplit,
                     part.xval,
@@ -468,7 +468,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
                                method = lin.type,
                                alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                                cv.glmnet.nfolds = cv.glmnet.nfolds,
-                               cv.glmnet.lambda = cv.glmnet.lambda)
+                               which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.left <- (cbind(1, .env$dm) %*% lin.coef.left)[, 1]
     } # if (is.constant(resid.left))
 
@@ -482,7 +482,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
                                 method = lin.type,
                                 alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                                 cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                cv.glmnet.lambda = cv.glmnet.lambda)
+                                which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.right <- (cbind(1, .env$dm) %*% lin.coef.right)[, 1]
     } # if (is.constant(resid.right))
 
