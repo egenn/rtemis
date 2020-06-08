@@ -13,14 +13,15 @@
 #' @inheritParams s.GLM
 #' @param nterms [gS] Integer: number of terms to include in the final model
 #' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}
-#' @param sm.method [gS] Character: "supsmu", "spline", "gcvspline". Smoothing method. Default = "gcvspline"
-#' @param bass [gS] Numeric [0, 10]: for \code{sm.method} "supsmu": larger values result in greater smoother
+#' @param sm.method [gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
+#' Default = "spline"
+#' @param bass [gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values result in greater smoother
 #'   (Default = 5). See \code{stats::ppr}
-#' @param span [gS] Numeric [0, 1]: for \code{sm.method} "supsmu": 0 (Default) results in automatic span selection by
+#' @param span [gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
 #'   local crossvalidation. See \code{stats::ppr}
-#' @param df [gS] Numeric: for \code{sm.method} "spline": Specify smoothness of each ridge term. See \code{stats::ppr}
-#' @param gcvpen [gs] Numeric: for \code{sm.method} "gcvspline": Penalty used in the GCV selection for each
-#'   degree of freedom used. Higher values -> greater smoothing. See \code{stats::ppr} Default = 5
+#' @param df [gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}
+#' @param gcvpen [gs] Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV selection for each
+#'   degree of freedom used. Higher values result in greater smoothing. See \code{stats::ppr} Default = 5
 #' @param ... Additional arguments to be passed to \code{ppr}
 #' @return Object of class \pkg{rtemis}
 #' @author Efstathios D. Gennatas
@@ -38,11 +39,11 @@ s.PPR <- function(x, y = NULL,
                   nterms = NULL,
                   max.terms = nterms,
                   optlevel = 3,
-                  sm.method = c("supsmu", "spline", "gcvspline"),
-                  bass = 0,
-                  span = 0,
-                  df = 5,
-                  gcvpen = 1,
+                  sm.method = "spline",
+                  bass = 0, # for "supsmu"
+                  span = 0, # for "supsmu"
+                  df = 5, # for "spline"
+                  gcvpen = 1, # for "gcvspline"
                   metric = "MSE",
                   maximize = FALSE,
                   n.cores = rtCores,
@@ -82,8 +83,6 @@ s.PPR <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-
-  sm.method <- match.arg(sm.method)
   if (is.null(nterms)) nterms <- if (NCOL(x) < 4 ) NCOL(x) else 4
   grid.search.type <- match.arg(grid.search.type)
 
