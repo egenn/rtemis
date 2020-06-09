@@ -22,7 +22,7 @@
 # [[---F1---]] ====
 shyoptleaves <- function(x, y,
                          x.valid = NULL, y.valid = NULL,
-                         early.stopping = FALSE,
+                         lookback = FALSE,
                          weights = NULL,
                          max.leaves = 5,
                          learning.rate = 1,
@@ -47,7 +47,7 @@ shyoptleaves <- function(x, y,
                          rho.max = 1000,
                          loss.fn = if (is.factor(y)) class.loss else mse,
                          verbose = TRUE,
-                         plot.tune.error = FALSE,
+                         plot.tuning = TRUE,
                          trace = 0,
                          n.cores = future::availableCores()) {
 
@@ -65,9 +65,9 @@ shyoptleaves <- function(x, y,
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
-  # Changed: Specify early.stopping directly
-  # early.stopping <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
-  if (early.stopping && is.null(x.valid)) {
+  # Changed: Specify lookback directly
+  # lookback <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
+  if (lookback && is.null(x.valid)) {
     stop("You have asked for early stopping without providing a validation set.")
   }
 
@@ -425,18 +425,16 @@ shyoptleaves <- function(x, y,
                ylevels = ylevels,
                n.leaves = g$n.leaves,
                # opt.n.leaves = g$n.leaves, #??
-               early.stopping = early.stopping,
+               lookback = lookback,
                valid.error.smooth = NULL)
   class(.mod) <- c("shyoptleaves", "list")
 
   # change verbose
-  if (early.stopping) {
-    opt.leaves = shyoptree.select.leaves(.mod, x = x, y = y,
-                                         x.valid = x.valid, y.valid = y.valid,
-                                         smooth = select.leaves.smooth,
-                                         plot = plot.tune.error)
-    # delta 02.06.2020
-    # .mod$opt.n.leaves <- opt.leaves$n.leaves
+  if (lookback) {
+    opt.leaves = selectleaves(.mod, x = x, y = y,
+                              x.valid = x.valid, y.valid = y.valid,
+                              smooth = select.leaves.smooth,
+                              print.plot = plot.tuning)
     .mod$n.leaves <- opt.leaves$n.leaves
     .mod$valid.error.smooth <- opt.leaves$valid.error.smooth
   }
@@ -887,7 +885,7 @@ shyoptree.select.leaves <- function(object,
                                     x, y,
                                     x.valid, y.valid,
                                     smooth = TRUE,
-                                    plot = FALSE,
+                                    print.plot = FALSE,
                                     verbose = FALSE) {
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
@@ -926,15 +924,16 @@ shyoptree.select.leaves <- function(object,
   }
   valid.error <- if (smooth) valid.error.smooth else valid.error
 
-  if (plot) {
+  if (print.plot) {
+    if (verbose) msg("Are we plotting or what?", color = crayon::red)
     mplot3.xy(seq(n.leaves), list(Training = train.error,
                                   Validation = valid.error,
-                                  `Smoothed Validation` = valid.error.smooth),
-              type = 'l', group.adj = .95,
-              line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
+                                  `Smoothed Valid.` = valid.error.smooth),
+              type = 'l', group.adj = .95, lty = c(1, 1, 2),
+              line.col = c("#80ffff", "#FF99FF", "#453DCB"),
               vline = c(which.min(valid.error), which.min(valid.error.smooth)),
-              vline.col = c(ucsfCol$red, ucsfCol$purple),
-              xlab = "N trees", ylab = "1 - Balanced Accuracy")
+              vline.col = c("#FF99FF", "#453DCB"),
+              xlab = "N leaves", ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE"))
   }
 
   list(n.leaves = which.min(valid.error),

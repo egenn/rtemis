@@ -5,10 +5,9 @@
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
-#' Train an Stepwise Hybrid Tree for Classification & Regression
+#' Train a Stepwise Hybrid Tree for Classification & Regression
 #'
-#' With \code{max.nodes = 0}, the model is logistic regression trained according to \code{lin.type}
-#' (i.e. standard or regularized using glmnet, etc.)
+#' With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s.SHYTREE
 #' @param x Data frame
@@ -23,7 +22,7 @@
 # [[---F1---]] ====
 shytreeLeavesRC <- function(x, y,
                             x.valid = NULL, y.valid = NULL,
-                            early.stopping = FALSE,
+                            lookback = FALSE,
                             weights = NULL,
                             max.leaves = 5,
                             nvmax = 2,
@@ -43,16 +42,13 @@ shytreeLeavesRC <- function(x, y,
                             part.minbucket = 5,
                             .rho = TRUE,
                             rho.max = 1000,
-                            lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-                                         "backwardStepwise", "glm",
-                                         "solve", "none"),
+                            lin.type = "forwardStepwise",
                             cv.glmnet.nfolds = 5,
-                            cv.glmnet.lambda = "lambda.min",
+                            which.cv.glmnet.lambda = "lambda.min",
                             loss.fn = if (is.factor(y)) class.loss else mse,
                             verbose = TRUE,
-                            plot.tune.error = FALSE,
-                            trace = 0,
-                            n.cores = future::availableCores()) {
+                            plot.tuning = TRUE,
+                            trace = 0) {
 
   # [ Arguments ] ====
   type <- if (is.factor(y))  "Classification" else "Regression"
@@ -68,9 +64,9 @@ shytreeLeavesRC <- function(x, y,
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
-  # Changed: Specify early.stopping directly
-  # early.stopping <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
-  if (early.stopping && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
+  # Changed: Specify lookback directly
+  # lookback <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
+  if (lookback && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
@@ -165,12 +161,10 @@ shytreeLeavesRC <- function(x, y,
                   alpha = alpha,
                   lambda = lambda,
                   lambda.seq = lambda.seq,
-                  cv.glmnet.nfolds = cv.glmnet.nfolds)
+                  cv.glmnet.nfolds = cv.glmnet.nfolds,
+                  which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
   g$n.leaves <- 1 # ddlt
-
-  # linVal <-  (data.matrix(cbind(1, x)) %*% coef)[, 1] # n
-  # linVal <- c(cbind(1, g$xm) %*% coef) # n
   linVal <- c(g$xm %*% coef) # n
 
   if (.class & .rho) {
@@ -262,7 +256,7 @@ shytreeLeavesRC <- function(x, y,
                     verbose = verbose,
                     trace = trace)
       } else {
-        if (trace > 1) msg("Node #", i, " already processed", sep = "")
+        if (trace > 2) msg("Node #", i, " already processed", sep = "")
       }
     } # /for (i in g$open) splitLine
 
@@ -289,7 +283,6 @@ shytreeLeavesRC <- function(x, y,
                                     plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1])
 
       if (trace > 1) print(open.loss.red)
-      # replace with either weighted version or total loss delta
       selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
       # Did selected reduce loss
       selected.loss <- open.loss.red$loss.red[open.loss.red$id  == selected]
@@ -371,16 +364,7 @@ shytreeLeavesRC <- function(x, y,
     for (k in setdiff(names(g$tree), included)) g$tree[[paste(k)]] <- NULL
   }
 
-  # dat <- plyr::llply(g$terminal, function(j) g$tree[[paste(j)]])
-
-  # dat <- plyr::llply(g$terminal, function(j) g$tree[[paste(j)]])
-  # meanValue = mean(plyr::laply(g$terminal, function(j) g$tree[[paste(j)]]$Fval))
-  # Label <- sign(meanValue)
-  # Label <- factor(Label, levels = c(1, -1))
-  # levels(Label) <- ylevels
-
-  # ENH: consider creating a special R6 class with active bindings for this,
-  # but is it worth it? only if there's more useful bindings
+  # ENH: consider creating a special R6 class with active bindings for this
   leaf.rules <- data.frame(id = plyr::laply(g$terminal, function(j) g$tree[[paste(j)]]$id),
                            rule = plyr::laply(g$terminal, function(j) g$tree[[paste(j)]]$rule),
                            N = plyr::laply(g$terminal, function(j) length(g$tree[[paste(j)]]$index)),
@@ -406,9 +390,6 @@ shytreeLeavesRC <- function(x, y,
 
 
   # [ MOD ] ====
-  # CHECK: should be equal to g$n.leaves
-  # n.leaves <- max(sapply(g$stepindex, length))
-
   .mod <- list(type = g$type,
                init = g$init,
                learning.rate = learning.rate,
@@ -427,20 +408,21 @@ shytreeLeavesRC <- function(x, y,
                ylevels = ylevels,
                n.leaves = g$n.leaves,
                # opt.n.leaves = g$n.leaves, #??
-               early.stopping = early.stopping,
+               # lookback = lookback,
                valid.error.smooth = NULL)
   class(.mod) <- c("shytreeLeavesRC", "list")
 
-  # change verbose
-  if (early.stopping) {
-    opt.leaves = shytree.select.leaves(.mod, x = x, y = y,
-                                       x.valid = x.valid, y.valid = y.valid,
-                                       smooth = select.leaves.smooth,
-                                       plot = plot.tune.error)
-    # delta 02.06.2020
-    # .mod$opt.n.leaves <- opt.leaves$n.leaves
+  if (lookback) {
+    if (trace > 1) msg("Starting lookback...", color = rtemis:::rtHighlight)
+    opt.leaves = selectleaves(.mod, x = x, y = y,
+                              x.valid = x.valid, y.valid = y.valid,
+                              smooth = select.leaves.smooth,
+                              print.plot = plot.tuning,
+                              verbose = trace > 0,
+                              trace = trace)
     .mod$n.leaves <- opt.leaves$n.leaves
-    .mod$valid.error.smooth <- opt.leaves$valid.error.smooth
+    .mod$lookback <- opt.leaves
+    if (trace > 1) msg("Lookback complete", color = rtemis:::rtHighlight)
   }
 
   .mod
@@ -736,7 +718,8 @@ splitLineRC <- function(g,
                                 alpha = alpha,
                                 lambda = lambda,
                                 lambda.seq = lambda.seq,
-                                cv.glmnet.nfolds = cv.glmnet.nfolds)
+                                cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
         # linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
         linVal.left <- c(g$xm %*% linCoef.left)
@@ -771,7 +754,8 @@ splitLineRC <- function(g,
                                  alpha = alpha,
                                  lambda = lambda,
                                  lambda.seq = lambda.seq,
-                                 cv.glmnet.nfolds = cv.glmnet.nfolds)
+                                 cv.glmnet.nfolds = cv.glmnet.nfolds,
+                                 which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
         # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
         linVal.right <- c(g$xm %*% linCoef.right)
@@ -872,8 +856,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
                                     cxr.newdata = NULL,
                                     cxr = FALSE,
                                     cxrcoef = FALSE,
-                                    verbose = FALSE,
-                                    trace = 0, ...) {
+                                    verbose = FALSE, ...) {
 
   init <- object$init
   type <- match.arg(type)
@@ -1045,29 +1028,24 @@ class.lossw <- function(y, Fval, weights) {
 
 }
 
-
-shytree.select.leaves <- function(object,
-                                  x, y,
-                                  x.valid, y.valid,
-                                  smooth = TRUE,
-                                  plot = FALSE,
-                                  verbose = FALSE) {
+# [[--F6--]] ====
+selectleaves <- function(object,
+                         x, y,
+                         x.valid, y.valid,
+                         smooth = TRUE,
+                         print.plot = TRUE,
+                         verbose = TRUE,
+                         trace = 0) {
+  if (trace > 1) msg("Running selectleaves")
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
 
-  # if (smooth) {
-  # dat <- data.frame(n.trees = seq(n.trees), valid.error = object$valid.error)
-  # dat <- complete.cases(dat)
-  # }
-
-  train.estimate.l <- predict.shytreeLeavesRC(object, newdata = x,
-                                              type = "step",
-                                              verbose = verbose)
-  valid.estimate.l <- predict.shytreeLeavesRC(object, newdata = x.valid,
-                                              type = "step",
-                                              verbose = verbose)
-  # valid.error.l <- plyr::llply(seq(valid.estimate.l), function(j)
-  #   modError(y.valid, valid.estimate.l[[j]]))
+  train.estimate.l <- predict(object, newdata = x,
+                              type = "step",
+                              verbose = trace > 1)
+  valid.estimate.l <- predict(object, newdata = x.valid,
+                              type = "step",
+                              verbose = trace > 1)
 
   # TODO: change bacc and mse to arg fn
   if (.class) {
@@ -1083,24 +1061,32 @@ shytree.select.leaves <- function(object,
   }
 
   valid.error.smooth <- if (smooth) {
-    valid.error.smooth <- supsmu(seq(n.leaves), valid.error)$y
+    # valid.error.smooth <- supsmu(seq(n.leaves), valid.error)$y
+    valid.error.smooth <- loess(valid.error ~ seq(n.leaves))$fitted
   } else {
     NULL
   }
-  valid.error <- if (smooth) valid.error.smooth else valid.error
 
-  if (plot) {
+  if (print.plot) {
     mplot3.xy(seq(n.leaves), list(Training = train.error,
                                   Validation = valid.error,
-                                  `Smoothed Validation` = valid.error.smooth),
-              type = 'l', group.adj = .95,
-              line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
+                                  `Smoothed Valid.` = valid.error.smooth),
+              type = 'l', group.adj = .95, lty = c(1, 1, 2),
+              line.col = c("#80ffff", "#FF99FF", "#2B27F1"),
               vline = c(which.min(valid.error), which.min(valid.error.smooth)),
-              vline.col = c(ucsfCol$red, ucsfCol$purple),
-              xlab = "N trees", ylab = "1 - Balanced Accuracy")
+              vline.col = c("#FF99FF", "#2B27F1"),
+              xlab = "N leaves", ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE"))
   }
 
-  list(n.leaves = which.min(valid.error),
+  valid.error <- if (smooth) valid.error.smooth else valid.error
+
+  n.leaves <- which.min(valid.error)
+  if (verbose) msg("Selected", n.leaves, "leaves of", length(valid.error), "total",
+                   color = rtHighlight)
+
+  list(n.leaves = n.leaves,
+       train.error = train.error,
+       valid.error = valid.error,
        valid.error.smooth = valid.error.smooth)
 
-} # rtemis::shytree.select.leaves
+} # rtemis::selectleaves

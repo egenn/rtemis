@@ -76,7 +76,7 @@ splitline <- function(x, y,
          cutoff = minloss_perfeat[1, featindex],
          loss = minloss_perfeat[2, featindex])
   } else {
-    if (trace > 0) msg("Node has N caseweights equal to 1 fewer than minobsinnode threshold of",
+    if (trace > 1) msg("Node has fewer caseweights equal to 1 than minobsinnode threshold of",
                        minobsinnode)
     list(featindex = NA,
          cutoff = NA,
