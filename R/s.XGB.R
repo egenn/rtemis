@@ -481,7 +481,8 @@ s.XGB <- function(x, y = NULL,
       if (objective == "multi:softmax") params$num.class <- nclass
     }
     nrounds <- best.tune$best.nrounds
-    if (verbose) parameterSummary(best.tune, title = "Tuning Results")
+    if (verbose) parameterSummary(best.tune, title = "Tuning Results",
+                                  newline.pre = TRUE)
   } else {
 
     # {{ NO GRID SEARCH NOR INTERNAL RESAMPLING }} ====
