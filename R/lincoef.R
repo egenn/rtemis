@@ -24,7 +24,7 @@
 #' "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 #' "sgd": uses \code{sgd::sgd}
 #' "solve": uses \code{base::solve}
-#' "none": returns all zeroes, for special uses
+#' "none": Fits no model and returns all zeroes, for programming convenience in special cases
 #' @param alpha Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0
 #' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
 #' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for prediction. Training uses
@@ -46,18 +46,9 @@
 
 lincoef <- function(x, y,
                     weights = NULL,
-                    method = c("glmnet",
-                               "cv.glmnet",
-                               "lm.ridge",
-                               "allSubsets",
-                               "forwardStepwise",
-                               "backwardStepwise",
-                               "glm",
-                               "sgd",
-                               "solve",
-                               "none"),
-                    alpha = 0,
-                    lambda = .01,
+                    method = "glmnet",
+                    alpha = 1,
+                    lambda = .05,
                     lambda.seq = NULL,
                     cv.glmnet.nfolds = 5,
                     which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
@@ -69,7 +60,11 @@ lincoef <- function(x, y,
                     sgd.control = list(method = "ai-sgd"),
                     trace = 0) {
 
-  method <- match.arg(method)
+  if (trace == 0) {
+    warn.orig <- getOption("warn")
+    options(warn = -1)
+    on.exit(options(warn = warn.orig))
+  }
   if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq(NCOL(x)))
 
   if (method == "glm") {
