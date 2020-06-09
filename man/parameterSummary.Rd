@@ -8,7 +8,7 @@ parameterSummary(
   ...,
   title = "Parameters",
   pad = 0,
-  newline.pre = TRUE,
+  newline.pre = FALSE,
   newline = FALSE
 )
 }

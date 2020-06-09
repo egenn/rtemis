@@ -19,7 +19,7 @@ s.SHYOPTREE(
   learning.rate = 0.5,
   select.leaves.smooth = TRUE,
   force.max.leaves = NULL,
-  early.stopping = TRUE,
+  lookback = TRUE,
   gamma = 0,
   n.quantiles = 20,
   minobsinnode = 2,
@@ -94,7 +94,7 @@ Default = NULL (random seed)}
 
 \item{max.leaves}{Integer: Maximum number of terminal nodes to grow}
 
-\item{early.stopping}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
+\item{lookback}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
 
 \item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 

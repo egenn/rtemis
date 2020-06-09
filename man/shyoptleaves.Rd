@@ -9,7 +9,7 @@ shyoptleaves(
   y,
   x.valid = NULL,
   y.valid = NULL,
-  early.stopping = FALSE,
+  lookback = FALSE,
   weights = NULL,
   max.leaves = 5,
   learning.rate = 1,
@@ -40,7 +40,8 @@ shyoptleaves(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{early.stopping}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
+\item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
+Default = TRUE}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.

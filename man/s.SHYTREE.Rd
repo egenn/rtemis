@@ -18,7 +18,7 @@ s.SHYTREE(
   max.leaves = 6,
   nvmax = 3,
   force.max.leaves = NULL,
-  early.stopping = TRUE,
+  lookback = TRUE,
   gamma = 0,
   alpha = 1,
   lambda = 0.05,
@@ -37,7 +37,7 @@ s.SHYTREE(
   lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   metric = "auto",
   maximize = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
@@ -99,7 +99,8 @@ Default = NULL (random seed)}
 \item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
-\item{early.stopping}{Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE}
+\item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
+Default = TRUE}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
@@ -145,7 +146,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a Stepwise Hybrid Tree for Regression or Binary Classification
 }
 \details{
-The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and stumps.
 We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 because depending on the other parameters and the datasets, splitting may stop early.
 }
