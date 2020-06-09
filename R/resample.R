@@ -178,7 +178,7 @@ resample <- function(y,
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
 
-  if (verbose) msg("Created", n.resamples, desc)
+  if (verbose) msg("Created", n.resamples, desc, newline.pre = TRUE)
 
   # Attributes ====
   class(res.part) <- c("resample", "list")
