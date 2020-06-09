@@ -128,7 +128,8 @@ s.HYTREE <- function(x, y = NULL,
   type <- dt$type
   if (type != "Regression") stop("This function currently only supports Regression. Use s.AADDT for Classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(max.depth, minobsinnode, lincoef.params)
+  if (verbose) parameterSummary(max.depth, minobsinnode, lincoef.params,
+                                newline.pre = TRUE)
 
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

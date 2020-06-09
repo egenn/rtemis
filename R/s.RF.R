@@ -157,7 +157,7 @@ s.RF <- function(x, y = NULL,
   x0 <- if (upsample|downsample) dt$x0 else x
   y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(n.trees, mtry, pad = 4)
+  if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE

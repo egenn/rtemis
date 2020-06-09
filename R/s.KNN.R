@@ -84,7 +84,8 @@ s.KNN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(k, algorithm)
+  if (verbose) parameterSummary(k, algorithm,
+                                newline.pre = TRUE)
 
   # [ KNN ] ====
   if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)

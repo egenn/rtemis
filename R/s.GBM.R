@@ -278,7 +278,8 @@ s.GBM <- function(x, y = NULL,
                      weights = .weights)
   if (verbose) {
     parameterSummary(n.trees, interaction.depth, shrinkage,
-                     bag.fraction, n.minobsinnode, weights)
+                     bag.fraction, n.minobsinnode, weights,
+                     newline.pre = TRUE)
   }
 
 

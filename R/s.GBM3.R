@@ -294,7 +294,8 @@ s.GBM3 <- function(x, y = NULL,
                      bag.fraction,
                      mFeatures,
                      n.minobsinnode,
-                     weights)
+                     weights,
+                     newline.pre = TRUE)
   }
 
   # [ GBM3 ] ====

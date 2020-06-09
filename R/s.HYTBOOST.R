@@ -216,7 +216,8 @@ s.HYTBOOST <- function(x, y = NULL,
   # [ HYTBOOST ] ====
   if (verbose) parameterSummary(init,
                                 max.iter,
-                                learning.rate)
+                                learning.rate,
+                                newline.pre = TRUE)
                                 # mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
   if (verbose) msg("Training HYTBOOST...", newline.pre = TRUE)

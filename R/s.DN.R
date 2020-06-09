@@ -120,7 +120,8 @@ s.DN <- function(x, y = NULL,
                                 learning.rate,
                                 momentum,
                                 hidden_dropout,
-                                visible_dropout)
+                                visible_dropout,
+                                newline.pre = TRUE)
 
   # [ GRID SEARCH ] ====
   if (gridCheck(batchsize,

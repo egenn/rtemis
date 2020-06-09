@@ -101,7 +101,8 @@ s.IRF <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(n.trees, mtry, pad = 4)
+  if (verbose) parameterSummary(n.trees, mtry, pad = 4,
+                                newline.pre = TRUE)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE

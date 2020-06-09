@@ -204,7 +204,8 @@ s.GLMNET <- function(x, y = NULL,
   } else {
     gs <- NULL
   }
-  if (verbose) parameterSummary(alpha, lambda)
+  if (verbose) parameterSummary(alpha, lambda,
+                                newline.pre = TRUE)
 
   # [ GLMNET ] ====
   if (.gs && cv.lambda) {

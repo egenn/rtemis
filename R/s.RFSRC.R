@@ -106,7 +106,7 @@ s.RFSRC <- function(x, y = NULL,
   type <- dt$type
   if (is.null(weights) & ipw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(n.trees, mtry, pad = 4)
+  if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE

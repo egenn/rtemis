@@ -7,7 +7,7 @@
 #'
 #' Train a Stepwise Hybrid Tree for Regression or Binary Classification
 #'
-#' The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
+#' The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and stumps.
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
@@ -15,13 +15,14 @@
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 #' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
-#' @param early.stopping Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE
+#' @param lookback Logical: If TRUE, check validation error to decide best number of leaves to use.
+#' Default = TRUE
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
 #' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
-#' @param plot.tune.error Logical: If TRUE, plot validation error during gridsearch
+#' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -36,7 +37,7 @@ s.SHYTREE <- function(x, y = NULL,
                       max.leaves = 6,
                       nvmax = 3,
                       force.max.leaves = NULL,
-                      early.stopping = TRUE,
+                      lookback = TRUE, # requires cross-validation with gridSearchLearn
                       gamma = 0,
                       alpha = 1,
                       lambda = .05,
@@ -55,7 +56,7 @@ s.SHYTREE <- function(x, y = NULL,
                       lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge",
                                    "allSubsets", "backwardStepwise", "glm", "solve", "none"),
                       cv.glmnet.nfolds = 5,
-                      cv.glmnet.lambda = "lambda.min",
+                      which.cv.glmnet.lambda = "lambda.min",
                       metric = "auto",
                       maximize = NULL,
                       grid.resample.rtset = rtset.resample("kfold", 5),
@@ -68,7 +69,7 @@ s.SHYTREE <- function(x, y = NULL,
                       n.cores = rtCores,
                       .preprocess = NULL,
                       verbose = TRUE,
-                      plot.tune.error = FALSE,
+                      plot.tuning = TRUE,
                       verbose.predict = FALSE,
                       trace = 1,
                       x.name = NULL,
@@ -129,7 +130,9 @@ s.SHYTREE <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+  if (verbose) parameterSummary(gamma, lambda, minobsinnode,
+                                learning.rate, part.cp, max.leaves,
+                                nvmax, newline.pre = TRUE)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -143,7 +146,7 @@ s.SHYTREE <- function(x, y = NULL,
   if (type == "Classification" && length(levels(y)) != 2)
     stop("s.SHYTREE currently supports only binary classification")
 
-  if (!is.null(force.max.leaves)) early.stopping <- FALSE
+  if (!is.null(force.max.leaves)) lookback <- FALSE
 
   # Remove nvmax values that are greater than N features
   if (lin.type %in% c("allSubsets", "forwardStepwise", "backwardStepwise")) {
@@ -166,36 +169,38 @@ s.SHYTREE <- function(x, y = NULL,
   }
 
   if (is.null(force.max.leaves)) {
-    if (early.stopping) {
+    if (lookback) {
       gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
     } else {
+      # not recommended to cv max.leaves - use lookback instead
       gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
     }
   } else {
     gc <- FALSE
   }
 
+  # Must turn off plotting during parallel grid search or else it may hang
+  if (!.gs & n.cores > 1) plot.tuning <- FALSE
 
-  if (n.cores > 1) plot.tune.error <- FALSE
-  if ((!.gs && gc) | (!.gs && early.stopping && max.leaves > 1)) {
-    grid.params <- if (early.stopping) list() else list(max.leaves = max.leaves)
+  if ((!.gs && gc) | (!.gs && lookback && max.leaves > 1)) {
+    grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
     grid.params <- c(grid.params, list(nvmax = nvmax,
                                        gamma = gamma,
                                        lambda = lambda,
                                        minobsinnode = minobsinnode,
                                        learning.rate = learning.rate,
                                        part.cp = part.cp))
-    fixed.params <- if (early.stopping) list(max.leaves = max.leaves) else list()
+    fixed.params <- if (lookback) list(max.leaves = max.leaves) else list()
     fixed.params <- c(fixed.params, list(init = init,
                                          lin.type = lin.type,
                                          cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                         cv.glmnet.lambda = cv.glmnet.lambda,
+                                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                                          metric = metric,
                                          ipw = ipw,
                                          ipw.type = ipw.type,
                                          upsample = upsample,
                                          resample.seed = resample.seed,
-                                         plot.tune.error = plot.tune.error,
+                                         plot.tuning = plot.tuning,
                                          .gs = TRUE))
 
     gs <- gridSearchLearn(x = x0, y = y0,
@@ -221,18 +226,9 @@ s.SHYTREE <- function(x, y = NULL,
     # Return special from gridSearchLearn
     max.leaves <- gs$best.tune$n.leaves
 
-    # if (n.trees == -1) {
-    #   warning("Tuning failed to find n.trees, defaulting to failsafe.trees = ", failsafe.trees)
-    #   n.trees <- failsafe.trees
-    # }
-    # if (n.trees < min.trees) {
-    #   warning("Tuning returned ", n.trees, " trees; using min.trees = ", min.trees, " instead")
-    #   n.trees <- min.trees
-    # }
-
     # Now ready to train final full model
     .gs <- FALSE
-    early.stopping <- FALSE
+    lookback <- FALSE
   } else {
     gs <- NULL
   }
@@ -240,7 +236,7 @@ s.SHYTREE <- function(x, y = NULL,
 
   # [ shytreeLeaves ] ====
   if (.gs) {
-    if (early.stopping) {
+    if (lookback) {
       x.valid <- x.test
       y.valid <- y.test
     } else {
@@ -254,7 +250,7 @@ s.SHYTREE <- function(x, y = NULL,
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
   mod <- shytreeLeavesRC(x, y,
                          x.valid = x.valid, y.valid = y.valid,
-                         early.stopping = early.stopping,
+                         lookback = lookback,
                          max.leaves = max.leaves,
                          nvmax = nvmax,
                          gamma = gamma,
@@ -274,11 +270,10 @@ s.SHYTREE <- function(x, y = NULL,
                          weights = .weights,
                          lin.type = lin.type,
                          cv.glmnet.nfolds = cv.glmnet.nfolds,
-                         cv.glmnet.lambda = cv.glmnet.lambda,
+                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                          verbose = verbose,
-                         plot.tune.error = plot.tune.error,
-                         trace = trace,
-                         n.cores = n.cores)
+                         plot.tuning = plot.tuning,
+                         trace = trace)
 
   parameters <- list(max.leaves = max.leaves,
                      n.leaves = mod$n.leaves,
@@ -296,7 +291,13 @@ s.SHYTREE <- function(x, y = NULL,
                      init = init,
                      lin.type = lin.type,
                      cv.glmnet.nfolds = cv.glmnet.nfolds,
-                     cv.glmnet.lambda = cv.glmnet.lambda)
+                     which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+                     metric = metric,
+                     ipw = ipw,
+                     ipw.type = ipw.type,
+                     upsample = upsample,
+                     resample.seed = resample.seed,
+                     plot.tuning = plot.tuning)
 
   # [ FITTED ] ====
   if (type == "Classification") {
