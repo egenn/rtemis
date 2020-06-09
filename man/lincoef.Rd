@@ -8,10 +8,9 @@ lincoef(
   x,
   y,
   weights = NULL,
-  method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
-    "backwardStepwise", "glm", "sgd", "solve", "none"),
-  alpha = 0,
-  lambda = 0.01,
+  method = "glmnet",
+  alpha = 1,
+  lambda = 0.05,
   lambda.seq = NULL,
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
@@ -41,7 +40,7 @@ lincoef(
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 "sgd": uses \code{sgd::sgd}
 "solve": uses \code{base::solve}
-"none": returns all zeroes, for special uses}
+"none": Fits no model and returns all zeroes, for programming convenience in special cases}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 

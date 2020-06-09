@@ -50,7 +50,7 @@ s.SHYTREE(
   n.cores = rtCores,
   .preprocess = NULL,
   verbose = TRUE,
-  plot.tune.error = FALSE,
+  plot.tuning = TRUE,
   verbose.predict = FALSE,
   trace = 1,
   x.name = NULL,
@@ -112,7 +112,7 @@ Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{plot.tune.error}{Logical: If TRUE, plot validation error during gridsearch}
+\item{plot.tuning}{Logical: If TRUE, plot validation error during gridsearch}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 

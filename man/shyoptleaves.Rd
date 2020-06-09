@@ -30,7 +30,7 @@ shyoptleaves(
   rho.max = 1000,
   loss.fn = if (is.factor(y)) class.loss else mse,
   verbose = TRUE,
-  plot.tune.error = FALSE,
+  plot.tuning = TRUE,
   trace = 0,
   n.cores = future::availableCores()
 )
@@ -62,7 +62,7 @@ Note: this is total N of nodes in the tree, with the root uncounted, not the num
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{plot.tune.error}{Logical: If TRUE, plot validation error during gridsearch}
+\item{plot.tuning}{Logical: If TRUE, plot validation error during gridsearch}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 }

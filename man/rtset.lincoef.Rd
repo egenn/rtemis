@@ -30,7 +30,7 @@ rtset.lincoef(
 "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
 "sgd": uses \code{sgd::sgd}
 "solve": uses \code{base::solve}
-"none": returns all zeroes, for special uses}
+"none": Fits no model and returns all zeroes, for programming convenience in special cases}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 

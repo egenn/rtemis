@@ -22,8 +22,8 @@ s.SHYOPTREE(
   lookback = TRUE,
   gamma = 0,
   n.quantiles = 20,
-  minobsinnode = 2,
-  minbucket = 5,
+  minobsinnode = NULL,
+  minbucket = NULL,
   lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
   alpha = 1,
@@ -46,8 +46,9 @@ s.SHYOPTREE(
   simplify = TRUE,
   cxrcoef = FALSE,
   n.cores = rtCores,
+  splitline.cores = 1,
   .preprocess = NULL,
-  plot.tune.error = TRUE,
+  plot.tuning = TRUE,
   verbose.predict = FALSE,
   x.name = NULL,
   y.name = NULL,
@@ -105,7 +106,7 @@ Default = NULL (random seed)}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
 
-\item{plot.tune.error}{Logical: If TRUE, plot validation error during gridsearch}
+\item{plot.tuning}{Logical: If TRUE, plot validation error during gridsearch}
 
 \item{x.name}{Character: Name for feature set}
 
