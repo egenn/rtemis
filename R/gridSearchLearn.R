@@ -107,7 +107,8 @@ gridSearchLearn <- function(x, y, mod,
                    x.test = x.test1, y.test = y.test1,
                    weights = weights1,
                    print.plot = FALSE, verbose = verbose),
-              as.list(param.grid[index, 2:NCOL(param.grid), drop = FALSE]), fixed.params)
+              as.list(param.grid[index, 2:NCOL(param.grid), drop = FALSE]),
+              fixed.params)
     mod1 <- do.call(learner, args)
     out1 <- list(id = index,
                  res.id = param.grid[index, 1],
