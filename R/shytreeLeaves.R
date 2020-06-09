@@ -1062,7 +1062,7 @@ selectleaves <- function(object,
 
   valid.error.smooth <- if (smooth) {
     # valid.error.smooth <- supsmu(seq(n.leaves), valid.error)$y
-    valid.error.smooth <- loess(valid.error ~ seq(n.leaves))$fitted
+    valid.error.smooth <- suppressWarnings(loess(valid.error ~ seq(n.leaves))$fitted)
   } else {
     NULL
   }
