@@ -15,7 +15,7 @@ s.SHYOPTREE(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  max.leaves = 6,
+  max.leaves = 8,
   learning.rate = 0.5,
   select.leaves.smooth = TRUE,
   force.max.leaves = NULL,

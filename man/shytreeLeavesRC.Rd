@@ -12,15 +12,18 @@ shytreeLeavesRC(
   lookback = FALSE,
   weights = NULL,
   max.leaves = 5,
-  nvmax = 2,
-  select.leaves.smooth = TRUE,
+  learning.rate = 1,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  lin.type = "forwardStepwise",
   gamma = 0.1,
+  select.leaves.smooth = TRUE,
   alpha = 0,
   lambda = 0.01,
   lambda.seq = NULL,
-  minobsinnode = 2,
-  minobsinnode.lin = 10,
-  learning.rate = 1,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nvmax = 2,
   part.minsplit = 2,
   part.xval = 0,
   part.max.depth = 1,
@@ -28,9 +31,6 @@ shytreeLeavesRC(
   part.minbucket = 5,
   .rho = TRUE,
   rho.max = 1000,
-  lin.type = "forwardStepwise",
-  cv.glmnet.nfolds = 5,
-  which.cv.glmnet.lambda = "lambda.min",
   loss.fn = if (is.factor(y)) class.loss else mse,
   verbose = TRUE,
   plot.tuning = TRUE,
@@ -53,12 +53,12 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 

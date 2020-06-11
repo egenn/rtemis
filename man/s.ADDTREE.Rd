@@ -98,7 +98,7 @@ Default = NULL (random seed)}
 \item{prune}{Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE}
 
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE}
+percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

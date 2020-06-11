@@ -16,7 +16,7 @@ as.rules.rpart(object, verbose = FALSE)
 }
 \description{
 Convert an \code{rpart} object to a \code{data.tree} object, which can be plotted with
-\link{mplot3.cart}
+\link{dplot3.cart}
 }
 \author{
 Efstathios D. Gennatas
