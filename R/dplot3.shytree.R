@@ -67,6 +67,10 @@ dplot3.shytree <- function(tree,
                            table.hi.col = "#FFBE00",
                            trace = 0) {
 
+  if (inherits(tree, "rtMod")) {
+    if (inherits(tree$mod, "shytreeLeavesRC")) tree <- tree$mod$tree
+  }
+
   # Data ====
   nodeids <- as.numeric(names(tree))
   nodeids_depth <- floor(log(nodeids, 2))

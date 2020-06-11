@@ -22,7 +22,7 @@ shytreeLeavesRC(
   lambda = 0.01,
   lambda.seq = NULL,
   cv.glmnet.nfolds = 5,
-  which.cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.1se",
   nvmax = 2,
   part.minsplit = 2,
   part.xval = 0,
