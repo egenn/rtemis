@@ -25,16 +25,18 @@ shytreeLeavesRC <- function(x, y,
                             lookback = FALSE,
                             weights = NULL,
                             max.leaves = 5,
-                            nvmax = 2,
-                            select.leaves.smooth = TRUE,
+                            learning.rate = 1,
+                            minobsinnode = 2,
+                            minobsinnode.lin = 10,
+                            lin.type = "forwardStepwise",
                             gamma = .1,
-                            # min.update = 10,
+                            select.leaves.smooth = TRUE,
                             alpha = 0,
                             lambda = .01,
                             lambda.seq = NULL,
-                            minobsinnode = 2,
-                            minobsinnode.lin = 10,
-                            learning.rate = 1,
+                            cv.glmnet.nfolds = 5,
+                            which.cv.glmnet.lambda = "lambda.min",
+                            nvmax = 2,
                             part.minsplit = 2,
                             part.xval = 0,
                             part.max.depth = 1,
@@ -42,9 +44,6 @@ shytreeLeavesRC <- function(x, y,
                             part.minbucket = 5,
                             .rho = TRUE,
                             rho.max = 1000,
-                            lin.type = "forwardStepwise",
-                            cv.glmnet.nfolds = 5,
-                            which.cv.glmnet.lambda = "lambda.min",
                             loss.fn = if (is.factor(y)) class.loss else mse,
                             verbose = TRUE,
                             plot.tuning = TRUE,
@@ -91,13 +90,13 @@ shytreeLeavesRC <- function(x, y,
   }
 
   # [ ARGUMENTS ] ====
-  lin.type <- match.arg(lin.type)
+  # lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ====
   g <- new.env()
-  # ENH: do not save both x and xm
+  # g$x used by rpart, g$xm used by lincoef
   g$x <- x
   g$xm <- cbind(1, model.matrix(~. - 1, data = x))
   g$ncolxm <- NCOL(g$xm)

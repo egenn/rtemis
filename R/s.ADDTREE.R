@@ -29,7 +29,7 @@
 #' @param min.hessian [gS] Minimum second derivative to continue splitting. Default = .001
 #' @param min.membership Integer: Minimum number of cases in a node. Default = 1
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-#' percent of cases match each rule. If available, these are used by \link{mplot3.addtree} when plotting. Default = TRUE
+#' percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE
 #' @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
 #' @param
 #' @return Object of class \link{rtMod}
