@@ -154,7 +154,7 @@ mplot3.varimp <- function(x,
   # [ AUTOMARGINS ] ====
   if (is.null(mar)) {
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
-    mar2 <- max(strwidth(.names)) + 1
+    mar2 <- max(strwidth(.names)) + 2.5
     mar3 <- if (is.null(main)) .5 else 2
     mar <- c(mar1, mar2, mar3, .6)
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
