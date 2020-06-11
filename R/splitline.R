@@ -160,6 +160,10 @@ cutnsplit <- function(x, y,
 
   })
   index <- which.min(loss)
-  c(cutpoints[index], loss[index])
+  if (length(index) == 0) {
+    c(NA, Inf)
+  } else {
+    c(cutpoints[index], loss[index])
+  }
 
 } # cutnsplit
