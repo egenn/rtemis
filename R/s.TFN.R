@@ -251,18 +251,18 @@ s.TFN <- function(x, y = NULL,
     ### '- HIDDEN LAYERS ====
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
-        net <- keras::layer_dense(net,
-                                  units = n.hnodes[i],
-                                  activation = activation,
-                                  input_shape = n.features,
-                                  kernel_initializer = initializer(seed = initializer.seed),
-                                  name = paste0("rt_Dense_", i))
-        if (l1 != 0 && l2 != 0) net <- keras::layer_activity_regularization(net,
-                                                                            l1 = l1, l2 = l2,
-                                                                            name = paste0("rt_Reg_", i))
-        if (batch.normalization) net <- keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
-        net <- keras::layer_dropout(net, rate = dropout[i],
-                                    name = paste0("rt_Dropout_", i))
+        keras::layer_dense(net,
+                           units = n.hnodes[i],
+                           activation = activation,
+                           input_shape = n.features,
+                           kernel_initializer = initializer(seed = initializer.seed),
+                           name = paste0("rt_Dense_", i))
+        if (l1 != 0 | l2 != 0) keras::layer_activity_regularization(net,
+                                                                    l1 = l1, l2 = l2,
+                                                                    name = paste0("rt_Reg_", i))
+        if (batch.normalization) keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
+        keras::layer_dropout(net, rate = dropout[i],
+                             name = paste0("rt_Dropout_", i))
       }
     } # /if (n.hlayers > 0)
 
@@ -277,10 +277,10 @@ s.TFN <- function(x, y = NULL,
       }
     }
 
-    net <- keras::layer_dense(net,
-                              units = n.outputs,
-                              activation = output,
-                              name = "rt_Output")
+    keras::layer_dense(net,
+                       units = n.outputs,
+                       activation = output,
+                       name = "rt_Output")
 
     # Parameters ====
     parameters <- list(n.hidden.nodes = n.hidden.nodes,
