@@ -42,6 +42,7 @@
 #'   input containing NA values will result in error, depending on the \code{type}
 #' @param group.legend Logical: If TRUE, include legend with group names
 #' @param group.title Character: Title above group names
+#' @return Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
 #' @seealso \link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 #' @author Efstathios D. Gennatas
 #' @export
@@ -152,7 +153,6 @@ mplot3.x <- function(x,
                      alpha.off = FALSE,  # Turn off all alpha if it's not supported by the device
                      na.rm = TRUE,
                      par.reset = TRUE,
-                     export.par.orig = FALSE,
                      filename = NULL,
                      pdf.width = 6,
                      pdf.height = 6,
@@ -239,7 +239,7 @@ mplot3.x <- function(x,
   if (type == "qqline") {
     yl <- list()
     for (i in seq_along(xl)) {
-      x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
+      .out <- x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
       xl[[i]] <- x.qqnorm$x
       yl[[i]] <- x.qqnorm$y
       xlab <- "Theoretical Quantiles"
@@ -251,7 +251,7 @@ mplot3.x <- function(x,
   # [ DATA: DENSITY ] ====
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
-    densityl <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
+    .out <- densityl <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
     densityl <- lapply(densityl, function(d) data.frame(x = d$x, y = d$y))
     meanl <- lapply(xl, mean)
     sdl <- lapply(xl, sd)
@@ -260,7 +260,7 @@ mplot3.x <- function(x,
 
   # [ DATA: HISTOGRAM ] ====
   if (type == "histogram") {
-    histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks, plot = FALSE))
+    .out <- histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks, plot = FALSE))
     if (is.null(xlab)) xlab <- labelify(xname)
   }
 
@@ -547,6 +547,6 @@ mplot3.x <- function(x,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) grDevices::dev.off()
-  if (export.par.orig) invisible(par.orig)
+  invisible(.out)
 
 } # rtemis::mplot3.x
