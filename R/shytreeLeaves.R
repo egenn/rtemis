@@ -721,7 +721,6 @@ splitLineRC <- function(g,
                                 cv.glmnet.nfolds = cv.glmnet.nfolds,
                                 which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
-        # linVal.left <- c(data.matrix(cbind(1, g$xm)) %*% linCoef.left)
         linVal.left <- c(g$xm %*% linCoef.left)
 
         # Lin Updates, Left ====
@@ -756,8 +755,6 @@ splitLineRC <- function(g,
                                  lambda.seq = lambda.seq,
                                  cv.glmnet.nfolds = cv.glmnet.nfolds,
                                  which.cv.glmnet.lambda = which.cv.glmnet.lambda)
-
-        # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
         linVal.right <- c(g$xm %*% linCoef.right)
 
         # Lin Updates, Right ====
