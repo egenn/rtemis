@@ -6,9 +6,18 @@
 \usage{
 mplot.raster(
   x,
+  max.value = max(x),
+  mar = NULL,
+  main = NULL,
+  main.line = 0,
+  main.side = 3,
+  main.col = "#ffffff",
+  main.adj = 0,
+  main.font = 2,
   mono = FALSE,
   mono.fn = mean,
   bg = "gray10",
+  par.set = TRUE,
   par.reset = TRUE,
   verbose = TRUE
 )

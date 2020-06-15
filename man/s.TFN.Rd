@@ -26,8 +26,10 @@ s.TFN(
   dropout = 0,
   activation = c("relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
     "exponential", "linear", "softmax", "softplus", "softsign"),
-  l1 = 0,
-  l2 = 0,
+  kernel_l1 = 0.1,
+  kernel_l2 = 0,
+  activation_l1 = 0,
+  activation_l2 = 0,
   batch.normalization = TRUE,
   output = NULL,
   loss = NULL,
@@ -96,6 +98,14 @@ otherwise will be recycled. Default = 0}
 \item{activation}{String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
 "exponential", "linear", "softmax", "softplus", "softsign". Defaults to "relu" for Classification and
 "tanh" for Regression}
+
+\item{kernel_l1}{Float: l1 penalty on weights. Default = .1}
+
+\item{kernel_l2}{Float: l2 penalty on weights. Default = 0}
+
+\item{activation_l1}{Float: l1 penalty on layer output. Default = 0}
+
+\item{activation_l2}{Float: l2 penalty on layer output. Default = 0}
 
 \item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE}
 

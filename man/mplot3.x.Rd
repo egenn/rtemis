@@ -90,7 +90,6 @@ mplot3.x(
   alpha.off = FALSE,
   na.rm = TRUE,
   par.reset = TRUE,
-  export.par.orig = FALSE,
   filename = NULL,
   pdf.width = 6,
   pdf.height = 6,
@@ -219,6 +218,9 @@ input containing NA values will result in error, depending on the \code{type}}
 \item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
 
 \item{...}{Additional arguments to be passed to theme function}
+}
+\value{
+Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
 }
 \description{
 Draw plots of 1-dimensional data: index, histogram, density, and Q-Q plots.
