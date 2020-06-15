@@ -21,28 +21,46 @@
 #' }
 
 mplot.raster <- function(x,
-                        mono = FALSE,
-                        mono.fn = mean,
-                        bg = "gray10",
-                        par.reset = TRUE,
-                        verbose = TRUE) {
+                         max.value = max(x),
+                         mar = NULL,
+                         main = NULL,
+                         main.line = 0,
+                         main.side = 3,
+                         main.col = "#ffffff",
+                         main.adj = 0,
+                         main.font = 2,
+                         mono = FALSE,
+                         mono.fn = mean,
+                         bg = "gray10",
+                         par.set = TRUE,
+                         par.reset = TRUE,
+                         verbose = TRUE) {
 
   if (dim(x)[3] > 3) {
     .dim <- dim(x)
     if (verbose) msg0("Input has dimensions ", .dim[1], "x", .dim[2], "x", .dim[3],
-                     "; Using first 3")
+                      "; Using first 3")
     x <- x[, , seq(3)]
   }
 
   if (mono) x <- apply(x, c(1, 2), mono.fn)
 
+  if (!par.set) par.reset <- FALSE
   if (par.reset) {
     par.orig <- par(no.readonly = TRUE)
     on.exit(par(par.orig))
   }
-  par(pty = "s", bg = bg, mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
+  if (is.null(mar)) {
+    mar <- if (is.null(main)) rep(0, 4) else c(0, 0, 1, 0)
+  }
+  if (par.set) {
+    par(pty = "s", bg = bg, mar = mar, oma = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
+  }
   plot(NULL, NULL, xlim = c(0, 100), ylim = c(0, 100), axes = FALSE, ann = FALSE)
-  if (max(x) > 1) x <- x/max(x)
-  rasterImage(x, 0, 0, 100, 100)
+  if (!is.null(main)) {
+    mtext(main, main.side, line = main.line, col = main.col, adj = main.adj,
+          font = main.font)
+  }
+  rasterImage(x/max.value, 0, 0, 100, 100)
 
 } # rtemis::mplot.raster
