@@ -28,8 +28,8 @@
 dplot3.varimp <- function(x,
                           # error = NULL,
                           names = NULL,
-                          main = "Variable Importance",
-                          xlab = "",
+                          main = NULL,
+                          xlab = "Variable Importance",
                           ylab = "",
                           # col = colorAdjust(colorGrad(length(names), "penn"), .8),
                           plot.top = 1, # 1 or less means plot this percent
@@ -37,7 +37,7 @@ dplot3.varimp <- function(x,
                           col = NULL,
                           alpha = 1,
                           palette = NULL,
-                          mar = c(0, 0, 40, 20),
+                          mar = NULL,
                           # pad = 0,
                           # font.family = "Helvetica Neue",
                           font.size = 16,
@@ -50,6 +50,12 @@ dplot3.varimp <- function(x,
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
+
+  # [ ARGUMENTS ] ====
+  if (is.null(mar)) {
+    mar <- if (is.null(main)) c(40, 0, 0, 20) else c(40, 0, 40, 20)
+  }
+
 
   # [ THEME ] ====
   extraargs <- list(...)
@@ -78,14 +84,6 @@ dplot3.varimp <- function(x,
   tickfont <- list(family = theme$font.family,
                    size = font.size,
                    color = tick.col)
-
-  # [ Colors ] ====
-  # Default to a fg to teal gradient
-  if (is.null(col)) {
-    if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
-    col <- colorGrad.x(x, palette)
-  }
-  col <- colorAdjust(col, alpha = alpha)
 
   # [ DATA ] ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
@@ -121,11 +119,15 @@ dplot3.varimp <- function(x,
   y <- factor(.names[index], levels = .names[index])
   # if (!is.null(error)) error <- error[index]
 
-  # [ plotly ] ====
-  # f <- list(family = font.family,
-  #           size = axis.font.size,
-  #           color = font.color)
+  # [ Colors ] ====
+  # Default to a fg to teal gradient
+  if (is.null(col)) {
+    if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
+    col <- colorGrad.x(x, palette)
+  }
+  col <- colorAdjust(col, alpha = alpha)
 
+  # [ plotly ] ====
   plt <- plotly::plot_ly(x = x, y = y,
                          type = 'bar',
                          orientation = 'h',
@@ -133,23 +135,6 @@ dplot3.varimp <- function(x,
                          showlegend = FALSE)
 
   # Layout ====
-  # plt <- plotly::layout(plt, title = main,
-  #                       margin = list(l = mar[2],
-  #                                     t = mar[3],
-  #                                     r = mar[4],
-  #                                     b = mar[1],
-  #                                     pad = pad),
-  #                       font = list(family = theme$font.family,
-  #                                   size = font.size,
-  #                                   color = labs.col),
-  #                       xaxis = list(title = xlab,
-  #                                    titlefont = f,
-  #                                    tickfont = f,
-  #                                    zeroline = FALSE),
-  #                       yaxis = list(title = ylab,
-  #                                    titlefont = f,
-  #                                    tickfont = f))
-
   plt <- plotly::layout(plt,
                         margin = list(l = mar[2],
                                       t = mar[3],
@@ -158,18 +143,18 @@ dplot3.varimp <- function(x,
                                       pad = 0), # inner plot area padding
                         xaxis = list(title = list(text = xlab,
                                                   font = f),
-                                     showline = axes.visible,
-                                     mirror = axes.mirrored,
+                                     # showline = axes.visible,
+                                     # mirror = axes.mirrored,
                                      showgrid = theme$grid,
                                      gridcolor = grid.col,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = FALSE),
-                        yaxis = list(title = list(text = xlab,
+                        yaxis = list(title = list(text = ylab,
                                                   font = f),
-                                     showline = axes.visible,
-                                     mirror = axes.mirrored,
+                                     # showline = axes.visible,
+                                     # mirror = axes.mirrored,
                                      showgrid = FALSE,
                                      # gridcolor = grid.col,
                                      # gridwidth = theme$grid.lwd,
@@ -183,10 +168,7 @@ dplot3.varimp <- function(x,
                                      xref = 'paper',
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
-                        plot_bgcolor = plot.bg,
-                        margin = margin,
-                        showlegend = legend,
-                        legend = .legend)
+                        plot_bgcolor = plot.bg)
 
   # Remove padding
   plt$sizingPolicy$padding <- 0

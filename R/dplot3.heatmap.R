@@ -3,6 +3,7 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 # TODO: automatically adjust (lower) margin depending on label length
 # customizing heatmaply is messy and slow, look for alternatives
+# TODO: change dendro default colors to remove black at highest level which is not visible on a black bg
 
 #' Interactive Heatmaps
 #'
