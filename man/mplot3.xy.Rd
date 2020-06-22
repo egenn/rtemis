@@ -107,7 +107,7 @@ mplot3.xy(
   fit.legend.at = NA,
   labs.col = NULL,
   na.rm = TRUE,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme", "darkgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   order.on.x = NULL,
   alpha.off = FALSE,

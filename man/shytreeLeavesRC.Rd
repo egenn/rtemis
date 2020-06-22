@@ -13,7 +13,6 @@ shytreeLeavesRC(
   weights = NULL,
   max.leaves = 5,
   learning.rate = 1,
-  minobsinnode = 2,
   minobsinnode.lin = 10,
   lin.type = "forwardStepwise",
   gamma = 0.1,
@@ -52,8 +51,6 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{max.leaves}{Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
-
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 

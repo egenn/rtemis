@@ -23,14 +23,13 @@ s.SHYTREE(
   alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,
-  minobsinnode = 5,
   minobsinnode.lin = 10,
   learning.rate = 0.5,
-  part.minsplit = 2,
+  part.minsplit = 5,
   part.xval = 0,
   part.max.depth = 1,
   part.cp = 0,
-  part.minbucket = 5,
+  part.minbucket = 3,
   .rho = TRUE,
   rho.max = 1000,
   init = NULL,
@@ -104,8 +103,6 @@ Default = TRUE}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
-
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
@@ -141,6 +138,8 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{internal use only}
+
+\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 }
 \description{
 Train a Stepwise Hybrid Tree for Regression or Binary Classification
