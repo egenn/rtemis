@@ -30,7 +30,7 @@ theme_blackgrid(
   grid.lwd = 1,
   axes = TRUE,
   axes.col = NA,
-  tick.col = NA,
+  tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = NA,
@@ -47,7 +47,7 @@ theme_blackgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 
 theme_darkgrid(
@@ -72,7 +72,7 @@ theme_darkgrid(
   grid.lwd = 1,
   axes = TRUE,
   axes.col = NA,
-  tick.col = NA,
+  tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = NA,
@@ -89,7 +89,7 @@ theme_darkgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 
 theme_black(
@@ -131,7 +131,7 @@ theme_black(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 
 theme_whitegrid(
@@ -156,7 +156,7 @@ theme_whitegrid(
   grid.lwd = 1,
   axes = TRUE,
   axes.col = NA,
-  tick.col = NA,
+  tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = NA,
@@ -173,7 +173,7 @@ theme_whitegrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 
 theme_lightgrid(
@@ -198,7 +198,7 @@ theme_lightgrid(
   grid.lwd = 1,
   axes = TRUE,
   axes.col = NA,
-  tick.col = NA,
+  tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = NA,
@@ -215,7 +215,7 @@ theme_lightgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 
 theme_white(
@@ -257,7 +257,7 @@ theme_white(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica Neue"
+  font.family = "Helvetica"
 )
 }
 \arguments{

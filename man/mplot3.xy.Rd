@@ -42,17 +42,22 @@ mplot3.xy(
   annotation = NULL,
   annotation.col = NULL,
   tick.col = NULL,
+  x.axis.line = 0,
   x.axis.at = NULL,
-  y.axis.at = NULL,
-  x.axis.labs = TRUE,
-  y.axis.labs = TRUE,
   x.axis.padj = -1.1,
+  x.axis.hadj = 0.5,
+  x.axis.labs = TRUE,
+  y.axis.line = 0,
+  y.axis.at = NULL,
+  y.axis.las = 1,
+  y.axis.labs = TRUE,
   xlab.line = 1.4,
-  y.axis.padj = 0.9,
-  ylab.line = 1.6,
+  y.axis.padj = 0.5,
+  y.axis.hadj = 1,
+  ylab.line = 2,
   xlab.adj = 0.5,
   ylab.adj = 0.5,
-  mar = c(2.5, 2.5, 1.5, 1),
+  mar = c(2.5, 3, 1.5, 1),
   pch = ifelse(is.null(point.bg.col), 16, 21),
   point.cex = 0.85,
   point.bg.col = NULL,
@@ -213,13 +218,13 @@ Default = "r"}
 \item{x.axis.at}{Float, vector: x coordinates to place tick marks. Default = NULL, determined by
 \code{graphics::axis} aautomatically}
 
-\item{y.axis.at}{As \code{x.axis.at} for y-axis}
+\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 
 \item{x.axis.labs}{See \code{axis("labels")}}
 
-\item{y.axis.labs}{See \code{axis("labels")}}
+\item{y.axis.at}{As \code{x.axis.at} for y-axis}
 
-\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
+\item{y.axis.labs}{See \code{axis("labels")}}
 
 \item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
 
