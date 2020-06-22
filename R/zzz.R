@@ -16,7 +16,10 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
   # Draw a harmonograph if we are in RStudio
   try(if (try(rstudioapi::isAvailable(), silent = TRUE))
-    mplot3.harmonograph(text = "rtemis", text.adj = .01, text.padj = -.2, text.col = "#72CDF4"), silent = TRUE)
+    mplot3.harmonograph(text = "rtemis", text.adj = .01,
+                        text.padj = -.2, text.col = "#72CDF4",
+                        col = sample(2:8)),
+    silent = TRUE)
 }
 
 
