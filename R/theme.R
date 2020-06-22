@@ -83,7 +83,7 @@ theme_blackgrid <- function(bg = "#000000",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = "Helvetica Neue") {
+                            font.family = "Helvetica") {
 
   list(name = "blackgrid",
        bg = bg,
@@ -178,7 +178,7 @@ theme_darkgrid <- function(name = "darkgrid",
                            main.adj = 0,
                            main.font = 2,
                            main.col = fg,
-                           font.family = "Helvetica Neue") {
+                           font.family = "Helvetica") {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -271,7 +271,7 @@ theme_black <- function(name = "black",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = "Helvetica Neue") {
+                        font.family = "Helvetica") {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -364,7 +364,7 @@ theme_whitegrid <- function(name = "whitegrid",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = "Helvetica Neue") {
+                            font.family = "Helvetica") {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -457,7 +457,7 @@ theme_lightgrid <- function(name = "lightgrid",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = "Helvetica Neue") {
+                            font.family = "Helvetica") {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -550,7 +550,7 @@ theme_white <- function(name = "white",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = "Helvetica Neue") {
+                        font.family = "Helvetica") {
 
   list(bg = bg,
        plot.bg = plot.bg,
