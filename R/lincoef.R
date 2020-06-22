@@ -104,7 +104,7 @@ lincoef <- function(x, y,
                              weights = weights,
                              method = "forward",
                              nvmax = nvmax)
-    .coef <- coef(mod, id = nvmax)
+    .coef <- coef(mod, id = which.max(summary(mod)$rsq))
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
     names(coef) <- c("(Intercept)", colnames(x))
@@ -116,7 +116,7 @@ lincoef <- function(x, y,
                              weights = weights,
                              method = "backward",
                              nvmax = nvmax)
-    .coef <- coef(mod, id = nvmax)
+    .coef <- coef(mod, id = which.max(summary(mod)$rsq))
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
     names(coef) <- c("(Intercept)", colnames(x))
@@ -130,9 +130,7 @@ lincoef <- function(x, y,
                              really.big = TRUE,
                              nbest = nbest,
                              nvmax = nvmax)
-    mod.summary <- summary(mod)
-    id <- which.max(mod.summary$rsq)
-    .coef <- coef(mod, id = id)
+    .coef <- coef(mod, id = which.max(summary(mod)$rsq))
     .nfeat <- NCOL(x)
     coef <- rep(0, .nfeat + 1)
     names(coef) <- c("(Intercept)", colnames(x))
