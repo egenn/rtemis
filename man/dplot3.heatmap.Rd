@@ -16,7 +16,7 @@ dplot3.heatmap(
   space = "rgb",
   lo = "#18A3AC",
   lomid = NULL,
-  mid = "white",
+  mid = NULL,
   midhi = NULL,
   hi = "#F48024",
   k.row = NA,
@@ -29,6 +29,13 @@ dplot3.heatmap(
   ylab = NULL,
   key.title = NULL,
   showticklabels = NULL,
+  colorbar_len = 0.7,
+  plot_method = "ggplot",
+  theme = getOption("rt.theme", "black"),
+  palette = getOption("rt.palette", "rtCol1"),
+  font.size = 16,
+  padding = 0,
+  filename = NULL,
   ...
 )
 }
@@ -50,6 +57,8 @@ See more at \code{heatmaply::heatmaply("Colv")}}
 \item{symm}{Logical: If TRUE, treat \code{x} symmetrically - \code{x} must be a square matrix. Default = FALSE}
 
 \item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(z)}}
+
+\item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
 \item{colors}{Character: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
 "french", "penn", "grnblkred",}
@@ -88,10 +97,21 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{key.title}{Character: Title for the color key. Default = NULL (no title)}
 
+\item{theme}{Character: "light", "dark"}
+
+\item{filename}{String (Optional: Path to file to save colorbar}
+
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}}
 }
 \description{
 Draw interactive heatmaps using \code{heatmaply}
+}
+\examples{
+\dontrun{
+x <- rnormmat(200, 20)
+xcor <- cor(x)
+dplot3.heatmap(xcor)
+}
 }
 \author{
 Efstathios D. Gennatas

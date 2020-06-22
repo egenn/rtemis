@@ -184,6 +184,13 @@ Other differences:
   longer than two characters.
 Otherwise, the arguments are the same as in \code{stats::heatmap}
 }
+\examples{
+\dontrun{
+x <- rnormmat(200, 20)
+xcor <- cor(x)
+mplot3.heatmap(xcor)
+}
+}
 \author{
 Efstathios D Gennatas modified from original \code{stats::heatmap}
 by Andy Liaw, R. Gentleman, M. Maechler, W. Huber

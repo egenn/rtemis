@@ -31,8 +31,10 @@ theme_blackgrid(
   axes = TRUE,
   axes.col = NA,
   tick.col = NA,
-  tick.alpha = 0,
+  tick.alpha = 1,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -43,12 +45,13 @@ theme_blackgrid(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 
 theme_darkgrid(
+  name = "darkgrid",
   bg = "#000000",
   plot.bg = "#1A1A1A",
   fg = "#ffffff",
@@ -70,8 +73,10 @@ theme_darkgrid(
   axes = TRUE,
   axes.col = NA,
   tick.col = NA,
-  tick.alpha = 0,
+  tick.alpha = 1,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -82,12 +87,13 @@ theme_darkgrid(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 
 theme_black(
+  name = "black",
   bg = "#000000",
   plot.bg = NA,
   fg = "#ffffff",
@@ -111,6 +117,8 @@ theme_black(
   tick.col = fg,
   tick.alpha = 0.5,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -121,12 +129,13 @@ theme_black(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 
 theme_whitegrid(
+  name = "whitegrid",
   bg = "#ffffff",
   plot.bg = NA,
   fg = "#000000",
@@ -148,8 +157,10 @@ theme_whitegrid(
   axes = TRUE,
   axes.col = NA,
   tick.col = NA,
-  tick.alpha = 0,
+  tick.alpha = 1,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -160,12 +171,13 @@ theme_whitegrid(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 
 theme_lightgrid(
+  name = "lightgrid",
   bg = "#ffffff",
   plot.bg = "#E6E6E6",
   fg = "#000000",
@@ -187,8 +199,10 @@ theme_lightgrid(
   axes = TRUE,
   axes.col = NA,
   tick.col = NA,
-  tick.alpha = 0,
+  tick.alpha = 1,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -199,12 +213,13 @@ theme_lightgrid(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 
 theme_white(
+  name = "white",
   bg = "#ffffff",
   plot.bg = NA,
   fg = "#000000",
@@ -228,6 +243,8 @@ theme_white(
   tick.col = fg,
   tick.alpha = 0.5,
   tick.labels.col = fg,
+  tck = NA,
+  tcl = NA,
   x.axis.side = 1,
   y.axis.side = 2,
   labs.col = fg,
@@ -238,9 +255,9 @@ theme_white(
   zerolines.lwd = 1,
   main.line = 0.5,
   main.adj = 0,
-  main.font = 1,
+  main.font = 2,
   main.col = fg,
-  font.family = ""
+  font.family = "Helvetica Neue"
 )
 }
 \arguments{

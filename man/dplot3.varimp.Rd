@@ -5,40 +5,41 @@
 \title{Interactive Variable Importance Plot}
 \usage{
 dplot3.varimp(
-  varimp,
+  x,
   names = NULL,
   main = "Variable Importance",
   xlab = "",
   ylab = "",
-  col = colorAdjust(colorGrad(length(names), "penn"), 0.8),
-  mar = c(50, 110, 50, 50),
-  pad = 10,
-  font.family = "Helvetica Neue",
-  font.size = 14,
+  plot.top = 1,
+  labelify = TRUE,
+  col = NULL,
+  alpha = 1,
+  palette = NULL,
+  mar = c(0, 0, 40, 20),
+  font.size = 16,
   axis.font.size = 14,
-  font.color = "000",
-  showlegend = TRUE
+  theme = getOption("rt.theme", "darkgrid"),
+  showlegend = TRUE,
+  ...
 )
 }
 \arguments{
-\item{varimp}{Vector, float: Variable importance of features}
+\item{x}{Vector, numeric: Input}
 
 \item{names}{Vector, string: Names of features}
 
-\item{main}{Character: Plot title}
+\item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
+i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+highest values}
 
-\item{xlab}{Character: x-axis label}
-
-\item{ylab}{Character: y-axis label}
+\item{labelify}{Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE}
 
 \item{col}{Vector, colors: Single value, or multiple values to define bar (feature) color(s)}
 
+\item{alpha}{Float (0, 1): Alpha for \code{col}}
+
 \item{mar}{Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 Default = c(50, 110, 50, 50)}
-
-\item{pad}{Integer: Pad plot by this many pixels. Default = 10}
-
-\item{font.family}{Character: Font to use. Default = "Open Sans"}
 
 \item{font.size}{Integer: Overall font size to use (essentially for the title at this point).
 Default = 14}
@@ -46,9 +47,13 @@ Default = 14}
 \item{axis.font.size}{Integer: Font size to use for axis labels and tick labels
 (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)}
 
-\item{font.color}{Color for all text}
-
 \item{showlegend}{Logical: If TRUE, show legend}
+
+\item{pad}{Integer: Pad plot by this many pixels. Default = 10}
+
+\item{font.family}{Character: Font to use. Default = "Open Sans"}
+
+\item{font.color}{Color for all text}
 }
 \description{
 Plot variable importance using \code{plotly}

@@ -23,7 +23,6 @@ dplot3.box(
   font.size = 16,
   font.alpha = 0.8,
   font.col = NULL,
-  font.family = "Helvetica Neue",
   main.col = NULL,
   axes.col = NULL,
   labs.col = NULL,
@@ -38,7 +37,8 @@ dplot3.box(
   padding = 0,
   filename = NULL,
   file.width = 500,
-  file.height = 500
+  file.height = 500,
+  ...
 )
 }
 \arguments{
@@ -73,8 +73,6 @@ dplot3.box(
 
 \item{font.col}{Color: Font color. Default = "black"}
 
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
-
 \item{main.col}{Color: Title color. Default = NULL, determined by theme}
 
 \item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
@@ -100,6 +98,8 @@ the legend top right beside the plot area. For example, c(0, 1) places the legen
 
 \item{feature.names}{Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 \code{colnames(x)}}
+
+\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
 }
 \description{
 Draw interactive boxplots or violin plots using \code{plotly}

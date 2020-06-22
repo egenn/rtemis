@@ -9,7 +9,7 @@ desaturate(color, s = 0.3)
 \arguments{
 \item{color}{Color, vector: Color(s) to operate on}
 
-\item{s}{Float Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
+\item{s}{Float: Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
 it will become .7}
 }
 \value{

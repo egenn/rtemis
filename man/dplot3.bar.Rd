@@ -13,7 +13,7 @@ dplot3.bar(
   alpha = 0.8,
   bg = NULL,
   plot.bg = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme", "darkgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   barmode = c("group", "relative", "stack", "overlay"),
   group.names = NULL,
@@ -21,8 +21,6 @@ dplot3.bar(
   font.size = 16,
   font.alpha = 0.8,
   font.col = NULL,
-  font.family = "Helvetica Neue",
-  main.col = NULL,
   axes.col = NULL,
   labs.col = NULL,
   grid.col = NULL,
@@ -35,7 +33,8 @@ dplot3.bar(
   padding = 0,
   filename = NULL,
   file.width = 500,
-  file.height = 500
+  file.height = 500,
+  ...
 )
 }
 \arguments{
@@ -73,10 +72,6 @@ dplot3.bar(
 
 \item{font.col}{Color: Font color. Default = "black"}
 
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
-
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
-
 \item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
 
 \item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
@@ -102,6 +97,10 @@ dplot3.bar(
 \item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
 
 \item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+
+\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
+
+\item{main.col}{Color: Title color. Default = NULL, determined by theme}
 }
 \description{
 Draw interactive barplots using \code{plotly}

@@ -37,14 +37,11 @@ mplot3.xy(
   xaxp = NULL,
   yaxp = NULL,
   scatter = TRUE,
-  axes = TRUE,
   axes.equal = FALSE,
-  axes.col = NULL,
   pty = "m",
   annotation = NULL,
   annotation.col = NULL,
   tick.col = NULL,
-  tck = 0.015,
   x.axis.at = NULL,
   y.axis.at = NULL,
   x.axis.labs = TRUE,
@@ -110,7 +107,7 @@ mplot3.xy(
   fit.legend.at = NA,
   labs.col = NULL,
   na.rm = TRUE,
-  theme = getOption("rt.theme", "whitegrid"),
+  theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   order.on.x = NULL,
   alpha.off = FALSE,
@@ -204,11 +201,7 @@ Default = "r"}
 
 \item{scatter}{Logical: If TRUE, plot (x, y) scatter points. Default = TRUE}
 
-\item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
-
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
-
-\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
@@ -216,8 +209,6 @@ Default = "r"}
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
 \item{annotation.col}{Color for annotation}
-
-\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
 \item{x.axis.at}{Float, vector: x coordinates to place tick marks. Default = NULL, determined by
 \code{graphics::axis} aautomatically}
@@ -325,6 +316,12 @@ otherwise FALSE}
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to be passed to theme function}
+
+\item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
+
+\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
+
+\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 }
 \description{
 Plot points and lines with optional fits and standard error bands

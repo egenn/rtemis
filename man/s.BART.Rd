@@ -86,10 +86,11 @@ as well as full model output, if \code{save.mod} is TRUE}
 Object of class \pkg{rtemis}
 }
 \description{
-Trains a Bayesian Additive Regression Tree (BART) model using package \code{bartMachine} and validates it
+Trains a Bayesian Additive Regression Tree (BART) model using package \code{bartMachine}
 }
 \details{
-If you are having trouble with rJava in Rstudio on macOS, see my solution here:
+Be warned this can take a very long time to train.
+If you are having trouble with rJava in Rstudio on macOS, see:
 https://support.rstudio.com/hc/en-us/community/posts/203663956/comments/249073727
 \code{bartMachine} does not support case weights
 }

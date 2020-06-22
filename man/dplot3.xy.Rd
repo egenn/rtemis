@@ -32,20 +32,12 @@ dplot3.xy(
   font.size = 16,
   font.alpha = 0.8,
   font.col = NULL,
-  font.family = "Helvetica Neue",
   marker.col = NULL,
   fit.col = NULL,
   fit.alpha = 0.8,
   fit.lwd = 2.5,
   se.col = NULL,
   se.alpha = 0.4,
-  main.col = NULL,
-  axes.col = NULL,
-  labs.col = NULL,
-  grid.col = NULL,
-  grid.lwd = 1,
-  grid.alpha = 0.8,
-  tick.col = NULL,
   legend = NULL,
   legend.xy = c(0, 1),
   legend.xanchor = "left",
@@ -103,38 +95,25 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 \item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
 \code{TRUE} if \code{mode} includes lines.}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Plot title}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
+You can set a system-wide default in your \code{.Rprofile} by including a line like
+options(rt.theme = 'lightgrid')}
 
-\item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
-
-\item{bg}{Color: Background color. Default = "white"}
-
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
-
-\item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
-
-\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
 Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
-
-\item{font.size}{Float: Font size for all labels. Default = 16}
-
-\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
-
-\item{font.col}{Color: Font color. Default = "black"}
-
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
+\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
 \item{fit.col}{Color: Color of the fit line.}
 
@@ -144,28 +123,10 @@ plot.}
 
 \item{se.alpha}{Alpha for \code{se.fit}}
 
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
-
-\item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
-
-\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
-
-\item{grid.col}{Color: Grid color. Default = "gray85"}
-
-\item{grid.lwd}{Float: Grid line width. Default = 1}
-
-\item{grid.alpha}{Float (0, 1]: Transparency for \code{grid.col}. Default = .8}
-
-\item{tick.col}{Color: Color for ticks and tick labels. Default = NULL, determined, by theme}
-
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 groups, or \code{fit} is set}
 
 \item{legend.orientation}{Character: "v": vertical, or "h": horizontal. Default = "v"}
-
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
-
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
@@ -173,15 +134,9 @@ groups, or \code{fit} is set}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
 
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
-
 \item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
 
-\item{filename}{Character: Path to file to save static plot. Default = NULL}
-
-\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
-
-\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+\item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to be passed to theme function}
 
@@ -193,6 +148,9 @@ groups, or \code{fit} is set}
 }
 \description{
 Draw interactive scatter plots using \code{plotly}
+}
+\details{
+use theme$tick.labels.col for both tick color and tick label color
 }
 \examples{
 \dontrun{

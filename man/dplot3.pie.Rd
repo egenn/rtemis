@@ -13,15 +13,11 @@ dplot3.pie(
   alpha = 0.8,
   bg = NULL,
   plot.bg = NULL,
-  theme = getOption("rt.theme", "light"),
+  theme = getOption("rt.theme", "black"),
   palette = getOption("rt.palette", "rtCol1"),
   category.names = NULL,
   textinfo = "label+percent",
   font.size = 16,
-  font.alpha = 0.8,
-  font.col = NULL,
-  font.family = "Helvetica Neue",
-  main.col = NULL,
   labs.col = NULL,
   legend = TRUE,
   legend.col = NULL,
@@ -30,7 +26,8 @@ dplot3.pie(
   padding = 0,
   filename = NULL,
   file.width = 500,
-  file.height = 500
+  file.height = 500,
+  ...
 )
 }
 \arguments{
@@ -62,14 +59,6 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 \item{textinfo}{Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
-
-\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
-
-\item{font.col}{Color: Font color. Default = "black"}
-
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
-
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
 
 \item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
 

@@ -47,7 +47,7 @@ mplot3.bar(
   ylim.pad = 0.04,
   y.axis.padj = 1,
   tck = -0.015,
-  theme = getOption("rt.theme", "blackgrid"),
+  theme = getOption("rt.theme", "darkgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   pdf.width = 6,

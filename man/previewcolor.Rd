@@ -11,6 +11,8 @@ previewcolor(
   main.col = "#b3b3b3",
   main.x = 0.7,
   main.y = 0.2,
+  main.adj = 0,
+  main.font = 2,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),
@@ -32,6 +34,10 @@ previewcolor(
 
 \item{main.y}{Float: y coordinate for \code{main}. Default = 0}
 
+\item{main.adj}{Float: \code{adj} argument to mtext for \code{main}.}
+
+\item{main.font}{Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold. Default = 2}
+
 \item{width}{Float: Plot width. Default = NULL, i.e. set automatically}
 
 \item{xlim}{Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically}
@@ -43,8 +49,6 @@ previewcolor(
 \item{labels.y}{Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)}
 
 \item{label.cex}{Float: Character expansion for labels. Default = NULL, and is calculated automatically based on}
-
-\item{main.adj}{Float: \code{adj} argument to mtext for \code{main}.}
 
 \item{par.rest}{Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
 length of \code{x} in order to look reasonable in your RStudio plot panel.}
