@@ -4,9 +4,10 @@
 
 #' Bayesian Additive Regression Trees [C, R]
 #'
-#' Trains a Bayesian Additive Regression Tree (BART) model using package \code{bartMachine} and validates it
+#' Trains a Bayesian Additive Regression Tree (BART) model using package \code{bartMachine}
 #'
-#' If you are having trouble with rJava in Rstudio on macOS, see my solution here:
+#' Be warned this can take a very long time to train.
+#' If you are having trouble with rJava in Rstudio on macOS, see:
 #' https://support.rstudio.com/hc/en-us/community/posts/203663956/comments/249073727
 #' \code{bartMachine} does not support case weights
 #' @inheritParams s.GLM
@@ -45,7 +46,7 @@ s.BART <- function(x, y = NULL,
                    java.mem.size = 12, ...) {
 
   # [ INTRO ] ====
-  if (missing(x)) { print(args(s.RF)); return(invisible(9)) }
+  if (missing(x)) { print(args(s.BART)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
