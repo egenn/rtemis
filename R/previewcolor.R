@@ -13,6 +13,7 @@
 #' @param main.x Float: x coordinate for \code{main}. Default = .75
 #' @param main.y Float: y coordinate for \code{main}. Default = 0
 #' @param main.adj Float: \code{adj} argument to mtext for \code{main}.
+#' @param main.font Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold. Default = 2
 #' @param width Float: Plot width. Default = NULL, i.e. set automatically
 #' @param xlim Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically
 #' @param ylim Vector, length 2: y-axis limits. Default = \code{c(0.7, 2)}
@@ -34,6 +35,8 @@ previewcolor <- function(x,
                          main.col = "#b3b3b3",
                          main.x = .7,
                          main.y = 0.2,
+                         main.adj = 0,
+                         main.font = 2,
                          width = NULL,
                          xlim = NULL,
                          ylim = c(0, 2.2),
@@ -82,7 +85,7 @@ previewcolor <- function(x,
 
   # '- Title ====
   if (!is.null(main)) {
-    text(main.x, main.y, main, col = main.col, adj = 0)
+    text(main.x, main.y, main, col = main.col, adj = main.adj, font = main.font)
   }
 
 } # rtemis::previewcolor
