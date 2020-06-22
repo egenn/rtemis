@@ -7,7 +7,7 @@
 #' Lower a color's saturation by a given percent in the HSV color system
 #'
 #' @param color Color, vector: Color(s) to operate on
-#' @param s Float Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
+#' @param s Float: Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
 #' it will become .7
 #' @return List of adjusted colors
 #' @author Efstathios D Gennatas
