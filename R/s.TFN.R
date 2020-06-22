@@ -262,11 +262,13 @@ s.TFN <- function(x, y = NULL,
                            activation = activation,
                            input_shape = n.features,
                            kernel_initializer = initializer(seed = initializer.seed),
-                           kernel_regularizer = keras::regularizer_l1_l2(l1 = l1, l2 = l2),
+                           kernel_regularizer = keras::regularizer_l1_l2(l1 = kernel_l1,
+                                                                         l2 = kernel_l2),
                            name = paste0("rt_Dense_", i))
-        # if (l1 != 0 | l2 != 0) keras::layer_activity_regularization(net,
-        #                                                             l1 = l1, l2 = l2,
-        #                                                             name = paste0("rt_Reg_", i))
+        if (activation_l1 != 0 | activation_l2 != 0) keras::layer_activity_regularization(net,
+                                                                    l1 = activation_l1,
+                                                                    l2 = activation_l2,
+                                                                    name = paste0("rt_Reg_", i))
         if (batch.normalization) keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
         keras::layer_dropout(net, rate = dropout[i],
                              name = paste0("rt_Dropout_", i))
