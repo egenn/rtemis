@@ -64,7 +64,7 @@ mplot3.varimp <- function(x,
                           x.axis.padj = -1.2,
                           tck = -.015,
                           # tick.col = NULL,
-                          theme = getOption("rt.theme", "whitegrid"),
+                          theme = getOption("rt.theme", "darkgrid"),
                           zerolines = FALSE,
                           # axes.col = NULL,
                           # labs.col = NULL,
@@ -154,9 +154,10 @@ mplot3.varimp <- function(x,
   # [ AUTOMARGINS ] ====
   if (is.null(mar)) {
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
-    mar2 <- max(strwidth(.names)) + 2.5
+    # mar2 <- max(strwidth(.names)) + 2.5 # this freaks out stupid notebooks
+    mar2 <- 1.0741 + 0.4 * max(nchar(.names))
     mar3 <- if (is.null(main)) .5 else 2
-    mar <- c(mar1, mar2, mar3, .6)
+    mar <- c(mar1, mar2, mar3, .8)
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
   }
 

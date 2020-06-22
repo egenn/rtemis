@@ -61,7 +61,7 @@ mplot3.box <- function(x,
                        y.axis.padj = 1.7,
                        tck = -.015,
                        # tick.col = NULL,
-                       theme = getOption("rt.theme", "white"),
+                       theme = getOption("rt.theme", "darkgrid"),
                        palette = getOption("rt.palette", "rtCol1"),
                        # axes.col = NULL,
                        # labs.col = NULL,
@@ -183,7 +183,7 @@ mplot3.box <- function(x,
 
   # [ GROUP NAMES ] ====
   if (is.null(group.names.y)) {
-    group.names.y <- min(ylim) - diff(ylim) * .2
+    group.names.y <- min(ylim) - diff(ylim) * .1
   }
   if (!is.null(group.names)) {
     text(x = group.names.at, y = group.names.y,
