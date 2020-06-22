@@ -42,14 +42,14 @@ s.SHYTREE <- function(x, y = NULL,
                       alpha = 1,
                       lambda = .05,
                       lambda.seq = NULL,
-                      minobsinnode = 5,
                       minobsinnode.lin = 10,
                       learning.rate =.5,
-                      part.minsplit = 2,
+                      # rpart
+                      part.minsplit = 5,
                       part.xval = 0,
                       part.max.depth = 1,
                       part.cp = 0,
-                      part.minbucket = 5,
+                      part.minbucket = 3,
                       .rho = TRUE,
                       rho.max = 1000,
                       init = NULL,
@@ -130,7 +130,7 @@ s.SHYTREE <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(gamma, lambda, minobsinnode,
+  if (verbose) parameterSummary(gamma, lambda, minobsinnode.lin,
                                 learning.rate, part.cp, max.leaves,
                                 nvmax, newline.pre = TRUE)
   if (print.plot) {
@@ -170,25 +170,29 @@ s.SHYTREE <- function(x, y = NULL,
 
   if (is.null(force.max.leaves)) {
     if (lookback) {
-      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, nvmax)
+      gc <- gridCheck(learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
+                      part.minsplit, part.minbucket, part.cp)
     } else {
-      # not recommended to cv max.leaves - use lookback instead
-      gc <- gridCheck(gamma, lambda, minobsinnode, learning.rate, part.cp, max.leaves, nvmax)
+      # not recommended to cv max.leaves - use lookback instead; option likely will be removed
+      gc <- gridCheck(learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
+                      part.minsplit, part.minbucket, part.cp, max.leaves)
     }
   } else {
     gc <- FALSE
   }
 
-  # Must turn off plotting during parallel grid search or else it may hang
+  # Must turn off plotting during parallel grid search or else likely to hang
   if (!.gs & n.cores > 1) plot.tuning <- FALSE
 
   if ((!.gs && gc) | (!.gs && lookback && max.leaves > 1)) {
     grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
-    grid.params <- c(grid.params, list(nvmax = nvmax,
+    grid.params <- c(grid.params, list(learning.rate = learning.rate,
                                        gamma = gamma,
+                                       minobsinnode.lin = minobsinnode.lin,
                                        lambda = lambda,
-                                       minobsinnode = minobsinnode,
-                                       learning.rate = learning.rate,
+                                       nvmax = nvmax,
+                                       part.minsplit = part.minsplit,
+                                       part.minbucket = part.minbucket,
                                        part.cp = part.cp))
     fixed.params <- if (lookback) list(max.leaves = max.leaves) else list()
     fixed.params <- c(fixed.params, list(init = init,
@@ -219,8 +223,10 @@ s.SHYTREE <- function(x, y = NULL,
 
     gamma <- gs$best.tune$gamma
     lambda <- gs$best.tune$lambda
-    minobsinnode <- gs$best.tune$minobsinnode
+    minobsinnode.lin <- gs$best.tune$minobsinnode.lin
     learning.rate <- gs$best.tune$learning.rate
+    part.minsplit <- gs$best.tune$part.minsplit
+    part.minbucket <- gs$best.tune$part.minbucket
     part.cp <- gs$best.tune$part.cp
     nvmax <- gs$best.tune$nvmax
     # Return special from gridSearchLearn
@@ -257,7 +263,6 @@ s.SHYTREE <- function(x, y = NULL,
                          alpha = alpha,
                          lambda = lambda,
                          lambda.seq = lambda.seq,
-                         minobsinnode = minobsinnode,
                          minobsinnode.lin = minobsinnode.lin,
                          learning.rate = learning.rate,
                          part.minsplit = part.minsplit,
