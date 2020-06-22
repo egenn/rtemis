@@ -2,13 +2,14 @@
 # ::rtemis::
 # 2017 Efstathios D. Gennatas egenn.github.io
 # TODO: automatically adjust (lower) margin depending on label length
+# customizing heatmaply is messy and slow, look for alternatives
 
 #' Interactive Heatmaps
 #'
 #' Draw interactive heatmaps using \code{heatmaply}
 #'
 #' @inheritParams colorGrad
-#' @inheritParams mplot3.xy
+#' @inheritParams mplot3.heatmap
 #' @param z Input matrix
 #' @param Rowv Logical or dendrogram.
 #'   If Logical: Compute dendrogram and reorder rows. Defaults to FALSE
@@ -31,6 +32,12 @@
 #' @param key.title Character: Title for the color key. Default = NULL (no title)
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
 #' @author Efstathios D. Gennatas
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(200, 20)
+#' xcor <- cor(x)
+#' dplot3.heatmap(xcor)
+#' }
 #' @export
 
 dplot3.heatmap <- function(z,
@@ -44,7 +51,7 @@ dplot3.heatmap <- function(z,
                            space = "rgb",
                            lo = "#18A3AC",
                            lomid = NULL,
-                           mid = "white",
+                           mid = NULL,
                            midhi = NULL,
                            hi = "#F48024",
                            k.row = NA,
@@ -59,6 +66,13 @@ dplot3.heatmap <- function(z,
                            ylab = NULL,
                            key.title = NULL,
                            showticklabels = NULL,
+                           colorbar_len = .7,
+                           plot_method = "ggplot",
+                           theme = getOption("rt.theme", "black"),
+                           palette = getOption("rt.palette", "rtCol1"),
+                           font.size = 16,
+                           padding = 0,
+                           filename = NULL,
                            ...) {
 
   # [ DEPENDENCIES ] ====
@@ -92,7 +106,27 @@ dplot3.heatmap <- function(z,
     limits <- c(-maxabs, maxabs)
   }
 
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
+
+  bg <- plotly::toRGB(theme$bg)
+  fg <- plotly::toRGB(theme$fg)
+  plot.bg <- plotly::toRGB(theme$plot.bg)
+  grid.col <- plotly::toRGB(theme$grid.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
+  tick.labels.col <- plotly::toRGB(theme$tick.labels.col)
+  labs.col <- plotly::toRGB(theme$labs.col)
+  main.col <- plotly::toRGB(theme$main.col)
+
   # [ COLORS ] ====
+  if (is.null(mid)) mid <- theme$bg
   colors <- colorGrad(n = colorGrad.n,
                       colors = colors,
                       space = space,
@@ -111,20 +145,94 @@ dplot3.heatmap <- function(z,
   }
 
   # [ HEATMAP ] ====
-  suppressWarnings(heatmaply::heatmaply(z, Rowv = Rowv, Colv = Colv,
-                                        symm = symm,
-                                        cellnote = cellnote,
-                                        colors = colors,
-                                        grid_gap = grid.gap,
-                                        limits = limits,
-                                        margins = margins,
-                                        key.title = key.title,
-                                        xlab = xlab,
-                                        ylab = ylab,
-                                        main = main,
-                                        k_row = k.row,
-                                        k_col = k.col,
-                                        showticklabels = showticklabels,
-                                        ...))
+  ggp2text <- ggplot2::element_text(family = theme$font.family,
+                                    color = theme$tick.labels.col)
+  ggp2theme <- ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = theme$bg),
+    plot.background = ggplot2::element_rect(fill = theme$bg),
+    legend.text = ggplot2::element_text(color = theme$fg),
+    legend.background = ggplot2::element_rect(fill = theme$bg),
+    text = ggp2text,
+    title = ggp2text,
+    axis.text = ggp2text,
+    axis.text.x = ggp2text,
+    axis.text.y = ggp2text,
+    axis.title.x = ggp2text,
+    axis.title.y = ggp2text,
+    plot.subtitle = ggp2text,
+    plot.caption = ggp2text)
+  plt <- suppressWarnings(heatmaply::heatmaply(z, Rowv = Rowv, Colv = Colv,
+                                               symm = symm,
+                                               cellnote = cellnote,
+                                               colors = colors,
+                                               grid_gap = grid.gap,
+                                               limits = limits,
+                                               margins = margins,
+                                               key.title = key.title,
+                                               xlab = xlab,
+                                               ylab = ylab,
+                                               # main = main,
+                                               k_row = k.row,
+                                               k_col = k.col,
+                                               plot_method = plot_method,
+                                               colorbar_len = colorbar_len,
+                                               showticklabels = showticklabels,
+                                               heatmap_layers = ggp2theme,
+                                               # side_color_layers = ggp2theme,
+                                               file = filename))
+
+  # [ Layout ] ====
+  # '- layout ====
+  f <- list(family = theme$font.family,
+            size = font.size,
+            color = labs.col)
+  tickfont <- list(family = theme$font.family,
+                   size = font.size,
+                   color = tick.labels.col)
+  .legend <- list(font = list(family = theme$font.family,
+                              size = font.size,
+                              color = bg))
+
+  plt <- plotly::layout(plt,
+                        yaxis2 = list(
+                          title = list(
+                                       # text = ylab,
+                                       font = f), # gets assigned to dendrogram
+                          titlefont = f,
+                          # showgrid = FALSE,
+                          tickcolor = bg,
+                          showline = FALSE,
+                          gridcolor = grid.col,
+                          gridwidth = theme$grid.lwd,
+                          tickfont = tickfont),
+                        xaxis = list(
+                          title = list(
+                            # text = xlab,
+                            font = f),
+                          titlefont = f,
+                          # showgrid = FALSE,
+                          tickcolor = bg,
+                          showline = FALSE,
+                          gridcolor = grid.col,
+                          gridwidth = theme$grid.lwd,
+                          tickfont = tickfont),
+                        title = list(text = main,
+                                     font = list(family = theme$font.family,
+                                                 size = font.size,
+                                                 color = main.col),
+                                     xref = 'paper',
+                                     x = theme$main.adj),
+                        paper_bgcolor = bg,
+                        plot_bgcolor = bg,
+                        legend = .legend
+                        # margin = margin
+  )
+
+
+  # Manual layout ====
+  # Set padding
+  plt$sizingPolicy$padding <- padding
+
+  plt
 
 } # rtemis::dplot3.heatmap

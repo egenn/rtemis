@@ -30,15 +30,14 @@ dplot3.pie <-  function(x,
                         alpha = .8,
                         bg = NULL,
                         plot.bg = NULL,
-                        theme = getOption("rt.theme", "light"),
+                        theme = getOption("rt.theme", "black"),
                         palette = getOption("rt.palette", "rtCol1"),
                         category.names = NULL,
                         textinfo = "label+percent",
                         font.size = 16,
-                        font.alpha = .8,
-                        font.col = NULL,
-                        font.family = "Helvetica Neue",
-                        main.col = NULL,
+                        # font.alpha = .8,
+                        # font.col = NULL,
+                        # main.col = NULL,
                         labs.col = NULL,
                         legend = TRUE,
                         legend.col = NULL,
@@ -47,7 +46,7 @@ dplot3.pie <-  function(x,
                         padding = 0,
                         filename = NULL,
                         file.width = 500,
-                        file.height = 500) {
+                        file.height = 500, ...) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -92,18 +91,22 @@ dplot3.pie <-  function(x,
   if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))
 
-  # Themes ====
-  theme <- if (substr(theme, 1, 5) == "light") "light" else "dark"
-
-  if (theme == "light") {
-    if (is.null(bg)) bg <- "rgba(255,255,255,1)"
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
-    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
   } else {
-    if (is.null(bg)) bg <- "rgba(0,0,0,1)"
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
-    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
   }
+
+  bg <- plotly::toRGB(theme$bg)
+  # plot.bg <- plotly::toRGB(theme$plot.bg)
+  # grid.col <- plotly::toRGB(theme$grid.col)
+  # tick.col <- plotly::toRGB(theme$tick.labels.col)
+  labs.col <- plotly::toRGB(theme$labs.col)
+  main.col <- plotly::toRGB(theme$main.col)
 
   if (is.null(legend.col)) legend.col <- labs.col
   sep.col <- if (is.null(sep.col)) bg else plotly::toRGB(sep.col)
@@ -119,10 +122,10 @@ dplot3.pie <-  function(x,
                                        line = list(color = sep.col, width = 1)))
 
   # '- layout ====
-  f <- list(family = font.family,
+  f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
-  .legend <- list(font = list(family = font.family,
+  .legend <- list(font = list(family = theme$font.family,
                               size = font.size,
                               color = legend.col))
   plt <- plotly::layout(plt,
@@ -137,7 +140,7 @@ dplot3.pie <-  function(x,
                                      showgrid = FALSE,
                                      zeroline = FALSE),
                         title = list(text = main,
-                                     font = list(family = font.family,
+                                     font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col)),
                         paper_bgcolor = bg,

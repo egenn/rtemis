@@ -6,7 +6,8 @@
 #'
 #' Draw interactive scatter plots using \code{plotly}
 #'
-#' @inheritParams dplot3.bar
+#' use theme$tick.labels.col for both tick color and tick label color
+#' @inheritParams dplot3.bartheme$tick.col is not used because ticks and their labels have the same color;
 #' @inheritParams mplot3.xy
 #' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
 #' \code{x} and \code{y}, respectively
@@ -62,20 +63,12 @@ dplot3.xy <- function(x, y = NULL,
                       font.size = 16,
                       font.alpha = .8,
                       font.col = NULL,
-                      font.family = "Helvetica Neue",
                       marker.col = NULL,
                       fit.col = NULL,
                       fit.alpha = .8,
                       fit.lwd = 2.5,
                       se.col = NULL,
                       se.alpha = .4,
-                      main.col = NULL,
-                      axes.col = NULL,
-                      labs.col = NULL,
-                      grid.col = NULL,
-                      grid.lwd = 1,
-                      grid.alpha = .8,
-                      tick.col = NULL,
                       legend = NULL,
                       legend.xy = c(0, 1),
                       legend.xanchor = "left",
@@ -199,75 +192,34 @@ dplot3.xy <- function(x, y = NULL,
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
-  # Convert inputs to RGB
-  bg <- plotly::toRGB(bg)
-  plot.bg <- plotly::toRGB(plot.bg)
-  font.col <- plotly::toRGB(font.col)
-  # marker.col <- plotly::toRGB(marker.col)
-  # fit.col <- plotly::toRGB(fit.col)
-  # se.col <- plotly::toRGB(se.col)
-  tick.col <- plotly::toRGB(tick.col)
-  grid.col <- plotly::toRGB(grid.col)
+  # remove:
+  # # Convert inputs to RGB
+  # bg <- plotly::toRGB(bg)
+  # plot.bg <- plotly::toRGB(plot.bg)
+  # font.col <- plotly::toRGB(font.col)
+  # # marker.col <- plotly::toRGB(marker.col)
+  # # fit.col <- plotly::toRGB(fit.col)
+  # # se.col <- plotly::toRGB(se.col)
+  # tick.col <- plotly::toRGB(tick.col)
+  # grid.col <- plotly::toRGB(grid.col)
 
-  # Themes ====
-  # Defaults: no box
-  axes.visible <- FALSE
-  axes.mirrored <- FALSE
-
-  if (theme %in% c("lightgrid", "darkgrid")) {
-    grid <- TRUE
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
   } else {
-    grid <- FALSE
-  }
-  if (theme == "lightgrid") {
-    theme <- "light"
-    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray90")
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-    if (is.null(tick.col)) tick.col <- "rgba(0,0,0,1)"
-  }
-  if (theme == "darkgrid") {
-    theme <- "dark"
-    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray15")
-    grid <- TRUE
-    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    if (is.null(tick.col)) tick.col <- "rgba(255,255,255,1)"
-  }
-  themes <- c("light", "dark", "lightbox", "darkbox")
-  if (!theme %in% themes) {
-    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-    theme <- "light"
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
   }
 
-  if (theme == "light") {
-    if (is.null(bg)) bg <- "white"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
-    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
-  } else if (theme == "dark") {
-    if (is.null(bg)) bg <- "black"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
-    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-  } else if (theme == "lightbox") {
-    axes.visible <- axes.mirrored <- TRUE
-    if (is.null(bg)) bg <- "rgba(255,255,255,1)"
-    if (is.null(plot.bg)) plot.bg <- "rgba(255,255,255,1)"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
-    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
-    if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-  } else if (theme == "darkbox") {
-    axes.visible <- axes.mirrored <- TRUE
-    if (is.null(bg)) bg <- "rgba(0,0,0,1)"
-    if (is.null(plot.bg)) plot.bg <- "rgba(0,0,0,1)"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
-    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-  }
+  bg <- plotly::toRGB(theme$bg)
+  plot.bg <- plotly::toRGB(theme$plot.bg)
+  grid.col <- plotly::toRGB(theme$grid.col, theme$grid.alpha)
+  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  labs.col <- plotly::toRGB(theme$labs.col)
+  main.col <- plotly::toRGB(theme$main.col)
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
@@ -306,7 +258,7 @@ dplot3.xy <- function(x, y = NULL,
                         mod.params,
                         list(...))
       if (fit == "NLS") learner.args <- c(learner.args,
-                                                list(formula = formula, save.func = TRUE))
+                                          list(formula = formula, save.func = TRUE))
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
       if (se.fit) se[[i]] <- se(mod)
@@ -398,17 +350,17 @@ dplot3.xy <- function(x, y = NULL,
 
   # [ Layout ] ====
   # '- layout ====
-  f <- list(family = font.family,
+  f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
-  tickfont <- list(family = font.family,
+  tickfont <- list(family = theme$font.family,
                    size = font.size,
                    color = tick.col)
   .legend <- list(x = legend.xy[1],
                   xanchor = legend.xanchor,
                   y = legend.xy[2],
                   yanchor = legend.yanchor,
-                  font = list(family = font.family,
+                  font = list(family = theme$font.family,
                               size = font.size,
                               color = legend.col),
                   orientation = legend.orientation,
@@ -422,17 +374,17 @@ dplot3.xy <- function(x, y = NULL,
                                      showline = axes.visible,
                                      mirror = axes.mirrored,
                                      titlefont = f,
-                                     showgrid = grid,
+                                     showgrid = theme$grid,
                                      gridcolor = grid.col,
-                                     gridwidth = grid.lwd,
+                                     gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = zerolines),
+                                     zeroline = theme$zerolines),
                         xaxis = list(title = xlab,
                                      showline = axes.visible,
                                      mirror = axes.mirrored,
                                      titlefont = f,
-                                     showgrid = grid,
+                                     showgrid = theme$grid,
                                      gridcolor = grid.col,
                                      gridwidth = grid.lwd,
                                      tickcolor = tick.col,
@@ -441,9 +393,11 @@ dplot3.xy <- function(x, y = NULL,
                         # barmode = barmode,  # group works without actual groups too
                         # title = main,
                         title = list(text = main,
-                                     font = list(family = font.family,
+                                     font = list(family = theme$font.family,
                                                  size = font.size,
-                                                 color = main.col)),
+                                                 color = main.col),
+                                     xref = 'paper',
+                                     x = theme$main.adj),
                         # titlefont = list(),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
