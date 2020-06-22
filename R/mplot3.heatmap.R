@@ -85,6 +85,12 @@
 #' @param ... Additional arguments passed to \code{graphics::image}
 #' @author Efstathios D Gennatas modified from original \code{stats::heatmap}
 #' by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(200, 20)
+#' xcor <- cor(x)
+#' mplot3.heatmap(xcor)
+#' }
 #' @export
 
 mplot3.heatmap <- function(x,
