@@ -220,6 +220,7 @@ dplot3.xy <- function(x, y = NULL,
   tick.col <- plotly::toRGB(theme$tick.labels.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
+  if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
@@ -371,7 +372,7 @@ dplot3.xy <- function(x, y = NULL,
 
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
-                                     # showline = axes.visible,
+                                     showline = FALSE,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,
@@ -381,7 +382,7 @@ dplot3.xy <- function(x, y = NULL,
                                      tickfont = tickfont,
                                      zeroline = theme$zerolines),
                         xaxis = list(title = xlab,
-                                     # showline = axes.visible,
+                                     showline = FALSE,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,

@@ -9,7 +9,7 @@
 #'
 #' At the moment, \code{mplot3.xym} is the only \code{mplot3} function that does not support
 #'
-#'
+#' To make wide plot, change `widths`: e.g. widths = c(7, 1)
 #' @inheritParams mplot3.xy
 #' @param x x-data
 #' @param y y-data
@@ -27,6 +27,12 @@
 #' @param par.reset Logical. Resest \code{par} to original settings
 #' @param ... Additional arguments to be passed to \code{mplot3.xy}
 #' @author Efstathios D Gennatas
+#' @examples
+#' \dontrun{
+#' x <- rnorm(500)
+#' y <- x^3 + 12 + rnorm(500)
+#' mplot3.xym(x, y)
+#' }
 #' @export
 
 mplot3.xym <- function(x, y,
@@ -53,8 +59,8 @@ mplot3.xym <- function(x, y,
                        yaxs = 'r',
                        theme = getOption("rt.theme", "lightgrid"),
                        par.reset = TRUE,
-                       widths = c(5, 1),
-                       heights = c(1, 5),
+                       widths = NULL,
+                       heights = NULL,
                        filename = NULL,
                        pdf.width = 7,
                        pdf.height = 7, ...) {
@@ -64,7 +70,19 @@ mplot3.xym <- function(x, y,
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
+                                         title = "rtemis Graphics")
+
+  # Auto max fill
+  if (is.null(widths)) {
+    devw <- dev.size()[1]
+    widths <- c(devw, devw/5)
+  }
+
+  if (is.null(heights)) {
+    devh <- dev.size()[2]
+    heights <- c(devh/5, devh)
+  }
 
   # [ LAYOUT ] ====
   lmat <- cbind(c(2, 1), c(0, 3))
@@ -73,7 +91,7 @@ mplot3.xym <- function(x, y,
 
   # [ PLOT 1: Scatter ] ====
   lims <- mplot3.xy(x, y, fit = fit, se.fit = se.fit, fit.col = col,
-                    xlim = xlim, ylim = ylim, xaxs = xaxs, yaxs = yaxs, axes = axes,
+                    xlim = xlim, ylim = ylim, xaxs = xaxs, yaxs = yaxs,
                     par.reset = FALSE, mar = mar, lwd = lwd, pty = pty,
                     theme = theme,
                     return.lims = TRUE, ...)

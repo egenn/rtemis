@@ -83,6 +83,7 @@ dplot3.x <- function(x,
                      # ridge.sharey = FALSE,
                      ridge.y.labs = FALSE,
                      ridge.order.on.mean = TRUE,
+                     # axes.mirrored = FALSE,
                      width = NULL,
                      height = NULL,
                      filename = NULL,
@@ -156,6 +157,8 @@ dplot3.x <- function(x,
   tick.col <- plotly::toRGB(theme$tick.labels.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
+  if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
+
 
   # '- Axis font ====
   f <- list(family = theme$font.family,
@@ -177,8 +180,8 @@ dplot3.x <- function(x,
 
   # Ridge ====
   if (mode == "ridge") {
-    axis <- list(showline = axes.visible,
-                 mirror = axes.mirrored,
+    axis <- list(showline = theme$axes.visible,
+                 # mirror = axes.mirrored,
                  showgrid = theme$grid,
                  gridcolor = grid.col,
                  gridwidth = grid.lwd,

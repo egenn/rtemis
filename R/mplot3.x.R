@@ -57,11 +57,9 @@ mplot3.x <- function(x,
                      xlim = NULL,
                      ylim = NULL,
                      index.ypad = .1,
-                     axes = TRUE,
                      axes.swap = FALSE,
                      axes.col = NULL,
                      tick.col = NULL,
-                     # axes.equal = FALSE,
                      cex = 1.2,
                      col = NULL,
                      alpha = .75,
@@ -69,7 +67,6 @@ mplot3.x <- function(x,
                      hist.breaks = "Sturges",
                      hist.type = c("bars", "lines"),
                      hist.lwd = 3,
-                     # hist.border = "#000000",
                      density.line = FALSE,
                      density.shade = TRUE,
                      density.legend.side = 3,
@@ -77,19 +74,14 @@ mplot3.x <- function(x,
                      density.params = list(),
                      qqline.col = NULL,
                      qqline.alpha = .66,
-                     # point.rad = 1,
-                     # point.size = 1,
-                     # point.inches = NULL,
                      pch = 16,
                      point.col = NULL,
                      point.cex = 1,
-                     # point.fg = NULL,
                      point.bg.col = NULL,
                      point.alpha = .66,
                      hline = NULL,
                      vline = NULL,
                      diagonal = FALSE,
-                     # diagonal.col = NULL,
                      grid = FALSE,
                      grid.col = NULL,
                      grid.alpha = .5,
@@ -103,34 +95,19 @@ mplot3.x <- function(x,
                      group.side = 3,
                      group.adj = 0.02,
                      group.at = NA,
-                     # legend.tl = NULL,
-                     # legend.tl.col = "black",
-                     # legend.tr = NULL,
-                     # legend.tr.col = "black",
-                     # legend.tc = NULL,
-                     # legend.tc.col = "black",
                      text.xy = NULL,
                      text.x = NULL,
                      text.y = NULL,
                      text.xy.cex = 1,
                      text.xy.col = "white",
                      line.col = "#008E00", # for QQ-line
-                     tck = .02, # R default is -.01
                      x.axis.padj = -1.1,
                      xlab.line = 1.3,
                      y.axis.padj = .9,
                      ylab.line = 1.6,
                      labs.col = NULL,
-                     # pch = NULL,
-                     # bty = "o",
-                     # box = NULL,
-                     # box.col = NULL,
-                     # box.alpha = 1,
-                     # box.lty = 1,
-                     # box.lwd = 2,
                      lab.adj = .5,
                      density.mean = ifelse(type == "density", TRUE, FALSE),
-                     # line.alpha = .7,
                      hline.col = "black",
                      hline.lwd = 1,
                      hline.lty = 1,
@@ -144,8 +121,8 @@ mplot3.x <- function(x,
                      theme = getOption("rt.theme", "lightgrid"),
                      palette = getOption("rt.palette", "rtCol1"),
                      zero.lines = NULL,
-                     pty = "s",
-                     mar = c(2.5, 2.5, 1.5, 1),
+                     pty = "m",
+                     mar = c(2.5, 3, 1.5, 1),
                      xaxs = "r",
                      yaxs = "r",
                      autolabel = letters,
@@ -179,7 +156,6 @@ mplot3.x <- function(x,
 
   # [ xlab & ylab ] ====
   if (is.list(x) && type == "density" && is.null(xlab)) xlab <- ""
-  # if (is.null(xlab)) xlab <- deparse(substitute(x))
   xname <- deparse(substitute(x))
 
   # data
@@ -316,7 +292,7 @@ mplot3.x <- function(x,
   }
 
   # [ AXES ] ====
-  if (axes) {
+  if (theme$axes.visible) {
     if (type == "index") {
       if (!axes.swap) {
         if (is.null(ylab)) ylab <- labelify(xname)
@@ -331,23 +307,25 @@ mplot3.x <- function(x,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = x.axis.padj, tck = tck,
+         padj = x.axis.padj,
+         tck = theme$tck,
+         tcl = theme$tcl,
          cex = theme$cex,
          family = theme$font.family)
     axis(side = theme$y.axis.side,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj, tck = tck,
+         padj = y.axis.padj,
+         tck = theme$tck,
+         tcl = theme$tcl,
          cex = theme$cex,
          family = theme$font.family)
     mtext(xlab, side = 1, line = xlab.line,
           cex = theme$cex,
-          # adj = xlab.adj,
           col = theme$labs.col, family = theme$font.family)
     mtext(ylab, side = 2, line = ylab.line,
           cex = theme$cex,
-          # adj = ylab.adj,
           col = theme$labs.col, family = theme$font.family)
   }
 
@@ -366,22 +344,7 @@ mplot3.x <- function(x,
   # [ PLOT: INDEX ] ====
   if (type == "index") {
     if (length(index.type) < length(xl)) index.type <- rep(index.type, length(xl)/length(index.type))
-
-    # point.rad
-    #     if (!is.list(point.rad)) {
-    #       point.rad <- lapply(1:length(xl), function(i) c(point.rad))
-    #     }
-    #     point.rad <- lapply(1:length(xl),
-    #                         function(i) rep(point.rad[[i]], length(xl[[i]])/length(point.rad[[i]])))
-
-    #     if (theme == "zero" | theme == "dark") {
-    #       if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = 2, col = "gray50", lty = 3)
-    #       if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = 2, col = "gray50", lty = 3)
-    #   }
     for (i in seq_along(xl)) {
-      # circles = rep(point.rad, length(xl[[i]])) # old
-      #       symbols(yl[[i]], xl[[i]], circles = point.rad[[i]],
-      #               inches = point.inches, fg = point.fg, bg = marker.col[[i]], add = T)
       if (!axes.swap) {
         points(yl[[i]], xl[[i]],
                type = index.type[[i]],
@@ -405,7 +368,6 @@ mplot3.x <- function(x,
 
   # [ PLOT: DENSITY ] ====
   if (type == "density") {
-    # if (is.null(main)) main <- "Density"
     if (!axes.swap) {
       for (i in seq_along(xl)) {
         if (density.shade) {

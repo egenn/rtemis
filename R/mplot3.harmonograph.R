@@ -39,7 +39,7 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
                                 text.line = -1,
                                 text.adj = 0,
                                 text.padj = 0,
-                                text.col = col,
+                                text.col = NULL,
                                 mar = c(0, 0, 0, 0),
                                 oma = c(0, 0, 0, 0),
                                 xlim = NULL,
@@ -70,7 +70,7 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(par(par.orig))
   par(bg = bg, mar = mar, oma = oma)
-  cola = colorAdjust(color = col, alpha = alpha)
+  cola <- colorAdjust(color = col, alpha = alpha)
   plot(x, y, type = "l",
        lwd = lwd,
        col = cola,
@@ -81,23 +81,31 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
        ylim = ylim,
        new = new)
 
-  if (!is.null(text)) mtext(text,
-                            side = text.side,
-                            line = text.line,
-                            adj = text.adj,
-                            padj = text.padj,
-                            col = text.col)
+  if (!is.null(text)) {
+    if (is.null(text.col)) text.col <- col
+    mtext(text,
+          side = text.side,
+          line = text.line,
+          adj = text.adj,
+          padj = text.padj,
+          col = text.col)
+  }
 
 } # rtemis::mplot3.harmonograph
 
+
 #' Chill a little
 #'
-#' Relax. Use Ctrl-C to exit (but stay relaxed)
+#' Relax. Use Ctrl-C to exit (and stay relaxed)
 #'
 #' @param sleep Float: Time in seconds between drawings. Default = .3
+#' @param max Integer: Max times to repeat. Default = 1000
 #' @export
 
-chillalittle <- function(sleep = .3) {
+chillalittle <- function(sleep = .3, text = NULL, max = 1000) {
   msg("Ctrl-C to exit")
-  while (TRUE) { Sys.sleep(sleep); mplot3.harmonograph(col = sample(2:8)) }
+  for (i in seq(max)) {
+    Sys.sleep(sleep); mplot3.harmonograph(col = sample(2:8, 1),
+                                          text = text)
+  }
 }

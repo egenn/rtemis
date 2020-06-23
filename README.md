@@ -1,5 +1,5 @@
-**_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
-===============================================
+# **_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
+
 A platform for advanced Machine Learning research and applications.  
 The goal of __rtemis__ is to make data science efficient and accessible with no compromise on flexibility.
 
@@ -8,11 +8,13 @@ The goal of __rtemis__ is to make data science efficient and accessible with no 
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>
 </div>
 
-### Documentation
+## Documentation
+
 * [__Documentation and vignettes__](https://rtemis.netlify.com)  
 * [__R PDF manual__](https://egenn.github.io/docs/rtemis.pdf)
 
-### Installation
+## Installation
+
 See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
 
 ```r
@@ -22,9 +24,10 @@ remotes::install_github("egenn/rtemis")
 
 **Note:** *Make sure to keep your installation updated by running* `remotes::install_github("egenn/rtemis")` *regularly: it will only proceed if there are updates available*
 
+## 60-second intro to __rtemis__
 
-### 10-second intro to __rtemis__
 Install dependencies if they are not already installed:
+
 ```r
 packages <- c("pbapply", "ranger")
 .add <- !packages %in% installed.packages()
@@ -32,48 +35,64 @@ install.packages(packages[.add])
 ```
 
 Load __rtemis__ and get cross-validated random forest performance on the iris dataset:
+
 ```r
 library(rtemis)
 mod <- elevate(iris)
 mod$plot()
 ```
 
-### What's new
-* Multiple additions and improvements are being added quietly, building up to the next major release - coming soon
-* __v0.79__: 07-02-2019 "Super Papaya" Release out
-* __v0.78__: 04-02-2019 __rtemis__ moved to public repo
+## What's new
+
+### __0.80.0 Beta__
+
+An accumulation of updates and added functionality, algorithms, graphics.  
+Majority of `mplot3` and `dplot3` functions now work with the new theme system provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
+
+### __0.79__
+
+07-02-2019: "Super Papaya" Release out
+
+### __0.78__
+
+04-02-2019: __rtemis__ moved to public repo
 
 ### Features
 
 * __Visualization__
-     - Static: **_mplot3_** family (base graphics)
-     - Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
+  * Static: **_mplot3_** family (base graphics)
+  * Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
 * __Unsupervised Learning__
-     - Clustering: **_u.\*_**
-     - Decomposition: **_d.\*_**
+  * Clustering: **_u.\*_**
+  * Decomposition: **_d.\*_**
 * __Supervised Learning__
-     - Classification, Regression, Survival Analysis: **_s.\*_**
+  * Classification, Regression, Survival Analysis: **_s.\*_**
 * __Cross-Decomposition__
-     - Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
+  * Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
 * __Meta-Models__  
-     - Model Stacking: **_metaMod()_**
-     - Modality Stacking: **_metaFeat()_**
-     - Group-weighted Stacking: **_metaGroup()_**
+  * Model Stacking: **_metaMod()_**
+  * Modality Stacking: **_metaFeat()_**
+  * Group-weighted Stacking: **_metaGroup()_**
 
-  (metaFeat and metaGroup have been temporarily removed for updating)
+  (metaFeat and metaGroup have been removed for updating)
 
 ### Ongoing work
 
 * Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
 * R Documentation is ongoing and should be completed soon.
 * __rtemis__ is under active development with many enhancements and extensions in the works
+
 ---
+
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
+</br>
 <img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
-<br>
+</br>  
 
 ---  
 
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_hex_2020.png" width="205">  
 
-2019 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD  
+---
+
+[2020 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.github.io)

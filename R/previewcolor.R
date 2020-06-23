@@ -30,8 +30,8 @@
 #' colors <- colorgradient.x(seq(-5, 5))
 #' previewcolor(colors)
 previewcolor <- function(x,
-                         bg = "#333333",
                          main = NULL,
+                         bg = "#333333",
                          main.col = "#b3b3b3",
                          main.x = .7,
                          main.y = 0.2,

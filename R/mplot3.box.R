@@ -21,7 +21,6 @@ mplot3.box <- function(x,
                        alpha = .66,
                        border = NULL,
                        border.alpha = 1,
-                       # pch = 16,
                        space = NULL,
                        xlim = NULL,
                        ylim = NULL,
@@ -30,17 +29,11 @@ mplot3.box <- function(x,
                        ylab = NULL,
                        ylab.line = 1.5,
                        main = NULL,
-                       # main.line = .5,
-                       # main.adj = 0,
-                       # main.col = NULL,
-                       # main.font = 2,
-                       # main.family = "",
                        names.arg = NULL,
                        axisnames = FALSE,
                        group.names = NULL,
                        group.names.at = NULL,
                        group.names.y = NULL,
-                       # group.names.line = 0.5,
                        group.names.font = 1,
                        group.names.adj = .5,
                        group.names.srt = 0,
@@ -48,28 +41,18 @@ mplot3.box <- function(x,
                        legend.names = NULL,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
-                       mar = c(4, 2, 2.5, .5),
+                       mar = NULL,
                        pty = "m",
-                       # cex = 1.2,
                        cex.axis = cex,
                        cex.names = cex,
-                       # bg = NULL,
-                       # plot.bg = NULL,
-                       boxplot.axes = FALSE,
                        yaxis = TRUE,
                        ylim.pad = 0,
-                       y.axis.padj = 1.7,
-                       tck = -.015,
-                       # tick.col = NULL,
-                       theme = getOption("rt.theme", "darkgrid"),
+                       y.axis.padj = .5, # .5 for las = 1
+                       y.axis.hadj = 1,
+                       y.axis.line = 0,
+                       y.axis.las = 1,
+                       theme = getOption("rt.theme", "lightgrid"),
                        palette = getOption("rt.palette", "rtCol1"),
-                       # axes.col = NULL,
-                       # labs.col = NULL,
-                       # grid = FALSE,
-                       # grid.lty = NULL,
-                       # grid.lwd = NULL,
-                       # grid.col = NULL,
-                       # grid.alpha = 1,
                        par.reset = TRUE,
                        pdf.width = 6,
                        pdf.height = 6,
@@ -83,6 +66,9 @@ mplot3.box <- function(x,
     } else {
       col <- palette[seq(NCOL(x))]
     }
+  }
+  if (is.null(mar)) {
+    mar <- if (is.null(main)) c(2.3, 2.2, .5, .5) else c(2.3, 2.2, 1.5, .5)
   }
 
   # Group names
@@ -124,12 +110,14 @@ mplot3.box <- function(x,
   # .dat <- boxplot(x, plot = FALSE)
   if (is.null(xlim)) xlim <- c(.5, NCOL(x) + .5)
   # if (is.null(ylim)) ylim <- c(min(.dat$stats[1, ]), max(.dat$stats[5, ]))
-  if (is.null(ylim)) ylim <- c(min(x), max(x))
+  if (is.null(ylim)) ylim <- c(min(x) - .06 * abs(min(x)), max(x) + .05 * abs(max(x)))
 
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
-  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = "n", axes = FALSE, ann = FALSE)
+  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = "n",
+       axes = FALSE, ann = FALSE,
+       xaxs = "i", yaxs = "i")
 
   # [ PLOT BG ] ====
   if (!is.na(theme$plot.bg)) {
@@ -150,7 +138,7 @@ mplot3.box <- function(x,
                 pch = theme$pch,
                 border = border,
                 ylim = ylim,
-                axes = boxplot.axes,
+                axes = FALSE,
                 add = TRUE,
                 xlab = NULL, ...)
 
@@ -159,11 +147,16 @@ mplot3.box <- function(x,
     axis(side = 2,
          # at = y.axis.at,
          # labels = y.axis.labs,
+         line = y.axis.line,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj, tck = tck,
+         padj = y.axis.padj,
+         hadj = y.axis.hadj,
+         tck = theme$tck,
+         tcl = theme$tcl,
          cex = theme$cex,
+         las = y.axis.las,
          family = theme$font.family)
   }
 
@@ -174,7 +167,7 @@ mplot3.box <- function(x,
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  if (length(main) > 0) {
+  if (!is.null(main)) {
     mtext(main, line = theme$main.line,
           font = theme$main.font, adj = theme$main.adj,
           cex = theme$cex, col = theme$main.col,
@@ -212,7 +205,6 @@ mplot3.box <- function(x,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-
   invisible(bp)
 
 } # rtemis::mplot3.box

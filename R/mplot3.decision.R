@@ -40,13 +40,13 @@ mplot3.decision <- function(rtmod, data,
                             vars = c(1, 2),
                             dots.per.axis = 100,
                             bg.cex = .5,
-                            bg.alpha = .2,
+                            bg.alpha = .4,
                             bg.pch = 15,
                             par.reset = TRUE,
                             theme = "white",
                             col = c("#18A3AC", "#F48024"),
                             contour.col = "black",
-                            contour.lwd = .3,
+                            contour.lwd = .1,
                             point.pch = c(3, 4),
                             point.alpha = 1) {
 
@@ -68,35 +68,15 @@ mplot3.decision <- function(rtmod, data,
     names(dat2) <- names(data[, -vars, drop = FALSE])
     dat <- cbind(dat, dat2)
   }
-  type <- if (rtmod$mod.name %in% c("LOGISTIC", "GAM", "RANGER", "GBM")) {
-    "response"
-  } else {
-    "class"
-  }
-  if (rtmod$mod.name == "RANGER") {
-    predicted <- predict(rtmod$mod, data = dat, type = type)$predictions
-  } else if (rtmod$mod.name == "GBM") {
-    predicted <- predict(rtmod, dat, n.trees = rtmod$mod$n.trees, type = type)
-  } else {
-    predicted <- predict(rtmod, dat, type = type)
-  }
 
-  if (rtmod$mod.name %in% c("LOGISTIC", "GBM")) {
-    predicted <- ifelse(predicted >= .5, 1, 0)
-  }
-  if (rtmod$mod.name == "GAM") {
-    if (rtmod$mod$family$family == "binomial") {
-      predicted <- factor(levels(class.dat)[ifelse(predicted >= .5, 1, 0) + 1])
-    } else {
-      predicted <- factor(levels(class.dat)[apply(predicted, 1, which.max)])
-    }
-  }
+  predicted <- predict(rtmod, dat)
 
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  # Background: decision surface
-  mplot3.xy(dat[, 1], dat[, 2], group = as.integer(predicted),
+  # Plot ====
+  # '- Background: decision surface ====
+  mplot3.xy(dat[, 1], dat[, 2], group = predicted,
             xlab = names(data)[vars[1]],
             ylab = names(data)[vars[2]],
             point.cex = bg.cex,
@@ -105,17 +85,16 @@ mplot3.decision <- function(rtmod, data,
             par.reset = FALSE,
             zerolines = FALSE,
             theme = theme,
-            marker.col = col)
+            marker.col = col, xaxs = "i", yaxs = "i")
 
-  # Contour lines
+  # '- Contour lines ====
   contour(x, y, matrix(as.integer(predicted) - 1, dots.per.axis),
           lwd = contour.lwd,
           col = contour.col,
           drawlabels = FALSE,
           add = TRUE)
 
-  # Data points
-  # points(xdat, ydat)
+  # '- Data points ====
   mplot3.xy(xdat[, 1], ydat[, 1],
             xlab = "",
             ylab = "",
@@ -125,7 +104,9 @@ mplot3.decision <- function(rtmod, data,
             group.legend = FALSE,
             marker.col = col,
             theme = theme,
+            xaxs = "i", yaxs = "i",
             zerolines = FALSE,
+            axes.visible = FALSE,
             new = TRUE)
 
   invisible(predicted)

@@ -1,6 +1,6 @@
 # mplot3.xy.R
 # ::rtemis::
-# 2016-2018 Efstathios D. Gennatas egenn.github.io
+# Efstathios D. Gennatas egenn.github.io
 # inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
 #' \code{mplot3}: XY Scatter and line plots
@@ -48,7 +48,6 @@
 #'   of lines. Otherwise, \code{type} is recycled to length of x
 #' @param xlim Float vector, length 2: x-axis limits
 #' @param ylim Float vector, length 2: y-axis limits
-#' @param axes Logical: Should the axes be drawn? Defaults to TRUE
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
 #' @param axes.col Character: Color for axes values (box color set with \code{box.col})
 #' @param pty Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
@@ -151,6 +150,16 @@
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to theme function
 #' @author Efstathios D. Gennatas
+#' @examples
+#' \dontrun{
+#' set.seed(1999)
+#' x <- rnorm(500)
+#' ycu <- x^3 + 12 + rnorm(500)
+#' mplot3.xy(x, ycu)
+#' mplot3.xy(x, ycu, fit = "gam")
+#' ysq <- x^2 + 3 + rnorm(500)
+#' mplot3.xy(x, list(squared = ysq, cubed = ycu), fit = "gam")
+#' }
 #' @export
 
 
@@ -164,18 +173,11 @@ mplot3.xy <- function(x, y = NULL,
                       cluster = NULL,
                       cluster.params = list(),
                       data = NULL,
-                      # type = NULL,
                       type = "p",
                       group = NULL,
                       xlab = NULL,
                       ylab = NULL,
                       main = NULL,
-                      # main.line = .5,
-                      # main.adj = 0,
-                      # fg = NULL,
-                      # main.font = 2,
-                      # font.family = "",
-                      # cex = 1.2,
                       xlim = NULL,
                       ylim = NULL,
                       xpd = TRUE,
@@ -193,31 +195,11 @@ mplot3.xy <- function(x, y = NULL,
                       xaxp = NULL,
                       yaxp = NULL,
                       scatter = TRUE,
-                      # axes = TRUE,
                       axes.equal = FALSE,
-                      # axes.col = NULL,
                       pty = "m", # "s" square, "m" maximal plot region
-                      # box = NULL,
-                      # bty = "o",
-                      # box.col = NULL,
-                      # box.alpha = 1,
-                      # box.lty = 1,
-                      # box.lwd = 1.5,
-                      # grid = FALSE,
-                      # grid.nx = NULL,
-                      # grid.ny = NULL,
-                      # grid.col = NULL,
-                      # grid.alpha = 1,
-                      # grid.lty = 1,
-                      # grid.lwd = 1.5,
-                      # bg = NULL,
-                      # plot.bg = NULL,
                       annotation = NULL,
                       annotation.col = NULL,
                       tick.col = NULL,
-                      # tck = .015, # R default is -.01
-                      # x.axis.side = 1,
-                      # y.axis.side = 2,
                       x.axis.line = 0,
                       x.axis.at = NULL,
                       x.axis.padj = -1.1,
@@ -225,27 +207,23 @@ mplot3.xy <- function(x, y = NULL,
                       x.axis.labs = TRUE,
                       y.axis.line = 0,
                       y.axis.at = NULL,
-                      y.axis.las = 1,
+                      y.axis.las = 0,
                       y.axis.labs = TRUE,
                       xlab.line = 1.4,
-                      y.axis.padj = .5, # .5 for las = 1
-                      y.axis.hadj = 1,
+                      y.axis.padj = NULL, # .5 for las = 1
+                      y.axis.hadj = NULL, # 1 for las = 1
                       ylab.line = 2,
                       xlab.adj = .5,
                       ylab.adj = .5,
                       mar = c(2.5, 3, 1.5, 1), # c(3, 3, 3, 1),
-                      # col = NULL,
                       pch = ifelse(is.null(point.bg.col), 16, 21),
                       point.cex = .85,
-                      # point.col = NULL,
                       point.bg.col = NULL,
-                      # point.alpha = .66,
                       line.col = NULL,
                       line.alpha = .66,
                       lty = 1,
-                      # lwd = 2,
                       marker.col = NULL,
-                      marker.alpha = .5,
+                      marker.alpha = .65,
                       error.x.col = NULL,
                       error.y.col = NULL,
                       error.x.lty = 1,
@@ -292,13 +270,8 @@ mplot3.xy <- function(x, y = NULL,
                       fit.legend.at = NA,
                       labs.col = NULL,
                       na.rm = TRUE,
-                      theme = getOption("rt.theme", "darkgrid"),
+                      theme = getOption("rt.theme", "lightgrid"),
                       palette = getOption("rt.palette", "rtCol1"),
-                      # zero.lines = NULL,
-                      # zero.col = NULL,
-                      # zero.alpha = 1,
-                      # zero.lty = 1,
-                      # zero.lwd = 1.5,
                       order.on.x = NULL,
                       alpha.off = FALSE,
                       autolabel = letters,
@@ -334,6 +307,14 @@ mplot3.xy <- function(x, y = NULL,
     x <- data[[.xname]]
     y <- data[[.yname]]
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
+  }
+
+  if (is.null(y.axis.padj)) {
+    y.axis.padj <- if (y.axis.las == 1) .5 else 1
+  }
+
+  if (is.null(y.axis.hadj)) {
+    y.axis.hadj <- if (y.axis.las == 1) 1 else .5
   }
 
   # fit & formula
@@ -390,7 +371,9 @@ mplot3.xy <- function(x, y = NULL,
 
   # Reorder
   if (!is.null(fit)) order.on.x <- TRUE
-  if (is.null(order.on.x)) order.on.x <- FALSE
+  if (is.null(order.on.x)) {
+    order.on.x <- ifelse("l" %in% type, TRUE, FALSE)
+  }
 
   # [ THEME ] ====
   extraargs <- list(...)
@@ -496,7 +479,7 @@ mplot3.xy <- function(x, y = NULL,
         # Proper ordering if marker.col is a vector
         marker.col <- marker.col[index[[1]]]
       }
-      # marker.col <- list(adjustcolor(point.col, point.alpha))
+      marker.col <- list(adjustcolor(marker.col, marker.alpha))
       # since points expects marker.col to be list, the above allows multicolor points when single group
     } else {
       # MULTIPLE XY PAIRS
@@ -650,7 +633,7 @@ mplot3.xy <- function(x, y = NULL,
   # [ AXES ] ====
   # axis(): col: color of the axis line; col.axis: color of the tick labels;
   # col.ticks: color of the ticks themselves
-  if (theme$axes) {
+  if (theme$axes.visible) {
     axis(side = theme$x.axis.side,
          line = x.axis.line,
          at = x.axis.at,
@@ -828,9 +811,9 @@ mplot3.xy <- function(x, y = NULL,
   # [ GROUP LEGEND ] ====
   if (group.legend) {
     if (!is.null(fit)) {
-      group.col <- unlist(fit.col)[seq_len(Nxgroups)]
+      group.col <- colorAdjust(unlist(fit.col)[seq_len(Nxgroups)], 100)
     } else {
-      group.col <- unlist(marker.col)[seq_len(Nxgroups)]
+      group.col <- colorAdjust(unlist(marker.col)[seq_len(Nxgroups)], 100)
     }
     if (!is.null(group.title)) group.col <- c(theme$fg, group.col)
     mtext(group.names, col = group.col,
@@ -949,7 +932,7 @@ mplot3.fit <- function(x, y,
                        fit.error = TRUE,
                        axes.equal = TRUE,
                        diagonal = TRUE,
-                       theme = getOption("rt.fit.theme", "whitegrid"),
+                       theme = getOption("rt.fit.theme", "lightgrid"),
                        marker.col = NULL,
                        fit.col = NULL,
                        pty = "s",

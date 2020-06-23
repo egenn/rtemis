@@ -736,6 +736,27 @@ pennstateCol <- list(nittanyNavy = "#001E44",
                      greenOpportunity = "#008755",
                      futuresCalling = "#99CC00")
 
+
+# SFSU ====
+#' SF State
+#' 
+#' \code{sfsuCol}: SF State Colors
+#' 
+#' \code{sfsuCol}: SF State color palette 
+#' (https://logo.sfsu.edu/color-system)
+#' @name rtPalettes
+#' @export
+
+sfsuCol <- list(`2755C` = "#231161",
+                `2755C_85pc` = "#463077",
+                `117C` = "#C99700",
+                `117C_60pc` = "#E9D597",
+                `3025C` = "#004F71",
+                `383C` = "#ABAD00",
+                `7419C` = "#B04A5A",
+                `484C` = "#9A3324",
+                coolGray11 = "#53565A")
+
 # U Illinois ====
 #' University of Illinois Colors
 #'
@@ -852,6 +873,19 @@ hawaiiCol <- list(manoa = "#024731",
 nihCol <- list(blue = "#20558a",
                gray = "#616265")
 
+# UBC ====
+#' UBC Colors
+#'
+#' \code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
+#' @name rtPalettes
+#' @export
+
+ubcCol <- list(ubcBlue = "#002145",
+               blue2 = "#0055B7",
+               blue3 = "#00A7E1",
+               blue4 = "#40B4E5",
+               blue5 = "#6EC4E8",
+               blue6 = "#97D4E9")
 
 # U Toronto ====
 #' U Toronto Colors

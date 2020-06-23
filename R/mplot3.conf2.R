@@ -75,6 +75,7 @@ mplot3.conf <- function(object,
                         col.text.hi = "auto",
                         col.text.lo = "auto",
                         theme = getOption("rt.theme", "white"),
+                        palette = getOption("rt.palette", "rtCol1"),
                         mid.col = "auto",
                         hi.color.pos = "#18A3AC",
                         hi.color.neg = "#F48024",
@@ -82,6 +83,17 @@ mplot3.conf <- function(object,
                         pdf.width = 4.5,
                         pdf.height = 4.5,
                         filename = NULL, ...) {
+
+  # [ THEME ] ====
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
+  } else {
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
+  }
 
   # [ DATA ] ====
   .test <- NULL
@@ -104,16 +116,7 @@ mplot3.conf <- function(object,
     if (!is.null(main) && main == "auto") main <- NULL
   }
 
-  # [ THEME ] ====
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  # Theme ====
   if (col.bg == "auto") col.bg <- theme$bg
   mean.bg <- mean(col2rgb(col.bg))
   if (col.lab == "auto") {
