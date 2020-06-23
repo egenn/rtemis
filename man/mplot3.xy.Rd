@@ -49,11 +49,11 @@ mplot3.xy(
   x.axis.labs = TRUE,
   y.axis.line = 0,
   y.axis.at = NULL,
-  y.axis.las = 1,
+  y.axis.las = 0,
   y.axis.labs = TRUE,
   xlab.line = 1.4,
-  y.axis.padj = 0.5,
-  y.axis.hadj = 1,
+  y.axis.padj = NULL,
+  y.axis.hadj = NULL,
   ylab.line = 2,
   xlab.adj = 0.5,
   ylab.adj = 0.5,
@@ -65,7 +65,7 @@ mplot3.xy(
   line.alpha = 0.66,
   lty = 1,
   marker.col = NULL,
-  marker.alpha = 0.5,
+  marker.alpha = 0.65,
   error.x.col = NULL,
   error.y.col = NULL,
   error.x.lty = 1,
@@ -112,7 +112,7 @@ mplot3.xy(
   fit.legend.at = NA,
   labs.col = NULL,
   na.rm = TRUE,
-  theme = getOption("rt.theme", "darkgrid"),
+  theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   order.on.x = NULL,
   alpha.off = FALSE,
@@ -322,8 +322,6 @@ otherwise FALSE}
 
 \item{...}{Additional arguments to be passed to theme function}
 
-\item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
-
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
@@ -333,6 +331,17 @@ Plot points and lines with optional fits and standard error bands
 }
 \details{
 This is relatively old code and may need a little cleaning up
+}
+\examples{
+\dontrun{
+set.seed(1999)
+x <- rnorm(500)
+ycu <- x^3 + 12 + rnorm(500)
+mplot3.xy(x, ycu)
+mplot3.xy(x, ycu, fit = "gam")
+ysq <- x^2 + 3 + rnorm(500)
+mplot3.xy(x, list(squared = ysq, cubed = ycu), fit = "gam")
+}
 }
 \author{
 Efstathios D. Gennatas

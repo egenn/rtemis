@@ -6,8 +6,8 @@
 \usage{
 previewcolor(
   x,
-  bg = "#333333",
   main = NULL,
+  bg = "#333333",
   main.col = "#b3b3b3",
   main.x = 0.7,
   main.y = 0.2,
@@ -25,10 +25,10 @@ previewcolor(
 \arguments{
 \item{x}{Color, vector: One or more colors that R understands}
 
-\item{bg}{Background color. Default = "#333333" (dark gray)}
-
 \item{main}{String: Title. Default = NULL, which results in
 \code{deparse(substitute(x))}}
+
+\item{bg}{Background color. Default = "#333333" (dark gray)}
 
 \item{main.x}{Float: x coordinate for \code{main}. Default = .75}
 

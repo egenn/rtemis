@@ -36,6 +36,7 @@
 \alias{nyuCol}
 \alias{chicagoCol}
 \alias{pennstateCol}
+\alias{sfsuCol}
 \alias{illinoisCol}
 \alias{umdCol}
 \alias{texasCol}
@@ -43,6 +44,7 @@
 \alias{jeffersonCol}
 \alias{hawaiiCol}
 \alias{nihCol}
+\alias{ubcCol}
 \alias{torontoCol}
 \alias{mcgillCol}
 \alias{uclCol}
@@ -124,6 +126,8 @@ An object of class \code{list} of length 25.
 
 An object of class \code{list} of length 20.
 
+An object of class \code{list} of length 9.
+
 An object of class \code{list} of length 15.
 
 An object of class \code{list} of length 3.
@@ -137,6 +141,8 @@ An object of class \code{list} of length 8.
 An object of class \code{list} of length 11.
 
 An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 6.
 
 An object of class \code{list} of length 2.
 
@@ -231,6 +237,8 @@ chicagoCol
 
 pennstateCol
 
+sfsuCol
+
 illinoisCol
 
 umdCol
@@ -244,6 +252,8 @@ jeffersonCol
 hawaiiCol
 
 nihCol
+
+ubcCol
 
 torontoCol
 
@@ -359,6 +369,8 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{texasCol}: Penn State color palette
 (https://brand.psu.edu/design-essentials.html#color)
 
+\code{sfsuCol}: SF State Colors
+
 \code{illinoisCol}: University of Illinois color palette
 (https://www.uillinois.edu/OUR/brand/color_palettes)
 
@@ -376,6 +388,8 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
 
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
+
+\code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
 
 \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
 
@@ -407,5 +421,9 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{microsoftCol}: Microsoft brand palette
 (https://brandcolors.net/b/microsoft)
+}
+\details{
+\code{sfsuCol}: SF State color palette 
+(https://logo.sfsu.edu/color-system)
 }
 \keyword{datasets}

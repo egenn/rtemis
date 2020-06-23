@@ -4,11 +4,13 @@
 \alias{chillalittle}
 \title{Chill a little}
 \usage{
-chillalittle(sleep = 0.3)
+chillalittle(sleep = 0.3, text = NULL, max = 1000)
 }
 \arguments{
 \item{sleep}{Float: Time in seconds between drawings. Default = .3}
+
+\item{max}{Integer: Max times to repeat. Default = 1000}
 }
 \description{
-Relax. Use Ctrl-C to exit (but stay relaxed)
+Relax. Use Ctrl-C to exit (and stay relaxed)
 }

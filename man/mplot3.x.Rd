@@ -15,7 +15,6 @@ mplot3.x(
   xlim = NULL,
   ylim = NULL,
   index.ypad = 0.1,
-  axes = TRUE,
   axes.swap = FALSE,
   axes.col = NULL,
   tick.col = NULL,
@@ -60,7 +59,6 @@ mplot3.x(
   text.xy.cex = 1,
   text.xy.col = "white",
   line.col = "#008E00",
-  tck = 0.02,
   x.axis.padj = -1.1,
   xlab.line = 1.3,
   y.axis.padj = 0.9,
@@ -81,8 +79,8 @@ mplot3.x(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   zero.lines = NULL,
-  pty = "s",
-  mar = c(2.5, 2.5, 1.5, 1),
+  pty = "m",
+  mar = c(2.5, 3, 1.5, 1),
   xaxs = "r",
   yaxs = "r",
   autolabel = letters,
@@ -121,8 +119,6 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 \item{index.ypad}{Float: Expand ylim by this much for plot type "index" Default = .1
 (Stops points being cut off)}
 
-\item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
-
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{index.type}{Character: "p" for points (Default), "l" for lines (timeseries)}
@@ -156,8 +152,6 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 \item{group.title}{Character: Title above group names}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
-
-\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
 \item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 

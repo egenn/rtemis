@@ -10,13 +10,13 @@ mplot3.decision(
   vars = c(1, 2),
   dots.per.axis = 100,
   bg.cex = 0.5,
-  bg.alpha = 0.2,
+  bg.alpha = 0.4,
   bg.pch = 15,
   par.reset = TRUE,
   theme = "white",
   col = c("#18A3AC", "#F48024"),
   contour.col = "black",
-  contour.lwd = 0.3,
+  contour.lwd = 0.1,
   point.pch = c(3, 4),
   point.alpha = 1
 )

@@ -30,16 +30,17 @@ mplot3.box(
   legend.names = NULL,
   legend.position = "topright",
   legend.inset = c(0, 0),
-  mar = c(4, 2, 2.5, 0.5),
+  mar = NULL,
   pty = "m",
   cex.axis = cex,
   cex.names = cex,
-  boxplot.axes = FALSE,
   yaxis = TRUE,
   ylim.pad = 0,
-  y.axis.padj = 1.7,
-  tck = -0.015,
-  theme = getOption("rt.theme", "darkgrid"),
+  y.axis.padj = 0.5,
+  y.axis.hadj = 1,
+  y.axis.line = 0,
+  y.axis.las = 1,
+  theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   pdf.width = 6,
@@ -79,8 +80,6 @@ mplot3.box(
 (See \code{par("pty")})}
 
 \item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
-
-\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.

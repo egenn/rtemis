@@ -28,7 +28,7 @@ theme_blackgrid(
   grid.alpha = 0.2,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 1,
@@ -70,7 +70,7 @@ theme_darkgrid(
   grid.alpha = 1,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 1,
@@ -112,7 +112,7 @@ theme_black(
   grid.alpha = 0.2,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 0.5,
@@ -154,7 +154,7 @@ theme_whitegrid(
   grid.alpha = 0.2,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 1,
@@ -196,7 +196,7 @@ theme_lightgrid(
   grid.alpha = 1,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 1,
@@ -238,7 +238,7 @@ theme_white(
   grid.alpha = 0.2,
   grid.lty = 1,
   grid.lwd = 1,
-  axes = TRUE,
+  axes.visible = TRUE,
   axes.col = NA,
   tick.col = fg,
   tick.alpha = 0.5,
@@ -298,8 +298,6 @@ be defined separately}
 
 \item{grid.lwd}{Float: Grid line width}
 
-\item{axes}{Logical: If TRUE, draw axes}
-
 \item{axes.col}{Axes colors}
 
 \item{tick.col}{Tick color}
@@ -333,6 +331,8 @@ be defined separately}
 \item{main.col}{Title color}
 
 \item{font.family}{String: Font to be used throughout plot. Must be available to the OS}
+
+\item{axes}{Logical: If TRUE, draw axes}
 }
 \description{
 Themes for \code{mplot3} functions

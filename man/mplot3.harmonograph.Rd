@@ -16,7 +16,7 @@ mplot3.harmonograph(
   text.line = -1,
   text.adj = 0,
   text.padj = 0,
-  text.col = col,
+  text.col = NULL,
   mar = c(0, 0, 0, 0),
   oma = c(0, 0, 0, 0),
   xlim = NULL,

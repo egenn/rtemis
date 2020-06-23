@@ -30,8 +30,8 @@ mplot3.xym(
   yaxs = "r",
   theme = getOption("rt.theme", "lightgrid"),
   par.reset = TRUE,
-  widths = c(5, 1),
-  heights = c(1, 5),
+  widths = NULL,
+  heights = NULL,
   filename = NULL,
   pdf.width = 7,
   pdf.height = 7,
@@ -74,8 +74,6 @@ mplot3.xym(
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{axes}{Logical: Should the axes be drawn? Defaults to TRUE}
-
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
 Default = "r"}
 
@@ -101,6 +99,15 @@ Draw a scatter plot with fit line and marginal density and/or histogram
 }
 \details{
 At the moment, \code{mplot3.xym} is the only \code{mplot3} function that does not support
+
+To make wide plot, change `widths`: e.g. widths = c(7, 1)
+}
+\examples{
+\dontrun{
+x <- rnorm(500)
+y <- x^3 + 12 + rnorm(500)
+mplot3.xym(x, y)
+}
 }
 \author{
 Efstathios D Gennatas

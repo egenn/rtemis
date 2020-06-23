@@ -4,7 +4,13 @@
 \alias{mplot3.res}
 \title{\code{mplot3} Plot \code{resample}}
 \usage{
-mplot3.res(res, col = NULL, theme = "white", ...)
+mplot3.res(
+  res,
+  col = NULL,
+  mar = NULL,
+  theme = getOption("rt.theme", "lightgrid"),
+  ...
+)
 }
 \description{
 Visualizes resampling output using \link{mplot3.img}
@@ -12,6 +18,13 @@ Visualizes resampling output using \link{mplot3.img}
 \details{
 For resampling with no replacement where each case may be selected 0 or 1 time,
 0 is white and 1 is teal For resampling with replacement, 0 is white, 1 is blue, 2 is teal
+}
+\examples{
+\dontrun{
+x <- rnorm(500)
+res <- resample(x)
+mplot3.res(res)
+}
 }
 \author{
 Efstathios D. Gennatas
