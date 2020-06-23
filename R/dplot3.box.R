@@ -88,11 +88,16 @@ dplot3.box <-  function(x,
   }
 
   # Arguments ====
-  x <- as.data.frame(x)
   boxmode <- match.arg(boxmode)
   type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
-  if (!is.list(x)) x <- list(x)
+  # if (!is.list(x)) x <- list(x)
+  # convert to list whether data frame or matrix
+  if (!is.list(x)) {
+    .names <- colnames(x)
+    x <- lapply(seq(NCOL(x)), function(i) x[, i])
+    names(x) <- .names
+  }
 
   # Remove non-numeric vectors
   which.nonnum <- which(sapply(x, function(i) !is.numeric(i)))
@@ -170,8 +175,6 @@ dplot3.box <-  function(x,
 
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
-                                     # showline = axes.visible,
-                                     # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,
                                      gridcolor = grid.col,
@@ -180,12 +183,8 @@ dplot3.box <-  function(x,
                                      tickfont = tickfont,
                                      zeroline = FALSE),
                         xaxis = list(title = xlab,
-                                     # showline = axes.visible,
-                                     # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = FALSE,
-                                     # gridcolor = grid.col,
-                                     # gridwidth = theme$grid.lwd,
                                      tickcolor = grid.col,
                                      tickfont = tickfont),
                         # boxmode = boxmode,  # CHECK: online docs show this, but gives error
