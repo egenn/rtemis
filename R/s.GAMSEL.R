@@ -33,7 +33,8 @@ s.GAMSEL <- function(x, y = NULL,
                      num.lambda = 50,
                      lambda = NULL,
                      family = NULL,
-                     degrees = 10,
+                     degrees = NULL,
+                     max.degree = 6,
                      gamma = 0.4,
                      dfs = 5,
                      tol = 1e-04,
@@ -114,8 +115,12 @@ s.GAMSEL <- function(x, y = NULL,
     y <- 2 - as.numeric(y)
   }
 
-  if (length(degrees) != n.features) degrees <- degrees[seql(degrees, seq(n.features))]
+  # if (length(degrees) != n.features) degrees <- degrees[seql(degrees, seq(n.features))]
   if (length(dfs) != n.features) dfs <- dfs[seql(dfs, seq(n.features))]
+
+  if (is.null(degrees)) {
+    degrees <- sapply(x, function(i) min(length(unique(i)) - 1, max.degree))
+  }
 
   # [ GAMSEL ] ====
   bases <- gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
@@ -138,6 +143,7 @@ s.GAMSEL <- function(x, y = NULL,
   nlambdas <- length(mod$lambdas)
 
   # [ FITTED ] ====
+  # TODO: switch both fitted and predicted to predict.rtMod
   if (type == "Regression") {
     fitted <- c(predict(mod, x, index = nlambdas, type = "response"))
     error.train <- modError(y, fitted)
