@@ -73,7 +73,7 @@ mplot3.surv <- function(x,
             line.alpha = 1,
             main = main,
             xlab = "Time", ylab = "Survival",
-            group.legend = FALSE, zero.lines = FALSE, par.reset = FALSE, ...)
+            group.legend = FALSE, zerolines = FALSE, par.reset = FALSE, ...)
   if (length(x) > 1) {
     for (i in 2:length(x)) {
       mplot3.xy(x = .survfit[[i]]$time,
@@ -84,7 +84,7 @@ mplot3.surv <- function(x,
                 line.alpha = 1,
                 main = "",
                 xlab = "Time", ylab = "Survival Function",
-                group.legend = FALSE, zero.lines = FALSE, par.reset = FALSE,
+                group.legend = FALSE, zerolines = FALSE, par.reset = FALSE,
                 axes = FALSE, new = TRUE, ...)
     }
   }

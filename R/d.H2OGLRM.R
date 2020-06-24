@@ -127,7 +127,7 @@ d.H2OGLRM <- function(x,
                          svd_method = svd.method, ...)
 
   if (print.plot) mplot3.xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
-                            type = 'l', zero.lines = FALSE,
+                            type = 'l', zerolines = FALSE,
                             xlab = "Iteration", ylab = "Objective",
                             main = "Objective Function Value per Iteration",
                             theme = plot.theme)

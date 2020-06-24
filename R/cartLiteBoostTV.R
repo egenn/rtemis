@@ -250,13 +250,13 @@ cartLiteBoostTV <- function(x, y = NULL,
         mplot3.xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
                   x.axis.at = seq(error),
-                  main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       } else {
         mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
                   x.axis.at = seq(error),
-                  main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       }
 
@@ -270,14 +270,14 @@ cartLiteBoostTV <- function(x, y = NULL,
       mplot3.xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
                 x.axis.at = seq(error),
-                main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     } else {
       mplot3.xy(seq(error), list(Training = error,
                                  Validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
                 x.axis.at = seq(error),
-                main = paste0(prefix, learner.short, " Boosting"), zero.lines = FALSE,
+                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     }
   }

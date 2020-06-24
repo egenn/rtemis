@@ -51,7 +51,7 @@ mplot3.fret <- function(theme = "white",
   mplot3.xy(rep(0, 22), rep(0, 22), theme = theme, scatter = FALSE,
             grid = FALSE, pty = "m",
             xlim = c(-0.2, 21.5), ylim = c(0.5, 6.5), xlab = "", ylab = "",
-            par.reset = FALSE, axes = F, zero.lines = F,
+            par.reset = FALSE, axes = F, zerolines = F,
             xaxs = 'i', mar = c(1, 2, 1, 1))
 
   # Strings
