@@ -57,7 +57,7 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 
 04-02-2019: __rtemis__ moved to public repo
 
-### Features
+## Features
 
 * __Visualization__
   * Static: **_mplot3_** family (base graphics)
@@ -76,11 +76,11 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 
   (metaFeat and metaGroup have been removed for updating)
 
-### Ongoing work
+## Ongoing work
 
-* Novel algorithms developed in __rtemis__ will generally be added to this public repository as soon as the corresponding papers or preprints are published.
-* R Documentation is ongoing and should be completed soon.
-* __rtemis__ is under active development with many enhancements and extensions in the works
+* __rtemis__ is under active development
+* Novel algorithms developed in __rtemis__ will generally be added to this public repository around the publication of the corresponding papers.
+* R Documentation is ongoing.
 
 ---
 
