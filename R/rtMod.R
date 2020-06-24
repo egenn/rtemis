@@ -386,6 +386,17 @@ predict.rtMod <- function(object,
       } else {
         estimated <- predict(object$mod, newdata = newdata)
       }
+    } else if (object$mod.name == "GAMSEL") {
+      if (is.null(extraArgs$which.lambda)) {
+        which.lambda <- length(object$mod$lambdas)
+      } else {
+        which.lambda <- extraArgs$which.lambda
+      }
+      estimated <- predict(object$mod, newdata, index = which.lambda, type = "response")
+      if (object$type == "Classification") {
+        estimated <- factor(ifelse(estimated >= .5, 1, 0), levels = c(1, 0))
+        levels(estimated) <- levels(object$y.train)
+      }
     } else if (object$mod.name == "GBM" | object$mod.name == "GBM3") {
       if (is.null(extraArgs$n.trees)) {
         n.trees <- object$mod$n.trees
