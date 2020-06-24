@@ -27,7 +27,6 @@ dplot3.xy(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   axes.square = FALSE,
-  zero.lines = TRUE,
   group.names = NULL,
   font.size = 16,
   font.alpha = 0.8,

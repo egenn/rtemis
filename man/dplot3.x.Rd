@@ -19,7 +19,6 @@ dplot3.x(
   theme = getOption("rt.theme", "darkgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   axes.square = FALSE,
-  zero.lines = TRUE,
   group.names = NULL,
   font.size = 16,
   font.alpha = 0.8,

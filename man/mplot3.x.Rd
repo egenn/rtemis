@@ -78,7 +78,6 @@ mplot3.x(
   density.lwd = lwd,
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
-  zero.lines = NULL,
   pty = "m",
   mar = c(2.5, 3, 1.5, 1),
   xaxs = "r",
