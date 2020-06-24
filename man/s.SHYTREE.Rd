@@ -16,6 +16,8 @@ s.SHYTREE(
   downsample = FALSE,
   resample.seed = NULL,
   max.leaves = 8,
+  leaf.model = c("line", "spline"),
+  gam.params = list(degrees = 6),
   nvmax = 3,
   force.max.leaves = NULL,
   lookback = TRUE,
@@ -138,8 +140,6 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{internal use only}
-
-\item{minobsinnode}{Integer: Minimum N observations needed in node, before considering splitting}
 }
 \description{
 Train a Stepwise Hybrid Tree for Regression or Binary Classification
