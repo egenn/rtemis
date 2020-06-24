@@ -151,6 +151,9 @@ lincoef <- function(x, y,
                     sgd.control = sgd.control)
     coef <- c(mod$coefficients)
     names(coef) <- c("(Intercept)", colnames(x))
+  } else if (method == "constant") {
+    coef <- c(mean(y), rep(0, NCOL(x)))
+    names(coef) <- c("(Intercept)", colnames(x))
   } else {
     # "none"
     coef <- rep(0, NCOL(x) + 1)
