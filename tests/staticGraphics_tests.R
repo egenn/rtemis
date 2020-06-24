@@ -60,10 +60,6 @@ iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 mod <- s.CART(iris2, maxdepth = 2)
 
-if (requireNamespace("data.tree", quietly = TRUE)) {
-  mplot3.cart(mod)
-}
-
 # mplot3.conf ====
 mplot3.conf(mod)
 mplot3.confbin(mod$error.train$ConfusionMatrix)

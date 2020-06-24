@@ -17,3 +17,10 @@ if (requireNamespace("plotly", quietly = TRUE)) {
   names(varimp) <- paste0("Feature_", seq(10))
   dplot3.varimp(varimp)
 }
+
+if (requireNamespace("data.tree", quietly = TRUE)) {
+  iris2 <- iris[51:150, ]
+  iris2$Species <- factor(iris2$Species)
+  mod <- s.CART(iris2, maxdepth = 2)
+  dplot3.cart(mod)
+}
