@@ -369,54 +369,54 @@ rtset.DN <- function(hidden = 1,
 } # rtemis::rtset.DN
 
 
-#' \code{rtset.MXN}: Set parameters for \link{s.MXN}
+#' #' \code{rtset.MXN}: Set parameters for \link{s.MXN}
+#' #'
+#' #' @inheritParams s.MXN
+#' #' @export
 #'
-#' @inheritParams s.MXN
-#' @export
-
-rtset.MXN <- function(n.hidden.nodes = NULL,
-                      output = NULL,
-                      activation = 'relu',
-                      ctx = mxnet::mx.cpu(),
-                      optimizer = "sgd",
-                      initializer = mxnet::mx.init.Xavier(),
-                      batch.size = NULL,
-                      momentum = .9,
-                      max.epochs = 2000,
-                      min.epochs = 25,
-                      early.stop = "train",
-                      early.stop.n.steps = NULL,
-                      early.stop.relativeVariance.threshold = NULL,
-                      learning.rate = NULL,
-                      dropout = 0,
-                      dropout.before = 1,
-                      dropout.after = 0,
-                      eval.metric = NULL,
-                      arg.params = NULL,
-                      mx.seed = NULL) {
-
-  list(n.hidden.nodes = n.hidden.nodes,
-       output = output,
-       activation = activation,
-       ctx = ctx,
-       optimizer = optimizer,
-       initializer = initializer,
-       batch.size = batch.size,
-       momentum = momentum,
-       max.epochs = max.epochs,
-       min.epochs = min.epochs,
-       early.stop = early.stop,
-       early.stop.n.steps = early.stop.n.steps,
-       early.stop.relativeVariance.threshold = early.stop.relativeVariance.threshold,
-       learning.rate = learning.rate,
-       dropout = dropout,
-       dropout.before = dropout.before,
-       dropout.after = dropout.after,
-       eval.metric = eval.metric,
-       arg.params = arg.params,
-       mx.seed = mx.seed)
-
-} # rtemis::rtset.MXN
+#' rtset.MXN <- function(n.hidden.nodes = NULL,
+#'                       output = NULL,
+#'                       activation = 'relu',
+#'                       ctx = mxnet::mx.cpu(),
+#'                       optimizer = "sgd",
+#'                       initializer = mxnet::mx.init.Xavier(),
+#'                       batch.size = NULL,
+#'                       momentum = .9,
+#'                       max.epochs = 2000,
+#'                       min.epochs = 25,
+#'                       early.stop = "train",
+#'                       early.stop.n.steps = NULL,
+#'                       early.stop.relativeVariance.threshold = NULL,
+#'                       learning.rate = NULL,
+#'                       dropout = 0,
+#'                       dropout.before = 1,
+#'                       dropout.after = 0,
+#'                       eval.metric = NULL,
+#'                       arg.params = NULL,
+#'                       mx.seed = NULL) {
+#'
+#'   list(n.hidden.nodes = n.hidden.nodes,
+#'        output = output,
+#'        activation = activation,
+#'        ctx = ctx,
+#'        optimizer = optimizer,
+#'        initializer = initializer,
+#'        batch.size = batch.size,
+#'        momentum = momentum,
+#'        max.epochs = max.epochs,
+#'        min.epochs = min.epochs,
+#'        early.stop = early.stop,
+#'        early.stop.n.steps = early.stop.n.steps,
+#'        early.stop.relativeVariance.threshold = early.stop.relativeVariance.threshold,
+#'        learning.rate = learning.rate,
+#'        dropout = dropout,
+#'        dropout.before = dropout.before,
+#'        dropout.after = dropout.after,
+#'        eval.metric = eval.metric,
+#'        arg.params = arg.params,
+#'        mx.seed = mx.seed)
+#'
+#' } # rtemis::rtset.MXN
 
 
 #' \code{rtset.lincoef}: Set parameters for \link{lincoef}
