@@ -19,7 +19,6 @@
 #' Default = TRUE
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
-#' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
@@ -35,6 +34,8 @@ s.SHYTREE <- function(x, y = NULL,
                       downsample = FALSE,
                       resample.seed = NULL,
                       max.leaves = 8,
+                      leaf.model = c("line", "spline"),
+                      gam.params = list(degrees = 6),
                       nvmax = 3,
                       force.max.leaves = NULL,
                       lookback = TRUE, # requires cross-validation with gridSearchLearn
@@ -96,8 +97,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SHYTREE"
-  # delta 02.06.2020
-  # if (max.leaves <= 1) force.max.leaves <- 1
+  leaf.model <- match.arg(leaf.model)
 
   # [ DEPENDENCIES ] ====
   # ENH: deps for lincoef
@@ -240,7 +240,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # [ shytreeLeaves ] ====
+  # [ shytreegamleaves ] ====
   if (.gs) {
     if (lookback) {
       x.valid <- x.test
@@ -254,38 +254,40 @@ s.SHYTREE <- function(x, y = NULL,
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
-  mod <- shytreeLeavesRC(x, y,
-                         x.valid = x.valid, y.valid = y.valid,
-                         lookback = lookback,
-                         max.leaves = max.leaves,
-                         nvmax = nvmax,
-                         gamma = gamma,
-                         alpha = alpha,
-                         lambda = lambda,
-                         lambda.seq = lambda.seq,
-                         minobsinnode.lin = minobsinnode.lin,
-                         learning.rate = learning.rate,
-                         part.minsplit = part.minsplit,
-                         part.xval = part.xval,
-                         part.max.depth = part.max.depth,
-                         part.cp = part.cp,
-                         part.minbucket = part.minbucket,
-                         .rho = .rho,
-                         rho.max = rho.max,
-                         weights = .weights,
-                         lin.type = lin.type,
-                         cv.glmnet.nfolds = cv.glmnet.nfolds,
-                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-                         verbose = verbose,
-                         plot.tuning = plot.tuning,
-                         trace = trace)
+
+  mod <- shytreegamleaves(x, y,
+               x.valid = x.valid, y.valid = y.valid,
+               lookback = lookback,
+               max.leaves = max.leaves,
+               gamleaves = leaf.model == "spline",
+               gam.params = gam.params,
+               nvmax = nvmax,
+               gamma = gamma,
+               alpha = alpha,
+               lambda = lambda,
+               lambda.seq = lambda.seq,
+               minobsinnode.lin = minobsinnode.lin,
+               learning.rate = learning.rate,
+               part.minsplit = part.minsplit,
+               part.xval = part.xval,
+               part.max.depth = part.max.depth,
+               part.cp = part.cp,
+               part.minbucket = part.minbucket,
+               .rho = .rho,
+               rho.max = rho.max,
+               weights = .weights,
+               lin.type = lin.type,
+               cv.glmnet.nfolds = cv.glmnet.nfolds,
+               which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+               verbose = verbose,
+               plot.tuning = plot.tuning,
+               trace = trace)
 
   parameters <- list(max.leaves = max.leaves,
                      n.leaves = mod$n.leaves,
                      alpha = alpha,
                      lambda = lambda,
                      lambda.seq = lambda.seq,
-                     minobsinnode = minobsinnode,
                      minobsinnode.lin = minobsinnode.lin,
                      learning.rate = learning.rate,
                      part.minsplit = part.minsplit,
@@ -306,11 +308,11 @@ s.SHYTREE <- function(x, y = NULL,
 
   # [ FITTED ] ====
   if (type == "Classification") {
-    .fitted <- predict.shytreeLeavesRC(mod, x, type = "all")
+    .fitted <- predict(mod, x, type = "all")
     fitted <- .fitted$estimate
     fitted.prob <- .fitted$probability
   } else {
-    fitted <- predict.shytreeLeavesRC(mod, x)
+    fitted <- predict(mod, x)
     fitted.prob <- NULL
   }
   error.train <- modError(y, fitted)
@@ -320,18 +322,18 @@ s.SHYTREE <- function(x, y = NULL,
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      .predicted <- predict.shytreeLeavesRC(mod, x.test,
-                                            type = "all",
-                                            learning.rate = learning.rate,
-                                            trace = trace,
-                                            verbose = verbose.predict)
+      .predicted <- predict(mod, x.test,
+                            type = "all",
+                            learning.rate = learning.rate,
+                            trace = trace,
+                            verbose = verbose.predict)
       predicted <- .predicted$estimate
       predicted.prob <- .predicted$probability
     } else {
-      predicted <- predict.shytreeLeavesRC(mod, x.test,
-                                           learning.rate = learning.rate,
-                                           trace = trace,
-                                           verbose = verbose.predict)
+      predicted <- predict(mod, x.test,
+                           learning.rate = learning.rate,
+                           trace = trace,
+                           verbose = verbose.predict)
       predicted.prob <- NULL
     }
 
