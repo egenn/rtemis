@@ -206,7 +206,6 @@ Other Supervised Learning:
 \code{\link{s.LM}()},
 \code{\link{s.MARS}()},
 \code{\link{s.MLRF}()},
-\code{\link{s.MXN}()},
 \code{\link{s.NBAYES}()},
 \code{\link{s.NLA}()},
 \code{\link{s.NLS}()},
@@ -228,8 +227,7 @@ Other Supervised Learning:
 Other Deep Learning: 
 \code{\link{d.H2OAE}()},
 \code{\link{p.MXINCEPTION}()},
-\code{\link{s.H2ODL}()},
-\code{\link{s.MXN}()}
+\code{\link{s.H2ODL}()}
 }
 \author{
 Efstathios D. Gennatas

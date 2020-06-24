@@ -123,7 +123,6 @@ Other Decomposition:
 Other Deep Learning: 
 \code{\link{p.MXINCEPTION}()},
 \code{\link{s.H2ODL}()},
-\code{\link{s.MXN}()},
 \code{\link{s.TFN}()}
 }
 \author{

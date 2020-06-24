@@ -45,7 +45,6 @@ Download the pre-trained network from http://data.mxnet.io/mxnet/data/Inception.
 Other Deep Learning: 
 \code{\link{d.H2OAE}()},
 \code{\link{s.H2ODL}()},
-\code{\link{s.MXN}()},
 \code{\link{s.TFN}()}
 }
 \author{

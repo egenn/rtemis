@@ -134,7 +134,6 @@ Other Supervised Learning:
 \code{\link{s.LM}()},
 \code{\link{s.MARS}()},
 \code{\link{s.MLRF}()},
-\code{\link{s.MXN}()},
 \code{\link{s.NBAYES}()},
 \code{\link{s.NLS}()},
 \code{\link{s.NW}()},

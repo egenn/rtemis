@@ -168,7 +168,6 @@ Other Supervised Learning:
 \code{\link{s.LDA}()},
 \code{\link{s.MARS}()},
 \code{\link{s.MLRF}()},
-\code{\link{s.MXN}()},
 \code{\link{s.NBAYES}()},
 \code{\link{s.NLA}()},
 \code{\link{s.NLS}()},
