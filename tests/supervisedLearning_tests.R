@@ -162,10 +162,10 @@ if (requireNamespace("earth", quietly = TRUE)) {
 #   mod <- s.MLRF(iris2.train, iris2.test, n.trees = 10, feature.subset.strategy = "all")
 # }
 
-if (requireNamespace("mxnet", quietly = TRUE)) {
-  mod <- s.MXN(dat.train, dat.test, n.hidden.nodes = 2, max.epochs = 10)
-  mod <- s.MXN(iris2.train, iris2.test, max.epochs = 10)
-}
+# if (requireNamespace("mxnet", quietly = TRUE)) {
+#   mod <- s.MXN(dat.train, dat.test, n.hidden.nodes = 2, max.epochs = 10)
+#   mod <- s.MXN(iris2.train, iris2.test, max.epochs = 10)
+# }
 
 mod <- s.NLA(dat.train, dat.test)
 
