@@ -4,14 +4,14 @@
 \alias{plot.resample}
 \title{\code{plot} method for \code{resample} object}
 \usage{
-\method{plot}{resample}(res, col = NULL, ...)
+\method{plot}{resample}(x, col = NULL, ...)
 }
 \arguments{
-\item{res}{\link{resample} object}
+\item{x}{Vector; numeric or factor: Outcome used for resampling}
 
 \item{col}{Vector, color}
 
-\item{x}{Vector; numeric or factor: Outcome used for resampling}
+\item{res}{\link{resample} object}
 }
 \description{
 \code{plot} method for \code{resample} object

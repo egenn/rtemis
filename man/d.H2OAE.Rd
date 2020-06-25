@@ -121,7 +121,6 @@ Other Decomposition:
 \code{\link{d.UMAP}()}
 
 Other Deep Learning: 
-\code{\link{p.MXINCEPTION}()},
 \code{\link{s.H2ODL}()},
 \code{\link{s.TFN}()}
 }

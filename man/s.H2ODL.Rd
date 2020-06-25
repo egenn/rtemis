@@ -205,7 +205,6 @@ Other Supervised Learning:
 
 Other Deep Learning: 
 \code{\link{d.H2OAE}()},
-\code{\link{p.MXINCEPTION}()},
 \code{\link{s.TFN}()}
 }
 \author{

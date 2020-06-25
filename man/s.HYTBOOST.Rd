@@ -29,7 +29,7 @@ s.HYTBOOST(
   lin.type = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
     "backwardStepwise", "glm", "sgd", "solve", "none"),
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   max.iter = 10,
   tune.n.iter = TRUE,
   earlystop.params = rtset.earlystop(),

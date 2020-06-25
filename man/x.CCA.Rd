@@ -94,11 +94,9 @@ Run a sparse Canonical Correlation Analysis using the \code{PMA} package
 \details{
 #' \code{x.CCA} runs \code{PMA::CCA}. If penaltyx is NULL, penaltyx *and* penaltyz will be estimated automatically
 using x.CCA.permute (adapted to run in parallel)
-\link{x.SD2RES} also performs sparse decompositions / CCA using \code{ANTsR}
 }
 \seealso{
 Other Cross-Decomposition: 
-\code{\link{x.SD2RES}()},
 \code{\link{xdecomSelect}()}
 }
 \author{

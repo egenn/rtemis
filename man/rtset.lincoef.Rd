@@ -2,10 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.lincoef}
 \alias{rtset.lincoef}
-\title{#' \code{rtset.MXN}: Set parameters for \link{s.MXN}
-#'
-#' @inheritParams s.MXN
-#' @export}
+\title{\code{rtset.lincoef}: Set parameters for \link{lincoef}}
 \usage{
 rtset.lincoef(
   method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
@@ -60,8 +57,5 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
 }
 \description{
-
-}
-\details{
-
+\code{rtset.lincoef}: Set parameters for \link{lincoef}
 }

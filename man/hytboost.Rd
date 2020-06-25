@@ -29,7 +29,7 @@ hytboost(
   part.minbucket = 5,
   lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
-  cv.glmnet.lambda = "lambda.min",
+  which.cv.glmnet.lambda = "lambda.min",
   earlystop.params = rtset.earlystop(),
   earlystop.using = "train",
   init = mean(y),
