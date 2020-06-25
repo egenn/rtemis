@@ -18,7 +18,8 @@ if (requireNamespace("plotly", quietly = TRUE)) {
   dplot3.varimp(varimp)
 }
 
-if (requireNamespace("data.tree", quietly = TRUE)) {
+if (requireNamespace("data.tree", quietly = TRUE) &
+    requireNamespace("DiagrammeR", quietly = TRUE)) {
   iris2 <- iris[51:150, ]
   iris2$Species <- factor(iris2$Species)
   mod <- s.CART(iris2, maxdepth = 2)
