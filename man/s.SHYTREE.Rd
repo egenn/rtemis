@@ -17,7 +17,7 @@ s.SHYTREE(
   resample.seed = NULL,
   max.leaves = 8,
   leaf.model = c("line", "spline"),
-  gam.params = list(degrees = 6),
+  gam.params = list(max.degree = 6),
   nvmax = 3,
   force.max.leaves = NULL,
   lookback = TRUE,
