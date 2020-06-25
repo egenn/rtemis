@@ -99,11 +99,13 @@ mplot3.xym <- function(x, y,
   # [ PLOTS 2 & 3: Histogram / Density ] ====
   if (margin == "density") {
     # Density Top
-    mplot3.x(x, margin, axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
+    mplot3.x(x, type = margin, axes.visible = axes.density,
+             density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", xaxs = 'i',
              par.reset = FALSE, mar = c(mar.mar, 3, 1, 0), xlim = lims$xlim)
     # Density Right
-    mplot3.x(y, margin, axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
+    mplot3.x(y, type = margin, axes.visible = axes.density,
+             density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = 'i',
              par.reset = FALSE, mar = c(3, mar.mar, 0, 1), xlim = lims$ylim)
   } else if (margin == "histogram") {
@@ -136,7 +138,8 @@ mplot3.xym <- function(x, y,
     mhist(x, breaks = x.breaks, col = col,
           xlim = lims$xlim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
-    mplot3.x(x, "density", axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
+    mplot3.x(x, type = "density", axes.visible = axes.density,
+             density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", xaxs = 'i', new = TRUE,
              par.reset = FALSE, mar = c(mar.mar, 3, 1, 0), xlim = lims$xlim)
 
@@ -145,7 +148,8 @@ mplot3.xym <- function(x, y,
     mhist(y, breaks = y.breaks, col = col,
           xlim = lims$ylim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd, horiz = TRUE,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
-    mplot3.x(y, "density", axes = axes.density, density.mean = FALSE, col = col, alpha = density.alpha,
+    mplot3.x(y, type = "density", axes.visible = axes.density,
+             density.mean = FALSE, col = col, alpha = density.alpha,
              lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = 'i', new = TRUE,
              par.reset = FALSE, mar = c(3, mar.mar, 0, 1), xlim = lims$ylim)
 

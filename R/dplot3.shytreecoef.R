@@ -6,6 +6,7 @@
 dplot3.shytreecoef <- function(tree,
                                Rowv = FALSE,
                                Colv = FALSE,
+                               leaf.col = "#18A3AC",
                                lo = "#2B27F1",
                                mid = "black",
                                hi = "#FFBE00") {

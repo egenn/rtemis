@@ -458,24 +458,24 @@ predict.rtMod <- function(object,
       sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
       new.tbl <- sparklyr::sdf_copy_to(sc, newdata)
       estimated <- as.data.frame(sparklyr::sdf_predict(new.tbl, object$mod))$prediction
-    } else if (object$mod.name == "MXN") {
-      predict.MXFeedForwardModel <- getFromNamespace("predict.MXFeedForwardModel", "mxnet")
-      if (object$type == "Classification") {
-        estimated.prob <- predict.MXFeedForwardModel(object$mod, data.matrix(newdata),
-                                                     array.layout = "rowmajor")
-        if (min(dim(estimated.prob)) == 1) {
-          # Classification with Logistic output
-          estimated <- factor(as.numeric(estimated.prob >= .5))
-        } else {
-          # Classification with Softmax output
-          estimated <- factor(apply(estimated.prob, 2, function(i) which.max(i)))
-        }
-        levels(estimated) <- levels(object$y.train)
-      } else {
-        estimated <- c(predict.MXFeedForwardModel(object$mod,
-                                                  X = data.matrix(newdata),
-                                                  array.layout = "rowmajor"))
-      }
+    # } else if (object$mod.name == "MXN") {
+    #   predict.MXFeedForwardModel <- getFromNamespace("predict.MXFeedForwardModel", "mxnet")
+    #   if (object$type == "Classification") {
+    #     estimated.prob <- predict.MXFeedForwardModel(object$mod, data.matrix(newdata),
+    #                                                  array.layout = "rowmajor")
+    #     if (min(dim(estimated.prob)) == 1) {
+    #       # Classification with Logistic output
+    #       estimated <- factor(as.numeric(estimated.prob >= .5))
+    #     } else {
+    #       # Classification with Softmax output
+    #       estimated <- factor(apply(estimated.prob, 2, function(i) which.max(i)))
+    #     }
+    #     levels(estimated) <- levels(object$y.train)
+    #   } else {
+    #     estimated <- c(predict.MXFeedForwardModel(object$mod,
+    #                                               X = data.matrix(newdata),
+    #                                               array.layout = "rowmajor"))
+    #   }
     } else if (object$mod.name == "SGD") {
       estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
     } else {

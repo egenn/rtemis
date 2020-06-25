@@ -216,10 +216,10 @@ mplot3.bar <- function(x,
   # [ BARPLOT ] ====
   barCenters <- barplot(x, beside = beside, col = cols,
                         border = border, ylim = ylim, axes = barplot.axes,
-                        cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
+                        cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
                         axisnames = FALSE,
                         las = las,
-                        col.axis = labs.col,
+                        col.axis = theme$labs.col,
                         width = width, space = space)
 
   # [ ERROR BARS ] ====
@@ -289,7 +289,7 @@ mplot3.bar <- function(x,
   # [ AXIS LABS ] ====
   if (!is.null(xlab))  {
     mtext(xlab, 1, cex = theme$cex, line = xlab.line,
-          col = theme$labs.col, , family = theme$font.family)
+          col = theme$labs.col, family = theme$font.family)
   }
   if (!is.null(ylab))  {
     mtext(ylab, 2, cex = theme$cex, line = ylab.line,

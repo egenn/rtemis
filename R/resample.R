@@ -208,9 +208,9 @@ resample <- function(y,
 #' @author Efstathios D. Gennatas
 #' @export
 
-plot.resample <- function(res, col = NULL, ...) {
+plot.resample <- function(x, col = NULL, ...) {
 
-  mplot3.res(res, col = col, ...)
+  mplot3.res(x, col = col, ...)
 
 } # rtemis::plot.resample
 

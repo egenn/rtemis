@@ -24,6 +24,8 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
 #' \pkg{rtemis}: Machine Learning and Visualization
 #'
+#' Advanced Machine Learning made easy, efficient, reproducible
+#'
 #' @section Online Documentation and Vignettes:
 #' \url{https://rtemis.netlify.com}
 #' @section System Setup:

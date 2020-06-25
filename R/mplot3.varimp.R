@@ -191,7 +191,7 @@ mplot3.varimp <- function(x,
   # [ BARPLOT ] ====
   barCenters <- barplot(x, col = cols, border = border,
                         xlim = xlim, ylim = ylim, axes = barplot.axes,
-                        cex.axis = cex.axis, cex.names = cex.names, add = TRUE, xlab = NULL,
+                        cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
                         axisnames = axisnames, names.arg = names.arg,
                         width = width, space = space, horiz = TRUE,
                         # xpd = FALSE,

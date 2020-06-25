@@ -8,7 +8,7 @@
 #'
 #' #' \code{x.CCA} runs \code{PMA::CCA}. If penaltyx is NULL, penaltyx *and* penaltyz will be estimated automatically
 #' using x.CCA.permute (adapted to run in parallel)
-#' \link{x.SD2RES} also performs sparse decompositions / CCA using \code{ANTsR}
+# \link{x.SD2RES} also performs sparse decompositions / CCA using \code{ANTsR}
 #'
 #' @param x Matrix: Training x dataset
 #' @param z Matrix: Training z dataset

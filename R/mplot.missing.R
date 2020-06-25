@@ -9,9 +9,14 @@
 #' @param feat.names Character: Feature names. Defaults to \code{colnames(x)}
 #' @param case.names Character: Case names. Defaults to \code{rownames(x)}
 #' @examples
+#' \dontrun{
 #' dat <- iris
-#' dat[c(1, 5, 17:20, 110, 115, 140), 1] <- dat[c(12, 15, 55, 73, 100:103), 2] <- dat[sample(1:150, 25), 4] <- NA
+#' dat[c(1, 5, 17:20, 110, 115, 140), 1] <-
+#' dat[c(12, 15, 55, 73, 100:103), 2] <-
+#' dat[sample(1:150, 25), 4] <- NA
 #' mplot.missing(dat)
+#' }
+#'
 #' @export
 
 mplot.missing <- function(x,

@@ -3,9 +3,9 @@
 # 2017 Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3}: Survival Plots
-#' 
+#'
 #' Plots survival step functions using \link{mplot3.xy}
-#' 
+#'
 #' @inheritParams mplot3.xy
 #' @param x Survival object / list of Survival objects created using \code{survival::Surv}
 #' @param lty Integer: Line type. Default = 1. See \code{par("lty")}
@@ -17,7 +17,7 @@
 #' @export
 
 mplot3.surv <- function(x,
-                        lty = 1, 
+                        lty = 1,
                         lwd = 2,
                         alpha = 1,
                         col = NULL,
@@ -34,7 +34,7 @@ mplot3.surv <- function(x,
                         group.padj = 2,
                         group.at = NA,
                         par.reset = TRUE, ...) {
-  
+
   # [ DATA ] ====
   if (class(x)[1] != "list") x <- list(x)
   # x <- lapply(1:length(x), function(i) as.numeric(as.matrix(x[[i]])[, 1]))
@@ -44,26 +44,26 @@ mplot3.surv <- function(x,
       x[[i]] <- survival::Surv(x[[i]], rep(1, length(x[[i]])))
     }
   }
-    
+
   # [ Kaplan-Meier Estimate ] ====
   .survfit <- lapply(x, function(x) survival::survfit(x ~ 1))
   lapply(1:length(x), function(i) survival::survfit(x[[i]] ~ 1))
-  
+
   # # [ Normalize ] ====
   # if (normalize) {
   #   x.sorted <- lapply(x.sorted, function(x) drange(x, 0, 100))
   # }
-  
+
   # [ LIMITS ] ====
   xlim <- c(0, max(.survfit[[1]]$time))
-  
+
   # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  
+
   cols <- if (is.null(col)) ucsfCol else col
-  
+
   # with pointwise errors:
   mplot3.xy(x = .survfit[[1]]$time,
             y = list(.survfit[[1]]$surv, Upper = .survfit[[1]]$upper, Lower = .survfit[[1]]$lower),
@@ -85,10 +85,10 @@ mplot3.surv <- function(x,
                 main = "",
                 xlab = "Time", ylab = "Survival Function",
                 group.legend = FALSE, zerolines = FALSE, par.reset = FALSE,
-                axes = FALSE, new = TRUE, ...)
+                axes.visible = FALSE, new = TRUE, ...)
     }
   }
-  
+
   # [ GROUP LEGEND ] ====
   if (!is.null(group.names)) {
     group.names <- c(group.title, group.names)
@@ -99,10 +99,10 @@ mplot3.surv <- function(x,
       group.names <- c(group.title, paste(" ", toupper(letters[1:length(x)])) )
     }
   }
-  
+
   # If not defined, group legend defaults to TRUE, if more than one group
   if (is.null(group.legend)) group.legend <- ifelse(length(x) > 1, TRUE, FALSE)
-  
+
   if (group.legend) {
     mtext(group.names,
           col = c("black", unlist(cols))[1:(length(x) + 1)], # change black depending on theme
@@ -112,7 +112,7 @@ mplot3.surv <- function(x,
           cex = cex,
           padj = seq(group.padj, group.padj + 1.5 * length(x), 1.5))
   }
-  
+
 } # rtemis::mplot3.surv
 
 

@@ -277,7 +277,7 @@ mplot3.x <- function(x,
     if (!axes.swap) {
       rect(x1, y1, x2, y2, border = NA, col = theme$plot.bg)
     } else {
-      rect(y1, x1, y2, x2, border = NA, col = plot.bg)
+      rect(y1, x1, y2, x2, border = NA, col = theme$plot.bg)
     }
   }
 

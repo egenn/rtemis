@@ -19,8 +19,8 @@
 xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
 
   description <- list(
-    "CCA" = "Sparse Canonical Correlation Analysis",
-    "SD2RES" = "ANTsR sparse decomposition"
+    "CCA" = "Sparse Canonical Correlation Analysis"
+    # "SD2RES" = "ANTsR sparse decomposition"
     # "SD2RESDEF" = "ANTsR sparse decomposition with deflation"
   )
   description <- t(as.data.frame(description))
@@ -32,7 +32,8 @@ xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
     return(invisible(9))
   }
 
-  name.vec <- toupper(c("CCA", "SD2RES"))
+  # name.vec <- c("CCA", "SD2RES")
+  name.vec <- c("CCA")
   name <- name.vec[pmatch(toupper(xdecom), name.vec)]
   if (is.na(name)) {
     print(description, quote = FALSE)
@@ -44,7 +45,7 @@ xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
   }
 
   if (name == "CCA") xdecomposer <- if (fn) x.CCA else "x.CCA"
-  if (name == "SD2RES") xdecomposer <- if (fn) x.SD2RES else "x.SD2RES"
+  # if (name == "SD2RES") xdecomposer <- if (fn) x.SD2RES else "x.SD2RES"
   # if (name == "SD2RESDEF") xdecomposer <- if (fn) x.SD2RESDEF else "x.SD2RESDEF"
 
   return(xdecomposer)

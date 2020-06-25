@@ -411,7 +411,7 @@ shytreeLeavesRC <- function(x, y,
   class(.mod) <- c("shytreeLeavesRC", "list")
 
   if (lookback) {
-    if (trace > 1) msg("Starting lookback...", color = rtemis:::rtHighlight)
+    if (trace > 1) msg("Starting lookback...", color = rtHighlight)
     opt.leaves = selectleaves(.mod, x = x, y = y,
                               x.valid = x.valid, y.valid = y.valid,
                               smooth = select.leaves.smooth,
@@ -420,7 +420,7 @@ shytreeLeavesRC <- function(x, y,
                               trace = trace)
     .mod$n.leaves <- opt.leaves$n.leaves
     .mod$lookback <- opt.leaves
-    if (trace > 1) msg("Lookback complete", color = rtemis:::rtHighlight)
+    if (trace > 1) msg("Lookback complete", color = rtHighlight)
   }
 
   .mod

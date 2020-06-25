@@ -189,8 +189,8 @@ mplot3.box <- function(x,
   }
 
   # [ AXIS LABS ] ====
-  if (!is.null(xlab))  mtext(xlab, 1, cex = cex, line = xlab.line)
-  if (!is.null(ylab))  mtext(ylab, 2, cex = cex, line = ylab.line)
+  if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = xlab.line)
+  if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = ylab.line)
 
   if (!is.null(xlab)) mtext(xlab, side = theme$x.axis.side,
                             line = xlab.line, cex = theme$cex,
