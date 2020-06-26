@@ -34,13 +34,17 @@ s.GAMSEL <- function(x, y = NULL,
                      lambda = NULL,
                      family = NULL,
                      degrees = NULL,
+                     min.degree = 1,
                      max.degree = 6,
                      gamma = 0.4,
-                     dfs = 5,
+                     dfs = NULL,
+                     min.df = 1,
+                     max.df = 5,
+                     failsafe = TRUE,
                      tol = 1e-04,
                      max.iter = 2000,
                      parallel = FALSE,
-                     cleanup = TRUE,
+                     # cleanup = TRUE, # call removed from gamsel
                      verbose = TRUE,
                      trace = 0,
                      print.plot = TRUE,
@@ -115,15 +119,26 @@ s.GAMSEL <- function(x, y = NULL,
     y <- 2 - as.numeric(y)
   }
 
-  # if (length(degrees) != n.features) degrees <- degrees[seql(degrees, seq(n.features))]
-  if (length(dfs) != n.features) dfs <- dfs[seql(dfs, seq(n.features))]
+  unique_perfeat <- apply(x, 2, function(i) length(unique(i)))
+  if (trace > 1) cat(".: Unique vals per feat:", unique_perfeat, "\n")
 
   if (is.null(degrees)) {
-    degrees <- sapply(x, function(i) min(length(unique(i)) - 1, max.degree))
+    degrees <- sapply(seq_len(n.features), function(i)
+      max(min.degree, min(unique_perfeat[i] - 1, max.degree)))
   }
 
+  if (length(degrees) < n.features) degrees <- rep(degrees, n.features)[seq_len(n.features)]
+  if (trace > 1) cat(".: 'degrees' set to:", degrees, "\n")
+
+  if (is.null(dfs)) {
+    # -2 is playing it safe to test: fix
+    dfs <- sapply(seq_len(n.features), function(i) max(min.df, min(degrees[i] - 2, max.df)))
+  }
+  if (trace > 1) cat(".: 'dfs' set to:", dfs, "\n")
+  if (length(dfs) != n.features) dfs <- rep(dfs, n.features)[seq_len(n.features)]
+
   # [ GAMSEL ] ====
-  bases <- gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
+  # bases <- gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
   if (verbose) msg("Training GAMSEL...", newline.pre = TRUE)
   args <- list(x = x,
                y = y,
@@ -131,15 +146,18 @@ s.GAMSEL <- function(x, y = NULL,
                lambda = lambda,
                family = family,
                degrees = degrees,
+               max.degree = max.degree,
                gamma = gamma,
                dfs = dfs,
-               bases = bases,
+               max.df = max.df,
+               failsafe = failsafe,
+               # bases = gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...),
                tol = tol,
                max_iter = max.iter,
                traceit = trace > 0,
                parallel = parallel)
   mod <- do.call(gamsel::gamsel, args)
-  if (cleanup) mod$call <- NULL
+  # if (cleanup) mod$call <- head(mod$call)
   nlambdas <- length(mod$lambdas)
 
   # [ FITTED ] ====
@@ -193,9 +211,12 @@ s.GAMSEL <- function(x, y = NULL,
                                    lambda = lambda,
                                    family = family,
                                    degrees = degrees,
+                                   max.degree = max.degree,
                                    gamma = gamma,
                                    dfs = dfs,
-                                   bases = bases,
+                                   max.df = max.df,
+                                   failsafe = failsafe,
+                                   # bases = bases,
                                    tol = tol,
                                    max.iter = max.iter),
                  question = question)
