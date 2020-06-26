@@ -63,6 +63,7 @@ shytreegamleaves <- function(x, y,
     ylevels <- NULL
     .rho <- FALSE
   }
+  .gamlearner <- modSelect(gamlearner)
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
@@ -153,7 +154,7 @@ shytreegamleaves <- function(x, y,
                    verbose = trace > 1, print.plot = FALSE),
               gam.params)
     if (gamleaves) {
-      leaves$gams <- list(do.call(gamlearner, args))
+      leaves$gams <- list(do.call(.gamlearner, args))
       g$init <- 0
     }
     .mod <- list(type = type,
@@ -414,7 +415,7 @@ shytreegamleaves <- function(x, y,
       args <- c(list(x = g$x[index, ], y = g$y[index],
                      verbose = trace > 1, print.plot = FALSE),
                 gam.params)
-      do.call(gamlearner, args)
+      do.call(.gamlearner, args)
     })
   } else {
     leaf.gams <- NULL
