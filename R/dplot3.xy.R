@@ -6,8 +6,8 @@
 #'
 #' Draw interactive scatter plots using \code{plotly}
 #'
-#' use theme$tick.labels.col for both tick color and tick label color
-#' @inheritParams dplot3.bartheme$tick.col is not used because ticks and their labels have the same color;
+#' use theme$tick.labels.col for both tick color and tick label color - this may change
+#' @inheritParams dplot3.bar
 #' @inheritParams mplot3.xy
 #' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
 #' \code{x} and \code{y}, respectively
