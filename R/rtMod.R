@@ -386,7 +386,8 @@ predict.rtMod <- function(object,
       } else {
         estimated <- predict(object$mod, newdata = newdata)
       }
-    } else if (object$mod.name == "GAMSEL") {
+    } else if (inherits(object$mod, "gamsel")) {
+      # if (inherits(object$mod, "gamsel")) {
       if (is.null(extraArgs$which.lambda)) {
         which.lambda <- length(object$mod$lambdas)
       } else {
@@ -397,6 +398,10 @@ predict.rtMod <- function(object,
         estimated <- factor(ifelse(estimated >= .5, 1, 0), levels = c(1, 0))
         levels(estimated) <- levels(object$y.train)
       }
+      # } else {
+      #   estimated <- predict(object$mod, data.frame(newdata))
+      # }
+
     } else if (object$mod.name == "GBM" | object$mod.name == "GBM3") {
       if (is.null(extraArgs$n.trees)) {
         n.trees <- object$mod$n.trees
