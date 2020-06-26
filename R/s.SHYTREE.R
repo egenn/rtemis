@@ -35,7 +35,8 @@ s.SHYTREE <- function(x, y = NULL,
                       resample.seed = NULL,
                       max.leaves = 8,
                       leaf.model = c("line", "spline"),
-                      gam.params = list(max.degree = 6),
+                      gamlearner = "gamsel",
+                      gam.params = list(),
                       nvmax = 3,
                       force.max.leaves = NULL,
                       lookback = TRUE, # requires cross-validation with gridSearchLearn
@@ -64,6 +65,7 @@ s.SHYTREE <- function(x, y = NULL,
                       grid.search.type = "exhaustive",
                       save.gridrun = FALSE,
                       grid.verbose = TRUE,
+                      cluster = FALSE,
                       keep.x = FALSE,
                       simplify = TRUE,
                       cxrcoef = FALSE,
@@ -260,6 +262,7 @@ s.SHYTREE <- function(x, y = NULL,
                lookback = lookback,
                max.leaves = max.leaves,
                gamleaves = leaf.model == "spline",
+               gamlearner = gamlearner,
                gam.params = gam.params,
                nvmax = nvmax,
                gamma = gamma,
@@ -365,6 +368,14 @@ s.SHYTREE <- function(x, y = NULL,
                  varimp = NULL,
                  question = question,
                  extra = extra)
+
+  if (cluster) {
+    if (verbose) msg("Getting clusters...")
+    mod$extra$clusters.train <- indexCasesByRules(x, mod$leaves$rules$rule)
+    if (!is.null(x.test)) {
+      mod$extra$clusters.test <- indexCasesByRules(x.test, mod$leaves$rules$rule)
+    }
+  }
 
   rtMod.out(rt,
             print.plot,
