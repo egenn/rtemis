@@ -84,44 +84,53 @@ dplot3.addtree <- function(addtree,
                                            "\nN nodes =", addtree$totalCount - 1,
                                            "\nN leaves =", length(addtree$leaves)))
   # [ NODE STYLE ] ====
-  node.labels <- if (node.labels) {
+  .node.labels <- if (node.labels) {
     if (node.labels.pct.pos) {
-      function(node) paste(gsub("[{}]", "", node$Condition),
+      # Include % positive cases
+      function(node) paste(
+                           # gsub('[{}]', "", node$Condition),
+                           formatcondition(node$Condition),
                            paste("N =", node$N),
                            paste(paste0(ddSci(node$pct.pos, asNumeric = TRUE) * 100, "%"), pos.name),
                            sep = "\n")
     } else {
-      function(node) paste(gsub("[{}]", "", node$Condition), paste("N =", node$N), sep = "\n")
+      function(node) paste(formatcondition(node$Condition), paste("N =", node$N), sep = "\n")
     }
   } else {
     ""
   }
+
   data.tree::SetNodeStyle(addtree,
-                          style = "filled,",
+                          style = "filled",
                           shape = node.shape,
                           fillcolor = node.col,
                           col = node.col,
                           fontname = fontname,
-                          label = node.labels,
+                          label = .node.labels,
                           tooltip = function(node) paste(paste("Node", node$n),
                                                          paste("Value =", ddSci(node$Value)),
                                                          sep = "\n"),
                           rank = function(node) node$Depth)
 
   # [ EDGE STYLE ] ====
-  edge.labels <- if (edge.labels) function(node) node$Condition else NULL
-  data.tree::SetEdgeStyle(addtree,
-                          arrowhead = arrowhead,
-                          color = edge.col,
-                          penwidth = edge.width,
-                          fontname = fontname,
-                          label = edge.labels,
-                          tooltip = function(node) node$Condition)
+  # .edge.labels <- if (edge.labels) function(node) node$Condition else NULL
+  # sometimes fails
+  # data.tree::SetEdgeStyle(addtree,
+  #                         keepExisting = TRUE,
+  #                         arrowhead = arrowhead,
+  #                         color = edge.col,
+  #                         penwidth = edge.width,
+  #                         fontname = fontname,
+  #                         label = .edge.labels,
+  #                         tooltip = function(node) node$Condition)
   # ?drop.leaves, keepExisting = TRUE
-  leaves.rank <- if (drop.leaves) addtree$height else NULL
+
+  # leaves.rank <- if (drop.leaves) addtree$height else NULL
   data.tree::Do(addtree$leaves, function(node) {
     data.tree::SetNodeStyle(node,
-                            rank = leaves.rank,
+                            # rank = leaves.rank,
+                            style = "filled",
+                            shape = node.shape,
                             fillcolor = function(node) {
                               ifelse(node$EstimateInt == 1 & node$isLeaf,
                                      col.positive, col.negative)
@@ -141,3 +150,19 @@ dplot3.addtree <- function(addtree,
   plot(addtree)
 
 } # rtemis::dplot3.addtree
+
+
+formatcondition <- function(x,
+                            remove.chars = "[{}]",
+                            decimal.places = 2) {
+
+  categorical <- any(grepl("{", x, fixed = TRUE))
+  if (categorical) {
+    xf <- gsub(remove.chars, "", x)
+  } else {
+    xf <- strsplit(x, " ")[[1]]
+    xf[3] <- ddSci(xs[3], decimal.places = decimal.places)
+    xf <- paste(xf, collapse = " ")
+  }
+  xf
+}
