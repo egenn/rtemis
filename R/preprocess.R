@@ -228,11 +228,17 @@ preprocess <- function(x, y = NULL,
   if (impute) {
     if (impute.type == "missRanger") {
       # '- missRanger ====
+      if (!depCheck("missRanger", verbose = FALSE)) {
+        cat("\n"); stop("Please install dependencies and try again")
+      }
       if (verbose) msg("Imputing missing values using missRanger...")
       x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
                                   verbose = ifelse(verbose, 1, 0))
     } else if (impute.type == "missForest") {
       # '- missForest ----
+      if (!depCheck("missForest", verbose = FALSE)) {
+        cat("\n"); stop("Please install dependencies and try again")
+      }
       if (verbose) msg("Imputing missing values using missForest...")
       x <- missForest::missForest(x,
                                   maxiter = impute.missForest.params$maxiter,
@@ -241,6 +247,9 @@ preprocess <- function(x, y = NULL,
 
     } else if (impute.type == "rfImpute") {
       # '- rfImpute ----
+      if (!depCheck("randomForest", verbose = FALSE)) {
+        cat("\n"); stop("Please install dependencies and try again")
+      }
       if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
                            missForest instead")
       x <- randomForest::rfImpute(x, y,
