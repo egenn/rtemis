@@ -1,7 +1,7 @@
 # mediboost.R
 # ::rtemis::
 # Gilmer Valdes, Efstathios D. Gennatas
-# TODO: #1. prob <- 1/exp(-2 * F(x)) #2. Regression
+# #1. prob <- 1/exp(-2 * F(x)) #2. Regression
 
 #' MediBoost
 #'
@@ -604,7 +604,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 
   if (verbose) msg("tree$fIdx is", tree$fIdx)
 
-  for (i in 1:n.samples) {
+  for (i in seq_len(n.samples)) {
     # Start at root
     node <- tree
     x_i <- newdata[i, ]
@@ -683,7 +683,7 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
     conditionLeft <- if (length(node$cutPoint) > 0) {
       paste(name, "<", node$cutPoint)
     } else {
-      paste0(name, " = ", "{'", paste(node$cutCategory, collapse = "', '"), "'}")
+      paste0(name, " = ", '{"', paste(node$cutCategory, collapse = '", "'), '"}')
     }
     ruleLeft <- paste0(c(rule, conditionLeft), collapse = "/")
     out <- preorder(node[[left]], out, n*2, left, right,
@@ -696,7 +696,7 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
       paste(name, ">=", node$cutPoint)
     } else {
       compLevels <- setdiff(levels(x[[name]]), node$cutCategory)
-      paste0(name, " = ", "{'", paste(compLevels, collapse = "', '"), "'}")
+      paste0(name, " = ", '{"', paste(compLevels, collapse = '", "'), '"}')
     }
     ruleRight <- paste0(c(rule, conditionRight), collapse = "/")
     out <- preorder(node[[right]], out, n*2 + 1, left, right,
