@@ -30,10 +30,11 @@ dplot3.addtree <- function(addtree,
                            overlap = "false",
                            prune = NULL,
                            prune.empty.leaves = TRUE,
-                           remove.bad.parents = FALSE) {
+                           remove.bad.parents = FALSE,
+                           filename = NULL) {
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("data.tree", verbose = FALSE)) {
+  if (!depCheck("data.tree", "DiagrammeR", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
@@ -119,6 +120,17 @@ dplot3.addtree <- function(addtree,
                                      col.positive, col.negative)
                             })
   })
+
+  # Write to file ====
+  if (!is.null(filename)) {
+    if (!depCheck("DiagrammeRsvg", "rsvg", verbose = FALSE)) {
+      cat("\n"); stop("Please install dependencies and try again")
+    }
+    filename <- file.path(filename)
+    plt_svg <- DiagrammeRsvg::export_svg(plt)
+    rsvg::rsvg_pdf(charToRaw(plt_svg), file = filename)
+  }
+
   plot(addtree)
 
 } # rtemis::dplot3.addtree
