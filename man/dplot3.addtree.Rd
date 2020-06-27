@@ -26,7 +26,8 @@ dplot3.addtree(
   overlap = "false",
   prune = NULL,
   prune.empty.leaves = TRUE,
-  remove.bad.parents = FALSE
+  remove.bad.parents = FALSE,
+  filename = NULL
 )
 }
 \description{

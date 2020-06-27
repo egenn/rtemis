@@ -18,7 +18,7 @@ shytreegamleaves(
   learning.rate = 1,
   minobsinnode.lin = 10,
   lin.type = "forwardStepwise",
-  gamma = 0.1,
+  gamma = 0.01,
   select.leaves.smooth = TRUE,
   alpha = 0,
   lambda = 0.01,
