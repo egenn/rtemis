@@ -2,10 +2,17 @@
 # ::rtemis::
 # Efstathios D. Gennatas egenn.github.io
 
-#' \code{mplot3} ADDTREE trees
+#' Plot ADDTREE trees
 #'
-#' Plot ADDTREE trees using \code{data.tree::plot.Node}
+#' Plot ADDTREE trees trained with \link{s.ADDTREE} using \code{data.tree::plot.Node}
 #'
+#' @param col.positive Color for outcome positive. Default = "#F48024DD"
+#' @param col.negative Color for negative outcome. Default = "#18A3ACDD"
+#' @param node.col Color for non-terminal leaves. Default = "#666666"
+#' @param edge.col Color for edges. Default = "#999999"
+#' @param bg.color Background color. Default = "#ffffff"
+#' @param filename String, Optional: Save PDF to this file. Requires packages \code{DiagrammeRsvg}
+#' and \code{rsvg}. Default = NULL
 #' @author Efstathios D. Gennatas
 #' @export
 
@@ -26,7 +33,7 @@ dplot3.addtree <- function(addtree,
                            rankdir = "TB",
                            splines = "polyline",
                            fontname = "helvetica",
-                           bg.color = "white",
+                           bg.color = "#ffffff",
                            overlap = "false",
                            prune = NULL,
                            prune.empty.leaves = TRUE,

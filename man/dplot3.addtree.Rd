@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.addtree.R
 \name{dplot3.addtree}
 \alias{dplot3.addtree}
-\title{\code{mplot3} ADDTREE trees}
+\title{Plot ADDTREE trees}
 \usage{
 dplot3.addtree(
   addtree,
@@ -22,7 +22,7 @@ dplot3.addtree(
   rankdir = "TB",
   splines = "polyline",
   fontname = "helvetica",
-  bg.color = "white",
+  bg.color = "#ffffff",
   overlap = "false",
   prune = NULL,
   prune.empty.leaves = TRUE,
@@ -30,8 +30,22 @@ dplot3.addtree(
   filename = NULL
 )
 }
+\arguments{
+\item{col.positive}{Color for outcome positive. Default = "#F48024DD"}
+
+\item{col.negative}{Color for negative outcome. Default = "#18A3ACDD"}
+
+\item{node.col}{Color for non-terminal leaves. Default = "#666666"}
+
+\item{edge.col}{Color for edges. Default = "#999999"}
+
+\item{bg.color}{Background color. Default = "#ffffff"}
+
+\item{filename}{String, Optional: Save PDF to this file. Requires packages \code{DiagrammeRsvg}
+and \code{rsvg}. Default = NULL}
+}
 \description{
-Plot ADDTREE trees using \code{data.tree::plot.Node}
+Plot ADDTREE trees trained with \link{s.ADDTREE} using \code{data.tree::plot.Node}
 }
 \author{
 Efstathios D. Gennatas
