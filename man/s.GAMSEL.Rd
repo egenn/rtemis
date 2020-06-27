@@ -137,7 +137,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \link{rtMod}
 }
 \description{
-Trains a GAMSEL model using \code{gamsel::gamsel}.
+Trains a GAMSEL model using \code{gamsel2::gamsel}.
+\code{gamsel2} can be installed
 Input will be used to create a formula of the form:
 \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 }

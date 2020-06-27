@@ -6,12 +6,13 @@
 
 #' Regularized Generalized Additive Model (GAMSEL) [C, R]
 #'
-#' Trains a GAMSEL model using \code{gamsel::gamsel}.
+#' Trains a GAMSEL model using \code{gamsel2::gamsel}.
+#' \code{gamsel2} can be installed
 #' Input will be used to create a formula of the form:
 #' \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 #'
 #' @inheritParams s.GLM
-#' @inheritParams gamsel::gamsel
+#' @inheritParams gamsel2::gamsel
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to \code{mgcv::gam}
 #' @return \link{rtMod}
@@ -72,8 +73,9 @@ s.GAMSEL <- function(x, y = NULL,
   mod.name <- "GAMSEL"
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("gamsel", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
+  if (!depCheck("gamsel2", verbose = FALSE)) {
+    cat("\n")
+    stop("Please install dependency using remotes::install_github('egenn/gamsel2') and try again")
   }
 
   # [ ARGUMENTS ] ====
@@ -138,7 +140,7 @@ s.GAMSEL <- function(x, y = NULL,
   if (length(dfs) != n.features) dfs <- rep(dfs, n.features)[seq_len(n.features)]
 
   # [ GAMSEL ] ====
-  # bases <- gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
+  # bases <- gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
   if (verbose) msg("Training GAMSEL...", newline.pre = TRUE)
   args <- list(x = x,
                y = y,
@@ -151,12 +153,12 @@ s.GAMSEL <- function(x, y = NULL,
                dfs = dfs,
                max.df = max.df,
                failsafe = failsafe,
-               # bases = gamsel::pseudo.bases(x, degrees, dfs, parallel = parallel, ...),
+               # bases = gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...),
                tol = tol,
                max_iter = max.iter,
                traceit = trace > 0,
                parallel = parallel)
-  mod <- do.call(gamsel::gamsel, args)
+  mod <- do.call(gamsel2::gamsel, args)
   # if (cleanup) mod$call <- head(mod$call)
   nlambdas <- length(mod$lambdas)
 
