@@ -47,6 +47,9 @@ and \code{rsvg}. Default = NULL}
 \description{
 Plot ADDTREE trees trained with \link{s.ADDTREE} using \code{data.tree::plot.Node}
 }
+\details{
+Edge info and styles have been removed because of problems with \code{DiagrammeR}
+}
 \author{
 Efstathios D. Gennatas
 }

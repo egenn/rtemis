@@ -6,6 +6,7 @@
 #'
 #' Plot ADDTREE trees trained with \link{s.ADDTREE} using \code{data.tree::plot.Node}
 #'
+#' Edge info and styles have been removed because of problems with \code{DiagrammeR}
 #' @param col.positive Color for outcome positive. Default = "#F48024DD"
 #' @param col.negative Color for negative outcome. Default = "#18A3ACDD"
 #' @param node.col Color for non-terminal leaves. Default = "#666666"
