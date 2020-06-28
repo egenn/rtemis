@@ -69,6 +69,7 @@ dplot3.shytree <- function(tree,
 
   if (inherits(tree, "rtMod")) {
     if (inherits(tree$mod, "shytreeLeavesRC")) tree <- tree$mod$tree
+    if (inherits(tree$mod, "shytreegamleaves")) tree <- tree$mod$tree
   }
 
   # Data ====
