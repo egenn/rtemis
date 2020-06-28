@@ -31,16 +31,19 @@ s.GAMSEL <- function(x, y = NULL,
                      upsample = FALSE,
                      downsample = FALSE,
                      resample.seed = NULL,
-                     num.lambda = 50,
                      lambda = NULL,
+                     force.lambda = NULL, # force gamsel instead of cv.gamsel
+                     num.lambda = 50,
                      family = NULL,
                      degrees = NULL,
                      min.degree = 1,
-                     max.degree = 6,
+                     max.degree = 8,
                      gamma = 0.4,
                      dfs = NULL,
                      min.df = 1,
                      max.df = 5,
+                     n.folds = 10,
+                     which.lambda = c("lambda.min", "lambda.1se"),
                      failsafe = TRUE,
                      tol = 1e-04,
                      max.iter = 2000,
@@ -85,6 +88,7 @@ s.GAMSEL <- function(x, y = NULL,
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
+  which.lambda <- match.arg(which.lambda)
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y,
@@ -121,23 +125,23 @@ s.GAMSEL <- function(x, y = NULL,
     y <- 2 - as.numeric(y)
   }
 
-  unique_perfeat <- apply(x, 2, function(i) length(unique(i)))
-  if (trace > 1) cat(".: Unique vals per feat:", unique_perfeat, "\n")
-
-  if (is.null(degrees)) {
-    degrees <- sapply(seq_len(n.features), function(i)
-      max(min.degree, min(unique_perfeat[i] - 1, max.degree)))
-  }
-
-  if (length(degrees) < n.features) degrees <- rep(degrees, n.features)[seq_len(n.features)]
-  if (trace > 1) cat(".: 'degrees' set to:", degrees, "\n")
-
-  if (is.null(dfs)) {
-    # -2 is playing it safe to test: fix
-    dfs <- sapply(seq_len(n.features), function(i) max(min.df, min(degrees[i] - 2, max.df)))
-  }
-  if (trace > 1) cat(".: 'dfs' set to:", dfs, "\n")
-  if (length(dfs) != n.features) dfs <- rep(dfs, n.features)[seq_len(n.features)]
+  # unique_perfeat <- apply(x, 2, function(i) length(unique(i)))
+  # if (trace > 1) cat(".: Unique vals per feat:", unique_perfeat, "\n")
+  #
+  # if (is.null(degrees)) {
+  #   degrees <- sapply(seq_len(n.features), function(i)
+  #     max(min.degree, min(unique_perfeat[i] - 1, max.degree)))
+  # }
+  #
+  # if (length(degrees) < n.features) degrees <- rep(degrees, n.features)[seq_len(n.features)]
+  # if (trace > 1) cat(".: 'degrees' set to:", degrees, "\n")
+  #
+  # if (is.null(dfs)) {
+  #   # -2 is playing it safe to test: fix
+  #   dfs <- sapply(seq_len(n.features), function(i) max(min.df, min(degrees[i] - 2, max.df)))
+  # }
+  # if (trace > 1) cat(".: 'dfs' set to:", dfs, "\n")
+  # if (length(dfs) != n.features) dfs <- rep(dfs, n.features)[seq_len(n.features)]
 
   # [ GAMSEL ] ====
   # bases <- gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
@@ -153,22 +157,34 @@ s.GAMSEL <- function(x, y = NULL,
                dfs = dfs,
                max.df = max.df,
                failsafe = failsafe,
+               # nfolds = n.folds,
                # bases = gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...),
                tol = tol,
                max_iter = max.iter,
                traceit = trace > 0,
                parallel = parallel)
-  mod <- do.call(gamsel2::gamsel, args)
+  if (is.null(force.lambda)) {
+    # use cv.gamsel
+    args <- c(args, nfolds = n.folds)
+    mod <- do.call(gamsel2::cv.gamsel, args)
+  } else {
+    args$lambda <- force.lambda
+    mod <- do.call(gamsel2::gamsel, args)
+  }
+  # mod <- do.call(gamsel2::gamsel, args)
+
   # if (cleanup) mod$call <- head(mod$call)
-  nlambdas <- length(mod$lambdas)
+  # nlambdas <- length(mod$lambdas)
+  lambda.index <- if (which.lambda == "lambda.min") mod$index.min else mod$index.1se
 
   # [ FITTED ] ====
   # TODO: switch both fitted and predicted to predict.rtMod
   if (type == "Regression") {
-    fitted <- c(predict(mod, x, index = nlambdas, type = "response"))
+    # in gamsel2, this works with both "gamsel" and "cv.gamsel" objects
+    fitted <- c(predict(mod, x, index = lambda.index, type = "response"))
     error.train <- modError(y, fitted)
   } else {
-    fitted.prob <- c(predict(mod, x, index = nlambdas, type = "response"))
+    fitted.prob <- c(predict(mod, x, index = lambda.index, type = "response"))
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
     levels(fitted) <- levels(y0)
     error.train <- modError(y0, fitted, fitted.prob)
@@ -180,9 +196,9 @@ s.GAMSEL <- function(x, y = NULL,
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
-      predicted <- c(predict(mod, x.test, index = nlambdas, type = "response"))
+      predicted <- c(predict(mod, x.test, index = lambda.index, type = "response"))
     } else {
-      predicted.prob <- c(predict(mod, x.test, index = nlambdas, type = "response"))
+      predicted.prob <- c(predict(mod, x.test, index = lambda.index, type = "response"))
       predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(predicted) <- levels(y0)
     }
@@ -219,6 +235,7 @@ s.GAMSEL <- function(x, y = NULL,
                                    max.df = max.df,
                                    failsafe = failsafe,
                                    # bases = bases,
+                                   which.lambda = which.lambda,
                                    tol = tol,
                                    max.iter = max.iter),
                  question = question)
