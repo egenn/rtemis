@@ -162,7 +162,7 @@ formatcondition <- function(x,
     xf <- gsub(remove.chars, "", x)
   } else {
     xf <- strsplit(x, " ")[[1]]
-    xf[3] <- ddSci(xs[3], decimal.places = decimal.places)
+    xf[3] <- ddSci(xf[3], decimal.places = decimal.places)
     xf <- paste(xf, collapse = " ")
   }
   xf
