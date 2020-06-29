@@ -230,8 +230,8 @@ rtMod <- R6::R6Class("rtMod",
                        },
                        plotVarImp = function(plot.top = 12,
                                              theme = getOption("rt.fit.theme", "lightgrid"), ...) {
-                         if (is.null(self$varimp)) {
-                           warning("Variable importance not available for this model")
+                         if (length(self$varimp) == 0) {
+                           warning("Variable importance is not available for this model")
                          } else {
                            mplot3.varimp(self$varimp,
                                          plot.top = plot.top,
@@ -1174,8 +1174,12 @@ rtModCV <- R6::R6Class("rtModCV",
                          plotVarImp = function(which.repeat = 1,
                                                plot.top = 12, ...) {
                            varimp <- colMeans(self$varimp[[which.repeat]])
-                           mplot3.varimp(varimp,
-                                         plot.top = plot.top, ...)
+                           if (length(varimp) == 0) {
+                             warning("Variable importance is not available for this model")
+                           } else {
+                             mplot3.varimp(varimp,
+                                           plot.top = plot.top, ...)
+                           }
                          },
                          describe = function() {
 
