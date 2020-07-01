@@ -2,7 +2,7 @@
 % Please edit documentation in R/mediboost.R
 \name{mediboost}
 \alias{mediboost}
-\title{MediBoost}
+\title{Additive Tree}
 \usage{
 mediboost(
   x,

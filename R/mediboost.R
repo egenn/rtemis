@@ -3,7 +3,7 @@
 # Gilmer Valdes, Efstathios D. Gennatas
 # #1. prob <- 1/exp(-2 * F(x)) #2. Regression
 
-#' MediBoost
+#' Additive Tree
 #'
 #' Trains a binary decision tree classifier using MediBoost Tree-Structured Boosting
 #'
