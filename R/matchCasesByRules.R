@@ -31,11 +31,12 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 
 #' Index cases by rules
 #'
-#' Get an index of which cases match which rule - meant for cases where
+#' Get an index of which cases match which rule - meant for cases where each case matches one rule
+#' and one rule only
 #'
 #' @inheritParams matchCasesByRules
 #' @author Efstathios D. Gennatas
-#' @export
+#' @keywords internal
 
 indexCasesByRules <- function(x, rules, verbose = TRUE) {
   cxr <- matchCasesByRules(x, rules, verbose)
