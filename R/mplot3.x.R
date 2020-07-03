@@ -210,6 +210,8 @@ mplot3.x <- function(x,
   }
   col.alpha <- lapply(col, function(cl) adjustcolor(cl, alpha.f = alpha))
 
+  .out <- NULL
+
   # [ DATA: QQLINE ] ====
   if (type == "qqline") {
     yl <- list()
