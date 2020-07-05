@@ -14,7 +14,7 @@ mplot3.heatmap(
   midhi = NULL,
   hi = "#F48024",
   space = "rgb",
-  theme = getOption("rt.theme", "black"),
+  theme = getOption("rt.theme", "white"),
   colorbar = TRUE,
   cb.n = 21,
   cb.title = NULL,
