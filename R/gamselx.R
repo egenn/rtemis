@@ -54,7 +54,7 @@ gamselx <- function(x, y,
   # 3. GAMSELs ====
   if (verbose) msg("3: Training seconds stage GAMSEL...", color = rtOrange)
   if (length(pairs.index) > 0) {
-    .pairs <- pairs[pairs.index, ]
+    .pairs <- pairs[pairs.index, , drop = FALSE]
     if (verbose) msg("Found", NROW(.pairs), "pairwise interactions", color = rtOrange)
     extnames <- sapply(seq_along(pairs.index), function(i) {
       paste(xnames[.pairs[i, 1]], xnames[.pairs[i, 2]], sep = "x")
