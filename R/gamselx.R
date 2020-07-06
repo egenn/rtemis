@@ -21,7 +21,8 @@ gamselx <- function(x, y,
   # 1. GAMSEL ====
   if (verbose) msg("1: Training first stage GAMSEL", color = rtOrange)
   .gamsel.params1 <- c(list(x = x, y = y,
-                            print.plot = FALSE, verbose = verbose),
+                            print.plot = FALSE,
+                            verbose = trace > 1),
                        gamsel.params1)
   mod1 <- do.call("s.GAMSEL", .gamsel.params1)
 
@@ -65,7 +66,9 @@ gamselx <- function(x, y,
     .ext <- if (final.on.resid) ext else cbind(x, ext)
 
     .y <- if (final.on.resid) y - mod1$fitted else y
-    .gamsel.params2 <- c(list(x = .ext, y = .y),
+    .gamsel.params2 <- c(list(x = .ext, y = .y,
+                              print.plot = FALSE,
+                              verbose = trace > 1),
                          gamsel.params2)
     modext <- do.call("s.GAMSEL", .gamsel.params2)
   } else {
