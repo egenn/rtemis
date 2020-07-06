@@ -273,63 +273,65 @@ shytreeLeavesRC <- function(x, y,
       if (trace > 1) msg("+++ g$open is", g$open)
       if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
 
-      # '- Loss ====
-      # Find split with max loss reduction
-      # 1.Error reduction for each open node
-      open.loss.red <- data.frame(id = g$open,
-                                  loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
-                                    plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1])
+      if (length(g$open) > 0) {
+        # '- Loss ====
+        # Find split with max loss reduction
+        # 1.Error reduction for each open node
+        open.loss.red <- data.frame(id = g$open,
+                                    loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
+                                      plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1])
 
-      if (trace > 1) print(open.loss.red)
-      selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
-      # Did selected reduce loss
-      selected.loss <- open.loss.red$loss.red[open.loss.red$id  == selected]
-      selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
-      toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
-      if (length(toclose) > 0) {
-        for (i in toclose) {
-          g$open <- setdiff(g$open, i)
-          g$closed <- c(g$closed, i)
-          if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+        if (trace > 1) print(open.loss.red)
+        selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
+        # Did selected reduce loss
+        selected.loss <- open.loss.red$loss.red[open.loss.red$id  == selected]
+        selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
+        toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
+        if (length(toclose) > 0) {
+          for (i in toclose) {
+            g$open <- setdiff(g$open, i)
+            g$closed <- c(g$closed, i)
+            if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+          }
         }
-      }
 
-      if ((selected.red)) {
-        if (trace > 1) msg(">>> Selected node #", selected, sep = "")
-        if (trace > 1) msg("g$terminal is", g$terminal)
-        # +tree: Remove selected from terminal
-        if (trace > 1) msg("Removing selected from terminal nodes")
-        g$terminal <- setdiff(g$terminal, selected)
-        # +tree: Add selected's childrens to terminal
-        if (trace > 1) msg("Adding selected's children to terminal nodes")
-        g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$terminal is now", g$terminal)
-        # +tree: Add selected to closed
-        # Add selected to closed
-        g$closed <- c(g$closed, selected)
-        # Add selected's sibling to closed if it was a nosplit, otherwise it's still open
-        # sibling <- if (selected %% 2 == 0) selected + 1 else selected - 1
-        # if (sibling %in% g$nosplit) g$closed <- c(g$closed, sibling)
+        if ((selected.red)) {
+          if (trace > 1) msg(">>> Selected node #", selected, sep = "")
+          if (trace > 1) msg("g$terminal is", g$terminal)
+          # +tree: Remove selected from terminal
+          if (trace > 1) msg("Removing selected from terminal nodes")
+          g$terminal <- setdiff(g$terminal, selected)
+          # +tree: Add selected's childrens to terminal
+          if (trace > 1) msg("Adding selected's children to terminal nodes")
+          g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
+          if (trace > 1) msg("g$terminal is now", g$terminal)
+          # +tree: Add selected to closed
+          # Add selected to closed
+          g$closed <- c(g$closed, selected)
+          # Add selected's sibling to closed if it was a nosplit, otherwise it's still open
+          # sibling <- if (selected %% 2 == 0) selected + 1 else selected - 1
+          # if (sibling %in% g$nosplit) g$closed <- c(g$closed, sibling)
 
-        # +tree: Remove selected from open
-        # Remove selected from open
-        g$open <- setdiff(g$open, selected)
+          # +tree: Remove selected from open
+          # Remove selected from open
+          g$open <- setdiff(g$open, selected)
 
-        # +tree: Add selected's children to open
-        # Add selected's children to open
-        g$open <- c(g$open, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$open is now", g$open)
+          # +tree: Add selected's children to open
+          # Add selected's children to open
+          g$open <- c(g$open, selected * 2, selected * 2 + 1)
+          if (trace > 1) msg("g$open is now", g$open)
 
-        # Nodes in tree are all closed nodes plus the terminals
-        g$include <- union(union(g$closed, g$terminal), g$open)
-        # -1 subtracts the root from the count
-        g$n.nodes <- length(g$include) - 1
-        if (trace > 1) msg("g$n.nodes is", g$n.nodes)
-        g$n.leaves <- length(g$terminal)
-      } else {
-        g$closed <- c(g$closed, selected)
-        g$open <- setdiff(g$open, selected)
-        if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
+          # Nodes in tree are all closed nodes plus the terminals
+          g$include <- union(union(g$closed, g$terminal), g$open)
+          # -1 subtracts the root from the count
+          g$n.nodes <- length(g$include) - 1
+          if (trace > 1) msg("g$n.nodes is", g$n.nodes)
+          g$n.leaves <- length(g$terminal)
+        } else {
+          g$closed <- c(g$closed, selected)
+          g$open <- setdiff(g$open, selected)
+          if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
+        }
       }
     } # /if (length(g$tree) == 3)
 

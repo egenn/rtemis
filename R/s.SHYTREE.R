@@ -41,7 +41,8 @@ s.SHYTREE <- function(x, y = NULL,
                       nvmax = 3,
                       force.max.leaves = NULL,
                       lookback = TRUE, # requires cross-validation with gridSearchLearn
-                      gamma = 0,
+                      gamma = .1,
+                      gamma.on.lin = FALSE,
                       alpha = 1,
                       lambda = .05,
                       lambda.seq = NULL,
@@ -209,6 +210,7 @@ s.SHYTREE <- function(x, y = NULL,
     fixed.params <- if (lookback) list(max.leaves = max.leaves) else list()
     fixed.params <- c(fixed.params, list(init = init,
                                          lin.type = lin.type,
+                                         gamma.on.lin = gamma.on.lin,
                                          cv.glmnet.nfolds = cv.glmnet.nfolds,
                                          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                                          metric = metric,
@@ -276,6 +278,7 @@ s.SHYTREE <- function(x, y = NULL,
                           gam.params = gam.params,
                           nvmax = nvmax,
                           gamma = gamma,
+                          gamma.on.lin = gamma.on.lin,
                           alpha = alpha,
                           lambda = lambda,
                           lambda.seq = lambda.seq,
@@ -362,9 +365,9 @@ s.SHYTREE <- function(x, y = NULL,
   varimp <- if (lin.type == "none") {
     numeric()
   } else {
-    # this is probably a poor measure of variable importance.
-    # look at each leaf's coefficients instead
-    apply(mod$leaves$coefs[, -1], 2, function(i) max(abs(i))) * apply(x, 2, sd)
+    # This is probably a poor measure of variable importance.
+    # In general, look at each leaf's coefficients instead
+    apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i))) * apply(x, 2, sd)
   }
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,

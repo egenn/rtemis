@@ -148,8 +148,8 @@ s.CART <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   class.weights <- dt$class.weights
-  x0 <- if (upsample|downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   df.train <- data.frame(y = y, x)
   if (method == "auto") {

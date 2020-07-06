@@ -555,6 +555,7 @@ mplot3.xy <- function(x, y = NULL,
     for (i in seq_len(Nxgroups)) {
       x <- xl[[i]]
       y <- yl[[i]]
+      # verbose FALSE should turn off plotting for all learners, no need for print.plot F
       learner.args <- c(list(x = x, y = y, verbose = trace > 0),
                         fit.params)
       if (learner == "s.NLS") learner.args <- c(learner.args,

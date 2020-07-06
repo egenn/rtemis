@@ -3,6 +3,7 @@
 # Efstathios D. Gennatas egenn.github.io
 # shytreegamleaves with no-line option
 # max.leaves 1 train on y or resid
+# apply gamma only to splits
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
@@ -33,6 +34,7 @@ shytreegamleaves <- function(x, y,
                              minobsinnode.lin = 10,
                              lin.type = "forwardStepwise",
                              gamma = .01,
+                             gamma.on.lin = FALSE,
                              select.leaves.smooth = TRUE,
                              alpha = 0,
                              lambda = .01,
@@ -137,6 +139,7 @@ shytreegamleaves <- function(x, y,
 
     # Linear model
     coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = y,
+                    # weights = if (gamma.on.lin) weights else ifelse(weights == 1, 1, 0),
                     weights = weights,
                     method = lin.type,
                     nvmax = nvmax,
@@ -205,6 +208,7 @@ shytreegamleaves <- function(x, y,
   if (is.constant(resid)) stop("First gradient is constant")
 
   coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid,
+                  # weights = if (gamma.on.lin) weights else ifelse(weights == 1, 1, 0),
                   weights = weights,
                   method = lin.type,
                   nvmax = nvmax,
@@ -261,10 +265,11 @@ shytreegamleaves <- function(x, y,
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
         if (trace > 0) msg0("Working on node id #", i, "...")
         if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
-        splitLineRC(g = g,
+        splitlineRC(g = g,
                     type = type,
                     node.index = i,
                     gamma = gamma,
+                    gamma.on.lin = gamma.on.lin,
                     alpha = alpha,
                     lambda = lambda,
                     lambda.seq = lambda.seq,
@@ -299,64 +304,67 @@ shytreegamleaves <- function(x, y,
       if (trace > 1) msg("+++ g$open is", g$open)
       if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
 
-      # '- Loss ====
-      # Find split with max loss reduction
-      # 1.Error reduction for each open node
-      open.loss.red <- data.frame(id = g$open,
-                                  loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
-                                    plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1])
+      if (length(g$open) > 0) {
+        # '- Loss ====
+        # Find split with max loss reduction
+        # 1.Error reduction for each open node
+        open.loss.red <- data.frame(id = g$open,
+                                    loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
+                                      plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1])
 
-      if (trace > 1) print(open.loss.red)
-      selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
-      # Did selected reduce loss
-      selected.loss <- open.loss.red$loss.red[open.loss.red$id  == selected]
-      selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
-      toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
-      if (length(toclose) > 0) {
-        for (i in toclose) {
-          g$open <- setdiff(g$open, i)
-          g$closed <- c(g$closed, i)
-          if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+        if (trace > 1) print(open.loss.red)
+        selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
+        # Did selected reduce loss
+        selected.loss <- open.loss.red$loss.red[open.loss.red$id  == selected]
+        selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
+        toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
+        if (length(toclose) > 0) {
+          for (i in toclose) {
+            g$open <- setdiff(g$open, i)
+            g$closed <- c(g$closed, i)
+            if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+          }
+        }
+
+        if ((selected.red)) {
+          if (trace > 1) msg(">>> Selected node #", selected, sep = "")
+          if (trace > 1) msg("g$terminal is", g$terminal)
+          # +tree: Remove selected from terminal
+          if (trace > 1) msg("Removing selected from terminal nodes")
+          g$terminal <- setdiff(g$terminal, selected)
+          # +tree: Add selected's childrens to terminal
+          if (trace > 1) msg("Adding selected's children to terminal nodes")
+          g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
+          if (trace > 1) msg("g$terminal is now", g$terminal)
+          # +tree: Add selected to closed
+          # Add selected to closed
+          g$closed <- c(g$closed, selected)
+          # Add selected's sibling to closed if it was a nosplit, otherwise it's still open
+          # sibling <- if (selected %% 2 == 0) selected + 1 else selected - 1
+          # if (sibling %in% g$nosplit) g$closed <- c(g$closed, sibling)
+
+          # +tree: Remove selected from open
+          # Remove selected from open
+          g$open <- setdiff(g$open, selected)
+
+          # +tree: Add selected's children to open
+          # Add selected's children to open
+          g$open <- c(g$open, selected * 2, selected * 2 + 1)
+          if (trace > 1) msg("g$open is now", g$open)
+
+          # Nodes in tree are all closed nodes plus the terminals
+          g$include <- union(union(g$closed, g$terminal), g$open)
+          # -1 subtracts the root from the count
+          g$n.nodes <- length(g$include) - 1
+          if (trace > 1) msg("g$n.nodes is", g$n.nodes)
+          g$n.leaves <- length(g$terminal)
+        } else {
+          g$closed <- c(g$closed, selected)
+          g$open <- setdiff(g$open, selected)
+          if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
         }
       }
 
-      if ((selected.red)) {
-        if (trace > 1) msg(">>> Selected node #", selected, sep = "")
-        if (trace > 1) msg("g$terminal is", g$terminal)
-        # +tree: Remove selected from terminal
-        if (trace > 1) msg("Removing selected from terminal nodes")
-        g$terminal <- setdiff(g$terminal, selected)
-        # +tree: Add selected's childrens to terminal
-        if (trace > 1) msg("Adding selected's children to terminal nodes")
-        g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$terminal is now", g$terminal)
-        # +tree: Add selected to closed
-        # Add selected to closed
-        g$closed <- c(g$closed, selected)
-        # Add selected's sibling to closed if it was a nosplit, otherwise it's still open
-        # sibling <- if (selected %% 2 == 0) selected + 1 else selected - 1
-        # if (sibling %in% g$nosplit) g$closed <- c(g$closed, sibling)
-
-        # +tree: Remove selected from open
-        # Remove selected from open
-        g$open <- setdiff(g$open, selected)
-
-        # +tree: Add selected's children to open
-        # Add selected's children to open
-        g$open <- c(g$open, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$open is now", g$open)
-
-        # Nodes in tree are all closed nodes plus the terminals
-        g$include <- union(union(g$closed, g$terminal), g$open)
-        # -1 subtracts the root from the count
-        g$n.nodes <- length(g$include) - 1
-        if (trace > 1) msg("g$n.nodes is", g$n.nodes)
-        g$n.leaves <- length(g$terminal)
-      } else {
-        g$closed <- c(g$closed, selected)
-        g$open <- setdiff(g$open, selected)
-        if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
-      }
     } # /if (length(g$tree) == 3)
 
     # Update stepindex
@@ -506,23 +514,24 @@ setNodeRC <- function(g,
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
 
-splitLineRC <- function(g,
+splitlineRC <- function(g,
                         type,
                         node.index,
-                        gamma = .01,
+                        gamma,
+                        gamma.on.lin,
                         lin.type,
-                        alpha = 0,
-                        lambda = .01,
-                        lambda.seq = NULL,
-                        cv.glmnet.nfolds = 5,
-                        which.cv.glmnet.lambda = "lambda.1se",
-                        part.minsplit = 2,
-                        part.xval = 0,
-                        part.max.depth = 1,
-                        part.cp = 0,
-                        part.minbucket = 5,
-                        minobsinnode.lin = 5,
-                        nvmax = nvmax,
+                        alpha,
+                        lambda,
+                        lambda.seq,
+                        cv.glmnet.nfolds,
+                        which.cv.glmnet.lambda,
+                        part.minsplit,
+                        part.xval,
+                        part.max.depth,
+                        part.cp,
+                        part.minbucket,
+                        minobsinnode.lin,
+                        nvmax,
                         verbose = TRUE,
                         trace = 0) {
 
@@ -537,6 +546,7 @@ splitLineRC <- function(g,
   }
 
   weights <- node$weights
+  if (trace > 2) table(weights)
 
   # '- [ Split ] ====
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
@@ -723,7 +733,7 @@ splitLineRC <- function(g,
       # msg("nodeVal.left = ", nodeVal.left, "; nodeVal.right = ", nodeVal.right, sep = "")
     }
 
-    # '- Weights -' ====
+    # '- Update Weights -' ====
     weights.left <- weights.right <- weights
     weights.left[right.index] <- weights.left[right.index] * gamma
     weights.right[left.index] <- weights.right[left.index] * gamma
@@ -747,7 +757,7 @@ splitLineRC <- function(g,
         linCoef.left <- rep(0, g$ncolxm)
       } else {
         linCoef.left <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
-                                weights = weights.left,
+                                weights = if (gamma.on.lin) weights.left else ifelse(weights.left == 1, 1, 0),
                                 method = lin.type,
                                 nvmax = nvmax,
                                 alpha = alpha,
@@ -782,7 +792,7 @@ splitLineRC <- function(g,
         linCoef.right <- rep(0, g$ncolxm)
       } else {
         linCoef.right <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
-                                 weights = weights.right,
+                                 weights = if (gamma.on.lin) weights.right else ifelse(weights.right == 1, 1, 0),
                                  method = lin.type,
                                  nvmax = nvmax,
                                  alpha = alpha,
@@ -858,7 +868,7 @@ splitLineRC <- function(g,
   } # /if (is.null(part$splits)) aka Node did split
 
 
-} # rtemis::splitLineRC
+} # rtemis::splitlineRC
 
 
 # [[---F4---]] ====
