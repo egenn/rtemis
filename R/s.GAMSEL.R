@@ -28,6 +28,7 @@ s.GAMSEL <- function(x, y = NULL,
                      resample.seed = NULL,
                      lambda = NULL,
                      force.lambda = NULL, # force gamsel instead of cv.gamsel
+                     min.unique.perfeat = 4,
                      num.lambda = 50,
                      family = NULL,
                      degrees = NULL,
@@ -40,6 +41,7 @@ s.GAMSEL <- function(x, y = NULL,
                      n.folds = 10,
                      which.lambda = c("lambda.min", "lambda.1se"),
                      failsafe = TRUE,
+                     failsafe.lambda = .1,
                      tol = 1e-04,
                      max.iter = 2000,
                      parallel = FALSE,
@@ -122,8 +124,13 @@ s.GAMSEL <- function(x, y = NULL,
     y <- 2 - as.numeric(y)
   }
 
-  # unique_perfeat <- apply(x, 2, function(i) length(unique(i)))
-  # if (trace > 1) cat(".: Unique vals per feat:", unique_perfeat, "\n")
+  unique_perfeat <- apply(x, 2, function(i) length(unique(i)))
+  if (trace > 1) cat(".: Unique vals per feat:", unique_perfeat, "\n")
+  if (any(unique_perfeat < min.unique.perfeat) && failsafe) {
+    # Cannot run cv.gamsel, force lambda
+    force.lambda <- failsafe.lambda
+  }
+
   #
   # if (is.null(degrees)) {
   #   degrees <- sapply(seq_len(n.features), function(i)
