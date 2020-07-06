@@ -88,6 +88,7 @@ Other Supervised Learning:
 \code{\link{s.EVTREE}()},
 \code{\link{s.GAM.default}()},
 \code{\link{s.GAM.formula}()},
+\code{\link{s.GAMSELX}()},
 \code{\link{s.GAMSEL}()},
 \code{\link{s.GAM}()},
 \code{\link{s.GBM3}()},

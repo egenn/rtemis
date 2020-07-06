@@ -132,18 +132,13 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{...}{Additional arguments to be passed to \code{mgcv::gam}}
-
-\item{k}{Integer. Number of bases for smoothing spline}
+\item{...}{Additional arguments}
 }
 \value{
 \link{rtMod}
 }
 \description{
 Trains a GAMSEL model using \code{gamsel2::gamsel}.
-\code{gamsel2} can be installed
-Input will be used to create a formula of the form:
-\deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 }
 \seealso{
 \link{elevate} for external cross-validation
@@ -162,6 +157,7 @@ Other Supervised Learning:
 \code{\link{s.EVTREE}()},
 \code{\link{s.GAM.default}()},
 \code{\link{s.GAM.formula}()},
+\code{\link{s.GAMSELX}()},
 \code{\link{s.GAM}()},
 \code{\link{s.GBM3}()},
 \code{\link{s.GBM}()},

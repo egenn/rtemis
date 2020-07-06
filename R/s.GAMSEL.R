@@ -1,4 +1,4 @@
-# s.GAM.default.R
+# s.GAMSEL.R
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 # TODO: Update to use cv.gamsel similar to s.GLMNET
@@ -7,14 +7,9 @@
 #' Regularized Generalized Additive Model (GAMSEL) [C, R]
 #'
 #' Trains a GAMSEL model using \code{gamsel2::gamsel}.
-#' \code{gamsel2} can be installed
-#' Input will be used to create a formula of the form:
-#' \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 #'
 #' @inheritParams s.GLM
 #' @inheritParams gamsel2::gamsel
-#' @param k Integer. Number of bases for smoothing spline
-#' @param ... Additional arguments to be passed to \code{mgcv::gam}
 #' @return \link{rtMod}
 #' @author Efstathios D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
@@ -89,6 +84,8 @@ s.GAMSEL <- function(x, y = NULL,
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   which.lambda <- match.arg(which.lambda)
+  if (!verbose) print.plot <- FALSE
+  verbose <- verbose | !is.null(logFile)
 
   # [ DATA ] ====
   dt <- dataPrepare(x, y,
@@ -183,6 +180,7 @@ s.GAMSEL <- function(x, y = NULL,
     # in gamsel2, this works with both "gamsel" and "cv.gamsel" objects
     fitted <- c(predict(mod, x, index = lambda.index, type = "response"))
     error.train <- modError(y, fitted)
+    fitted.prob <- NULL
   } else {
     fitted.prob <- c(predict(mod, x, index = lambda.index, type = "response"))
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
@@ -209,6 +207,7 @@ s.GAMSEL <- function(x, y = NULL,
   }
 
   # [ OUTRO ] ====
+  lambda.used <- if (which.lambda == "lambda.min") mod$lambda[mod$lambda.min] else mod$lambda[mod$index.1se]
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
@@ -236,6 +235,7 @@ s.GAMSEL <- function(x, y = NULL,
                                    failsafe = failsafe,
                                    # bases = bases,
                                    which.lambda = which.lambda,
+                                   lambda.used = lambda.used,
                                    tol = tol,
                                    max.iter = max.iter),
                  question = question)
