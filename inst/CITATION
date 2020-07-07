@@ -1,6 +1,6 @@
 citEntry(entry="PhdThesis",
          title = "Towards Precision Psychiatry: Gray Matter Development and Cognition in Adolescence",
-         author = personList(as.person("Gennatas, Efstathios D.")),
+         author = "Gennatas, Efstathios D.",
          year = "2017",
          school = "University of Pennsylvania",
          textVersion = "Gennatas, E. D. (2017). Towards Precision Psychiatry: Gray Matter Development and Cognition in Adolescence (Doctoral dissertation, University of Pennsylvania).",
