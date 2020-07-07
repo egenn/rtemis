@@ -14,6 +14,12 @@
 #' @param border Color for lines around boxes
 #' @param ... Additional arguments to \code{graphics::boxplot}
 #' @author Efstathios D. Gennatas
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
+#' colnames(x) <- c("mango", "banana", "tangerine", "sugar")
+#' mplot3.box(x)
+#' }
 #' @export
 
 mplot3.box <- function(x,
@@ -68,7 +74,7 @@ mplot3.box <- function(x,
     }
   }
   if (is.null(mar)) {
-    mar <- if (is.null(main)) c(2.3, 2.2, .5, .5) else c(2.3, 2.2, 1.5, .5)
+    mar <- if (is.null(main)) c(2.5, 2.5, .5, .5) else c(2.5, 2.5, 1.5, .5)
   }
 
   # Group names
