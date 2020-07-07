@@ -52,7 +52,7 @@ gamselx <- function(x, y,
   if (verbose) msg("Found", length(pairs.index), "significant interactions")
 
   # 3. GAMSELs ====
-  if (verbose) msg("3: Training seconds stage GAMSEL...", color = rtOrange)
+  if (verbose) msg("3: Training second stage GAMSEL...", color = rtOrange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
     if (verbose) msg("Found", NROW(.pairs), "pairwise interactions", color = rtOrange)
@@ -132,8 +132,8 @@ print.gamselx <- function(x, ...) {
   index <- if (which.lambda == "lambda.min") x$mod1$mod$index.min
   summary <- gamsel2:::summarynz(x$mod1$mod$gamsel.fit)[index, , drop = FALSE]
 
-  cat(".: A GAMSELX model with", summary[1], "linear, ", summary[2], "nonlinear, and",
-      NROW(x$pairs), "interaction terms")
+  # cat(".: A GAMSELX model with", summary[1], "linear, ", summary[2], "nonlinear, and",
+  #     NROW(x$pairs), "interaction terms")
   cat(".: A", rtemis:::rtOrange$bold("GAMSELX"), "model with", summary[1], "linear,", summary[2],
       "nonlinear, and", NROW(x$pairs), "interaction terms")
 
