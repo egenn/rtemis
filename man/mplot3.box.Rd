@@ -101,6 +101,13 @@ options(rt.theme = 'lightgrid')}
 \description{
 Draw boxplots
 }
+\examples{
+\dontrun{
+x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
+colnames(x) <- c("mango", "banana", "tangerine", "sugar")
+mplot3.box(x)
+}
+}
 \author{
 Efstathios D. Gennatas
 }
