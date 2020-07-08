@@ -60,7 +60,7 @@ gamselx2 <- function(x, y,
   # 3. Pairwise interactions ====
   if (verbose) msg("Looking for pairwise interactions...", color = rtOrange)
   n.continuous <- NCOL(x.cont)
-  if (n.continuous > 0) {
+  if (n.continuous > 1) {
     xnames.cont <- colnames(x.cont)
     pairs <- outer(seq_len(n.continuous), seq_len(n.continuous), FUN = paste)
     pairs <- pairs[lower.tri(pairs)]
