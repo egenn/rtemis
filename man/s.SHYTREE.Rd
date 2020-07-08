@@ -22,7 +22,7 @@ s.SHYTREE(
   nvmax = 3,
   force.max.leaves = NULL,
   lookback = TRUE,
-  gamma = 0.1,
+  gamma = 0,
   gamma.on.lin = FALSE,
   alpha = 1,
   lambda = 0.05,
