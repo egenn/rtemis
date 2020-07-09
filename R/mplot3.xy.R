@@ -183,6 +183,7 @@ mplot3.xy <- function(x, y = NULL,
                       xpd = TRUE,
                       xaxs = "r",
                       yaxs = "r",
+                      log = "",
                       rsq = NULL,
                       rsq.pval = FALSE,
                       rsq.side = 1,
@@ -620,7 +621,8 @@ mplot3.xy <- function(x, y = NULL,
   plot(NULL, NULL, xlim = xlim, ylim = ylim,
        ann = FALSE,
        axes = FALSE, xaxs = xaxs, yaxs = yaxs,
-       xaxp = xaxp, yaxp = yaxp)
+       xaxp = xaxp, yaxp = yaxp,
+       log = log)
 
   # For rect only: must be AFTER plot(): Adjusted xlim if xaxs = "r"
   if (xaxs == "r") xlim <- c(min(xlim) - .04 * diff(range(xlim)), max(xlim) + .04 * diff(range(xlim)))
@@ -910,7 +912,7 @@ mplot3.xy <- function(x, y = NULL,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-  if (return.lims) return(list(xlim = xlim, ylim = ylim))
+  invisible(list(xlim = xlim, ylim = ylim))
 
 } # rtemis::mplot3.xy
 
