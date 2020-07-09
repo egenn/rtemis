@@ -746,10 +746,12 @@ splitlineRC <- function(g,
       resid2 <- g$y - Fval
     }
 
-    if (!is.null(cutFeat.name) & !is.constant(resid2)) {
+
+    if (!is.null(cutFeat.name)) {
       # Node split and resid2 is not constant
-      if (length(left.index) < minobsinnode.lin) {
-        # Too few observations to fit linear model
+      .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else .resid2w[weights.left == 1]
+      if (length(left.index) < minobsinnode.lin | is.constant(.resid2wleft)) {
+        # Too few observations to fit linear model or weighted outcome constant
         if (trace > 1) msg("Looking at Node #", node.index * 2,
                            ": ", length(left.index),
                            " cases belong to this node: Not fitting any more lines here", sep = "")
@@ -783,8 +785,9 @@ splitlineRC <- function(g,
 
       } # /if (length(left.index) < minobsinnode.lin)
 
-      if (length(right.index) < minobsinnode.lin) {
-        # Too few observations to fit linear model
+      .resid2wright <- if (gamma.on.lin) resid2 * weights.right else .resid2w[weights.right == 1]
+      if (length(right.index) < minobsinnode.lin | is.constant(.resid2wright)) {
+        # Too few observations to fit linear model or weighted outcome constant
         if (trace > 1) msg("Looking at Node #", node.index * 2 + 1,
                            ": ", length(right.index),
                            " cases belong to this node: Not fitting any more lines here", sep = "")
