@@ -26,6 +26,7 @@ mplot3.xy(
   xpd = TRUE,
   xaxs = "r",
   yaxs = "r",
+  log = "",
   rsq = NULL,
   rsq.pval = FALSE,
   rsq.side = 1,
