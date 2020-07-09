@@ -54,12 +54,14 @@ mplot3.bar <- function(x,
                        xnames.at = NULL,
                        color.bygroup = FALSE,
                        group.legend = NULL,
+                       legend.x = NULL,
+                       legend.y = NULL,
                        # legend.side = 3,
-                       legend.adj = 0,
-                       legend.at = NA,
+                       # legend.adj = 0,
+                       # legend.at = NA,
                        group.names = NULL,
-                       legend.position = "topright",
-                       legend.inset = c(0, 0),
+                       # legend.position = "topright",
+                       # legend.inset = c(0, 0),
                        legend.font = 1, #1: regular, 2: bold
                        bartoplabels = NULL,
                        mar = c(3, 2.5, 2.5, 1),
@@ -275,8 +277,10 @@ mplot3.bar <- function(x,
 
   # [ GROUP LEGEND ] ====
   if (group.legend) {
-    text(rep(xlim[2] + .01 * diff(xlim), n),
-         seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n),
+    if (is.null(legend.x)) legend.x <- rep(xlim[2] + .01 * diff(xlim), n)
+    if (is.null(legend.y)) legend.y <- seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n)
+    text(legend.x,
+         legend.y,
          group.names,
          adj = 0,
          cex = 1,
