@@ -26,28 +26,31 @@
 #' @export
 
 s.GAMSELX2 <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      x.name = NULL, y.name = NULL,
-                      data = NULL,
-                      data.test = NULL,
-                      # GAMSELX2
-                      gamsel.params1 = list(),
-                      pairs.on.resid = TRUE,
-                      p.adjust.method = "holm",
-                      alpha = .05,
-                      gamsel.params2 = gamsel.params1,
-                      # /GAMSELX2
-                      verbose = TRUE,
-                      trace = 0,
-                      print.plot = TRUE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                      na.action = na.exclude,
-                      question = NULL,
-                      n.cores = 1,
-                      outdir = NULL,
-                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                       x.test = NULL, y.test = NULL,
+                       x.name = NULL, y.name = NULL,
+                       data = NULL,
+                       data.test = NULL,
+                       autopreprocess = TRUE, # convert low uniqueval to factor
+                       min.unique.perfeat = 9,
+                       # GAMSELX2
+                       cart.params = list(maxdepth = 4, cp = .1),
+                       gamsel.params1 = list(),
+                       pairs.on.resid = TRUE,
+                       p.adjust.method = "holm",
+                       alpha = .05,
+                       gamsel.params2 = gamsel.params1,
+                       # /GAMSELX2
+                       verbose = TRUE,
+                       trace = 0,
+                       print.plot = TRUE,
+                       plot.fitted = NULL,
+                       plot.predicted = NULL,
+                       plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                       na.action = na.exclude,
+                       question = NULL,
+                       n.cores = 1,
+                       outdir = NULL,
+                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -107,26 +110,36 @@ s.GAMSELX2 <- function(x, y = NULL,
   if (is.null(family)) {
     family <- if (type == "Regression") "gaussian" else "binomial"
   }
-  n.features <- NCOL(x)
 
-  y0 <- y
+  # y0 <- y
   # if (type == "Classification") {
   #   y <- 2 - as.numeric(y)
   # }
 
-
+  # [ Autopreprocess ] ====
+  if (autopreprocess) {
+    n.unique.perfeat <- apply(x, 2, function(i) length(unique(i)))
+    tofactor <- which(n.unique.perfeat < min.unique.perfeat)
+    if (length(tofactor) > 0) {
+      if (verbose) msg("Autopreprocessing: Converting features", tofactor, "to factor")
+      for (i in tofactor) x[, i] <- factor(x[, i])
+    }
+  } else {
+    tofactor <- NULL
+  }
 
   # [ GAMSELX2 ] ====
   if (verbose) msg("Training GAMSELX2...", newline.pre = TRUE)
   mod <- gamselx2(x, y,
-                 gamsel.params1 = gamsel.params1,
-                 pairs.on.resid = pairs.on.resid,
-                 p.adjust.method = p.adjust.method,
-                 gamsel.params2 = gamsel.params2,
-                 alpha = alpha,
-                 n.cores = n.cores,
-                 verbose = verbose,
-                 trace = trace)
+                  gamsel.params1 = gamsel.params1,
+                  pairs.on.resid = pairs.on.resid,
+                  p.adjust.method = p.adjust.method,
+                  gamsel.params2 = gamsel.params2,
+                  alpha = alpha,
+                  n.cores = n.cores,
+                  verbose = verbose,
+                  trace = trace)
+  mod$tofactor <- tofactor
 
   # [ FITTED ] ====
   # if (type == "Regression") {
@@ -163,7 +176,7 @@ s.GAMSELX2 <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
-                 y.train = y0,
+                 y.train = y,
                  y.test = y.test,
                  x.name = x.name,
                  y.name = y.name,

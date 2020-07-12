@@ -33,7 +33,7 @@ gamselx2 <- function(x, y,
   # 1. CART on categorical ====
   # todo: consider auto-depth based on f(n of possible combinations)
   if (n.cat > 0) {
-    cart.args <- c(list(x = x[, index.cat], y = y - F),
+    cart.args <- c(list(x = x[, index.cat, drop = FALSE], y = y - F),
                    cart.params,
                    verbose = trace > 1,
                    print.plot = FALSE)
@@ -64,10 +64,10 @@ gamselx2 <- function(x, y,
     xnames.cont <- colnames(x.cont)
     pairs <- outer(seq_len(n.continuous), seq_len(n.continuous), FUN = paste)
     pairs <- pairs[lower.tri(pairs)]
-    pairs <- t(sapply(strsplit(pairs, " "), as.numeric))[, c(2, 1)]
-    n.pairs <- NROW(pairs)
-    if (trace > 0) msg("Running", n.pairs, "pairwise GLMs")
-    # pairy <- if (pairs.on.resid) y - mod1$fitted else y
+    n.pairs <- length(pairs)
+    pairs <- matrix(t(sapply(strsplit(pairs, " "), as.numeric))[, c(2, 1)], n.pairs)
+
+    if (trace > 0) msg("Running", n.pairs, "pairwise", ifelse(n.pairs == 1, "GLM", "GLMs"))
     resid <- y - F
     lapply(seq_len(n.pairs), function(i) {
       if (trace > 0) cat(i, "..")
@@ -76,7 +76,8 @@ gamselx2 <- function(x, y,
     }) %>% p.adjust(method = p.adjust.method) -> pairwise.glm.pvals.adj
     if (trace > 0) msg("Done")
     pairs.index <- which(pairwise.glm.pvals.adj < alpha)
-    if (verbose) msg("Found", length(pairs.index), "significant interactions")
+    if (verbose) msg("Found", length(pairs.index), "significant",
+                     ifelse(length(pairs.index) == 1, "interaction", "interactions"))
   } else {
     pairs <- pairwise.glm.pvals.adj <- NULL
   }
@@ -85,12 +86,14 @@ gamselx2 <- function(x, y,
   if (verbose) msg("Training second stage GAMSEL...", color = rtOrange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
-    if (verbose) msg("Found", NROW(.pairs), "pairwise interactions", color = rtOrange)
+    if (verbose) msg("Found", NROW(.pairs), "pairwise",
+                     ifelse(NROW(.pairs) == 1, "interaction", "interactions"),
+                     color = rtOrange)
     extnames <- sapply(seq_along(pairs.index), function(i) {
       paste(xnames.cont[.pairs[i, 1]], xnames.cont[.pairs[i, 2]], sep = "x")
     })
     ext <- sapply(seq_along(pairs.index), function(i) {
-      x[, .pairs[i, 1]] * x[, .pairs[i, 2]]
+      x.cont[, .pairs[i, 1]] * x.cont[, .pairs[i, 2]]
     })
     colnames(ext) <- extnames
 
@@ -125,6 +128,13 @@ gamselx2 <- function(x, y,
 
 }
 
+#' Predict Method for gamselx2 Fits
+#'
+#' Obtains predictions from a fitted gamselx2 model object
+#'
+#' @author Efstathios D. Gennatas
+#' @export
+
 predict.gamselx2 <- function(object, newdata = NULL, ...) {
 
   if (is.null(newdata)) return(object$fitted)
@@ -134,6 +144,11 @@ predict.gamselx2 <- function(object, newdata = NULL, ...) {
   }
   # xnames <- colnames(newdata)
 
+  # autopreprocess
+  if (!is.null(object$tofactor)) {
+    for (i in object$tofactor) newdata[, i] <- factor(newdata[, i])
+  }
+
   n.pairs <- NROW(object$pairs)
   index.cat <- object$index.cat
 
@@ -142,8 +157,10 @@ predict.gamselx2 <- function(object, newdata = NULL, ...) {
     # extnames <- sapply(seq_len(n.pairs), function(i) {
     #   paste(xnames[object$pairs[i, 1]], xnames[object$pairs[i, 2]], sep = "x")
     # })
+    newdata.cont <- if (length(index.cat) > 0) newdata[, -index.cat, drop = FALSE] else newdata
     ext <- sapply(seq_len(n.pairs), function(i) {
-      newdata[, object$pairs[i, 1]] * newdata[, object$pairs[i, 2]]
+      newdata.cont[, object$pairs[i, 1]] *
+        newdata.cont[, object$pairs[i, 2]]
     })
     colnames(ext) <- object$extnames
   } else {
@@ -151,8 +168,8 @@ predict.gamselx2 <- function(object, newdata = NULL, ...) {
   }
 
   object$init +
-    predict(object$mod1, newdata[, object$index.cat]) +
-    predict(object$mod2, if (length(index.cat) > 0) newdata[, -index.cat] else newdata) +
+    predict(object$mod1, newdata[, object$index.cat, drop = FALSE]) +
+    predict(object$mod2, if (length(index.cat) > 0) newdata[, -index.cat, drop = FALSE] else newdata) +
     predict(object$mod3, ext)
 
 }
