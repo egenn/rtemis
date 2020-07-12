@@ -34,7 +34,7 @@
 
 mplot3.img <- function(z,
                        as.mat = TRUE,
-                       col = colorGrad(101, space = "rgb"),
+                       col = NULL,
                        xnames = NULL,
                        xnames.y = 0,
                        ynames = NULL,
@@ -132,9 +132,11 @@ mplot3.img <- function(z,
   if (is.null(cex.y)) cex.y <- cex.ax
 
   # [ THEMES ] ====
-  if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- theme$fg
   if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$fg
-
+  if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- if (mean(col2rgb(theme$bg)) > 127) theme$bg else theme$fg
+  if (is.null(col)) {
+    colorGrad(101, lo = "#18A3AC", mid = theme$bg, hi = "#F48024")
+  }
   # [ IMAGE ] ====
   if (!is.null(filename)) {
     graphics <- gsub(".*\\.", "", filename)
@@ -143,13 +145,13 @@ mplot3.img <- function(z,
     }
   }
   if (as.mat) {
-    x <- 1:NCOL(z)
-    y <- 1:NROW(z)
+    x <- seq_len(NCOL(z))
+    y <- seq_len(NROW(z))
     z <- t(apply(z, 2, rev))
     if (!is.null(ynames)) ynames <- rev(ynames)
   } else {
-    x <- 1:NROW(z)
-    y <- 1:NCOL(z)
+    x <- seq_len(NROW(z))
+    y <- seq_len(NCOL(z))
   }
 
   # pdf() has argument "file", bmp(), jpeg(), png(), and tiff() have "filename";
