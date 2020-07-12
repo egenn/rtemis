@@ -725,12 +725,10 @@ splitlineRC <- function(g,
     Fval[right.index] <- Fval[right.index] + nodeVal.right
 
     if (.class && trace > 1) {
-      # msg("firstDerLeft = ", firstDerLeft, "; firstDerRgit = ", firstDerRight, sep = "")
       msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
           weightedFirstDerRight, sep = "")
       msg("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
           weightedSecDerRight, sep = "")
-      # msg("nodeVal.left = ", nodeVal.left, "; nodeVal.right = ", nodeVal.right, sep = "")
     }
 
     # '- Update Weights -' ====
@@ -746,12 +744,11 @@ splitlineRC <- function(g,
       resid2 <- g$y - Fval
     }
 
-
     if (!is.null(cutFeat.name)) {
-      # Node split and resid2 is not constant
+      # Node split
       .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[weights.left == 1]
       if (length(left.index) < minobsinnode.lin | is.constant(.resid2wleft)) {
-        # Too few observations to fit linear model or weighted outcome constant
+        # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) msg("Looking at Node #", node.index * 2,
                            ": ", length(left.index),
                            " cases belong to this node: Not fitting any more lines here", sep = "")
@@ -787,7 +784,7 @@ splitlineRC <- function(g,
 
       .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[weights.right == 1]
       if (length(right.index) < minobsinnode.lin | is.constant(.resid2wright)) {
-        # Too few observations to fit linear model or weighted outcome constant
+        # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) msg("Looking at Node #", node.index * 2 + 1,
                            ": ", length(right.index),
                            " cases belong to this node: Not fitting any more lines here", sep = "")
@@ -930,13 +927,6 @@ predict.shytreegamleaves <- function(object, newdata,
     } else {
       rule.ids <- object$stepindex[[paste(n.leaves)]]
       rules <- sapply(rule.ids, function(j) object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == j])
-      # Could get rules from tree, same difference?
-      # rules <- sapply(rule.ids, function(i) object$tree[[paste(i)]]$rule)
-      # coefs <- data.matrix(plyr::ldply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, ]))
-      # ldply can't handle columns with duplicate names
-      # sapply gives matrix of lists
-      # coefs <- data.matrix(t(sapply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, ])))
-
 
       # '-- Cases x Rules ====
       if (is.null(fixed.cxr)) {
@@ -1003,7 +993,6 @@ predict.shytreegamleaves <- function(object, newdata,
 
   } else {
     # >>> type == "step": Get predictions at each step
-    # rules <- vector("list", length(n.leaves))
     max.leaves <- max(sapply(object$stepindex, length))
 
     if (max.leaves == 1) {
