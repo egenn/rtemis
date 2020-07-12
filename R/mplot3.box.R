@@ -42,6 +42,7 @@ mplot3.box <- function(x,
                        group.names.y = NULL,
                        group.names.font = 1,
                        group.names.adj = .5,
+                       group.names.pos = NULL,
                        group.names.srt = 0,
                        legend = FALSE,
                        legend.names = NULL,
@@ -74,7 +75,7 @@ mplot3.box <- function(x,
     }
   }
   if (is.null(mar)) {
-    mar <- if (is.null(main)) c(2.5, 2.5, .5, .5) else c(2.5, 2.5, 1.5, .5)
+    mar <- if (is.null(main)) c(2.5, 3, .5, .5) else c(2.5, 3, 1.5, .5)
   }
 
   # Group names
@@ -188,6 +189,7 @@ mplot3.box <- function(x,
     text(x = group.names.at, y = group.names.y,
          labels = group.names,
          adj = group.names.adj,
+         pos = group.names.pos,
          srt = group.names.srt, xpd = TRUE,
          font = group.names.font,
          col = theme$labs.col,
