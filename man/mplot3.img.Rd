@@ -7,7 +7,7 @@
 mplot3.img(
   z,
   as.mat = TRUE,
-  col = colorGrad(101, space = "rgb"),
+  col = NULL,
   xnames = NULL,
   xnames.y = 0,
   ynames = NULL,

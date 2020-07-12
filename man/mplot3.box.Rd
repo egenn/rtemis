@@ -25,6 +25,7 @@ mplot3.box(
   group.names.y = NULL,
   group.names.font = 1,
   group.names.adj = 0.5,
+  group.names.pos = NULL,
   group.names.srt = 0,
   legend = FALSE,
   legend.names = NULL,
