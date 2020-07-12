@@ -216,7 +216,7 @@ mplot3.xy <- function(x, y = NULL,
                       ylab.line = 2,
                       xlab.adj = .5,
                       ylab.adj = .5,
-                      mar = c(2.5, 3, 1.5, 1), # c(3, 3, 3, 1),
+                      mar = c(2.5, 3, 2, 1), # c(3, 3, 3, 1),
                       pch = ifelse(is.null(point.bg.col), 16, 21),
                       point.cex = .85,
                       point.bg.col = NULL,
@@ -277,7 +277,6 @@ mplot3.xy <- function(x, y = NULL,
                       alpha.off = FALSE,
                       autolabel = letters,
                       new = FALSE,
-                      set.par = TRUE,
                       par.reset = TRUE,
                       return.lims = FALSE,
                       pdf.width = 6,
@@ -317,6 +316,10 @@ mplot3.xy <- function(x, y = NULL,
   if (is.null(y.axis.hadj)) {
     y.axis.hadj <- if (y.axis.las == 1) 1 else .5
   }
+
+  .log <- strsplit(log, "")[[1]]
+  if ("x" %in% .log) xaxs <- "i"
+  if ("y" %in% .log) yaxs <- "i"
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
@@ -614,10 +617,7 @@ mplot3.xy <- function(x, y = NULL,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  # Check: why set.par
-  if (set.par) {
-    par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar)
-  }
+  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar)
   plot(NULL, NULL, xlim = xlim, ylim = ylim,
        ann = FALSE,
        axes = FALSE, xaxs = xaxs, yaxs = yaxs,
