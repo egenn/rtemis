@@ -1,13 +1,17 @@
 # staticGraphics_tests.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas MBBS AICSM PhD egenn.github.io
+# 2018-20 Efstathios D. Gennatas MBBS AICSM PhD egenn.github.io
 
 library(rtemis)
 
 # Synth data ====
 x <- rnorm(50)
 y <- .33 * x + 12 + rnorm(50)/3
-z <- rnormmat(10, 5, seed = 2018, return.df = T)
+n.col <- 5
+n.row <- 10
+z <- rnormmat(n.row, n.col, seed = 2018, return.df = T)
+colnames(z) <- paste0("Col", seq(n.col))
+rownames(z) <- paste0("Row", seq(n.row))
 
 true <- sample(0:1, 20, TRUE)
 estimated <- true
@@ -80,6 +84,11 @@ mplot3.harmonograph()
 mplot3.heatmap(cor(z))
 
 # mplot3.img ====
+z[] <- as.numeric(seq(n.col*n.row))
+# Check column names, row names, values, with as.mat TRUE and FALSE
+mplot3.img(z)
+mplot3.img(z, as.mat = F)
+rownames(z) <- sapply(1:10, function(i) paste0(rep(letters[i], 10), collapse = ""))
 mplot3.img(z)
 
 # mplot3.res ====

@@ -60,9 +60,7 @@ mplot3.x(
   text.xy.col = "white",
   line.col = "#008E00",
   x.axis.padj = -1.1,
-  xlab.line = 1.3,
   y.axis.padj = 0.9,
-  ylab.line = 1.6,
   labs.col = NULL,
   lab.adj = 0.5,
   density.mean = ifelse(type == "density", TRUE, FALSE),
@@ -79,7 +77,7 @@ mplot3.x(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   pty = "m",
-  mar = c(2.5, 3, 1.5, 1),
+  mar = c(2.5, 3, 2, 1),
   xaxs = "r",
   yaxs = "r",
   autolabel = letters,
@@ -154,11 +152,7 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 
 \item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 
-\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
-
 \item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
-
-\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{labs.col}{Color for labels}
 

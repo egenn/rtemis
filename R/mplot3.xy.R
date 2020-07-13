@@ -201,19 +201,19 @@ mplot3.xy <- function(x, y = NULL,
                       annotation = NULL,
                       annotation.col = NULL,
                       tick.col = NULL,
-                      x.axis.line = 0,
                       x.axis.at = NULL,
-                      x.axis.padj = -1.1,
-                      x.axis.hadj = .5,
+                      # x.axis.line = 0,
+                      # y.axis.las = 0,
+                      # x.axis.padj = -1.1,
+                      # x.axis.hadj = .5,
                       x.axis.labs = TRUE,
-                      y.axis.line = 0,
+                      # y.axis.line = 0,
                       y.axis.at = NULL,
-                      y.axis.las = 0,
                       y.axis.labs = TRUE,
-                      xlab.line = 1.4,
-                      y.axis.padj = NULL, # .5 for las = 1
-                      y.axis.hadj = NULL, # 1 for las = 1
-                      ylab.line = 2,
+                      # xlab.line = 1.4,
+                      # y.axis.padj = NULL, # .5 for las = 1
+                      # y.axis.hadj = NULL, # 1 for las = 1
+                      # ylab.line = 2,
                       xlab.adj = .5,
                       ylab.adj = .5,
                       mar = c(2.5, 3, 2, 1), # c(3, 3, 3, 1),
@@ -309,13 +309,13 @@ mplot3.xy <- function(x, y = NULL,
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
   }
 
-  if (is.null(y.axis.padj)) {
-    y.axis.padj <- if (y.axis.las == 1) .5 else 1
-  }
-
-  if (is.null(y.axis.hadj)) {
-    y.axis.hadj <- if (y.axis.las == 1) 1 else .5
-  }
+  # if (is.null(y.axis.padj)) {
+  #   y.axis.padj <- if (y.axis.las == 1) .5 else 1
+  # }
+  #
+  # if (is.null(y.axis.hadj)) {
+  #   y.axis.hadj <- if (y.axis.las == 1) 1 else .5
+  # }
 
   .log <- strsplit(log, "")[[1]]
   if ("x" %in% .log) xaxs <- "i"
@@ -638,36 +638,39 @@ mplot3.xy <- function(x, y = NULL,
   # col.ticks: color of the ticks themselves
   if (theme$axes.visible) {
     axis(side = theme$x.axis.side,
-         line = x.axis.line,
+         line = theme$x.axis.line,
          at = x.axis.at,
          labels = x.axis.labs, col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = x.axis.padj,
-         hadj = x.axis.hadj,
+         las = theme$x.axis.las,
+         padj = theme$x.axis.padj,
+         hadj = theme$x.axis.hadj,
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
          family = theme$font.family)
     axis(side = theme$y.axis.side,
-         line = y.axis.line,
+         line = theme$y.axis.line,
          at = y.axis.at,
          labels = y.axis.labs, col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj,
-         hadj = y.axis.hadj,
+         las = theme$y.axis.las,
+         padj = theme$y.axis.padj,
+         hadj = theme$y.axis.hadj,
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
-         las = y.axis.las,
          family = theme$font.family)
     mtext(xlab, side = theme$x.axis.side,
-          line = xlab.line, cex = theme$cex,
+          line = theme$xlab.line,
+          cex = theme$cex,
           adj = xlab.adj, col = theme$labs.col,
           family = theme$font.family)
     mtext(ylab, side = theme$y.axis.side,
-          line = ylab.line, cex = theme$cex,
+          line = theme$ylab.line,
+          cex = theme$cex,
           adj = ylab.adj, col = theme$labs.col,
           family = theme$font.family)
   }

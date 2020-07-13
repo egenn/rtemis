@@ -43,19 +43,10 @@ mplot3.xy(
   annotation = NULL,
   annotation.col = NULL,
   tick.col = NULL,
-  x.axis.line = 0,
   x.axis.at = NULL,
-  x.axis.padj = -1.1,
-  x.axis.hadj = 0.5,
   x.axis.labs = TRUE,
-  y.axis.line = 0,
   y.axis.at = NULL,
-  y.axis.las = 0,
   y.axis.labs = TRUE,
-  xlab.line = 1.4,
-  y.axis.padj = NULL,
-  y.axis.hadj = NULL,
-  ylab.line = 2,
   xlab.adj = 0.5,
   ylab.adj = 0.5,
   mar = c(2.5, 3, 2, 1),
@@ -218,19 +209,11 @@ Default = "r"}
 \item{x.axis.at}{Float, vector: x coordinates to place tick marks. Default = NULL, determined by
 \code{graphics::axis} aautomatically}
 
-\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
-
 \item{x.axis.labs}{See \code{axis("labels")}}
 
 \item{y.axis.at}{As \code{x.axis.at} for y-axis}
 
 \item{y.axis.labs}{See \code{axis("labels")}}
-
-\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
-
-\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
-
-\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{xlab.adj}{Float: \code{adj} for \code{xlab} (See \code{par("adj")})}
 
@@ -325,6 +308,14 @@ otherwise FALSE}
 \item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
 
 \item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
+
+\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
+
+\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
+
+\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
+
+\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 }
 \description{
 Plot points and lines with optional fits and standard error bands

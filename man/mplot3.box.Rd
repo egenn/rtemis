@@ -14,9 +14,7 @@ mplot3.box(
   xlim = NULL,
   ylim = NULL,
   xlab = NULL,
-  xlab.line = 1.5,
   ylab = NULL,
-  ylab.line = 1.5,
   main = NULL,
   names.arg = NULL,
   axisnames = FALSE,
@@ -37,11 +35,8 @@ mplot3.box(
   cex.names = cex,
   yaxis = TRUE,
   ylim.pad = 0,
-  y.axis.padj = 0.5,
-  y.axis.hadj = 1,
-  y.axis.line = 0,
-  y.axis.las = 1,
   theme = getOption("rt.theme", "lightgrid"),
+  autolabel = letters,
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   pdf.width = 6,
@@ -65,11 +60,7 @@ mplot3.box(
 
 \item{xlab}{Character: x-axis label}
 
-\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
-
 \item{ylab}{Character: y-axis label}
-
-\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{main}{Character: Plot title}
 
@@ -79,8 +70,6 @@ mplot3.box(
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
-
-\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.

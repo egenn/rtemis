@@ -18,9 +18,7 @@ mplot3.bar(
   xlim = NULL,
   ylim = NULL,
   xlab = NULL,
-  xlab.line = 1.5,
   ylab = NULL,
-  ylab.line = 1.5,
   main = NULL,
   las = 1.5,
   xnames = NULL,
@@ -38,15 +36,14 @@ mplot3.bar(
   group.names = NULL,
   legend.font = 1,
   bartoplabels = NULL,
-  mar = c(3, 2.5, 2.5, 1),
+  mar = c(2.5, 3, 2, 1),
   pty = "m",
   barplot.axes = FALSE,
   yaxis = TRUE,
   ylim.pad = 0.04,
-  y.axis.padj = 1,
-  tck = -0.015,
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
+  autolabel = letters,
   par.reset = TRUE,
   pdf.width = 6,
   pdf.height = 6,
@@ -75,11 +72,7 @@ within group and between groups. Default = c(0, 1) if x is matrix and \code{besi
 
 \item{xlab}{Character: x-axis label}
 
-\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
-
 \item{ylab}{Character: y-axis label}
-
-\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{main}{Character: Plot title}
 
@@ -94,10 +87,6 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
-
-\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
-
-\item{tck}{Float: Tick length. Can be negative (See \code{par("tck")})}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.

@@ -39,9 +39,9 @@ mplot3.bar <- function(x,
                        xlim = NULL,
                        ylim = NULL,
                        xlab = NULL,
-                       xlab.line = 1.5,
+                       # xlab.line = 1.5,
                        ylab = NULL,
-                       ylab.line = 1.5,
+                       # ylab.line = 1.5,
                        main = NULL,
                        las = 1.5,
                        xnames = NULL,
@@ -64,15 +64,16 @@ mplot3.bar <- function(x,
                        # legend.inset = c(0, 0),
                        legend.font = 1, #1: regular, 2: bold
                        bartoplabels = NULL,
-                       mar = c(3, 2.5, 2.5, 1),
+                       mar = c(2.5, 3, 2, 1),
                        pty = "m",
                        barplot.axes = FALSE,
                        yaxis = TRUE,
                        ylim.pad = .04,
-                       y.axis.padj = 1,
-                       tck = -.015,
+                       # y.axis.padj = 1,
+                       # tck = -.015,
                        theme = getOption("rt.theme", "lightgrid"),
                        palette = getOption("rt.palette", "rtCol1"),
+                       autolabel = letters,
                        par.reset = TRUE,
                        pdf.width = 6,
                        pdf.height = 6,
@@ -238,10 +239,14 @@ mplot3.bar <- function(x,
   # [ y AXIS ] ====
   if (yaxis) {
     axis(side = 2,
+         line = theme$y.axis.line,
+         las = theme$y.axis.las,
+         padj = theme$y.axis.padj,
+         hadj = theme$y.axis.hadj,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj, tck = tck,
+         tck = theme$tck,
          cex = theme$cex,
          family = theme$font.family)
   }
@@ -292,12 +297,18 @@ mplot3.bar <- function(x,
 
   # [ AXIS LABS ] ====
   if (!is.null(xlab))  {
-    mtext(xlab, 1, cex = theme$cex, line = xlab.line,
-          col = theme$labs.col, family = theme$font.family)
+    mtext(xlab, 1,
+          cex = theme$cex,
+          line = theme$xlab.line,
+          col = theme$labs.col,
+          family = theme$font.family)
   }
   if (!is.null(ylab))  {
-    mtext(ylab, 2, cex = theme$cex, line = ylab.line,
-          col = theme$labs.col, family = theme$font.family)
+    mtext(ylab, 2,
+          cex = theme$cex,
+          line = theme$ylab.line,
+          col = theme$labs.col,
+          family = theme$font.family)
   }
 
   # [ BARTOP LABELS ] ====
