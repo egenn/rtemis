@@ -18,7 +18,8 @@
 #' }
 #' @export
 
-mplot3.res <- function(res, col = NULL,
+mplot3.res <- function(res,
+                       col = NULL,
                        mar = NULL,
                        theme = getOption("rt.theme", "lightgrid"), ...) {
 
@@ -37,13 +38,12 @@ mplot3.res <- function(res, col = NULL,
   nlevels <- max(resn) * 2 + 1
   if (is.null(col)) col <- colorGrad(nlevels, mid = theme$bg, midhi = ucsfCol$blue, hi = ucsfCol$teal)
   ynames <- names(res)
-  if (is.null(mar)) mar <- c(2, 7, 2, .5)
+  # if (is.null(mar)) mar <- c(2, 7, 2, .5)
 
   # [ Plot ] ====
   mplot3.img(resn,
              theme = theme,
              col = col,
-             ynames = ynames,
              y.axis.las = 2,
              xlab = "Cases",
              xlab.line = 0.5,
