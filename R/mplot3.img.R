@@ -152,7 +152,6 @@ mplot3.img <- function(z,
   if (is.null(.xnames)) .xnames <- if (!is.null(rownames(z))) rownames(z)
   if (is.null(.ynames)) .ynames <- if (!is.null(colnames(z))) colnames(z)
 
-
   if (as.mat) {
     x <- seq_len(NCOL(z))
     y <- seq_len(NROW(z))
@@ -185,7 +184,7 @@ mplot3.img <- function(z,
         asp = asp, ann = ann, axes = axes, ...)
 
   # [ TICK NAMES ] ====
-  if (!is.null(.xnames)) {
+  if (!is.null(if (as.mat) .ynames else .xnames)) {
     axis(side = theme$x.axis.side,
          at = seq_along(x),
          labels = if (as.mat) .ynames else .xnames,
@@ -196,7 +195,7 @@ mplot3.img <- function(z,
          cex = theme$cex,
          family = theme$font.family)
   }
-  if (!is.null(.ynames)) {
+  if (!is.null(if (as.mat) rev(.xnames) else .ynames)) {
     axis(side = theme$y.axis.side,
          at = seq_along(y),
          labels = if (as.mat) rev(.xnames) else .ynames,
