@@ -173,9 +173,11 @@ mplot3.img <- function(z,
 
   # Automar
   if (is.null(mar)) {
+    mar1maxchar <- if (as.mat) max(1, nchar(.ynames)) else max(1, nchar(.xnames))
+    mar1 <- 1.5 + .5 * mar1maxchar
     mar2maxchar <- if (as.mat) max(1, nchar(.xnames)) else max(1, nchar(.ynames))
     mar2 <- 1.5 + .5 * mar2maxchar
-    mar <- c(2.5, mar2, 2., 1)
+    mar <- c(mar1, mar2, 2., 1)
   }
 
   par(pty = pty, mar = mar, bg = theme$bg)
@@ -249,5 +251,7 @@ mplot3.img <- function(z,
   }
 
   if (!is.null(filename)) grDevices::dev.off()
+
+  invisible(list(mar = mar, zlim = zlim))
 
 } # rtemis::mplot3.img
