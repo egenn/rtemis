@@ -2,8 +2,12 @@
 # ::rtemis::
 # Efstathios D. Gennatas egenn.github.io
 
-#' Set lambda theme for RStudio
+#' Apply rtemis theme for RStudio
 #'
+#' Apply the rtemis RStudio theme, a slight adaptation of the excellent rscodeio theme
+#' (https://github.com/anthonynorth/rscodeio)
+#' Recommended to use the Fira Code font with the theme
+#' (https://fonts.google.com/specimen/Fira+Code?query=fira+code)
 #' @export
 
 rstudio_theme_rtemis <- function() {
