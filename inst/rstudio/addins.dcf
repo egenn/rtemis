@@ -2,3 +2,8 @@ Name: Initialize Project Directory
 Description: Create 'R', 'Data', and 'Results' folders under working directory; save session info.
 Binding: rtInitProjectDir
 Interactive: false
+
+Name: Apply rtemis RStudio theme
+Description: Add and apply rtemis RStudio dark theme
+Binding: rstudio_theme_rtemis
+Interactive: false
