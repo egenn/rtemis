@@ -287,7 +287,8 @@ rtMod <- R6::R6Class("rtMod",
                              cat("Grid search was performed on:\n")
                              printls(searched)
                            }
-                           cat(metric, "was", ifelse(self$extra$gridSearch$maximize, "maximized", "minimized"), "with:")
+                           cat(metric, "was", ifelse(self$extra$gridSearch$maximize,
+                                                     "maximized", "minimized"), "with:")
                            printls(self$extra$gridSearch$best.tune)
                          }
 
@@ -444,7 +445,8 @@ predict.rtMod <- function(object,
     } else if (object$mod.name == "RANGER") {
       predict.ranger <- getFromNamespace("predict.ranger", "ranger")
       estimated <- predict.ranger(object$mod, data = newdata, ...)$predictions
-    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" | object$mod.name == "XGBDART") {
+    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" |
+               object$mod.name == "XGBDART") {
       # XGB: must convert newdata to xgb.DMatrix
       estimated <- predict(object$mod, newdata = xgboost::xgb.DMatrix(as.matrix(newdata)))
     } else if (object$mod.name == "MXFFN") {
@@ -643,8 +645,10 @@ summary.rtMod <- function(object,
                  col = pennCol$blue, qqline.col = pennCol$green,
                  cex = cex, theme = theme, par.reset = pr, ...)
       }
-      if (is.null(title.col)) title.col <- ifelse(theme == "box" | theme == "light", "black", "white")
-      mtext(paste(object$mod.name, "diagnostic plots"), outer = TRUE, cex = 1.5, line = -0.5, col = title.col)
+      if (is.null(title.col)) title.col <- ifelse(theme == "box" |
+                                                    theme == "light", "black", "white")
+      mtext(paste(object$mod.name, "diagnostic plots"), outer = TRUE,
+            cex = 1.5, line = -0.5, col = title.col)
     }
   } # /plots
 
@@ -662,7 +666,7 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
   if (!is.null(object$varimp)) {
     object$varimp
   } else {
-    if (verbose) msg("Coefficients (or variable importance) are not currently supported for model of type", object$mod.name)
+    if (verbose) msg("Variable importance not available for model of type", object$mod.name)
   }
 
 } # rtemis::coef.rtMod
@@ -720,7 +724,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                           self$predicted.prob <- predicted.prob
                                         },
                                         ### Methods
-                                        plotROC = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotROC = function(theme = getOption("rt.fit.theme",
+                                                                             "lightgrid"),
                                                            filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -733,7 +738,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCfitted = function(main = "ROC Training",
-                                                                 theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                 theme = getOption("rt.fit.theme",
+                                                                                   "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3.roc(self$fitted.prob, self$y.train,
@@ -745,7 +751,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCpredicted = function(main = "ROC Testing",
-                                                                    theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                    theme = getOption("rt.fit.theme",
+                                                                                      "lightgrid"),
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3.roc(self$predicted.prob, self$y.test,
@@ -756,7 +763,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
-                                        plotPR = function(theme = getOption("rt.fit.theme", "lightgrid"),
+                                        plotPR = function(theme = getOption("rt.fit.theme",
+                                                                            "lightgrid"),
                                                           filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -769,7 +777,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRfitted = function(main = "P-R Training",
-                                                                theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                theme = getOption("rt.fit.theme",
+                                                                                  "lightgrid"),
                                                                 filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3.pr(self$fitted.prob, self$y.train,
@@ -781,7 +790,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRpredicted = function(main = "P-R Testing",
-                                                                   theme = getOption("rt.fit.theme", "lightgrid"),
+                                                                   theme = getOption("rt.fit.theme",
+                                                                                     "lightgrid"),
                                                                    filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3.pr(self$predicted.prob, self$y.test,
@@ -808,7 +818,8 @@ rtModClass <- R6::R6Class("rtModClass",
 #' @field x.name Name of x data
 #' @field y.name Name of y data
 #' @field xnames Character vector: Column names of x
-#' @field bag.resample.rtset List of settings for \link{resample}. Set using \link{rtset.bag.resample}
+#' @field bag.resample.rtset List of settings for \link{resample}.
+#' Set using \link{rtset.bag.resample}
 #' @field mod Trained model
 #' @field fitted Fitted values
 #' @field se.fit Standard error of the fit
@@ -883,7 +894,8 @@ rtModBag <- R6::R6Class("rtModBag",
                           print = function() {
                             "show / print method for rtModBag"
                             objcat("Bagged Supervised Model")
-                            cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
+                            cat(rtHighlight$bold(self$mod.name), " (",
+                                modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
                             .resamples <- switch(self$bag.resample.rtset$resampler,
                                                  strat.sub = "stratified subsamples",
@@ -891,7 +903,8 @@ rtModBag <- R6::R6Class("rtModBag",
                                                  strat.boot = "stratified bootstraps",
                                                  kfold = "stratified folds",
                                                  "custom resamples")
-                            cat("Aggregating", self$bag.resample.rtset$n.resamples, .resamples, "\n")
+                            cat("Aggregating", self$bag.resample.rtset$n.resamples,
+                                .resamples, "\n")
                             boxcat("Training Error")
                             print(self$error.train)
                             if (length(self$error.test) > 0) {
@@ -1092,7 +1105,8 @@ rtModCV <- R6::R6Class("rtModCV",
                          print = function() {
                            "R6 show / print method for rtModCV"
                            objcat("Cross-Validated Model")
-                           cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
+                           cat(rtHighlight$bold(self$mod.name), " (",
+                               modSelect(self$mod.name, desc = TRUE),
                                ")\n", sep = "")
                            cat("                 Algorithm: ", self$mod.name, " (",
                                modSelect(self$mod.name, desc = TRUE),
@@ -1122,8 +1136,11 @@ rtModCV <- R6::R6Class("rtModCV",
                            y.test <- unlist(self$y.test.res[[which.repeat]],
                                             use.names = FALSE)
                            main <- paste0(self$mod.name, " Testing\n(",
-                                          self$resampler.params$n.resamples, " aggregated resamples",
-                                          ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
+                                          self$resampler.params$n.resamples,
+                                          " aggregated resamples",
+                                          ifelse(self$n.repeats > 1, paste0("; repeat #",
+                                                                            which.repeat, ")"),
+                                                 ")"))
                            if (self$type == "Classification") {
                              conf <- classError(y.test, predicted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
@@ -1151,8 +1168,11 @@ rtModCV <- R6::R6Class("rtModCV",
                            y.train <- unlist(self$y.train.res[[which.repeat]],
                                              recursive = TRUE, use.names = FALSE)
                            main <- paste0(self$mod.name, " Training\n(",
-                                          self$resampler.params$n.resamples, " aggregated resamples",
-                                          ifelse(self$n.repeats > 1, paste0("; repeat #", which.repeat, ")"), ")"))
+                                          self$resampler.params$n.resamples,
+                                          " aggregated resamples",
+                                          ifelse(self$n.repeats > 1, paste0("; repeat #",
+                                                                            which.repeat, ")"),
+                                                 ")"))
                            if (self$type == "Classification") {
                              conf <- classError(y.train, fitted)$ConfusionMatrix
                              mplot3.conf(conf, main = main,
@@ -1223,7 +1243,8 @@ rtModCV <- R6::R6Class("rtModCV",
                                                  bootstrap = " bootstraps",
                                                  strat.boot = " stratified bootstraps",
                                                  kfold = "-fold crossvalidation")
-                             cat(" Model tuning was performed using ", n.resamples, resamples, ".", sep = "")
+                             cat(" Model tuning was performed using ",
+                                 n.resamples, resamples, ".", sep = "")
                            }
 
                            # Performance ====
@@ -1245,10 +1266,12 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
                            if (type == "Classification") {
                              cat(" The mean Balanced Accuracy across all resamples was ",
-                                 ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`), ".", sep = "")
+                                 ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
+                                 ".", sep = "")
                            } else if (type == "Regression") {
                              cat(" The mean R-squared across all resamples was ",
-                                 ddSci(self$error.test.repeats.mean$Rsq), ".", sep = "")
+                                 ddSci(self$error.test.repeats.mean$Rsq),
+                                 ".", sep = "")
                            } else {
 
                            }
@@ -1555,7 +1578,8 @@ rtMeta <- R6::R6Class("rtMeta",
                         print = function() {
                           "R6 show / print method for rtMeta"
                           objcat("Meta Model")
-                          cat("   Base: ", rtHighlight$bold(paste(self$base.mod.names, collapse = ", ")), "\n")
+                          cat("   Base: ", rtHighlight$bold(paste(self$base.mod.names,
+                                                                  collapse = ", ")), "\n")
                           cat("   Meta: ", rtHighlight$bold(self$meta.mod.name), "\n")
                           boxcat("Training Error")
                           print(self$error.train)
@@ -1586,7 +1610,8 @@ predict.rtMeta <- function(object, newdata, fn = median, ...) {
   if (missing(newdata)) {
     predicted <- object$predicted
   } else {
-    base.predicted <- as.data.frame(sapply(object$base.mods, function(mod) predict(mod, newdata = newdata, ...)))
+    base.predicted <- as.data.frame(sapply(object$base.mods, function(mod)
+      predict(mod, newdata = newdata, ...)))
     predicted <- predict(object$meta.mod, newdata = base.predicted)
   }
 
@@ -1607,8 +1632,10 @@ predict.rtMeta <- function(object, newdata, fn = median, ...) {
 #'
 #' Note on terminology for all models:
 #' The training set is used to build a model. The testing set is a separate set never touched during
-#' training and only used to a. create predictions using the trained model and b. estimate error metrics.
-#' This reflects generalizability of the model and is the error we care the most about. It is saved in rtemis models
+#' training and only used to a. create predictions using the trained model and
+#' b. estimate error metrics.
+#' This reflects generalizability of the model and is the error we care the most about.
+#' It is saved in rtemis models
 #' as \code{error.test}.
 #' The validation set is used during model tuning. Within rtemis, validation sets are created and
 #' used automatically by \link{resample} when appropriate, they are not generally input by the user
@@ -1688,7 +1715,8 @@ predict.rtModLite <- function(object, newdata, ...) {
       # GBM: must supply n.trees
       if (is.null(extraArgs$n.trees)) stop("Please provide n.trees")
       estimated <- predict(object$mod, n.trees = extraArgs$n.trees, ...)
-    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" | object$mod.name == "XGBDART") {
+    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" |
+               object$mod.name == "XGBDART") {
       # XGB: must convert newdata to xgb.DMatrix
       estimated <- predict(object$mod, newdata = xgboost::xgb.DMatrix(as.matrix(newdata)))
     } else if (object$mod.name == "MXFFN") {
