@@ -6,11 +6,13 @@
 #'
 #' Draw plots of 1-dimensional data: index, histogram, density, and Q-Q plots.
 #'
-#' You can group data either by supplying x as a list where each element contains one vector per group, or
-#' as a data frame where each column represents group,
+#' You can group data either by supplying x as a list where each element contains one vector per
+#' group, or as a data frame where each column represents group,
 #' or by providing a \code{group} variable, which will be converted to factor.
-#' For bivariate plots, see \link{mplot3.xy} and \link{mplot3.xym}. For heatmaps, see \link{mplot3.heatmap}
-#' To plot histograms of multiple groups, it's best to use \code{hist.type = "lines"}, which will use \link{mhist}
+#' For bivariate plots, see \link{mplot3.xy} and \link{mplot3.xym}. For heatmaps, see
+#' \link{mplot3.heatmap}
+#' To plot histograms of multiple groups, it's best to use \code{hist.type = "lines"}, which will
+#' use \link{mhist}
 #' and space apart the breaks for each group
 #'
 #' @inheritParams mplot3.xy
@@ -34,10 +36,14 @@
 #' @param hist.type Character: "bars" or "lines". Default = "bars"
 #' @param hist.lwd Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}
 #' @param density.line Logical: If TRUE, draw line for \code{type = "density"}. Default = FALSE
-#' @param density.shade Logical: If TRUE, draw shaded polygon for \code{type = "density"}. Default = TRUE
+#' @param density.shade Logical: If TRUE, draw shaded polygon for \code{type = "density"}.
+#' Default = TRUE
 #' @param qqline.col Color for Q-Q line
 #' @param qqline.alpha Float: Alpha for Q-Q line
-#' @param density.mean Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE, for \code{type = "density"}
+#' @param density.avg Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE,
+#' for \code{type = "density"}
+#' @param density.avg.fn Character: "median" or "mean". Function to use if
+#' \code{density.avg = TRUE}. Default = "median"
 #' @param na.rm Logical: Will be passed to all functions that support it. If set to FALSE,
 #'   input containing NA values will result in error, depending on the \code{type}
 #' @param group.legend Logical: If TRUE, include legend with group names
@@ -107,7 +113,8 @@ mplot3.x <- function(x,
                      # ylab.line = 1.6,
                      labs.col = NULL,
                      lab.adj = .5,
-                     density.mean = ifelse(type == "density", TRUE, FALSE),
+                     density.avg = ifelse(type == "density", TRUE, FALSE),
+                     density.avg.fn = c("median", "mean"),
                      hline.col = "black",
                      hline.lwd = 1,
                      hline.lty = 1,
@@ -142,6 +149,7 @@ mplot3.x <- function(x,
   }
   index.type <- match.arg(index.type)
   hist.type <- match.arg(hist.type)
+  density.avg.fn <- match.arg(density.avg.fn)
 
   # [ THEME ] ====
   extraargs <- list(...)
@@ -165,7 +173,8 @@ mplot3.x <- function(x,
 
   if (alpha.off) alpha <- 1
 
-  if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
+  if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename),
+                                                                         recursive = TRUE)
   if (is.character(palette)) palette <- rtPalette(palette)
 
   # [ DATA ] ====
@@ -230,8 +239,6 @@ mplot3.x <- function(x,
     if (is.null(ylab)) ylab <- "Density"
     .out <- densityl <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
     densityl <- lapply(densityl, function(d) data.frame(x = d$x, y = d$y))
-    meanl <- lapply(xl, mean)
-    sdl <- lapply(xl, sd)
     if (is.null(xlab)) xlab <- labelify(xname)
   }
 
@@ -262,7 +269,8 @@ mplot3.x <- function(x,
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
+                                         title = "rtemis Graphics")
   par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar) # tck = -.02
   if (!axes.swap) {
     plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
@@ -343,8 +351,10 @@ mplot3.x <- function(x,
   # [ ZERO LINES ] ====
   if (type == "index" && theme$zerolines) {
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-    if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
-    if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd, col = zerocol, lty = theme$zerolines.lty)
+    if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd,
+                                            col = zerocol, lty = theme$zerolines.lty)
+    if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd,
+                                            col = zerocol, lty = theme$zerolines.lty)
   }
 
   if (theme$bty != "n") {
@@ -354,7 +364,8 @@ mplot3.x <- function(x,
 
   # [ PLOT: INDEX ] ====
   if (type == "index") {
-    if (length(index.type) < length(xl)) index.type <- rep(index.type, length(xl)/length(index.type))
+    if (length(index.type) < length(xl)) index.type <- rep(index.type,
+                                                           length(xl)/length(index.type))
     for (i in seq_along(xl)) {
       if (!axes.swap) {
         points(yl[[i]], xl[[i]],
@@ -382,7 +393,8 @@ mplot3.x <- function(x,
     if (!axes.swap) {
       for (i in seq_along(xl)) {
         if (density.shade) {
-          polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(densityl[[i]]$y, rep(0, length(densityl[[i]]$y))),
+          polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(densityl[[i]]$y,
+                                                              rep(0, length(densityl[[i]]$y))),
                   col = col.alpha[[i]], border = NA)
         }
         if (density.line) {
@@ -396,7 +408,8 @@ mplot3.x <- function(x,
     } else {
       for (i in seq_along(xl)) {
         if (density.shade) {
-          polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(densityl[[i]]$x, rep(0, length(densityl[[i]]$x))),
+          polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(densityl[[i]]$x,
+                                                              rep(0, length(densityl[[i]]$x))),
                   col = col.alpha[[i]], border = NA)
         }
         if (density.line) {
@@ -433,7 +446,8 @@ mplot3.x <- function(x,
       for (i in seq_along(xl)) {
         mhist(xl[[i]], measure = "count", breaks = breaksl[[i]], col = col.alpha[[i]], add = TRUE,
               lwd = hist.lwd,
-              xlim = xlim, ylim = ylim, plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
+              xlim = xlim, ylim = ylim, plot.axes = FALSE,
+              xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
       }
     }
   }
@@ -480,7 +494,8 @@ mplot3.x <- function(x,
     }
   }
   qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
-  if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col, length(xl) / length(qqline.col))
+  if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
+                                                         length(xl) / length(qqline.col))
 
   if (type == "qqline") {
     for (i in seq_along(xl)) {
@@ -499,9 +514,12 @@ mplot3.x <- function(x,
   }
 
   # [ DENSITY PLOT MEAN X ] ====
-  if (type == "density" & density.mean) {
-    mtext(c("Mean (SD)", lapply(seq(xl),
-                                function(j) paste0(ddSci(meanl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
+  if (type == "density" & density.avg) {
+    avgl <- lapply(xl, density.avg.fn)
+    sdl <- lapply(xl, sd)
+    density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
+    mtext(c(density.legend.text, lapply(seq(xl),
+                                function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
           col = c(theme$fg, unlist(col[seq_along(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
           padj = seq(2, 2 + 1.5 * length(xl), 1.5))
