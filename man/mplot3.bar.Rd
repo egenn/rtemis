@@ -36,6 +36,8 @@ mplot3.bar(
   group.names = NULL,
   legend.font = 1,
   bartoplabels = NULL,
+  bartoplabels.line = 0,
+  bartoplabels.font = 1,
   mar = c(2.5, 3, 2, 1),
   pty = "m",
   barplot.axes = FALSE,
