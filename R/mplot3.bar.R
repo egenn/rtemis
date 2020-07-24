@@ -64,6 +64,8 @@ mplot3.bar <- function(x,
                        # legend.inset = c(0, 0),
                        legend.font = 1, #1: regular, 2: bold
                        bartoplabels = NULL,
+                       bartoplabels.line = 0,
+                       bartoplabels.font = 1,
                        mar = c(2.5, 3, 2, 1),
                        pty = "m",
                        barplot.axes = FALSE,
@@ -313,7 +315,11 @@ mplot3.bar <- function(x,
 
   # [ BARTOP LABELS ] ====
   if (!is.null(bartoplabels)) {
-    mtext(bartoplabels, 3, at = barCenters, family = theme$font.family)
+    mtext(bartoplabels, 3, line = bartoplabels.line,
+          at = barCenters,
+          cex = theme$cex,
+          font = bartoplabels.font,
+          family = theme$font.family)
   }
 
   # [ OUTRO ] ====
