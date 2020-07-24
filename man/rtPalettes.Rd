@@ -423,7 +423,7 @@ Color conversions performed using https://www.pantone.com/color-finder/
 (https://brandcolors.net/b/microsoft)
 }
 \details{
-\code{sfsuCol}: SF State color palette 
+\code{sfsuCol}: SF State color palette
 (https://logo.sfsu.edu/color-system)
 }
 \keyword{datasets}

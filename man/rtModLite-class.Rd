@@ -11,8 +11,10 @@ R6 Class for \pkg{rtemis} Lite Supervised Models
 \details{
 Note on terminology for all models:
 The training set is used to build a model. The testing set is a separate set never touched during
-training and only used to a. create predictions using the trained model and b. estimate error metrics.
-This reflects generalizability of the model and is the error we care the most about. It is saved in rtemis models
+training and only used to a. create predictions using the trained model and
+b. estimate error metrics.
+This reflects generalizability of the model and is the error we care the most about.
+It is saved in rtemis models
 as \code{error.test}.
 The validation set is used during model tuning. Within rtemis, validation sets are created and
 used automatically by \link{resample} when appropriate, they are not generally input by the user

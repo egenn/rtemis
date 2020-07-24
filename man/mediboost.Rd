@@ -47,7 +47,7 @@ Trains a binary decision tree classifier using MediBoost Tree-Structured Boostin
 \details{
 Outcome must be factor with two levels, the first level is the 'positive' class
 
-lambda <- gamma/(1 - gamma)
+lambda = gamma/(1 - gamma)
 }
 \references{
 Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles
