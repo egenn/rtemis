@@ -139,7 +139,6 @@
 #' @param palette Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
-#' @param alpha.off
 #' @param autolabel
 #' @param set.par
 #' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
@@ -192,7 +191,6 @@ mplot3.xy <- function(x, y = NULL,
                       fit.error = FALSE,
                       fit.error.side = 1,
                       fit.error.padj = NA,
-                      # fit.error.col = NULL,
                       xaxp = NULL,
                       yaxp = NULL,
                       scatter = TRUE,
@@ -202,24 +200,15 @@ mplot3.xy <- function(x, y = NULL,
                       annotation.col = NULL,
                       tick.col = NULL,
                       x.axis.at = NULL,
-                      # x.axis.line = 0,
-                      # y.axis.las = 0,
-                      # x.axis.padj = -1.1,
-                      # x.axis.hadj = .5,
                       x.axis.labs = TRUE,
-                      # y.axis.line = 0,
                       y.axis.at = NULL,
                       y.axis.labs = TRUE,
-                      # xlab.line = 1.4,
-                      # y.axis.padj = NULL, # .5 for las = 1
-                      # y.axis.hadj = NULL, # 1 for las = 1
-                      # ylab.line = 2,
                       xlab.adj = .5,
                       ylab.adj = .5,
                       mar = c(2.5, 3, 2, 1), # c(3, 3, 3, 1),
-                      pch = ifelse(is.null(point.bg.col), 16, 21),
                       point.cex = .85,
                       point.bg.col = NULL,
+                      pch = ifelse(is.null(point.bg.col), 16, 21),
                       line.col = NULL,
                       line.alpha = .66,
                       lty = 1,
@@ -274,7 +263,6 @@ mplot3.xy <- function(x, y = NULL,
                       theme = getOption("rt.theme", "lightgrid"),
                       palette = getOption("rt.palette", "rtCol1"),
                       order.on.x = NULL,
-                      alpha.off = FALSE,
                       autolabel = letters,
                       new = FALSE,
                       par.reset = TRUE,
@@ -505,7 +493,7 @@ mplot3.xy <- function(x, y = NULL,
     if (length(type) == 1) {
       # SINGLE LINE
       if (is.null(line.col)) {
-        if (is.null(fit)) line.col <- palette[1] else line.col <- col
+        if (is.null(fit)) line.col <- palette[[1]] else line.col <- theme$fg
       }
       marker.col <- adjustcolor(line.col, line.alpha)
     } else {
