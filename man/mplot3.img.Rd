@@ -21,6 +21,8 @@ mplot3.img(
   y.axis.las = 1,
   x.tick.labs.adj = NULL,
   y.tick.labs.adj = NULL,
+  x.axis.font = 1,
+  y.axis.font = 1,
   xlab = NULL,
   ylab = NULL,
   xlab.adj = 0.5,
