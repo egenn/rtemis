@@ -18,7 +18,6 @@
   --string: rgb(255, 189, 79);
   --regex: rgb(214, 76, 241);
   --keyword: rgb(83, 254, 190);
-  /*--function-declaration: rgb(0, 179, 245);*/
   --function-declaration: rgb(73, 172, 238);
   --variable: rgb(235, 235, 255);
   --comment: rgb(100, 100, 100);
@@ -422,6 +421,7 @@
 .ace_editor[id^="rstudio_source_text_editor"]:not(#rstudio_source_text_editor_0)
   :-webkit-any(.ace_gutter, .ace_scroller, .ace_scrollbar-v) {
   box-shadow: inset 0 6px 6px -6px black;
+  width: 10px !important;
 }
 
 /* datagrid */
@@ -478,12 +478,12 @@
 
 /* scrollbars */
 ::-webkit-scrollbar {
-  height: calc(17px * 10 / 14) !important;
+  height: calc(17px * 10 / 28) !important;
 }
 ::-webkit-scrollbar-thumb {
   border: none !important;
   border-radius: 0 !important;
-  background-color: rgba(110, 110, 110, 0.4) !important;
+  background-color: rgba(110, 110, 110, 0.1) !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
