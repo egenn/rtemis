@@ -50,6 +50,8 @@ mplot3.img <- function(z,
                        y.axis.las = 1,
                        x.tick.labs.adj = NULL,
                        y.tick.labs.adj = NULL,
+                       x.axis.font = 1,
+                       y.axis.font = 1,
                        xlab = NULL,
                        ylab = NULL,
                        xlab.adj = .5,
@@ -195,6 +197,7 @@ mplot3.img <- function(z,
          las = x.axis.las,
          col.axis = theme$tick.labels.col,
          cex = theme$cex,
+         font = x.axis.font,
          family = theme$font.family)
   }
   if (!is.null(if (as.mat) rev(.xnames) else .ynames)) {
@@ -206,6 +209,7 @@ mplot3.img <- function(z,
          las = y.axis.las,
          col.axis = theme$tick.labels.col,
          cex = theme$cex,
+         font = y.axis.font,
          family = theme$font.family)
   }
 
