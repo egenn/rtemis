@@ -9,7 +9,7 @@
 #'
 #' Outcome must be factor with two levels, the first level is the 'positive' class
 #'
-#' lambda <- gamma/(1 - gamma)
+#' lambda = gamma/(1 - gamma)
 #' @param x Matrix / Data frame of features
 #' @param y Integer {-1, 1}: Vector of binary outcomes
 #' @param catPredictors Optional: Logical vector indicating categorical features
