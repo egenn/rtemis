@@ -86,7 +86,7 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
 </br>
-<img align = "center" src="https://egenn.github.io/imgs/iris_CART.png">
+<img align = "center" src="https://egenn.github.io/imgs/rtemis_rstudio.png">
 </br>  
 
 ---  
