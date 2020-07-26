@@ -12,29 +12,28 @@
 
 rstudio_theme_rtemis <- function() {
 
-  # Check we are in RStudio
+  # '- Check we are in RStudio ====
   if (!rstudioapi::isAvailable()) {
     stop("Please run this function from within RStudio")
   }
 
-  if (rstudioapi::getThemeInfo()$editor == "rtemis") {
-    msg("rtemis theme already in use")
-  } else {
-    if ("rtemis" %in% rstudioapi::getThemes()) {
-      msg("rtemis theme already installed")
-    } else {
-      # '- Add theme ====
-      # check RStudio supports themes
-      if (compareVersion(as.character(rstudioapi::versionInfo()$version), "1.2.0") == -1) {
-        stop("Please update to the latest RStudio version (or at least 1.2.0)")
-      }
-      msg("Adding rtemis theme to RStudio...")
-      rstudioapi::addTheme(
-        system.file(fs::path("resources","rtemis.rstheme"), package = "rtemis")
-      )
-    }
-    # '- Activate theme ====
-    rstudioapi::applyTheme("rtemis")
+  # '- Check RStudio supports themes ====
+  if (compareVersion(as.character(rstudioapi::versionInfo()$version), "1.2.0") == -1) {
+    stop("Please update to the latest RStudio version (or at least 1.2.0)")
   }
+
+  # '- Remove theme if already present ====
+  if ("rtemis" %in% names(rstudioapi::getThemes())) {
+    rstudioapi::removeTheme("rtemis")
+  }
+
+  # '- Add theme ====
+  msg("Adding rtemis theme to RStudio...")
+  rstudioapi::addTheme(
+    system.file(fs::path("resources","rtemis.rstheme"), package = "rtemis")
+  )
+
+  # '- Activate theme ====
+  rstudioapi::applyTheme("rtemis")
 
 } # rtemis::rstudio_theme_rtemis

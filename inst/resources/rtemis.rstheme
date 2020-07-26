@@ -22,13 +22,18 @@
   --variable: rgb(235, 235, 255);
   --comment: rgb(100, 100, 100);
 
+ /* Find toolbar */
+ .rstudio-themes-flat button.GGBOEFPDH1 {
+  padding-bottom: 0px;
+ }
+
   /* markdown */
   --heading: var(--language-constant);
   --inline-code: var(--string);
 }
 
 .ace_gutter {
-  color: rgb(133, 133, 133);
+  color: rgb(120, 120, 120);
 }
 
 .ace_print-margin {
@@ -275,7 +280,8 @@
 
 .rstudio-themes-flat.rstudio-themes-dark-menus .ace_editor.ace_autocomplete {
   background: #2f3941;
-  border: solid 1px #4e5c68 !important;
+  /* border: solid 1px #4e5c68 !important; */
+  border: none;
   color: #f0f0f0;
 }
 
@@ -421,7 +427,6 @@
 .ace_editor[id^="rstudio_source_text_editor"]:not(#rstudio_source_text_editor_0)
   :-webkit-any(.ace_gutter, .ace_scroller, .ace_scrollbar-v) {
   box-shadow: inset 0 6px 6px -6px black;
-  width: 10px !important;
 }
 
 /* datagrid */
@@ -472,7 +477,7 @@
 }
 
 .rstudio-themes-dark .search:-webkit-any(:focus, :focus-within) {
-  outline: 1px solid rgba(14, 99, 156, 0.8);
+  outline: 1px solid rgba(128, 255, 255, .2);
   outline-offset: -1px;
 }
 
@@ -483,7 +488,7 @@
 ::-webkit-scrollbar-thumb {
   border: none !important;
   border-radius: 0 !important;
-  background-color: rgba(110, 110, 110, 0.1) !important;
+  background-color: rgba(110, 110, 110, 0.4) !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -505,6 +510,12 @@
 }
 
 /* menus */
+
+.gwt-MenuItem {
+    padding: 2px;
+    white-space: nowrap;
+}
+
 .rstudio-themes-flat .themedPopupPanel,
 .rstudio-themes-flat .popupMiddleCenter,
 .rstudio-themes-flat .menuPopupMiddleCenter {
@@ -514,7 +525,7 @@
 }
 
 .rstudio-themes-flat .themedPopupPanel ::-webkit-scrollbar:vertical {
-  width: 10px !important;
+  width: 5px !important;
 }
 
 .rstudio-themes-flat .themedPopupPanel ::-webkit-scrollbar-track:vertical {
@@ -522,7 +533,7 @@
 }
 
 .rstudio-themes-flat .gwt-MenuItem-selected {
-  background-color: rgb(9, 71, 113) !important;
+  background-color: rgba(255, 255, 255, .2) !important;
 }
 
 .rstudio-themes-flat .gwt-MenuItemSeparator > .menuSeparatorInner {
@@ -542,7 +553,7 @@
 .terminal.xterm-cursor-style-block.focus:not(.xterm-cursor-blink-on)
   .terminal-cursor {
   background-color: #d4d4d4;
-  color: #1e1e1e;
+  color: #80ffff;
 }
 .terminal.focus.xterm-cursor-style-bar:not(.xterm-cursor-blink-on)
   .terminal-cursor::before,
