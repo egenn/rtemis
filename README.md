@@ -11,7 +11,6 @@ The goal of __rtemis__ is to make data science efficient and accessible with no 
 ## Documentation
 
 * [__Documentation and vignettes__](https://rtemis.lambdamd.org)  
-* [__R PDF manual__](https://egenn.github.io/docs/rtemis.pdf)
 
 ## Installation
 
