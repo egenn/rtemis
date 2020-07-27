@@ -4,18 +4,18 @@ A platform for advanced Machine Learning research and applications.
 The goal of __rtemis__ is to make data science efficient and accessible with no compromise on flexibility.
 
 <div style="text-align:center">
-<a href="https://rtemis.netlify.com">
+<a href="https://rtemis.lambdamd.org">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>
 </div>
 
 ## Documentation
 
-* [__Documentation and vignettes__](https://rtemis.netlify.com)  
+* [__Documentation and vignettes__](https://rtemis.lambdamd.org)  
 * [__R PDF manual__](https://egenn.github.io/docs/rtemis.pdf)
 
 ## Installation
 
-See [here](https://rtemis.netlify.com/setup.html) for more setup and installation instructions.
+See [here](https://rtemis.lambdamd.org/setup.html) for more setup and installation instructions.
 
 ```r
 install.packages("remotes")
