@@ -37,6 +37,7 @@ mediboost <- function(x, y,
                       min.hessian = .01,
                       min.membership = 0,
                       steps.past.min.membership = 2,
+                      rpart.parms = NULL,
                       save.rpart = FALSE,
                       verbose = TRUE,
                       trace = 1) {
@@ -533,7 +534,8 @@ likelihoodMediboostChooseFeat <- function(x, y,
                                                       minbucket = 1,
                                                       maxsurrogate = 0,
                                                       cp = 0,
-                                                      xval = 0))
+                                                      xval = 0),
+                       parms = rpart.parms)
 
   # Get the split feature
   # fIdx = colIdx(tree$PredictorNames == tree$CutVar[[1]])
