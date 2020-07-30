@@ -29,6 +29,7 @@ s.ADDTREE(
   grid.resample.rtset = rtset.resample("kfold", 5),
   metric = "Balanced Accuracy",
   maximize = TRUE,
+  rpart.parms = NULL,
   prune = TRUE,
   prune.empty.leaves = TRUE,
   remove.bad.parents = FALSE,

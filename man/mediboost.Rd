@@ -18,6 +18,7 @@ mediboost(
   min.hessian = 0.01,
   min.membership = 0,
   steps.past.min.membership = 2,
+  rpart.parms = NULL,
   save.rpart = FALSE,
   verbose = TRUE,
   trace = 1

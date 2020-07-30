@@ -4,10 +4,10 @@
 \alias{rstudio_theme_rtemis}
 \title{Apply rtemis theme for RStudio}
 \usage{
-rstudio_theme_rtemis()
+rstudio_theme_rtemis(theme = "dark")
 }
 \description{
-Apply the rtemis RStudio theme, a slight adaptation of the excellent rscodeio theme
+Apply the rtemis RStudio theme, an adaptation of the rscodeio theme
 (https://github.com/anthonynorth/rscodeio)
 Recommended to use the Fira Code font with the theme
 (https://fonts.google.com/specimen/Fira+Code?query=fira+code)

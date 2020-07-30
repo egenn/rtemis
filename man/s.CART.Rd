@@ -114,7 +114,7 @@ See \code{rpart::rpart("cost")}}
 \item{use.prune.rpart.rt}{[Testing only, do not change]}
 
 \item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return unpruned tree under \code{extra}
-in \link{rtMod}}
+in \link{rtMod}. Default = FALSE}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
