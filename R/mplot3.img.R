@@ -1,6 +1,6 @@
 # mplot3.img.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3}: Image (False color 2D)
 #'

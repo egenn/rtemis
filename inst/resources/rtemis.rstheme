@@ -1,7 +1,7 @@
 /* rs-theme-name: rtemis */
 /* rs-theme-is-dark: TRUE */
 :root {
-  /* editor */
+  /* Editor */
   --editor-background-color: 25, 25, 25;
   --editor-background: rgb(var(--editor-background-color));
   --editor-foreground: rgb(204, 204, 204);
@@ -11,7 +11,7 @@
   --tab: rgb(45, 45, 45);
   --selected-tab: var(--editor-background);
 
-  /* syntax */
+  /* Code syntax */
   --type-declaration: rgb(254, 74, 163);
   --language-constant: rgb(128, 215, 215);
   --numeric-constant: rgb(128, 215, 215);
@@ -20,14 +20,14 @@
   --keyword: rgb(83, 254, 190);
   --function-declaration: rgb(73, 172, 238);
   --variable: rgb(235, 235, 255);
-  --comment: rgb(100, 100, 100);
+  --comment: rgb(120, 120, 120);
 
  /* Find toolbar */
  .rstudio-themes-flat button.GGBOEFPDH1 {
   padding-bottom: 0px;
  }
 
-  /* markdown */
+  /* Markdown */
   --heading: var(--language-constant);
   --inline-code: var(--string);
 }
@@ -206,17 +206,17 @@
   color: var(--comment);
 }
 
-/* rmarkdown code */
+/* Rmarkdown code */
 [class="ace_support ace_function"] {
   color: var(--inline-code);
 }
 
-/* rmarkdown emphasis */
+/* Rmarkdown emphasis */
 .ace_constant.ace_language.ace_boolean.ace_text {
   font-style: italic;
 }
 
-/* rmarkdown strong emphasis */
+/* Rmarkdown strong emphasis */
 .ace_constant.ace_numeric.ace_text {
   font-weight: bold;
 }
@@ -280,7 +280,6 @@
 
 .rstudio-themes-flat.rstudio-themes-dark-menus .ace_editor.ace_autocomplete {
   background: #2f3941;
-  /* border: solid 1px #4e5c68 !important; */
   border: none;
   color: #f0f0f0;
 }
@@ -297,7 +296,7 @@
   border: none;
 }
 
-/* positioning (exclude rstudio server) */
+/* Positioning (exclude RStudio server) */
 .rstudio-themes-flat > .rstudio-themes-dark div:last-child[style*="top: 29px"] {
   top: 24px !important;
   right: 0 !important;
@@ -321,7 +320,7 @@
   left: 0 !important;
 }
 
-/* background */
+/* Background */
 .rstudio-themes-flat > .rstudio-themes-dark,
 .rstudio-themes-flat
   > .rstudio-themes-dark
@@ -329,7 +328,7 @@
   background: rgb(52, 52, 52) !important;
 }
 
-/* splitters */
+/* Separators */
 .rstudio-themes-flat > .rstudio-themes-dark .gwt-SplitLayoutPanel-HDragger {
   background: rgb(52, 52, 52) !important;
   cursor: ew-resize;
@@ -337,13 +336,11 @@
 }
 
 .rstudio-themes-flat > .rstudio-themes-dark .gwt-SplitLayoutPanel-VDragger {
-  background: rgb(52, 52, 52) !important;
+  background: none !important;
   cursor: ns-resize;
-  border-color: rgb(52, 52, 52);
-  /* box-shadow: 0 -1px 0 var(--separator) inset; */
 }
 
-/* window containers */
+/* Window containers */
 .rstudio-themes-flat
   > .rstudio-themes-dark
   :-webkit-any(.windowframe, .rstheme_minimizedWindowObject)
@@ -509,8 +506,7 @@
   box-shadow: inset 1px 0 0 0 var(--separator);
 }
 
-/* menus */
-
+/* Menus */
 .gwt-MenuItem {
     padding: 2px;
     white-space: nowrap;
@@ -539,6 +535,63 @@
 .rstudio-themes-flat .gwt-MenuItemSeparator > .menuSeparatorInner {
   border-color: rgba(187, 187, 187, 0.4) !important;
 }
+
+/* Settings menu */
+/* these work for settings windows, but not for New File window, needs expanding */
+
+/*
+.rstudio-themes-flat .gwt-DialogBox {
+    border: none;
+    box-shadow: 0 0px 10px rgba(255, 255, 255, 0.1);
+}
+
+.dialogMiddle {
+  background-color: #303030 !important;
+  background: #303030 !important;
+  color:whitesmoke;
+}
+
+.GGBOEFPDGK {
+  background-color: #252525;
+}
+
+.GGBOEFPDLJ {
+    background: #505050;
+}
+*/
+
+/* Unselected tab */
+/*
+.GGBOEFPDGP .gwt-TabLayoutPanelTab {
+  background: #202020;
+  color: whitesmoke;
+}
+*/
+
+/* Selected tab */
+/*
+.GGBOEFPDGP .gwt-TabLayoutPanelTab-selected {
+  background: #707070;
+  color: whitesmoke;
+}
+*/
+
+/* Listbox */
+/*
+.gwt-ListBox, .GGBOEFPDNNB,
+.gwt-TextBox, .gwt-TextBox-readonly,
+.GGBOEFPDH2 {
+  background: #202020 !important;
+  color: whitesmoke;
+}
+*/
+
+/* hyperlink */
+/*
+.rstudio-HyperlinkLabel {
+  color: #80ffff;
+}
+*/
 
 /* terminal */
 .terminal {

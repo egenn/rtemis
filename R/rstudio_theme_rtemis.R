@@ -4,14 +4,15 @@
 
 #' Apply rtemis theme for RStudio
 #'
-#' Apply the rtemis RStudio theme, a slight adaptation of the excellent rscodeio theme
+#' Apply the rtemis RStudio theme, an adaptation of the rscodeio theme
 #' (https://github.com/anthonynorth/rscodeio)
 #' Recommended to use the Fira Code font with the theme
 #' (https://fonts.google.com/specimen/Fira+Code?query=fira+code)
 #' @export
 
-rstudio_theme_rtemis <- function() {
+rstudio_theme_rtemis <- function(theme = "dark") {
 
+  .theme <- if (theme == "dark") "rtemis" else "rtemis-light"
   # '- Check we are in RStudio ====
   if (!rstudioapi::isAvailable()) {
     stop("Please run this function from within RStudio")
@@ -23,17 +24,18 @@ rstudio_theme_rtemis <- function() {
   }
 
   # '- Remove theme if already present ====
-  if ("rtemis" %in% names(rstudioapi::getThemes())) {
-    rstudioapi::removeTheme("rtemis")
+  if (.theme %in% names(rstudioapi::getThemes())) {
+    rstudioapi::removeTheme(.theme)
   }
 
   # '- Add theme ====
-  msg("Adding rtemis theme to RStudio...")
-  rstudioapi::addTheme(
-    system.file(fs::path("resources","rtemis.rstheme"), package = "rtemis")
+  msg("Adding rtemis theme...")
+  .theme <- rstudioapi::addTheme(
+    system.file(fs::path("resources", paste0(.theme, ".rstheme")), package = "rtemis")
   )
 
   # '- Activate theme ====
-  rstudioapi::applyTheme("rtemis")
+  rstudioapi::applyTheme(.theme)
+  msg("You may need to restart RStudio for theme changes to take effect in the Options menu")
 
 } # rtemis::rstudio_theme_rtemis

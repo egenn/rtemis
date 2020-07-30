@@ -20,7 +20,7 @@
 #' @param prune.cp [gS] Float: Complexity for cost-complexity pruning after tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
 #' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return unpruned tree under \code{extra}
-#' in \link{rtMod}
+#' in \link{rtMod}. Default = FALSE
 #' @param grid.resample.rtset List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 #' Default = \code{rtset.resample("kfold", 5)}
 #' @param grid.search.type Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
