@@ -1,12 +1,12 @@
 # mplot3.img.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
-# rtTODO: make as.mat = F work
+# Efstathios D. Gennatas egenn.github.io
 
 #' \code{mplot3}: Image (False color 2D)
 #'
-#' Draw a bitmap from a matrix of values. This is a good way to plot a large heatmap
+#' Draw a bitmap from a matrix of values.
 #'
+#' This is also a good way to plot a large heatmap.
 #' This function calls \code{image} which is a lot faster than drawing heatmaps
 #'
 #' @param z Input matrix
@@ -34,14 +34,14 @@
 
 mplot3.img <- function(z,
                        as.mat = TRUE,
-                       col = colorGrad(101, space = "rgb"),
+                       col = NULL,
                        xnames = NULL,
                        xnames.y = 0,
                        ynames = NULL,
                        # ynames.x = 0,
-                       main = "Row > Column",
+                       main = NULL,
                        main.adj = 0,
-                       main.line = 1.5,
+                       # main.line = 1.5,
                        x.axis.side = 3,
                        y.axis.side = 2,
                        x.axis.line = -.5,
@@ -50,6 +50,8 @@ mplot3.img <- function(z,
                        y.axis.las = 1,
                        x.tick.labs.adj = NULL,
                        y.tick.labs.adj = NULL,
+                       x.axis.font = 1,
+                       y.axis.font = 1,
                        xlab = NULL,
                        ylab = NULL,
                        xlab.adj = .5,
@@ -78,7 +80,7 @@ mplot3.img <- function(z,
                        zlim = NULL,
                        autorange = TRUE,
                        pty = "m",
-                       mar = c(3, 3, 3, 3),
+                       mar = NULL,
                        asp = NULL,
                        ann = FALSE,
                        axes = FALSE,
@@ -87,6 +89,7 @@ mplot3.img <- function(z,
                        cell.labs.autocol = TRUE, # WIP add autocol w cutoffs at abs(.4)
                        bg = NULL,
                        theme = getOption("rt.theme", "white"),
+                       autolabel = letters,
                        filename = NULL,
                        file.width = NULL,
                        file.height = NULL,
@@ -132,8 +135,11 @@ mplot3.img <- function(z,
   if (is.null(cex.y)) cex.y <- cex.ax
 
   # [ THEMES ] ====
-  if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- theme$fg
   if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$fg
+  if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- if (mean(col2rgb(theme$bg)) > 127) theme$bg else theme$fg
+  if (is.null(col)) {
+    col <- colorGrad(101, lo = "#18A3AC", mid = theme$bg, hi = "#F48024")
+  }
 
   # [ IMAGE ] ====
   if (!is.null(filename)) {
@@ -142,14 +148,21 @@ mplot3.img <- function(z,
       file.width <- file.height <- if (graphics == "pdf") 6 else 500
     }
   }
+
+  .xnames <- xnames
+  .ynames <- ynames
+  if (is.null(.xnames)) .xnames <- if (!is.null(rownames(z))) rownames(z)
+  if (is.null(.ynames)) .ynames <- if (!is.null(colnames(z))) colnames(z)
+
   if (as.mat) {
-    x <- 1:NCOL(z)
-    y <- 1:NROW(z)
+    x <- seq_len(NCOL(z))
+    y <- seq_len(NROW(z))
     z <- t(apply(z, 2, rev))
-    if (!is.null(ynames)) ynames <- rev(ynames)
+    # if (!is.null(.xnames)) .ynames <- rev(.xnames)
+    # if (!is.null(.ynames)) .xnames <- .ynames
   } else {
-    x <- 1:NROW(z)
-    y <- 1:NCOL(z)
+    x <- seq_len(NROW(z))
+    y <- seq_len(NCOL(z))
   }
 
   # pdf() has argument "file", bmp(), jpeg(), png(), and tiff() have "filename";
@@ -157,39 +170,46 @@ mplot3.img <- function(z,
   if (!is.null(filename)) do.call(graphics, args = list(file = filename,
                                                         width = file.width, height = file.height))
 
-  # rtlayout support
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+
+  # Automar
+  if (is.null(mar)) {
+    mar1maxchar <- if (as.mat) max(1, nchar(.ynames)) else max(1, nchar(.xnames))
+    mar1 <- 1.5 + .5 * mar1maxchar
+    mar2maxchar <- if (as.mat) max(1, nchar(.xnames)) else max(1, nchar(.ynames))
+    mar2 <- 1.5 + .5 * mar2maxchar
+    mar <- c(mar1, mar2, 2., 1)
+  }
+
   par(pty = pty, mar = mar, bg = theme$bg)
 
   image(x, y, data.matrix(z), col = col, zlim = zlim,
         asp = asp, ann = ann, axes = axes, ...)
 
   # [ TICK NAMES ] ====
-  if (is.null(xnames)) if (!is.null(colnames(z))) xnames <- rownames(z)
-  if (is.null(ynames)) if (!is.null(rownames(z))) ynames <- colnames(z)
-  NR <- NROW(z)
-  NC <- NCOL(z)
-
-  if (!is.null(xnames)) {
-    axis(side = theme$x.axis.side, at = 1:NR,
-         labels = xnames,
+  if (!is.null(if (as.mat) .ynames else .xnames)) {
+    axis(side = theme$x.axis.side,
+         at = seq_along(x),
+         labels = if (as.mat) .ynames else .xnames,
          col = theme$axes.col,
          tick = FALSE,
          las = x.axis.las,
          col.axis = theme$tick.labels.col,
          cex = theme$cex,
+         font = x.axis.font,
          family = theme$font.family)
   }
-  if (!is.null(ynames)) {
-    axis(side = theme$y.axis.side, at = 1:NC,
-         labels = ynames,
+  if (!is.null(if (as.mat) rev(.xnames) else .ynames)) {
+    axis(side = theme$y.axis.side,
+         at = seq_along(y),
+         labels = if (as.mat) rev(.xnames) else .ynames,
          col = theme$axes.col,
          tick = FALSE,
          las = y.axis.las,
          col.axis = theme$tick.labels.col,
          cex = theme$cex,
+         font = y.axis.font,
          family = theme$font.family)
   }
 
@@ -235,5 +255,7 @@ mplot3.img <- function(z,
   }
 
   if (!is.null(filename)) grDevices::dev.off()
+
+  invisible(list(mar = mar, zlim = zlim))
 
 } # rtemis::mplot3.img

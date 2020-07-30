@@ -14,6 +14,12 @@
 #' @param border Color for lines around boxes
 #' @param ... Additional arguments to \code{graphics::boxplot}
 #' @author Efstathios D. Gennatas
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
+#' colnames(x) <- c("mango", "banana", "tangerine", "sugar")
+#' mplot3.box(x)
+#' }
 #' @export
 
 mplot3.box <- function(x,
@@ -25,9 +31,9 @@ mplot3.box <- function(x,
                        xlim = NULL,
                        ylim = NULL,
                        xlab = NULL,
-                       xlab.line = 1.5,
+                       # xlab.line = 1.5,
                        ylab = NULL,
-                       ylab.line = 1.5,
+                       # ylab.line = 1.5,
                        main = NULL,
                        names.arg = NULL,
                        axisnames = FALSE,
@@ -36,6 +42,7 @@ mplot3.box <- function(x,
                        group.names.y = NULL,
                        group.names.font = 1,
                        group.names.adj = .5,
+                       group.names.pos = NULL,
                        group.names.srt = 0,
                        legend = FALSE,
                        legend.names = NULL,
@@ -47,11 +54,12 @@ mplot3.box <- function(x,
                        cex.names = cex,
                        yaxis = TRUE,
                        ylim.pad = 0,
-                       y.axis.padj = .5, # .5 for las = 1
-                       y.axis.hadj = 1,
-                       y.axis.line = 0,
-                       y.axis.las = 1,
+                       # y.axis.line = 0,
+                       # y.axis.las = 0,
+                       # y.axis.padj = 1,
+                       # y.axis.hadj = .5,
                        theme = getOption("rt.theme", "lightgrid"),
+                       autolabel = letters,
                        palette = getOption("rt.palette", "rtCol1"),
                        par.reset = TRUE,
                        pdf.width = 6,
@@ -68,7 +76,7 @@ mplot3.box <- function(x,
     }
   }
   if (is.null(mar)) {
-    mar <- if (is.null(main)) c(2.3, 2.2, .5, .5) else c(2.3, 2.2, 1.5, .5)
+    mar <- if (is.null(main)) c(2.5, 3, 1, 1) else c(2.5, 3, 2, 1)
   }
 
   # Group names
@@ -147,16 +155,16 @@ mplot3.box <- function(x,
     axis(side = 2,
          # at = y.axis.at,
          # labels = y.axis.labs,
-         line = y.axis.line,
+         line = theme$y.axis.line,
+         las = theme$y.axis.las,
+         padj = theme$y.axis.padj,
+         hadj = theme$y.axis.hadj,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj,
-         hadj = y.axis.hadj,
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
-         las = y.axis.las,
          family = theme$font.family)
   }
 
@@ -182,6 +190,7 @@ mplot3.box <- function(x,
     text(x = group.names.at, y = group.names.y,
          labels = group.names,
          adj = group.names.adj,
+         pos = group.names.pos,
          srt = group.names.srt, xpd = TRUE,
          font = group.names.font,
          col = theme$labs.col,

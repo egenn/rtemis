@@ -26,7 +26,8 @@ R6 Class for \pkg{rtemis} Bagged Supervised Models
 
 \item{\code{xnames}}{Character vector: Column names of x}
 
-\item{\code{bag.resample.rtset}}{List of settings for \link{resample}. Set using \link{rtset.bag.resample}}
+\item{\code{bag.resample.rtset}}{List of settings for \link{resample}.
+Set using \link{rtset.bag.resample}}
 
 \item{\code{mod}}{Trained model}
 

@@ -20,7 +20,7 @@
 #' @param prune.cp [gS] Float: Complexity for cost-complexity pruning after tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
 #' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return unpruned tree under \code{extra}
-#' in \link{rtMod}
+#' in \link{rtMod}. Default = FALSE
 #' @param grid.resample.rtset List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 #' Default = \code{rtset.resample("kfold", 5)}
 #' @param grid.search.type Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
@@ -148,8 +148,8 @@ s.CART <- function(x, y = NULL,
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   class.weights <- dt$class.weights
-  x0 <- if (upsample|downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   df.train <- data.frame(y = y, x)
   if (method == "auto") {

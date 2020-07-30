@@ -24,7 +24,7 @@ mplot3.roc(
   annot.adj = 1,
   annot.font = 1,
   pty = "s",
-  mar = c(2.5, 3, 2.5, 1),
+  mar = c(2.5, 3, 2, 1),
   theme = getOption("rt.theme", "whitegrid"),
   palette = getOption("rt.palette", "rtCol1"),
   verbose = TRUE,

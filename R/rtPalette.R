@@ -739,10 +739,10 @@ pennstateCol <- list(nittanyNavy = "#001E44",
 
 # SFSU ====
 #' SF State
-#' 
+#'
 #' \code{sfsuCol}: SF State Colors
-#' 
-#' \code{sfsuCol}: SF State color palette 
+#'
+#' \code{sfsuCol}: SF State color palette
 #' (https://logo.sfsu.edu/color-system)
 #' @name rtPalettes
 #' @export
@@ -1204,7 +1204,7 @@ microsoftCol <- list(orange = "#f65314",
                      blue = "#00a1f1",
                      yellow = "#ffbb00")
 
-# rtemis experimental ====
+# rtemis palettes ====
 rtCol <- desaturate(c(pennCol$lighterBlue,
                       pennCol$lightestBlue,
                       pennCol$blue,

@@ -60,12 +60,11 @@ mplot3.x(
   text.xy.col = "white",
   line.col = "#008E00",
   x.axis.padj = -1.1,
-  xlab.line = 1.3,
   y.axis.padj = 0.9,
-  ylab.line = 1.6,
   labs.col = NULL,
   lab.adj = 0.5,
-  density.mean = ifelse(type == "density", TRUE, FALSE),
+  density.avg = ifelse(type == "density", TRUE, FALSE),
+  density.avg.fn = c("median", "mean"),
   hline.col = "black",
   hline.lwd = 1,
   hline.lty = 1,
@@ -79,7 +78,7 @@ mplot3.x(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   pty = "m",
-  mar = c(2.5, 3, 1.5, 1),
+  mar = c(2.5, 3, 2, 1),
   xaxs = "r",
   yaxs = "r",
   autolabel = letters,
@@ -130,7 +129,8 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 
 \item{density.line}{Logical: If TRUE, draw line for \code{type = "density"}. Default = FALSE}
 
-\item{density.shade}{Logical: If TRUE, draw shaded polygon for \code{type = "density"}. Default = TRUE}
+\item{density.shade}{Logical: If TRUE, draw shaded polygon for \code{type = "density"}.
+Default = TRUE}
 
 \item{qqline.col}{Color for Q-Q line}
 
@@ -154,17 +154,17 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 
 \item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
 
-\item{xlab.line}{Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})}
-
 \item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
-
-\item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
 
 \item{labs.col}{Color for labels}
 
 \item{lab.adj}{Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)}
 
-\item{density.mean}{Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE, for \code{type = "density"}}
+\item{density.avg}{Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE,
+for \code{type = "density"}}
+
+\item{density.avg.fn}{Character: "median" or "mean". Function to use if
+\code{density.avg = TRUE}. Default = "median"}
 
 \item{hline.col}{Color for horizontal line(s)}
 
@@ -219,11 +219,13 @@ Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or N
 Draw plots of 1-dimensional data: index, histogram, density, and Q-Q plots.
 }
 \details{
-You can group data either by supplying x as a list where each element contains one vector per group, or
-as a data frame where each column represents group,
+You can group data either by supplying x as a list where each element contains one vector per
+group, or as a data frame where each column represents group,
 or by providing a \code{group} variable, which will be converted to factor.
-For bivariate plots, see \link{mplot3.xy} and \link{mplot3.xym}. For heatmaps, see \link{mplot3.heatmap}
-To plot histograms of multiple groups, it's best to use \code{hist.type = "lines"}, which will use \link{mhist}
+For bivariate plots, see \link{mplot3.xy} and \link{mplot3.xym}. For heatmaps, see
+\link{mplot3.heatmap}
+To plot histograms of multiple groups, it's best to use \code{hist.type = "lines"}, which will
+use \link{mhist}
 and space apart the breaks for each group
 }
 \seealso{

@@ -14,8 +14,10 @@ indexCasesByRules(x, rules, verbose = TRUE)
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
-Get an index of which cases match which rule - meant for cases where
+Get an index of which cases match which rule - meant for cases where each case matches one rule
+and one rule only
 }
 \author{
 Efstathios D. Gennatas
 }
+\keyword{internal}

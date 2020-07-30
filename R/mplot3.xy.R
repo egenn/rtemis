@@ -139,7 +139,6 @@
 #' @param palette Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
-#' @param alpha.off
 #' @param autolabel
 #' @param set.par
 #' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
@@ -183,6 +182,7 @@ mplot3.xy <- function(x, y = NULL,
                       xpd = TRUE,
                       xaxs = "r",
                       yaxs = "r",
+                      log = "",
                       rsq = NULL,
                       rsq.pval = FALSE,
                       rsq.side = 1,
@@ -191,7 +191,6 @@ mplot3.xy <- function(x, y = NULL,
                       fit.error = FALSE,
                       fit.error.side = 1,
                       fit.error.padj = NA,
-                      # fit.error.col = NULL,
                       xaxp = NULL,
                       yaxp = NULL,
                       scatter = TRUE,
@@ -200,25 +199,16 @@ mplot3.xy <- function(x, y = NULL,
                       annotation = NULL,
                       annotation.col = NULL,
                       tick.col = NULL,
-                      x.axis.line = 0,
                       x.axis.at = NULL,
-                      x.axis.padj = -1.1,
-                      x.axis.hadj = .5,
                       x.axis.labs = TRUE,
-                      y.axis.line = 0,
                       y.axis.at = NULL,
-                      y.axis.las = 0,
                       y.axis.labs = TRUE,
-                      xlab.line = 1.4,
-                      y.axis.padj = NULL, # .5 for las = 1
-                      y.axis.hadj = NULL, # 1 for las = 1
-                      ylab.line = 2,
                       xlab.adj = .5,
                       ylab.adj = .5,
-                      mar = c(2.5, 3, 1.5, 1), # c(3, 3, 3, 1),
-                      pch = ifelse(is.null(point.bg.col), 16, 21),
+                      mar = c(2.5, 3, 2, 1), # c(3, 3, 3, 1),
                       point.cex = .85,
                       point.bg.col = NULL,
+                      pch = ifelse(is.null(point.bg.col), 16, 21),
                       line.col = NULL,
                       line.alpha = .66,
                       lty = 1,
@@ -273,10 +263,8 @@ mplot3.xy <- function(x, y = NULL,
                       theme = getOption("rt.theme", "lightgrid"),
                       palette = getOption("rt.palette", "rtCol1"),
                       order.on.x = NULL,
-                      alpha.off = FALSE,
                       autolabel = letters,
                       new = FALSE,
-                      set.par = TRUE,
                       par.reset = TRUE,
                       return.lims = FALSE,
                       pdf.width = 6,
@@ -309,13 +297,17 @@ mplot3.xy <- function(x, y = NULL,
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
   }
 
-  if (is.null(y.axis.padj)) {
-    y.axis.padj <- if (y.axis.las == 1) .5 else 1
-  }
+  # if (is.null(y.axis.padj)) {
+  #   y.axis.padj <- if (y.axis.las == 1) .5 else 1
+  # }
+  #
+  # if (is.null(y.axis.hadj)) {
+  #   y.axis.hadj <- if (y.axis.las == 1) 1 else .5
+  # }
 
-  if (is.null(y.axis.hadj)) {
-    y.axis.hadj <- if (y.axis.las == 1) 1 else .5
-  }
+  .log <- strsplit(log, "")[[1]]
+  if ("x" %in% .log) xaxs <- "i"
+  if ("y" %in% .log) yaxs <- "i"
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
@@ -501,7 +493,7 @@ mplot3.xy <- function(x, y = NULL,
     if (length(type) == 1) {
       # SINGLE LINE
       if (is.null(line.col)) {
-        if (is.null(fit)) line.col <- palette[1] else line.col <- col
+        if (is.null(fit)) line.col <- palette[[1]] else line.col <- theme$fg
       }
       marker.col <- adjustcolor(line.col, line.alpha)
     } else {
@@ -555,6 +547,7 @@ mplot3.xy <- function(x, y = NULL,
     for (i in seq_len(Nxgroups)) {
       x <- xl[[i]]
       y <- yl[[i]]
+      # verbose FALSE should turn off plotting for all learners, no need for print.plot F
       learner.args <- c(list(x = x, y = y, verbose = trace > 0),
                         fit.params)
       if (learner == "s.NLS") learner.args <- c(learner.args,
@@ -612,14 +605,12 @@ mplot3.xy <- function(x, y = NULL,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  # Check: why set.par
-  if (set.par) {
-    par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar)
-  }
+  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar)
   plot(NULL, NULL, xlim = xlim, ylim = ylim,
        ann = FALSE,
        axes = FALSE, xaxs = xaxs, yaxs = yaxs,
-       xaxp = xaxp, yaxp = yaxp)
+       xaxp = xaxp, yaxp = yaxp,
+       log = log)
 
   # For rect only: must be AFTER plot(): Adjusted xlim if xaxs = "r"
   if (xaxs == "r") xlim <- c(min(xlim) - .04 * diff(range(xlim)), max(xlim) + .04 * diff(range(xlim)))
@@ -635,36 +626,39 @@ mplot3.xy <- function(x, y = NULL,
   # col.ticks: color of the ticks themselves
   if (theme$axes.visible) {
     axis(side = theme$x.axis.side,
-         line = x.axis.line,
+         line = theme$x.axis.line,
          at = x.axis.at,
          labels = x.axis.labs, col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = x.axis.padj,
-         hadj = x.axis.hadj,
+         las = theme$x.axis.las,
+         padj = theme$x.axis.padj,
+         hadj = theme$x.axis.hadj,
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
          family = theme$font.family)
     axis(side = theme$y.axis.side,
-         line = y.axis.line,
+         line = theme$y.axis.line,
          at = y.axis.at,
          labels = y.axis.labs, col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
-         padj = y.axis.padj,
-         hadj = y.axis.hadj,
+         las = theme$y.axis.las,
+         padj = theme$y.axis.padj,
+         hadj = theme$y.axis.hadj,
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
-         las = y.axis.las,
          family = theme$font.family)
     mtext(xlab, side = theme$x.axis.side,
-          line = xlab.line, cex = theme$cex,
+          line = theme$xlab.line,
+          cex = theme$cex,
           adj = xlab.adj, col = theme$labs.col,
           family = theme$font.family)
     mtext(ylab, side = theme$y.axis.side,
-          line = ylab.line, cex = theme$cex,
+          line = theme$ylab.line,
+          cex = theme$cex,
           adj = ylab.adj, col = theme$labs.col,
           family = theme$font.family)
   }
@@ -909,7 +903,7 @@ mplot3.xy <- function(x, y = NULL,
 
   # [ OUTRO ] ====
   if (!is.null(filename)) dev.off()
-  if (return.lims) return(list(xlim = xlim, ylim = ylim))
+  invisible(list(xlim = xlim, ylim = ylim))
 
 } # rtemis::mplot3.xy
 

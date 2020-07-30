@@ -18,6 +18,7 @@ mediboost(
   min.hessian = 0.01,
   min.membership = 0,
   steps.past.min.membership = 2,
+  rpart.parms = NULL,
   save.rpart = FALSE,
   verbose = TRUE,
   trace = 1
@@ -47,7 +48,7 @@ Trains a binary decision tree classifier using MediBoost Tree-Structured Boostin
 \details{
 Outcome must be factor with two levels, the first level is the 'positive' class
 
-lambda <- gamma/(1 - gamma)
+lambda = gamma/(1 - gamma)
 }
 \references{
 Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles

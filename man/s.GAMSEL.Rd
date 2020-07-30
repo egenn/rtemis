@@ -20,11 +20,12 @@ s.GAMSEL(
   resample.seed = NULL,
   lambda = NULL,
   force.lambda = NULL,
+  min.unique.perfeat = 4,
   num.lambda = 50,
   family = NULL,
   degrees = NULL,
   min.degree = 1,
-  max.degree = 8,
+  max.degree = 9,
   gamma = 0.4,
   dfs = NULL,
   min.df = 1,
@@ -32,6 +33,7 @@ s.GAMSEL(
   n.folds = 10,
   which.lambda = c("lambda.min", "lambda.1se"),
   failsafe = TRUE,
+  failsafe.lambda = 0.1,
   tol = 1e-04,
   max.iter = 2000,
   parallel = FALSE,
@@ -132,18 +134,13 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{...}{Additional arguments to be passed to \code{mgcv::gam}}
-
-\item{k}{Integer. Number of bases for smoothing spline}
+\item{...}{Additional arguments}
 }
 \value{
 \link{rtMod}
 }
 \description{
 Trains a GAMSEL model using \code{gamsel2::gamsel}.
-\code{gamsel2} can be installed
-Input will be used to create a formula of the form:
-\deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 }
 \seealso{
 \link{elevate} for external cross-validation
@@ -162,6 +159,8 @@ Other Supervised Learning:
 \code{\link{s.EVTREE}()},
 \code{\link{s.GAM.default}()},
 \code{\link{s.GAM.formula}()},
+\code{\link{s.GAMSELX2}()},
+\code{\link{s.GAMSELX}()},
 \code{\link{s.GAM}()},
 \code{\link{s.GBM3}()},
 \code{\link{s.GBM}()},

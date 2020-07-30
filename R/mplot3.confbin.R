@@ -60,20 +60,16 @@ mplot3.confbin <- function(object,
                            col.bg.out = "gray50",
                            theme = "light",
                            mid.color = NULL,
-                           hi.color.pos = ucsfCol$teal,
-                           hi.color.neg = ucsfCol$purple,
+                           hi.color.pos = "#18A3AC",
+                           hi.color.neg = "#716FB2",
                            par.reset = TRUE,
                            pdf.width = 8.7,
                            pdf.height = 8.7,
                            filename = NULL, ...) {
 
-  # [ ARGUMENTS ] ====
-  if (theme == "darkbox") theme <- "dark"
-  if (theme == "lightbox") theme <- "light"
-
   # [ DATA ] ====
   if (inherits(object, "rtMod")) {
-    tbl <- if (length(object$error.test) > 0) object$error.test$table else object$error.train$table
+    tbl <- if (length(object$error.test) > 0) object$error.test$ConfusionMatrix else object$error.train$ConfusionMatrix
     if (is.null(mod.name)) mod.name <- object$mod.name
   } else if (class(object) == "confusionMatrix") {
     tbl <- object$table

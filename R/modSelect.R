@@ -32,6 +32,7 @@ modSelect <- function(mod,
     c("ADDTREE", "Additive Tree", T, F, F),
     c("ADDTBOOSTTV", "Boosting of Additive Trees TV", F, T, F),
     c("BAG", "Bagged Learner", T, T, F),
+    c("BOOST", "Boosted Learner", T, T, F),
     c("BART", "Bayesian Additive Regression Trees", T, T, F),
     c("BAYESGLM", "Bayesian Generalized Linear Model", T, T, F),
     c("BOOST", "Boosted rtemis Model", F, T, F),
@@ -47,6 +48,8 @@ modSelect <- function(mod,
     c("EVTREE", "Evolutionary Learning of Globally Optimal Trees", T, T, F),
     c("GAM", "Generalized Additive Model", T, T, F),
     c("GAMSEL", "Regularized Generalized Additive Model", T, T, F),
+    c("GAMSELX", "GAMSEL Interaction Model", F, T, F),
+    c("GAMSELX2", "GAMSELX TOO", F, T, F),
     c("GBM", "Gradient Boosting Machine", T, T, T),
     c("GBM3", "Gradient Boosting Machine", T, T, T),
     c("GLM", "Generalized Linear Model", T, T, F),
@@ -107,8 +110,13 @@ modSelect <- function(mod,
     return(invisible(rtMods))
   }
 
-  if (strtrim(mod, 6) == "Bagged") {
+  # check:
+  # These are for print. functions iirc
+  if (strtrim(mod, 6) == "Bagged" & desc) {
     return(paste("Bagged", modSelect(substr(mod, 7, 100), desc = TRUE)))
+  }
+  if (strtrim(mod, 7) == "Boosted" & desc) {
+    return(paste("Boosted", modSelect(substr(mod, 8, 100), desc = TRUE)))
   }
 
   name.vec <- toupper(rtMods[, 1])
@@ -121,8 +129,15 @@ modSelect <- function(mod,
   if (desc) return(as.character(rtMods$Description[rtMods[, 1] == name]))
 
   # fn ====
-  s.name <- paste0("s.", name)
-  learner <- if (fn) getFromNamespace(s.name, "rtemis") else s.name
-  return(learner)
+  if (name == "BAG") {
+    learner <- if (fn) getFromNamespace("bag", "rtemis") else "bag"
+  } else if (name == "BOOST") {
+    learner <- if (fn) getFromNamespace("boost", "rtemis") else "boost"
+  } else {
+    s.name <- paste0("s.", name)
+    learner <- if (fn) getFromNamespace(s.name, "rtemis") else s.name
+  }
+
+  learner
 
 } # rtemis::modSelect

@@ -7,13 +7,12 @@
 mplot3.img(
   z,
   as.mat = TRUE,
-  col = colorGrad(101, space = "rgb"),
+  col = NULL,
   xnames = NULL,
   xnames.y = 0,
   ynames = NULL,
-  main = "Row > Column",
+  main = NULL,
   main.adj = 0,
-  main.line = 1.5,
   x.axis.side = 3,
   y.axis.side = 2,
   x.axis.line = -0.5,
@@ -22,6 +21,8 @@ mplot3.img(
   y.axis.las = 1,
   x.tick.labs.adj = NULL,
   y.tick.labs.adj = NULL,
+  x.axis.font = 1,
+  y.axis.font = 1,
   xlab = NULL,
   ylab = NULL,
   xlab.adj = 0.5,
@@ -46,7 +47,7 @@ mplot3.img(
   zlim = NULL,
   autorange = TRUE,
   pty = "m",
-  mar = c(3, 3, 3, 3),
+  mar = NULL,
   asp = NULL,
   ann = FALSE,
   axes = FALSE,
@@ -55,6 +56,7 @@ mplot3.img(
   cell.labs.autocol = TRUE,
   bg = NULL,
   theme = getOption("rt.theme", "white"),
+  autolabel = letters,
   filename = NULL,
   file.width = NULL,
   file.height = NULL,
@@ -96,9 +98,10 @@ set to "white", the rest "black".}
 \item{revR}{Logical: If TRUE, reverse rows. Defaults to TRUE for a top-left to bottom-right diagonal}
 }
 \description{
-Draw a bitmap from a matrix of values. This is a good way to plot a large heatmap
+Draw a bitmap from a matrix of values.
 }
 \details{
+This is also a good way to plot a large heatmap.
 This function calls \code{image} which is a lot faster than drawing heatmaps
 }
 \author{
