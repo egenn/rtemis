@@ -252,6 +252,7 @@ s.CART <- function(x, y = NULL,
                       model = model,
                       control = control,
                       cost = cost,
+                      parms = parms,
                       na.action = na.action)
 
   # [ COST-COMPLEXITY PRUNING ] ====
