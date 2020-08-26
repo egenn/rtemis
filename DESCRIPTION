@@ -2,11 +2,11 @@ Package: rtemis
 Version: 0.8.0
 Title: Machine Learning and Visualization
 Date: 2020-06-22
-Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
-Maintainer: Efstathios D. Gennatas <gennatas@gmail.com>
+Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
+Maintainer: Efstathios D. Gennatas <gennatas@lambdamd.org>
 Description: Advanced Machine Learning and Visualization. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression, Survival Analysis), Cross-Decomposition, Bagging, Boosting, Meta-models. Static and interactive plots.
 License: GPL (>=3)
-URL: https://rtemis.netlify.com
+URL: https://rtemis.lambdamd.org
 ByteCompile: yes
 Imports: grDevices, graphics, stats, methods, utils, parallel, R6, data.table, crayon, future, magrittr
 Suggests: ada, ANTsR, arm, bartMachine, base64enc, cluster, C50, data.tree, deepnet, dendextend (>= 0.18.0), DiagrammeR, doParallel, dplyr, earth, EMCluster, extraTrees, evtree, e1071, fansi, fastICA, flexclust, FNN, foreach, fpc, gamsel2, gbm, gbm3, ggplot2, glmnet, GPArotation, grid, gsubfn, heatmaply, hopach, htmlwidgets, h2o, ica, imager, inTrees, iRF, JuliaCall, keras, kernlab, knitr, lars, lavaan, leaps, lle, matrixStats, MASS, mda, mgcv, mlbench, missForest, missRanger, nlme, nnet, NMF, np, nsprcomp, oro.nifti, partykit, pbapply, plotly, polspline, PPtree, pROC, psych, PMA, png, plotrix, plyr, pmml, PRROC, pvclust, qrnn, randomForest, randomForestSRC, ranger, rCUR, RColorBrewer, RNifti, ROCR, rpart, rpart.plot, rstudioapi, Rtsne, R.utils, scales (>= 0.2.5), sgd, snow, snowfall, sparklyr, splines2, spls, survival, tgp, vegan, visNetwork, xgboost, rmarkdown, uwot
