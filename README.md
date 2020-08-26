@@ -94,4 +94,4 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 
 ---
 
-[2020 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.github.io)
+[2020 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
