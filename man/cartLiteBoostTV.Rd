@@ -128,3 +128,4 @@ If \code{learning.rate} is set to 0, a nullmod will be created
 \author{
 Efstathios D. Gennatas
 }
+\keyword{internal}

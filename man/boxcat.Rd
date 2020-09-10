@@ -25,3 +25,4 @@ boxcat(x, style = 2, col = NULL, newline.pre = TRUE, newline = FALSE, pad = 0)
 \author{
 Efstathios D. Gennatas
 }
+\keyword{internal}

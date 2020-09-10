@@ -21,3 +21,4 @@ Convert an \code{rpart} object to a \code{data.tree} object, which can be plotte
 \author{
 Efstathios D. Gennatas
 }
+\keyword{internal}
