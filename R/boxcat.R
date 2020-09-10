@@ -13,6 +13,7 @@
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
 #' @author Efstathios D. Gennatas
+#' @keywords internal
 #' @export
 
 boxcat <- function(x,

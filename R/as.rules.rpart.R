@@ -10,6 +10,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #' @return \code{data.tree} object
 #' @author Efstathios D. Gennatas
+#' @keywords internal
 #' @export
 
 as.rules.rpart <- function(object, verbose = FALSE) {

@@ -29,6 +29,7 @@
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to \link{cartLite}
 #' @author Efstathios D. Gennatas
+#' @keywords internal
 #' @export
 
 
