@@ -1,14 +1,14 @@
-# s.SHYOPTREE.R
+# s.LINOA.R
 # ::rtemis::
 # 2019-20 Efstathios D Gennatas egenn.github.io
 # Allow early stopping
-# SHYOPTREE -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
+# LINOA -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 
-#' Stepwise Hybrid Tree [C, R]
+#' Linear Optimized Additive Tree [C, R]
 #'
-#' Train a Stepwise Hybrid Optimized Tree
+#' Train a Linear Optimized Additive Tree
 #'
-#' The Stepwise Hybrid Tree grows a tree by finding splits that minimize loss after linear models
+#' The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear models
 #' are fit on each child.
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
@@ -27,7 +27,7 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-s.SHYOPTREE <- function(x, y = NULL,
+s.LINOA <- function(x, y = NULL,
                         x.test = NULL, y.test = NULL,
                         weights = NULL,
                         ipw = TRUE,
@@ -88,7 +88,7 @@ s.SHYOPTREE <- function(x, y = NULL,
 
   # [ INTRO ] ====
   if (missing(x)) {
-    print(args(s.SHYOPTREE))
+    print(args(s.LINOA))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -98,7 +98,7 @@ s.SHYOPTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "SHYOPTREE"
+  mod.name <- "LINOA"
   # delta 02.06.2020
   # if (max.leaves <= 1) force.max.leaves <- 1
 
@@ -147,7 +147,7 @@ s.SHYOPTREE <- function(x, y = NULL,
   }
   init <- if (type == "Classification") 0 else mean(y)
   if (type == "Classification" && length(levels(y)) != 2)
-    stop("s.SHYOPTREE currently supports only binary classification")
+    stop("s.LINOA currently supports only binary classification")
 
   if (is.null(minobsinnode)) minobsinnode <- round(.1 * length(y))
   if (is.null(minbucket)) minbucket <- round(.05 * length(y))
@@ -268,7 +268,7 @@ s.SHYOPTREE <- function(x, y = NULL,
     }
   } else {
     x.valid <- y.valid <- NULL
-    msg("Training SHYOPTREE on full training set...", newline = TRUE)
+    msg("Training LINOA on full training set...", newline = TRUE)
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
@@ -389,7 +389,7 @@ s.SHYOPTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis:: s.SHYOPTREE
+} # rtemis:: s.LINOA
 
 # Unfinished
 # shyoptree.optimal.leaves <- function(object,

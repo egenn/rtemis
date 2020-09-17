@@ -1,4 +1,4 @@
-# s.SHYTREE.R
+# s.LINAD.R
 # ::rtemis::
 # 2019-20 Efstathios D Gennatas egenn.github.io
 # Allow early stopping
@@ -26,7 +26,7 @@
 #' @author Efstathios D. Gennatas
 #' @export
 
-s.SHYTREE <- function(x, y = NULL,
+s.LINAD <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       weights = NULL,
                       ipw = TRUE,
@@ -90,7 +90,7 @@ s.SHYTREE <- function(x, y = NULL,
 
   # [ INTRO ] ====
   if (missing(x)) {
-    print(args(s.SHYTREE))
+    print(args(s.LINAD))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -100,7 +100,7 @@ s.SHYTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "SHYTREE"
+  mod.name <- "LINAD"
   leaf.model <- match.arg(leaf.model)
 
   # [ DEPENDENCIES ] ====
@@ -157,7 +157,7 @@ s.SHYTREE <- function(x, y = NULL,
   }
   init <- if (type == "Classification") 0 else mean(y)
   if (type == "Classification" && length(levels(y)) != 2)
-    stop("s.SHYTREE currently supports only binary classification")
+    stop("s.LINAD currently supports only binary classification")
 
   if (!is.null(force.max.leaves)) lookback <- FALSE
 
@@ -264,7 +264,7 @@ s.SHYTREE <- function(x, y = NULL,
     }
   } else {
     x.valid <- y.valid <- NULL
-    msg("Training SHYTREE on full training set...", newline = TRUE)
+    msg("Training LINAD on full training set...", newline = TRUE)
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
@@ -413,4 +413,4 @@ s.SHYTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis:: s.SHYTREE
+} # rtemis:: s.LINAD

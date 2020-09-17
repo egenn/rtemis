@@ -1,12 +1,12 @@
-# s.HYTBOOST.R
+# s.LIHADBOOST.R
 # ::rtemis::
 # 2018 Efstathios D. Gennatas egenn.github.io
 # boosting learning.rate vs. hytree learning.rate
 # ... added to allow "weights = NULL" from gridSearchLearn
 
-#' Boosting of Hybrid Trees [R]
+#' Boosting of Linear Hard Additive Trees [R]
 #'
-#' Boost a hybrid tree using \link{hytboost}
+#' Boost a Linear Hard Additive Tree (i.e. LIHAD, i.e. LINAD with hard splits)
 #'
 #' By default, early stopping works by checking training loss.
 #'
@@ -27,14 +27,14 @@
 #' @export
 
 
-s.HYTBOOST <- function(x, y = NULL,
+s.LIHADBOOST <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        # x.valid = NULL, y.valid = NULL,
                        resid = NULL,
                        boost.obj = NULL,
                        learning.rate = .5, # overwrite mod.params$learning.rate
                        case.p = 1,
-                       # mod.params = rtset.HYTREE(),
+                       # mod.params = rtset.LIHAD(),
                        # ++ hytreew params ++
                        max.depth = 5,
                        gamma = .1,
@@ -102,7 +102,7 @@ s.HYTBOOST <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "HYTBOOST"
+  mod.name <- "LIHADBOOST"
   lin.type <- match.arg(lin.type)
 
   # [ DEPENDENCIES ] ====
@@ -213,14 +213,14 @@ s.HYTBOOST <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # [ HYTBOOST ] ====
+  # [ LIHADBOOST ] ====
   if (verbose) parameterSummary(init,
                                 max.iter,
                                 learning.rate,
                                 newline.pre = TRUE)
                                 # mod.params)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
-  if (verbose) msg("Training HYTBOOST...", newline.pre = TRUE)
+  if (verbose) msg("Training LIHADBOOST...", newline.pre = TRUE)
   if (.gs) {
     .xval <- x.test # this is the validation set carved out of the training set during gridSearch
     .yval <- y.test
@@ -345,4 +345,4 @@ s.HYTBOOST <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.HYTBOOST
+} # rtemis::s.LIHADBOOST

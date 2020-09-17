@@ -1,12 +1,12 @@
-# dplot3.shytree.R
+# dplot3.linad.R
 # ::rtemis::
 # 2020 Efstathios D. Gennatas egenn.github.io
 # Work in progress: probably only one visualization framework will be supported
 # visNetwork: https://datastorm-open.github.io/visNetwork/
 # gt: https://gt.rstudio.com/reference/index.html
-#' Plot a stepwise hybrid tree trained by \code{s.SHYTREE} using \code{plotly}
+#' Plot a stepwise hybrid tree trained by \code{s.LINAD} using \code{plotly}
 #'
-#' @param tree \code{s.SHYTREE} tree
+#' @param tree \code{s.LINAD} tree
 #' @param main String: Title. Default = NULL
 #' @param bg Background color. Default = "#FFFFFF" (white)
 #' @param shape String: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
@@ -38,7 +38,8 @@
 #' @param trace Integer: If > 0, print info to console (not particularly informative). Default = 0
 #'
 #' @export
-dplot3.shytree <- function(tree,
+
+dplot3.linad <- function(tree,
                            main = NULL,
                            bg = "#FFFFFF",
                            shape = "box",
@@ -214,11 +215,11 @@ dplot3.shytree <- function(tree,
                                       highlight = col.highlight)) %>%
     visNetwork::visInteraction(dragNodes = FALSE,
                                dragView = TRUE,
-                               zoomView = TRUE) %>%
+                               zoomView = FALSE) %>%
     visNetwork::visInteraction(tooltipDelay = 200) -> plt
   plt
 
-} # rtemis::dplot3.shytree
+} # rtemis::dplot3.linad
 
 # twocol2html.R
 # ::rtemis::

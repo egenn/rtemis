@@ -227,13 +227,13 @@ hytboostnow <- function(x, y,
         mplot3.xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                  main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       } else {
         mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                  main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       }
     }
@@ -260,13 +260,13 @@ hytboostnow <- function(x, y,
       mplot3.xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
                 x.axis.at = seq(error),
-                main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     } else {
       mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
                 x.axis.at = seq(error),
-                main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     }
   }

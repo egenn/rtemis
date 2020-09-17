@@ -7,7 +7,7 @@
 #' Train a Hybrid Tree for Regression
 #'
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.HYTREE
+#' @inheritParams s.LIHAD
 #' @param x data.frame
 #' @param lin.type String: "glmnet", "cv.glmnet" use the equivalent \code{glmnet} functions.
 #' "lm.ridge" uses the MASS function of that name, "glm" uses \code{lm.fit},

@@ -11,7 +11,7 @@
 #'
 #' With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.SHYTREE
+#' @inheritParams s.LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 #' model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
@@ -1048,9 +1048,9 @@ predict.shytreegamleaves <- function(object, newdata,
 print.shytreegamleaves <- function(x, ...) {
 
   if (x$gamleaves) {
-    cat("\n  A Stepwise Additive GAMleaf Tree model with", x$n.leaves, "leaves\n\n")
+    cat("\n  A Linear Additive GAMleaf Tree model with", x$n.leaves, "leaves\n\n")
   } else {
-    cat("\n  A Stepwise Additive Tree model with", x$n.leaves, "leaves\n\n")
+    cat("\n  A Linear Additive Tree model with", x$n.leaves, "leaves\n\n")
   }
 
 

@@ -9,7 +9,7 @@
 #' With \code{max.nodes = 0}, the model is logistic regression trained according to \code{lin.type}
 #' (i.e. standard or regularized using glmnet, etc.)
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.SHYTREE
+#' @inheritParams s.LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 #' model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
@@ -848,7 +848,7 @@ predict.shyoptleaves <- function(object, newdata,
 
 print.shyoptleaves <- function(x, ...) {
 
-  cat("\n  A Stepwise Hybrid Optimized Tree model with", x$n.leaves, "leaves\n\n")
+  cat("\n  A Linear Optimized Additive Tree model with", x$n.leaves, "leaves\n\n")
 
 }
 

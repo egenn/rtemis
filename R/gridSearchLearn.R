@@ -127,8 +127,8 @@ gridSearchLearn <- function(x, y, mod,
       out1$lambda.min <- mod1$mod$lambda.min
       out1$lambda.1se <- mod1$mod$lambda.1se
     }
-    if (learner %in% c("s.SHYTREE", "s.SHYOPTREE")) out1$est.n.leaves <- mod1$mod$n.leaves
-    if (learner == "s.HYTBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
+    if (learner %in% c("s.LINAD", "s.LINOA")) out1$est.n.leaves <- mod1$mod$n.leaves
+    if (learner == "s.LIHADBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
     if (save.mod) out1$mod1 <- mod1
     out1
   }
@@ -222,8 +222,8 @@ gridSearchLearn <- function(x, y, mod,
     }
   }
 
-  # '- SHYTREE ====
-  if (learner %in% c("s.SHYTREE", "s.SHYOPTREE")) {
+  # '- LINAD ====
+  if (learner %in% c("s.LINAD", "s.LINOA")) {
     # ERROR
     est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
     est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
@@ -233,8 +233,8 @@ gridSearchLearn <- function(x, y, mod,
     n.params <- n.params + 1
   }
 
-  # '- HYTBOOST ====
-  if (learner == "s.HYTBOOST") {
+  # '- LIHADBOOST ====
+  if (learner == "s.LIHADBOOST") {
     est.n.steps.all <- data.frame(n.steps = plyr::laply(grid.run, function(x) x$sel.n.steps))
     est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.steps.by.param.id <- aggregate(n.steps ~ param.id, est.n.steps.all,

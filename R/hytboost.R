@@ -228,13 +228,13 @@ hytboost <- function(x, y,
         mplot3.xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                  main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       } else {
         mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
                   x.axis.at = seq(error),
-                  main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                  main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       }
     }
@@ -261,13 +261,13 @@ hytboost <- function(x, y,
       mplot3.xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
                 x.axis.at = seq(error),
-                main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     } else {
       mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
                 x.axis.at = seq(error),
-                main = paste0(prefix, "HYTREE Boosting"), zerolines = FALSE,
+                main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     }
   }
@@ -300,7 +300,7 @@ hytboost <- function(x, y,
 print.hytboost <- function(x, ...) {
 
   n.iter <- length(x$mods)
-  cat("\n  A boosted Hybrid Tree with", n.iter, "iterations\n")
+  cat("\n  A boosted Linear Hard Additive Tree with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
   # printls(x$mod[[1]]$parameters) # must teach printls to handle functions
 

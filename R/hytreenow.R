@@ -7,7 +7,7 @@
 #' Train a Hard Hybrid Tree (no weights) for Regression
 #'
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.HYTREE
+#' @inheritParams s.LIHAD
 #' @param x data.frame
 #' @author Efstathios D. Gennatas
 #' @keywords internal

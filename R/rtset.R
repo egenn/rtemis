@@ -253,12 +253,12 @@ rtset.earlystop <- function(window = 150,
 } # rtemis::rtset.earlystop
 
 
-#' \code{rtset.HYTREE}: Set parameters for \link{s.HYTREE}
+#' \code{rtset.LIHAD}: Set parameters for \link{s.LIHAD}
 #'
-#' @inheritParams s.HYTREE
+#' @inheritParams s.LIHAD
 #' @export
 
-rtset.HYTREE <- function(max.depth = 2,
+rtset.LIHAD <- function(max.depth = 2,
                          learning.rate = 1,
                          lincoef.params = rtset.lincoef("glmnet"),
                          alpha = 0,

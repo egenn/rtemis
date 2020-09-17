@@ -25,8 +25,8 @@ modSelect <- function(mod,
     c("RGB", "Representational Gradient Boosting", T, T, T), # that's
     c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
     c("CSL", "Conditional SuperLearner", T, T, F), # bud
-    c("SHYTREE", "Stepwise Hybrid Tree", T, T, F), # !
-    c("SHYOPTREE", "Stepwise Hybrid Optimized Tree", T, T, F), # !
+    c("LINAD", "Linear Additive Tree", T, T, F), # !
+    c("LINOA", "Linear Optimized Additive Tree", T, T, F), # !
     c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
@@ -61,8 +61,8 @@ modSelect <- function(mod,
     c("H2ODL", "H2O Deep Learning", T, T, F),
     c("H2OGBM", "H2O Gradient Boosting Machine", T, T, F),
     c("H2ORF", "H2O Random Forest", T, T, F),
-    c("HYTBOOST", "Boosting of Additive Trees", F, T, F),
-    c("HYTREE", "Hybrid Additive Tree", F, T, F),
+    c("LIHADBOOST", "Boosting of Additive Trees", F, T, F),
+    c("LIHAD", "Linear Hard Additive Tree", F, T, F),
     c("KNN", "k-Nearest Neighbor", T, T, F),
     c("LDA", "Linear Discriminant Analysis", T, F, F),
     c("LGB", "Light GBM", T, T, F),

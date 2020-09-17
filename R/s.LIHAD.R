@@ -1,4 +1,4 @@
-# s.HYTREE.R
+# s.LIHAD.R
 # ::rtemis::
 # 2019 Efstathios D Gennatas egenn.github.io
 
@@ -32,12 +32,12 @@
 #    '-terminal      TRUE if it is a terminal node
 #    '-type          "split", "nosplit", "max.depth", "minobsinnode"
 
-#' The Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]
+#' The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]
 #'
-#' Train a Hard Hybrid Tree for Regression
+#' Train a Linear Hard Hybrid Tree for Regression
 #'
 #' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
-#' Use s.SHYTREE for the standard Hybrid Tree Algorithm, which grows branches stepwise and includes all
+#' Use s.LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and includes all
 #' observations weighted by gamma
 #'
 #' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
@@ -51,12 +51,12 @@
 #' @param learning.rate [gS] Float (0, 1): Learning rate. Default = 1
 #' @param part.cp [gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
-#' @param cxrcoef Logical: Passed to \link{predict.hytree}, if TRUE, returns cases by coefficients matrix.
+#' @param cxrcoef Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by coefficients matrix.
 #' Default = FALSE
 #' @author Efstathios D. Gennatas
 #' @export
 
-s.HYTREE <- function(x, y = NULL,
+s.LIHAD <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      max.depth = 3,
                      alpha = 0,
@@ -92,7 +92,7 @@ s.HYTREE <- function(x, y = NULL,
 
   # [ INTRO ] ====
   if (missing(x)) {
-    print(args(s.HYTREE))
+    print(args(s.LIHAD))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -102,7 +102,7 @@ s.HYTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "HYTREE"
+  mod.name <- "LIHAD"
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("rpart", verbose = FALSE)) {
@@ -184,7 +184,7 @@ s.HYTREE <- function(x, y = NULL,
   coef.c <- do.call(lincoef, c(list(x = x, y  = y), lincoef.params))
   Fval <- learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)
 
-  # [ .hytree ] ====
+  # [ .lihad ] ====
   root <- list(x = x,
                y = y,
                Fval = Fval,
@@ -199,7 +199,7 @@ s.HYTREE <- function(x, y = NULL,
                terminal = FALSE,
                type = NULL,
                rule = "TRUE")
-  mod <- hytree(node = root,
+  mod <- lihad(node = root,
                 max.depth = max.depth,
                 minobsinnode = minobsinnode,
                 minobsinnode.lin = minobsinnode.lin,
@@ -220,7 +220,7 @@ s.HYTREE <- function(x, y = NULL,
   mod$leafs <- list(rule = .env$leaf.rule,
                     coef = .env$leaf.coef)
   mod$learning.rate = learning.rate
-  class(mod) <- c("hytree", "list")
+  class(mod) <- c("lihad", "list")
 
   parameters <- list(max.depth = max.depth,
                      minobsinnode = minobsinnode,
@@ -230,7 +230,7 @@ s.HYTREE <- function(x, y = NULL,
                      lincoef.params = lincoef.params)
 
   # [ FITTED ] ====
-  fitted <- predict.hytree(mod, x,
+  fitted <- predict.lihad(mod, x,
                            learning.rate = learning.rate,
                            trace = trace,
                            verbose = verbose.predict,
@@ -248,7 +248,7 @@ s.HYTREE <- function(x, y = NULL,
   # [ PREDICTED ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict.hytree(mod, x.test,
+    predicted <- predict.lihad(mod, x.test,
                                 learning.rate = learning.rate,
                                 trace = trace,
                                 verbose = verbose.predict)
@@ -293,13 +293,13 @@ s.HYTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis:: s.HYTREE
+} # rtemis:: s.LIHAD
 
 
 #' \pkg{rtemis} internal: Recursive function to build Additive Tree
 #'
 #' @keywords internal
-hytree <- function(node = list(x = NULL,
+lihad <- function(node = list(x = NULL,
                                y = NULL,
                                Fval = NULL,
                                index = NULL,
@@ -428,7 +428,7 @@ hytree <- function(node = list(x = NULL,
       # Run Left and Right nodes
       # [ LEFT ] ====
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
-      node$left <- hytree(node$left,
+      node$left <- lihad(node$left,
                           coef.c = coef.c.left,
                           max.depth = max.depth,
                           minobsinnode = minobsinnode,
@@ -446,7 +446,7 @@ hytree <- function(node = list(x = NULL,
                           trace = trace)
       # [ RIGHT ] ====
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
-      node$right <- hytree(node$right,
+      node$right <- lihad(node$right,
                            coef.c = coef.c.right,
                            max.depth = max.depth,
                            minobsinnode = minobsinnode,
@@ -491,7 +491,7 @@ hytree <- function(node = list(x = NULL,
 
   node
 
-} # rtemis::hytree
+} # rtemis::lihad
 
 
 #' \pkg{rtemis} internal: Ridge and Stump
@@ -620,21 +620,21 @@ partLin <- function(x1, y1,
 } # rtemis::partLin
 
 
-#' Print method for \code{hytree} object
+#' Print method for \code{lihad} object
 #'
-#' @method print hytree
+#' @method print lihad
 #' @author Efstathios D. Gennatas
 #' @export
 
-print.hytree <- function(x, ...) {
+print.lihad <- function(x, ...) {
 
   cat("\n  An Hybrid Additive Tree model\n\n")
 
 }
 
 
-# [ preorderMatch hytree ] ====
-preorderMatch.hytree <- function(node, x, trace = 0) {
+# [ preorderMatch lihad ] ====
+preorderMatch.lihad <- function(node, x, trace = 0) {
 
   # [ EXIT ] ====
   if (node$terminal) return(node)
@@ -643,24 +643,24 @@ preorderMatch.hytree <- function(node, x, trace = 0) {
   if (with(x, eval(parse(text = node$split.rule)))) {
     # [ LEFT ] ====
     if (trace > 1) msg("      <--- Left")
-    node <- preorderMatch.hytree(node$left, x, trace = trace)
+    node <- preorderMatch.lihad(node$left, x, trace = trace)
   } else {
     # [ RIGHT ] ====
     if (trace > 1) msg("           Right --->")
-    node <- preorderMatch.hytree(node$right, x, trace = trace)
+    node <- preorderMatch.lihad(node$right, x, trace = trace)
   }
 
   node
 
-} # rtemis::preorderMatch.hytree
+} # rtemis::preorderMatch.lihad
 
 
-#' Predict method for \code{hytree} object
+#' Predict method for \code{lihad} object
 #'
-#' @method predict hytree
-#' @param object an \link{rtMod} trained with \link{s.HYTREE} or an \code{hytree} object
+#' @method predict lihad
+#' @param object an \link{rtMod} trained with \link{s.LIHAD} or an \code{lihad} object
 #' @param newdata data frame of predictor features
-#' @param learning.rate Float: learning rate if \code{object} was \code{hytree}
+#' @param learning.rate Float: learning rate if \code{object} was \code{lihad}
 #' @param n.feat Integer: internal use only
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE
@@ -668,7 +668,7 @@ preorderMatch.hytree <- function(node, x, trace = 0) {
 #' @export
 #' @author Efstathios D. Gennatas
 
-predict.hytree <- function(object, newdata = NULL,
+predict.lihad <- function(object, newdata = NULL,
                            learning.rate = NULL,
                            n.feat = NULL,
                            verbose = FALSE,
@@ -679,14 +679,14 @@ predict.hytree <- function(object, newdata = NULL,
     tree <- object$mod
     learning.rate <- object$mod$learning.rate
     if (is.null(n.feat)) n.feat <- length(object$xnames)
-  } else if (inherits(object, "hytree")) {
-    if (verbose) msg("Found hytree object")
+  } else if (inherits(object, "lihad")) {
+    if (verbose) msg("Found lihad object")
     tree <- object
     learning.rate <- object$learning.rate
     # if (is.null(learning.rate)) stop("Please provide learning rate")
     if (is.null(n.feat)) n.feat <- NCOL(newdata)
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'hytree' object")
+    stop("Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'lihad' object")
   }
 
   # ENH: consider removing
@@ -711,27 +711,27 @@ predict.hytree <- function(object, newdata = NULL,
     return(yhat)
   }
 
-} # rtemis:: predict.hytreeree
+} # rtemis:: predict.lihad
 
 
 #' Extract coefficients from Additive Tree leaves
 #'
-#' @param object \code{hytree} object
+#' @param object \code{lihad} object
 #' @param newdata matrix/data.frame of features
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity
 #' @author Efstathios D. Gennatas
 #' @export
-betas.hytree <- function(object, newdata,
+betas.lihad <- function(object, newdata,
                          verbose = FALSE,
                          trace = 0) {
 
   if (inherits(object, "rtMod")) {
     tree <- object$mod
-  } else if (inherits(object, "hytree")) {
+  } else if (inherits(object, "lihad")) {
     tree <- object
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'hytree' object")
+    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
   }
 
   # [ newdata colnames ] ====
@@ -744,18 +744,18 @@ betas.hytree <- function(object, newdata,
 
   # TODO: replace with fast data.table matchRules on leafs rules and coefs list
   for (i in seq(ncases)) {
-    leaf <- preorderMatch.hytree(tree, newdata[i, , drop = FALSE], trace = trace)
+    leaf <- preorderMatch.lihad(tree, newdata[i, , drop = FALSE], trace = trace)
     # betas[i, ] <- rowSums(as.data.frame(leaf$coef.c)[-1, , drop = FALSE])
     betas[i, ] <- leaf$coef.c
   }
   colnames(betas) <- c("Intercept", colnames(newdata))
   betas
 
-} # rtemis:: betas.hytree
+} # rtemis:: betas.lihad
 
 
 # [ preorder adddt ] ====
-preorder.hytree <- function(node, x, trace = 0) {
+preorder.lihad <- function(node, x, trace = 0) {
 
   # [ EXIT ] ====
   if (node$terminal) return(node)
@@ -764,37 +764,37 @@ preorder.hytree <- function(node, x, trace = 0) {
   if (with(x, eval(parse(text = node$split.rule)))) {
     # [ LEFT ] ====
     if (trace > 1) msg("      <--- Left")
-    node <- preorder.hytree(node$left, x, trace = trace)
+    node <- preorder.lihad(node$left, x, trace = trace)
   } else {
     # [ RIGHT ] ====
     if (trace > 1) msg("           Right --->")
-    node <- preorder.hytree(node$right, x, trace = trace)
+    node <- preorder.lihad(node$right, x, trace = trace)
   }
 
   node
 
-} # rtemis::preorder.hytree
+} # rtemis::preorder.lihad
 
 
 #' Extract coefficients from Hybrid Additive Tree leaves
 #'
-#' @param object \code{hytree} object
+#' @param object \code{lihad} object
 #' @param newdata matrix/data.frame of features
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity
 #' @param ... Not used
 #' @author Efstathios D. Gennatas
 #' @export
-coef.hytree <- function(object, newdata,
+coef.lihad <- function(object, newdata,
                         verbose = FALSE,
                         trace = 0, ...) {
 
   if (inherits(object, "rtMod")) {
     tree <- object$mod
-  } else if (inherits(object, "hytree")) {
+  } else if (inherits(object, "lihad")) {
     tree <- object
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'hytree' object")
+    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
   }
 
   # [ newdata colnames ] ====
@@ -807,11 +807,11 @@ coef.hytree <- function(object, newdata,
 
   # TODO: replace with fast data.table matchRules on leafs rules and coefs list
   for (i in seq(ncases)) {
-    leaf <- preorderMatch.hytree(tree, newdata[i, , drop = FALSE], trace = trace)
+    leaf <- preorderMatch.lihad(tree, newdata[i, , drop = FALSE], trace = trace)
     # betas[i, ] <- rowSums(as.data.frame(leaf$coef.c)[-1, , drop = FALSE])
     betas[i, ] <- leaf$coef.c
   }
   colnames(betas) <- c("Intercept", colnames(newdata))
   betas
 
-} # rtemis:: betas.hytree
+} # rtemis:: betas.lihad
