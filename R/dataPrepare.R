@@ -90,7 +90,7 @@ dataPrepare <- function(x, y = NULL,
   }
 
   # If outcome vector is character, convert to factor
-  if (class(y) == "character") {
+  if (class(y)[1] == "character") {
     y <- as.factor(y)
     if (!is.null(y.test)) y.test <- as.factor(y.test)
   }
