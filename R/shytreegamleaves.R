@@ -5,7 +5,7 @@
 # max.leaves 1 train on y or resid
 # apply gamma only to splits
 
-#' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
+#' \pkg{rtemis internal}: Low-level Stepwise Linear Additive Tree procedure
 #'
 #' Train a Stepwise Hybrid Tree for Classification & Regression
 #'
@@ -13,11 +13,14 @@
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s.LINAD
 #' @param x Data frame
-#' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
-#' model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
-#' Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.
-#' @param loss.fn Function with arguments y, Fval, weights. Allows you to define a custom loss function.
-# Defaults to \code{log(1 + exp(-2 * y * Fval)) %*% weights}
+#' @param max.leaves Integer: Total number of terminal nodes to reach.
+#' 1 is a special case where no split is performed and a linear model is trained.
+#' Otherwise, this should be an even number as each split introduces two children nodes.
+#' Note: this is total N of nodes in the tree, with the root uncounted,
+#' not the number of terminal nodes.
+#' @param loss.fn Function with arguments \code{y, Fval }
+#' Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
+#' \code{mse()} for regression
 #' @author Efstathios D. Gennatas
 #' @keywords internal
 
@@ -70,7 +73,9 @@ shytreegamleaves <- function(x, y,
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
   # Changed: Specify lookback directly
-  if (lookback && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
+  if (lookback && is.null(x.valid) && max.leaves > 1) {
+    stop("You have asked for early stopping without providing a validation set.")
+  }
 
   # [ Check y is not constant ] ====
   if (is.constant(y)) {
@@ -95,8 +100,12 @@ shytreegamleaves <- function(x, y,
   }
 
   # [ ARGUMENTS ] ====
-  # lin.type <- match.arg(lin.type)
-  if (NCOL(x) == 1) lin.type <- "glm"
+  if (NCOL(x) == 1) {
+    if (lin.type != "glm") {
+      lin.type <- "glm"
+      warning("Forcing lin.type to glm because x has a single column")
+    }
+  }
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ====
@@ -139,7 +148,6 @@ shytreegamleaves <- function(x, y,
 
     # Linear model
     coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = y,
-                    # weights = if (gamma.on.lin) weights else ifelse(weights == 1, 1, 0),
                     weights = weights,
                     method = lin.type,
                     nvmax = nvmax,
@@ -203,7 +211,7 @@ shytreegamleaves <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ====
-  if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
+  if (verbose) msg0("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...")
   if (trace > 0) msg("Training first Linear Model...")
   if (is.constant(resid)) stop("First gradient is constant")
 
@@ -831,7 +839,7 @@ splitlineRC <- function(g,
     Fval1[right.index] <- Fval.right
 
     # Assign loss reduction to parent
-    g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1) # check: do we need weights?
+    g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1)
     g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
 
     # Set id numbers by preorder indexing
