@@ -30,6 +30,12 @@
   /* Markdown */
   --heading: var(--language-constant);
   --inline-code: var(--string);
+
+}
+
+/* Cursor in Rmd visual editor (+?) */
+.pm-cursor-color {
+    caret-color: rgb(255, 255, 255);
 }
 
 .ace_gutter {
