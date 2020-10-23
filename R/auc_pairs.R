@@ -1,6 +1,6 @@
 # auc_pairs.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Area under the Curve by pairwise concordance
 #'

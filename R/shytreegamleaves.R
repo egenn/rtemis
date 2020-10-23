@@ -1,13 +1,13 @@
 # shytreegamleaves.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.github.io
+# Efstathios D. Gennatas egenn.lambdamd.org
 # shytreegamleaves with no-line option
 # max.leaves 1 train on y or resid
 # apply gamma only to splits
 
 #' \pkg{rtemis internal}: Low-level Stepwise Linear Additive Tree procedure
 #'
-#' Train a Stepwise Hybrid Tree for Classification & Regression
+#' Train a Linear Additive Tree for Classification & Regression
 #'
 #' With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
@@ -30,7 +30,7 @@ shytreegamleaves <- function(x, y,
                              lookback = FALSE,
                              weights = NULL,
                              max.leaves = 5,
-                             gamleaves = TRUE,
+                             gamleaves = FALSE,
                              gamlearner = "s.GAMSEL",
                              gam.params = list(degrees = 5),
                              learning.rate = 1,
@@ -52,6 +52,7 @@ shytreegamleaves <- function(x, y,
                              part.minbucket = 50,
                              .rho = TRUE,
                              rho.max = 1000,
+                             rho.def = .1,
                              loss.fn = if (is.factor(y)) class.loss else mse,
                              verbose = TRUE,
                              plot.tuning = TRUE,
@@ -68,7 +69,8 @@ shytreegamleaves <- function(x, y,
     ylevels <- NULL
     .rho <- FALSE
   }
-  .gamlearner <- modSelect(gamlearner)
+
+  if (gamleaves) .gamlearner <- modSelect(gamlearner)
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
@@ -112,7 +114,8 @@ shytreegamleaves <- function(x, y,
   g <- new.env()
   # g$x used by rpart, g$xm used by lincoef
   g$x <- x
-  g$xm <- cbind(1, model.matrix(~. - 1, data = x))
+  # g$xm <- cbind(1, model.matrix(~. - 1, data = x)) # check first 2-level factor incl as Var0 and Var1
+  g$xm <- model.matrix(~., data = x)
   g$ncolxm <- NCOL(g$xm)
   g$y <- y
   g$x.valid <- x.valid
@@ -147,8 +150,10 @@ shytreegamleaves <- function(x, y,
     if (lin.type == "none") lin.type <- "constant"
 
     # Linear model
-    coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = y,
-                    weights = weights,
+    index <- is.na(y)
+    coef <- lincoef(x = g$xm[!index, -1, drop = FALSE],
+                    y = y[!index],
+                    weights = weights[!index],
                     method = lin.type,
                     nvmax = nvmax,
                     alpha = alpha,
@@ -211,13 +216,14 @@ shytreegamleaves <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ====
-  if (verbose) msg0("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...")
+  if (verbose) msg0("Training Linear Additive Tree ", type, " (max leaves = ", max.leaves, ")...")
   if (trace > 0) msg("Training first Linear Model...")
   if (is.constant(resid)) stop("First gradient is constant")
 
-  coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid,
-                  # weights = if (gamma.on.lin) weights else ifelse(weights == 1, 1, 0),
-                  weights = weights,
+  index <- is.na(resid)
+  coef <- lincoef(x = g$xm[!index, -1, drop = FALSE],
+                  y = resid[!index],
+                  weights = weights[!index],
                   method = lin.type,
                   nvmax = nvmax,
                   alpha = alpha,
@@ -233,9 +239,22 @@ shytreegamleaves <- function(x, y,
     firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
     secDer.rho <- t((4 * linVal^2 * exp(2*y*Fval)) / (1 + exp(2*y * Fval))^2) %*% weights
     rho <- -firstDer.rho / secDer.rho
+    if (trace > 1) {
+      if (any(rho > rho.max)) warning("rho values > rho.max =", rho.max, "found")
+    }
     rho <- c(sign(rho) * min(rho.max, rho, na.rm = TRUE))
   } else {
     rho <- 1
+  }
+
+  # rhoprotect
+  if (anyNA(rho)) {
+    if (trace > 1) warning("NAs found in rho")
+    rho[is.na(rho)] <- rho.def
+  }
+  if (anyNA(rho)) {
+    if (trace > 1) warning("NAs found in rho")
+    rho[is.na(rho)] <- rho.def
   }
 
   Fval <- Fval + learning.rate * rho * linVal # n
@@ -419,6 +438,10 @@ shytreegamleaves <- function(x, y,
   if (trace > 1) print(all.step.leaves)
   if (trace > 1) msg("Getting all.step.coefs...")
   all.step.coefs <- plyr::ldply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)
+  # use following for no plyr
+  # all.step.coefs <- data.frame(do.call(
+  #   rbind,
+  #   lapply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)))
   rownames(all.step.coefs) <- all.step.rules$id
 
   # GAMLEAVES ====
@@ -609,7 +632,7 @@ splitlineRC <- function(g,
     if (!is.null(cutFeat.name)) {
       cutFeat.index <- which(names(g$x) == cutFeat.name)
       if (is.numeric(g$x[[cutFeat.name]])) {
-        # Split was on a categorical feature
+        # Split was on a continuous feature
         cutFeat.point <- part$splits[1, "index"]
         if (trace > 1) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                            "\"; Cut Point = ", ddSci(cutFeat.point),
@@ -617,13 +640,15 @@ splitlineRC <- function(g,
         split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
         split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
       } else {
-        # Split was on a continuous feature
+        # Split was on a categorical feature
         cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
         if (trace > 1) msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                            "\"; Cut Category is \"", cutFeat.category,
                            "\"", sep = "")
-        split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-        split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
+        split.rule.left <- paste0(cutFeat.name, " %in% ", "c(",
+                                  paste0("'", cutFeat.category, "'", collapse = ", "), ")")
+        split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(",
+                                   paste0("'", cutFeat.category, "'", collapse = ", "), ")")
       }
       if (length(cutFeat.point) > 0) {
         left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
@@ -669,7 +694,6 @@ splitlineRC <- function(g,
     }
 
     # ''- UPDATE nodeVal.left ====
-    # check
     coef.left <- node$coef
     if (.class) {
       if (weightedFirstDerLeft == 0) {
@@ -683,6 +707,12 @@ splitlineRC <- function(g,
           rho <- abs(weightedFirstDerLeft / weightedSecDerLeft)
         } else {
           rho <- 1
+        }
+
+        # rhoprotect
+        if (anyNA(rho)) {
+          if (trace > 1) warning("NAs found in rho")
+          rho[is.na(rho)] <- rho.def
         }
         nodeVal.left <- g$learning.rate * sign((weightedFirstDerLeft)) *
           min(g$rho.max, rho) # 1
@@ -719,6 +749,12 @@ splitlineRC <- function(g,
         } else {
           rho <- 1
         }
+
+        # rhoprotect
+        if (anyNA(rho)) {
+          if (trace > 1) warning("NAs found in rho")
+          rho[is.na(rho)] <- rho.def
+        }
         nodeVal.right <- g$learning.rate * sign(weightedFirstDerRight) *
           min(g$rho.max, rho)
       }
@@ -754,7 +790,7 @@ splitlineRC <- function(g,
 
     if (!is.null(cutFeat.name)) {
       # Node split
-      .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[weights.left == 1]
+      .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[left.index]
       if (length(left.index) < minobsinnode.lin | is.constant(.resid2wleft)) {
         # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) msg("Looking at Node #", node.index * 2,
@@ -763,8 +799,16 @@ splitlineRC <- function(g,
         linVal.left <- rep(0, length(resid2))
         linCoef.left <- rep(0, g$ncolxm)
       } else {
-        linCoef.left <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
-                                weights = if (gamma.on.lin) weights.left else ifelse(weights.left == 1, 1, 0),
+        index <- is.na(resid2)
+        if (gamma.on.lin) {
+          .weights <- weights.left[!index]
+        } else {
+          .weights <- rep(0, length(g$y))
+          .weights[left.index] <- 1
+        }
+        linCoef.left <- lincoef(x = g$xm[!index, -1, drop = FALSE],
+                                y = resid2[!index],
+                                weights = .weights[!index],
                                 method = lin.type,
                                 nvmax = nvmax,
                                 alpha = alpha,
@@ -790,7 +834,7 @@ splitlineRC <- function(g,
 
       } # /if (length(left.index) < minobsinnode.lin)
 
-      .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[weights.right == 1]
+      .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[right.index]
       if (length(right.index) < minobsinnode.lin | is.constant(.resid2wright)) {
         # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) msg("Looking at Node #", node.index * 2 + 1,
@@ -799,8 +843,16 @@ splitlineRC <- function(g,
         linVal.right <- rep(0, length(resid2))
         linCoef.right <- rep(0, g$ncolxm)
       } else {
-        linCoef.right <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid2,
-                                 weights = if (gamma.on.lin) weights.right else ifelse(weights.right == 1, 1, 0),
+        index <- is.na(resid2)
+        if (gamma.on.lin) {
+          .weights <- weights.right[!index]
+        } else {
+          .weights <- rep(0, length(g$y))
+          .weights[right.index] <- 1
+        }
+        linCoef.right <- lincoef(x = g$xm[!index, -1, drop = FALSE],
+                                 y = resid2[!index],
+                                 weights = .weights[!index],
                                  method = lin.type,
                                  nvmax = nvmax,
                                  alpha = alpha,
@@ -875,7 +927,6 @@ splitlineRC <- function(g,
 
   } # /if (is.null(part$splits)) aka Node did split
 
-
 } # rtemis::splitlineRC
 
 
@@ -901,7 +952,7 @@ splitlineRC <- function(g,
 predict.shytreegamleaves <- function(object, newdata,
                                      type = c("response", "probability", "all", "step"),
                                      n.leaves = NULL,
-                                     n.feat = NCOL(newdata),
+                                     # n.feat = NCOL(newdata),
                                      fixed.cxr = NULL,
                                      cxr.newdata = NULL,
                                      cxr = FALSE,
@@ -915,10 +966,13 @@ predict.shytreegamleaves <- function(object, newdata,
   # '-- Newdata ====
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  newdata <- newdata[, seq(n.feat), drop = FALSE]
-  # Add column of ones for intercept and convert factors to dummies
+  # check what experimental feature would use this
+  # newdata <- newdata[, seq(n.feat), drop = FALSE]
 
-  if (!object$gamleaves) newdata <- cbind(1, model.matrix(~. -1, data = newdata))
+
+  # Add column of ones for intercept and convert factors to dummies
+  # if (!object$gamleaves) newdata <- cbind(1, model.matrix(~. -1, data = newdata))
+  newdata_lin <- if (!object$gamleaves) model.matrix(~ ., data = newdata) else newdata
 
   if (type != "step") {
     # '-- Rules ====
@@ -930,7 +984,7 @@ predict.shytreegamleaves <- function(object, newdata,
       if (object$gamleaves) {
         yhat <- c(predict(object$leaves$gams[[1]], newdata))
       } else {
-        yhat <- c(newdata %*% t(object$leaves$coefs))
+        yhat <- c(newdata_lin %*% t(object$leaves$coefs))
       }
     } else {
       rule.ids <- object$stepindex[[paste(n.leaves)]]
@@ -963,7 +1017,7 @@ predict.shytreegamleaves <- function(object, newdata,
         # '-- yhat ====
         # TODO: Update to do length(rules) matrix multiplications and add
         yhat <- init + sapply(seq(NROW(newdata)), function(n)
-          object$learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
+          object$learning.rate * (newdata_lin[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
       }
 
     } # / n.leaves > 1
@@ -1031,7 +1085,7 @@ predict.shytreegamleaves <- function(object, newdata,
 
       yhat.l <- plyr::llply(seq(max.leaves), function(j) {
         yhat <- sapply(seq(NROW(newdata)), function(n)
-          object$learning.rate * (newdata[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE])))
+          object$learning.rate * (newdata_lin[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE])))
         if (.class) {
           yhat <- sign(yhat)
           yhat <- factor(yhat, levels = c(1, -1))

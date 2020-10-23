@@ -1,6 +1,6 @@
 # u.CMEANS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Fuzzy C-means Clustering
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s.LINAD.R
 \name{s.LINAD}
 \alias{s.LINAD}
-\title{Stepwise Hybrid Tree [C, R]}
+\title{Linear Additive Tree [C, R]}
 \usage{
 s.LINAD(
   x,
@@ -11,7 +11,7 @@ s.LINAD(
   y.test = NULL,
   weights = NULL,
   ipw = TRUE,
-  ipw.type = 2,
+  ipw.type = 1,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -145,10 +145,10 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{.gs}{internal use only}
 }
 \description{
-Train a Stepwise Hybrid Tree for Regression or Binary Classification
+Train a Linear Additive Tree for Regression or Binary Classification
 }
 \details{
-The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and stumps.
+The Linear Additive Tree trains a tree using a sequence of regularized linear models and splits.
 We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 because depending on the other parameters and the datasets, splitting may stop early.
 }

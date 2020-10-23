@@ -1,6 +1,6 @@
 # rtSave.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Write \pkg{rtemis} model to RDS file
 #'

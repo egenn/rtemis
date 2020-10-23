@@ -1,6 +1,6 @@
 # d.SVD.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Singular Value Decomposition
 #'

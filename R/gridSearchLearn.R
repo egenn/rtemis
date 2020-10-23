@@ -1,6 +1,6 @@
 # gridSearchLearn.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: Add support for Survival
 
 #' \pkg{rtemis} internal: Grid Search for Hyperparameter Tuning of \pkg{rtemis} Learners

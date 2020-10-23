@@ -1,6 +1,6 @@
 # labels2nii.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Write Data to a Nifti File
 #'

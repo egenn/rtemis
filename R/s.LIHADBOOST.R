@@ -1,6 +1,6 @@
 # s.LIHADBOOST.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 # boosting learning.rate vs. hytree learning.rate
 # ... added to allow "weights = NULL" from gridSearchLearn
 

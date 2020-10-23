@@ -1,12 +1,12 @@
 # preprocess.R
 # ::rtemis::
-# 2017-9 Efstathios D. Gennatas egenn.github.io
+# 2017-9 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Data preprocessing
 #'
 #' Prepare data for data analysis
 #'
-#' By default, only removes constant features and duplicated cases
+#' By default, removes constant features and duplicated cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
 #' Order of operations:
@@ -292,10 +292,25 @@ preprocess <- function(x, y = NULL,
 
   # [ Scale +/- center ] ====
   if (scale | center) {
+    # Get index of numeric features
+    numeric_index <- which(sapply(x, is.numeric))
     sc <- if (scale) "Scaling" else NULL
     ce <- if (center) "Centering" else NULL
-    if (verbose) msg(paste(c(sc, ce), collapse = " and "), "dataset...")
-    x <- as.data.frame(scale(x, scale = scale, center = center))
+    if (length(numeric_index) > 0) {
+      if (verbose) msg(paste(c(sc, ce), collapse = " and "),
+                       length(numeric_index), "numeric features...")
+      x_num_scaled <- as.data.frame(scale(x[, numeric_index], scale = scale, center = center))
+      # insert into original dataset
+      j <- 0
+      for (i in numeric_index) {
+        j <- j + 1
+        x[, i] <- x_num_scaled[, j]
+      }
+    } else {
+      msg(paste(c(sc, ce), collapse = " and "),
+          "was requested \n                                but no numeric features were found: Please check data.")
+    }
+
   }
 
   # [ Remove constants ] ====

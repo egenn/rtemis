@@ -1,6 +1,6 @@
 # mplot3.box
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: make x vector or list
 
 #' \code{mplot3}: Boxplot
@@ -37,13 +37,13 @@ mplot3.box <- function(x,
                        main = NULL,
                        names.arg = NULL,
                        axisnames = FALSE,
-                       group.names = NULL,
-                       group.names.at = NULL,
-                       group.names.y = NULL,
-                       group.names.font = 1,
-                       group.names.adj = .5,
-                       group.names.pos = NULL,
-                       group.names.srt = 0,
+                       xnames = NULL,
+                       xnames.at = NULL,
+                       xnames.y = NULL,
+                       xnames.font = 1,
+                       xnames.adj = c(.5, 1),
+                       xnames.pos = NULL,
+                       xnames.srt = 0,
                        legend = FALSE,
                        legend.names = NULL,
                        legend.position = "topright",
@@ -67,12 +67,13 @@ mplot3.box <- function(x,
                        filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
+  if (is.matrix(x)) x <- as.data.frame(x)
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) {
-    if (NCOL(x) == 1) {
+    if (length(x) == 1) {
       col <- palette[1]
     } else {
-      col <- palette[seq(NCOL(x))]
+      col <- palette[seq(length(x))]
     }
   }
   if (is.null(mar)) {
@@ -80,13 +81,13 @@ mplot3.box <- function(x,
   }
 
   # Group names
-  if (is.null(group.names)) {
-    if (!is.null(colnames(x))) group.names <- colnames(x)
+  if (is.null(xnames)) {
+    if (!is.null(names(x))) xnames <- names(x)
   }
 
-  if (!is.null(group.names)) {
-    if (is.null(group.names.at)) {
-      group.names.at <- seq(NCOL(x))
+  if (!is.null(xnames)) {
+    if (is.null(xnames.at)) {
+      xnames.at <- seq(length(x))
     }
   }
 
@@ -111,14 +112,10 @@ mplot3.box <- function(x,
     }
   }
 
-  # [ DATA ] ====
-  x <- as.matrix(x)
-
   # [ XLIM & YLIM ] ====
-  # .dat <- boxplot(x, plot = FALSE)
-  if (is.null(xlim)) xlim <- c(.5, NCOL(x) + .5)
-  # if (is.null(ylim)) ylim <- c(min(.dat$stats[1, ]), max(.dat$stats[5, ]))
-  if (is.null(ylim)) ylim <- c(min(x) - .06 * abs(min(x)), max(x) + .05 * abs(max(x)))
+  xv <- unlist(x)
+  if (is.null(xlim)) xlim <- c(.5, length(x) + .5)
+  if (is.null(ylim)) ylim <- c(min(xv) - .06 * abs(min(xv)), max(xv) + .05 * abs(max(xv)))
 
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
@@ -183,16 +180,16 @@ mplot3.box <- function(x,
   }
 
   # [ GROUP NAMES ] ====
-  if (is.null(group.names.y)) {
-    group.names.y <- min(ylim) - diff(ylim) * .1
+  if (is.null(xnames.y)) {
+    xnames.y <- min(ylim) - diff(ylim) * .06
   }
-  if (!is.null(group.names)) {
-    text(x = group.names.at, y = group.names.y,
-         labels = group.names,
-         adj = group.names.adj,
-         pos = group.names.pos,
-         srt = group.names.srt, xpd = TRUE,
-         font = group.names.font,
+  if (!is.null(xnames)) {
+    text(x = xnames.at, y = xnames.y,
+         labels = xnames,
+         adj = xnames.adj,
+         pos = xnames.pos,
+         srt = xnames.srt, xpd = TRUE,
+         font = xnames.font,
          col = theme$labs.col,
          family = theme$font.family)
   }

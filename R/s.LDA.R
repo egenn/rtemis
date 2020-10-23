@@ -1,6 +1,6 @@
 # s.LDA.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Linear Discriminant Analysis
 #'
@@ -13,7 +13,7 @@
 #' @family Supervised Learning
 #' @export
 
-s.LDA <- function(x, y,
+s.LDA <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   prior = NULL,
                   method = "moment",
@@ -93,7 +93,7 @@ s.LDA <- function(x, y,
   if (verbose) errorSummary(error.train, mod.name)
 
   # [ PREDICTED ] ====
-  predicted.raw <- predicted <- predicted.prob <- error.test <- NULL
+  predicted.raw <- predicted <- predicted.prob <- test.projections <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test)
     predicted <- predicted.raw$class

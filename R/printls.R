@@ -1,6 +1,6 @@
 # printls.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Pretty print list
 #'
@@ -74,7 +74,7 @@ printls <- function(x,
 
 # printdf1
 # ::rtemis::
-# 2016 egenn.github.io
+# 2016 egenn.lambdamd.org
 #' Print 1 x N data frame
 #'
 #' Pretty print a data frame containing 1 row of data with named columns as a vertical list

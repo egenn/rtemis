@@ -1,6 +1,6 @@
 # s.SVM.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Support Vector Machines [C, R]
 #'

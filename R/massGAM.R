@@ -1,6 +1,6 @@
 # massGAM.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 # rtTODO: ?Save plots
 
 #' Mass-univariate GAM Analysis

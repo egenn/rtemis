@@ -1,6 +1,6 @@
 # dplot3.varimp.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: Forgot this existed, not have to add theme support
 
 #' Interactive Variable Importance Plot

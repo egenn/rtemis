@@ -1,6 +1,6 @@
 # sparsify.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Sparsify a vector
 #'

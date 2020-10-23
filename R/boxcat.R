@@ -1,6 +1,6 @@
 # boxcat.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Box cat
 #'
@@ -55,7 +55,7 @@ boxcat <- function(x,
 
 # objcat.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' `rtemis-internal`: Object cat
 #'

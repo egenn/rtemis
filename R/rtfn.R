@@ -1,6 +1,6 @@
 # rtfn.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.github.io
+# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 
 #' Get the mode of a factor or integer
@@ -260,7 +260,7 @@ ifNotNull <- function(x, defType) {
 
 # psd.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Population Standard Deviation
 #'

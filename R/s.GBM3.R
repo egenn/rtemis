@@ -1,6 +1,6 @@
 # s.GBM3.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.github.io
+# 2015-8 Efstathios D. Gennatas egenn.lambdamd.org
 #
 # Notes: gbm.more currently fails with distribution "multinomial" due to a bug in gbm.
 

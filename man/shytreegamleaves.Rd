@@ -2,7 +2,7 @@
 % Please edit documentation in R/shytreegamleaves.R
 \name{shytreegamleaves}
 \alias{shytreegamleaves}
-\title{\pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure}
+\title{\pkg{rtemis internal}: Low-level Stepwise Linear Additive Tree procedure}
 \usage{
 shytreegamleaves(
   x,
@@ -12,7 +12,7 @@ shytreegamleaves(
   lookback = FALSE,
   weights = NULL,
   max.leaves = 5,
-  gamleaves = TRUE,
+  gamleaves = FALSE,
   gamlearner = "s.GAMSEL",
   gam.params = list(degrees = 5),
   learning.rate = 1,
@@ -34,6 +34,7 @@ shytreegamleaves(
   part.minbucket = 50,
   .rho = TRUE,
   rho.max = 1000,
+  rho.def = 0.1,
   loss.fn = if (is.factor(y)) class.loss else mse,
   verbose = TRUE,
   plot.tuning = TRUE,
@@ -52,9 +53,11 @@ Default = TRUE}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{max.leaves}{Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
-model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
-Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
+\item{max.leaves}{Integer: Total number of terminal nodes to reach.
+1 is a special case where no split is performed and a linear model is trained.
+Otherwise, this should be an even number as each split introduces two children nodes.
+Note: this is total N of nodes in the tree, with the root uncounted,
+not the number of terminal nodes.}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
@@ -63,7 +66,9 @@ Note: this is total N of nodes in the tree, with the root uncounted, not the num
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{loss.fn}{Function with arguments y, Fval, weights. Allows you to define a custom loss function.}
+\item{loss.fn}{Function with arguments \code{y, Fval }
+Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
+\code{mse()} for regression}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -72,7 +77,7 @@ Note: this is total N of nodes in the tree, with the root uncounted, not the num
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 }
 \description{
-Train a Stepwise Hybrid Tree for Classification & Regression
+Train a Linear Additive Tree for Classification & Regression
 }
 \details{
 With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}

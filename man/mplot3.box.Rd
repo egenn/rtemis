@@ -18,13 +18,13 @@ mplot3.box(
   main = NULL,
   names.arg = NULL,
   axisnames = FALSE,
-  group.names = NULL,
-  group.names.at = NULL,
-  group.names.y = NULL,
-  group.names.font = 1,
-  group.names.adj = 0.5,
-  group.names.pos = NULL,
-  group.names.srt = 0,
+  xnames = NULL,
+  xnames.at = NULL,
+  xnames.y = NULL,
+  xnames.font = 1,
+  xnames.adj = c(0.5, 1),
+  xnames.pos = NULL,
+  xnames.srt = 0,
   legend = FALSE,
   legend.names = NULL,
   legend.position = "topright",
@@ -63,8 +63,6 @@ mplot3.box(
 \item{ylab}{Character: y-axis label}
 
 \item{main}{Character: Plot title}
-
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 

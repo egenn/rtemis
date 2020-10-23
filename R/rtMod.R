@@ -1,6 +1,6 @@
 # rtMod.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: survival analysis in elevate
 
 # rtMod R6 ====

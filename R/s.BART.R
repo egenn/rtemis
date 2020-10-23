@@ -1,6 +1,6 @@
 # s.BART.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Bayesian Additive Regression Trees [C, R]
 #'

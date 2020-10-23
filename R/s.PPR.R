@@ -1,6 +1,6 @@
 # s.PPR.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Projection Pursuit Regression (PPR) [R]
 #'

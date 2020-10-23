@@ -9,7 +9,7 @@ Advanced Machine Learning made easy, efficient, reproducible
 }
 \section{Online Documentation and Vignettes}{
 
-\url{https://rtemis.netlify.com}
+\url{https://rtemis.lambdamd.org}
 }
 
 \section{System Setup}{

@@ -1,6 +1,6 @@
 # s.POLYMARS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 # method = "cv" fails to find nk and penalty
 
 #' Multivariate adaptive polynomial spline regression (POLYMARS) [C, R]

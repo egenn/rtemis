@@ -1,6 +1,6 @@
 # s.H2OGBM.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.github.io
+# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Gradient Boosting Machine on H2O [C, R]
 #'

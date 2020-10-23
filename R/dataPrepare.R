@@ -1,6 +1,6 @@
 # dataPrepare.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.github.io
+# Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \code{rtemis-internals}: \code{dataPrepare}
 #'

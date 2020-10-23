@@ -1,6 +1,6 @@
 # checkData.R
 # ::rtemis::
-# 2017-9 Efstathios D. Gennatas egenn.github.io
+# 2017-9 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Check Data
 #'

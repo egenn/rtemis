@@ -1,6 +1,6 @@
 # mplot3.xy.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.github.io
+# Efstathios D. Gennatas egenn.lambdamd.org
 # inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
 #' \code{mplot3}: XY Scatter and line plots

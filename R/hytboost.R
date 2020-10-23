@@ -1,6 +1,6 @@
 # hytboost.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 # 05-2020: switched to hytreew
 
 #' \pkg{rtemis} internal: Boosting of Hybrid Trees

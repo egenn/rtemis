@@ -1,6 +1,6 @@
 # s.PPTREE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Projection Pursuit Tree Classification [C]
 #'

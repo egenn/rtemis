@@ -1,6 +1,6 @@
 # mplot3.heatmap.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: check dendrogram: compare to heatmap: same hierarchy, different layout, not wrong
 # TODO: only center around zero (if autorange) if 0 is within range of z,
 #       otherwise range from 0 to max or closest multiple of ten, each depending on range.

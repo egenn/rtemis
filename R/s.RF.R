@@ -1,6 +1,6 @@
 # s.RF.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Random Forest Classification and Regression [C, R]
 #'

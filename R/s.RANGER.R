@@ -1,6 +1,6 @@
 # s.RANGER.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: Add Survival support
 # TODO: Use inbag and resample for stratified bootstraps
 

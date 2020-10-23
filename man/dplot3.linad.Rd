@@ -5,7 +5,7 @@
 \title{Plot a stepwise hybrid tree trained by \code{s.LINAD} using \code{plotly}}
 \usage{
 dplot3.linad(
-  tree,
+  x,
   main = NULL,
   bg = "#FFFFFF",
   shape = "box",
@@ -15,7 +15,7 @@ dplot3.linad(
   node.col = "#7F7F7F",
   leaf.col = "#18A3AC",
   edge.col = "#848484",
-  col.highlight = "#F48024",
+  col.highlight = "#FE4AA3",
   node.font.col = NULL,
   edge.font.col = "#000000",
   sort.coefs = FALSE,
@@ -24,18 +24,19 @@ dplot3.linad(
   levelSeparation = 100,
   tree.font.size = 22,
   edgethickness.by.ncases = FALSE,
-  font.family = "Helvetica Neue",
+  font.family = "Lato",
   tooltip.coefs = TRUE,
-  table.font.size = "14px",
+  table.font.size = "16px",
   table.dat.padding = "0px",
-  table.lo.col = "#2B27F1",
-  table.hi.col = "#FFBE00",
+  table.lo.col = "#0290EE",
+  table.hi.col = "#FE4AA3",
+  dragNodes = FALSE,
+  zoomView = TRUE,
+  nodeSpacing = 120,
   trace = 0
 )
 }
 \arguments{
-\item{tree}{\code{s.LINAD} tree}
-
 \item{main}{String: Title. Default = NULL}
 
 \item{bg}{Background color. Default = "#FFFFFF" (white)}
@@ -84,9 +85,11 @@ a custom html table creation function was made to replace some impossibly slow a
 
 \item{table.lo.col}{Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)}
 
-\item{table.hi.col}{Color for highest coefficient values (positive). Default = "#80FFFF" (light orange)}
+\item{table.hi.col}{Color for highest coefficient values (positive). Default = "#FFBE00" (light orange)}
 
 \item{trace}{Integer: If > 0, print info to console (not particularly informative). Default = 0}
+
+\item{tree}{\code{s.LINAD} tree}
 
 \item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by number of cases with weight = 1}
 }

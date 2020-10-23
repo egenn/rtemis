@@ -1,6 +1,6 @@
 # u.H2OKMEANS.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' K-Means Clustering on H2O
 #'

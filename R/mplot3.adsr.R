@@ -1,6 +1,6 @@
 # mplot3.adsr.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \code{mplot3}: ADSR Plot
 #'

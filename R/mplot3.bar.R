@@ -1,6 +1,6 @@
 # mplot3.bar
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: groups support (set xlim for besides = T)
 
 #' \code{mplot3}: Barplot

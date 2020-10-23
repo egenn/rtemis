@@ -1,6 +1,6 @@
 # dplot3.pie.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Interactive Pie Chart
 #'

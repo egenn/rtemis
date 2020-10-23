@@ -1,6 +1,6 @@
 # glmLiteBoostTV
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 # made learning.rate into vector
 # TODO: add error vector (1 * n.iter)
 # TODO: make learning.rate input into max.iter vector

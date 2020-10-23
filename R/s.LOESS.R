@@ -1,6 +1,6 @@
 # s.LOESS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Local Polynomial Regression (LOESS) [R]
 #'

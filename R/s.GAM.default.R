@@ -1,6 +1,6 @@
 # s.GAM.default.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Generalized Additive Model (GAM) [C, R]
 #'

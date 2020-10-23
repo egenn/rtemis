@@ -20,6 +20,8 @@
 \alias{uciCol}
 \alias{ucsdCol}
 \alias{californiaCol}
+\alias{csuCol}
+\alias{calpolyCol}
 \alias{caltechCol}
 \alias{cmuCol}
 \alias{mitCol}
@@ -93,6 +95,10 @@ An object of class \code{list} of length 8.
 An object of class \code{list} of length 11.
 
 An object of class \code{list} of length 17.
+
+An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 18.
 
 An object of class \code{list} of length 19.
 
@@ -204,6 +210,10 @@ uciCol
 ucsdCol
 
 californiaCol
+
+csuCol
+
+calpolyCol
 
 caltechCol
 
@@ -321,6 +331,12 @@ microsoftCol
 
 \code{californiaCol}: University of California color palette
 (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
+
+\code{csuCol}: California State University color palette
+(https://www2.calstate.edu/csu-system/csu-branding-standards/Documents/CSU-Brand-Guidelines-8-2018.pdf)
+
+\code{calpolyCol}: Cal Poly color palette
+(https://universitymarketing.calpoly.edu/brand-guidelines/colors/)
 
 \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
 

@@ -1,6 +1,6 @@
 # s.GAMSEL.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: Update to use cv.gamsel similar to s.GLMNET
 # TODO: Add special case in rtMod predict
 

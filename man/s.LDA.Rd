@@ -6,7 +6,7 @@
 \usage{
 s.LDA(
   x,
-  y,
+  y = NULL,
   x.test = NULL,
   y.test = NULL,
   prior = NULL,
@@ -28,7 +28,7 @@ s.LDA(
 
 s.LDA(
   x,
-  y,
+  y = NULL,
   x.test = NULL,
   y.test = NULL,
   prior = NULL,

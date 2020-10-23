@@ -1,6 +1,6 @@
 # mplot3.resample
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \code{mplot3} Plot \code{resample}
 #'

@@ -1,6 +1,6 @@
 # s.XGB.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: check if all objective functions must be minimized, or change which.min to variable
 # TODO: weights and ipw do not seem to work, upsample works, check weights passing
 # and add scale_pos_weight

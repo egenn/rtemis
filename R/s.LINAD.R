@@ -1,14 +1,14 @@
 # s.LINAD.R
 # ::rtemis::
-# 2019-20 Efstathios D Gennatas egenn.github.io
+# 2019-20 Efstathios D Gennatas egenn.lambdamd.org
 # Allow early stopping
 # varimp: N cases-weighted mean of absolute coefficients
 
-#' Stepwise Hybrid Tree [C, R]
+#' Linear Additive Tree [C, R]
 #'
-#' Train a Stepwise Hybrid Tree for Regression or Binary Classification
+#' Train a Linear Additive Tree for Regression or Binary Classification
 #'
-#' The Stepwise Hybrid Tree grows a tree using a sequence of regularized linear models and stumps.
+#' The Linear Additive Tree trains a tree using a sequence of regularized linear models and splits.
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
@@ -27,66 +27,66 @@
 #' @export
 
 s.LINAD <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      weights = NULL,
-                      ipw = TRUE,
-                      ipw.type = 2,
-                      upsample = FALSE,
-                      downsample = FALSE,
-                      resample.seed = NULL,
-                      max.leaves = 8,
-                      leaf.model = c("line", "spline"),
-                      gamlearner = "gamsel",
-                      gam.params = list(),  # use force.lambda to force gamsel over cv.gamsel
-                      nvmax = 3,
-                      force.max.leaves = NULL,
-                      lookback = TRUE, # requires cross-validation with gridSearchLearn
-                      gamma = 0,
-                      gamma.on.lin = FALSE,
-                      alpha = 1,
-                      lambda = .05,
-                      lambda.seq = NULL,
-                      minobsinnode.lin = 10,
-                      learning.rate =.5,
-                      # rpart
-                      part.minsplit = 5,
-                      part.xval = 0,
-                      part.max.depth = 1,
-                      part.cp = 0,
-                      part.minbucket = 3,
-                      .rho = TRUE,
-                      rho.max = 1000,
-                      init = NULL,
-                      lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge",
-                                   "allSubsets", "backwardStepwise", "glm", "solve", "none"),
-                      cv.glmnet.nfolds = 5,
-                      which.cv.glmnet.lambda = "lambda.min",
-                      metric = "auto",
-                      maximize = NULL,
-                      grid.resample.rtset = rtset.resample("kfold", 5),
-                      grid.search.type = "exhaustive",
-                      save.gridrun = FALSE,
-                      grid.verbose = TRUE,
-                      cluster = FALSE,
-                      keep.x = FALSE,
-                      simplify = TRUE,
-                      cxrcoef = FALSE,
-                      n.cores = rtCores,
-                      .preprocess = NULL,
-                      verbose = TRUE,
-                      plot.tuning = TRUE,
-                      verbose.predict = FALSE,
-                      trace = 1,
-                      x.name = NULL,
-                      y.name = NULL,
-                      question = NULL,
-                      outdir = NULL,
-                      print.plot = TRUE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
-                      save.mod = FALSE,
-                      .gs = FALSE) {
+                    x.test = NULL, y.test = NULL,
+                    weights = NULL,
+                    ipw = TRUE,
+                    ipw.type = 1,
+                    upsample = FALSE,
+                    downsample = FALSE,
+                    resample.seed = NULL,
+                    max.leaves = 8,
+                    leaf.model = c("line", "spline"),
+                    gamlearner = "gamsel",
+                    gam.params = list(),  # use force.lambda to force gamsel over cv.gamsel
+                    nvmax = 3,
+                    force.max.leaves = NULL,
+                    lookback = TRUE, # requires cross-validation with gridSearchLearn
+                    gamma = 0,
+                    gamma.on.lin = FALSE,
+                    alpha = 1,
+                    lambda = .05,
+                    lambda.seq = NULL,
+                    minobsinnode.lin = 10,
+                    learning.rate =.5,
+                    # rpart
+                    part.minsplit = 5,
+                    part.xval = 0,
+                    part.max.depth = 1,
+                    part.cp = 0,
+                    part.minbucket = 3,
+                    .rho = TRUE,
+                    rho.max = 1000,
+                    init = NULL,
+                    lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge",
+                                 "allSubsets", "backwardStepwise", "glm", "solve", "none"),
+                    cv.glmnet.nfolds = 5,
+                    which.cv.glmnet.lambda = "lambda.min",
+                    metric = "auto",
+                    maximize = NULL,
+                    grid.resample.rtset = rtset.resample("kfold", 5),
+                    grid.search.type = "exhaustive",
+                    save.gridrun = FALSE,
+                    grid.verbose = TRUE,
+                    cluster = FALSE,
+                    keep.x = FALSE,
+                    simplify = TRUE,
+                    cxrcoef = FALSE,
+                    n.cores = rtCores,
+                    .preprocess = NULL,
+                    verbose = TRUE,
+                    plot.tuning = TRUE,
+                    verbose.predict = FALSE,
+                    trace = 1,
+                    x.name = NULL,
+                    y.name = NULL,
+                    question = NULL,
+                    outdir = NULL,
+                    print.plot = TRUE,
+                    plot.fitted = NULL,
+                    plot.predicted = NULL,
+                    plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                    save.mod = FALSE,
+                    .gs = FALSE) {
 
   # [ INTRO ] ====
   if (missing(x)) {
@@ -299,6 +299,37 @@ s.LINAD <- function(x, y = NULL,
                           plot.tuning = plot.tuning,
                           trace = trace)
 
+  # Get categorical index and levels
+  cat_index <- which(sapply(x, is.factor))
+  cat_levels <- lapply(x[, cat_index], function(i) levels(i))
+  conditions_fmtd <- mod$all.step.leaves$rules$rule
+  conditions_fmtd <- gsub(".*&", "", conditions_fmtd)
+  # conditions_fmtd <- gsub(" ", "",
+  #                         gsub(".*&", "", conditions_fmtd))
+  conditions_fmtd[1] <- "All cases"
+  negate_index <- grep("!", conditions_fmtd)
+  conditions_fmtd <- gsub("!", "", conditions_fmtd)
+  for (i in negate_index) {
+    var <- gsub("%in%.*| ", "", conditions_fmtd[i])
+    # levels <- cat_levels[[var]]
+    levels <- paste0("'", cat_levels[[var]], "'")
+    excl <- gsub(".*\\(|\\)", "", conditions_fmtd[i])
+    incl <- setdiff(levels, excl)
+    conditions_fmtd[i] <- gsub("%in%.*", paste("%in%", incl), conditions_fmtd[i])
+  }
+  conditions_fmtd <- gsub("%in%", "is", conditions_fmtd)
+  conditions_fmtd <- gsub("^ |c\\(|\\)|'", "", conditions_fmtd)
+
+  # ddSci numeric thresholds
+  cond_num_index <- grep("<|>=", conditions_fmtd)
+  for (i in cond_num_index) {
+    threepart <- strsplit(conditions_fmtd[i], " ")[[1]]
+    threepart[3] <- ddSci(threepart[3])
+    conditions_fmtd[i] <- paste(threepart, collapse = " ")
+  }
+
+  mod$all.step.leaves$rules$condition <- conditions_fmtd
+
   parameters <- list(max.leaves = max.leaves,
                      learning.rate = learning.rate,
                      gamma = gamma,
@@ -325,6 +356,7 @@ s.LINAD <- function(x, y = NULL,
                      plot.tuning = plot.tuning)
 
   # [ FITTED ] ====
+  if (trace > 1) msg("Getting fitted values...")
   if (type == "Classification") {
     .fitted <- predict(mod, x, type = "all")
     fitted <- .fitted$estimate
@@ -339,6 +371,7 @@ s.LINAD <- function(x, y = NULL,
   # [ PREDICTED ] ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
+    if (trace > 1) msg("Getting predicted values...")
     if (type == "Classification") {
       .predicted <- predict(mod, x.test,
                             type = "all",
@@ -362,13 +395,14 @@ s.LINAD <- function(x, y = NULL,
   }
 
   # [ OUTRO ] ====
-  varimp <- if (lin.type == "none") {
-    numeric()
-  } else {
-    # This is probably a poor measure of variable importance.
-    # In general, look at each leaf's coefficients instead
-    apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i))) * apply(x, 2, sd)
-  }
+  varimp <- NULL
+  # varimp <- if (lin.type == "none") {
+  #   numeric()
+  # } else {
+  #   # This is probably a poor measure of variable importance.
+  #   # In general, look at each leaf's coefficients instead
+  #   apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i))) * apply(x, 2, sd)
+  # }
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,

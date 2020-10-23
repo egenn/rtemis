@@ -1,6 +1,6 @@
 # mplot3.decision
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \code{mplot3}: Decision boundaries
 #'

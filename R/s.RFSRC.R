@@ -1,6 +1,6 @@
 # s.RFSRC.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Random Forest for Classification, Regression, and Survival [C, R, S]
 #'

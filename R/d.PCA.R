@@ -1,6 +1,6 @@
 # d.PCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Principal Component Analysis
 #'

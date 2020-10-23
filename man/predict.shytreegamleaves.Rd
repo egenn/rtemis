@@ -9,7 +9,6 @@
   newdata,
   type = c("response", "probability", "all", "step"),
   n.leaves = NULL,
-  n.feat = NCOL(newdata),
   fixed.cxr = NULL,
   cxr.newdata = NULL,
   cxr = FALSE,
@@ -23,9 +22,6 @@
 
 \item{newdata}{Data frame of predictors}
 
-\item{n.feat}{[Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
-Defaults to all}
-
 \item{fixed.cxr}{[Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
 \code{newdata}}
 
@@ -36,6 +32,9 @@ Defaults to all}
 \item{cxrcoef}{Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{n.feat}{[Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
+Defaults to all}
 
 \item{trace}{Integer: 0, 1, or 2. Provides increasing amount to information printed to the
 console}

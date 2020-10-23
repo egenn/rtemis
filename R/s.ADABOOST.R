@@ -1,6 +1,6 @@
 # s.ADABOOST.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Adaboost Binary Classifier [C]
 #'

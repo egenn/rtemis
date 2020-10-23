@@ -1,6 +1,6 @@
 # s.LIHAD.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.github.io
+# 2019 Efstathios D Gennatas egenn.lambdamd.org
 
 # Grow rule along with tree in global env, extract leaf rules and coefficients
 # Added rpart.control min.bucket = 5

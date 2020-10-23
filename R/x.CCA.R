@@ -1,6 +1,6 @@
 # x.CCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Sparse Canonical Correlation Analysis (CCA)
 #'
@@ -192,7 +192,7 @@ x.CCA <- function(x, z,
 
 # modified PMA::CCA.permute for parallel execution
 # ::rtemis::
-# 2016 egenn.github.io
+# 2016 egenn.lambdamd.org
 
 #' modified PMA::CCA.permute for parallel execution
 #'
@@ -305,7 +305,7 @@ x.CCA.permute <- function(x, z,
 
 # x.CCA.permute.both
 # ::rtemis::
-# egenn.github.io
+# egenn.lambdamd.org
 
 #' modified PMA:::CCA.permute.both for parallel execution
 #'

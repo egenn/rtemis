@@ -1,6 +1,6 @@
 # modError.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.github.io
+# 2015-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Error Metrics for Supervised Learning
 #'
@@ -356,7 +356,7 @@ factorHarmonize <- function(reference, x,
 
 # print.regError.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Print \code{regError} object
 #'
@@ -384,7 +384,7 @@ print.regError <- function(x, ...) {
 
 # print.survError.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Print \code{survError} object
 #'

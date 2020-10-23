@@ -1,6 +1,6 @@
 # se.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Extract standard error of fit from rtemis model
 #'

@@ -1,6 +1,6 @@
 # d.LLE.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 # Replace with RDRToolbox function
 
 #' Locally Linear Embedding

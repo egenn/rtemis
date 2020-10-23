@@ -1,6 +1,6 @@
 # s.LM.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 # rtTODO: should we add support for formula input? see latest s.GAM
 
 #' Linear model

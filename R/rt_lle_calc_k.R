@@ -1,6 +1,6 @@
 # rt_lle_calc_k
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}
 #'

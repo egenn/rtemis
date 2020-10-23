@@ -1,6 +1,6 @@
  # s.KNN.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: Consider replacing knn fn
 
 #' k-Nearest Neighbors Classification and Regression [C, R]

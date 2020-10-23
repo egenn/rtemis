@@ -1,6 +1,6 @@
 # s.LINOA.R
 # ::rtemis::
-# 2019-20 Efstathios D Gennatas egenn.github.io
+# 2019-20 Efstathios D Gennatas egenn.lambdamd.org
 # Allow early stopping
 # LINOA -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 

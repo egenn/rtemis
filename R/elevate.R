@@ -1,6 +1,6 @@
 # elevate.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.github.io
+# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: add names Repeat1, etc. to resamples list
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling

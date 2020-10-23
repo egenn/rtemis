@@ -1,6 +1,6 @@
 # cols2list.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Convert data frame columns to list elements
 #'

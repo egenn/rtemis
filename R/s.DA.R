@@ -1,6 +1,6 @@
 # s.DA.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.github.io
+# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Linear and Quadratic Discriminant Analysis [C]
 #'

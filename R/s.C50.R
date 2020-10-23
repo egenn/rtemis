@@ -1,6 +1,6 @@
 # s.C50.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' C5.0 Decision Trees and Rule-Based Models [C]
 #'

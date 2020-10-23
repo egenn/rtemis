@@ -1,6 +1,6 @@
 # s.ET.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' ExtraTrees [C, R]
 #'

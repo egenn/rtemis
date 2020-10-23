@@ -1,6 +1,6 @@
 # d.H2OGLRM.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Generalized Low-Rank Models (GLRM) on H2O
 #'

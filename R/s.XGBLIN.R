@@ -1,6 +1,6 @@
 # s.XGBLIN.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.github.io
+# 2016 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' XGBoost with linear booster (wrapper for \link{s.XGB})
 #'

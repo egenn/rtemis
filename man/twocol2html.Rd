@@ -6,16 +6,16 @@
 \usage{
 twocol2html(
   x,
-  font.family = "'Helvetica Neue'",
+  font.family = "'Lato'",
   font.col = "#ffffff",
-  font.size = "14px",
+  font.size = "18px",
   header.bg = "#404040",
   table.bg = "#7F7F7F",
   dat.col = rep("#525252", NROW(x)),
   dat.font.col = "#ffffff",
   height = "50px",
-  head.padding = "4px",
-  dat.padding = "4px"
+  head.padding = "5px",
+  dat.padding = "5px"
 )
 }
 \description{

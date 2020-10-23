@@ -1,6 +1,6 @@
 # s.NLA.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.github.io
+# 2018 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' NonLinear Activation unit Regression (NLA) [R]
 #'

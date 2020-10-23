@@ -1,6 +1,6 @@
 # metaMod.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Meta Models for Regression (Model Stacking)
 #'

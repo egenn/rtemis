@@ -1,6 +1,6 @@
 # rtPalette.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.github.io
+# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
 # TODO: consider including all in one big list
 
 # Penn ====
@@ -379,6 +379,45 @@ californiaCol <- list(ucBlue = "#1295D8",
                       warmGray1 = "#DBD5CD",
                       metallicGold = "#B4975A")
 
+# California State University ====
+#' California State University Colors
+#'
+#' \code{csuCol}: California State University color palette
+#' (https://www2.calstate.edu/csu-system/csu-branding-standards/Documents/CSU-Brand-Guidelines-8-2018.pdf)
+#' @name rtPalettes
+#' @export
+
+csuCol <- list(red = "#CC0B2A",
+               coolGray = "#D9D9D6",
+               black = "#2F2F2F")
+
+
+# California Polytechnic State University ====
+#' California Polytechnic State University Colors
+#'
+#' \code{calpolyCol}: Cal Poly color palette
+#' (https://universitymarketing.calpoly.edu/brand-guidelines/colors/)
+#' @name rtPalettes
+#' @export
+
+calpolyCol <- list(calpolygreen = "#154734",
+                   calpolygold = "#C69214",
+                   stadiumgold = "#F8E08E",
+                   polycanyon = "#F2C75C",
+                   dextergreen = "#A4D65E",
+                   farmersmarket = "#3A913F",
+                   skyblue = "#B5E3D8",
+                   surfblue = "#5CB8B2",
+                   serenity = "#D3E3F4",
+                   morroblue = "#ABCAE9",
+                   missionbeige = "#E4E1D1",
+                   pismosand = "#CAC7A7",
+                   coastsage = "#B6CCC2",
+                   sycamore = "#789F90",
+                   kennedygray = "#8E9089",
+                   sealgray = "#54585A",
+                   heritageorange = "#FF6A39",
+                   avodaco = "#D0DF00")
 
 # Caltech ====
 #' Caltech Colors

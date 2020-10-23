@@ -1,6 +1,6 @@
 # cartLinBoostTV
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Boost an \pkg{rtemis} learner for regression
 #'

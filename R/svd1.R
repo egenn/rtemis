@@ -1,6 +1,6 @@
 # svd1.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' \code{rtemis-internals} Project Variables to First Eigenvector
 #'

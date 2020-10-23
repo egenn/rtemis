@@ -1,6 +1,6 @@
 # s.DN.R
 # ::rtemis::
-# 2018 Efstathios D Gennatas egenn.github.io
+# 2018 Efstathios D Gennatas egenn.lambdamd.org
 
 #' Artificial Neural Network [C, R]
 #'

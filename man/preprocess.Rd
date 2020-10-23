@@ -103,7 +103,7 @@ if \code{integer2factor = FALSE})}
 Prepare data for data analysis
 }
 \details{
-By default, only removes constant features and duplicated cases
+By default, removes constant features and duplicated cases
 (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 
 Order of operations:

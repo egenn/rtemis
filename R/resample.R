@@ -1,6 +1,6 @@
 # resample.R
 # ::rtemis::
-# 2015-9 Efstathios D. Gennatas egenn.github.io
+# 2015-9 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Resampling methods
 #'

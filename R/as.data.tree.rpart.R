@@ -1,6 +1,6 @@
 # as.data.tree.rpart
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.github.io
+# 2017 Efstathios D. Gennatas egenn.lambdamd.org
 
 #' Convert \code{rpart} rules to \code{data.tree} object
 #'

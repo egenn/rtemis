@@ -1,6 +1,6 @@
 # s.QRNN.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.github.io
+# 2015 Efstathios D. Gennatas egenn.lambdamd.org
 #
 # Description
 #   Train a quantile regression neural network and validate it.

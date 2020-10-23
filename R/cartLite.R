@@ -1,6 +1,6 @@
 # cartLite.R
 # ::rtemis::
-# Efstathios D. Gennatas MBBS PhD egenn.github.io
+# Efstathios D. Gennatas MBBS PhD egenn.lambdamd.org
 
 #' Bare bones decision tree derived from \code{rpart}
 #'
