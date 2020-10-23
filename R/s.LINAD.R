@@ -399,8 +399,8 @@ s.LINAD <- function(x, y = NULL,
   # varimp <- if (lin.type == "none") {
   #   numeric()
   # } else {
-  #   # This is probably a poor measure of variable importance.
-  #   # In general, look at each leaf's coefficients instead
+  #   # In general, look at each leaf's coefficients
+  #   # This is probably a vague measure of overall variable importance.
   #   apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i))) * apply(x, 2, sd)
   # }
   extra <- list(gridSearch = gs)
