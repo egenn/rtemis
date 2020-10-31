@@ -14,6 +14,7 @@
 #'   * removeCases.thres
 #'   * removeFeatures.thres
 #'   * integer2factor
+#'   * factorNA2missing
 #'   * nonzeroFactors
 #'   * impute
 #'   * scale/center
@@ -49,6 +50,13 @@
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
 #' if \code{integer2factor = FALSE})
 #' @param removeConstants Logical: If TRUE, remove all columns with zero variance. Default = TRUE
+#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of level
+#' \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
+#' categorical variables. Note that since this step is performed before imputation, you can use this
+#' option to handle missing data in categorical variables and impute numeric variables in the same
+#' \code{preprocess} call.
+#' @param factorNA2missing.level Character: Name of level if \code{factorNA2missing = TRUE}.
+#' Default = "missing"
 #' @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
@@ -85,6 +93,8 @@ preprocess <- function(x, y = NULL,
                        numeric2factor = FALSE,
                        numeric2factor.levels = NULL,
                        character2factor = FALSE,
+                       factorNA2missing = FALSE,
+                       factorNA2missing.level = "missing",
                        nonzeroFactors = FALSE,
                        scale = FALSE,
                        center = FALSE,
@@ -198,6 +208,13 @@ preprocess <- function(x, y = NULL,
     index.char <- which(sapply(x, is.character))
     if (verbose) msg("Converting characters to factors...")
     for (i in index.char) x[, i] <- as.factor(x[, i])
+  }
+
+  # [factor NA to level] ====
+  if (factorNA2missing) {
+    index.factor <- which(sapply(x, is.factor))
+    if (verbose) msg0('Converting NA in factors to level "', factorNA2missing.level, '"...')
+    for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
   }
 
   # [ Nonzero factors ] ====
