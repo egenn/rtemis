@@ -1015,9 +1015,9 @@ predict.shytreegamleaves <- function(object, newdata,
         coefs <- data.matrix(do.call(rbind, coefs))
         .cxrcoef <- .cxr %*% coefs
         # '-- yhat ====
-        # TODO: Update to do length(rules) matrix multiplications and add
-        yhat <- init + sapply(seq(NROW(newdata)), function(n)
-          object$learning.rate * (newdata_lin[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
+        # consider doing length(rules) matrix multiplications and add
+        yhat <- init + sapply(seq(NROW(newdata)), function(nr)
+          object$learning.rate * (newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE])))
       }
 
     } # / n.leaves > 1
