@@ -158,7 +158,7 @@ mplot3.box <- function(x,
          hadj = theme$y.axis.hadj,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
+         col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
          tck = theme$tck,
          tcl = theme$tcl,
          cex = theme$cex,
