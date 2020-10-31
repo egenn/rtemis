@@ -313,9 +313,10 @@ s.LINAD <- function(x, y = NULL,
     var <- gsub("%in%.*| ", "", conditions_fmtd[i])
     # levels <- cat_levels[[var]]
     levels <- paste0("'", cat_levels[[var]], "'")
-    excl <- gsub(".*\\(|\\)", "", conditions_fmtd[i])
+    excl <- strsplit(gsub(".*\\(|\\)", "", conditions_fmtd[i]), ", ")[[1]]
     incl <- setdiff(levels, excl)
-    conditions_fmtd[i] <- gsub("%in%.*", paste("%in%", incl), conditions_fmtd[i])
+    conditions_fmtd[i] <- gsub("%in%.*", paste("%in%", paste(incl, collapse = ", ")),
+                               conditions_fmtd[i])
   }
   conditions_fmtd <- gsub("%in%", "is", conditions_fmtd)
   conditions_fmtd <- gsub("^ |c\\(|\\)|'", "", conditions_fmtd)
