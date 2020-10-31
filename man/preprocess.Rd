@@ -25,6 +25,8 @@ preprocess(
   numeric2factor = FALSE,
   numeric2factor.levels = NULL,
   character2factor = FALSE,
+  factorNA2missing = FALSE,
+  factorNA2missing.level = "missing",
   nonzeroFactors = FALSE,
   scale = FALSE,
   center = FALSE,
@@ -81,6 +83,15 @@ Default = \code{mean}}
 \item{integer2numeric}{Logical: If TRUE, convert all integers to numeric (will only work
 if \code{integer2factor = FALSE})}
 
+\item{factorNA2missing}{Logical: If TRUE, make NA values in factors be of level
+\code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
+categorical variables. Note that since this step is performed before imputation, you can use this
+option to handle missing data in categorical variables and impute numeric variables in the same
+\code{preprocess} call.}
+
+\item{factorNA2missing.level}{Character: Name of level if \code{factorNA2missing = TRUE}.
+Default = "missing"}
+
 \item{nonzeroFactors}{Logical: Shift factor values to exclude zeros. Default = FALSE}
 
 \item{scale}{Logical: If TRUE, scale columns of \code{x}}
@@ -111,6 +122,7 @@ Order of operations:
   * removeCases.thres
   * removeFeatures.thres
   * integer2factor
+  * factorNA2missing
   * nonzeroFactors
   * impute
   * scale/center
