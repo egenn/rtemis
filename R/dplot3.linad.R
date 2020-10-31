@@ -1,10 +1,8 @@
 # dplot3.linad.R
 # ::rtemis::
 # 2020 Efstathios D. Gennatas egenn.lambdamd.org
-# Work in progress: probably only one visualization framework will be supported
-# visNetwork: https://datastorm-open.github.io/visNetwork/
-# gt: https://gt.rstudio.com/reference/index.html
-#' Plot a stepwise hybrid tree trained by \code{s.LINAD} using \code{plotly}
+
+#' Plot a Linear Additive Tree trained by \code{s.LINAD} using \code{plotly}
 #'
 #' @param tree \code{s.LINAD} tree
 #' @param main String: Title. Default = NULL
@@ -46,6 +44,7 @@ dplot3.linad <- function(x,
                          nodelabels = TRUE,
                          ncases.inlabels = TRUE,
                          rules.on.edges = FALSE,
+                         top = NULL,
                          node.col = "#7F7F7F",
                          leaf.col = "#18A3AC",
                          edge.col = "#848484",
@@ -93,9 +92,11 @@ dplot3.linad <- function(x,
   rownames(coefs)[1] <- "(Int)"
   coefnames <- rownames(coefs)
 
+  if (!is.null(top)) sort.coefs <- TRUE
   if (sort.coefs) {
     coefsl <- lapply(seq(coefs), function(i) {
-      index <- order(abs(coefs[, i]), decreasing = TRUE)
+      index <- c(1, order(abs(coefs[-1, i]), decreasing = TRUE))
+      if (!is.null(top)) index <- index[seq(top + 1)]
       data.frame(Var = coefnames[index], Coef = coefs[index, i])
     })
   } else {
@@ -108,6 +109,7 @@ dplot3.linad <- function(x,
       # dat <- data.frame(t(coefs[, i]))
       # colnames(dat) <- rownames(coefs)
     })
+    # index <- seq(NROW(coefs))
   }
 
   # Theme ====
@@ -135,7 +137,7 @@ dplot3.linad <- function(x,
                                       lo.col = table.lo.col,
                                       hi.col = table.hi.col),
                       NROW(coefs) - 1)
-    dat.col <- rbind(rep("#333333", NCOL(coefs)), dat.col)
+    dat.col1 <- rbind("#333333", dat.col)
 
     coefs.html <- lapply(seq(coefsl), function(i) {
       twocol2html(coefsl[[i]], font.family = font.family,
