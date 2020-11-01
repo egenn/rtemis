@@ -14,7 +14,7 @@
 #' @examples
 #' x <- factor(sample(letters[1:3], 100, TRUE))
 #' x[sample(1:100, 10)] <- NA
-#' xm <- factor_NAtolevel(x)
+#' xm <- factor_NA2missing(x)
 
 factor_NA2missing <- function(x, na_level_name = "missing") {
 
