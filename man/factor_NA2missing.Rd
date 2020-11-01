@@ -16,7 +16,7 @@ NA values. Default = "missing"}
 Set NA values of a factor vector to a new level indicating missingness
 }
 \examples{
-x <- factor(sample(letters[1:3], 100, T))
+x <- factor(sample(letters[1:3], 100, TRUE))
 x[sample(1:100, 10)] <- NA
 xm <- factor_NAtolevel(x)
 }
