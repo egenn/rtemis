@@ -30,7 +30,7 @@
 #' @param min.membership Integer: Minimum number of cases in a node. Default = 1
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE
-#' @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
+# @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
 #' @param
 #' @return Object of class \link{rtMod}
 #' @author Efstathios D. Gennatas
@@ -66,9 +66,9 @@ s.ADDTREE <- function(x, y = NULL,
                       metric = "Balanced Accuracy",
                       maximize = TRUE,
                       rpart.parms = NULL,
-                      prune = TRUE,
-                      prune.empty.leaves = TRUE,
-                      remove.bad.parents = FALSE,
+                      # prune = TRUE,
+                      # prune.empty.leaves = TRUE,
+                      # remove.bad.parents = FALSE,
                       match.rules = TRUE,
                       print.plot = TRUE,
                       plot.fitted = NULL,
@@ -251,6 +251,9 @@ s.ADDTREE <- function(x, y = NULL,
   rt$mod$addtree <- data.tree::as.Node(rt$mod$frame, pathName = "Path")
 
   # [ PRUNE ] ====
+  prune <- TRUE
+  prune.empty.leaves <- TRUE
+  remove.bad.parents <- TRUE
   if (prune) {
     if (verbose) msg("Pruning tree...")
     rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
