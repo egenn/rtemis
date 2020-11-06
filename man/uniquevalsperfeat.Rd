@@ -15,6 +15,11 @@ Vector, integer of length \code{NCOL(x)} with number of unique values per column
 \description{
 Get number of unique values per features
 }
+\examples{
+\dontrun{
+uniquevalsperfeat(iris)
+}
+}
 \author{
 Efstathios D. Gennatas
 }

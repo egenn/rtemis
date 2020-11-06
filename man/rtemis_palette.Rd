@@ -15,6 +15,9 @@ Default = \code{getOption("rt.palette", "rtCol1")}}
 \description{
 Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
 }
+\examples{
+rtemis_palette(3)
+}
 \author{
 Efstathios D Gennatas
 }

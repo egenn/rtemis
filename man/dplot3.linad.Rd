@@ -12,6 +12,7 @@ dplot3.linad(
   nodelabels = TRUE,
   ncases.inlabels = TRUE,
   rules.on.edges = FALSE,
+  log = FALSE,
   top = NULL,
   node.col = "#7F7F7F",
   leaf.col = "#18A3AC",

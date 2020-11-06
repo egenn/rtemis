@@ -12,6 +12,7 @@ previewcolor(
   main.x = 0.7,
   main.y = 0.2,
   main.adj = 0,
+  main.cex = 0.9,
   main.font = 2,
   width = NULL,
   xlim = NULL,
@@ -35,6 +36,8 @@ previewcolor(
 \item{main.y}{Float: y coordinate for \code{main}. Default = 0}
 
 \item{main.adj}{Float: \code{adj} argument to mtext for \code{main}.}
+
+\item{main.cex}{Float: character expansion factor for \code{main}. Default = .9}
 
 \item{main.font}{Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold. Default = 2}
 

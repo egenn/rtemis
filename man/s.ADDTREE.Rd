@@ -30,9 +30,6 @@ s.ADDTREE(
   metric = "Balanced Accuracy",
   maximize = TRUE,
   rpart.parms = NULL,
-  prune = TRUE,
-  prune.empty.leaves = TRUE,
-  remove.bad.parents = FALSE,
   match.rules = TRUE,
   print.plot = TRUE,
   plot.fitted = NULL,
@@ -95,8 +92,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
-
-\item{prune}{Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE}
 
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE}
