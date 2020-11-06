@@ -23,8 +23,8 @@ mplot.missing <- function(x,
                           feat.names = NULL,
                           case.names = NULL,
                           main = NULL,
-                          col.present = "#18A3AC",
-                          col.missing = "#F48024",
+                          col.present = "#000000",
+                          col.missing = "#FE4AA3",
                           feat.names.y = 0,
                           names.srt = 90,
                           x.tick.labs.adj = 0,
@@ -39,7 +39,7 @@ mplot.missing <- function(x,
   if (is.null(feat.names)) feat.names <- colnames(x)
   if (is.null(case.names)) case.names <- rownames(x)
   if (is.null(main)) main <- paste("Missing Data in", deparse(substitute(x)))
-  if (is.null(case.names.every)) case.names.every <- floor(NROW(x) * .1)
+  if (is.null(case.names.every)) case.names.every <- ceiling(NROW(x) * .1)
 
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(par(par.orig))
