@@ -44,6 +44,7 @@ dplot3.linad <- function(x,
                          nodelabels = TRUE,
                          ncases.inlabels = TRUE,
                          rules.on.edges = FALSE,
+                         log = FALSE,
                          top = NULL,
                          node.col = "#7F7F7F",
                          leaf.col = "#18A3AC",
@@ -94,10 +95,11 @@ dplot3.linad <- function(x,
 
   if (!is.null(top)) sort.coefs <- TRUE
   if (sort.coefs) {
+    indexl <- vector("list", NCOL(coefs))
     coefsl <- lapply(seq(coefs), function(i) {
-      index <- c(1, order(abs(coefs[-1, i]), decreasing = TRUE))
-      if (!is.null(top)) index <- index[seq(top + 1)]
-      data.frame(Var = coefnames[index], Coef = coefs[index, i])
+      indexl[[i]] <- c(1, order(abs(coefs[-1, i]), decreasing = TRUE) + 1)
+      if (!is.null(top)) indexl[[i]] <- indexl[[i]][seq(top + 1)]
+      data.frame(Var = coefnames[indexl[[i]]], Coef = coefs[indexl[[i]], i])
     })
   } else {
     coefsl <- lapply(seq(coefs), function(i) {
@@ -127,21 +129,24 @@ dplot3.linad <- function(x,
   # for vertical coefsl
   if (tooltip.coefs) {
     # '- custom ====
-    # dat.col1 <- matrix(colorgradient.x(unlist(coefs), symmetric = TRUE,
-    #                                   lo.col = table.lo.col,
-    #                                   hi.col = table.hi.col),
-    #                   NROW(coefs))
-
     # exclude intercept so that it doesn't soak up all the range
-    dat.col <- matrix(colorgradient.x(unlist(coefs[-1, ]), symmetric = TRUE,
-                                      lo.col = table.lo.col,
-                                      hi.col = table.hi.col),
-                      NROW(coefs) - 1)
-    dat.col1 <- rbind("#333333", dat.col)
+    # account for sorting and/or top
+    # coefsl.noint <- lapply(coefsl, function(i) i[-1, ])
+    val <- if (log) {
+      log10n(unlist(lapply(coefsl, function(i) i[-1, 2])))
+    } else {
+      unlist(lapply(coefsl, function(i) i[-1, 2]))
+    }
+    dat.colm <- matrix(colorgradient.x(val,
+                                       symmetric = TRUE,
+                                       lo.col = table.lo.col,
+                                       hi.col = table.hi.col),
+                       ncol = length(coefsl))
 
     coefs.html <- lapply(seq(coefsl), function(i) {
       twocol2html(coefsl[[i]], font.family = font.family,
-                  dat.col = dat.col[, i], font.size = table.font.size,
+                  dat.col = c("#333333", dat.colm[, i]),
+                  font.size = table.font.size,
                   dat.padding = table.dat.padding)
     })
   } else {
@@ -294,3 +299,10 @@ twocol2html <- function(x,
   paste(tablestyle, header, tab, '</table>', collapse = "")
 }
 
+log10n <- function(x) {
+  sign <- rep(1, length(x))
+  sign[x < 0] <- -1
+  out <- sign * log10(abs(x))
+  out[out == -Inf] <- 0
+  out
+}
