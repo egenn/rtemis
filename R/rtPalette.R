@@ -1443,7 +1443,7 @@ rtemisblue <- crayon::make_style(rtemisblue = "#80ffff")
 #' Default = \code{getOption("rt.palette", "rtCol1")}
 #' @export
 #' @author Efstathios D Gennatas
-#' @example
+#' @examples
 #' rtemis_palette(3)
 
 rtemis_palette <- function(n,
