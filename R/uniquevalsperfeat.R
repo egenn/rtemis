@@ -6,7 +6,7 @@
 #' @return Vector, integer of length \code{NCOL(x)} with number of unique values per column/feature
 #' @export
 #' @author Efstathios D. Gennatas
-#' @example
+#' @examples
 #' \dontrun{
 #' uniquevalsperfeat(iris)
 #' }
