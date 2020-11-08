@@ -45,6 +45,7 @@ previewcolor <- function(x,
                          asp = 1,
                          labels.y = 1.55,
                          label.cex = NULL,
+                         mar = c(0, 0, 0, 0),
                          par.reset = TRUE) {
 
   if (is.null(main)) main <- deparse(substitute(x))
@@ -56,7 +57,7 @@ previewcolor <- function(x,
 
   if (is.null(width)) width <- max(3, .3 * length(x))
   if (is.null(xlim)) xlim <- c(0.3, width + .7)
-  par(bg = bg, xaxs = "i", yaxs = "i", mar = c(0, 0, 0, 0), oma = c(0, 0, 0, 0))
+  par(bg = bg, xaxs = "i", yaxs = "i", mar = mar, oma = c(0, 0, 0, 0))
 
   # Plot ====
   plot(NULL, NULL, axes = FALSE,
@@ -74,8 +75,17 @@ previewcolor <- function(x,
   for (i in seq(x)) rhombus(xmid[i], 1, col = x[i])
 
   # '- Labels ====
+  # ncolors => label.cex
+  # 100, .4
+  # 10, 1.2
+  # 4, 1.3
+  # lm(c(.4, 1.2, 1.3) ~ c(100, 10, 4))
+
   if (is.null(label.cex)) {
-    label.cex <- max(.1, 1.30 - .02 * length(x))
+    # label.cex <- max(.1, 1.30 - .02 * length(x))
+    label.cex <- 1.30 - .02 * length(x)
+    # label.cex <- max(.1, 1.34167 - .01042 * length(x))
+    label.cex <- 1.314869 - 0.009163 * length(x)
   }
 
   if (is.null(names(x))) {
@@ -83,7 +93,10 @@ previewcolor <- function(x,
   } else {
     labels <- names(x)
   }
-  text(xmid + .1, labels.y, labels, col = x, srt = 45, adj = 0, offset = 0, cex = label.cex)
+  text(xmid + .1, labels.y, labels,
+       col = x, srt = 45, adj = 0,
+       offset = 0, cex = label.cex,
+       xpd = TRUE)
 
   # '- Title ====
   if (!is.null(main)) {

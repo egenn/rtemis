@@ -20,6 +20,7 @@ previewcolor(
   asp = 1,
   labels.y = 1.55,
   label.cex = NULL,
+  mar = c(0, 0, 0, 0),
   par.reset = TRUE
 )
 }
