@@ -43,7 +43,7 @@ dplot3.leaflet <- function(dat,
                            color.mapping = c("Numeric", "Bin"),
                            col.lo = "#0290EE",
                            col.hi = "#FE4AA3",
-                           col.na = "#252525",
+                           col.na = "#303030",
                            col.highlight = "#FE8A4F",
                            col.interpolate = c("linear", "spline"),
                            col.bins = 21, # for color.mapping Bin
@@ -75,7 +75,7 @@ dplot3.leaflet <- function(dat,
   # '- Data ====
   counties <- geojsonio::geojson_read("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
                                       what = "sp")
-  fips <- if (is.numeric(dat[, 1])) sprintf("%05d", dat[, 1]) else dat[, 1]
+  fips <- if (is.character(dat[, 1])) dat[, 1] else sprintf("%05d", dat[, 1])
   # Match input county-level data
   index <- match(counties$id, fips)
   counties[["val"]] <- dat[index, 2]
@@ -96,11 +96,21 @@ dplot3.leaflet <- function(dat,
 
   # '- Hover labels ====
   if (ncol(dat) > 2) {
-    labels <- sprintf("<strong>%s</strong><br/>%g", dat[, 3], dat[, 2]) %>%
+    labelshtml <- sprintf("<strong>%s</strong><br/>%g", dat[, 3], dat[, 2]) %>%
       lapply(htmltools::HTML)
+    .labs <- dat[index, 2]
+    .names <- dat[index, 3]
+    labels <- lapply(seq(NROW(counties)), function(i) {
+      if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
+      else sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
+    }) %>% lapply(htmltools::HTML)
   } else {
-    labels <- sprintf("%g", dat[, 2]) %>% lapply(htmltools::HTML)
+    labels <- lapply(seq(NROW(counties)), function(i) {
+      if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
+      else sprintf("%g", .labs[i])
+    }) %>% lapply(htmltools::HTML)
   }
+  counties[["labels"]] <- labels[index]
 
   # '- leaflet map ====
   map <- leaflet::leaflet(counties) %>%
