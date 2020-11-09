@@ -124,7 +124,7 @@ dplot3.leaflet <- function(dat,
                          weight = weight,
                          color = color,
                          stroke = stroke,
-                         group = "overlay",
+                         group = legend.title,
                          options = leaflet::pathOptions(pane = "polygons"),
                          highlight = leaflet::highlightOptions(
                            weight = 2,
@@ -143,7 +143,7 @@ dplot3.leaflet <- function(dat,
                        values = counties$val,
                        opacity = legend.alpha,
                        title = legend.title) %>%
-    leaflet::addLayersControl(overlayGroups = c("overlay")) %>%
+    leaflet::addLayersControl(overlayGroups = c(legend.title)) %>%
     leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
   map
 
