@@ -11,7 +11,7 @@ dplot3.leaflet(
   color.mapping = c("Numeric", "Bin"),
   col.lo = "#0290EE",
   col.hi = "#FE4AA3",
-  col.na = "#252525",
+  col.na = "#303030",
   col.highlight = "#FE8A4F",
   col.interpolate = c("linear", "spline"),
   col.bins = 21,
