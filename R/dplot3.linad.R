@@ -29,6 +29,7 @@
 #' number of external viewers, but feel free to play around, esp. within RStudio
 #' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
 #' a custom html table creation function was made to replace some impossibly slow alternatives.
+#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50
 #' @param table.font.size String: Font size for html coefficient on-hover tables. Default = "14px"
 #' @param table.dat.padding Ignore, has no visible effect. Otherwise, String: html table padding. Default = "0px"
 #' @param table.lo.col Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)
@@ -62,6 +63,7 @@ dplot3.linad <- function(x,
                          font.family = "Lato",
                          # Coef tables
                          tooltip.coefs = TRUE,
+                         tooltip.delay = 50,
                          table.font.size = "16px",
                          table.dat.padding = "0px",
                          table.lo.col = "#0290EE",
@@ -70,6 +72,10 @@ dplot3.linad <- function(x,
                          dragNodes = FALSE,
                          zoomView = TRUE,
                          nodeSpacing = 120,
+                         blockShifting = TRUE,
+                         edgeMinimization = TRUE,
+                         parentCentralization = TRUE,
+                         direction = "UD",
                          trace = 0) {
 
   if (inherits(x, "rtMod")) {
@@ -157,12 +163,12 @@ dplot3.linad <- function(x,
   source_index <- rep(source_index, each = 2)
   target_index <- 2:length(nodeids)
   Ncases <- sapply(tree, function(i) sum(i$weights == 1))
-  if (ncases.inlabels) {
-    .nodelabels <- paste0(.nodelabels, "\nN=", Ncases)
-  }
 
   # visNetwork ====
   if (!rules.on.edges) {
+    if (ncases.inlabels) {
+      .nodelabels <- paste0(.nodelabels, "\nN=", Ncases)
+    }
     nodes <- data.frame(
       id = seq(nodeids),
       label = paste(.nodelabels),
@@ -206,7 +212,11 @@ dplot3.linad <- function(x,
                          background = bg) %>%
     # '- visHierarchicalLayout ====
     visNetwork::visHierarchicalLayout(levelSeparation = levelSeparation,
-                                      nodeSpacing = nodeSpacing) %>%
+                                      nodeSpacing = nodeSpacing,
+                                      blockShifting, blockShifting,
+                                      edgeMinimization = edgeMinimization,
+                                      parentCentralization = parentCentralization,
+                                      direction = direction) %>%
     # '- visNodes ====
     visNetwork::visNodes(font = list(color = node.font.col,
                                      size = tree.font.size,
@@ -227,7 +237,7 @@ dplot3.linad <- function(x,
                                dragNodes = dragNodes,
                                dragView = TRUE,
                                zoomView = zoomView,
-                               tooltipDelay = 200,
+                               tooltipDelay = tooltip.delay,
                                tooltipStyle = 'position:fixed;visibility:hidden;padding: 0px') -> plt
   plt
 
