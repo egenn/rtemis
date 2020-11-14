@@ -47,10 +47,16 @@ gplot3.map <- function(dat,
                        border.width = .1,
                        main = NULL,
                        legend.title = NULL,
+                       scale.accuracy = .1,
                        labelify = TRUE,
                        theme = rt_gtheme_map(),
                        labels = FALSE,
                        col.labels = "gray50", ...) {
+
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("ggplot2", "usmap", "scales", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
 
   regions_ <- match.arg(regions)
   colnames(dat)[1] <- "fips"
@@ -96,7 +102,7 @@ gplot3.map <- function(dat,
                                     "character")
     }
 
-    centroid_labels <- utils::read.csv(system.file("extdata",
+    centroid_labels <- read.csv(system.file("extdata",
                                                    paste0("us_", regions_, "_centroids.csv"), package = "usmap"),
                                        colClasses = centroidLabelsColClasses, stringsAsFactors = FALSE)
 
@@ -137,7 +143,8 @@ gplot3.map <- function(dat,
                                  space = "Lab",
                                  na.value = col.na,
                                  guide = "colorbar",
-                                 aesthetics = "fill")
+                                 aesthetics = "fill",
+                                 labels = scales::number_format(accuracy = scale.accuracy))
   } else {
     ggplot2::scale_fill_gradient2(limits = limits,
                                   oob = scales::squish,
@@ -149,7 +156,8 @@ gplot3.map <- function(dat,
                                   space = "Lab",
                                   na.value = col.na,
                                   guide = "colorbar",
-                                  aesthetics = "fill")
+                                  aesthetics = "fill",
+                                  labels = scales::number_format(accuracy = scale.accuracy))
   }
 
 

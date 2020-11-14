@@ -36,6 +36,7 @@
 #' @param stroke Logical: If TRUE, draw polygon borders. Default = TRUE
 #' @author Efstathios D. Gennatas
 #' @export
+# NA in legend issue: https://github.com/rstudio/leaflet/issues/615
 
 dplot3.leaflet <- function(dat,
                            fillOpacity = 1,
@@ -63,6 +64,11 @@ dplot3.leaflet <- function(dat,
                            init.zoom = 3,
                            stroke = TRUE) {
 
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("leaflet", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
   # '- Arguments ====
   color.mapping <- match.arg(color.mapping)
   if (is.null(palette)) {
@@ -73,15 +79,18 @@ dplot3.leaflet <- function(dat,
   if (is.null(legend.title)) legend.title <- labelify(colnames(dat)[2])
 
   # '- Data ====
+  if (!class(dat)[1] %in% c("data.table", "data.frame")) {
+    dat <- as.data.frame(dat)
+  }
   counties <- geojsonio::geojson_read("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
                                       what = "sp")
-  fips <- if (is.character(dat[, 1])) dat[, 1] else sprintf("%05d", dat[, 1])
+  fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
+
   # Match input county-level data
   index <- match(counties$id, fips)
-  counties[["val"]] <- dat[index, 2]
+  counties[["val"]] <- dat[[2]][index]
 
   # '- Colorscale ====
-  # if (is.null(domain)) domain <- counties$val
   if (color.mapping == "Numeric") {
     pal <- leaflet::colorNumeric(palette = palette,
                                  domain = domain,
@@ -95,11 +104,9 @@ dplot3.leaflet <- function(dat,
   }
 
   # '- Hover labels ====
+  .labs <- dat[[2]][index]
   if (ncol(dat) > 2) {
-    labelshtml <- sprintf("<strong>%s</strong><br/>%g", dat[, 3], dat[, 2]) %>%
-      lapply(htmltools::HTML)
-    .labs <- dat[index, 2]
-    .names <- dat[index, 3]
+    .names <- dat[[3]][index]
     labels <- lapply(seq(NROW(counties)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
@@ -145,11 +152,16 @@ dplot3.leaflet <- function(dat,
                        title = legend.title) %>%
     leaflet::addLayersControl(overlayGroups = c(legend.title)) %>%
     leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
+
+
+  insert <- htmltools::tags$style(type = "text/css",
+                                    "div.info.legend.leaflet-control br {clear: both;}")
+  map <- htmlwidgets::prependContent(map, insert)
   map
 
-}
+} # rtemis:: dplot3.leaflet
 
 
-# "geographic center" of the United States:
+# geographic center of the United States:
 # latitude 39°12'26.686", longitude 98°32'30.506"
 # lat: 39.207413888888894, long: -98.54180833333334
