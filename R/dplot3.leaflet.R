@@ -65,7 +65,7 @@ dplot3.leaflet <- function(dat,
                            stroke = TRUE) {
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("leaflet", verbose = FALSE)) {
+  if (!depCheck("leaflet", "geojsonio", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
@@ -82,13 +82,22 @@ dplot3.leaflet <- function(dat,
   if (!class(dat)[1] %in% c("data.table", "data.frame")) {
     dat <- as.data.frame(dat)
   }
-  counties <- geojsonio::geojson_read("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
-                                      what = "sp")
-  fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
+
+  # State vs. County data ====
+  if (max(nchar(dat[[1]])) < 3) {
+    geo <- geojsonio::geojson_read("https://github.com/PublicaMundi/MappingAPI/raw/master/data/geojson/us-states.json",
+                                   what = "sp")
+    fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%02d", dat[[1]])
+  } else {
+    geo <- geojsonio::geojson_read("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
+                                   what = "sp")
+    fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
+  }
+
 
   # Match input county-level data
-  index <- match(counties$id, fips)
-  counties[["val"]] <- dat[[2]][index]
+  index <- match(geo$id, fips)
+  geo[["val"]] <- dat[[2]][index]
 
   # '- Colorscale ====
   if (color.mapping == "Numeric") {
@@ -107,20 +116,20 @@ dplot3.leaflet <- function(dat,
   .labs <- dat[[2]][index]
   if (ncol(dat) > 2) {
     .names <- dat[[3]][index]
-    labels <- lapply(seq(NROW(counties)), function(i) {
+    labels <- lapply(seq(NROW(geo)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
     }) %>% lapply(htmltools::HTML)
   } else {
-    labels <- lapply(seq(NROW(counties)), function(i) {
+    labels <- lapply(seq(NROW(geo)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("%g", .labs[i])
     }) %>% lapply(htmltools::HTML)
   }
-  counties[["labels"]] <- labels[index]
+  geo[["labels"]] <- labels[index]
 
   # '- leaflet map ====
-  map <- leaflet::leaflet(counties) %>%
+  map <- leaflet::leaflet(geo) %>%
     leaflet::addProviderTiles(provider = bg.tile.provider,
                               options = leaflet::providerTileOptions(opacity = bg.tile.alpha)) %>%
     leaflet::addMapPane("polygons", zIndex = 410) %>%
@@ -142,12 +151,12 @@ dplot3.leaflet <- function(dat,
                            style = list("font-weight" = "normal", padding = "2px 2px"),
                            textsize = "15px",
                            direction = "auto")
-                         ) %>%
+    ) %>%
     leaflet::addProviderTiles(provider = fg.tile.provider,
                               options = leaflet::pathOptions(pane = "tiles")) %>%
     leaflet::addLegend(position = legend.position,
                        pal = pal,
-                       values = counties$val,
+                       values = geo$val,
                        opacity = legend.alpha,
                        title = legend.title) %>%
     leaflet::addLayersControl(overlayGroups = c(legend.title)) %>%
@@ -155,7 +164,7 @@ dplot3.leaflet <- function(dat,
 
 
   insert <- htmltools::tags$style(type = "text/css",
-                                    "div.info.legend.leaflet-control br {clear: both;}")
+                                  "div.info.legend.leaflet-control br {clear: both;}")
   map <- htmlwidgets::prependContent(map, insert)
   map
 
