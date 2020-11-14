@@ -21,6 +21,7 @@ gplot3.map(
   border.width = 0.1,
   main = NULL,
   legend.title = NULL,
+  scale.accuracy = 0.1,
   labelify = TRUE,
   theme = rt_gtheme_map(),
   labels = FALSE,

@@ -28,6 +28,7 @@ dplot3.linad(
   edgethickness.by.ncases = FALSE,
   font.family = "Lato",
   tooltip.coefs = TRUE,
+  tooltip.delay = 50,
   table.font.size = "16px",
   table.dat.padding = "0px",
   table.lo.col = "#0290EE",
@@ -35,6 +36,10 @@ dplot3.linad(
   dragNodes = FALSE,
   zoomView = TRUE,
   nodeSpacing = 120,
+  blockShifting = TRUE,
+  edgeMinimization = TRUE,
+  parentCentralization = TRUE,
+  direction = "UD",
   trace = 0
 )
 }
@@ -80,6 +85,8 @@ number of external viewers, but feel free to play around, esp. within RStudio}
 
 \item{tooltip.coefs}{Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
 a custom html table creation function was made to replace some impossibly slow alternatives.}
+
+\item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50}
 
 \item{table.font.size}{String: Font size for html coefficient on-hover tables. Default = "14px"}
 

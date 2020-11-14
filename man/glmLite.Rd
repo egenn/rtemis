@@ -33,16 +33,16 @@ glmLite(
 \item{weights}{Float, vector: Case weights}
 
 \item{method}{Character: Method to use:
-"glm": uses \code{stats::lm.wfit};
-"glmnet": uses \code{glmnet::glmnet};
-"cv.glmnet": uses \code{glmnet:cv.glmnet};
-"lm.ridge": uses \code{MASS::lm.ridge};
-"allsubsets": uses \code{leaps::regsubsets} with \code{method = "exhaustive"};
-"forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward};
-"backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward};
-"sgd": uses \code{sgd::sgd}
-"solve": uses \code{base::solve}
-"none": Fits no model and returns all zeroes, for programming convenience in special cases}
+- "glm": uses \code{stats::lm.wfit};
+- "glmnet": uses \code{glmnet::glmnet};
+- "cv.glmnet": uses \code{glmnet:cv.glmnet};
+- "lm.ridge": uses \code{MASS::lm.ridge};
+- "allsubsets": uses \code{leaps::regsubsets} with \code{method = "exhaustive"};
+- "forwardStepwise": uses \code{leaps::regsubsets} with \code{method = "forward"};
+- "backwardStepwise": uses \code{leaps::regsubsets} with \code{method = "backward"};
+- "sgd": uses \code{sgd::sgd};
+- "solve": uses \code{base::solve};
+- "none": Fits no model and returns all zeroes, for programming convenience in special cases}
 
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 
