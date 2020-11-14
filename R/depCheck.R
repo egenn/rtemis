@@ -7,7 +7,9 @@
 #' Checks if dependencies can be loaded; names missing dependencies if not.
 #'
 #' @param ... List or vector of strings defining namespaces to be checked
-#' @param verbose Logical. Defaults to TRUE, disable to eliminate unwanted console output
+#' @param verbose Logical. If TRUE, print messages to consolde. Note: messages are always printed
+#' if dependencies are missing. Setting this to FALSE stops it from printing
+#' "Dependencies check passed". Default = TRUE
 #' @return TRUE if dependencies can be loaded, otherwise FALSE
 #' @author Efstathios D. Gennatas
 #' @export
