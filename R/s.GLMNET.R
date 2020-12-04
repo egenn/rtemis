@@ -297,7 +297,7 @@ s.GLMNET <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = as.matrix(coef(mod))[-1, 1] * apply(x, 2, sd),
+                 varimp = as.matrix(coef(mod))[-1, 1],
                  question = question,
                  extra = extra)
 
