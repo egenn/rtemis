@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2020 Efstathios D. Gennatas egenn.lambdamd.org
 
-#' Plot a Linear Additive Tree trained by \code{s.LINAD} using \code{plotly}
+#' Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}
 #'
 #' @param tree \code{s.LINAD} tree
 #' @param main String: Title. Default = NULL
@@ -47,9 +47,13 @@ dplot3.linad <- function(x,
                          rules.on.edges = FALSE,
                          log = FALSE,
                          top = NULL,
-                         node.col = "#7F7F7F",
-                         leaf.col = "#18A3AC",
+                         root.col = "#202020",
+                         node.col = "#5a5a5a",
+                         leaf.col = "#178CCB",
                          edge.col = "#848484",
+                         edge.width = 4,
+                         arrow.scale = .7,
+                         arrow.middle = FALSE,
                          col.highlight = "#FE4AA3",
                          # theme = # merge devel first,
                          node.font.col = NULL,
@@ -93,7 +97,7 @@ dplot3.linad <- function(x,
   nodeterminal <- !c(nodeids*2) %in% nodeids
   colors[nodeterminal] <- leaf.col
   # Make root gray
-  colors[1] <- "#404040"
+  colors[1] <- root.col
 
   coefs <- as.data.frame(sapply(tree, function(i) i$coef))
   rownames(coefs)[1] <- "(Int)"
@@ -167,7 +171,7 @@ dplot3.linad <- function(x,
   # visNetwork ====
   if (!rules.on.edges) {
     if (ncases.inlabels) {
-      .nodelabels <- paste0(.nodelabels, "\nN=", Ncases)
+      .nodelabels <- paste0(.nodelabels, "\n(n=", Ncases, ")")
     }
     nodes <- data.frame(
       id = seq(nodeids),
@@ -226,12 +230,20 @@ dplot3.linad <- function(x,
                                       hover = list(background = col.highlight,
                                                    border = col.highlight))) %>%
     # '- visEdges ====
-    visNetwork::visEdges(arrows = "to",
+    visNetwork::visEdges(width = edge.width,
+                         color = list(color = edge.col,
+                                      highlight = col.highlight),
                          font = list(color = edge.font.col,
                                      size = tree.font.size,
                                      face = font.family),
-                         color = list(color = edge.col,
-                                      highlight = col.highlight),
+                         # arrows = "to",
+                         arrows = list(to = list(
+                           enabled = !arrow.middle,
+                           scaleFactor = arrow.scale),
+                           middle = list(
+                             enabled = arrow.middle,
+                             scaleFactor = arrow.scale)),
+                         arrowStrikethrough = F,
                          hoverWidth = 0) %>%
     visNetwork::visInteraction(hover = TRUE,
                                dragNodes = dragNodes,
