@@ -67,7 +67,6 @@ mplot3.box <- function(x,
                        filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
-  if (is.matrix(x)) x <- as.data.frame(x)
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) {
     if (length(x) == 1) {
@@ -156,7 +155,6 @@ mplot3.box <- function(x,
          las = theme$y.axis.las,
          padj = theme$y.axis.padj,
          hadj = theme$y.axis.hadj,
-         col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
          tck = theme$tck,
