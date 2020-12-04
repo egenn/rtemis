@@ -223,7 +223,7 @@ dplot3.xy <- function(x, y = NULL,
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
-    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("gray50", n.groups)) else col
+    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("#ffffff", n.groups)) else col
   }
 
   if (!is.null(fit)) {
