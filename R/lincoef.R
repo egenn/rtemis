@@ -136,7 +136,7 @@ lincoef <- function(x, y,
     coef[names(.coef)] <- .coef
   } else if (method == "solve") {
     # '-- solve ====
-    if (!is.null(weights)) stop("method 'solve' does not currently support weights")
+    if (!is.null(weights)) stop("method 'solve' does not support weights")
     x <- cbind(`(Intercept)` = 1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
     names(coef) <- colnames(x)
