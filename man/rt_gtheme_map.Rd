@@ -4,7 +4,12 @@
 \alias{rt_gtheme_map}
 \title{**ggplot2** map theme}
 \usage{
-rt_gtheme_map(base_size = 9, base_family = "Lato")
+rt_gtheme_map(
+  base_size = 9,
+  base_family = "Helvetica",
+  legend.position = c(0.9, 0),
+  plot.margin = ggplot2::unit(c(0.02, 0.1, 0.02, 0.02), "npc")
+)
 }
 \arguments{
 \item{base_size}{Float: Character \code{base_size.} Default = 9}

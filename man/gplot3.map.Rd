@@ -26,6 +26,9 @@ gplot3.map(
   theme = rt_gtheme_map(),
   labels = FALSE,
   col.labels = "gray50",
+  filename = NULL,
+  file.width = 7,
+  file.height = 5,
   ...
 )
 }

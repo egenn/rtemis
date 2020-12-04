@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.linad.R
 \name{dplot3.linad}
 \alias{dplot3.linad}
-\title{Plot a Linear Additive Tree trained by \code{s.LINAD} using \code{plotly}}
+\title{Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}}
 \usage{
 dplot3.linad(
   x,
@@ -14,9 +14,13 @@ dplot3.linad(
   rules.on.edges = FALSE,
   log = FALSE,
   top = NULL,
-  node.col = "#7F7F7F",
-  leaf.col = "#18A3AC",
+  root.col = "#202020",
+  node.col = "#5a5a5a",
+  leaf.col = "#178CCB",
   edge.col = "#848484",
+  edge.width = 4,
+  arrow.scale = 0.7,
+  arrow.middle = FALSE,
   col.highlight = "#FE4AA3",
   node.font.col = NULL,
   edge.font.col = "#000000",
@@ -103,5 +107,5 @@ a custom html table creation function was made to replace some impossibly slow a
 \item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by number of cases with weight = 1}
 }
 \description{
-Plot a Linear Additive Tree trained by \code{s.LINAD} using \code{plotly}
+Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}
 }
