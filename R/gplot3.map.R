@@ -51,7 +51,10 @@ gplot3.map <- function(dat,
                        labelify = TRUE,
                        theme = rt_gtheme_map(),
                        labels = FALSE,
-                       col.labels = "gray50", ...) {
+                       col.labels = "gray50",
+                       filename = NULL,
+                       file.width = 7,
+                       file.height = 5, ...) {
 
   # [ DEPENDENCIES ] ====
   if (!depCheck("ggplot2", "usmap", "scales", verbose = FALSE)) {
@@ -169,10 +172,19 @@ gplot3.map <- function(dat,
 
   # '- ggplot ====
   if (labelify) legend.title <- labelify(legend.title)
-  ggplot2::ggplot(data = map_df) +
+  plt <- ggplot2::ggplot(data = map_df) +
     polygon_layer + label_layer + ggplot2::coord_equal() + theme +
     colorscale + guide + ggplot2::labs(fill = legend.title) +
     ggplot2::ggtitle(main)
+
+  if (!is.null(filename)) {
+    ggplot2::ggsave(filename = filename,
+                    plot = plt,
+                    width = file.width,
+                    height = file.height)
+  } else {
+    plt
+  }
 
 } # rtemis::gplot3.map
 
@@ -186,7 +198,9 @@ gplot3.map <- function(dat,
 #' @author Efstathios D. Gennatas
 #' @export
 
-rt_gtheme_map <- function(base_size = 9, base_family = "Lato") {
+rt_gtheme_map <- function(base_size = 9, base_family = "Helvetica",
+                          legend.position = c(.9, 0),
+                          plot.margin = ggplot2::unit(c(.02, .1, .02, .02), "npc")) {
 
   blank <- ggplot2::element_blank()
   ggplot2::theme_bw(base_size = base_size, base_family = base_family) +
@@ -196,6 +210,7 @@ rt_gtheme_map <- function(base_size = 9, base_family = "Lato") {
                    panel.grid = blank, plot.background = blank,
                    panel.spacing = ggplot2::unit(0, "lines"),
                    legend.justification = c(0, 0),
-                   legend.position = "right")
+                   legend.position = legend.position,
+                   plot.margin = plot.margin)
 
 } # rtemis::rt_gtheme_map
