@@ -65,7 +65,7 @@ dplot3.leaflet <- function(dat,
                            stroke = TRUE) {
 
   # [ DEPENDENCIES ] ====
-  if (!depCheck("leaflet", "geojsonio", verbose = FALSE)) {
+  if (!depCheck("leaflet", "geojsonio", "sf", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
