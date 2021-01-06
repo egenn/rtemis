@@ -10,11 +10,13 @@ mplot3.surv(
   lwd = 2,
   alpha = 1,
   col = NULL,
-  normalize = TRUE,
   cex = 1.2,
   xlab = "Time",
   ylab = "Survival",
   main = "Kaplan-Meier estimate with 95\% CI",
+  plot.error = TRUE,
+  error.lty = 2,
+  error.alpha = 0.5,
   group.legend = NULL,
   group.title = "",
   group.names = NULL,
@@ -34,8 +36,6 @@ mplot3.surv(
 \item{lwd}{Float: Line width. Default = 2}
 
 \item{alpha}{Float: Alpha for lines. Default = 1}
-
-\item{normalize}{Logical: If TRUE: \link{drange} \code{x} to 0:100}
 
 \item{xlab}{Character: x-axis label}
 

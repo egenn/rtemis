@@ -46,7 +46,7 @@ mplot3.box(
 )
 }
 \arguments{
-\item{x}{Matrix: Each column will be drawn as a box}
+\item{x}{List: Each element will be drawn as a box}
 
 \item{col}{Vector of colors to use}
 
