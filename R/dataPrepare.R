@@ -1,6 +1,7 @@
 # dataPrepare.R
 # ::rtemis::
 # Efstathios D. Gennatas egenn.lambdamd.org
+# todo: check missing y.test with present x.test
 
 #' \code{rtemis-internals}: \code{dataPrepare}
 #'
@@ -119,17 +120,17 @@ dataPrepare <- function(x, y = NULL,
       x.test <- lapply(x.test, as.data.frame)
     }
     # Test that dimensions match
-    for (i in 1:length(x)) {
+    for (i in seq_along(x)) {
       if (NROW(x[[i]]) != NROW(y)) stop("Training set features and outcome do not contain same number of cases")
     }
     if (!is.null(x.test)) {
-      for (i in 1:length(x)) {
+      for (i in seq_along(x)) {
         if (NCOL(x[[i]]) != NCOL(x.test[[i]]))
-          stop("Feature set #", i, ": Training and testing set features do not contain same number of variables")
+          stop("Feature set #", i, ": Training and testing sets do not contain same number of features")
       }
     }
     if (!is.null(y.test)) {
-      for (i in seq(x)) {
+      for (i in seq_along(x)) {
         if (NROW(x.test[[i]]) != NROW(y.test))
           stop("Feature set #", i, ": Testing set features and outcome do not contain same number of cases")
       }
@@ -146,7 +147,6 @@ dataPrepare <- function(x, y = NULL,
 
     # '- Column names ====
     xnames <- colnames(x)
-    # x <- as.data.frame(x)
     if (!is.null(x.test)) {
       x.test <- as.data.frame(x.test)
       colnames(x.test) <- xnames
@@ -170,7 +170,7 @@ dataPrepare <- function(x, y = NULL,
       msg(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
-    to.upsample <- setdiff(1:length(levels(y)), maxfreq.i)
+    to.upsample <- setdiff(seq_along(levels(y)), maxfreq.i)
     y.upsampled.classIndex.list <- y.classIndex.list
     target.length <- length(y.classIndex.list[[maxfreq.i]])
     for (i in to.upsample) {

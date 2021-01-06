@@ -54,6 +54,7 @@ checkData <- function(x,
   n.factor <- length(index.factor)
   index.ordered <- which(sapply(x, is.ordered))
   n.ordered <- length(index.ordered)
+  
   cat("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features"), "\n")
   cat("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features"), "\n")
   isOrdered <- if (n.factor == 1) {
