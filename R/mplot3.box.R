@@ -8,7 +8,7 @@
 #' Draw boxplots
 #'
 #' @inheritParams mplot3.xy
-#' @param x Matrix: Each column will be drawn as a box
+#' @param x List: Each element will be drawn as a box
 #' @param col Vector of colors to use
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
