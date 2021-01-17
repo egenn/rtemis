@@ -39,7 +39,7 @@ shytreegamleaves <- function(x, y,
                              gamma = .01,
                              gamma.on.lin = FALSE,
                              select.leaves.smooth = TRUE,
-                             alpha = 0,
+                             alpha = 1,
                              lambda = .01,
                              lambda.seq = NULL,
                              cv.glmnet.nfolds = 5,
@@ -76,7 +76,7 @@ shytreegamleaves <- function(x, y,
 
   # Changed: Specify lookback directly
   if (lookback && is.null(x.valid) && max.leaves > 1) {
-    stop("You have asked for early stopping without providing a validation set.")
+    stop("You have asked for lookback without providing a validation set.")
   }
 
   # [ Check y is not constant ] ====
