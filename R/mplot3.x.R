@@ -18,8 +18,9 @@
 #' @inheritParams mplot3.xy
 #' @param x Numeric vector or list of vectors, one for each group.
 #'   If \code{data} is provided, x is name of variable in \code{data}
-#' @param type Character: "density", "histogram",  "index", "ts", "qqline"
-#'   Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
+#' @param type Character: "density", "histogram", "hd" (histogram bars & density lines),
+#' "index", "ts", "qqline"
+#' Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
 #'   If \code{data} is provided, \code{group} is name of variable if \code{data}
 #' @param data Optional data frame containing x data
@@ -54,7 +55,7 @@
 #' @export
 
 mplot3.x <- function(x,
-                     type = c("density", "histogram", "index", "ts", "qqline"),
+                     type = c("density", "histogram", "hd", "index", "ts", "qqline"),
                      group = NULL,
                      data = NULL,
                      xlab = NULL,
@@ -72,14 +73,15 @@ mplot3.x <- function(x,
                      index.type = c("p", "l"),
                      hist.breaks = "Sturges",
                      hist.type = c("bars", "lines"),
+                     hist.probability = FALSE,
                      hist.lwd = 3,
                      density.line = FALSE,
                      density.shade = TRUE,
                      density.legend.side = 3,
                      density.legend.adj = .98,
                      density.params = list(),
-                     qqline.col = NULL,
-                     qqline.alpha = .66,
+                     qqline.col = "#18A3AC",
+                     qqline.alpha = 1,
                      pch = 16,
                      point.col = NULL,
                      point.cex = 1,
@@ -106,7 +108,7 @@ mplot3.x <- function(x,
                      text.y = NULL,
                      text.xy.cex = 1,
                      text.xy.col = "white",
-                     line.col = "#008E00", # for QQ-line
+                     line.col = "#008E00", # for QQ-line or dh density line
                      x.axis.padj = -1.1,
                      # xlab.line = 1.3,
                      y.axis.padj = .9,
@@ -237,15 +239,27 @@ mplot3.x <- function(x,
   # [ DATA: DENSITY ] ====
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
-    .out <- densityl <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
-    densityl <- lapply(densityl, function(d) data.frame(x = d$x, y = d$y))
+    .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
+    densityl <- lapply(.out, function(d) data.frame(x = d$x, y = d$y))
     if (is.null(xlab)) xlab <- labelify(xname)
   }
 
   # [ DATA: HISTOGRAM ] ====
   if (type == "histogram") {
-    .out <- histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks, plot = FALSE))
+    .out <- histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks,
+                                                 # probability = hist.probability,
+                                                 plot = FALSE))
     if (is.null(xlab)) xlab <- labelify(xname)
+  }
+
+  # [ DATA: DH ] ====
+  if (type %in% c("hd", "density")) {
+    histl = lapply(xl, function(x) hist(x, breaks = hist.breaks,
+                                        # probability = hist.probability,
+                                        plot = FALSE))
+    .out <- list(densityl = lapply(xl, function(j) do.call(density, c(list(x = j), density.params))),
+                 histl = histl)
+    densityl = lapply(.out$densityl, function(d) data.frame(x = d$x, y = d$y))
   }
 
   # [ AXES LIMITS ] ====
@@ -255,6 +269,10 @@ mplot3.x <- function(x,
   } else if (type == "density") {
     if (is.null(xlim)) xlim <- range(sapply(densityl, function(d) range(d$x)))
     if (is.null(ylim)) ylim <- c(0, max(sapply(densityl, function(d) max(d$y))))
+  } else if (type == "hd") {
+    if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
+    if (is.null(ylim)) ylim <- c(0, max(max(sapply(densityl, function(d) max(d$y))),
+                                        unlist(sapply(histl, function(x) c(x$density)))))
   } else if (type == "qqline") {
     if (is.null(xlim)) xlim <- ylim <- range(c(xl, yl), na.rm = na.rm)
   } else if (type == "index") {
@@ -424,9 +442,11 @@ mplot3.x <- function(x,
   } # type == "density"
 
   # [ PLOT: HISTOGRAM ] ====
-  if (type == "histogram") {
+  if (type %in% c("histogram", "hd")) {
     if (length(xl) > 1) {
-      breaks <- hist(unlist(xl), breaks = hist.breaks, plot = FALSE)$breaks
+      breaks <- hist(unlist(xl), breaks = hist.breaks,
+                     # probability = hist.probability,
+                     plot = FALSE)$breaks
       dist <- diff(breaks)[1] # mean(diff(breaks))
       breaksl <- lapply(seq_along(xl), function(i) {
         c(breaks - ((i - 1)/length(xl) * dist), max(breaks) - ((i - 1)/length(xl) * dist) + dist)
@@ -436,19 +456,35 @@ mplot3.x <- function(x,
     }
   }
 
-  if (type == "histogram") {
+  if (type == "hd") {
+    hist.type <- "bars"
+    hist.probability <- TRUE
+  }
+
+  if (type %in% c("histogram", "hd")) {
     if (hist.type == "bars") {
       for (i in seq_along(xl)) {
-        hist(xl[[i]], breaks = hist.breaks, col = col.alpha[[i]], add = TRUE,
+        hist(xl[[i]], breaks = hist.breaks,
+             col = col.alpha[[i]], add = TRUE,
+             probability = hist.probability,
              border = theme$bg, xlim = xlim)
       }
     } else {
       for (i in seq_along(xl)) {
-        mhist(xl[[i]], measure = "count", breaks = breaksl[[i]], col = col.alpha[[i]], add = TRUE,
+        mhist(xl[[i]], measure = "count", breaks = breaksl[[i]],
+              col = col.alpha[[i]], add = TRUE,
               lwd = hist.lwd,
               xlim = xlim, ylim = ylim, plot.axes = FALSE,
               xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
       }
+    }
+  }
+
+  # [PLOT: DH LINES ] ====
+  if (type == "hd") {
+    for (i in seq_along(xl)) {
+      lines(densityl[[i]]$x, densityl[[i]]$y,
+            col = col[[i]], lwd = lwd)
     }
   }
 
