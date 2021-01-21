@@ -10,5 +10,5 @@
 Obtains predictions from a fitted gamselx2 model object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

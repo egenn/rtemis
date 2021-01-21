@@ -1,6 +1,6 @@
 # s.NW.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Nadaraya-Watson kernel regression [R]
 #'
@@ -14,7 +14,7 @@
 #' @param plot.bw Logical. Plot bandwidth selector results
 #' @param ... Additional parameters to be passed to \code{npreg}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @examples

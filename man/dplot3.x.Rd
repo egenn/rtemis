@@ -159,5 +159,5 @@ dplot3.x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # dplot3.addtree
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Plot ADDTREE trees
 #'
@@ -14,7 +14,7 @@
 #' @param bg.color Background color. Default = "#ffffff"
 #' @param filename String, Optional: Save PDF to this file. Requires packages \code{DiagrammeRsvg}
 #' and \code{rsvg}. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dplot3.addtree <- function(addtree,

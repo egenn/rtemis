@@ -125,7 +125,7 @@ Other Deep Learning:
 \code{\link{s.TFN}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Decomposition}
 \concept{Deep Learning}

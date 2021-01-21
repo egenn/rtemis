@@ -1,6 +1,6 @@
 # dplot3.cart.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 # node.labels
 # 1: condition; 2: probability; 4: N cases
 # TODO: Fails sometimes for regression: must track down through DiagrammeR to graphviz
@@ -21,7 +21,7 @@
 #' @param node.estimate Logical: If TRUE, print the estimated outcome level inside each node.
 #' Default = FALSE
 #' @param node.n Logical: If TRUE, print the number of cases (from training data) that matched this condition
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dplot3.cart <- function(object,

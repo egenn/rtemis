@@ -1,6 +1,6 @@
 # s.RF.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' Random Forest Classification and Regression [C, R]
 #'
@@ -52,7 +52,7 @@
 #' @param plot.tsne.test Logical: If TRUE, plot testing set tSNE projections
 #' @param ... Additional arguments to be passed to \code{randomForest::randomForest}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

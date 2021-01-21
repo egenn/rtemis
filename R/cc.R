@@ -1,6 +1,6 @@
 # cc.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Concatenate Vectors
 #' 
@@ -12,7 +12,7 @@
 #'
 #' @param ... Two or more vectors of any type
 #' @return Concatenation of \code{...}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 cc <- function(...) {

@@ -1,6 +1,6 @@
 # mplot3.harmonograph
 # ::rtemis::
-# Efstathios D Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 # Harmonograph source: https://fronkonstin.com/2014/10/13/beautiful-curves-the-harmonograph/
 
@@ -25,7 +25,7 @@
 #' @param text.col Color: Text color. Default is same as \code{col}
 #' @param mar Float vector, length 4: Plot margins. (\code{par}'s \code{mar} argument) Default = c(0, 0, 0, 0)
 #' @param par.reset Logical. If TRUE, reset par before exit
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),

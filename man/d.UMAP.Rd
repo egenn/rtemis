@@ -65,6 +65,6 @@ Other Decomposition:
 \code{\link{d.TSNE}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Decomposition}

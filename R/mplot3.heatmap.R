@@ -1,6 +1,6 @@
 # mplot3.heatmap.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-9 E.D. Gennatas lambdamd.org
 # TODO: check dendrogram: compare to heatmap: same hierarchy, different layout, not wrong
 # TODO: only center around zero (if autorange) if 0 is within range of z,
 #       otherwise range from 0 to max or closest multiple of ten, each depending on range.
@@ -83,7 +83,7 @@
 #' @param pdf.width Float: Width of PDF output, if \code{filename} is set
 #' @param pdf.height Float: Height of PDF output, if \code{filename} is set
 #' @param ... Additional arguments passed to \code{graphics::image}
-#' @author Efstathios D Gennatas modified from original \code{stats::heatmap}
+#' @author E.D. Gennatas modified from original \code{stats::heatmap}
 #' by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
 #' @examples
 #' \dontrun{

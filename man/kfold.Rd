@@ -32,5 +32,5 @@ See \code{?base::set.seed}}
 K-fold Resampling
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

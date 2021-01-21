@@ -77,6 +77,6 @@ Includes a special case for training \link{s.H2OGBM} or \link{s.GBM} which requi
 along with params.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

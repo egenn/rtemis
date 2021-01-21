@@ -70,6 +70,6 @@ Other Decomposition:
 \code{\link{d.UMAP}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Decomposition}

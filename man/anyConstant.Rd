@@ -13,5 +13,5 @@ anyConstant(x)
 Checks if any column of a data frame have zero variance
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

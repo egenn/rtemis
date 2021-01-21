@@ -1,6 +1,6 @@
 # s.CTREE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Conditional Inference Trees [C, R, S]
 #'
@@ -10,7 +10,7 @@
 #' @param control List of parameters for the CTREE algorithms. Set using
 #' \code{partykit::ctree_control}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate}
 #' @family Supervised Learning
 #' @family Tree-based methods

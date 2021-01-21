@@ -35,6 +35,6 @@ Other Clustering:
 \code{\link{u.SPEC}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Clustering}

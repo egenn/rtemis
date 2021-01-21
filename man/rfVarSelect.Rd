@@ -19,5 +19,5 @@ positives which can be dealt by an appropriate learning algorithm.}
 Select important variables from a set of features based on RF-estimated variable importance
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

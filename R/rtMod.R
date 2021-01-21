@@ -1,6 +1,6 @@
 # rtMod.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-9 E.D. Gennatas lambdamd.org
 # TODO: survival analysis in elevate
 
 # rtMod R6 ====
@@ -39,7 +39,7 @@
 #' @field question Question the model is hoping to answer
 #' @field extra Algorithm-specific output
 #' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 rtMod <- R6::R6Class("rtMod",
                      public = list(
@@ -544,7 +544,7 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @param theme String. \code{mplot3} theme to use. Options: "box", "darkbox", "light", "dark"
 #' @param title.col Color for main title
 #' @param ... Additional arguments to be passed to \link{mplot3}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
 summary.rtMod <- function(object,
@@ -658,7 +658,7 @@ summary.rtMod <- function(object,
 #' \code{coef.rtMod}: \code{coef} method for \code{rtMod} object
 #'
 #' @param object Trained model of class \code{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
 coef.rtMod <- function(object, verbose = TRUE, ...) {

@@ -89,5 +89,5 @@ Predict outcome from each predictor separately and rank by percent Variance expl
 or Classification Accuracy
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

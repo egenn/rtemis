@@ -1,6 +1,6 @@
 # s.QDA.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Quadratic Discriminant Analysis [C]
 #'
@@ -8,7 +8,7 @@
 #'
 #' @inheritParams s.GLM
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

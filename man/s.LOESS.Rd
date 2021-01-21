@@ -82,5 +82,5 @@ not for building predictive models.
 \link{elevate}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -28,5 +28,5 @@ rtRandom(
 Draw random shapes and colors
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

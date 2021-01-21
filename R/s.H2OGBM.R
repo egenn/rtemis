@@ -1,6 +1,6 @@
 # s.H2OGBM.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-8 E.D. Gennatas lambdamd.org
 
 #' Gradient Boosting Machine on H2O [C, R]
 #'
@@ -26,7 +26,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

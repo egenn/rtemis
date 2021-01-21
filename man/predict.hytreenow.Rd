@@ -42,5 +42,5 @@ Defaults to all}
 Predict method for \code{hytreeLite} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

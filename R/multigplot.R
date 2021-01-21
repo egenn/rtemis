@@ -1,6 +1,6 @@
 # multigplot.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Multipanel **ggplot2** plots
 #'
@@ -11,7 +11,7 @@
 #' to plot 2 plots per row
 #' @param byrow Logical: If TRUE, draw plots in order provided by row, otherwise by column.
 #' Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 multigplot <- function(plots = NULL,

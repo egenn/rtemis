@@ -21,7 +21,7 @@ shytreegamleaves(
   gamma = 0.01,
   gamma.on.lin = FALSE,
   select.leaves.smooth = TRUE,
-  alpha = 0,
+  alpha = 1,
   lambda = 0.01,
   lambda.seq = NULL,
   cv.glmnet.nfolds = 5,
@@ -84,6 +84,6 @@ With \code{max.nodes = 0}, the output is a linear model trained according to \co
 Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

@@ -273,7 +273,7 @@ Other Ensembles:
 \code{\link{s.RANGER}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Ensembles}
 \concept{Supervised Learning}

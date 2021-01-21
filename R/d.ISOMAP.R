@@ -1,6 +1,6 @@
 # d.ISOMAP.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Isomap
 #'
@@ -21,7 +21,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to \code{vegan::isomap}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

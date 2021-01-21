@@ -10,5 +10,5 @@
 Predict S3 method for \code{rtBSplines}
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

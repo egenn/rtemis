@@ -1,6 +1,6 @@
 # s.GLM.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Generalized Linear Model [C, R]
 #'
@@ -75,7 +75,7 @@
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100)/2
 #' mod <- s.GLM(x, y)
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Interpretable models

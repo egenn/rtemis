@@ -1,6 +1,6 @@
 # rtSave.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Write \pkg{rtemis} model to RDS file
 #'
@@ -8,7 +8,7 @@
 #' @param outdir Path to output directory
 #' @param file.prefix Character: Prefix for filename
 #' @param verbose Logical: If TRUE, print messages to output
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtSave <- function(rtmod,

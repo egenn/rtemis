@@ -23,6 +23,6 @@ boxcat(x, style = 2, col = NULL, newline.pre = TRUE, newline = FALSE, pad = 0)
 \code{cat} with a box; a boxed cat
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

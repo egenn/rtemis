@@ -1,6 +1,6 @@
 # d.UMAP.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Uniform Manifold Approximation and Projection
 #'
@@ -19,7 +19,7 @@
 #' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{uwot::umap}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

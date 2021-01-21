@@ -53,5 +53,5 @@ By design, numbers will not be justified, but using ddSci.dp will convert to cha
 which will be justified. This is intentional for internal use.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

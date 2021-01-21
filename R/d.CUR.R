@@ -1,6 +1,6 @@
 # d.CUR.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' CUR Decomposition
 #'
@@ -24,7 +24,7 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param ... Additional parameters to be passed to \code{rCUR::CUR}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

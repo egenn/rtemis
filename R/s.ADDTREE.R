@@ -1,6 +1,6 @@
 # s.ADDTREE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: check if factor outcome with string levels works & with addtree_path_to_rules
 
 #' Additive Tree: Tree-Structured Boosting [C]
@@ -33,7 +33,7 @@
 # @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
 #' @param
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models

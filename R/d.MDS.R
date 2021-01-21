@@ -1,6 +1,6 @@
 # d.MDS.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Multidimensional Scaling
 #'
@@ -25,7 +25,7 @@
 #' @param center Logicall: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 #' Default = TRUE
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

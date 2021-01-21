@@ -17,5 +17,5 @@ strict(x, accept.class = NULL, accept.type = NULL)
 Allow assignment only if input is of correct class and/or type
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

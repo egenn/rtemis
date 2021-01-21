@@ -1,6 +1,6 @@
 # s.TFN.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Artificial Neural Network with \pkg{tensorflow} [C, R]
 #'
@@ -46,7 +46,7 @@
 #' column means and standard deviation will be saved in \code{rtMod$extra} field to allow
 #' scaling ahead of prediction on new data
 #' @param ... Additional parameters
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning

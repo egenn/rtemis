@@ -34,5 +34,5 @@ List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
 Synthesize Simple Regression Data
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

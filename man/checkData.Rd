@@ -36,5 +36,5 @@ data analysis. This function makes no changes to data, but reports potential cou
 that can be taken using \link{preprocess}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

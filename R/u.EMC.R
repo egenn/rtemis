@@ -1,6 +1,6 @@
 # u.EMC.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Expectation Maximization Clustering
 #'
@@ -15,7 +15,7 @@
 #' @param EMC List of control parameters for \code{EMCluster::emcluster}. Default = \code{EMCluster::.EMC}
 # @param maxiter Integer: Maximum number of iterations. Default = 100
 #' @param ... Additional parameters to be passed to \code{EMCluster::emcluster}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

@@ -24,5 +24,5 @@ x <- runif(20, -10, 10)
 x <- drange(x)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

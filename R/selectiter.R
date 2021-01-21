@@ -1,6 +1,6 @@
 # selectiter.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Select N of learning iterations based on loss
 #'
@@ -9,7 +9,7 @@
 #' @param smooth Logical: If TRUE, smooth loss before finding minimum. Default = TRUE
 #' @param plot Logical: If TRUE, plot loss curve. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 selectiter <- function(loss.valid,

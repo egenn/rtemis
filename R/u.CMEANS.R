@@ -1,6 +1,6 @@
 # u.CMEANS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Fuzzy C-means Clustering
 #'
@@ -16,7 +16,7 @@
 #' @param weights Float (>0): Case weights
 #' @param control List of control parameters. See \code{e1071::cmeans}
 #' @param ... Additional parameters to be passed to \code{e1071::cmeans}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return \link{rtClust} object
 #' @family Clustering
 #' @export

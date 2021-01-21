@@ -30,5 +30,5 @@ A vector input will be one-hot encoded regardless of type by looking at all uniq
 only column of type factor will be one-hot encoded. This function is used by \link{preprocess}
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

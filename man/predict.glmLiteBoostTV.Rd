@@ -34,5 +34,5 @@
 Predict method for \code{glmLiteBoostTV} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

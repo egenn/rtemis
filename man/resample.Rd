@@ -77,5 +77,5 @@ res <- resample(y, 100, "strat.boot")
 \link{elevate}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -5,7 +5,7 @@
 #' @inheritParams mplot3.xy
 #' @param x AGGTEobj object
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot.AGGTEobj <- function(x,

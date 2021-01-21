@@ -192,6 +192,6 @@ mplot3.heatmap(xcor)
 }
 }
 \author{
-Efstathios D Gennatas modified from original \code{stats::heatmap}
+E.D. Gennatas modified from original \code{stats::heatmap}
 by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
 }

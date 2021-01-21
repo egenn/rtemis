@@ -22,5 +22,5 @@ Accepts learner name (supports abbreviations) and returns \pkg{rtemis} function 
   If run with no parameters, prints list of available algorithms.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

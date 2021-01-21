@@ -1,6 +1,6 @@
 # sparsify.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Sparsify a vector
 #'
@@ -8,7 +8,7 @@
 #'
 #' @param x Inpute vector
 #' @param sparseness Percent of values of \code{x} to keep. The rest will be set to zero.
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 sparsify <- function(x, sparseness){
   if (!is.vector(x)) stop("x must be a vector.")

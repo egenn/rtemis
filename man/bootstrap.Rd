@@ -17,5 +17,5 @@ bootstrap(x, n.resamples = 10, seed = NULL)
 Bootstrap Resampling
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

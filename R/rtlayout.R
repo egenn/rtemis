@@ -1,6 +1,6 @@
 # rtlayout.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Create multipanel plots with the \code{mplot3} family
 #'
@@ -15,7 +15,7 @@
 #' @param pdf.height Float: Height of PDF to save, if \code{filename} is provided.
 #' Default = \code{nrows * 4.5}
 #' @param filename String, optional: Save multiplot to file. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtlayout <- function(nrows = NULL, ncols = NULL,

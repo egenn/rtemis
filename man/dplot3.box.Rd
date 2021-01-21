@@ -113,5 +113,5 @@ dplot3.box(VADeaths)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

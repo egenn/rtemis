@@ -23,5 +23,5 @@ give their children to their parent. Default = TRUE}
 Prune an ADDTREE tree in Node format using \code{data.tree} to remove sister nodes with same class estimate.
 }
 \author{
-Efstathios D. Gennatasd
+E.D. Gennatasd
 }

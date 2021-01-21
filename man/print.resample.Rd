@@ -13,5 +13,5 @@
 Print resample information
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

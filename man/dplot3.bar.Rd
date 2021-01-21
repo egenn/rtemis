@@ -111,5 +111,5 @@ dplot3.bar(VADeaths)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # dplot3.box.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Interactive Boxplots & Violin plots
 #'
@@ -40,7 +40,7 @@
 #' the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area
 #' @param margin Named list: plot margins. Default = \code{list(t = 35)}
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

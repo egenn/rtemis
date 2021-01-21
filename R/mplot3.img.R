@@ -1,6 +1,6 @@
 # mplot3.img.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Image (False color 2D)
 #'
@@ -29,7 +29,7 @@
 #' @param file.height Output height in inches
 #' @param par.reset Logical: If TRUE, par will be reset to original settings before exit. Default = TRUE
 #' @param ... Additional arguments to be passed to \code{graphics::image}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.img <- function(z,

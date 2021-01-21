@@ -1,6 +1,6 @@
 # mplot3.confbin
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-8 E.D. Gennatas lambdamd.org
 # TODO: Fix grid col
 
 #' Plot extended confusion matrix for binary classification
@@ -37,7 +37,7 @@
 #' @param ... Not used
 #' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.confbin <- function(object,

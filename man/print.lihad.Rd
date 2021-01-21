@@ -10,5 +10,5 @@
 Print method for \code{lihad} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

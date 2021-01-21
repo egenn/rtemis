@@ -9,7 +9,7 @@
 \pkg{rtemis} clustering object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

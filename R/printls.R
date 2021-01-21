@@ -1,6 +1,6 @@
 # printls.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Pretty print list
 #'
@@ -12,7 +12,7 @@
 #' @param pad Integer: Pad output with this many spaces. Default = 2
 #' @param center.title Logical: If TRUE, autopad title for centering, if present. Default TRUE
 #' @param color \code{crayon} color to be applied when printing values. Default = NULL (do not use \code{crayon})
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 
@@ -74,7 +74,7 @@ printls <- function(x,
 
 # printdf1
 # ::rtemis::
-# 2016 egenn.lambdamd.org
+# 2016 lambdamd.org
 #' Print 1 x N data frame
 #'
 #' Pretty print a data frame containing 1 row of data with named columns as a vertical list
@@ -83,7 +83,7 @@ printls <- function(x,
 #'
 #' @param x data frame
 #' @param pad Integer: Pad output with this many spaces. Default = 2
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 printdf1 <- function(x, pad = 2) {
@@ -136,7 +136,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param row.col \code{crayon} color for printing row names. Default = silver
 #' @param newline.pre Logical: If TRUE, print a new line before printing data frame. Default = FALSE
 #' @param newlin Logical: If TRUE, print a new line after printing data frame. Default = FALSE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 printdf <- function(x,

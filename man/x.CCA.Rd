@@ -100,6 +100,6 @@ Other Cross-Decomposition:
 \code{\link{xdecomSelect}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Cross-Decomposition}

@@ -1,6 +1,6 @@
 # mplot3.xym.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # TODO: Add group support for marginal plots to mhist
 
 #' \code{mplot3} Scatter plot with marginal density and/or histogram
@@ -26,7 +26,7 @@
 #' @param axes.density Logical: If TRUE, plot margin plot axes for density (debugging only)
 #' @param par.reset Logical. Resest \code{par} to original settings
 #' @param ... Additional arguments to be passed to \code{mplot3.xy}
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' x <- rnorm(500)

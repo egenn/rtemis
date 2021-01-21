@@ -56,6 +56,6 @@ and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 Interpretable Decision Making in the Era of Precision Medicine.
 }
 \author{
-Efstathios D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
+E.D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
 }
 \keyword{internal}

@@ -1,6 +1,6 @@
 # s.BART.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Bayesian Additive Regression Trees [C, R]
 #'
@@ -14,7 +14,7 @@
 #' @param save.mod Logical: if TRUE, sets \code{bartMachine}'s \code{serialize} to TRUE and saves model to \code{outdir}
 #' @param ... Additional arguments to be passed to \code{bartMachine::bartMachine}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

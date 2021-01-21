@@ -1,6 +1,6 @@
 # seql.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Sequence generation with automatic cycling
 #'
@@ -15,7 +15,7 @@
 #' target <- 1:3
 #' color[seql(color, target)]
 #' # "red"   "green" "blue"
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 seql <- function(x, target) {

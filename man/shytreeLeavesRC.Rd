@@ -75,6 +75,6 @@ With \code{max.nodes = 0}, the output is a linear model trained according to \co
 Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

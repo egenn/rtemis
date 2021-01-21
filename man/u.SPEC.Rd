@@ -64,6 +64,6 @@ Other Clustering:
 \code{\link{u.PAM}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Clustering}

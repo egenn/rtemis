@@ -1,6 +1,6 @@
 # distillTreeRules.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Distill rules from trained RF and GBM learners
 #'
@@ -16,7 +16,7 @@
 #' @param maxDecay Float: See \code{inTree=es::pruneRule}
 #' @param typeDecay Integer: See \code{inTreees::pruneRule}
 #' @param verbose Logical: If TRUE, print messages to output
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 distillTreeRules <- function(mod, x, y = NULL,

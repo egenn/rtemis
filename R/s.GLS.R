@@ -1,6 +1,6 @@
 # s.GLS.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Generalized Least Squares [R]
 #'
@@ -9,7 +9,7 @@
 #' @inheritParams s.GLM
 #' @param ... Additional arguments
 #' @return \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export
 

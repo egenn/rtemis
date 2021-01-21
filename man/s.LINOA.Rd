@@ -150,5 +150,5 @@ We specify an upper threshold of leaves using \code{max.leaves} instead of direc
 because depending on the other parameters and the datasets, splitting may stop early.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

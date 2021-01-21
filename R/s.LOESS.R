@@ -1,6 +1,6 @@
 # s.LOESS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Local Polynomial Regression (LOESS) [R]
 #'
@@ -14,7 +14,7 @@
 #' @inheritParams s.GLM
 #' @param ... Additional arguments to \code{loess}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate}
 #' @export
 

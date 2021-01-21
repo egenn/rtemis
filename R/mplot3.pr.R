@@ -1,6 +1,6 @@
 # mplot3.pr
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3} Precision Recall curves
 #'
@@ -20,7 +20,7 @@
 #' @param group.legend Logical
 #' @param ... Additional parameters to pass to \link{mplot3.xy}
 #' @return List with Precision, Recall, and Threshold values, invisibly
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.pr <- function(prob, labels,

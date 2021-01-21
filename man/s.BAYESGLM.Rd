@@ -190,7 +190,7 @@ Other Supervised Learning:
 \code{\link{s.XGB}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Bayesian}
 \concept{Supervised Learning}

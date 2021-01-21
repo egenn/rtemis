@@ -13,5 +13,5 @@ loocv(x)
 Leave-one-out Resampling
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

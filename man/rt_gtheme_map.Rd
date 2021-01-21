@@ -21,5 +21,5 @@ rt_gtheme_map(
 based on \code{usmap:::theme_map()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

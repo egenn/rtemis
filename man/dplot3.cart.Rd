@@ -67,5 +67,5 @@ Edge labels in graphviz are shown to the right of
 the edge when \code{rankdir = "TB"} and above when \code{rankdir = "LR"}.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

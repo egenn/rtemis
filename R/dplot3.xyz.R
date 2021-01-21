@@ -1,6 +1,6 @@
 # dplot3.xyz.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Interactive 3D Plots
 #'
@@ -11,7 +11,7 @@
 #' @param zlab Character: z-axis label
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
 #' Default = \code{list(t = 30, b = 0, l = 0, r = 0}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

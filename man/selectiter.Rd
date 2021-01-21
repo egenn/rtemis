@@ -27,5 +27,5 @@ selectiter(
 Select N of learning iterations based on loss
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

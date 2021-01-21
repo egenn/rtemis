@@ -1,13 +1,13 @@
 # savePMML.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Save rtemis model to PMML file
 #'
 #' @param x rtemis model
 #' @param filename Character: path to file
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 savePMML <- function(x, filename) {
 
   if (!depCheck("pmml", verbose = FALSE)) {

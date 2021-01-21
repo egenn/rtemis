@@ -19,5 +19,5 @@ Default = TRUE}
 Plot a panel of **gplot2** plots
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

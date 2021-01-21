@@ -1,12 +1,12 @@
 # rtInitProjectDir.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Initialize Project Directory
 #'
 #' Initializes Directory Structure: "R", "Data", "Results"
 #'
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtInitProjectDir <- function(verbose = TRUE) {

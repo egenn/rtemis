@@ -1,6 +1,6 @@
 # u.PAM.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Partitioning Around Medoids
 #'
@@ -14,7 +14,7 @@
 #' @param do.swap Logical: If TRUE, perform the swap phase (See \code{cluster::pam}), as in the
 #' original PAM algorithm. This is computationally intensive and can be skipped. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{cluster::pam}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

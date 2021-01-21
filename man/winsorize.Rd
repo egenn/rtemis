@@ -43,5 +43,5 @@ x <- rexp(500)
 xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

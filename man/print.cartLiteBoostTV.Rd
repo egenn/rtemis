@@ -10,5 +10,5 @@
 Print method for \link{boost} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

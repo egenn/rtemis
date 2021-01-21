@@ -1,6 +1,6 @@
 # gp.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # TODO: output to rtMod or rename
 
 #' Bayesian Gaussian Processes [R]
@@ -17,7 +17,7 @@
 #' @param cex Character expansion factor for plotting
 #' @param par.reset Logical. Reset \code{par} to its original state
 #' @param ... Additional arguments to be passed to tgp::bgp
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 gp <- function(x, y,

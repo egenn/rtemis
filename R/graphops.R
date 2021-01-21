@@ -1,6 +1,6 @@
 # graphops.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Get y below current plot area
 #'

@@ -1,6 +1,6 @@
 # colorOp.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Simple Color Operations
 #'
@@ -13,7 +13,7 @@
 #' @param fn Character: "invert", "mean": Function to perform
 #' @param space Character: "HSV", "RGB": Colorspace to operate in - for averaging only
 #' @return Color
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 colorOp <- function(col,

@@ -90,6 +90,6 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 \pkg{rtemis} internal: Low-level function for boosting Hard Hybrid Trees (no weights)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

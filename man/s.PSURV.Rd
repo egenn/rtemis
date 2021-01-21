@@ -50,6 +50,6 @@ Fit a parametric survival regression model using \code{survival::survreg}
 \link{elevate} for external cross-validation
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Survival Regression}

@@ -19,5 +19,5 @@ gtTable(x = list(), x.name = NULL, na.rm = TRUE, verbose = TRUE)
 Compare vectors element-wise, and tabulate N times each vector is greater than the others
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

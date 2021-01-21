@@ -1,6 +1,6 @@
 # sortedlines
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' lines, but sorted
 #'
@@ -9,7 +9,7 @@
 #' @param col Line color. Default = "red"
 #' @param ... Extra params to pass to \code{lines}
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 sortedlines <- function(x, y, col = "red", ...) {
 

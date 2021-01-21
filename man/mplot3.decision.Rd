@@ -72,5 +72,5 @@ mplot3.decision(mod.rf, dat)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

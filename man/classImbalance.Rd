@@ -15,5 +15,5 @@ Calculate class imbalance as given by:
 where \eqn{K} is the number of classes, and \eqn{n_i} is the number of instances of class \eqn{i}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

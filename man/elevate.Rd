@@ -200,5 +200,5 @@ mod <- elevate(Sonar)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

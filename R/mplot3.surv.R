@@ -1,6 +1,6 @@
 # mplot3.surv.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Survival Plots
 #'
@@ -13,7 +13,7 @@
 #' @param alpha Float: Alpha for lines. Default = 1
 # @param normalize Logical: If TRUE: \link{drange} \code{x} to 0:100
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.surv <- function(x,

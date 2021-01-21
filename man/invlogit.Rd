@@ -16,5 +16,5 @@ The inverse logit of the input
 Inverse Logit
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

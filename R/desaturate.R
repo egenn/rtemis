@@ -1,6 +1,6 @@
 # desaturate.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Pastelify a color (make a color more pastel)
 #'
@@ -10,7 +10,7 @@
 #' @param s Float: Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
 #' it will become .7
 #' @return List of adjusted colors
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' color <- c("red", "green", "blue")

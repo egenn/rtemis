@@ -110,5 +110,5 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train an DN for Regression or Classification using \pkg{deepnet}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

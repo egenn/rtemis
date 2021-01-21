@@ -35,5 +35,5 @@ Default = \code{nrows * 4.5}}
 Set layout for drawing multiple plots in the same view
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

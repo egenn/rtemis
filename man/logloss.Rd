@@ -15,5 +15,5 @@ logloss(true, estimated.prob)
 Log Loss for a binary classifier
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

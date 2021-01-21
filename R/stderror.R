@@ -1,6 +1,6 @@
 # stderror.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Standard Error of the Mean
 #' 
@@ -9,7 +9,7 @@
 #' 
 #' @param x Vector, numeric: Input data
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 stderror <- function(x) {
   

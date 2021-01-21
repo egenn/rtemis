@@ -1,6 +1,6 @@
 # s.DN.R
 # ::rtemis::
-# 2018 Efstathios D Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Artificial Neural Network [C, R]
 #'
@@ -9,7 +9,7 @@
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer, vector: Length indicated number of hidden layers, value of each element determines
 #' number of nodes for given layer
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 s.DN <- function(x, y = NULL,

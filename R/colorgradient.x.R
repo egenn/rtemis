@@ -1,12 +1,12 @@
 # colorgradient.x
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Color gradient for continuous variable
 #'
 #' @param x Float, vector
 #' @param color Color, vector, length 2
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

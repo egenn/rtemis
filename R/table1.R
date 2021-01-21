@@ -1,6 +1,6 @@
 # table1.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Table 1
 #'
@@ -17,7 +17,7 @@
 #' A data.frame, invisibly, with two columns: "Feature", "Value mean (sd) | N"
 #' @examples
 #' table1(iris)
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 table1 <- function(x,

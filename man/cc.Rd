@@ -21,5 +21,5 @@ If all inputs are factors, they are converted to character, concatenated and con
 Otherwise, they are passed to \code{c()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

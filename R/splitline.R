@@ -1,6 +1,6 @@
 # splitline.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Splitline
 #'
@@ -14,7 +14,7 @@
 #' attempting split
 #' @param trace Integer: If greater than 0, print diagnostic messages to console
 #' @keywords internal
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' x <- rnormmat(1000, 20, seed = 2020)

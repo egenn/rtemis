@@ -1,6 +1,6 @@
 # s.GAMSEL.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 # TODO: Update to use cv.gamsel similar to s.GLMNET
 # TODO: Add special case in rtMod predict
 
@@ -11,7 +11,7 @@
 #' @inheritParams s.GLM
 #' @inheritParams gamsel2::gamsel
 #' @return \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

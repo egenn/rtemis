@@ -1,6 +1,6 @@
 # checkData.R
 # ::rtemis::
-# 2017-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-9 E.D. Gennatas lambdamd.org
 
 #' Check Data
 #'
@@ -18,7 +18,7 @@
 #' this fraction of features. Default = NULL
 #' @param reportFeatures.thres Float (0, 1]: Report, by name, all features missing in greater or
 #' equal to this fraction of cases. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 checkData <- function(x,

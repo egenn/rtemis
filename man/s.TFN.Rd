@@ -231,7 +231,7 @@ Other Deep Learning:
 \code{\link{s.H2ODL}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Deep Learning}
 \concept{Supervised Learning}

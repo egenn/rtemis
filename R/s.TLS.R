@@ -1,6 +1,6 @@
 # s.TLS.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Total Least Squares Regression [R]
 #'
@@ -11,7 +11,7 @@
 #' Because there is no model, \code{predict} and other methods are not currently working with \code{s.TLS}
 #' These features may be added in the future
 #' @inheritParams s.GLM
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 s.TLS <- function(x, y = NULL,

@@ -1,6 +1,6 @@
 # colorGrad.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Color Gradient
 #'
@@ -59,7 +59,7 @@
 #' @param pad Float: Padding for \code{plotly}. Default = 0
 #' @param par.reset Logical: If TRUE (Default), reset \code{par} settings after running
 #' @return Invisible vector of hexadecimal colors / plotly object if \code{rtrn.plotly = TRUE}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 colorGrad <- function(n = 21,

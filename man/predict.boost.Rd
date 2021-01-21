@@ -19,5 +19,5 @@
 Predict method for \code{boost} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

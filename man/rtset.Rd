@@ -9,5 +9,5 @@ This removes the need of passing named lists of arguments, and provides autocomp
 making it easier to setup functions without having to refer to the manual.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -53,5 +53,5 @@ Train any \pkg{rtemis} model
 \code{args} and \code{...} allow you to either pass named arguments, or a list of arguments (or both)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

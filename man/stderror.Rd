@@ -14,5 +14,5 @@ Calculate the standard error of the mean, which is equal to the standard deviati
 the square root of the sample size. NA values are automatically removed
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

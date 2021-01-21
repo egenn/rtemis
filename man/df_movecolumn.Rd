@@ -21,5 +21,5 @@ Move data frame column
 mtcars_hp <- df_movecolumn(mtcars, "hp")
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

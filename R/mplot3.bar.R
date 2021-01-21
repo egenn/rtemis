@@ -1,6 +1,6 @@
 # mplot3.bar
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: groups support (set xlim for besides = T)
 
 #' \code{mplot3}: Barplot
@@ -23,7 +23,7 @@
 #' \code{mar} and \code{legend.inset} if you want to place the legend outside the plot
 #' (can use e.g.\code{legend.inset = c(-.5, 0)})
 #' @param ... Additional arguments to \code{graphics::barplot}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.bar <- function(x,

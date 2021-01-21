@@ -121,5 +121,5 @@ as well as full model output, if \code{save.mod} is TRUE}
 Train a bagged ensemble using any learner
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

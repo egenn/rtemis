@@ -13,5 +13,5 @@
 \code{print} \code{survError} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # d.TSNE.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' t-distributed Stochastic Neighbor Embedding
 #'
@@ -21,7 +21,7 @@
 #' @param ... Options for \code{Rtsne::Rtsne}
 #' @param outdir Path to output directory
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

@@ -21,5 +21,5 @@ x[sample(1:100, 10)] <- NA
 xm <- factor_NA2missing(x)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

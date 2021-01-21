@@ -13,5 +13,5 @@ Data frame with columns "Package_Name" and "Version"
 Get version of all loaded packages (namespaces)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

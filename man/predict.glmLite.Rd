@@ -17,5 +17,5 @@
 Predict method for \code{glmLite} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

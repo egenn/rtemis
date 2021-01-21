@@ -1,6 +1,6 @@
 # rtClust.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' R6 class for \pkg{rtemis} clustering
 #'
@@ -15,7 +15,7 @@
 #' @field clusters.train Cluster assignment for training set
 #' @field clusters.test Cluster assignment for testing set (if supported by algorithm and test set provided)
 #' @field extra List: Algorithm-specific output
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtClust <- R6::R6Class("rtClust",

@@ -283,7 +283,7 @@ Other Tree-based methods:
 \code{\link{s.RF}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Supervised Learning}
 \concept{Tree-based methods}

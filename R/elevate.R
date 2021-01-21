@@ -1,6 +1,6 @@
 # elevate.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 # TODO: add names Repeat1, etc. to resamples list
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
@@ -72,7 +72,7 @@
 #' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
 #' \item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
 #' \item{error.test.res}{the error for each resample, for each repeat}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' # Regression

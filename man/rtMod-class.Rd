@@ -20,7 +20,7 @@ created automatically by \link{resample} when appropriate, they are not generall
 input by the user, with few exceptions, as documented in individual functions.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

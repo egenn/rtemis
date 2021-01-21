@@ -1,6 +1,6 @@
 # synthRegData.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Synthesize Simple Regression Data
 #'
@@ -11,7 +11,7 @@
 #' will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}
 #' @param seed Integer: Seed for random number generator. Default = NULL
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
 #' @export
 

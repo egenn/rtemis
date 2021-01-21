@@ -1,6 +1,6 @@
 # preprocess.R
 # ::rtemis::
-# 2017-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-9 E.D. Gennatas lambdamd.org
 
 #' Data preprocessing
 #'
@@ -66,7 +66,7 @@
 #' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
 #' @param n.cores Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 preprocess <- function(x, y = NULL,

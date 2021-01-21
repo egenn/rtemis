@@ -1,6 +1,6 @@
 # gridSearchLearn.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 # TODO: Add support for Survival
 
 #' \pkg{rtemis} internal: Grid Search for Hyperparameter Tuning of \pkg{rtemis} Learners
@@ -36,7 +36,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to be passed to \link{resample}
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 gridSearchLearn <- function(x, y, mod,
@@ -296,7 +296,7 @@ gridCheck <- function(...) {
 #'
 #' @method print gridSearch
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 print.gridSearch <- function(x, ...) {
 

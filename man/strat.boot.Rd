@@ -39,5 +39,5 @@ See \code{?base::set.seed}}
 Stratified Bootstrap Resampling
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # d.SPCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Sparse Principal Component Analysis
 #'
@@ -25,7 +25,7 @@
 #' @param center LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
 #' @param ... Additional parameters to be passed to \code{fastSPCA::fastSPCA}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

@@ -1,6 +1,6 @@
 # cartLiteBoostTV
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # made learning.rate into vector
 # TODO: add error vector (1 * n.iter)
 # TODO: make learning.rate input into max.iter vector
@@ -28,7 +28,7 @@
 #' for each base learner. Default = FALSE
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to \link{cartLite}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 #' @export
 
@@ -364,7 +364,7 @@ cartLiteBoostTV <- function(x, y = NULL,
 #' Print method for \link{boost} object
 #'
 #' @method print boost
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.cartLiteBoostTV <- function(x, ...) {
@@ -387,7 +387,7 @@ print.cartLiteBoostTV <- function(x, ...) {
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param n.cores Integer: Number of cores to use. Default = \code{rtCores}
 #' @method predict cartLiteBoostTV
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.cartLiteBoostTV <- function(object,
@@ -448,7 +448,7 @@ predict.cartLiteBoostTV <- function(object,
 #'
 #' @inheritParams boost
 #' @param object \link{cartLiteBoostTV} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 expand.cartLiteBoostTV <- function(object,
@@ -502,7 +502,7 @@ expand.cartLiteBoostTV <- function(object,
 #' @param init Float: Initial value for new boost object. Default = 0
 #' @param apply.lr Logical: Only considered is \code{x = NULL}. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 # TODO: add x = NULL, if not NULL calculate fitted values
 
@@ -606,7 +606,7 @@ as.cartLiteBoostTV <- function(object,
 #' @param last.step.only Logicall: If TRUE, \code{x} must be provided and only the last meta model will be updated
 #' using this \code{x}
 #' @return \link{cartLiteBoostTV} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return Nothing; updates \code{object} in-place
 #' @export
 

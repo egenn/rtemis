@@ -91,6 +91,6 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 Boosted Hybrid Trees. This is lower-level than \code{s.*} functions
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

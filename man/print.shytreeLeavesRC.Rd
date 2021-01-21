@@ -13,5 +13,5 @@
 Print method for \code{shytreeLeavesRC} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -74,5 +74,5 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 A super-stripped down decision tree for when space and performance are critical
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

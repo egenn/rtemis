@@ -1,12 +1,12 @@
 # eightball.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Magic 8-Ball
 #'
 #' @param question Character: Your question for the magic 8-ball
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 eightball <- function(question = NULL) {
 

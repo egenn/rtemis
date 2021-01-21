@@ -1,6 +1,6 @@
 # lotri2edgeList.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Connectivity Matrix to Edge List
 #'
@@ -12,7 +12,7 @@
 #' @param A Square matrix
 #' @param filename Character: Path for csv file. Defaults to "conmat2edgelist.csv"
 #' @param verbose Logical: If TRUE, print messages to console
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 lotri2edgeList <- function(A, filename = NULL, verbose = TRUE) {

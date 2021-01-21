@@ -1,6 +1,6 @@
 # zzz.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 rtenv <- new.env()
 .availableCores <- future::availableCores()

@@ -15,5 +15,5 @@ savePMML(x, filename)
 Save rtemis model to PMML file
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

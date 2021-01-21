@@ -20,6 +20,6 @@ Get the name of the variable passed as argument, limit number of characters in c
 One way to test is to use \link{learn} with x.name = NULL, y.name = NULL
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

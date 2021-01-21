@@ -42,5 +42,5 @@ otherwise a list containing a data frame with splines and a data frame with thei
 Convert a dataset to its b-spline basis set
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

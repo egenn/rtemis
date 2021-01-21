@@ -24,5 +24,5 @@ Its values will replace the corresponding label numbers to form the new nifti fi
 Writes ROI values to nifti
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -22,5 +22,5 @@ Turn the lower triangle of a connectivity matrix (e.g. correlation matrix or sim
 The output can be read, for example, into gephi
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

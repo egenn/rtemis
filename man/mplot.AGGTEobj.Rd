@@ -47,5 +47,5 @@ mplot.AGGTEobj(
 Plot AGGTEobj object from the \strong{did} package.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

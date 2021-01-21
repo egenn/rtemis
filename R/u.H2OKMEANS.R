@@ -1,6 +1,6 @@
 # u.H2OKMEANS.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' K-Means Clustering on H2O
 #'
@@ -24,7 +24,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to \code{h2p::h2o.kmeans}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

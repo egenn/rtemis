@@ -1,6 +1,6 @@
 # dplot3.leaflet.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Plot choropleth map using \strong{leaflet}
 #'
@@ -34,7 +34,7 @@
 #' Default = 39.207413888888894 (US geographic center)
 #' @param init.zoom Integer: Initial zoom level (depends on device, i.e. window, size). Default = 3
 #' @param stroke Logical: If TRUE, draw polygon borders. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 # NA in legend issue: https://github.com/rstudio/leaflet/issues/615
 

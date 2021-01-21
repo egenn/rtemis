@@ -1,6 +1,6 @@
 # rtPalette.R
 # ::rtemis::
-# 2016-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-9 E.D. Gennatas lambdamd.org
 # TODO: consider including all in one big list
 
 # Penn ====
@@ -1442,7 +1442,7 @@ rtemisblue <- crayon::make_style(rtemisblue = "#80ffff")
 #' @param palette Character: Palette to use. See available options with \code{rtPalette()}.
 #' Default = \code{getOption("rt.palette", "rtCol1")}
 #' @export
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' rtemis_palette(3)
 
@@ -1461,7 +1461,7 @@ rtemis_palette <- function(n,
 #' Convert any color that R understands into the corresponding hexadecimal code
 #'
 #' @param color Color(s) that R understands
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' col2hex(c("gray50", "skyblue"))

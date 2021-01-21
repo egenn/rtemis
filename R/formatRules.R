@@ -1,6 +1,6 @@
 # formatRules
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Format rules
 #'
@@ -10,7 +10,7 @@
 #' @param space.after.comma Logical: If TRUE, place spaces after commas. Default = false
 #' @param decimal.places Integer: Limit all floats (numbers of the form 9.9) to this many
 #' decimal places
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 formatRules <- function(x, space.after.comma = FALSE,

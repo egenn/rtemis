@@ -20,5 +20,5 @@ S3 object of type  "classError"
 Calculates Classification Metrics
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

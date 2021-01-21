@@ -1,6 +1,6 @@
 # s.CART.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Classification and Regression Trees [C, R, S]
 #'
@@ -39,7 +39,7 @@
 #' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
 #' \code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

@@ -1,6 +1,6 @@
 # s.SGD.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Stochastic Gradient Descent (SGD) [C, R]
 #'
@@ -14,7 +14,7 @@
 #' @inheritParams sgd::sgd
 #' @param ... Additional arguments to be passed to \code{sgd.control}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

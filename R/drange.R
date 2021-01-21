@@ -1,6 +1,6 @@
 # drange.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Set Dynamic Range
 #'
@@ -11,7 +11,7 @@
 #' @param lo Target range minimum. Defaults to 0
 #' @param hi Target range maximum. Defaults to 1
 #' @param byCol Logical: If TRUE: if \code{x} is matrix, \code{drange} each column separately
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' x <- runif(20, -10, 10)
 #' x <- drange(x)

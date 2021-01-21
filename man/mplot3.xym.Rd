@@ -110,5 +110,5 @@ mplot3.xym(x, y)
 }
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # mplot3.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} static plotting
 #'
@@ -11,7 +11,7 @@
 #' @param type String. "scatter", "density", "index", "heatmap"
 #' @param fit String. Any `rtemis` model, best to use "lm" for linear fits and "gam" for non-linear fits
 #' @param ... Additional arguments to be passed to
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3 <- function(x, y = NULL,

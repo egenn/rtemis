@@ -77,5 +77,5 @@ This function minimizes checks for speed. It doesn't check dimensionality of \co
 Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

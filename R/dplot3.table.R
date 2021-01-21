@@ -1,6 +1,6 @@
 # dplot3.table.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Simple HTML table
 #'
@@ -23,7 +23,7 @@
 #' @param font.size Integer: Font size. Default = 14
 #' @param font.family Character: Font family. Default = "Helvetica Neue"
 #' @param margin List: plotly's margins. Default = \code{list(l = 0, r = 5, t = 30, b = 0, pad = 0)}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dplot3.table <- function(x,

@@ -1,6 +1,6 @@
 # s.PPTREE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Projection Pursuit Tree Classification [C]
 #'
@@ -10,7 +10,7 @@
 #' @inheritParams s.GLM
 #' @param PPmethod Character: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

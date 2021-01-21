@@ -1,12 +1,12 @@
 # setdiffsym.R
 # ::rtemis::
-# Efstathios D. Gennatas rtemis.lambdamd.org
+# E.D. Gennatas rtemis.lambdamd.org
 
 #' Symmetric Set Difference
 #'
 #' @param x vector
 #' @param y vector of same type as \code{x}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' setdiff(1:10, 1:5)

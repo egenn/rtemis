@@ -1,6 +1,6 @@
 # dplot3.heatmap.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: automatically adjust (lower) margin depending on label length
 # customizing heatmaply is messy and slow, look for alternatives
 # TODO: change dendro default colors to remove black at highest level which is not visible on a black bg
@@ -32,7 +32,7 @@
 #' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
 #' @param key.title Character: Title for the color key. Default = NULL (no title)
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' x <- rnormmat(200, 20)

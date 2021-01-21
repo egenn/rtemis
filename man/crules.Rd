@@ -13,5 +13,5 @@ crules(...)
 Combine rules
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # classError.R
 # :: rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Classification Error
 #'
@@ -10,7 +10,7 @@
 #' @param estimated Vector, factor: Estimated values
 #' @param estimated Vector, factor: Estimated probabilities
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return S3 object of type  "classError"
 #' @export
 
@@ -112,7 +112,7 @@ classError <- function(true, estimated,
 #'
 #' @param x Object of type \link{classError}
 #' @param ... Not used
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.classError <- function(x, decimal.places = 4, ...) {

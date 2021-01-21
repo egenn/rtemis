@@ -20,5 +20,5 @@ of defined type
 This can be useful when creating S4, RC, or R6 objects
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

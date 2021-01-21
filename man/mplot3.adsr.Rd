@@ -77,5 +77,5 @@ Learn more:
 (https://en.wikipedia.org/wiki/Synthesizer#Attack_Decay_Sustain_Release_.28ADSR.29_envelope "ADSR Wikipedia")
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

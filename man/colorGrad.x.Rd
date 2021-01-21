@@ -15,5 +15,5 @@ colorGrad.x(x, color = c("gray20", "#18A3AC"))
 Color gradient for continuous variable
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

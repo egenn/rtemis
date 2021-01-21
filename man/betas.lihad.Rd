@@ -19,5 +19,5 @@ betas.lihad(object, newdata, verbose = FALSE, trace = 0)
 Extract coefficients from Additive Tree leaves
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

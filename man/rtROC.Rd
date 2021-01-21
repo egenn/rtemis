@@ -23,5 +23,5 @@ corresponds to the first level and \code{[.5, 1]} corresponds to the second leve
 predicted.probabilities
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

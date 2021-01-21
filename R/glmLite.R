@@ -1,6 +1,6 @@
 # glmLite.R
 # ::rtemis::
-# Efstathios D. Gennatas MBBS PhD egenn.lambdamd.org
+# E.D. Gennatas MBBS PhD lambdamd.org
 
 #' Bare bones decision tree derived from \code{rpart}
 #'
@@ -8,7 +8,7 @@
 #'
 #' @inheritParams lincoef
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 glmLite <- function(x, y,
@@ -71,7 +71,7 @@ glmLite <- function(x, y,
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @method predict glmLite
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.glmLite <- function(object, newdata, verbose = FALSE, ...) {

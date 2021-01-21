@@ -1,6 +1,6 @@
 # colorAdjust.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Adjust HSV Color
 #'
@@ -12,7 +12,7 @@
 #' @param sat Float: How much saturation to add to \code{color}
 #' @param val Float: How much to increase value of \code{color} by
 #' @return Adjusted color
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 colorAdjust <- function(color,

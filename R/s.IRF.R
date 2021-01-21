@@ -1,6 +1,6 @@
 # s.IRF.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Iterative Random Forest [C, R]
 #'
@@ -12,7 +12,7 @@
 #' @inheritParams s.RF
 #' @param ... Additional arguments to be passed to \code{iRF::iRF}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

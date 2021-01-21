@@ -1,6 +1,6 @@
 # s.XGBLIN.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' XGBoost with linear booster (wrapper for \link{s.XGB})
 #'
@@ -10,7 +10,7 @@
 #' Warning: Using \code{nthread > 1} may lower accuracy - test on your data
 #' @inheritParams s.XGB
 #' @param ... Additional arguments to be passed to \link{s.XGB}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

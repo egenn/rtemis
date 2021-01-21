@@ -21,5 +21,5 @@ uniquevalsperfeat(iris)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

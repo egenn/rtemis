@@ -1,6 +1,6 @@
 # mhist.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: Add group support
 
 #' Histograms
@@ -31,7 +31,7 @@
 #' @param main Character: Main title
 #' @param add Logical: If TRUE, add histogram to existing plot (Caution: make sure the axes line up!)
 #' @param ... Additional arguments to be passed to \code{graphics::plot}
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mhist <- function(x,

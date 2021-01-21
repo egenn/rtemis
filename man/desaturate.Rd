@@ -23,5 +23,5 @@ color <- c("red", "green", "blue")
 color.p <- desaturate(color)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

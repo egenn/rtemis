@@ -1,6 +1,6 @@
 # s.LINAD.R
 # ::rtemis::
-# 2019-20 Efstathios D Gennatas egenn.lambdamd.org
+# 2019-20 E.D. Gennatas lambdamd.org
 # Allow early stopping
 # varimp: N cases-weighted mean of absolute coefficients
 
@@ -23,7 +23,7 @@
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 s.LINAD <- function(x, y = NULL,

@@ -20,5 +20,5 @@ fwhm2sigma(8)
 # FWHM of 8 is equivalent to sigma = 3.397287
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

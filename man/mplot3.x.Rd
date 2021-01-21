@@ -6,7 +6,7 @@
 \usage{
 mplot3.x(
   x,
-  type = c("density", "histogram", "index", "ts", "qqline"),
+  type = c("density", "histogram", "hd", "index", "ts", "qqline"),
   group = NULL,
   data = NULL,
   xlab = NULL,
@@ -24,14 +24,15 @@ mplot3.x(
   index.type = c("p", "l"),
   hist.breaks = "Sturges",
   hist.type = c("bars", "lines"),
+  hist.probability = FALSE,
   hist.lwd = 3,
   density.line = FALSE,
   density.shade = TRUE,
   density.legend.side = 3,
   density.legend.adj = 0.98,
   density.params = list(),
-  qqline.col = NULL,
-  qqline.alpha = 0.66,
+  qqline.col = "#18A3AC",
+  qqline.alpha = 1,
   pch = 16,
   point.col = NULL,
   point.cex = 1,
@@ -96,7 +97,8 @@ mplot3.x(
 \item{x}{Numeric vector or list of vectors, one for each group.
 If \code{data} is provided, x is name of variable in \code{data}}
 
-\item{type}{Character: "density", "histogram",  "index", "ts", "qqline"
+\item{type}{Character: "density", "histogram", "hd" (histogram bars & density lines),
+"index", "ts", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram}
 
 \item{group}{Vector denoting group membership. Will be converted to factor.
@@ -232,5 +234,5 @@ and space apart the breaks for each group
 \link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

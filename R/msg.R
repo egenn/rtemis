@@ -1,6 +1,6 @@
 # msg.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Message with provenance
 #'
@@ -24,7 +24,7 @@
 #' @param color Crayon color for message e.g. \code{crayon::red}
 #' @param sep Character: Use to separate objects in \code{...}
 #' @return Invisibly: List with call, message, and date
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 msg <- function(...,

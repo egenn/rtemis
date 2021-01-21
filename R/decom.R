@@ -1,6 +1,6 @@
 # decom.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Matrix Decomposition with \pkg{rtemis}
 #'
@@ -14,7 +14,7 @@
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to \code{decom}
 #' @return \link{rtDecom} object
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 decom <- function(x,

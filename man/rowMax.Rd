@@ -15,5 +15,5 @@ rowMax(x, na.rm = TRUE)
 Collapse data.frame to vector by getting row max
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

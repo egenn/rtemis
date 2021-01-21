@@ -126,6 +126,6 @@ Perform regression by iteratively boosting a CART and a GLM base learner
 If \code{learning.rate} is set to 0, a nullmod will be created
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

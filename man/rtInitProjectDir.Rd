@@ -10,5 +10,5 @@ rtInitProjectDir(verbose = TRUE)
 Initializes Directory Structure: "R", "Data", "Results"
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # s.C50.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' C5.0 Decision Trees and Rule-Based Models [C]
 #'
@@ -10,7 +10,7 @@
 #' @param trials Integer [1, 100]: Number of boosting iterations
 #' @param rules Logical: If TRUE, decompose the tree to a rule-based model
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

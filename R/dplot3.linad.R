@@ -1,6 +1,6 @@
 # dplot3.linad.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}
 #'
@@ -257,7 +257,7 @@ dplot3.linad <- function(x,
 
 # twocol2html.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Create html table from a data.frame with 2 columns: Var name, and Coefs
 #'

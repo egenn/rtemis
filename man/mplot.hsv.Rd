@@ -48,5 +48,5 @@ mplot.hsv(
 Plot HSV color range
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # mplot3.decision
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Decision boundaries
 #'
@@ -33,7 +33,7 @@
 #' mplot3.decision(mod.cart, dat)
 #' mplot3.decision(mod.rf, dat)
 #' }
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.decision <- function(rtmod, data,

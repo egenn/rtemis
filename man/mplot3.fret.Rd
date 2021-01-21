@@ -41,5 +41,5 @@ Plot is very wide and short. Adjust plot window accordingly.
 Practice every day.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

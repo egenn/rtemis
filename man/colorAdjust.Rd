@@ -24,5 +24,5 @@ Adjusted color
 Modify alpha, hue, saturation and value (HSV) of a color
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

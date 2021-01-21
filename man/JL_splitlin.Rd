@@ -10,6 +10,6 @@ JL_splitlin(x, y, wts = rep(1, length(y)), lambda = 0.1, verbose = TRUE)
 Split where lines would minimize error
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

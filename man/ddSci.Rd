@@ -39,5 +39,5 @@ ddSci(x)
 # "4.6e-09"
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

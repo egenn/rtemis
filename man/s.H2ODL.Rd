@@ -210,7 +210,7 @@ Other Deep Learning:
 \code{\link{s.TFN}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Deep Learning}
 \concept{Supervised Learning}

@@ -32,5 +32,5 @@ Calculate new fitted values for a \link{boost} object.
 Advanced use only: run with new \code{x} or after updating learning.rate in object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

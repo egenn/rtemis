@@ -1,6 +1,6 @@
 # d.LLE.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # Replace with RDRToolbox function
 
 #' Locally Linear Embedding
@@ -33,7 +33,7 @@
 #' The \code{lle} package has not been updated since February 2015 - we will switch to a different implementation soon
 #' @param ... Additional parameters to be passed to \code{LLE::LLE}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

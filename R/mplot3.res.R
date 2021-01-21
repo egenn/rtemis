@@ -1,6 +1,6 @@
 # mplot3.resample
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3} Plot \code{resample}
 #'
@@ -9,7 +9,7 @@
 #' For resampling with no replacement where each case may be selected 0 or 1 time,
 #' 0 is white and 1 is teal For resampling with replacement, 0 is white, 1 is blue, 2 is teal
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' x <- rnorm(500)

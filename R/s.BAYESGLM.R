@@ -1,6 +1,6 @@
 # s.BAYESGLM.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Bayesian GLM
 #'
@@ -33,7 +33,7 @@
 #' @family Bayesian
 #' @family Supervised Learning
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 s.BAYESGLM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,

@@ -1,6 +1,6 @@
 # s.EVTREE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Evolutionary Learning of Globally Optimal Trees [C, R]
 #'
@@ -14,7 +14,7 @@
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param ... Additional arguments to be passed to \code{rpart::rpart}
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

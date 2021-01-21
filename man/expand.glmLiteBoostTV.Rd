@@ -68,5 +68,5 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 Expand a \link{glmLiteBoostTV} object by adding more iterations
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

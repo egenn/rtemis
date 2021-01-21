@@ -32,5 +32,5 @@ If the first loss value was set to be the loss when yhat = mean(y) (e.g. in boos
 improvement over \code{window} last steps.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

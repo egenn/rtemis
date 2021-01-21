@@ -13,5 +13,5 @@ is.discrete(x)
 Check if variable is discrete (factor or integer)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

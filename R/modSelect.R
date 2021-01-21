@@ -1,6 +1,6 @@
 # modSelect.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Select \pkg{rtemis} Learner
 #'
@@ -12,7 +12,7 @@
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name / description of algorithm \code{mod}
 #' @return function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 modSelect <- function(mod,

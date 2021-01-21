@@ -1,6 +1,6 @@
 # lincoef.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Linear Model Coefficients
 #'
@@ -41,7 +41,7 @@
 #' "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.
 #' @return Named numeric vector of linear coefficients
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 lincoef <- function(x, y,
                     weights = NULL,

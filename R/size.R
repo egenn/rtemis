@@ -1,6 +1,6 @@
 # size.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Size of matrix or vector
 #'
@@ -9,7 +9,7 @@
 #'
 #' @param x Vector or matrix input
 #' @return Integer vector of length 2: c(Nrow, Ncols)
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' x <- rnorm(20)
 #' size(x)

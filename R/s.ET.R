@@ -1,6 +1,6 @@
 # s.ET.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' ExtraTrees [C, R]
 #'
@@ -16,7 +16,7 @@
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100)
 #' mod <- s.ET(x, y)}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

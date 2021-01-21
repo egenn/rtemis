@@ -1,6 +1,6 @@
 # prune.addtree.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Prune ADDTREE tree
 #'
@@ -10,7 +10,7 @@
 #' @param prune.empty.leaves Logical: If TRUE, remove leaves with 0 cases. Default = TRUE
 #' @param remove.bad.parents Logical: If TRUE, remove nodes with no siblings but children and
 #' give their children to their parent. Default = TRUE
-#' @author Efstathios D. Gennatasd
+#' @author E.D. Gennatasd
 #' @export
 
 prune.addtree <- function(addtree,

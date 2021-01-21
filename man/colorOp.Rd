@@ -25,5 +25,5 @@ The average of two colors in RGB space will often pass through gray,
 which is likely undesirable. Averaging in HSV space, better for most applications.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

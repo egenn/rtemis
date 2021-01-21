@@ -21,5 +21,5 @@ setdiffsym(1:10, 1:5)
 setdiffsym(1:5, 1:10)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

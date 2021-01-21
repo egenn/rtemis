@@ -1,6 +1,6 @@
 # massCART.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: Add resampling
 
 #' Mass-univariate CART prediction and variable importance
@@ -10,7 +10,7 @@
 #'
 #' @inheritParams s.CART
 #' @param n.cores Integer: Number of cores to use
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 massCART <- function(x, y = NULL,

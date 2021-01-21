@@ -1,6 +1,6 @@
 # u.SPEC.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Spectral Clustering
 #'
@@ -24,7 +24,7 @@
 #' @param mod.sample Float (0, 1): Proportion of data to use when estimating sigma. Default = .75
 #' @param na.action Function: Action to perform on NA (Default = \code{na.omit})
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

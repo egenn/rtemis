@@ -132,7 +132,7 @@ gamselx2 <- function(x, y,
 #'
 #' Obtains predictions from a fitted gamselx2 model object
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.gamselx2 <- function(object, newdata = NULL, ...) {

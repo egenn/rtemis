@@ -85,5 +85,5 @@ Creates an \pkg{rtemis} object of your choice of class. All available class syst
 but at this point \code{R6} is the default and most widely tested.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

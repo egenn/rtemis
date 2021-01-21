@@ -25,5 +25,5 @@ Outputs a vector where a fraction of values are zeros (determined by \code{spars
 and the rest are drawn from a random normal distribution using \code{stats::rnorm}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

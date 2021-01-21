@@ -29,5 +29,5 @@ color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
 previewcolor(desaturate(colorMix(color, 5), .3))
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

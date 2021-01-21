@@ -1,6 +1,6 @@
 # hytboostnow.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # 05-2020: switched to hytreenow
 
 #' \pkg{rtemis} internal: Low-level function for boosting Hard Hybrid Trees (no weights)
@@ -24,7 +24,7 @@
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
 #' @return \code{hytboostnow} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 hytboostnow <- function(x, y,
@@ -293,7 +293,7 @@ hytboostnow <- function(x, y,
 #' Print method for \link{boost} object
 #'
 #' @method print hytboostnow
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.hytboostnow <- function(x, ...) {
@@ -310,7 +310,7 @@ print.hytboostnow <- function(x, ...) {
 #'
 #' @param object \link{hytboostnow} object
 #' @method predict hytboostnow
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.hytboostnow <- function(object,
@@ -366,7 +366,7 @@ predict.hytboostnow <- function(object,
 #'
 #' @inheritParams hytboostnow
 #' @param object \link{boost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 expand.hytboostnow <- function(object,
@@ -408,7 +408,7 @@ expand.hytboostnow <- function(object,
 
 #' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 as.hytboostnow <- function(object,
@@ -452,7 +452,7 @@ as.hytboostnow <- function(object,
 #' @method update hytboostnow
 #' @param object \link{hytboostnow} object
 #' @return \link{hytboostnow} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 # TODO: save penultimate fitted, add last
 
@@ -478,7 +478,7 @@ update.hytboostnow <- function(object, x, y = NULL,
 
 #' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 as.hytboostnow2 <- function(object,

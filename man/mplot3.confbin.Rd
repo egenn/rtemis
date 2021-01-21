@@ -96,5 +96,5 @@ List of metrics, invisibly
 Plots an extended confusion matrix using \link{mplot3.img}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

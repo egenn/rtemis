@@ -1,6 +1,6 @@
 # learn.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Supervised Learning with \pkg{rtemis}
 #'
@@ -12,7 +12,7 @@
 #' @param mod Character: Learner to use. To get list of options, run \code{modSelect()}
 #' @param args Optional list of parameters to be passed to learner
 #' @param ... Additional arguments to be passed to learner
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 learn <- function(x, y = NULL,

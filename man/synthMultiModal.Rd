@@ -90,5 +90,5 @@ pair.atan.p = .1,
 seed = 2019)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

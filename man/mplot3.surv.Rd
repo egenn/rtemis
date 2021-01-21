@@ -58,5 +58,5 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 Plots survival step functions using \link{mplot3.xy}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

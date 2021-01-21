@@ -1,6 +1,6 @@
 # s.SPLS.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 # TODO: Add spgls option for Classification
 
 #' Sparse Partial Least Squares Regression [C, R]
@@ -25,7 +25,7 @@
 #' @param n.cores Integer: Number of cores to be used by \link{gridSearchLearn}, if applicable
 #' @param ... Additional parameters to be passed to \code{npreg}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @examples

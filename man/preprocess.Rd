@@ -129,5 +129,5 @@ Order of operations:
   * removeConstants
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

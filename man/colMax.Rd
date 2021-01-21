@@ -16,5 +16,5 @@ otherwise if NA is present in any column, NA will be returned. Default = TRUE}
 Collapse data.frame to vector by getting column max
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

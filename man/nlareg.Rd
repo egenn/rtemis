@@ -47,6 +47,6 @@ Default = link{softplus}}
 \pkg{rtemis} internal: NonLinear Activation regression (NLAreg)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

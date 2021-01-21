@@ -39,5 +39,5 @@ Extract rules from RF or GBM model, prune, and remove unnecessary rules using \c
 Models must be trained with \link{s.RF} or \link{s.GBM} / \link{s.GBM3}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

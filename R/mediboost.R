@@ -1,6 +1,6 @@
 # mediboost.R
 # ::rtemis::
-# Gilmer Valdes, Efstathios D. Gennatas
+# Gilmer Valdes, E.D. Gennatas
 # #1. prob <- 1/exp(-2 * F(x)) #2. Regression
 
 #' Additive Tree
@@ -19,7 +19,7 @@
 #' @param gamma Float (0, 1): Accelaration factor
 #' @param update Character: "Exponential" or "Polynomial"
 #' @param verbose Logical: If TRUE, print messages to output
-#' @author Efstathios D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
+#' @author E.D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
 #' @references Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles
 #' and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 #' Interpretable Decision Making in the Era of Precision Medicine.
@@ -595,7 +595,7 @@ likelihoodMediboostChooseFeat <- function(x, y,
 #' @param newdata Optional: a matrix / data.frame of features with which to predict
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param ... Not used
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
@@ -654,7 +654,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 #' @param x Features
 #' @param verbose Logical: If TRUE, print messages to stdout
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 
 # [ preorder + Include Rules ] ====
@@ -731,7 +731,7 @@ addtree_path_to_rules <- function(x) {
 #' Print method for \code{addtree} object created using \link{s.ADDTREE}
 #'
 #' @param x \code{rtMod} object created using \link{s.ADDTREE}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.addtree <- function(x, ...) {

@@ -1,6 +1,6 @@
 # d.PCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Principal Component Analysis
 #'
@@ -16,7 +16,7 @@
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}
 #' @param ... Additional parameters to be passed to \code{PCA::PCA}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

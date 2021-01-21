@@ -29,5 +29,5 @@ This is a convenience function that will take each column of the input and calcu
 into a data.frame of dimensions `n * (degree * p)` given an `n * p` input
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

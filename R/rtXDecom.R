@@ -1,6 +1,6 @@
 # rtXDecom.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' R6 class for \pkg{rtemis} cross-decompositions
 #'
@@ -15,7 +15,7 @@
 #' @field projections.train Input data projected on new axes / basis
 #' @field projections.test Input test data projected on new axes / basis
 #' @field extra List: Algorithm-specific output
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtXDecom <- R6::R6Class("rtXDecom",

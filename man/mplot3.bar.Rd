@@ -115,5 +115,5 @@ options(rt.theme = 'lightgrid')}
 Draw barplots
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -15,5 +15,5 @@ svd1(x, x.test = NULL)
 Convenience function for SVD k = 1
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

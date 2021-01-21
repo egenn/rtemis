@@ -31,5 +31,5 @@ massUni(
 Run a mass-univariate analysis: same set of features on multiple outcomes
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

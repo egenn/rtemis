@@ -1,6 +1,6 @@
 # df_movecolumn.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Move data frame column
 #'
@@ -8,7 +8,7 @@
 #' @param from String or Integer: Define which column holds the vector you want to move
 #' @param to Integer: Define which column number you want the vector to be moved to.
 #' Default = \code{ncol(x)} i.e. the last column.
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' mtcars_hp <- df_movecolumn(mtcars, "hp")

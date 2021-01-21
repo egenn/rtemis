@@ -15,5 +15,5 @@
 Print \link{classError}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

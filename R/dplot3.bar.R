@@ -1,6 +1,6 @@
 # dplot3.bar.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Interactive Barplots
 #'
@@ -39,7 +39,7 @@
 #' @param filename Character: Path to file to save static plot. Default = NULL
 #' @param file.width Integer: File width in pixels for when \code{filename} is set. Default = 500
 #' @param file.height Integer: File height in pixels for when \code{filename} is set. Default = 500
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

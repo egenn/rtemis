@@ -167,7 +167,7 @@ Plots confusion matrix and classification metrics
 Plots confusion matrix and classification metrics
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 
-Efstathios D. Gennatas
+E.D. Gennatas
 }

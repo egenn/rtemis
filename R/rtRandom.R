@@ -1,6 +1,6 @@
 # rtRandom.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Random \pkg{rtemis} art
 #'
@@ -10,7 +10,7 @@
 #' @param col Colors to use
 #' @param text Text to print
 #' @param text.col Color for text
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtRandom <- function(pch = sample(15:18, 1),

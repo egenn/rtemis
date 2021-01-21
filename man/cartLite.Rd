@@ -47,6 +47,6 @@ Default = 2}
 A super-stripped down decision tree for when space and performance are critical
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

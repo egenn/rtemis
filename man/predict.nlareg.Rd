@@ -17,5 +17,5 @@
 Predict method for \code{nlareg} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

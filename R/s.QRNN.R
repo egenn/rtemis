@@ -1,6 +1,6 @@
 # s.QRNN.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 #
 # Description
 #   Train a quantile regression neural network and validate it.
@@ -20,7 +20,7 @@
 #' @param n.trials Integer. N of trials. Used to avoid local minima
 #' @param bag Logical. Should bagging be used?
 #' @param ... Additional arguments to be passed to \code{qrnn::qrnn.fit}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

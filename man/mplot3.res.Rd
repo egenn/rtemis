@@ -27,5 +27,5 @@ mplot3.res(res)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

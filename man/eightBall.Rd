@@ -13,5 +13,5 @@ eightball(question = NULL)
 Magic 8-Ball
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

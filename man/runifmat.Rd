@@ -30,5 +30,5 @@ runifmat(
 Create a matrix or data frame of defined dimensions, whose columns are random uniform vectors
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

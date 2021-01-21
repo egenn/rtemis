@@ -1,10 +1,10 @@
 # loadedPackageVersions.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Get version of all loaded packages (namespaces)
 #'
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @return Data frame with columns "Package_Name" and "Version"
 #' @export
 

@@ -1,6 +1,6 @@
 # timeProc.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Time a process
 #'
@@ -8,7 +8,7 @@
 #'
 #' @param ... Command to be timed. (Will be converted using \code{as.expression})
 #' @param verbose Logical: If TRUE, print messages to console
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 timeProc <- function(..., verbose = TRUE) {

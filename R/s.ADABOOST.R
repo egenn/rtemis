@@ -1,6 +1,6 @@
 # s.ADABOOST.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Adaboost Binary Classifier [C]
 #'
@@ -14,7 +14,7 @@
 #' @param nu Float: Shrinkage parameter for boosting. Default = .1
 #' @param bag.frac Float (0, 1]: Sampling fraction for out-of-bag samples
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

@@ -1,6 +1,6 @@
 # boxcat.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Box cat
 #'
@@ -12,7 +12,7 @@
 #' @param newline.pre Logical: If TRUE, start with a new line. Default = TRUE
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 #' @export
 
@@ -55,12 +55,12 @@ boxcat <- function(x,
 
 # objcat.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' `rtemis-internal`: Object cat
 #'
 #' @param x Character: Object description
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 objcat <- function(x) {

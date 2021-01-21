@@ -1,6 +1,6 @@
 # s.POLYMARS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # method = "cv" fails to find nk and penalty
 
 #' Multivariate adaptive polynomial spline regression (POLYMARS) [C, R]
@@ -14,7 +14,7 @@
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param ... Additional parameters to pass to \code{polspline::polymars}
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

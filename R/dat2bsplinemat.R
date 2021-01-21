@@ -1,6 +1,6 @@
 # dat2bsplinemat.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' B-Spline matrix from dataset
 #'
@@ -18,7 +18,7 @@
 #' See \code{splines::bSpline}
 #' @return If \code{return.deriv=F}, a data frame where each original feature is replaced with its basis set or a list,
 #' otherwise a list containing a data frame with splines and a data frame with their derivatives
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dat2bsplinemat <- function(x,
@@ -71,7 +71,7 @@ dat2bsplinemat <- function(x,
 #' Predict S3 method for \code{rtBSplines}
 #'
 #' @method predict rtBSplines
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.rtBSplines <- function(object, newdata = NULL, ...) {

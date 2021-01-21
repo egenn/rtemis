@@ -1,6 +1,6 @@
 # s.RANGER.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 # TODO: Add Survival support
 # TODO: Use inbag and resample for stratified bootstraps
 
@@ -41,7 +41,7 @@
 #' \code{ipw.case.weights}
 #' @param ... Additional arguments to be passed to \code{ranger::ranger}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

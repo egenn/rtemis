@@ -8,7 +8,7 @@
 #' @field error.train Training error
 #' @field error.test Testing error
 #' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtModLog <- R6::R6Class("rtModLog",
@@ -51,7 +51,7 @@ rtModLog <- R6::R6Class("rtModLog",
 #' R6 class to save trained models' parameters and performance. Keep your experiment results tidy in
 #' one place, with an option to write out to a multi-sheet Excel file.
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtModLogger <- R6::R6Class("rtModLogger",

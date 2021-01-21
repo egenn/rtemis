@@ -1,6 +1,6 @@
 # hytboost.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # 05-2020: switched to hytreew
 
 #' \pkg{rtemis} internal: Boosting of Hybrid Trees
@@ -25,7 +25,7 @@
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
 #' @return \code{hytboost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 hytboost <- function(x, y,
@@ -294,7 +294,7 @@ hytboost <- function(x, y,
 #' Print method for \link{boost} object
 #'
 #' @method print hytboost
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.hytboost <- function(x, ...) {
@@ -311,7 +311,7 @@ print.hytboost <- function(x, ...) {
 #'
 #' @param object \link{hytboost} object
 #' @method predict hytboost
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.hytboost <- function(object,
@@ -367,7 +367,7 @@ predict.hytboost <- function(object,
 #'
 #' @inheritParams hytboost
 #' @param object \link{boost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 expand.hytboost <- function(object,
@@ -409,7 +409,7 @@ expand.hytboost <- function(object,
 
 #' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 as.hytboost <- function(object,
@@ -453,7 +453,7 @@ as.hytboost <- function(object,
 #' @method update hytboost
 #' @param object \link{hytboost} object
 #' @return \link{hytboost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 # TODO: save penultimate fitted, add last
 
@@ -479,7 +479,7 @@ update.hytboost <- function(object, x, y = NULL,
 
 #' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 as.hytboost2 <- function(object,

@@ -25,5 +25,5 @@ color[seql(color, target)]
 # "red"   "green" "blue"
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

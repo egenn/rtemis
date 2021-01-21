@@ -1,6 +1,6 @@
 # x.CCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Sparse Canonical Correlation Analysis (CCA)
 #'
@@ -46,7 +46,7 @@
 #' @param save.mod Logical: If TRUE, and \code{outdir} is defined, will save trained CCA model to \code{outdir}.
 #' Default = TRUE if \code{outdir} is set, otherwise FALSE
 #' @param ... Additional arguments to be passed to \code{PMA::CCA}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Cross-Decomposition
 #' @export
 
@@ -192,7 +192,7 @@ x.CCA <- function(x, z,
 
 # modified PMA::CCA.permute for parallel execution
 # ::rtemis::
-# 2016 egenn.lambdamd.org
+# 2016 lambdamd.org
 
 #' modified PMA::CCA.permute for parallel execution
 #'
@@ -305,7 +305,7 @@ x.CCA.permute <- function(x, z,
 
 # x.CCA.permute.both
 # ::rtemis::
-# egenn.lambdamd.org
+# lambdamd.org
 
 #' modified PMA:::CCA.permute.both for parallel execution
 #'

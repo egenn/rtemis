@@ -1,6 +1,6 @@
 # penn.heat.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 #
 # Gradient of Penn colors
 # -----------------------

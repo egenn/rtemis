@@ -1,6 +1,6 @@
 # s.NBAYES.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Naive Bayes Classifier [C]
 #'
@@ -9,7 +9,7 @@
 #' @inheritParams s.GLM
 #' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing)
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export
 

@@ -35,5 +35,5 @@ See \code{?base::set.seed}}
 Resample using Stratified Subsamples
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

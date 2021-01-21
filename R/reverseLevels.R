@@ -1,6 +1,6 @@
 # reverseLevels.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Reverse factor levels
 #'
@@ -8,7 +8,7 @@
 #'
 #' @param x Factor
 #' @export
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 
 reverseLevels <- function(x) {
 

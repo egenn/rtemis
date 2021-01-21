@@ -1,6 +1,6 @@
 # hytreew.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' \code{rtemis internal}: Low-level Hybrid Tree procedure
 #'
@@ -12,7 +12,7 @@
 #' @param lin.type String: "glmnet", "cv.glmnet" use the equivalent \code{glmnet} functions.
 #' "lm.ridge" uses the MASS function of that name, "glm" uses \code{lm.fit},
 #' "forward.stagewise" and "stepwise" use \code{lars::lars} with \code{type} defined accordingly
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 hytreew <- function(x, y,
@@ -525,7 +525,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param trace Not used
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.hytreew <- function(object, newdata,
                             n.feat = NCOL(newdata),

@@ -1,6 +1,6 @@
 # checkpoint_earlystop.R
 # ::rtemis::
-# 2018 Efstathios D Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Early stopping check
 #'
@@ -36,7 +36,7 @@
 #' \item{check.thresh}{Logical: TRUE, if absolute threshold was reached}
 #' \item{check.rvar}{Logical: TRUE, if relative variance threshold was reached}
 #' \item{stop}{Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 checkpoint_earlystop <- function(x,

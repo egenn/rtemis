@@ -17,5 +17,5 @@ Pretty print a data frame containing 1 row of data with named columns as a verti
      " other.name : other.value"
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

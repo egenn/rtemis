@@ -1,6 +1,6 @@
 # rtfn.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-8 E.D. Gennatas lambdamd.org
 
 
 #' Get the mode of a factor or integer
@@ -11,7 +11,7 @@
 #' @param na.rm Logical: If TRUE, remove any NA values, if present, before finding mode.
 #' Default = TRUE
 #' @return The mode of \code{x}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 getMode <- function(x, na.rm = TRUE) {
@@ -34,7 +34,7 @@ getMode <- function(x, na.rm = TRUE) {
 #' Checks if any column of a data frame have zero variance
 #'
 #' @param x Input Data Frame
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 anyConstant <- function(x) {
@@ -50,7 +50,7 @@ anyConstant <- function(x) {
 #' Check if vector is constant
 #'
 #' @param x Vector: Input
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 # is.constant <- function(x) {
@@ -69,7 +69,7 @@ is.constant <- function(x) {
 #' Check if variable is discrete (factor or integer)
 #'
 #' @param x Input
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 is.discrete <- function(x) {
@@ -95,7 +95,7 @@ logit <- function(x) {
 #'
 #' @param x Float: Input data
 #' @return The inverse logit of the input
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 invlogit <- function(x) {
@@ -196,7 +196,7 @@ cube <- function(x) {
 #' @param x Matrix or Data frame input
 #' @param na.rm Logical: passed to \code{max}, If TRUE, ignore NA values,
 #' otherwise if NA is present in any column, NA will be returned. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 colMax <- function(x, na.rm = TRUE) {
@@ -210,7 +210,7 @@ colMax <- function(x, na.rm = TRUE) {
 #'
 #' @param x Input vector
 #' @param na.rm Logical. If TRUE, missing values are not considered. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #'
 rowMax <- function(x, na.rm = TRUE) {
@@ -223,7 +223,7 @@ rowMax <- function(x, na.rm = TRUE) {
 #' Combine rules
 #'
 #' @param ... Character: Rules
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #'
 
@@ -245,7 +245,7 @@ crules <- function(...) {
 #' @param x Input of any type, may be NULL
 #' @param defType If \code{x} is NULL, return empty vector of this type. Options: list, numeric,
 #' character, integer
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 ifNotNull <- function(x, defType) {
@@ -260,7 +260,7 @@ ifNotNull <- function(x, defType) {
 
 # psd.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Population Standard Deviation
 #'
@@ -272,7 +272,7 @@ ifNotNull <- function(x, defType) {
 #'
 #' @param x Numeric vector
 #' @return Population standard deviation
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 psd <- function(x) {
@@ -292,7 +292,7 @@ psd <- function(x) {
 #' @param sd Float: Standard deviation. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 #' @param seed Integer: Set seed for \code{rnorm}. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rnormmat <- function(nrow = 10, ncol = 10,
@@ -323,7 +323,7 @@ rnormmat <- function(nrow = 10, ncol = 10,
 #' @param max Float: Max. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 #' @param seed Integer: Set seed for \code{rnorm}. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 runifmat <- function(nrow = 10, ncol = 10,

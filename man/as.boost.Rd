@@ -43,5 +43,5 @@ be object$fitted * learning.rate, otherwise object$fitted}
 \code{as.boost} Place model in \link{boost} structure
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

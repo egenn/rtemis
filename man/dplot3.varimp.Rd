@@ -63,5 +63,5 @@ A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, whi
 to visualize variable importance, model coefficients, etc.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

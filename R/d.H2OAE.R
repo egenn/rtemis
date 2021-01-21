@@ -1,6 +1,6 @@
 # d.H2OAE.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Autoencoder using H2O
 #'
@@ -27,7 +27,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to \code{h2p::h2o.deeplearning}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{decom}
 #' @family Decomposition
 #' @family Deep Learning

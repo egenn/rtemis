@@ -18,5 +18,5 @@ dplot3.shytreecoef(
 Coefficient heatmap for The Hybrid Tree
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -19,5 +19,5 @@ Allows you to get `n` colors of a defined palette, useful for passing to other f
 rtemis_palette(3)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

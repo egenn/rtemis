@@ -1,6 +1,6 @@
 # gplot3.map
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Plot US state or county choropleth map
 #'
@@ -28,7 +28,7 @@
 #' @param theme \strong{ggplot2} theme to use. Default = \code{rt_gtheme_map()}
 #' @param labels Logical: If TRUE, label states. Default = FALSE
 #' @param col.labels Color for \code{labels}. Default = "gray50"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 gplot3.map <- function(dat,
@@ -195,7 +195,7 @@ gplot3.map <- function(dat,
 #'
 #' @param base_size Float: Character \code{base_size.} Default = 9
 #' @param base_family String: Font family. Default = "Lato"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rt_gtheme_map <- function(base_size = 9, base_family = "Helvetica",

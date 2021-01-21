@@ -1,6 +1,6 @@
 # winsorize.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Winsorize vector
 #'
@@ -23,7 +23,7 @@
 #' # Winsorize an exponentially distributed variable only on the top 5% highest values
 #' x <- rexp(500)
 #' xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 winsorize <- function(x, lo = NULL, hi = NULL,

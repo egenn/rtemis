@@ -97,5 +97,5 @@ mplot3.box(x)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

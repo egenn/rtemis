@@ -1,6 +1,6 @@
 # s.LINOA.R
 # ::rtemis::
-# 2019-20 Efstathios D Gennatas egenn.lambdamd.org
+# 2019-20 E.D. Gennatas lambdamd.org
 # Allow early stopping
 # LINOA -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 
@@ -24,7 +24,7 @@
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 s.LINOA <- function(x, y = NULL,

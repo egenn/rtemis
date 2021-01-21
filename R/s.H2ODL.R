@@ -1,6 +1,6 @@
 # s.H2ODL.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Deep Learning on H2O [C, R]
 #'
@@ -37,7 +37,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to \code{h2o::h2o.deeplearning}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning

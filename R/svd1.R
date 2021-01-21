@@ -1,6 +1,6 @@
 # svd1.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' \code{rtemis-internals} Project Variables to First Eigenvector
 #'
@@ -9,7 +9,7 @@
 #' @param x Input matrix / data frame
 #' @param x.test Optional test matrix / data frame
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 svd1 <- function(x, x.test = NULL) {

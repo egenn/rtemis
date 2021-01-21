@@ -24,5 +24,5 @@ mlegend(
 Add legend to \code{mplot3} plot
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

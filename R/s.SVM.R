@@ -1,6 +1,6 @@
 # s.SVM.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' Support Vector Machines [C, R]
 #'
@@ -25,7 +25,7 @@
 #' @param gamma [gS] Float: Parameter used in all kernels except \code{linear}
 #' @param coef0 [gS] Float: Parameter used by kernels \code{polynomial} and \code{sigmoid}
 #' @param ... Additional arguments to be passed to \code{e1071::svm}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

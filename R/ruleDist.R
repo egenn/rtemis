@@ -1,6 +1,6 @@
 # ruleDist.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Rule distance
 #'
@@ -20,7 +20,7 @@
 #' @param heat.mid Color: Heatmap mid color. Default = NA (i.e. create gradient from `heat.lo` to `heat.hi`)
 #' @param heat.hi Colo: Heatmap hi colo. Default = "#F48024" (orange)
 #' @param verbose Logical: If TRUE, print console messages. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 ruleDist <- function(x,

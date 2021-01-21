@@ -53,5 +53,5 @@ This is used internally by \link{elevate} and for bagging, when the \code{bag.re
 argument is set in a learner.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

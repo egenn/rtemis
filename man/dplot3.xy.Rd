@@ -178,5 +178,5 @@ dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, grou
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

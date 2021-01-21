@@ -75,5 +75,5 @@ Position of bar centers (invisibly)
 Draw horizontal barplots for variable importance
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

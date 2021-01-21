@@ -1,6 +1,6 @@
 # labels2niftis.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Write Matrix to Multiple Nifti Files
 #'
@@ -15,7 +15,7 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param n.cores Integer: Number of cores to use
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 labels2niftis <- function(datamat,

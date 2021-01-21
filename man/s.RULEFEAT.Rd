@@ -96,5 +96,5 @@ Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",
 http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -24,5 +24,5 @@ clust(x, clust = "kmeans", x.test = NULL, verbose = TRUE, ...)
 Convenience function to perform any \pkg{rtemis} clustering
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # mplot3.xy.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 # inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
 #' \code{mplot3}: XY Scatter and line plots
@@ -148,7 +148,7 @@
 #' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to theme function
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' set.seed(1999)

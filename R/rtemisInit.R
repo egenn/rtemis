@@ -1,6 +1,6 @@
 # rtemisInit.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' \code{rtemis-internals}: \code{intro}
 #'
@@ -132,7 +132,7 @@ dataSummary <- function(x, y,
 #' @param newline.pre Logical: If TRUE, start with a newline. Default = TRUE
 #' @param newline Logical: If TRUE, end with anew (empty) line. Default = FALSE
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 parameterSummary <- function(...,
                              title = "Parameters",

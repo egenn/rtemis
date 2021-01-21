@@ -2,7 +2,7 @@
 #'
 #' @param lims List with plot limits, as returned e.g. by \code{mplot3.xy}
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mlegend <- function(lims, title = NULL, group.names,

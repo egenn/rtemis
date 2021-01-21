@@ -31,5 +31,5 @@ Default = "\\$", which formats common input of the type \code{data.frame$variabl
 Convert text for label printing
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

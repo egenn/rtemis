@@ -1,6 +1,6 @@
 # d.ICA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # TODO: x.test
 
 #' Independent Component Analysis
@@ -29,7 +29,7 @@
 #' @param trace Integer: If > 0, print messages during ICA run. Default = 0
 #' @param ... Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

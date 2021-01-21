@@ -10,5 +10,5 @@
 \code{print} method for \code{gridSearch} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -33,5 +33,5 @@ If input includes multiple objects, any list's or data frame's elements' names w
 name of the list or data frame prepended.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

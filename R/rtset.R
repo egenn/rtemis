@@ -1,6 +1,6 @@
 # rtset.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} default-setting functions
 #'
@@ -9,7 +9,7 @@
 #' making it easier to setup functions without having to refer to the manual.
 #'
 #' @name rtset
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 NULL
 
 
@@ -114,7 +114,7 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
 
 
 # #' rtset
-# #' @author Efstathios D. Gennatas
+# #' @author E.D. Gennatas
 # #' @export
 # rtset <- function(fn) {
 #

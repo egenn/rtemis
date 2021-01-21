@@ -1,6 +1,6 @@
 # s.GLMNET.R
 # ::rtemis::
-# 2016-7 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-7 E.D. Gennatas lambdamd.org
 # TODO: Consider fixing foldid
 
 #' GLM with Elastic Net Regularization [C, R, S]
@@ -24,7 +24,7 @@
 #' @param lambda [gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence
 #' @param intercept Logical: If TRUE, include intercept in the model. Default = TRUE
 #' @param res.summary.fn Function: Used to average resample runs. Default = \code{mean}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Interpretable models

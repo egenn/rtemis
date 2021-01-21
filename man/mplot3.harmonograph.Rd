@@ -62,5 +62,5 @@ Unless you define a seed, each graph will be random. Try different seeds if you 
 Some seeds to try: 9, 17, 26, 202, 208, ...
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

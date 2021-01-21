@@ -10,5 +10,5 @@ prune.rpart.rt(tree, cp, ...)
 \code{prune.rpart} experimental replacement
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -33,5 +33,5 @@ Pretty print a list (or data frame) recursively
 Data frames in R began life as lists
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

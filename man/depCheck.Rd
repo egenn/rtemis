@@ -20,5 +20,5 @@ TRUE if dependencies can be loaded, otherwise FALSE
 Checks if dependencies can be loaded; names missing dependencies if not.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

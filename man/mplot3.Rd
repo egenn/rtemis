@@ -21,5 +21,5 @@ mplot3(x, y = NULL, type = NULL, fit = NULL, ...)
 Draw quality plots using fast, base graphics
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

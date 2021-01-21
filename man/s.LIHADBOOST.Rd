@@ -129,5 +129,5 @@ Boost a Linear Hard Additive Tree (i.e. LIHAD, i.e. LINAD with hard splits)
 By default, early stopping works by checking training loss.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

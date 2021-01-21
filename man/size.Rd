@@ -26,5 +26,5 @@ size(x)
 # 20  5
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

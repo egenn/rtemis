@@ -1,6 +1,6 @@
 # resLearn.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} internal: Resample Learn
 #'
@@ -21,7 +21,7 @@
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with \link{elevate} when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 resLearn <- function(x, y, mod,

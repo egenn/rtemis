@@ -1,6 +1,6 @@
 # s.LIHADBOOST.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # boosting learning.rate vs. hytree learning.rate
 # ... added to allow "weights = NULL" from gridSearchLearn
 
@@ -23,7 +23,7 @@
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 

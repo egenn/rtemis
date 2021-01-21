@@ -40,5 +40,5 @@ Using defaults this will be "mean (sd)"
 table1(iris)
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

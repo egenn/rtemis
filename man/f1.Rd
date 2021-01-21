@@ -18,5 +18,5 @@ Calculate the F1 score for classification:
 \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

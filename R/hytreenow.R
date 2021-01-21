@@ -1,6 +1,6 @@
 # hytreenow.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} internal: Low-level Hybrid Tree procedure
 #'
@@ -9,7 +9,7 @@
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s.LIHAD
 #' @param x data.frame
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 hytreenow <- function(x, y,
@@ -467,7 +467,7 @@ partLm <- function(x1, y1,
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param trace Not used
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.hytreenow <- function(object, newdata,
                               n.feat = NCOL(newdata),

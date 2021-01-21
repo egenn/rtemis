@@ -1,6 +1,6 @@
 # s.DA.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-8 E.D. Gennatas lambdamd.org
 
 #' Linear and Quadratic Discriminant Analysis [C]
 #'
@@ -9,7 +9,7 @@
 #' Note: Does not support case weights
 #' @inheritParams s.GLM
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

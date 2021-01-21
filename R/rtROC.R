@@ -1,6 +1,6 @@
 # rtROC.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # TODO: consider renaming to estimated.probabilities
 
 #' Build an ROC curve
@@ -11,7 +11,7 @@
 #' "positive" case. \code{predicted.probabilities} should be a vector of floats {0, 1} where \code{[0, .5)}
 #' corresponds to the first level and \code{[.5, 1]} corresponds to the second level.
 #' predicted.probabilities
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtROC <- function(true.labels, predicted.probabilities,

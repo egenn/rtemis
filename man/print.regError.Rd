@@ -13,5 +13,5 @@
 \code{print} \code{regError} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

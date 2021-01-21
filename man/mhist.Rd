@@ -82,5 +82,5 @@ Draws a histogram using lines.
 Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3.xym})
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

@@ -19,5 +19,5 @@ rtSave(rtmod, outdir, file.prefix = "s.", verbose = TRUE)
 Write \pkg{rtemis} model to RDS file
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

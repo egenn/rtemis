@@ -1,6 +1,6 @@
 # dplot3.pie.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Interactive Pie Chart
 #'
@@ -15,7 +15,7 @@
 #' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"
 #' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
 #' @param theme String: "light", "dark". Default = \code{getOption("rt.theme", "light")}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

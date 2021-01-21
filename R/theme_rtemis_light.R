@@ -1,6 +1,6 @@
 # theme_rtemis_light.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas
+# 2019 E.D. Gennatas
 
 #' \pkg{rtemis} \code{ggplot2} light theme
 #'
@@ -13,7 +13,7 @@
 #' @param legend.text.size.rel Float: Relative size for legend text. Default = 1
 #' @param legend.position String: Legend position, "top", "bottom", "right", "left" Default  = "right"
 #' @param strip.background.fill Color: Fill color from facet labels. Default = "grey85"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

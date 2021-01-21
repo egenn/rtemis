@@ -1,6 +1,6 @@
 # plotly.heat.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Heatmap with \code{plotly}
 #'
@@ -14,7 +14,7 @@
 #' @param ylab y-axis label
 #' @param zlab z value label
 #' @param transpose Logical. Transpose matrix
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 plotly.heat <- function(z, x = NULL, y = NULL,

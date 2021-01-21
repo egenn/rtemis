@@ -21,5 +21,5 @@ This will be particularly useful when the machines finally collect data on all h
 Caution is advised, however, as you never know how many may be hiding underground.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

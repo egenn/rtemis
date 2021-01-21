@@ -1,6 +1,6 @@
 # delayTime.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Delay and Reverb Time Calculator
 #' 
@@ -12,7 +12,7 @@
 #' "1/8D", "1/8", "1/8T", "1/16D", "1/16", "1/16T", "1/32D", "1/32", "1/32T".
 #' "2" means a double note, "1" a whole, and so on. "T" denotes a triple note, "D" denotes a dotted note.
 #' Case insensitive. Default = "1/4" (quarter note)
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 delayTime <- function(bpm = 120, note = "1/4") {

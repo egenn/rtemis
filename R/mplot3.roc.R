@@ -1,6 +1,6 @@
 # mplot3.roc
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3} ROC curves
 #'
@@ -23,7 +23,7 @@
 #' @param diagonal.lty Integer: Line type for diagonal. Default = 1
 #' @param group.legend Logical
 #' @param ... Additional parameters to pass to \link{mplot3.xy}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.roc <- function(prob, labels,

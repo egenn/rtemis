@@ -35,5 +35,5 @@ positives which can be dealt by an appropriate learning algorithm. (Default = .2
 Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

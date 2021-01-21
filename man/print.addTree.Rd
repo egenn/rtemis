@@ -13,5 +13,5 @@
 Print method for \code{addtree} object created using \link{s.ADDTREE}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

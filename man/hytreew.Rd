@@ -67,5 +67,5 @@ Train a Hybrid Tree for Regression
 Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

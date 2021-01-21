@@ -1,6 +1,6 @@
 # nlareg.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas
+# 2018 E.D. Gennatas
 
 #' \pkg{rtemis} internal: NonLinear Activation regression (NLAreg)
 #'
@@ -14,7 +14,7 @@
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return \code{nlareg} object
 #' @keywords internal
 
@@ -102,7 +102,7 @@ nlareg <- function(x, y,
 #' @param newdata Data frame of predictors
 #' @param ... Unused
 #' @method predict nlareg
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.nlareg <- function(object, newdata, ...) {

@@ -45,5 +45,5 @@ mplot.raster(img)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

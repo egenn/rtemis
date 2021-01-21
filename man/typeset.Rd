@@ -28,5 +28,5 @@ especially to define which variables should be treated as categorical (here, fac
 predicting modeling. This functions aims to make data type conversions in those cases easier.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

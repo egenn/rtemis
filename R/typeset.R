@@ -1,6 +1,6 @@
 # typeset
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Set type of columns
 #'
@@ -14,7 +14,7 @@
 #' @param orderedfactor.index Integer, vector: Index of columns to be converted to ordered factors
 #' using \code{factor(x, ordered = TRUE)}
 #' @param integer.index Integer, vector: Index of columns to be converted to integers using \code{as.integer}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 typeset <- function(x,

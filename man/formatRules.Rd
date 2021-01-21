@@ -18,5 +18,5 @@ decimal places}
 Converts R-executable logical expressions to a more human-friendly format
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

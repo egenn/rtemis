@@ -15,5 +15,5 @@ timeProc(..., verbose = TRUE)
 \code{timeProc} measures how long it takes for a process to run
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

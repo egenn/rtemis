@@ -1,6 +1,6 @@
 #' Coefficient heatmap for The Hybrid Tree
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dplot3.shytreecoef <- function(tree,

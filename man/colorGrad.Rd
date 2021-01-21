@@ -138,5 +138,5 @@ side of 0, each representing a 20\% change from the next.
    wht: white; blk: black; red; grn: green; blu: blue; yel: yellow; rng: orange; prl: purple
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

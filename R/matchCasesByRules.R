@@ -1,13 +1,13 @@
 # matchCasesByRules.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Match Rules to Cases
 #'
 #' @param x Matrix / data frame: Input features
 #' @param rules Vector, string: Rules (MUST be string, not factor)
 #' @param verbose Logical: If TRUE, print messages to console
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @return cases-by-rules matrix (binary; 1: match, 0: no match)
 
@@ -35,7 +35,7 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 #' and one rule only
 #'
 #' @inheritParams matchCasesByRules
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 indexCasesByRules <- function(x, rules, verbose = TRUE) {

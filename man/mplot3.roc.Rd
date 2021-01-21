@@ -92,5 +92,5 @@ options(rt.theme = 'lightgrid')}
 Plot ROC curve for a binary classifier
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

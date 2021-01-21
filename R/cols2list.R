@@ -1,13 +1,13 @@
 # cols2list.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Convert data frame columns to list elements
 #'
 #' Convenience function to create a list out of data frame columns
 #'
 #' @param x Input: Will be coerced to data.frame, then each column will become an element of a list
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 cols2list <- function(x) {

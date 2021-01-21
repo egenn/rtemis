@@ -1,6 +1,6 @@
 # s.XGB.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 # TODO: check if all objective functions must be minimized, or change which.min to variable
 # TODO: weights and ipw do not seem to work, upsample works, check weights passing
 # and add scale_pos_weight
@@ -55,7 +55,7 @@
 #' parameter causes a linear booster to fail most of the times. Therefore, default is rtCores
 #' for 'gbtree', 1 for 'gblinear'
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

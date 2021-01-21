@@ -6,7 +6,7 @@
 #'
 #' @param x \pkg{igraph} graph
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.graph <- function(x,

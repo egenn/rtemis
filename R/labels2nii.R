@@ -1,6 +1,6 @@
 # labels2nii.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Write Data to a Nifti File
 #'
@@ -15,7 +15,7 @@
 #' @param datatype Integer or "auto": Defines the datatype of the output. Options:
 #'   2: uint8, 4: int16, 8: int32, 16: float (Default), 64: double. Default = "auto"
 #' @param verbose Logical: If TRUE, print messages to output
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 labels2nii <- function(label.vals,

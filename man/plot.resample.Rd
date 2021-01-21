@@ -17,5 +17,5 @@
 \code{plot} method for \code{resample} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # rfVarSelect.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Variable Selection by Random Forest
 #'
@@ -11,7 +11,7 @@
 #' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 #'   positives which can be dealt by an appropriate learning algorithm.
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 rfVarSelect <- function(x, y,
                         p = .2,

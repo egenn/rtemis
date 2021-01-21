@@ -17,5 +17,5 @@ preorderTree.addtree(rt, x, verbose = FALSE)
 Recursively Traverses ADDTREE tree by preorder function and builds data frame representation
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

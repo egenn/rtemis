@@ -45,5 +45,5 @@ If only rules1 is provided, computes pairwise distance among rules1, otherwise c
 rules1 and rules2
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

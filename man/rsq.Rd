@@ -15,5 +15,5 @@ rsq(x, y)
 R-squared
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

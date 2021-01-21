@@ -1,6 +1,6 @@
 # labelify.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Convert text for label printing
 #'
@@ -12,7 +12,7 @@
 #' @param stringsToSpaces String, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
 #' Default = "\\$", which formats common input of the type \code{data.frame$variable}
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 labelify <- function(x,

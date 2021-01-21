@@ -1,6 +1,6 @@
 # massUni.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Mass-univariate Analysis
 #'
@@ -12,7 +12,7 @@
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Arguments to be passed to \code{mod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 massUni <- function(x, y, mod = "gam",

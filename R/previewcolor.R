@@ -1,6 +1,6 @@
 # previewcolor.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Preview color v2.0
 #'

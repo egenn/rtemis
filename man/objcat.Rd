@@ -13,6 +13,6 @@ objcat(x)
 `rtemis-internal`: Object cat
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

@@ -11,7 +11,7 @@
 \pkg{rtemis} Supervised Model Log Class
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

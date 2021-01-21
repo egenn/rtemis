@@ -1,6 +1,6 @@
 # s.LM.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 # rtTODO: should we add support for formula input? see latest s.GAM
 
 #' Linear model
@@ -43,7 +43,7 @@
 #' @param ... Additional arguments to be passed to \code{MASS::rlm} if \code{robust = TRUE}
 #'   or \code{MASS::lm.gls} if \code{gls = TRUE}
 #' @return \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @examples

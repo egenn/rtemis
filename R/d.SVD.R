@@ -1,6 +1,6 @@
 # d.SVD.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Singular Value Decomposition
 #'
@@ -17,7 +17,7 @@
 #' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{svd}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

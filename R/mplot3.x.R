@@ -1,6 +1,6 @@
 # mplot3.x.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'
@@ -51,7 +51,7 @@
 #' @param group.title Character: Title above group names
 #' @return Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
 #' @seealso \link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.x <- function(x,

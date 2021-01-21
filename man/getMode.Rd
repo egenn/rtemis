@@ -19,5 +19,5 @@ The mode of \code{x}
 Returns the mode of a factor or integer
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

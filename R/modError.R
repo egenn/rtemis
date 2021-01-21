@@ -1,6 +1,6 @@
 # modError.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015-8 E.D. Gennatas lambdamd.org
 
 #' Error Metrics for Supervised Learning
 #'
@@ -18,7 +18,7 @@
 #'   This can be slow for long vectors
 #' @param na.rm Logical: Passed to \code{mean} and \code{range} functions. Default = TRUE
 #' @return Object of class \code{modError}
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 modError <- function(true,
@@ -200,7 +200,7 @@ mae <- function(x, y, na.rm = TRUE) {
 #'
 #' @param x Float, vector: True values
 #' @param y Float, vector: Estimated values
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rsq <- function(x, y) {
@@ -218,7 +218,7 @@ rsq <- function(x, y) {
 #'
 #' @param true Factor: True labels. First level is the positive case
 #' @param estimated.prob Float, vector: Estimated probabilities
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 logloss <- function(true, estimated.prob) {
@@ -356,7 +356,7 @@ factorHarmonize <- function(reference, x,
 
 # print.regError.R
 # ::rtemis::
-# 2016-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016-8 E.D. Gennatas lambdamd.org
 
 #' Print \code{regError} object
 #'
@@ -364,7 +364,7 @@ factorHarmonize <- function(reference, x,
 #'
 #' @method print regError
 #' @param x \code{regError} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.regError <- function(x, ...) {
@@ -384,7 +384,7 @@ print.regError <- function(x, ...) {
 
 # print.survError.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Print \code{survError} object
 #'
@@ -392,7 +392,7 @@ print.regError <- function(x, ...) {
 #'
 #' @method print survError
 #' @param x \code{survError} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 print.survError <- function(x, ...) {
 

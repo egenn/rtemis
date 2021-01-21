@@ -1,6 +1,6 @@
 # factoryze.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Factor Analysis
 #'
@@ -45,7 +45,7 @@
 #' @param do.hclust Logical: If TRUE, perform hierarchical cluster analysis. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @param ... Additional arguments to pass to \code{psych::fa}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 factoryze <- function(x,

@@ -8,7 +8,7 @@ R6 class to save trained models' parameters and performance. Keep your experimen
 one place, with an option to write out to a multi-sheet Excel file.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \section{Methods}{
 \subsection{Public methods}{

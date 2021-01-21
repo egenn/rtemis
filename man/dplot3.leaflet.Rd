@@ -90,5 +90,5 @@ Default = 39.207413888888894 (US geographic center)}
 Plot choropleth map using \strong{leaflet}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

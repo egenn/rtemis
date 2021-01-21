@@ -1,6 +1,6 @@
 # depCheck.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} internal: Dependencies check
 #'
@@ -11,7 +11,7 @@
 #' if dependencies are missing. Setting this to FALSE stops it from printing
 #' "Dependencies check passed". Default = TRUE
 #' @return TRUE if dependencies can be loaded, otherwise FALSE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 depCheck <- function(..., verbose = TRUE) {

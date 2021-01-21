@@ -1,6 +1,6 @@
 # s.GBM3.R
 # ::rtemis::
-# 2015-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015-8 E.D. Gennatas lambdamd.org
 #
 # Notes: gbm.more currently fails with distribution "multinomial" due to a bug in gbm.
 
@@ -38,7 +38,7 @@
 #' @param varImp         Logical: If TRUE, estimate variable importance by permutation (as in random forests;
 #'   noted as experimental in gbm). Takes longer than (default) relative influence.
 #'   The two measures are highly correlated.
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

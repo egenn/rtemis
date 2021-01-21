@@ -16,5 +16,5 @@ Convert any color that R understands into the corresponding hexadecimal code
 col2hex(c("gray50", "skyblue"))
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

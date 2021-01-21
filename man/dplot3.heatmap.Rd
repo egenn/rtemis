@@ -114,5 +114,5 @@ dplot3.heatmap(xcor)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

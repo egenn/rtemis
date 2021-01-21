@@ -1,6 +1,6 @@
 # as.data.tree.rpart
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Convert \code{rpart} rules to \code{data.tree} object
 #'
@@ -9,7 +9,7 @@
 #' @param object \code{rpart} object
 #' @param verbose Logical: If TRUE, print messages to console
 #' @return \code{data.tree} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 #' @export
 

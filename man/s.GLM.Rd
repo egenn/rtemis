@@ -210,7 +210,7 @@ Other Interpretable models:
 \code{\link{s.GLMNET}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Interpretable models}
 \concept{Supervised Learning}

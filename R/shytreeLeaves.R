@@ -1,6 +1,6 @@
 # shytreeLeavesRC.R
 # ::rtemis::
-# 2018-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018-9 E.D. Gennatas lambdamd.org
 # shytreeLeavesRC with no-line option
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
@@ -16,7 +16,7 @@
 #' Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.
 #' @param loss.fn Function with arguments y, Fval, weights. Allows you to define a custom loss function.
 # Defaults to \code{log(1 + exp(-2 * y * Fval)) %*% weights}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 # [[---F1---]] ====
@@ -844,7 +844,7 @@ splitLineRC <- function(g,
 #' @param trace Integer: 0, 1, or 2. Provides increasing amount to information printed to the
 #' console
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.shytreeLeavesRC <- function(object, newdata,
                                     type = c("response", "probability", "all", "step"),
@@ -989,7 +989,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
 #'
 #' @method print shytreeLeavesRC
 #' @param x \code{shytreeLeavesRC} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.shytreeLeavesRC <- function(x, ...) {

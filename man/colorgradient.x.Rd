@@ -30,5 +30,5 @@ previewcolor(colorgradient.x(x, mid.col = "white"))
 }
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

@@ -27,5 +27,5 @@ Convenience function to perform any \pkg{rtemis} decomposition
 \code{decom} returns an R6 class object \code{rtDecom}
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

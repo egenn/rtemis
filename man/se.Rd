@@ -16,5 +16,5 @@ Standard error of fitted values of \code{mod}
 Returns mod$se.fit
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

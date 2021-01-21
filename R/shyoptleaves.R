@@ -1,6 +1,6 @@
 # shyoptleaves.R
 # ::rtemis::
-# 2018-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018-9 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'
@@ -16,7 +16,7 @@
 #' Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.
 #' @param loss.fn Function with arguments y, Fval, weights. Allows you to define a custom loss function.
 # Defaults to \code{log(1 + exp(-2 * y * Fval)) %*% weights}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 # [[---F1---]] ====
@@ -697,7 +697,7 @@ splitlin_ <- function(g,
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param trace Not used
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.shyoptleaves <- function(object, newdata,
                                  type = c("response", "probability", "all", "step"),
@@ -843,7 +843,7 @@ predict.shyoptleaves <- function(object, newdata,
 #'
 #' @method print shyoptleaves
 #' @param x \code{shyoptleaves} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.shyoptleaves <- function(x, ...) {

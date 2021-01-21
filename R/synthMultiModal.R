@@ -1,6 +1,6 @@
 # synthMultiModal.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas
+# 2019 E.D. Gennatas
 
 #' Create "Multimodal" Synthetic Data
 #'
@@ -35,7 +35,7 @@
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param seed Integer: If set, pass to \code{set.seed} for reproducibility
 #' @param filename Character: Path to file to save output. Default = NULL
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @return List with elements x, y, index.square, index.atan, index.pair.square
 #' @examples

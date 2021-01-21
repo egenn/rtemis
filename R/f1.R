@@ -1,6 +1,6 @@
 # f1.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas
+# 2019 E.D. Gennatas
 
 #' F1 score
 #'
@@ -10,7 +10,7 @@
 #'
 #' @param recall Float [0, 1]: The model Recall aka Sensitivity
 #' @param precision Float [0, 1]: The model Precision aka Positive Predictive Value
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 f1 <- function(precision, recall) {

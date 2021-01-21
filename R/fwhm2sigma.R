@@ -1,6 +1,6 @@
 # fwhm2sigma.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' FWHM to Sigma
 #'
@@ -8,7 +8,7 @@
 #'
 #' @param fwhm FWHM value
 #' @return sigma
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' fwhm2sigma(8)
 #' # FWHM of 8 is equivalent to sigma = 3.397287

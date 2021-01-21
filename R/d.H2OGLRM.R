@@ -1,6 +1,6 @@
 # d.H2OGLRM.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Generalized Low-Rank Models (GLRM) on H2O
 #'
@@ -39,7 +39,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to \code{h2o::h2o.glrm}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

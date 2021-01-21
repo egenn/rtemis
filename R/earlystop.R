@@ -1,6 +1,6 @@
 # earlystop.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Early stopping
 #'
@@ -16,7 +16,7 @@
 #' @param window_decrease_pct_min Float: Stop if improvemenet is less than this percent over last `window` steps
 #' @param total_decrease_pct_max Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides `window_decrease_pct_min`
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 earlystop <- function(x,

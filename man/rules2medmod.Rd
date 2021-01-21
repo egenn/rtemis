@@ -20,5 +20,5 @@ give either 2 decimal places, or scientific notation if two decimal places resul
 Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

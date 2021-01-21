@@ -276,7 +276,7 @@ Other Ensembles:
 \code{\link{s.RF}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Ensembles}
 \concept{Supervised Learning}

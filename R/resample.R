@@ -1,6 +1,6 @@
 # resample.R
 # ::rtemis::
-# 2015-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015-9 E.D. Gennatas lambdamd.org
 
 #' Resampling methods
 #'
@@ -34,7 +34,7 @@
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
 #'   See \code{?base::set.seed}
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate}
 #' @export
 #' @examples
@@ -205,7 +205,7 @@ resample <- function(y,
 #' @param x Vector; numeric or factor: Outcome used for resampling
 #' @param res \link{resample} object
 #' @param col Vector, color
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 plot.resample <- function(x, col = NULL, ...) {
@@ -221,7 +221,7 @@ plot.resample <- function(x, col = NULL, ...) {
 #'
 #' @method print resample
 #' @param x \link{resample} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.resample <- function(x, ...) {
@@ -240,7 +240,7 @@ print.resample <- function(x, ...) {
 #' @param x Input vector
 #' @param n.resamples Integer: Number of resamples to make. Default = 10
 #' @param seed Integer: If provided, set seed for reproducibility. Default = NULL
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 bootstrap <- function(x, n.resamples = 10,
@@ -264,7 +264,7 @@ bootstrap <- function(x, n.resamples = 10,
 #' @inheritParams resample
 #' @param x Input Vector
 #' @param k Integer: Number of folds. Default = 10
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 kfold <- function(x, k = 10,
@@ -315,7 +315,7 @@ kfold <- function(x, k = 10,
 #'
 #' @inheritParams resample
 #' @param x Input vector
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 strat.sub <- function(x,
@@ -355,7 +355,7 @@ strat.sub <- function(x,
 #'
 #' @inheritParams resample
 #' @param x Input vector
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 strat.boot <- function(x, n.resamples = 10,
@@ -395,7 +395,7 @@ strat.boot <- function(x, n.resamples = 10,
 #' Leave-one-out Resampling
 #'
 #' @param x Input vector
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 loocv <- function(x) {

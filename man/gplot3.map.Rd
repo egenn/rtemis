@@ -76,5 +76,5 @@ Plot US state or county choropleth map using \strong{ggplot2} based on
 \code{usmap::plot_usmap()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

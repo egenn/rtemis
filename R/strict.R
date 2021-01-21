@@ -1,6 +1,6 @@
 # strict.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Strict assignment by class or type
 #'
@@ -9,7 +9,7 @@
 #' @param x Value to be assigned if \code{type} matches
 #' @param accept.class Required class of value
 #' @param accept.type Required type of value
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 strict <- function(x, accept.class = NULL, accept.type = NULL) {

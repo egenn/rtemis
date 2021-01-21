@@ -1,6 +1,6 @@
 # shytreegamleaves.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 # shytreegamleaves with no-line option
 # max.leaves 1 train on y or resid
 # apply gamma only to splits
@@ -21,7 +21,7 @@
 #' @param loss.fn Function with arguments \code{y, Fval }
 #' Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
 #' \code{mse()} for regression
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 # [[---F1---]] ====
@@ -947,7 +947,7 @@ splitlineRC <- function(g,
 #' @param trace Integer: 0, 1, or 2. Provides increasing amount to information printed to the
 #' console
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.shytreegamleaves <- function(object, newdata,
                                      type = c("response", "probability", "all", "step"),
@@ -1104,7 +1104,7 @@ predict.shytreegamleaves <- function(object, newdata,
 #'
 #' @method print shytreegamleaves
 #' @param x \code{shytreegamleaves} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.shytreegamleaves <- function(x, ...) {

@@ -1,6 +1,6 @@
 # s.RULEFEAT.R
 # ::rtemis::
-# 2017-8 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-8 E.D. Gennatas lambdamd.org
 # TODO: Add option to include raw features as well as rules
 
 #' ruleFeat [C, R]
@@ -22,7 +22,7 @@
 #' @param cases.by.rules Matrix of cases by rules from a previoue rulefeat run. If provided,
 #' the GBM step is skipped. Default = NULL
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @references Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #' @export

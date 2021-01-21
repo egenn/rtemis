@@ -20,5 +20,5 @@ as.hytboost(
 \code{as.hytboost} Place model in \link{hytboost} structure
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # sparsernorm.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Sparse rnorm
 #'
@@ -16,7 +16,7 @@
 #' Default = 0.1
 #' @param mean Float: Target mean of nonzero elements, passed to \code{stats::rnorm} Default = 0
 #' @param sd Float: Target sd of nonzero elements, passed to \code{stats::rnorm} Default = 1
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 sparsernorm <- function(n,

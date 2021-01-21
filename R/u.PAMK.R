@@ -1,6 +1,6 @@
 # u.PAMK.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Partitioning Around Medoids with k Estimation
 #'
@@ -20,7 +20,7 @@
 #' @param metric Character: Dissimilarity metric to be used. Options: 'euclidean', 'manhattan'
 #' @param trace Integer [0, 3]: Trace level for \code{fpc::pamk}
 #' @param ... Additional parameters to be passed to \code{fpc::pamk} and/or \code{cluster::pam}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return \link{rtClust} object
 #' @family Clustering
 #' @export

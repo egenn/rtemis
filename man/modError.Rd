@@ -44,5 +44,5 @@ Calculate error metrics for pair of vector, e.g. true and estimated values from 
 In regression, NRMSE = RMSE / range(observed)
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

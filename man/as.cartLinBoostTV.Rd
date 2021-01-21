@@ -37,5 +37,5 @@ be object$fitted * learning.rate, otherwise object$fitted}
 Place model in \link{cartLinBoostTV} structure
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

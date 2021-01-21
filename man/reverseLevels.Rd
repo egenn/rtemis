@@ -13,5 +13,5 @@ reverseLevels(x)
 Reverse the order of a factor's levels
 }
 \author{
-Efstathios D Gennatas
+E.D. Gennatas
 }

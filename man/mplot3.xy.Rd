@@ -334,5 +334,5 @@ mplot3.xy(x, list(squared = ysq, cubed = ycu), fit = "gam")
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

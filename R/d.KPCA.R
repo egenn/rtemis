@@ -1,6 +1,6 @@
 # d.KPCA.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Kernel Principal Component Analysis
 #'
@@ -24,7 +24,7 @@
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}
 #' @param ... Additional parameters to be passed to \code{fastKPCA::fastKPCA}
 #' @return \link{rtDecom} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 

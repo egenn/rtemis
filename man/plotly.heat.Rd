@@ -37,5 +37,5 @@ plotly.heat(
 Draw a heatmap using \code{plotly}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

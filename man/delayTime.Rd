@@ -19,5 +19,5 @@ Calculates delay and reverb time in milliseconds given tempo in beats per minute
 in note duration
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

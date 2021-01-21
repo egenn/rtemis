@@ -1,6 +1,6 @@
 # varSelect.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Variable Selection by Variable Importace
 #'
@@ -15,7 +15,7 @@
 #'   positives which can be dealt by an appropriate learning algorithm. (Default = .2)
 #' @param print.plot Logical: If TRUE, print index plot of variable importance using \link{mplot3.x}
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 varSelect <- function(x, y,
                       method = c("RANGER", "XGBLIN"),

@@ -105,5 +105,5 @@ This is also a good way to plot a large heatmap.
 This function calls \code{image} which is a lot faster than drawing heatmaps
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

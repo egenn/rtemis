@@ -13,5 +13,5 @@ cols2list(x)
 Convenience function to create a list out of data frame columns
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

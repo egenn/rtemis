@@ -1,12 +1,12 @@
 # strata2factor.survfit.R
 # ::rtemis::
-# 2020 Efstathios D Gennatas lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Convert \code{survfit} object's strata to a factor
 #'
 #' @param x \code{survfit} object
 #' @return factor
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 strata2factor <- function(x) {

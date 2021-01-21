@@ -46,5 +46,5 @@ theme_rtemis_light())
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

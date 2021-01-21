@@ -1,6 +1,6 @@
 # nCr.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' n Choose r
 #'
@@ -12,7 +12,7 @@
 #' @param n Integer: Total number of items
 #' @param r Integer: Number of items in each combination
 #' @return Integer: Number of combinations
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 nCr <- function(n, r) {

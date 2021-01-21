@@ -21,5 +21,5 @@
 Extract coefficients from Hybrid Additive Tree leaves
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

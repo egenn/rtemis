@@ -50,5 +50,5 @@ for each base learner}
 Add iterations to a \link{boost} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

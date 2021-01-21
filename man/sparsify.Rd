@@ -15,5 +15,5 @@ sparsify(x, sparseness)
 Keep top x% of values of a vector
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

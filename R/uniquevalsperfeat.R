@@ -5,7 +5,7 @@
 #' @param x matrix or data frame input
 #' @return Vector, integer of length \code{NCOL(x)} with number of unique values per column/feature
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' uniquevalsperfeat(iris)

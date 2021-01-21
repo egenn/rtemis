@@ -114,5 +114,5 @@ observations weighted by gamma
 Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -23,5 +23,5 @@
 Predict method for \code{hytboostnow} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

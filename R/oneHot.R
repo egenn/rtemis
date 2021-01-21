@@ -1,6 +1,6 @@
 # oneHot.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' One hot encoding
 #'
@@ -12,7 +12,7 @@
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @return For vector input, a one-hot-encoded matrix, for data.frame frame input, an expanded data.frame where all
 #' factors are one-hot encoded
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 oneHot <- function(x, verbose = FALSE) {

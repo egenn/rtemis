@@ -20,5 +20,5 @@ Advanced use only: run after updating learning.rate
 All this will eventually be automated using an R6 object, maybe
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

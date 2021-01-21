@@ -1,6 +1,6 @@
 # nullmod.R
 # ::rtemis::
-# Efstathios D Gennatas egenn.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} internal: predict for an object of class \code{nullmod}
 #'

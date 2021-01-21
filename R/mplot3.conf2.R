@@ -1,6 +1,6 @@
 # mplot3.conf
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Plot confusion matrix
 #'
@@ -44,7 +44,7 @@
 #' @param pdf.height Float: PDF height, if \code{filename} is set
 #' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.conf <- function(object,

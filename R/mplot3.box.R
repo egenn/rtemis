@@ -1,6 +1,6 @@
 # mplot3.box
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: make x vector or list
 
 #' \code{mplot3}: Boxplot
@@ -13,7 +13,7 @@
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
 #' @param ... Additional arguments to \code{graphics::boxplot}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
 #' x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)

@@ -73,5 +73,5 @@ Because there is no model, \code{predict} and other methods are not currently wo
 These features may be added in the future
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # mplot3.adsr.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: ADSR Plot
 #'
@@ -17,7 +17,7 @@
 #' @param O Float: Note off time (in milliseconds)
 #' @param theme Character: "light" or "dark" (Default)
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.adsr <- function(Attack = 300,

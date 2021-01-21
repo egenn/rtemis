@@ -1,6 +1,6 @@
 # s.LIHAD.R
 # ::rtemis::
-# 2019 Efstathios D Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 # Grow rule along with tree in global env, extract leaf rules and coefficients
 # Added rpart.control min.bucket = 5
@@ -53,7 +53,7 @@
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param cxrcoef Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by coefficients matrix.
 #' Default = FALSE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 s.LIHAD <- function(x, y = NULL,
@@ -623,7 +623,7 @@ partLin <- function(x1, y1,
 #' Print method for \code{lihad} object
 #'
 #' @method print lihad
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.lihad <- function(x, ...) {
@@ -666,7 +666,7 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
 #' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE
 #'
 #' @export
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 
 predict.lihad <- function(object, newdata = NULL,
                            learning.rate = NULL,
@@ -720,7 +720,7 @@ predict.lihad <- function(object, newdata = NULL,
 #' @param newdata matrix/data.frame of features
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 betas.lihad <- function(object, newdata,
                          verbose = FALSE,
@@ -783,7 +783,7 @@ preorder.lihad <- function(node, x, trace = 0) {
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity
 #' @param ... Not used
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 coef.lihad <- function(object, newdata,
                         verbose = FALSE,

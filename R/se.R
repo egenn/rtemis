@@ -1,6 +1,6 @@
 # se.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Extract standard error of fit from rtemis model
 #'
@@ -8,7 +8,7 @@
 #'
 #' @param x An \link{rtMod} object
 #' @return Standard error of fitted values of \code{mod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 se <- function(x) {

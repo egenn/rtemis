@@ -1,6 +1,6 @@
 # sparseVectorSummary.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Sparseness and pairwise correlation of vectors
 #'

@@ -1,6 +1,6 @@
 # s.H2ORF.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' Random Forest on H2O [C, R]
 #'
@@ -20,7 +20,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to \code{h2o::h2o.randomForest}
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

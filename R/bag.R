@@ -1,6 +1,6 @@
 # bag.R
 # ::rtemis::
-# 2018-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018-9 E.D. Gennatas lambdamd.org
 # check fitted.prob and predicted.prob; varimp
 
 #' Bag an \pkg{rtemis} learner for regression or classification [C, R]
@@ -24,7 +24,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
 #' @param ... Additional parameters to be passed to learner
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 bag <- function(x, y = NULL,

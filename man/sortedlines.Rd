@@ -19,5 +19,5 @@ sortedlines(x, y, col = "red", ...)
 lines, but sorted
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

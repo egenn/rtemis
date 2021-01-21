@@ -173,5 +173,5 @@ dplot3.xyz(iris, group = iris$Species, theme = "darkgrid")
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

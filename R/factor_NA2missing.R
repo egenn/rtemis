@@ -1,6 +1,6 @@
 # factor_NA2missing.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.lambdamd.org
 
 #' Factor NA to "missing" level
 #'
@@ -9,7 +9,7 @@
 #' @param x Factor
 #' @param na_level_name Character: Name of new level to create that will be assigned to all current
 #' NA values. Default = "missing"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' x <- factor(sample(letters[1:3], 100, TRUE))

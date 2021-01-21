@@ -18,6 +18,6 @@ Get an index of which cases match which rule - meant for cases where each case m
 and one rule only
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

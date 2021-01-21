@@ -1,6 +1,6 @@
 # gtTable.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Greater-than Table
 #' 
@@ -10,7 +10,7 @@
 #' @param x.name Character: Name of measure being compared
 #' @param na.rm Passed to \code{sum} to handle missing values
 #' @param verbose Logical: If TRUE, write output to console
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 gtTable <- function(x = list(),

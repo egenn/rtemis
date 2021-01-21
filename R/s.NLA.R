@@ -1,6 +1,6 @@
 # s.NLA.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' NonLinear Activation unit Regression (NLA) [R]
 #'
@@ -20,7 +20,7 @@
 #' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
 #' @param ... Additional arguments to be passed to \code{sigreg}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

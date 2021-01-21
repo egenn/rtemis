@@ -1,6 +1,6 @@
 # mplot.hsv.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Plot HSV color range
 #'
@@ -16,7 +16,7 @@
 #' @param mar Float, vector: for \code{type = "cartesian"}: \code{par}'s mar argument. Default = c(3, 3, 2, .5)
 #' @param lab.col Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black
 #' @param type Character: "cartesian" for square plot, "polar" for radial plot. Default = "polar"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot.hsv <- function(h.steps = seq(0, 1, .0125),

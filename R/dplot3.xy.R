@@ -1,6 +1,6 @@
 # dplot3.xy.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Interactive Scatter Plots
 #'
@@ -29,7 +29,7 @@
 #' @param hist.n.bins Integer: Number of bins to use if type = "histogram". Default = 20
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

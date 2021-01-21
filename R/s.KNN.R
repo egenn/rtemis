@@ -1,6 +1,6 @@
  # s.KNN.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: Consider replacing knn fn
 
 #' k-Nearest Neighbors Classification and Regression [C, R]
@@ -17,7 +17,7 @@
 #' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

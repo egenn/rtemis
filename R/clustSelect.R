@@ -1,6 +1,6 @@
 # clustSelect.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Select \pkg{rtemis} Clusterer
 #'
@@ -12,7 +12,7 @@
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm \code{clust}
 #' @return Name of function (Default) or function (\code{fn=TRUE}) or full name of algorithm (\code{desc=TRUE})
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 clustSelect <- function(clust,

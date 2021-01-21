@@ -1,6 +1,6 @@
 # rtModSet.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} model
 #'
@@ -30,7 +30,7 @@
 #' @param varimp Variable importance
 #' @param question Question the model is attempting to answer
 #' @param extra List with algorithm-specific extra fields
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtModSet <- function(rtclass = "rtMod",

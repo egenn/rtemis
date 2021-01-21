@@ -10,6 +10,6 @@
 predict JLsplitlin
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

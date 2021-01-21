@@ -50,6 +50,6 @@ xysplit <- splitline(x, y, lambda = .1)
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

@@ -85,5 +85,5 @@ dplot3.pie(VADeaths[, 1, drop = F])
 }
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

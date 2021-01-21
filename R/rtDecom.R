@@ -1,6 +1,6 @@
 # rtDecom.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' R6 Class for \pkg{rtemis} Decompositions
 #'
@@ -15,7 +15,7 @@
 #' @field projections.train Input data projected on new axes / basis
 #' @field projections.test Input test data projected on new axes / basis
 #' @field extra List: Algorithm-specific output
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 rtDecom <- R6::R6Class("rtDecom",
@@ -74,7 +74,7 @@ rtDecom <- R6::R6Class("rtDecom",
 #' @field projections.train Input data projected on new axes / basis
 #' @field projections.test Input test data projected on new axes / basis
 #' @field extra List: Algorithm-specific output
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @export
 rtDecomLearn <- R6::R6Class("rtDecomLearn",
                             public = list(

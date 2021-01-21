@@ -62,5 +62,5 @@ Default = "#18A3AC"  (teal)}
 Draw an html table using \code{plotly}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # mplot3.guitar.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Guitar Fretboard
 #'
@@ -16,7 +16,7 @@
 #' @param inlays.col Color for inlays
 #' @param inlays.cex Float: Character expansion factor for inlays. Default = 2
 #' @param par.reset Logical: If TRUE, reset par before exit
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.fret <- function(theme = "white",

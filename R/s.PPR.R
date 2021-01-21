@@ -1,6 +1,6 @@
 # s.PPR.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Projection Pursuit Regression (PPR) [R]
 #'
@@ -24,7 +24,7 @@
 #'   degree of freedom used. Higher values result in greater smoothing. See \code{stats::ppr} Default = 5
 #' @param ... Additional arguments to be passed to \code{ppr}
 #' @return Object of class \pkg{rtemis}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

@@ -1,6 +1,6 @@
 # s.GAM.formula.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 # rtTODO: use s.GAM.default so that classification works
 
 #' Generalized Additive Model (GAM) {C, R}
@@ -16,7 +16,7 @@
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to \code{mgcv::gam}
 #' @return \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @export

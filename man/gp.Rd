@@ -43,5 +43,5 @@ Must have same set of columns as \code{x}}
 Fit a gaussian process
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

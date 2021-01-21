@@ -1,12 +1,12 @@
 # theme_rtemis_dark.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas
+# 2019 E.D. Gennatas
 
 #' \pkg{rtemis} \code{ggplot2} dark theme
 #'
 #' @inheritParams theme_rtemis_light
 #' @param strip.background.fill Color: Fill color from facet labels. Default = "grey25"
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

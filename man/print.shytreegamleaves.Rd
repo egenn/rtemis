@@ -13,5 +13,5 @@
 Print method for \code{shytreegamleaves} object
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

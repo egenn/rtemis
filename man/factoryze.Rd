@@ -88,5 +88,5 @@ and hierarchical clustering
 Consult \code{psych::fa} for more information on the parameters
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

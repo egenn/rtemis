@@ -30,5 +30,5 @@ rnormmat(
 Create a matrix or data frame of defined dimensions, whose columns are random normal vectors
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

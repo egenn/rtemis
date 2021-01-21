@@ -30,5 +30,5 @@ i.e. nrow of matrix = n of labels in labeledNifti
 Niftis are written in parallel using \code{parallel::parApply}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

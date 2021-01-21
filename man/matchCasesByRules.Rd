@@ -20,5 +20,5 @@ cases-by-rules matrix (binary; 1: match, 0: no match)
 Match Rules to Cases
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # u.KMEANS.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' K-means Clustering
 #'
@@ -12,7 +12,7 @@
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

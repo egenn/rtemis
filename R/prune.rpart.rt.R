@@ -1,5 +1,5 @@
 #' \code{prune.rpart} experimental replacement
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 prune.rpart.rt <- function(tree, cp, ...) {

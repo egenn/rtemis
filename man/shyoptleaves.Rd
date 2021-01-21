@@ -73,6 +73,6 @@ With \code{max.nodes = 0}, the model is logistic regression trained according to
 Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

@@ -1,6 +1,6 @@
 # ddSci.R
 # ::rtemis::
-# 2015 Efstathios D. Gennatas egenn.lambdamd.org
+# 2015 E.D. Gennatas lambdamd.org
 
 #' Format Numbers for Printing
 #'
@@ -19,7 +19,7 @@
 #' 1.2035 becomes "1.20" if \code{asNumeric = FALSE}, but 1.2 otherwise
 #' This can be helpful if you want to be able to use the output as numbers / not just for printing.
 #' @return Formatted number
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @examples
 #' x <- .34876549
 #' ddSci(x)

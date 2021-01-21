@@ -13,5 +13,5 @@ is.constant(x)
 Check if vector is constant
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

@@ -1,6 +1,6 @@
 # s.MLRF.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Spark MLlib Random Forest [C, R]
 #'
@@ -21,7 +21,7 @@
 #'   "auto" will result in regression for numeric \code{y} and classification otherwise
 #' @param spark.master Spark cluster URL or "local"
 #' @return \link{rtMod} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

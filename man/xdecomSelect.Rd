@@ -26,6 +26,6 @@ Other Cross-Decomposition:
 \code{\link{x.CCA}()}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \concept{Cross-Decomposition}

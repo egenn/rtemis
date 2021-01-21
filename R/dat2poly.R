@@ -1,6 +1,6 @@
 # dat2poly.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 
 #' Create n-degree polynomial from data frame
 #' 
@@ -12,7 +12,7 @@
 #' @param degree Integer: degree of polynomials to create. Default = 2
 #' @param raw Logical: If TRUE, create simple polynomial, not orthogonalized. Default = FALSE
 #' @param as.data.frame Logical: If TRUE, return data.frame. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 dat2poly <- function(dat,
                      method = c("simple", "poly"),

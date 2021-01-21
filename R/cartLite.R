@@ -1,6 +1,6 @@
 # cartLite.R
 # ::rtemis::
-# Efstathios D. Gennatas MBBS PhD egenn.lambdamd.org
+# E.D. Gennatas MBBS PhD lambdamd.org
 
 #' Bare bones decision tree derived from \code{rpart}
 #'
@@ -8,7 +8,7 @@
 #'
 #' @inheritParams s.CART
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
-#' @author Efstathios D Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 #' @export
 
@@ -69,7 +69,7 @@ cartLite <- function(x, y,
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @method predict cartLite
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.cartLite <- function(object, newdata, verbose = FALSE, ...) {

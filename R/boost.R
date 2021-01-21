@@ -1,6 +1,6 @@
 # boost.R
 # ::rtemis::
-# 2018 Efstathios D. Gennatas egenn.lambdamd.org
+# 2018 E.D. Gennatas lambdamd.org
 # TODO: add error vector (1 * n.iter)
 # TODO: make learning.rate input into max.iter vector
 
@@ -34,7 +34,7 @@
 #' @param plot.type Character: "l" or "p". Plot using lines or points. Default = "l"
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to learner define by \code{mod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 
@@ -381,7 +381,7 @@ boost <- function(x, y = NULL,
 #' Print method for \link{boost} object
 #'
 #' @method print boost
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 print.boost <- function(x, ...) {
@@ -398,7 +398,7 @@ print.boost <- function(x, ...) {
 #' Predict method for \code{boost} object
 #'
 #' @method predict boost
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 predict.boost <- function(object,
@@ -459,7 +459,7 @@ predict.boost <- function(object,
 #'
 #' @inheritParams boost
 #' @param object \link{boost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 expand.boost <- function(object,
@@ -516,7 +516,7 @@ expand.boost <- function(object,
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @param tolerance Float: error tolerance for new boost object. See \link{boost}
 #' @param tolerance.valid Float: error tolerance for validation set. See \link{boost}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 # TODO: add x = NULL, if not NULL calculate fitted values
 
@@ -611,7 +611,7 @@ as.boost <- function(object,
 #' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 #' using this \code{x}
 #' @return \link{boost} object
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @return Nothing; updates \code{object} in-place
 #' @export
 # TODO: add support for x.test

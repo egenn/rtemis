@@ -1,6 +1,6 @@
 # dplot3.varimp.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: Forgot this existed, not have to add theme support
 
 #' Interactive Variable Importance Plot
@@ -22,7 +22,7 @@
 #' (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)
 #' @param font.color Color for all text
 #' @param showlegend Logical: If TRUE, show legend
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 dplot3.varimp <- function(x,

@@ -1,6 +1,6 @@
 # u.HARDCL.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Clustering by Hard Competitive Learning
 #'
@@ -11,7 +11,7 @@
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

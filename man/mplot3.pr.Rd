@@ -83,5 +83,5 @@ List with Precision, Recall, and Threshold values, invisibly
 Plot Precision Recall curve for a binary classifier
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

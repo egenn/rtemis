@@ -1,6 +1,6 @@
 # s.PSURV.R
 # ::rtemis::
-# 2017 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017 E.D. Gennatas lambdamd.org
 # TODO: add strata() support
 
 #' Parametric Survival Regression [S]
@@ -15,7 +15,7 @@
 #' @param weights Float: Vector of case weights
 #' @param ... Additional parameters to pass to \code{survival::survreg}
 #' @return Object of class \link{rtMod}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Survival Regression
 #' @export

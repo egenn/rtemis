@@ -1,6 +1,6 @@
 # u.HOPACH.R
 # ::rtemis::
-# 2016 Efstathios D. Gennatas egenn.lambdamd.org
+# 2016 E.D. Gennatas lambdamd.org
 
 #' Hieararchical Ordered Partitioning and Collapsing Hybrid
 #'
@@ -18,7 +18,7 @@
 #' the Mean/Median Split Silhouette. Usually same as \code{kmax}
 #' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
 #' @param ... Additional parameters to be passed to \code{cluster::hopach}
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 

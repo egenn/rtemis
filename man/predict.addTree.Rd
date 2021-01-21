@@ -19,5 +19,5 @@
 Obtains predictions from a trained MediBoost model
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

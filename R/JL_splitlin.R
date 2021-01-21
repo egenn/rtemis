@@ -1,11 +1,11 @@
 # JL_splitlin.R
 # ::rtemis::
-# 2020 Efstathios D. Gennatas egenn.lambdamd.org
+# 2020 E.D. Gennatas lambdamd.org
 
 #' Split where lines would minimize error
 #'
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 
 JL_splitlin <- function(x, y, wts = rep(1, length(y)),
@@ -27,7 +27,7 @@ JL_splitlin <- function(x, y, wts = rep(1, length(y)),
 
 #' predict JLsplitlin
 #'
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @keywords internal
 predict.JLsplitlin <- function(object, newdata, ...) {
 

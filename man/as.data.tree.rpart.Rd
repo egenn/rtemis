@@ -19,6 +19,6 @@ Convert an \code{rpart} object to a \code{data.tree} object, which can be plotte
 \link{dplot3.cart}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
 \keyword{internal}

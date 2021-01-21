@@ -1,6 +1,6 @@
 # mplot.raster.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Plot Array as Raster Image
 #'
@@ -12,7 +12,7 @@
 #' @param bg Color: Background color (around the plotted image when window proportions do not match image). Default = "gray10"
 #' @param par.reset Logical: If TRUE, reset par settings before exiting. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{

@@ -60,5 +60,5 @@ If \code{msg} is called directly from the console, it will print \code{[interact
 \code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

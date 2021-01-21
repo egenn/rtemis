@@ -16,5 +16,5 @@ factor
 Convert \code{survfit} object's strata to a factor
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }

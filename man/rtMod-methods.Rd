@@ -81,7 +81,7 @@ S3 methods for \code{rtMod} class.
 Excludes functions \code{print} and \code{plot} defined within the \link{rtMod} class itself.
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 
-Efstathios D. Gennatas
+E.D. Gennatas
 }

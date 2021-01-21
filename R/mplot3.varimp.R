@@ -1,6 +1,6 @@
 # mplot3.varimp
 # ::rtemis::
-# 2017-9 Efstathios D. Gennatas egenn.lambdamd.org
+# 2017-9 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Variable Importance
 #'
@@ -19,7 +19,7 @@
 #' @param trace Integer: If \code{trace > 0} prints out the automatically set \code{mar} (so you can adjust if needed)
 #' \code{names} provided
 #' @return Position of bar centers (invisibly)
-#' @author Efstathios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 mplot3.varimp <- function(x,

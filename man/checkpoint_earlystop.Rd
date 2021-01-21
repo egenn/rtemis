@@ -64,5 +64,5 @@ or
 \code{check.thresh | (check.rthresh | check.rvar)} if \code{combine.relative.thresholds = "OR"}
 }
 \author{
-Efstathios D. Gennatas
+E.D. Gennatas
 }
