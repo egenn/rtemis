@@ -23,19 +23,17 @@
 #' @examples
 #' set.seed(2021)
 #' cases <- data.frame(PID = paste0("PID", seq(4)),
-#'                      Sex = factor(c(1, 1, 0, 0)),
-#'                      Handedness = factor(c(1, 1, 0, 1)),
-#'                      Age = c(21, 27, 39, 24),
-#'                      Var = c(.7, .8, .9, .6),
-#'                      Varx = rnorm(4))
-#' cases <- rbind(cases, cases[1, ])
-#' cases$PID[5] <- "PID5"
+#'                     Sex = factor(c(1, 1, 0, 0)),
+#'                     Handedness = factor(c(1, 1, 0, 1)),
+#'                     Age = c(21, 27, 39, 24),
+#'                     Var = c(.7, .8, .9, .6),
+#'                     Varx = rnorm(4))
 #' controls <- data.frame(CID = paste0("CID", seq(50)),
-#'                    Sex = factor(sample(c(0, 1), 50, TRUE)),
-#'                    Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
-#'                    Age = sample(16:42, 50, TRUE),
-#'                    Var = rnorm(50),
-#'                    Vary = rnorm(50))
+#'                        Sex = factor(sample(c(0, 1), 50, TRUE)),
+#'                        Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
+#'                        Age = sample(16:42, 50, TRUE),
+#'                        Var = rnorm(50),
+#'                        Vary = rnorm(50))
 #'
 #' mc <- matchcases(cases, controls, 2, "PID", "CID")
 
@@ -70,9 +68,14 @@ matchcases <- function(target, pool,
   if (is.null(exactmatch.cols) & exactmatch.factors) {
     exactmatch.cols <- colnames(target)[sapply(target, is.factor)]
   }
+  # Keep exactmatch.cols present in pool
+  exactmatch.cols <- exactmatch.cols[exactmatch.cols %in% colnames(pool)]
+
   if (is.null(distmatch.cols)) {
     distmatch.cols <- colnames(target)[!colnames(target) %in% exactmatch.cols]
   }
+  # Keep distmatch.cols present in pool
+  distmatch.cols <- distmatch.cols[distmatch.cols %in% colnames(pool)]
 
   # Remove unused columns, if any
   .remove <- colnames(target)[!colnames(target) %in% c(exactmatch.cols, distmatch.cols)]

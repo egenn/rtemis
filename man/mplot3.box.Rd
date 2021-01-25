@@ -64,6 +64,8 @@ mplot3.box(
 
 \item{ylab}{Character: y-axis label}
 
+\item{horizontal}{Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR}
+
 \item{main}{Character: Plot title}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
