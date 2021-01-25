@@ -1,33 +1,43 @@
 # matchcases.R
 # ::rtemis::
-# 2021 E D Gennatas lambdamd.org
+# 2021 E.D. Gennatas lambdamd.org
 
 #' Match cases by covariates
 #'
-#' Match cases by exact match and by distance between covariates
+#' Find one or more cases from a `pool` DataFrame that match cases in a target DataFrame.
+#' Match exactly and/or by distance (sum of squared distance).
 #'
-#' @param target data.frame you are matching to
-#' @param pool data.frame where you are looking for matches from
+#' @param target data.frame you are matching against
+#' @param pool data.frame you are looking for matches from
 #' @param target.id String: Column name in \code{target} that holds unique cases IDs. Default = NULL,
 #' in which case integer case numbers will be used
 #' @param pool.id String: Same as \code{target.id} for \code{pool}
 #' @param exactmatch.factors Logical: If TRUE, selected cases will have to exactly match factors
 #' available in \code{target}
-#' @param exactmatch.cols String: Names of columns of variables that should be matched exactly
+#' @param exactmatch.cols String: Names of columns that should be matched exactly
+#' @param distmatch.cols String: Names of columns that should be distance-matched
+#' @param norepeats Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE
+#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @author E.D. Gennatas
 #' @export
 #' @examples
-#' target <- data.frame(Sex = factor(c(1, 1, 0, 0)),
+#' set.seed(2021)
+#' cases <- data.frame(PID = paste0("PID", seq(4)),
+#'                      Sex = factor(c(1, 1, 0, 0)),
 #'                      Handedness = factor(c(1, 1, 0, 1)),
 #'                      Age = c(21, 27, 39, 24),
-#'                      Var = c(.7, .8, .9, .6))
-#'
-#' set.seed(2021)
-#' pool <- data.frame(Sex = factor(sample(c(0, 1), 50, TRUE)),
+#'                      Var = c(.7, .8, .9, .6),
+#'                      Varx = rnorm(4))
+#' cases <- rbind(cases, cases[1, ])
+#' cases$PID[5] <- "PID5"
+#' controls <- data.frame(CID = paste0("CID", seq(50)),
+#'                    Sex = factor(sample(c(0, 1), 50, TRUE)),
 #'                    Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
 #'                    Age = sample(16:42, 50, TRUE),
-#'                    Var = rnorm(50))
-#' mc <- matchcases(target, pool, 2)
+#'                    Var = rnorm(50),
+#'                    Vary = rnorm(50))
+#'
+#' mc <- matchcases(cases, controls, 2, "PID", "CID")
 
 matchcases <- function(target, pool,
                        n.matches = 1,
@@ -35,15 +45,40 @@ matchcases <- function(target, pool,
                        pool.id = NULL,
                        exactmatch.factors = TRUE,
                        exactmatch.cols = NULL,
+                       distmatch.cols = NULL,
+                       norepeats = TRUE,
                        verbose = TRUE) {
 
-  # For each target, select matches on categoricals,
-  # then order pool by distance.
+  ntarget <- nrow(target)
+  npool <- nrow(pool)
+
+  # Get IDs ====
+  if (is.null(target.id)) {
+    targetID <- seq(ntarget)
+  } else {
+    targetID <- target[, target.id]
+    target[, target.id] <- NULL
+  }
+  if (is.null(pool.id)) {
+    poolID <- seq(npool)
+  } else {
+    poolID <- pool[, pool.id]
+    pool[, pool.id] <- NULL
+  }
+
+  # exact- & dist-matched column names
   if (is.null(exactmatch.cols) & exactmatch.factors) {
     exactmatch.cols <- colnames(target)[sapply(target, is.factor)]
   }
+  if (is.null(distmatch.cols)) {
+    distmatch.cols <- colnames(target)[!colnames(target) %in% exactmatch.cols]
+  }
 
-  distmatch.cols <- colnames(target)[!colnames(target) %in% exactmatch.cols]
+  # Remove unused columns, if any
+  .remove <- colnames(target)[!colnames(target) %in% c(exactmatch.cols, distmatch.cols)]
+  target[, .remove] <- NULL
+  .remove <- colnames(pool)[!colnames(pool) %in% c(exactmatch.cols, distmatch.cols)]
+  pool[, .remove] <- NULL
 
   # Convert all non-exact-matching to numeric
   # index_num <- which(sapply(target, is.numeric))
@@ -51,36 +86,35 @@ matchcases <- function(target, pool,
   if (length(tonumeric) > 0) {
     target[, tonumeric] <- lapply(target[, tonumeric], as.numeric)
   }
+  tonumeric <- distmatch.cols[!sapply(pool[, distmatch.cols], is.numeric)]
+  if (length(tonumeric) > 0) {
+    pool[, tonumeric] <- lapply(pool[, tonumeric], as.numeric)
+  }
 
   # Normalize all
-  ntarget <- nrow(target)
-  npool <- nrow(pool)
-  vcat_scaled <- scale(rbind(target[, distmatch.cols], pool[, distmatch.cols]))
-  targetID <- if (!is.null(target.id)) target[, target.id] else seq(ntarget)
-  poolID <- if (!is.null(pool.id)) pool[, pool.id] else seq(npool)
-  target_s <- cbind(targetID = targetID, vcat_scaled[seq(ntarget), ])
-  pool_s <- cbind(poolID = poolID, vcat_scaled[-seq(ntarget), ])
-  rm(vcat_scaled)
-  # can use split on vcat_scaled definition to create a list of the two instead
+  vcat <- rbind(target, pool)
+  vcat[, distmatch.cols] <- lapply(vcat[, distmatch.cols], scale)
+  target_s <- cbind(targetID = targetID, vcat[seq(ntarget), ])
+  pool_s <- cbind(poolID = poolID, vcat[-seq(ntarget), ])
+  rm(vcat)
 
+  # For each target, select matches on categoricals,
+  # then order pool by distance.
   mc <- data.frame(targetID = targetID, match = matrix(NA, ntarget, n.matches))
   for (i in seq(ntarget)) {
     if (verbose) msg("Working on case", i, "of", ntarget)
-    if (!is.null(exactmatch.cols)) {
-      ind <- sapply(seq(nrow(pool)), function(j)
-        all(target[i, exactmatch.cols] == pool[j, exactmatch.cols]))
-      subpool <- pool_s[ind, , drop = FALSE]
-    } else {
+    if (is.null(exactmatch.cols)) {
       subpool <- pool_s
-    }
-    if (nrow(subpool) > n.matches) {
-      distord <- order(sapply(seq(nrow(subpool)), function(j) sum((target_s[i, -1] - subpool[j, -1])^2)))
-      # Get index of n.matches best matches
-      mc[i, 2:(n.matches + 1)] <- subpool[, 1][distord[seq(n.matches)]]
     } else {
-      # This may be < n.matches including 0
-      mc[i, 2:(nrow(subpool) + 1)] <- unname(subpool[, 1])
+      ind <- sapply(seq(nrow(pool_s)), function(j)
+        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols]))
+      subpool <- pool_s[ind, , drop = FALSE]
     }
+    distord <- order(sapply(seq(nrow(subpool)),
+                              function(j) sum((target_s[i, distmatch.cols] - subpool[j, distmatch.cols])^2)))
+    n_matched <- min(n.matches, nrow(subpool))
+    mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
+    if (norepeats) pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n.matches + 1)], ]
   }
 
   mc
