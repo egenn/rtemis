@@ -15,6 +15,8 @@ mplot3.box(
   ylim = NULL,
   xlab = NULL,
   ylab = NULL,
+  boxwex = 0.5,
+  horizontal = FALSE,
   main = NULL,
   names.arg = NULL,
   axisnames = FALSE,

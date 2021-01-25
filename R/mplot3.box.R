@@ -1,7 +1,6 @@
 # mplot3.box
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
-# TODO: make x vector or list
+# 2017-2021 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Boxplot
 #'
@@ -12,6 +11,7 @@
 #' @param col Vector of colors to use
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
+#' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
 #' @param ... Additional arguments to \code{graphics::boxplot}
 #' @author E.D. Gennatas
 #' @examples
@@ -34,6 +34,8 @@ mplot3.box <- function(x,
                        # xlab.line = 1.5,
                        ylab = NULL,
                        # ylab.line = 1.5,
+                       boxwex = .5,
+                       horizontal = FALSE,
                        main = NULL,
                        names.arg = NULL,
                        axisnames = FALSE,
@@ -116,6 +118,12 @@ mplot3.box <- function(x,
   if (is.null(xlim)) xlim <- c(.5, length(x) + .5)
   if (is.null(ylim)) ylim <- c(min(xv) - .06 * abs(min(xv)), max(xv) + .05 * abs(max(xv)))
 
+  if (horizontal) {
+    xxlim <- ylim
+    ylim <- xlim
+    xlim <- xxlim
+  }
+
   # [ PLOT ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
@@ -141,10 +149,12 @@ mplot3.box <- function(x,
   bp <- boxplot(x, col = col.alpha,
                 pch = theme$pch,
                 border = border,
+                boxwex = boxwex,
+                horizontal = horizontal,
                 ylim = ylim,
                 axes = FALSE,
                 add = TRUE,
-                xlab = NULL, ...)
+                xlab = NULL)
 
   # [ y AXIS ] ====
   if (yaxis) {
