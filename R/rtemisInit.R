@@ -220,7 +220,8 @@ if (is.null(pre)) {
 checkType <- function(type, allowed.types, mod.name) {
 
   if (!type %in% allowed.types) {
-    rtStop("You were attempting to perform", type, "but", mod.name, "only supports", allowed.types)
+    rtStop("You were attempting to perform", type, "but", mod.name, "only supports:\n",
+           paste(allowed.types, collapse = ", "))
   }
 
 }
