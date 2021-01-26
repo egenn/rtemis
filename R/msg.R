@@ -110,7 +110,7 @@ stopQuietly <- function() {
 
 rtStop <- function(...) {
   message <- paste(...)
-  cat(red("/// Stop:", message))
+  cat(rtOrange("/// Stop:", message))
   stopQuietly()
 }
 
