@@ -154,7 +154,7 @@ dataPrepare <- function(x, y = NULL,
   } # //xnames and dimensions check
 
   # [ TYPE ] ====
-  if (!is.null(dim(y))) y <- as.vector(y)
+  if (!is.null(dim(y)) && class(y) != "Surv") y <- as.vector(y)
   type <- switch(class(y),
                  factor = "Classification",
                  Surv = "Survival",
