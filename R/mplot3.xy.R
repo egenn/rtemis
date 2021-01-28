@@ -290,8 +290,8 @@ mplot3.xy <- function(x, y = NULL,
     if (missing(y)) y <- "y"
     .xname <- deparse(substitute(x))
     .yname <- deparse(substitute(y))
-    if (is.null(xlab)) xlab <- .xname
-    if (is.null(ylab)) ylab <- .yname
+    if (is.null(xlab)) xlab <- labelify(.xname)
+    if (is.null(ylab)) ylab <- labelify(.yname)
     x <- data[[.xname]]
     y <- data[[.yname]]
     if (!is.null(group)) group <- data[[deparse(substitute(group))]]
