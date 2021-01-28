@@ -136,6 +136,8 @@ s.GLMNET <- function(x, y = NULL,
       type <- "Classification"
     }
   }
+  # Cox does not have an intercept (it is part of the baseline hazard)
+  if (type == "Survival") intercept <- FALSE
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
   if (!is.null(family) && family %in% c("binomial", "multinomial") && !is.factor(y))
