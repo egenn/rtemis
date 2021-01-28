@@ -10,11 +10,14 @@ mplot3.surv(
   lwd = 2,
   alpha = 1,
   col = NULL,
+  normalize.time = TRUE,
   cex = 1.2,
   xlab = "Time",
   ylab = "Survival",
-  main = "Kaplan-Meier estimate with 95\% CI",
-  plot.error = TRUE,
+  main = "Kaplan-Meier estimate",
+  theme = getOption("rt.theme", "lightgrid"),
+  palette = getOption("rt.palette", "rtCol1"),
+  plot.error = FALSE,
   error.lty = 2,
   error.alpha = 0.5,
   group.legend = NULL,
@@ -37,11 +40,21 @@ mplot3.surv(
 
 \item{alpha}{Float: Alpha for lines. Default = 1}
 
+\item{normalize.time}{Logical: If TRUE, convert each input's time to 0-1 range. This is useful
+when survival estimates are not provided in original time scale. Default = FALSE.}
+
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
 
 \item{main}{Character: Plot title}
+
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
+You can set a system-wide default in your \code{.Rprofile} by including a line like
+options(rt.theme = 'lightgrid')}
+
+\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 

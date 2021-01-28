@@ -8,10 +8,11 @@
 #'
 #' @inheritParams mplot3.xy
 #' @param x Survival object / list of Survival objects created using \code{survival::Surv}
+#' @param normalize.time Logical: If TRUE, convert each input's time to 0-1 range. This is useful
+#' when survival estimates are not provided in original time scale. Default = FALSE.
 #' @param lty Integer: Line type. Default = 1. See \code{par("lty")}
 #' @param lwd Float: Line width. Default = 2
 #' @param alpha Float: Alpha for lines. Default = 1
-# @param normalize Logical: If TRUE: \link{drange} \code{x} to 0:100
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
 #' @author E.D. Gennatas
 #' @export
@@ -21,12 +22,14 @@ mplot3.surv <- function(x,
                         lwd = 2,
                         alpha = 1,
                         col = NULL,
-                        # normalize = TRUE,
+                        normalize.time = TRUE,
                         cex = 1.2,
-                        xlab = "Time",
+                        xlab = NULL,
                         ylab = "Survival",
-                        main = "Kaplan-Meier estimate with 95% CI",
-                        plot.error = TRUE,
+                        main = "Kaplan-Meier estimate",
+                        theme = getOption("rt.theme", "lightgrid"),
+                        palette = getOption("rt.palette", "rtCol1"),
+                        plot.error = FALSE,
                         error.lty = 2,
                         error.alpha = .5,
                         group.legend = NULL,
@@ -44,20 +47,23 @@ mplot3.surv <- function(x,
   # if (class(x)[[1]] != "Surv") stop("At least first object must be of type Survival")
   for (i in seq(x)) {
     if (class(x[[i]]) != "Surv") {
+      # Adding 1's assuming time to event for all
       x[[i]] <- survival::Surv(x[[i]], rep(1, length(x[[i]])))
     }
+  }
+
+  # [ THEME ] ====
+  if (is.null(col)) {
+    if (is.character(palette)) palette <- rtPalette(palette)
+    col <- palette
   }
 
   # [ Kaplan-Meier Estimate ] ====
   .survfit <- lapply(x, function(i) survival::survfit(i ~ 1))
 
-  # # [ Normalize ] ====
-  # if (normalize) {
-  #   x.sorted <- lapply(x.sorted, function(x) drange(x, 0, 100))
-  # }
-
   # [ LIMITS ] ====
   xl <- lapply(.survfit, function(i) i$time)
+  if (normalize.time) xl <- lapply(xl, drange)
   xlim <- range(unlist(xl))
   yl <- lapply(.survfit, function(i) i$surv)
 
@@ -66,18 +72,21 @@ mplot3.surv <- function(x,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  cols <- if (is.null(col)) ucsfCol else col
-
+  if (is.null(xlab)) {
+    xlab <- if (normalize.time) "Normalized Time" else "Time"
+  }
 
   mplot3.xy(x = xl,
             y = yl,
             ylim = c(0, 1),
             xlim = xlim,
             type = 's', lwd = 2, lty = lty,
+            theme = theme,
+            palette = palette,
             marker.col = col,
             line.alpha = 1,
             main = main,
-            xlab = "Time", ylab = "Survival",
+            xlab = xlab, ylab = ylab,
             group.legend = FALSE, zerolines = FALSE, par.reset = FALSE, ...)
 
   # pointwise errors
@@ -106,7 +115,7 @@ mplot3.surv <- function(x,
 
   if (group.legend) {
     mtext(group.names,
-          col = c("black", unlist(cols))[1:(length(x) + 1)], # change black depending on theme
+          col = c("black", unlist(col))[1:(length(x) + 1)], # change black depending on theme
           side = group.side,
           adj = group.adj,
           at = group.at,
