@@ -150,7 +150,7 @@ s.CART <- function(x, y = NULL,
   x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
   y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  df.train <- data.frame(y = y, x)
+  if (type != "Survival") df.train <- data.frame(y = y, x)
   if (method == "auto") {
     if (type == "Regression") {
       method <- "anova"
