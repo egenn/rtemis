@@ -127,20 +127,15 @@ modError <- function(true,
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
     s.out <- classError(x, y, estimated.prob)
+
   } else {
 
     # [ Survival ] ====
-    if (!depCheck("survival", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
-    # s.out <- survcop::concordance(y, x)
-    if (!survival::is.Surv(x)) stop("true must be Survival object")
-    # s.out <- as.data.frame(t(survival::survConcordance.fit(x, y)))
-    s.out <- survival::survConcordance(x ~ y)
-    names(s.out)[1] <- "Concordance"
+    s.out <- survError(x, y)
+
   }
 
-  return(s.out)
+  s.out
 
 } # rtemis::modError
 
