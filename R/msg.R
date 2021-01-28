@@ -110,16 +110,14 @@ stopQuietly <- function() {
 
 rtStop <- function(...) {
   message <- paste(...)
-  cat(rtOrange("/// Stop:", message))
+  cat(magenta("[Error]", message))
   stopQuietly()
 }
 
-
 rtWarning <- function(...) {
   message <- paste(...)
-  cat(rtOrange("/// Warning:", message))
+  cat(rtOrange("[Warning]", message))
 }
-
 
 rtOut <- function(...) {
   message <- paste(...)
