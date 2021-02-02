@@ -12,7 +12,7 @@ mplot3.surv(
   col = NULL,
   normalize.time = TRUE,
   cex = 1.2,
-  xlab = "Time",
+  xlab = NULL,
   ylab = "Survival",
   main = "Kaplan-Meier estimate",
   theme = getOption("rt.theme", "lightgrid"),
