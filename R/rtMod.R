@@ -159,7 +159,8 @@ rtMod <- R6::R6Class("rtMod",
                          } else {
                            mplot3.surv(list(True = self$y.train, Fitted = self$fitted),
                                        main = paste(self$mod.name,
-                                                    "Kaplan-Meier estimate with 95% CI"),
+                                                    "Kaplan-Meier estimate"),
+                                       normalize.time = TRUE,
                                        theme = theme,
                                        filename = filename, ...)
                          }
@@ -188,7 +189,8 @@ rtMod <- R6::R6Class("rtMod",
                          } else {
                            mplot3.surv(list(True = self$y.test, Predicted = self$predicted),
                                        main = paste(self$mod.name,
-                                                    "Kaplan-Meier estimate with 95% CI"),
+                                                    "Kaplan-Meier estimate"),
+                                       normalize.time = TRUE,
                                        theme = theme,
                                        filename = filename, ...)
                          }
