@@ -13,7 +13,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
 
   wd <- getwd()
   if (verbose) msg0(rtHighlight$bold("rtemis"), ": Initializing project directory...")
-  if (verbose) cat("   Working in ", wd, "...\n", sep = "")
+  if (verbose) cat("  Working in ", wd, "...\n", sep = "")
 
   # rtInit.log ====
   # if (verbose) cat(rtHighlight("  Writing 'rtInit.log' file..."))
@@ -31,7 +31,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
-        if (verbose) cat(crayon::green$bold(" Done\n"))
+        if (verbose) cat(crayon::rtHighlight$bold(" Done\n"))
       } else {
         if (verbose) cat(crayon::red$bold("Failed"))
       }
