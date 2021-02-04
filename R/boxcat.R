@@ -39,14 +39,14 @@ boxcat <- function(x,
   } else {
     csb <- silver$bold
     cat(rep(" ", pad), sep = "")
-    cat(csb("[[ "))
+    cat(csb("[ "))
     if (!is.null(col)) {
       col <- getFromNamespace(col, "crayon")
       cat(col$bold(x))
     } else {
       cat(bold(x))
     }
-    cat(csb(" ]]\n"))
+    cat(csb(" ]\n"))
   }
   if (newline) cat("\n")
 
