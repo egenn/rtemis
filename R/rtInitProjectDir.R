@@ -31,7 +31,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
-        if (verbose) cat(crayon::rtHighlight$bold(" Done\n"))
+        if (verbose) cat(rtHighlight$bold(" Done\n"))
       } else {
         if (verbose) cat(crayon::red$bold("Failed"))
       }
