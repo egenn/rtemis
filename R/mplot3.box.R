@@ -7,17 +7,29 @@
 #' Draw boxplots
 #'
 #' @inheritParams mplot3.xy
-#' @param x List: Each element will be drawn as a box
+#' @param x Vector, data.frame or list: Each data.frame column or list element will be drawn as a box
 #' @param col Vector of colors to use
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
 #' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
+#' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
+#' Default = TRUE
 #' @param ... Additional arguments to \code{graphics::boxplot}
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
-#' x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
-#' colnames(x) <- c("mango", "banana", "tangerine", "sugar")
+#' ## vector
+#' x <- rnorm(500)
+#' mplot3.box(x)
+#'
+#' ## data.frame
+#' x <- data.frame(alpha = rnorm(50), beta = rnorm(50), gamma = rnorm(50))
+#' mplot3.box(x)
+#'
+#' ## list - allows different length vectors
+#' x <- list(alpha = rnorm(50),
+#'           beta = rnorm(80, 4, 1.5),
+#'           gamma = rnorm(30, -3, .5))
 #' mplot3.box(x)
 #' }
 #' @export
@@ -31,9 +43,7 @@ mplot3.box <- function(x,
                        xlim = NULL,
                        ylim = NULL,
                        xlab = NULL,
-                       # xlab.line = 1.5,
                        ylab = NULL,
-                       # ylab.line = 1.5,
                        boxwex = .5,
                        horizontal = FALSE,
                        main = NULL,
@@ -56,12 +66,9 @@ mplot3.box <- function(x,
                        cex.names = cex,
                        yaxis = TRUE,
                        ylim.pad = 0,
-                       # y.axis.line = 0,
-                       # y.axis.las = 0,
-                       # y.axis.padj = 1,
-                       # y.axis.hadj = .5,
                        theme = getOption("rt.theme", "lightgrid"),
                        autolabel = letters,
+                       na.rm = TRUE,
                        palette = getOption("rt.palette", "rtCol1"),
                        par.reset = TRUE,
                        pdf.width = 6,
@@ -70,6 +77,7 @@ mplot3.box <- function(x,
 
   # [ ARGUMENTS ] ====
   if (is.character(palette)) palette <- rtPalette(palette)
+  if (!is.list(x)) x <- list(x)
   if (is.null(col)) {
     if (length(x) == 1) {
       col <- palette[1]
@@ -116,7 +124,8 @@ mplot3.box <- function(x,
   # [ XLIM & YLIM ] ====
   xv <- unlist(x)
   if (is.null(xlim)) xlim <- c(.5, length(x) + .5)
-  if (is.null(ylim)) ylim <- c(min(xv) - .06 * abs(min(xv)), max(xv) + .05 * abs(max(xv)))
+  if (is.null(ylim)) ylim <- c(min(xv, na.rm = na.rm) - .06 * abs(min(xv, na.rm = na.rm)),
+                               max(xv, na.rm = na.rm) + .05 * abs(max(xv, na.rm = na.rm)))
 
   if (horizontal) {
     xxlim <- ylim
@@ -189,7 +198,8 @@ mplot3.box <- function(x,
 
   # [ GROUP NAMES ] ====
   if (is.null(xnames.y)) {
-    xnames.y <- min(ylim) - diff(ylim) * .06
+    # xnames.y <- min(ylim) - diff(ylim) * .06
+    xnames.y <- ylo()
   }
   if (!is.null(xnames)) {
     text(x = xnames.at, y = xnames.y,
