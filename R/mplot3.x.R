@@ -79,7 +79,7 @@ mplot3.x <- function(x,
                      density.shade = TRUE,
                      density.legend.side = 3,
                      density.legend.adj = .98,
-                     density.params = list(),
+                     density.params = list(na.rm = na.rm),
                      qqline.col = "#18A3AC",
                      qqline.alpha = 1,
                      pch = 16,
@@ -551,7 +551,7 @@ mplot3.x <- function(x,
 
   # [ DENSITY PLOT MEAN X ] ====
   if (type == "density" & density.avg) {
-    avgl <- lapply(xl, density.avg.fn)
+    avgl <- lapply(xl, density.avg.fn, na.rm = TRUE)
     sdl <- lapply(xl, sd)
     density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
     mtext(c(density.legend.text, lapply(seq(xl),
