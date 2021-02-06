@@ -569,36 +569,37 @@ mplot3.xy <- function(x, y = NULL,
   }
 
   # [ AXES LIMITS ] ====
-  if (axes.equal & is.null(xlim)) xlim <- ylim <- range(xl, yl, na.rm = na.rm)
-  if (is.null(xlim)) xlim <- range(xl, na.rm = na.rm)
-  if (is.null(ylim)) ylim <- range(yl, na.rm = na.rm)
-  if (is.list(fitted) & !is.list(sel)) {
-    ylim.hi <- max(unlist(fitted))
-    ylim.lo <- min(unlist(fitted))
-    ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
+  if (is.null(xlim)) {
+    xlim <- range(xl, na.rm = na.rm)
+    if (is.list(error.x)) {
+      error.x.hi <- lapply(seq(xl), function(i) xl[[i]] + error.x[[i]])
+      error.x.lo <- lapply(seq(xl), function(i) xl[[i]] - error.x[[i]])
+      xlim <- range(error.x.lo, error.x.hi, xlim)
+    }
   }
-  if (is.list(sel)) {
-    ylim.hi <- max(unlist(lapply(seq(length(fitted)),
-                                 function(i) as.data.frame(fitted[[i]]) +
-                                   se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
-    ylim.lo <- min(unlist(lapply(seq(length(fitted)),
-                                 function(i) as.data.frame(fitted[[i]]) -
-                                   se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
-    ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
-    if (axes.equal) xlim <- ylim <- range(xl, ylim, na.rm = na.rm)
+  if (is.null(ylim)) {
+    ylim <- range(yl, na.rm = na.rm)
+    if (is.list(fitted) & !is.list(sel)) {
+      ylim.hi <- max(unlist(fitted))
+      ylim.lo <- min(unlist(fitted))
+      ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
+    }
+    if (is.list(sel)) {
+      ylim.hi <- max(unlist(lapply(seq(length(fitted)),
+                                   function(i) as.data.frame(fitted[[i]]) +
+                                     se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
+      ylim.lo <- min(unlist(lapply(seq(length(fitted)),
+                                   function(i) as.data.frame(fitted[[i]]) -
+                                     se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
+      ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
+    }
+    if (is.list(error.y)) {
+      error.y.hi <- lapply(seq(yl), function(i) yl[[i]] + error.y[[i]])
+      error.y.lo <- lapply(seq(yl), function(i) yl[[i]] - error.y[[i]])
+      ylim <- range(error.y.lo, error.y.hi, ylim)
+    }
   }
-
-  if (is.list(error.x)) {
-    error.x.hi <- lapply(seq(xl), function(i) xl[[i]] + error.x[[i]])
-    error.x.lo <- lapply(seq(xl), function(i) xl[[i]] - error.x[[i]])
-    xlim <- range(error.x.lo, error.x.hi, xlim)
-  }
-  if (is.list(error.y)) {
-    error.y.hi <- lapply(seq(yl), function(i) yl[[i]] + error.y[[i]])
-    error.y.lo <- lapply(seq(yl), function(i) yl[[i]] - error.y[[i]])
-    ylim <- range(error.y.lo, error.y.hi, ylim)
-  }
-  if (axes.equal) xlim <- ylim <- range(xlim, ylim)
+  if (axes.equal) xlim <- ylim <- range(xlim, ylim, na.rm = na.rm)
 
   # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
