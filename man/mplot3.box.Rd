@@ -39,6 +39,7 @@ mplot3.box(
   ylim.pad = 0,
   theme = getOption("rt.theme", "lightgrid"),
   autolabel = letters,
+  na.rm = TRUE,
   palette = getOption("rt.palette", "rtCol1"),
   par.reset = TRUE,
   pdf.width = 6,
@@ -48,7 +49,7 @@ mplot3.box(
 )
 }
 \arguments{
-\item{x}{List: Each element will be drawn as a box}
+\item{x}{Vector, data.frame or list: Each data.frame column or list element will be drawn as a box}
 
 \item{col}{Vector of colors to use}
 
@@ -78,6 +79,9 @@ Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
+\item{na.rm}{Logical: If TRUE, remove NA values, otherwise function will give error.
+Default = TRUE}
+
 \item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
@@ -95,8 +99,18 @@ Draw boxplots
 }
 \examples{
 \dontrun{
-x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
-colnames(x) <- c("mango", "banana", "tangerine", "sugar")
+## vector
+x <- rnorm(500)
+mplot3.box(x)
+
+## data.frame
+x <- data.frame(alpha = rnorm(50), beta = rnorm(50), gamma = rnorm(50))
+mplot3.box(x)
+
+## list - allows different length vectors
+x <- list(alpha = rnorm(50),
+          beta = rnorm(80, 4, 1.5),
+          gamma = rnorm(30, -3, .5))
 mplot3.box(x)
 }
 }

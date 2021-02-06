@@ -30,7 +30,7 @@ mplot3.x(
   density.shade = TRUE,
   density.legend.side = 3,
   density.legend.adj = 0.98,
-  density.params = list(),
+  density.params = list(na.rm = na.rm),
   qqline.col = "#18A3AC",
   qqline.alpha = 1,
   pch = 16,
