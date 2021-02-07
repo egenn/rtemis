@@ -135,7 +135,8 @@
 #' @param fit.legend.adj
 #' @param fit.legend.padj
 #' @param fit.legend.at
-#' @param na.rm
+#' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
+#' Set to FALSE if you know your data has no missing values.
 #' @param palette Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
@@ -259,7 +260,7 @@ mplot3.xy <- function(x, y = NULL,
                       fit.legend.padj = 2,
                       fit.legend.at = NA,
                       labs.col = NULL,
-                      na.rm = TRUE,
+                      rm.na = TRUE,
                       theme = getOption("rt.theme", "lightgrid"),
                       palette = getOption("rt.palette", "rtCol1"),
                       order.on.x = NULL,
@@ -413,6 +414,12 @@ mplot3.xy <- function(x, y = NULL,
   if (!is.null(y)) if (Nygroups == 1 & Nxgroups > 1) yl <- rep(yl, Nxgroups)
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
+
+  if (rm.na) {
+    indexl <- lapply(seq(xl), function(i) complete.cases(cbind(xl[[i]], yl[[i]])))
+    xl <- lapply(seq_along(xl), function(i) xl[[i]][indexl[[i]]])
+    yl <- lapply(seq_along(yl), function(i) yl[[i]][indexl[[i]]])
+  }
 
   if (order.on.x) {
     index <- lapply(xl, order)
@@ -570,7 +577,7 @@ mplot3.xy <- function(x, y = NULL,
 
   # [ AXES LIMITS ] ====
   if (is.null(xlim)) {
-    xlim <- range(xl, na.rm = na.rm)
+    xlim <- range(xl)
     if (is.list(error.x)) {
       error.x.hi <- lapply(seq(xl), function(i) xl[[i]] + error.x[[i]])
       error.x.lo <- lapply(seq(xl), function(i) xl[[i]] - error.x[[i]])
@@ -578,20 +585,20 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
   if (is.null(ylim)) {
-    ylim <- range(yl, na.rm = na.rm)
+    ylim <- range(yl)
     if (is.list(fitted) & !is.list(sel)) {
       ylim.hi <- max(unlist(fitted))
       ylim.lo <- min(unlist(fitted))
-      ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
+      ylim <- range(ylim.lo, ylim.hi, yl)
     }
     if (is.list(sel)) {
       ylim.hi <- max(unlist(lapply(seq(length(fitted)),
                                    function(i) as.data.frame(fitted[[i]]) +
-                                     se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
+                                     se.times * as.data.frame(sel[[i]]))))
       ylim.lo <- min(unlist(lapply(seq(length(fitted)),
                                    function(i) as.data.frame(fitted[[i]]) -
-                                     se.times * as.data.frame(sel[[i]]))), na.rm = na.rm)
-      ylim <- range(ylim.lo, ylim.hi, yl, na.rm = na.rm)
+                                     se.times * as.data.frame(sel[[i]]))))
+      ylim <- range(ylim.lo, ylim.hi, yl)
     }
     if (is.list(error.y)) {
       error.y.hi <- lapply(seq(yl), function(i) yl[[i]] + error.y[[i]])
@@ -599,7 +606,7 @@ mplot3.xy <- function(x, y = NULL,
       ylim <- range(error.y.lo, error.y.hi, ylim)
     }
   }
-  if (axes.equal) xlim <- ylim <- range(xlim, ylim, na.rm = na.rm)
+  if (axes.equal) xlim <- ylim <- range(xlim, ylim)
 
   # [ PLOT ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE

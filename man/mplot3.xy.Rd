@@ -103,7 +103,7 @@ mplot3.xy(
   fit.legend.padj = 2,
   fit.legend.at = NA,
   labs.col = NULL,
-  na.rm = TRUE,
+  rm.na = TRUE,
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   order.on.x = NULL,
@@ -277,6 +277,8 @@ themes}
 c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+
+\item{rm.na}{Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
