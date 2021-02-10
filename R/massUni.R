@@ -33,8 +33,7 @@ massUni <- function(x, y, mod = "gam",
 
   # [ MOD1 ] ====
   mod1 <- function(index, x, y, learner, args) {
-    y1 <- y[, index]
-    mod.1 <- R.utils::doCall(learner, x = x, y = y1, print.plot = FALSE, args = args)
+    mod.1 <- R.utils::doCall(learner, x = x, y = y[, index], print.plot = FALSE, args = args)
     return(mod.1)
   }
 
