@@ -552,7 +552,7 @@ mplot3.x <- function(x,
   # [ DENSITY PLOT MEAN X ] ====
   if (type == "density" & density.avg) {
     avgl <- lapply(xl, density.avg.fn, na.rm = TRUE)
-    sdl <- lapply(xl, sd)
+    sdl <- lapply(xl, sd, na.rm = TRUE)
     density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
     mtext(c(density.legend.text, lapply(seq(xl),
                                 function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
