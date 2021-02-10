@@ -87,16 +87,16 @@ matchcases <- function(target, pool,
   # index_num <- which(sapply(target, is.numeric))
   tonumeric <- distmatch.cols[!sapply(target[, distmatch.cols], is.numeric)]
   if (length(tonumeric) > 0) {
-    target[, tonumeric] <- lapply(target[, tonumeric], as.numeric)
+    target[, tonumeric] <- lapply(target[, tonumeric, drop = FALSE], as.numeric)
   }
   tonumeric <- distmatch.cols[!sapply(pool[, distmatch.cols], is.numeric)]
   if (length(tonumeric) > 0) {
-    pool[, tonumeric] <- lapply(pool[, tonumeric], as.numeric)
+    pool[, tonumeric] <- lapply(pool[, tonumeric, drop = FALSE], as.numeric)
   }
 
   # Normalize all
   vcat <- rbind(target, pool)
-  vcat[, distmatch.cols] <- lapply(vcat[, distmatch.cols], scale)
+  vcat[, distmatch.cols] <- lapply(vcat[, distmatch.cols, drop = FALSE], scale)
   target_s <- cbind(targetID = targetID, vcat[seq(ntarget), ])
   pool_s <- cbind(poolID = poolID, vcat[-seq(ntarget), ])
   rm(vcat)
