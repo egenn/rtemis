@@ -53,9 +53,9 @@ mplot3.box <- function(x,
                        xnames.at = NULL,
                        xnames.y = NULL,
                        xnames.font = 1,
-                       xnames.adj = c(.5, 1),
+                       xnames.adj = NULL,
                        xnames.pos = NULL,
-                       xnames.srt = 0,
+                       xnames.srt = NULL,
                        legend = FALSE,
                        legend.names = NULL,
                        legend.position = "topright",
@@ -67,6 +67,7 @@ mplot3.box <- function(x,
                        yaxis = TRUE,
                        ylim.pad = 0,
                        theme = getOption("rt.theme", "lightgrid"),
+                       labelify = TRUE,
                        autolabel = letters,
                        na.rm = TRUE,
                        palette = getOption("rt.palette", "rtCol1"),
@@ -76,8 +77,32 @@ mplot3.box <- function(x,
                        filename = NULL, ...) {
 
   # [ ARGUMENTS ] ====
-  if (is.character(palette)) palette <- rtPalette(palette)
+
+  # Group names
+  if (is.null(xnames)) {
+    if (!is.null(names(x))) {
+      xnames <- names(x)
+    } else {
+      xnames <- deparse(substitute(x))
+    }
+  }
+  if (labelify) xnames <- labelify(xnames)
   if (!is.list(x)) x <- list(x)
+  if (!is.null(xnames)) {
+    if (is.null(xnames.at)) {
+      xnames.at <- seq_along(x)
+    }
+  }
+
+  if (is.null(xnames.srt)) {
+    xnames.srt <- ifelse(length(x) > 3, 90, 0)
+  }
+
+  if (is.null(xnames.adj)) {
+    xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
+  }
+  if (is.character(palette)) palette <- rtPalette(palette)
+
   if (is.null(col)) {
     if (length(x) == 1) {
       col <- palette[1]
@@ -85,19 +110,12 @@ mplot3.box <- function(x,
       col <- palette[seq(length(x))]
     }
   }
+
+  # mar ====
   if (is.null(mar)) {
-    mar <- if (is.null(main)) c(2.5, 3, 1, 1) else c(2.5, 3, 2, 1)
-  }
-
-  # Group names
-  if (is.null(xnames)) {
-    if (!is.null(names(x))) xnames <- names(x)
-  }
-
-  if (!is.null(xnames)) {
-    if (is.null(xnames.at)) {
-      xnames.at <- seq(length(x))
-    }
+    mar.top <- if (is.null(main)) 1 else 2
+    mar.bottom <- if (xnames.srt == 90) max(nchar(xnames)) * .5 else 2.5
+    mar <- c(mar.bottom, 3, mar.top, 1)
   }
 
   col.alpha <- colorAdjust(col, alpha = alpha)
@@ -196,10 +214,9 @@ mplot3.box <- function(x,
           family = theme$font.family)
   }
 
-  # [ GROUP NAMES ] ====
+  # [ XNAMES ] ====
   if (is.null(xnames.y)) {
-    # xnames.y <- min(ylim) - diff(ylim) * .06
-    xnames.y <- ylo()
+    xnames.y <- ylo(.04)
   }
   if (!is.null(xnames)) {
     text(x = xnames.at, y = xnames.y,
