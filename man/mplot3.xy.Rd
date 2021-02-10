@@ -278,7 +278,8 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
-\item{rm.na}{Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE}
+\item{rm.na}{Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
+Set to FALSE if you know your data has no missing values.}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
