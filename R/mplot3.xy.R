@@ -1,7 +1,6 @@
 # mplot3.xy.R
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
-# inv mplot3.xy(c(NULL, NULL, 3:10), 1:10)
 
 #' \code{mplot3}: XY Scatter and line plots
 #'
@@ -555,11 +554,16 @@ mplot3.xy <- function(x, y = NULL,
       x <- xl[[i]]
       y <- yl[[i]]
       # verbose FALSE should turn off plotting for all learners, no need for print.plot F
-      learner.args <- c(list(x = x, y = y, verbose = trace > 0),
+      learner.args <- c(list(x = x, y = y, verbose = trace > 1),
                         fit.params)
       if (learner == "s.NLS") learner.args <- c(learner.args,
                                                 list(formula = formula, save.func = TRUE))
-      mod <- do.call(learner, learner.args)
+      mod <- try(do.call(learner, learner.args))
+      if (class(mod) == "try-error") {
+        warning("Fitting ", fit, " failed: Defaulting to GLM fit")
+        fit <- "GLM"
+        mod <- do.call(s.GLM, list(x = x, y = y, verbose = FALSE))
+      }
       fitted[[i]] <- fitted(mod)
       if (se.fit) sel[[i]] <- se(mod)
       if (rsq) rsql[[i]] <- mod$error.train$Rsq
@@ -767,17 +771,17 @@ mplot3.xy <- function(x, y = NULL,
 
   # [ S.E. SHADING ] ====
   if (se.fit & is.list(sel)) {
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       if (se.lty == "poly") {
-        polygon(c(xl[[i]], rev(xl[[i]])),
+        try(polygon(c(xl[[i]], rev(xl[[i]])),
                 c(fitted[[i]] + se.times * sel[[i]], rev(fitted[[i]] - se.times * sel[[i]])),
                 col = se.col[[i]],
-                density = se.density, border = se.border)
+                density = se.density, border = se.border))
       } else {
-        lines(xl[[i]], fitted[[i]] + se.times * sel[[i]], lty = se.lty,
-              col = se.col[[i]], lwd = se.lwd)
-        lines(xl[[i]], fitted[[i]] - se.times * sel[[i]], lty = se.lty,
-              col = se.col[[i]], lwd = se.lwd)
+        try(lines(xl[[i]], fitted[[i]] + se.times * sel[[i]], lty = se.lty,
+              col = se.col[[i]], lwd = se.lwd))
+        try(lines(xl[[i]], fitted[[i]] - se.times * sel[[i]], lty = se.lty,
+              col = se.col[[i]], lwd = se.lwd))
       }
     }
   }
@@ -787,7 +791,7 @@ mplot3.xy <- function(x, y = NULL,
   if (group.legend) fit.legend <- FALSE
 
   if (!is.null(fit)) {
-    for (i in 1:Nxgroups) {
+    for (i in seq_len(Nxgroups)) {
       lines(xl[[i]], fitted[[i]], col = fit.col[[i]], lwd = fit.lwd, lty = lty[[i]])
     }
   }
