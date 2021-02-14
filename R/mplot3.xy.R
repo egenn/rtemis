@@ -188,6 +188,7 @@ mplot3.xy <- function(x, y = NULL,
                       rsq.side = 1,
                       rsq.adj = .98,
                       rsq.col = NULL,
+                      rsq.line = NULL,
                       fit.error = FALSE,
                       fit.error.side = 1,
                       fit.error.padj = NA,
@@ -873,20 +874,33 @@ mplot3.xy <- function(x, y = NULL,
   if (rsq) {
     if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- ddSci(unlist(rsql))
-    mtext(expression("R"^2),
+    if (is.null(rsq.line)) {
+      if (rsq.side == 3) {
+        rsq.line <- c(-1, seq(-2, -1-Nxgroups, -1))
+      } else {
+        rsq.line <- c(-1 -Nxgroups, seq(-Nxgroups, -1, 1))
+      }
+    }
+    mtext(c(expression("R"^2), annot.rsq),
           side = rsq.side,
           adj = rsq.adj,
-          line = -1 - Nxgroups,
+          line = rsq.line,
           cex = theme$cex,
-          col = theme$fg,
-          family = theme$font.family)
-    mtext(rev(annot.rsq),
-          side = rsq.side,
-          adj = rsq.adj,
-          line = seq(-1, -Nxgroups, -1),
-          cex = theme$cex,
-          col = rev(unlist(rsq.col)),
-          family = theme$font.family)
+          col = c(theme$fg, unlist(rsq.col)))
+    # mtext(expression("R"^2),
+    #       side = rsq.side,
+    #       adj = rsq.adj,
+    #       line = -1 - Nxgroups,
+    #       cex = theme$cex,
+    #       col = theme$fg,
+    #       family = theme$font.family)
+    # mtext(rev(annot.rsq),
+    #       side = rsq.side,
+    #       adj = rsq.adj,
+    #       line = seq(-1, -Nxgroups, -1),
+    #       cex = theme$cex,
+    #       col = rev(unlist(rsq.col)),
+    #       family = theme$font.family)
   }
 
   if (rsq.pval) {
