@@ -96,7 +96,13 @@ Default = TRUE}
 \item{...}{Additional arguments to \code{graphics::boxplot}}
 }
 \description{
-Draw boxplots
+Draw boxplots of a vector (single box), data.frame (one box per column) or list
+(one box per element - good for variable of different length)
+}
+\details{
+Note that argument `xnames` refers to the x-axis labels below each box. If not specified, these
+are inferred from the input when possible. Argument `xlab` is a single label for the x-axis as
+per usual and often omitted if `xnames` suffice.
 }
 \examples{
 \dontrun{

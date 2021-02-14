@@ -32,6 +32,7 @@ mplot3.xy(
   rsq.side = 1,
   rsq.adj = 0.98,
   rsq.col = NULL,
+  rsq.line = NULL,
   fit.error = FALSE,
   fit.error.side = 1,
   fit.error.padj = NA,
