@@ -14,6 +14,7 @@ matchcases(
   exactmatch.cols = NULL,
   distmatch.cols = NULL,
   norepeats = TRUE,
+  ignore.na = FALSE,
   verbose = TRUE
 )
 }
@@ -35,6 +36,8 @@ available in \code{target}}
 \item{distmatch.cols}{String: Names of columns that should be distance-matched}
 
 \item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE}
+
+\item{ignore.na}{Logical: If TRUE, ignore NA values during exact matching. Default = FALSE.}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }

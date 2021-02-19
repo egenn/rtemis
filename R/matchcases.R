@@ -17,6 +17,7 @@
 #' @param exactmatch.cols String: Names of columns that should be matched exactly
 #' @param distmatch.cols String: Names of columns that should be distance-matched
 #' @param norepeats Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE
+#' @param ignore.na Logical: If TRUE, ignore NA values during exact matching. Default = FALSE.
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @author E.D. Gennatas
 #' @export
@@ -45,6 +46,7 @@ matchcases <- function(target, pool,
                        exactmatch.cols = NULL,
                        distmatch.cols = NULL,
                        norepeats = TRUE,
+                       ignore.na = FALSE,
                        verbose = TRUE) {
 
   ntarget <- nrow(target)
@@ -110,7 +112,7 @@ matchcases <- function(target, pool,
       subpool <- pool_s
     } else {
       ind <- sapply(seq(nrow(pool_s)), function(j)
-        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols]))
+        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols], na.rm = ignore.na))
       subpool <- pool_s[ind, , drop = FALSE]
     }
     distord <- order(sapply(seq(nrow(subpool)),
