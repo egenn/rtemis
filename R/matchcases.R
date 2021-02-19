@@ -115,8 +115,12 @@ matchcases <- function(target, pool,
         all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols], na.rm = ignore.na))
       subpool <- pool_s[ind, , drop = FALSE]
     }
+    # distord <- order(sapply(seq(nrow(subpool)),
+    #                           function(j) sum((target_s[i, distmatch.cols] - subpool[j, distmatch.cols])^2)))
     distord <- order(sapply(seq(nrow(subpool)),
-                              function(j) sum((target_s[i, distmatch.cols] - subpool[j, distmatch.cols])^2)))
+                            function(j) mse(unlist(target_s[i, distmatch.cols]),
+                                            unlist(subpool[j, distmatch.cols]),
+                                            na.rm = ignore.na)))
     n_matched <- min(n.matches, nrow(subpool))
     mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
     if (norepeats) pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n.matches + 1)], ]
