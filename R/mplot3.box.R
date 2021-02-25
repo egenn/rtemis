@@ -18,6 +18,9 @@
 #' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
 #' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
 #' Default = TRUE
+#' @param order.by.fn String: "mean", "median" or any function that outputs a single number: E
+#' stimate function on each vector and order boxes (when input is data.frame or list) by ascending
+#' order. Default = NULL, i.e. no reordering
 #' @param ... Additional arguments to \code{graphics::boxplot}
 #' @author E.D. Gennatas
 #' @examples
@@ -60,6 +63,7 @@ mplot3.box <- function(x,
                        xnames.adj = NULL,
                        xnames.pos = NULL,
                        xnames.srt = NULL,
+                       order.by.fn = NULL,
                        legend = FALSE,
                        legend.names = NULL,
                        legend.position = "topright",
@@ -174,6 +178,19 @@ mplot3.box <- function(x,
          col = colorAdjust(theme$grid.col, theme$grid.alpha),
          lty = theme$grid.lty,
          lwd = theme$grid.lwd)
+  }
+
+  # [ MEAN-ORDER ] ====
+  if (!is.null(order.by.fn) && order.by.fn != "none") {
+    if (is.list(x)) {
+      .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
+      if (is.data.frame(x)) {
+        x <- x[, .order]
+      } else {
+        x <- x[names(x)[.order]]
+      }
+    }
+    if (!is.null(xnames)) xnames <- xnames[.order]
   }
 
   # [ BOXPLOT ] ====

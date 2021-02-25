@@ -27,6 +27,7 @@ mplot3.box(
   xnames.adj = NULL,
   xnames.pos = NULL,
   xnames.srt = NULL,
+  order.by.fn = NULL,
   legend = FALSE,
   legend.names = NULL,
   legend.position = "topright",
@@ -69,6 +70,10 @@ mplot3.box(
 \item{horizontal}{Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR}
 
 \item{main}{Character: Plot title}
+
+\item{order.by.fn}{String: "mean", "median" or any function that outputs a single number: E
+stimate function on each vector and order boxes (when input is data.frame or list) by ascending
+order. Default = NULL, i.e. no reordering}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
