@@ -31,6 +31,8 @@
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
 #' @param key.title Character: Title for the color key. Default = NULL (no title)
+#' @param plot_method String: Update February 2021: "ggplot" causes R session to hand
+#' on MacOS but plotly" seems to work
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
 #' @author E.D. Gennatas
 #' @examples
@@ -68,7 +70,7 @@ dplot3.heatmap <- function(z,
                            key.title = NULL,
                            showticklabels = NULL,
                            colorbar_len = .7,
-                           plot_method = "ggplot",
+                           plot_method = "plotly",
                            theme = getOption("rt.theme", "black"),
                            palette = getOption("rt.palette", "rtCol1"),
                            font.size = 16,
@@ -140,12 +142,12 @@ dplot3.heatmap <- function(z,
   # [ CLUSTER ] ====
   if (cluster) Rowv <- Colv <- TRUE
 
-  # [ HOVER INFO ] ====
+  # [ CELLNOTE ] ====
   if (!is.null(cellnote)) {
     if (cellnote == "values") cellnote <- matrix(ddSci(z), NROW(z), NCOL(z))
   }
 
-  # [ HEATMAP ] ====
+  # [ HEATMAPLY ] ====
   ggp2text <- ggplot2::element_text(family = theme$font.family,
                                     color = theme$tick.labels.col)
   ggp2theme <- ggplot2::theme(

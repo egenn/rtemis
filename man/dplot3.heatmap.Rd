@@ -30,7 +30,7 @@ dplot3.heatmap(
   key.title = NULL,
   showticklabels = NULL,
   colorbar_len = 0.7,
-  plot_method = "ggplot",
+  plot_method = "plotly",
   theme = getOption("rt.theme", "black"),
   palette = getOption("rt.palette", "rtCol1"),
   font.size = 16,
@@ -96,6 +96,9 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 \item{ylab}{Character: y-axis label}
 
 \item{key.title}{Character: Title for the color key. Default = NULL (no title)}
+
+\item{plot_method}{String: Update February 2021: "ggplot" causes R session to hand
+on MacOS but plotly" seems to work}
 
 \item{theme}{Character: "light", "dark"}
 
