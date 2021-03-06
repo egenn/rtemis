@@ -82,6 +82,12 @@ dplot3.linad <- function(x,
                          direction = "UD",
                          trace = 0) {
 
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("visNetwork", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
+
+  # [ Arguments ] ====
   if (inherits(x, "rtMod")) {
     if (inherits(x$mod, "shytreeLeavesRC")) tree <- x$mod$tree
     if (inherits(x$mod, "shytreegamleaves")) tree <- x$mod$tree
