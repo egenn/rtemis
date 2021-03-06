@@ -19,8 +19,8 @@ dplot3.heatmap(
   mid = NULL,
   midhi = NULL,
   hi = "#F48024",
-  k.row = NA,
-  k.col = NA,
+  k_row = 1,
+  k_col = 1,
   grid.gap = 0,
   limits = NULL,
   margins = NULL,
@@ -77,10 +77,10 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{hi}{Color for high end}
 
-\item{k.row}{Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
+\item{k_row}{Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
 Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_row")}}
 
-\item{k.col}{Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
+\item{k_col}{Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
 Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")}}
 
 \item{grid.gap}{Integer: Space between cells. Default = 0 (no space)}
