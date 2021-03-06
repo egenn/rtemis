@@ -122,7 +122,7 @@ mplot3.box <- function(x,
   # mar ====
   if (is.null(mar)) {
     mar.top <- if (is.null(main)) 1 else 2
-    mar.bottom <- if (xnames.srt == 90) max(nchar(xnames)) * .5 else 2.5
+    mar.bottom <- if (xnames.srt == 90) 1 + max(nchar(xnames)) * .435 else 2.5
     mar <- c(mar.bottom, 3, mar.top, 1)
   }
 
