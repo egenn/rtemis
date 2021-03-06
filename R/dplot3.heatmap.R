@@ -23,9 +23,9 @@
 #' @param cluster Logical: If TRUE, set \code{Rowv} and \code{Colv} to TRUE
 #' @param symm Logical: If TRUE, treat \code{x} symmetrically - \code{x} must be a square matrix. Default = FALSE
 #' @param cellnote Matrix with values to be desplayed on hover. Defaults to \code{ddSci(z)}
-#' @param k.row Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
+#' @param k_row Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
 #' Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_row")}
-#' @param k.col Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
+#' @param k_col Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
 #' Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")}
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
@@ -57,8 +57,8 @@ dplot3.heatmap <- function(z,
                            mid = NULL,
                            midhi = NULL,
                            hi = "#F48024",
-                           k.row = NA,
-                           k.col = NA,
+                           k_row = 1,
+                           k_col = 1,
                            # show_grid = FALSE,
                            grid.gap = 0,
                            limits = NULL,
@@ -73,6 +73,10 @@ dplot3.heatmap <- function(z,
                            plot_method = "plotly",
                            theme = getOption("rt.theme", "black"),
                            palette = getOption("rt.palette", "rtCol1"),
+                           # row_side_colors = NA, #z[["row_side_colors"]],
+                           # row_side_palette = NULL,
+                           # col_side_colors = NA, #z[["col_side_colors"]],
+                           # col_side_palette = NULL,
                            font.size = 16,
                            padding = 0,
                            filename = NULL,
@@ -123,7 +127,7 @@ dplot3.heatmap <- function(z,
   fg <- plotly::toRGB(theme$fg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
-  tick.col <- plotly::toRGB(theme$tick.col)
+  # tick_col <- plotly::toRGB(theme$tick.col)
   tick.labels.col <- plotly::toRGB(theme$tick.labels.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
@@ -175,12 +179,16 @@ dplot3.heatmap <- function(z,
                                                xlab = xlab,
                                                ylab = ylab,
                                                # main = main,
-                                               k_row = k.row,
-                                               k_col = k.col,
+                                               k_row = k_row,
+                                               k_col = k_col,
                                                plot_method = plot_method,
                                                colorbar_len = colorbar_len,
                                                showticklabels = showticklabels,
                                                heatmap_layers = ggp2theme,
+                                               # row_side_colors = row_side_colors,
+                                               # row_side_palette = row_side_palette,
+                                               # col_side_colors = col_side_colors,
+                                               # col_side_palette = col_side_palette,
                                                # side_color_layers = ggp2theme,
                                                file = filename))
 
