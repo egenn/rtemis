@@ -25,7 +25,8 @@ formatRules <- function(x, space.after.comma = FALSE,
   x <- gsub("'", "", x)
   if (space.after.comma) x <- gsub(",", ", ", x)
   if (!is.null(decimal.places)) {
-    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal.places = decimal.places), x)
+    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal.places = decimal.places),
+                        x, engine = "R")
   }
   x
 
