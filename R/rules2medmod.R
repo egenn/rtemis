@@ -1,6 +1,6 @@
 # rules2medmod
 # ::rtemis::
-# 2018 E.D. Gennatas
+# 2018 E.D. Gennatas lambdamd.org
 
 #' \code{rtemis-internals}: Convert rules from cutoffs to median/mode and range
 #'
@@ -40,7 +40,7 @@ rules2medmod <- function(rules, x,
         sub[j] <- gsub(">|>=|<|<=", "@", sub[j])
         var <- gsub("\\s", "", strsplit(sub[j], "@")[[1]][1])
         vals <- dat[[var]]
-        value <- paste0(frmt(median(vals)), " (", frmt(min(vals)), "-", frmt(max(vals)), ")")
+        value <- paste0(frmt(median(vals)), " (", frmt(min(vals)), ":", frmt(max(vals)), ")")
         rule[j] <- paste0(var, " = ", value)
       }
     } # /loop through each rule's conditions
