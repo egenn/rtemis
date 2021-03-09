@@ -27,13 +27,13 @@ rtInitProjectDir <- function(verbose = TRUE) {
   # ./R ./Data ./Results ====
   dirs <- c("R", "Data", "Results")
   for (i in dirs) {
-    if (verbose) cat("  > Creating '", i,"' folder...", sep = "")
+    if (verbose) cat("  > Creating ", crayon::bold(i), " folder...", sep = "")
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
         if (verbose) cat(rtHighlight$bold(" Done\n"))
       } else {
-        if (verbose) cat(crayon::red$bold("Failed"))
+        if (verbose) cat(crayon::red$bold(" Failed"))
       }
     } else {
       if (verbose) cat(rtOrange$bold(" Already present\n"))
