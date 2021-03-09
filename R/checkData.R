@@ -1,6 +1,6 @@
 # checkData.R
 # ::rtemis::
-# 2017-9 E.D. Gennatas lambdamd.org
+# 2017-21 E.D. Gennatas lambdamd.org
 
 #' Check Data
 #'
@@ -54,7 +54,7 @@ checkData <- function(x,
   n.factor <- length(index.factor)
   index.ordered <- which(sapply(x, is.ordered))
   n.ordered <- length(index.ordered)
-  
+
   cat("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features"), "\n")
   cat("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features"), "\n")
   isOrdered <- if (n.factor == 1) {
@@ -74,6 +74,12 @@ checkData <- function(x,
         ngettext(n.gt2levels.nonordered, "feature has", "features have"),
         "more than 2 levels\n")
   }
+
+  # [ Characters ] ====
+  index.character <- which(sapply(x, is.character))
+  n.character <- length(index.character)
+  .col <- if (n.character > 0) rtOrange$bold else bold
+  cat("  *", .col(n.character), "character", ngettext(n.character, "feature", "features"), "\n")
 
   # [ Constants ] ====
   index.constant <- which(sapply(x, is.constant))
@@ -153,9 +159,16 @@ checkData <- function(x,
   # [ Recomend ] ====
   if (recommend) {
     boxcat("Recommendations", pad = 2)
-    if (n.constant > 0 | n.dups > 0 | n.cols.anyna > 0 | n.gt2levels.nonordered > 0) {
+    if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
+      if (n.character > 0) {
+        cat(rtOrange$bold("  * Convert the character",
+                             ngettext(n.character, "feature", "features"), "to" ,
+                             ngettext(n.character, "a factor", "factors"),
+                             "\n"))
+      }
+
       if (n.constant > 0) {
-        cat(crayon::yellow$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
+        cat(rtOrange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
       }
 
       if (n.dups > 0) {
