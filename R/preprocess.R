@@ -9,16 +9,24 @@
 #' By default, removes constant features and duplicated cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
-#' Order of operations:
-#'   * completeCases
-#'   * removeCases.thres
-#'   * removeFeatures.thres
-#'   * integer2factor
-#'   * factorNA2missing
-#'   * nonzeroFactors
+#' Order of operations (reflected by order of arguments in usage):
+#'   * keep complete cases only
+#'   * remove duplicates
+#'   * remove cases by missingness threshold
+#'   * remove features by missingness threshold
+#'   * integer to factor
+#'   * integer to numeric
+#'   * logical to factor
+#'   * logical to numeric
+#'   * numeric to factor
+#'   * numeric with less than N unique values to factor
+#'   * character to factor
+#'   * factor NA to named level
+#'   * add missingness column
 #'   * impute
-#'   * scale/center
-#'   * removeConstants
+#'   * scale and/or center
+#'   * remove constants
+#'   * one-hot encoding
 #'
 #' @param x Input data frame
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
@@ -49,7 +57,13 @@
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
 #' if \code{integer2factor = FALSE})
-#' @param removeConstants Logical: If TRUE, remove all columns with zero variance. Default = TRUE
+#' @param logical2factor Logical: If TRUE, convert all logical variables to factors
+#' @param logical2numeric Logical: If TRUE, convert all logical variables to numeric
+#' @param numeric2factor Logical: If TRUE, convert all numeric variables to factors
+#' @param ltn2factor Integer: Convert all numeric variables with less than this number of unique
+#' values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
+#' you could use `ltn2factor = 3` to convert them to factors.
+#' @param character2factor Logical: If TRUE, convert all character variables to factors
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of level
 #' \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
 #' categorical variables. Note that since this step is performed before imputation, you can use this
@@ -65,7 +79,6 @@
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
-#' @param n.cores Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores
 #' @author E.D. Gennatas
 #' @export
 
@@ -92,6 +105,7 @@ preprocess <- function(x, y = NULL,
                        logical2numeric = FALSE,
                        numeric2factor = FALSE,
                        numeric2factor.levels = NULL,
+                       ltN2factor = NULL,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
@@ -104,7 +118,6 @@ preprocess <- function(x, y = NULL,
                        oneHot = FALSE,
                        exclude = NULL,
                        verbose = TRUE,
-                       n.cores = rtCores,
                        parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
 
   # Arguments ====
@@ -203,6 +216,14 @@ preprocess <- function(x, y = NULL,
     }
   }
 
+  # [ ltN2factor ] ====
+  if (!is.null(ltN2factor)) {
+    if (!is.numeric(ltN2factor)) stop("ltN2factor must be an integer")
+    index.numeric <- which(sapply(x, is.numeric))
+    index.numeric.ltn <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) < ltN2factor))
+    for (i in index.numeric.ltn) x[, index.numeric][, i] <- factor(x[, index.numeric][, i])
+  }
+
   # [ Character to factor ] ====
   if (character2factor) {
     index.char <- which(sapply(x, is.character))
@@ -210,7 +231,7 @@ preprocess <- function(x, y = NULL,
     for (i in index.char) x[, i] <- as.factor(x[, i])
   }
 
-  # [factor NA to level] ====
+  # [ factor NA to level ] ====
   if (factorNA2missing) {
     index.factor <- which(sapply(x, is.factor))
     if (verbose) msg0('Converting NA in factors to level "', factorNA2missing.level, '"...')
