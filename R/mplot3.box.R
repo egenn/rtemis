@@ -68,7 +68,7 @@ mplot3.box <- function(x,
                        legend.names = NULL,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
-                       mar = NULL,
+                       mar = NULL, # auto, 3, 1or2, 1
                        pty = "m",
                        cex.axis = cex,
                        cex.names = cex,
@@ -103,7 +103,8 @@ mplot3.box <- function(x,
   }
 
   if (is.null(xnames.srt)) {
-    xnames.srt <- ifelse(length(x) > 3, 90, 0)
+    xnames.srt <- ifelse(length(x) * max(nchar(xnames)) > 8, 90, 0)
+    # xnames.srt <- ifelse(length(x) > 3 | max(nchar(xnames)) > 4, 90, 0)
   }
 
   if (is.null(xnames.adj)) {
@@ -122,7 +123,7 @@ mplot3.box <- function(x,
   # mar ====
   if (is.null(mar)) {
     mar.top <- if (is.null(main)) 1 else 2
-    mar.bottom <- if (xnames.srt == 90) 1 + max(nchar(xnames)) * .435 else 2.5
+    mar.bottom <- if (xnames.srt != 0) 1.8571 + max(nchar(xnames)) * .4107 else 2.5
     mar <- c(mar.bottom, 3, mar.top, 1)
   }
 
