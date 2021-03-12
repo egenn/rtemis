@@ -20,6 +20,7 @@
 #' @param prob Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)
 #' @param labels True labels of outcomes (e.g. c(0, 1, 1))
 #' @param method Character: "pROC", "auc_pairs", or "ROCR": Method to use. Will use \code{pROC::roc},
+#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' \link{auc_pairs},
 #' \code{ROCR::performance}, respectively. They should all give the same result, they are included
 #' for testing.

@@ -71,7 +71,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{min.membership}{Integer: Minimum number of cases in a node. Default = 1}
 
-\item{gamma}{[gS] acceleration factor = lambda / (1 + lambda). Default = .8}
+\item{gamma}{[gS] acceleration factor = lambda/(1 + lambda). Default = .8}
 
 \item{max.depth}{[gS] maximum depth of the tree. Default = 30}
 
@@ -143,7 +143,7 @@ in the addtree object)
 
 [gS] Indicates that more than one value can be supplied, which will result in grid search using
 internal resampling
-lambda <- gamma/(1 - gamma)
+lambda = gamma/(1 - gamma)
 }
 \references{
 Jose Marcio Luna, Efstathios D Gennatas, Lyle H Ungar, Eric Eaton, Eric S Diffenderfer, Shane T Jensen,

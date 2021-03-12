@@ -16,13 +16,13 @@
 #'
 #' [gS] Indicates that more than one value can be supplied, which will result in grid search using
 #' internal resampling
-#' lambda <- gamma/(1 - gamma)
+#' lambda = gamma/(1 - gamma)
 #' @inheritParams s.GLM
 #' @param x N x D matrix of N examples with D features
 #' @param y N x 1 vector of labels with values in {-1,1}
 #' @param catPredictors Logical vector with the same length as the feature vector, where TRUE
 #'    means that the corresponding column of x is a categorical variable
-#' @param gamma [gS] acceleration factor = lambda / (1 + lambda). Default = .8
+#' @param gamma [gS] acceleration factor = lambda/(1 + lambda). Default = .8
 #' @param max.depth [gS] maximum depth of the tree. Default = 30
 #' @param learning.rate [gS] learning rate for the Newton Raphson step that updates the function values
 #' of the node

@@ -116,6 +116,8 @@ If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
 \item{...}{Additional parameters to be passed to learner}
+
+\item{outdir:}{String: Path to output directory to save model. Default = NULL}
 }
 \description{
 Train a bagged ensemble using any learner

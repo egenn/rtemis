@@ -24,6 +24,7 @@ preprocess(
   logical2numeric = FALSE,
   numeric2factor = FALSE,
   numeric2factor.levels = NULL,
+  ltN2factor = NULL,
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing.level = "missing",
@@ -36,7 +37,6 @@ preprocess(
   oneHot = FALSE,
   exclude = NULL,
   verbose = TRUE,
-  n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
 )
 }
@@ -83,6 +83,14 @@ Default = \code{mean}}
 \item{integer2numeric}{Logical: If TRUE, convert all integers to numeric (will only work
 if \code{integer2factor = FALSE})}
 
+\item{logical2factor}{Logical: If TRUE, convert all logical variables to factors}
+
+\item{logical2numeric}{Logical: If TRUE, convert all logical variables to numeric}
+
+\item{numeric2factor}{Logical: If TRUE, convert all numeric variables to factors}
+
+\item{character2factor}{Logical: If TRUE, convert all character variables to factors}
+
 \item{factorNA2missing}{Logical: If TRUE, make NA values in factors be of level
 \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
 categorical variables. Note that since this step is performed before imputation, you can use this
@@ -108,7 +116,9 @@ Default = "missing"}
 
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
 
-\item{n.cores}{Integer: Number of cores to use if imputing with \code{missForest}. Default = rtCores}
+\item{ltn2factor}{Integer: Convert all numeric variables with less than this number of unique
+values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
+you could use `ltn2factor = 3` to convert them to factors.}
 }
 \description{
 Prepare data for data analysis
@@ -117,16 +127,24 @@ Prepare data for data analysis
 By default, removes constant features and duplicated cases
 (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 
-Order of operations:
-  * completeCases
-  * removeCases.thres
-  * removeFeatures.thres
-  * integer2factor
-  * factorNA2missing
-  * nonzeroFactors
+Order of operations (reflected by order of arguments in usage):
+  * keep complete cases only
+  * remove duplicates
+  * remove cases by missingness threshold
+  * remove features by missingness threshold
+  * integer to factor
+  * integer to numeric
+  * logical to factor
+  * logical to numeric
+  * numeric to factor
+  * numeric with less than N unique values to factor
+  * character to factor
+  * factor NA to named level
+  * add missingness column
   * impute
-  * scale/center
-  * removeConstants
+  * scale and/or center
+  * remove constants
+  * one-hot encoding
 }
 \author{
 E.D. Gennatas

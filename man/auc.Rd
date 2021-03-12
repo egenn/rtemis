@@ -11,11 +11,7 @@ auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"), verbose = FALSE)
 
 \item{labels}{True labels of outcomes (e.g. c(0, 1, 1))}
 
-\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use. Will use \code{pROC::roc},
-\link{auc_pairs},
-\code{ROCR::performance}, respectively. They should all give the same result, they are included
-for testing.
-See Details}
+\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use. Will use \code{pROC::roc},}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 }
