@@ -2,28 +2,35 @@
 % Please edit documentation in R/mplot3.graph.R
 \name{mplot3.graph}
 \alias{mplot3.graph}
-\title{Plot graph using \pkg{igraph}}
+\title{Plot \code{igraph} networks}
 \usage{
 mplot3.graph(
-  x,
-  node.col = "#18A3ACff",
-  edge.col = "ffffff44",
-  theme = getOption("rt.theme", "darkgrid"),
-  palette = getOption("rt.palette", "rtCol1"),
-  node.size = 8,
-  node.border.color = NA,
-  node.label = NA,
+  net,
+  vertex.size = 18,
+  vertex.col = NULL,
+  vertex.label.col = "#ffffff",
+  vertex.frame.col = NA,
+  edge.col = NULL,
+  edge.alpha = 0.2,
   edge.curved = 0.5,
-  layout = igraph::layout_with_fr,
-  margin = rep(-0.3, 4),
+  layout = c("fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds", "sugiyama"),
+  layout_params = list(),
+  cluster = NULL,
+  cluster_params = list(),
+  cluster_mark_groups = TRUE,
+  cluster_color_nodes = FALSE,
+  theme = getOption("rt.theme", "lightgrid"),
+  par.reset = TRUE,
+  filename = NULL,
+  verbose = TRUE,
   ...
 )
 }
 \arguments{
-\item{x}{\pkg{igraph} graph}
+\item{net}{\code{igraph} network}
 }
 \description{
-Plot graph using \pkg{igraph}
+Plot \code{igraph} networks
 }
 \author{
 E.D. Gennatas

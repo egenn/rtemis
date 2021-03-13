@@ -1,42 +1,50 @@
-# mplot3.graph.R
+# mplot3.igraph
 # ::rtemis::
-# 2021 rtemis.lambdamd.org
+# 2021 E.D. Gennatas
 
-#' Plot graph using \pkg{igraph}
+#' Plot \code{igraph} networks
 #'
-#' @param x \pkg{igraph} graph
-#'
+#' @param net \code{igraph} network
 #' @author E.D. Gennatas
 #' @export
 
-mplot3.graph <- function(x,
-                         node.col = "#18A3ACff", # vertex.color
-                         edge.col = "ffffff44", # edge.color
-                         theme = getOption("rt.theme", "darkgrid"),
-                         palette = getOption("rt.palette", "rtCol1"),
-                         node.size = 8, # vertex.size
-                         node.border.color = NA,
-                         node.label = NA,
+mplot3.graph <- function(net,
+                         vertex.size = 18,
+                         vertex.col = NULL,
+                         vertex.label.col = "#ffffff",
+                         vertex.frame.col = NA,
+                         edge.col = NULL,
+                         edge.alpha = .2,
                          edge.curved = .5,
-                         layout = igraph::layout_with_fr,
-                         margin = rep(-.3, 4), ...) {
-
-  # [ DEPENDENCIES ] ====
-  if (!depCheck("igraph", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
-
-  # [ ARGUMENTS ] ====
+                         layout = c("fr", "dh", "drl", "gem", "graphopt",
+                                    "kk", "lgl", "mds", "sugiyama"),
+                         layout_params = list(),
+                         cluster = NULL,
+                         cluster_params = list(),
+                         cluster_mark_groups = TRUE,
+                         cluster_color_nodes = FALSE,
+                         theme = getOption("rt.theme", "lightgrid"),
+                         par.reset = TRUE,
+                         filename = NULL,
+                         verbose = TRUE, ...) {
 
 
   # [ THEME ] ====
-  extraargs <- list(...)
+  # extraargs <- list(...)
   if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
+    # theme <- do.call(paste0("theme_", theme), extraargs)
+    theme <- do.call(paste0("theme_", theme), list())
   } else {
     for (i in seq(extraargs)) {
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
+  }
+  if (is.null(edge.col)) {
+    edge.col <- theme$fg
+  }
+
+  if (!is.null(edge.col)) {
+    edge.col <- adjustcolor(edge.col, edge.alpha)
   }
 
   # [ PLOT ] ====
@@ -47,18 +55,48 @@ mplot3.graph <- function(x,
                                          title = "rtemis Graphics")
   par(bg = theme$bg)
 
-  plot(gt,
-       vertex.size = node.size,
-       vertex.color = node.col,
-       vertex.frame.color = node.border.col,
-       vertex.label = node.label,
-       edge.curved = edge.curved,
-       edge.color = edge.col,
-       layout = layout(gt),
-       margin = margin)
+  # Layout ====
+  layout <- match.arg(layout)
+  coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
+                    c(list(net), layout_params))
+  if (layout == "sugiyama") coords <- coords$layout
 
-  # [ OUTRO ] ====
+  # Cluster ====
+  if (!is.null(cluster)) {
+    groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
+                      c(list(net), cluster_params))
+  }
+
+  mark.groups <- if (!is.null(cluster) & cluster_mark_groups) {
+    groups
+  } else {
+    list()
+  }
+
+  if (is.null(vertex.col)) {
+    vertex.col <- if (!is.null(cluster)) {
+      if (cluster_color_nodes) {
+        groups$membership
+      } else {
+        "gray20"
+      }
+    } else {
+      "#18A3AC"
+    }
+  }
+
+  plot(net,
+       layout = coords,
+       vertex.size = vertex.size,
+       vertex.color = vertex.col,
+       vertex.label.color = vertex.label.col,
+       vertex.frame.color = vertex.frame.col,
+       edge.color = edge.col,
+       edge.curved = edge.curved,
+       mark.groups = mark.groups,
+       verbose = verbose, ...)
+
   if (!is.null(filename)) grDevices::dev.off()
-  # invisible(.out)
+
 
 } # rtemis::mplot3.graph
