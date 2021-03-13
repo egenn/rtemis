@@ -8,7 +8,11 @@ labels2nii(label.vals, labeledNifti, prefix, datatype = "auto", verbose = TRUE)
 }
 \arguments{
 \item{label.vals}{Vector: The index of this vector should correspond to label numbers.
-Its values will replace the corresponding label numbers to form the new nifti file.}
+Its values will replace the corresponding label numbers to form the new nifti file.
+This means that the values of this vector need to be in the same order as the labels.
+For example if \code{labelefNifti} has four labels: 0 (background), 10, 11, 20, then your
+\code{label.vals} should should have three values and they will be assigned to labels
+10, 11, and 20.}
 
 \item{labeledNifti}{Character: Path to the labeled file whose labels corresponds to the values in
 \code{label.vals}}

@@ -8,6 +8,10 @@
 #'
 #' @param label.vals Vector: The index of this vector should correspond to label numbers.
 #'   Its values will replace the corresponding label numbers to form the new nifti file.
+#'   This means that the values of this vector need to be in the same order as the labels.
+#'   For example if \code{labelefNifti} has four labels: 0 (background), 10, 11, 20, then your
+#'   \code{label.vals} should should have three values and they will be assigned to labels
+#'   10, 11, and 20.
 #' @param labeledNifti Character: Path to the labeled file whose labels corresponds to the values in
 #'   \code{label.vals}
 #' @param prefix Character: Prefix of the output file. ".nii.gz" will be added automatically
@@ -41,14 +45,21 @@ labels2nii <- function(label.vals,
   labelednim <- RNifti::readNifti(labeledNifti)
   dim <- dim(labelednim)
   labels <- as.array(labelednim)
-  k <- length(unique(label.vals))
+  # k <- length(unique(label.vals))
+  k <- length(label.vals)
+  kl <- length(unique(c(labels)))
+  # Check N label.vals is equal to N labels in labeledNifti
+  if (k != kl - 1) {
+    stop("Supplied 'label.vals' is length", k, "but 'labeledNifti' contains", kl - 1,
+         "labels (plus background")
+  }
   if (verbose) msg("Working on ", k, " labels...", sep = "")
-  # nim <- labelednim
+
   # replace labels with cluster numbers using factor levels
   # create factor with levels = the labels
   fnim <- factor(labels)
-  # fastest assignment of weights to labels, ever
-  # explanation: levels gives an ordered list of the factor levels;
+  # fast assignment of weights to labels
+  # explanation: levels() gives an ordered list of the factor levels;
   # as long as your data(results) is saved in the same order, this works
   # i.e. your nifti labels say go from 1:10
   # and assuming your results are saved in that order,
@@ -61,6 +72,5 @@ labels2nii <- function(label.vals,
   outname <- paste0(prefix, "_label.vals", k, ".nii.gz")
   RNifti::writeNifti(fnim.array, outname, template = labelednim, datatype = datatype)
   if (verbose) msg("Wrote labeled nifti", outname)
-  # if (verbose) msg("labels2nii completed")
 
 } # rtemis::labels2nii
