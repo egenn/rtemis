@@ -6,20 +6,26 @@
 \usage{
 mplot3.graph(
   net,
-  vertex.size = 18,
+  vertex.size = 12,
   vertex.col = NULL,
-  vertex.label.col = "#ffffff",
+  vertex.alpha = 0.33,
+  vertex.label.col = NULL,
   vertex.frame.col = NA,
-  edge.col = NULL,
+  vertex.label = NULL,
+  edge.col = "#18A3AC",
   edge.alpha = 0.2,
-  edge.curved = 0.5,
+  edge.curved = 0.35,
+  edge.width = 2,
   layout = c("fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds", "sugiyama"),
+  coords = NULL,
   layout_params = list(),
   cluster = NULL,
+  groups = NULL,
   cluster_params = list(),
   cluster_mark_groups = TRUE,
-  cluster_color_nodes = FALSE,
+  cluster_color_vertices = FALSE,
   theme = getOption("rt.theme", "lightgrid"),
+  mar = rep(0, 4),
   par.reset = TRUE,
   filename = NULL,
   verbose = TRUE,
@@ -28,6 +34,60 @@ mplot3.graph(
 }
 \arguments{
 \item{net}{\code{igraph} network}
+
+\item{vertex.size}{Numeric: Vertex size}
+
+\item{vertex.col}{Color for vertices}
+
+\item{vertex.alpha}{Numeric: Transparency for \code{vertex.col}}
+
+\item{vertex.label.col}{Color for vertex labels}
+
+\item{vertex.frame.col}{Color for vertex border (frame)}
+
+\item{vertex.label}{Character vector: Vertex labels. Default = NULL, which will keep existing
+names in \code{net} if any. Set to NA to avoid printing vertex labels}
+
+\item{edge.col}{Color for edges}
+
+\item{edge.alpha}{Numeric: Transparency for edges}
+
+\item{edge.curved}{Numeric: Curvature of edges. Default = .35}
+
+\item{edge.width}{Numeric: Edge thickness}
+
+\item{layout}{Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds",
+"sugiyama", corresponding to all the available layouts in \pkg{igraph}}
+
+\item{coords}{Output of precomputed \pkg{igraph} layout. If provided, \code{layout} is ignored}
+
+\item{layout_params}{List of parameters to pass to \code{layout} function}
+
+\item{cluster}{Characer: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
+"leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
+available \pkg{igraph} clustering functions}
+
+\item{groups}{Output of precomputed \pkg{igraph} clustering. If provided, \code{cluster} is
+ignored}
+
+\item{cluster_params}{List of parameters to pass to \code{cluster} function}
+
+\item{cluster_mark_groups}{Logical: If TRUE, draw polygons to indicate clusters, if \code{groups}
+or \code{cluster} defined}
+
+\item{cluster_color_vertices}{Logical: If TRUE, color vertices by cluster membership}
+
+\item{theme}{\pkg{rtemis} theme to use}
+
+\item{mar}{Numeric vector, length 4: \code{par}'s margin argument}
+
+\item{par.reset}{Logical: If TRUE, reset par before exiting. Default = TRUE}
+
+\item{filename}{String: If provided, save plot to this filepath}
+
+\item{verbose}{Logical, If TRUE, print messages to console. Default = TRUE}
+
+\item{...}{Extra arguments to pass to \code{igraph::plot.igraph()}}
 }
 \description{
 Plot \code{igraph} networks

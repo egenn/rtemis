@@ -5,25 +5,62 @@
 #' Plot \code{igraph} networks
 #'
 #' @param net \code{igraph} network
+#' @param vertex.size Numeric: Vertex size
+#' @param vertex.col Color for vertices
+#' @param vertex.alpha Numeric: Transparency for \code{vertex.col}
+#' @param vertex.label.col Color for vertex labels
+#' @param vertex.frame.col Color for vertex border (frame)
+#' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep existing
+#' names in \code{net} if any. Set to NA to avoid printing vertex labels
+#' @param edge.col Color for edges
+#' @param edge.alpha Numeric: Transparency for edges
+#' @param edge.curved Numeric: Curvature of edges. Default = .35
+#' @param edge.width Numeric: Edge thickness
+#' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds",
+#' "sugiyama", corresponding to all the available layouts in \pkg{igraph}
+#' @param coords Output of precomputed \pkg{igraph} layout. If provided, \code{layout} is ignored
+#' @param layout_params List of parameters to pass to \code{layout} function
+#' @param cluster Characer: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
+#' "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
+#' available \pkg{igraph} clustering functions
+#' @param groups Output of precomputed \pkg{igraph} clustering. If provided, \code{cluster} is
+#' ignored
+#' @param cluster_params List of parameters to pass to \code{cluster} function
+#' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, if \code{groups}
+#' or \code{cluster} defined
+#' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership
+#' @param theme \pkg{rtemis} theme to use
+#' @param mar Numeric vector, length 4: \code{par}'s margin argument
+#' @param par.reset Logical: If TRUE, reset par before exiting. Default = TRUE
+#' @param filename String: If provided, save plot to this filepath
+#' @param verbose Logical, If TRUE, print messages to console. Default = TRUE
+#' @param ... Extra arguments to pass to \code{igraph::plot.igraph()}
+#'
 #' @author E.D. Gennatas
 #' @export
 
 mplot3.graph <- function(net,
-                         vertex.size = 18,
+                         vertex.size = 12,
                          vertex.col = NULL,
-                         vertex.label.col = "#ffffff",
+                         vertex.alpha = .33,
+                         vertex.label.col = NULL,
                          vertex.frame.col = NA,
-                         edge.col = NULL,
+                         vertex.label = NULL,
+                         edge.col = "#18A3AC",
                          edge.alpha = .2,
-                         edge.curved = .5,
+                         edge.curved = .35,
+                         edge.width = 2,
                          layout = c("fr", "dh", "drl", "gem", "graphopt",
                                     "kk", "lgl", "mds", "sugiyama"),
+                         coords = NULL,
                          layout_params = list(),
                          cluster = NULL,
+                         groups = NULL,
                          cluster_params = list(),
                          cluster_mark_groups = TRUE,
-                         cluster_color_nodes = FALSE,
+                         cluster_color_vertices = FALSE,
                          theme = getOption("rt.theme", "lightgrid"),
+                         mar = rep(0, 4),
                          par.reset = TRUE,
                          filename = NULL,
                          verbose = TRUE, ...) {
@@ -39,12 +76,18 @@ mplot3.graph <- function(net,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  if (is.null(edge.col)) {
-    edge.col <- theme$fg
-  }
+  # if (is.null(edge.col)) {
+  #   edge.col <- theme$fg
+  # }
 
   if (!is.null(edge.col)) {
     edge.col <- adjustcolor(edge.col, edge.alpha)
+  }
+
+  # Vertex names ====
+  # by default use names in input net.
+  if (!is.null(vertex.label)) {
+    igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
   # [ PLOT ] ====
@@ -53,45 +96,48 @@ mplot3.graph <- function(net,
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
                                          title = "rtemis Graphics")
-  par(bg = theme$bg)
+  par(bg = theme$bg, mar = mar)
 
   # Layout ====
   layout <- match.arg(layout)
-  coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
-                    c(list(net), layout_params))
-  if (layout == "sugiyama") coords <- coords$layout
+  if (is.null(coords) & !is.null(layout)) {
+    coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
+                      c(list(net), layout_params))
+    if (layout == "sugiyama") coords <- coords$layout
+  }
 
   # Cluster ====
-  if (!is.null(cluster)) {
+  if (is.null(groups) & !is.null(cluster)) {
     groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
                       c(list(net), cluster_params))
   }
 
-  mark.groups <- if (!is.null(cluster) & cluster_mark_groups) {
+  mark.groups <- if (!is.null(groups) & cluster_mark_groups) {
     groups
   } else {
     list()
   }
 
   if (is.null(vertex.col)) {
-    vertex.col <- if (!is.null(cluster)) {
-      if (cluster_color_nodes) {
-        groups$membership
-      } else {
-        "gray20"
-      }
+    vertex.col <- if (!is.null(cluster) && cluster_color_vertices) {
+      groups$membership
     } else {
-      "#18A3AC"
+      adjustcolor(theme$fg, alpha.f = vertex.alpha)
     }
   }
 
-  plot(net,
+  if (is.null(vertex.label.col)) {
+    vertex.label.col <- theme$fg
+  }
+
+  igraph::plot.igraph(net,
        layout = coords,
        vertex.size = vertex.size,
        vertex.color = vertex.col,
        vertex.label.color = vertex.label.col,
        vertex.frame.color = vertex.frame.col,
        edge.color = edge.col,
+       edge.width = edge.width,
        edge.curved = edge.curved,
        mark.groups = mark.groups,
        verbose = verbose, ...)
