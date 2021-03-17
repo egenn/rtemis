@@ -287,7 +287,8 @@ Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'lightgrid')}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
+\item{palette}{Vector of colors, or Character defining a builtin palette - get options with
+\code{rtPalette()}}
 
 \item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 otherwise FALSE}

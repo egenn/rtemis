@@ -88,7 +88,8 @@ options(rt.theme = 'lightgrid')}
 \item{na.rm}{Logical: If TRUE, remove NA values, otherwise function will give error.
 Default = TRUE}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}}
+\item{palette}{Vector of colors, or Character defining a builtin palette - get options with
+\code{rtPalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

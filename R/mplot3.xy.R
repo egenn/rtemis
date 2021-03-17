@@ -136,7 +136,8 @@
 #' @param fit.legend.at
 #' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
 #' Set to FALSE if you know your data has no missing values.
-#' @param palette Vector of colors, or Character defining a builtin palette - get all options with \code{rtPalette()}
+#' @param palette Vector of colors, or Character defining a builtin palette - get options with
+#' \code{rtPalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
 #' @param autolabel
