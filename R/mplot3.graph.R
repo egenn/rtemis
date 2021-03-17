@@ -9,9 +9,10 @@
 #' @param vertex.col Color for vertices
 #' @param vertex.alpha Numeric: Transparency for \code{vertex.col}
 #' @param vertex.label.col Color for vertex labels
-#' @param vertex.frame.col Color for vertex border (frame)
+#' @param vertex.frame.vcol Color for vertex border (frame)
 #' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep existing
 #' names in \code{net} if any. Set to NA to avoid printing vertex labels
+#' @param vertex.shape
 #' @param edge.col Color for edges
 #' @param edge.alpha Numeric: Transparency for edges
 #' @param edge.curved Numeric: Curvature of edges. Default = .35
@@ -30,6 +31,9 @@
 #' or \code{cluster} defined
 #' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership
 #' @param theme \pkg{rtemis} theme to use
+#' @param theme_extra_args List of extra arguments to pass to the theme function defined by
+#' \code{theme}. This argument is used when the extra args (...) are passed the plotting function
+#' (in this case \code{igraph::plot.igraph}) and not to the theme function
 #' @param mar Numeric vector, length 4: \code{par}'s margin argument
 #' @param par.reset Logical: If TRUE, reset par before exiting. Default = TRUE
 #' @param filename String: If provided, save plot to this filepath
@@ -44,9 +48,11 @@ mplot3.graph <- function(net,
                          vertex.col = NULL,
                          vertex.alpha = .33,
                          vertex.label.col = NULL,
+                         vertex.label.alpha = .66,
                          vertex.frame.col = NA,
                          vertex.label = NULL,
-                         edge.col = "#18A3AC",
+                         vertex.shape = "circle",
+                         edge.col = NULL,
                          edge.alpha = .2,
                          edge.curved = .35,
                          edge.width = 2,
@@ -60,29 +66,28 @@ mplot3.graph <- function(net,
                          cluster_mark_groups = TRUE,
                          cluster_color_vertices = FALSE,
                          theme = getOption("rt.theme", "lightgrid"),
+                         theme_extra_args = list(),
                          mar = rep(0, 4),
                          par.reset = TRUE,
                          filename = NULL,
                          verbose = TRUE, ...) {
 
+  # [ DEPENDENCIES ] ====
+  if (!depCheck("igraph", verbose = FALSE)) {
+    cat("\n"); stop("Please install dependencies and try again")
+  }
 
   # [ THEME ] ====
   # extraargs <- list(...)
   if (is.character(theme)) {
-    # theme <- do.call(paste0("theme_", theme), extraargs)
-    theme <- do.call(paste0("theme_", theme), list())
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
+    theme <- do.call(paste0("theme_", theme), theme_extra_args)
+    # theme <- do.call(paste0("theme_", theme), list())
   }
-  # if (is.null(edge.col)) {
-  #   edge.col <- theme$fg
+  #  else {
+  #   for (i in seq(extraargs)) {
+  #     theme[[names(extraargs)[i]]] <- extraargs[[i]]
+  #   }
   # }
-
-  if (!is.null(edge.col)) {
-    edge.col <- adjustcolor(edge.col, edge.alpha)
-  }
 
   # Vertex names ====
   # by default use names in input net.
@@ -129,9 +134,21 @@ mplot3.graph <- function(net,
   if (is.null(vertex.label.col)) {
     vertex.label.col <- theme$fg
   }
+  vertex.label.col <- adjustcolor(vertex.label.col, vertex.label.alpha)
+
+  if (is.null(edge.col)) {
+    if (is.null(groups)) {
+      edge.col <- adjustcolor("#18A3AC", edge.alpha)
+    } else {
+      edge.col <- adjustcolor(theme$fg, edge.alpha)
+    }
+  } else {
+    edge.col <- adjustcolor(edge.col, edge.alpha)
+  }
 
   igraph::plot.igraph(net,
        layout = coords,
+       vertex.shape = vertex.shape,
        vertex.size = vertex.size,
        vertex.color = vertex.col,
        vertex.label.color = vertex.label.col,
@@ -140,9 +157,9 @@ mplot3.graph <- function(net,
        edge.width = edge.width,
        edge.curved = edge.curved,
        mark.groups = mark.groups,
+       vertex.label.family = theme$font.family,
        verbose = verbose, ...)
 
   if (!is.null(filename)) grDevices::dev.off()
-
 
 } # rtemis::mplot3.graph
