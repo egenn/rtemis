@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 
-#' Plot graph using \pkg{threejs::graphks}
+#' Plot network using \pkg{threejs::graphjs}
 #'
 #' Interactive plotting of an \pkg{igraph} net using \pkg{threejs}
 #'
@@ -100,14 +100,6 @@ dplot3.graphjs <- function(net,
     igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
-  # [ PLOT ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
-                                         title = "rtemis Graphics")
-  par(bg = theme$bg, mar = mar)
-
   # Layout ====
   layout <- match.arg(layout)
   if (is.null(coords) & !is.null(layout)) {
@@ -121,12 +113,6 @@ dplot3.graphjs <- function(net,
     groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
                       c(list(net), cluster_params))
   }
-
-  # mark.groups <- if (!is.null(groups) & cluster_mark_groups) {
-  #   groups
-  # } else {
-  #   list()
-  # }
 
   if (is.null(vertex.col)) {
     vertex.col <- if (!is.null(groups)) {
@@ -143,13 +129,11 @@ dplot3.graphjs <- function(net,
   vertex.label.col <- adjustcolor(vertex.label.col, vertex.label.alpha)
 
   # Leave edge.col as NULL for auto-coloring with groups
-  # if (is.null(edge.col)) {
-  #   edge.col <- if (is.null(groups)) "#18A3AC" else theme$fg
-  # }
   if (is.null(edge.col) & is.null(groups)) {
     edge.col <- "#18A3AC"
   }
 
+  # [ PLOT ] ====
   threejs::graphjs(net,
                    layout = coords,
                    vertex.color = vertex.col,
@@ -159,17 +143,13 @@ dplot3.graphjs <- function(net,
                    edge.color = edge.col,
                    edge.alpha = edge.alpha,
                    edge.width = edge.width,
-                   # edge.alpha
                    main = main,
                    bg = theme$bg,
                    vertex.label.color = vertex.label.col,
                    vertex.frame.color = vertex.frame.col,
                    edge.curved = edge.curved,
-                   # mark.groups = mark.groups,
                    vertex.label.family = theme$font.family,
                    stroke = NULL,
                    verbose = verbose, ...)
-
-  # if (!is.null(filename)) grDevices::dev.off()
 
 } # rtemis::dplot3.graphjs

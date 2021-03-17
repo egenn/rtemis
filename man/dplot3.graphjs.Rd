@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.graphjs.R
 \name{dplot3.graphjs}
 \alias{dplot3.graphjs}
-\title{Plot graph using \pkg{threejs::graphks}}
+\title{Plot network using \pkg{threejs::graphjs}}
 \usage{
 dplot3.graphjs(
   net,
