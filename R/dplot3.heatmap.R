@@ -71,8 +71,8 @@ dplot3.heatmap <- function(z,
                            showticklabels = NULL,
                            colorbar_len = .7,
                            plot_method = "plotly",
-                           theme = getOption("rt.theme", "black"),
-                           palette = getOption("rt.palette", "rtCol1"),
+                           theme = getOption("rt.theme", "white"),
+                           # palette = getOption("rt.palette", "rtCol1"),
                            # row_side_colors = NA, #z[["row_side_colors"]],
                            # row_side_palette = NULL,
                            # col_side_colors = NA, #z[["col_side_colors"]],
@@ -239,6 +239,15 @@ dplot3.heatmap <- function(z,
                         # margin = margin
   )
 
+  # Manual theme colors
+
+  ## y axis tick label colors
+  # plt[["x"]][["layoutAttrs"]][[2]][["yaxis2"]][["tickfont"]][["color"]]
+  ## x axis tick label colors
+  # plt[["x"]][["layoutAttrs"]][[2]][["xaxis"]][["tickfont"]][["color"]] <- "rgba(255, 0, 0, 1)"
+
+  ## edge lines must be invisible
+  plt$x$layout$yaxis$linecolor <- plt$x$layout$xaxis2$linecolor <- theme$bg
 
   # Manual layout ====
   # Set padding
