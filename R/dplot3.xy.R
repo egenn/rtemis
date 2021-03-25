@@ -63,6 +63,7 @@ dplot3.xy <- function(x, y = NULL,
                       font.alpha = .8,
                       font.col = NULL,
                       marker.col = NULL,
+                      marker.size = 8,
                       fit.col = NULL,
                       fit.alpha = .8,
                       fit.lwd = 2.5,
@@ -80,10 +81,17 @@ dplot3.xy <- function(x, y = NULL,
                       legend.group.gap = 0,
                       margin = list(t = 35),
                       zerolines = TRUE,
+                      xlim = NULL,
+                      ylim = NULL,
+                      axes.equal = FALSE,
+                      diagonal = FALSE,
+                      diagonal.col = "#7f7f7fff",
+                      # diagonal.alpha = NULL,
                       mod.params = list(),
                       width = NULL,
                       height = NULL,
                       padding = 0,
+                      displayModeBar = TRUE,
                       trace = 0,
                       filename = NULL,
                       file.width = 500,
@@ -111,6 +119,13 @@ dplot3.xy <- function(x, y = NULL,
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
+
+  if (se.fit) {
+    if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
+      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
+      se.fit <- FALSE
+    }
+  }
 
   # order.on.x ====
   if (is.null(order.on.x)) {
@@ -178,29 +193,10 @@ dplot3.xy <- function(x, y = NULL,
     y <- lapply(seq(x), function(i) y[[i]][index[[i]]])
   }
 
-  # s.e. fit ====
-  if (se.fit) {
-    if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
-      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
-      se.fit <- FALSE
-    }
-  }
-
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
-
-  # remove:
-  # # Convert inputs to RGB
-  # bg <- plotly::toRGB(bg)
-  # plot.bg <- plotly::toRGB(plot.bg)
-  # font.col <- plotly::toRGB(font.col)
-  # # marker.col <- plotly::toRGB(marker.col)
-  # # fit.col <- plotly::toRGB(fit.col)
-  # # se.col <- plotly::toRGB(se.col)
-  # tick.col <- plotly::toRGB(tick.col)
-  # grid.col <- plotly::toRGB(grid.col)
 
   # [ THEME ] ====
   extraargs <- list(...)
@@ -223,7 +219,8 @@ dplot3.xy <- function(x, y = NULL,
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
-    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("#ffffff", n.groups)) else col
+    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
+
   }
 
   if (!is.null(fit)) {
@@ -285,6 +282,42 @@ dplot3.xy <- function(x, y = NULL,
     }
   }
 
+  # [ AXES LIMITS ] ====
+  if (axes.equal) {
+    if (is.null(xlim)) {
+      xlim <- range(x)
+      # if (is.list(error.x)) {
+      #   error.x.hi <- lapply(seq(xl), function(i) xl[[i]] + error.x[[i]])
+      #   error.x.lo <- lapply(seq(xl), function(i) xl[[i]] - error.x[[i]])
+      #   xlim <- range(error.x.lo, error.x.hi, xlim)
+      # }
+    }
+    if (is.null(ylim)) {
+      ylim <- range(y)
+      if (is.list(fitted) & !is.list(se)) {
+        ylim.hi <- max(unlist(fitted))
+        ylim.lo <- min(unlist(fitted))
+        ylim <- range(ylim.lo, ylim.hi, y)
+      }
+      if (is.list(se)) {
+        ylim.hi <- max(unlist(lapply(seq(length(fitted)),
+                                     function(i) as.data.frame(fitted[[i]]) +
+                                       se.times * as.data.frame(se[[i]]))))
+        ylim.lo <- min(unlist(lapply(seq(length(fitted)),
+                                     function(i) as.data.frame(fitted[[i]]) -
+                                       se.times * as.data.frame(se[[i]]))))
+        ylim <- range(ylim.lo, ylim.hi, y)
+      }
+      # if (is.list(error.y)) {
+      #   error.y.hi <- lapply(seq(y), function(i) yl[[i]] + error.y[[i]])
+      #   error.y.lo <- lapply(seq(y), function(i) yl[[i]] - error.y[[i]])
+      #   ylim <- range(error.y.lo, error.y.hi, ylim)
+      # }
+    }
+
+    xlim <- ylim <- range(xlim, ylim)
+  }
+
   # [ plotly ] ====
   # if (n.groups > 1) {
   #   legendgroup = .names
@@ -294,8 +327,23 @@ dplot3.xy <- function(x, y = NULL,
 
   plt <- plotly::plot_ly(width = width,
                          height = height,)
+
+  if (diagonal) {
+    maxabs <- max(abs(c(unlist(x), unlist(y))))
+    plt <- plt %>% plotly::layout(
+      shapes = list(type = "line",
+                    x0 = -maxabs, x1 = maxabs,
+                    y0 = -maxabs, y1 = maxabs,
+                    line = list(color = diagonal.col))
+    )
+  }
+
   for (i in seq_len(n.groups)) {
     # '- { Scatter } ====
+    marker <- if (grepl("markers", .mode[i])) {
+      list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
+           size = marker.size)
+      } else NULL
     plt <- plotly::add_trace(plt, x = x[[i]],
                              y = y[[i]],
                              type = "scatter",
@@ -304,7 +352,8 @@ dplot3.xy <- function(x, y = NULL,
                              name = if (n.groups > 1) .names[i] else "Raw",
                              # text = .text[[i]],
                              # hoverinfo = "text",
-                             marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+                             # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+                             marker = marker,
                              line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
                              showlegend = legend)
@@ -379,7 +428,8 @@ dplot3.xy <- function(x, y = NULL,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = theme$zerolines),
+                                     zeroline = theme$zerolines,
+                                     range = ylim),
                         xaxis = list(title = xlab,
                                      showline = FALSE,
                                      # mirror = axes.mirrored,
@@ -389,7 +439,8 @@ dplot3.xy <- function(x, y = NULL,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = zerolines),
+                                     zeroline = zerolines,
+                                     range = xlim),
                         # barmode = barmode,  # group works without actual groups too
                         # title = main,
                         title = list(text = main,
@@ -407,6 +458,10 @@ dplot3.xy <- function(x, y = NULL,
 
   # Padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {
