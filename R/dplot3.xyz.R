@@ -44,6 +44,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        font.col = NULL,
                        font.family = "Helvetica Neue",
                        marker.col = NULL,
+                       marker.size = 8,
                        fit.col = NULL,
                        fit.alpha = .7,
                        fit.lwd = 2.5,
@@ -74,6 +75,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        width = NULL,
                        height = NULL,
                        padding = 0,
+                       displayModeBar = TRUE,
                        trace = 0,
                        filename = NULL,
                        file.width = 500,
@@ -95,6 +97,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     if (is.null(zlab)) zlab <- .colnames[3]
   }
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
   if (!is.null(fit)) fit <- toupper(fit)
   .mode <- mode
   .names <- group.names
@@ -329,6 +332,10 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                          height = height,)
   for (i in seq_len(n.groups)) {
     # '- { Scatter } ====
+    marker <- if (grepl("markers", .mode[i])) {
+      list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
+           size = marker.size)
+    } else NULL
     plt <- plotly::add_trace(plt,
                              x = x[[i]],
                              y = y[[i]],
@@ -340,7 +347,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                              name = .names[i],
                              # text = .text[[i]],
                              # hoverinfo = "text",
-                             marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+                             # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+                             marker = marker,
                              line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
                              showlegend = legend)
@@ -466,6 +474,10 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
 
   # Padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {
