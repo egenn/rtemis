@@ -4,7 +4,7 @@
 
 #' Interactive Boxplots & Violin plots
 #'
-#' Draw interactive boxplots or violin plots using \code{plotly}
+#' Draw interactive boxplots or violin plots using \pkg{plotly}
 #'
 #' Any non-numeric variable in \code{x} will be removed
 #'
@@ -17,9 +17,12 @@
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area. Default = "white"
 #' @param theme Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"
-#' @param palette Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}
+#' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
 #' @param boxmode Character: Type of box plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
 #' "relative" for stacked boxes, which handles negative values correctly, unlike "stack", as of writing.
+#' @param quartilemethod Character: "linear", "exclusive", "inclusive"
+#' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
+#' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
 #' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
@@ -44,11 +47,11 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dplot3.box(VADeaths)
+#' dplot3.box(iris[, 1:4])
 #' }
 
 dplot3.box <-  function(x,
-                        groups = "cols",
+                        # groups = "cols",
                         type = c("box", "violin"),
                         main = NULL,
                         xlab = NULL,
@@ -60,7 +63,10 @@ dplot3.box <-  function(x,
                         theme = getOption("rt.theme", "lightgrid"),
                         palette = getOption("rt.palette", "rtCol1"),
                         boxmode = c("group", "relative", "stack", "overlay"),
+                        boxpoints = "outliers",
+                        quartilemethod = "linear",
                         violin.box = TRUE,
+                        order.by.fn = NULL,
                         group.names = NULL,
                         font.size = 16,
                         font.alpha = .8,
@@ -78,6 +84,7 @@ dplot3.box <-  function(x,
                         legend.xy = NULL,
                         margin = list(t = 35),
                         padding = 0,
+                        displayModeBar = TRUE,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500, ...) {
@@ -92,11 +99,33 @@ dplot3.box <-  function(x,
   type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
   # if (!is.list(x)) x <- list(x)
+  # Convert vector to
   # convert to list whether data frame or matrix
   if (!is.list(x)) {
-    .names <- colnames(x)
-    x <- lapply(seq(NCOL(x)), function(i) x[, i])
-    names(x) <- .names
+    # x is vector
+    if (is.numeric(x)) {
+      .names <- deparse(substitute(x))
+      x <- list(x)
+      names(x) <- .names
+    } else {
+      .names <- colnames(x)
+      x <- lapply(seq(NCOL(x)), function(i) x[, i])
+      names(x) <- .names
+    }
+
+  }
+
+  # [ ORDER BY FN ] ====
+  if (!is.null(order.by.fn) && order.by.fn != "none") {
+    if (is.list(x)) {
+      .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
+      if (is.data.frame(x)) {
+        x <- x[, .order]
+      } else {
+        x <- x[names(x)[.order]]
+      }
+    }
+    if (!is.null(group.names)) group.names <- group.names[.order]
   }
 
   # Remove non-numeric vectors
@@ -149,15 +178,21 @@ dplot3.box <-  function(x,
                line = list(color = plotly::toRGB(col[1])),
                fillcolor = plotly::toRGB(col[1], alpha),
                marker = list(color = plotly::toRGB(col[1], alpha)))
+  if (type == "box") {
+    args <- c(args, list(quartilemethod = quartilemethod,
+                         boxpoints = boxpoints))
+  }
   if (type == "violin") args$box <- list(visible = violin.box)
   plt <- do.call(plotly::plot_ly, args)
   if (n.groups > 1) {
-    for (i in seq_len(n.groups)[-1]) plt <- plotly::add_trace(plt, y = x[[i]],
-                                                              color = plotly::toRGB(col[i], alpha),
-                                                              name = .group.names[i],
-                                                              line = list(color = plotly::toRGB(col[i])),
-                                                              fillcolor = plotly::toRGB(col[i], alpha),
-                                                              marker = list(color = plotly::toRGB(col[i], alpha)))
+    for (i in seq_len(n.groups)[-1]) {
+      plt <- plotly::add_trace(plt, y = x[[i]],
+                               color = plotly::toRGB(col[i], alpha),
+                               name = .group.names[i],
+                               line = list(color = plotly::toRGB(col[i])),
+                               fillcolor = plotly::toRGB(col[i], alpha),
+                               marker = list(color = plotly::toRGB(col[i], alpha)))
+      }
   }
 
   # '- layout ====
@@ -200,8 +235,12 @@ dplot3.box <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
-  # Set padding
+  # Padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {
