@@ -44,6 +44,7 @@ dplot3.pie <-  function(x,
                         sep.col = NULL,
                         margin = list(b = 50, l = 50, t = 50, r = 20),
                         padding = 0,
+                        displayModeBar = TRUE,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500, ...) {
@@ -149,8 +150,12 @@ dplot3.pie <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
-  # Set padding
+  # Padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {
