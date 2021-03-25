@@ -14,11 +14,15 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
                                " available cores]\n  Documentation & vignettes: https://rtemis.lambdamd.org"))
 
-  # Draw a harmonograph if we are in RStudio
-  try(if (try(rstudioapi::isAvailable(), silent = TRUE))
-    mplot3.harmonograph(text = "rtemis", text.adj = .01,
-                        text.padj = -.2, col = sample(2:8, 1)),
-    silent = TRUE)
+  # RStudio, VS Code
+  try(if (try(rstudioapi::isAvailable(), silent = TRUE)) {
+    mplot3.harmonograph(text = "rtemis on RStudio", text.adj = .01,
+                        text.padj = -.2, col = sample(2:8, 1))
+  } else if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
+    mplot3.harmonograph(text = "rtemis on VS Code", text.adj = .01,
+                        text.padj = -.2, col = sample(2:8, 1))
+  }, silent = TRUE)
+
 }
 
 
