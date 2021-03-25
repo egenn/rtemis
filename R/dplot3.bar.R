@@ -198,8 +198,12 @@ dplot3.bar <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
-  # Set padding
+  # Padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {
