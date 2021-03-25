@@ -179,7 +179,7 @@ dplot3.x <- function(x,
 
   # Ridge ====
   if (mode == "ridge") {
-    axis <- list(showline = theme$axes.visible,
+    axis <- list(showline = FALSE,
                  # mirror = axes.mirrored,
                  showgrid = theme$grid,
                  gridcolor = grid.col,
