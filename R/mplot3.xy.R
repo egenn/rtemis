@@ -122,8 +122,7 @@
 #' @param diagonal Logical: If TRUE, draw diagonal line. Default = FALSE
 #' @param diagonal.lwd Float: Line width for \code{diagonal}. Default = 1.5
 #' @param diagonal.lty Integer: Line type for \code{diagonal}. Default = 1
-#' @param diagonal.col Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
-#' themes
+#' @param diagonal.col Color: Color for \code{diagonal}. Default = "gray50"
 #' @param diagonal.alpha Float: Alpha for \code{diagonal} Default = .5
 #' @param group.side
 #' @param group.adj
@@ -247,7 +246,7 @@ mplot3.xy <- function(x, y = NULL,
                       diagonal.lwd = 1.5,
                       diagonal.lty = 1,
                       diagonal.col = "gray50",
-                      diagonal.alpha = .5,
+                      diagonal.alpha = 1,
                       group.legend = NULL,
                       group.title = NULL,
                       group.names = NULL,
