@@ -83,6 +83,7 @@ dplot3.x <- function(x,
                      ridge.y.labs = FALSE,
                      ridge.order.on.mean = TRUE,
                      # axes.mirrored = FALSE,
+                     displayModeBar = TRUE,
                      width = NULL,
                      height = NULL,
                      filename = NULL,
@@ -340,6 +341,10 @@ dplot3.x <- function(x,
 
   # Set padding
   plt$sizingPolicy$padding <- padding
+  # Config
+  plt <- plotly::config(plt,
+                        displaylogo = FALSE,
+                        displayModeBar = displayModeBar)
 
   # Write to file ====
   if (!is.null(filename)) {

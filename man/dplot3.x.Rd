@@ -46,6 +46,7 @@ dplot3.x(
   ridge.sharex = TRUE,
   ridge.y.labs = FALSE,
   ridge.order.on.mean = TRUE,
+  displayModeBar = TRUE,
   width = NULL,
   height = NULL,
   filename = NULL,
