@@ -181,7 +181,7 @@ mplot3.box <- function(x,
          lwd = theme$grid.lwd)
   }
 
-  # [ MEAN-ORDER ] ====
+  # [ ORDER BY FN ] ====
   if (!is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
