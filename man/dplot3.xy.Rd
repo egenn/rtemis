@@ -32,6 +32,7 @@ dplot3.xy(
   font.alpha = 0.8,
   font.col = NULL,
   marker.col = NULL,
+  marker.size = 8,
   fit.col = NULL,
   fit.alpha = 0.8,
   fit.lwd = 2.5,
@@ -49,10 +50,16 @@ dplot3.xy(
   legend.group.gap = 0,
   margin = list(t = 35),
   zerolines = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  axes.equal = FALSE,
+  diagonal = FALSE,
+  diagonal.col = "#7f7f7fff",
   mod.params = list(),
   width = NULL,
   height = NULL,
   padding = 0,
+  displayModeBar = TRUE,
   trace = 0,
   filename = NULL,
   file.width = 500,
@@ -143,6 +150,16 @@ groups, or \code{fit} is set}
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
+
+\item{xlim}{Float vector, length 2: x-axis limits}
+
+\item{ylim}{Float vector, length 2: y-axis limits}
+
+\item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
+
+\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+
+\item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 

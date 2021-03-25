@@ -6,7 +6,6 @@
 \usage{
 dplot3.box(
   x,
-  groups = "cols",
   type = c("box", "violin"),
   main = NULL,
   xlab = NULL,
@@ -18,7 +17,10 @@ dplot3.box(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   boxmode = c("group", "relative", "stack", "overlay"),
+  boxpoints = "outliers",
+  quartilemethod = "linear",
   violin.box = TRUE,
+  order.by.fn = NULL,
   group.names = NULL,
   font.size = 16,
   font.alpha = 0.8,
@@ -35,6 +37,7 @@ dplot3.box(
   legend.xy = NULL,
   margin = list(t = 35),
   padding = 0,
+  displayModeBar = TRUE,
   filename = NULL,
   file.width = 500,
   file.height = 500,
@@ -60,10 +63,15 @@ dplot3.box(
 
 \item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
 
-\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{boxmode}{Character: Type of box plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
 "relative" for stacked boxes, which handles negative values correctly, unlike "stack", as of writing.}
+
+\item{boxpoints}{Character or FALSE: "all", "suspectedoutliers", "outliers"
+See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}}
+
+\item{quartilemethod}{Character: "linear", "exclusive", "inclusive"}
 
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
@@ -102,14 +110,14 @@ the legend top right beside the plot area. For example, c(0, 1) places the legen
 \item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
 }
 \description{
-Draw interactive boxplots or violin plots using \code{plotly}
+Draw interactive boxplots or violin plots using \pkg{plotly}
 }
 \details{
 Any non-numeric variable in \code{x} will be removed
 }
 \examples{
 \dontrun{
-dplot3.box(VADeaths)
+dplot3.box(iris[, 1:4])
 }
 }
 \author{

@@ -90,7 +90,7 @@ mplot3.xy(
   diagonal.lwd = 1.5,
   diagonal.lty = 1,
   diagonal.col = "gray50",
-  diagonal.alpha = 0.5,
+  diagonal.alpha = 1,
   group.legend = NULL,
   group.title = NULL,
   group.names = NULL,
@@ -267,8 +267,7 @@ See \code{density} in \code{graphics::polygon}}
 
 \item{diagonal.lty}{Integer: Line type for \code{diagonal}. Default = 1}
 
-\item{diagonal.col}{Color: Color for \code{diagonal}. Defaults to "white" for dark themes, and "black" for light
-themes}
+\item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
 
 \item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
 
