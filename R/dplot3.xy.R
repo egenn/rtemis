@@ -160,6 +160,14 @@ dplot3.xy <- function(x, y = NULL,
     names(x) <- names(y) <- .names <- group.names
   }
 
+  # Try to get group names from list or data frame inputs
+  if (is.list(y) | NCOL(y) > 1) {
+    if (is.null(.names) & !is.null(names(y))) .names <- names(y)
+  }
+  if (is.list(x) | NCOL(x) > 1) {
+    if (is.null(.names) & !is.null(names(x))) .names <- names(x)
+  }
+
   # Convert to lists ====
   x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
   y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
@@ -236,7 +244,7 @@ dplot3.xy <- function(x, y = NULL,
 
   # [ SIZE ] ====
   if (axes.square) {
-    width <- height <- min(dev.size("px")) - 10
+    width <- height <- min(dev.size("px"))
   }
 
   # [ fitted & se.fit ] ====
