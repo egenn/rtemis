@@ -14,7 +14,7 @@
 #' names in \code{net} if any. Set to NA to avoid printing vertex labels
 #' @param vertex.shape
 #' @param edge.col Color for edges
-#' @param edge.alpha Numeric: Transparency for edges
+#' @param edge.alpha Numeric: Transparency for edges. Default = .2
 #' @param edge.curved Numeric: Curvature of edges. Default = .35
 #' @param edge.width Numeric: Edge thickness
 #' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds",
@@ -29,7 +29,14 @@
 #' @param cluster_params List of parameters to pass to \code{cluster} function
 #' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, if \code{groups}
 #' or \code{cluster} defined
-#' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership
+#' @param mark.col Colors, one per group for polygon surrounding cluster.
+#' Note: You won't know the number of groups unless they are
+#' precomputed. The colors will be recycled as needed.
+#' @param mark.alpha Float [0, 1]: Transparency for \code{mark.col}. Default = .3
+#' @param mark.border Colors, similar to \code{mark.col} for border
+#' @param mark.border.alpha Float [0, 1]: Transparency for \code{mark.border}. Default = 1
+#' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership.
+#' Default = FALSE
 #' @param theme \pkg{rtemis} theme to use
 #' @param theme_extra_args List of extra arguments to pass to the theme function defined by
 #' \code{theme}. This argument is used when the extra args (...) are passed the plotting function
@@ -64,20 +71,25 @@ mplot3.graph <- function(net,
                          groups = NULL,
                          cluster_params = list(),
                          cluster_mark_groups = TRUE,
+                         mark.col = NULL,
+                         mark.alpha = .3,
+                         mark.border = NULL,
+                         mark.border.alpha = 1,
                          cluster_color_vertices = FALSE,
                          theme = getOption("rt.theme", "lightgrid"),
                          theme_extra_args = list(),
+                         palette = getOption("rt.palette", "rtCol1"),
                          mar = rep(0, 4),
                          par.reset = TRUE,
                          filename = NULL,
                          verbose = TRUE, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("igraph", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
@@ -89,13 +101,16 @@ mplot3.graph <- function(net,
   #   }
   # }
 
+  # Palette ====
+  if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
+
   # Vertex names ====
   # by default use names in input net.
   if (!is.null(vertex.label)) {
     igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
-  # [ PLOT ] ====
+  # [ Plot ] ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -123,9 +138,21 @@ mplot3.graph <- function(net,
     list()
   }
 
+
+  if (!is.null(groups) & cluster_mark_groups) {
+    if (is.null(mark.col)) {
+      mark.col <- adjustcolor(palette, mark.alpha)
+    }
+    if (is.null(mark.border)) {
+      mark.border <- adjustcolor(palette, mark.border.alpha)
+    }
+  }
+
   if (is.null(vertex.col)) {
-    vertex.col <- if (!is.null(cluster) && cluster_color_vertices) {
-      groups$membership
+    vertex.col <- if (!is.null(groups) && cluster_color_vertices) {
+      adjustcolor(
+        recycle(palette, length(unique(groups$membership)))[groups$membership],
+        vertex.alpha)
     } else {
       adjustcolor(theme$fg, alpha.f = vertex.alpha)
     }
@@ -157,6 +184,8 @@ mplot3.graph <- function(net,
        edge.width = edge.width,
        edge.curved = edge.curved,
        mark.groups = mark.groups,
+       mark.col = mark.col,
+       mark.border = mark.border,
        vertex.label.family = theme$font.family,
        verbose = verbose, ...)
 
