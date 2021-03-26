@@ -54,7 +54,8 @@ dplot3.xy(
   ylim = NULL,
   axes.equal = FALSE,
   diagonal = FALSE,
-  diagonal.col = "#7f7f7fff",
+  diagonal.col = NULL,
+  diagonal.alpha = 0.2,
   mod.params = list(),
   width = NULL,
   height = NULL,
@@ -160,6 +161,8 @@ groups, or \code{fit} is set}
 \item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
 
 \item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
+
+\item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 

@@ -64,6 +64,7 @@ dplot3.xy <- function(x, y = NULL,
                       font.col = NULL,
                       marker.col = NULL,
                       marker.size = 8,
+                      symbol = "circle",
                       fit.col = NULL,
                       fit.alpha = .8,
                       fit.lwd = 2.5,
@@ -85,8 +86,8 @@ dplot3.xy <- function(x, y = NULL,
                       ylim = NULL,
                       axes.equal = FALSE,
                       diagonal = FALSE,
-                      diagonal.col = "#7f7f7fff",
-                      # diagonal.alpha = NULL,
+                      diagonal.col = NULL,
+                      diagonal.alpha = .2,
                       mod.params = list(),
                       width = NULL,
                       height = NULL,
@@ -216,6 +217,12 @@ dplot3.xy <- function(x, y = NULL,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
+  if (diagonal) {
+    if (is.null(diagonal.col)) {
+      diagonal.col <- theme$fg
+    }
+    diagonal.col <- adjustcolor(diagonal.col, diagonal.alpha)
+  }
 
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
@@ -334,14 +341,39 @@ dplot3.xy <- function(x, y = NULL,
   if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
 
   plt <- plotly::plot_ly(width = width,
-                         height = height,)
+                         height = height)
+
+  # if (diagonal) {
+  #   minx <- min(unlist(x))
+  #   maxx <- max(unlist(x))
+  #   miny <- min(unlist(y))
+  #   maxy <- max(unlist(y))
+  #   rx <- maxx - minx
+  #   ry <- maxy - miny
+  #   minr <- min(rx, ry)
+  #   plt <- plt %>% plotly::add_segments(
+  #     x = minx - .065*minr,
+  #     y = miny - .065*minr,
+  #     xend = maxx + .065*minr,
+  #     yend = maxy + .065*minr,
+  #     line = list(color = diagonal.col)
+  #   )
+  # }
 
   if (diagonal) {
-    maxabs <- max(abs(c(unlist(x), unlist(y))))
+    minx <- min(unlist(x))
+    maxx <- max(unlist(x))
+    miny <- min(unlist(y))
+    maxy <- max(unlist(y))
+    rx <- maxx - minx
+    ry <- maxy - miny
+    minr <- min(rx, ry)
     plt <- plt %>% plotly::layout(
       shapes = list(type = "line",
-                    x0 = -maxabs, x1 = maxabs,
-                    y0 = -maxabs, y1 = maxabs,
+                    x0 = minx - .065*minr,
+                    y0 = miny - .065*minr,
+                    x1 = maxx + .065*minr,
+                    y1 = maxy + .065*minr,
                     line = list(color = diagonal.col))
     )
   }
@@ -350,7 +382,8 @@ dplot3.xy <- function(x, y = NULL,
     # '- { Scatter } ====
     marker <- if (grepl("markers", .mode[i])) {
       list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
-           size = marker.size)
+           size = marker.size,
+           symbol = symbol)
       } else NULL
     plt <- plotly::add_trace(plt, x = x[[i]],
                              y = y[[i]],
