@@ -70,6 +70,7 @@ dplot3.x <- function(x,
                      legend.bg = "#FFFFFF00",
                      legend.border.col = "#FFFFFF00",
                      bargap = .05,
+                     bingroup = 1,
                      margin = list(b = 50, l = 50, t = 50, r = 20),
                      padding = 0,
                      zerolines = FALSE,
@@ -260,7 +261,8 @@ dplot3.x <- function(x,
                                      histnorm = histnorm,
                                      histfunc = histfunc,
                                      nbinsx = hist.n.bins,
-                                     showlegend = legend)
+                                     showlegend = legend,
+                                     bingroup = bingroup)
       }
       plt <- plotly::layout(plt,
                             barmode = barmode,
@@ -278,7 +280,8 @@ dplot3.x <- function(x,
                                                               hoverinfo = "text",
                                                               showlegend = legend,
                                                               width = width,
-                                                              height = height) %>%
+                                                              height = height,
+                                                              bingroup = bingroup) %>%
                       plotly::layout(xaxis = axis,
                                      yaxis = c(list(title = list(text = .names[i],
                                                                  font = f)),
