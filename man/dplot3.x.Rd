@@ -36,6 +36,7 @@ dplot3.x(
   legend.bg = "#FFFFFF00",
   legend.border.col = "#FFFFFF00",
   bargap = 0.05,
+  bingroup = 1,
   margin = list(b = 50, l = 50, t = 50, r = 20),
   padding = 0,
   zerolines = FALSE,

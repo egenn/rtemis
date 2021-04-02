@@ -33,6 +33,7 @@ dplot3.xy(
   font.col = NULL,
   marker.col = NULL,
   marker.size = 8,
+  symbol = "circle",
   fit.col = NULL,
   fit.alpha = 0.8,
   fit.lwd = 2.5,
