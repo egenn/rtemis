@@ -161,7 +161,7 @@ dplot3.xy <- function(x, y = NULL,
     names(x) <- names(y) <- .names <- group.names
   }
 
-  # Try to get group names from list or data frame inputs
+  # Try to get names from list or data frame inputs
   if (is.list(y) | NCOL(y) > 1) {
     if (is.null(.names) & !is.null(names(y))) .names <- names(y)
   }
@@ -370,10 +370,10 @@ dplot3.xy <- function(x, y = NULL,
     minr <- min(rx, ry)
     plt <- plt %>% plotly::layout(
       shapes = list(type = "line",
-                    x0 = minx - .065*minr,
-                    y0 = miny - .065*minr,
-                    x1 = maxx + .065*minr,
-                    y1 = maxy + .065*minr,
+                    x0 = minx - .07*minr,
+                    y0 = miny - .07*minr,
+                    x1 = maxx + .07*minr,
+                    y1 = maxy + .07*minr,
                     line = list(color = diagonal.col))
     )
   }
