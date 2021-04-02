@@ -139,6 +139,17 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     names(x) <- names(y) <- names(z) <- .names <- group.names
   }
 
+  # Try to get names from list or data frame inputs
+  if (is.list(y) | NCOL(y) > 1) {
+    if (is.null(.names) & !is.null(names(y))) .names <- names(y)
+  }
+  if (is.list(x) | NCOL(x) > 1) {
+    if (is.null(.names) & !is.null(names(x))) .names <- names(x)
+  }
+  if (is.list(z) | NCOL(z) > 1) {
+    if (is.null(.names) & !is.null(names(z))) .names <- names(z)
+  }
+
   # Convert to lists ====
   x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
   y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
