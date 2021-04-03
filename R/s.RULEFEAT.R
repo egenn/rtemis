@@ -158,7 +158,7 @@ s.RULEFEAT <- function(x, y = NULL,
   # [ EMPIRICAL RISK ] ====
   dat <- as.data.table(cbind(x, outcome = y))
   empirical.risk <- vector("numeric", length(rules.selected))
-  for (i in seq(rules.selected)) {
+  for (i in seq_along(rules.selected)) {
     match <- dat[eval(parse(text = rules.selected[i]))]
     freq <- table(match$outcome)
     empirical.risk[i] <- freq[1]/sum(freq)
