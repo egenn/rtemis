@@ -223,9 +223,39 @@ Default = "r"}
 
 \item{point.cex}{Float: Character expansion for points. Default = .85}
 
+\item{point.bg.col}{Color: point background}
+
+\item{line.col}{Color for lines}
+
+\item{line.alpha}{Float [0, 1]: Transparency for lines}
+
+\item{lty}{Integer: Line type. See \code{par("lty")}}
+
+\item{marker.col}{Color for marker}
+
+\item{marker.alpha}{Float [0, 1]: Transparency for markers}
+
+\item{error.x.col}{Color for x-axis error bars}
+
+\item{error.y.col}{Color for y-axis error bars}
+
+\item{error.x.lty}{Integer: line type for x-axis error bars}
+
+\item{error.y.lty}{Integer: line type for y-axis error bars}
+
+\item{error.x.lwd}{Float: Line width for x-axis error bars}
+
+\item{error.y.lwd}{Float: Line width for y-axis error bars}
+
+\item{error.arrow.code}{Integer: Type of arrow to draw for error bars. See \code{arrows("code")}}
+
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{fit.lwd}{Float: Fit line width}
+
+\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
+
+\item{fit.legend}{Logical: If TRUE, show fit legend}
 
 \item{se.lty}{How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
 otherwise an integer defines the lty (line type) for lines to be drawn}
@@ -278,19 +308,40 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
+\item{group.side}{Integer: Side to show group legend}
+
+\item{group.adj}{Float: \code{adj} for group legend. See \code{mtext("adj")}}
+
+\item{group.padj}{Float: \code{padj} for group legend See \code{mtext("padj")}}
+
+\item{group.at}{Float: location for group legend. See \code{mtext("at")}}
+
+\item{fit.legend.col}{Color for fit legend}
+
+\item{fit.legend.side}{Integer: Side for fit legend}
+
+\item{fit.legend.adj}{Float: \code{adj} for fit legend}
+
+\item{fit.legend.padj}{Float: \code{padj} for fit legend}
+
+\item{fit.legend.at}{Float: location for fit legend. See \code{mtext("at")}}
+
 \item{rm.na}{Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
 Set to FALSE if you know your data has no missing values.}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}
 
 \item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 otherwise FALSE}
+
+\item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
+\code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
@@ -319,6 +370,8 @@ otherwise FALSE}
 \item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{ylab.line}{Float: Similar to \code{xlab.line} for the y axis}
+
+\item{lwd}{Float: Linew width}
 }
 \description{
 Plot points and lines with optional fits and standard error bands

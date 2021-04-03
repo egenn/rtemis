@@ -82,7 +82,7 @@ Default = "r"}
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
 
 \item{par.reset}{Logical. Resest \code{par} to original settings}
 

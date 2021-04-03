@@ -134,7 +134,11 @@ plot.}
 
 \item{font.col}{Color: Font color. Default = "black"}
 
+\item{marker.col}{Color for marker}
+
 \item{fit.col}{Color: Color of the fit line.}
+
+\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
 
 \item{fit.lwd}{Float: Fit line width}
 

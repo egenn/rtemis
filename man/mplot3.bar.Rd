@@ -93,10 +93,13 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}
+
+\item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
+\code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

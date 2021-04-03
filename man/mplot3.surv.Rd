@@ -52,7 +52,7 @@ when survival estimates are not provided in original time scale. Default = FALSE
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}
@@ -63,6 +63,14 @@ options(rt.theme = 'lightgrid')}
 c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
 
 \item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+
+\item{group.side}{Integer: Side to show group legend}
+
+\item{group.adj}{Float: \code{adj} for group legend. See \code{mtext("adj")}}
+
+\item{group.padj}{Float: \code{padj} for group legend See \code{mtext("padj")}}
+
+\item{group.at}{Float: location for group legend. See \code{mtext("at")}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

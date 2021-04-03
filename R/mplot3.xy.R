@@ -66,7 +66,7 @@
 #' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
-#' options(rt.theme = 'lightgrid')
+#' options(rt.theme = 'darkgrid')
 #' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
@@ -93,23 +93,23 @@
 #' @param x.axis.labs See \code{axis("labels")}
 #' @param y.axis.labs See \code{axis("labels")}
 #' @param point.cex Float: Character expansion for points. Default = .85
-#' @param point.bg.col
-#' @param line.col
-#' @param line.alpha
-#' @param lty
-#' @param lwd
-#' @param marker.col
-#' @param marker.alpha
-#' @param error.x.col
-#' @param error.y.col
-#' @param error.x.lty
-#' @param error.y.lty
-#' @param error.x.lwd
-#' @param error.y.lwd
-#' @param error.arrow.code
+#' @param point.bg.col Color: point background
+#' @param line.col Color for lines
+#' @param line.alpha Float [0, 1]: Transparency for lines
+#' @param lty Integer: Line type. See \code{par("lty")}
+#' @param lwd Float: Linew width
+#' @param marker.col Color for marker
+#' @param marker.alpha Float [0, 1]: Transparency for markers
+#' @param error.x.col Color for x-axis error bars
+#' @param error.y.col Color for y-axis error bars
+#' @param error.x.lty Integer: line type for x-axis error bars
+#' @param error.y.lty Integer: line type for y-axis error bars
+#' @param error.x.lwd Float: Line width for x-axis error bars
+#' @param error.y.lwd Float: Line width for y-axis error bars
+#' @param error.arrow.code Integer: Type of arrow to draw for error bars. See \code{arrows("code")}
 #' @param fit.col Color: Color of the fit line.
-#' @param fit.alpha
-#' @param fit.legend
+#' @param fit.alpha Float [0, 1]: Transparency for fit line
+#' @param fit.legend Logical: If TRUE, show fit legend
 #' @param se.lwd Float: Line width for standard error bounds
 #' @param hline Vector: y-value(s) for horizontal lines. Default = NULL
 #' @param hline.col Color for horizontal line(s)
@@ -124,23 +124,23 @@
 #' @param diagonal.lty Integer: Line type for \code{diagonal}. Default = 1
 #' @param diagonal.col Color: Color for \code{diagonal}. Default = "gray50"
 #' @param diagonal.alpha Float: Alpha for \code{diagonal} Default = .5
-#' @param group.side
-#' @param group.adj
-#' @param group.padj
-#' @param group.at
-#' @param fit.legend.col
-#' @param fit.legend.side
-#' @param fit.legend.adj
-#' @param fit.legend.padj
-#' @param fit.legend.at
+#' @param group.side Integer: Side to show group legend
+#' @param group.adj Float: \code{adj} for group legend. See \code{mtext("adj")}
+#' @param group.padj Float: \code{padj} for group legend See \code{mtext("padj")}
+#' @param group.at Float: location for group legend. See \code{mtext("at")}
+#' @param fit.legend.col Color for fit legend
+#' @param fit.legend.side Integer: Side for fit legend
+#' @param fit.legend.adj Float: \code{adj} for fit legend
+#' @param fit.legend.padj Float: \code{padj} for fit legend
+#' @param fit.legend.at Float: location for fit legend. See \code{mtext("at")}
 #' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
 #' Set to FALSE if you know your data has no missing values.
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
 #' \code{rtPalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
-#' @param autolabel
-#' @param set.par
+#' @param autolabel Vector to be used to generate autolabels when using \link{rtlayout} with
+#' \code{autolabel = TRUE}. Default = \code{letters}
 #' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
 #' @param return.lims Logical: If TRUE, return xlim and ylim. Default = FALSE
 #' @param pdf.width Float: Width in inches for pdf output (if \code{filename} is set). Default = 6
@@ -222,7 +222,7 @@ mplot3.xy <- function(x, y = NULL,
                       error.x.lwd = 1,
                       error.y.lwd = 1,
                       error.arrow.code = 3,
-                      fit.col = NULL, # "#01256E" "#95001A",
+                      fit.col = NULL,
                       fit.lwd = 2.5,
                       fit.alpha = 1,
                       fit.legend = ifelse(is.null(fit), FALSE, TRUE),

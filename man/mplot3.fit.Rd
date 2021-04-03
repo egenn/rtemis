@@ -41,11 +41,15 @@ be passed as a string.}
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
+
+\item{marker.col}{Color for marker}
 
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{pty}{Character: "s" for square plot, "m" to fill device. Default = "s"}
+
+\item{fit.legend}{Logical: If TRUE, show fit legend}
 
 \item{...}{Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)}
 }

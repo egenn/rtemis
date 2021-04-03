@@ -83,7 +83,10 @@ order. Default = NULL, i.e. no reordering}
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'lightgrid')}
+options(rt.theme = 'darkgrid')}
+
+\item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
+\code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{na.rm}{Logical: If TRUE, remove NA values, otherwise function will give error.
 Default = TRUE}
