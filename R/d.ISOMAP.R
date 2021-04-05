@@ -17,6 +17,8 @@
 #' @param dist.method Character: Distance calculation method. See \code{vegan::vegdist}
 #' @param nsd Integer: Number of shortest dissimilarities retained
 #' @param path Character: The \code{path} argument of \code{vegan::isomap}
+#' @param center Logical: If TRUE, center data prior to decomposition. Default = TRUE
+#' @param scale Logical: If TRUE, scale data prior to decomposition. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to \code{vegan::isomap}
@@ -30,6 +32,8 @@ d.ISOMAP <- function(x,
                      dist.method = "euclidean",
                      nsd = 0,
                      path = c("shortest", "extended"),
+                     center = TRUE,
+                     scale = TRUE,
                      verbose = TRUE,
                      n.cores = rtCores, ...) {
 
@@ -50,7 +54,6 @@ d.ISOMAP <- function(x,
   }
 
   # [ DATA ] ====
-  x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
@@ -59,6 +62,16 @@ d.ISOMAP <- function(x,
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
+  x <- as.matrix(x)
+
+  # [ scale ] ====
+  if (scale | center) {
+    x <- scale(x, scale = scale, center = center)
+    .center <- attr(x, "scaled:center")
+    .scale <- attr(x, "scaled:scale")
+  } else {
+    .center <- .scale <- NULL
+  }
 
   # [ ISOMAP ] ====
   if (verbose) msg("Running Isomap...")
@@ -78,6 +91,8 @@ d.ISOMAP <- function(x,
                                       dist.method = dist.method,
                                       nsd = nsd,
                                       path = path),
+                    center = .center,
+                    scale = .scale,
                     extra = list())
   outro(start.time, verbose = verbose)
   rt

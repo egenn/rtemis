@@ -10,6 +10,8 @@ d.ISOMAP(
   dist.method = "euclidean",
   nsd = 0,
   path = c("shortest", "extended"),
+  scale = TRUE,
+  center = TRUE,
   verbose = TRUE,
   n.cores = rtCores,
   ...
@@ -25,6 +27,10 @@ d.ISOMAP(
 \item{nsd}{Integer: Number of shortest dissimilarities retained}
 
 \item{path}{Character: The \code{path} argument of \code{vegan::isomap}}
+
+\item{scale}{Logical: If TRUE, scale data prior to decomposition. Default = TRUE}
+
+\item{center}{Logical: If TRUE, center data prior to decomposition. Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 
