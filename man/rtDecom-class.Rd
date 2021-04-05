@@ -22,6 +22,14 @@ E.D. Gennatas
 
 \item{\code{decom}}{Decomposition model output}
 
+\item{\code{parameters}}{List of decompotision parameters}
+
+\item{\code{center}}{Numeric vector of column means if centering was applied using \code{scale()}
+prior to decomposition}
+
+\item{\code{scale}}{Numeric vector of column scale factor if scaling was applied using \code{scale()}
+prior to decomposition}
+
 \item{\code{projections.train}}{Input data projected on new axes / basis}
 
 \item{\code{projections.test}}{Input test data projected on new axes / basis}
@@ -55,6 +63,8 @@ E.D. Gennatas
   xnames = character(),
   decom = list(),
   parameters = list(),
+  center = numeric(),
+  scale = numeric(),
   projections.train = numeric(),
   projections.test = numeric(),
   extra = list()
