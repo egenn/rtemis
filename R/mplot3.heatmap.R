@@ -176,10 +176,10 @@ mplot3.heatmap <- function(x,
   # [ ZLIM ] ====
   if (is.null(zlim)) {
     if (autorange) {
-      max.z <- max(abs(x))
+      max.z <- max(abs(x), na.rm = TRUE)
       zlim <- c(-max.z, max.z)
     } else {
-      zlim <- range(x)
+      zlim <- range(x, na.rm = TRUE)
     }
   }
 

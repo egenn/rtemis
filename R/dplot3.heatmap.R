@@ -108,7 +108,7 @@ dplot3.heatmap <- function(z,
 
   # [ LIMITS ] ====
   if (is.null(limits)) {
-    maxabs <- max(abs(z))
+    maxabs <- max(abs(z), na.rm = TRUE)
     if (.2 < maxabs & maxabs < 1) maxabs <- 1
     limits <- c(-maxabs, maxabs)
   }
