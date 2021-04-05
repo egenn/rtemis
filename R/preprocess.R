@@ -123,6 +123,7 @@ preprocess <- function(x, y = NULL,
   # Arguments ====
   impute.type <- match.arg(impute.type)
 
+  isdatatable <- data.table::is.data.table(x)
   x <- as.data.frame(x)
 
   # [ Complete cases ] ====
@@ -374,6 +375,7 @@ preprocess <- function(x, y = NULL,
     }
   }
 
+  if (isdatatable) data.table::setDT(x)
   if (verbose) msg("Done")
   x
 
