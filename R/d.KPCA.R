@@ -20,8 +20,8 @@
 #' @param th Threshold for eigenvalue below which PCs are ignored if \code{k} is set to 0
 #' @param kernel Character: Type of kernel to use. See \code{kernlab::kpca}
 #' @param kpar List of hyperparameters: See \code{kernlab::kpca("kpar")}
-#' @param scale Logical: If TRUE, scale input data before projecting
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}
+#' @param center Logical: If TRUE, center data prior to decomposition. Default = TRUE
+#' @param scale Logical: If TRUE, scale data prior to decomposition. Default = TRUE
 #' @param ... Additional parameters to be passed to \code{fastKPCA::fastKPCA}
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas
@@ -34,8 +34,8 @@ d.KPCA <- function(x,
                    th = 0.0001,
                    kernel = "rbfdot",
                    kpar = NULL,
+                   center = TRUE,
                    scale = TRUE,
-                   center = FALSE,
                    verbose = TRUE, ...) {
 
   # [ INTRO ] ====
@@ -61,32 +61,41 @@ d.KPCA <- function(x,
   }
 
   # [ DATA ] ====
-  x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
     msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg("    interpreted as", n, "cases with", p, "features.")
   }
-  # cat("    (If this is not what you intended, this would be the time to interrupt the run)\n")
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
+  x <- as.matrix(x)
+
+  # [ scale ] ====
+  if (scale | center) {
+    x <- scale(x, scale = scale, center = center)
+    .center <- attr(x, "scaled:center")
+    .scale <- attr(x, "scaled:scale")
+  } else {
+    .center <- .scale <- FALSE
+  }
 
   # [ KPCA ] ====
   if (verbose) msg("Running Kernel Principal Components Analysis...")
-  decom <- kernlab::kpca(as.matrix(x), features = k, th = th,
+  decom <- kernlab::kpca(x, features = k, th = th,
                          kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv
 
   # [ PROJECTIONS ] ====
   projections.test <- NULL
-  if (scale) {
-    projections.train <- scale(kernlab::predict(decom, x), center = center)
-    if (!is.null(x.test)) projections.test <- scale(kernlab::predict(decom, x.test), center = center)
-  } else {
-    projections.train <- kernlab::predict(decom, x)
-    if (!is.null(x.test)) projections.test <- kernlab::predict(decom, x.test)
+  projections.train <- kernlab::predict(decom, x)
+  if (!is.null(x.test)) {
+    if (scale | center) {
+      # x.test <- (x.test + .center) %*% diag(.scale) # faster for small matrices only
+      x.test <- t(t(x.test + .center) * .scale)
+    }
+    projections.test <- kernlab::predict(decom, x.test)
   }
 
   # [ OUTRO ] ====
@@ -102,6 +111,8 @@ d.KPCA <- function(x,
                                       kpar = kpar,
                                       scale = scale,
                                       center = center),
+                    center = .center,
+                    scale = .scale,
                     extra = extra)
   outro(start.time, verbose = verbose)
   rt

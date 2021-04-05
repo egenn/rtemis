@@ -11,8 +11,8 @@ d.KPCA(
   th = 1e-04,
   kernel = "rbfdot",
   kpar = NULL,
+  center = TRUE,
   scale = TRUE,
-  center = FALSE,
   verbose = TRUE,
   ...
 )
@@ -31,9 +31,9 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{kpar}{List of hyperparameters: See \code{kernlab::kpca("kpar")}}
 
-\item{scale}{Logical: If TRUE, scale input data before projecting}
+\item{center}{Logical: If TRUE, center data prior to decomposition. Default = TRUE}
 
-\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}}
+\item{scale}{Logical: If TRUE, scale data prior to decomposition. Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
