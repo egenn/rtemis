@@ -88,7 +88,7 @@ dplot3.xy <- function(x, y = NULL,
                       diagonal = FALSE,
                       diagonal.col = NULL,
                       diagonal.alpha = .2,
-                      mod.params = list(),
+                      fit.params = list(),
                       width = NULL,
                       height = NULL,
                       padding = 0,
@@ -267,7 +267,7 @@ dplot3.xy <- function(x, y = NULL,
       x1 <- x[[i]]
       y1 <- y[[i]]
       learner.args <- c(list(x = x1, y = y1, verbose = trace > 0),
-                        mod.params,
+                        fit.params,
                         list(...))
       if (fit == "NLS") learner.args <- c(learner.args,
                                           list(formula = formula, save.func = TRUE))

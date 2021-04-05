@@ -57,7 +57,7 @@ dplot3.xy(
   diagonal = FALSE,
   diagonal.col = NULL,
   diagonal.alpha = 0.2,
-  mod.params = list(),
+  fit.params = list(),
   width = NULL,
   height = NULL,
   padding = 0,
@@ -168,6 +168,9 @@ groups, or \code{fit} is set}
 \item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
 
 \item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
+
+\item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+parameters}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
