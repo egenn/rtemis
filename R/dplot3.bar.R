@@ -15,23 +15,21 @@
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area. Default = "white"
 #' @param theme Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"
-#' @param palette Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}
+#' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
 #' @param barmode Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
-#' "relative" for stacked bars, which handles negative values correctly, unlike "stack", as of writing.
+#' "relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.
 #' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
+#' @param order.by.val Logical: If TRUE, order bars by increasing value.
+#' Only be use for single group data. Default = NULL
+#' @param ylim Float, vector, length 2: y-axis limits.
+#' @param hovernames Character, vector: Optional character vector to show on hover over each bar.
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
-#' @param font.alpha Float (0, 1]: Transparency for fonts. Default = .8
-#' @param font.col Color: Font color. Default = "black"
 #' @param font.family String: Font family to use. Default = "Helvetica Neue"
 #' @param main.col Color: Title color. Default = NULL, determined by theme
 #' @param axes.col Color: Axes color. Default = NULL, determined, by theme
 #' @param labs.col Color: Labels' color. Default = NULL, determined by theme
-#' @param grid.col Color: Grid color. Default = "gray85"
-#' @param grid.lwd Float: Grid line width. Default = 1
-#' @param grid.alpha Float (0, 1]: Transparency for \code{grid.col}. Default = .8
-#' @param tick.col Color: Color for ticks and tick labels. Default = NULL, determined, by theme
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
 #' @param margin Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}
@@ -52,24 +50,15 @@ dplot3.bar <-  function(x,
                         ylab = NULL,
                         col = NULL,
                         alpha = .8,
-                        bg = NULL,
-                        plot.bg = NULL,
                         theme = getOption("rt.theme", "darkgrid"),
                         palette = getOption("rt.palette", "rtCol1"),
                         barmode = c("group", "relative", "stack", "overlay"),
                         group.names = NULL,
+                        order.by.val = FALSE,
+                        ylim = NULL,
+                        hovernames = NULL,
                         feature.names = NULL,
                         font.size = 16,
-                        font.alpha = .8,
-                        font.col = NULL,
-                        # font.family = "Helvetica Neue",
-                        # main.col = NULL,
-                        axes.col = NULL,
-                        labs.col = NULL,
-                        grid.col = NULL,
-                        grid.lwd = 1,
-                        grid.alpha = .8,
-                        tick.col = NULL,
                         legend = TRUE,
                         legend.col = NULL,
                         margin = list(b = 50, l = 50, t = 50, r = 20),
@@ -89,16 +78,29 @@ dplot3.bar <-  function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   dat <- as.data.frame(x)
-  # dat <- dplyr::select_if(dat, is.numeric)
+  if (NROW(dat) == 1) dat <- t(dat)
+
+  # [ Order by val ] ====
+  if (order.by.val) {
+    if (NCOL(dat) > 1) {
+      .order <- order(sapply(dat, mean, na.rm = TRUE))
+      dat <- dat[, .order]
+    } else {
+      .order <- order(dat)
+      dat <- dat[.order, , drop = FALSE]
+    }
+    if (!is.null(group.names)) group.names <- group.names[.order]
+    if (!is.null(hovernames)) hovernames <- hovernames[.order]
+  }
 
   # Group names ====
   .group.names <- group.names
   if (is.null(group.names)) {
-    if (!is.null(rownames(x))) .group.names <- rownames(x)
+    if (!is.null(rownames(dat))) .group.names <- rownames(dat)
   } else if (is.numeric(group.names)) {
     .group.names <- dat[, group.names]
     rownames(dat) <- .group.names
-    dat <- dat[, -group.names]
+    dat <- dat[, .group.names]
   }
 
   # Feature names ====
@@ -112,10 +114,6 @@ dplot3.bar <-  function(x,
   }
 
   # Colors ====
-  # plot.bg <- plotly::toRGB(plot.bg)
-  # font.col <- plotly::toRGB(font.col, font.alpha)
-  # grid.col <- plotly::toRGB(grid.col, grid.alpha)
-
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) col <- palette[seq_len(p)]
@@ -142,14 +140,24 @@ dplot3.bar <-  function(x,
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
+  if (!is.null(hovernames)) {
+    hovernames <- matrix(hovernames)
+    if (NCOL(hovernames) == 1 & p > 1) {
+      hovernames <- matrix(rep(hovernames, p), ncol = p)
+    }
+  }
+
   # plotly ====
+  .group.names <- factor(.group.names, levels = .group.names)
   plt <- plotly::plot_ly(x = .group.names, y = dat[, 1],
                          type = 'bar',
                          name = .feature.names[1],
+                         text = hovernames[, 1],
                          marker = list(color = plotly::toRGB(col[1], alpha)))
   if (p > 1) {
     for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, y = dat[, i],
                                                        name = .feature.names[i],
+                                                       text = hovernames[, i],
                                                        marker = list(color = plotly::toRGB(col[i], alpha)))
   }
 
@@ -168,6 +176,7 @@ dplot3.bar <-  function(x,
                         yaxis = list(title = ylab,
                                      # showline = axes.visible,
                                      # mirror = axes.mirrored,
+                                     range = ylim,
                                      titlefont = f,
                                      showgrid = theme$grid,
                                      gridcolor = grid.col,
