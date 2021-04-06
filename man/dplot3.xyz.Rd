@@ -119,7 +119,7 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 
 \item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
 
-\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
 Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
@@ -129,10 +129,6 @@ plot.}
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
-
-\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
-
-\item{font.col}{Color: Font color. Default = "black"}
 
 \item{marker.col}{Color for marker}
 

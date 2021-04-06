@@ -77,7 +77,7 @@ dplot3.x(
 
 \item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
 
-\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
 Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
@@ -88,23 +88,11 @@ plot.}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
-
-\item{font.col}{Color: Font color. Default = "black"}
-
 \item{main.col}{Color: Title color. Default = NULL, determined by theme}
 
 \item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
 
 \item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
-
-\item{grid.col}{Color: Grid color. Default = "gray85"}
-
-\item{grid.lwd}{Float: Grid line width. Default = 1}
-
-\item{grid.alpha}{Float (0, 1]: Transparency for \code{grid.col}. Default = .8}
-
-\item{tick.col}{Color: Color for ticks and tick labels. Default = NULL, determined, by theme}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
 1 element}
@@ -129,7 +117,7 @@ legend top left within the plot area. Set to NULL to place legend top right besi
 \item{hist.n.bins}{Integer: Number of bins to use if type = "histogram". Default = 20}
 
 \item{barmode}{Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
-"relative" for stacked bars, which handles negative values correctly, unlike "stack", as of writing.}
+"relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.}
 
 \item{ridge.sharex}{Logical: If TRUE, draw single x-axis when \code{mode = "ridge"}. Default = TRUE}
 

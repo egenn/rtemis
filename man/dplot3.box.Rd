@@ -20,8 +20,8 @@ dplot3.box(
   boxpoints = "outliers",
   quartilemethod = "linear",
   violin.box = TRUE,
-  order.by.fn = NULL,
   group.names = NULL,
+  order.by.fn = NULL,
   font.size = 16,
   font.alpha = 0.8,
   font.col = NULL,
@@ -74,6 +74,9 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 \item{quartilemethod}{Character: "linear", "exclusive", "inclusive"}
 
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
+
+\item{order.by.fn}{Logical: If TRUE, order boxes by increasing value of this function
+(e.g. median). Default = NULL}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 

@@ -52,7 +52,7 @@ the \code{category.names} argument}
 
 \item{theme}{String: "light", "dark". Default = \code{getOption("rt.theme", "light")}}
 
-\item{palette}{Character: Name of `rtemis` palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{category.names}{Character, vector, length = NROW(x): Category names. Default = NULL, which uses
 either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}}
