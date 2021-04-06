@@ -31,6 +31,7 @@ dplot3.bar(
   legend.col = NULL,
   margin = list(b = 50, l = 50, t = 50, r = 20),
   padding = 0,
+  displayModeBar = TRUE,
   filename = NULL,
   file.width = 500,
   file.height = 500,
