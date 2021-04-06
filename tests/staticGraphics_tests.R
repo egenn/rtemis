@@ -21,9 +21,6 @@ estimated[index] <- 1 - as.numeric(estimated[index])
 # mhist ====
 mhist(x)
 
-# mplot3 ====
-# mplot3(x)
-
 # mplot3.adsr ====
 mplot3.adsr()
 
