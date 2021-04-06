@@ -24,6 +24,8 @@
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
 #' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
 #' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
+#' @param order.by.fn Logical: If TRUE, order boxes by increasing value of this function
+#' (e.g. median). Default = NULL
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
@@ -66,8 +68,8 @@ dplot3.box <-  function(x,
                         boxpoints = "outliers",
                         quartilemethod = "linear",
                         violin.box = TRUE,
-                        order.by.fn = NULL,
                         group.names = NULL,
+                        order.by.fn = NULL,
                         font.size = 16,
                         font.alpha = .8,
                         font.col = NULL,
@@ -139,12 +141,6 @@ dplot3.box <-  function(x,
     if (is.null(.group.names)) .group.names <- paste0("Feature", seq(n.groups))
   }
 
-  # if (!is.null(colnames(dat))) {
-  #   .feature.names <- colnames(dat)
-  # } else {
-  #   .feature.names <- paste0("Feature", seq(NCOL(dat)))
-  # }
-
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
@@ -172,7 +168,6 @@ dplot3.box <-  function(x,
 
   # plotly ====
   args <- list(y = x[[1]],
-               color = plotly::toRGB(col[1], alpha),
                type = type,
                name = .group.names[1],
                line = list(color = plotly::toRGB(col[1])),
@@ -187,7 +182,6 @@ dplot3.box <-  function(x,
   if (n.groups > 1) {
     for (i in seq_len(n.groups)[-1]) {
       plt <- plotly::add_trace(plt, y = x[[i]],
-                               color = plotly::toRGB(col[i], alpha),
                                name = .group.names[i],
                                line = list(color = plotly::toRGB(col[i])),
                                fillcolor = plotly::toRGB(col[i], alpha),
