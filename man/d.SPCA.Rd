@@ -9,10 +9,10 @@ d.SPCA(
   x.test = NULL,
   k = 1,
   nz = 0.5 * NCOL(x),
-  nneg = TRUE,
+  nneg = FALSE,
   method = c("cumulative", "vanilla"),
   scale = TRUE,
-  center = FALSE,
+  center = TRUE,
   verbose = TRUE,
   ...
 )
@@ -27,13 +27,13 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 
 \item{nz}{Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}}
 
-\item{nneg}{Logical: If TRUE, calculate non-negative loadings only. Default = TRUE}
+\item{nneg}{Logical: If TRUE, calculate non-negative loadings only. Default = FALSE}
 
 \item{method}{Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"}
 
-\item{scale}{LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE}
+\item{scale}{Logical: If TRUE, scale input data before projecting. Default = TRUE}
 
-\item{center}{LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE}
+\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 

@@ -19,10 +19,10 @@
 #' @param k Integer vector of length 1 or greater. N of components to return
 #'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
 #' @param nz Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}
-#' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = TRUE
+#' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = FALSE
 #' @param method Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
-#' @param scale LogSPCAl: If TRUE, scale input data before projecting. Default = TRUE
-#' @param center LogSPCAl: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
+#' @param scale Logical: If TRUE, scale input data before projecting. Default = TRUE
+#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
 #' @param ... Additional parameters to be passed to \code{fastSPCA::fastSPCA}
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas
@@ -33,10 +33,10 @@ d.SPCA <- function(x,
                    x.test = NULL,
                    k = 1,
                    nz = .5 * NCOL(x),
-                   nneg = TRUE,
+                   nneg = FALSE,
                    method = c("cumulative", "vanilla"),
                    scale = TRUE,
-                   center = FALSE,
+                   center = TRUE,
                    verbose = TRUE, ...) {
 
   # [ INTRO ] ====
@@ -67,40 +67,51 @@ d.SPCA <- function(x,
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
+  # [ scale ] ====
+  if (scale | center) {
+    x <- scale(x, scale = scale, center = center)
+    .center <- attr(x, "scaled:center")
+    .scale <- attr(x, "scaled:scale")
+  } else {
+    .center <- .scale <- FALSE
+  }
+
   # [ SPCA ] ====
   if (verbose) msg("Performing Sparse Principal Components Analysis...")
   if (method == "cumulative") {
-    decom <- nsprcomp::nscumcomp(x, ncomp = k, k = nz, nneg = nneg, ...)
+    decom <- nsprcomp::nscumcomp(x, ncomp = k, k = nz, nneg = nneg, scale. = FALSE, ...)
   } else {
-    decom <- nsprcomp::nsprcomp(x, ncomp = k, k = nz, nneg = nneg, ...)
+    decom <- nsprcomp::nsprcomp(x, ncomp = k, k = nz, nneg = nneg, scale. = FALSE, ...)
   }
 
   vectors <- decom$rotation
 
   # [ PROJECTIONS ] ====
+  projections.train <- x %*% vectors
   projections.test <- NULL
-  if (scale) {
-    projections.train <- scale(x, center = center) %*% vectors
-    if (!is.null(x.test)) projections.test <- scale(x.test, center = center) %*% vectors
-  } else {
-    projections.train <- x %*% vectors
-    if (!is.null(x.test)) projections.test <- x.test %*% vectors
+  if (!is.null(x.test)) {
+    if (scale | center) {
+      x.test <- t(t(x.test + .center) * .scale)
+    }
+    projections.test <- x.test %*% vectors
   }
 
   # [ OUTRO ] ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
-                     decom = decom,
-                     xnames = xnames,
-                     projections.train = projections.train,
-                     projections.test = projections.test,
+                    decom = decom,
+                    xnames = xnames,
+                    projections.train = projections.train,
+                    projections.test = projections.test,
                     parameters = list(k = k,
                                       nz = nz,
                                       nneg = nneg,
                                       method = method,
                                       scale = scale,
                                       center = center),
-                     extra = extra)
+                    center = .center,
+                    scale = .scale,
+                    extra = extra)
   outro(start.time, verbose = verbose)
   rt
 
