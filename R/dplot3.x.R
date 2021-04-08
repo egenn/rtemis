@@ -28,6 +28,16 @@
 #' @param ridge.y.labs Lofical: If TRUE, show individual y labs when \code{mode = "ridge"}. Default = FALSE
 #' @param ridge.order.on.mean Logical: If TRUE, order groups by mean value when \code{mode = "ridge"}. Defaul = TRUE.
 #' Turn to FALSE, if, for example, groups are ordered by date or similar.
+#' @param vline Float: If defined, draw a vertical line at this x value. Default = NULL
+#' @param vline.col Color for \code{vline}. Default = "#ff0000" (red)
+#' vline.width Float: Width for \code{vline}. Default = 1
+#' @param text Character: If defined, add this text over the plot
+#' @param text.x Float: x-coordinate for \code{text}
+#' @param text.xref Character: "x": \code{text.x} refers to plot's x-axis; "paper": \code{text.x} refers to plotting area from 0-1
+#' @param text.xanchor Character: "auto", "left", "center", "right"
+#' @param text.yanchor Character: "auto", "top", "middle", "bottom"
+#' @param text.yref Character: "y": \code{text.y} refers to plot's y-axis; "paper": \code{text.y} refers to plotting area from 0-1
+#' @param text.col Color for \code{text}
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
 #' @author E.D. Gennatas
@@ -71,6 +81,17 @@ dplot3.x <- function(x,
                      legend.border.col = "#FFFFFF00",
                      bargap = .05,
                      bingroup = 1,
+                     vline = NULL,
+                     vline.col = "#ff0000",
+                     vline.width = 1,
+                     text = NULL,
+                     text.x = 1,
+                     text.xref = "paper",
+                     text.xanchor = "left",
+                     text.y = 1,
+                     text.yref = "paper",
+                     text.yanchor = "top",
+                     text.col = "#ff0000",
                      margin = list(b = 50, l = 50, t = 50, r = 20),
                      padding = 0,
                      zerolines = FALSE,
@@ -320,7 +341,7 @@ dplot3.x <- function(x,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col),
-                                     xref = 'paper',
+                                     xref = "paper",
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
@@ -340,6 +361,32 @@ dplot3.x <- function(x,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
                                        zeroline = zerolines))
+  }
+
+  # vline ====
+  if (!is.null(vline)) {
+    plt <- plotly::layout(plt, shapes = list(list(type = "line",
+                                          x0 = vline, x1 = vline,
+                                          y0 = 0, y1 = 1, yref = "paper",
+                                          line = list(color = vline.col,
+                                                      width = vline.width))))
+  }
+
+  # text ====
+  if (!is.null(text)) {
+    plt <- plotly::layout(plt,
+                          annotations = list(
+                            text = text,
+                            x = text.x,
+                            xref = text.xref,
+                            xanchor = text.xanchor,
+                            y = text.y,
+                            yref = text.yref,
+                            yanchor = text.yanchor,
+                            font = list(color = text.col,
+                                        family = theme$font.family,
+                                        size = font.size),
+                            showarrow = FALSE))
   }
 
   # Set padding

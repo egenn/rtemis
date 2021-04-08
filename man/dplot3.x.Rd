@@ -37,6 +37,17 @@ dplot3.x(
   legend.border.col = "#FFFFFF00",
   bargap = 0.05,
   bingroup = 1,
+  vline = NULL,
+  vline.col = "#ff0000",
+  vline.width = 1,
+  text = NULL,
+  text.x = 1,
+  text.xref = "paper",
+  text.xanchor = "left",
+  text.y = 1,
+  text.yref = "paper",
+  text.yanchor = "top",
+  text.col = "#ff0000",
   margin = list(b = 50, l = 50, t = 50, r = 20),
   padding = 0,
   zerolines = FALSE,
@@ -103,6 +114,25 @@ legend top left within the plot area. Set to NULL to place legend top right besi
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{bargap}{Float: The gap between adjacent histogram bars in plot fraction. Default = .05}
+
+\item{vline}{Float: If defined, draw a vertical line at this x value. Default = NULL}
+
+\item{vline.col}{Color for \code{vline}. Default = "#ff0000" (red)
+vline.width Float: Width for \code{vline}. Default = 1}
+
+\item{text}{Character: If defined, add this text over the plot}
+
+\item{text.x}{Float: x-coordinate for \code{text}}
+
+\item{text.xref}{Character: "x": \code{text.x} refers to plot's x-axis; "paper": \code{text.x} refers to plotting area from 0-1}
+
+\item{text.xanchor}{Character: "auto", "left", "center", "right"}
+
+\item{text.yref}{Character: "y": \code{text.y} refers to plot's y-axis; "paper": \code{text.y} refers to plotting area from 0-1}
+
+\item{text.yanchor}{Character: "auto", "top", "middle", "bottom"}
+
+\item{text.col}{Color for \code{text}}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 
