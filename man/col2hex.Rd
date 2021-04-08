@@ -10,7 +10,7 @@ col2hex(color)
 \item{color}{Color(s) that R understands}
 }
 \description{
-Convert any color that R understands into the corresponding hexadecimal code
+Convert a color that R understands into the corresponding hexadecimal code
 }
 \examples{
 col2hex(c("gray50", "skyblue"))
