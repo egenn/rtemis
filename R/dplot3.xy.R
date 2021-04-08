@@ -361,21 +361,15 @@ dplot3.xy <- function(x, y = NULL,
   # }
 
   if (diagonal) {
-    minx <- min(unlist(x))
-    maxx <- max(unlist(x))
-    miny <- min(unlist(y))
-    maxy <- max(unlist(y))
-    rx <- maxx - minx
-    ry <- maxy - miny
-    minr <- min(rx, ry)
-    plt <- plt %>% plotly::layout(
-      shapes = list(type = "line",
-                    x0 = minx - .07*minr,
-                    y0 = miny - .07*minr,
-                    x1 = maxx + .07*minr,
-                    y1 = maxy + .07*minr,
-                    line = list(color = diagonal.col))
-    )
+    plt <- plotly::layout(plt,
+                          shapes = list(type = "line",
+                                        x0 = 0,
+                                        x1 = 1,
+                                        xref = "paper",
+                                        y0 = 0,
+                                        y1 = 1,
+                                        yref = "paper",
+                                        line = list(color = diagonal.col)))
   }
 
   for (i in seq_len(n.groups)) {
