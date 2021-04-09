@@ -67,6 +67,7 @@ dplot3.box <-  function(x,
                         boxmode = c("group", "relative", "stack", "overlay"),
                         boxpoints = "outliers",
                         quartilemethod = "linear",
+                        width = 0,
                         violin.box = TRUE,
                         group.names = NULL,
                         order.by.fn = NULL,
@@ -84,8 +85,9 @@ dplot3.box <-  function(x,
                         legend = FALSE,
                         legend.col = NULL,
                         legend.xy = NULL,
-                        margin = list(t = 35),
-                        padding = 0,
+                        margin = list(t = 35, pad = 0),
+                        automargin.x = TRUE,
+                        automargin.y = TRUE,
                         displayModeBar = TRUE,
                         filename = NULL,
                         file.width = 500,
@@ -143,8 +145,12 @@ dplot3.box <-  function(x,
 
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
-  if (is.null(col)) col <- palette[seq_len(n.groups)]
-  if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
+  if (is.null(col)) col <- recycle(palette, seq(n.groups))
+  # if (length(palette) < n.groups) col <- rep(col, n.groups/length(col))
+  if (length(col) < n.groups) col <- recycle(col, seq(n.groups))
+  if (!is.null(order.by.fn) && order.by.fn != "none") {
+    col <- col[.order]
+  }
 
   # [ THEME ] ====
   extraargs <- list(...)
@@ -210,12 +216,14 @@ dplot3.box <-  function(x,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = grid.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE),
+                                     zeroline = FALSE,
+                                     automargin = automargin.y),
                         xaxis = list(title = xlab,
                                      titlefont = f,
                                      showgrid = FALSE,
                                      tickcolor = grid.col,
-                                     tickfont = tickfont),
+                                     tickfont = tickfont,
+                                     automargin = automargin.x),
                         # boxmode = boxmode,  # CHECK: online docs show this, but gives error
                         title = list(text = main,
                                      font = list(family = theme$font.family,
@@ -225,12 +233,11 @@ dplot3.box <-  function(x,
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
+                        bargap = 10,
                         margin = margin,
                         showlegend = legend,
                         legend = .legend)
 
-  # Padding
-  plt$sizingPolicy$padding <- padding
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,
