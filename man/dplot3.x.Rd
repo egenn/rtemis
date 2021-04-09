@@ -48,8 +48,9 @@ dplot3.x(
   text.yref = "paper",
   text.yanchor = "top",
   text.col = "#ff0000",
-  margin = list(b = 50, l = 50, t = 50, r = 20),
-  padding = 0,
+  margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
+  automargin.x = TRUE,
+  automargin.y = TRUE,
   zerolines = FALSE,
   histnorm = c("density", "percent", "probability", "probability density"),
   histfunc = c("count", "sum", "avg", "min", "max"),
@@ -135,8 +136,6 @@ vline.width Float: Width for \code{vline}. Default = 1}
 \item{text.col}{Color for \code{text}}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
-
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 

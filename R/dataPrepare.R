@@ -238,7 +238,7 @@ dataPrepare <- function(x, y = NULL,
     type <- "Survival"
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   list(x = x, y = y,
        x.test = x.test, y.test = y.test,
        x.valid = x.valid, y.valid = y.valid,

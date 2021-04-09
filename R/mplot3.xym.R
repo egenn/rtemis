@@ -65,7 +65,7 @@ mplot3.xym <- function(x, y,
                        pdf.width = 7,
                        pdf.height = 7, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   margin <- match.arg(margin)
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)

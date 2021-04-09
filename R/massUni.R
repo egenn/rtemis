@@ -20,14 +20,14 @@ massUni <- function(x, y, mod = "gam",
                     verbose = TRUE,
                     n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   learner <- modSelect(mod)
   args <- list(...)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   ynames <- colnames(y)
 
@@ -55,7 +55,7 @@ massUni <- function(x, y, mod = "gam",
   # errors <- plyr::ldply(mods, function(m) as.data.frame(m$error.train), .progress = "text")
   # errors <- t(pbapply::pbsapply(mods, function(m) as.data.frame(m$error.train)))
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   outro(start.time, verbose = verbose)
   if (!save.mods) mods <- NULL
   list(mods = mods,

@@ -76,12 +76,12 @@ dplot3.graphjs <- function(net,
                            filename = NULL,
                            verbose = TRUE, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("igraph", "threejs", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)

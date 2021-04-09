@@ -50,7 +50,7 @@ s.QRNN <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) { print(args(s.NW)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -61,12 +61,12 @@ s.QRNN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "QRNN"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("qrnn", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) { print(args(s.NW)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.NW)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -83,7 +83,7 @@ s.QRNN <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -110,12 +110,12 @@ s.QRNN <- function(x, y = NULL,
                         penalty = penalty,
                         trace = verbose, ...)
 
-  # [ FITTED ] ==== ====
+  # [ Fitted ] ==== ====
   fitted <- rowMeans(qrnn::qrnn.predict(as.matrix(x), mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- rowMeans(qrnn::qrnn.predict(as.matrix(x.test), mod))
@@ -125,7 +125,7 @@ s.QRNN <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = rtclass,
               mod = mod,
               mod.name = mod.name,

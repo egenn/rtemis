@@ -40,23 +40,23 @@ d.TSNE <- function(x,
                    verbose = TRUE,
                    outdir = "./") {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   if (verbose) msg("Running t-distributed Stochastic Neighbot Embedding")
   decom.name <- "TSNE"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("Rtsne", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.TSNE))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)

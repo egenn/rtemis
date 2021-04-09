@@ -41,7 +41,7 @@ s.PPTREE <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.PPTREE))
     invisible(9)
@@ -55,12 +55,12 @@ s.PPTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "PPTREE"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("PPtree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -68,7 +68,7 @@ s.PPTREE <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -103,14 +103,14 @@ s.PPTREE <- function(x, y = NULL,
                          energy = energy, ...)
   if (trace > 0) summary(mod)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- PPtree::PP.classify(test.data = x, true.class = y, Tree.result = mod)$predict.class
   fitted <- factor(fitted)
   levels(fitted) <- levels(y)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test) & !is.null(y.test)) {
     predicted <- PPtree::PP.classify(test.data = x.test, true.class = y.test, Tree.result = mod)$predict.class
@@ -122,7 +122,7 @@ s.PPTREE <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtMod$new(mod.name = mod.name,
                   y.train = y,

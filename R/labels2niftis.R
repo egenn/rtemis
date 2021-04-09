@@ -24,7 +24,7 @@ labels2niftis <- function(datamat,
                           verbose = TRUE,
                           n.cores = parallel::detectCores()) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("oro.nifti", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

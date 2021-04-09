@@ -23,6 +23,8 @@ dplot3.bar(
   legend = TRUE,
   legend.col = NULL,
   margin = list(b = 50, l = 50, t = 50, r = 20),
+  automargin.x = TRUE,
+  automargin.y = TRUE,
   padding = 0,
   displayModeBar = TRUE,
   filename = NULL,
@@ -97,6 +99,15 @@ Draw interactive barplots using \code{plotly}
 \examples{
 \dontrun{
 dplot3.bar(VADeaths)
+# simple individual bars
+a <- c(4, 7, 2)
+dplot3.bar(a)
+# if input is a data.frame, each row is a group
+b <- data.frame(x = c(3, 5, 7), y = c(2, 1, 8), z = c(4, 5, 2))
+rownames(b) <- c("Jen", "Ben", "Ren")
+dplot3.bar(b)
+# stacked
+dplot3.bar(b, barmode = "stack")
 }
 }
 \author{

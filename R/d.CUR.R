@@ -40,16 +40,16 @@ d.CUR <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "CUR"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rCUR", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.matrix(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -71,10 +71,10 @@ d.CUR <- function(x,
                      matrix.return = matrix.return,
                      error.return = error.return, ...)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- rCUR::getC(decom)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,

@@ -53,7 +53,7 @@ mplot3.roc <- function(prob, labels,
                        pdf.width = 5,
                        pdf.height = 5, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -62,7 +62,7 @@ mplot3.roc <- function(prob, labels,
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -196,7 +196,7 @@ mplot3.roc <- function(prob, labels,
           family = theme$font.family)
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
 
   if (type == "Sens.Spec") {

@@ -55,7 +55,7 @@ s.IRF <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.IRF))
     return(invisible(9))
@@ -69,12 +69,12 @@ s.IRF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "IRF"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("iRF", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.IRF))
     stop("y is missing")
@@ -85,7 +85,7 @@ s.IRF <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -155,7 +155,7 @@ s.IRF <- function(x, y = NULL,
                      n.trees = n.trees,
                      mtry = mtry)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.raw <- lapply(mod$rf.list, function(i) predict(i, x))
   if (type == "Classification") {
     fitted <- factor(apply(do.call(cbind, fitted.raw), 1, function(i) as.integer(mean(i))))
@@ -166,7 +166,7 @@ s.IRF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   if (!is.null(x.test)) {
     predicted.raw <- lapply(mod$rf.list, function(i) predict(i, x.test))
     if (type == "Classification") {
@@ -194,7 +194,7 @@ s.IRF <- function(x, y = NULL,
     varimp <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(fitted.raw = fitted.raw,
                 predicted.raw = predicted.raw)
   if (!is.null(importance)) extra$var.imp <- mod$variable.importance

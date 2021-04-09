@@ -24,15 +24,6 @@ dplot3.box(
   group.names = NULL,
   order.by.fn = NULL,
   font.size = 16,
-  font.alpha = 0.8,
-  font.col = NULL,
-  main.col = NULL,
-  axes.col = NULL,
-  labs.col = NULL,
-  grid.col = NULL,
-  grid.lwd = 1,
-  grid.alpha = 0.8,
-  tick.col = NULL,
   legend = FALSE,
   legend.col = NULL,
   legend.xy = NULL,
@@ -82,24 +73,6 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{font.alpha}{Float (0, 1]: Transparency for fonts. Default = .8}
-
-\item{font.col}{Color: Font color. Default = "black"}
-
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
-
-\item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
-
-\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
-
-\item{grid.col}{Color: Grid color. Default = "gray85"}
-
-\item{grid.lwd}{Float: Grid line width. Default = 1}
-
-\item{grid.alpha}{Float (0, 1]: Transparency for \code{grid.col}. Default = .8}
-
-\item{tick.col}{Color: Color for ticks and tick labels. Default = NULL, determined, by theme}
-
 \item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
@@ -111,8 +84,6 @@ the legend top right beside the plot area. For example, c(0, 1) places the legen
 
 \item{feature.names}{Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 \code{colnames(x)}}
-
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}

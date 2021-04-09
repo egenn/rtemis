@@ -86,7 +86,7 @@ s.LINOA <- function(x, y = NULL,
                         verbose = TRUE,
                         trace = 1) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.LINOA))
     return(invisible(9))
@@ -102,19 +102,19 @@ s.LINOA <- function(x, y = NULL,
   # delta 02.06.2020
   # if (max.leaves <= 1) force.max.leaves <- 1
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   # ENH: deps for lincoef
   if (!depCheck("glmnet", "rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
   # if (.gs && nvmax == 0) lin.type = "none"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -161,7 +161,7 @@ s.LINOA <- function(x, y = NULL,
     nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (metric == "auto") {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -315,7 +315,7 @@ s.LINOA <- function(x, y = NULL,
                      cv.glmnet.nfolds = cv.glmnet.nfolds,
                      which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Classification") {
     .fitted <- predict.shyoptleaves(mod, x, type = "all")
     fitted <- .fitted$estimate
@@ -327,7 +327,7 @@ s.LINOA <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -352,7 +352,7 @@ s.LINOA <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,

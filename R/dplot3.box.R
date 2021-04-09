@@ -29,16 +29,6 @@
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
-#' @param font.alpha Float (0, 1]: Transparency for fonts. Default = .8
-#' @param font.col Color: Font color. Default = "black"
-#' @param font.family String: Font family to use. Default = "Helvetica Neue"
-#' @param main.col Color: Title color. Default = NULL, determined by theme
-#' @param axes.col Color: Axes color. Default = NULL, determined, by theme
-#' @param labs.col Color: Labels' color. Default = NULL, determined by theme
-#' @param grid.col Color: Grid color. Default = "gray85"
-#' @param grid.lwd Float: Grid line width. Default = 1
-#' @param grid.alpha Float (0, 1]: Transparency for \code{grid.col}. Default = .8
-#' @param tick.col Color: Color for ticks and tick labels. Default = NULL, determined, by theme
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
@@ -53,7 +43,6 @@
 #' }
 
 dplot3.box <-  function(x,
-                        # groups = "cols",
                         type = c("box", "violin"),
                         main = NULL,
                         xlab = NULL,
@@ -72,16 +61,6 @@ dplot3.box <-  function(x,
                         group.names = NULL,
                         order.by.fn = NULL,
                         font.size = 16,
-                        font.alpha = .8,
-                        font.col = NULL,
-                        # font.family = "Helvetica Neue",
-                        main.col = NULL,
-                        axes.col = NULL,
-                        labs.col = NULL,
-                        grid.col = NULL,
-                        grid.lwd = 1,
-                        grid.alpha = .8,
-                        tick.col = NULL,
                         legend = FALSE,
                         legend.col = NULL,
                         legend.xy = NULL,
@@ -93,12 +72,12 @@ dplot3.box <-  function(x,
                         file.width = 500,
                         file.height = 500, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # Arguments ====
+  # [ Arguments ] ====
   boxmode <- match.arg(boxmode)
   type <- match.arg(type)
   main <- paste0("<b>", main, "</b>")
@@ -119,7 +98,7 @@ dplot3.box <-  function(x,
 
   }
 
-  # [ ORDER BY FN ] ====
+  # [ Order by fn ] ====
   if (!is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
@@ -152,7 +131,7 @@ dplot3.box <-  function(x,
     col <- col[.order]
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -168,7 +147,8 @@ dplot3.box <-  function(x,
   tick.col <- plotly::toRGB(theme$tick.labels.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
-  axes.col <- plotly::toRGB(theme$axes.col)
+  # axes.col <- plotly::toRGB(theme$axes.col)
+
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
@@ -233,7 +213,6 @@ dplot3.box <-  function(x,
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
-                        bargap = 10,
                         margin = margin,
                         showlegend = legend,
                         legend = .legend)

@@ -56,7 +56,7 @@ mhist <- function(x,
                   main = "",
                   add = FALSE, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   measure <- match.arg(measure)
   xhist <- hist(x, breaks = breaks, plot = FALSE)
   .x <- if (horiz) xhist[[measure]] else xhist$mids

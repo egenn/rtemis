@@ -71,7 +71,7 @@ boost <- function(x, y = NULL,
                   plot.type = 'l',
                   outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -85,7 +85,7 @@ boost <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "BOOST"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -95,7 +95,7 @@ boost <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     x.valid, y.valid,
@@ -311,11 +311,11 @@ boost <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("boost", "list")
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   error.train <- modError(y, obj$fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
@@ -325,7 +325,7 @@ boost <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = learner.short,
                      mod.params = mod.params,
                      init = init,
@@ -567,7 +567,7 @@ as.boost <- function(object,
               mods = mods)
   class(obj) <- c("boost", "list")
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = object$mod.name,
                      mod.params = object$parameters,
                      init = init,

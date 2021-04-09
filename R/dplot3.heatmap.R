@@ -82,7 +82,7 @@ dplot3.heatmap <- function(z,
                            filename = NULL,
                            ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("heatmaply", verbose = FALSE)) {
     cat("\n")
     stop("Please install dependencies and try again")
@@ -113,7 +113,7 @@ dplot3.heatmap <- function(z,
     limits <- c(-maxabs, maxabs)
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)

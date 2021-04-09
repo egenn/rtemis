@@ -28,7 +28,7 @@ s.NBAYES <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.NBAYES))
     invisible(9)
@@ -42,19 +42,19 @@ s.NBAYES <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NBAYES"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -77,12 +77,12 @@ s.NBAYES <- function(x, y = NULL,
   mod <- e1071::naiveBayes(x, y,
                            laplace = laplace, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, x)
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -92,7 +92,7 @@ s.NBAYES <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtMod$new(mod.name = mod.name,
                   y.train = y,
                   y.test = y.test,

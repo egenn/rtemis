@@ -35,7 +35,7 @@ s.DA <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.QDA))
     invisible(9)
@@ -48,12 +48,12 @@ s.DA <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("MASS", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (da.type == "lin") {
     da <- MASS::lda
     mod.name <- "LDA"
@@ -70,7 +70,7 @@ s.DA <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     upsample = upsample,
                     downsample =  downsample,
@@ -101,7 +101,7 @@ s.DA <- function(x, y = NULL,
   if (verbose) msg("Running", ifelse(da.type == "lin", "Linear", "Quadratic"), "Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(da, args = params)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.raw <- predict(mod, x)
   fitted <- fitted.raw$class
   fitted.prob <- fitted.raw$posterior
@@ -109,7 +109,7 @@ s.DA <- function(x, y = NULL,
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.raw <- predicted <- predicted.prob <- error.test <- test.projections <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test)
@@ -122,7 +122,7 @@ s.DA <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(train.projections = train.projections,
                 test.projections = test.projections)
   rt <- rtModSet(mod.name = mod.name,

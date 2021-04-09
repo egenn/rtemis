@@ -50,7 +50,7 @@ mplot3.decision <- function(rtmod, data,
                             point.pch = c(3, 4),
                             point.alpha = 1) {
 
-  # [ DATA ] ====
+  # [ Data ] ====
   data <- as.data.frame(data)
   class.dat <- data[, ncol(data)]
   data[, ncol(data)] <- NULL

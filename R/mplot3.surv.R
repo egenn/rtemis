@@ -41,7 +41,7 @@ mplot3.surv <- function(x,
                         group.at = NA,
                         par.reset = TRUE, ...) {
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (class(x)[1] != "list") x <- list(x)
   # x <- lapply(1:length(x), function(i) as.numeric(as.matrix(x[[i]])[, 1]))
   # if (class(x)[[1]] != "Surv") stop("At least first object must be of type Survival")
@@ -52,7 +52,7 @@ mplot3.surv <- function(x,
     }
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   if (is.null(col)) {
     if (is.character(palette)) palette <- rtPalette(palette)
     col <- palette

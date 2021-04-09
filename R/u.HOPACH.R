@@ -31,19 +31,19 @@ u.HOPACH <- function(x,
                      trace = 0,
                      verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = FALSE)
   clust.name <- "HOPACH"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   metric <- match.arg(metric)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("hopach", verbose = verbose)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -60,10 +60,10 @@ u.HOPACH <- function(x,
   if (verbose) msg("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
       paste(clust$clustering$sizes, collapse = ", "), ")", sep = "")
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- clust$clustering$labels
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = length(unique(clusters.train)),
                     xnames = xnames,

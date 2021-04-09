@@ -81,12 +81,12 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        file.width = 500,
                        file.height = 500, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & is.null(z) & NCOL(x) > 2) {
     .colnames <- labelify(colnames(x))
     y <- x[, 2]
@@ -116,7 +116,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   # xlab, ylab ====
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {

@@ -42,6 +42,15 @@
 #' @examples
 #' \dontrun{
 #' dplot3.bar(VADeaths)
+#' # simple individual bars
+#' a <- c(4, 7, 2)
+#' dplot3.bar(a)
+#' # if input is a data.frame, each row is a group
+#' b <- data.frame(x = c(3, 5, 7), y = c(2, 1, 8), z = c(4, 5, 2))
+#' rownames(b) <- c("Jen", "Ben", "Ren")
+#' dplot3.bar(b)
+#' # stacked
+#' dplot3.bar(b, barmode = "stack")
 #' }
 
 dplot3.bar <-  function(x,
@@ -62,13 +71,15 @@ dplot3.bar <-  function(x,
                         legend = TRUE,
                         legend.col = NULL,
                         margin = list(b = 50, l = 50, t = 50, r = 20),
+                        automargin.x = TRUE,
+                        automargin.y = TRUE,
                         padding = 0,
                         displayModeBar = TRUE,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -78,7 +89,7 @@ dplot3.bar <-  function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   dat <- as.data.frame(x)
-  if (NROW(dat) == 1) dat <- t(dat)
+  if (NROW(dat) == 1 & barmode != "stack") dat <- as.data.frame(t(dat))
 
   # [ Order by val ] ====
   if (order.by.val) {
@@ -119,7 +130,7 @@ dplot3.bar <-  function(x,
   if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -183,7 +194,8 @@ dplot3.bar <-  function(x,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE),
+                                     zeroline = FALSE,
+                                     automargin = automargin.y),
                         xaxis = list(title = xlab,
                                      # showline = axes.visible,
                                      # mirror = axes.mirrored,
@@ -192,7 +204,8 @@ dplot3.bar <-  function(x,
                                      gridcolor = grid.col,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
-                                     tickfont = tickfont),
+                                     tickfont = tickfont,
+                                     automargin = automargin.x),
                         barmode = barmode,  # group works without actual groups too
                         # title = main,
                         title = list(text = main,

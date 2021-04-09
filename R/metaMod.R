@@ -59,7 +59,7 @@ metaMod <- function(x, y = NULL,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(metaMod))
     return(invisible(9))
@@ -75,12 +75,12 @@ metaMod <- function(x, y = NULL,
   meta.mod.name <- toupper(meta.mod)
   mod.name <- paste0("META.", paste(base.mod.names, collapse = "."))
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plyr", verbose = trace > 0)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     stop("y is missing")
   }
@@ -94,7 +94,7 @@ metaMod <- function(x, y = NULL,
   # meta.input <- match.arg(meta.input)
   meta.input <- "retrain"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     verbose = verbose)
   x <- dt$x
@@ -208,7 +208,7 @@ metaMod <- function(x, y = NULL,
     names(base.mods) <- base.mod.names
   }
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   base.mods.fitted <- as.data.frame(sapply(base.mods, function(mod) c(mod$fitted)))
   base.mods.error.train <- as.data.frame(sapply(base.mods,
                                                 function(mod) c(mod$error.train)))
@@ -216,7 +216,7 @@ metaMod <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   base.mods.error.test <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     base.mods.predicted <-
@@ -238,7 +238,7 @@ metaMod <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtMeta$new(mod.name = mod.name,
                    type = type,
                    y.train = y,

@@ -88,7 +88,7 @@ s.LINAD <- function(x, y = NULL,
                     save.mod = FALSE,
                     .gs = FALSE) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.LINAD))
     return(invisible(9))
@@ -103,19 +103,19 @@ s.LINAD <- function(x, y = NULL,
   mod.name <- "LINAD"
   leaf.model <- match.arg(leaf.model)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   # ENH: deps for lincoef
   if (!depCheck("glmnet", "rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
   # if (.gs && nvmax == 0) lin.type = "none"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -166,7 +166,7 @@ s.LINAD <- function(x, y = NULL,
     nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (metric == "auto") {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -356,7 +356,7 @@ s.LINAD <- function(x, y = NULL,
                      resample.seed = resample.seed,
                      plot.tuning = plot.tuning)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (trace > 1) msg("Getting fitted values...")
   if (type == "Classification") {
     .fitted <- predict(mod, x, type = "all")
@@ -369,7 +369,7 @@ s.LINAD <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (trace > 1) msg("Getting predicted values...")
@@ -395,7 +395,7 @@ s.LINAD <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   varimp <- NULL
   # varimp <- if (lin.type == "none") {
   #   numeric()

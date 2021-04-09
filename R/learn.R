@@ -24,7 +24,7 @@ learn <- function(x, y = NULL,
                   verbose = TRUE,
                   print.plot = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x) | missing(y)) {
     cat("Usage:\n  learn(x, y, 'mod', x.test[optional], y.test[optional], ...)\n\n")
     return(modSelect())

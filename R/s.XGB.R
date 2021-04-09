@@ -128,7 +128,7 @@ s.XGB <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.XGB))
     return(invisible(9))
@@ -141,12 +141,12 @@ s.XGB <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck(c("xgboost", "pbapply"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.XGB))
     stop("y is missing")
@@ -172,7 +172,7 @@ s.XGB <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   parallel.type <- match.arg(parallel.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -224,7 +224,7 @@ s.XGB <- function(x, y = NULL,
   # [ MAIN ] ====
   if (n.resamples > 0) {
 
-    # {{ GRID SEARCH WITH INTERNAL RESAMPLING }}
+    # {{ Grid Search WITH INTERNAL RESAMPLING }}
 
     # [ RESAMPLES ] ====
     n.resamples <- as.integer(n.resamples)
@@ -485,7 +485,7 @@ s.XGB <- function(x, y = NULL,
                                   newline.pre = TRUE)
   } else {
 
-    # {{ NO GRID SEARCH NOR INTERNAL RESAMPLING }} ====
+    # {{ NO Grid Search NOR INTERNAL RESAMPLING }} ====
     res.part <- grid.performance <- grid.performance.by.tune.id <- best.tune <- NULL
     if (booster == "gbtree") {
       params <- list(booster = booster,
@@ -531,7 +531,7 @@ s.XGB <- function(x, y = NULL,
                             verbose = verbose,
                             print_every_n = print_every_n)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, xg.dat)
   if (type == "Classification") {
     # round() gives correct result whether response is integer or probability
@@ -545,7 +545,7 @@ s.XGB <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     data.test <- xgboost::xgb.DMatrix(data = as.matrix(x.test), missing = missing)
@@ -569,7 +569,7 @@ s.XGB <- function(x, y = NULL,
     .importance <- xgboost::xgb.importance(model = mod, feature_names = colnames(x))
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   # sink(logOut, append = T, split = T)
   extra <- list(resampler = resampler,
                 booster = booster,

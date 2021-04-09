@@ -47,12 +47,12 @@ mplot3.pr <- function(prob, labels,
                       pdf.width = 5,
                       pdf.height = 5, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck(c("PRROC"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -68,7 +68,7 @@ mplot3.pr <- function(prob, labels,
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -141,7 +141,7 @@ mplot3.pr <- function(prob, labels,
           family = theme$font.family)
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
 
   invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))

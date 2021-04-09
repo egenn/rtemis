@@ -38,12 +38,12 @@ resLearn <- function(x, y, mod,
                      n.cores = rtCores,
                      parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = trace > 0,
                       message = "Starting resLearn...",
                       newline.pre = TRUE)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   n.cores <- as.numeric(n.cores)[1]
   if (missing(x) | missing(y)) {
     print(args(resLearn))
@@ -165,7 +165,7 @@ resLearn <- function(x, y, mod,
   names(res.run) <- paste0(toupper(mod), seq(res))
   if (res.verbose) cat("\n")
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   outro(start.time, verbose = trace > 0)
   list(res = res, mods = res.run)
 

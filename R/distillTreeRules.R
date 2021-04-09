@@ -26,7 +26,7 @@ distillTreeRules <- function(mod, x, y = NULL,
                              typeDecay = 2,
                              verbose = TRUE) {
   
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("inTrees", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

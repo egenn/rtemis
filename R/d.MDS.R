@@ -40,18 +40,18 @@ d.MDS <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   dist.method <- match.arg(dist.method)
   decom.name <- "MDS"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.MDS))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -70,11 +70,11 @@ d.MDS <- function(x,
   .dist <- dist(x, method = dist.method)
   decom <- cmdscale(.dist, k = k, eig = eig, add = add, x.ret = x.ret, list. = TRUE)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- decom$points
   colnames(projections.train) <- paste0("MDS", seq(NCOL(projections.train)))
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

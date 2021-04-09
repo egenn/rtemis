@@ -20,7 +20,7 @@ colorOp <- function(col,
                     fn = c("invert", "mean"),
                     space = c("HSV", "RGB")) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   fn <- match.arg(fn)
   space <- match.arg(space)
 

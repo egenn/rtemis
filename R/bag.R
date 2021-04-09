@@ -58,7 +58,7 @@ bag <- function(x, y = NULL,
                 parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                 outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(bag))
     return(invisible(9))
@@ -71,7 +71,7 @@ bag <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   n.cores <- as.numeric(n.cores)[1]
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -81,7 +81,7 @@ bag <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -136,7 +136,7 @@ bag <- function(x, y = NULL,
                  n.cores = n.cores,
                  parallel.type = parallel.type)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (!verbose) pbapply::pboptions(type = "none")
 
   if (type == "Classification") {
@@ -152,7 +152,7 @@ bag <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.bag <- predicted <- error.test <- NULL
 
   if (!is.null(x.test)) {
@@ -182,7 +182,7 @@ bag <- function(x, y = NULL,
   }
 
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = mod.name,
                      mod.params = mod.params,
                      k = k)

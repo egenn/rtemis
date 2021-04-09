@@ -38,16 +38,16 @@ d.KPCA <- function(x,
                    scale = TRUE,
                    verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "KPCA"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("kernlab", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.KPCA))
     stop("x is missing")
@@ -60,7 +60,7 @@ d.KPCA <- function(x,
     }
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
@@ -87,7 +87,7 @@ d.KPCA <- function(x,
                          kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.test <- NULL
   projections.train <- kernlab::predict(decom, x)
   if (!is.null(x.test)) {
@@ -98,7 +98,7 @@ d.KPCA <- function(x,
     projections.test <- kernlab::predict(decom, x.test)
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

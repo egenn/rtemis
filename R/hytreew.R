@@ -111,7 +111,7 @@ hytreew <- function(x, y,
               verbose = verbose,
               trace = trace)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   .mod <- list(init = init,
                shrinkage = shrinkage,
                rules = .env$leaf.rule,

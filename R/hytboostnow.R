@@ -72,7 +72,7 @@ hytboostnow <- function(x, y,
                         # print.base.plot = FALSE,
                         plot.type = 'l') {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (!verbose) print.plot <- FALSE
   # extra.args <- list(...)
   # mod.params <- c(mod.params, extra.args)
@@ -271,7 +271,7 @@ hytboostnow <- function(x, y,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   # '- boost object ====
   obj <- list(init = init,
               learning.rate = .learning.rate,

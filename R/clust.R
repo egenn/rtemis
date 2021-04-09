@@ -25,7 +25,7 @@ clust <- function(x,
     return(clustSelect())
   }
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   clusterer <- clustSelect(clust, fn = FALSE)
 
   # [ DECOMPOSER ] ====
@@ -34,7 +34,7 @@ clust <- function(x,
                            x.test = x.test,
                            verbose = verbose, ...)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   clust
 
 } # rtemis::clust

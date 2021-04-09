@@ -32,16 +32,16 @@ u.CMEANS <- function(x,
                      control = list(),
                      verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "CMEANS"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.data.frame(x)
   xnames <- colnames(x) <- .colnames
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -56,11 +56,11 @@ u.CMEANS <- function(x,
                          weights = weights,
                          control = control, ...)
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- clust$cluster
   clusters.test <- NULL
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

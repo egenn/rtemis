@@ -30,7 +30,7 @@ s.LDA <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.LDA))
     invisible(9)
@@ -44,12 +44,12 @@ s.LDA <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "LDA"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("MASS", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -63,7 +63,7 @@ s.LDA <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     verbose = verbose)
@@ -84,7 +84,7 @@ s.LDA <- function(x, y = NULL,
   if (verbose) msg("Running Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::lda, args = params)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.raw <- predict(mod, x)
   fitted <- fitted.raw$class
   fitted.prob <- fitted.raw$posterior
@@ -92,7 +92,7 @@ s.LDA <- function(x, y = NULL,
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.raw <- predicted <- predicted.prob <- test.projections <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test)
@@ -105,7 +105,7 @@ s.LDA <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(fitted.prob = fitted.prob, predicted.prob = predicted.prob,
                 train.projections = train.projections, test.projections = test.projections,
                 params = params)

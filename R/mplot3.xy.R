@@ -273,7 +273,7 @@ mplot3.xy <- function(x, y = NULL,
                       trace = 0,
                       filename = NULL, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -368,7 +368,7 @@ mplot3.xy <- function(x, y = NULL,
     order.on.x <- ifelse("l" %in% type, TRUE, FALSE)
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -388,7 +388,7 @@ mplot3.xy <- function(x, y = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (!is.null(group)) {
     group <- as.factor(group)
     x <- split(x, group)
@@ -927,7 +927,7 @@ mplot3.xy <- function(x, y = NULL,
   if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
   if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
   invisible(list(xlim = xlim, ylim = ylim))
 

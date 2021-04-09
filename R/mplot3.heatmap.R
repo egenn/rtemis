@@ -144,7 +144,7 @@ mplot3.heatmap <- function(x,
                            pdf.width = 7,
                            pdf.height = 7, ...) {
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)

@@ -55,13 +55,13 @@ gridSearchLearn <- function(x, y, mod,
                             grid.verbose = FALSE,
                             n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose,
                       call.depth = call.depth,
                       message = "Running grid search...",
                       newline.pre = TRUE)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x) | missing(y)) {
     print(args(gridSearchLearn))
     stop("Input missing")
@@ -70,7 +70,7 @@ gridSearchLearn <- function(x, y, mod,
   n.resamples <- resample.rtset$n.resamples
   n.cores <- as.numeric(n.cores)[1]
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
 
   # [ GRID ] ====
@@ -250,7 +250,7 @@ gridSearchLearn <- function(x, y, mod,
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
 
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   outro(start.time, verbose = verbose)
   gs <- list(type = search.type,
              p = randomized.p,

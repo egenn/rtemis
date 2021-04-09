@@ -56,7 +56,7 @@ gplot3.map <- function(dat,
                        file.width = 7,
                        file.height = 5, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("ggplot2", "usmap", "scales", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

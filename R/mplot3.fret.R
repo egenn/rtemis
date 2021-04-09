@@ -28,7 +28,7 @@ mplot3.fret <- function(theme = "white",
                         inlays.cex = 2,
                         par.reset = TRUE, ...) {
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)

@@ -2,7 +2,6 @@
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 # shytreegamleaves with no-line option
-# max.leaves 1 train on y or resid
 # apply gamma only to splits
 
 #' \pkg{rtemis internal}: Low-level Stepwise Linear Additive Tree procedure
@@ -74,12 +73,12 @@ shytreegamleaves <- function(x, y,
 
   if (is.null(weights)) weights <- rep(1, NROW(y))
 
-  # Changed: Specify lookback directly
+  # Specify lookback directly
   if (lookback && is.null(x.valid) && max.leaves > 1) {
     stop("You have asked for lookback without providing a validation set.")
   }
 
-  # [ Check y is not constant ] ====
+  # Check y is not constant ====
   if (is.constant(y)) {
     coefs <- rep(0, NCOL(x) + 1)
     names(coefs) <- c("(Intercept)", colnames(x))
@@ -101,7 +100,7 @@ shytreegamleaves <- function(x, y,
     return(.mod)
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (NCOL(x) == 1) {
     if (lin.type != "glm") {
       lin.type <- "glm"
@@ -112,7 +111,7 @@ shytreegamleaves <- function(x, y,
 
   # [ GLOBAL ] ====
   g <- new.env()
-  # g$x used by rpart, g$xm used by lincoef
+  # g$x required by rpart, g$xm used by lincoef
   g$x <- x
   # g$xm <- cbind(1, model.matrix(~. - 1, data = x)) # check first 2-level factor incl as Var0 and Var1
   g$xm <- model.matrix(~., data = x)

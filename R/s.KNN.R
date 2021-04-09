@@ -37,7 +37,7 @@ s.KNN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.KNN))
     return(invisible(9))
@@ -51,12 +51,12 @@ s.KNN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "KNN"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("FNN", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.KNN))
     stop("y is missing")
@@ -75,7 +75,7 @@ s.KNN <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -98,7 +98,7 @@ s.KNN <- function(x, y = NULL,
                         k = k, algorithm = algorithm)
   }
 
-  # [ FITTED / PREDICTED ] ====
+  # [ Fitted / Predicted ] ====
   # TODO: write & incorporate predict.knn / replace KNN fn
   if (type == "Classification") {
     if (is.null(x.test)) {
@@ -130,7 +130,7 @@ s.KNN <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,

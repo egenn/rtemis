@@ -70,7 +70,7 @@ s.MARS <- function(x, y = NULL,
                    save.mod = FALSE,
                    outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.MARS))
     return(invisible(9))
@@ -84,12 +84,12 @@ s.MARS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "MARS"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("earth", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.MARS)); stop("x is missing")
   }
@@ -105,7 +105,7 @@ s.MARS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -136,7 +136,7 @@ s.MARS <- function(x, y = NULL,
   }
   if (is.null(nk)) nk <- min(200, max(20, 2 * NCOL(x))) + 1
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -204,7 +204,7 @@ s.MARS <- function(x, y = NULL,
   params <- args
   params$x <- params$y <- NULL
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod)
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -215,7 +215,7 @@ s.MARS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -241,7 +241,7 @@ s.MARS <- function(x, y = NULL,
     varimp[which(.evimpnames[i] == xnames)] <- .evimp[i, 4]
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

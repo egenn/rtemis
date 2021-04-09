@@ -60,7 +60,7 @@ cartLinBoostTV <- function(x, y = NULL,
                            plot.type = 'l',
                            outdir = NULL) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -74,7 +74,7 @@ cartLinBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CARTLINBOOSTTV"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -87,7 +87,7 @@ cartLinBoostTV <- function(x, y = NULL,
   learner.params <- list(cart = cart.params, glm = glm.params)
   if (base.mod[1] == "glm") learner.params <- rev(learner.params)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     verbose = verbose)
@@ -307,11 +307,11 @@ cartLinBoostTV <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("cartLinBoostTV", "list")
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
@@ -321,7 +321,7 @@ cartLinBoostTV <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = learner.short,
                      cart.params = cart.params,
                      glm.params = glm.params,
@@ -580,11 +580,11 @@ as.cartLinBoostTV <- function(object,
               mods = mods)
   class(obj) <- c("cartLinBoostTV", "list")
 
-  # # [ FITTED ] ====
+  # # [ Fitted ] ====
   # error.train <- modError(y, obj$fitted)
   # if (verbose) errorSummary(error.train)
   #
-  # # [ PREDICTED ] ====
+  # # [ Predicted ] ====
   # predicted <- error.test <- NULL
   # if (!is.null(x.test)) {
   #   predicted <- predict(obj, x.test)
@@ -594,7 +594,7 @@ as.cartLinBoostTV <- function(object,
   #   }
   # }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = object$mod.name,
                      cart.params = object$parameters$cart.params,
                      glm.params = object$parameters$glm.params,

@@ -51,22 +51,22 @@ d.LLE <- function(x,
                   verbose = TRUE,
                   n.cores = 1, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "LLE"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("lle", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.LLE))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -98,10 +98,10 @@ d.LLE <- function(x,
                                      id = id,
                                      iLLE = iLLE, ...))
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- decom$Y
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,

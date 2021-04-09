@@ -33,7 +33,7 @@ s.GLS <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.GLS))
     return(invisible(9))
@@ -46,7 +46,7 @@ s.GLS <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.GLS))
     stop("y is missing")
@@ -58,7 +58,7 @@ s.GLS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
   y <- dt$y
@@ -76,7 +76,7 @@ s.GLS <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   df.train <- cbind(x, y = y)
 
   if (nway.interactions > 0) {
@@ -101,12 +101,12 @@ s.GLS <- function(x, y = NULL,
   mod <- do.call(nlme::gls, args)
   if (trace > 0) print(summary(mod))
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- as.numeric(mod$fitted)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -116,7 +116,7 @@ s.GLS <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(formula = .formula)
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",

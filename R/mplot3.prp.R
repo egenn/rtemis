@@ -33,12 +33,12 @@ mplot3.prp <- function(object,
     stop ("Input object must be either of class rtMod (s.CART) or rpart")
   }
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart.plot", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -69,7 +69,7 @@ mplot3.prp <- function(object,
                          fallen.leaves = fallen.leaves,
                          box.palette = palette, ...)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
 
 } # rtemis::mplot3.prp

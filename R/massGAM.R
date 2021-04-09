@@ -46,11 +46,11 @@ massGAM <- function(x, y,
                     save.plots = FALSE,
                     new.x.breaks = 9) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("mgcv"))
     { cat("\n"); stop("Please install dependencies and try again") }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) { print(args(massGAM)); stop("x is missing") }
   if (missing(y) & NCOL(x) == 1) { print(args(massGAM)); stop("y is missing") }
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
@@ -58,14 +58,14 @@ massGAM <- function(x, y,
     if (!is.list(covariates)) covariates <- as.list(as.data.frame(covariates))
   }
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   ptm <- proc.time()
   scriptVersion <- 0.2
   start.date <- date()
   cat(start.date, "\n::: massGAM version ", scriptVersion,
       "\nHello, ", Sys.getenv('USER'), ".\n", sep = "")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   # Name cols first, because data.frame() or as.data.frame()
   # will assign colnames X1 ... Xn and V1 ... Vn respectively
   if (is.null(colnames(y))) colnames(y) <- paste0("Outcome.", 1:NCOL(y))
@@ -175,7 +175,7 @@ massGAM <- function(x, y,
     }
   }
 
-  # [ OUTRO ]
+  # [ Outro ]
   cat(date(), "::: massGAM version", scriptVersion, "completed.\n")
   elapsed <- proc.time() - ptm
   cat("Elapsed time:\n")

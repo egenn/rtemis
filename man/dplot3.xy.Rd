@@ -49,7 +49,9 @@ dplot3.xy(
   legend.border.col = "#FFFFFF00",
   legend.borderwidth = 0,
   legend.group.gap = 0,
-  margin = list(t = 35),
+  margin = list(t = 35, pad = 0),
+  automargin.x = TRUE,
+  automargin.y = TRUE,
   zerolines = TRUE,
   xlim = NULL,
   ylim = NULL,
@@ -60,7 +62,6 @@ dplot3.xy(
   fit.params = list(),
   width = NULL,
   height = NULL,
-  padding = 0,
   displayModeBar = TRUE,
   trace = 0,
   filename = NULL,
@@ -171,8 +172,6 @@ parameters}
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
-
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
 
 \item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
 

@@ -112,7 +112,7 @@ s.GBM3 <- function(x, y = NULL,
                    save.res.mod = FALSE,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.GBM3))
     return(invisible(9))
@@ -132,12 +132,12 @@ s.GBM3 <- function(x, y = NULL,
     n.trees <- min.trees
   }
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("gbm3", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (save.res.mod) save.res <- TRUE
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -156,7 +156,7 @@ s.GBM3 <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
   smoother <- match.arg(smoother)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -212,7 +212,7 @@ s.GBM3 <- function(x, y = NULL,
 
   if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -425,7 +425,7 @@ s.GBM3 <- function(x, y = NULL,
     if (n.trees == max.trees & verbose) msg("Reached max.trees =", max.trees)
   }
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.prob <- NULL
   if (type == "Regression" | type == "Survival") {
     if (distribution == "poisson") {
@@ -470,7 +470,7 @@ s.GBM3 <- function(x, y = NULL,
                                  " GBM permutation-based variable importance"), padj = -2)
   }
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(.x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -502,7 +502,7 @@ s.GBM3 <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs,
                 mod.summary.rel = mod.summary.rel,
                 mod.summary.perm = mod.summary.perm)

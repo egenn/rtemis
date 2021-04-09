@@ -37,18 +37,18 @@ massCART <- function(x, y = NULL,
                      grid.verbose = TRUE,
                      print.plot = FALSE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   parallel.type <- match.arg(parallel.type)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     upsample = upsample,
@@ -212,7 +212,7 @@ massCART <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   outro(start.time, verbose = verbose)
   s.out
 

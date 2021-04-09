@@ -106,7 +106,7 @@ s.RF <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.RF))
     return(invisible(9))
@@ -120,12 +120,12 @@ s.RF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RF"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("randomForest", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.RF))
     stop("y is missing")
@@ -138,7 +138,7 @@ s.RF <- function(x, y = NULL,
   if (is.null(do.trace)) do.trace <- if (verbose) n.trees/10 else FALSE
   if (proximity.tsne) proximity <- TRUE
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -187,7 +187,7 @@ s.RF <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(mtry, nodesize, maxnodes, sampsize.ratio)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -274,7 +274,7 @@ s.RF <- function(x, y = NULL,
                                     na.action = na.exclude,
                                     do.trace = do.trace)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (proximity) {
     fit <- predict(mod, x, proximity = TRUE)
     fitted <- fit$predicted
@@ -288,7 +288,7 @@ s.RF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   if (!is.null(x.test)) {
     if (proximity) {
       pred <- predict(mod, x.test, proximity = proximity)
@@ -349,7 +349,7 @@ s.RF <- function(x, y = NULL,
     proximity.tsne.test <- NULL
   } # End t-SNE
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs,
                 sampsize = sampsize,
                 fitted.prob = fitted.prob,

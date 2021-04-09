@@ -42,7 +42,7 @@ penn.heat <- function(n = 11, space = "Lab",
                       filename = NULL,
                       col.text = "black") {
 
-  # [ ARGUMENTS ]
+  # [ Arguments ]
   if (!is.null(filename)) colorbar <- TRUE
 
   # [ GRAD ]

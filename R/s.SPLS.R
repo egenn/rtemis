@@ -68,7 +68,7 @@ s.SPLS <- function(x, y = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.SPLS))
     return(invisible(9))
@@ -82,12 +82,12 @@ s.SPLS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SPLS"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("spls", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.SPLS))
     stop("x is missing")
@@ -107,7 +107,7 @@ s.SPLS <- function(x, y = NULL,
     k <- NCOL(x)
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -133,7 +133,7 @@ s.SPLS <- function(x, y = NULL,
     classifier <- match.arg(classifier)
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -198,7 +198,7 @@ s.SPLS <- function(x, y = NULL,
 
   if (trace > 0) mod
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, x, type = "fit")
   if (type == "Classification") {
     fitted <- factor(fitted)
@@ -210,7 +210,7 @@ s.SPLS <- function(x, y = NULL,
   # [ COEFFS ] ====
   coeffs <- spls::coef.spls(mod)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test, type = "fit")
@@ -224,7 +224,7 @@ s.SPLS <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(coeffs = coeffs)
   rt <- rtModSet(rtclass = rtclass,
                   mod = mod,

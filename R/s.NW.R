@@ -40,7 +40,7 @@ s.NW <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.NW))
     invisible(9)
@@ -54,12 +54,12 @@ s.NW <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NW"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("np", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.NW)); stop("x is missing")
   }
@@ -72,7 +72,7 @@ s.NW <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -104,7 +104,7 @@ s.NW <- function(x, y = NULL,
   mod <- np::npreg(bw, txdat = x, tydat = y)
   if (trace > 0) summary(mod)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, x, se.fit = TRUE)
   se.fit <- as.numeric(fitted$se.fit)
   fitted <- as.numeric(fitted$fit)
@@ -112,7 +112,7 @@ s.NW <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test, se.fit = TRUE)
@@ -124,7 +124,7 @@ s.NW <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(bw = bw)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

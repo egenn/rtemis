@@ -26,21 +26,21 @@ u.EMC <- function(x, x.test = NULL,
                   # maxiter = 100,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "EMC"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("EMCluster", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(u.EMC))
     stop("x is missing")
@@ -55,10 +55,10 @@ u.EMC <- function(x, x.test = NULL,
                                 EMC = EMC,
                                 assign.class = TRUE, ...)
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- clust$class
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

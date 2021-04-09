@@ -133,7 +133,7 @@ elevate <- function(x, y = NULL,
                     save.mod = TRUE,
                     save.res = FALSE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     cat("Usage:\n")
     print(args(elevate))
@@ -152,12 +152,12 @@ elevate <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Allow elevate(df, "mod")
   # i.e single df with features and outcome followed by mod name
   if (is.character(y) & length(y) == 1) {
@@ -215,7 +215,7 @@ elevate <- function(x, y = NULL,
     parallel.type <- "psock"
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, NULL, NULL)
   x <- dt$x
   y <- dt$y
@@ -293,7 +293,7 @@ elevate <- function(x, y = NULL,
   if (!is.null(logFile) & trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
   names(mods) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
 
-  # [ RES FITTED ]  ====
+  # [ RES Fitted ]  ====
   # The fitted values and training error from each resample
   y.train.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.train))
@@ -343,7 +343,7 @@ elevate <- function(x, y = NULL,
   #   }
   # }
 
-  # [ RES PREDICTED ] ====
+  # [ RES Predicted ] ====
   # The predicted values and testing error from each resample
   y.test.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.test))
@@ -406,7 +406,7 @@ elevate <- function(x, y = NULL,
   error.train.repeats.sd <- data.frame(t(apply(error.train.repeats, 2, sd)))
   error.test.repeats.sd <- data.frame(t(apply(error.test.repeats, 2, sd)))
 
-  # [ BAG FITTED ] ====
+  # [ BAG Fitted ] ====
   # mod.res used for bagging
   fitted.bag <- error.bag <- NULL
   if (bag.fitted) {
@@ -473,7 +473,7 @@ elevate <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (type == "Classification") {
     y.train.res.aggr <- lapply(seq(n.repeats), function(i)
       factor(c(y.train.res[[i]], recursive = TRUE, use.names = FALSE)))

@@ -42,10 +42,10 @@ mediboost <- function(x, y,
                       verbose = TRUE,
                       trace = 1) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(catPredictors)) catPredictors <- lapply(x, class) == "factor"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   y0 <- y
   # replace dataPrepare
   dt <- dataPrepare(x, y, NULL, NULL)
@@ -181,7 +181,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                          save.rpart,
                                          verbose = TRUE) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (verbose) msg("Depth =", depth)
 
   # Initialize node

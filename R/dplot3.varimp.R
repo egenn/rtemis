@@ -46,18 +46,18 @@ dplot3.varimp <- function(x,
                           theme = getOption("rt.theme", "darkgrid"),
                           showlegend = TRUE, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(mar)) {
     mar <- if (is.null(main)) c(40, 0, 0, 20) else c(40, 0, 40, 20)
   }
 
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -85,7 +85,7 @@ dplot3.varimp <- function(x,
                    size = font.size,
                    color = tick.col)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
 
   # '- Names ====

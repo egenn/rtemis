@@ -98,7 +98,7 @@ colorGrad <- function(n = 21,
                       pad = 0,
                       par.reset = TRUE) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   n <- as.integer(n)
   if (n %% 2 != 1) n <- n + 1
   if (!is.null(filename)) colorbar <- TRUE

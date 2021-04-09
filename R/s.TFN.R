@@ -110,7 +110,7 @@ s.TFN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.TFN))
     return(invisible(9))
@@ -124,12 +124,12 @@ s.TFN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "TFN"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("tensorflow", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -156,7 +156,7 @@ s.TFN <- function(x, y = NULL,
   optimizer <- getFromNamespace(optimizer, "keras")
 
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -330,7 +330,7 @@ s.TFN <- function(x, y = NULL,
       class_weight = .class.weights.int
     )
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Regression") {
     fitted <- c(predict(net, x.dm))
     error.train <- modError(y, fitted, type = type)
@@ -343,7 +343,7 @@ s.TFN <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
@@ -359,7 +359,7 @@ s.TFN <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(scale = scale,
                 col_means_train = if (scale) col_means_train else NULL,
                 col_stddevs_train = if (scale) col_stddevs_train else NULL)

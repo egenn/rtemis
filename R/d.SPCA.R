@@ -39,23 +39,23 @@ d.SPCA <- function(x,
                    center = TRUE,
                    verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "SPCA"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("nsprcomp", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.SPCA))
     stop("x is missing")
   }
   method <- match.arg(method)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -86,7 +86,7 @@ d.SPCA <- function(x,
 
   vectors <- decom$rotation
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- x %*% vectors
   projections.test <- NULL
   if (!is.null(x.test)) {
@@ -96,7 +96,7 @@ d.SPCA <- function(x,
     projections.test <- x.test %*% vectors
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

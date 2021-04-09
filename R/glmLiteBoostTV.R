@@ -58,7 +58,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                            n.cores = rtCores,
                            outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -72,7 +72,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMLITEBOOST"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
@@ -80,7 +80,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
@@ -286,11 +286,11 @@ glmLiteBoostTV <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test, n.cores = n.cores)
@@ -300,7 +300,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = learner.short,
                      mod.params = mod.params,
                      init = init,
@@ -534,7 +534,7 @@ as.glmLiteBoostTV <- function(object,
               mods = mods)
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(mod = object$mod.name,
                      mod.params = object$parameters,
                      init = init,

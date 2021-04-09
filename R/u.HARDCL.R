@@ -20,21 +20,21 @@ u.HARDCL <- function(x, x.test = NULL,
                      dist = "euclidean",
                      verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "HARDCL"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("flexclust", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(u.HARDCL))
     stop("x is missing")
@@ -47,7 +47,7 @@ u.HARDCL <- function(x, x.test = NULL,
                              dist = dist,
                              method = "hardcl", ...)
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- flexclust::clusters(clust)
   if (!is.null(x.test)) {
     clusters.test <- flexclust::clusters(clust, x.test)
@@ -55,7 +55,7 @@ u.HARDCL <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

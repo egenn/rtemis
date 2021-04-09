@@ -90,7 +90,7 @@ s.LIHAD <- function(x, y = NULL,
                      plot.theme = getOption("rt.fit.theme", "lightgrid"),
                      save.mod = FALSE) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.LIHAD))
     return(invisible(9))
@@ -104,17 +104,17 @@ s.LIHAD <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "LIHAD"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # ipw = ipw, ipw.type = ipw.type,
@@ -150,7 +150,7 @@ s.LIHAD <- function(x, y = NULL,
   # [ GLOBAL ] ====
   .env <- environment()
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
@@ -229,7 +229,7 @@ s.LIHAD <- function(x, y = NULL,
                      lambda = lambda,
                      lincoef.params = lincoef.params)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict.lihad(mod, x,
                            learning.rate = learning.rate,
                            trace = trace,
@@ -245,7 +245,7 @@ s.LIHAD <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict.lihad(mod, x.test,
@@ -258,7 +258,7 @@ s.LIHAD <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,

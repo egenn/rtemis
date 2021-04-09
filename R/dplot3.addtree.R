@@ -41,7 +41,7 @@ dplot3.addtree <- function(addtree,
                            remove.bad.parents = FALSE,
                            filename = NULL) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("data.tree", "DiagrammeR", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -61,7 +61,7 @@ dplot3.addtree <- function(addtree,
     }
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(node.labels.pct.pos)) {
     node.labels.pct.pos <- if (is.null(addtree$pct.pos)) FALSE else TRUE
   }

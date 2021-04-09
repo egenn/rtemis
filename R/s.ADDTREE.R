@@ -86,7 +86,7 @@ s.ADDTREE <- function(x, y = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                       n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.ADDTREE))
     return(invisible(9))
@@ -100,12 +100,12 @@ s.ADDTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "ADDTREE"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart", "data.tree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.ADDTREE))
     stop("y is missing")
@@ -122,7 +122,7 @@ s.ADDTREE <- function(x, y = NULL,
   # }
   if (!verbose) prune.verbose <- FALSE
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -149,7 +149,7 @@ s.ADDTREE <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(gamma, max.depth, learning.rate)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -203,12 +203,12 @@ s.ADDTREE <- function(x, y = NULL,
                    verbose = verbose,
                    trace = trace)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, x)
   error.train <- try(modError(y, fitted))
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
     if (!is.null(y.test)) {
@@ -221,7 +221,7 @@ s.ADDTREE <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
@@ -242,7 +242,7 @@ s.ADDTREE <- function(x, y = NULL,
                  question = question,
                  extra = extra)
 
-  # [ DATA.TREE ] ====
+  # [ Data.TREE ] ====
   if (verbose) msg("Traversing tree by preorder...")
   rt$mod$frame <- preorderTree.addtree(rt, x)
   if (verbose) msg("Converting paths to rules...")

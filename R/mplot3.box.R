@@ -84,7 +84,7 @@ mplot3.box <- function(x,
                        pdf.height = 6,
                        filename = NULL, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
 
   # Group names
   if (is.null(xnames)) {
@@ -138,7 +138,7 @@ mplot3.box <- function(x,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -266,7 +266,7 @@ mplot3.box <- function(x,
                             col = theme$labs.col,
                             family = theme$font.family)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
   invisible(bp)
 

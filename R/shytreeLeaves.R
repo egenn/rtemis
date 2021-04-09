@@ -88,7 +88,7 @@ shytreeLeavesRC <- function(x, y,
     return(.mod)
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")

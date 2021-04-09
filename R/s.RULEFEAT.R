@@ -51,7 +51,7 @@ s.RULEFEAT <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = if (!is.null(outdir)) TRUE else FALSE) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.RULEFEAT))
     return(invisible(9))
@@ -67,12 +67,12 @@ s.RULEFEAT <- function(x, y = NULL,
   which.gbm <- match.arg(which.gbm)
   .gbm <- ifelse(which.gbm == "gbm", "s.GBM", "s.GBM3")
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck(which.gbm, "glmnet", "gsubfn", "inTrees", "data.table", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.RULEFEAT))
     stop("y is missing")
@@ -81,7 +81,7 @@ s.RULEFEAT <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     verbose = verbose)
   x <- dt$x
@@ -196,7 +196,7 @@ s.RULEFEAT <- function(x, y = NULL,
                                             N.Nonzero.Rules = n.nonzero.rules))
   class(rulefeat.obj) <- c("ruleFeat", "list")
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- mod.glmnet.select$fitted
   if (type == "Classification") {
     fitted.prob <- mod.glmnet.select$fitted.prob
@@ -207,7 +207,7 @@ s.RULEFEAT <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(rulefeat.obj, x.test, verbose = verbose)
@@ -221,7 +221,7 @@ s.RULEFEAT <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = rulefeat.obj,
                  mod.name = mod.name,

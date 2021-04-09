@@ -28,12 +28,12 @@ labels2nii <- function(label.vals,
                        datatype = "auto",
                        verbose = TRUE) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("RNifti", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (!file.exists(labeledNifti)) stop("Error: Labeled nifti file not found")
   outdir <- dirname(prefix)
   if (!dir.exists(outdir)) {

@@ -143,7 +143,7 @@ mplot3.x <- function(x,
                      pdf.height = 6,
                      ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   type <- match.arg(type)
   if (type == "ts") {
     type <- "index"
@@ -153,7 +153,7 @@ mplot3.x <- function(x,
   hist.type <- match.arg(hist.type)
   density.avg.fn <- match.arg(density.avg.fn)
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -179,7 +179,7 @@ mplot3.x <- function(x,
                                                                          recursive = TRUE)
   if (is.character(palette)) palette <- rtPalette(palette)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (!is.null(group)) {
     group <- as.factor(group)
     x <- split(x, group)
@@ -223,7 +223,7 @@ mplot3.x <- function(x,
 
   .out <- NULL
 
-  # [ DATA: QQLINE ] ====
+  # [ Data: QQLINE ] ====
   if (type == "qqline") {
     yl <- list()
     for (i in seq_along(xl)) {
@@ -236,7 +236,7 @@ mplot3.x <- function(x,
     }
   }
 
-  # [ DATA: DENSITY ] ====
+  # [ Data: DENSITY ] ====
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
     .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
@@ -244,7 +244,7 @@ mplot3.x <- function(x,
     if (is.null(xlab)) xlab <- labelify(xname)
   }
 
-  # [ DATA: HISTOGRAM ] ====
+  # [ Data: HISTOGRAM ] ====
   if (type == "histogram") {
     .out <- histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks,
                                                  # probability = hist.probability,
@@ -252,7 +252,7 @@ mplot3.x <- function(x,
     if (is.null(xlab)) xlab <- labelify(xname)
   }
 
-  # [ DATA: DH ] ====
+  # [ Data: DH ] ====
   if (type %in% c("hd", "density")) {
     histl = lapply(xl, function(x) hist(x, breaks = hist.breaks,
                                         # probability = hist.probability,
@@ -572,7 +572,7 @@ mplot3.x <- function(x,
   if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
   if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) grDevices::dev.off()
   invisible(.out)
 

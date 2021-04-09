@@ -29,17 +29,17 @@ d.SVD <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "SVD"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.SVD))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -62,12 +62,12 @@ d.SVD <- function(x,
   row.names(rotation) <- xnames
   colnames(rotation) <- paste0("PC.", 1:k)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- data.matrix(x) %*% rotation
   projections.test <- NULL
   if (!is.null(x.test)) projections.test <- data.matrix(x.test) %*% rotation
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(rotation = rotation)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

@@ -93,7 +93,7 @@ shyoptleaves <- function(x, y,
     return(.mod)
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (NCOL(x) == 1) lin.type <- "glm"
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 

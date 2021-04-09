@@ -18,7 +18,7 @@ prune.addtree <- function(addtree,
                           remove.bad.parents = TRUE,
                           verbose = TRUE) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("data.tree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

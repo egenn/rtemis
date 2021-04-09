@@ -67,7 +67,7 @@ s.GLMNET <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.GLMNET))
     return(invisible(9))
@@ -81,12 +81,12 @@ s.GLMNET <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMNET"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("glmnet", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.GLMNET))
     stop("x is missing")
@@ -104,7 +104,7 @@ s.GLMNET <- function(x, y = NULL,
   which.cv.lambda <- match.arg(which.cv.lambda)
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -172,7 +172,7 @@ s.GLMNET <- function(x, y = NULL,
     x.test <- model.matrix(.formula, dat.test)[, -1]
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -233,7 +233,7 @@ s.GLMNET <- function(x, y = NULL,
                           penalty.factor = penalty.factor, ...)
   }
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
@@ -253,7 +253,7 @@ s.GLMNET <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -278,7 +278,7 @@ s.GLMNET <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

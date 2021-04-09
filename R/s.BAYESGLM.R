@@ -68,7 +68,7 @@ s.BAYESGLM <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.BAYESGLM))
     return(invisible(9))
@@ -82,12 +82,12 @@ s.BAYESGLM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "BAYESGLM"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("arm", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.BAYESGLM))
     stop("y is missing")
@@ -98,7 +98,7 @@ s.BAYESGLM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -140,7 +140,7 @@ s.BAYESGLM <- function(x, y = NULL,
     family <- if (type == "Regression") gaussian else binomial
   }
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   df.train <- data.frame(x, y)
   colnames(df.train)[ncol(df.train)] <- y.name
   .formula <- as.formula(paste(y.name, "~ ."))
@@ -181,7 +181,7 @@ s.BAYESGLM <- function(x, y = NULL,
             extra.args)
   mod <- do.call(arm::bayesglm, args)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Classification") {
     fitted.prob <- 1 - predict(mod, type = "response")
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
@@ -193,7 +193,7 @@ s.BAYESGLM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -213,7 +213,7 @@ s.BAYESGLM <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

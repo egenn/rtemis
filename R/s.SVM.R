@@ -64,7 +64,7 @@ s.SVM <- function(x, y = NULL,
                   osx.alert = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.SVM))
     return(invisible(9))
@@ -78,12 +78,12 @@ s.SVM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SVM"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.SVM))
     stop("y is missing")
@@ -96,7 +96,7 @@ s.SVM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -125,7 +125,7 @@ s.SVM <- function(x, y = NULL,
   if (is.null(gamma)) gamma <- 1 / NCOL(x)
   if (type == "Classification") nlevels <- length(levels(y))
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -240,7 +240,7 @@ s.SVM <- function(x, y = NULL,
                     probability = probability,
                     class.weights = .class.weights, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.prob <- predict(mod, x, probability = TRUE)
   fitted.prob <- attr(fitted.prob, "probabilities")[, levels(y)[1]]
   fitted <- predict(mod)
@@ -249,7 +249,7 @@ s.SVM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.prob <- predict(mod, x.test, probability = TRUE)
@@ -262,7 +262,7 @@ s.SVM <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(params = list(kernel = kernel,
                               degree = degree,
                               cost = cost,

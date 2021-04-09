@@ -43,12 +43,12 @@ d.ICA <- function(x,
                   verbose = TRUE,
                   trace = 0, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "ICA"
   package <- match.arg(package)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (package == "fastICA") {
     if (!depCheck("fastICA", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
@@ -59,13 +59,13 @@ d.ICA <- function(x,
     }
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.ICA))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -98,12 +98,12 @@ d.ICA <- function(x,
                           alg = substr(alg.type, 1, 3), ...)
   }
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- decom$S
   projections.test <- NULL
   colnames(projections.train) <- paste0("ICA", seq(k))
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

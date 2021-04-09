@@ -35,22 +35,22 @@ d.NMF <- function(x,
                   center = FALSE,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "NMF"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("NMF", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.NMF))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -69,7 +69,7 @@ d.NMF <- function(x,
   coef <- NMF::coef(decom)
   scoef <- NMF::scoef(decom)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.test <- NULL
   if (scale) {
     projections.train <- scale(x, center = center) %*% basis
@@ -79,7 +79,7 @@ d.NMF <- function(x,
     if (!is.null(x.test)) projections.test <- x.test %*% basis
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(basis = basis,
                 coef = coef,
                 scoef = scoef)

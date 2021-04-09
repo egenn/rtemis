@@ -60,8 +60,6 @@ dplot3.xy <- function(x, y = NULL,
                       axes.square = FALSE,
                       group.names = NULL,
                       font.size = 16,
-                      font.alpha = .8,
-                      font.col = NULL,
                       marker.col = NULL,
                       marker.size = 8,
                       symbol = "circle",
@@ -80,7 +78,9 @@ dplot3.xy <- function(x, y = NULL,
                       legend.border.col = "#FFFFFF00",
                       legend.borderwidth = 0,
                       legend.group.gap = 0,
-                      margin = list(t = 35),
+                      margin = list(t = 35, pad = 0),
+                      automargin.x = TRUE,
+                      automargin.y = TRUE,
                       zerolines = TRUE,
                       xlim = NULL,
                       ylim = NULL,
@@ -91,19 +91,18 @@ dplot3.xy <- function(x, y = NULL,
                       fit.params = list(),
                       width = NULL,
                       height = NULL,
-                      padding = 0,
                       displayModeBar = TRUE,
                       trace = 0,
                       filename = NULL,
                       file.width = 500,
                       file.height = 500, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -142,7 +141,7 @@ dplot3.xy <- function(x, y = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   # xlab, ylab ====
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
@@ -207,7 +206,7 @@ dplot3.xy <- function(x, y = NULL,
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -464,7 +463,8 @@ dplot3.xy <- function(x, y = NULL,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = theme$zerolines,
-                                     range = ylim),
+                                     range = ylim,
+                                     automargin = automargin.y),
                         xaxis = list(title = xlab,
                                      showline = FALSE,
                                      # mirror = axes.mirrored,
@@ -475,7 +475,8 @@ dplot3.xy <- function(x, y = NULL,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = zerolines,
-                                     range = xlim),
+                                     range = xlim,
+                                     automargin = automargin.x),
                         # barmode = barmode,  # group works without actual groups too
                         # title = main,
                         title = list(text = main,
@@ -491,8 +492,6 @@ dplot3.xy <- function(x, y = NULL,
                         showlegend = legend,
                         legend = .legend)
 
-  # Padding
-  plt$sizingPolicy$padding <- padding
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,

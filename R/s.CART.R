@@ -91,7 +91,7 @@ s.CART <- function(x, y = NULL,
 
   tree.depth <- getFromNamespace("tree.depth", "rpart")
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.CART))
     return(invisible(9))
@@ -105,12 +105,12 @@ s.CART <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CART"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.CART))
     stop("y is missing")
@@ -132,7 +132,7 @@ s.CART <- function(x, y = NULL,
                   xval = xval)
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -184,11 +184,11 @@ s.CART <- function(x, y = NULL,
   }
   if (type == "Classification") n.classes <- length(levels(y))
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
-  # [ GRID SEARCH for prune.cp ] ====
+  # [ Grid Search for prune.cp ] ====
   if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
     gs <- gridSearchLearn(x0, y0,
                           mod = mod.name,
@@ -263,7 +263,7 @@ s.CART <- function(x, y = NULL,
     }
   }
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.prob <- NULL
   if (type == "Regression" | type == "Survival") {
     fitted <- predict(mod, x, type = "vector")
@@ -281,7 +281,7 @@ s.CART <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -303,7 +303,7 @@ s.CART <- function(x, y = NULL,
     predicted <- predicted.prob <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   varimp <- rep(NA, NCOL(x))
   varimp.cart <- if (!is.null(mod$variable.importance)) as.matrix(mod$variable.importance) else NULL
   varimp.index <- match(rownames(varimp.cart), colnames(x))

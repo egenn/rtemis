@@ -49,7 +49,7 @@ s.NLA <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.NLA))
     return(invisible(9))
@@ -63,7 +63,7 @@ s.NLA <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NLA"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -76,7 +76,7 @@ s.NLA <- function(x, y = NULL,
     .activation <- deparse(substitute(activation))
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -108,12 +108,12 @@ s.NLA <- function(x, y = NULL,
                 upper = upper, ...)
   if (trace > 0) print(summary(mod))
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, x)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -123,7 +123,7 @@ s.NLA <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

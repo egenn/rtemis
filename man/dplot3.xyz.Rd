@@ -154,8 +154,6 @@ Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
 
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
-
 \item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}

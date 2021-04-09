@@ -77,7 +77,7 @@ s.H2OGBM <- function(x, y = NULL,
                      save.mod = FALSE,
                      outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.H2OGBM))
     return(invisible(9))
@@ -91,12 +91,12 @@ s.H2OGBM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "H2OGBM"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("h2o", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.H2OGBM)); stop("x is missing")
   }
@@ -112,7 +112,7 @@ s.H2OGBM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -159,7 +159,7 @@ s.H2OGBM <- function(x, y = NULL,
     }
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -255,7 +255,7 @@ s.H2OGBM <- function(x, y = NULL,
 
   if (trace > 0) print(mod)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (verbose) msg("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
@@ -264,7 +264,7 @@ s.H2OGBM <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg("Getting predicted values...")
@@ -283,7 +283,7 @@ s.H2OGBM <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
   if (imetrics) {
     extra$imetrics <- list(n.nodes = (2 ^ max.depth) * n.trees,

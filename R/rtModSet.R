@@ -61,7 +61,7 @@ rtModSet <- function(rtclass = "rtMod",
                      question = character(),
                      extra = list()) {
 
-  # [ ARGUMENTS ]
+  # [ Arguments ]
   # rtclass will be NULL in all s.* learners so that it can be set to the same default
   if (is.null(rtclass)) rtclass <- "rtMod"
   if (rtclass == "R6") rtclass <- "rtMod"

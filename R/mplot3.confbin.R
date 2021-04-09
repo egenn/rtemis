@@ -67,7 +67,7 @@ mplot3.confbin <- function(object,
                            pdf.height = 8.7,
                            filename = NULL, ...) {
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (inherits(object, "rtMod")) {
     tbl <- if (length(object$error.test) > 0) object$error.test$ConfusionMatrix else object$error.train$ConfusionMatrix
     if (is.null(mod.name)) mod.name <- object$mod.name

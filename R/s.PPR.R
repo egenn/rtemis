@@ -58,7 +58,7 @@ s.PPR <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.PPR))
     return(invisible(9))
@@ -72,7 +72,7 @@ s.PPR <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "PPR"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.PPR))
     stop("x is missing")
@@ -86,7 +86,7 @@ s.PPR <- function(x, y = NULL,
   if (is.null(nterms)) nterms <- if (NCOL(x) < 4 ) NCOL(x) else 4
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -104,7 +104,7 @@ s.PPR <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(nterms, optlevel, sm.method, bass, span, df, gcvpen)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
@@ -149,12 +149,12 @@ s.PPR <- function(x, y = NULL,
              gcvpen = gcvpen, ...)
   if (trace > 0) print(summary(mod))
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- as.numeric(predict(mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -164,7 +164,7 @@ s.PPR <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(weights = weights,
                      nterms = nterms,
                      max.terms = max.terms,

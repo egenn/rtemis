@@ -38,7 +38,7 @@ s.BRUTO <- function(x, y = NULL,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.BRUTO))
     return(invisible(9))
@@ -52,12 +52,12 @@ s.BRUTO <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "BRUTO"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("mda", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) { print(args(s.BRUTO)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.BRUTO))
@@ -70,7 +70,7 @@ s.BRUTO <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     verbose = verbose)
@@ -90,7 +90,7 @@ s.BRUTO <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(dfmax, cost, maxit.select, maxit.backfit, thresh)) {
     gs <- gridSearchLearn(x, y, mod.name,
                           resample.rtset = grid.resample.rtset,
@@ -123,12 +123,12 @@ s.BRUTO <- function(x, y = NULL,
                     start.linear = start.linear,
                     trace.bruto = trace > 0, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- as.numeric(predict(mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -138,7 +138,7 @@ s.BRUTO <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(grid.resample.rtset = grid.resample.rtset)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

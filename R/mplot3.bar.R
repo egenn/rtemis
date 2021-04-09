@@ -81,7 +81,7 @@ mplot3.bar <- function(x,
                        pdf.height = 6,
                        filename = NULL, ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Compatibility with rtlayout()
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   if (is.character(palette)) palette <- rtPalette(palette)
@@ -129,7 +129,7 @@ mplot3.bar <- function(x,
     dir.create(dirname(filename), recursive = TRUE)
   }
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -151,7 +151,7 @@ mplot3.bar <- function(x,
   # }
   if (is.null(xnames)) xnames <- colnames(x)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   # x must be vector or matrix for barplot()
   # if (min(size(x)) > 1) x <- as.matrix(x)
 
@@ -322,7 +322,7 @@ mplot3.bar <- function(x,
           family = theme$font.family)
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
   invisible(barCenters)
 

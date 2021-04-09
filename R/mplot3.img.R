@@ -96,11 +96,11 @@ mplot3.img <- function(z,
                        par.reset = TRUE,
                        ...) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -134,7 +134,7 @@ mplot3.img <- function(z,
   if (is.null(cex.x)) cex.x <- cex.ax
   if (is.null(cex.y)) cex.y <- cex.ax
 
-  # [ THEMES ] ====
+  # [ ThemeS ] ====
   if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$fg
   if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- if (mean(col2rgb(theme$bg)) > 127) theme$bg else theme$fg
   if (is.null(col)) {

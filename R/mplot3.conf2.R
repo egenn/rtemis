@@ -84,7 +84,7 @@ mplot3.conf <- function(object,
                         pdf.height = 4.5,
                         filename = NULL, ...) {
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -95,7 +95,7 @@ mplot3.conf <- function(object,
     }
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   .test <- NULL
   if (inherits(object, "rtMod")) {
     .test <- length(object$error.test) > 0

@@ -58,7 +58,7 @@ d.H2OAE <- function(x,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(d.H2OAE))
     return(invisible(9))
@@ -71,15 +71,15 @@ d.H2OAE <- function(x,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("h2o", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   decom.name <- "H2OAE"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.H2OAE)); stop("x is missing")
   }
@@ -87,7 +87,7 @@ d.H2OAE <- function(x,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", decom.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x); p <- NCOL(x)
@@ -134,7 +134,7 @@ d.H2OAE <- function(x,
 
   if (verbose) print(summary(mod))
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   if (verbose) msg("Extracting Deep Features...")
   projections.train <- as.data.frame(h2o::h2o.deepfeatures(mod, df.train, layer = extract.layer))
   if (!is.null(x.test)) {
@@ -143,7 +143,7 @@ d.H2OAE <- function(x,
     projections.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = mod,

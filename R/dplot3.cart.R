@@ -54,7 +54,7 @@ dplot3.cart <- function(object,
                         rpart.cp = NULL,
                         verbose = TRUE) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("data.tree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -64,7 +64,7 @@ dplot3.cart <- function(object,
     .tree <- rpart::prune.rpart(.tree, rpart.cp)
   }
 
-  # [ DATA TREE ] ====
+  # [ Data TREE ] ====
   if (inherits(object, "rtMod")) {
     if (inherits(object$mod, "rpart")) {
       .tree <- as.data.tree.rpart(object$mod)

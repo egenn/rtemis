@@ -32,7 +32,7 @@ s.LOESS <- function(x, y = NULL,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.LOESS))
     return(invisible(9))
@@ -46,7 +46,7 @@ s.LOESS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "LOESS"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) { print(args(s.LOESS)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.LOESS)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -57,7 +57,7 @@ s.LOESS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -82,14 +82,14 @@ s.LOESS <- function(x, y = NULL,
   mod <- loess(formula, data = df.train, ...)
   if (trace > 0) print(summary(mod))
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- predict(mod, se = TRUE)
   se.fit <- as.numeric(fitted$se.fit)
   fitted <- as.numeric(fitted$fit)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   if (!is.null(x.test) & !is.null(y.test)) {
     predicted <- predict(mod, newdata = x.test, se = TRUE)
     se.prediction <- predicted$se.fit
@@ -100,7 +100,7 @@ s.LOESS <- function(x, y = NULL,
     predicted <- se.prediction <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = rtclass,
               mod = mod,
               mod.name = mod.name,

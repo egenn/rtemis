@@ -15,7 +15,7 @@
 
 as.data.tree.rpart <- function(object, verbose = FALSE) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart", "data.tree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

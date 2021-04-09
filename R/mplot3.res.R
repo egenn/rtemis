@@ -23,7 +23,7 @@ mplot3.res <- function(res,
                        mar = NULL,
                        theme = getOption("rt.theme", "lightgrid"), ...) {
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)

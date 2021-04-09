@@ -14,7 +14,7 @@
 
 svd1 <- function(x, x.test = NULL) {
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(svd1))
     stop("x is missing")

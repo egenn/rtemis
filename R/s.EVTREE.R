@@ -41,7 +41,7 @@ s.EVTREE <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.EVTREE))
     return(invisible(9))
@@ -55,12 +55,12 @@ s.EVTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "EVTREE"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("evtree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.EVTREE))
     stop("y is missing")
@@ -73,7 +73,7 @@ s.EVTREE <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -99,7 +99,7 @@ s.EVTREE <- function(x, y = NULL,
   }
   df.train <- data.frame(y = y, x)
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
@@ -111,7 +111,7 @@ s.EVTREE <- function(x, y = NULL,
                         control = control,
                         na.action = na.action, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Regression" | type == "Survival") {
     fitted <- predict(mod, x, type = "response")
     fitted.prob <- NULL
@@ -124,7 +124,7 @@ s.EVTREE <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
       predicted <- predict(mod, x.test, type = "response")
@@ -144,7 +144,7 @@ s.EVTREE <- function(x, y = NULL,
     predicted <- predicted.prob <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(fitted.prob = fitted.prob,
                 prdicted.prob = predicted.prob)
   rt <- rtModSet(rtclass = rtclass,

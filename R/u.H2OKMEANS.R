@@ -43,25 +43,25 @@ u.H2OKMEANS <- function(x, x.test = NULL,
                         "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
                         verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "H2OKMEANS"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("h2o", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   init <- match.arg(init)
   categorical.encoding <- match.arg(categorical.encoding)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   # h2o Frames
   if (verbose) msg("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
@@ -85,7 +85,7 @@ u.H2OKMEANS <- function(x, x.test = NULL,
                            init = init,
                            categorical_encoding = categorical.encoding, ...)
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- as.data.frame(h2o::h2o.predict(clust, df.train))[, 1] + 1
   if (!is.null(x.test)) {
     clusters.test <- as.data.frame(h2o::h2o.predict(clust, df.test))[, 1] + 1
@@ -93,7 +93,7 @@ u.H2OKMEANS <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(centroids = clust@model$centers)
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,

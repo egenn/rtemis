@@ -561,10 +561,10 @@ summary.rtMod <- function(object,
                           theme = getOption("rt.fit.theme", "lightgrid"),
                           title.col = NULL, ...) {
 
-  # [ ARGUMENTS ]
+  # [ Arguments ]
   do.test <- ifelse(length(object$y.test) > 1, TRUE, FALSE)
 
-  # [ DATA ]
+  # [ Data ]
   mod.name <- object$mod.name
   y.train <- object$y.train
   y.test <- object$y.test

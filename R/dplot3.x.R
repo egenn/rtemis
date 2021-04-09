@@ -92,8 +92,10 @@ dplot3.x <- function(x,
                      text.yref = "paper",
                      text.yanchor = "top",
                      text.col = "#ff0000",
-                     margin = list(b = 50, l = 50, t = 50, r = 20),
-                     padding = 0,
+                     margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
+                     automargin.x = TRUE,
+                     automargin.y = TRUE,
+                     # padding = 0,
                      zerolines = FALSE,
                      histnorm = c("density", "percent", "probability",
                                   "probability density"),
@@ -112,18 +114,18 @@ dplot3.x <- function(x,
                      file.width = 500,
                      file.height = 500, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   type <- match.arg(type)
   mode <- match.arg(mode)
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
   .xname <- labelify(deparse(substitute(x)))
 
-  # [ DATA ] ====
+  # [ Data ] ====
 
   # '- Group ====
   if (!is.null(group)) {
@@ -163,7 +165,7 @@ dplot3.x <- function(x,
 
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -195,7 +197,7 @@ dplot3.x <- function(x,
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
-  # [ SIZE ] ====
+  # [ Size ] ====
   if (axes.square) {
     width <- height <- min(dev.size("px")) - 10
   }
@@ -217,13 +219,13 @@ dplot3.x <- function(x,
   # z <- if (mode == "overlap") rep(1, n.groups) else seq_len(n.groups)
   # plt <- vector("list", n.groups)
 
-  .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i)),
-                                       "\nsd =", ddSci(sd(i))))
+  .text <- lapply(x, function(i) paste("mean =", ddSci(mean(i, na.rm = TRUE)),
+                                       "\nsd =", ddSci(sd(i, na.rm = TRUE))))
 
   # '- { Density } ====
   if (type ==  "density") {
     if (is.null(ylab)) ylab <- "Density"
-    xl.density <- lapply(x, density)
+    xl.density <- lapply(x, density, na.rm = TRUE)
 
     if (mode == "overlap") {
       # '- Density overlap ====
@@ -336,7 +338,8 @@ dplot3.x <- function(x,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = FALSE),
+                                     zeroline = FALSE,
+                                     automargin = automargin.x),
                         title = list(text = main,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
@@ -360,7 +363,8 @@ dplot3.x <- function(x,
                                        gridwidth = theme$grid.lwd,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
-                                       zeroline = zerolines))
+                                       zeroline = zerolines,
+                                       automargin = automargin.y))
   }
 
   # vline ====
@@ -389,8 +393,6 @@ dplot3.x <- function(x,
                             showarrow = FALSE))
   }
 
-  # Set padding
-  plt$sizingPolicy$padding <- padding
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,

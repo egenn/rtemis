@@ -36,21 +36,21 @@ u.PAMK <- function(x,
                    trace = 0,
                    verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   clust.name <- "PAMK"
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("fpc", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(u.PAMK))
     stop("x is missing")
@@ -69,10 +69,10 @@ u.PAMK <- function(x,
                      trace.lev = trace, ...)
   if (verbose) msg("Estimated optimal number of clusters:", clust$nc)
 
-  # [ CLUSTERS ] ====
+  # [ Clusters ] ====
   clusters.train <- clust$pamobject$clustering
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(bestk = clust$nc)
   cl <- rtClust$new(clust.name = clust.name,
                     k = length(unique(clusters.train)),

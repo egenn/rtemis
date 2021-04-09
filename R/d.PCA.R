@@ -27,17 +27,17 @@ d.PCA <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "PCA"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.PCA))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -60,7 +60,7 @@ d.PCA <- function(x,
   # decom <- prcomp(~ ., data = x, scale = FALSE, center = FALSE, ...)
   rotation <- decom$rotation
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- data.matrix(x) %*% rotation
   if (!is.null(k)) projections.train <- projections.train[, seq(k)]
   projections.test <- NULL
@@ -69,7 +69,7 @@ d.PCA <- function(x,
     if (!is.null(k)) projections.test <- projections.test[, seq(k)]
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(rotation = rotation)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

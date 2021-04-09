@@ -46,7 +46,7 @@ dplot3.table <- function(x,
                                        t = 30, b = 0,
                                        pad = 0)) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("plotly", "dplyr", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

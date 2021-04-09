@@ -67,22 +67,22 @@ d.H2OGLRM <- function(x,
                       plot.theme = getOption("rt.fit.theme", "lightgrid"),
                       n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "H2OGLRM"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("h2o", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.H2OGLRM))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x)
@@ -132,7 +132,7 @@ d.H2OGLRM <- function(x,
                             main = "Objective Function Value per Iteration",
                             theme = plot.theme)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- data.matrix(x) %*% t(data.matrix(decom@model$archetypes))
   if (!is.null(x.test)) {
     projections.test <- data.matrix(x.test) %*% t(data.matrix(decom@model$archetypes))
@@ -140,7 +140,7 @@ d.H2OGLRM <- function(x,
     projections.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

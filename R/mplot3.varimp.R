@@ -79,7 +79,7 @@ mplot3.varimp <- function(x,
                           trace = 0,
                           filename = NULL, ...) {
 
-  # [ THEME ] ====
+  # [ Theme ] ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -89,7 +89,7 @@ mplot3.varimp <- function(x,
     }
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
 
   # '- Names ====
@@ -250,7 +250,7 @@ mplot3.varimp <- function(x,
     text(x = max(xlim)*1.01, y = barCenters, labels = sidelabels, xpd = TRUE, pos = 4)
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   if (!is.null(filename)) dev.off()
   invisible(list(barCenters = barCenters,
                  xlim = xlim,

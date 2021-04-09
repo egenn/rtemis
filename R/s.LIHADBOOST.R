@@ -90,7 +90,7 @@ s.LIHADBOOST <- function(x, y = NULL,
                        n.cores = rtCores,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -105,12 +105,12 @@ s.LIHADBOOST <- function(x, y = NULL,
   mod.name <- "LIHADBOOST"
   lin.type <- match.arg(lin.type)
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("rpart", "glmnet", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -123,7 +123,7 @@ s.LIHADBOOST <- function(x, y = NULL,
   # mod.params$learning.rate <- learning.rate
   # if (!is.null(force.n.iter)) max.iter <- force.n.iter
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # x.valid = x.valid, y.valid = y.valid,
@@ -149,7 +149,7 @@ s.LIHADBOOST <- function(x, y = NULL,
   }
   if (is.null(init)) init <- mean(y)
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -278,7 +278,7 @@ s.LIHADBOOST <- function(x, y = NULL,
     n.iter <- NULL # will use all iterations, will not be max.iter if earlystopping on training
   }
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (is.null(n.iter)) {
     fitted <- mod$fitted
   } else {
@@ -290,7 +290,7 @@ s.LIHADBOOST <- function(x, y = NULL,
   # [ VALID ] ====
   # error.valid <- if (!is.null(y.valid)) mod$error.valid else NULL
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) cat("\n"); msg("Getting predicted values...")
@@ -301,7 +301,7 @@ s.LIHADBOOST <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   parameters <- list(init = init,
                      max.iter = max.iter,
                      earlystop.params = earlystop.params,

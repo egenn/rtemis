@@ -32,7 +32,7 @@ gp <- function(x, y,
   s.out <- list(mod.name = "BGP")
   s.out$mod <- mod <- tgp::bgp(X = x, Z = y, XX = new.x, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (is.null(new.x)) {
     s.out$mean <- mean <- mod$Zp.mean
     s.out$q05 <- q05 <- mod$Zp.q1
@@ -90,7 +90,7 @@ gp <- function(x, y,
   #            group.title = "Estimated", group.names = c("Mean", "95th Q", "5th Q"))
   #   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   s.out
 
 } # rtemis::gp

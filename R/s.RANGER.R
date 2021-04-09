@@ -94,7 +94,7 @@ s.RANGER <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.RANGER))
     return(invisible(9))
@@ -108,12 +108,12 @@ s.RANGER <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RANGER"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("ranger", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.RANGER))
     stop("y is missing")
@@ -125,7 +125,7 @@ s.RANGER <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -173,12 +173,12 @@ s.RANGER <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   df.train <- data.frame(x, y)
   colnames(df.train)[ncol(df.train)] <- y.name
   .formula <- as.formula(paste(y.name, "~ ."))
 
-  # [ GRID SEARCH ] ====
+  # [ Grid Search ] ====
   if (gridCheck(mtry, min.node.size)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -272,7 +272,7 @@ s.RANGER <- function(x, y = NULL,
                         num.threads = n.cores,
                         verbose = verbose, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   if (type == "Classification") {
     if (!probability) {
       fitted.all <- predict(mod, x, predict.all = TRUE)
@@ -292,7 +292,7 @@ s.RANGER <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -320,7 +320,7 @@ s.RANGER <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(gridSearch = gs)
 
   if (imetrics) {

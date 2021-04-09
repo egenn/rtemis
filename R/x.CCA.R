@@ -70,7 +70,7 @@ x.CCA <- function(x, z,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x) | missing(z)) {
     print(args(x.CCA))
     return(invisible(9))
@@ -84,18 +84,18 @@ x.CCA <- function(x, z,
   start.time <- intro(verbose = verbose, logFile = logFile)
   xdecom.name <- "CCA"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("PMA", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(n.cores)) {
     n.cores <- parallel::detectCores()
     if (verbose) msg("n.cores set to", n.cores)
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   if (is.null(colnames(x))) colnames(x) <- paste0('xFeature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
@@ -138,7 +138,7 @@ x.CCA <- function(x, z,
                   znames = colnames(z),
                   trace = verbose, ...)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   xprojections <- data.matrix(x) %*% xdecom$u
   scaled.xprojections <- scale(data.matrix(x)) %*% xdecom$u
 
@@ -158,7 +158,7 @@ x.CCA <- function(x, z,
   }
 
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(CCA.perm = CCA.perm,
                 scaled.xprojections = scaled.xprojections,
                 scaled.zprojections = scaled.zprojections,
@@ -229,7 +229,7 @@ x.CCA.permute <- function(x, z,
   CCA.permute.xonly <- getFromNamespace("CCA.permute.xonly", "PMA")
   CCA.permute.zonly <- getFromNamespace("CCA.permute.zonly", "PMA")
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
 
   if (NCOL(x) < 2)
@@ -340,12 +340,12 @@ x.CCA.permute.both <- function(x, z,
   ftrans <- getFromNamespace("ftrans", "PMA")
   CheckVs <- getFromNamespace("CheckVs", "PMA")
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck(c("PMA", "pbapply"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
 
   call <- match.call()

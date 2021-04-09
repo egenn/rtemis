@@ -34,11 +34,11 @@ d.UMAP <- function(x,
                    scale = TRUE,
                    verbose = TRUE, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   decom.name <- "UMAP"
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(d.UMAP))
     stop("x is missing")
@@ -46,7 +46,7 @@ d.UMAP <- function(x,
   init <- match.arg(init)
   metric <- match.arg(metric)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -71,7 +71,7 @@ d.UMAP <- function(x,
                       verbose = verbose,
                       ret_model = TRUE, ...)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- uwot::umap_transform(x, decom)
   if (!is.null(x.test)) {
     projections.test <- uwot::umap_transform(x.test, decom)
@@ -79,7 +79,7 @@ d.UMAP <- function(x,
     projections.test <- NULL
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

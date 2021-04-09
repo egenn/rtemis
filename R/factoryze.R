@@ -66,12 +66,12 @@ factoryze <- function(x,
                       do.hclust = FALSE,
                       verbose = TRUE, ...) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("psych", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- deparse(substitute(x))
   if (is.null(n.factors)) do.pa <- TRUE
   omega.rotation <- match.arg(omega.rotation)

@@ -35,7 +35,7 @@ decom <- function(x,
   decom <- R.utils::doCall(decomSelect(decom, fn = TRUE),
                            args = args)
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   decom
 
 } # rtemis::decom

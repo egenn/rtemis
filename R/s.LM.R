@@ -79,7 +79,7 @@ s.LM <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) { print(args(s.LM)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -98,7 +98,7 @@ s.LM <- function(x, y = NULL,
     mod.name <- "LM"
   }
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (robust) {
     if (!depCheck("MASS", verbose = FALSE)) {
       cat("\n"); stop("Please install dependencies and try again")
@@ -110,7 +110,7 @@ s.LM <- function(x, y = NULL,
     }
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) { print(args(s.LM)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -122,7 +122,7 @@ s.LM <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -145,7 +145,7 @@ s.LM <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ FORMULA ] ====
+  # [ Formula ] ====
   df.train <- data.frame(y = y, x)
   if (!polynomial) {
     features <- paste(xnames, collapse = " + ")
@@ -183,7 +183,7 @@ s.LM <- function(x, y = NULL,
 
     if (trace > 0) print(summary(mod))
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
     if (!gls) {
       fitted <- predict(mod, x, se.fit = TRUE)
       se.fit <- as.numeric(fitted$se.fit)
@@ -196,7 +196,7 @@ s.LM <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
       if (gls) {
@@ -214,7 +214,7 @@ s.LM <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

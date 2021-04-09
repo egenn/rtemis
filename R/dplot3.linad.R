@@ -82,7 +82,7 @@ dplot3.linad <- function(x,
                          direction = "UD",
                          trace = 0) {
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("visNetwork", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }

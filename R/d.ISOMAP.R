@@ -37,23 +37,23 @@ d.ISOMAP <- function(x,
                      verbose = TRUE,
                      n.cores = rtCores, ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   start.time <- intro(verbose = verbose)
   path <- match.arg(path)
   decom.name <- "ISOMAP"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("vegan", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ]
+  # [ Arguments ]
   if (missing(x)) {
     print(args(d.ISOMAP))
     stop("x is missing")
   }
 
-  # [ DATA ] ====
+  # [ Data ] ====
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
@@ -78,10 +78,10 @@ d.ISOMAP <- function(x,
   dist <- vegan::vegdist(x = x, method = dist.method)
   decom <- vegan::isomap(dist, ndim = k, k = nsd, path = path, ...)
 
-  # [ PROJECTIONS ] ====
+  # [ Projections ] ====
   projections.train <- decom$points
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,

@@ -49,7 +49,7 @@ s.GAMSELX <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.GAMSELX))
     return(invisible(9))
@@ -63,13 +63,13 @@ s.GAMSELX <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAMSELX"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("gamsel2", verbose = FALSE)) {
     cat("\n")
     stop("Please install dependency using remotes::install_github('egenn/gamsel2') and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.GAMSELX))
     stop("y is missing")
@@ -79,7 +79,7 @@ s.GAMSELX <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # ipw = ipw,
@@ -128,7 +128,7 @@ s.GAMSELX <- function(x, y = NULL,
                  verbose = verbose,
                  trace = trace)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   # if (type == "Regression") {
     fitted <- mod$fitted
     error.train <- modError(y, fitted)
@@ -142,7 +142,7 @@ s.GAMSELX <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     # if (type == "Regression") {
@@ -158,7 +158,7 @@ s.GAMSELX <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

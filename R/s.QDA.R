@@ -33,7 +33,7 @@ s.QDA <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.QDA))
     invisible(9)
@@ -47,12 +47,12 @@ s.QDA <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "QDA"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("MASS", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -60,7 +60,7 @@ s.QDA <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -90,7 +90,7 @@ s.QDA <- function(x, y = NULL,
   if (verbose) msg("Running Quadratic Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::qda, args = params)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted.raw <- predict(mod, x)
   fitted <- fitted.raw$class
   fitted.prob <- fitted.raw$posterior
@@ -98,7 +98,7 @@ s.QDA <- function(x, y = NULL,
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.raw <- predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test)
@@ -111,7 +111,7 @@ s.QDA <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   extra <- list(fitted.prob = fitted.prob, predicted.prob = predicted.prob,
                 train.projections = train.projections, test.projections = test.projections)
   rt <- rtMod$new(mod.name = mod.name,

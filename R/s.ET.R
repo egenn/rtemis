@@ -46,7 +46,7 @@ s.ET <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) { print(args(s.NW)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -57,12 +57,12 @@ s.ET <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "ET"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("extraTrees", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.ET))
     stop("x is missing")
@@ -76,7 +76,7 @@ s.ET <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -110,12 +110,12 @@ s.ET <- function(x, y = NULL,
                                 numThreads = n.cores, ...)
   if (trace > 0) summary(mod)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- as.numeric(predict(mod, x))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -125,7 +125,7 @@ s.ET <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
                  mod.name = mod.name,

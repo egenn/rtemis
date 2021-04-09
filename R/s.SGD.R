@@ -38,7 +38,7 @@ s.SGD <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ INTRO ] ====
+  # [ Intro ] ====
   if (missing(x)) {
     print(args(s.SGD))
     return(invisible(9))
@@ -52,12 +52,12 @@ s.SGD <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SGD"
 
-  # [ DEPENDENCIES ] ====
+  # [ Dependencies ] ====
   if (!depCheck("sgd", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ ARGUMENTS ] ====
+  # [ Arguments ] ====
   if (missing(x)) {
     print(args(s.SGD))
     stop("x is missing")
@@ -69,7 +69,7 @@ s.SGD <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ DATA ] ====
+  # [ Data ] ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -125,7 +125,7 @@ s.SGD <- function(x, y = NULL,
                   model.control = model.control,
                   sgd.control = sgd.control, ...)
 
-  # [ FITTED ] ====
+  # [ Fitted ] ====
   fitted <- mod$fitted.values[, 1]
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -142,7 +142,7 @@ s.SGD <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ PREDICTED ] ====
+  # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -157,7 +157,7 @@ s.SGD <- function(x, y = NULL,
     }
   }
 
-  # [ OUTRO ] ====
+  # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
