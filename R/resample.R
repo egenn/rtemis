@@ -79,17 +79,17 @@ resample <- function(y,
     # type = "res" ====
     resampler <- match.arg(resampler)
 
-    # [ INPUT ] ====
+    # [ Input ] ====
     if (NCOL(y) > 1) {
       if (verbose) msg("Input contains more than one columns; will stratify on last")
-      y <- y[, NCOL(y)]
+      y <- y[[NCOL(y)]]
     }
     if (is.null(target.length)) target.length <- NROW(y) # TODO: move
     if (resampler == "strat.sub" | resampler == "strat.boot") {
       if (train.p <= 0 | train.p >= 1) stop("train.p must be greater than 0 and less than 1")
     }
 
-    # [ RESAMPLE ] ====
+    # [ Resample ] ====
     .stratify.var <- if (is.null(stratify.var)) y else stratify.var
     # stratify.var is for printing with parameterSummary
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
