@@ -170,25 +170,15 @@ softmax <- function(x) {
 #' Square
 #'
 #' @param x Vector, Float: Input
-#' @export
 
-square <- function(x) {
-
-  x^2
-
-} # rtemis::square
+square <- function(x) x^2
 
 
 #' Cube
 #'
 #' @param x Vector, Float: Input
-#' @export
 
-cube <- function(x) {
-
-  x^3
-
-} # rtemis::cube
+cube <- function(x) x^3
 
 
 #' Collapse data.frame to vector by getting column max
