@@ -14,7 +14,6 @@ dplot3.x(
   ylab = NULL,
   col = NULL,
   alpha = 0.75,
-  bg = NULL,
   plot.bg = NULL,
   theme = getOption("rt.theme", "darkgrid"),
   palette = getOption("rt.palette", "rtCol1"),
@@ -22,14 +21,6 @@ dplot3.x(
   group.names = NULL,
   font.size = 16,
   font.alpha = 0.8,
-  font.col = NULL,
-  main.col = NULL,
-  axes.col = NULL,
-  labs.col = NULL,
-  grid.col = NULL,
-  grid.lwd = 1,
-  grid.alpha = 0.8,
-  tick.col = NULL,
   legend = NULL,
   legend.xy = c(0, 1),
   legend.col = NULL,
@@ -83,8 +74,6 @@ dplot3.x(
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{bg}{Color: Background color. Default = "white"}
-
 \item{plot.bg}{Color: Background color for plot area. Default = "white"}
 
 \item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
@@ -99,12 +88,6 @@ plot.}
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
-
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
-
-\item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
-
-\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
 1 element}

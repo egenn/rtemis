@@ -29,8 +29,6 @@ dplot3.xy(
   axes.square = FALSE,
   group.names = NULL,
   font.size = 16,
-  font.alpha = 0.8,
-  font.col = NULL,
   marker.col = NULL,
   marker.size = 8,
   symbol = "circle",

@@ -188,28 +188,28 @@ preprocess <- function(x, y = NULL,
   # [ Integer to numeric ] ====
   if (integer2numeric) {
     index.integer <- which(sapply(x, is.integer))
-    if (verbose) msg("Converting integers to numeric")
+    if (verbose) msg("Converting integers to numeric...")
     for (i in index.integer) x[, i] <- as.numeric(x[, i])
   }
 
   # [ Logical to factor ] ====
   if (logical2factor) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to factor")
+    if (verbose) msg("Converting logicals to factor...")
     for (i in index.logical) x[, i] <- as.factor(x[, i])
   }
 
   # [ Logical to numeric ] ====
   if (logical2numeric) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to factor")
+    if (verbose) msg("Converting logicals to factor...")
     for (i in index.logical) x[, i] <- as.numeric(x[, i])
   }
 
   # [ Numeric to factor ] ====
   if (numeric2factor) {
     index.numeric <- which(sapply(x, is.numeric))
-    if (verbose) msg("Converting numeric to factor")
+    if (verbose) msg("Converting numeric to factor...")
     if (is.null(numeric2factor.levels)) {
       for (i in index.numeric) x[, i] <- as.factor(x[, i])
     } else {
@@ -241,7 +241,7 @@ preprocess <- function(x, y = NULL,
 
   # [ Nonzero factors ] ====
   if (nonzeroFactors) {
-    if (verbose) msg("Shifting factor levels to exclude 0")
+    if (verbose) msg("Shifting factor levels to exclude 0...")
     if (any(sapply(x, is.factor))) {
       for (i in seq(NCOL(x))) {
         if (is.factor(x[, i])) {
@@ -259,7 +259,7 @@ preprocess <- function(x, y = NULL,
     .colnames <- colnames(x)
     for (i in cols.with.na) {
       x[, paste0(.colnames[i], "_missing")] <- as.numeric(is.na(x[, i]))
-      if (verbose) msg("Created missingness indicator for", .colnames[i])
+      if (verbose) msg0("Created missingness indicator for ", .colnames[i], "...")
     }
   }
 
