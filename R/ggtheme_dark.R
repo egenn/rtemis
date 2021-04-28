@@ -1,10 +1,10 @@
-# theme_rtemis_dark.R
+# ggtheme_dark.R
 # ::rtemis::
 # 2019 E.D. Gennatas
 
 #' \pkg{rtemis} \code{ggplot2} dark theme
 #'
-#' @inheritParams theme_rtemis_light
+#' @inheritParams ggtheme_light
 #' @param strip.background.fill Color: Fill color from facet labels. Default = "grey25"
 #' @author E.D. Gennatas
 #' @export
@@ -12,10 +12,10 @@
 #' \dontrun{
 #' (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
 #' geom_point() +
-#' theme_rtemis_light())
+#' ggtheme_light())
 #' }
 
-theme_rtemis_dark <- function(base_size = 14,
+ggtheme_dark <- function(base_size = 14,
                               base_family = "Helvetica Neue",
                               base_line_size = base_size/22,
                               base_rect_size = base_size/22,
@@ -137,4 +137,4 @@ theme_rtemis_dark <- function(base_size = 14,
                  plot.margin = ggplot2::margin(half_line, half_line, half_line, half_line),
                  complete = TRUE)
 
-} # rtemis::theme_rtemis_dark
+} # rtemis::ggtheme_dark
