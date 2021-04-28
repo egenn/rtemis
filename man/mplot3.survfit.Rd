@@ -23,6 +23,7 @@ mplot3.survfit(
   table.font = 2,
   time.at = NULL,
   xlim = NULL,
+  ylim = NULL,
   cex = 1.2,
   xlab = "Time",
   ylab = "Survival",
@@ -54,6 +55,8 @@ mplot3.survfit(
 \item{alpha}{Float: Alpha for lines. Default = 1}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
+
+\item{ylim}{Float vector, length 2: y-axis limits}
 
 \item{xlab}{Character: x-axis label}
 
@@ -95,11 +98,14 @@ Plots survival step functions using \link{mplot3.xy}
 }
 \examples{
 \dontrun{
-lung <- survival::lung
-sf <- survival::survfit(Surv(time, status) ~ sex, data = lung)
-mplot3.survfit(sf)
+# Get the lung dataset
+data(cancer, package = "survival")
+sf1 <- survival::survfit(survival::Surv(time, status) ~ 1, data = lung)
+mplot3.survfit(sf1)
+sf2 <- survival::survfit(survival::Surv(time, status) ~ sex, data = lung)
+mplot3.survfit(sf2)
 # with N at risk table
-mplot3.survfit(sf, nrisk.table = TRUE)
+mplot3.survfit(sf2, nrisk.table = TRUE)
 }
 }
 \author{

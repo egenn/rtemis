@@ -16,11 +16,14 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' lung <- survival::lung
-#' sf <- survival::survfit(Surv(time, status) ~ sex, data = lung)
-#' mplot3.survfit(sf)
+#' # Get the lung dataset
+#' data(cancer, package = "survival")
+#' sf1 <- survival::survfit(survival::Surv(time, status) ~ 1, data = lung)
+#' mplot3.survfit(sf1)
+#' sf2 <- survival::survfit(survival::Surv(time, status) ~ sex, data = lung)
+#' mplot3.survfit(sf2)
 #' # with N at risk table
-#' mplot3.survfit(sf, nrisk.table = TRUE)
+#' mplot3.survfit(sf2, nrisk.table = TRUE)
 #' }
 
 mplot3.survfit <- function(x,
@@ -41,6 +44,7 @@ mplot3.survfit <- function(x,
                            table.font = 2,
                            time.at = NULL,
                            xlim = NULL,
+                           ylim = NULL,
                            # normalize.time = FALSE,
                            cex = 1.2,
                            xlab = "Time",
@@ -108,7 +112,7 @@ mplot3.survfit <- function(x,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (is.null(mar)) {
-    mar <- c(2, 3, 2, 1)
+    mar <- if (nrisk.table) c(1, 3, 2, 1) else c(2.5, 3, 2, 1)
   }
 
   # if (is.null(xlab)) {
@@ -161,7 +165,7 @@ mplot3.survfit <- function(x,
           lty = error.lty, col = colorAdjust(col[[i]], error.alpha))
   }
 
-  # [ GROUP LEGEND ] ====
+  # [ Group Legend ] ====
   if (!is.null(group.names)) {
     group.names <- c(group.title, group.names)
   } else {
@@ -172,7 +176,6 @@ mplot3.survfit <- function(x,
   if (is.null(group.legend)) group.legend <- ifelse(length(x) > 1, TRUE, FALSE)
 
   if (group.legend) {
-    nstrata <- length(x$strat)
     mtext(group.names,
           col = c(theme$fg, unlist(col))[seq(nstrata + 1)],
           side = group.side,
@@ -186,37 +189,57 @@ mplot3.survfit <- function(x,
   # nrisk table ====
   if (nrisk.table) {
     sfs <- summary(x, times = time.at)
-    nrisk <- split(sfs$n.risk, sfs$strata)
-    nperstratum <- table(sfs$strata)
-    strata <- names(nperstratum)
-    nriskmat <- matrix(0, nstrata, max(nperstratum))
-    for (i in seq_len(nstrata)) {
-      nriskmat[i, seq_len(nperstratum[i])] <- nrisk[[i]]
+    if (nstrata > 1) {
+      nrisk <- split(sfs$n.risk, sfs$strata)
+      nperstratum <- table(sfs$strata)
+      strata <- names(nperstratum)
+      nriskmat <- matrix(0, nstrata, max(nperstratum))
+      for (i in seq_len(nstrata)) {
+        nriskmat[i, seq_len(nperstratum[i])] <- nrisk[[i]]
+      }
+      rownames(nriskmat) <- strata
+    } else {
+      nriskmat <- matrix(sfs$n.risk, 1)
     }
     colnames(nriskmat) <- time.at
-    rownames(nriskmat) <- strata
-    plot(NULL, NULL, xlim = xlim,
-         # ylim = seq_len(nstrata),
-         ylim = c(1, nstrata + table.pad * nstrata),
+    plot(NULL, NULL,
+         xlim = xlim,
+         # ylim = c(1, nstrata + table.pad * nstrata),
+         ylim = c(0, 0),
          xlab = "", ylab = "",
          ann = FALSE,
          axes = FALSE)
-    # axis(2, at = seq_len(nstrata), labels = strata)
-    abline(h = c(seq(nstrata - 1) + .5), col = adjustcolor(theme$fg, .5))
-    for (i in seq_len(nstrata)) {
-      # text(x = 0, y = i, adj = 1.7, labels = strata[i], col = palette[[i]], xpd = TRUE)
-      text(x = time.at, y = i,
-           labels = as.character(nriskmat[i, ]),
-           # col = theme$fg,
-           col = palette[[i]],
-           font = table.font,
-           xpd = TRUE,
-           family = theme$font.family)
-    }
-    # abline(h = c(seq(nstrata - 1) + .5), col = adjustcolor(theme$bg, .5))
-    mtext("Number at risk", col = theme$fg, adj = 0, line = .8,
+    # mtext("Number at risk",
+    #       side = 3,
+    #       col = theme$fg, adj = 0, line = 0,
+    #       cex = theme$cex,
+    #       family = theme$font.family)
+    mtext("Number\nat risk   ",
+          side = 2,
+          col = theme$fg, adj = NA, line = 1,
           cex = theme$cex,
           family = theme$font.family)
+    # axis(2, at = seq_len(nstrata), labels = strata)
+    # abline(h = c(seq(nstrata - 1) + .5), col = adjustcolor(theme$fg, .5))
+    for (i in seq_len(nstrata)) {
+      # text(x = time.at, y = i,
+      #      labels = as.character(nriskmat[i, ]),
+      #      # col = theme$fg,
+      #      col = palette[[i]],
+      #      font = table.font,
+      #      xpd = TRUE,
+      #      family = theme$font.family)
+      mtext(text = as.character(nriskmat[i, ]),
+            side = 3,
+            line = -i,
+            at = time.at,
+            col = palette[[i]],
+            font = table.font,
+            xpd = TRUE,
+            family = theme$font.family)
+    }
+    # abline(h = c(seq(nstrata - 1) + .5), col = adjustcolor(theme$bg, .5))
+
   }
 
 } # rtemis::mplot3.surv
