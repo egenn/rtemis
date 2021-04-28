@@ -32,6 +32,11 @@
 #' @param labs.col Color: Labels' color. Default = NULL, determined by theme
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
+#' @param hline Float: If defined, draw a horizontal line at this y value. Default = NULL
+#' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
+#' @param hline.width Float: Width for \code{hline}. Default = 1
+#' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+#' or "longdashdot"
 #' @param margin Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
@@ -70,6 +75,10 @@ dplot3.bar <-  function(x,
                         font.size = 16,
                         legend = TRUE,
                         legend.col = NULL,
+                        hline = NULL,
+                        hline.col = "#ff0000",
+                        hline.width = 1,
+                        hline.dash = "solid",
                         margin = list(b = 50, l = 50, t = 50, r = 20),
                         automargin.x = TRUE,
                         automargin.y = TRUE,
@@ -221,8 +230,19 @@ dplot3.bar <-  function(x,
                         showlegend = legend,
                         legend = .legend)
 
+  # hline ====
+  if (!is.null(hline)) {
+    plt <- plotly::layout(plt, shapes = list(list(type = "line",
+                                                  x0 = 0, x1 = 1, xref = "paper",
+                                                  y0 = hline, y1 = hline,
+                                                  line = list(color = hline.col,
+                                                              width = hline.width,
+                                                              dash = hline.dash))))
+  }
+
   # Padding
   plt$sizingPolicy$padding <- padding
+
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,
