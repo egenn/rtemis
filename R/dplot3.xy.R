@@ -342,23 +342,6 @@ dplot3.xy <- function(x, y = NULL,
   plt <- plotly::plot_ly(width = width,
                          height = height)
 
-  # if (diagonal) {
-  #   minx <- min(unlist(x))
-  #   maxx <- max(unlist(x))
-  #   miny <- min(unlist(y))
-  #   maxy <- max(unlist(y))
-  #   rx <- maxx - minx
-  #   ry <- maxy - miny
-  #   minr <- min(rx, ry)
-  #   plt <- plt %>% plotly::add_segments(
-  #     x = minx - .065*minr,
-  #     y = miny - .065*minr,
-  #     xend = maxx + .065*minr,
-  #     yend = maxy + .065*minr,
-  #     line = list(color = diagonal.col)
-  #   )
-  # }
-
   if (diagonal) {
     plt <- plotly::layout(plt,
                           shapes = list(type = "line",
