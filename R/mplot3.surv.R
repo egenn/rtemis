@@ -22,11 +22,12 @@ mplot3.surv <- function(x,
                         lwd = 2,
                         alpha = 1,
                         col = NULL,
-                        normalize.time = TRUE,
+                        mark.censored = TRUE,
+                        normalize.time = FALSE,
                         cex = 1.2,
                         xlab = NULL,
                         ylab = "Survival",
-                        main = "Kaplan-Meier estimate",
+                        main = "Kaplan-Meier curve",
                         theme = getOption("rt.theme", "lightgrid"),
                         palette = getOption("rt.palette", "rtCol1"),
                         plot.error = FALSE,
@@ -83,11 +84,20 @@ mplot3.surv <- function(x,
             type = 's', lwd = 2, lty = lty,
             theme = theme,
             palette = palette,
+            marker.alpha = alpha,
             marker.col = col,
             line.alpha = 1,
             main = main,
             xlab = xlab, ylab = ylab,
             group.legend = FALSE, zerolines = FALSE, par.reset = FALSE, ...)
+
+  # Censoring markers
+  if (mark.censored) {
+    for (i in seq_along(xl)) {
+      .index <- .survfit[[i]]$n.censor == 1
+      points(xl[[i]][.index], yl[[i]][.index], pch = 3, col = palette[[i]])
+    }
+  }
 
   # pointwise errors
   if (plot.error) {
