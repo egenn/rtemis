@@ -363,3 +363,17 @@ singorplu <- function(n, x) {
          paste0(n, " ", x, "s"))
 
 }
+
+#' Round to nearest .5
+#'
+#' @param x numeric vector
+#' @author E.D. Gennatas
+#' @export
+
+roundtohalf <- function(x) {
+  round(x * 2) / 2
+}
+
+roundtofrac <- function(x, t = .5) {
+  round(x / t) * t
+}
