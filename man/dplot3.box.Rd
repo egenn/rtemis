@@ -68,7 +68,7 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
-\item{order.by.fn}{Logical: If TRUE, order boxes by increasing value of this function
+\item{order.by.fn}{Function: If defined, order boxes by increasing value of this function
 (e.g. median). Default = NULL}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}

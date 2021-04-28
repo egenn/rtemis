@@ -22,6 +22,10 @@ dplot3.bar(
   font.size = 16,
   legend = TRUE,
   legend.col = NULL,
+  hline = NULL,
+  hline.col = "#ff0000",
+  hline.width = 1,
+  hline.dash = "solid",
   margin = list(b = 50, l = 50, t = 50, r = 20),
   automargin.x = TRUE,
   automargin.y = TRUE,
@@ -70,6 +74,15 @@ Only be use for single group data. Default = NULL}
 \item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+
+\item{hline}{Float: If defined, draw a horizontal line at this y value. Default = NULL}
+
+\item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
+
+\item{hline.width}{Float: Width for \code{hline}. Default = 1}
+
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+or "longdashdot"}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 

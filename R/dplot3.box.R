@@ -24,7 +24,7 @@
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
 #' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
 #' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
-#' @param order.by.fn Logical: If TRUE, order boxes by increasing value of this function
+#' @param order.by.fn Function: If defined, order boxes by increasing value of this function
 #' (e.g. median). Default = NULL
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
