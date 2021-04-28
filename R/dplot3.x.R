@@ -30,7 +30,9 @@
 #' Turn to FALSE, if, for example, groups are ordered by date or similar.
 #' @param vline Float: If defined, draw a vertical line at this x value. Default = NULL
 #' @param vline.col Color for \code{vline}. Default = "#ff0000" (red)
-#' vline.width Float: Width for \code{vline}. Default = 1
+#' @param vline.width Float: Width for \code{vline}. Default = 1
+#' @param vline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+#' or "longdashdot"
 #' @param text Character: If defined, add this text over the plot
 #' @param text.x Float: x-coordinate for \code{text}
 #' @param text.xref Character: "x": \code{text.x} refers to plot's x-axis; "paper": \code{text.x} refers to plotting area from 0-1
@@ -360,10 +362,11 @@ dplot3.x <- function(x,
   # vline ====
   if (!is.null(vline)) {
     plt <- plotly::layout(plt, shapes = list(list(type = "line",
-                                          x0 = vline, x1 = vline,
-                                          y0 = 0, y1 = 1, yref = "paper",
-                                          line = list(color = vline.col,
-                                                      width = vline.width))))
+                                                  x0 = vline, x1 = vline,
+                                                  y0 = 0, y1 = 1, yref = "paper",
+                                                  line = list(color = vline.col,
+                                                              width = vline.width,
+                                                              dash = vline.dash))))
   }
 
   # text ====
