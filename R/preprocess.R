@@ -4,12 +4,13 @@
 
 #' Data preprocessing
 #'
-#' Prepare data for data analysis
+#' Prepare data for analysis and visualization
 #'
 #' By default, removes constant features and duplicated cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
 #' Order of operations (reflected by order of arguments in usage):
+#'
 #'   * keep complete cases only
 #'   * remove duplicates
 #'   * remove cases by missingness threshold
@@ -28,12 +29,13 @@
 #'   * remove constants
 #'   * one-hot encoding
 #'
+#' @md
 #' @param x Input data frame
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
-#' @param removeCases.thres Float: Remove cases with >= to this fraction of missing features.
+#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction of missing features.
 #' Default = NULL
-#' @param removeFeatures.thres Float: Remove features with missing values in >= to this fraction of
+#' @param removeFeatures.thres Float (0, 1): Remove features with missing values in >= to this fraction of
 #' cases. Default = NULL
 #' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
 #' which cases were missing data. Default = FALSE
