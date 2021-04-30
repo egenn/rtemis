@@ -11,8 +11,9 @@ massGLM(
   ynames = NULL,
   save.mods = FALSE,
   p.adjust.method = "holm",
-  print.plot = FALSE,
+  print.plot = TRUE,
   verbose = TRUE,
+  trace = 0,
   n.cores = rtCores
 )
 }
