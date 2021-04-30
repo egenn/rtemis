@@ -7,14 +7,14 @@
 \alias{theme_whitegrid}
 \alias{theme_lightgrid}
 \alias{theme_white}
-\title{Themes for \code{mplot3} functions}
+\title{Themes for \code{mplot3} and \code{dplot3} functions}
 \usage{
 theme_blackgrid(
   bg = "#000000",
   plot.bg = NA,
   fg = "#ffffff",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -66,7 +66,7 @@ theme_darkgrid(
   plot.bg = "#1A1A1A",
   fg = "#ffffff",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -118,7 +118,7 @@ theme_black(
   plot.bg = NA,
   fg = "#ffffff",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -170,7 +170,7 @@ theme_whitegrid(
   plot.bg = NA,
   fg = "#000000",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -222,7 +222,7 @@ theme_lightgrid(
   plot.bg = "#E6E6E6",
   fg = "#000000",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -274,7 +274,7 @@ theme_white(
   plot.bg = NA,
   fg = "#000000",
   pch = 16,
-  cex = 1.2,
+  cex = 1.1,
   lwd = 2,
   bty = "n",
   box.col = fg,
@@ -395,5 +395,5 @@ be defined separately}
 \item{axes}{Logical: If TRUE, draw axes}
 }
 \description{
-Themes for \code{mplot3} functions
+Themes for \code{mplot3} and \code{dplot3} functions
 }

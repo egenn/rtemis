@@ -46,10 +46,10 @@ preprocess(
 \item{completeCases}{Logical: If TRUE, only retain complete cases (no missing data).
 Default = FALSE}
 
-\item{removeCases.thres}{Float: Remove cases with >= to this fraction of missing features.
+\item{removeCases.thres}{Float (0, 1): Remove cases with >= to this fraction of missing features.
 Default = NULL}
 
-\item{removeFeatures.thres}{Float: Remove features with missing values in >= to this fraction of
+\item{removeFeatures.thres}{Float (0, 1): Remove features with missing values in >= to this fraction of
 cases. Default = NULL}
 
 \item{missingness}{Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
@@ -118,33 +118,35 @@ Default = "missing"}
 
 \item{ltn2factor}{Integer: Convert all numeric variables with less than this number of unique
 values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-you could use `ltn2factor = 3` to convert them to factors.}
+you could use \code{ltn2factor = 3} to convert them to factors.}
 }
 \description{
-Prepare data for data analysis
+Prepare data for analysis and visualization
 }
 \details{
 By default, removes constant features and duplicated cases
 (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 
 Order of operations (reflected by order of arguments in usage):
-  * keep complete cases only
-  * remove duplicates
-  * remove cases by missingness threshold
-  * remove features by missingness threshold
-  * integer to factor
-  * integer to numeric
-  * logical to factor
-  * logical to numeric
-  * numeric to factor
-  * numeric with less than N unique values to factor
-  * character to factor
-  * factor NA to named level
-  * add missingness column
-  * impute
-  * scale and/or center
-  * remove constants
-  * one-hot encoding
+\itemize{
+\item keep complete cases only
+\item remove duplicates
+\item remove cases by missingness threshold
+\item remove features by missingness threshold
+\item integer to factor
+\item integer to numeric
+\item logical to factor
+\item logical to numeric
+\item numeric to factor
+\item numeric with less than N unique values to factor
+\item character to factor
+\item factor NA to named level
+\item add missingness column
+\item impute
+\item scale and/or center
+\item remove constants
+\item one-hot encoding
+}
 }
 \author{
 E.D. Gennatas
