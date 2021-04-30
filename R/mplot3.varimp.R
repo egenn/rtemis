@@ -44,35 +44,17 @@ mplot3.varimp <- function(x,
                           ylab = NULL,
                           ylab.line = 1.5,
                           main = NULL,
-                          # main.line = .5,
-                          # main.adj = 0,
-                          # main.col = NULL,
-                          # main.font = 2,
-                          # main.family = "",
                           names.arg = NULL,
                           axisnames = FALSE,
                           sidelabels = NULL,
                           mar = NULL,
                           pty = "m",
-                          # cex = 1.2,
-                          # cex.axis = cex,
-                          # cex.names = cex,
-                          # bg = NULL,
-                          # plot.bg = NULL,
                           barplot.axes = FALSE,
                           xaxis = TRUE,
                           x.axis.padj = -1.2,
                           tck = -.015,
-                          # tick.col = NULL,
-                          theme = getOption("rt.theme", "darkgrid"),
+                          theme = getOption("rt.theme", "lightgrid"),
                           zerolines = FALSE,
-                          # axes.col = NULL,
-                          # labs.col = NULL,
-                          # grid = FALSE,
-                          # grid.lty = NULL,
-                          # grid.lwd = NULL,
-                          # grid.col = NULL,
-                          # grid.alpha = 1,
                           par.reset = TRUE,
                           pdf.width = NULL,
                           pdf.height = NULL,
@@ -132,7 +114,7 @@ mplot3.varimp <- function(x,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
 
-  # # [ XLIM & YLIM ] ====
+  # # [ xlim & ylim ] ====
   if (is.null(ylim)) {
     ylim <- c(0, length(x) + (length(x) + 1) * space)
   }
@@ -151,7 +133,7 @@ mplot3.varimp <- function(x,
   }
   cols <- colorAdjust(col, alpha = alpha)
 
-  # [ AUTOMARGINS ] ====
+  # [ Auto-margins ] ====
   if (is.null(mar)) {
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
     # mar2 <- max(strwidth(.names)) + 2.5 # this freaks out stupid notebooks
@@ -161,7 +143,7 @@ mplot3.varimp <- function(x,
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
   }
 
-  # [ PLOT ] ====
+  # [ Plot ] ====
   # '- PDF autosize ====
   if (!is.null(filename)) {
     if (is.null(pdf.height)) pdf.height <- length(x) * .2 + .5
@@ -173,13 +155,13 @@ mplot3.varimp <- function(x,
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # [ PLOT BG ] ====
+  # [ Plot Background ] ====
   if (!is.na(theme$plot.bg)) {
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # [ GRID ] ====
+  # [ Grid ] ====
   if (theme$grid) {
     grid(nx = theme$grid.nx,
          ny = 0,
@@ -188,7 +170,7 @@ mplot3.varimp <- function(x,
          lwd = theme$grid.lwd)
   }
 
-  # [ BARPLOT ] ====
+  # [ Barplot ] ====
   barCenters <- barplot(x, col = cols, border = border,
                         xlim = xlim, ylim = ylim, axes = barplot.axes,
                         cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
@@ -198,7 +180,7 @@ mplot3.varimp <- function(x,
                         xaxs = "i", yaxs = "i", ...)
   if (min(x) < 0 & max(x) > 0) abline(v = 0, col = theme$labs.col, lwd = theme$grid.lwd)
 
-  # [ ERROR BARS ] ====
+  # [ Error bars ] ====
   if (!is.null(error)) {
     if (is.null(error.col)) error.col <- cols
     segments(as.vector(x) - as.vector(error), as.vector(barCenters),
@@ -214,7 +196,7 @@ mplot3.varimp <- function(x,
   if (xaxis) axis(1, col = theme$axes.col, col.axis = theme$labs.col, col.ticks = theme$tick.col,
                   padj = x.axis.padj, tck = tck, cex = theme$cex)
 
-  # [ MAIN TITLE ] ====
+  # [ Main Title ] ====
   if (exists("autolabel", envir = rtenv)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -228,13 +210,13 @@ mplot3.varimp <- function(x,
           family = theme$font.family)
   }
 
-  # [ NAMES ] ====
+  # [ Names ] ====
   text(x = min(xlim) - names.pad * diff(xlim),
        y = barCenters,
        labels = .names, adj = 1, xpd = TRUE,
        col = theme$labs.col)
 
-  # [ AXIS LABS ] ====
+  # [ Axes Labeles ] ====
   if (!is.null(xlab))  mtext(xlab, 1,
                              cex = theme$cex,
                              line = xlab.line,
@@ -244,7 +226,7 @@ mplot3.varimp <- function(x,
                              line = ylab.line,
                              col = theme$labs.col)
 
-  # [ SIDE LABELS ] ====
+  # [ Side Labels ] ====
   if (!is.null(sidelabels)) {
     # mtext(sidelabels, 4, at = barCenters)
     text(x = max(xlim)*1.01, y = barCenters, labels = sidelabels, xpd = TRUE, pos = 4)
