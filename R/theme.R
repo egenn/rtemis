@@ -1,5 +1,8 @@
+# theme.R
+# ::rtemis::
+# E.D. Gennatas lambdamd.org
 
-#' Themes for \code{mplot3} functions
+#' Themes for \code{mplot3} and \code{dplot3} functions
 #'
 #' @param bg Color: Figure background
 #' @param plot.bg Color: Plot region background
@@ -45,7 +48,7 @@ theme_blackgrid <- function(bg = "#000000",
                             plot.bg = NA,
                             fg = "#ffffff",
                             pch = 16,
-                            cex = 1.2,
+                            cex = 1.1,
                             lwd = 2,
                             # box --
                             bty = "n",
@@ -160,7 +163,7 @@ theme_darkgrid <- function(name = "darkgrid",
                            plot.bg = "#1A1A1A",
                            fg = "#ffffff",
                            pch = 16,
-                           cex = 1.2,
+                           cex = 1.1,
                            lwd = 2,
                            # box --
                            bty = "n",
@@ -273,7 +276,7 @@ theme_black <- function(name = "black",
                         plot.bg = NA,
                         fg = "#ffffff",
                         pch = 16,
-                        cex = 1.2,
+                        cex = 1.1,
                         lwd = 2,
                         # box --
                         bty = "n",
@@ -386,7 +389,7 @@ theme_whitegrid <- function(name = "whitegrid",
                             plot.bg = NA,
                             fg = "#000000",
                             pch = 16,
-                            cex = 1.2,
+                            cex = 1.1,
                             lwd = 2,
                             # box --
                             bty = "n",
@@ -499,7 +502,7 @@ theme_lightgrid <- function(name = "lightgrid",
                             plot.bg = "#E6E6E6",
                             fg = "#000000",
                             pch = 16,
-                            cex = 1.2,
+                            cex = 1.1,
                             lwd = 2,
                             # box --
                             bty = "n",
@@ -612,7 +615,7 @@ theme_white <- function(name = "white",
                         plot.bg = NA,
                         fg = "#000000",
                         pch = 16,
-                        cex = 1.2,
+                        cex = 1.1,
                         lwd = 2,
                         # box --
                         bty = "n",
