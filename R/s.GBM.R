@@ -4,7 +4,6 @@
 #
 # Notes: gbm.more currently fails with distribution "multinomial" due to a bug in gbm.
 
-
 #' Gradient Boosting Machine [C, R, S]
 #'
 #' Train a GBM model using \code{gbm::gbm.fit}
@@ -160,8 +159,8 @@ s.GBM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   n.classes <- length(levels(y0))
   if (type == "Classificationn" && n.classes != 2) stop("GBM only supports binary classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
