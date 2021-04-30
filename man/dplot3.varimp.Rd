@@ -18,7 +18,7 @@ dplot3.varimp(
   mar = NULL,
   font.size = 16,
   axis.font.size = 14,
-  theme = getOption("rt.theme", "darkgrid"),
+  theme = getOption("rt.theme", "lightgrid"),
   showlegend = TRUE,
   ...
 )

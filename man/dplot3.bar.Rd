@@ -11,7 +11,7 @@ dplot3.bar(
   ylab = NULL,
   col = NULL,
   alpha = 0.8,
-  theme = getOption("rt.theme", "darkgrid"),
+  theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   barmode = c("group", "relative", "stack", "overlay"),
   group.names = NULL,
