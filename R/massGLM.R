@@ -26,20 +26,17 @@ massGLM <- function(x, y,
                     ynames = NULL,
                     save.mods = FALSE,
                     p.adjust.method = "holm",
-                    print.plot = FALSE,
+                    print.plot = TRUE,
                     verbose = TRUE,
+                    trace = 0,
                     n.cores = rtCores) {
 
   # [ Intro ] ====
   start.time <- intro(verbose = verbose)
 
-  # [ Arguments ] ====
-  learner <- modSelect(mod)
-
   # [ Data ] ====
-  # if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
-  # ynames <- colnames(y)
   type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
+  if (trace > 0) msg0('massGLM type is "', type, '"')
   if (type == "massx") {
     if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
     nmods <- NCOL(x)
@@ -47,6 +44,7 @@ massGLM <- function(x, y,
     if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq(NCOL(y)))
     nmods <- NCOL(y)
   }
+  if (trace > 0) msg('Will train', nmods, 'models')
 
   if (is.null(xnames)) {
     xnames <- if (type == "massx") colnames(x) else "x"
@@ -62,10 +60,12 @@ massGLM <- function(x, y,
   mod1 <- function(index, dat, type) {
     if (type == "massx") {
       .formula <- as.formula(paste(ynames, "~", xnames[index]))
-      glm(.formula, data = dat)
+      .family <- if(is.factor(dat[[ynames]])) "binomial" else "gaussian"
+      glm(.formula, family = .family, data = dat)
     } else {
       .formula <- as.formula(paste(ynames[index], "~", xnames))
-      glm(.formula, data = dat)
+      .family <- if(is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
+      glm(.formula, family = .family, data = dat)
     }
   }
 
@@ -76,7 +76,9 @@ massGLM <- function(x, y,
   } else {
     pbapply::pboptions(type = "none")
   }
-  mods <- pbapply::pblapply(seq_len(nmods), mod1, dat = dat, type = type,
+  mods <- pbapply::pblapply(seq_len(nmods), mod1,
+                            dat = dat,
+                            type = type,
                             cl = n.cores)
   names(mods) <- if (type == "massx") xnames else ynames
 
@@ -116,13 +118,19 @@ print.massGLM <- function(x, ...) {
 }
 
 plot.massGLM <- function(x,
-                         hline = .05,
+                         what = "Adjusted_pvalue",
+                         pval.hline = .05,
                          hline.col = "#FE4AA3",
                          hline.dash = "dash", ...) {
-  dplot3.bar(1 - x$coefs_pvals$pvalue,
-             group.names = x$coefs_pvals$Variable,
-             legend = F,
-             hline = 1 - hline,
-             hline.col = hline.col,
-             hline.dash = hline.dash, ...)
+
+  if (what == "Adjusted_pvalue") {
+    dplot3.bar(1 - x$coefs_pvals$Adjusted_pvalue,
+               group.names = x$coefs_pvals$Variable,
+               legend = F,
+               ylab = "1 - adjusted p-value",
+               hline = 1 - pval.hline,
+               hline.col = hline.col,
+               hline.dash = hline.dash, ...)
+  }
+
 }
