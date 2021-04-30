@@ -1,6 +1,8 @@
-# mplot3.surv.R
+# mplot3.survfit.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas lambdamd.org
+# todo: autoplace group.name based on min survival
+# todo: table height by nstrata
 
 #' \code{mplot3}: Survival Plots
 #'
@@ -39,17 +41,17 @@ mplot3.survfit <- function(x,
                            censor.cex = .8,
                            nrisk.table = FALSE,
                            plot.height = 5,
-                           table.height = 1.5,
+                           table.height = .25,
                            table.pad = 0,
                            table.font = 2,
                            time.at = NULL,
+                           time.by = NULL,
                            xlim = NULL,
                            ylim = NULL,
                            # normalize.time = FALSE,
-                           cex = 1.2,
                            xlab = "Time",
                            ylab = "Survival",
-                           main = "Kaplan-Meier curve",
+                           main = NULL,
                            theme = getOption("rt.theme", "lightgrid"),
                            palette = getOption("rt.palette", "rtCol1"),
                            plot.error = FALSE,
@@ -60,7 +62,7 @@ mplot3.survfit <- function(x,
                            group.names = NULL,
                            group.side = 3,
                            group.adj = .98,
-                           group.padj = 2,
+                           group.padj = NULL,
                            group.at = NA,
                            mar = NULL,
                            par.reset = TRUE, ...) {
@@ -83,7 +85,6 @@ mplot3.survfit <- function(x,
     col <- palette
   }
 
-  .theme <- theme
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -94,13 +95,17 @@ mplot3.survfit <- function(x,
   }
 
   # [ Limits ] ====
-  # xl <- lapply(x, function(i) i$time)
   # if (normalize.time) xl <- lapply(xl, drange)
   if (is.null(xlim)) xlim <- c(0, max(x$time, na.rm = TRUE))
   if (is.null(ylim)) ylim <- c(0, 1)
-  # yl <- lapply(x, function(i) i$surv)
 
   # x.axis.at ====
+  if (!is.null(time.by)) {
+    time.at <- seq(xlim[1], xlim[2], by = time.by)
+    if (time.at[length(time.at)] * 1.04 < xlim[2]) {
+      time.at <- c(time.at, time.at[length(time.at)] + time.by)
+    }
+  }
   if (nrisk.table && is.null(time.at)) time.at <- "auto"
   if (!is.null(time.at) && time.at[1] == "auto") {
     time.at <- floor(seq(xlim[1], xlim[2], length.out = 6))
@@ -119,16 +124,18 @@ mplot3.survfit <- function(x,
   #   xlab <- if (normalize.time) "Normalized Time" else "Time"
   # }
 
+  # todo adjust table.height by nstrata
   if (nrisk.table) layout(matrix(c(1, 2), 2),
-                          heights = c(plot.height, table.height))
+                          heights = c(plot.height, .9 + table.height * nstrata))
   mplot3.xy(x = split(x$time, .group),
             y = split(x$surv, .group),
             xlim = xlim,
             ylim = ylim,
             type = 's',
             x.axis.at = time.at,
-            lwd = lwd, lty = lty,
-            theme = .theme,
+            lwd = lwd,
+            lty = lty,
+            theme = theme,
             palette = palette,
             marker.alpha = 0,
             marker.col = col,
@@ -166,6 +173,7 @@ mplot3.survfit <- function(x,
   }
 
   # [ Group Legend ] ====
+  # todo: extract group.title from strata
   if (!is.null(group.names)) {
     group.names <- c(group.title, group.names)
   } else {
@@ -175,13 +183,16 @@ mplot3.survfit <- function(x,
   # If not defined, group legend defaults to TRUE, if more than one group
   if (is.null(group.legend)) group.legend <- ifelse(length(x) > 1, TRUE, FALSE)
 
+  if (is.null(group.padj)) {
+    group.padj <- if (min(x$surv) < .5) 1 else 19
+  }
   if (group.legend) {
     mtext(group.names,
           col = c(theme$fg, unlist(col))[seq(nstrata + 1)],
           side = group.side,
           adj = group.adj,
           at = group.at,
-          cex = cex,
+          cex = theme$cex,
           padj = seq(group.padj, group.padj + 1.5 * nstrata, 1.5),
           family = theme$font.family)
   }
@@ -193,7 +204,7 @@ mplot3.survfit <- function(x,
       nrisk <- split(sfs$n.risk, sfs$strata)
       nperstratum <- table(sfs$strata)
       strata <- names(nperstratum)
-      nriskmat <- matrix(0, nstrata, max(nperstratum))
+      nriskmat <- matrix(0, nstrata, length(time.at))
       for (i in seq_len(nstrata)) {
         nriskmat[i, seq_len(nperstratum[i])] <- nrisk[[i]]
       }
