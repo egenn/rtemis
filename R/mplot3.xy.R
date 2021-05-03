@@ -68,6 +68,7 @@
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'darkgrid')
 #' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
+#' @param oma Float, vector, length 4: Outer margins; see \code{par("oma")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
 #' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
 #' @param group.title Character: Group title, shown above group names. e.g. if group names are
@@ -206,7 +207,8 @@ mplot3.xy <- function(x, y = NULL,
                       y.axis.labs = TRUE,
                       xlab.adj = .5,
                       ylab.adj = .5,
-                      mar = c(2.5, 3, 2, 1), # c(3, 3, 3, 1),
+                      mar = c(2.5, 3, 2, 1),
+                      oma = c(0, 0, 0, 0),
                       point.cex = .85,
                       point.bg.col = NULL,
                       pch = ifelse(is.null(point.bg.col), 16, 21),
@@ -618,7 +620,7 @@ mplot3.xy <- function(x, y = NULL,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar)
+  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar, oma = oma)
   plot(NULL, NULL, xlim = xlim, ylim = ylim,
        ann = FALSE,
        axes = FALSE, xaxs = xaxs, yaxs = yaxs,

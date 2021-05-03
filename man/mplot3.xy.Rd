@@ -51,6 +51,7 @@ mplot3.xy(
   xlab.adj = 0.5,
   ylab.adj = 0.5,
   mar = c(2.5, 3, 2, 1),
+  oma = c(0, 0, 0, 0),
   point.cex = 0.85,
   point.bg.col = NULL,
   pch = ifelse(is.null(point.bg.col), 16, 21),
@@ -220,6 +221,8 @@ Default = "r"}
 \item{ylab.adj}{Float: \code{adj} for \code{ylab} (See \code{par("adj")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
 \item{point.cex}{Float: Character expansion for points. Default = .85}
 
