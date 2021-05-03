@@ -11,36 +11,40 @@ mplot3.survfit(
   alpha = 1,
   col = NULL,
   mark.censored = FALSE,
+  draw.median = FALSE,
+  median.lty = 3,
+  median.col = theme$fg,
+  median.alpha = 0.5,
   censor.mark = TRUE,
   censor.col = NULL,
-  censor.alpha = 0.5,
+  censor.alpha = 0.4,
   censor.pch = "I",
   censor.cex = 0.8,
   nrisk.table = FALSE,
-  plot.height = 5,
-  table.height = 0.25,
-  table.pad = 0,
-  table.font = 2,
+  nrisk.pos = "below",
+  nrisk.spacing = 0.9,
+  table.font = 1,
   time.at = NULL,
   time.by = NULL,
   xlim = NULL,
   ylim = NULL,
   xlab = "Time",
   ylab = "Survival",
-  main = NULL,
+  main = "Kaplan-Meier Estimate",
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
-  plot.error = FALSE,
   error.lty = 2,
   error.alpha = 0.5,
+  autonames = TRUE,
   group.legend = NULL,
-  group.title = "",
   group.names = NULL,
-  group.side = 3,
+  group.title = NULL,
+  group.line = NULL,
+  group.side = NULL,
   group.adj = 0.98,
-  group.padj = NULL,
   group.at = NA,
-  mar = NULL,
+  mar = c(2.5, 3, 2, 1),
+  oma = NULL,
   par.reset = TRUE,
   ...
 )
@@ -74,20 +78,20 @@ options(rt.theme = 'darkgrid')}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
+\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+
 \item{group.title}{Character: Group title, shown above group names. e.g. if group names are
 c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
-
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
 
 \item{group.side}{Integer: Side to show group legend}
 
 \item{group.adj}{Float: \code{adj} for group legend. See \code{mtext("adj")}}
 
-\item{group.padj}{Float: \code{padj} for group legend See \code{mtext("padj")}}
-
 \item{group.at}{Float: location for group legend. See \code{mtext("at")}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 
