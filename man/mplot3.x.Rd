@@ -80,6 +80,7 @@ mplot3.x(
   palette = getOption("rt.palette", "rtCol1"),
   pty = "m",
   mar = c(2.5, 3, 2, 1),
+  oma = c(0, 0, 0, 0),
   xaxs = "r",
   yaxs = "r",
   autolabel = letters,
@@ -206,6 +207,8 @@ options(rt.theme = 'darkgrid')}
 (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
 Default = "r"}

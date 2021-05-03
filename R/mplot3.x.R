@@ -131,6 +131,7 @@ mplot3.x <- function(x,
                      palette = getOption("rt.palette", "rtCol1"),
                      pty = "m",
                      mar = c(2.5, 3, 2, 1),
+                     oma = c(0, 0, 0, 0),
                      xaxs = "r",
                      yaxs = "r",
                      autolabel = letters,
@@ -289,7 +290,9 @@ mplot3.x <- function(x,
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
                                          title = "rtemis Graphics")
-  par(bg = theme$bg, cex = theme$cex, pty = pty, new = new, mar = mar) # tck = -.02
+  par(bg = theme$bg, cex = theme$cex,
+      pty = pty, new = new,
+      mar = mar, oma = oma)
   if (!axes.swap) {
     plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
   } else {
