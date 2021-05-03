@@ -11,8 +11,9 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 .onAttach <- function(libname, pkgname) {
 
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-                               "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores,
-                               " available cores]\n  Documentation & vignettes: https://rtemis.lambdamd.org"))
+                               "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+                               "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
+                               "\n  Learn R: https://class.lambdamd.org/pdsr"))
 
   # RStudio, VS Code
   try(if (try(rstudioapi::isAvailable(), silent = TRUE)) {
