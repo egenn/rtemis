@@ -30,7 +30,7 @@ mplot3.survfit(
   ylim = NULL,
   xlab = "Time",
   ylab = "Survival",
-  main = "Kaplan-Meier Estimate",
+  main = "",
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   error.lty = 2,
