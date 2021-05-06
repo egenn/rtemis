@@ -1,18 +1,63 @@
 # mplot3.survfit.R
 # ::rtemis::
 # 2021 E.D. Gennatas lambdamd.org
-# todo: try oma for nrisk.table
 
-#' \code{mplot3}: Survival Plots
+#' \code{mplot3}: Plot \code{survfit} objects
 #'
 #' Plots survival step functions using \link{mplot3.xy}
 #'
-#' @inheritParams mplot3.xy
-#' @param x survfit object (output of \code{survival::survfit}
+#' @param x survfit object (output of \code{survival::survfit})
 #' @param lty Integer: Line type. Default = 1. See \code{par("lty")}
 #' @param lwd Float: Line width. Default = 2
 #' @param alpha Float: Alpha for lines. Default = 1
-#' @param ... Additional arguments to pass to \link{mplot3.xy}
+#' @param col Color, vector: Color(s) to use for survival curves and annotations. If NULL,
+#' taken from \code{palette}
+#' @param plot.median Logical: If TRUE, draw lines at 50% median survival. Default = FALSE,
+#' @param group.median Logical: If TRUE, include median survival times with group legend
+#' @param median.lty Integer: Median survival line type
+#' @param median.col Color for median survival lines
+#' @param median.alpha Float, (0, 1): Transparency for median survival lines. Default = .5
+#' @param censor.mark Logical: If TRUE, mark each censored case. Default = TRUE
+#' @param censor.col Color to mark censored cases if \code{censor.mark = TRUE}
+#' @param censor.alpha Transparency for \code{censor.col}. Default = .4
+#' @param censor.pch Character: Point character for censored marks. Default = "I"
+#' @param censor.cex Float: Character expansion factor for censor marks. Default = .8
+#' @param mark.censored Logical: This is an alternative to \code{censor.mark} which whill mark
+#' censored cases using the same color as the survival curve. It can be harder to distinguish the
+#' censoring marks from the curve itself, therefore not preferred.
+#' @param nrisk.table Logical: If TRUE, print Number at risk table. Default = FALSE
+#' @param nrisk.pos Character: "above" or "below": where to place \code{nrisk.table}
+#' @param nrisk.spacing Float: Determines spacing between \code{nrisk.table} rows. Default = .9
+#' @param table.font Integer: 1: regular font, 2: bold. Default = 1
+#' @param time.at Float, vector: x-axis positions to place tickmarks and labels as well as n at risk
+#' values if \code{nrisk.table = TRUE}
+#' @param time.by Float: Divide time by this amount to determine placing of tickmarks
+#' @param xlim Float, vector, length 2: x-axis limits
+#' @param ylim Float, vector, length 2: y-axis limits
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param main Character: main title
+#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+#' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
+#' You can set a system-wide default in your \code{.Rprofile} by including a line like
+#' options(rt.theme = 'darkgrid')
+#' @param palette Vector of colors, or Character defining a builtin palette - get options with
+#' \code{rtPalette()}
+# @param error.lty
+# @param error.alpha
+#' @param autonames Logical: If TRUE, extract grouping variable names and level labels from \code{x}
+#' and use for legend. It is best to give informative level labels, like female, male instead of
+#' 0, 1 when using this. Default = TRUE
+#' @param group.legend Logical: If TRUE, include group legend
+#' @param group.names Character, vector: Group names to use. If NULL, extracted from \code{x}
+#' @param group.title Character: Group legend title
+#' @param group.line Float, vector: Lines to print group legend using \code{mtext}
+#' @param group.side Integer: Side to print group legend. Default is determined by survival curves,
+#' to avoid overlap of legend with curves.
+#' @param mar Float, vector, length 4: Margins. See \code{par("mar")}
+#' @param oma Float, vector, length 4: Outer margins. See \code{par("oma")}
+#' @param par.reset Logical: If TRUE, reset par to initial values before exit
+#' @param ... Additional arguments to pass to theme
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -32,8 +77,8 @@ mplot3.survfit <- function(x,
                            lwd = 1.5,
                            alpha = 1,
                            col = NULL,
-                           mark.censored = FALSE,
-                           draw.median = FALSE,
+                           plot.median = FALSE,
+                           group.median = FALSE,
                            median.lty = 3,
                            median.col = theme$fg,
                            median.alpha = .5,
@@ -42,6 +87,7 @@ mplot3.survfit <- function(x,
                            censor.alpha = .4,
                            censor.pch = "I",
                            censor.cex = .8,
+                           mark.censored = FALSE,
                            nrisk.table = FALSE,
                            nrisk.pos = "below",
                            nrisk.spacing = .9,
@@ -55,17 +101,15 @@ mplot3.survfit <- function(x,
                            main = "", # "Kaplan-Meier Estimate"
                            theme = getOption("rt.theme", "lightgrid"),
                            palette = getOption("rt.palette", "rtCol1"),
-                           # plot.error = FALSE,
-                           error.lty = 2,
-                           error.alpha = .5,
+                           plot.error = FALSE,
+                           # error.lty = 2,
+                           error.alpha = .33,
                            autonames = TRUE,
                            group.legend = NULL,
                            group.names = NULL,
                            group.title = NULL,
                            group.line = NULL,
                            group.side = NULL,
-                           group.adj = .98,
-                           group.at = NA,
                            mar = c(2.5, 3, 2, 1),
                            oma = NULL,
                            par.reset = TRUE, ...) {
@@ -87,7 +131,6 @@ mplot3.survfit <- function(x,
     if (is.character(palette)) palette <- rtPalette(palette)
     col <- palette
   }
-
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -109,16 +152,6 @@ mplot3.survfit <- function(x,
     }
   }
   if (nrisk.table && is.null(time.at)) time.at <- "auto"
-
-  # todo: autoestimate time.by instead of length.out which can give unequal intervals
-  # if (!is.null(time.at) && time.at[1] == "auto") {
-  #   time.at <- floor(seq(xlim[1], xlim[2], length.out = 6))
-  #   time.at <- round(time.at, digits = -(nchar(as.character(ceiling(xlim[2]))) - 2))
-  #   if (time.at[length(time.at)] * 1.04 < xlim[2]) {
-  #     time.at <- c(time.at, time.at[length(time.at)] + time.by)
-  #   }
-  # }
-
   if (!is.null(time.at) && time.at[1] == "auto") {
     time.by <- floor(diff(xlim) / 4)
     time.at <- seq(xlim[1], xlim[2], by = time.by)
@@ -136,7 +169,6 @@ mplot3.survfit <- function(x,
       if (nrisk.pos == "above") {
         c(0, 0, nstrata - .3, 0)
       } else {
-        # c(if (nstrata > 1) 1 + nstrata * .8 else 2.2, 0, 0, 0)
         c(1.7 + nstrata * nrisk.spacing, 0, 0, 0)
       }
     } else rep(0, 4)
@@ -169,7 +201,6 @@ mplot3.survfit <- function(x,
         conf.int = FALSE)
 
   # Censoring markers ====
-
   if (censor.mark) {
     if (is.null(censor.col)) censor.col <- adjustcolor(theme$fg, censor.alpha)
     .index <- x$n.censor == 1
@@ -180,7 +211,7 @@ mplot3.survfit <- function(x,
   }
 
   # Median survival line(s) ====
-  if (draw.median) {
+  if (plot.median) {
     .median <- if (nstrata == 1) {
       survival:::survmean(x, scale = 1, rmean = "none")$matrix["median"]
     } else {
@@ -197,6 +228,7 @@ mplot3.survfit <- function(x,
   }
 
   # pointwise errors ====
+
   # if (plot.error) {
   #   lines(x$time, x$upper,
   #         lty = error.lty, col = colorAdjust(col[[i]], error.alpha))
@@ -204,23 +236,52 @@ mplot3.survfit <- function(x,
   #         lty = error.lty, col = colorAdjust(col[[i]], error.alpha))
   # }
 
+  if (plot.error) {
+    par(pty = "s")
+    sfs <- summary(x)
+    .time <- split(sfs$time, sfs$strata)
+    .upper <- split(sfs$upper, sfs$strata)
+    .lower <- split(sfs$lower, sfs$strata)
+
+    for (i in seq_len(nstrata)) {
+      .exclude <- is.na(.upper[[i]]) | is.na(.lower[[i]])
+      .time1 <- .time[[i]][!.exclude]
+      .upper1 <- .upper[[i]][!.exclude]
+      .lower1 <- .lower[[i]][!.exclude]
+      revlower <- rev(.lower1)
+      polygon(c(.time1, xlim[2], xlim[2], rev(.time1)),
+              c(.upper1, rev(.upper1)[1], revlower[1], revlower),
+              col = colorAdjust(col[[i]], error.alpha),
+              border = NA)
+    }
+  }
+
   # Autonames ====
   if (autonames && nstrata > 1) {
-    group.title <- paste(
-      gsub("=.*", "",
-           strsplit(names(x$strata)[1], ", ")[[1]]),
-      collapse = ", ")
+    if (is.null(group.title)) {
+      group.title <- paste(
+        gsub("=.*", "",
+             strsplit(names(x$strata)[1], ", ")[[1]]),
+        collapse = ", ")
+    }
     group.names <- unlist(
-      lapply(strsplit(names(x$strata), ", "), function(i)
+      lapply(strsplit(
+        gsub(" *", "", names(x$strata)),
+        ","), function(i)
         paste(gsub(".*=", "", i), collapse = ", "))
     )
   }
+  if (!is.null(group.title) && group.median) {
+    group.title <- paste(group.title, "(median)")
+  }
+
   # [ Group Legend ] ====
+  if (is.null(group.legend)) group.legend <- nstrata > 1
+  if (group.legend & is.null(group.names)) group.names <- names(x$strata)
 
-  if (is.null(group.names)) group.names <- names(x$strata)
-
-  # If not defined, group legend defaults to TRUE, if more than one group
-  if (is.null(group.legend)) group.legend <- ifelse(length(x) > 1, TRUE, FALSE)
+  if (group.legend & group.median) {
+    group.names <- paste0(group.names, " (", ddSci(.median), ")")
+  }
 
   if (is.null(group.line)) {
     group.line <- if (min(x$surv) < .5) {
@@ -251,7 +312,8 @@ mplot3.survfit <- function(x,
           side = group.side,
           line = group.line,
           col = col,
-          adj = group.adj,
+          adj = 1,
+          at = xlim[2],
           cex = theme$cex,
           family = theme$font.family)
   }
@@ -315,5 +377,7 @@ mplot3.survfit <- function(x,
     }
 
   }
+
+  invisible(list(group.names = group.names))
 
 } # rtemis::mplot3.surv
