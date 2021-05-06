@@ -2,7 +2,7 @@
 % Please edit documentation in R/mplot3.survfit.R
 \name{mplot3.survfit}
 \alias{mplot3.survfit}
-\title{\code{mplot3}: Survival Plots}
+\title{\code{mplot3}: Plot \code{survfit} objects}
 \usage{
 mplot3.survfit(
   x,
@@ -10,8 +10,8 @@ mplot3.survfit(
   lwd = 1.5,
   alpha = 1,
   col = NULL,
-  mark.censored = FALSE,
-  draw.median = FALSE,
+  plot.median = FALSE,
+  group.median = FALSE,
   median.lty = 3,
   median.col = theme$fg,
   median.alpha = 0.5,
@@ -20,6 +20,7 @@ mplot3.survfit(
   censor.alpha = 0.4,
   censor.pch = "I",
   censor.cex = 0.8,
+  mark.censored = FALSE,
   nrisk.table = FALSE,
   nrisk.pos = "below",
   nrisk.spacing = 0.9,
@@ -33,16 +34,14 @@ mplot3.survfit(
   main = "",
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
-  error.lty = 2,
-  error.alpha = 0.5,
+  plot.error = FALSE,
+  error.alpha = 0.33,
   autonames = TRUE,
   group.legend = NULL,
   group.names = NULL,
   group.title = NULL,
   group.line = NULL,
   group.side = NULL,
-  group.adj = 0.98,
-  group.at = NA,
   mar = c(2.5, 3, 2, 1),
   oma = NULL,
   par.reset = TRUE,
@@ -50,7 +49,7 @@ mplot3.survfit(
 )
 }
 \arguments{
-\item{x}{survfit object (output of \code{survival::survfit}}
+\item{x}{survfit object (output of \code{survival::survfit})}
 
 \item{lty}{Integer: Line type. Default = 1. See \code{par("lty")}}
 
@@ -58,15 +57,55 @@ mplot3.survfit(
 
 \item{alpha}{Float: Alpha for lines. Default = 1}
 
-\item{xlim}{Float vector, length 2: x-axis limits}
+\item{col}{Color, vector: Color(s) to use for survival curves and annotations. If NULL,
+taken from \code{palette}}
 
-\item{ylim}{Float vector, length 2: y-axis limits}
+\item{plot.median}{Logical: If TRUE, draw lines at 50% median survival. Default = FALSE,}
+
+\item{group.median}{Logical: If TRUE, include median survival times with group legend}
+
+\item{median.lty}{Integer: Median survival line type}
+
+\item{median.col}{Color for median survival lines}
+
+\item{median.alpha}{Float, (0, 1): Transparency for median survival lines. Default = .5}
+
+\item{censor.mark}{Logical: If TRUE, mark each censored case. Default = TRUE}
+
+\item{censor.col}{Color to mark censored cases if \code{censor.mark = TRUE}}
+
+\item{censor.alpha}{Transparency for \code{censor.col}. Default = .4}
+
+\item{censor.pch}{Character: Point character for censored marks. Default = "I"}
+
+\item{censor.cex}{Float: Character expansion factor for censor marks. Default = .8}
+
+\item{mark.censored}{Logical: This is an alternative to \code{censor.mark} which whill mark
+censored cases using the same color as the survival curve. It can be harder to distinguish the
+censoring marks from the curve itself, therefore not preferred.}
+
+\item{nrisk.table}{Logical: If TRUE, print Number at risk table. Default = FALSE}
+
+\item{nrisk.pos}{Character: "above" or "below": where to place \code{nrisk.table}}
+
+\item{nrisk.spacing}{Float: Determines spacing between \code{nrisk.table} rows. Default = .9}
+
+\item{table.font}{Integer: 1: regular font, 2: bold. Default = 1}
+
+\item{time.at}{Float, vector: x-axis positions to place tickmarks and labels as well as n at risk
+values if \code{nrisk.table = TRUE}}
+
+\item{time.by}{Float: Divide time by this amount to determine placing of tickmarks}
+
+\item{xlim}{Float, vector, length 2: x-axis limits}
+
+\item{ylim}{Float, vector, length 2: y-axis limits}
 
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
 
-\item{main}{Character: Plot title}
+\item{main}{Character: main title}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
@@ -76,26 +115,28 @@ options(rt.theme = 'darkgrid')}
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}
 
-\item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
+\item{autonames}{Logical: If TRUE, extract grouping variable names and level labels from \code{x}
+and use for legend. It is best to give informative level labels, like female, male instead of
+0, 1 when using this. Default = TRUE}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+\item{group.legend}{Logical: If TRUE, include group legend}
 
-\item{group.title}{Character: Group title, shown above group names. e.g. if group names are
-c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"}
+\item{group.names}{Character, vector: Group names to use. If NULL, extracted from \code{x}}
 
-\item{group.side}{Integer: Side to show group legend}
+\item{group.title}{Character: Group legend title}
 
-\item{group.adj}{Float: \code{adj} for group legend. See \code{mtext("adj")}}
+\item{group.line}{Float, vector: Lines to print group legend using \code{mtext}}
 
-\item{group.at}{Float: location for group legend. See \code{mtext("at")}}
+\item{group.side}{Integer: Side to print group legend. Default is determined by survival curves,
+to avoid overlap of legend with curves.}
 
-\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+\item{mar}{Float, vector, length 4: Margins. See \code{par("mar")}}
 
-\item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
+\item{oma}{Float, vector, length 4: Outer margins. See \code{par("oma")}}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset par to initial values before exit}
 
-\item{...}{Additional arguments to pass to \link{mplot3.xy}}
+\item{...}{Additional arguments to pass to theme}
 }
 \description{
 Plots survival step functions using \link{mplot3.xy}
