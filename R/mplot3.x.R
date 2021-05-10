@@ -131,7 +131,7 @@ mplot3.x <- function(x,
                      palette = getOption("rt.palette", "rtCol1"),
                      pty = "m",
                      mar = c(2.5, 3, 2, 1),
-                     oma = c(0, 0, 0, 0),
+                     oma = rep(0, 4),
                      xaxs = "r",
                      yaxs = "r",
                      autolabel = letters,
@@ -284,22 +284,25 @@ mplot3.x <- function(x,
     ylim <- c(ylim[1] - ypadding, ylim[2] + ypadding)
   }
 
-  # [ PLOT ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  # [ Plot ] ====
+  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
+                              title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
+  if (exists("rtpar", envir = rtenv)) {
+    par.reset <- FALSE
+    par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+  } else {
+    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+  }
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
-                                         title = "rtemis Graphics")
-  par(bg = theme$bg, cex = theme$cex,
-      pty = pty, new = new,
-      mar = mar, oma = oma)
+
   if (!axes.swap) {
     plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
   } else {
     plot(NULL, NULL, xlim = ylim, ylim = xlim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
   }
 
-  # [ PLOT BG ] ====
+  # [ Plot bg ] ====
   if (!is.na(theme$plot.bg)) {
     x1 <- if (xaxs == "r") min(xlim) - .04 * diff(range(xlim)) else min(xlim)
     y1 <- if (yaxs == "r") min(ylim) - .04 * diff(range(ylim)) else min(ylim)
