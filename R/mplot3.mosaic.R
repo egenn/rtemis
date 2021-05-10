@@ -33,7 +33,7 @@
 #' mplot3.mosaic(party)
 #' }
 mplot3.mosaic <- function(x,
-                          main = "",
+                          main = NULL,
                           xlab = NULL,
                           ylab = NULL,
                           border = FALSE,
@@ -41,6 +41,7 @@ mplot3.mosaic <- function(x,
                           theme.args = list(),
                           palette = getOption("rt.palette", "rtCol1"),
                           mar = NULL,
+                          oma = rep(0, 4),
                           par.reset = TRUE,
                           new = FALSE,
                           filename = NULL,
@@ -63,30 +64,41 @@ mplot3.mosaic <- function(x,
   }
 
   # [ Plot ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   if (is.null(mar)) {
-    topmar <- ifelse(main == "", 1, 2.5)
+    topmar <- ifelse(is.null(main), 1, 2.5)
     mar <- c(2.5, 2.5, topmar, 1)
   }
-  par(bg = theme$bg,
-      fg = theme$fg,
-      cex = theme$cex,
-      col.axis = theme$axes.col,
-      col.lab = theme$labs.col,
-      col.main = theme$main.col,
-      col.sub = theme$main.col,
-      mar = mar,
-      new = new)
+
+  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
+                              title = "rtemis Graphics")
+  par.orig <- par(no.readonly = TRUE)
+  if (exists("rtpar", envir = rtenv)) {
+    par.reset <- FALSE
+    par(bg = theme$bg, fg = theme$fg, cex = theme$cex,
+        col.axis = theme$axes.col, col.lab = theme$labs.col, col.main = theme$main.col,
+        col.sub = theme$main.col,
+        mar = mar, new = new)
+  } else {
+    par(bg = theme$bg, fg = theme$fg, cex = theme$cex,
+        col.axis = theme$axes.col, col.lab = theme$labs.col, col.main = theme$main.col,
+        col.sub = theme$main.col,
+        mar = mar, oma = oma, new = new)
+  }
+  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   mosaicplot(x,
-             main = main,
+             main = NULL,
              xlab = xlab,
              ylab = ylab,
              color = unlist(palette),
              border = border,...)
+
+  if (!is.null(main)) {
+    mtext(main, line = theme$main.line,
+          font = theme$main.font, adj = theme$main.adj,
+          cex = theme$cex, col = theme$main.col,
+          family = theme$font.family)
+  }
 
   # Outro ====
   if (!is.null(filename)) dev.off()
