@@ -12,7 +12,7 @@
 #' @param alpha Float: Alpha for lines. Default = 1
 #' @param col Color, vector: Color(s) to use for survival curves and annotations. If NULL,
 #' taken from \code{palette}
-#' @param plot.median Logical: If TRUE, draw lines at 50% median survival. Default = FALSE,
+#' @param plot.median Logical: If TRUE, draw lines at 50"\%" median survival. Default = FALSE,
 #' @param group.median Logical: If TRUE, include median survival times with group legend
 #' @param median.lty Integer: Median survival line type
 #' @param median.col Color for median survival lines
