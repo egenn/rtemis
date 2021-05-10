@@ -80,7 +80,7 @@ mplot3.x(
   palette = getOption("rt.palette", "rtCol1"),
   pty = "m",
   mar = c(2.5, 3, 2, 1),
-  oma = c(0, 0, 0, 0),
+  oma = rep(0, 4),
   xaxs = "r",
   yaxs = "r",
   autolabel = letters,

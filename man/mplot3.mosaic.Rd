@@ -6,7 +6,7 @@
 \usage{
 mplot3.mosaic(
   x,
-  main = "",
+  main = NULL,
   xlab = NULL,
   ylab = NULL,
   border = FALSE,
@@ -14,6 +14,7 @@ mplot3.mosaic(
   theme.args = list(),
   palette = getOption("rt.palette", "rtCol1"),
   mar = NULL,
+  oma = rep(0, 4),
   par.reset = TRUE,
   new = FALSE,
   filename = NULL,

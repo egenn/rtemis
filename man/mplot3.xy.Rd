@@ -51,7 +51,7 @@ mplot3.xy(
   xlab.adj = 0.5,
   ylab.adj = 0.5,
   mar = c(2.5, 3, 2, 1),
-  oma = c(0, 0, 0, 0),
+  oma = rep(0, 4),
   point.cex = 0.85,
   point.bg.col = NULL,
   pch = ifelse(is.null(point.bg.col), 16, 21),

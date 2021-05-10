@@ -33,6 +33,7 @@ mplot3.box(
   legend.position = "topright",
   legend.inset = c(0, 0),
   mar = NULL,
+  oma = rep(0, 4),
   pty = "m",
   cex.axis = cex,
   cex.names = cex,
@@ -76,6 +77,8 @@ stimate function on each vector and order boxes (when input is data.frame or lis
 order. Default = NULL, i.e. no reordering}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}

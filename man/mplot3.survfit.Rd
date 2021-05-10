@@ -60,7 +60,7 @@ mplot3.survfit(
 \item{col}{Color, vector: Color(s) to use for survival curves and annotations. If NULL,
 taken from \code{palette}}
 
-\item{plot.median}{Logical: If TRUE, draw lines at 50% median survival. Default = FALSE,}
+\item{plot.median}{Logical: If TRUE, draw lines at 50"\%" median survival. Default = FALSE,}
 
 \item{group.median}{Logical: If TRUE, include median survival times with group legend}
 
