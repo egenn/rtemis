@@ -69,6 +69,7 @@ mplot3.box <- function(x,
                        legend.position = "topright",
                        legend.inset = c(0, 0),
                        mar = NULL, # auto, 3, 1or2, 1
+                       oma = rep(0, 4),
                        pty = "m",
                        cex.axis = cex,
                        cex.names = cex,
@@ -129,9 +130,6 @@ mplot3.box <- function(x,
 
   col.alpha <- colorAdjust(col, alpha = alpha)
   if (is.null(border)) border <- colorAdjust(col, alpha = border.alpha)
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   # Output directory
   if (!is.null(filename))
@@ -161,8 +159,17 @@ mplot3.box <- function(x,
   }
 
   # [ PLOT ] ====
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
+  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
+                              title = "rtemis Graphics")
+  par.orig <- par(no.readonly = TRUE)
+  if (exists("rtpar", envir = rtenv)) {
+    par.reset <- FALSE
+    par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
+  } else {
+    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex)
+  }
+  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = "n",
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
