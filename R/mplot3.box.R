@@ -1,4 +1,4 @@
-# mplot3.box
+# mplot3.box.R
 # ::rtemis::
 # 2017-2021 E.D. Gennatas lambdamd.org
 
@@ -104,12 +104,19 @@ mplot3.box <- function(x,
   }
 
   if (is.null(xnames.srt)) {
-    xnames.srt <- ifelse(length(x) * max(nchar(xnames)) > 8, 90, 0)
-    # xnames.srt <- ifelse(length(x) > 3 | max(nchar(xnames)) > 4, 90, 0)
+    if (horizontal) {
+      xnames.srt <- 0
+    } else {
+      xnames.srt <- ifelse(length(x) * max(nchar(xnames)) > 8, 90, 0)
+    }
   }
 
   if (is.null(xnames.adj)) {
-    xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
+    if (horizontal) {
+      xnames.adj <- 1
+    } else {
+      xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
+    }
   }
   if (is.character(palette)) palette <- rtPalette(palette)
 
@@ -124,8 +131,10 @@ mplot3.box <- function(x,
   # mar ====
   if (is.null(mar)) {
     mar.top <- if (is.null(main)) 1 else 2
-    mar.bottom <- if (xnames.srt != 0) 1.8571 + max(nchar(xnames)) * .4107 else 2.5
-    mar <- c(mar.bottom, 3, mar.top, 1)
+    # mar.bottom <- if (xnames.srt != 0) 1.8571 + max(nchar(xnames)) * .4107 else 2.5
+    mar.bottom <- if (xnames.srt != 0) textwidth(xnames) else 2.5
+    mar.left <- if (horizontal) textwidth(xnames) else 3
+    mar <- c(mar.bottom, mar.left, mar.top, 1)
   }
 
   col.alpha <- colorAdjust(col, alpha = alpha)
@@ -146,7 +155,7 @@ mplot3.box <- function(x,
     }
   }
 
-  # [ XLIM & YLIM ] ====
+  # [ xlim & ylim ] ====
   xv <- unlist(x)
   if (is.null(xlim)) xlim <- c(.5, length(x) + .5)
   if (is.null(ylim)) ylim <- c(min(xv, na.rm = na.rm) - .06 * abs(min(xv, na.rm = na.rm)),
@@ -158,7 +167,7 @@ mplot3.box <- function(x,
     xlim <- xxlim
   }
 
-  # [ PLOT ] ====
+  # [ Plot ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -174,21 +183,29 @@ mplot3.box <- function(x,
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # [ PLOT BG ] ====
+  # [ Plot bg ] ====
   if (!is.na(theme$plot.bg)) {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # [ GRID ] ====
+  # [ Grid ] ====
   if (theme$grid) {
-    grid(0,
-         ny = theme$grid.ny,
-         col = colorAdjust(theme$grid.col, theme$grid.alpha),
-         lty = theme$grid.lty,
-         lwd = theme$grid.lwd)
+    if (horizontal) {
+      grid(nx = theme$grid.nx,
+           ny = 0,
+           col = colorAdjust(theme$grid.col, theme$grid.alpha),
+           lty = theme$grid.lty,
+           lwd = theme$grid.lwd)
+    } else {
+      grid(nx = 0,
+           ny = theme$grid.ny,
+           col = colorAdjust(theme$grid.col, theme$grid.alpha),
+           lty = theme$grid.lty,
+           lwd = theme$grid.lwd)
+    }
   }
 
-  # [ ORDER BY FN ] ====
+  # [ Order by fn ] ====
   if (!is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
@@ -201,7 +218,7 @@ mplot3.box <- function(x,
     if (!is.null(xnames)) xnames <- xnames[.order]
   }
 
-  # [ BOXPLOT ] ====
+  # [ Boxplot ] ====
   bp <- boxplot(x, col = col.alpha,
                 pch = theme$pch,
                 border = border,
@@ -212,15 +229,15 @@ mplot3.box <- function(x,
                 add = TRUE,
                 xlab = NULL)
 
-  # [ y AXIS ] ====
+  # [ y axis ] ====
   if (yaxis) {
-    axis(side = 2,
+    axis(side = if (horizontal) 1 else 2,
          # at = y.axis.at,
          # labels = y.axis.labs,
-         line = theme$y.axis.line,
-         las = theme$y.axis.las,
-         padj = theme$y.axis.padj,
-         hadj = theme$y.axis.hadj,
+         line = if (horizontal) theme$x.axis.line else theme$y.axis.line,
+         las = if (horizontal) theme$x.axis.las else theme$y.axis.las,
+         padj = if (horizontal) theme$x.axis.padj else theme$y.axis.padj,
+         hadj = if (horizontal) theme$x.axis.hadj else theme$y.axis.hadj,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
          tck = theme$tck,
@@ -229,7 +246,7 @@ mplot3.box <- function(x,
          family = theme$font.family)
   }
 
-  # [ MAIN TITLE ] ====
+  # [ Main Title ] ====
   if (exists("autolabel", envir = rtenv)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -243,22 +260,35 @@ mplot3.box <- function(x,
           family = theme$font.family)
   }
 
-  # [ XNAMES ] ====
-  if (is.null(xnames.y)) {
-    xnames.y <- ylo(.04)
-  }
+  # [ xnames ] ====
   if (!is.null(xnames)) {
-    text(x = xnames.at, y = xnames.y,
-         labels = xnames,
-         adj = xnames.adj,
-         pos = xnames.pos,
-         srt = xnames.srt, xpd = TRUE,
-         font = xnames.font,
-         col = theme$labs.col,
-         family = theme$font.family)
+    if (horizontal) {
+      # .x <- xlim[1] - .04 * diff(xlim)
+      text(x = xleft(.04),
+           y = xnames.at,
+           labels = xnames,
+           adj = xnames.adj,
+           pos = xnames.pos,
+           srt = xnames.srt, xpd = TRUE,
+           font = xnames.font,
+           col = theme$labs.col,
+           family = theme$font.family)
+    } else {
+      if (is.null(xnames.y)) {
+        xnames.y <- ylo(.04)
+      }
+      text(x = xnames.at, y = xnames.y,
+           labels = xnames,
+           adj = xnames.adj,
+           pos = xnames.pos,
+           srt = xnames.srt, xpd = TRUE,
+           font = xnames.font,
+           col = theme$labs.col,
+           family = theme$font.family)
+    }
   }
 
-  # [ AXIS LABS ] ====
+  # [ Axes Labels ] ====
   if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = theme$xlab.line)
   if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = theme$ylab.line)
 
