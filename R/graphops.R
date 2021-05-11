@@ -2,9 +2,13 @@
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.lambdamd.org
 
+# nchar 46 => 19.5
+# nchar 20 => 10
+# lm(c(10, 19.5) ~ c(20, 46))
+textwidth <- \(x) 2.6923 + 0.3654 * max(nchar(x))
+
 #' Get y below current plot area
 #'
-#' @export
 
 ylo <- function(pct_lower = .08) {
 
@@ -12,17 +16,38 @@ ylo <- function(pct_lower = .08) {
   yhi <- par("usr")[4]
   ylo - pct_lower * (yhi - ylo)
 
-} # rtemis::ylo
+}
 
-ymid <- function() {
+yhi <- function(pct_higher = .08) {
 
-  .5 * (par("usr")[3] + par("usr")[4])
+  ylo <- par("usr")[3]
+  yhi <- par("usr")[4]
+  yhi + pct_lower * (yhi - ylo)
 
-} # rtemis::ymid
+}
+
+xleft <- function(pct_left = .08) {
+
+  xleft <- par("usr")[1]
+  xright <- par("usr")[2]
+  xleft - pct_left * (xright - xleft)
+
+}
+
+xright <- function(pct_right = .08) {
+
+  xleft <- par("usr")[1]
+  xright <- par("usr")[2]
+  xright + pct_right * (xright - xleft)
+
+}
+
+ymid <- \() .5 * sum(par("usr")[3:4])
+
+xmid <- \()  .5 * (par("usr")[1:2])
 
 #' Get midpoint of `cut` label
 #'
-#' @export
 
 cutmidpoint <- function(x) {
 
