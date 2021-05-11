@@ -377,3 +377,4 @@ roundtohalf <- function(x) {
 roundtofrac <- function(x, t = .5) {
   round(x / t) * t
 }
+
