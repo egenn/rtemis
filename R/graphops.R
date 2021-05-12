@@ -5,7 +5,7 @@
 # nchar 46 => 19.5
 # nchar 20 => 10
 # lm(c(10, 19.5) ~ c(20, 46))
-textwidth <- \(x) 2.6923 + 0.3654 * max(nchar(x))
+textwidth <- function(x) 2.6923 + 0.3654 * max(nchar(x))
 
 #' Get y below current plot area
 #'
@@ -42,9 +42,9 @@ xright <- function(pct_right = .08) {
 
 }
 
-ymid <- \() .5 * sum(par("usr")[3:4])
+ymid <- function() .5 * sum(par("usr")[3:4])
 
-xmid <- \()  .5 * (par("usr")[1:2])
+xmid <- function() .5 * (par("usr")[1:2])
 
 #' Get midpoint of `cut` label
 #'
