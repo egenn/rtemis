@@ -69,7 +69,7 @@ mplot3.surv <- function(x,
   yl <- lapply(.survfit, function(i) i$surv)
 
   # [ PLOT ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 

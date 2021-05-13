@@ -48,6 +48,10 @@ mplot3.mosaic <- function(x,
                           pdf.width = 5,
                           pdf.height = 5, ...) {
 
+  # [ Arguments ] ====
+  # Compatibility with rtlayout()
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
+
   # [ Theme ] ====
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme.args)
@@ -61,6 +65,13 @@ mplot3.mosaic <- function(x,
   # Output directory
   if (!is.null(filename) && !dir.exists(dirname(filename))) {
     dir.create(dirname(filename), recursive = TRUE)
+  }
+
+  # [ Main Title ] ====
+  if (!is.null(rtenv$autolabel)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
   }
 
   # [ Plot ] ====

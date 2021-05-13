@@ -294,7 +294,7 @@ mplot3.heatmap <- function(x,
 
   # [ par ] ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   op <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(op)))
 
@@ -344,6 +344,13 @@ mplot3.heatmap <- function(x,
 
   if (!missing(add.expr))
     eval.parent(substitute(add.expr))
+
+  # [ Main Title ] ====
+  if (!is.null(rtenv$autolabel)) {
+    autolab <- autolabel[rtenv$autolabel]
+    main <- paste(autolab, main)
+    rtenv$autolabel <- rtenv$autolabel + 1
+  }
 
   # [ PLOT ] ====
   par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)

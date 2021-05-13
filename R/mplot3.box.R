@@ -71,8 +71,6 @@ mplot3.box <- function(x,
                        mar = NULL, # auto, 3, 1or2, 1
                        oma = rep(0, 4),
                        pty = "m",
-                       cex.axis = cex,
-                       cex.names = cex,
                        yaxis = TRUE,
                        ylim.pad = 0,
                        theme = getOption("rt.theme", "lightgrid"),
@@ -91,8 +89,6 @@ mplot3.box <- function(x,
   if (is.null(xnames)) {
     if (!is.null(names(x))) {
       xnames <- names(x)
-    } else {
-      xnames <- deparse(substitute(x))
     }
   }
   if (labelify) xnames <- labelify(xnames)
@@ -118,6 +114,11 @@ mplot3.box <- function(x,
       xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
     }
   }
+
+  # ylab ====
+  if (is.null(ylab) & !horizontal) ylab <- deparse(substitute(x))
+  if (is.null(xlab) & horizontal) xlab <- deparse(substitute(x))
+
   if (is.character(palette)) palette <- rtPalette(palette)
 
   if (is.null(col)) {
@@ -171,7 +172,7 @@ mplot3.box <- function(x,
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
-  if (exists("rtpar", envir = rtenv)) {
+  if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
     par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
   } else {
@@ -234,11 +235,12 @@ mplot3.box <- function(x,
     axis(side = if (horizontal) 1 else 2,
          # at = y.axis.at,
          # labels = y.axis.labs,
-         line = if (horizontal) theme$x.axis.line else theme$y.axis.line,
+         # line = if (horizontal) theme$x.axis.line else theme$y.axis.line,
          las = if (horizontal) theme$x.axis.las else theme$y.axis.las,
          padj = if (horizontal) theme$x.axis.padj else theme$y.axis.padj,
          hadj = if (horizontal) theme$x.axis.hadj else theme$y.axis.hadj,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+         col = NA, # The axis line, which we want to omit
          col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
          tck = theme$tck,
          tcl = theme$tcl,
@@ -247,14 +249,14 @@ mplot3.box <- function(x,
   }
 
   # [ Main Title ] ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
   if (!is.null(main)) {
-    mtext(main, line = theme$main.line,
+    mtext(text = main, side = 3, line = theme$main.line,
           font = theme$main.font, adj = theme$main.adj,
           cex = theme$cex, col = theme$main.col,
           family = theme$font.family)

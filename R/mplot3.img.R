@@ -98,7 +98,7 @@ mplot3.img <- function(z,
 
   # [ Arguments ] ====
   # Compatibility with rtlayout()
-  if (exists("rtpar")) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
 
   # [ Theme ] ====
   extraargs <- list(...)
@@ -214,7 +214,7 @@ mplot3.img <- function(z,
   }
 
   # [ MAIN TITLE ] ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1

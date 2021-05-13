@@ -220,7 +220,7 @@ mplot3.conf <- function(object,
   }
 
   # Par ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
@@ -328,7 +328,7 @@ mplot3.conf <- function(object,
   #      col = col.text.out, cex = cex.out, font = font.out)
 
   # '- Main ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1

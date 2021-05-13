@@ -105,7 +105,7 @@ mplot3.varimp <- function(x,
   .names <- .names[index]
   if (!is.null(error)) error <- error[index]
 
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
@@ -197,7 +197,7 @@ mplot3.varimp <- function(x,
                   padj = x.axis.padj, tck = tck, cex = theme$cex)
 
   # [ Main Title ] ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1

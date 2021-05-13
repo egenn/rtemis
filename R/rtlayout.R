@@ -40,7 +40,7 @@ rtlayout <- function(nrows = NULL, ncols = NULL,
     }
     layout(matrix(seq(npanels), nrows, ncols, byrow = byrow))
   } else {
-    if (!exists("rtpar", envir = rtenv)) stop("rtlayout was not previously run in this session")
+    if (is.null(rtenv$rtpar)) stop("rtlayout was not previously run in this session")
     par(rtenv$rtpar)
     rm(rtpar, envir = rtenv)
     if (exists("autolabel", envir = rtenv)) rm(autolabel, envir = rtenv)

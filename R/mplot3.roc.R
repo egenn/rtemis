@@ -116,7 +116,7 @@ mplot3.roc <- function(prob, labels,
   if (is.null(col)) col <- rtPalette(palette)
 
   # [ PLOT ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")

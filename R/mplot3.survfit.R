@@ -161,7 +161,7 @@ mplot3.survfit <- function(x,
   }
 
   # [ Plot ] ====
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (is.null(oma)) {

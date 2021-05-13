@@ -619,7 +619,7 @@ mplot3.xy <- function(x, y = NULL,
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
-  if (exists("rtpar", envir = rtenv)) {
+  if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
     par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
   } else {
@@ -765,7 +765,7 @@ mplot3.xy <- function(x, y = NULL,
   }
 
   # [ Main Title ] ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1

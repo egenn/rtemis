@@ -83,7 +83,7 @@ mplot3.bar <- function(x,
 
   # [ Arguments ] ====
   # Compatibility with rtlayout()
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   if (is.character(palette)) palette <- rtPalette(palette)
   x <- as.matrix(x)
   if (!is.null(error)) error <- as.matrix(error)
@@ -254,7 +254,7 @@ mplot3.bar <- function(x,
   }
 
   # [ MAIN TITLE ] ====
-  if (exists("autolabel", envir = rtenv)) {
+  if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
