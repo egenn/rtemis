@@ -35,8 +35,6 @@ mplot3.box(
   mar = NULL,
   oma = rep(0, 4),
   pty = "m",
-  cex.axis = cex,
-  cex.names = cex,
   yaxis = TRUE,
   ylim.pad = 0,
   theme = getOption("rt.theme", "lightgrid"),
