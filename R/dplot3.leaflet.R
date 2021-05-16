@@ -64,12 +64,12 @@ dplot3.leaflet <- function(dat,
                            init.zoom = 3,
                            stroke = TRUE) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("leaflet", "geojsonio", "sf", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # '- Arguments ====
+  # Arguments ====
   color.mapping <- match.arg(color.mapping)
   if (is.null(palette)) {
     palette <- colorRamp(colors = c(col.lo, col.hi), interpolate = col.interpolate)
@@ -78,28 +78,27 @@ dplot3.leaflet <- function(dat,
   legend.position <- match.arg(legend.position)
   if (is.null(legend.title)) legend.title <- labelify(colnames(dat)[2])
 
-  # '- Data ====
+  # Data ====
   if (!class(dat)[1] %in% c("data.table", "data.frame")) {
     dat <- as.data.frame(dat)
   }
 
   # State vs. County data ====
   if (max(nchar(dat[[1]])) < 3) {
-    geo <- geojsonio::geojson_read("https://github.com/PublicaMundi/MappingAPI/raw/master/data/geojson/us-states.json",
+    geo <- geojsonio::geojson_read(system.file("data", "us-states.json", package = "rtemis"),
                                    what = "sp")
     fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%02d", dat[[1]])
   } else {
-    geo <- geojsonio::geojson_read("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
+    geo <- geojsonio::geojson_read(system.file("data", "us-counties.json", package = "rtemis"),
                                    what = "sp")
     fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
   }
-
 
   # Match input county-level data
   index <- match(geo$id, fips)
   geo[["val"]] <- dat[[2]][index]
 
-  # '- Colorscale ====
+  # Colorscale ====
   if (color.mapping == "Numeric") {
     pal <- leaflet::colorNumeric(palette = palette,
                                  domain = domain,
@@ -112,7 +111,7 @@ dplot3.leaflet <- function(dat,
                              bins = col.bins)
   }
 
-  # '- Hover labels ====
+  # Hover labels ====
   .labs <- dat[[2]][index]
   if (ncol(dat) > 2) {
     .names <- dat[[3]][index]
@@ -128,7 +127,7 @@ dplot3.leaflet <- function(dat,
   }
   geo[["labels"]] <- labels[index]
 
-  # '- leaflet map ====
+  # leaflet map ====
   map <- leaflet::leaflet(geo) %>%
     leaflet::addProviderTiles(provider = bg.tile.provider,
                               options = leaflet::providerTileOptions(opacity = bg.tile.alpha)) %>%
