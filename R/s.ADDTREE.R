@@ -18,20 +18,19 @@
 #' internal resampling
 #' lambda = gamma/(1 - gamma)
 #' @inheritParams s.GLM
-#' @param x N x D matrix of N examples with D features
-#' @param y N x 1 vector of labels with values in {-1,1}
-#' @param catPredictors Logical vector with the same length as the feature vector, where TRUE
-#'    means that the corresponding column of x is a categorical variable
-#' @param gamma [gS] acceleration factor = lambda/(1 + lambda). Default = .8
-#' @param max.depth [gS] maximum depth of the tree. Default = 30
+#' @param update Character: "exponential" or "polynomial". Type of weight update. Default = "exponential"
+#' @param min.update Float: Minimum update for gradient step
+#' @param min.hessian [gS] Float: Minimum second derivative to continue splitting. Default = .001
+#' @param min.membership Integer: Minimum number of cases in a node. Default = 1
+#' @param steps.past.min.membership Integer: N steps to make past \code{min.membership} - For testing. Default = 0
+#' @param gamma [gS] Float: acceleration factor = lambda/(1 + lambda). Default = .8
+#' @param max.depth [gS] Integer: maximum depth of the tree. Default = 30
 #' @param learning.rate [gS] learning rate for the Newton Raphson step that updates the function values
 #' of the node
-#' @param min.hessian [gS] Minimum second derivative to continue splitting. Default = .001
-#' @param min.membership Integer: Minimum number of cases in a node. Default = 1
+#' @param imetrics Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE
+#' @param rpart.params List: \code{rpart} parameters, passed to \code{rpart::rpart("parms")}
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE
-# @param prune Logical: If TRUE, prune resulting tree using \link{prune.addtree}. Default = TRUE
-#' @param
 #' @return Object of class \link{rtMod}
 #' @author E.D. Gennatas
 #' @family Supervised Learning
@@ -65,10 +64,7 @@ s.ADDTREE <- function(x, y = NULL,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       metric = "Balanced Accuracy",
                       maximize = TRUE,
-                      rpart.parms = NULL,
-                      # prune = TRUE,
-                      # prune.empty.leaves = TRUE,
-                      # remove.bad.parents = FALSE,
+                      rpart.params = NULL,
                       match.rules = TRUE,
                       print.plot = TRUE,
                       plot.fitted = NULL,
@@ -80,7 +76,6 @@ s.ADDTREE <- function(x, y = NULL,
                       prune.verbose = FALSE,
                       trace = 1,
                       grid.verbose = TRUE,
-                      diagnostics = FALSE,
                       outdir = NULL,
                       save.rpart = FALSE,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
@@ -198,7 +193,7 @@ s.ADDTREE <- function(x, y = NULL,
                    min.membership = min.membership,
                    steps.past.min.membership = steps.past.min.membership,
                    weights = .weights,
-                   rpart.parms = rpart.parms,
+                   rpart.params = rpart.params,
                    save.rpart = save.rpart,
                    verbose = verbose,
                    trace = trace)
@@ -284,7 +279,7 @@ s.ADDTREE <- function(x, y = NULL,
     rt$mod$addtree.pruned$Set(pct.pos = rt$extra$node.stats$pct.pos)
   }
 
-  # [ iMETRICS ] ====
+  # [ imetrics ] ====
   rt$extra$imetrics <- list(n.nodes = rt$mod$addtree.pruned$totalCount - 1,
                             depth = rt$mod$addtree.pruned$height - 1)
 
