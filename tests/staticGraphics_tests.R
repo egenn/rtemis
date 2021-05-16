@@ -1,6 +1,6 @@
 # staticGraphics_tests.R
 # ::rtemis::
-# 2018-20 Efstathios D. Gennatas MBBS AICSM PhD egenn.github.io
+# 2018-20 Efstathios D. Gennatas MBBS AICSM PhD lambdamd.org
 
 library(rtemis)
 
@@ -98,3 +98,10 @@ mplot3.roc(mod$fitted.prob, iris2$Species, method = "rt")
 # rtRandom ====
 rtRandom()
 
+# rtlayout ====
+rtlayout(2, 2, autolabel = T)
+mplot3.x(x)
+mplot3.xy(y, x)
+mplot3.xy(x, y)
+mplot3.x(y)
+rtlayout()
