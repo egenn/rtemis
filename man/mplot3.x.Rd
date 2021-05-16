@@ -250,7 +250,7 @@ use \link{mhist}
 and space apart the breaks for each group
 }
 \seealso{
-\link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
+\link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 }
 \author{
 E.D. Gennatas

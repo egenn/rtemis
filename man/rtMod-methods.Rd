@@ -54,11 +54,11 @@
 
 \item{newdata}{Testing set features}
 
-\item{theme}{String. \code{mplot3} theme to use. Options: "box", "darkbox", "light", "dark"}
+\item{theme}{String: theme to use. Options: "box", "darkbox", "light", "dark"}
 
-\item{plots}{Logical. Should plots be printed?}
+\item{plots}{Logical: If TRUE, print plots. Default = TRUE}
 
-\item{cex}{Numeric. Character expansion factor}
+\item{cex}{Float: Character expansion factor}
 
 \item{fit.true.line}{\pkg{rtemis} model to use for fitted vs. true line
 Options: \code{modSelect()}}
@@ -66,13 +66,13 @@ Options: \code{modSelect()}}
 \item{resid.fit.line}{\pkg{rtemis} model to use for residuals vs. fitted line.
 Options: \code{modSelect()}}
 
-\item{fit.legend}{Logical. Should fit legends be printed? Defaults to TRUE}
+\item{fit.legend}{Logical: If TRUE, print fit legend. Default  = TRUE}
 
-\item{se.fit}{Logical. Should 2 * standard error bands be plotted? Defaults to TRUE}
+\item{se.fit}{Logical: If TRUE, plot 2 * standard error bands. Default = TRUE}
 
-\item{single.fig}{Logical. Should all plots be in same figure? Defaults to TRUE}
+\item{single.fig}{Logical: If TRUE, draw all plots in a single figure. Default = TRUE}
 
-\item{summary}{Logical. Should summary be printed? Defaults to TRUE}
+\item{summary}{Logical: If TRUE, print summary. Default = TRUE}
 
 \item{title.col}{Color for main title}
 }

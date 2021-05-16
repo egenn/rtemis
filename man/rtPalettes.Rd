@@ -303,7 +303,7 @@ microsoftCol
 
 \code{ucsfCol}: UCSF color palette (http://identity.ucsf.edu/color)
 
-\code{ucsfPalette}: Subset of \code{ucsfCol} for use with \link{mplot3}, etc
+\code{ucsfPalette}: Subset of \code{ucsfCol}
 
 \code{ucdCol}: UC Davis color palette
 (https://marketingtoolbox.ucdavis.edu/visual-identity/color.html)

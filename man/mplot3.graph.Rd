@@ -54,6 +54,8 @@ mplot3.graph(
 \item{vertex.label}{Character vector: Vertex labels. Default = NULL, which will keep existing
 names in \code{net} if any. Set to NA to avoid printing vertex labels}
 
+\item{vertex.shape}{Character: Vertex shape. See \code{igraph::plot.igraph("vertex.shape")}. Default = "circle"}
+
 \item{edge.col}{Color for edges}
 
 \item{edge.alpha}{Numeric: Transparency for edges. Default = .2}

@@ -29,7 +29,7 @@ s.ADDTREE(
   grid.resample.rtset = rtset.resample("kfold", 5),
   metric = "Balanced Accuracy",
   maximize = TRUE,
-  rpart.parms = NULL,
+  rpart.params = NULL,
   match.rules = TRUE,
   print.plot = TRUE,
   plot.fitted = NULL,
@@ -41,7 +41,6 @@ s.ADDTREE(
   prune.verbose = FALSE,
   trace = 1,
   grid.verbose = TRUE,
-  diagnostics = FALSE,
   outdir = NULL,
   save.rpart = FALSE,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
@@ -50,9 +49,9 @@ s.ADDTREE(
 )
 }
 \arguments{
-\item{x}{N x D matrix of N examples with D features}
+\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
-\item{y}{N x 1 vector of labels with values in {-1,1}}
+\item{y}{Numeric vector of outcome, i.e. dependent variable}
 
 \item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
@@ -67,13 +66,19 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{min.hessian}{[gS] Minimum second derivative to continue splitting. Default = .001}
+\item{update}{Character: "exponential" or "polynomial". Type of weight update. Default = "exponential"}
+
+\item{min.update}{Float: Minimum update for gradient step}
+
+\item{min.hessian}{[gS] Float: Minimum second derivative to continue splitting. Default = .001}
 
 \item{min.membership}{Integer: Minimum number of cases in a node. Default = 1}
 
-\item{gamma}{[gS] acceleration factor = lambda/(1 + lambda). Default = .8}
+\item{steps.past.min.membership}{Integer: N steps to make past \code{min.membership} - For testing. Default = 0}
 
-\item{max.depth}{[gS] maximum depth of the tree. Default = 30}
+\item{gamma}{[gS] Float: acceleration factor = lambda/(1 + lambda). Default = .8}
+
+\item{max.depth}{[gS] Integer: maximum depth of the tree. Default = 30}
 
 \item{learning.rate}{[gS] learning rate for the Newton Raphson step that updates the function values
 of the node}
@@ -92,6 +97,10 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
+
+\item{imetrics}{Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE}
+
+\item{rpart.params}{List: \code{rpart} parameters, passed to \code{rpart::rpart("parms")}}
 
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE}
@@ -123,9 +132,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments}
-
-\item{catPredictors}{Logical vector with the same length as the feature vector, where TRUE
-means that the corresponding column of x is a categorical variable}
 }
 \value{
 Object of class \link{rtMod}

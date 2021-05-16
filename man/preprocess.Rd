@@ -24,7 +24,7 @@ preprocess(
   logical2numeric = FALSE,
   numeric2factor = FALSE,
   numeric2factor.levels = NULL,
-  ltN2factor = NULL,
+  ltn2factor = NULL,
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing.level = "missing",
@@ -32,7 +32,7 @@ preprocess(
   scale = FALSE,
   center = FALSE,
   removeConstants = TRUE,
-  removeDuplicates = TRUE,
+  removeDuplicates = FALSE,
   factorizeThresh = 0,
   oneHot = FALSE,
   exclude = NULL,
@@ -89,6 +89,10 @@ if \code{integer2factor = FALSE})}
 
 \item{numeric2factor}{Logical: If TRUE, convert all numeric variables to factors}
 
+\item{ltn2factor}{Integer: Convert all numeric variables with less than this number of unique
+values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
+you could use \code{ltn2factor = 3} to convert them to factors.}
+
 \item{character2factor}{Logical: If TRUE, convert all character variables to factors}
 
 \item{factorNA2missing}{Logical: If TRUE, make NA values in factors be of level
@@ -108,17 +112,13 @@ Default = "missing"}
 
 \item{removeConstants}{Logical: If TRUE, remove constant columns. Default = TRUE}
 
-\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases. Default = TRUE}
+\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases. Default = FALSE}
 
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
 \item{exclude}{Integer, vector: Exclude these columns from all preprocessing. Default = NULL}
 
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
-
-\item{ltn2factor}{Integer: Convert all numeric variables with less than this number of unique
-values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-you could use \code{ltn2factor = 3} to convert them to factors.}
 }
 \description{
 Prepare data for analysis and visualization
