@@ -72,7 +72,7 @@ mergelongtreatment <- function(x,
     setkeyv(dat, c(.key, time_varname))
     setkeyv(x[[i]], c(.key, time_varname))
     if (verbose) {
-      msg0("Merge ", rtemis:::rtOrange(i), " of ", rtemis:::rtOrange(n_sets), ": Using keys ",
+      msg0("Merge ", rtOrange(i), " of ", rtOrange(n_sets), ": Using keys ",
            paste0(crayon::cyan$bold(.key),", ", crayon::cyan$bold(time_varname)))
     }
     # if (try({
