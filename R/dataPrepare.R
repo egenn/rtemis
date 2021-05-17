@@ -18,7 +18,7 @@
 #' @param resample.seed Integer: If set, use \code{set.seed} for reproducibility. Default = NULL
 #' @param removeDots Logical: If TRUE, replace dots in variable names with underscores.
 #' Some algorithms do not work with variable names containing dots (SparkML)
-#' @param .preprocess List: Preprocessing settings. Set with \link{rtset.preprocess}
+#' @param .preprocess List: Preprocessing parameters to be passed to \link{preprocess}. Set with \link{rtset.preprocess}
 #' @param verbose Logical: If TRUE, print messages to console
 #' @export
 
@@ -33,6 +33,8 @@ dataPrepare <- function(x, y = NULL,
                         removeDots = FALSE,
                         .preprocess = NULL,
                         verbose = FALSE) {
+
+  if (upsample & downsample) stop("Please choose to upsample OR downsample")
 
   if (class(x)[1] != "list") {
     # x <- if (.data.table) data.table::setDT(x) else as.data.frame(x)
@@ -153,7 +155,7 @@ dataPrepare <- function(x, y = NULL,
     }
   } # //xnames and dimensions check
 
-  # [ TYPE ] ====
+  # [ Type ] ====
   if (!is.null(dim(y)) && class(y) != "Surv") y <- as.vector(y)
   type <- switch(class(y),
                  factor = "Classification",
