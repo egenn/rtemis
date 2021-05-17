@@ -28,11 +28,11 @@ checkData <- function(x,
                       reportCases.thres = NULL,
                       reportFeatures.thres = NULL) {
 
-
   if (is.null(name)) name <- deparse(substitute(x))
   cat("  Dataset:", rtHighlight$bold(name), "\n")
   boxcat("Summary", pad = 2)
   x <- as.data.frame(x)
+  orange <- crayon::make_style(orange = "orange")
 
   # [ Report ] ====
   # Dimensions
@@ -78,7 +78,7 @@ checkData <- function(x,
   # [ Characters ] ====
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
-  .col <- if (n.character > 0) rtOrange$bold else bold
+  .col <- if (n.character > 0) orange$bold else bold
   cat("  *", .col(n.character), "character", ngettext(n.character, "feature", "features"), "\n")
 
   # [ Constants ] ====
@@ -112,7 +112,7 @@ checkData <- function(x,
                                 sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])))
 
   }
-  .col <- if (n.cols.anyna > 0) rtOrange$bold else bold
+  .col <- if (n.cols.anyna > 0) orange$bold else bold
   cat("  * ", .col(n.cols.anyna), ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
       ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", ngettext(n.na, "value", "values"), "total"), ""),
       "\n", sep = "")
@@ -161,22 +161,22 @@ checkData <- function(x,
     boxcat("Recommendations", pad = 2)
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
-        cat(rtOrange$bold("  * Convert the character",
+        cat(orange$bold("  * Convert the character",
                              ngettext(n.character, "feature", "features"), "to" ,
                              ngettext(n.character, "a factor", "factors"),
                              "\n"))
       }
 
       if (n.constant > 0) {
-        cat(rtOrange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
+        cat(orange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
       }
 
       if (n.dups > 0) {
-        cat(rtOrange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
+        cat(orange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
       }
 
       if (n.cols.anyna > 0) {
-        cat(rtOrange$bold("  * Consider imputing missing values or use complete cases only\n"))
+        cat(orange$bold("  * Consider imputing missing values or use complete cases only\n"))
       }
 
       if (n.gt2levels.nonordered > 0) {
