@@ -533,19 +533,19 @@ plot.rtMod <- function(x, estimate = NULL,
 #'
 #' @method summary rtMod
 #' @param object \pkg{rtemis} model
-#' @param plots Logical. Should plots be printed?
-#' @param cex Numeric. Character expansion factor
+#' @param plots Logical: If TRUE, print plots. Default = TRUE
+#' @param cex Float: Character expansion factor
 #' @param fit.true.line \pkg{rtemis} model to use for fitted vs. true line
 #'   Options: \code{modSelect()}
 #' @param resid.fit.line \pkg{rtemis} model to use for residuals vs. fitted line.
 #'   Options: \code{modSelect()}
-#' @param fit.legend Logical. Should fit legends be printed? Defaults to TRUE
-#' @param se.fit Logical. Should 2 * standard error bands be plotted? Defaults to TRUE
-#' @param single.fig Logical. Should all plots be in same figure? Defaults to TRUE
-#' @param summary Logical. Should summary be printed? Defaults to TRUE
-#' @param theme String. \code{mplot3} theme to use. Options: "box", "darkbox", "light", "dark"
+#' @param fit.legend Logical: If TRUE, print fit legend. Default  = TRUE
+#' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
+#' @param single.fig Logical: If TRUE, draw all plots in a single figure. Default = TRUE
+#' @param summary Logical: If TRUE, print summary. Default = TRUE
+#' @param theme String: theme to use. Options: "box", "darkbox", "light", "dark"
 #' @param title.col Color for main title
-#' @param ... Additional arguments to be passed to \link{mplot3}
+#' @param ... Additional arguments to be passed to \link{mplot3.xy}
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
