@@ -50,7 +50,7 @@
 #' @param group.legend Logical: If TRUE, include legend with group names
 #' @param group.title Character: Title above group names
 #' @return Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
-#' @seealso \link{mplot3}, \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
+#' @seealso \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 #' @author E.D. Gennatas
 #' @export
 

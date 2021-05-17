@@ -12,7 +12,7 @@
 #' @param vertex.frame.vcol Color for vertex border (frame)
 #' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep existing
 #' names in \code{net} if any. Set to NA to avoid printing vertex labels
-#' @param vertex.shape
+#' @param vertex.shape Character: Vertex shape. See \code{igraph::plot.igraph("vertex.shape")}. Default = "circle"
 #' @param edge.col Color for edges
 #' @param edge.alpha Numeric: Transparency for edges. Default = .2
 #' @param edge.curved Numeric: Curvature of edges. Default = .35
