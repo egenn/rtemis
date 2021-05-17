@@ -55,7 +55,6 @@ dplot3.leaflet <- function(dat,
                            bg.tile.provider = leaflet::providers$Stamen.TonerBackground,
                            bg.tile.alpha = .67,
                            fg.tile.provider = leaflet::providers$Stamen.TonerLabels,
-                           # fg.tile.alpha = .67,
                            legend.position = c("topright", "bottomright", "bottomleft", "topleft"),
                            legend.alpha = .8,
                            legend.title = NULL,
@@ -85,11 +84,11 @@ dplot3.leaflet <- function(dat,
 
   # State vs. County data ====
   if (max(nchar(dat[[1]])) < 3) {
-    geo <- geojsonio::geojson_read(system.file("data", "us-states.json", package = "rtemis"),
+    geo <- geojsonio::geojson_read(system.file("extdata", "us-states.json", package = "rtemis"),
                                    what = "sp")
     fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%02d", dat[[1]])
   } else {
-    geo <- geojsonio::geojson_read(system.file("data", "us-counties.json", package = "rtemis"),
+    geo <- geojsonio::geojson_read(system.file("extdata", "us-counties.json", package = "rtemis"),
                                    what = "sp")
     fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
   }
