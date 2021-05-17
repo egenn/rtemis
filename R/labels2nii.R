@@ -41,7 +41,7 @@ labels2nii <- function(label.vals,
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
   }
 
-  # [ MAIN ] ====
+  # [ Main ] ====
   labelednim <- RNifti::readNifti(labeledNifti)
   dim <- dim(labelednim)
   labels <- as.array(labelednim)

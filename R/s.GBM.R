@@ -20,9 +20,9 @@
 #' If an error is detected, \code{gbm.fit} is rerun until successful and the procedure continues normally
 #' @inheritParams s.GLM
 #' @param n.trees Integer: Initial number of trees to fit
-#' @param interaction.depth [gS] Integer: Interaction depth
-#' @param shrinkage [gS] Float: Shrinkage (learning rate)
-#' @param n.minobsinnode [gS] Integer: Minimum number of observation allowed in node
+#' @param interaction.depth [gS] Integer: Interaction depth. Default = 2
+#' @param shrinkage [gS] Float: Shrinkage (learning rate). Default = .01
+#' @param n.minobsinnode [gS] Integer: Minimum number of observation allowed in node. Default = 5
 #' @param bag.fraction [gS] Float (0, 1): Fraction of cases to use to train each tree.
 #' Helps avoid overfitting. Default = .75
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:

@@ -778,8 +778,6 @@ pennstateCol <- list(nittanyNavy = "#001E44",
 # SFSU ====
 #' SF State
 #'
-#' \code{sfsuCol}: SF State Colors
-#'
 #' \code{sfsuCol}: SF State color palette
 #' (https://logo.sfsu.edu/color-system)
 #' @name rtPalettes
@@ -1459,8 +1457,7 @@ rtPalette <- function(palette = NULL) {
 # Custom crayon styles ====
 teal <- crayon::make_style(teal = "#18A3AC")
 rtBlue <- crayon::make_style(rtBlue = "#005581")
-# rtOrange <- crayon::make_style(rtOrange = "#F48024")
-rtOrange <- crayon::make_style(rtOrange = "#FF9933")
+rtOrange <- crayon::make_style(rtOrange = "orange")
 rtHighlight.color <- getOption("rt.highlight.color", "#18A3AC")
 rtHighlight <- crayon::make_style(rtHighlight = rtHighlight.color)
 rtemisblue <- crayon::make_style(rtemisblue = "#80ffff")
