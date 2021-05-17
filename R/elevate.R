@@ -1,7 +1,7 @@
 # elevate.R
 # ::rtemis::
 # 2016-8 E.D. Gennatas lambdamd.org
-# TODO: add names Repeat1, etc. to resamples list
+# add names Repeat1, etc. to resamples list
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
@@ -25,7 +25,7 @@
 #' \link{rtset.preprocess}, e.g. \code{decom = rtset.preprocess(impute = TRUE)}
 #' @param .decompose Optional named list of parameters to be used for decomposition / dimensionality
 #' reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}
-#' @param .resample Optional names list of parameters to be passed to \link{resample}.
+#' @param .resample Optional named list of parameters to be passed to \link{resample}.
 #' NOTE: If set, this takes precedence over setting the individual resampling arguments ()
 #' @param res.index List where each element is a vector of training set indices. Use this for manual or
 #' precalculated train/test splits
