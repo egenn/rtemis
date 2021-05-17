@@ -31,7 +31,7 @@ gamselx <- function(x, y,
   #                cart.args)
   # mod2 <- do.call("s.CART", cart.args)
   # rules <- as.rules.rpart(mod2$mod)[, 1]
-  # index <- rtemis:::indexCasesByRules(x, rules)
+  # index <- indexCasesByRules(x, rules)
   # table(index)
 
   # 2. Pairwise interactions ====
@@ -134,7 +134,7 @@ print.gamselx <- function(x, ...) {
 
   # cat(".: A GAMSELX model with", summary[1], "linear, ", summary[2], "nonlinear, and",
   #     NROW(x$pairs), "interaction terms")
-  cat(".: A", rtemis:::rtOrange$bold("GAMSELX"), "model with", summary[1], "linear,", summary[2],
+  cat(".: A", rtOrange$bold("GAMSELX"), "model with", summary[1], "linear,", summary[2],
       "nonlinear, and", NROW(x$pairs), "interaction terms")
 
 }
