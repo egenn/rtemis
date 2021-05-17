@@ -64,8 +64,10 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 Default = 2}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
-Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
+
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
@@ -83,8 +85,8 @@ Default = NULL (random seed)}
 \item{poly.raw}{Logical: if TRUE, use raw polynomials.
 Default, which should not really be changed is FALSE}
 
-\item{print.plot}{Logical: if TRUE, produce plot using \link{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}}
+\item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

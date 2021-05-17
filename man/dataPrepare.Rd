@@ -49,7 +49,7 @@ Columns must correspond to columns in \code{x}}
 \item{removeDots}{Logical: If TRUE, replace dots in variable names with underscores.
 Some algorithms do not work with variable names containing dots (SparkML)}
 
-\item{.preprocess}{List: Preprocessing settings. Set with \link{rtset.preprocess}}
+\item{.preprocess}{List: Preprocessing parameters to be passed to \link{preprocess}. Set with \link{rtset.preprocess}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 }

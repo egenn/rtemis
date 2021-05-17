@@ -69,8 +69,10 @@ Columns must correspond to columns in \code{x}}
 \item{y.name}{Character: Name for outcome}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
-Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
+
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}

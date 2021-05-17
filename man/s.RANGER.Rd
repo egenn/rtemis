@@ -92,6 +92,8 @@ Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
 
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
+
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 

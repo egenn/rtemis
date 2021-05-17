@@ -42,6 +42,7 @@
 \alias{illinoisCol}
 \alias{umdCol}
 \alias{texasCol}
+\alias{emoryCol}
 \alias{techCol}
 \alias{jeffersonCol}
 \alias{hawaiiCol}
@@ -139,6 +140,8 @@ An object of class \code{list} of length 15.
 An object of class \code{list} of length 3.
 
 An object of class \code{list} of length 10.
+
+An object of class \code{list} of length 22.
 
 An object of class \code{list} of length 3.
 
@@ -254,6 +257,8 @@ illinoisCol
 umdCol
 
 texasCol
+
+emoryCol
 
 techCol
 
@@ -395,6 +400,9 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{texasCol}: University of Texas color palette
 (https://brand.utexas.edu/identity/color/)
+
+\code{emoryCol}: Emory color palette
+(https://brand.emory.edu/color.html)
 
 \code{techCol}: Georgia Tech color palette
 (http://www.licensing.gatech.edu/super-block/239)

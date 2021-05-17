@@ -24,27 +24,6 @@ expand.hytboost(
 }
 \arguments{
 \item{object}{\link{boost} object}
-
-\item{x}{Data frame: Input features}
-
-\item{y}{Vector: Output}
-
-\item{mod.params}{Named list of arguments for \code{mod}}
-
-\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
-
-\item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
-
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
-
-\item{verbose}{Logical: If TRUE, print summary to screen.}
-
-\item{trace}{Integer: If > 0, print diagnostic info to console}
-
-\item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
-end of training. If integer, plot training and validation error curve every this many iterations
-during training
-for each base learner}
 }
 \description{
 Add iterations to a \link{boost} object
