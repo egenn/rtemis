@@ -59,12 +59,12 @@ dplot3.cart <- function(object,
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ PRUNE ] ====
+  # [ Prune ] ====
   if (!is.null(rpart.cp)) {
     .tree <- rpart::prune.rpart(.tree, rpart.cp)
   }
 
-  # [ Data TREE ] ====
+  # [ data.tree ] ====
   if (inherits(object, "rtMod")) {
     if (inherits(object$mod, "rpart")) {
       .tree <- as.data.tree.rpart(object$mod)
@@ -85,7 +85,7 @@ dplot3.cart <- function(object,
   type <- "rpart"
   if (is.null(node.estimate)) node.estimate <- if (method == "class") FALSE else TRUE
 
-  # [ GRAPH STYLE ] ====
+  # [ Graph Style ] ====
   data.tree::SetGraphStyle(.tree,
                            layout = layout,
                            rankdir = rankdir,
@@ -97,7 +97,7 @@ dplot3.cart <- function(object,
                                            "\nN nodes =", .tree$totalCount,
                                            "\nN leaves =", length(.tree$leaves)))
 
-  # [ NODE STYLE ] ====
+  # [ Node Style ] ====
   .node.labels <- if (node.labels) {
     if (method == "class") {
       function(node) paste0(if (node.cond) paste(node$name),
@@ -134,7 +134,7 @@ dplot3.cart <- function(object,
                           },
                           rank = function(node) node$Depth)
 
-  # [ EDGE STYLE ] ====
+  # [ Edge Style ] ====
   .edge.labels <- if (edge.labels) function(node) node$name else NULL # was node$Condition
   data.tree::SetEdgeStyle(.tree,
                           arrowhead = arrowhead,
@@ -145,7 +145,7 @@ dplot3.cart <- function(object,
                           tooltip = function(node) node$name) # was node$Condition
   # ?drop.leaves, keepExisting = TRUE
 
-  # [ LEAVES ] ====
+  # [ Leaves ] ====
   leaves.rank <- if (drop.leaves) .tree$height else NULL
   data.tree::Do(.tree$leaves, function(node) {
     data.tree::SetNodeStyle(node,
