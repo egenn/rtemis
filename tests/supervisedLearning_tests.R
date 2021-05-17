@@ -110,7 +110,8 @@ mod <- s.GAM(iris2.train, iris2.test)
 
 if (requireNamespace("gamsel", quietly = TRUE)) {
   mod <- s.GAMSEL(dat.train, dat.test)
-  mod <- s.GAMSEL(iris2.train, iris2.test)
+  # mod <- s.GAMSEL(iris2.train, iris2.test)
+  # => there is a bug in cv.gamsel: lp = y * log(predmat) + (1 - y) * log(1 - predmat) - 2 * lp
 }
 
 if (requireNamespace("gbm", quietly = TRUE)) {

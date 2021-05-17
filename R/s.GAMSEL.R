@@ -104,7 +104,9 @@ s.GAMSEL <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  checkType(type, c("Classification", "Regression"), mod.name)
+  # => there is a bug in cv.gamsel: lp = y * log(predmat) + (1 - y) * log(1 - predmat) - 2 * lp
+  # checkType(type, c("Classification", "Regression"), mod.name)
+  checkType(type, c("Regression"), mod.name)
   if (is.null(weights) && type == "Classification" && ipw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type = type)
   if (print.plot) {
