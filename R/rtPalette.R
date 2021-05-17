@@ -1,7 +1,6 @@
 # rtPalette.R
 # ::rtemis::
 # 2016-9 E.D. Gennatas lambdamd.org
-# TODO: consider including all in one big list
 
 # Penn ====
 #' rtemis Color Palettes
@@ -157,7 +156,7 @@ ucsfCol <- list(navy = "#052049",
 
 #' UCSF Color Palette
 #'
-#' \code{ucsfPalette}: Subset of \code{ucsfCol} for use with \link{mplot3}, etc
+#' \code{ucsfPalette}: Subset of \code{ucsfCol}
 #'
 #' @name rtPalettes
 #' @export
@@ -851,6 +850,37 @@ texasCol <- list(burntOrange = "#bf5700",
                  lightBlue = "#9cadb7",
                  stone = "#d6d2c4")
 
+
+# Emory ====
+#' Emory Colors
+#'
+#' \code{emoryCol}: Emory color palette
+#' (https://brand.emory.edu/color.html)
+#' @name rtPalettes
+#' @export
+
+emoryCol <- list(emoryBlue = "#012169",
+                 darkBlue = "#0c2340",
+                 mediumBlue = "#0033a0",
+                 lightBlue = "#007dba",
+                 yellow = "#f2a900",
+                 gold = "#b58500",
+                 metallicGold = "#84754e",
+                 cyan = "#00aeef",
+                 skyBlue = "#41b6e6",
+                 teal = "#487f84",
+                 kellyGreen = "#348338",
+                 seaGreen = " #006c5b",
+                 olive = "#5c8118",
+                 orange = "#c35413",
+                 red = "#da291c",
+                 magenta = "#c6007e",
+                 purple = "#6558b1",
+                 grape = "#6d2077",
+                 black = "#101820",
+                 coolGray5 = "#b1b3b3",
+                 coolGray2 = "#d0d0ce",
+                 coolGray1 = "#d9d9d6")
 
 # Georgia Tech ====
 #' Georgia Tech Colors
