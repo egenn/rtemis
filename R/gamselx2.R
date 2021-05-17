@@ -185,7 +185,7 @@ print.gamselx2 <- function(x, ...) {
 
   # cat(".: A GAMSELX2 model with", summary[1], "linear, ", summary[2], "nonlinear, and",
   #     NROW(x$pairs), "interaction terms")
-  cat(".: A", rtemis:::rtOrange$bold("GAMSELX2"), "model with\n    ",
+  cat(".: A", rtOrange$bold("GAMSELX2"), "model with\n    ",
       n.cat, "categorical features,\n    ",
       summary[1], "linear,\n    ", summary[2],
       "nonlinear, \n     and", NROW(x$pairs), "continuous interaction terms\n")
