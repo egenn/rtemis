@@ -40,8 +40,9 @@
 #' 2: class.weights as in 0, divided by min(class.weights)
 #' Default = 2
 #' @param upsample Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
-#' Caution: upsample will randomly sample with replacement if the length of the majority class is more than double
+#' Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 #' the length of the class you are upsampling, thereby introducing randomness
+#' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
 #' @param resample.seed Integer: If provided, will be used to set the seed during upsampling.
 #' Default = NULL (random seed)
 #' @param intercept Logical: If TRUE, fit an intercept term. Default = TRUE
