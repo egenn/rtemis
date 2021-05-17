@@ -35,7 +35,6 @@ d.TSNE <- function(x,
                    max.iter = 1000,
                    scale = FALSE,
                    center = FALSE,
-                   # labeledNifti = NULL,
                    is.distance = FALSE,
                    verbose = TRUE,
                    outdir = "./") {
@@ -83,16 +82,7 @@ d.TSNE <- function(x,
                         verbose = verbose,
                         is_distance = is.distance)
 
-  # # [ WRITE TO NIFTIs ] ====
-  # if (!is.null(labeledNifti)) {
-  #   prefix <- paste0(outdir, "s.tSNE")
-  #   cat("Writing results to nifti...\n")
-  #   tryCatch(labels2niftis(decom$Y, labeledNifti, prefix),
-  #            error = function(e) cat("Error saving nifti files (s.tSNE > labels2niftis)\n"))
-  #   cat("+ + + Saved nifti files under", outdir, "\n")
-  # }
-
-  # [ OUTPUT ] ====
+  # [ Output ] ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
