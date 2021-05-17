@@ -390,7 +390,8 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{texasCol}: Penn State color palette
 (https://brand.psu.edu/design-essentials.html#color)
 
-\code{sfsuCol}: SF State Colors
+\code{sfsuCol}: SF State color palette
+(https://logo.sfsu.edu/color-system)
 
 \code{illinoisCol}: University of Illinois color palette
 (https://www.uillinois.edu/OUR/brand/color_palettes)
@@ -445,9 +446,5 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{microsoftCol}: Microsoft brand palette
 (https://brandcolors.net/b/microsoft)
-}
-\details{
-\code{sfsuCol}: SF State color palette
-(https://logo.sfsu.edu/color-system)
 }
 \keyword{datasets}

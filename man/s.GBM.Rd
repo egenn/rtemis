@@ -104,14 +104,14 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{interaction.depth}{[gS] Integer: Interaction depth}
+\item{interaction.depth}{[gS] Integer: Interaction depth. Default = 2}
 
-\item{shrinkage}{[gS] Float: Shrinkage (learning rate)}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate). Default = .01}
 
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting. Default = .75}
 
-\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node}
+\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node. Default = 5}
 
 \item{n.trees}{Integer: Initial number of trees to fit}
 

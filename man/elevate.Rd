@@ -67,7 +67,7 @@ be passed as part of \code{...} as well}
 \item{.decompose}{Optional named list of parameters to be used for decomposition / dimensionality
 reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}}
 
-\item{.resample}{Optional names list of parameters to be passed to \link{resample}.
+\item{.resample}{Optional named list of parameters to be passed to \link{resample}.
 NOTE: If set, this takes precedence over setting the individual resampling arguments ()}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
