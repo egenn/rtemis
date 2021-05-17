@@ -77,7 +77,7 @@
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
 #' @param removeConstants Logical: If TRUE, remove constant columns. Default = TRUE
-#' @param removeDuplicates Logical: If TRUE, remove duplicated cases. Default = TRUE
+#' @param removeDuplicates Logical: If TRUE, remove duplicated cases. Default = FALSE
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
 #' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
@@ -107,7 +107,7 @@ preprocess <- function(x, y = NULL,
                        logical2numeric = FALSE,
                        numeric2factor = FALSE,
                        numeric2factor.levels = NULL,
-                       ltN2factor = NULL,
+                       ltn2factor = NULL,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
@@ -115,7 +115,7 @@ preprocess <- function(x, y = NULL,
                        scale = FALSE,
                        center = FALSE,
                        removeConstants = TRUE,
-                       removeDuplicates = TRUE,
+                       removeDuplicates = FALSE,
                        factorizeThresh = 0,
                        oneHot = FALSE,
                        exclude = NULL,
@@ -219,11 +219,11 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ ltN2factor ] ====
-  if (!is.null(ltN2factor)) {
-    if (!is.numeric(ltN2factor)) stop("ltN2factor must be an integer")
+  # [ ltn2factor ] ====
+  if (!is.null(ltn2factor)) {
+    if (!is.numeric(ltn2factor)) stop("ltn2factor must be an integer")
     index.numeric <- which(sapply(x, is.numeric))
-    index.numeric.ltn <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) < ltN2factor))
+    index.numeric.ltn <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) < ltn2factor))
     for (i in index.numeric.ltn) x[, index.numeric][, i] <- factor(x[, index.numeric][, i])
   }
 
