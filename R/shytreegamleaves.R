@@ -21,7 +21,7 @@
 #' Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
 #' \code{mse()} for regression
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 
 # [[---F1---]] ====
 shytreegamleaves <- function(x, y,

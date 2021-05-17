@@ -10,7 +10,7 @@
 #' @inheritParams s.LIHAD
 #' @param x data.frame
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 
 hytreenow <- function(x, y,
                       max.depth = 5,
@@ -319,7 +319,7 @@ hyt <- function(node = list(x = NULL,
 #' \pkg{rtemis} internal: Ridge and Stump
 #'
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
-#' @keywords internal
+#' @noRd
 partLm <- function(x1, y1,
                    alpha = .1,
                    lambda = 1,

@@ -12,7 +12,7 @@
 #' @param alt Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
 #' @param max.nchar Integer: Maximum N of characters to allow for name
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 
 getName <- function(x, alt = "x", max.nchar = 20) {
 

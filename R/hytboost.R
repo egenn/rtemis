@@ -26,7 +26,7 @@
 #' @param ... Additional parameters to be passed to learner
 #' @return \code{hytboost} object
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 
 hytboost <- function(x, y,
                      x.valid = NULL, y.valid = NULL,

@@ -13,7 +13,7 @@
 #' "lm.ridge" uses the MASS function of that name, "glm" uses \code{lm.fit},
 #' "forward.stagewise" and "stepwise" use \code{lars::lars} with \code{type} defined accordingly
 #' @author E.D. Gennatas
-#' @export
+#' @noRd
 
 hytreew <- function(x, y,
                     max.depth = 5,

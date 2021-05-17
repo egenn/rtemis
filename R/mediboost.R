@@ -1,7 +1,6 @@
 # mediboost.R
 # ::rtemis::
-# Gilmer Valdes, E.D. Gennatas
-# #1. prob <- 1/exp(-2 * F(x)) #2. Regression
+# G. Valdes (MATLAB), E.D. Gennatas (R)
 
 #' Additive Tree
 #'
@@ -23,7 +22,7 @@
 #' @references Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles
 #' and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 #' Interpretable Decision Making in the Era of Precision Medicine.
-#' @keywords internal
+#' @noRd
 
 mediboost <- function(x, y,
                       catPredictors = NULL,
@@ -37,7 +36,7 @@ mediboost <- function(x, y,
                       min.hessian = .01,
                       min.membership = 0,
                       steps.past.min.membership = 2,
-                      rpart.parms = NULL,
+                      rpart.params = NULL,
                       save.rpart = FALSE,
                       verbose = TRUE,
                       trace = 1) {
@@ -55,7 +54,7 @@ mediboost <- function(x, y,
     y <- as.numeric(as.character(y))
   }
 
-  # [ WEIGHTS ] ====
+  # [ Weights ] ====
   if (!is.null(weights)) if (length(weights) != length(y0))
     stop("weights must be length equal to N cases")
   if (is.null(weights)) weights <- rep(1, NROW(y0))
@@ -83,7 +82,7 @@ mediboost <- function(x, y,
   # min.mem.counter: Count steps past min.membership
   min.mem.counter <- 0
 
-  # [ SPLIT NODE ] ====
+  # [ Split node ] ====
   membership <- rep(TRUE, length(y))
 
   # Recursive function to build tree
@@ -108,7 +107,7 @@ mediboost <- function(x, y,
                                        save.rpart,
                                        verbose = ifelse(trace < 2, FALSE, TRUE))
 
-  # [ OUT ] ====
+  # [ Output ] ====
   tree$y <- y0
   tree$yfreq <- table(y0)
   class(tree) <- c("addtree", "list")
@@ -158,7 +157,7 @@ mediboost <- function(x, y,
 #' \pkg{rtemis} internal: likelihoodMediboostSplitNode
 #'
 #' Recursive function that returns a node structure under the MediBoost paradigm
-#' @keywords internal
+#' @noRd
 
 likelihoodMediboostSplitNode <- function(x, y,
                                          weights,
@@ -197,7 +196,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                membership = membership,
                depth = depth)
 
-  # [ CHOOSE FEAT; SPLIT CHECKS ] ====
+  # [ Choose feature; split checks ] ====
   if (sum(membership) <= min.membership) {
     min.mem.counter <- min.mem.counter + 1
   }
@@ -281,22 +280,19 @@ likelihoodMediboostSplitNode <- function(x, y,
       # Scalar
       weightedSecDerLeft <- c(leftWeight %*% secDerLeft)
 
-      # [ UPDATE nodeValueLeft ] ====
+      # [ Update nodeValueLeft ] ====
       if (weightedFirstDerLeft == 0) {
         nodeValueLeft <- 0
       } else if (weightedSecDerLeft == 0) {
         # nodeValueLeft <- c(sign(y[leftIdx] %*% leftWeight) * Inf)
         nodeValueLeft <- -sign(weightedFirstDerLeft) * Inf
       } else {
-        # 12.31.2017 add learningRate
         updateVal <- learningRate * sign((weightedFirstDerLeft)) *
           min(min.update, abs(weightedFirstDerLeft / weightedSecDerLeft))
         nodeValueLeft <- c(node$value - updateVal) # scalar
       }
 
       # Protect from taking too big a step: ensure step is always smaller than optimal
-
-
       # Using exp(log(a)-log(b)) = a/b to avoid singularity errors in
       # the gradient step when the weights approach zero
       # nodeValueLeft <- node$value - Re(exp(log(learningRate * (weightedFirstDerLeft)) - log(weightedSecDerLeft)))
@@ -325,20 +321,7 @@ likelihoodMediboostSplitNode <- function(x, y,
         nodeValueRight <- c(node$value - updateVal) # scalar
       }
 
-      # if (weightedFirstDerRight == 0) {
-      #   nodeValueRight <- 0
-      # } else if (weightedSecDerRight == 0) {
-      #   # nodeValueRight <- c(sign(y %*% membershipRight) * Inf)
-      #   nodeValueRight <- c(sign(y %*% membership) * Inf)
-      #   if (verbose) msg("weightedSecDerRight is 0 and nodeValueRight is", nodeValueRight,
-      #                    "sum of membership is", sum(membershipRight))
-      # } else {
-      #   # scalar
-      #   nodeValueRight <- c(node$value - (weightedFirstDerRight / weightedSecDerRight))
-      # }
-
       if (verbose) {
-        # msg("firstDerLeft = ", firstDerLeft, "; firstDerRgit = ", firstDerRight, sep = "")
         msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
             weightedFirstDerRight, sep = "")
         msg("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
@@ -348,9 +331,6 @@ likelihoodMediboostSplitNode <- function(x, y,
 
       # Using exp(log(a)-log(b)) = a/b to avoid singularity errors in
       # the gradient step when the weights approach zero
-      # nodeValueRight <- node$value - (sign(weightedFirstDerRight * weightedSecDerRight) *
-      #                                   Re(exp(log(learningRate * abs(weightedFirstDerRight)) -
-      #                                            log(abs(weightedSecDerRight)))))
       observValuesRight <- funcValueRight - nodeValueRight
 
       # Update the observation values at this depth
@@ -361,7 +341,7 @@ likelihoodMediboostSplitNode <- function(x, y,
       # Indicator function that assigns 1 to the samples in the left
       # branch and gamma to the remaining ones
 
-      # [ UPDATE Weights ] ====
+      # [ Update Weights ] ====
       if (update == "polynomial") {
         # Polynomial
         leftRule <- y
@@ -406,8 +386,6 @@ likelihoodMediboostSplitNode <- function(x, y,
 
       # [ L&R SPLIT ] ====
       # Create the right and left terminal nodes
-      # if (!is.infinite(nodeValueRight) & !is.infinite(nodeValueLeft)
-      #     & !is.na(nodeValueRight) & !is.na(nodeValueLeft)) {
       node$right <- likelihoodMediboostSplitNode(x, y,
                                                  weights = rightWeights,
                                                  catPredictors,
@@ -448,18 +426,12 @@ likelihoodMediboostSplitNode <- function(x, y,
                                                 min.hessian = min.hessian,
                                                 save.rpart = save.rpart,
                                                 verbose = verbose)
-      # } else {
-      #   node$right <- node$left <- "NA"
-      #   node$terminal <- TRUE
-      #   if (verbose) msg("Reached terminal node")
-      # }
     } else {
       node$terminal <- TRUE
     }
   } else {
     if (verbose) {
       if (depth == depthLimit) msg("Reached max depth")
-      # if (sum(membership) < 2) msg("Node membership < 2")
       msg("Total members = ", sum(membership))
       if (is.infinite(node$value)) {
         msg("Node value is", ifelse(sign(node$value) == 1, "positive", "negative"), "infinity")
@@ -505,7 +477,7 @@ likelihoodMediboostSplitNode <- function(x, y,
 #' \pkg{rtemis} internal: likelihoodMediboostChooseFeat
 #' Selects a feature with maximum information gain and provides the decision values
 #' and column index for the chosen feature
-#' @keywords internal
+#' @noRd
 
 likelihoodMediboostChooseFeat <- function(x, y,
                                           catPredictors,
@@ -526,7 +498,7 @@ likelihoodMediboostChooseFeat <- function(x, y,
   x1 <- x[, colIdx]
   df <- data.frame(y, x1)
 
-  # [ RPART ] ====
+  # [ rpart ] ====
   tree <- rpart::rpart(y ~ ., data = df,
                        weights = weights,
                        control = rpart::rpart.control(maxdepth = 1,
@@ -535,11 +507,9 @@ likelihoodMediboostChooseFeat <- function(x, y,
                                                       maxsurrogate = 0,
                                                       cp = 0,
                                                       xval = 0),
-                       parms = rpart.parms)
+                       parms = rpart.params)
 
   # Get the split feature
-  # fIdx = colIdx(tree$PredictorNames == tree$CutVar[[1]])
-  # cutFeatName <- as.character(tree$frame[1, 1]) # same as below
   cutFeatName <- rownames(tree$splits)[1]
   if (!is.null(cutFeatName)) {
     fIdx <- which(names(x) == cutFeatName)
@@ -664,7 +634,7 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
   varnames <- rt$xnames
   tree <- rt$mod
 
-  # [ RECURSIVE PREORDER FN ] ====
+  # [ Recursive preorder function ] ====
   preorder <- function(node, out = data.frame(), n = 1,
                        left = "left", right = "right",
                        condition = "All cases",
@@ -694,7 +664,6 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
                     verbose)
 
     conditionRight <- if (length(node$cutPoint) > 0) {
-        # R CMD CHECK complains about non-ASCII characters, ge sign removed
       paste(name, ">=", node$cutPoint)
     } else {
       compLevels <- setdiff(levels(x[[name]]), node$cutCategory)
@@ -739,20 +708,13 @@ print.addtree <- function(x, ...) {
   if (!inherits(x, "addtree")) stop("Please supply addtree model")
 
   frame <- x$frame
-  # depth <- max(frame$Depth)
-
-  # frame$prefix <- sapply(frame$Depth, function(d) paste(rep("--", d), collapse = ""))
   frame$prefix <- sapply(frame$Depth, function(d) paste(rep("  ", d), collapse = ""))
-  # frame$prefix <- sapply(frame$Depth, function(d) paste0(paste(rep("  ", d), collapse = ""),
-  #                                                        ifelse(d > 0, "|_", "")))
   n.nodes <- NROW(frame)
   n.leaves <- sum(frame$SplitVar == "<leaf>")
   depth <- max(frame$Depth)
   boxcat(paste("AddTree with", n.nodes, "nodes total,", n.leaves, "leaves, and max depth of", depth))
   cat("Index [Condition] N| Value| Estimate| Depth (* leaf node)\n\n")
   for (i in 1:nrow(frame)) {
-    # cat(paste(c(frame$n[i], " ", frame$prefix[i], "[", frame$Condition[i], "] ", frame$N[i], " ",
-    #             frame$Value[i], " ", frame$Estimate[i], " ", frame$Depth[i])), "\n", sep = "")
     cat(paste(c(sprintf("%3s", frame$n[i]), " ", frame$prefix[i], "[", frame$Condition[i], "] ",
                 frame$N[i], "| ",
                 ddSci(frame$Value[i]), "| ",

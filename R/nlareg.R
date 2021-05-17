@@ -16,7 +16,7 @@
 #' @export
 #' @author E.D. Gennatas
 #' @return \code{nlareg} object
-#' @keywords internal
+#' @noRd
 
 nlareg <- function(x, y,
                    b_o = mean(y),

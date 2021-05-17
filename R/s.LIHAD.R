@@ -298,7 +298,7 @@ s.LIHAD <- function(x, y = NULL,
 
 #' \pkg{rtemis} internal: Recursive function to build Additive Tree
 #'
-#' @keywords internal
+#' @noRd
 lihad <- function(node = list(x = NULL,
                                y = NULL,
                                Fval = NULL,

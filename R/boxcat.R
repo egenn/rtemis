@@ -13,7 +13,7 @@
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 #' @export
 
 boxcat <- function(x,
@@ -61,7 +61,7 @@ boxcat <- function(x,
 #'
 #' @param x Character: Object description
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 
 objcat <- function(x) {
 

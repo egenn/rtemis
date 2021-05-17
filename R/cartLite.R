@@ -9,7 +9,7 @@
 #' @inheritParams s.CART
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @noRd
 #' @export
 
 cartLite <- function(x, y,
