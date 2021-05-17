@@ -11,7 +11,7 @@ ByteCompile: yes
 Imports: grDevices, graphics, stats, methods, utils, parallel, R6, data.table, crayon, future, magrittr
 Suggests: ada, arm, bartMachine, base64enc, cluster, C50, data.tree, deepnet, 
   dendextend (>= 0.18.0), DiagrammeR, DiagrammeRsvg, doParallel, dplyr, earth, EMCluster, extraTrees, 
-  evtree, e1071, fansi, fastICA, flexclust, FNN, foreach, fpc, fs, gamsel2, gbm, geojsonio, ggplot2, 
+  evtree, e1071, fansi, fastICA, flexclust, FNN, foreach, fpc, fs, gamsel, gamsel2, gbm, geojsonio, ggplot2, 
   glmnet, GPArotation, grid, gsubfn, heatmaply, hopach, htmltools, htmlwidgets, h2o, ica, igraph, 
   imager, inTrees, iRF, JuliaCall, keras, kernlab, knitr, lars, lavaan, leaflet, leaps, lle, 
   matrixStats, MASS, mda, mgcv, mlbench, missForest, missRanger, networkD3, nlme, nnet, NMF, np, 
