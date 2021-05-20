@@ -108,6 +108,14 @@ massGLM <- function(x, y,
 
 } # rtemis::massUni
 
+
+#' \code{print}\link{massGLM} object
+#'
+#' @method print massGLM
+#' @param x \link{massGLM} object
+#' @author E.D. Gennatas
+#' @export
+
 print.massGLM <- function(x, ...) {
   cat("Mass-univariate GLM analysis with", length(x$mods))
   if (type == "massx") {
@@ -117,12 +125,23 @@ print.massGLM <- function(x, ...) {
   }
 }
 
+#' Plot \code{massGLM} object
+#'
+#' Plots a \code{massGLM} object using \link{dplot3.bar}
+#'
+#' @method plot resample
+#' @param x \code{massGLM} object
+#' @param what Character:
+#' @author E.D. Gennatas
+#' @export
+
 plot.massGLM <- function(x,
-                         what = "Adjusted_pvalue",
+                         what = c("Adjusted_pvalue", "pvalue"),
                          pval.hline = .05,
                          hline.col = "#FE4AA3",
                          hline.dash = "dash", ...) {
 
+  what <- match.arg(what)
   if (what == "Adjusted_pvalue") {
     dplot3.bar(1 - x$coefs_pvals$Adjusted_pvalue,
                group.names = x$coefs_pvals$Variable,
@@ -131,6 +150,14 @@ plot.massGLM <- function(x,
                hline = 1 - pval.hline,
                hline.col = hline.col,
                hline.dash = hline.dash, ...)
+  } else {
+    dplot3.bar(1 - x$coefs_pvals$pvalue,
+               group.names = x$coefs_pvals$Variable,
+               legend = F,
+               ylab = "1 - raw p-value",
+               hline = 1 - pval.hline,
+               hline.col = hline.col,
+               hline.dash = hline.dash, ...)
   }
 
-}
+} # rtemis::plot.massGLM
