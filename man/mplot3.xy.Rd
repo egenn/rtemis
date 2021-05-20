@@ -50,7 +50,7 @@ mplot3.xy(
   y.axis.labs = TRUE,
   xlab.adj = 0.5,
   ylab.adj = 0.5,
-  mar = c(2.5, 3, 2, 1),
+  mar = NULL,
   oma = rep(0, 4),
   point.cex = 0.85,
   point.bg.col = NULL,

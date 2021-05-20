@@ -8,6 +8,7 @@ labelify(
   x,
   underscoresToSpaces = TRUE,
   dotsToSpaces = TRUE,
+  toLower = FALSE,
   toTitleCase = TRUE,
   capitalize.strings = c("id"),
   stringsToSpaces = c("\\\\$")
@@ -20,7 +21,12 @@ labelify(
 
 \item{dotsToSpaces}{Logical: If TRUE, convert dots to spaces. Default = TRUE}
 
-\item{toTitleCase}{Logical: If TRUE, convert to Title Case. Default = TRUE}
+\item{toLower}{Logical: If TRUE, convert to lowercase (precedes \code{toTitleCase}).
+Default = FALSE (Good for getting all-caps words converted to title case, bad for abbreviations
+you want to keep all-caps)}
+
+\item{toTitleCase}{Logical: If TRUE, convert to Title Case. Default = TRUE (This does not change
+all-caps words, set \code{toLower} to TRUE if desired)}
 
 \item{capitalize.strings}{String, vector: Always capitalize these strings, if present. Default = "id"}
 
