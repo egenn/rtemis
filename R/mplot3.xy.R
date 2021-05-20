@@ -207,7 +207,7 @@ mplot3.xy <- function(x, y = NULL,
                       y.axis.labs = TRUE,
                       xlab.adj = .5,
                       ylab.adj = .5,
-                      mar = c(2.5, 3, 2, 1),
+                      mar = NULL,
                       oma = rep(0, 4),
                       point.cex = .85,
                       point.bg.col = NULL,
@@ -282,6 +282,7 @@ mplot3.xy <- function(x, y = NULL,
     y <- x[, 2]
     x <- x[, 1]
   }
+  if (is.null(mar)) mar <- c(2.5, 3, 2, 1)
   if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
   if (isTRUE(fit)) fit <- "GAM"
   if (is.null(fit)) se.fit <- FALSE
