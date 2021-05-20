@@ -4,7 +4,7 @@
 \alias{plot.massGLM}
 \title{Plot \code{massGLM} object}
 \usage{
-\method{plot}{resample}(
+\method{plot}{massGLM}(
   x,
   what = c("Adjusted_pvalue", "pvalue"),
   pval.hline = 0.05,
