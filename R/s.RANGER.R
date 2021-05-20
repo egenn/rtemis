@@ -74,7 +74,7 @@ s.RANGER <- function(x, y = NULL,
                      metric = NULL,
                      maximize = NULL,
                      probability = FALSE,
-                     importance = "impurity",
+                     importance = "impurity_corrected",
                      replace = TRUE,
                      min.node.size = NULL,
                      splitrule = NULL,
@@ -242,7 +242,7 @@ s.RANGER <- function(x, y = NULL,
                      upsample = upsample,
                      resample.seed = resample.seed)
 
-  # [ RANGER ] ====
+  # [ Ranger ] ====
   if (stratify.on.y) {
     inbag.resample <- rtset.resample("strat.boot", n.trees)
   }
