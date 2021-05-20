@@ -129,7 +129,7 @@ print.massGLM <- function(x, ...) {
 #'
 #' Plots a \code{massGLM} object using \link{dplot3.bar}
 #'
-#' @method plot resample
+#' @method plot massGLM
 #' @param x \code{massGLM} object
 #' @param what Character:
 #' @author E.D. Gennatas
