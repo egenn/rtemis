@@ -8,6 +8,7 @@
   x,
   main = NULL,
   mar = NULL,
+  boxplot.xlab = FALSE,
   theme = getOption("rt.theme", "lightgrid"),
   par.reset = TRUE,
   ...

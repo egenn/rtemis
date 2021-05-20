@@ -14,6 +14,7 @@ htest(
   test = c("t.test", "wilcox.test", "aov", "kruskal.test", "chisq.test", "fisher.test",
     "cor.test", "pearson", "kendall", "spearman"),
   print.plot = TRUE,
+  plot.args = list(),
   theme = getOption("rt.theme", "lightgrid"),
   verbose = TRUE,
   ...

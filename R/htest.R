@@ -65,8 +65,8 @@ htest <- function(y, group = NULL,
                            "chisq.test", "fisher.test", "cor.test", # categorical by group
                            "pearson", "kendall", "spearman"), # continuous vs. continuous
                   print.plot = TRUE,
+                  plot.args = list(),
                   theme = getOption("rt.theme", "lightgrid"),
-                  # plot.engine = "mplot3",
                   verbose = TRUE, ...) {
 
   # Arguments ====
@@ -173,9 +173,12 @@ htest <- function(y, group = NULL,
               yname = yname)
   class(out) <- c("rtTest", "list")
 
-  if (print.plot) plot(out,
-                       # plot.engine = plot.engine,
-                       theme = theme)
+  if (print.plot) {
+    do.call(plot, args = c(list(x = out, theme = theme), plot.args))
+  }
+  # plot(out,
+  #                      # plot.engine = plot.engine,
+  #                      theme = theme)
 
   invisible(out)
 
@@ -197,6 +200,7 @@ plot.rtTest <- function(x,
                         main = NULL,
                         mar = NULL,
                         # plot.engine = "mplot3",
+                        boxplot.xlab  = FALSE,
                         theme = getOption("rt.theme", "lightgrid"),
                         par.reset = TRUE, ...) {
 
@@ -224,19 +228,13 @@ plot.rtTest <- function(x,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (x$test %in% c("t.test", "wilcox.test", "aov", "kruskal.test")) {
-    # if (plot.engine == "mplot3") {
       mplot3.box(split(x$y, x$group),
                  # main = main,
                  oma = c(0, 0, 1.5, 0),
                  theme = theme,
-                 xlab = x$groupname, ylab = x$yname,
+                 xlab = if (boxplot.xlab) x$groupname else NULL,
+                 ylab = x$yname,
                  mar = mar, par.reset = FALSE)
-    # } else {
-    #   dplot3.box(split(x$y, x$group),
-    #              # main = main,
-    #              theme = theme,
-    #              xlab = x$groupname, ylab = x$yname)
-    # }
   } else if (x$test %in% c("chisq.test", "fisher.test")) {
     mplot3.mosaic(table(x$y, x$group),
                   # main = main,
