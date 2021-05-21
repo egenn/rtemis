@@ -44,6 +44,7 @@
 \alias{texasCol}
 \alias{emoryCol}
 \alias{techCol}
+\alias{vanderbiltCol}
 \alias{jeffersonCol}
 \alias{hawaiiCol}
 \alias{nihCol}
@@ -144,6 +145,8 @@ An object of class \code{list} of length 10.
 An object of class \code{list} of length 22.
 
 An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 9.
 
 An object of class \code{list} of length 8.
 
@@ -261,6 +264,8 @@ texasCol
 emoryCol
 
 techCol
+
+vanderbiltCol
 
 jeffersonCol
 
@@ -407,6 +412,9 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{techCol}: Georgia Tech color palette
 (http://www.licensing.gatech.edu/super-block/239)
+
+\code{vanderbiltCol}: Vanderbilt color palette
+(https://www.vanderbilt.edu/communications/brand/color.php)
 
 \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 

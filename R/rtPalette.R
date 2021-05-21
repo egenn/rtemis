@@ -893,6 +893,24 @@ techCol <- list(techGold = "#B3A369",
                 blue = "#00263A")
 
 
+# Vanderbilt ====
+#' Vanderbilt Color
+#'
+#' \code{vanderbiltCol}: Vanderbilt color palette
+#' (https://www.vanderbilt.edu/communications/brand/color.php)
+#' @name rtPalettes
+#' @export
+
+vanderbiltCol <- list(gold = "#D8AB4C",
+                      blue = "#006682",
+                      red = "#993D1B",
+                      darkGray = "#333333",
+                      green = "#464E21",
+                      lightBlue = "#CCE0E6",
+                      lightRed = "#EBD8D1",
+                      lightGray = "#DDDDDD",
+                      lightGreen = "#DADCD3")
+
 # Jefferson ====
 #' Jefferson University Colors
 #'
