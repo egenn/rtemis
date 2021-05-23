@@ -139,6 +139,8 @@ Default = TRUE}
 
 \item{qqline.alpha}{Float: Alpha for Q-Q line}
 
+\item{pch}{Integer: Point character. Default = 16}
+
 \item{point.cex}{Float: Character expansion for points. Default = .85}
 
 \item{point.bg.col}{Color: point background}

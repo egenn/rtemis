@@ -95,6 +95,7 @@
 #' @param y.axis.labs See \code{axis("labels")}
 #' @param point.cex Float: Character expansion for points. Default = .85
 #' @param point.bg.col Color: point background
+#' @param pch Integer: Point character. Default = 16
 #' @param line.col Color for lines
 #' @param line.alpha Float [0, 1]: Transparency for lines
 #' @param lty Integer: Line type. See \code{par("lty")}
@@ -149,6 +150,7 @@
 #' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to theme function
+#'
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
@@ -644,7 +646,8 @@ mplot3.xy <- function(x, y = NULL,
   }
 
   # [ Axes ] ====
-  # axis(): col: color of the axis line; col.axis: color of the tick labels;
+  # axis(): col: color of the axis line;
+  # col.axis: color of the tick labels;
   # col.ticks: color of the ticks themselves
   if (theme$axes.visible) {
     axis(side = theme$x.axis.side,

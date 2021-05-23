@@ -228,6 +228,8 @@ Default = "r"}
 
 \item{point.bg.col}{Color: point background}
 
+\item{pch}{Integer: Point character. Default = 16}
+
 \item{line.col}{Color for lines}
 
 \item{line.alpha}{Float [0, 1]: Transparency for lines}
