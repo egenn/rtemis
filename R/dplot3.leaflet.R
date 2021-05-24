@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.lambdamd.org
 
-#' Plot choropleth map using \strong{leaflet}
+#' Plot interactive choropleth map using \pkg{leaflet}
 #'
 #' @param dat data.frame where first column is county FIPS codes and second column is values to be
 #' plotted. County names can be provided on a third column and will appear as hover-over information

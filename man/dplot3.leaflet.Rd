@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3.leaflet.R
 \name{dplot3.leaflet}
 \alias{dplot3.leaflet}
-\title{Plot choropleth map using \strong{leaflet}}
+\title{Plot interactive choropleth map using \pkg{leaflet}}
 \usage{
 dplot3.leaflet(
   dat,
@@ -87,7 +87,7 @@ Default = 39.207413888888894 (US geographic center)}
 \item{stroke}{Logical: If TRUE, draw polygon borders. Default = TRUE}
 }
 \description{
-Plot choropleth map using \strong{leaflet}
+Plot interactive choropleth map using \pkg{leaflet}
 }
 \author{
 E.D. Gennatas
