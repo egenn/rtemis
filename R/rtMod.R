@@ -231,13 +231,21 @@ rtMod <- R6::R6Class("rtMod",
                                     filename = filename, ...)
                        },
                        plotVarImp = function(plot.top = 12,
+                                             type = c("lollipop", "barplot"),
                                              theme = getOption("rt.fit.theme", "lightgrid"), ...) {
                          if (length(self$varimp) == 0) {
                            warning("Variable importance is not available for this model")
                          } else {
-                           mplot3.varimp(self$varimp,
-                                         plot.top = plot.top,
-                                         theme = theme, ...)
+                           type <- match.arg(type)
+                           if (type == "lollipop") {
+                             mplot3.lolli(self$varimp,
+                                          plot.top = plot.top,
+                                          theme = theme, ...)
+                           } else {
+                             mplot3.varimp(self$varimp,
+                                           plot.top = plot.top,
+                                           theme = theme, ...)
+                           }
                          }
                        },
                        summary = function(plots = TRUE,
@@ -1194,13 +1202,23 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
                          },
                          plotVarImp = function(which.repeat = 1,
-                                               plot.top = 12, ...) {
+                                               type = c("lollipop", "barplot"),
+                                               plot.top = 12,
+                                               theme = getOption("rt.theme", "lightgrid"), ...) {
                            varimp <- colMeans(self$varimp[[which.repeat]])
                            if (length(varimp) == 0) {
                              warning("Variable importance is not available for this model")
                            } else {
-                             mplot3.varimp(varimp,
-                                           plot.top = plot.top, ...)
+                             type <- match.arg(type)
+                             if (type == "lollipop") {
+                               mplot3.lolli(varimp,
+                                            plot.top = plot.top,
+                                            theme = theme, ...)
+                             } else {
+                               mplot3.varimp(varimp,
+                                             plot.top = plot.top,
+                                             theme = theme, ...)
+                             }
                            }
                          },
                          describe = function() {

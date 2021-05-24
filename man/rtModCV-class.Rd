@@ -180,7 +180,13 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(which.repeat = 1, plot.top = 12, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(
+  which.repeat = 1,
+  type = c("lollipop", "barplot"),
+  plot.top = 12,
+  theme = getOption("rt.theme", "lightgrid"),
+  ...
+)}\if{html}{\out{</div>}}
 }
 
 }
