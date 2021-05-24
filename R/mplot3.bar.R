@@ -114,7 +114,7 @@ mplot3.bar <- function(x,
   if (length(col) < p) col <- rep(col, p/length(col))
 
   if (is.null(space)) {
-    space <- if (min(size(x)) >= 2 && beside) c(.1, .5) else .2
+    space <- if (min(size(x)) >= 2 && beside) c(.1, .5) else .75
   }
 
   # Legend names
