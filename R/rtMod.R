@@ -231,7 +231,7 @@ rtMod <- R6::R6Class("rtMod",
                                     filename = filename, ...)
                        },
                        plotVarImp = function(plot.top = 12,
-                                             type = c("lollipop", "barplot"),
+                                             type = c("barplot", "lollipop"),
                                              theme = getOption("rt.fit.theme", "lightgrid"), ...) {
                          if (length(self$varimp) == 0) {
                            warning("Variable importance is not available for this model")
@@ -240,6 +240,7 @@ rtMod <- R6::R6Class("rtMod",
                            if (type == "lollipop") {
                              mplot3.lolli(self$varimp,
                                           plot.top = plot.top,
+                                          xlab = "Variable Importance",
                                           theme = theme, ...)
                            } else {
                              mplot3.varimp(self$varimp,
@@ -1202,7 +1203,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
                          },
                          plotVarImp = function(which.repeat = 1,
-                                               type = c("lollipop", "barplot"),
+                                               type = c("barplot", "lollipop"),
                                                plot.top = 12,
                                                theme = getOption("rt.theme", "lightgrid"), ...) {
                            varimp <- colMeans(self$varimp[[which.repeat]])
@@ -1213,6 +1214,7 @@ rtModCV <- R6::R6Class("rtModCV",
                              if (type == "lollipop") {
                                mplot3.lolli(varimp,
                                             plot.top = plot.top,
+                                            xlab = "Variable Importance",
                                             theme = theme, ...)
                              } else {
                                mplot3.varimp(varimp,
