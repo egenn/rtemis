@@ -10,11 +10,13 @@ mplot3.lolli(
   plot.top = 1,
   orientation = c("horizontal", "vertical"),
   xnames = NULL,
+  points = TRUE,
+  segments = TRUE,
   main = NULL,
   col = NULL,
   cex = 1.2,
-  matching.stick.col = FALSE,
-  stick.alpha = 0.333,
+  matching.segment.col = FALSE,
+  segment.alpha = 0.333,
   lty = 3,
   lwd = 2,
   theme = getOption("rt.theme", "lightgrid"),
@@ -57,14 +59,14 @@ highest values}
 
 \item{cex}{Float: Character expansion factor for points. Default = 1.2}
 
-\item{matching.stick.col}{Logical: If TRUE, color line segments using \code{col}, i.e. same as}
+\item{matching.segment.col}{Logical: If TRUE, color line segments using \code{col}, i.e. same as}
 
-\item{stick.alpha}{Float: Transparency for line segments. Default = .5
+\item{segment.alpha}{Float: Transparency for line segments. Default = .5
 points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 
-\item{lty}{Integer: Line type for stick segments. See \code{par("lty")} Default = 1}
+\item{lty}{Integer: Line type for segment segments. See \code{par("lty")} Default = 1}
 
-\item{lwd}{Float: Width for stick segments. See \code{par("lty")} Default = 1}
+\item{lwd}{Float: Width for segment segments. See \code{par("lty")} Default = 1}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
@@ -119,6 +121,10 @@ Default = "r"}
 \dontrun{
 x <- rnorm(12)
 mplot3.lolli(x)
+# a "rounded" barplot
+mplot3.lolli(x, segments = T, points = F,
+             lty = 1, matching.segment.col = T,
+             lwd = 10, segment.alpha = 1)
 }
 }
 \author{

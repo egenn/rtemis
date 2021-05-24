@@ -182,7 +182,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(
   which.repeat = 1,
-  type = c("lollipop", "barplot"),
+  type = c("barplot", "lollipop"),
   plot.top = 12,
   theme = getOption("rt.theme", "lightgrid"),
   ...

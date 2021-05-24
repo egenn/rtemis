@@ -182,7 +182,7 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
   plot.top = 12,
-  type = c("lollipop", "barplot"),
+  type = c("barplot", "lollipop"),
   theme = getOption("rt.fit.theme", "lightgrid"),
   ...
 )}\if{html}{\out{</div>}}

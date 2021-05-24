@@ -19,7 +19,7 @@ mplot3.varimp(
   beside = TRUE,
   border = NA,
   width = 1,
-  space = 0.2,
+  space = 0.75,
   xlim = NULL,
   ylim = NULL,
   xlab = "Variable Importance",
