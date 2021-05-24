@@ -6,22 +6,40 @@
 #'
 #' @inheritParams mplot3.xy
 #' @param x Float, vector: Input data
+#' @param order.on.x Logical: If TRUE, order by value of \code{x}. Default = TRUE
+#' @param plot.top Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
+#' i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+#' highest values
 #' @param xnames Character, vector: Names of \code{x}
 #' @param main Character: Main title
 #' @param col Color, vector: Lollipop color
+#' @param cex Float: Character expansion factor for points. Default = 1.2
 #' @param matching.stick.col Logical: If TRUE, color line segments using \code{col}, i.e. same as
 #' @param stick.alpha Float: Transparency for line segments. Default = .5
 #' points. Default = FALSE, in which case they are colored with \code{theme$fg}
+#' @param lty Integer: Line type for stick segments. See \code{par("lty")} Default = 1
+#' @param lwd Float: Width for stick segments. See \code{par("lty")} Default = 1
 #'
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' x <- rnorm(12)
+#' mplot3.lolli(x)
+#' }
 
 mplot3.lolli <- function(x,
+                         order.on.x = TRUE,
+                         plot.top = 1,
+                         orientation = c("horizontal", "vertical"),
                          xnames = NULL,
                          main = NULL,
                          col = NULL,
+                         cex = 1.2,
                          matching.stick.col = FALSE,
                          stick.alpha = .333,
+                         lty = 3,
+                         lwd = 2,
                          theme = getOption("rt.theme", "lightgrid"),
                          palette = getOption("rt.palette", "rtCol1"),
                          autolabel = letters,
@@ -44,8 +62,14 @@ mplot3.lolli <- function(x,
                          filename = NULL, ...) {
 
   # Arguments ====
-  if (is.null(xlab)) xlab <- labelify(deparse(substitute(x)))
-  if (is.null(ylab)) ylab <- labelify(deparse(substitute(y)))
+  orientation <- match.arg(orientation)
+  .horizontal <- orientation == "horizontal"
+  if (.horizontal) {
+    if (is.null(xlab)) xlab <- labelify(deparse(substitute(x)))
+  } else {
+    if (is.null(ylab)) ylab <- labelify(deparse(substitute(x)))
+  }
+  # if (order.on.x) x <- sort(x)
   if (is.null(xnames)) {
     xnames <- if (is.null(names(x))) {
       seq_along(x)
@@ -53,6 +77,25 @@ mplot3.lolli <- function(x,
       names(x)
     }
   }
+
+  # Index ====
+  if (plot.top != 1) {
+    index <- if (plot.top <= 1) {
+      order(abs(x))[(length(x) - plot.top * length(x)):length(x)]
+    } else {
+      if (plot.top > length(x)) plot.top <- length(x)
+      order(abs(x))[(length(x) - plot.top + 1):length(x)]
+    }
+    x <- x[index]
+    xnames <- xnames[index]
+  }
+
+  if (order.on.x) {
+    index <- order(x)
+    x <- x[index]
+    xnames <- xnames[index]
+  }
+
 
   # Output directory
   if (!is.null(filename) && !dir.exists(dirname(filename))) {
@@ -75,23 +118,33 @@ mplot3.lolli <- function(x,
   if (length(col) < length(x)) col <- recycle(col, x)
 
   # Plot ====
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
+                              title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
-  plot(NULL, NULL, xlim = getlim(x, axs = "i"), ylim = c(1, length(x)), axes = FALSE)
+  if (.horizontal) {
+    plot(NULL, NULL, xlim = getlim(x, axs = "i"), ylim = c(1, length(x)), axes = FALSE)
+  } else {
+    plot(NULL, NULL, ylim = getlim(x, axs = "i"), xlim = c(1, length(x)), axes = FALSE)
+  }
 
   # Plot bg ====
   if (!is.na(theme$plot.bg)) {
-    .xlim <- getlim(x, axs = xaxs)
-    .ylim <- getlim(seq_along(x), axs = yaxs)
+    if (.horizontal) {
+      .xlim <- getlim(x, axs = xaxs)
+      .ylim <- getlim(seq_along(x), axs = yaxs)
+    } else {
+      .ylim <- getlim(x, axs = yaxs)
+      .xlim <- getlim(seq_along(x), axs = xaxs)
+    }
     rect(.xlim[1], .ylim[1], .xlim[2], .ylim[2], border = NA, col = theme$plot.bg)
   }
 
   # Grid ====
   if (theme$grid) {
-    grid(nx = theme$grid.nx,
-         ny = NA,
+    grid(nx = if (.horizontal) theme$grid.nx else NA,
+         ny = if (.horizontal) NA else theme$grid.ny,
          col = colorAdjust(theme$grid.col, theme$grid.alpha),
          lty = theme$grid.lty,
          lwd = theme$grid.lwd)
@@ -100,15 +153,19 @@ mplot3.lolli <- function(x,
   # Zero line ====
   .xlim <- getlim(x, axs = xaxs)
   if (theme$zerolines & .xlim[1] < 0 & 0 < .xlim[2]) {
-    abline(v = 0, col = adjustcolor(theme$fg, theme$zerolines.alpha))
+    if (.horizontal) {
+      abline(v = 0, col = adjustcolor(theme$fg, theme$zerolines.alpha))
+    } else {
+      abline(h = 0, col = adjustcolor(theme$fg, theme$zerolines.alpha))
+    }
   }
 
   # Axes ====
   if (theme$axes.visible) {
     axis(side = theme$x.axis.side,
          line = theme$x.axis.line,
-         at = x.axis.at,
-         # labels = x.axis.labs,
+         at = if (.horizontal) x.axis.at else seq_along(x),
+         labels = if (.horizontal) NULL else xnames,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
@@ -121,8 +178,8 @@ mplot3.lolli <- function(x,
          family = theme$font.family)
     axis(side = theme$y.axis.side,
          line = theme$y.axis.line,
-         at = seq_along(x),
-         labels = xnames,
+         at = if (.horizontal) seq_along(x) else y.axis.at,
+         labels = if (.horizontal) xnames else NULL,
          col = theme$axes.col,
          col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
          col.axis = theme$tick.labels.col,
@@ -150,10 +207,29 @@ mplot3.lolli <- function(x,
   }
 
   # Lollipops ====
-  for (i in seq_along(x)) {
-    segments(0, i, x[i], i, col = if (matching.stick.col) adjustcolor(col[[i]], stick.alpha) else adjustcolor(theme$fg, stick.alpha))
+  if (.horizontal) {
+    for (i in seq_along(x)) {
+      segments(0, i, x[i], i,
+               col = if (matching.stick.col) adjustcolor(col[[i]], stick.alpha)
+               else adjustcolor(theme$fg, stick.alpha),
+               lty = lty,
+               lwd = lwd)
+    }
+  } else {
+    for (i in seq_along(x)) {
+      segments(i, 0, i, x[i],
+               col = if (matching.stick.col) adjustcolor(col[[i]], stick.alpha)
+               else adjustcolor(theme$fg, stick.alpha),
+               lty = lty,
+               lwd = lwd)
+    }
   }
-  points(x, seq_along(x), col = unlist(col), pch = pch)
+
+  if (.horizontal) {
+    points(x, seq_along(x), col = unlist(col), pch = pch, cex = cex)
+  } else {
+    points(seq_along(x), x, col = unlist(col), pch = pch, cex = cex)
+  }
 
   # Main Title ====
   if (!is.null(rtenv$autolabel)) {
@@ -168,5 +244,7 @@ mplot3.lolli <- function(x,
           cex = theme$cex, col = theme$main.col,
           family = theme$font.family)
   }
+
+  if (!is.null(filename)) dev.off()
 
 } # rtemis::mplot3.lolli

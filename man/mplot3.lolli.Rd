@@ -6,11 +6,17 @@
 \usage{
 mplot3.lolli(
   x,
+  order.on.x = TRUE,
+  plot.top = 1,
+  orientation = c("horizontal", "vertical"),
   xnames = NULL,
   main = NULL,
   col = NULL,
+  cex = 1.2,
   matching.stick.col = FALSE,
   stick.alpha = 0.333,
+  lty = 3,
+  lwd = 2,
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   autolabel = letters,
@@ -37,16 +43,28 @@ mplot3.lolli(
 \arguments{
 \item{x}{Float, vector: Input data}
 
+\item{order.on.x}{Logical: If TRUE, order by value of \code{x}. Default = TRUE}
+
+\item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
+i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+highest values}
+
 \item{xnames}{Character, vector: Names of \code{x}}
 
 \item{main}{Character: Main title}
 
 \item{col}{Color, vector: Lollipop color}
 
+\item{cex}{Float: Character expansion factor for points. Default = 1.2}
+
 \item{matching.stick.col}{Logical: If TRUE, color line segments using \code{col}, i.e. same as}
 
 \item{stick.alpha}{Float: Transparency for line segments. Default = .5
 points. Default = FALSE, in which case they are colored with \code{theme$fg}}
+
+\item{lty}{Integer: Line type for stick segments. See \code{par("lty")} Default = 1}
+
+\item{lwd}{Float: Width for stick segments. See \code{par("lty")} Default = 1}
 
 \item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
@@ -96,6 +114,12 @@ Default = "r"}
 }
 \description{
 \code{mplot3} Lollipop Plot
+}
+\examples{
+\dontrun{
+x <- rnorm(12)
+mplot3.lolli(x)
+}
 }
 \author{
 E.D. Gennatas
