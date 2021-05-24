@@ -98,8 +98,9 @@ mplot3.varimp <- function(x,
     order(abs(x))[(length(x) - plot.top + 1):length(x)]
   }
   x <- x[index]
+  if (!is.null(error)) error <- error[index]
   .names <- .names[index]
-  # reorder to arrange negative to positive
+  # order by value
   index <- order(x)
   x <- x[index]
   .names <- .names[index]
