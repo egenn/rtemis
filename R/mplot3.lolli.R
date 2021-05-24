@@ -14,11 +14,11 @@
 #' @param main Character: Main title
 #' @param col Color, vector: Lollipop color
 #' @param cex Float: Character expansion factor for points. Default = 1.2
-#' @param matching.stick.col Logical: If TRUE, color line segments using \code{col}, i.e. same as
-#' @param stick.alpha Float: Transparency for line segments. Default = .5
+#' @param matching.segment.col Logical: If TRUE, color line segments using \code{col}, i.e. same as
+#' @param segment.alpha Float: Transparency for line segments. Default = .5
 #' points. Default = FALSE, in which case they are colored with \code{theme$fg}
-#' @param lty Integer: Line type for stick segments. See \code{par("lty")} Default = 1
-#' @param lwd Float: Width for stick segments. See \code{par("lty")} Default = 1
+#' @param lty Integer: Line type for segment segments. See \code{par("lty")} Default = 1
+#' @param lwd Float: Width for segment segments. See \code{par("lty")} Default = 1
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -26,6 +26,10 @@
 #' \dontrun{
 #' x <- rnorm(12)
 #' mplot3.lolli(x)
+#' # a "rounded" barplot
+#' mplot3.lolli(x, segments = T, points = F,
+#'              lty = 1, matching.segment.col = T,
+#'              lwd = 10, segment.alpha = 1)
 #' }
 
 mplot3.lolli <- function(x,
@@ -33,11 +37,13 @@ mplot3.lolli <- function(x,
                          plot.top = 1,
                          orientation = c("horizontal", "vertical"),
                          xnames = NULL,
+                         points = TRUE,
+                         segments = TRUE,
                          main = NULL,
                          col = NULL,
                          cex = 1.2,
-                         matching.stick.col = FALSE,
-                         stick.alpha = .333,
+                         matching.segment.col = FALSE,
+                         segment.alpha = .333,
                          lty = 3,
                          lwd = 2,
                          theme = getOption("rt.theme", "lightgrid"),
@@ -95,7 +101,6 @@ mplot3.lolli <- function(x,
     x <- x[index]
     xnames <- xnames[index]
   }
-
 
   # Output directory
   if (!is.null(filename) && !dir.exists(dirname(filename))) {
@@ -207,28 +212,32 @@ mplot3.lolli <- function(x,
   }
 
   # Lollipops ====
-  if (.horizontal) {
-    for (i in seq_along(x)) {
-      segments(0, i, x[i], i,
-               col = if (matching.stick.col) adjustcolor(col[[i]], stick.alpha)
-               else adjustcolor(theme$fg, stick.alpha),
-               lty = lty,
-               lwd = lwd)
-    }
-  } else {
-    for (i in seq_along(x)) {
-      segments(i, 0, i, x[i],
-               col = if (matching.stick.col) adjustcolor(col[[i]], stick.alpha)
-               else adjustcolor(theme$fg, stick.alpha),
-               lty = lty,
-               lwd = lwd)
+  if (segments) {
+    if (.horizontal) {
+      for (i in seq_along(x)) {
+        segments(0, i, x[i], i,
+                 col = if (matching.segment.col) adjustcolor(col[[i]], segment.alpha)
+                 else adjustcolor(theme$fg, segment.alpha),
+                 lty = lty,
+                 lwd = lwd)
+      }
+    } else {
+      for (i in seq_along(x)) {
+        segments(i, 0, i, x[i],
+                 col = if (matching.segment.col) adjustcolor(col[[i]], segment.alpha)
+                 else adjustcolor(theme$fg, segment.alpha),
+                 lty = lty,
+                 lwd = lwd)
+      }
     }
   }
 
-  if (.horizontal) {
-    points(x, seq_along(x), col = unlist(col), pch = pch, cex = cex)
-  } else {
-    points(seq_along(x), x, col = unlist(col), pch = pch, cex = cex)
+  if (points) {
+    if (.horizontal) {
+      points(x, seq_along(x), col = unlist(col), pch = pch, cex = cex)
+    } else {
+      points(seq_along(x), x, col = unlist(col), pch = pch, cex = cex)
+    }
   }
 
   # Main Title ====
