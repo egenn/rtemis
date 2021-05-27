@@ -27,6 +27,7 @@ labelify <- function(x,
                      capitalize.strings = c("id"),
                      stringsToSpaces = c("\\$")) {
 
+  if (is.null(x)) return(NULL)
   xf <- x
   for (i in stringsToSpaces) {
     xf <- gsub(i, " ", x)
