@@ -1,9 +1,9 @@
 #' Add legend to \code{mplot3} plot
 #'
-#' @param lims List with plot limits, as returned e.g. by \code{mplot3.xy}
+#' @param lims List with plot limits in the form list(xlim = xlim, ylim = ylim)
+#' e.g. as returned by \link{mplot3.xy}
 #'
 #' @author E.D. Gennatas
-#' @export
 
 mlegend <- function(lims, title = NULL, group.names,
                     title.col = "black",
@@ -35,3 +35,29 @@ mlegend <- function(lims, title = NULL, group.names,
   }
 
 } # rtemis::mlegend
+
+
+mtextlegend <- function(labels,
+                        # title = NULL,
+                        # title.col = "black",
+                        # side = 3,
+                        line = NULL,
+                        outer = FALSE,
+                        col = rtPalette("rtCol1"),
+                        horiz.pad = .04,
+                        padj.spacing = 1.4,
+                        font = 1,
+                        font.family = "Helvetica Neue", ...) {
+
+  nlabels <- length(labels)
+  label.lines <- -1:-nlabels
+  mtext(text = labels,
+        at = xright(horiz.pad),
+        adj = 0,
+        side = 3,
+        line = label.lines,
+        col = unlist(col)[seq_len(nlabels)],
+        font = font,
+        family = font.family)
+
+} # rtemis::mtextlegend
