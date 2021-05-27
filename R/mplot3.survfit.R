@@ -15,6 +15,7 @@
 #' @param plot.median Logical: If TRUE, draw lines at 50"\%" median survival. Default = FALSE,
 #' @param group.median Logical: If TRUE, include median survival times with group legend
 #' @param median.lty Integer: Median survival line type
+#' @param median.lwd Float: Median line width. Default = 2
 #' @param median.col Color for median survival lines
 #' @param median.alpha Float, (0, 1): Transparency for median survival lines. Default = .5
 #' @param censor.mark Logical: If TRUE, mark each censored case. Default = TRUE
@@ -80,6 +81,7 @@ mplot3.survfit <- function(x,
                            plot.median = FALSE,
                            group.median = FALSE,
                            median.lty = 3,
+                           median.lwd = 2,
                            median.col = theme$fg,
                            median.alpha = .5,
                            censor.mark = TRUE,
@@ -220,10 +222,12 @@ mplot3.survfit <- function(x,
     for (i in .median) {
       lines(x = c(i, i), y = c(.5, 0),
             lty = median.lty,
+            lwd = median.lwd,
             col = adjustcolor(median.col, median.alpha))
     }
     lines(x = c(0, max(.median)), y = c(.5, .5),
           lty = median.lty,
+          lwd = median.lwd,
           col = adjustcolor(median.col, median.alpha))
   }
 

@@ -13,6 +13,7 @@ mplot3.survfit(
   plot.median = FALSE,
   group.median = FALSE,
   median.lty = 3,
+  median.lwd = 2,
   median.col = theme$fg,
   median.alpha = 0.5,
   censor.mark = TRUE,
@@ -65,6 +66,8 @@ taken from \code{palette}}
 \item{group.median}{Logical: If TRUE, include median survival times with group legend}
 
 \item{median.lty}{Integer: Median survival line type}
+
+\item{median.lwd}{Float: Median line width. Default = 2}
 
 \item{median.col}{Color for median survival lines}
 
