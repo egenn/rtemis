@@ -10,16 +10,18 @@ mplot3.box(
   alpha = 0.66,
   border = NULL,
   border.alpha = 1,
-  space = NULL,
+  group.spacing = 0.25,
   xlim = NULL,
   ylim = NULL,
   xlab = NULL,
   ylab = NULL,
-  boxwex = 0.5,
+  boxwex = NULL,
+  staplewex = 0.5,
   horizontal = FALSE,
   main = NULL,
   names.arg = NULL,
   axisnames = FALSE,
+  groupnames = NULL,
   xnames = NULL,
   xnames.at = NULL,
   xnames.y = NULL,
@@ -65,6 +67,10 @@ mplot3.box(
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
+
+\item{boxwex}{Float: Scale factor for box width. Default = .5}
+
+\item{staplewex}{Float: max and min line ("staple") width proportional to box. Default = .5}
 
 \item{horizontal}{Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR}
 
@@ -120,14 +126,19 @@ per usual and often omitted if `xnames` suffice.
 x <- rnorm(500)
 mplot3.box(x)
 
-## data.frame
+## data.frame - each column one boxplot
 x <- data.frame(alpha = rnorm(50), beta = rnorm(50), gamma = rnorm(50))
 mplot3.box(x)
 
-## list - allows different length vectors
+## list of vectors - allows different length vectors
 x <- list(alpha = rnorm(50),
           beta = rnorm(80, 4, 1.5),
           gamma = rnorm(30, -3, .5))
+mplot3.box(x)
+
+## grouped boxplots: input a list of lists. outer list: groups; inner lists: matched data vectors
+x <- list(Cases = list(Weight = rnorm(50), Temperature = rnorm(45, 1)),
+          Controls = list(Weight = rnorm(80), Temperature = rnorm(72)))
 mplot3.box(x)
 }
 }

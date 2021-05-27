@@ -15,6 +15,8 @@
 #' @param col Vector of colors to use
 #' @param alpha Float: Alpha to be applied to \code{col}
 #' @param border Color for lines around boxes
+#' @param boxwex Float: Scale factor for box width. Default = .5
+#' @param staplewex Float: max and min line ("staple") width proportional to box. Default = .5
 #' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
 #' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
 #' Default = TRUE
@@ -29,14 +31,19 @@
 #' x <- rnorm(500)
 #' mplot3.box(x)
 #'
-#' ## data.frame
+#' ## data.frame - each column one boxplot
 #' x <- data.frame(alpha = rnorm(50), beta = rnorm(50), gamma = rnorm(50))
 #' mplot3.box(x)
 #'
-#' ## list - allows different length vectors
+#' ## list of vectors - allows different length vectors
 #' x <- list(alpha = rnorm(50),
 #'           beta = rnorm(80, 4, 1.5),
 #'           gamma = rnorm(30, -3, .5))
+#' mplot3.box(x)
+#'
+#' ## grouped boxplots: input a list of lists. outer list: groups; inner lists: matched data vectors
+#' x <- list(Cases = list(Weight = rnorm(50), Temperature = rnorm(45, 1)),
+#'           Controls = list(Weight = rnorm(80), Temperature = rnorm(72)))
 #' mplot3.box(x)
 #' }
 #' @export
@@ -46,16 +53,18 @@ mplot3.box <- function(x,
                        alpha = .66,
                        border = NULL,
                        border.alpha = 1,
-                       space = NULL,
+                       group.spacing = .25,
                        xlim = NULL,
                        ylim = NULL,
                        xlab = NULL,
                        ylab = NULL,
-                       boxwex = .5,
+                       boxwex = NULL,
+                       staplewex = .5,
                        horizontal = FALSE,
                        main = NULL,
                        names.arg = NULL,
                        axisnames = FALSE,
+                       groupnames = NULL,
                        xnames = NULL,
                        xnames.at = NULL,
                        xnames.y = NULL,
@@ -83,41 +92,60 @@ mplot3.box <- function(x,
                        pdf.height = 6,
                        filename = NULL, ...) {
 
-  # [ Arguments ] ====
+  # Arguments ====
+  .grouped <- is.list(x) & is.list(x[[1]])
+  if (.grouped) {
+    ngroups <- length(x)
+    nvars <- length(x[[1]])
+    if (is.null(groupnames)) groupnames <- names(x)
+    if (is.null(xnames)) xnames <- names(x[[1]])
+    # if (is.null(xnames.at)) {
+    #   xnames.at <- seq(mean(seq(nvars)), ngroups * nvars/2 + (ngroups - 1) * group.spacing,
+    #                    length.out = ngroups)
+    # }
+  } else {
+    ngroups <- 0 # used for xlim
+  }
+  if (is.null(boxwex)) boxwex <- if (.grouped) .75 else .5
 
   # Group names
   if (is.null(xnames)) {
     if (!is.null(names(x))) {
       xnames <- names(x)
     }
+    # no xnames for vector
+    # if (is.null(dim(x))) xnames <- deparse(substitute(x))
   }
   if (labelify) xnames <- labelify(xnames)
-  if (!is.list(x)) x <- list(x)
-  if (!is.null(xnames)) {
-    if (is.null(xnames.at)) {
-      xnames.at <- seq_along(x)
-    }
-  }
-
-  if (is.null(xnames.srt)) {
-    if (horizontal) {
-      xnames.srt <- 0
-    } else {
-      xnames.srt <- ifelse(length(x) * max(nchar(xnames)) > 8, 90, 0)
-    }
-  }
-
-  if (is.null(xnames.adj)) {
-    if (horizontal) {
-      xnames.adj <- 1
-    } else {
-      xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
-    }
-  }
-
-  # ylab ====
-  if (is.null(ylab) & !horizontal) ylab <- deparse(substitute(x))
+  if (is.null(ylab) & !horizontal & !.grouped) ylab <- deparse(substitute(x))
   if (is.null(xlab) & horizontal) xlab <- deparse(substitute(x))
+  if (!is.list(x)) x <- list(x)
+  # xnames on x-axis only for not grouped, otherwise as legend
+  if (!is.null(xnames) & !.grouped) {
+    if (is.null(xnames.at)) {
+      xnames.at <- seq_along(xnames)
+    }
+  }
+
+  if (!is.null(xnames) & !.grouped) {
+    if (is.null(xnames.srt)) {
+      if (horizontal) {
+        xnames.srt <- 0
+      } else {
+        xnames.srt <- ifelse(length(x) * max(nchar(xnames)) > 8, 90, 0)
+      }
+    }
+
+    if (is.null(xnames.adj)) {
+      if (horizontal) {
+        xnames.adj <- 1
+      } else {
+        xnames.adj <- if (xnames.srt == 0) c(.5, 1) else 1
+      }
+    }
+  } else {
+    xnames.srt <- 0
+  }
 
   if (is.character(palette)) palette <- rtPalette(palette)
 
@@ -131,11 +159,12 @@ mplot3.box <- function(x,
 
   # mar ====
   if (is.null(mar)) {
-    mar.top <- if (is.null(main)) 1 else 2
     # mar.bottom <- if (xnames.srt != 0) 1.8571 + max(nchar(xnames)) * .4107 else 2.5
     mar.bottom <- if (xnames.srt != 0) textwidth(xnames) else 2.5
     mar.left <- if (horizontal) textwidth(xnames) else 3
-    mar <- c(mar.bottom, mar.left, mar.top, 1)
+    mar.top <- if (is.null(main)) 1 else 2
+    mar.right <- if (.grouped) textwidth(xnames) else 1
+    mar <- c(mar.bottom, mar.left, mar.top, mar.right)
   }
 
   col.alpha <- colorAdjust(col, alpha = alpha)
@@ -146,7 +175,7 @@ mplot3.box <- function(x,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -156,19 +185,25 @@ mplot3.box <- function(x,
     }
   }
 
-  # [ xlim & ylim ] ====
+  # xlim & ylim ====
   xv <- unlist(x)
-  if (is.null(xlim)) xlim <- c(.5, length(x) + .5)
-  if (is.null(ylim)) ylim <- c(min(xv, na.rm = na.rm) - .06 * abs(min(xv, na.rm = na.rm)),
-                               max(xv, na.rm = na.rm) + .05 * abs(max(xv, na.rm = na.rm)))
 
+  if (is.null(xlim)) {
+    xlim <- if (.grouped) {
+      c(.5, ngroups*nvars + (ngroups - 1) * group.spacing + .5)
+    } else {
+      c(.5, length(x) + .5)
+    }
+  }
+
+  if (is.null(ylim)) ylim <- getlim(xv)
   if (horizontal) {
     xxlim <- ylim
     ylim <- xlim
     xlim <- xxlim
   }
 
-  # [ Plot ] ====
+  # Plot ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -184,12 +219,12 @@ mplot3.box <- function(x,
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # [ Plot bg ] ====
+  # Plot bg ====
   if (!is.na(theme$plot.bg)) {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # [ Grid ] ====
+  # Grid ====
   if (theme$grid) {
     if (horizontal) {
       grid(nx = theme$grid.nx,
@@ -206,8 +241,8 @@ mplot3.box <- function(x,
     }
   }
 
-  # [ Order by fn ] ====
-  if (!is.null(order.by.fn) && order.by.fn != "none") {
+  # Order by fn ====
+  if (!.grouped & !is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
       if (is.data.frame(x)) {
@@ -219,23 +254,43 @@ mplot3.box <- function(x,
     if (!is.null(xnames)) xnames <- xnames[.order]
   }
 
-  # [ Boxplot ] ====
-  bp <- boxplot(x, col = col.alpha,
-                pch = theme$pch,
-                border = border,
-                boxwex = boxwex,
-                horizontal = horizontal,
-                ylim = ylim,
-                axes = FALSE,
-                add = TRUE,
-                xlab = NULL)
+  if (.grouped & !is.null(order.by.fn) && order.by.fn != "none") {
+    groupmeans <- sapply(x, function(y) do.call(order.by.fn, list(x = unlist(y), na.rm = TRUE)))
+    .order <- order(groupmeans)
+    x <- x[.order]
+    if (!is.null(groupnames)) groupnames <- groupnames[.order]
+  }
 
-  # [ y axis ] ====
+  # Boxplot ====
+  if (.grouped) {
+    bp <- vector("list", length(x))
+    for (i in seq_along(x)) {
+      bp[[i]] <- boxplot(x[[i]], col = col.alpha,
+                         pch = theme$pch,
+                         border = border,
+                         boxwex = boxwex,
+                         horizontal = horizontal,
+                         ylim = ylim,
+                         axes = FALSE,
+                         add = TRUE,
+                         at = (i - 1) * group.spacing + ((i - 1)*nvars + seq_len(nvars)),
+                         xlab = NULL)
+    }
+  } else {
+    bp <- boxplot(x, col = col.alpha,
+                  pch = theme$pch,
+                  border = border,
+                  boxwex = boxwex,
+                  horizontal = horizontal,
+                  ylim = ylim,
+                  axes = FALSE,
+                  add = TRUE,
+                  xlab = NULL)
+  }
+
+  # y axis ====
   if (yaxis) {
     axis(side = if (horizontal) 1 else 2,
-         # at = y.axis.at,
-         # labels = y.axis.labs,
-         # line = if (horizontal) theme$x.axis.line else theme$y.axis.line,
          las = if (horizontal) theme$x.axis.las else theme$y.axis.las,
          padj = if (horizontal) theme$x.axis.padj else theme$y.axis.padj,
          hadj = if (horizontal) theme$x.axis.hadj else theme$y.axis.hadj,
@@ -248,7 +303,7 @@ mplot3.box <- function(x,
          family = theme$font.family)
   }
 
-  # [ Main Title ] ====
+  # Main Title ====
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -262,8 +317,8 @@ mplot3.box <- function(x,
           family = theme$font.family)
   }
 
-  # [ xnames ] ====
-  if (!is.null(xnames)) {
+  # xnames ====
+  if (length(xnames) > 0 & !.grouped) {
     if (horizontal) {
       # .x <- xlim[1] - .04 * diff(xlim)
       text(x = xleft(.04),
@@ -290,9 +345,9 @@ mplot3.box <- function(x,
     }
   }
 
-  # [ Axes Labels ] ====
-  if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = theme$xlab.line)
-  if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = theme$ylab.line)
+  # Axes Labels ====
+  # if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = theme$xlab.line)
+  # if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = theme$ylab.line)
 
   if (!is.null(xlab)) mtext(xlab, side = theme$x.axis.side,
                             line = theme$xlab.line, cex = theme$cex,
@@ -305,7 +360,21 @@ mplot3.box <- function(x,
                             col = theme$labs.col,
                             family = theme$font.family)
 
-  # [ Outro ] ====
+  # Group names and legend ====
+  if (.grouped) {
+
+    # Group names below x-axis
+    groupnames.at <- mean(seq(nvars)) + (seq(ngroups) - 1) * (nvars + group.spacing)
+    mtext(text = groupnames, side = 1, line = .5, at = groupnames.at,
+          col = theme$labs.col)
+
+    # Variable names in top-right legend
+    mtextlegend(labels = xnames,
+                font.family = theme$font.family,
+                col = col)
+  }
+
+  # Outro ====
   if (!is.null(filename)) dev.off()
   invisible(bp)
 
