@@ -114,7 +114,7 @@ mplot3.survfit <- function(x,
                            oma = NULL,
                            par.reset = TRUE, ...) {
 
-  # [ Data ] ====
+  # Data ====
   if (class(x)[1] != "survfit") stop("Input must be of class 'survfit'")
   nstrata <- if (is.null(x$strata)) 1 else length(x$strata)
   if (nstrata > 1) {
@@ -123,10 +123,10 @@ mplot3.survfit <- function(x,
     .group <- rep(1, length(x$time))
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (mark.censored) censor.mark <- FALSE
 
-  # [ Theme ] ====
+  # Theme ====
   if (is.null(col)) {
     if (is.character(palette)) palette <- rtPalette(palette)
     col <- palette
@@ -140,7 +140,7 @@ mplot3.survfit <- function(x,
     }
   }
 
-  # [ Limits ] ====
+  # Limits ====
   if (is.null(xlim)) xlim <- c(0, max(x$time, na.rm = TRUE))
   if (is.null(ylim)) ylim <- c(0, 1)
 
@@ -160,7 +160,7 @@ mplot3.survfit <- function(x,
     }
   }
 
-  # [ Plot ] ====
+  # Plot ====
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -275,7 +275,7 @@ mplot3.survfit <- function(x,
     group.title <- paste(group.title, "(median)")
   }
 
-  # [ Group Legend ] ====
+  # Group Legend ====
   if (is.null(group.legend)) group.legend <- nstrata > 1
   if (group.legend & is.null(group.names)) group.names <- names(x$strata)
 
