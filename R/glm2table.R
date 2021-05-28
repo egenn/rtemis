@@ -1,4 +1,4 @@
-# glmlist2table.R
+# glm2table.R
 # ::rtemis::
 # 2021 E.D. Gennatas lambdamd.org
 
@@ -9,7 +9,6 @@
 #' @return \code{data.table} with glm summaries
 #' @author E.D. Gennatas
 #' @export
-#' @examples
 
 glm2table <- function(x, xnames = NULL) {
 
