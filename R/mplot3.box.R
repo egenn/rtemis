@@ -153,7 +153,11 @@ mplot3.box <- function(x,
     if (length(x) == 1) {
       col <- palette[1]
     } else {
-      col <- palette[seq(length(x))]
+      col <- if (.grouped) {
+        palette[seq_len(nvars)]
+      } else {
+        palette[seq_along(x)]
+      }
     }
   }
 
