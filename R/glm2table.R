@@ -9,7 +9,7 @@
 #' @return \code{data.table} with glm summaries
 #' @author E.D. Gennatas
 #' @export
-#'
+#' @examples
 
 glm2table <- function(x, xnames = NULL) {
 
@@ -23,7 +23,7 @@ glm2table <- function(x, xnames = NULL) {
 
   data.table(Variable = xnames,
              do.call(rbind,
-                     c(lapply(x, \(y) {
+                     c(lapply(x, function(y) {
                        out <- t(coef(summary(y))[-1, ])
                        varnames <- gsub(".*\\$", "", colnames(out))
                        parnames <- c("Coefficient", "SE", "t_value", "p_value")
