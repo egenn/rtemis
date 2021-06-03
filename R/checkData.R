@@ -111,6 +111,8 @@ checkData <- function(x,
                               Pct.NA = sapply(seq_len(n.incomplete), function(i)
                                 sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])))
 
+  } else {
+    na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
   .col <- if (n.cols.anyna > 0) orange$bold else bold
   cat("  * ", .col(n.cols.anyna), ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
