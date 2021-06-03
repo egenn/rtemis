@@ -205,6 +205,8 @@ checkData <- function(x,
                  n.ordered = n.ordered,
                  n.constant = n.constant,
                  n.cols.anyna = n.cols.anyna,
-                 n.na = n.na))
+                 n.na = n.na,
+                 na.feature.pct = na.feature.pct,
+                 na.case.pct = na.case.pct))
 
 } # rtemis::checkData
