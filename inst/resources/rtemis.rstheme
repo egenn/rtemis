@@ -15,10 +15,10 @@
   --type-declaration: rgb(254, 74, 163);
   --language-constant: rgb(128, 215, 215);
   --numeric-constant: rgb(128, 215, 215);
-  --string: rgb(255, 189, 79);
-  --regex: rgb(214, 76, 241);
+  --string: #f190e9;
+  --regex: rgb(254, 138, 79);
   --keyword: rgb(83, 254, 190);
-  --function-declaration: rgb(73, 172, 238);
+  --function-declaration: #6ebcf0;
   --variable: rgb(235, 235, 255);
   --comment: rgb(120, 120, 120);
 
