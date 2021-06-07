@@ -154,9 +154,9 @@ dplot3.xy <- function(x, y = NULL,
   # '- Group ====
   if (!is.null(group)) {
     group <- as.factor(group)
-    x <- split(x, group)
-    y <- split(y, group)
-    if (is.null(group.names)) group.names <- levels(group)
+    x <- split(x, group, drop = TRUE)
+    y <- split(y, group, drop = TRUE)
+    if (is.null(group.names)) group.names <- levels(droplevels(group))
     names(x) <- names(y) <- .names <- group.names
   }
 
@@ -347,10 +347,10 @@ dplot3.xy <- function(x, y = NULL,
                           shapes = list(type = "line",
                                         x0 = 0,
                                         x1 = 1,
-                                        xref = "paper",
+                                        xref = "x",
                                         y0 = 0,
                                         y1 = 1,
-                                        yref = "paper",
+                                        yref = "y",
                                         line = list(color = diagonal.col)))
   }
 

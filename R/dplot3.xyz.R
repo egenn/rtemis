@@ -132,10 +132,10 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   # '- Group ====
   if (!is.null(group)) {
     group <- as.factor(group)
-    x <- split(x, group)
-    y <- split(y, group)
-    z <- split(z, group)
-    if (is.null(group.names)) group.names <- levels(group)
+    x <- split(x, group, drop = TRUE)
+    y <- split(y, group, drop = TRUE)
+    z <- split(z, group, drop = TRUE)
+    if (is.null(group.names)) group.names <- levels(droplevels(group))
     names(x) <- names(y) <- names(z) <- .names <- group.names
   }
 
