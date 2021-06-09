@@ -157,13 +157,13 @@ mplot3.heatmap <- function(x,
   if (is.null(mid)) mid <- theme$bg
   col.axis <- theme$fg
 
-  # [ AUTOMARGINS ] ====
+  # [ Automargins ] ====
   if (is.null(margins)) {
     names.nchar <- nchar(c(colnames(x), rownames(x)))
     max.nchar <- max(0, names.nchar)
     margins <- rep(1.4 + max.nchar * .45, 2)
   }
-  # [ COL ] ====
+  # [ Color ] ====
   col <- colorGrad(n = colorGrad.n,
                    colors = colorGrad.col,
                    space = space,
@@ -173,7 +173,7 @@ mplot3.heatmap <- function(x,
                    midhi = midhi,
                    hi = hi)
 
-  # [ ZLIM ] ====
+  # [ zlim ] ====
   if (is.null(zlim)) {
     if (autorange) {
       max.z <- max(abs(x), na.rm = TRUE)
@@ -276,7 +276,7 @@ mplot3.heatmap <- function(x,
 
   if (colorbar) lmat <- cbind(lmat, c(0, 4)) # rtemis adding a column for colorbar
 
-  # [ COLORBAR ] ====
+  # [ Colorbar ] ====
   if (colorbar) {
     if (is.na(Colv)) {
       lwid <- c(lwid, 1)
@@ -352,7 +352,7 @@ mplot3.heatmap <- function(x,
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # [ PLOT ] ====
+  # [ Plot ] ====
   par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)
   if (doRdend)
     plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
@@ -369,7 +369,7 @@ mplot3.heatmap <- function(x,
     title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
   }
 
-  # [ COLORBAR ] ====
+  # [ Colorbar ] ====
   if (colorbar) {
     frame()
     # par(xpd = NA)
