@@ -6,7 +6,7 @@
 #'
 #' Draw interactive barplots using \code{plotly}
 #'
-#' @param x data.frame: Input where rows are groups (can be 1 row), columns are features
+#' @param x vector (possibly named), matrix, or data.frame: If matrix or data.frame, rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
 #' @param xlab Character: x-axis label. Default = NULL
 #' @param ylab  Character: y-axis label. Default = NULL
@@ -30,7 +30,8 @@
 #' @param main.col Color: Title color. Default = NULL, determined by theme
 #' @param axes.col Color: Axes color. Default = NULL, determined, by theme
 #' @param labs.col Color: Labels' color. Default = NULL, determined by theme
-#' @param legend Logical: If TRUE, draw legend. Default = TRUE
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
+#' more than one feature present
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
 #' @param hline Float: If defined, draw a horizontal line at this y value. Default = NULL
 #' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
@@ -64,6 +65,7 @@ dplot3.bar <-  function(x,
                         ylab = NULL,
                         col = NULL,
                         alpha = .8,
+                        horizontal = FALSE,
                         theme = getOption("rt.theme", "lightgrid"),
                         palette = getOption("rt.palette", "rtCol1"),
                         barmode = c("group", "relative", "stack", "overlay"),
@@ -73,7 +75,7 @@ dplot3.bar <-  function(x,
                         hovernames = NULL,
                         feature.names = NULL,
                         font.size = 16,
-                        legend = TRUE,
+                        legend = NULL,
                         legend.col = NULL,
                         hline = NULL,
                         hline.col = "#ff0000",
@@ -86,9 +88,10 @@ dplot3.bar <-  function(x,
                         displayModeBar = TRUE,
                         filename = NULL,
                         file.width = 500,
-                        file.height = 500, ...) {
+                        file.height = 500,
+                        trace = 0, ...) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
@@ -100,7 +103,7 @@ dplot3.bar <-  function(x,
   dat <- as.data.frame(x)
   if (NROW(dat) == 1 & barmode != "stack") dat <- as.data.frame(t(dat))
 
-  # [ Order by val ] ====
+  # Order by val ====
   if (order.by.val) {
     if (NCOL(dat) > 1) {
       .order <- order(sapply(dat, mean, na.rm = TRUE))
@@ -123,6 +126,8 @@ dplot3.bar <-  function(x,
     dat <- dat[, .group.names]
   }
 
+  if (trace > 0) cat(".group.names:", .group.names, "\n")
+
   # Feature names ====
   .feature.names <- feature.names
   if (is.null(.feature.names)) {
@@ -133,13 +138,16 @@ dplot3.bar <-  function(x,
     }
   }
 
+  if (trace > 0) cat(".feature.names:", .feature.names, "\n")
+  if (is.null(legend)) legend <- length(.feature.names) > 1
+
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -169,19 +177,33 @@ dplot3.bar <-  function(x,
 
   # plotly ====
   .group.names <- factor(.group.names, levels = .group.names)
-  plt <- plotly::plot_ly(x = .group.names, y = dat[, 1],
-                         type = 'bar',
-                         name = .feature.names[1],
-                         text = hovernames[, 1],
-                         marker = list(color = plotly::toRGB(col[1], alpha)))
-  if (p > 1) {
-    for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, y = dat[, i],
-                                                       name = .feature.names[i],
-                                                       text = hovernames[, i],
-                                                       marker = list(color = plotly::toRGB(col[i], alpha)))
+  if (horizontal) {
+    plt <- plotly::plot_ly(x = dat[, 1], y = .group.names,
+                           type = 'bar',
+                           name = .feature.names[1],
+                           text = hovernames[, 1],
+                           marker = list(color = plotly::toRGB(col[1], alpha)))
+    if (p > 1) {
+      for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, x = dat[, i],
+                                                         name = .feature.names[i],
+                                                         text = hovernames[, i],
+                                                         marker = list(color = plotly::toRGB(col[i], alpha)))
+    }
+  } else {
+    plt <- plotly::plot_ly(x = .group.names, y = dat[, 1],
+                           type = 'bar',
+                           name = .feature.names[1],
+                           text = hovernames[, 1],
+                           marker = list(color = plotly::toRGB(col[1], alpha)))
+    if (p > 1) {
+      for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt, y = dat[, i],
+                                                         name = .feature.names[i],
+                                                         text = hovernames[, i],
+                                                         marker = list(color = plotly::toRGB(col[i], alpha)))
+    }
   }
 
-  # '- layout ====
+  # Layout ====
   f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
@@ -216,14 +238,12 @@ dplot3.bar <-  function(x,
                                      tickfont = tickfont,
                                      automargin = automargin.x),
                         barmode = barmode,  # group works without actual groups too
-                        # title = main,
                         title = list(text = main,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col),
                                      xref = 'paper',
                                      x = theme$main.adj),
-                        # titlefont = list(),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
                         margin = margin,
