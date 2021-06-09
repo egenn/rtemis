@@ -1,3 +1,7 @@
+# Dev folder
+/dev/
+/R/dev/
+
 # macOS
 .DS_Store
 
@@ -31,9 +35,6 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
-
-# Dev folder
-/dev/
 
 # Temporary files created by R markdown
 *.utf8.md
