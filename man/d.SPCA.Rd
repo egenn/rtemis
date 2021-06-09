@@ -8,8 +8,9 @@ d.SPCA(
   x,
   x.test = NULL,
   k = 1,
-  nz = 0.5 * NCOL(x),
+  nz = floor(0.5 * NCOL(x)),
   nneg = FALSE,
+  gamma = 0,
   method = c("cumulative", "vanilla"),
   scale = TRUE,
   center = TRUE,
@@ -28,6 +29,9 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 \item{nz}{Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}}
 
 \item{nneg}{Logical: If TRUE, calculate non-negative loadings only. Default = FALSE}
+
+\item{gamma}{Float (>0): Penalty on the divergence from otrhonormality of the pseudo-rotation
+matrix. Default = 0, i.e. no penalty. May need to increase with collinear features.}
 
 \item{method}{Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"}
 

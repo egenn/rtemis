@@ -20,6 +20,8 @@
 #'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
 #' @param nz Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}
 #' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = FALSE
+#' @param gamma Float (>0): Penalty on the divergence from otrhonormality of the pseudo-rotation
+#' matrix. Default = 0, i.e. no penalty. May need to increase with collinear features.
 #' @param method Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
 #' @param scale Logical: If TRUE, scale input data before projecting. Default = TRUE
 #' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
@@ -32,8 +34,9 @@
 d.SPCA <- function(x,
                    x.test = NULL,
                    k = 1,
-                   nz = .5 * NCOL(x),
+                   nz = floor(.5 * NCOL(x)),
                    nneg = FALSE,
+                   gamma = 0,
                    method = c("cumulative", "vanilla"),
                    scale = TRUE,
                    center = TRUE,
@@ -76,10 +79,10 @@ d.SPCA <- function(x,
     .center <- .scale <- FALSE
   }
 
-  # [ SPCA ] ====
+  # [ sPCA ] ====
   if (verbose) msg("Performing Sparse Principal Components Analysis...")
   if (method == "cumulative") {
-    decom <- nsprcomp::nscumcomp(x, ncomp = k, k = nz, nneg = nneg, scale. = FALSE, ...)
+    decom <- nsprcomp::nscumcomp(x, ncomp = k, k = nz, nneg = nneg, gamma = gamma, scale. = FALSE, ...)
   } else {
     decom <- nsprcomp::nsprcomp(x, ncomp = k, k = nz, nneg = nneg, scale. = FALSE, ...)
   }
