@@ -3,6 +3,7 @@
 \name{theme_blackgrid}
 \alias{theme_blackgrid}
 \alias{theme_darkgrid}
+\alias{theme_darkgraygrid}
 \alias{theme_black}
 \alias{theme_whitegrid}
 \alias{theme_lightgrid}
@@ -64,6 +65,58 @@ theme_darkgrid(
   name = "darkgrid",
   bg = "#000000",
   plot.bg = "#1A1A1A",
+  fg = "#ffffff",
+  pch = 16,
+  cex = 1.1,
+  lwd = 2,
+  bty = "n",
+  box.col = fg,
+  box.alpha = 1,
+  box.lty = 1,
+  box.lwd = 0.5,
+  grid = TRUE,
+  grid.nx = NULL,
+  grid.ny = NULL,
+  grid.col = bg,
+  grid.alpha = 1,
+  grid.lty = 1,
+  grid.lwd = 1,
+  axes.visible = TRUE,
+  axes.col = NA,
+  tick.col = fg,
+  tick.alpha = 1,
+  tick.labels.col = fg,
+  tck = -0.01,
+  tcl = NA,
+  x.axis.side = 1,
+  y.axis.side = 2,
+  labs.col = fg,
+  x.axis.line = 0,
+  x.axis.las = 0,
+  x.axis.padj = -1.1,
+  x.axis.hadj = 0.5,
+  y.axis.line = 0,
+  y.axis.las = 0,
+  y.axis.padj = 1,
+  y.axis.hadj = 0.5,
+  xlab.line = 1.4,
+  ylab.line = 2,
+  zerolines = TRUE,
+  zerolines.col = fg,
+  zerolines.alpha = 0.5,
+  zerolines.lty = 1,
+  zerolines.lwd = 1,
+  main.line = 0.25,
+  main.adj = 0,
+  main.font = 2,
+  main.col = fg,
+  font.family = "Helvetica"
+)
+
+theme_darkgraygrid(
+  name = "darkgraygrid",
+  bg = "#121212",
+  plot.bg = "#202020",
   fg = "#ffffff",
   pch = 16,
   cex = 1.1,

@@ -2,20 +2,20 @@
 % Please edit documentation in R/glm2table.R
 \name{glm2table}
 \alias{glm2table}
-\title{Collect summary tablew from list of massGLMs with same predictors, different outcome}
+\title{Collect summary table from list of massGLMs with same predictors, different outcome ("massy")}
 \usage{
 glm2table(x, xnames = NULL)
 }
 \arguments{
 \item{x}{list of \link{glm} models}
 
-\item{xnames}{Character, vector: names of models, i.e. normally name of}
+\item{xnames}{Character, vector: names of models}
 }
 \value{
 \code{data.table} with glm summaries
 }
 \description{
-Collect summary tablew from list of massGLMs with same predictors, different outcome
+Collect summary table from list of massGLMs with same predictors, different outcome ("massy")
 }
 \author{
 E.D. Gennatas

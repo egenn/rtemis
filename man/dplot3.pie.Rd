@@ -63,7 +63,8 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 
 \item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
+more than one feature present}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 

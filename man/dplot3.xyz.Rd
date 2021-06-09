@@ -29,23 +29,16 @@ dplot3.xyz(
   axes.square = FALSE,
   group.names = NULL,
   font.size = 16,
-  font.alpha = 0.8,
-  font.col = NULL,
   font.family = "Helvetica Neue",
   marker.col = NULL,
   marker.size = 8,
   fit.col = NULL,
   fit.alpha = 0.7,
   fit.lwd = 2.5,
-  main.col = NULL,
-  axes.col = NULL,
-  labs.col = NULL,
-  grid.col = NULL,
-  grid.lwd = 1,
-  grid.alpha = 0.8,
   tick.col = NULL,
   tick.font.size = 12,
   spike.col = NULL,
+  grid.col = NULL,
   legend = NULL,
   legend.xy = c(0, 1),
   legend.xanchor = "left",
@@ -58,7 +51,7 @@ dplot3.xyz(
   legend.group.gap = 0,
   margin = list(t = 30, b = 0, l = 0, r = 0),
   zerolines = TRUE,
-  mod.params = list(),
+  fit.params = list(),
   width = NULL,
   height = NULL,
   padding = 0,
@@ -150,6 +143,9 @@ Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
+\item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
+parameters}
+
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
@@ -166,6 +162,9 @@ Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 }
 \description{
 Draw interactive 3D plots using \code{plotly}
+}
+\details{
+Note that \code{dplot3.xyz} uses the theme's \code{plot.bg} as \code{grid.col}
 }
 \examples{
 \dontrun{

@@ -66,6 +66,9 @@ mplot3.x(
   lab.adj = 0.5,
   density.avg = ifelse(type == "density", TRUE, FALSE),
   density.avg.fn = c("median", "mean"),
+  density.avg.line = FALSE,
+  density.avg.lwd = 1.5,
+  density.avg.lty = 3,
   hline.col = "black",
   hline.lwd = 1,
   hline.lty = 1,
@@ -79,7 +82,7 @@ mplot3.x(
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   pty = "m",
-  mar = c(2.5, 3, 2, 1),
+  mar = NULL,
   oma = rep(0, 4),
   xaxs = "r",
   yaxs = "r",
@@ -180,6 +183,12 @@ for \code{type = "density"}}
 
 \item{density.avg.fn}{Character: "median" or "mean". Function to use if
 \code{density.avg = TRUE}. Default = "median"}
+
+\item{density.avg.line}{Logical: If TRUE, draw vertical lines at the density average x-value}
+
+\item{density.avg.lwd}{Float: Line width for \code{density.avg.line}. Default = 1.5}
+
+\item{density.avg.lty}{Integer: Line type for \code{density.avg.line}. Default = 3}
 
 \item{hline.col}{Color for horizontal line(s)}
 

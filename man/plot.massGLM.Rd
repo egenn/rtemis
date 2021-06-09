@@ -6,17 +6,21 @@
 \usage{
 \method{plot}{massGLM}(
   x,
-  what = c("Adjusted_pvalue", "pvalue"),
+  predictor = NULL,
+  what = c("adjusted", "raw", "coef"),
+  p.adjust.method = "holm",
   pval.hline = 0.05,
   hline.col = "#FE4AA3",
   hline.dash = "dash",
+  theme = getOption("rt.theme", "lightgrid"),
+  displayModeBar = FALSE,
   ...
 )
 }
 \arguments{
 \item{x}{\code{massGLM} object}
 
-\item{what}{Character:}
+\item{what}{Character: "adjusted" or "raw" p-values to plot}
 }
 \description{
 Plots a \code{massGLM} object using \link{dplot3.bar}

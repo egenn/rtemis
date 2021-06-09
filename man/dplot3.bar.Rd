@@ -11,6 +11,7 @@ dplot3.bar(
   ylab = NULL,
   col = NULL,
   alpha = 0.8,
+  horizontal = FALSE,
   theme = getOption("rt.theme", "lightgrid"),
   palette = getOption("rt.palette", "rtCol1"),
   barmode = c("group", "relative", "stack", "overlay"),
@@ -20,7 +21,7 @@ dplot3.bar(
   hovernames = NULL,
   feature.names = NULL,
   font.size = 16,
-  legend = TRUE,
+  legend = NULL,
   legend.col = NULL,
   hline = NULL,
   hline.col = "#ff0000",
@@ -34,11 +35,12 @@ dplot3.bar(
   filename = NULL,
   file.width = 500,
   file.height = 500,
+  trace = 0,
   ...
 )
 }
 \arguments{
-\item{x}{data.frame: Input where rows are groups (can be 1 row), columns are features}
+\item{x}{vector (possibly named), matrix, or data.frame: If matrix or data.frame, rows are groups (can be 1 row), columns are features}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -71,7 +73,8 @@ Only be use for single group data. Default = NULL}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
+more than one feature present}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 

@@ -7,11 +7,11 @@
 massGLM(
   x,
   y,
+  type = NULL,
   xnames = NULL,
   ynames = NULL,
-  save.mods = FALSE,
-  p.adjust.method = "holm",
-  print.plot = TRUE,
+  save.mods = TRUE,
+  print.plot = FALSE,
   verbose = TRUE,
   trace = 0,
   n.cores = rtCores
@@ -22,15 +22,23 @@ massGLM(
 
 \item{y}{Matrix / data frame of outcomes}
 
+\item{type}{Character: "massx" or "massy". Default = NULL,
+where if (NCOL(x) > NCOL(y)) "massx" else "massy"}
+
 \item{xnames}{Character vector: names of \code{x} feature(s)}
 
 \item{ynames}{Character vector: names of \code{y} feature(s)}
 
+\item{save.mods}{Logical: If TRUE, save models. Default = TRUE}
+
+\item{print.plot}{Logical: If TRUE, print plot. Default = FALSE (best to choose which p-values
+you want to plot directly)}
+
 \item{verbose}{Logical: If TRUE, print messages during run}
 
-\item{n.cores}{Integer: Number of cores to use}
+\item{trace}{Integer: If > 0, print more verbose output to console. Default = 0}
 
-\item{...}{Arguments to be passed to \code{mod}}
+\item{n.cores}{Integer: Number of cores to use}
 }
 \description{
 Run a mass-univariate analysis with either:

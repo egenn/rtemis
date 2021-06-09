@@ -12,7 +12,7 @@ htest(
   groupname = NULL,
   xname = NULL,
   test = c("t.test", "wilcox.test", "aov", "kruskal.test", "chisq.test", "fisher.test",
-    "cor.test", "pearson", "kendall", "spearman"),
+    "cor.test", "pearson", "kendall", "spearman", "ks"),
   print.plot = TRUE,
   plot.args = list(),
   theme = getOption("rt.theme", "lightgrid"),
