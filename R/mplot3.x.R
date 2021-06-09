@@ -45,6 +45,9 @@
 #' for \code{type = "density"}
 #' @param density.avg.fn Character: "median" or "mean". Function to use if
 #' \code{density.avg = TRUE}. Default = "median"
+#' @param density.avg.line Logical: If TRUE, draw vertical lines at the density average x-value
+#' @param density.avg.lwd Float: Line width for \code{density.avg.line}. Default = 1.5
+#' @param density.avg.lty Integer: Line type for \code{density.avg.line}. Default = 3
 #' @param na.rm Logical: Will be passed to all functions that support it. If set to FALSE,
 #'   input containing NA values will result in error, depending on the \code{type}
 #' @param group.legend Logical: If TRUE, include legend with group names
@@ -117,6 +120,9 @@ mplot3.x <- function(x,
                      lab.adj = .5,
                      density.avg = ifelse(type == "density", TRUE, FALSE),
                      density.avg.fn = c("median", "mean"),
+                     density.avg.line = FALSE,
+                     density.avg.lwd = 1.5,
+                     density.avg.lty = 3,
                      hline.col = "black",
                      hline.lwd = 1,
                      hline.lty = 1,
@@ -130,7 +136,7 @@ mplot3.x <- function(x,
                      theme = getOption("rt.theme", "lightgrid"),
                      palette = getOption("rt.palette", "rtCol1"),
                      pty = "m",
-                     mar = c(2.5, 3, 2, 1),
+                     mar = NULL,
                      oma = rep(0, 4),
                      xaxs = "r",
                      yaxs = "r",
@@ -153,6 +159,7 @@ mplot3.x <- function(x,
   index.type <- match.arg(index.type)
   hist.type <- match.arg(hist.type)
   density.avg.fn <- match.arg(density.avg.fn)
+  if (is.null(mar)) mar <- c(2.5, 3, 2, 1)
 
   # [ Theme ] ====
   extraargs <- list(...)
@@ -565,6 +572,10 @@ mplot3.x <- function(x,
           col = c(theme$fg, unlist(col[seq_along(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
           padj = seq(2, 2 + 1.5 * length(xl), 1.5))
+    if (density.avg.line) {
+      abline(v = unlist(avgl), col = unlist(col[seq_along(xl)]),
+             lwd = density.avg.lwd, lty = density.avg.lty)
+    }
   }
 
   # [ MISC LEGENDS ] ====
