@@ -163,38 +163,38 @@ checkData <- function(x,
     boxcat("Recommendations", pad = 2)
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
-        cat(orange$bold("  * Convert the character",
+        cat(orange("  * Convert the character",
                              ngettext(n.character, "feature", "features"), "to" ,
                              ngettext(n.character, "a factor", "factors"),
                              "\n"))
       }
 
       if (n.constant > 0) {
-        cat(orange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
+        cat(orange("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
       }
 
       if (n.dups > 0) {
-        cat(orange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
+        cat(orange("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
       }
 
       if (n.cols.anyna > 0) {
-        cat(orange$bold("  * Consider imputing missing values or use complete cases only\n"))
+        cat(orange("  * Consider imputing missing values or use complete cases only\n"))
       }
 
       if (n.gt2levels.nonordered > 0) {
-        cat(rtHighlight$bold("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
+        cat("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
             "unordered categorical",
             ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
-            " with more than 2 levels and consider\n    if ordering would make sense\n", sep = ""))
+            " with more than 2 levels and consider\n    if ordering would make sense\n", sep = "")
       }
       if (n.integer > 0) {
-        cat(rtHighlight$bold("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
+        cat("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
             "integer", ngettext(n.integer, " feature", " features"),
             " and consider if", ngettext(n.integer, " it", " they"), " should be converted to ",
-            ngettext(n.integer, "factor\n", "factors\n"), sep = ""))
+            ngettext(n.integer, "factor\n", "factors\n"), sep = "")
       }
     } else {
-      cat(green$bold("  * Everything looks good\n"))
+      cat(green("  * Everything looks good\n"))
     }
 
   }
