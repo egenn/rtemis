@@ -234,7 +234,6 @@ dplot3.xy <- function(x, y = NULL,
   # marker.col, se.col ===
   if (is.null(marker.col)) {
     marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
-
   }
 
   if (!is.null(fit)) {
@@ -248,7 +247,7 @@ dplot3.xy <- function(x, y = NULL,
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
-  # [ SIZE ] ====
+  # [ Size ] ====
   if (axes.square) {
     width <- height <- min(dev.size("px"))
   }
