@@ -6,6 +6,7 @@
 #'
 #' Draw interactive 3D plots using \code{plotly}
 #'
+#' Note that \code{dplot3.xyz} uses the theme's \code{plot.bg} as \code{grid.col}
 #' @inheritParams dplot3.xy
 #' @param z Numeric, vector/data.frame/list: z-axis data
 #' @param zlab Character: z-axis label
@@ -40,25 +41,16 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        axes.square = FALSE,
                        group.names = NULL,
                        font.size = 16,
-                       font.alpha = .8,
-                       font.col = NULL,
                        font.family = "Helvetica Neue",
                        marker.col = NULL,
                        marker.size = 8,
                        fit.col = NULL,
                        fit.alpha = .7,
                        fit.lwd = 2.5,
-                       # se.col = NULL,
-                       # se.alpha = .4,
-                       main.col = NULL,
-                       axes.col = NULL,
-                       labs.col = NULL,
-                       grid.col = NULL,
-                       grid.lwd = 1,
-                       grid.alpha = .8,
                        tick.col = NULL,
                        tick.font.size = 12,
                        spike.col = NULL,
+                       grid.col = NULL,
                        legend = NULL,
                        legend.xy = c(0, 1),
                        legend.xanchor = "left",
@@ -71,7 +63,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        legend.group.gap = 0,
                        margin = list(t = 30, b = 0, l = 0, r = 0),
                        zerolines = TRUE,
-                       mod.params = list(),
+                       fit.params = list(),
                        width = NULL,
                        height = NULL,
                        padding = 0,
@@ -206,101 +198,49 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
   # Convert inputs to RGB
-  bg <- plotly::toRGB(bg)
-  plot.bg <- plotly::toRGB(plot.bg)
-  font.col <- plotly::toRGB(font.col)
-  # marker.col <- plotly::toRGB(marker.col)
-  fit.col <- plotly::toRGB(fit.col)
-  # se.col <- plotly::toRGB(se.col)
-  tick.col <- plotly::toRGB(tick.col)
-  grid.col <- plotly::toRGB(grid.col)
   spike.col <- plotly::toRGB(spike.col)
 
-  # Themes ====
-  # Defaults: no box
+  # [ Theme ] ====
   axes.visible <- FALSE
   axes.mirrored <- FALSE
-
-  if (theme %in% c("lightgrid", "darkgrid")) {
-    grid <- TRUE
+  extraargs <- list(...)
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), extraargs)
   } else {
-    grid <- FALSE
-  }
-  if (theme == "lightgrid") {
-    theme <- "light"
-    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray90")
-    grid <- TRUE
-    # if (is.null(grid.col)) grid.col <- "rgba(255,255,255,1)"
-    if (is.null(grid.col)) grid.col <- plotly::toRGB("gray70")
-    if (is.null(tick.col)) tick.col <- "rgba(0,0,0,1)"
-  }
-  if (theme == "darkgrid") {
-    theme <- "dark"
-    if (is.null(plot.bg)) plot.bg <- plotly::toRGB("gray15")
-    grid <- TRUE
-    # if (is.null(grid.col)) grid.col <- "rgba(0,0,0,1)"
-    if (is.null(grid.col)) grid.col <- plotly::toRGB("gray35")
-    if (is.null(tick.col)) tick.col <- "rgba(255,255,255,1)"
-  }
-  themes <- c("light", "dark", "lightbox", "darkbox")
-  if (!theme %in% themes) {
-    warning(paste(theme, "is not an accepted option; defaulting to \"light\""))
-    theme <- "light"
+    # Override with extra arguments
+    for (i in seq(extraargs)) {
+      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    }
   }
 
-  if (theme == "light") {
-    if (is.null(bg)) bg <- "white"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
-    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
-    if (is.null(spike.col)) spike.col <- plotly::toRGB("gray30")
-  } else if (theme == "dark") {
-    if (is.null(bg)) bg <- "black"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
-    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    if (is.null(spike.col)) spike.col <-  plotly::toRGB("gray70")
-  } else if (theme == "lightbox") {
-    axes.visible <- axes.mirrored <- TRUE
-    if (is.null(bg)) bg <- "rgba(255,255,255,1)"
-    if (is.null(plot.bg)) plot.bg <- "rgba(255,255,255,1)"
-    if (is.null(axes.col)) axes.col <- adjustcolor("white", alpha.f = 0)
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray10")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray10")
-    if (is.null(main.col)) main.col <- "rgba(0,0,0,1)"
-    if (is.null(spike.col)) spike.col <- plotly::toRGB("gray30")
-  } else if (theme == "darkbox") {
-    axes.visible <- axes.mirrored <- TRUE
-    if (is.null(bg)) bg <- "rgba(0,0,0,1)"
-    if (is.null(plot.bg)) plot.bg <- "rgba(0,0,0,1)"
-    if (is.null(tick.col)) tick.col <- plotly::toRGB("gray90")
-    if (is.null(labs.col)) labs.col <- plotly::toRGB("gray90")
-    if (is.null(main.col)) main.col <- "rgba(255,255,255,1)"
-    if (is.null(spike.col)) spike.col <-  plotly::toRGB("gray70")
-  }
+  bg <- plotly::toRGB(theme$bg)
+  plot.bg <- plotly::toRGB(theme$plot.bg)
+  # use plot.bg as grid.col
+  # does not seem to use the alpha
+  # grid.col <- plotly::toRGB(theme$fg, grid.alpha)
+  if (is.null(grid.col)) grid.col <- if (sum(col2rgb(theme$bg)) < 382.5) plotly::toRGB("gray30") else plotly::toRGB("gray70")
+  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  labs.col <- plotly::toRGB(theme$labs.col)
+  main.col <- plotly::toRGB(theme$main.col)
+  if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
-    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep("gray50", n.groups)) else col
+    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
   }
 
   if (!is.null(fit)) {
     if (is.null(fit.col)) fit.col <- col
   }
 
-  # if (se.fit & is.null(se.col)) {
-  #   se.col <- col
-  # }
-
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
-  # [ SIZE ] ====
+  # [ Size ] ====
   if (axes.square) {
     width <- height <- min(dev.size("px")) - 10
   }
 
-  # return(list(x = x, y = y, z = z))
   # [ fitted & se.fit ] ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se.fit) se <- list() else se <- NULL
@@ -314,7 +254,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
       feat1 <- data.frame(x[[i]], y[[i]])
       y1 <- z[[i]]
       learner.args <- c(list(x = feat1, y = y1, verbose = trace > 0),
-                        mod.params,
+                        fit.params,
                         list(...))
       if (fit == "NLS") learner.args <- c(learner.args,
                                           list(formula = formula, save.func = TRUE))
@@ -336,11 +276,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   }
 
   # [ plotly ] ====
-
-  # if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
-
   plt <- plotly::plot_ly(width = width,
-                         height = height,)
+                         height = height)
   for (i in seq_len(n.groups)) {
     # '- { Scatter } ====
     marker <- if (grepl("markers", .mode[i])) {
@@ -389,15 +326,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     #                            inherit = FALSE)
     # }
 
-    # return(list(plt = plt, x = x, y = y, z = z,
-    #             fitted = fitted, fitted.text = fitted.txt,
-    #             fit.col = fit.col,
-    #             legend =  legend,
-    #             n.groups = n.groups))
     if (!is.null(fit)) {
       # '- { Fitted mesh } ====
-      # lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
-      #             width = fit.lwd)
       plt <- plotly::add_trace(plt,
                                x = x[[i]],
                                y = y[[i]],
@@ -414,7 +344,6 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
     }
   }
 
-  # return(plt)
   # [ Layout ] ====
   # '- layout ====
   f <- list(family = font.family,
@@ -442,9 +371,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                        showline = axes.visible,
                                        mirror = axes.mirrored,
                                        titlefont = f,
-                                       showgrid = grid,
+                                       showgrid = theme$grid,
                                        gridcolor = grid.col,
-                                       gridwidth = grid.lwd,
+                                       gridwidth = theme$grid.lwd,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
                                        zeroline = FALSE,
@@ -453,9 +382,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                        showline = axes.visible,
                                        mirror = axes.mirrored,
                                        titlefont = f,
-                                       showgrid = grid,
+                                       showgrid = theme$grid,
                                        gridcolor = grid.col,
-                                       gridwidth = grid.lwd,
+                                       gridwidth = theme$grid.lwd,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
                                        zeroline = FALSE,
@@ -464,9 +393,9 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                        showline = axes.visible,
                                        mirror = axes.mirrored,
                                        titlefont = f,
-                                       showgrid = grid,
+                                       showgrid = theme$grid,
                                        gridcolor = grid.col,
-                                       gridwidth = grid.lwd,
+                                       gridwidth = theme$grid.lwd,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
                                        zeroline = FALSE,
@@ -499,4 +428,4 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
   plt
 
 
-}
+} # rtemis::dplot3.xyz
