@@ -63,7 +63,7 @@ htest <- function(y, group = NULL,
                   xname = NULL,
                   test = c("t.test", "wilcox.test", "aov", "kruskal.test", # continuous by group
                            "chisq.test", "fisher.test", "cor.test", # categorical by group
-                           "pearson", "kendall", "spearman"), # continuous vs. continuous
+                           "pearson", "kendall", "spearman", "ks"), # continuous vs. continuous
                   print.plot = TRUE,
                   plot.args = list(),
                   theme = getOption("rt.theme", "lightgrid"),
@@ -78,7 +78,7 @@ htest <- function(y, group = NULL,
     if (!is.factor(group)) group <- factor(group)
     ngroups <- length(levels(group))
     if (ngroups == 1) stop("Need at least two groups")
-    if (ngroups > 10) stop("Are you sure you want to compare", ngroups, "groups? I'm not.")
+    if (ngroups > 10) stop("Are you sure you want to compare ", ngroups, " groups? I'm not.")
   } else {
     .x <- deparse(substitute(x))
     if (is.null(xname)) xname <- .x
@@ -103,6 +103,7 @@ htest <- function(y, group = NULL,
       pearson = "Correlation test (Pearson)",
       kendall = "Correlation test (Kendall)",
       spearman = "Correlation test (Spearman)",
+      ks = "Kolmogorov-Smirnoff test",
       t.test = "T-test",
       wilcox.test = "Wilcoxon Test",
       aov = "Analysis of variance",
@@ -114,6 +115,8 @@ htest <- function(y, group = NULL,
     cat(silver("Formula: "))
     if (test %in% c("pearson", "kendall", "spearman")) {
       cat(cyan$bold(xname, "~", yname), "\n")
+    } else if (test == "ks") {
+      cat(cyan$bold(xname, "and", yname), "\n")
     } else {
       cat(cyan$bold(yname, "~", groupname), "\n")
     }
@@ -135,6 +138,9 @@ htest <- function(y, group = NULL,
       .t <- do.call(test,
                     list(formula = .formula, data = dat), ...)
     }
+  } else if (test == "ks") {
+    .t <- ks.test(x, y, ...)
+    .formulatoo <- paste(xname, "and", yname)
   } else {
     .formula <- as.formula(paste(.x, "~", .y))
     .formulatoo <- paste(xname, "~", yname)
@@ -176,13 +182,10 @@ htest <- function(y, group = NULL,
   if (print.plot) {
     do.call(plot, args = c(list(x = out, theme = theme), plot.args))
   }
-  # plot(out,
-  #                      # plot.engine = plot.engine,
-  #                      theme = theme)
 
   invisible(out)
 
-} # rtemis::h.DIFFMEAN
+} # rtemis::h.test
 
 #' Plot \code{rtTest} object
 #'
@@ -200,6 +203,7 @@ plot.rtTest <- function(x,
                         main = NULL,
                         mar = NULL,
                         # plot.engine = "mplot3",
+                        uni.type = c("density", "histogram", "hd"),
                         boxplot.xlab  = FALSE,
                         theme = getOption("rt.theme", "lightgrid"),
                         par.reset = TRUE, ...) {
@@ -235,6 +239,13 @@ plot.rtTest <- function(x,
                  xlab = if (boxplot.xlab) x$groupname else NULL,
                  ylab = x$yname,
                  mar = mar, par.reset = FALSE)
+  } else if (x$test == "ks") {
+    dat <- list(x = x$x, y = x$y)
+    names(dat) <- c(x$xname, x$yname)
+    mplot3.x(dat, type = match.arg(uni.type),
+             density.avg.line = TRUE,
+             oma = c(0, 0, 1.5, 0),
+             mar = mar, par.reset = FALSE)
   } else if (x$test %in% c("chisq.test", "fisher.test")) {
     mplot3.mosaic(table(x$y, x$group),
                   # main = main,
