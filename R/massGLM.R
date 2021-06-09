@@ -13,20 +13,28 @@
 #'
 #' @param x Matrix / data frame of features
 #' @param y Matrix / data frame of outcomes
+#' @param type Character: "massx" or "massy". Default = NULL,
+#' where if (NCOL(x) > NCOL(y)) "massx" else "massy"
 #' @param xnames Character vector: names of \code{x} feature(s)
 #' @param ynames Character vector: names of \code{y} feature(s)
+#' @param save.mods Logical: If TRUE, save models. Default = TRUE
+# @param p.adjust.method Character: p-value adjustment method. See \code{p.adjust}.
+# Default = "holm"
+#' @param print.plot Logical: If TRUE, print plot. Default = FALSE (best to choose which p-values
+#' you want to plot directly)
+#' @param trace Integer: If > 0, print more verbose output to console. Default = 0
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Arguments to be passed to \code{mod}
 #' @author E.D. Gennatas
 #' @export
 
 massGLM <- function(x, y,
+                    type = NULL,
                     xnames = NULL,
                     ynames = NULL,
-                    save.mods = FALSE,
-                    p.adjust.method = "holm",
-                    print.plot = TRUE,
+                    save.mods = TRUE,
+                    # p.adjust.method = "holm",
+                    print.plot = FALSE,
                     verbose = TRUE,
                     trace = 0,
                     n.cores = rtCores) {
@@ -35,7 +43,7 @@ massGLM <- function(x, y,
   start.time <- intro(verbose = verbose)
 
   # [ Data ] ====
-  type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
+  if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
   if (trace > 0) msg0('massGLM type is "', type, '"')
   if (type == "massx") {
     if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
@@ -47,11 +55,13 @@ massGLM <- function(x, y,
   if (trace > 0) msg('Will train', nmods, 'models')
 
   if (is.null(xnames)) {
-    xnames <- if (type == "massx") colnames(x) else "x"
+    xnames <- if (is.null(colnames(x))) deparse(substitute(x)) else colnames(x)
   }
+  if (trace > 0) msg("Feature names:", paste(xnames, collapse = ", "))
   if (is.null(ynames)) {
-    ynames <- if (type == "massy") colnames(y) else "y"
+    ynames <- if (is.null(colnames(y))) deparse(substitute(y)) else colnames(y)
   }
+  if (trace > 0) msg("Outcome names:", paste(ynames, collapse = ", "))
 
   dat <- data.frame(x, y)
   colnames(dat) <- c(xnames, ynames)
@@ -60,11 +70,11 @@ massGLM <- function(x, y,
   mod1 <- function(index, dat, type) {
     if (type == "massx") {
       .formula <- as.formula(paste(ynames, "~", xnames[index]))
-      .family <- if(is.factor(dat[[ynames]])) "binomial" else "gaussian"
+      .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
       glm(.formula, family = .family, data = dat)
     } else {
-      .formula <- as.formula(paste(ynames[index], "~", xnames))
-      .family <- if(is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
+      .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
+      .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
       glm(.formula, family = .family, data = dat)
     }
   }
@@ -82,22 +92,9 @@ massGLM <- function(x, y,
                             cl = n.cores)
   names(mods) <- if (type == "massx") xnames else ynames
 
-  # Coefficients & p-values ====
-  .coefs_pvals <- sapply(mods, function(i) {
-    .coef <- coef(summary(i))
-    c(.coef[2, 1], .coef[2, 4])
-  })
-  coefs_pvals <- data.frame(Variable = colnames(.coefs_pvals),
-                            Coefficient = .coefs_pvals[1, ],
-                            pvalue = .coefs_pvals[2, ])
-
-  # p.val adjust ====
-  coefs_pvals$Adjusted_pvalue <- p.adjust(coefs_pvals[["pvalue"]],
-                                          method = p.adjust.method)
-
   # [ Outro ] ====
   out <- list(mods = if (save.mods) mods else NULL,
-              coefs_pvals = coefs_pvals,
+              summary = glm2table(mods),
               xnames = xnames,
               ynames = ynames,
               type = type)
@@ -117,12 +114,25 @@ massGLM <- function(x, y,
 #' @export
 
 print.massGLM <- function(x, ...) {
-  cat("Mass-univariate GLM analysis with", length(x$mods))
-  if (type == "massx") {
-    cat(" predictors and a single outcome")
-  } else {
-    cat(" outcomes and a single predictor")
-  }
+  nx <- length(x$xnames)
+  ny <- length(x$ynames)
+  .text <- paste("Mass-univariate GLM analysis with", nx,
+                 ngettext(nx, "predictor", "predictors"),
+                 "and", ny, ngettext(ny, "outcome", "outcomes"))
+  cat(.text)
+  invisible(.text)
+}
+
+#' \code{massGLM} object summary
+#'
+#' @param object An object created by \link{massGLM}
+#' @param ... Not used
+#'
+#' @author E.D. Gennatas
+#' @export
+
+summary.massGLM <- function(object, ...) {
+  print(object$summary, row.names = FALSE, class = FALSE)
 }
 
 #' Plot \code{massGLM} object
@@ -131,33 +141,62 @@ print.massGLM <- function(x, ...) {
 #'
 #' @method plot massGLM
 #' @param x \code{massGLM} object
-#' @param what Character:
+#' @param what Character: "adjusted" or "raw" p-values to plot
+#'
 #' @author E.D. Gennatas
 #' @export
 
 plot.massGLM <- function(x,
-                         what = c("Adjusted_pvalue", "pvalue"),
+                         predictor = NULL,
+                         what = c("adjusted", "raw", "coef"),
+                         p.adjust.method = "holm",
                          pval.hline = .05,
                          hline.col = "#FE4AA3",
-                         hline.dash = "dash", ...) {
+                         hline.dash = "dash",
+                         theme = getOption("rt.theme", "lightgrid"),
+                         displayModeBar = FALSE, ...) {
 
-  what <- match.arg(what)
-  if (what == "Adjusted_pvalue") {
-    dplot3.bar(1 - x$coefs_pvals$Adjusted_pvalue,
-               group.names = x$coefs_pvals$Variable,
-               legend = F,
-               ylab = "1 - adjusted p-value",
-               hline = 1 - pval.hline,
-               hline.col = hline.col,
-               hline.dash = hline.dash, ...)
+  if (x$type == "massy") {
+    if (is.null(predictor)) predictor <- x$xnames[1]
+    what <- match.arg(what)
+
+    if (what == "adjusted" & p.adjust.method != "none") {
+      pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
+      dplot3.bar(1 - p.adjust(x$summary[[pval_idi]], method = p.adjust.method),
+                 group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 ylim = c(0, 1),
+                 legend = FALSE,
+                 ylab = paste("1 - adjusted", pval_name, "p-value"),
+                 hline = 1 - pval.hline,
+                 hline.col = hline.col,
+                 hline.dash = hline.dash,
+                 theme = theme,
+                 displayModeBar = displayModeBar, ...)
+    } else if (what == "raw" | (what == "adjusted" & p.adjust.method == "none")) {
+      pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
+      dplot3.bar(1 - x$summary[[pval_idi]],
+                 group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 legend = FALSE,
+                 ylab = paste("1 - raw", pval_name, "p-value"),
+                 hline = 1 - pval.hline,
+                 hline.col = hline.col,
+                 hline.dash = hline.dash,
+                 theme = theme,
+                 displayModeBar = displayModeBar, ...)
+    } else {
+      coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
+      coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
+      dplot3.bar(x$summary[[coef_idi]],
+                 group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 legend = FALSE,
+                 ylab = paste(coef_name, "Coefficients"),
+                 theme = theme,
+                 displayModeBar = displayModeBar, ...)
+    }
   } else {
-    dplot3.bar(1 - x$coefs_pvals$pvalue,
-               group.names = x$coefs_pvals$Variable,
-               legend = F,
-               ylab = "1 - raw p-value",
-               hline = 1 - pval.hline,
-               hline.col = hline.col,
-               hline.dash = hline.dash, ...)
+    cat('"massx" support not yet implemented')
   }
 
 } # rtemis::plot.massGLM
