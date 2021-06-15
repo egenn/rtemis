@@ -121,6 +121,11 @@ mplot3.heatmap <- function(x,
                            scale = "none",
                            na.rm = TRUE,
                            margins = NULL,
+                           group.columns = NULL,
+                           group.legend = !is.null(group.columns),
+                           column.palette = getOption("rt.palette", "rtCol1"),
+                           group.rows = NULL,
+                           row.palette = getOption("rt.palette", "rtCol1"),
                            ColSideColors,
                            RowSideColors,
                            cexRow = 0.2 + 1/log10(nr),
@@ -144,7 +149,7 @@ mplot3.heatmap <- function(x,
                            pdf.width = 7,
                            pdf.height = 7, ...) {
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -157,13 +162,7 @@ mplot3.heatmap <- function(x,
   if (is.null(mid)) mid <- theme$bg
   col.axis <- theme$fg
 
-  # [ Automargins ] ====
-  if (is.null(margins)) {
-    names.nchar <- nchar(c(colnames(x), rownames(x)))
-    max.nchar <- max(0, names.nchar)
-    margins <- rep(1.4 + max.nchar * .45, 2)
-  }
-  # [ Color ] ====
+  # Color ====
   col <- colorGrad(n = colorGrad.n,
                    colors = colorGrad.col,
                    space = space,
@@ -173,7 +172,22 @@ mplot3.heatmap <- function(x,
                    midhi = midhi,
                    hi = hi)
 
-  # [ zlim ] ====
+  # Row and Col groups ====
+  if (!is.null(group.columns) & missing(ColSideColors)) {
+    group.columns <- factor(group.columns)
+    if (is.character(column.palette)) column.palette <- rtPalette(column.palette)
+    if (length(unique(group.columns)) > length(column.palette)) stop("Need more colors in column.palette")
+    ColSideColors <- unlist(column.palette)[group.columns]
+  }
+
+  if (!is.null(group.rows) & missing(RowSideColors)) {
+    group.rows <- factor(group.rows)
+    if (is.character(row.palette)) row.palette <- rtPalette(row.palette)
+    if (length(unique(group.rows)) > length(row.palette)) stop("Need more colors in column.palette")
+    RowSideColors <- unlist(row.palette)[group.rows]
+  }
+
+  # zlim ====
   if (is.null(zlim)) {
     if (autorange) {
       max.z <- max(abs(x), na.rm = TRUE)
@@ -181,6 +195,14 @@ mplot3.heatmap <- function(x,
     } else {
       zlim <- range(x, na.rm = TRUE)
     }
+  }
+
+  # Automargins ====
+  if (is.null(margins)) {
+    # names.nchar <- nchar(c(colnames(x), rownames(x)))
+    # max.nchar <- max(0, names.nchar)
+    # margins <- rep(1.4 + max.nchar * .45, 2)
+    margins <- rep(.5 + textwidth(c(colnames(x), rownames(x))), 2)
   }
 
   scale <- if (symm && missing(scale)) "none" else match.arg(scale)
@@ -274,15 +296,20 @@ mplot3.heatmap <- function(x,
   }
   lmat[is.na(lmat)] <- 0
 
-  if (colorbar) lmat <- cbind(lmat, c(0, 4)) # rtemis adding a column for colorbar
-
-  # [ Colorbar ] ====
+  # add rtemis colorbar
   if (colorbar) {
+    # works with sidecolors
+    lmat <- cbind(lmat, c(rep(0, nrow(lmat) - 1), max(lmat) + 1))
     if (is.na(Colv)) {
       lwid <- c(lwid, 1)
     } else {
       lwid <- c(lwid, 1) # rtemis
     }
+  }
+
+  # group names
+  if (!is.null(group.columns) & group.legend) {
+    lmat[1, ncol(lmat)] <- max(lmat) + 1
   }
 
   if (trace > 0) {
@@ -292,7 +319,7 @@ mplot3.heatmap <- function(x,
   dev.hold()
   on.exit(dev.flush())
 
-  # [ par ] ====
+  # par ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   op <- par(no.readonly = TRUE)
@@ -300,7 +327,7 @@ mplot3.heatmap <- function(x,
 
   layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
   if (!missing(RowSideColors)) {
-    par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg) # orig c(margins[1L], 0, 0, 0.5)
+    par(mar = c(margins[1L], 0, 0, 0.5), bg = theme$bg) # orig c(margins[1L], 0, 0, 0.5)
     image(rbind(if (revC)
       nr:1L
       else 1L:nr), col = RowSideColors[rowInd], axes = FALSE)
@@ -345,14 +372,14 @@ mplot3.heatmap <- function(x,
   if (!missing(add.expr))
     eval.parent(substitute(add.expr))
 
-  # [ Main Title ] ====
+  # Main Title ====
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # [ Plot ] ====
+  # Plot ====
   par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)
   if (doRdend)
     plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
@@ -369,7 +396,7 @@ mplot3.heatmap <- function(x,
     title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
   }
 
-  # [ Colorbar ] ====
+  # Colorbar ====
   if (colorbar) {
     frame()
     # par(xpd = NA)
@@ -403,12 +430,30 @@ mplot3.heatmap <- function(x,
     if (!is.null(cb.title)) mtext(text = cb.title, cex = cb.title.cex)
   }
 
+  # (column) Group names ====
+  if (group.legend) {
+    group.names <- levels(group.columns)
+    ngroups <- length(group.names)
+    frame()
+    # mtext(group.names, 3, line = seq(-1, -ngroups * 1.3, -1.3),
+    #       col = unlist(column.palette)[seq_len(ngroups)],
+    #       adj = 0, xpd = TRUE,
+    #       cex = theme$cex)
+    par(mar = rep(0, 4), oma = rep(0, 4))
+    mtext(group.names, 1, line = seq(1, ngroups * 1.3, 1.3) - (ngroups + 2),
+          col = unlist(column.palette)[seq_len(ngroups)],
+          adj = 0, xpd = TRUE,
+          cex = theme$cex)
+  }
+
   if (!is.null(filename)) dev.off()
 
-  # Return if assigned
   invisible(list(rowInd = rowInd,
                  colInd = colInd,
                  Rowv = if (keep.dendro && doRdend) ddr,
-                 Colv = if (keep.dendro && doCdend) ddc))
+                 Colv = if (keep.dendro && doCdend) ddc,
+                 lmat = lmat,
+                 group.columns = group.columns,
+                 group.rows = group.rows))
 
 } # rtemis::mplot3.heatmap
