@@ -27,6 +27,7 @@ dplot3.box(
   legend = FALSE,
   legend.col = NULL,
   legend.xy = NULL,
+  xaxis.type = "category",
   margin = list(t = 35, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
@@ -79,6 +80,9 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 
 \item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
 the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area}
+
+\item{xaxis.type}{Character: "linear", "log", "date", "category", "multicategory"
+Default = "category"}
 
 \item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
 

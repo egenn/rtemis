@@ -32,7 +32,11 @@ dplot3.heatmap(
   colorbar_len = 0.7,
   plot_method = "plotly",
   theme = getOption("rt.theme", "white"),
-  font.size = 16,
+  row_side_colors,
+  row_side_palette = NULL,
+  col_side_colors,
+  col_side_palette = NULL,
+  font.size = NULL,
   padding = 0,
   filename = NULL,
   ...
