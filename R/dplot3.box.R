@@ -33,6 +33,8 @@
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
 #' the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area
+#' @param xaxis.type Character: "linear", "log", "date", "category", "multicategory"
+#' Default = "category"
 #' @param margin Named list: plot margins. Default = \code{list(t = 35)}
 #'
 #' @author E.D. Gennatas
@@ -64,6 +66,7 @@ dplot3.box <-  function(x,
                         legend = FALSE,
                         legend.col = NULL,
                         legend.xy = NULL,
+                        xaxis.type = "category",
                         margin = list(t = 35, pad = 0),
                         automargin.x = TRUE,
                         automargin.y = TRUE,
@@ -199,6 +202,7 @@ dplot3.box <-  function(x,
                                      zeroline = FALSE,
                                      automargin = automargin.y),
                         xaxis = list(title = xlab,
+                                     type = xaxis.type,
                                      titlefont = f,
                                      showgrid = FALSE,
                                      tickcolor = grid.col,
