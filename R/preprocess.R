@@ -62,7 +62,7 @@
 #' @param logical2factor Logical: If TRUE, convert all logical variables to factors
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to numeric
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to factors
-#' @param ltn2factor Integer: Convert all numeric variables with less than this number of unique
+#' @param ltn2factor Integer (>2): Convert all numeric variables with less than this number of unique
 #' values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
 #' you could use `ltn2factor = 3` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to factors
@@ -107,7 +107,7 @@ preprocess <- function(x, y = NULL,
                        logical2numeric = FALSE,
                        numeric2factor = FALSE,
                        numeric2factor.levels = NULL,
-                       ltn2factor = NULL,
+                       ltn2factor = 0,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
@@ -197,21 +197,21 @@ preprocess <- function(x, y = NULL,
   # [ Logical to factor ] ====
   if (logical2factor) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to factor...")
+    if (verbose) msg("Converting logicals to factors...")
     for (i in index.logical) x[, i] <- as.factor(x[, i])
   }
 
   # [ Logical to numeric ] ====
   if (logical2numeric) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to factor...")
+    if (verbose) msg("Converting logicals to numeric...")
     for (i in index.logical) x[, i] <- as.numeric(x[, i])
   }
 
   # [ Numeric to factor ] ====
   if (numeric2factor) {
     index.numeric <- which(sapply(x, is.numeric))
-    if (verbose) msg("Converting numeric to factor...")
+    if (verbose) msg("Converting numeric to factors...")
     if (is.null(numeric2factor.levels)) {
       for (i in index.numeric) x[, i] <- as.factor(x[, i])
     } else {
@@ -220,8 +220,7 @@ preprocess <- function(x, y = NULL,
   }
 
   # [ ltn2factor ] ====
-  if (!is.null(ltn2factor)) {
-    if (!is.numeric(ltn2factor)) stop("ltn2factor must be an integer")
+  if (ltn2factor > 2) {
     index.numeric <- which(sapply(x, is.numeric))
     index.numeric.ltn <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) < ltn2factor))
     for (i in index.numeric.ltn) x[, index.numeric][, i] <- factor(x[, index.numeric][, i])
@@ -296,7 +295,6 @@ preprocess <- function(x, y = NULL,
       x <- randomForest::rfImpute(x, y,
                                   iter = impute.rfImpute.params$niter,
                                   ntree = impute.rfImpute.params$ntree)
-
     } else {
       # '- mean/mode ----
       if (verbose) msg0("Imputing missing values using ", deparse(substitute(impute.numeric)),
