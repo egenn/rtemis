@@ -356,6 +356,7 @@ mplot3.survfit <- function(x,
               col = palette[[i]],
               font = table.font,
               xpd = TRUE,
+              cex = theme$cex,
               family = theme$font.family)
       }
     } else {
@@ -376,6 +377,7 @@ mplot3.survfit <- function(x,
               col = palette[[i]],
               font = table.font,
               xpd = TRUE,
+              cex = theme$cex,
               family = theme$font.family)
       }
     }
