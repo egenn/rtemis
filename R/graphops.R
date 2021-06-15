@@ -5,7 +5,10 @@
 # nchar 46 => 19.5
 # nchar 20 => 10
 # lm(c(10, 19.5) ~ c(20, 46))
-textwidth <- function(x) 2.6923 + 0.3654 * max(nchar(x))
+textwidth <- function(x) {
+  .nchar <- if (is.null(x)) 1 else max(nchar(x), na.rm = TRUE)
+  2.6923 + 0.3654 * .nchar
+}
 
 #' Get y below current plot area
 #'
