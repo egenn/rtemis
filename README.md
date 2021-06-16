@@ -88,10 +88,6 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_rstudio.png">
 </br>  
 
----  
-
-<img align = "center" src="https://egenn.github.io/imgs/rtemis_hex_2020.png" width="205">  
-
 ---
 
-[2020 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
+[2021 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
