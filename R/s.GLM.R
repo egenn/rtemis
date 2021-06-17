@@ -262,7 +262,7 @@ s.GLM <- function(x, y = NULL,
         levels.training <- lapply(x[, index.factor], function(x) levels(droplevels(x)))
         levels.testing <- lapply(x.test[, index.factor], levels)
         # Get index of levels present in test set and not in training
-        index.missing <- lapply(1:length(levels.training), function(i) levels.testing[[i]] %in% levels.training[[i]])
+        index.missing <- lapply(seq_len(levels.training), function(i) levels.testing[[i]] %in% levels.training[[i]])
         # Set levels present in testing but missing in training to NA
         which.missing <- sapply(index.missing, all)
         if (any(!which.missing)) {
