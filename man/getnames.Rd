@@ -22,7 +22,7 @@ getlogicalnames(x)
 getcharacternames(x)
 }
 \arguments{
-\item{x}{objects wiht \code{names()} method}
+\item{x}{object with \code{names()} method}
 
 \item{pattern}{Character: pattern to match anywhere in names of x}
 

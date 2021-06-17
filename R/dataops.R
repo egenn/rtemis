@@ -4,7 +4,7 @@
 
 #' Get names by string matching
 #'
-#' @param x objects wiht \code{names()} method
+#' @param x object with \code{names()} method
 #' @param pattern Character: pattern to match anywhere in names of x
 #' @param starts_with Character: pattern to match in the beginning of names of x
 #' @param ends_with Character: pattern to match at the end of names of x
@@ -23,6 +23,46 @@ getnames <- function(x,
   } else if (!is.null(ends_with)) {
     .names[grep(paste0(ends_with, "$"), .names, ignore.case = ignore.case)]
   }
+}
+
+#' Get names by string matching multiple patterns
+#'
+#' @param x Character vector or object with \code{names()} method
+#' @param pattern Character vector: pattern(s) to match anywhere in names of x
+#' @param starts_with Character: pattern to match in the beginning of names of x
+#' @param ends_with Character: pattern to match at the end of names of x
+#' @param ignore.case Logical: If TRUE, well, ignore case. Default = TRUE
+#' @param return.index Logical: If TRUE, return integer index of matches instead of names
+#'
+#' @return Character vector of matched names or integer index
+#' @author E.D. Gennatas
+#' @export
+
+mgetnames <- function(x,
+                      pattern = NULL,
+                      starts_with = NULL,
+                      ends_with = NULL,
+                      ignore.case = TRUE,
+                      return.index = FALSE) {
+
+  .names <- if(is.character(x)) x else names(x)
+  idi <- numeric()
+  if (!is.null(pattern)) {
+    idi <- c(idi, unlist(lapply(pattern, function(p) grep(p, .names, ignore.case = ignore.case))))
+  }
+  if (!is.null(starts_with)) {
+    idi <- c(idi, which(startsWith(.names, starts_with)))
+  }
+  if (!is.null(ends_with)) {
+    idi <- c(idi, which(endsWith(.names, ends_with)))
+  }
+  idi <- unique(idi)
+  if (return.index) {
+    idi
+  } else {
+    .names[idi]
+  }
+
 }
 
 #' Get factor/numeric/logical/character names from data.frame/data.table
