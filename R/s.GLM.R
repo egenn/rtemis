@@ -319,7 +319,8 @@ s.GLM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = se.prediction,
                  error.test = error.test,
-                 varimp = mod$coefficients[-1] * apply(x, 2, sd),
+                 # varimp = mod$coefficients[-1] * apply(x, 2, sd), #adjust for categorical with 3+ levels
+                 varimp = mod$coefficients[-1],
                  question = question,
                  extra = extra)
 
