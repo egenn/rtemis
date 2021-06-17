@@ -73,11 +73,11 @@ dplot3.heatmap <- function(z,
                            plot_method = "plotly",
                            theme = getOption("rt.theme", "white"),
                            # palette = getOption("rt.palette", "rtCol1"),
-                           # row_side_colors = NA, #z[["row_side_colors"]],
-                           # row_side_palette = NULL,
-                           # col_side_colors = NA, #z[["col_side_colors"]],
-                           # col_side_palette = NULL,
-                           font.size = 16,
+                           row_side_colors, #z[["row_side_colors"]],
+                           row_side_palette = NULL,
+                           col_side_colors, #z[["col_side_colors"]],
+                           col_side_palette = NULL,
+                           font.size = NULL,
                            padding = 0,
                            filename = NULL,
                            ...) {
@@ -88,11 +88,11 @@ dplot3.heatmap <- function(z,
     stop("Please install dependencies and try again")
   }
 
-  # [ COLNAMES ] ====
+  # [ Colnames ] ====
   if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rtLetters(NCOL(z))
   if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rtLetters(NCOL(z), caps = TRUE)
 
-  # [ MARGINS ] ====
+  # [ Margins ] ====
   # By default, allow 7 px per character
   if (is.null(margins)) {
     bottom <- max(nchar(colnames(z))) * 7 + 15
@@ -100,13 +100,15 @@ dplot3.heatmap <- function(z,
     margins <- c(bottom, left, 50, 50)
   }
 
-  # [ TICK LABELS ] ====
+  # [ Tick Labels ] ====
   if (is.null(showticklabels)) {
     showticklabels <- c(ifelse(NCOL(z) < 50, TRUE, FALSE),
                         ifelse(NROW(z) < 50, TRUE, FALSE))
   }
 
-  # [ LIMITS ] ====
+  if (is.null(font.size)) font.size <- 17.0769 - 0.2692*ncol(z)
+
+  # [ Limits ] ====
   if (is.null(limits)) {
     maxabs <- max(abs(z), na.rm = TRUE)
     if (.2 < maxabs & maxabs < 1) maxabs <- 1
@@ -132,7 +134,7 @@ dplot3.heatmap <- function(z,
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
 
-  # [ COLORS ] ====
+  # [ Colors ] ====
   if (is.null(mid)) mid <- theme$bg
   colors <- colorGrad(n = colorGrad.n,
                       colors = colors,
@@ -143,15 +145,15 @@ dplot3.heatmap <- function(z,
                       midhi = midhi,
                       hi = hi)
 
-  # [ CLUSTER ] ====
+  # [ Cluster ] ====
   if (cluster) Rowv <- Colv <- TRUE
 
-  # [ CELLNOTE ] ====
+  # [ Cellnote ] ====
   if (!is.null(cellnote)) {
     if (cellnote == "values") cellnote <- matrix(ddSci(z), NROW(z), NCOL(z))
   }
 
-  # [ HEATMAPLY ] ====
+  # [ heatmaply ] ====
   ggp2text <- ggplot2::element_text(family = theme$font.family,
                                     color = theme$tick.labels.col)
   ggp2theme <- ggplot2::theme(
@@ -185,10 +187,10 @@ dplot3.heatmap <- function(z,
                                                colorbar_len = colorbar_len,
                                                showticklabels = showticklabels,
                                                heatmap_layers = ggp2theme,
-                                               # row_side_colors = row_side_colors,
-                                               # row_side_palette = row_side_palette,
-                                               # col_side_colors = col_side_colors,
-                                               # col_side_palette = col_side_palette,
+                                               row_side_colors = row_side_colors,
+                                               row_side_palette = row_side_palette,
+                                               col_side_colors = col_side_colors,
+                                               col_side_palette = col_side_palette,
                                                # side_color_layers = ggp2theme,
                                                file = filename))
 
