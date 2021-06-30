@@ -144,8 +144,7 @@ dplot3.bar <-  function(x,
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
-  if (is.null(col)) col <- palette[seq_len(p)]
-  if (length(col) < p) col <- rep(col, p/length(col))
+  if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
 
   # Theme ====
   extraargs <- list(...)
