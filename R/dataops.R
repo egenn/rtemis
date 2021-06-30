@@ -85,3 +85,33 @@ getlogicalnames <- function(x) names(x)[sapply(x, is.logical)]
 #' @rdname getnames
 #' @export
 getcharacternames <- function(x) names(x)[sapply(x, is.character)]
+
+#' @rdname getnames
+#' @export
+getdatenames <- function(x) names(x)[sapply(x, function(v) inherits(v, "Date"))]
+
+
+#' Size
+#'
+#' Get \code{NCOL(x)} and \code{NROW{x}}
+#'
+#' @param x R object (usually that inherits from matrix or data.frame)
+#' @param verbose Logical: If TRUE, print NROW and NCOL to console. Default = TRUE
+#'
+#' @return vector of NROW, NCOL invisibly
+#' @author E.D. Gennatas
+#' @export
+
+catsize <- function(x, verbose = TRUE) {
+  .nrow <- NROW(x)
+  .ncol <- NCOL(x)
+  if (verbose) {
+    if (inherits(x, c("matrix", "data.frame"))) {
+      cat("There are", .nrow, "rows and", .ncol, "columns")
+    } else if (inherits(x, "list")) {
+      cat("There are", length(x), "elements")
+    }
+  }
+  invisible(c(.nrow, .ncol))
+
+}
