@@ -369,7 +369,9 @@ mplot3.box <- function(x,
 
     # Group names below x-axis
     groupnames.at <- mean(seq(nvars)) + (seq(ngroups) - 1) * (nvars + group.spacing)
-    mtext(text = groupnames, side = 1, line = .5, at = groupnames.at,
+    mtext(text = groupnames,
+          side = if (horizontal) 2 else 1,
+          line = .5, at = groupnames.at,
           col = theme$labs.col)
 
     # Variable names in top-right legend
