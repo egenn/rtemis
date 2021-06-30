@@ -148,6 +148,7 @@ summary.massGLM <- function(object, ...) {
 
 plot.massGLM <- function(x,
                          predictor = NULL,
+                         main = NULL,
                          what = c("adjusted", "raw", "coef"),
                          p.adjust.method = "holm",
                          pval.hline = .05,
@@ -161,10 +162,12 @@ plot.massGLM <- function(x,
     what <- match.arg(what)
 
     if (what == "adjusted" & p.adjust.method != "none") {
+      if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
       dplot3.bar(1 - p.adjust(x$summary[[pval_idi]], method = p.adjust.method),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 main = main,
                  ylim = c(0, 1),
                  legend = FALSE,
                  ylab = paste("1 - adjusted", pval_name, "p-value"),
@@ -174,10 +177,12 @@ plot.massGLM <- function(x,
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
     } else if (what == "raw" | (what == "adjusted" & p.adjust.method == "none")) {
+      if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
       dplot3.bar(1 - x$summary[[pval_idi]],
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 main = main,
                  legend = FALSE,
                  ylab = paste("1 - raw", pval_name, "p-value"),
                  hline = 1 - pval.hline,
@@ -186,10 +191,12 @@ plot.massGLM <- function(x,
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
     } else {
+      if (is.null(main)) main <- "Coefficients"
       coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
       coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
       dplot3.bar(x$summary[[coef_idi]],
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
+                 main = main,
                  legend = FALSE,
                  ylab = paste(coef_name, "Coefficients"),
                  theme = theme,
