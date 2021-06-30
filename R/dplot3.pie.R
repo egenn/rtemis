@@ -8,7 +8,7 @@
 #'
 #' @inheritParams dplot3.bar
 #' @param x data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
-#' b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defines using
+#' b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
 #' the \code{category.names} argument
 #' @param category.names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
 #' either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
