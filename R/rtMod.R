@@ -117,8 +117,8 @@ rtMod <- R6::R6Class("rtMod",
                          }
                        },
                        plot = function(estimate = NULL,
-                                       filename = NULL,
-                                       theme = getOption("rt.fit.theme", "lightgrid"), ...) {
+                                       theme = getOption("rt.fit.theme", "lightgrid"),
+                                       filename = NULL, ...) {
                          "Plot predicted vs. true if available, otherwise fitted vs. true"
                          if (!is.null(estimate)) {
                            if (estimate == "fitted") {
@@ -140,33 +140,36 @@ rtMod <- R6::R6Class("rtMod",
                        },
                        plotFitted = function(print.plot = TRUE,
                                              theme = getOption("rt.fit.theme", "lightgrid"),
+                                             main = NULL,
                                              filename = NULL, ...) {
                          "Plot fitted vs. true values for Regression or confusion matrix for Classification"
                          if (self$type == "Regression") {
                            mplot3.fit(self$y.train, self$fitted,
                                       xlab = paste("True", self$y.name),
                                       ylab = paste("Fitted", self$y.name),
-                                      main = paste(self$mod.name, "Training"),
+                                      main = if (is.null(main)) paste(self$mod.name, "Training") else main,
                                       theme = theme,
                                       filename = filename, ...)
                          } else if (self$type == "Classification") {
                            mplot3.conf(self$error.train,
                                        xlab = "Reference",
                                        ylab = "Fitted",
-                                       main = paste(self$mod.name, "Training"),
+                                       main = if (is.null(main)) paste(self$mod.name, "Training") else main,
                                        theme = theme,
                                        filename = filename, ...)
                          } else {
                            mplot3.surv(list(True = self$y.train, Fitted = self$fitted),
-                                       main = paste(self$mod.name,
-                                                    "Kaplan-Meier estimate"),
+                                       main = if (is.null(main)) paste(self$mod.name,
+                                                    "Kaplan-Meier estimate") else main,
                                        normalize.time = TRUE,
                                        theme = theme,
                                        filename = filename, ...)
                          }
                        },
-                       plotPredicted = function(print.plot = TRUE, filename = NULL,
-                                                theme = getOption("rt.fit.theme", "lightgrid"), ...) {
+                       plotPredicted = function(print.plot = TRUE,
+                                                theme = getOption("rt.fit.theme", "lightgrid"),
+                                                main = NULL,
+                                                filename = NULL, ...) {
                          "Plot predicted vs. true values"
                          if (length(self$y.test) < 1 | length(self$predicted) < 1) {
                            warning("No testing data available")
@@ -176,20 +179,20 @@ rtMod <- R6::R6Class("rtMod",
                            mplot3.fit(self$y.test, self$predicted,
                                       xlab = paste("True", self$y.name),
                                       ylab = paste("Predicted", self$y.name),
-                                      main = paste(self$mod.name, "Testing"),
+                                      main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
                                       theme = theme,
                                       filename = filename, ...)
                          } else  if (self$type == "Classification") {
                            mplot3.conf(self$error.test,
                                        xlab = "Reference",
                                        ylab = "Predicted",
-                                       main = paste(self$mod.name, "Testing"),
+                                       main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
                                        theme = theme,
                                        filename = filename, ...)
                          } else {
                            mplot3.surv(list(True = self$y.test, Predicted = self$predicted),
-                                       main = paste(self$mod.name,
-                                                    "Kaplan-Meier estimate"),
+                                       main = if (is.null(main)) paste(self$mod.name,
+                                                    "Kaplan-Meier estimate") else main,
                                        normalize.time = TRUE,
                                        theme = theme,
                                        filename = filename, ...)
@@ -212,7 +215,7 @@ rtMod <- R6::R6Class("rtMod",
                                        main = paste(self$mod.name, "Testing"),
                                        theme = theme, ...)
                            rtlayout()
-                           return(list(self$y.name,
+                           invisible(list(self$y.name,
                                        self$error.train,
                                        self$y.test,
                                        self$error.test))
