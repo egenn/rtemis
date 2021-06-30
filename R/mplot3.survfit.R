@@ -302,6 +302,7 @@ mplot3.survfit <- function(x,
       }
     }
   }
+
   if (is.null(group.side)) {
     group.side <- if (min(x$surv) < .5) 3 else 1
   }
