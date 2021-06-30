@@ -5,6 +5,7 @@
 \alias{getnumericnames}
 \alias{getlogicalnames}
 \alias{getcharacternames}
+\alias{getdatenames}
 \title{Get names by string matching}
 \usage{
 getnames(
@@ -20,6 +21,8 @@ getnumericnames(x)
 getlogicalnames(x)
 
 getcharacternames(x)
+
+getdatenames(x)
 }
 \arguments{
 \item{x}{object with \code{names()} method}

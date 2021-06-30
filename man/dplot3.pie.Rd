@@ -33,7 +33,7 @@ dplot3.pie(
 }
 \arguments{
 \item{x}{data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
-b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defines using
+b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
 the \code{category.names} argument}
 
 \item{main}{Character: Plot title. Default = NULL, which results in colnames(x)[1],}

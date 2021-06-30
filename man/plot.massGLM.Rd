@@ -7,6 +7,7 @@
 \method{plot}{massGLM}(
   x,
   predictor = NULL,
+  main = NULL,
   what = c("adjusted", "raw", "coef"),
   p.adjust.method = "holm",
   pval.hline = 0.05,

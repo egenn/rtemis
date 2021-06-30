@@ -126,8 +126,8 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
   estimate = NULL,
-  filename = NULL,
   theme = getOption("rt.fit.theme", "lightgrid"),
+  filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -141,6 +141,7 @@ different approaches}
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
   print.plot = TRUE,
   theme = getOption("rt.fit.theme", "lightgrid"),
+  main = NULL,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -154,8 +155,9 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
   print.plot = TRUE,
-  filename = NULL,
   theme = getOption("rt.fit.theme", "lightgrid"),
+  main = NULL,
+  filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
 }

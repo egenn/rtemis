@@ -18,6 +18,7 @@ mplot3.fit(
   pty = "s",
   zerolines = FALSE,
   fit.legend = FALSE,
+  mar = NULL,
   ...
 )
 }
@@ -50,6 +51,8 @@ options(rt.theme = 'darkgrid')}
 \item{pty}{Character: "s" for square plot, "m" to fill device. Default = "s"}
 
 \item{fit.legend}{Logical: If TRUE, show fit legend}
+
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{...}{Additional argument to be passed to \link{mplot3.conf} (classification) or \link{mplot3.xy} (regression)}
 }
