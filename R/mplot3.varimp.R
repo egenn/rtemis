@@ -137,8 +137,9 @@ mplot3.varimp <- function(x,
   # [ Auto-margins ] ====
   if (is.null(mar)) {
     mar1 <- ifelse(xlab == "", 1.5, 2.5)
-    # mar2 <- max(strwidth(.names)) + 2.5 # this freaks out stupid notebooks
-    mar2 <- 1.0741 + 0.4 * max(nchar(.names))
+    # mar2 <- max(strwidth(.names)) + 2.5 # this freaks out notebooks
+    # mar2 <- 1.0741 + 0.4 * max(nchar(.names))
+    mar2 <- textwidth(.names)
     mar3 <- if (is.null(main)) .5 else 2
     mar <- c(mar1, mar2, mar3, .8)
     if (trace > 0) cat(crayon::silver("mar set to"), mar)
@@ -193,7 +194,7 @@ mplot3.varimp <- function(x,
            lwd = error.lwd, angle = 90, code = 3, length = 0.05, col = error.col)
   }
 
-  # [ x AXIS ] ====
+  # [ x-axis ] ====
   if (xaxis) axis(1, col = theme$axes.col, col.axis = theme$labs.col, col.ticks = theme$tick.col,
                   padj = x.axis.padj, tck = tck, cex = theme$cex)
 
@@ -217,7 +218,7 @@ mplot3.varimp <- function(x,
        labels = .names, adj = 1, xpd = TRUE,
        col = theme$labs.col)
 
-  # [ Axes Labeles ] ====
+  # [ Axes Labels ] ====
   if (!is.null(xlab))  mtext(xlab, 1,
                              cex = theme$cex,
                              line = xlab.line,
