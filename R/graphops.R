@@ -64,8 +64,8 @@ getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
   axs <- match.arg(axs)
 
   .x <- na.exclude(x)
-  .min <- min(x)
-  .max <- max(x)
+  .min <- min(.x)
+  .max <- max(.x)
 
   if (axs == "r") {
     .diff <- .max - .min
@@ -74,3 +74,4 @@ getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
     c(.min, .max)
   }
 } # rtemis::getlim
+
