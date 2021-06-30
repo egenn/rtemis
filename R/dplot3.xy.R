@@ -132,7 +132,7 @@ dplot3.xy <- function(x, y = NULL,
     order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
   }
 
-  # [ CLUSTER ] ====
+  # [ Cluster ] ====
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
