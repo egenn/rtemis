@@ -955,7 +955,8 @@ mplot3.fit <- function(x, y,
                        fit.col = NULL,
                        pty = "s",
                        zerolines = FALSE,
-                       fit.legend = FALSE, ...) {
+                       fit.legend = FALSE,
+                       mar = NULL, ...) {
 
   type <- if (is.factor(y)) {
     "Classification"
@@ -975,7 +976,8 @@ mplot3.fit <- function(x, y,
               theme = theme, zerolines = zerolines,
               marker.col = marker.col, fit.col = fit.col,
               pty = pty,
-              fit.legend = fit.legend, ...)
+              fit.legend = fit.legend,
+              mar = mar, ...)
   }
 
 } # rtemis::mplot3.fit
