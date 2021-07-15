@@ -34,7 +34,7 @@ s.RANGER(
   metric = NULL,
   maximize = NULL,
   probability = FALSE,
-  importance = "impurity_corrected",
+  importance = "impurity",
   replace = TRUE,
   min.node.size = NULL,
   splitrule = NULL,
