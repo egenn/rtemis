@@ -21,11 +21,10 @@ factor_NA2missing <- function(x, na_level_name = "missing") {
   if (!is.factor(x)) stop("x must be a factor, instead it is of class", class(x))
   if (anyNA(x)) {
     x <- factor(x, levels = c(levels(x), na_level_name))
-    x[is.na(x)] <- "missing"
+    x[is.na(x)] <- na_level_name
     x
   } else {
     x
   }
-
 
 } # rtemis::factor_NA2missing
