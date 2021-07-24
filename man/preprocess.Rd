@@ -12,10 +12,8 @@ preprocess(
   removeFeatures.thres = NULL,
   missingness = FALSE,
   impute = FALSE,
-  impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
-  impute.missRanger.params = list(pmm.k = 0, maxiter = 10, num.trees = 500),
-  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize = "no"),
-  impute.rfImpute.params = list(niter = 10, ntree = 500),
+  impute.type = c("missRanger", "micePMM", "meanMode"),
+  impute.missRanger.params = list(pmm.k = 3, maxiter = 10, num.trees = 500),
   impute.discrete = getMode,
   impute.numeric = mean,
   integer2factor = FALSE,
@@ -61,15 +59,15 @@ which cases were missing data. Default = FALSE}
 \item{impute.type}{Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
-compatibility with older pipelines and is no longer recommended}
+\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest").
+"missForest" is included for compatibility with older pipelines.}
 
 \item{impute.missRanger.params}{Named list with elements "pmm.k" and "maxiter", which are passed to
-\code{missRanger::missRanger}
-#' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+\code{missRanger::missRanger}. \code{pmm.k} greater than 0 results in predictive mean matching.
+Default \code{pmm.k = 3} \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
+faster imputation especially in large datasets. Set \code{pmm.k = 0} to disable predictive mean
+matching
 to \code{missForest::missForest}}
-
-\item{impute.rfImpute.params}{Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}}
 
 \item{impute.discrete}{Function that returns single value: How to impute discrete variables for
 \code{impute.type = "meanMode"}. Default = \link{getMode}}
