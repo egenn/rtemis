@@ -15,7 +15,12 @@
 getnames <- function(x,
                      pattern = NULL, starts_with = NULL, ends_with = NULL,
                      ignore.case = TRUE) {
-  .names <- names(x)
+
+  .names <- if (is.character(x)) {
+    x
+  } else {
+    names(x)
+  }
   if (!is.null(pattern)) {
     .names[grep(pattern, .names, ignore.case = ignore.case)]
   } else if (!is.null(starts_with)) {
@@ -45,7 +50,7 @@ mgetnames <- function(x,
                       ignore.case = TRUE,
                       return.index = FALSE) {
 
-  .names <- if(is.character(x)) x else names(x)
+  .names <- if (is.character(x)) x else names(x)
   idi <- numeric()
   if (!is.null(pattern)) {
     idi <- c(idi, unlist(lapply(pattern, function(p) grep(p, .names, ignore.case = ignore.case))))
