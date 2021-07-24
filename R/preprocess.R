@@ -44,13 +44,16 @@
 #' @param impute.type Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
 #' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
 #' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest"). "missForest" is included for
-#' compatibility with older pipelines and is no longer recommended
+#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest").
+#' "missForest" is included for compatibility with older pipelines.
 #' @param impute.missRanger.params Named list with elements "pmm.k" and "maxiter", which are passed to
-#' \code{missRanger::missRanger}
-#' #' @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+#' \code{missRanger::missRanger}. \code{pmm.k} greater than 0 results in predictive mean matching.
+#' Default \code{pmm.k = 3} \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
+#' faster imputation especially in large datasets. Set \code{pmm.k = 0} to disable predictive mean
+#' matching
+#  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
 #' to \code{missForest::missForest}
-#' @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
+# @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute.discrete Function that returns single value: How to impute discrete variables for
 #' \code{impute.type = "meanMode"}. Default = \link{getMode}
 #' @param impute.numeric Function that returns single value: How to impute continuous variables for
@@ -90,15 +93,12 @@ preprocess <- function(x, y = NULL,
                        removeFeatures.thres = NULL,
                        missingness = FALSE,
                        impute = FALSE,
-                       impute.type = c("missRanger", "missForest", "rfImpute", "meanMode"),
-                       impute.missRanger.params = list(pmm.k = 0,
+                       impute.type = c("missRanger",
+                                       "micePMM",
+                                       "meanMode"),
+                       impute.missRanger.params = list(pmm.k = 3,
                                                        maxiter = 10,
                                                        num.trees = 500),
-                       impute.missForest.params = list(maxiter = 10,
-                                                       ntree = 500,
-                                                       parallelize = "no"),
-                       impute.rfImpute.params = list(niter = 10,
-                                                     ntree = 500),
                        impute.discrete = getMode,
                        impute.numeric = mean,
                        integer2factor = FALSE,
@@ -271,30 +271,42 @@ preprocess <- function(x, y = NULL,
       if (!depCheck("missRanger", verbose = FALSE)) {
         cat("\n"); stop("Please install dependencies and try again")
       }
-      if (verbose) msg("Imputing missing values using missRanger...")
+      if (verbose) {
+        if (impute.missRanger.params$pmm.k > 0) {
+          msg("Imputing missing values using predictive mean matching with missRanger...")
+        } else {
+          msg("Imputing missing values using missRanger...")
+        }
+      }
       x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
                                   verbose = ifelse(verbose, 1, 0))
-    } else if (impute.type == "missForest") {
-      # '- missForest ----
-      if (!depCheck("missForest", verbose = FALSE)) {
+    } else if (impute.type == "micePMM") {
+      if (!depCheck("mice", verbose = FALSE)) {
         cat("\n"); stop("Please install dependencies and try again")
       }
-      if (verbose) msg("Imputing missing values using missForest...")
-      x <- missForest::missForest(x,
-                                  maxiter = impute.missForest.params$maxiter,
-                                  ntree = impute.missForest.params$ntree,
-                                  parallelize = impute.missForest.params$parallelize)$ximp
-
-    } else if (impute.type == "rfImpute") {
-      # '- rfImpute ----
-      if (!depCheck("randomForest", verbose = FALSE)) {
-        cat("\n"); stop("Please install dependencies and try again")
-      }
-      if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
-                           missForest instead")
-      x <- randomForest::rfImpute(x, y,
-                                  iter = impute.rfImpute.params$niter,
-                                  ntree = impute.rfImpute.params$ntree)
+      if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
+      x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
+    # } else if (impute.type == "missForest") {
+    #   # '- missForest ----
+    #   if (!depCheck("missForest", verbose = FALSE)) {
+    #     cat("\n"); stop("Please install dependencies and try again")
+    #   }
+    #   if (verbose) msg("Imputing missing values using missForest...")
+    #   x <- missForest::missForest(x,
+    #                               maxiter = impute.missForest.params$maxiter,
+    #                               ntree = impute.missForest.params$ntree,
+    #                               parallelize = impute.missForest.params$parallelize)$ximp
+    #
+    # } else if (impute.type == "rfImpute") {
+    #   # '- rfImpute ----
+    #   if (!depCheck("randomForest", verbose = FALSE)) {
+    #     cat("\n"); stop("Please install dependencies and try again")
+    #   }
+    #   if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
+    #                        missForest instead")
+    #   x <- randomForest::rfImpute(x, y,
+    #                               iter = impute.rfImpute.params$niter,
+    #                               ntree = impute.rfImpute.params$ntree)
     } else {
       # '- mean/mode ----
       if (verbose) msg0("Imputing missing values using ", deparse(substitute(impute.numeric)),
