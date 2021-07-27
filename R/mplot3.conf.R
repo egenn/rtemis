@@ -90,8 +90,8 @@ mplot3.conf <- function(object,
                         hi.color.pos = "#18A3AC",
                         hi.color.neg = "#F48024",
                         par.reset = TRUE,
-                        pdf.width = 4.5,
-                        pdf.height = 4.5,
+                        pdf.width = 7,
+                        pdf.height = 7,
                         filename = NULL, ...) {
 
   # [ Data ] ====
@@ -171,6 +171,9 @@ mplot3.conf <- function(object,
   # NPV  = true negative / predicted condition negative
   class.npv <- true.negative/(total - predicted.totals)
 
+  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
+                                         title = "rtemis Graphics")
+
   # Par ====
   if (!is.null(rtenv$rtpar)) {
     par(mar = c(0, 0, 0, 0), bg = col.bg, pty = "s")
@@ -180,9 +183,6 @@ mplot3.conf <- function(object,
     # par(mar = c(0, 0, 0, 0), bg = col.bg, oma = oma)
     par(mar = c(0, 0, 0, 0), bg = col.bg, pty = "s", oma = oma)
   }
-
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
-                                         title = "rtemis Graphics")
 
   # Plot ====
   if (!is.null(main)) {
