@@ -13,6 +13,7 @@
   pval.hline = 0.05,
   hline.col = "#FE4AA3",
   hline.dash = "dash",
+  ylab = NULL,
   theme = getOption("rt.theme", "lightgrid"),
   displayModeBar = FALSE,
   ...

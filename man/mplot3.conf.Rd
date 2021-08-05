@@ -38,8 +38,8 @@ mplot3.conf(
   hi.color.pos = "#18A3AC",
   hi.color.neg = "#F48024",
   par.reset = TRUE,
-  pdf.width = 4.5,
-  pdf.height = 4.5,
+  pdf.width = 7,
+  pdf.height = 7,
   filename = NULL,
   ...
 )
