@@ -78,7 +78,7 @@ dplot3.bar <-  function(x,
                         legend = NULL,
                         legend.col = NULL,
                         hline = NULL,
-                        hline.col = "#ff0000",
+                        hline.col = "#FE4AA3",
                         hline.width = 1,
                         hline.dash = "solid",
                         margin = list(b = 50, l = 50, t = 50, r = 20),
@@ -251,12 +251,18 @@ dplot3.bar <-  function(x,
 
   # hline ====
   if (!is.null(hline)) {
-    plt <- plotly::layout(plt, shapes = list(list(type = "line",
-                                                  x0 = 0, x1 = 1, xref = "paper",
-                                                  y0 = hline, y1 = hline,
-                                                  line = list(color = hline.col,
-                                                              width = hline.width,
-                                                              dash = hline.dash))))
+    hline.col <- recycle(hline.col, hline)
+    hline.width <- recycle(hline.width, hline)
+    hline.dash <- recycle(hline.dash, hline)
+    hlinel <- lapply(seq_along(hline), function(i) {
+      list(type = "line",
+           x0 = 0, x1 = 1, xref = "paper",
+           y0 = hline[i], y1 = hline[i],
+           line = list(color = hline.col[i],
+                       width = hline.width[i],
+                       dash = hline.dash[i]))
+    })
+    plt <- plotly::layout(plt, shapes = hlinel)
   }
 
   # Padding
