@@ -151,9 +151,11 @@ plot.massGLM <- function(x,
                          main = NULL,
                          what = c("adjusted", "raw", "coef"),
                          p.adjust.method = "holm",
-                         pval.hline = .05,
+                         p.transform = function(x) 1 - x,
+                         pval.hline = c(.001, .05),
                          hline.col = "#FE4AA3",
                          hline.dash = "dash",
+                         ylim = NULL,
                          ylab = NULL,
                          theme = getOption("rt.theme", "lightgrid"),
                          displayModeBar = FALSE, ...) {
@@ -166,14 +168,16 @@ plot.massGLM <- function(x,
       if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste("1 - adjusted", pval_name, "p-value")
-      dplot3.bar(1 - p.adjust(x$summary[[pval_idi]], method = p.adjust.method),
+      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), "adjusted", pval_name, "p-value")
+      dplot3.bar(p.transform(p.adjust(x$summary[[pval_idi]],
+                                method = p.adjust.method)),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
                  main = main,
-                 ylim = c(0, 1),
+                 # ylim = c(0, 1),
+                 ylim = ylim,
                  legend = FALSE,
                  ylab = ylab,
-                 hline = 1 - pval.hline,
+                 hline = p.transform(pval.hline),
                  hline.col = hline.col,
                  hline.dash = hline.dash,
                  theme = theme,
@@ -182,13 +186,14 @@ plot.massGLM <- function(x,
       if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste("1 - raw", pval_name, "p-value")
-      dplot3.bar(1 - x$summary[[pval_idi]],
+      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), "raw", pval_name, "p-value")
+      dplot3.bar(p.transform(x$summary[[pval_idi]]),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
                  main = main,
+                 ylim = ylim,
                  legend = FALSE,
                  ylab = ylab,
-                 hline = 1 - pval.hline,
+                 hline = p.transform(pval.hline),
                  hline.col = hline.col,
                  hline.dash = hline.dash,
                  theme = theme,
@@ -210,3 +215,5 @@ plot.massGLM <- function(x,
   }
 
 } # rtemis::plot.massGLM
+
+print_transform <- function(x) gsub("[x()]", "", x)
