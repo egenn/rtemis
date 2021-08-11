@@ -6,6 +6,8 @@
 #'
 #' Train an LDA Classifier using \code{MASS::lda}
 #'
+#' Note: LDA requires all predictors to be numeric.
+#' The variable importance output ("varimp") is the vector of coefficients for LD1
 #' @inheritParams s.GLM
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
@@ -76,6 +78,11 @@ s.LDA <- function(x, y = NULL,
   checkType(type, "Classification", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
+  # Check all predictors are numeric
+  if (any(!sapply(x, is.numeric))) {
+    stop("All predictors need to be numeric")
+  }
+
   # [ LDA ] ====
   params <- c(list(x = x, grouping = y,
                    method = method,
@@ -122,6 +129,7 @@ s.LDA <- function(x, y = NULL,
                   predicted = predicted,
                   se.prediction = NULL,
                   error.test = error.test,
+                  varimp = coef(mod)[, 1],
                   question = question)
 
   rtMod.out(rt,
