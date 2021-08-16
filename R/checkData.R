@@ -29,32 +29,34 @@ checkData <- function(x,
                       reportFeatures.thres = NULL) {
 
   if (is.null(name)) name <- deparse(substitute(x))
-  cat("  Dataset:", rtHighlight$bold(name), "\n")
-  boxcat("Summary", pad = 2)
-  x <- as.data.frame(x)
-  orange <- crayon::make_style(orange = "orange")
-
-  # [ Report ] ====
-  # Dimensions
   n.rows <- NROW(x)
   n.cols <- NCOL(x)
-  cat(" ", bold(n.rows), ngettext(n.rows, "case", "cases"),
-      "with", bold(n.cols), ngettext(n.cols, "feature:", "features:"), "\n")
+  cat(" ", rtHighlight$bold(name))
+  cat(": A", class(x)[1], "with",
+      rtHighlight$bold(n.rows), ngettext(n.rows, "row", "rows"),
+      "and", rtHighlight$bold(n.cols), ngettext(n.cols, "feature:", "features:"), "\n")
+  # boxcat("Summary", pad = 2)
+  x <- as.data.frame(x)
+  # This way avoids running line before all terminal colors are available
+  orange <- crayon::make_style(orange = "orange")
 
-  # [ Integers ] ====
+  # Data Types ====
+
+  ## Integers ====
   index.integer <- which(sapply(x, is.integer))
   n.integer <- length(index.integer)
 
-  # [ Floats ] ====
+  ## Floats ====
   index.continuous <- which(sapply(x, function(i) is.numeric(i) & !is.integer(i)))
   n.continuous <- length(index.continuous)
 
-  # [ Factors ] ====
+  ## Factors ====
   index.factor <- which(sapply(x, is.factor))
   n.factor <- length(index.factor)
   index.ordered <- which(sapply(x, is.ordered))
   n.ordered <- length(index.ordered)
 
+  cat(bold("\n  Data types"), "________________\n", sep = "")
   cat("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features"), "\n")
   cat("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features"), "\n")
   isOrdered <- if (n.factor == 1) {
@@ -75,31 +77,39 @@ checkData <- function(x,
         "more than 2 levels\n")
   }
 
-  # [ Characters ] ====
+  ## Characters ====
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
   .col <- if (n.character > 0) orange$bold else bold
   cat("  *", .col(n.character), "character", ngettext(n.character, "feature", "features"), "\n")
 
-  # [ Constants ] ====
+  ## Dates ====
+  index.date <- which(sapply(x, function(col) inherits(col, "Date")))
+  n.date <- length(index.date)
+  cat("  *", n.date, "date", ngettext(n.date, "feature", "features"), "\n")
+
+  # Issues ====
+
+  ## Constants ====
+  cat(bold("\n  Issues") ,"___________________\n", sep = "")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
   .col <- if (n.constant > 0) red$bold else bold
   cat("  *", .col(n.constant), "constant", ngettext(n.constant, "feature", "features"), "\n")
 
-  # [ Duplicates ] ====
+  ## Duplicates ====
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
   .col <- if (n.dups > 0) red$bold else bold
   cat("  *", .col(n.dups), "duplicated", ngettext(n.dups, "case", "cases"), "\n")
 
-  # [ NAs ] ====
+  ## NAs ====
   cols.anyna <- which(sapply(x, anyNA))
   n.cols.anyna <- length(cols.anyna)
   index.na <- which(is.na(x))
   n.na <- length(index.na)
 
-  # Get percent of NA values per feature and per case
+  ## Get percent of NA values per feature and per case
   if (n.cols.anyna > 0) {
     na.feature.pct <- data.frame(Feature = names(cols.anyna),
                                  Pct.NA = sapply(seq_len(n.cols.anyna), function(i)
@@ -152,15 +162,16 @@ checkData <- function(x,
 
   }
 
-  # [ str() ] ====
+  # str() ====
   if (str) {
     boxcat("Feature structure", pad = 2)
     str(x)
   }
 
-  # [ Recomend ] ====
+  # Recommendations ====
   if (recommend) {
-    boxcat("Recommendations", pad = 2)
+    # boxcat("Recommendations", pad = 2)
+    cat(bold("\n  Recommendations") ,"__________\n", sep = "")
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
         cat(orange("  * Convert the character",
