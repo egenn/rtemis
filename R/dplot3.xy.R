@@ -23,7 +23,6 @@
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 #' groups, or \code{fit} is set
 #' @param legend.orientation Character: "v": vertical, or "h": horizontal. Default = "v"
-#' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
 #' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
 #' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
 #' @param hist.n.bins Integer: Number of bins to use if type = "histogram". Default = 20
@@ -81,7 +80,6 @@ dplot3.xy <- function(x, y = NULL,
                       margin = list(t = 35, pad = 0),
                       automargin.x = TRUE,
                       automargin.y = TRUE,
-                      zerolines = TRUE,
                       xlim = NULL,
                       ylim = NULL,
                       axes.equal = FALSE,
@@ -456,7 +454,7 @@ dplot3.xy <- function(x, y = NULL,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
-                                     zeroline = zerolines,
+                                     zeroline = theme$zerolines,
                                      range = xlim,
                                      automargin = automargin.x),
                         # barmode = barmode,  # group works without actual groups too
