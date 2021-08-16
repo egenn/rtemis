@@ -1,6 +1,6 @@
 # mplot3.x.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016- E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'
@@ -203,7 +203,7 @@ mplot3.x <- function(x,
   if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
 
   if (type == "index") yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
-  if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
+  # if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
 
   # Group names
   if (!is.null(group.names)) group.names <- c(group.title, group.names)
@@ -233,11 +233,11 @@ mplot3.x <- function(x,
 
   # [ Data: QQLINE ] ====
   if (type == "qqline") {
-    yl <- list()
+    qyl <- qxl <- xl
     for (i in seq_along(xl)) {
       .out <- x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
-      xl[[i]] <- x.qqnorm$x
-      yl[[i]] <- x.qqnorm$y
+      qxl[[i]] <- x.qqnorm$x
+      qyl[[i]] <- x.qqnorm$y
       xlab <- "Theoretical Quantiles"
       ylab <- "Sample Quantiles"
       if (is.null(main)) main <- "Q-Q Plot"
@@ -282,7 +282,8 @@ mplot3.x <- function(x,
     if (is.null(ylim)) ylim <- c(0, max(max(sapply(densityl, function(d) max(d$y))),
                                         unlist(sapply(histl, function(x) c(x$density)))))
   } else if (type == "qqline") {
-    if (is.null(xlim)) xlim <- ylim <- range(c(xl, yl), na.rm = na.rm)
+    if (is.null(xlim)) xlim <- range(qxl, na.rm = na.rm)
+    if (is.null(ylim)) ylim <- range(qyl, na.rm = na.rm)
   } else if (type == "index") {
     if (is.null(xlim)) xlim <- c(1, max(sapply(xl, length), na.rm = na.rm))
     if (is.null(ylim)) ylim <- range(unlist(xl), na.rm = na.rm)
@@ -537,18 +538,19 @@ mplot3.x <- function(x,
   # [ QQ LINE ] ====
   if (is.null(qqline.col)) {
     if (length(xl) == 1) {
-      qqline.col <- "#045ea7" # check
+      qqline.col <- palette[1]
     } else {
-      qqline.col <- pennPalette
+      qqline.col <- palette
     }
   }
   qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
-  if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
-                                                         length(xl) / length(qqline.col))
+  qqline.col <- recycle(qqline.col, xl)
+  # if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
+  #                                                        length(xl) / length(qqline.col))
 
   if (type == "qqline") {
     for (i in seq_along(xl)) {
-      points(xl[[i]], yl[[i]],
+      points(qxl[[i]], qyl[[i]],
              type = "p",
              col = col.alpha[[i]],
              bg = point.bg.col,
