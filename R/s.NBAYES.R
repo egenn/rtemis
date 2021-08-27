@@ -6,8 +6,11 @@
 #'
 #' Train a Naive Bayes Classifier using \code{e1071::naiveBayes}
 #'
+#' The \code{laplace} argument only affects categorical predictors
+#'
 #' @inheritParams s.GLM
-#' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing)
+#' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing). This only affects
+#' categorical features
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
 #' @family Supervised Learning
@@ -28,7 +31,7 @@ s.NBAYES <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.NBAYES))
     invisible(9)
@@ -42,19 +45,19 @@ s.NBAYES <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NBAYES"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -72,41 +75,55 @@ s.NBAYES <- function(x, y = NULL,
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # [ NBAYES ] ====
+  # NBAYES ====
   if (verbose) msg("Training Naive Bayes Classifier...", newline.pre = TRUE)
   mod <- e1071::naiveBayes(x, y,
                            laplace = laplace, ...)
 
-  # [ Fitted ] ====
-  fitted <- predict(mod, x)
-  error.train <- modError(y, fitted, type = "Classification")
+  # Fitted ====
+  fitted.prob <- predict(mod, x, type = "raw")
+  fitted <- predict(mod, x, type = "class")
+  error.train <- modError(y, fitted,
+                          fitted.prob,
+                          type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
-  predicted <- error.test <- NULL
+  # Predicted ====
+  predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict(mod, x.test)
+    predicted.prob <- predict(mod, x, type = "raw")
+    predicted <- predict(mod, x.test, type = "class")
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, type = "Classification")
+      error.test <- modError(y.test, predicted,
+                             predicted.prob,
+                             type = "Classification")
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
 
-  # [ Outro ] ====
-  rt <- rtMod$new(mod.name = mod.name,
-                  y.train = y,
-                  y.test = y.test,
-                  x.name = x.name,
-                  xnames = xnames,
-                  mod = mod,
-                  type = type,
-                  fitted = fitted,
-                  se.fit = NULL,
-                  error.train = error.train,
-                  predicted = predicted,
-                  se.prediction = NULL,
-                  error.test = error.test,
-                  question = question)
+  # Outro====
+  rt <- rtModSet(rtclass = "rtMod",
+                 mod = mod,
+                 mod.name = mod.name,
+                 type = type,
+                 parameters = list(laplace = laplace),
+                 call = call,
+                 y.train = y,
+                 y.test = y.test,
+                 x.name = x.name,
+                 y.name = y.name,
+                 xnames = xnames,
+                 fitted = fitted,
+                 fitted.prob = fitted.prob,
+                 se.fit = NULL,
+                 error.train = error.train,
+                 predicted = predicted,
+                 predicted.prob = predicted.prob,
+                 se.prediction = NULL,
+                 error.test = error.test,
+                 varimp = numeric(),
+                 question = question,
+                 extra = NULL)
 
   rtMod.out(rt,
             print.plot,
