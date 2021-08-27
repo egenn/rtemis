@@ -1209,7 +1209,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                                type = c("barplot", "lollipop"),
                                                plot.top = 12,
                                                theme = getOption("rt.theme", "lightgrid"), ...) {
-                           varimp <- colMeans(self$varimp[[which.repeat]])
+                           if (is.null(self$varimp)) varimp <-  NULL else varimp <-  colMeans(self$varimp[[which.repeat]])
                            if (length(varimp) == 0) {
                              warning("Variable importance is not available for this model")
                            } else {

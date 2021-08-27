@@ -516,11 +516,20 @@ elevate <- function(x, y = NULL,
   }
 
   # '- varimp ====
-  varimp <- plyr::llply(mods, function(r) {
-    .vi <- plyr::ldply(r, function(n) t(n$mod1$varimp), .id = NULL)
-    rownames(.vi) <- names(r)
-    .vi
-  })
+  if (any(sapply(mods, function (r) {
+    any(sapply(r, function(n) is.null(n$mod1$varimp) ))
+  }))) {
+    varimp <- NULL
+  } else {
+    varimp <- plyr::llply(mods, function(r) {
+        print(r)
+        .vi <- plyr::ldply(r, function(n) t(n$mod1$varimp), .id = NULL)
+        rownames(.vi) <- names(r)
+        .vi
+      })
+  }
+  
+  
 
   if (type == "Classification") {
     rt <- rtModCVclass$new(mod = mods,
