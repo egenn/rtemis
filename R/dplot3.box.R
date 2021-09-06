@@ -1,11 +1,21 @@
 # dplot3.box.R
 # ::rtemis::
 # 201-21 E.D. Gennatas lambdamd.org
+# add support for multiple vars + group + time bin
 
 #' Interactive Boxplots & Violin plots
 #'
 #' Draw interactive boxplots or violin plots using \pkg{plotly}
 #'
+#' For multiple box plots, the recommendation is:
+#' - `x=dat[, columnindex]` for multiple variables of a data.frame
+#' - `x=list(a=..., b=..., etc.)` for multiple variables of potentially different length
+#' - `x=split(var, group)` for one variable with multiple groups: group names appear below boxplots
+#' - `x=dat[, columnindex], group = factor` for grouping multiple variables: group names appear in legend
+#'
+#' If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa. Similarly,
+#' \code{x.axist.type} applies to y-axis - this defaults to "category" and would not normally need
+#' changing.
 #' @param x Vector or List of vectors: Input
 #' @param main Character: Plot title. Default = NULL
 #' @param xlab Character: x-axis label. Default = NULL
@@ -57,42 +67,47 @@
 #' # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 #' }
 
-dplot3.box <-  function(x,
-                        time = NULL,
-                        time.bin = c("year", "quarter", "month", "day"),
-                        type = c("box", "violin"),
-                        group = NULL,
-                        main = NULL,
-                        xlab = "",
-                        ylab = NULL,
-                        col = NULL,
-                        alpha = .6,
-                        bg = NULL,
-                        plot.bg = NULL,
-                        theme = getOption("rt.theme", "lightgrid"),
-                        palette = getOption("rt.palette", "rtCol1"),
-                        boxpoints = "outliers",
-                        quartilemethod = "linear",
-                        width = 0,
-                        violin.box = TRUE,
-                        xnames = NULL,
-                        labelify = TRUE,
-                        order.by.fn = NULL,
-                        font.size = 16,
-                        legend = NULL,
-                        legend.col = NULL,
-                        legend.xy = NULL,
-                        xaxis.type = "category",
-                        margin = list(t = 35, pad = 0),
-                        automargin.x = TRUE,
-                        automargin.y = TRUE,
-                        boxgap = NULL,
-                        boxgroupgap = NULL,
-                        displayModeBar = TRUE,
-                        filename = NULL,
-                        file.width = 500,
-                        file.height = 500,
-                        print.plot = TRUE, ...) {
+# DEV: horizontal gives wrong data => wrong plots, wrong medians, etc
+
+dplot3.box <- function(x,
+                       time = NULL,
+                       time.bin = c("year", "quarter", "month", "day"),
+                       type = c("box", "violin"),
+                       group = NULL,
+                       main = NULL,
+                       xlab = "",
+                       ylab = NULL,
+                       col = NULL,
+                       alpha = .6,
+                       bg = NULL,
+                       plot.bg = NULL,
+                       theme = getOption("rt.theme", "lightgrid"),
+                       palette = getOption("rt.palette", "rtCol1"),
+                       boxpoints = "outliers",
+                       quartilemethod = "linear",
+                       # width = 0,
+                       violin.box = TRUE,
+                       orientation = "v",
+                       xnames = NULL,
+                       labelify = TRUE,
+                       order.by.fn = NULL,
+                       font.size = 16,
+                       legend = NULL,
+                       legend.col = NULL,
+                       legend.xy = NULL,
+                       legend.orientation = "v",
+                       xaxis.type = "category",
+                       margin = list(t = 35, pad = 0),
+                       automargin.x = TRUE,
+                       automargin.y = TRUE,
+                       boxgap = NULL,
+                       boxgroupgap = NULL,
+                       hovertext = NULL,
+                       displayModeBar = TRUE,
+                       filename = NULL,
+                       file.width = 500,
+                       file.height = 500,
+                       print.plot = TRUE, ...) {
 
   # Dependencies ====
   if (!depCheck("plotly", verbose = FALSE)) {
@@ -111,11 +126,13 @@ dplot3.box <-  function(x,
       x <- list(x)
       names(x) <- .names
     } else {
+      # x is data.frame or matrix
       .names <- colnames(x)
       x <- lapply(seq(NCOL(x)), function(i) x[, i])
       names(x) <- .names
     }
   }
+  horizontal <- orientation == "h"
 
   # Order by fn ====
   if (!is.null(order.by.fn) && order.by.fn != "none") {
@@ -147,6 +164,7 @@ dplot3.box <-  function(x,
     if (is.null(.xnames)) .xnames <- paste0("Feature", seq(n.groups))
     if (labelify) .xnames <- labelify(.xnames)
   }
+
 
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
@@ -181,50 +199,72 @@ dplot3.box <-  function(x,
     if (is.null(group)) {
       # A.1 Single and multiple boxplots ====
       if (is.null(legend)) legend <- FALSE
-      args <- list(y = x[[1]],
+      args <- if (horizontal) {
+        list(x = x[[1]], y = NULL)
+      } else {
+        list(x = NULL, y = x[[1]])
+      }
+      args <- c(args,
+                list(
                    type = type,
                    name = .xnames[1],
                    line = list(color = plotly::toRGB(col[1])),
                    fillcolor = plotly::toRGB(col[1], alpha),
-                   marker = list(color = plotly::toRGB(col[1], alpha)))
+                   marker = list(color = plotly::toRGB(col[1], alpha))
+                   # width = width
+      ))
+      if (!is.null(hovertext) && n.groups == 1) {
+        hovertext <- list(hovertext)
+      }
       if (type == "box") {
         args <- c(args, list(quartilemethod = quartilemethod,
                              boxpoints = boxpoints))
+        if (!is.null(hovertext)) args$text <- hovertext[[1]]
       }
       if (type == "violin") args$box <- list(visible = violin.box)
       plt <- do.call(plotly::plot_ly, args)
       if (n.groups > 1) {
         for (i in seq_len(n.groups)[-1]) {
-          plt <- plotly::add_trace(plt, y = x[[i]],
+          plt <- plotly::add_trace(plt,
+                                   x = if (horizontal) x[[i]] else NULL,
+                                   y = if (horizontal) NULL else x[[i]],
                                    name = .xnames[i],
                                    line = list(color = plotly::toRGB(col[i])),
                                    fillcolor = plotly::toRGB(col[i], alpha),
-                                   marker = list(color = plotly::toRGB(col[i], alpha)))
+                                   marker = list(color = plotly::toRGB(col[i], alpha)),
+                                   text = if (!is.null(hovertext)) hovertext[[i]] else NULL)
         }
       }
     } else {
-      # A.2 Grouped boxplots ====
+      # A.2 Grouped boxplots with [group] ====
       if (is.null(legend)) legend <- TRUE
       dt <- cbind(data.table::as.data.table(x), group = group)
       dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))], id.vars = c("ID", "group"))
       if (is.null(ylab)) ylab <- ""
       args <- list(data = dtlong,
                    type = type,
-                   x = ~variable,
-                   y = ~value,
+                   x = if (horizontal) ~value else ~variable,
+                   y = if (horizontal) ~variable else ~value,
                    color = ~group,
-                   colors = col2hex(col))
+                   colors = col2hex(col)
+                   # width = width
+      )
       if (type == "box") {
         args <- c(args, list(quartilemethod = quartilemethod,
                              boxpoints = boxpoints,
                              alpha = alpha))
+        if (!is.null(hovertext)) {
+          dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
+          args$text <- dtlong$hovertext
+        }
       }
       if (type == "violin") args$box <- list(visible = violin.box)
-
+      cataxis <- list(tickvals = 0:(NCOL(dt) - 2),
+                      ticktext = .xnames)
       plt <- do.call(plotly::plot_ly, args) %>%
         plotly::layout(boxmode = "group",
-                       xaxis = list(tickvals = 0:(NCOL(dt) - 2),
-                                    ticktext = .xnames))
+                       xaxis = if (horizontal) NULL else cataxis,
+                       yaxis = if (horizontal) cataxis else NULL)
     }
 
   } else {
@@ -244,6 +284,9 @@ dplot3.box <-  function(x,
 
     ## Long data ====
     dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))], id.vars = c("ID", "timeperiod"))
+    if (!is.null(hovertext)) {
+      dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
+    }
 
     # group by
     if (!is.null(group)) {
@@ -253,11 +296,6 @@ dplot3.box <-  function(x,
         list(
           type = 'groupby',
           groups = group,
-          # styles = list(
-          #   list(target = 4, value = list(marker =list(color = 'blue'))),
-          #   list(target = 6, value = list(marker =list(color = 'red'))),
-          #   list(target = 8, value = list(marker =list(color = 'black')))
-          # )
           styles =
             lapply(seq_along(grouplevels), function(i) {
               list(target = grouplevels[i], value = list(line = list(color = plotly::toRGB(col[i])),
@@ -274,19 +312,19 @@ dplot3.box <-  function(x,
     if (is.null(group)) {
       args <- list(data = dtlong,
                    type = type,
-                   x = ~timeperiod,
-                   y = ~value,
+                   x = if (horizontal) ~value else ~timeperiod,
+                   y = if (horizontal) ~timeperiod else ~value,
                    color = ~variable,
                    colors = col2hex(col))
     } else {
       args <- list(data = dtlong,
                    type = type,
-                   x = ~timeperiod,
-                   y = ~value,
-                   # color = if (is.null(group)) ~variable else NULL,
-                   # colors = if (is.null(group)) col2hex(col) else NULL,
+                   x = if (horizontal) ~value else ~timeperiod,
+                   y = if (horizontal) ~timeperiod else ~value,
                    transforms = transforms)
     }
+    # args$width <- width
+    if (!is.null(hovertext)) args$text <- dtlong$hovertext
 
     if (type == "box") {
       args <- c(args, list(quartilemethod = quartilemethod,
@@ -309,10 +347,12 @@ dplot3.box <-  function(x,
                   y = legend.xy[2],
                   font = list(family = theme$font.family,
                               size = font.size,
-                              color = legend.col))
+                              color = legend.col),
+                  orientation = legend.orientation)
 
   plt <- plotly::layout(plt,
-                        yaxis = list(title = ylab,
+                        yaxis = list(title = if (horizontal) xlab else ylab,
+                                     type = if (horizontal) xaxis.type else NULL,
                                      titlefont = f,
                                      showgrid = theme$grid,
                                      gridcolor = grid.col,
@@ -321,8 +361,8 @@ dplot3.box <-  function(x,
                                      tickfont = tickfont,
                                      zeroline = FALSE,
                                      automargin = automargin.y),
-                        xaxis = list(title = xlab,
-                                     type = xaxis.type,
+                        xaxis = list(title = if (horizontal) ylab else xlab,
+                                     type = if (horizontal) NULL else xaxis.type,
                                      titlefont = f,
                                      showgrid = FALSE,
                                      tickcolor = grid.col,
