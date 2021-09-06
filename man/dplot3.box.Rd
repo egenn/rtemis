@@ -21,8 +21,8 @@ dplot3.box(
   palette = getOption("rt.palette", "rtCol1"),
   boxpoints = "outliers",
   quartilemethod = "linear",
-  width = 0,
   violin.box = TRUE,
+  orientation = "v",
   xnames = NULL,
   labelify = TRUE,
   order.by.fn = NULL,
@@ -30,12 +30,14 @@ dplot3.box(
   legend = NULL,
   legend.col = NULL,
   legend.xy = NULL,
+  legend.orientation = "v",
   xaxis.type = "category",
   margin = list(t = 35, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
   boxgap = NULL,
   boxgroupgap = NULL,
+  hovertext = NULL,
   displayModeBar = TRUE,
   filename = NULL,
   file.width = 500,
@@ -95,6 +97,17 @@ Default = "category"}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}
+}
+\details{
+For multiple box plots, the recommendation is:
+- `x=dat[, columnindex]` for multiple variables of a data.frame
+- `x=list(a=..., b=..., etc.)` for multiple variables of potentially different length
+- `x=split(var, group)` for one variable with multiple groups: group names appear below boxplots
+- `x=dat[, columnindex], group = factor` for grouping multiple variables: group names appear in legend
+
+If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa. Similarly,
+\code{x.axist.type} applies to y-axis - this defaults to "category" and would not normally need
+changing.
 }
 \examples{
 \dontrun{

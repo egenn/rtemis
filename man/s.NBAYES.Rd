@@ -34,7 +34,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{laplace}{Float (>0): Laplace smoothing. Default = 0 (no smoothing)}
+\item{laplace}{Float (>0): Laplace smoothing. Default = 0 (no smoothing). This only affects
+categorical features}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -71,6 +72,9 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \description{
 Train a Naive Bayes Classifier using \code{e1071::naiveBayes}
+}
+\details{
+The \code{laplace} argument only affects categorical predictors
 }
 \seealso{
 Other Supervised Learning: 

@@ -24,7 +24,7 @@ dplot3.bar(
   legend = NULL,
   legend.col = NULL,
   hline = NULL,
-  hline.col = "#ff0000",
+  hline.col = "#FE4AA3",
   hline.width = 1,
   hline.dash = "solid",
   margin = list(b = 50, l = 50, t = 50, r = 20),

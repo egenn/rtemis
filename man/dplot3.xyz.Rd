@@ -141,8 +141,6 @@ groups, or \code{fit} is set}
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
 Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
-\item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
-
 \item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
 parameters}
 

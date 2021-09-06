@@ -6,7 +6,7 @@
 \usage{
 mplot3.x(
   x,
-  type = c("density", "histogram", "hd", "index", "ts", "qqline"),
+  type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
   group = NULL,
   data = NULL,
   xlab = NULL,
@@ -30,6 +30,8 @@ mplot3.x(
   density.shade = TRUE,
   density.legend.side = 3,
   density.legend.adj = 0.98,
+  density.bw = "nrd0",
+  density.kernel = "gaussian",
   density.params = list(na.rm = na.rm),
   qqline.col = "#18A3AC",
   qqline.alpha = 1,
@@ -102,6 +104,7 @@ mplot3.x(
 If \code{data} is provided, x is name of variable in \code{data}}
 
 \item{type}{Character: "density", "histogram", "hd" (histogram bars & density lines),
+"lhist" (line histogram like \link{mhist}; same as \code{type = "hist", hist.type = "lines"}),
 "index", "ts", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram}
 

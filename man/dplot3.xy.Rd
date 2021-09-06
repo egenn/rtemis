@@ -50,7 +50,6 @@ dplot3.xy(
   margin = list(t = 35, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
-  zerolines = TRUE,
   xlim = NULL,
   ylim = NULL,
   axes.equal = FALSE,
@@ -149,8 +148,6 @@ groups, or \code{fit} is set}
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
-
-\item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
