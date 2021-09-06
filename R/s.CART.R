@@ -91,7 +91,7 @@ s.CART <- function(x, y = NULL,
 
   tree.depth <- getFromNamespace("tree.depth", "rpart")
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.CART))
     return(invisible(9))
@@ -105,12 +105,12 @@ s.CART <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CART"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.CART))
     stop("y is missing")
@@ -132,7 +132,7 @@ s.CART <- function(x, y = NULL,
                   xval = xval)
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -184,11 +184,11 @@ s.CART <- function(x, y = NULL,
   }
   if (type == "Classification") n.classes <- length(levels(y))
 
-  # [ Formula ] ====
+  # Formula ====
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
-  # [ Grid Search for prune.cp ] ====
+  # Grid Search for prune.cp ====
   if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
     gs <- gridSearchLearn(x0, y0,
                           mod = mod.name,
@@ -241,7 +241,7 @@ s.CART <- function(x, y = NULL,
                      cost = cost,
                      na.action = na.action)
 
-  # [ RPART ] ====
+  # rpart ====
   if (verbose) msg("Training CART...", newline.pre = TRUE)
   mod <- rpart::rpart(formula = .formula,
                       data = df.train,
@@ -253,7 +253,7 @@ s.CART <- function(x, y = NULL,
                       parms = parms,
                       na.action = na.action)
 
-  # [ COST-COMPLEXITY PRUNING ] ====
+  # Cost-Complexity Pruning ====
   if (!is.null(prune.cp)) {
     if (return.unpruned) mod.unpruned <- mod
     if (use.prune.rpart.rt) {
@@ -263,7 +263,7 @@ s.CART <- function(x, y = NULL,
     }
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted.prob <- NULL
   if (type == "Regression" | type == "Survival") {
     fitted <- predict(mod, x, type = "vector")
@@ -281,7 +281,7 @@ s.CART <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -303,7 +303,7 @@ s.CART <- function(x, y = NULL,
     predicted <- predicted.prob <- error.test <- NULL
   }
 
-  # [ Outro ] ====
+  # Outro ====
   varimp <- rep(NA, NCOL(x))
   varimp.cart <- if (!is.null(mod$variable.importance)) as.matrix(mod$variable.importance) else NULL
   varimp.index <- match(rownames(varimp.cart), colnames(x))
