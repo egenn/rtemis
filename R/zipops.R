@@ -30,7 +30,7 @@ zip2longlat <- function(x, zipdt) {
 
 zipdist <- function(x, y, zipdt) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("geosphere", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
