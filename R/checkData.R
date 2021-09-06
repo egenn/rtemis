@@ -91,7 +91,7 @@ checkData <- function(x,
   # Issues ====
 
   ## Constants ====
-  cat(bold("\n  Issues") ,"___________________\n", sep = "")
+  cat(bold("\n  Issues") ,"____________________\n", sep = "")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
   .col <- if (n.constant > 0) red$bold else bold
@@ -171,7 +171,7 @@ checkData <- function(x,
   # Recommendations ====
   if (recommend) {
     # boxcat("Recommendations", pad = 2)
-    cat(bold("\n  Recommendations") ,"__________\n", sep = "")
+    cat(bold("\n  Recommendations") ,"___________\n", sep = "")
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
         cat(orange("  * Convert the character",
