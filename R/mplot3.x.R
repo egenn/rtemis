@@ -19,6 +19,7 @@
 #' @param x Numeric vector or list of vectors, one for each group.
 #'   If \code{data} is provided, x is name of variable in \code{data}
 #' @param type Character: "density", "histogram", "hd" (histogram bars & density lines),
+#' "lhist" (line histogram like \link{mhist}; same as \code{type = "hist", hist.type = "lines"}),
 #' "index", "ts", "qqline"
 #' Case-insensitive and supports partial matching: e.g. \code{mplot3.x(x, "H")} gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
@@ -58,7 +59,7 @@
 #' @export
 
 mplot3.x <- function(x,
-                     type = c("density", "histogram", "hd", "index", "ts", "qqline"),
+                     type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
                      group = NULL,
                      data = NULL,
                      xlab = NULL,
@@ -82,6 +83,8 @@ mplot3.x <- function(x,
                      density.shade = TRUE,
                      density.legend.side = 3,
                      density.legend.adj = .98,
+                     density.bw = "nrd0",
+                     density.kernel = "gaussian",
                      density.params = list(na.rm = na.rm),
                      qqline.col = "#18A3AC",
                      qqline.alpha = 1,
@@ -155,6 +158,10 @@ mplot3.x <- function(x,
   if (type == "ts") {
     type <- "index"
     index.type <- "l"
+  }
+  if (type == "lhist") {
+    type <- "histogram"
+    hist.type <- "lines"
   }
   index.type <- match.arg(index.type)
   hist.type <- match.arg(hist.type)
@@ -247,6 +254,8 @@ mplot3.x <- function(x,
   # [ Data: DENSITY ] ====
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
+    density.params$bw <- density.bw
+    density.params$kernel <- density.kernel
     .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
     densityl <- lapply(.out, function(d) data.frame(x = d$x, y = d$y))
     if (is.null(xlab)) xlab <- labelify(xname)
