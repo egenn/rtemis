@@ -90,7 +90,7 @@ sge_submit <- function(expr,
   }
 
   # Diag
-  cat("rtemis::msg('Running on', system('uname -n'), 'as', system('whoami'))",
+  cat("rtemis::msg('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
       "\n", file = Rfilepath, append = TRUE)
 
   # Load data
