@@ -100,7 +100,7 @@ dplot3.box <- function(x,
                        margin = list(t = 35, pad = 0),
                        automargin.x = TRUE,
                        automargin.y = TRUE,
-                       boxgap = NULL,
+                       boxgap = .12,
                        boxgroupgap = NULL,
                        hovertext = NULL,
                        displayModeBar = TRUE,
@@ -282,7 +282,7 @@ dplot3.box <- function(x,
                                      day = time,
     ))]
 
-    ## Long data ====
+    ## Long data
     dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))], id.vars = c("ID", "timeperiod"))
     if (!is.null(hovertext)) {
       dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
