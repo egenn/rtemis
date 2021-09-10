@@ -96,7 +96,6 @@ sge_submit <- function(expr,
   # Load data
   if (!is.null(obj_names)) {
     cat("load('", .temp, "')\n", sep = "", file = Rfilepath, append = TRUE)
-    msg("Objects available:", paste(ls(), collapse = ", "))
   }
 
   # Expression
