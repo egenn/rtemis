@@ -76,7 +76,7 @@ sge_submit <- function(expr,
   }
 
   # Write .R file to temp_dir
-  Rfilepath <- file.path(temp_dir, "sge_submit.R")
+  Rfilepath <- tempfile(pattern = "Rsub", tmpdir = temp_dir)
   if (trace > 0) msg("Rfilepath set to", Rfilepath)
 
   # init file
@@ -102,7 +102,7 @@ sge_submit <- function(expr,
   stopifnot(file.exists(Rfilepath))
 
   # Write .sh file to temp_dir
-  shfilepath <- file.path(temp_dir, "sge_submit.sh")
+  shfilepath <- tempfile(pattern = "SHsub", tmpdir = temp_dir)
   if (trace > 0) msg("shfile set to:", shfilepath)
 
   cat(sge_env, "\n", file = shfilepath)
