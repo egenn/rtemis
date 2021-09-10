@@ -43,23 +43,22 @@ sge_submit <- function(expr,
 
   expr <- as.character(as.expression(substitute(expr)))
 
-  # Save obj_names to temp
+  # Create temp_dir
+  if (!dir.exists(temp_dir)) {
+    dir.create(temp_dir, recursive = TRUE)
+    stopifnot(dir.exists(temp_dir))
+    if (trace > 0) msg("Created temp_dir", temp_dir)
+  }
 
+  # Save obj_names to temp
   if (!is.null(obj_names)) {
-    .temp <- file.path(temp_dir, "mango")
+    .temp <- tempfile(pattern = "guava", tmpdir = temp_dir)
     do.call(save, list(list = obj_names,
                        file = .temp))
     if (trace > 0) {
       msg("Temp file set to", .temp)
       msg("Objects written to temp file:", paste(obj_names, collapse = ", "))
     }
-  }
-
-  # Create temp_dir
-  if (!dir.exists(temp_dir)) {
-    dir.create(temp_dir, recursive = TRUE)
-    stopifnot(dir.exists(temp_dir))
-    if (trace > 0) msg("Created temp_dir", temp_dir)
   }
 
   # sge_out and sge_error
