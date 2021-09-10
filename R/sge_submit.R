@@ -21,6 +21,7 @@
 #' Default = \code{file.path(getwd(), ".sge_tempdir")}
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param trace Integer: If > 0 print diagnostic messages to console. Default = 1
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -56,18 +57,18 @@ sge_submit <- function(expr,
 
   # Create temp_dir
   if (!dir.exists(temp_dir)) {
-    dir.create(temp_dir)
+    dir.create(temp_dir, recursive = TRUE)
     stopifnot(dir.exists(temp_dir))
     if (trace > 0) msg("Created temp_dir", temp_dir)
   }
 
   # sge_out and sge_error
   if (!dir.exists(sge_out)) {
-    dir.create(sge_out)
+    dir.create(sge_out, recursive = TRUE)
     if (trace > 0) msg("Created sge_out", sge_out)
   }
   if (!dir.exists(sge_error)) {
-    dir.create(sge_error)
+    dir.create(sge_error, recursive = TRUE)
     if (trace > 0) msg("Created sge_error", sge_error)
   }
   if (trace > 0) {
@@ -80,38 +81,38 @@ sge_submit <- function(expr,
   if (trace > 0) msg("Rfilepath set to", Rfilepath)
 
   # init file
-  cat(paste("# rtemis sge_submit", date()), file = Rfilepath)
+  cat("# rtemis sge_submit", date(), "\n", file = Rfilepath)
 
   # Load packages
   if (!is.null(packages)) {
-    cat(sapply(packages, function(p) paste0("library(", p, ")")),
-        file = Rfilepath, append = TRUE)
+    cat(sapply(packages, function(p) paste0("library(", p, ")\n")),
+        sep = "", file = Rfilepath, append = TRUE)
   }
 
   # Diag
   cat("rtemis::msg('Running on', system('uname -n'), 'as', system('whoami'))",
-      Rfilepath, append = TRUE)
+      "\n", file = Rfilepath, append = TRUE)
 
   # Load data
   if (!is.null(obj_names)) {
-    cat(paste0("load('", .temp, "')"), file = Rfilepath, append = TRUE)
-    msg("Objects available:", paste(ls(), collapse = ", "), "\n")
+    cat("load('", .temp, "')\n", sep = "", file = Rfilepath, append = TRUE)
+    msg("Objects available:", paste(ls(), collapse = ", "))
   }
 
   # Expression
-  cat(as.character(expr), file = Rfilepath, append = TRUE)
+  cat(as.character(expr), "\n", file = Rfilepath, append = TRUE)
   stopifnot(file.exists(Rfilepath))
 
   # Write .sh file to temp_dir
   shfilepath <- file.path(temp_dir, "sge_submit.sh")
   if (trace > 0) msg("shfile set to:", shfilepath)
 
-  cat(sge_env, file = shfilepath)
-  cat(paste0(sge_opts, "\n"), file = shfilepath, append = TRUE)
+  cat(sge_env, "\n", file = shfilepath)
+  cat(sge_opts, "\n", file = shfilepath, append = TRUE)
   if (!is.null(system_command)) {
-    cat(system_command, file = shfilepath, append = TRUE)
+    cat(system_command, "\n", file = shfilepath, append = TRUE)
   }
-  cat(paste("Rscript", Rfilepath), file = shfilepath, append = TRUE)
+  cat("Rscript", Rfilepath, "\n", file = shfilepath, append = TRUE)
 
   stopifnot(file.exists(shfilepath))
 
