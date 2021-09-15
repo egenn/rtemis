@@ -378,3 +378,43 @@ roundtofrac <- function(x, t = .5) {
   round(x / t) * t
 }
 
+
+#' Print range of continuous variable
+#'
+#' @param x Numeric vector
+#' @param ddSci Logical: If TRUE, use \link{ddSci} or range. Default = TRUE
+#' @param decimal.place Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1
+#' @param na.rm Logical: passe to \link{range()}
+#'
+#' @author E.D. Gennatas
+#' @export
+
+catrange <- function(x,
+                     ddSci = TRUE,
+                     decimal.places = 1,
+                     na.rm = TRUE) {
+  if (ddSci) {
+    paste(ddSci(range(x, na.rm = na.rm),
+                decimal.places = decimal.places),
+          collapse = " to ")
+  } else {
+    paste(range(x, na.rm = na.rm), collapse = " to ")
+  }
+
+} # rtemis::catrange
+
+
+#' \code{lsapply}
+#'
+#' @inheritParams base::lapply
+#' @param outnames Character vector: Optional names to apply to output
+#'
+#' @export
+
+lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
+
+  out <- if (simplify) sapply(X, FUN, ...) else lapply(X, FUN, ...)
+  if (!is.null(outnames)) names(out) <- outnames
+  out
+
+} # rtemis::lsapply
