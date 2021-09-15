@@ -38,12 +38,12 @@ resLearn <- function(x, y, mod,
                      n.cores = rtCores,
                      parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = trace > 0,
                       message = "Starting resLearn...",
                       newline.pre = TRUE)
 
-  # [ Arguments ] ====
+  # Arguments ====
   n.cores <- as.numeric(n.cores)[1]
   if (missing(x) | missing(y)) {
     print(args(resLearn))
@@ -56,14 +56,14 @@ resLearn <- function(x, y, mod,
                                         recursive = TRUE, mode = "0777")
   }
 
-  # [ RESAMPLES ] ====
+  # Resamples ====
   learner <- modSelect(mod)
   res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
   resampler <- attr(res, "type") # for res.group and res.index
 
   if (n.cores > resample.rtset$n.resamples) n.cores <- resample.rtset$n.resamples
 
-  # [ {GRID} FUNCTION ] ====
+  # {Grid} function ====
   learner1 <- function(index, learner,
                        x, y,
                        weights = NULL,
@@ -117,7 +117,7 @@ resLearn <- function(x, y, mod,
                  params = params)
   }
 
-  # [ RES RUN ] ====
+  # Res run ====
   # if (verbose & length(params) > 0) {
   #   cat("\n")
   #   parameterSummary(params, title = paste(mod, "Parameters")) # fix to convert all to strings & limit output to single line
@@ -165,7 +165,7 @@ resLearn <- function(x, y, mod,
   names(res.run) <- paste0(toupper(mod), seq(res))
   if (res.verbose) cat("\n")
 
-  # [ Outro ] ====
+  # Outro ====
   outro(start.time, verbose = trace > 0)
   list(res = res, mods = res.run)
 

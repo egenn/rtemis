@@ -133,7 +133,7 @@ elevate <- function(x, y = NULL,
                     save.mod = TRUE,
                     save.res = FALSE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     cat("Usage:\n")
     print(args(elevate))
@@ -152,12 +152,12 @@ elevate <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   # Allow elevate(df, "mod")
   # i.e single df with features and outcome followed by mod name
   if (is.character(y) & length(y) == 1) {
@@ -215,7 +215,7 @@ elevate <- function(x, y = NULL,
     parallel.type <- "psock"
   }
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, NULL, NULL)
   x <- dt$x
   y <- dt$y
@@ -228,14 +228,14 @@ elevate <- function(x, y = NULL,
     if (nclasses != length(unique(y))) warning("elevate: Outcome contains empty classes")
   }
 
-  # [ DECOMPOSE ] ====
+  # Decompose ====
   if (!is.null(.decompose)) {
     decomposer <- decomSelect(.decompose$decom)
     x <- do.call(decomposer, c(list(x = x), .decompose[-1], verbose = verbose))$projections.train
     if (verbose) dataSummary(x, y, type = type, testSet = FALSE)
   }
 
-  # [ OUTDIR ] ====
+  # outdir ====
   if (!is.null(outdir)) {
     outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     if (!dir.exists(outdir)) dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
@@ -243,7 +243,7 @@ elevate <- function(x, y = NULL,
     filename <- paste0(outdir, "elevate.", mod.name, ".rds")
   }
 
-  # [ resLearn ] ====
+  # resLearn ====
   resample.rtset = list(resampler = resampler,
                         n.resamples = n.resamples,
                         stratify.var = stratify.var,
@@ -293,7 +293,7 @@ elevate <- function(x, y = NULL,
   if (!is.null(logFile) & trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
   names(mods) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
 
-  # [ RES Fitted ]  ====
+  # Res fitted  ====
   # The fitted values and training error from each resample
   y.train.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.train))
@@ -343,7 +343,7 @@ elevate <- function(x, y = NULL,
   #   }
   # }
 
-  # [ RES Predicted ] ====
+  # Res predicted ====
   # The predicted values and testing error from each resample
   y.test.res <- lapply(seq(n.repeats), function(n)
     lapply(mods[[n]], function(m) m$mod1$y.test))
@@ -392,7 +392,7 @@ elevate <- function(x, y = NULL,
   #   }
   # }
 
-  # [ MEAN REPEATS ERROR ] ====
+  # Mean repeats error ====
   if (resampler == "loocv" | resampler == "kfold") {
     error.train.repeats <- plyr::ldply(error.train.res.aggr, .id = NULL)
     error.test.repeats <- plyr::ldply(error.test.res.aggr, .id = NULL)
@@ -406,7 +406,7 @@ elevate <- function(x, y = NULL,
   error.train.repeats.sd <- data.frame(t(apply(error.train.repeats, 2, sd)))
   error.test.repeats.sd <- data.frame(t(apply(error.test.repeats, 2, sd)))
 
-  # [ BAG Fitted ] ====
+  # Bag fitted ====
   # mod.res used for bagging
   fitted.bag <- error.bag <- NULL
   if (bag.fitted) {
@@ -420,7 +420,7 @@ elevate <- function(x, y = NULL,
     error.bag <- lapply(fitted.bag, function(i) modError(y, i))
   }
 
-  # [ SUMMARY ] ====
+  # Summary ====
   if (verbose) {
     boxcat("elevate " %+% rtHighlight$bold(mod.name), pad = 0)
     cat("   N repeats = " %+% rtHighlight$bold(n.repeats), "\n")
@@ -473,7 +473,7 @@ elevate <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   if (type == "Classification") {
     y.train.res.aggr <- lapply(seq(n.repeats), function(i)
       factor(c(y.train.res[[i]], recursive = TRUE, use.names = FALSE)))
@@ -515,7 +515,7 @@ elevate <- function(x, y = NULL,
     names(best.tune) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
   }
 
-  # '- varimp ====
+  # Variable importance ====
   varimp <- plyr::llply(mods, function(r) {
     .vi <- plyr::ldply(r, function(n) t(n$mod1$varimp), .id = NULL)
     rownames(.vi) <- names(r)
