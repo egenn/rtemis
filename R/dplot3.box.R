@@ -395,6 +395,6 @@ dplot3.box <- function(x,
   }
 
   if (print.plot) suppressWarnings(print(plt))
-  invisible(plt)
+  plt
 
 } # rtemis::dplot3.box.R
