@@ -81,7 +81,7 @@ s.ADDTREE <- function(x, y = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                       n.cores = rtCores, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.ADDTREE))
     return(invisible(9))
@@ -95,12 +95,12 @@ s.ADDTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "ADDTREE"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("rpart", "data.tree", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.ADDTREE))
     stop("y is missing")
@@ -117,7 +117,7 @@ s.ADDTREE <- function(x, y = NULL,
   # }
   if (!verbose) prune.verbose <- FALSE
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -144,7 +144,7 @@ s.ADDTREE <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (gridCheck(gamma, max.depth, learning.rate)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -180,30 +180,30 @@ s.ADDTREE <- function(x, y = NULL,
                      upsample = upsample,
                      resample.seed = resample.seed)
 
-  # [ ADDTREE ] ====
+  # addtree ====
   if (verbose) msg("Training ADDTREE...", newline.pre = TRUE)
-  mod <- mediboost(x, y,
-                   catPredictors = NULL,
-                   depthLimit = max.depth,
-                   learningRate = learning.rate,
-                   gamma = gamma,
-                   update = update,
-                   min.update = min.update,
-                   min.hessian = min.hessian,
-                   min.membership = min.membership,
-                   steps.past.min.membership = steps.past.min.membership,
-                   weights = .weights,
-                   rpart.params = rpart.params,
-                   save.rpart = save.rpart,
-                   verbose = verbose,
-                   trace = trace)
+  mod <- addtree(x, y,
+                 catPredictors = NULL,
+                 depthLimit = max.depth,
+                 learningRate = learning.rate,
+                 gamma = gamma,
+                 update = update,
+                 min.update = min.update,
+                 min.hessian = min.hessian,
+                 min.membership = min.membership,
+                 steps.past.min.membership = steps.past.min.membership,
+                 weights = .weights,
+                 rpart.params = rpart.params,
+                 save.rpart = save.rpart,
+                 verbose = verbose,
+                 trace = trace)
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- predict(mod, x)
   error.train <- try(modError(y, fitted))
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
     if (!is.null(y.test)) {
@@ -216,7 +216,7 @@ s.ADDTREE <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
@@ -237,7 +237,7 @@ s.ADDTREE <- function(x, y = NULL,
                  question = question,
                  extra = extra)
 
-  # [ Data.TREE ] ====
+  # data.tree ====
   if (verbose) msg("Traversing tree by preorder...")
   rt$mod$frame <- preorderTree.addtree(rt, x)
   if (verbose) msg("Converting paths to rules...")
@@ -245,10 +245,8 @@ s.ADDTREE <- function(x, y = NULL,
   if (verbose) msg("Converting to data.tree object...")
   rt$mod$addtree <- data.tree::as.Node(rt$mod$frame, pathName = "Path")
 
-  # [ PRUNE ] ====
-  prune <- TRUE
-  prune.empty.leaves <- TRUE
-  remove.bad.parents <- TRUE
+  # Prune ====
+  prune <- prune.empty.leaves <- remove.bad.parents <- TRUE
   if (prune) {
     if (verbose) msg("Pruning tree...")
     rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
@@ -279,7 +277,7 @@ s.ADDTREE <- function(x, y = NULL,
     rt$mod$addtree.pruned$Set(pct.pos = rt$extra$node.stats$pct.pos)
   }
 
-  # [ imetrics ] ====
+  # imetrics ====
   rt$extra$imetrics <- list(n.nodes = rt$mod$addtree.pruned$totalCount - 1,
                             depth = rt$mod$addtree.pruned$height - 1)
 
