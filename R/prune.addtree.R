@@ -76,16 +76,22 @@ prune.addtree <- function(addtree,
   # Remove bad parents; send children to grandma ====
   # Remove one bad parent at a time
   if (remove.bad.parents) {
-    bad.parents <- data.tree::Traverse(addtree, filterFun = function(node) length(node$siblings) == 0 && !node$isLeaf && !node$isRoot)
-    while (length(bad.parents) > 0) {
+    bad.parents <- data.tree::Traverse(addtree,
+                                       filterFun = function(node) length(node$siblings) == 0 &&
+                                         !node$isLeaf && !node$isRoot)
+    i <- 1
+    while (length(bad.parents) > 0 & i < 10) {
+      i <- i + 1
       # Reduce Depth before removing parent
+      try({
         bad.parents[[1]]$children[[1]]$Depth <- bad.parents[[1]]$children[[1]]$Depth - 1
-        if (length(bad.parents[[1]]$children) > 1) {
-          bad.parents[[1]]$children[[2]]$Depth <- bad.parents[[1]]$children[[2]]$Depth - 1
-        } # may need further pruning in this case to remove single child
+        bad.parents[[1]]$children[[2]]$Depth <- bad.parents[[1]]$children[[2]]$Depth - 1
         bad.parents[[1]]$parent$children <- bad.parents[[1]]$children
-      if (verbose) msg("Removed 1 bad parent")
-      bad.parents <- data.tree::Traverse(addtree, filterFun = function(node) length(node$siblings) == 0 && !node$isLeaf && !node$isRoot)
+        if (verbose) msg(i, "- Removed 1 bad parent")
+      })
+      bad.parents <- data.tree::Traverse(addtree,
+                                         filterFun = function(node) length(node$siblings) == 0 &&
+                                           !node$isLeaf && !node$isRoot)
     }
   }
 
