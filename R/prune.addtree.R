@@ -79,13 +79,15 @@ prune.addtree <- function(addtree,
     bad.parents <- data.tree::Traverse(addtree,
                                        filterFun = function(node) length(node$siblings) == 0 &&
                                          !node$isLeaf && !node$isRoot)
-    i <- 1
+    i <- 0
     while (length(bad.parents) > 0 & i < 10) {
       i <- i + 1
       # Reduce Depth before removing parent
       try({
         bad.parents[[1]]$children[[1]]$Depth <- bad.parents[[1]]$children[[1]]$Depth - 1
-        bad.parents[[1]]$children[[2]]$Depth <- bad.parents[[1]]$children[[2]]$Depth - 1
+        if (length(bad.parents[[1]]$children) > 1) {
+          bad.parents[[1]]$children[[2]]$Depth <- bad.parents[[1]]$children[[2]]$Depth - 1
+        }
         bad.parents[[1]]$parent$children <- bad.parents[[1]]$children
         if (verbose) msg(i, "- Removed 1 bad parent")
       })
