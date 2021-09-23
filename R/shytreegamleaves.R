@@ -57,7 +57,7 @@ shytreegamleaves <- function(x, y,
                              plot.tuning = TRUE,
                              trace = 0) {
 
-  # [ Arguments ] ====
+  # Arguments  ====
   type <- if (is.factor(y))  "Classification" else "Regression"
   .class <- type == "Classification"
   if (.class) {
@@ -100,7 +100,7 @@ shytreegamleaves <- function(x, y,
     return(.mod)
   }
 
-  # [ Arguments ] ====
+  # Arguments  ====
   if (NCOL(x) == 1) {
     if (lin.type != "glm") {
       lin.type <- "glm"
@@ -109,7 +109,7 @@ shytreegamleaves <- function(x, y,
   }
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
-  # [ GLOBAL ] ====
+  # Global  ====
   g <- new.env()
   # g$x required by rpart, g$xm used by lincoef
   g$x <- x
@@ -141,7 +141,7 @@ shytreegamleaves <- function(x, y,
   names(g$stepindex) <- paste(seq(max.leaves))
   g$stepindex$`1` <- 1
 
-  # [ LOOP: step splitLine ] ====
+  # Loop: step splitLine  ====
   # Special case: if max.leaves == 1 ====
   # return linear model
   if (max.leaves == 1) {
@@ -401,7 +401,7 @@ shytreegamleaves <- function(x, y,
 
   # Add open and nosplit nodes to included
 
-  # [ Purge ] ====
+  # Purge  ====
   if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
   if (g$n.nodes == 2) {
     g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
@@ -443,7 +443,7 @@ shytreegamleaves <- function(x, y,
   #   lapply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)))
   rownames(all.step.coefs) <- all.step.rules$id
 
-  # GAMLEAVES ====
+  # GAMleaves ====
   # Fit a gam on each leaf subpopulation
   if (gamleaves) {
     cxrleaf <- matchCasesByRules(g$x, leaf.rules$rule)
@@ -459,7 +459,7 @@ shytreegamleaves <- function(x, y,
     leaf.gams <- NULL
   }
 
-  # [ MOD ] ====
+  # Mod  ====
   .mod <- list(type = g$type,
                init = g$init,
                learning.rate = learning.rate,
@@ -578,7 +578,7 @@ splitlineRC <- function(g,
   weights <- node$weights
   if (trace > 2) table(weights)
 
-  # '- [ Split ] ====
+  # '- Split  ====
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
   dat <- data.frame(g$x, resid1)
   part <- rpart::rpart(resid1 ~., dat,
@@ -692,7 +692,7 @@ splitlineRC <- function(g,
       firstDerLeft <- weightedFirstDerLeft <- secDerLeft <- weightedSecDerLeft <- NA
     }
 
-    # ''- UPDATE nodeVal.left ====
+    # ''- Update nodeVal.left ====
     coef.left <- node$coef
     if (.class) {
       if (weightedFirstDerLeft == 0) {
@@ -733,7 +733,7 @@ splitlineRC <- function(g,
       firstDerRight <- weightedFirstDerRight <- secDerRight <- weightedSecDerRight <- NA
     }
 
-    # ''- UPDATE nodeVal.right ====
+    # ''- Update nodeVal.right ====
     coef.right <- node$coef
     if (.class) {
       if (weightedFirstDerRight == 0) {
@@ -779,7 +779,7 @@ splitlineRC <- function(g,
     weights.left[right.index] <- weights.left[right.index] * gamma
     weights.right[left.index] <- weights.right[left.index] * gamma
 
-    # '- [ Line ] -' ====
+    # '- Line  -' ====
     if (.class) {
       firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
       resid2 <- -firstDer
