@@ -20,7 +20,7 @@
 #' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
 #' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
 #' Default = TRUE
-#' @param order.by.fn String: "mean", "median" or any function that outputs a single number: E
+#' @param order.by.fn Character: "mean", "median" or any function that outputs a single number: E
 #' stimate function on each vector and order boxes (when input is data.frame or list) by ascending
 #' order. Default = NULL, i.e. no reordering
 #' @param ... Additional arguments to \code{graphics::boxplot}

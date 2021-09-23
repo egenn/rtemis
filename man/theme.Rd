@@ -443,7 +443,7 @@ be defined separately}
 
 \item{main.col}{Title color}
 
-\item{font.family}{String: Font to be used throughout plot. Must be available to the OS}
+\item{font.family}{Character: Font to be used throughout plot. Must be available to the OS}
 
 \item{axes}{Logical: If TRUE, draw axes}
 }

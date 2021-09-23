@@ -8,7 +8,7 @@
 #'
 #' This is an R port of splitline.jl from Rtemis.jl. It could be rewritten in a more
 #' Rtistic style.
-#' @param search String: "quantile" or "exhaustive". Default = "quantile"
+#' @param search Character: "quantile" or "exhaustive". Default = "quantile"
 #' @param n.quantiles Integer: Number of quantiles to use if \code{search = "quantile"}
 #' @param minobsinnode Integer: Minimum number of caseweights that must be equal to 1 before
 #' attempting split

@@ -17,7 +17,7 @@
 #' \item Two continuous variables: "pearson", "kendall", "spearman"
 #' }
 #' @param print.plot Logical: If TRUE, print plot. Default = TRUE
-#' @param theme String: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'darkgrid')
@@ -192,7 +192,7 @@ htest <- function(y, group = NULL,
 #' @param x \code{rtTest} object
 #' @param main Character: Main title
 # @param plot.engine Character: "mplot3" or "dplot3" for static and interactive plots, respectively
-#' @param theme String: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'darkgrid')

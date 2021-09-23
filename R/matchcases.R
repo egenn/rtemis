@@ -9,13 +9,13 @@
 #'
 #' @param target data.frame you are matching against
 #' @param pool data.frame you are looking for matches from
-#' @param target.id String: Column name in \code{target} that holds unique cases IDs. Default = NULL,
+#' @param target.id Character: Column name in \code{target} that holds unique cases IDs. Default = NULL,
 #' in which case integer case numbers will be used
-#' @param pool.id String: Same as \code{target.id} for \code{pool}
+#' @param pool.id Character: Same as \code{target.id} for \code{pool}
 #' @param exactmatch.factors Logical: If TRUE, selected cases will have to exactly match factors
 #' available in \code{target}
-#' @param exactmatch.cols String: Names of columns that should be matched exactly
-#' @param distmatch.cols String: Names of columns that should be distance-matched
+#' @param exactmatch.cols Character: Names of columns that should be matched exactly
+#' @param distmatch.cols Character: Names of columns that should be distance-matched
 #' @param norepeats Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE
 #' @param ignore.na Logical: If TRUE, ignore NA values during exact matching. Default = FALSE.
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE

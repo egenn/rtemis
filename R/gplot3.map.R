@@ -23,8 +23,8 @@
 #' @param colorbar.width FLoat: Colorbar width, will be used as
 #' \code{ggplot2::unit(colorbar.width, "npc")}
 #' @param border.width Float: Map border width. Default = .1
-#' @param main String: Main title. Default = NULL
-#' @param legend.title String: Legend title. Default = NULL
+#' @param main Character: Main title. Default = NULL
+#' @param legend.title Character: Legend title. Default = NULL
 #' @param theme \strong{ggplot2} theme to use. Default = \code{rt_gtheme_map()}
 #' @param labels Logical: If TRUE, label states. Default = FALSE
 #' @param col.labels Color for \code{labels}. Default = "gray50"
@@ -194,7 +194,7 @@ gplot3.map <- function(dat,
 #' based on \code{usmap:::theme_map()}
 #'
 #' @param base_size Float: Character \code{base_size.} Default = 9
-#' @param base_family String: Font family. Default = "Lato"
+#' @param base_family Character: Font family. Default = "Lato"
 #' @author E.D. Gennatas
 #' @export
 

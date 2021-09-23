@@ -8,13 +8,13 @@
 #' plotted. County names can be provided on a third column and will appear as hover-over information
 #' along with values from column 2
 #' @param fillOpacity Float: Opacity for fill colors. Default = 1
-#' @param palette String: Color palette to use
-#' @param color.mapping String: "Numeric" or "Bin"
+#' @param palette Character: Color palette to use
+#' @param color.mapping Character: "Numeric" or "Bin"
 #' @param col.lo Overlay color mapped to lowest value
 #' @param col.hi Overaly color mapped to highest value
 #' @param col.na Color mappes to NA values
 #' @param col.highlight Hover border color. Default = "#FE8A4F" (orange)
-#' @param col.interpolate String: "linear" or "spline"
+#' @param col.interpolate Character: "linear" or "spline"
 #' @param col.bins Integer: Number of color bins to create if \code{color.mapping = "Bin"}.
 #' Default = 21
 #' @param domain Limits for mapping colors to values. Default = NULL and set to range
@@ -24,10 +24,10 @@
 #' @param bg.tile.provider Background tile (below overlay colors), one of \code{leaflet::providers}
 #' @param bg.tile.alpha Float: Background tile transparency. Default = .67
 #' @param fg.tile.provider Foreground tile (above overlay colors), one of \code{leaflet::providers}
-#' @param legend.position String: One of: "topright", "bottomright", "bottomleft", "topleft".
+#' @param legend.position Character: One of: "topright", "bottomright", "bottomleft", "topleft".
 #' Default = "topright"
 #' @param legend.alpha Float: Legend box transparency. Default = .8
-#' @param legend.title String: Defaults to \code{colnames(dat)[2]}
+#' @param legend.title Character: Defaults to \code{colnames(dat)[2]}
 #' @param init.lng Float: Center map around this longitude (in decimal form).
 #' Default = -98.54180833333334 (US geographic center)
 #' @param init.lat Float: Center map around this latitude (in decimal form).

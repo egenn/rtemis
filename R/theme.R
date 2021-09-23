@@ -40,7 +40,7 @@
 #' @param main.adj Float: How to align title. Default = 0 (left-align)
 #' @param main.font Integer: 1: Regular, 2: Bold
 #' @param main.col Title color
-#' @param font.family String: Font to be used throughout plot. Must be available to the OS
+#' @param font.family Character: Font to be used throughout plot. Must be available to the OS
 #'
 #' @rdname theme
 #' @export

@@ -23,7 +23,7 @@
 #' for each base learner
 #' @param n.cores Integer: Number of cores to use
 #' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
-#' @param outdir: String: Path to output directory to save model. Default = NULL
+#' @param outdir: Character: Path to output directory to save model. Default = NULL
 #' @param ... Additional parameters to be passed to learner
 #' @author E.D. Gennatas
 #' @export

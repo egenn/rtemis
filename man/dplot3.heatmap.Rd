@@ -100,7 +100,7 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{key.title}{Character: Title for the color key. Default = NULL (no title)}
 
-\item{plot_method}{String: Update February 2021: "ggplot" causes R session to hand
+\item{plot_method}{Character: Update February 2021: "ggplot" causes R session to hand
 on MacOS but plotly" seems to work}
 
 \item{theme}{Character: "light", "dark"}

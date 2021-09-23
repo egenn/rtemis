@@ -91,7 +91,7 @@ or \code{cluster} defined}
 
 \item{par.reset}{Logical: If TRUE, reset par before exiting. Default = TRUE}
 
-\item{filename}{String: If provided, save plot to this filepath}
+\item{filename}{Character: If provided, save plot to this filepath}
 
 \item{verbose}{Logical, If TRUE, print messages to console. Default = TRUE}
 

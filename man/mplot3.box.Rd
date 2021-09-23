@@ -76,7 +76,7 @@ mplot3.box(
 
 \item{main}{Character: Plot title}
 
-\item{order.by.fn}{String: "mean", "median" or any function that outputs a single number: E
+\item{order.by.fn}{Character: "mean", "median" or any function that outputs a single number: E
 stimate function on each vector and order boxes (when input is data.frame or list) by ascending
 order. Default = NULL, i.e. no reordering}
 

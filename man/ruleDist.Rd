@@ -25,7 +25,7 @@ ruleDist(
 
 \item{print.plot}{Logical: If TRUE, plot heatmap for calculated distance}
 
-\item{plot.type}{String: "static", "interactive": type of graphics to use, base or plotly, respectively. Default =
+\item{plot.type}{Character: "static", "interactive": type of graphics to use, base or plotly, respectively. Default =
 "static"}
 
 \item{heat.lo}{Color: Heatmap low color. Default = "black"}

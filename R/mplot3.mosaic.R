@@ -7,11 +7,11 @@
 #' Plots a mosaic plot using \code{graphics::mosaicplot}
 #'
 #' @param x contingency table, e.g. output of \code{table()}
-#' @param main String: Main title
-#' @param xlab String: x-axis label
-#' @param ylab String: y-axis label
+#' @param main Character: Main title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
 #' @param border Color vector for cell borders or FALSE to turn off. Default = FALSE
-#' @param theme String: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 #' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 #' You can set a system-wide default in your \code{.Rprofile} by including a line like
 #' options(rt.theme = 'darkgrid')
@@ -20,7 +20,7 @@
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
 #' \code{rtPalette()}
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
-#' @param filename String: Path to file to save plot. Default = NULL
+#' @param filename Character: Path to file to save plot. Default = NULL
 #' @param pdf.width Float: Width in inches for PDF output, if \code{filename} is defined
 #' @param pdf.height Float: Height in inches for PDF output, if \code{filename} is defined
 #' @author E.D. Gennatas

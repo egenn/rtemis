@@ -43,7 +43,7 @@
 #' (in this case \code{igraph::plot.igraph}) and not to the theme function
 #' @param mar Numeric vector, length 4: \code{par}'s margin argument
 #' @param par.reset Logical: If TRUE, reset par before exiting. Default = TRUE
-#' @param filename String: If provided, save plot to this filepath
+#' @param filename Character: If provided, save plot to this filepath
 #' @param verbose Logical, If TRUE, print messages to console. Default = TRUE
 #' @param ... Extra arguments to pass to \code{igraph::plot.igraph()}
 #'

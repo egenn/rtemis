@@ -14,7 +14,7 @@ rt_gtheme_map(
 \arguments{
 \item{base_size}{Float: Character \code{base_size.} Default = 9}
 
-\item{base_family}{String: Font family. Default = "Lato"}
+\item{base_family}{Character: Font family. Default = "Lato"}
 }
 \description{
 **ggplot2** map theme for use with \link{gplot3.map}

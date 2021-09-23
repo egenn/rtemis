@@ -27,7 +27,7 @@ previewcolor(
 \arguments{
 \item{x}{Color, vector: One or more colors that R understands}
 
-\item{main}{String: Title. Default = NULL, which results in
+\item{main}{Character: Title. Default = NULL, which results in
 \code{deparse(substitute(x))}}
 
 \item{bg}{Background color. Default = "#333333" (dark gray)}

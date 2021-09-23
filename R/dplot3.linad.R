@@ -5,9 +5,9 @@
 #' Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}
 #'
 #' @param tree \code{s.LINAD} tree
-#' @param main String: Title. Default = NULL
+#' @param main Character: Title. Default = NULL
 #' @param bg Background color. Default = "#FFFFFF" (white)
-#' @param shape String: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
+#' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
 #' "text", "diamond". Default = "box"
 #' @param nodelabels Logical: If TRUE, inlcude node labels. Default = TRUE
 #' @param ncases.inlabels Logical: If TRUE, include number of cases with the node labels. Default = TRUE
@@ -25,13 +25,13 @@
 #' @param levelSeparation Float: N of pixels to separate tree levels. Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
 #' @param edgethickness.by.ncases. Logical: If TRUE, scale edge thickness by number of cases with weight = 1
-#' @param font.family String: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
+#' @param font.family Character: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
 #' number of external viewers, but feel free to play around, esp. within RStudio
 #' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
 #' a custom html table creation function was made to replace some impossibly slow alternatives.
 #' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50
-#' @param table.font.size String: Font size for html coefficient on-hover tables. Default = "14px"
-#' @param table.dat.padding Ignore, has no visible effect. Otherwise, String: html table padding. Default = "0px"
+#' @param table.font.size Character: Font size for html coefficient on-hover tables. Default = "14px"
+#' @param table.dat.padding Ignore, has no visible effect. Otherwise, Character: html table padding. Default = "0px"
 #' @param table.lo.col Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)
 #' @param table.hi.col Color for highest coefficient values (positive). Default = "#FFBE00" (light orange)
 #' @param trace Integer: If > 0, print info to console (not particularly informative). Default = 0

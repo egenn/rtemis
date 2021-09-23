@@ -19,7 +19,7 @@ ggtheme_dark(
 \arguments{
 \item{base_size}{Float: Base font size. Default = 14}
 
-\item{base_family}{String: Font family. Default = "Helvetica Neue"}
+\item{base_family}{Character: Font family. Default = "Helvetica Neue"}
 
 \item{base_line_size}{Float: Line size. Default = base_size/22}
 
@@ -31,7 +31,7 @@ ggtheme_dark(
 
 \item{legend.text.size.rel}{Float: Relative size for legend text. Default = 1}
 
-\item{legend.position}{String: Legend position, "top", "bottom", "right", "left" Default  = "right"}
+\item{legend.position}{Character: Legend position, "top", "bottom", "right", "left" Default  = "right"}
 
 \item{strip.background.fill}{Color: Fill color from facet labels. Default = "grey25"}
 }

@@ -20,7 +20,7 @@
 
 \item{main}{Character: Main title}
 
-\item{theme}{String: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'darkgrid')}

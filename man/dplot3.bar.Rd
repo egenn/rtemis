@@ -101,7 +101,7 @@ or "longdashdot"}
 
 \item{plot.bg}{Color: Background color for plot area. Default = "white"}
 
-\item{font.family}{String: Font family to use. Default = "Helvetica Neue"}
+\item{font.family}{Character: Font family to use. Default = "Helvetica Neue"}
 
 \item{main.col}{Color: Title color. Default = NULL, determined by theme}
 

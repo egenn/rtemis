@@ -54,7 +54,7 @@
 
 \item{newdata}{Testing set features}
 
-\item{theme}{String: theme to use. Options: "box", "darkbox", "light", "dark"}
+\item{theme}{Character: theme to use. Options: "box", "darkbox", "light", "dark"}
 
 \item{plots}{Logical: If TRUE, print plots. Default = TRUE}
 

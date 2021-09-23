@@ -381,9 +381,6 @@ otherwise FALSE}
 \description{
 Plot points and lines with optional fits and standard error bands
 }
-\details{
-This is relatively old code and may need a little cleaning up
-}
 \examples{
 \dontrun{
 set.seed(1999)

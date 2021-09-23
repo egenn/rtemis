@@ -38,9 +38,9 @@ along with values from column 2}
 
 \item{fillOpacity}{Float: Opacity for fill colors. Default = 1}
 
-\item{palette}{String: Color palette to use}
+\item{palette}{Character: Color palette to use}
 
-\item{color.mapping}{String: "Numeric" or "Bin"}
+\item{color.mapping}{Character: "Numeric" or "Bin"}
 
 \item{col.lo}{Overlay color mapped to lowest value}
 
@@ -50,7 +50,7 @@ along with values from column 2}
 
 \item{col.highlight}{Hover border color. Default = "#FE8A4F" (orange)}
 
-\item{col.interpolate}{String: "linear" or "spline"}
+\item{col.interpolate}{Character: "linear" or "spline"}
 
 \item{col.bins}{Integer: Number of color bins to create if \code{color.mapping = "Bin"}.
 Default = 21}
@@ -69,12 +69,12 @@ Default = 21}
 
 \item{fg.tile.provider}{Foreground tile (above overlay colors), one of \code{leaflet::providers}}
 
-\item{legend.position}{String: One of: "topright", "bottomright", "bottomleft", "topleft".
+\item{legend.position}{Character: One of: "topright", "bottomright", "bottomleft", "topleft".
 Default = "topright"}
 
 \item{legend.alpha}{Float: Legend box transparency. Default = .8}
 
-\item{legend.title}{String: Defaults to \code{colnames(dat)[2]}}
+\item{legend.title}{Character: Defaults to \code{colnames(dat)[2]}}
 
 \item{init.lng}{Float: Center map around this longitude (in decimal form).
 Default = -98.54180833333334 (US geographic center)}

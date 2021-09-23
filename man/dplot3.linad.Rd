@@ -48,11 +48,11 @@ dplot3.linad(
 )
 }
 \arguments{
-\item{main}{String: Title. Default = NULL}
+\item{main}{Character: Title. Default = NULL}
 
 \item{bg}{Background color. Default = "#FFFFFF" (white)}
 
-\item{shape}{String: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
+\item{shape}{Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
 "text", "diamond". Default = "box"}
 
 \item{nodelabels}{Logical: If TRUE, inlcude node labels. Default = TRUE}
@@ -84,7 +84,7 @@ dplot3.linad(
 
 \item{tree.font.size}{Integer: Font size for tree labels. Default = 22}
 
-\item{font.family}{String: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
+\item{font.family}{Character: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
 number of external viewers, but feel free to play around, esp. within RStudio}
 
 \item{tooltip.coefs}{Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
@@ -92,9 +92,9 @@ a custom html table creation function was made to replace some impossibly slow a
 
 \item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50}
 
-\item{table.font.size}{String: Font size for html coefficient on-hover tables. Default = "14px"}
+\item{table.font.size}{Character: Font size for html coefficient on-hover tables. Default = "14px"}
 
-\item{table.dat.padding}{Ignore, has no visible effect. Otherwise, String: html table padding. Default = "0px"}
+\item{table.dat.padding}{Ignore, has no visible effect. Otherwise, Character: html table padding. Default = "0px"}
 
 \item{table.lo.col}{Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)}
 

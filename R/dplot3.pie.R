@@ -14,7 +14,7 @@
 #' either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 #' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"
 #' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
-#' @param theme String: "light", "dark". Default = \code{getOption("rt.theme", "light")}
+#' @param theme Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}
 #' @author E.D. Gennatas
 #' @export
 #' @examples

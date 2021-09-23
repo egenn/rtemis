@@ -26,7 +26,7 @@
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
 #' \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
-#' @param font.family String: Font family to use. Default = "Helvetica Neue"
+#' @param font.family Character: Font family to use. Default = "Helvetica Neue"
 #' @param main.col Color: Title color. Default = NULL, determined by theme
 #' @param axes.col Color: Axes color. Default = NULL, determined, by theme
 #' @param labs.col Color: Labels' color. Default = NULL, determined by theme

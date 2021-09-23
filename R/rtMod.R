@@ -555,7 +555,7 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
 #' @param single.fig Logical: If TRUE, draw all plots in a single figure. Default = TRUE
 #' @param summary Logical: If TRUE, print summary. Default = TRUE
-#' @param theme String: theme to use. Options: "box", "darkbox", "light", "dark"
+#' @param theme Character: theme to use. Options: "box", "darkbox", "light", "dark"
 #' @param title.col Color for main title
 #' @param ... Additional arguments to be passed to \link{mplot3.xy}
 #' @author E.D. Gennatas

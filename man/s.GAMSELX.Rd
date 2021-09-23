@@ -52,7 +52,7 @@ Columns must correspond to columns in \code{x}}
 \item{pairs.on.resid}{Logical: If TRUE, train second gamsel on residuals of first.
 Default = TRUE. Should be kept TRUE, option available for experimentation/demonstration, etc.}
 
-\item{p.adjust.method}{String: Method to use for multiple comparison correction after mass GLM.
+\item{p.adjust.method}{Character: Method to use for multiple comparison correction after mass GLM.
 Default = "holm"}
 
 \item{alpha}{Float: significance level. Default = .05}

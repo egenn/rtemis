@@ -26,15 +26,15 @@ mplot3.mosaic(
 \arguments{
 \item{x}{contingency table, e.g. output of \code{table()}}
 
-\item{main}{String: Main title}
+\item{main}{Character: Main title}
 
-\item{xlab}{String: x-axis label}
+\item{xlab}{Character: x-axis label}
 
-\item{ylab}{String: y-axis label}
+\item{ylab}{Character: y-axis label}
 
 \item{border}{Color vector for cell borders or FALSE to turn off. Default = FALSE}
 
-\item{theme}{String: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
+\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
 Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
 You can set a system-wide default in your \code{.Rprofile} by including a line like
 options(rt.theme = 'darkgrid')}
@@ -47,7 +47,7 @@ to theme function}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
-\item{filename}{String: Path to file to save plot. Default = NULL}
+\item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{pdf.width}{Float: Width in inches for PDF output, if \code{filename} is defined}
 

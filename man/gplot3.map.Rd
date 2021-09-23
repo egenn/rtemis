@@ -61,9 +61,9 @@ set to NULL. Default = "black".}
 
 \item{border.width}{Float: Map border width. Default = .1}
 
-\item{main}{String: Main title. Default = NULL}
+\item{main}{Character: Main title. Default = NULL}
 
-\item{legend.title}{String: Legend title. Default = NULL}
+\item{legend.title}{Character: Legend title. Default = NULL}
 
 \item{theme}{\strong{ggplot2} theme to use. Default = \code{rt_gtheme_map()}}
 

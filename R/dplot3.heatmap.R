@@ -4,6 +4,7 @@
 # TODO: automatically adjust (lower) margin depending on label length
 # customizing heatmaply is messy and slow, look for alternatives
 # TODO: change dendro default colors to remove black at highest level which is not visible on a black bg
+# todo: font family not used on y-axis when not doing dendrogram
 
 #' Interactive Heatmaps
 #'
@@ -31,7 +32,7 @@
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
 #' @param key.title Character: Title for the color key. Default = NULL (no title)
-#' @param plot_method String: Update February 2021: "ggplot" causes R session to hand
+#' @param plot_method Character: Update February 2021: "ggplot" causes R session to hand
 #' on MacOS but plotly" seems to work
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
 #' @author E.D. Gennatas

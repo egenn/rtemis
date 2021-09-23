@@ -5,13 +5,13 @@
 #' \pkg{rtemis} \code{ggplot2} light theme
 #'
 #' @param base_size Float: Base font size. Default = 14
-#' @param base_family String: Font family. Default = "Helvetica Neue"
+#' @param base_family Character: Font family. Default = "Helvetica Neue"
 #' @param base_line_size Float: Line size. Default = base_size/22
 #' @param base_rect_size Float: Size for rect elements. Default = base_size/22
 #' @param axis.text.size.rel Float: Relative size for axis text. Default = 1
 #' @param legend.key.fill Color: Fill color for legend. Default = NA (no color)
 #' @param legend.text.size.rel Float: Relative size for legend text. Default = 1
-#' @param legend.position String: Legend position, "top", "bottom", "right", "left" Default  = "right"
+#' @param legend.position Character: Legend position, "top", "bottom", "right", "left" Default  = "right"
 #' @param strip.background.fill Color: Fill color from facet labels. Default = "grey85"
 #' @author E.D. Gennatas
 #' @export

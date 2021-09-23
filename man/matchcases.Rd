@@ -23,17 +23,17 @@ matchcases(
 
 \item{pool}{data.frame you are looking for matches from}
 
-\item{target.id}{String: Column name in \code{target} that holds unique cases IDs. Default = NULL,
+\item{target.id}{Character: Column name in \code{target} that holds unique cases IDs. Default = NULL,
 in which case integer case numbers will be used}
 
-\item{pool.id}{String: Same as \code{target.id} for \code{pool}}
+\item{pool.id}{Character: Same as \code{target.id} for \code{pool}}
 
 \item{exactmatch.factors}{Logical: If TRUE, selected cases will have to exactly match factors
 available in \code{target}}
 
-\item{exactmatch.cols}{String: Names of columns that should be matched exactly}
+\item{exactmatch.cols}{Character: Names of columns that should be matched exactly}
 
-\item{distmatch.cols}{String: Names of columns that should be distance-matched}
+\item{distmatch.cols}{Character: Names of columns that should be distance-matched}
 
 \item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE}
 

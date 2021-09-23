@@ -8,7 +8,7 @@
 #'
 #' @param x Color, vector: One or more colors that R understands
 #' @param bg Background color. Default = "#333333" (dark gray)
-#' @param main String: Title. Default = NULL, which results in
+#' @param main Character: Title. Default = NULL, which results in
 #' \code{deparse(substitute(x))}
 #' @param main.x Float: x coordinate for \code{main}. Default = .75
 #' @param main.y Float: y coordinate for \code{main}. Default = 0

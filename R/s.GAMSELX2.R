@@ -15,7 +15,7 @@
 #' (linear and nonlinear main effects)
 #' @param pairs.on.resid Logical: If TRUE, train second gamsel on residuals of first.
 #' Default = TRUE. Should be kept TRUE, option available for experimentation/demonstration, etc.
-#' @param p.adjust.method String: Method to use for multiple comparison correction after mass GLM.
+#' @param p.adjust.method Character: Method to use for multiple comparison correction after mass GLM.
 #' Default = "holm"
 #' @param alpha Float: significance level. Default = .05
 #' @param gamsel.params2 List of parameters to pass to \link{s.GAMSEL} for final model

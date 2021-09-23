@@ -14,7 +14,7 @@
 #' @param rules1 String, vector: Rules as combination of conditions on the features of \code{x}
 #' @param rules2 String, vector, Optional: Rules as combination of conditions on the features of \code{x}
 #' @param print.plot Logical: If TRUE, plot heatmap for calculated distance
-#' @param plot.type String: "static", "interactive": type of graphics to use, base or plotly, respectively. Default =
+#' @param plot.type Character: "static", "interactive": type of graphics to use, base or plotly, respectively. Default =
 #' "static"
 #' @param heat.lo Color: Heatmap low color. Default = "black"
 #' @param heat.mid Color: Heatmap mid color. Default = NA (i.e. create gradient from `heat.lo` to `heat.hi`)

@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas lambdamd.org
 # TIP: Use plotly::schema() to explore arguments/parameters to plotly functions
+# todo: figure out why list is reordered with ridge
 
 #' Interactive Univariate Plots
 #'
