@@ -95,12 +95,12 @@ dplot3.xy <- function(x, y = NULL,
                       file.width = 500,
                       file.height = 500, ...) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -130,7 +130,7 @@ dplot3.xy <- function(x, y = NULL,
     order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
   }
 
-  # [ Cluster ] ====
+  # Cluster ====
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
@@ -139,7 +139,7 @@ dplot3.xy <- function(x, y = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ Data ] ====
+  # Data ====
   # xlab, ylab ====
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
@@ -149,7 +149,7 @@ dplot3.xy <- function(x, y = NULL,
     if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
 
-  # '- Group ====
+  # Group ====
   if (!is.null(group)) {
     group <- as.factor(group)
     x <- split(x, group, drop = TRUE)
@@ -204,7 +204,7 @@ dplot3.xy <- function(x, y = NULL,
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -245,12 +245,12 @@ dplot3.xy <- function(x, y = NULL,
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
-  # [ Size ] ====
+  # Size ====
   if (axes.square) {
     width <- height <- min(dev.size("px"))
   }
 
-  # [ fitted & se.fit ] ====
+  # fitted & se.fit ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se.fit) se <- list() else se <- NULL
   if (rsq) .rsq <- list() else .rsq <- NULL
@@ -293,7 +293,7 @@ dplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ AXES LIMITS ] ====
+  # AXES LIMITS ====
   if (axes.equal) {
     if (is.null(xlim)) {
       xlim <- range(x)
@@ -329,7 +329,7 @@ dplot3.xy <- function(x, y = NULL,
     xlim <- ylim <- range(xlim, ylim)
   }
 
-  # [ plotly ] ====
+  # plotly ====
   # if (n.groups > 1) {
   #   legendgroup = .names
   # }
@@ -352,7 +352,7 @@ dplot3.xy <- function(x, y = NULL,
   }
 
   for (i in seq_len(n.groups)) {
-    # '- { Scatter } ====
+    ## { Scatter } ====
     marker <- if (grepl("markers", .mode[i])) {
       list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
            size = marker.size,
@@ -372,7 +372,7 @@ dplot3.xy <- function(x, y = NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
                              showlegend = legend)
     if (se.fit) {
-      # '- { SE band } ====
+      ## { SE band } ====
       plt <- plotly::add_trace(plt,
                                x = x[[i]],
                                y = fitted[[i]] + se.times * se[[i]],
@@ -397,7 +397,7 @@ dplot3.xy <- function(x, y = NULL,
                                inherit = FALSE)
     }
     if (!is.null(fit)) {
-      # '- { Fitted line } ====
+      ##  { Fitted line } ====
       lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
                   width = fit.lwd)
       plt <- plotly::add_trace(plt, x = x[[i]], y = fitted[[i]],
@@ -411,8 +411,7 @@ dplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Layout ] ====
-  # '- layout ====
+  # Layout ====
   f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
