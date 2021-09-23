@@ -6,8 +6,6 @@
 #'
 #' Plot points and lines with optional fits and standard error bands
 #'
-#' This is relatively old code and may need a little cleaning up
-#'
 #' @param x Numeric vector or list of vectors for x-axis.
 #'   If \code{data} is provided, name of variable, unquoted.
 #' @param y Numeric vector of list of vectors for y-axis
@@ -277,7 +275,7 @@ mplot3.xy <- function(x, y = NULL,
                       trace = 0,
                       filename = NULL, ...) {
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -373,7 +371,7 @@ mplot3.xy <- function(x, y = NULL,
     order.on.x <- ifelse("l" %in% type, TRUE, FALSE)
   }
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -384,7 +382,7 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Cluster ] ====
+  # Cluster ====
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
@@ -393,7 +391,7 @@ mplot3.xy <- function(x, y = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ Data ] ====
+  # Data ====
   if (!is.null(group)) {
     group <- as.factor(group)
     x <- split(x, group)
@@ -450,7 +448,7 @@ mplot3.xy <- function(x, y = NULL,
   if (length(lty) < Nygroups) lty <- as.list(rep(lty, Nygroups / length(lty)))
   if (length(pch) < Nygroups) pch <- as.list(rep(pch, Nygroups / length(pch)))
 
-  # [ Error ] ====
+  # Error ====
   if (!is.null(error.x)) {
     if (!is.list(error.x)) error.x <- list(error.x)
     if (length(error.x) < Nxgroups) stop("error.x list is not same length as input data")
@@ -468,7 +466,7 @@ mplot3.xy <- function(x, y = NULL,
   # Scale point size by cex
   # if (is.null(point.inches)) point.inches <- cex * 1/20
 
-  # [ Colors ] ====
+  # Colors ====
   ### Point and Line colors
   if (all(type == "p")) {
     # ONLY POINTS
@@ -548,7 +546,7 @@ mplot3.xy <- function(x, y = NULL,
     error.y.col <- error.y.col[seql(error.y.col, Nygroups)]
   }
 
-  # [ Values: Fit line & se ] ====
+  # Values: Fit line & se ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se.fit) sel <- list() else sel <- NULL
   if (rsq) rsql <- list() else rsql <- NULL
@@ -585,7 +583,7 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Axes Limits ] ====
+  # Axes Limits ====
   if (is.null(xlim)) {
     xlim <- range(xl)
     if (is.list(error.x)) {
@@ -618,7 +616,7 @@ mplot3.xy <- function(x, y = NULL,
   }
   if (axes.equal) xlim <- ylim <- range(xlim, ylim)
 
-  # [ Plot ] ====
+  # Plot ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -640,12 +638,12 @@ mplot3.xy <- function(x, y = NULL,
   if (xaxs == "r") xlim <- c(min(xlim) - .04 * diff(range(xlim)), max(xlim) + .04 * diff(range(xlim)))
   if (yaxs == "r") ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
 
-  # [ Plot bg ] ====
+  # Plot bg ====
   if (!is.na(theme$plot.bg)) {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # [ Axes ] ====
+  # Axes ====
   # axis(): col: color of the axis line;
   # col.axis: color of the tick labels;
   # col.ticks: color of the ticks themselves
@@ -688,7 +686,7 @@ mplot3.xy <- function(x, y = NULL,
           family = theme$font.family)
   }
 
-  # [ Grid ] ====
+  # Grid ====
   if (theme$grid) {
     grid(nx = theme$grid.nx,
          ny = theme$grid.ny,
@@ -697,7 +695,7 @@ mplot3.xy <- function(x, y = NULL,
          lwd = theme$grid.lwd)
   }
 
-  # [ Zero Lines ] ====
+  # Zero Lines ====
   if (theme$zerolines) {
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
     # if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd,
@@ -715,19 +713,19 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Diagonal ] ====
+  # Diagonal ====
   if (diagonal) abline(0, 1, lwd = diagonal.lwd, lty = diagonal.lty,
                        col = adjustcolor(diagonal.col, diagonal.alpha))
   if (diagonal.inv) abline(1, -1, lwd = diagonal.lwd, lty = diagonal.lty,
                            col = adjustcolor(diagonal.col, diagonal.alpha))
 
-  # [ Box ] ====
+  # Box ====
   if (theme$bty != "n") {
     box(col = adjustcolor(theme$box.col, theme$box.alpha),
         lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty)
   }
 
-  # [ Points & Lines ] ====
+  # Points & Lines ====
   if (scatter) {
 
     if (!is.null(error.y)) {
@@ -768,7 +766,7 @@ mplot3.xy <- function(x, y = NULL,
 
   }
 
-  # [ Main Title ] ====
+  # Main Title ====
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -782,7 +780,7 @@ mplot3.xy <- function(x, y = NULL,
           family = theme$font.family)
   }
 
-  # [ S.E. Shading ] ====
+  # S.E. Shading ====
   if (se.fit & is.list(sel)) {
     for (i in seq_len(Nxgroups)) {
       if (se.lty == "poly") {
@@ -799,7 +797,7 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Fit Line ] ====
+  # Fit Line ====
   if (is.null(fit)) fit.legend <- FALSE
   if (group.legend) fit.legend <- FALSE
 
@@ -809,7 +807,7 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ Fit Legend ] ====
+  # Fit Legend ====
   fit.legend.n <- 0
   if (fit.legend) {
     if (is.null(fit.legend.col)) fit.legend.col <- adjustcolor(fit.col[[1]], 2)
@@ -827,7 +825,7 @@ mplot3.xy <- function(x, y = NULL,
     fit.legend.n <- 1
   }
 
-  # [ Group Legend ] ====
+  # Group Legend ====
   if (group.legend) {
     if (!is.null(fit)) {
       group.col <- colorAdjust(unlist(fit.col)[seq_len(Nxgroups)], 100)
@@ -843,7 +841,7 @@ mplot3.xy <- function(x, y = NULL,
           family = theme$font.family)
   }
 
-  # [ Fit error legend ] ====
+  # Fit error legend ====
   myerror <- NULL
   if (is.logical(fit.error)) {
     if (fit.error) {
@@ -882,7 +880,7 @@ mplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # [ R-squared ] ====
+  # R-squared ====
   if (rsq) {
     if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- ddSci(unlist(rsql))
@@ -913,7 +911,7 @@ mplot3.xy <- function(x, y = NULL,
           family = theme$font.family)
   }
 
-  # [ Annotation ] ====
+  # Annotation ====
   if (!is.null(annotation)) {
     if (is.null(annotation.col)) annotation.col <- col[[1]]
     mtext(annotation, 1, -1.5, adj = .97,
@@ -921,11 +919,11 @@ mplot3.xy <- function(x, y = NULL,
           family = theme$font.family)
   }
 
-  # [ hline & vline ] ====
+  # hline & vline ====
   if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
   if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
-  # [ Outro ] ====
+  # Outro ====
   if (!is.null(filename)) dev.off()
   invisible(list(xlim = xlim, ylim = ylim))
 
