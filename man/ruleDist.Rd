@@ -19,7 +19,7 @@ ruleDist(
 \arguments{
 \item{x}{Data frame / matrix: Input features (cases by features)}
 
-\item{rules1}{String, vector: Rules as combination of conditions on the features of \code{x}}
+\item{rules1}{Character, vector: Rules as combination of conditions on the features of \code{x}}
 
 \item{rules2}{String, vector, Optional: Rules as combination of conditions on the features of \code{x}}
 

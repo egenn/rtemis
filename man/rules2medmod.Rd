@@ -7,7 +7,7 @@
 rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0)
 }
 \arguments{
-\item{rules}{String, vector: Input rules}
+\item{rules}{Character, vector: Input rules}
 
 \item{x}{Data frame: Data to evaluate rules}
 

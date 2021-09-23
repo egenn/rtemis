@@ -13,7 +13,7 @@
 #' @inheritParams s.GAM.default
 #' @param y Float, Matrix / data frame: Outcomes
 #' @param x.name Character: Name of the predictor
-#' @param y.name String, vector: Names of the outcomes
+#' @param y.name Character, vector: Names of the outcomes
 #' @param k Integer. Number of bases for smoothing spline
 #' @param family \code{family} argument for \code{mgcv::gam}
 #' @param weight Vector. Weights for GAM

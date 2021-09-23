@@ -31,7 +31,7 @@ massGAM(
 
 \item{x.name}{Character: Name of the predictor}
 
-\item{y.name}{String, vector: Names of the outcomes}
+\item{y.name}{Character, vector: Names of the outcomes}
 
 \item{k}{Integer. Number of bases for smoothing spline}
 
