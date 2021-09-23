@@ -55,13 +55,13 @@ gridSearchLearn <- function(x, y, mod,
                             grid.verbose = FALSE,
                             n.cores = rtCores, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose,
                       call.depth = call.depth,
                       message = "Running grid search...",
                       newline.pre = TRUE)
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x) | missing(y)) {
     print(args(gridSearchLearn))
     stop("Input missing")
@@ -70,10 +70,10 @@ gridSearchLearn <- function(x, y, mod,
   n.resamples <- resample.rtset$n.resamples
   n.cores <- as.numeric(n.cores)[1]
 
-  # [ Data ] ====
+  # Data ====
   x <- as.data.frame(x)
 
-  # [ GRID ] ====
+  # Grid ====
   # Filter out any grid.params with "NULL" value: expand.grid will fail otherwise.
   # Since these will not be present in best.tune, assignment to the non-existent named elements will result in NULL,
   # as required. This is needed for functions with parameters that can take NULL value
@@ -87,7 +87,7 @@ gridSearchLearn <- function(x, y, mod,
   learner <- modSelect(mod, fn = FALSE)
   res <- resample(y = y, rtset = resample.rtset, verbose = verbose)
 
-  # [ {GRID FUNCTION} ] ====
+  # {Grid function} ====
   learner1 <- function(index, learner,
                        x, y,
                        res,
@@ -133,7 +133,7 @@ gridSearchLearn <- function(x, y, mod,
     out1
   }
 
-  # [ GRID RUN ] ====
+  # Grid run ====
   if (verbose) parameterSummary(grid.params, fixed.params, title = "Search parameters")
   if (verbose) msg("Tuning", modSelect(mod, desc = TRUE), "by", search.type, "grid search:")
   if (verbose) msg(n.resamples, " resamples; ", NROW(param.grid), " models total; running on ",
@@ -154,7 +154,7 @@ gridSearchLearn <- function(x, y, mod,
                                 save.mod = save.mod,
                                 cl = n.cores)
 
-  # [ METRIC ] ====
+  # Metric ====
   type <- grid.run[[1]]$type
   if (is.null(metric)) {
     if (type == "Classification") {
@@ -172,7 +172,7 @@ gridSearchLearn <- function(x, y, mod,
   select.fn <- if (maximize) which.max else which.min
   verb <- if (maximize) "maximize" else "minimize"
 
-  # [ AGGREGATE ] ====
+  # Aggregate ====
   n.params <- length(grid.params)
   # Average test errors
   if (type %in% c("Regression", "Survival")) {
@@ -250,7 +250,7 @@ gridSearchLearn <- function(x, y, mod,
   if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
 
 
-  # [ Outro ] ====
+  # Outro ====
   outro(start.time, verbose = verbose)
   gs <- list(type = search.type,
              p = randomized.p,
@@ -280,7 +280,7 @@ gridSearchLearn <- function(x, y, mod,
 #' be used to check whether \link{gridSearchLearn} must be run.
 #'
 #' The idea is that if you know which parameter values you want to use, you define them directly
-#'   e.g. \code{alpha = 0, lambda = .2}. 
+#'   e.g. \code{alpha = 0, lambda = .2}.
 #' If you don't know, you enter the set of values to be tested,
 #'   e.g. \code{alpha = c(0, .5, 1), lambda = seq(.1, 1, .1)}.
 #' @param ... Parameters; will be converted to a list
