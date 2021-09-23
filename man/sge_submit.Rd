@@ -14,6 +14,7 @@ sge_submit(
   sge_error = sge_out,
   sge_env = "#! /usr/bin/env bash",
   sge_opts = "#$ -cwd",
+  R_command = NULL,
   system_command = NULL,
   h_rt = "00:25:00",
   mem_free = NULL,
