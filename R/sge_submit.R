@@ -85,7 +85,7 @@ sge_submit <- function(expr,
 
   ## R_command ====
   if (!is.null(R_command)) {
-    cat(R_command, file = Rfilepath, append = TRUE)
+    cat(R_command, "\n", file = Rfilepath, append = TRUE)
   }
 
   ## Load packages ====
