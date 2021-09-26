@@ -42,3 +42,17 @@ labelify <- function(x,
   xf
 
 } # rtemis::labelify
+
+#' Clean column names
+#'
+#' Clean column names by replacing all spaces and punctuation with a single underscore
+#'
+#' @param x Character, vector
+#'
+#' @author E.D. Gennatas
+#' @export
+
+clean_colnames <- function(x) {
+  out <- gsub("[[:punct:]{1,}|[:space:]]{1,}", "_", x)
+  gsub("_$", "", out)
+}
