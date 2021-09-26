@@ -6,6 +6,11 @@
 \alias{rtXDecom}
 \title{R6 class for \pkg{rtemis} cross-decompositions}
 \description{
+R6 class for \pkg{rtemis} cross-decompositions
+
+R6 class for \pkg{rtemis} cross-decompositions
+}
+\details{
 \pkg{rtemis} cross-decomposition R6 object
 }
 \author{
@@ -20,22 +25,21 @@ E.D. Gennatas
 
 \item{\code{xnames}}{Character vector: Column names of x}
 
+\item{\code{znames}}{Character vector: Column names of z}
+
 \item{\code{xdecom}}{Cross-decomposition model output}
 
-\item{\code{projections.train}}{Input data projected on new axes / basis}
+\item{\code{xprojections.train}}{x data training set projections}
 
-\item{\code{projections.test}}{Input test data projected on new axes / basis}
+\item{\code{xprojections.test}}{x data test set data projections}
+
+\item{\code{zprojections.train}}{z data training set projections}
+
+\item{\code{zprojections.test}}{z data test set projections}
+
+\item{\code{parameters}}{Cross-decomposition parameters}
 
 \item{\code{extra}}{List: Algorithm-specific output}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{projections.train}}{Input data projected on new axes / basis}
-
-\item{\code{projections.test}}{Input test data projected on new axes / basis}
 }
 \if{html}{\out{</div>}}
 }
@@ -67,11 +71,39 @@ E.D. Gennatas
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{xdecom.name}}{Character: Name of cross-decomposition algorithm}
+
+\item{\code{k}}{Integer: Number of projections}
+
+\item{\code{xnames}}{Character vector: Column names of x}
+
+\item{\code{znames}}{Character vector: Column names of z}
+
+\item{\code{xdecom}}{Cross-decomposition model output}
+
+\item{\code{xprojections.train}}{x data training set projections}
+
+\item{\code{xprojections.test}}{x data test set data projections}
+
+\item{\code{zprojections.train}}{z data training set projections}
+
+\item{\code{zprojections.test}}{z data test set projections}
+
+\item{\code{parameters}}{Cross-decomposition parameters}
+
+\item{\code{extra}}{List: Algorithm-specific output}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Print method for \code{rtXDecom} objects
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtXDecom$print()}\if{html}{\out{</div>}}
 }
