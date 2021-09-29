@@ -225,7 +225,8 @@ gridSearchLearn <- function(x, y, mod,
   # '- LINAD ====
   if (learner %in% c("s.LINAD", "s.LINOA")) {
     # ERROR
-    est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run, function(x) x$est.n.leaves))
+    est.n.leaves.all <- data.frame(n.leaves = plyr::laply(grid.run,
+                                                          function(x) ifelse(length(x$est.n.leaves) == 0, 0, x$est.n.leaves)))
     est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.leaves.by.param.id <- aggregate(n.leaves ~ param.id, est.n.leaves.all,
                                           error.aggregate.fn)
