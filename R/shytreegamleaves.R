@@ -1197,7 +1197,7 @@ selectleaves <- function(object,
 
   valid.error <- if (smooth) valid.error.smooth else valid.error
 
-  n.leaves <- which.min(valid.error)
+  n.leaves <- max(1, which.min(valid.error))
   if (verbose) msg("Selected", n.leaves, "leaves of", length(valid.error), "total",
                    color = rtHighlight)
 
