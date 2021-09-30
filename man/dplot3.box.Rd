@@ -23,6 +23,8 @@ dplot3.box(
   quartilemethod = "linear",
   violin.box = TRUE,
   orientation = "v",
+  annotate_n = FALSE,
+  annotate.col = theme$labs.col,
   xnames = NULL,
   labelify = TRUE,
   order.by.fn = NULL,
@@ -31,6 +33,8 @@ dplot3.box(
   legend.col = NULL,
   legend.xy = NULL,
   legend.orientation = "v",
+  legend.xanchor = "auto",
+  legend.yanchor = "auto",
   xaxis.type = "category",
   margin = list(t = 35, pad = 0),
   automargin.x = TRUE,
@@ -38,6 +42,9 @@ dplot3.box(
   boxgap = 0.12,
   boxgroupgap = NULL,
   hovertext = NULL,
+  show_n = FALSE,
+  boxmode = NULL,
+  use_plotly_group = FALSE,
   displayModeBar = TRUE,
   filename = NULL,
   file.width = 500,
@@ -115,7 +122,7 @@ changing.
 dplot3.box(iris[, 1:4])
 # A.2 Grouped Box plot
 dplot3.box(iris[, 1:4], group = iris$Species)
-# B. Boxplot split by time periods
+# B. Boxplot binned by time periods
 # Synthetic data with an instantenous shift in distributions
 set.seed(2021)
 dat1 <- data.frame(alpha = rnorm(200, 0), beta = rnorm(200, 2), gamma = rnorm(200, 3))
@@ -124,9 +131,13 @@ x <- rbind(dat1, dat2)
 startDate <- as.Date("2019-12-04")
 endDate <- as.Date("2021-03-31")
 time <- seq(startDate, endDate, length.out = 400)
-dplot3.box(x, time, "year")
-dplot3.box(x, time, "quarter")
-dplot3.box(x, time, "month")
+dplot3.box(x[, 1], time, "year", ylab = "alpha")
+dplot3.box(x, time, "year", legend.xy = c(0, 1))
+dplot3.box(x, time, "quarter", legend.xy = c(0, 1))
+dplot3.box(x, time, "month",
+           legend.orientation = "h",
+           legend.xy = c(0, 1),
+           legend.yanchor = "bottom")
 # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 }
 }
