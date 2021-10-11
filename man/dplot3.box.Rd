@@ -24,6 +24,7 @@ dplot3.box(
   violin.box = TRUE,
   orientation = "v",
   annotate_n = FALSE,
+  annotate_n_y = 1,
   annotate.col = theme$labs.col,
   xnames = NULL,
   labelify = TRUE,
@@ -122,6 +123,7 @@ changing.
 dplot3.box(iris[, 1:4])
 # A.2 Grouped Box plot
 dplot3.box(iris[, 1:4], group = iris$Species)
+dplot3.box(iris[, 1:4], group = iris$Species, annotate_n = TRUE)
 # B. Boxplot binned by time periods
 # Synthetic data with an instantenous shift in distributions
 set.seed(2021)

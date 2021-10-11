@@ -55,6 +55,7 @@
 #' dplot3.box(iris[, 1:4])
 #' # A.2 Grouped Box plot
 #' dplot3.box(iris[, 1:4], group = iris$Species)
+#' dplot3.box(iris[, 1:4], group = iris$Species, annotate_n = TRUE)
 #' # B. Boxplot binned by time periods
 #' # Synthetic data with an instantenous shift in distributions
 #' set.seed(2021)
@@ -99,6 +100,7 @@ dplot3.box <- function(x,
                        violin.box = TRUE,
                        orientation = "v",
                        annotate_n = FALSE,
+                       annotate_n_y = 1,
                        annotate.col = theme$labs.col,
                        xnames = NULL,
                        labelify = TRUE,
@@ -114,7 +116,7 @@ dplot3.box <- function(x,
                        margin = list(t = 35, pad = 0),
                        automargin.x = TRUE,
                        automargin.y = TRUE,
-                       boxgap = 1/nvars, #.12,
+                       boxgap = 0, #1/nvars, #.12,
                        boxgroupgap = NULL,
                        hovertext = NULL,
                        show_n = FALSE,
@@ -267,7 +269,7 @@ dplot3.box <- function(x,
         plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                xanchor = "right",
                                yanchor = "bottom",
-                               x = 0, y = 1,
+                               x = 0, y = annotate_n_y,
                                text = "N =",
                                font = list(family = theme$font.family,
                                            size = font.size,
@@ -346,7 +348,7 @@ dplot3.box <- function(x,
           for (j in seq_along(dts)) {
             # loop groups
             boxindex <- boxindex + 1
-            plt |> add_trace(
+            plt |> plotly::add_trace(
               x = if (horizontal) dts[[j]][[i]] else xval[boxindex],
               y = if (horizontal) xval[boxindex] else dts[[j]][[i]],
               name = groupnames[j],
@@ -376,7 +378,7 @@ dplot3.box <- function(x,
           plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                          xanchor = "right",
                                          yanchor = "bottom",
-                                         x = 0, y = 1,
+                                         x = 0, y = annotate_n_y,
                                          text = "N =",
                                          font = list(family = theme$font.family,
                                                      size = font.size,
@@ -487,7 +489,7 @@ dplot3.box <- function(x,
       plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                      xanchor = "right",
                                      yanchor = "bottom",
-                                     x = 0, y = 1,
+                                     x = 0, y = annotate_n_y,
                                      text = "N =",
                                      font = list(family = theme$font.family,
                                                  size = font.size,
