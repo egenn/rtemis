@@ -114,7 +114,7 @@ dplot3.box <- function(x,
                        margin = list(t = 35, pad = 0),
                        automargin.x = TRUE,
                        automargin.y = TRUE,
-                       boxgap = .12,
+                       boxgap = 1/nvars, #.12,
                        boxgroupgap = NULL,
                        hovertext = NULL,
                        show_n = FALSE,
@@ -264,7 +264,7 @@ dplot3.box <- function(x,
 
       if (annotate_n) {
         Nperbox <- sapply(x, function(i) length(na.exclude(i)))
-        plt |> add_annotations(xref = 'paper', yref = 'paper',
+        plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                xanchor = "right",
                                yanchor = "bottom",
                                x = 0, y = 1,
@@ -273,7 +273,7 @@ dplot3.box <- function(x,
                                            size = font.size,
                                            color = annotate.col),
                                showarrow = FALSE) |>
-          add_annotations(xref = 'x', yref = 'paper',
+          plotly::add_annotations(xref = 'x', yref = 'paper',
                           yanchor = "bottom",
                           x = seq_len(nvars) - 1,
                           y = 1,
@@ -340,7 +340,7 @@ dplot3.box <- function(x,
 
         boxindex <- 0
 
-        plt <- plot_ly(type = type) # box or violin
+        plt <- plotly::plot_ly(type = type) # box or violin
         for (i in seq_along(varnames)) {
           # loop vars
           for (j in seq_along(dts)) {
@@ -367,31 +367,30 @@ dplot3.box <- function(x,
                         tickangle = "auto",
                         automargin = TRUE)
 
-        plt |> layout(showlegend = T, boxgap = 1/nvars,
-                      xaxis = if (horizontal) NULL else cataxis,
-                      yaxis = if (horizontal) cataxis else NULL) -> plt
+        plt |> plotly::layout(xaxis = if (horizontal) NULL else cataxis,
+                              yaxis = if (horizontal) cataxis else NULL) -> plt
 
         if (annotate_n) {
           Nperbox <- sapply(dts, function(i) sapply(i, function(j) length(na.exclude(j)))) |>
             t() |> c()
-          plt |> add_annotations(xref = 'paper', yref = 'paper',
-                                 xanchor = "right",
-                                 yanchor = "bottom",
-                                 x = 0, y = 1,
-                                 text = "N =",
-                                 font = list(family = theme$font.family,
-                                             size = font.size,
-                                             color = annotate.col),
-                                 showarrow = FALSE) |>
-            add_annotations(xref = 'x', yref = 'paper',
-                            yanchor = "bottom",
-                            x = seq_len(nvars*ngroups) - 1,
-                            y = 1,
-                            text = as.character(Nperbox),
-                            font = list(family = theme$font.family,
-                                        size = font.size,
-                                        color = annotate.col),
-                            showarrow = FALSE) -> plt
+          plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
+                                         xanchor = "right",
+                                         yanchor = "bottom",
+                                         x = 0, y = 1,
+                                         text = "N =",
+                                         font = list(family = theme$font.family,
+                                                     size = font.size,
+                                                     color = annotate.col),
+                                         showarrow = FALSE) |>
+            plotly::add_annotations(xref = 'x', yref = 'paper',
+                                    yanchor = "bottom",
+                                    x = seq_len(nvars*ngroups) - 1,
+                                    y = 1,
+                                    text = as.character(Nperbox),
+                                    font = list(family = theme$font.family,
+                                                size = font.size,
+                                                color = annotate.col),
+                                    showarrow = FALSE) -> plt
         }
       }
     }
@@ -485,24 +484,24 @@ dplot3.box <- function(x,
       # Nperbox <- sapply(dts, function(i) sapply(i, function(j) length(na.exclude(j)))) |>
       #   t() |> c()
       Nperbox <- Npertimeperiod[[2]]
-      plt |> add_annotations(xref = 'paper', yref = 'paper',
-                             xanchor = "right",
-                             yanchor = "bottom",
-                             x = 0, y = 1,
-                             text = "N =",
-                             font = list(family = theme$font.family,
-                                         size = font.size,
-                                         color = annotate.col),
-                             showarrow = FALSE) |>
-        add_annotations(xref = 'x', yref = 'paper',
-                        yanchor = "bottom",
-                        x = seq_along(Nperbox) - 1,
-                        y = 1,
-                        text = paste(Nperbox),
-                        font = list(family = theme$font.family,
-                                    size = font.size,
-                                    color = annotate.col),
-                        showarrow = FALSE) -> plt
+      plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
+                                     xanchor = "right",
+                                     yanchor = "bottom",
+                                     x = 0, y = 1,
+                                     text = "N =",
+                                     font = list(family = theme$font.family,
+                                                 size = font.size,
+                                                 color = annotate.col),
+                                     showarrow = FALSE) |>
+        plotly::add_annotations(xref = 'x', yref = 'paper',
+                                yanchor = "bottom",
+                                x = seq_along(Nperbox) - 1,
+                                y = 1,
+                                text = paste(Nperbox),
+                                font = list(family = theme$font.family,
+                                            size = font.size,
+                                            color = annotate.col),
+                                showarrow = FALSE) -> plt
     }
 
   } # /time-binned boxplots
@@ -551,7 +550,6 @@ dplot3.box <- function(x,
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
                         margin = margin,
-                        # showlegend = legend,
                         legend = .legend,
                         boxgap = boxgap,
                         boxgroupgap = boxgroupgap)
