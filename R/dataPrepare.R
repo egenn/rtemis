@@ -82,7 +82,7 @@ dataPrepare <- function(x, y = NULL,
     x.valid <- x.valid[, seq(ncol.x - 1)]
   }
 
-  # [ preprocess ] ====
+  # preprocess ====
   if (!is.null(.preprocess)) {
     .preprocess$x <- x
     x <- do.call(preprocess, .preprocess)
@@ -104,7 +104,7 @@ dataPrepare <- function(x, y = NULL,
   #   if (!is.null(x.test)) if (NCOL(x.test) == 1) x.test <- as.data.frame(x.test)
   # }
 
-  # [ xnames and Dimensions check ] ====
+  # xnames and Dimensions check ====
   if (class(x)[1] == "list") {
     # for meta models
     # Test list lengths match
@@ -155,14 +155,14 @@ dataPrepare <- function(x, y = NULL,
     }
   } # //xnames and dimensions check
 
-  # [ Type ] ====
+  # Type ====
   if (!is.null(dim(y)) && class(y) != "Surv") y <- as.vector(y)
   type <- switch(class(y),
                  factor = "Classification",
                  Surv = "Survival",
                  "Regression")
 
-  # [ UPSAMPLE: balance outcome class ] ====
+  # UPSAMPLE: balance outcome class ====
   if (type == "Classification" & upsample) {
     if (!is.null(resample.seed)) set.seed(resample.seed)
     freq <- as.data.frame(table(y))
@@ -191,7 +191,7 @@ dataPrepare <- function(x, y = NULL,
     x0 <- y0 <- NULL
   }
 
-  # [ DOWNSAMPLE: balance outcome class ] ====
+  # DOWNSAMPLE: balance outcome class ====
   if (type == "Classification" & downsample) {
     if (!is.null(resample.seed)) set.seed(resample.seed)
     freq <- as.data.frame(table(y))
@@ -216,7 +216,7 @@ dataPrepare <- function(x, y = NULL,
     x0 <- y0 <- NULL
   }
 
-  # [ IPW: Inverse Probability Weighting for Classification ] ====
+  # IPW: Inverse Probability Weighting for Classification ====
   class.weights <- weights <- NULL
   if (type == "Classification" & ipw) {
     freq <- as.data.frame(table(y))[, 2]
@@ -235,12 +235,12 @@ dataPrepare <- function(x, y = NULL,
     }
   }
 
-  # [ SURVIVAL ] ====
+  # Survival ====
   if (survival::is.Surv(y)) {
     type <- "Survival"
   }
 
-  # [ Outro ] ====
+  # Outro ====
   list(x = x, y = y,
        x.test = x.test, y.test = y.test,
        x.valid = x.valid, y.valid = y.valid,
