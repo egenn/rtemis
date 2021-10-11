@@ -20,5 +20,5 @@ Suggests: ada, arm, bartMachine, base64enc, cluster, C50, data.tree, deepnet,
   ROCR, rpart, rpart.plot, rstudioapi, Rtsne, rsvg, R.utils, scales (>= 0.2.5), sgd, snow, snowfall, 
   sparklyr, splines2, spls, survival, tgp, threejs, vegan, visNetwork, xgboost, rmarkdown, usmap, uwot
 Remotes: egenn/gamsel2, gbm-developers/gbm3
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
