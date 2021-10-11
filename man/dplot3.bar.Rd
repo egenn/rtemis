@@ -21,8 +21,14 @@ dplot3.bar(
   hovernames = NULL,
   feature.names = NULL,
   font.size = 16,
+  annotate = FALSE,
+  annotate.col = theme$labs.col,
   legend = NULL,
   legend.col = NULL,
+  legend.xy = c(1, 1),
+  legend.orientation = "v",
+  legend.xanchor = "left",
+  legend.yanchor = "auto",
   hline = NULL,
   hline.col = "#FE4AA3",
   hline.width = 1,
@@ -114,11 +120,12 @@ Draw interactive barplots using \code{plotly}
 }
 \examples{
 \dontrun{
-dplot3.bar(VADeaths)
+dplot3.bar(VADeaths, legend.xy = c(0, 1))
+dplot3.bar(VADeaths, legend.xy = c(1, 1), legend.xanchor = "left")
 # simple individual bars
 a <- c(4, 7, 2)
 dplot3.bar(a)
-# if input is a data.frame, each row is a group
+# if input is a data.frame, each row is a group and each column is a feature
 b <- data.frame(x = c(3, 5, 7), y = c(2, 1, 8), z = c(4, 5, 2))
 rownames(b) <- c("Jen", "Ben", "Ren")
 dplot3.bar(b)
