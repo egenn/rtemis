@@ -11,17 +11,13 @@
 
 survError <- function(true, estimated) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("survival", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # s.out <- survcop::concordance(y, x)
   if (!survival::is.Surv(true)) stop("true must be Survival object")
-
-  # s.out <- as.data.frame(t(survival::survConcordance.fit(x, y)))
   out <- survival::survConcordance(true ~ estimated)
-  # names(out)[1] <- "Concordance"
   class(out) <- c("survError", "survConcordance")
   out
 
