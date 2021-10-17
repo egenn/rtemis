@@ -39,10 +39,10 @@ massGLM <- function(x, y,
                     trace = 0,
                     n.cores = rtCores) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
 
-  # [ Data ] ====
+  # Data ====
   if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
   if (trace > 0) msg0('massGLM type is "', type, '"')
   if (type == "massx") {
@@ -92,7 +92,7 @@ massGLM <- function(x, y,
                             cl = n.cores)
   names(mods) <- if (type == "massx") xnames else ynames
 
-  # [ Outro ] ====
+  # Outro ====
   out <- list(mods = if (save.mods) mods else NULL,
               summary = glm2table(mods),
               xnames = xnames,
