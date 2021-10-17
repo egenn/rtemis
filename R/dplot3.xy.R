@@ -480,7 +480,7 @@ dplot3.xy <- function(x, y = NULL,
   if (!is.null(filename)) {
     filename <- file.path(filename)
     plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-                         format = tools::file_ext(file), out_file = filename)
+                         format = tools::file_ext(filename), out_file = filename)
   }
 
   plt
