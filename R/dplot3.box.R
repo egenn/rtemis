@@ -5,6 +5,7 @@
 # added option to avoid using color for group
 # todo: hovertext in A2B
 # todo: change group time bin similar to A2b without color
+# :annotate_n ngroups when one group is empty and dropped by plotly
 
 #' Interactive Boxplots & Violin plots
 #'
@@ -190,7 +191,6 @@ dplot3.box <- function(x,
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
   if (!is.null(order.by.fn) && order.by.fn != "none") {
-    browser()
     col <- col[.order]
   }
 
@@ -278,7 +278,8 @@ dplot3.box <- function(x,
                                showarrow = FALSE) |>
           plotly::add_annotations(xref = 'x', yref = 'paper',
                           yanchor = "bottom",
-                          x = seq_len(nvars) - 1,
+                          # x = seq_len(nvars) - 1,
+                          x = seq_along(Nperbox) - 1,
                           y = 1,
                           text = as.character(Nperbox),
                           font = list(family = theme$font.family,
@@ -323,7 +324,7 @@ dplot3.box <- function(x,
         # Replaces A.2.a to allow annotation positioning
         if (is.null(legend)) legend <- TRUE
         # dt <- cbind(data.table::as.data.table(x), group = group)
-        dts <- split(data.table::as.data.table(x), group)
+        dts <- split(data.table::as.data.table(x), group, drop = TRUE)
 
         if (is.null(ylab)) ylab <- ""
         if (type == "box") {
