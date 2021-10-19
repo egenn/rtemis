@@ -78,7 +78,7 @@
 # showlegend in plot_ly so that subplot does not cause repetition of legend
 # known issue: boxmode = "group" works fine in single plots; but when used with subplot,
 # forces separate plots sharing X to shift their boxplots.
-# consider rewriting to avoid using boxmode "group"
+# => rewrite to avoid using boxmode "group" with use_plotly_group = FALSE
 
 dplot3.box <- function(x,
                        time = NULL,
@@ -190,6 +190,7 @@ dplot3.box <- function(x,
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
   if (!is.null(order.by.fn) && order.by.fn != "none") {
+    browser()
     col <- col[.order]
   }
 
@@ -257,15 +258,15 @@ dplot3.box <- function(x,
                                    name = if (show_n)
                                      paste0(.xnames[i], " (N=", length(x[[i]]), ")")
                                    else .xnames[i],
-                                   line = list(color = plotly::toRGB(col[i])),
-                                   fillcolor = plotly::toRGB(col[i], alpha),
-                                   marker = list(color = plotly::toRGB(col[i], alpha)),
+                                   line = list(color = plotly::toRGB(col[i])),          # box borders
+                                   fillcolor = plotly::toRGB(col[i], alpha),            # box fill
+                                   marker = list(color = plotly::toRGB(col[i], alpha)), # points
                                    text = if (!is.null(hovertext)) hovertext[[i]] else NULL)
         }
       }
 
       if (annotate_n) {
-        Nperbox <- sapply(x, function(i) length(na.exclude(i)))
+        Nperbox <- Filter(function(i) i > 0, sapply(x, function(j) length(na.exclude(j))))
         plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                xanchor = "right",
                                yanchor = "bottom",
@@ -326,11 +327,14 @@ dplot3.box <- function(x,
 
         if (is.null(ylab)) ylab <- ""
         if (type == "box") {
-          args <- list(quartilemethod = quartilemethod,
+          args <- list(type = "box",
+                       quartilemethod = quartilemethod,
                        boxpoints = boxpoints,
                        alpha = alpha)
+        } else {
+          args <- list(type = "violin",
+                       box = list(visible = violin.box))
         }
-        if (type == "violin") args <- list(box = list(visible = violin.box))
 
         varnames <- names(x)
         nvars <- length(varnames)
@@ -342,7 +346,8 @@ dplot3.box <- function(x,
 
         boxindex <- 0
 
-        plt <- plotly::plot_ly(type = type) # box or violin
+        # plt <- plotly::plot_ly(type = type) # box or violin
+        plt <- do.call(plotly::plot_ly, args)
         for (i in seq_along(varnames)) {
           # loop vars
           for (j in seq_along(dts)) {
@@ -373,8 +378,9 @@ dplot3.box <- function(x,
                               yaxis = if (horizontal) cataxis else NULL) -> plt
 
         if (annotate_n) {
-          Nperbox <- sapply(dts, function(i) sapply(i, function(j) length(na.exclude(j)))) |>
-            t() |> c()
+          Nperbox <- Filter(function(i) i > 0,
+                            c(t(sapply(dts, function(i)
+                              sapply(i, function(j) length(na.exclude(j)))))))
           plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                          xanchor = "right",
                                          yanchor = "bottom",
@@ -411,10 +417,15 @@ dplot3.box <- function(x,
     #                                  quarter = paste(data.table::year(time), quarters(time)),
     #                                  month = paste(data.table::year(time), months(time, TRUE)),
     #                                  day = time))]
-    dt[, timeperiod := date2factor(time, time.bin)]
+    dt[, timeperiod := date2factor(time, time.bin)] |>
+      setkey(timeperiod)
 
     # Npertimeperiod <- dt[, .N, by = timeperiod]
-    Npertimeperiod <- dt[, lapply(.SD, function(i) length(na.exclude(i))), by = timeperiod] |>
+    # Npertimeperiod <- dt[, lapply(.SD, function(i) length(na.exclude(i))), by = timeperiod] |>
+    #   setorder()
+    # index by key timeperiod to include N = 0 groups
+    Npertimeperiod <- dt[levels(timeperiod)][, lapply(.SD, function(i) length(na.exclude(i))),
+                                             by = timeperiod] |>
       setorder()
     #    timeperiod alpha  beta gamma
     #        <fctr> <int> <int> <int>
@@ -481,11 +492,10 @@ dplot3.box <- function(x,
       plt |> plotly::layout(boxmode = "group") -> plt
     }
 
-    ## edit ====
+    ## annotations ====
     if (is.null(group) & annotate_n) {
-      # Nperbox <- sapply(dts, function(i) sapply(i, function(j) length(na.exclude(j)))) |>
-      #   t() |> c()
-      Nperbox <- Npertimeperiod[[2]]
+      # Nperbox <- Filter(function(i) i > 0, Npertimeperiod[[2]])
+      Nperbox <- Npertimeperiod[[2]] # include zeros
       plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                      xanchor = "right",
                                      yanchor = "bottom",
@@ -565,7 +575,7 @@ dplot3.box <- function(x,
   if (!is.null(filename)) {
     filename <- file.path(filename)
     plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-                         format = tools::file_ext(file), out_file = filename)
+                         format = tools::file_ext(filename), out_file = filename)
   }
 
   # if (print.plot) suppressWarnings(print(plt))
