@@ -16,11 +16,11 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                "\n  Learn R: https://class.lambdamd.org/pdsr"))
 
   # RStudio, VS Code
-  try(if (try(rstudioapi::isAvailable(), silent = TRUE)) {
-    mplot3.harmonograph(text = "rtemis on RStudio", text.adj = .01,
-                        text.padj = -.2, col = sample(2:8, 1))
-  } else if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
+  try(if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
     mplot3.harmonograph(text = "rtemis on VS Code", text.adj = .01,
+                        text.padj = -.2, col = sample(2:8, 1))
+  } else if (try(rstudioapi::isAvailable(), silent = TRUE)) {
+    mplot3.harmonograph(text = "rtemis on RStudio", text.adj = .01,
                         text.padj = -.2, col = sample(2:8, 1))
   }, silent = TRUE)
 
