@@ -1247,7 +1247,7 @@ surv.resid <- function(y, Fval) {
     }
     tempDer[i] <- cen[i] - aTerm
   }
-  - tempDer
+  tempDer
 }
 
 surv.loss <- function(y, pred) 1 - modError(y, pred)$concordance
