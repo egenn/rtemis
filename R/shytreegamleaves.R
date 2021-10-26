@@ -1,8 +1,8 @@
 # shytreegamleaves.R
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
-# shytreegamleaves with no-line option
-# apply gamma only to splits
+# g$n.nodes
+# => full linear model as first step
 
 #' \pkg{rtemis internal}: Low-level Stepwise Linear Additive Tree procedure
 #'
@@ -26,6 +26,7 @@
 # [[---F1---]] ====
 shytreegamleaves <- function(x, y,
                              x.valid = NULL, y.valid = NULL,
+                             type,
                              lookback = FALSE,
                              weights = NULL,
                              max.leaves = 5,
@@ -52,15 +53,19 @@ shytreegamleaves <- function(x, y,
                              .rho = TRUE,
                              rho.max = 1000,
                              rho.def = .1,
-                             loss.fn = if (is.factor(y)) class.loss else mse,
+                             # loss.fn = if (is.factor(y)) class.loss else mse,
+                             loss.fn = switch(type, Regression = mse,
+                                              Classification = class.loss,
+                                              Survival = surv.loss),
                              verbose = TRUE,
                              plot.tuning = TRUE,
                              trace = 0) {
 
   # Arguments  ====
-  type <- if (is.factor(y))  "Classification" else "Regression"
   .class <- type == "Classification"
+  .surv <- type == "Survival"
   if (.class) {
+    # yraw <- y
     ylevels <- levels(y)
     levels(y) <- c(1, -1)
     y <- as.numeric(as.character(y))
@@ -142,7 +147,7 @@ shytreegamleaves <- function(x, y,
   g$stepindex$`1` <- 1
 
   # Loop: step splitLine  ====
-  # Special case: if max.leaves == 1 ====
+  # Special case: max.leaves == 1 ====
   # return linear model
   if (max.leaves == 1) {
 
@@ -152,6 +157,7 @@ shytreegamleaves <- function(x, y,
     index <- is.na(y)
     coef <- lincoef(x = g$xm[!index, -1, drop = FALSE],
                     y = y[!index],
+                    type = type,
                     weights = weights[!index],
                     method = lin.type,
                     nvmax = nvmax,
@@ -208,6 +214,8 @@ shytreegamleaves <- function(x, y,
   # '- Gradient ====
   if (.class) {
     firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
+  } else if (.surv) {
+    firstDer <- surv.resid(y, Fval)
   } else {
     firstDer <- -(y - Fval)
   }
@@ -281,11 +289,14 @@ shytreegamleaves <- function(x, y,
   # '- Start loop ====
   stepid <- 1
   while (g$n.leaves < max.leaves && length(g$open) > 0) {
-    if (trace > 1) msg("g$closed is", g$closed)
-    if (trace > 1) msg("g$open is", g$open)
-    if (trace > 1) msg("g$include is", g$include)
-    if (trace > 1) msg("g$terminal is", g$terminal)
-    if (trace > 1) msg("g$n.leaves is", g$n.leaves)
+    if (trace > 1) {
+      msg("g$closed is", g$closed)
+      msg("g$open is", g$open)
+      msg("g$include is", g$include)
+      msg("g$terminal is", g$terminal)
+      msg("g$n.leaves is", g$n.leaves)
+    }
+
     # Work on all candidate splits (open nodes)
     for (i in g$open) {
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
@@ -370,11 +381,9 @@ shytreegamleaves <- function(x, y,
           # if (sibling %in% g$nosplit) g$closed <- c(g$closed, sibling)
 
           # +tree: Remove selected from open
-          # Remove selected from open
           g$open <- setdiff(g$open, selected)
 
           # +tree: Add selected's children to open
-          # Add selected's children to open
           g$open <- c(g$open, selected * 2, selected * 2 + 1)
           if (trace > 1) msg("g$open is now", g$open)
 
@@ -402,7 +411,8 @@ shytreegamleaves <- function(x, y,
   # Add open and nosplit nodes to included
 
   # Purge  ====
-  if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
+  # if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
+  if (verbose) msg0("Reached ", g$n.leaves, " leaves.")
   if (g$n.nodes == 2) {
     g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
     g$closed <- c(1, 2, 3)
@@ -417,7 +427,7 @@ shytreegamleaves <- function(x, y,
     for (k in setdiff(names(g$tree), included)) g$tree[[paste(k)]] <- NULL
   }
 
-  # ENH: consider creating a special R6 class with active bindings for this
+  # ENH: consider R6 class with active bindings for this
   leaf.rules <- data.frame(id = plyr::laply(g$terminal, function(j) g$tree[[paste(j)]]$id),
                            rule = plyr::laply(g$terminal, function(j) g$tree[[paste(j)]]$rule),
                            N = plyr::laply(g$terminal, function(j) length(g$tree[[paste(j)]]$index)),
@@ -567,9 +577,13 @@ splitlineRC <- function(g,
 
   # '- Node ====
   .class <- type == "Classification"
+  .surv <- type == "Survival"
   node <- g$tree[[paste(node.index)]]
   if (.class) {
     firstDer <- -2 * g$y / (1 + exp(2 * g$y * node$Fval)) # n
+    resid1 <- -firstDer
+  } else if (.surv) {
+    firstDer <- surv.resid(g$y, node$Fval)
     resid1 <- -firstDer
   } else {
     resid1 <- g$y - node$Fval
@@ -782,6 +796,9 @@ splitlineRC <- function(g,
     # '- Line  -' ====
     if (.class) {
       firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
+      resid2 <- -firstDer
+    }  else if (.surv) {
+      firstDer <- surv.resid(g$y, Fval)
       resid2 <- -firstDer
     } else {
       resid2 <- g$y - Fval
@@ -1145,7 +1162,7 @@ class.lossw <- function(y, Fval, weights) {
 
 }
 
-# [[--F6--]] ====
+# [[---F6---]] ====
 selectleaves <- function(object,
                          x, y,
                          x.valid, y.valid,
@@ -1156,6 +1173,7 @@ selectleaves <- function(object,
   if (trace > 1) msg("Running selectleaves")
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
+  .surv <- object$type == "Survival"
 
   train.estimate.l <- predict(object, newdata = x,
                               type = "step",
@@ -1170,6 +1188,11 @@ selectleaves <- function(object,
       1 - bacc(y, train.estimate.l[[j]]))
     valid.error <- sapply(seq(valid.estimate.l), function(j)
       1 - bacc(y.valid, valid.estimate.l[[j]]))
+  } else if (.surv) {
+    train.error <- sapply(seq(train.estimate.l), function(j)
+      surv.loss(y, train.estimate.l[[j]]))
+    valid.error <- sapply(seq(valid.estimate.l), function(j)
+      surv.loss(y.valid, valid.estimate.l[[j]]))
   } else {
     train.error <- sapply(seq(train.estimate.l), function(j)
       mse(y, train.estimate.l[[j]]))
@@ -1207,3 +1230,24 @@ selectleaves <- function(object,
        valid.error.smooth = valid.error.smooth)
 
 } # rtemis::selectleaves
+
+# derivate of GBM for Cox (Ridgeway et al)
+# => vectorize
+surv.resid <- function(y, Fval) {
+  cen <- y[, 2]
+  z <- y[, 1]
+  l = NROW(z)
+  tempDer <- cen
+  dTerm2 <- colSums(outer(z, z, '>=')*exp(Fval))
+  for (i in 1:l) {
+    tempDer[i] <- 0
+    aTerm <- 0
+    for (j in 1:l) {
+      aTerm = aTerm + (cen[j]*(z[i] >= z[j])*exp(Fval[i]))/dTerm2[j]
+    }
+    tempDer[i] <- cen[i] - aTerm
+  }
+  - tempDer
+}
+
+surv.loss <- function(y, pred) -modError(y, pred)$concordance
