@@ -23,7 +23,7 @@
 #' @author E.D. Gennatas
 #' @noRd
 
-# [[---F1---]] ====
+# [[---1. shytreegamleaves---]] ====
 shytreegamleaves <- function(x, y,
                              x.valid = NULL, y.valid = NULL,
                              type,
@@ -85,6 +85,7 @@ shytreegamleaves <- function(x, y,
 
   # Check y is not constant ====
   if (is.constant(y)) {
+    # No training
     coefs <- rep(0, NCOL(x) + 1)
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(type = type,
@@ -118,7 +119,6 @@ shytreegamleaves <- function(x, y,
   g <- new.env()
   # g$x required by rpart, g$xm used by lincoef
   g$x <- x
-  # g$xm <- cbind(1, model.matrix(~. - 1, data = x)) # check first 2-level factor incl as Var0 and Var1
   g$xm <- model.matrix(~., data = x)
   g$ncolxm <- NCOL(g$xm)
   g$y <- y
@@ -179,7 +179,7 @@ shytreegamleaves <- function(x, y,
       g$init <- 0
     }
     .mod <- list(type = type,
-                 init = mean(y),
+                 init = 0,
                  tree = list(id = 1,
                              index = TRUE,
                              Fval = NA,
@@ -190,7 +190,7 @@ shytreegamleaves <- function(x, y,
                              split.rule = NA),
                  learning.rate = learning.rate,
                  gamleaves = gamleaves,
-                 n.nodes = 0,
+                 n.nodes = 1,
                  n.leaves = 1,
                  included = NULL,
                  terminal = NULL,
@@ -520,7 +520,7 @@ shytreegamleaves <- function(x, y,
 
 } # rtemis::shytreegamleaves
 
-# [[---F2---]]====
+# [[---2. setNodeRC---]]====
 setNodeRC <- function(g,
                       id,
                       index,
@@ -551,7 +551,7 @@ setNodeRC <- function(g,
 } # rtemis::setNodeRC
 
 
-# [[---F3---]] ====
+# [[---3. splitlineRC---]] ====
 #' \code{rtemis} internal: Ridge and Stump
 #'
 #' Edits environment 'g' in-place (no output)
@@ -955,7 +955,7 @@ splitlineRC <- function(g,
 } # rtemis::splitlineRC
 
 
-# [[---F4---]] ====
+# [[---4. predict---]] ====
 #' Predict method for \code{shytreegamleaves} object
 #'
 #' @method predict shytreegamleaves
@@ -1010,6 +1010,7 @@ predict.shytreegamleaves <- function(object, newdata,
         yhat <- c(predict(object$leaves$gams[[1]], newdata))
       } else {
         if (object$type == "Survival") {
+          # check: init
           yhat <- c(newdata_lin[, -1] %*% t(object$leaves$coefs))
         } else {
           yhat <- c(newdata_lin %*% t(object$leaves$coefs))
@@ -1128,7 +1129,7 @@ predict.shytreegamleaves <- function(object, newdata,
 
 } # rtemis:: predict.shytreegamleaves
 
-# [[---F5---]] ====
+# [[---5. print---]] ====
 #' Print method for \code{shytreegamleaves} object
 #'
 #' @method print shytreegamleaves
@@ -1175,7 +1176,7 @@ class.lossw <- function(y, Fval, weights) {
 
 }
 
-# [[---F6---]] ====
+# [[---6. selectleaves---]] ====
 selectleaves <- function(object,
                          x, y,
                          x.valid, y.valid,
