@@ -46,6 +46,7 @@
 lincoef <- function(x, y,
                     weights = NULL,
                     method = "glmnet",
+                    type = c("Regression", "Classification", "Survival"),
                     alpha = 1,
                     lambda = .05,
                     lambda.seq = NULL,
@@ -66,6 +67,12 @@ lincoef <- function(x, y,
   }
   if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq(NCOL(x)))
 
+  type <- match.arg(type)
+
+  if (type != "Regression" & method != "glmnet") {
+    stop("Use method 'glmnet' for", type)
+  }
+
   if (method == "glm") {
     # '-- "glm": base::lm.wfit ====
     if (is.null(weights)) weights <- rep(1, NROW(y))
@@ -74,11 +81,16 @@ lincoef <- function(x, y,
   } else if (method == "glmnet") {
     # '-- "glmnet": glmnet::glmnet ====
     if (is.null(weights)) weights <- rep(1, NROW(y))
-    lin1 <- glmnet::glmnet(data.matrix(x), y, family = 'gaussian',
+    family <- switch(type,
+                     Regression = "gaussian",
+                     Classification = ifelse(length(levels(y)) == 2, "binomial", "multinomial"),
+                     Survival = "cox")
+    lin1 <- glmnet::glmnet(data.matrix(x), y, family = family,
                            weights = weights,
                            alpha = alpha,
                            lambda = lambda.seq)
     coef <- as.matrix(coef(lin1, s = lambda))[, 1]
+
   } else if (method == "cv.glmnet") {
     # '-- "cv.glmnet": glmnet::cv.glmnet ====
     which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
