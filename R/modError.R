@@ -375,31 +375,3 @@ print.regError <- function(x, ...) {
   cat("   R sq = ", rtHighlight$bold(ddSci(obj$Rsq)), "\n", sep = "")
 
 } # rtemis::print.regError
-
-
-# print.survError.R
-# ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
-
-#' Print \code{survError} object
-#'
-#' \code{print} \code{survError} object
-#'
-#' @method print survError
-#' @param x \code{survError} object
-#' @author E.D. Gennatas
-
-print.survError <- function(x, ...) {
-
-  obj <- x
-  cat("    Concordance =", ddSci(obj$concordance), "\n")
-  cat("             SE =", ddSci(obj$std.err), "\n")
-  cat("              N =", ddSci(obj$n), "\n")
-  cat("   N concordant =", ddSci(obj$stats[[1]]), "\n")
-  cat("   N discordant =", ddSci(obj$stats[[2]]), "\n")
-  cat("      Tied Risk =", ddSci(obj$stats[[3]]), "\n")
-  cat("      Tied Time =", ddSci(obj$stats[[4]]), "\n")
-  cat("      Std (c-d) =", ddSci(obj$stats[[5]]), "\n")
-  cat("\n")
-
-} # rtemis::print.survError
