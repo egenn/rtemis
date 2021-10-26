@@ -9,6 +9,7 @@ lincoef(
   y,
   weights = NULL,
   method = "glmnet",
+  type = c("Regression", "Classification", "Survival"),
   alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,
