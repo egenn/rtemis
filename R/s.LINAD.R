@@ -246,6 +246,9 @@ s.LINAD <- function(x, y = NULL,
     # Return special from gridSearchLearn
     max.leaves <- gs$best.tune$n.leaves
 
+    # if tuning fails
+    if (length(lambda) == 0) lambda = .05
+
     # Now ready to train final full model
     .gs <- FALSE
     lookback <- FALSE
@@ -269,8 +272,10 @@ s.LINAD <- function(x, y = NULL,
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
 
+  if (length(max.leaves) == 0) max.leaves <- 1
   mod <- shytreegamleaves(x, y,
                           x.valid = x.valid, y.valid = y.valid,
+                          type = type,
                           lookback = lookback,
                           max.leaves = max.leaves,
                           gamleaves = leaf.model == "spline",
