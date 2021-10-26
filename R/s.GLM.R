@@ -161,7 +161,6 @@ s.GLM <- function(x, y = NULL,
     type <- "Classification"
   }
 
-  checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -177,6 +176,7 @@ s.GLM <- function(x, y = NULL,
       mod.name <- toupper(class.method)
     }
   }
+  checkType(type, c("Classification", "Regression"), mod.name)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
