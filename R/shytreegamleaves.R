@@ -179,8 +179,15 @@ shytreegamleaves <- function(x, y,
       g$init <- 0
     }
     .mod <- list(type = type,
-                 init = g$init,
-                 tree = NULL,
+                 init = mean(y),
+                 tree = list(id = 1,
+                             index = TRUE,
+                             Fval = NA,
+                             weights = weights,
+                             depth = 0,
+                             terminal = TRUE,
+                             rule = "TRUE",
+                             split.rule = NA),
                  learning.rate = learning.rate,
                  gamleaves = gamleaves,
                  n.nodes = 0,
@@ -199,12 +206,14 @@ shytreegamleaves <- function(x, y,
   }
 
   if (.class) {
+    # Classification
     # vector: Initial probabilities
     probability <- weights / NROW(y) # n
     # '- Init ====
     # scalar: Initial node value
     g$init <- c(log(1 + probability %*% y) - log(1 - probability %*% y)) # 1
   } else {
+    # Regression, Survival
     g$init <- mean(y) # 1
   }
 
@@ -1000,7 +1009,11 @@ predict.shytreegamleaves <- function(object, newdata,
       if (object$gamleaves) {
         yhat <- c(predict(object$leaves$gams[[1]], newdata))
       } else {
-        yhat <- c(newdata_lin %*% t(object$leaves$coefs))
+        if (object$type == "Survival") {
+          yhat <- c(newdata_lin[, -1] %*% t(object$leaves$coefs))
+        } else {
+          yhat <- c(newdata_lin %*% t(object$leaves$coefs))
+        }
       }
     } else {
       rule.ids <- object$stepindex[[paste(n.leaves)]]
