@@ -17,7 +17,7 @@ survError <- function(true, estimated) {
   }
 
   if (!survival::is.Surv(true)) stop("true must be Survival object")
-  out <- survival::survConcordance(true ~ estimated)
+  out <- survival::concordancefit(true, estimated)
   class(out) <- c("survError", "survConcordance")
   out
 
@@ -34,13 +34,45 @@ survError <- function(true, estimated) {
 
 print.survError <- function(x, decimal.places = 4, ...) {
 
-  printdf1(data.frame(N = x$n,
-                      N_Corcordant = x$stats[1],
-                      N_Discordant = x$stats[2],
-                      Tied_risk = x$stats[3],
-                      Tied_time = x$stats[4],
-                      Std_error = ddSci(x$std.err, decimal.places),
-                      row.names = 1))
+  # printdf1(data.frame(N = x$n,
+  #                     N_Corcordant = x$stats[1] |> null2na(),
+  #                     N_Discordant = x$stats[2] |> null2na(),
+  #                     Tied_risk = x$stats[3] |> null2na(),
+  #                     Tied_time = x$stats[4] |> null2na(),
+  #                     Std_error = ddSci(x$std.err |> null2na(), decimal.places),
+  #                     row.names = 1))
+  cat("              N =", ddSci(x$n), "\n")
+  cat("            var =", ddSci(x$var), "\n")
+  cat("           cvar =", ddSci(x$cvar), "\n")
   cat("   Concordance : ", rtHighlight$bold(x$concordance), "\n")
 
 } # rtemis::print.survError
+
+# print.survError.R
+# ::rtemis::
+# 2017 E.D. Gennatas lambdamd.org
+
+#' Print \code{survError} object
+#'
+#' \code{print} \code{survError} object
+#'
+#' @method print survError
+#' @param x \code{survError} object
+#' @author E.D. Gennatas
+
+# print.survError <- function(x, ...) {
+#
+#   obj <- x
+#   cat("    Concordance =", ddSci(obj$concordance), "\n")
+#   # cat("             SE =", ddSci(obj$std.err), "\n")
+#   cat("              N =", ddSci(obj$n), "\n")
+#   cat("            var =", ddSci(obj$var), "\n")
+#   cat("           cvar =", ddSci(obj$cvar), "\n")
+#   # cat("   N concordant =", ddSci(obj$stats[[1]]), "\n")
+#   # cat("   N discordant =", ddSci(obj$stats[[2]]), "\n")
+#   # cat("      Tied Risk =", ddSci(obj$stats[[3]]), "\n")
+#   # cat("      Tied Time =", ddSci(obj$stats[[4]]), "\n")
+#   # cat("      Std (c-d) =", ddSci(obj$stats[[5]]), "\n")
+#   cat("\n")
+#
+# } # rtemis::print.survError
