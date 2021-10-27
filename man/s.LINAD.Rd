@@ -47,6 +47,7 @@ s.LINAD(
   grid.search.type = "exhaustive",
   save.gridrun = FALSE,
   grid.verbose = TRUE,
+  select.leaves.smooth = TRUE,
   cluster = FALSE,
   keep.x = FALSE,
   simplify = TRUE,
