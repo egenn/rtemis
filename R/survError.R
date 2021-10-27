@@ -18,6 +18,7 @@ survError <- function(true, estimated) {
 
   if (!survival::is.Surv(true)) stop("true must be Survival object")
   out <- survival::concordancefit(true, estimated)
+  names(out) <- labelify(names(out), capitalize.strings = "n")
   class(out) <- c("survError", "survConcordance")
   out
 
@@ -41,10 +42,10 @@ print.survError <- function(x, decimal.places = 4, ...) {
   #                     Tied_time = x$stats[4] |> null2na(),
   #                     Std_error = ddSci(x$std.err |> null2na(), decimal.places),
   #                     row.names = 1))
-  cat("              N =", ddSci(x$n), "\n")
-  cat("            var =", ddSci(x$var), "\n")
-  cat("           cvar =", ddSci(x$cvar), "\n")
-  cat("   Concordance : ", rtHighlight$bold(x$concordance), "\n")
+  cat("              N =", ddSci(x$N), "\n")
+  cat("            var =", ddSci(x$Var), "\n")
+  cat("           cvar =", ddSci(x$Cvar), "\n")
+  cat("   Concordance : ", rtHighlight$bold(x$Concordance), "\n")
 
 } # rtemis::print.survError
 
