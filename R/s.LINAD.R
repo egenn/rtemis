@@ -67,7 +67,7 @@ s.LINAD <- function(x, y = NULL,
                     grid.search.type = "exhaustive",
                     save.gridrun = FALSE,
                     grid.verbose = TRUE,
-                    select.leaves.smooth = FALSE,
+                    select.leaves.smooth = TRUE,
                     cluster = FALSE,
                     keep.x = FALSE,
                     simplify = TRUE,
@@ -175,6 +175,9 @@ s.LINAD <- function(x, y = NULL,
     } else if (type == "Regression") {
       metric <- "MSE"
       if (is.null(maximize)) maximize <- FALSE
+    } else {
+      metric <- "Concordance"
+      maximize <- TRUE
     }
   }
 
