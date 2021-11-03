@@ -135,7 +135,7 @@ preprocess <- function(x, y = NULL,
   }
 
   # [ Set aside excluded ] ====
-  if (!is.null(exclude)) {
+  if (!is.null(exclude) && length(exclude) > 0) {
     excluded <- x[, exclude, drop = FALSE]
     excluded.names <- colnames(x)[exclude]
     x <- x[, -exclude, drop = FALSE]
@@ -377,7 +377,7 @@ preprocess <- function(x, y = NULL,
   if (oneHot) x <- oneHot(x, verbose = verbose)
 
   # [ Add back excluded ] ====
-  if (!is.null(exclude)) {
+  if (!is.null(exclude) && length(exclude) > 0) {
     if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
       n.feat.inc <- NCOL(x)
       x <- cbind(x, excluded[-removeCases.thres.index, ])
