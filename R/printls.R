@@ -219,5 +219,3 @@ printtable <- function(x, spacing = 2, pad = 2) {
           spacing = spacing)
 
 } # rtemis::printtable
-
-
