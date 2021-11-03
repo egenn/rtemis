@@ -418,3 +418,8 @@ lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
   out
 
 } # rtemis::lsapply
+
+
+null2na <- function(x) {
+  if (is.null(x)) NA else x
+}
