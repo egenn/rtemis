@@ -269,16 +269,17 @@ dplot3.x <- function(x,
       plt <- plotly::plot_ly(width = width,
                              height = height)
       for (i in seq_len(n.groups)) {
-        plt <- plotly::add_histogram(plt, x = x[[i]],
-                                     marker = list(color = plotly::toRGB(col[i], alpha)),
-                                     name = .names[i],
-                                     text = .text[[i]],
-                                     hoverinfo = "text",
-                                     histnorm = histnorm,
-                                     histfunc = histfunc,
-                                     nbinsx = hist.n.bins,
-                                     showlegend = legend,
-                                     bingroup = bingroup)
+        plt <- plotly::add_trace(plt, x = x[[i]],
+                                 type = "histogram",
+                                 marker = list(color = plotly::toRGB(col[i], alpha)),
+                                 name = .names[i],
+                                 hovertext = .text[[i]],
+                                 hoverinfo = "text",
+                                 histnorm = histnorm,
+                                 histfunc = histfunc,
+                                 nbinsx = hist.n.bins,
+                                 showlegend = legend,
+                                 bingroup = bingroup)
       }
       plt <- plotly::layout(plt,
                             barmode = barmode,
