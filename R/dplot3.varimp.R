@@ -46,18 +46,18 @@ dplot3.varimp <- function(x,
                           theme = getOption("rt.theme", "lightgrid"),
                           showlegend = TRUE, ...) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(mar)) {
     mar <- if (is.null(main)) c(40, 0, 0, 20) else c(40, 0, 40, 20)
   }
 
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -85,7 +85,7 @@ dplot3.varimp <- function(x,
                    size = font.size,
                    color = tick.col)
 
-  # [ Data ] ====
+  # Data ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
 
   # '- Names ====
@@ -119,7 +119,7 @@ dplot3.varimp <- function(x,
   y <- factor(.names[index], levels = .names[index])
   # if (!is.null(error)) error <- error[index]
 
-  # [ Colors ] ====
+  # Colors ====
   # Default to a fg to teal gradient
   if (is.null(col)) {
     if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
@@ -127,7 +127,7 @@ dplot3.varimp <- function(x,
   }
   col <- colorAdjust(col, alpha = alpha)
 
-  # [ plotly ] ====
+  # plotly ====
   plt <- plotly::plot_ly(x = x, y = y,
                          type = 'bar',
                          orientation = 'h',

@@ -41,12 +41,12 @@ dplot3.addtree <- function(addtree,
                            remove.bad.parents = FALSE,
                            filename = NULL) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("data.tree", "DiagrammeR", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ TREE ] ====
+  # Tree ====
   if (inherits(addtree, "Node")) {
     addtree <- data.tree::Clone(addtree)
     if (is.null(prune)) prune <- TRUE
@@ -61,19 +61,19 @@ dplot3.addtree <- function(addtree,
     }
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(node.labels.pct.pos)) {
     node.labels.pct.pos <- if (is.null(addtree$pct.pos)) FALSE else TRUE
   }
 
-  # [ PRUNE ] ====
+  # Prune ====
   if (prune) {
     addtree <- prune.addtree(addtree,
                              prune.empty.leaves = prune.empty.leaves,
                              remove.bad.parents = remove.bad.parents)
   }
 
-  # [ GPARH STYLE ] ====
+  # Graph Style ====
   data.tree::SetGraphStyle(addtree,
                            layout = layout,
                            rankdir = rankdir,
@@ -84,7 +84,7 @@ dplot3.addtree <- function(addtree,
                                            "\nDepth =", addtree$height - 1,
                                            "\nN nodes =", addtree$totalCount - 1,
                                            "\nN leaves =", length(addtree$leaves)))
-  # [ NODE STYLE ] ====
+  # Node Style ====
   .node.labels <- if (node.labels) {
     if (node.labels.pct.pos) {
       # Include % positive cases
@@ -113,7 +113,7 @@ dplot3.addtree <- function(addtree,
                                                          sep = "\n"),
                           rank = function(node) node$Depth)
 
-  # [ EDGE STYLE ] ====
+  # Edge Style ====
   # .edge.labels <- if (edge.labels) function(node) node$Condition else NULL
   # sometimes fails
   # data.tree::SetEdgeStyle(addtree,

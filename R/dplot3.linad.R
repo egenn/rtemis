@@ -82,12 +82,12 @@ dplot3.linad <- function(x,
                          direction = "UD",
                          trace = 0) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("visNetwork", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (inherits(x, "rtMod")) {
     if (inherits(x$mod, "shytreeLeavesRC")) tree <- x$mod$tree
     if (inherits(x$mod, "shytreegamleaves")) tree <- x$mod$tree
@@ -98,7 +98,7 @@ dplot3.linad <- function(x,
   # Data ====
   nodeids <- as.numeric(names(tree))
   nodeids_depth <- floor(log(nodeids, 2))
-  .nodelabels <-x$mod$all.step.leaves$rules$condition
+  .nodelabels <- x$mod$all.step.leaves$rules$condition
   colors <- rep(node.col, length(nodeids))
   nodeterminal <- !c(nodeids*2) %in% nodeids
   colors[nodeterminal] <- leaf.col
