@@ -1,7 +1,6 @@
 # rtMod.R
 # ::rtemis::
 # 2016-9 E.D. Gennatas lambdamd.org
-# TODO: survival analysis in elevate
 
 # rtMod R6 ====
 #' \pkg{rtemis} Supervised Model Class
