@@ -33,9 +33,6 @@
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{n.feat}{[Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
-Defaults to all}
-
 \item{trace}{Integer: 0, 1, or 2. Provides increasing amount to information printed to the
 console}
 }
