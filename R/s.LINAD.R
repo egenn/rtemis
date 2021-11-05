@@ -18,6 +18,9 @@
 #' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
 #' @param lookback Logical: If TRUE, check validation error to decide best number of leaves to use.
 #' Default = TRUE
+#' @param lin.type Character: See \link{lincoef} for options
+#' @param single.lin.type Character same options as \code{lin.type}, linear model to fit when
+#' \code{max.leaves = 1}
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
@@ -45,6 +48,7 @@ s.LINAD <- function(x, y = NULL,
                     gamma.on.lin = FALSE,
                     lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge",
                                  "allSubsets", "backwardStepwise", "glm", "solve", "none"),
+                    single.lin.type = "glmnet",
                     cv.glmnet.nfolds = 5,
                     which.cv.glmnet.lambda = "lambda.min",
                     alpha = 1,
@@ -302,6 +306,7 @@ s.LINAD <- function(x, y = NULL,
                           rho.max = rho.max,
                           weights = .weights,
                           lin.type = lin.type,
+                          single.lin.type = single.lin.type,
                           cv.glmnet.nfolds = cv.glmnet.nfolds,
                           which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                           select.leaves.smooth = select.leaves.smooth,
@@ -406,14 +411,13 @@ s.LINAD <- function(x, y = NULL,
   }
 
   # Outro  ====
-  varimp <- NULL
-  # varimp <- if (lin.type == "none") {
-  #   numeric()
-  # } else {
-  #   # In general, look at each leaf's coefficients
-  #   # This is probably a vague measure of overall variable importance.
-  #   apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i))) * apply(x, 2, sd)
-  # }
+  varimp <- if (lin.type == "none") {
+    numeric()
+  } else {
+    # In general, look at each leaf's coefficients
+    # This is probably a vague measure of overall variable importance.
+    apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i)))
+  }
   extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,

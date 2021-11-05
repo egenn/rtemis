@@ -26,6 +26,7 @@ s.LINAD(
   gamma.on.lin = FALSE,
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
+  single.lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   alpha = 1,
@@ -108,6 +109,11 @@ Default = NULL (random seed)}
 
 \item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
 Default = TRUE}
+
+\item{lin.type}{Character: See \link{lincoef} for options}
+
+\item{single.lin.type}{Character same options as \code{lin.type}, linear model to fit when
+\code{max.leaves = 1}}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
