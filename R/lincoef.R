@@ -87,7 +87,8 @@ lincoef <- function(x, y,
                      Regression = "gaussian",
                      Classification = ifelse(length(levels(y)) == 2, "binomial", "multinomial"),
                      Survival = "cox")
-    lin1 <- glmnet::glmnet(data.matrix(x), y, family = family,
+    lin1 <- glmnet::glmnet(data.matrix(x), y,
+                           family = family,
                            weights = weights,
                            alpha = alpha,
                            lambda = lambda.seq)
