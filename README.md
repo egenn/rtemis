@@ -12,6 +12,10 @@ The goal of __rtemis__ is to make data science efficient and accessible with no 
 
 * [__Documentation and vignettes__](https://rtemis.lambdamd.org)  
 
+## Requirements
+
+R version 4.1 or higher
+
 ## Installation
 
 See [here](https://rtemis.lambdamd.org/setup.html) for more setup and installation instructions.
