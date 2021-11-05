@@ -35,7 +35,8 @@ shytreegamleaves <- function(x, y,
                              gam.params = list(degrees = 5),
                              learning.rate = 1,
                              minobsinnode.lin = 10,
-                             lin.type = "forwardStepwise",
+                             lin.type = "glmnet",
+                             single.lin.type = "glmnet",
                              gamma = .01,
                              gamma.on.lin = FALSE,
                              select.leaves.smooth = TRUE,
@@ -53,8 +54,8 @@ shytreegamleaves <- function(x, y,
                              .rho = TRUE,
                              rho.max = 1000,
                              rho.def = .1,
-                             # loss.fn = if (is.factor(y)) class.loss else mse,
-                             loss.fn = switch(type, Regression = mse,
+                             loss.fn = switch(type,
+                                              Regression = mse,
                                               Classification = class.loss,
                                               Survival = surv.loss),
                              verbose = TRUE,
@@ -64,8 +65,8 @@ shytreegamleaves <- function(x, y,
   # Arguments  ====
   .class <- type == "Classification"
   .surv <- type == "Survival"
+  yraw <- y
   if (.class) {
-    # yraw <- y
     ylevels <- levels(y)
     levels(y) <- c(1, -1)
     y <- as.numeric(as.character(y))
@@ -90,7 +91,7 @@ shytreegamleaves <- function(x, y,
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(type = type,
                  init = mean(y),
-                 learning.rate = learning.rate,
+                 learning.rate = 1,
                  tree = NULL,
                  n.nodes = 0,
                  included = NULL,
@@ -156,10 +157,10 @@ shytreegamleaves <- function(x, y,
     # Linear model
     index <- is.na(y)
     coef <- lincoef(x = g$xm[!index, -1, drop = FALSE],
-                    y = y[!index],
+                    y = yraw[!index],
                     type = type,
                     weights = weights[!index],
-                    method = lin.type,
+                    method = single.lin.type,
                     nvmax = nvmax,
                     alpha = alpha,
                     lambda = lambda,
@@ -961,8 +962,6 @@ splitlineRC <- function(g,
 #' @method predict shytreegamleaves
 #' @param object \code{shytreeRaw}
 #' @param newdata Data frame of predictors
-#' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
-#' Defaults to all
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
 #' \code{newdata}
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
@@ -977,7 +976,6 @@ splitlineRC <- function(g,
 predict.shytreegamleaves <- function(object, newdata,
                                      type = c("response", "probability", "all", "step"),
                                      n.leaves = NULL,
-                                     # n.feat = NCOL(newdata),
                                      fixed.cxr = NULL,
                                      cxr.newdata = NULL,
                                      cxr = FALSE,
@@ -991,12 +989,7 @@ predict.shytreegamleaves <- function(object, newdata,
   # '-- Newdata ====
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  # check what experimental feature would use this
-  # newdata <- newdata[, seq(n.feat), drop = FALSE]
-
-
   # Add column of ones for intercept and convert factors to dummies
-  # if (!object$gamleaves) newdata <- cbind(1, model.matrix(~. -1, data = newdata))
   newdata_lin <- if (!object$gamleaves) model.matrix(~ ., data = newdata) else newdata
 
   if (type != "step") {
@@ -1056,14 +1049,15 @@ predict.shytreegamleaves <- function(object, newdata,
       if (type == "response") {
         yhat <- sign(yhat)
         yhat <- factor(yhat, levels = c(1, -1))
-        # Calculate probability using GBM paper equation 21.
         levels(yhat) <- object$ylevels
       } else if (type == "probability") {
+        # Calculate probability using GBM paper equation 21.
         yhat <- exp(2*yhat) / (1 + exp(2*yhat))
       } else if (type == "all") {
         prob <- exp(2*yhat) / (1 + exp(2*yhat))
         estimate <- sign(yhat)
-        estimate <- factor(estimate, levels = c(1, -1))
+        estimate <- factor(estimate, levels = c(-1, 1))
+        # check when levels should be reversed
         levels(estimate) <- object$ylevels
         out <- list(estimate = estimate, probability = prob)
         return(out)
