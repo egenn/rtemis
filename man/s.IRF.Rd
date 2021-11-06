@@ -89,8 +89,6 @@ divided by this value. Default = 1.5}
 
 \item{proximity}{Logical: If TRUE, calculate proximity measure among cases. Default = FALSE}
 
-\item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
-
 \item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
 
 \item{strata}{Vector, Factor: Will be used for stratified sampling}
