@@ -111,8 +111,6 @@ group}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
-
 \item{proximity}{Logical: If TRUE, calculate proximity measure among cases. Default = FALSE}
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
