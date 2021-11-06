@@ -18,9 +18,9 @@
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
 #'   must have set of columns as \code{x}
 #' @param y.test (Optional) Numeric vector of validation set outcomes
-#' @param x.name Character. Name for predictor set. (What kind of data is it?)
-#' @param y.name Character. Name for outcome
-#' @param base.mods String. Two or more base learners. Options: \link{modSelect}
+#' @param x.name Character: Name for predictor set. (What kind of data is it?)
+#' @param y.name Character: Name for outcome
+#' @param base.mods Character vector: Two or more base learners. Options: \link{modSelect}
 #' @param base.params List of length equal to N of \code{base.mods}. Each element should be a list of arguments to pass
 #'   to the corresponding base mod
 #' @param meta.mod String. Meta learner. Options: \link{modSelect}
@@ -59,7 +59,7 @@ metaMod <- function(x, y = NULL,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(metaMod))
     return(invisible(9))
@@ -75,12 +75,12 @@ metaMod <- function(x, y = NULL,
   meta.mod.name <- toupper(meta.mod)
   mod.name <- paste0("META.", paste(base.mod.names, collapse = "."))
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("plyr", verbose = trace > 0)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     stop("y is missing")
   }
@@ -94,7 +94,7 @@ metaMod <- function(x, y = NULL,
   # meta.input <- match.arg(meta.input)
   meta.input <- "retrain"
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     verbose = verbose)
   x <- dt$x
@@ -112,10 +112,10 @@ metaMod <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ RESAMPLES ] ====
+  # RESAMPLES ====
   res.part <- resample(y, rtset = base.resample.rtset, verbose = verbose)
 
-  # [ {GRID} FUNCTION ] ====
+  # {GRID} FUNCTION ====
   waffle1 <- function(index, grid,
                       x.int, y.int,
                       res.part,
@@ -138,17 +138,17 @@ metaMod <- function(x, y = NULL,
     base.mod1
   }
 
-  # [ BASE RES MODS ] ====
+  # BASE RES MODS ====
   # For each resample, for each base
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
   nbases <- length(base.mod.names)
   if (verbose) cat("\n  I will train ", nbases, " base learners: ",
-                    rtHighlight$bold(paste(base.mod.names, collapse = ", ")), sep = "")
+                   rtHighlight$bold(paste(base.mod.names, collapse = ", ")), sep = "")
   if (verbose) cat("  using ", base.resample.rtset$n.resamples, " internal resamples (",
                    base.resample.rtset$resampler, "),", sep = "")
   if (verbose) cat("  and build a", rtHighlight$bold(toupper(meta.mod)), "meta model")
   if (verbose) cat("  Training ", nbases, " base learners",
-                    " on ", length(res.part), " training set resamples (",
+                   " on ", length(res.part), " training set resamples (",
                    nrow(grid), " models total)...\n", sep = "")
   if (verbose) {
     cat("\n")
@@ -176,14 +176,14 @@ metaMod <- function(x, y = NULL,
     }))}))
   colnames(base.res.predicted) <- base.mod.names
 
-  # [ BASE RES PERFORMANCE ]  ====
+  # BASE RES PERFORMANCE  ====
   # Get error accross resamples
   base.res.error <- lapply(seq(base.mod.names),
                            function(mod) modError(base.res.y.test,
                                                   base.res.predicted[, mod]))
   names(base.res.error) <- base.mod.names
 
-  # [ META LEARNER ] ====
+  # META LEARNER ====
   if (verbose) msg("Training", toupper(meta.mod), "meta learner...")
   meta.mod <- do.call(modSelect(meta.mod.name),
                       c(list(x = base.res.predicted,
@@ -191,7 +191,7 @@ metaMod <- function(x, y = NULL,
                              print.plot = FALSE),
                         meta.params))
 
-  # [ FULL TRAINING BASE MODS ] ====
+  # FULL TRAINING BASE MODS ====
   if (meta.input == "bag") {
     if (verbose) msg("Bagging base resamples to get final base outputs...")
     base.mods.fitted <- sapply()
@@ -208,7 +208,7 @@ metaMod <- function(x, y = NULL,
     names(base.mods) <- base.mod.names
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   base.mods.fitted <- as.data.frame(sapply(base.mods, function(mod) c(mod$fitted)))
   base.mods.error.train <- as.data.frame(sapply(base.mods,
                                                 function(mod) c(mod$error.train)))
@@ -216,7 +216,7 @@ metaMod <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   base.mods.error.test <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     base.mods.predicted <-
@@ -238,7 +238,7 @@ metaMod <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   rt <- rtMeta$new(mod.name = mod.name,
                    type = type,
                    y.train = y,
