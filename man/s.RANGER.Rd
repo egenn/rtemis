@@ -133,7 +133,8 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE}
+\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE
+Default = "impurity"}
 
 \item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
 
