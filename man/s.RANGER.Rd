@@ -35,6 +35,7 @@ s.RANGER(
   maximize = NULL,
   probability = FALSE,
   importance = "impurity",
+  local.importance = FALSE,
   replace = TRUE,
   min.node.size = NULL,
   splitrule = NULL,
@@ -133,10 +134,13 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE
+\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE}
+
+\item{importance}{Character: "none", "impurity", "impurity_corrected", or "permutation"
 Default = "impurity"}
 
-\item{importance}{Logical: If TRUE, estimate variable relative importance. Default = TRUE}
+\item{local.importance}{Logical: If TRUE, return local importance values. Only applicable if
+\code{importance} is set to "permutation".}
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
 

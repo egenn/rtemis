@@ -32,8 +32,10 @@
 #' Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}
 #' @param ipw.class.weights Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE
 #' @param probability Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE
-#" @param importance Character: "none", "impurity", "impurity_corrected", or "permutation"
+#' @param importance Character: "none", "impurity", "impurity_corrected", or "permutation"
 #' Default = "impurity"
+#' @param local.importance Logical: If TRUE, return local importance values. Only applicable if
+#' \code{importance} is set to "permutation".
 #' @param classwt Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
 #' For classification only; need not add up to 1
 #' @param inbag.resample List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
@@ -77,6 +79,7 @@ s.RANGER <- function(x, y = NULL,
                      maximize = NULL,
                      probability = FALSE,
                      importance = "impurity",
+                     local.importance = FALSE,
                      replace = TRUE,
                      min.node.size = NULL,
                      splitrule = NULL,
@@ -269,6 +272,7 @@ s.RANGER <- function(x, y = NULL,
                         replace = replace,
                         probability = probability,
                         importance = importance,
+                        local.importance = local.importance,
                         write.forest = TRUE,
                         inbag = inbag,
                         num.threads = n.cores,
