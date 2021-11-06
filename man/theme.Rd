@@ -58,7 +58,7 @@ theme_blackgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_darkgrid(
@@ -110,7 +110,7 @@ theme_darkgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_darkgraygrid(
@@ -162,7 +162,7 @@ theme_darkgraygrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_black(
@@ -214,7 +214,7 @@ theme_black(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_whitegrid(
@@ -266,7 +266,7 @@ theme_whitegrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_lightgrid(
@@ -318,7 +318,7 @@ theme_lightgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 
 theme_white(
@@ -370,7 +370,7 @@ theme_white(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = "Helvetica"
+  font.family = NULL
 )
 }
 \arguments{

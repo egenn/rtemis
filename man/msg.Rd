@@ -8,6 +8,7 @@
 msg(
   ...,
   date = TRUE,
+  caller = NULL,
   call.depth = 1,
   caller.id = 1,
   newline = FALSE,

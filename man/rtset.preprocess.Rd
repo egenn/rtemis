@@ -11,8 +11,6 @@ rtset.preprocess(
   impute = FALSE,
   impute.type = "missRanger",
   impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
-  impute.missForest.params = list(maxiter = 10, ntree = 500, parallelize = "no"),
-  impute.rfImpute.params = list(niter = 10, ntree = 500),
   impute.discrete = getMode,
   impute.numeric = mean,
   integer2factor = FALSE,
