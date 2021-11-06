@@ -29,6 +29,7 @@
 
 msg <- function(...,
                 date = TRUE,
+                caller = NULL,
                 call.depth = 1,
                 caller.id = 1,
                 newline = FALSE,
@@ -37,42 +38,42 @@ msg <- function(...,
                 color = NULL,
                 sep = " ") {
 
-  callStack.list <- as.list(sys.calls())
-  stack.length <- length(callStack.list)
-
-  if (stack.length < 2) {
-    .call <- "(interactive)"
-  } else {
-    call.depth <- call.depth + caller.id
-    if (call.depth > stack.length) call.depth <- stack.length
-    .call <- paste(lapply(rev(seq(call.depth)[-seq(caller.id)]),
-                          function(i) rev(callStack.list)[[i]][[1]]), collapse = ">>")
+  if (is.null(caller)) {
+    callStack.list <- as.list(sys.calls())
+    stack.length <- length(callStack.list)
+    if (stack.length < 2) {
+      caller <- "(interactive)"
+    } else {
+      call.depth <- call.depth + caller.id
+      if (call.depth > stack.length) call.depth <- stack.length
+      caller <- paste(lapply(rev(seq(call.depth)[-seq(caller.id)]),
+                            function(i) rev(callStack.list)[[i]][[1]]), collapse = ">>")
+    }
+    # do.call and similar will change the call stack, it will contain the full function definition instead of
+    # the name alone
+    if (is.function(caller)) caller <- NULL
+    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    if (!is.null(caller)) caller <- paste0(" ", caller)
   }
-
-  # do.call and similar will change the call stack, it will contain the full function definition instead of
-  # the name alone
-  if (is.function(.call)) .call <- NULL
-  if (is.character(.call)) if (nchar(.call) > 25) .call <- NULL
-  if (!is.null(.call)) .call <- paste0(" ", .call)
 
   txt <- list(...)
   .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
   if (as.message) {
-    message(paste0("[", .dt, .call, "] ", paste(txt, collapse = sep)))
+    message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
   } else {
     if (newline.pre) cat("\n")
     if (is.null(color)) {
-      cat(silver(paste0("[", .dt, bold(.call), "] ")))
+      cat(silver(paste0("[", .dt, bold(caller), "] ")))
       cat(paste(txt, collapse = sep), "\n")
     } else {
-      cat(silver(paste0("[", .dt, bold(.call), "] ")))
+      cat(silver(paste0("[", .dt, bold(caller), "] ")))
       cat(paste(color(txt), collapse = sep), "\n")
     }
     if (newline) cat("\n")
   }
 
-  invisible(list(call = .call,
+  invisible(list(call = caller,
                  txt = txt,
                  dt = .dt))
 } # rtemis::msg
@@ -122,4 +123,9 @@ rtWarning <- function(...) {
 rtOut <- function(...) {
   message <- paste(...)
   cat(silver$bold("["), green("+++", green$bold(message)), silver$bold("]"), sep = "")
+}
+
+info <- function(..., color = crayon::cyan$bold) {
+  msg(..., color = color)
+  # cat(crayon::cyan$bold(paste(...)))
 }
