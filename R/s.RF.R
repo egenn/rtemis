@@ -34,7 +34,7 @@
 #' @param sampsize.ratio Float (0, 1): Heuristic of sorts to increase sensitivity in unbalanced
 #' cases. Sample with replacement from minority case to create bootstraps of length N cases.
 #' Select \code{(sampsize.ratio * N minority cases)} cases from majority class.
-#' @param importance Logical: If TRUE, estimate variable relative importance. Default = TRUE
+# @param importance Logical: If TRUE, estimate variable relative importance. Default = TRUE
 #' @param proximity Logical: If TRUE, calculate proximity measure among cases. Default = FALSE
 #' @param do.trace Logical or integer: If TRUE, \code{randomForest} will outpout information while it is running.
 #' If an integer, \code{randomForest} will report progress every this many trees. Default = \code{n.trees/10} if
@@ -267,7 +267,7 @@ s.RF <- function(x, y = NULL,
                                     replace = replace,
                                     nodesize = nodesize,
                                     maxnodes = maxnodes,
-                                    importance = importance,
+                                    importance = FALSE,
                                     proximity = proximity,
                                     strata = strata,
                                     sampsize = sampsize,
@@ -377,6 +377,7 @@ s.RF <- function(x, y = NULL,
                  predicted = predicted,
                  se.prediction = NULL,
                  error.test = error.test,
+                 varimp = mod$importance, # for importance = FALSE, rf still returns a vector
                  question = question,
                  extra = extra)
 
