@@ -423,3 +423,13 @@ lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
 null2na <- function(x) {
   if (is.null(x)) NA else x
 }
+
+#' Get \package{rtemis} and OS version info
+#'
+#' @export
+rtversion <- function() {
+  out <- c(list(rtemis_version = as.character(packageVersion("rtemis"))),
+           as.list(Sys.info()))
+  printls(out)
+  invisible(out)
+} # rtemis::rtversion
