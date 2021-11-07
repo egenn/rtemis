@@ -16,6 +16,8 @@ s.RF(
   n.trees.try = 1000,
   stepFactor = 1.5,
   mtry = NULL,
+  nodesize = NULL,
+  maxnodes = NULL,
   mtryStart = mtry,
   grid.resample.rtset = rtset.resample("kfold", 5),
   metric = NULL,
@@ -29,8 +31,6 @@ s.RF(
   importance = TRUE,
   proximity = FALSE,
   replace = TRUE,
-  nodesize = NULL,
-  maxnodes = NULL,
   strata = NULL,
   sampsize = if (replace) nrow(x) else ceiling(0.632 * nrow(x)),
   sampsize.ratio = NULL,
@@ -82,6 +82,12 @@ divided by this value. Default = 1.5}
 
 \item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
 
+\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+1 (Classification)}
+
+\item{maxnodes}{[gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
+grown to maximum possible}
+
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
@@ -114,12 +120,6 @@ Default = NULL (random seed)}
 \item{proximity}{Logical: If TRUE, calculate proximity measure among cases. Default = FALSE}
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
-
-\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
-1 (Classification)}
-
-\item{maxnodes}{[gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
-grown to maximum possible}
 
 \item{strata}{Vector, Factor: Will be used for stratified sampling}
 
