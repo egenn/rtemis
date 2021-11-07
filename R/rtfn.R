@@ -424,7 +424,7 @@ null2na <- function(x) {
   if (is.null(x)) NA else x
 }
 
-#' Get \package{rtemis} and OS version info
+#' Get rtemis and OS version info
 #'
 #' @export
 rtversion <- function() {

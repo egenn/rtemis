@@ -2,10 +2,10 @@
 % Please edit documentation in R/rtfn.R
 \name{rtversion}
 \alias{rtversion}
-\title{Get \package{rtemis} and OS version info}
+\title{Get rtemis and OS version info}
 \usage{
 rtversion()
 }
 \description{
-Get \package{rtemis} and OS version info
+Get rtemis and OS version info
 }
