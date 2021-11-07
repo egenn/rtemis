@@ -360,9 +360,9 @@ preprocess_ <- function(x, y = NULL,
     if (ncolsna > 0) {
       for (i in cols.with.na) {
         x[, (paste0(.colnames[i], "_missing")) := factor(as.numeric(is.na(x[[i]])))]
-        if (verbose) msg("Created missingness indicator for",
-                         rtOrange$bold(ncolsna), ngettext(ncolsna, "column", "columns"))
       }
+      if (verbose) msg("Created missingness indicator for",
+                       rtOrange$bold(ncolsna), ngettext(ncolsna, "column", "columns"))
     }
   }
 
