@@ -155,7 +155,7 @@ preprocess <- function(x, y = NULL,
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
       # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-      na.fraction.bycase <- data.table::transpose(xt[, -1])[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
+      na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
       removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
       if (length(removeCases.thres.index) > 0) {
         if (verbose) msg("Removing", length(removeCases.thres.index), "cases with >=",
