@@ -13,7 +13,8 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
                                "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
-                               "\n  Learn R: https://class.lambdamd.org/pdsr"))
+                               "\n  Learn R: https://class.lambdamd.org/pdsr",
+                               '\n  Please make sure to cite: see `citation("rtemis")`'))
 
   # RStudio, VS Code
   try(if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
