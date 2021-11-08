@@ -11,7 +11,7 @@ oneHot(x, verbose = FALSE)
 
 \method{oneHot}{data.frame}(x, verbose = TRUE)
 
-\method{oneHot}{default}(x, verbose = TRUE)
+\method{oneHot}{default}(x, xname = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{Vector or data.frame}
