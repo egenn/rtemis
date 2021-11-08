@@ -38,7 +38,7 @@ preprocess_(
 )
 }
 \arguments{
-\item{x}{Input data frame}
+\item{x}{data.table to be preprocessed}
 
 \item{completeCases}{Logical: If TRUE, only retain complete cases (no missing data).
 Default = FALSE}

@@ -30,7 +30,7 @@
 #'   * one-hot encoding
 #'
 #' @md
-#' @param x Input data frame
+#' @param x data.frame to be preprocessed
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
 #' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction of missing features.
