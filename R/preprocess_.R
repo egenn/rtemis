@@ -32,7 +32,7 @@
 #'   * one-hot encoding
 #'
 #' @md
-#' @param x Input data frame
+#' @param x data.table to be preprocessed
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
 #' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction of missing features.
@@ -338,21 +338,9 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Nonzero factors ] ====
-  # if (nonzeroFactors) {
-  #   if (verbose) msg("Shifting factor levels to exclude 0...")
-  #   if (any(sapply(x, is.factor))) {
-  #     for (i in seq(NCOL(x))) {
-  #       if (is.factor(x[, i])) {
-  #         while (any(x[, i] == 0)) {
-  #           x[, i] <- factor(as.numeric(as.character(x[, i])) + 1)
-  #         }
-  #       }
-  #     }
-  #   }
-  # }
-
   # [ Missingness ] ====
+  # missingness columns do not show up by reference on data.frame input
+  # exclude missingness from imputation
   if (missingness) {
     cols.with.na <- which(apply(x, 2, anyNA))
     .colnames <- colnames(x)
