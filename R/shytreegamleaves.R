@@ -1244,14 +1244,14 @@ selectleaves <- function(object,
 surv.resid <- function(y, Fval) {
   cen <- y[, 2]
   z <- y[, 1]
-  l = NROW(z)
+  l <- NROW(z)
   tempDer <- cen
   dTerm2 <- colSums(outer(z, z, '>=')*exp(Fval))
   for (i in 1:l) {
     tempDer[i] <- 0
     aTerm <- 0
     for (j in 1:l) {
-      aTerm = aTerm + (cen[j]*(z[i] >= z[j])*exp(Fval[i]))/dTerm2[j]
+      aTerm <- aTerm + (cen[j]*(z[i] >= z[j])*exp(Fval[i]))/dTerm2[j]
     }
     tempDer[i] <- cen[i] - aTerm
   }
