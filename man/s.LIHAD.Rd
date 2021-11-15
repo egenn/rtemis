@@ -108,8 +108,8 @@ Train a Linear Hard Hybrid Tree for Regression
 }
 \details{
 The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
-Use s.LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and includes all
-observations weighted by gamma
+Use s.LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and
+includes all observations weighted by gamma
 
 Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 }

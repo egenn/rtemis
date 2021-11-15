@@ -50,6 +50,7 @@ R6 Class for \pkg{rtemis} Classification Models
   xnames = character(),
   mod = list(),
   type = character(),
+  gridsearch = list(),
   parameters = list(),
   fitted = numeric(),
   fitted.prob = numeric(),

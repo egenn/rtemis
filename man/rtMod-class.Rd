@@ -41,6 +41,8 @@ E.D. Gennatas
 
 \item{\code{type}}{Classification, Regression, or Survival}
 
+\item{\code{gridsearch}}{Grid search output}
+
 \item{\code{parameters}}{List of hyperparameters used when building model}
 
 \item{\code{fitted}}{Fitted values}
@@ -95,6 +97,7 @@ different approaches}
   xnames = character(),
   mod = list(),
   type = character(),
+  gridsearch = list(),
   parameters = list(),
   fitted = numeric(),
   se.fit = NULL,

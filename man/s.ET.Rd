@@ -118,7 +118,6 @@ Other Supervised Learning:
 \code{\link{s.C50}()},
 \code{\link{s.CART}()},
 \code{\link{s.CTREE}()},
-\code{\link{s.DA}()},
 \code{\link{s.EVTREE}()},
 \code{\link{s.GAM.default}()},
 \code{\link{s.GAM.formula}()},

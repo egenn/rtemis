@@ -146,8 +146,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a Linear Optimized Additive Tree
 }
 \details{
-The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear models
-are fit on each child.
+The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear
+models are fit on each child.
 We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 because depending on the other parameters and the datasets, splitting may stop early.
 }

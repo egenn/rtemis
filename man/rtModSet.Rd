@@ -9,6 +9,7 @@ rtModSet(
   mod = list(),
   mod.name = character(),
   type = character(),
+  gridsearch = list(),
   parameters = list(),
   call = "",
   y.train = numeric(),
@@ -35,8 +36,7 @@ rtModSet(
 )
 }
 \arguments{
-\item{rtclass}{Character: Which class system to use. Previously "S3", "S4", "RC", "R6".
-Currently, only "R6", aka "rtMod" is supported.}
+\item{rtclass}{Character: Object class}
 
 \item{mod}{Trained model}
 
@@ -87,3 +87,4 @@ but at this point \code{R6} is the default and most widely tested.
 \author{
 E.D. Gennatas
 }
+\keyword{internal}
