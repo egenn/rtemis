@@ -1,14 +1,13 @@
 # rtModSet.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016-2021 E.D. Gennatas lambdamd.org
 
 #' \pkg{rtemis} model
 #'
 #' Creates an \pkg{rtemis} object of your choice of class. All available class systems are supported,
 #' but at this point \code{R6} is the default and most widely tested.
 #'
-#' @param rtclass Character: Which class system to use. Previously "S3", "S4", "RC", "R6".
-#' Currently, only "R6", aka "rtMod" is supported.
+#' @param rtclass Character: Object class
 #' @param mod Trained model
 #' @param mod.name Model (algorithm) name
 #' @param type "Regression" or "Classification"
@@ -31,12 +30,13 @@
 #' @param question Question the model is attempting to answer
 #' @param extra List with algorithm-specific extra fields
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 rtModSet <- function(rtclass = "rtMod",
                      mod = list(),
                      mod.name = character(),
                      type = character(),
+                     gridsearch = list(),
                      parameters = list(),
                      call = "",
                      y.train = numeric(),
@@ -61,82 +61,22 @@ rtModSet <- function(rtclass = "rtMod",
                      question = character(),
                      extra = list()) {
 
-  # [ Arguments ]
+  # Arguments ====
   # rtclass will be NULL in all s.* learners so that it can be set to the same default
   if (is.null(rtclass)) rtclass <- "rtMod"
-  if (rtclass == "R6") rtclass <- "rtMod"
   if (type == "Classification" && rtclass == "rtMod") rtclass <- "rtModClass"
 
-  # In S3, we set missing attributes to NULL,
-  # while in all other types we store them as empty vectors of a given type
-  if (rtclass != "S3") {
-    se.fit <- ifNotNull(se.fit, numeric)
-    predicted <- ifNotNull(predicted, numeric)
-    se.prediction <- ifNotNull(se.prediction, numeric)
-    error.test <- ifNotNull(error.test, list)
-  }
+  se.fit <- ifNotNull(se.fit, numeric)
+  predicted <- ifNotNull(predicted, numeric)
+  se.prediction <- ifNotNull(se.prediction, numeric)
+  error.test <- ifNotNull(error.test, list)
 
-  if (rtclass == "S3") {
-    # S3 ====
-    s.out <- list(mod = mod,
-                  mod.name = mod.name,
-                  type = type,
-                  call = call,
-                  y.train = y.train,
-                  y.test = y.test,
-                  x.name = x.name,
-                  y.name = y.name,
-                  xnames = xnames,
-                  fitted = fitted,
-                  se.fit = se.fit,
-                  error.train = error.train,
-                  predicted = predicted,
-                  se.prediction = se.prediction,
-                  error.test = error.test,
-                  question = question)
-    class(s.out) <- c("rtemis", "list")
-  } else if (rtclass == "S4") {
-    # S4 ====
-    s.out <- new("rtemisS4",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 call = call,
-                 y.train = y.train,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = se.fit,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = se.prediction,
-                 error.test = error.test,
-                 question = question)
-  # } else if (rtclass == "RC") {
-  #   # RC ====
-  #   s.out <- rtemisRC(mod = mod,
-  #                     mod.name = mod.name,
-  #                     type = type,
-  #                     call = call,
-  #                     y.train = y.train,
-  #                     y.test = y.test,
-  #                     x.name = x.name,
-  #                     y.name = y.name,
-  #                     xnames = xnames,
-  #                     fitted = fitted,
-  #                     se.fit = se.fit,
-  #                     error.train = error.train,
-  #                     predicted = predicted,
-  #                     se.prediction = se.prediction,
-  #                     error.test = error.test,
-  #                     question = question)
-  } else if (rtclass == "rtMod") {
+  if (rtclass == "rtMod") {
     # R6: rtMod ====
     s.out <- rtMod$new(mod = mod,
                        mod.name = mod.name,
                        type = type,
+                       gridsearch = gridsearch,
                        parameters = parameters,
                        # call = call,
                        y.train = y.train,
@@ -158,6 +98,7 @@ rtModSet <- function(rtclass = "rtMod",
     s.out <- rtModClass$new(mod = mod,
                             mod.name = mod.name,
                             type = type,
+                            gridsearch = gridsearch,
                             parameters = parameters,
                             y.train = y.train,
                             y.test = ifNotNull(y.test, numeric),
@@ -175,7 +116,7 @@ rtModSet <- function(rtclass = "rtMod",
                             varimp = ifNotNull(varimp, numeric),
                             question = ifNotNull(question, character),
                             extra = ifNotNull(extra, list))
-  }else if (rtclass == "rtModBag") {
+  } else if (rtclass == "rtModBag") {
     # R6: rtModBag ====
     s.out <- rtModBag$new(mod = mod,
                           mod.name = mod.name,

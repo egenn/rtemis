@@ -217,11 +217,11 @@ s.ADDTREE <- function(x, y = NULL,
   }
 
   # Outro ====
-  extra <- list(gridSearch = gs)
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,
@@ -234,8 +234,7 @@ s.ADDTREE <- function(x, y = NULL,
                  predicted = predicted,
                  se.prediction = NULL,
                  error.test = error.test,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   # data.tree ====
   if (verbose) msg("Traversing tree by preorder...")

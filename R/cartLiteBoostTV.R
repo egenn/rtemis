@@ -63,7 +63,7 @@ cartLiteBoostTV <- function(x, y = NULL,
                             plot.type = 'l',
                             outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -77,7 +77,7 @@ cartLiteBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CARTLITEBOOSTTV"
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -87,7 +87,7 @@ cartLiteBoostTV <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     verbose = verbose)
@@ -125,7 +125,7 @@ cartLiteBoostTV <- function(x, y = NULL,
     weights1 <- weights
   }
 
-  # [ BOOST ] ====
+  # Boost ====
   learner <- "cartLite"
   learner.name <- "Classification and Regression Tree"
   learner.short <- "CARTlite"
@@ -297,11 +297,11 @@ cartLiteBoostTV <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("cartLiteBoostTV", "list")
 
-  # [ Fitted ] ====
+  # Fitted ====
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
@@ -311,7 +311,7 @@ cartLiteBoostTV <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   parameters <- list(mod = learner.short,
                      mod.params = mod.params,
                      init = init,
@@ -323,8 +323,7 @@ cartLiteBoostTV <- function(x, y = NULL,
                      weights.0 = weights.0,
                      weights = weights)
   extra <- list(error.valid = error.valid)
-  rt <- rtModSet(rtclass = "R6",
-                 mod = obj,
+  rt <- rtModSet(mod = obj,
                  mod.name = mod.name,
                  type = type,
                  parameters = parameters,
@@ -548,21 +547,7 @@ as.cartLiteBoostTV <- function(object,
               mods = mods)
   class(obj) <- c("cartLiteBoostTV", "list")
 
-  # # [ Fitted ] ====
-  # error.train <- modError(y, obj$fitted)
-  # if (verbose) errorSummary(error.train)
-  #
-  # # [ Predicted ] ====
-  # predicted <- error.test <- NULL
-  # if (!is.null(x.test)) {
-  #   predicted <- predict(obj, x.test)
-  #   if (!is.null(y.test)) {
-  #     error.test <- modError(y.test, predicted)
-  #     if (verbose) errorSummary(error.test)
-  #   }
-  # }
-
-  # [ Outro ] ====
+  # Outro ====
   parameters <- list(mod = object$mod.name,
                      mod.params = object$parameters,
                      init = init,

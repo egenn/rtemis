@@ -51,7 +51,7 @@ s.MLRF <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.MLRF))
     invisible(9)
@@ -65,12 +65,12 @@ s.MLRF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "MLRF"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("sparklyr", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.MLRF))
     stop("x is missing")
@@ -80,7 +80,7 @@ s.MLRF <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   # verbose <- verbose | !is.null(logFile)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -112,7 +112,7 @@ s.MLRF <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Spark cluster ] ====
+  # Spark cluster ====
   sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
   if (is(sc, "spark_connection")) {
     if (verbose) msg("[@] Connected to Spark cluster")
@@ -129,7 +129,7 @@ s.MLRF <- function(x, y = NULL,
     stop("Failed to copy dataframe to Spark cluster. Check cluster")
   }
 
-  # [ MLRF ] ====
+  # sparklyr::ml_random_forest ====
   if (verbose) msg("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
   args <- c(list(x = tbl,
                  formula = .formula,
@@ -145,7 +145,7 @@ s.MLRF <- function(x, y = NULL,
   mod <- do.call(sparklyr::ml_random_forest, args)
   if (trace > 0) print(mod)
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted.raw <- as.data.frame(sparklyr::sdf_predict(tbl, mod))
   if (type == "Classification") {
     fitted <- factor(fitted.raw$predicted_label, levels = levels(y))
@@ -156,7 +156,7 @@ s.MLRF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg("Copying testing set to cluster")
@@ -179,7 +179,7 @@ s.MLRF <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   varimp <- mod$model$feature_importances()
   names(varimp) <- xnames
   rt <- rtModSet(rtclass = "rtMod",

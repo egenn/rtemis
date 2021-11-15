@@ -37,8 +37,8 @@
 #' Train a Linear Hard Hybrid Tree for Regression
 #'
 #' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
-#' Use s.LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and includes all
-#' observations weighted by gamma
+#' Use s.LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and
+#' includes all observations weighted by gamma
 #'
 #' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 #'
@@ -259,10 +259,10 @@ s.LIHAD <- function(x, y = NULL,
   }
 
   # [ Outro ] ====
-  extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,
@@ -276,8 +276,7 @@ s.LIHAD <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = NULL,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

@@ -130,7 +130,8 @@ print.gamselx <- function(x, ...) {
 
   which.lambda <- x$mod1$parameters$which.lambda
   index <- if (which.lambda == "lambda.min") x$mod1$mod$index.min
-  summary <- gamsel2:::summarynz(x$mod1$mod$gamsel.fit)[index, , drop = FALSE]
+  summarynz <- getFromNamespace("summarynz", "gamsel2")
+  summary <- summarynz(x$mod1$mod$gamsel.fit)[index, , drop = FALSE]
 
   # cat(".: A GAMSELX model with", summary[1], "linear, ", summary[2], "nonlinear, and",
   #     NROW(x$pairs), "interaction terms")

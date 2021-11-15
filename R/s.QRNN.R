@@ -110,7 +110,7 @@ s.QRNN <- function(x, y = NULL,
                         penalty = penalty,
                         trace = verbose, ...)
 
-  # [ Fitted ] ==== ====
+  # [ Fitted ] ====
   fitted <- rowMeans(qrnn::qrnn.predict(as.matrix(x), mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)

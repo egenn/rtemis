@@ -349,8 +349,7 @@ s.RF <- function(x, y = NULL,
   } # End t-SNE
 
   # Outro  ====
-  extra <- list(gridSearch = gs,
-                sampsize = sampsize,
+  extra <- list(sampsize = sampsize,
                 fitted.prob = fitted.prob,
                 predicted.prob = predicted.prob)
   if (!is.null(proximity.train)) extra$proximity.train <- proximity.train
@@ -365,6 +364,7 @@ s.RF <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = list(n.trees = n.trees,
                                    autotune = autotune,
                                    n.trees.try = n.trees.try,

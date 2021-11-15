@@ -64,7 +64,7 @@ s.SVM <- function(x, y = NULL,
                   osx.alert = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.SVM))
     return(invisible(9))
@@ -78,12 +78,12 @@ s.SVM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SVM"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("e1071", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.SVM))
     stop("y is missing")
@@ -96,7 +96,7 @@ s.SVM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -113,8 +113,8 @@ s.SVM <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -125,7 +125,7 @@ s.SVM <- function(x, y = NULL,
   if (is.null(gamma)) gamma <- 1 / NCOL(x)
   if (type == "Classification") nlevels <- length(levels(y))
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -229,7 +229,7 @@ s.SVM <- function(x, y = NULL,
     parameters <- list(kernel = kernel, cost = cost, gamma = gamma, class.weights = .class.weights)
   }
 
-  # [ SVM ] ====
+  # e1071::svm ====
   if (verbose) msg("Training SVM", type, "with", kernel, "kernel...", newline.pre = TRUE)
   mod <- e1071::svm(x = x, y = y,
                     kernel = kernel,
@@ -240,7 +240,7 @@ s.SVM <- function(x, y = NULL,
                     probability = probability,
                     class.weights = .class.weights, ...)
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted.prob <- predict(mod, x, probability = TRUE)
   fitted.prob <- attr(fitted.prob, "probabilities")[, levels(y)[1]]
   fitted <- predict(mod)
@@ -249,7 +249,7 @@ s.SVM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.prob <- predict(mod, x.test, probability = TRUE)
@@ -262,18 +262,12 @@ s.SVM <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(params = list(kernel = kernel,
-                              degree = degree,
-                              cost = cost,
-                              gamma = gamma,
-                              coef0 = coef0),
-                gridSearch = gs,
-                grid.resample.rtset = grid.resample.rtset)
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  call = call,
                  y.train = y,
@@ -289,8 +283,7 @@ s.SVM <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

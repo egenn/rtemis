@@ -127,7 +127,7 @@ s.RULEFEAT <- function(x, y = NULL,
     mod.gbm <- gbm.rules <- gbm.rules.names <- NA
   }
 
-  # [ META: Select Rules ] ====
+  # [ Meta: Select Rules ] ====
   if (verbose) msg("Running LASSO on GBM rules...")
   glmnet.select.args <- c(list(x = cases.by.rules, y = y,
                                alpha = meta.alpha,
@@ -155,7 +155,7 @@ s.RULEFEAT <- function(x, y = NULL,
     }
   }
 
-  # [ EMPIRICAL RISK ] ====
+  # [ Empirical risk ] ====
   dat <- as.data.table(cbind(x, outcome = y))
   empirical.risk <- vector("numeric", length(rules.selected))
   for (i in seq_along(rules.selected)) {
@@ -164,7 +164,7 @@ s.RULEFEAT <- function(x, y = NULL,
     empirical.risk[i] <- freq[1]/sum(freq)
   }
 
-  # [ WRITE CSV ] ====
+  # [ Write CSV ] ====
   rules.selected.formatted <- formatRules(rules.selected, decimal.places = 2)
   rules.selected.coef.er <- data.frame(Rule_ID = seq(rules.selected.formatted),
                                        Rule = rules.selected.formatted,
@@ -278,11 +278,11 @@ s.RULEFEAT <- function(x, y = NULL,
 predict.ruleFeat <- function(object, newdata = NULL,
                              verbose = TRUE, ...) {
 
-  # [ RULES ] ====
+  # [ Rules ] ====
   # Get rules.selected from object
   rules <- object$gbm.rules.names
 
-  # [ MATCH ] ====
+  # [ Match ] ====
   # Match newdata to rules: create features for predict
   if (!is.null(newdata)) {
     if (verbose) msg("Matching newdata to rules...")
@@ -291,7 +291,7 @@ predict.ruleFeat <- function(object, newdata = NULL,
     cases.by.rules <- object$cases.by.rules.selected
   }
 
-  # [ PREDICT ] ====
+  # [ Predict ] ====
   if (object$mod.gbm$type == "Classification") {
 
     prob <- predict(object$mod.glmnet.select$mod,

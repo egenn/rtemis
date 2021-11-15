@@ -57,7 +57,7 @@ s.H2ORF <- function(x, y = NULL,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.H2ORF))
     return(invisible(9))
@@ -71,12 +71,12 @@ s.H2ORF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "H2ORF"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("h2o", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.H2ORF)); stop("x is missing")
   }
@@ -92,7 +92,7 @@ s.H2ORF <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -137,7 +137,7 @@ s.H2ORF <- function(x, y = NULL,
     df.test <- NULL
   }
 
-  # [ H2ORF ] ====
+  # H2ORF ====
   if (verbose) msg("Training H2O Random Forest model...", newline.pre = TRUE)
   mod <- h2o::h2o.randomForest(y = "y",
                                training_frame = df.train,
@@ -152,7 +152,7 @@ s.H2ORF <- function(x, y = NULL,
                                balance_classes = balance.classes, ...)
   if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (verbose) msg("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
@@ -162,7 +162,7 @@ s.H2ORF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg("Getting predicted values...")
@@ -177,7 +177,7 @@ s.H2ORF <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

@@ -50,7 +50,7 @@ s.DN <- function(x, y = NULL,
                  plot.theme = getOption("rt.fit.theme", "lightgrid"),
                  save.mod = FALSE) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.DN))
     return(invisible(9))
@@ -64,16 +64,16 @@ s.DN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "DN"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("deepnet", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -123,7 +123,7 @@ s.DN <- function(x, y = NULL,
                                 visible_dropout,
                                 newline.pre = TRUE)
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (gridCheck(batchsize,
                 numepochs,
                 learning.rate,
@@ -144,7 +144,7 @@ s.DN <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # [ DN ] ====
+  # deepnet::nn.train ====
   if (verbose) msg0("Training Artificial Neural Network for ", type, "...",
                     newline.pre = TRUE)
   mod <- deepnet::nn.train(x, y,
@@ -161,7 +161,7 @@ s.DN <- function(x, y = NULL,
                            hidden_dropout = hidden_dropout,
                            visible_dropout = visible_dropout)
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- c(deepnet::nn.predict(mod, x))
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -173,7 +173,7 @@ s.DN <- function(x, y = NULL,
   error.train <- modError(dt$y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- c(deepnet::nn.predict(mod, x.test))
@@ -188,11 +188,11 @@ s.DN <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs)
+  # Outro ====
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = list(initW = .weights,
                                     initB = initB,
                                     hidden = n.hidden.nodes,
@@ -219,8 +219,7 @@ s.DN <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = NULL,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

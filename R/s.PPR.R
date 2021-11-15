@@ -58,7 +58,7 @@ s.PPR <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.PPR))
     return(invisible(9))
@@ -72,7 +72,7 @@ s.PPR <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "PPR"
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.PPR))
     stop("x is missing")
@@ -86,7 +86,7 @@ s.PPR <- function(x, y = NULL,
   if (is.null(nterms)) nterms <- if (NCOL(x) < 4 ) NCOL(x) else 4
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -104,7 +104,7 @@ s.PPR <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (gridCheck(nterms, optlevel, sm.method, bass, span, df, gcvpen)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
@@ -136,7 +136,7 @@ s.PPR <- function(x, y = NULL,
   if (verbose) parameterSummary(nterms, optlevel, sm.method, bass, span, df, gcvpen,
                                 newline.pre = TRUE)
 
-  # [ PPR ] ====
+  # ppr ====
   if (verbose) msg("Running Projection Pursuit Regression...", newline.pre = TRUE)
   mod <- ppr(x, y,
              weights = weights,
@@ -149,12 +149,12 @@ s.PPR <- function(x, y = NULL,
              gcvpen = gcvpen, ...)
   if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- as.numeric(predict(mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -164,22 +164,21 @@ s.PPR <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  parameters <- list(weights = weights,
-                     nterms = nterms,
-                     max.terms = max.terms,
-                     optlevel = optlevel,
-                     sm.method = sm.method,
-                     bass = bass,
-                     span = span,
-                     df = df,
-                     gcvpen = gcvpen)
-  extra <- list(grid.resample.rtset = grid.resample.rtset,
-                gridSearch = gs)
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
+                 parameters = list(weights = weights,
+                                   nterms = nterms,
+                                   max.terms = max.terms,
+                                   optlevel = optlevel,
+                                   sm.method = sm.method,
+                                   bass = bass,
+                                   span = span,
+                                   df = df,
+                                   gcvpen = gcvpen),
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -191,8 +190,7 @@ s.PPR <- function(x, y = NULL,
                  predicted = predicted,
                  se.prediction = NULL,
                  error.test = error.test,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

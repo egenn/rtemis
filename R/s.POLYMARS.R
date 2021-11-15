@@ -43,7 +43,7 @@ s.POLYMARS <- function(x, y = NULL,
                        save.mod = FALSE,
                        outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.POLYMARS))
     return(invisible(9))
@@ -57,12 +57,12 @@ s.POLYMARS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "POLYMARS"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("polspline", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.POLYMARS)); stop("x is missing")
   }
@@ -75,7 +75,7 @@ s.POLYMARS <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   bag <- if (is.null(bag.resample.rtset)) FALSE else bag.resample.rtset$n.resamples > 0
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -91,8 +91,8 @@ s.POLYMARS <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, nrow(x))
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  x0 <- if (upsample | downsample) dt$x0 else x
+  y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(classify)) classify <- ifelse(type == "Classification", TRUE, FALSE)
   if (print.plot) {
@@ -102,7 +102,7 @@ s.POLYMARS <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (gridCheck(maxsize)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
                           resample.rtset = grid.resample.rtset,
@@ -117,7 +117,7 @@ s.POLYMARS <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # [ POLYMARS ] ====
+  # polspline::polymars ====
     if (verbose) msg("Training POLYMARS model...", newline.pre = TRUE)
       mod <- polspline::polymars(y, x,
                                  weights = .weights,
@@ -126,7 +126,7 @@ s.POLYMARS <- function(x, y = NULL,
                                  classify = classify, ...)
     if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
     fitted <- predict(mod, x)
     if (type == "Classification") {
       fitted <- apply(fitted, 1, which.max)
@@ -137,7 +137,7 @@ s.POLYMARS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
       predicted <- predict(mod, x.test)
@@ -152,13 +152,13 @@ s.POLYMARS <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs,
-                grid.resample.rtset = grid.resample.rtset)
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
+                 parameters = list(maxsize = maxsize),
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -170,8 +170,7 @@ s.POLYMARS <- function(x, y = NULL,
                  predicted = predicted,
                  se.prediction = NULL,
                  error.test = error.test,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

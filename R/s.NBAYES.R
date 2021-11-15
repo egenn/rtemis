@@ -75,7 +75,7 @@ s.NBAYES <- function(x, y = NULL,
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # NBAYES ====
+  # e1071::naiveBayes ====
   if (verbose) msg("Training Naive Bayes Classifier...", newline.pre = TRUE)
   mod <- e1071::naiveBayes(x, y,
                            laplace = laplace, ...)

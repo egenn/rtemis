@@ -105,7 +105,7 @@ s.GBM <- function(x, y = NULL,
                   save.res.mod = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.GBM))
     return(invisible(9))
@@ -125,12 +125,12 @@ s.GBM <- function(x, y = NULL,
     n.trees <- min.trees
   }
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("gbm", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (save.res.mod) save.res <- TRUE
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -143,7 +143,7 @@ s.GBM <- function(x, y = NULL,
     n.trees <- max.trees
   }
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -200,7 +200,7 @@ s.GBM <- function(x, y = NULL,
 
   if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline.pre = TRUE)
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -282,7 +282,7 @@ s.GBM <- function(x, y = NULL,
   }
 
 
-  # [ GBM ] ====
+  # gbm::gbm.fit ====
   if (!is.null(logFile)) sink() # pause writing to log
   # If we are in .gs, rbind train and test to get perf to tune n.trees
   # .xtrain and .ytrain to allow diff b/n .gs and full model
@@ -386,7 +386,7 @@ s.GBM <- function(x, y = NULL,
     if (n.trees == max.trees & verbose) msg("Reached max.trees =", max.trees)
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted.prob <- NULL
   if (type == "Regression" | type == "Survival") {
     if (distribution == "poisson") {
@@ -431,7 +431,7 @@ s.GBM <- function(x, y = NULL,
                                  " GBM permutation-based variable importance"), padj = -2)
   }
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(.x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -463,10 +463,7 @@ s.GBM <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs,
-                mod.summary.rel = mod.summary.rel,
-                mod.summary.perm = mod.summary.perm)
+  # Outro ====
   if (imetrics) {
     extra$imetrics <- list(n.trees = n.trees,
                            depth = interaction.depth,
@@ -489,6 +486,7 @@ s.GBM <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,
@@ -505,7 +503,8 @@ s.GBM <- function(x, y = NULL,
                  error.test = error.test,
                  varimp = varimp,
                  question = question,
-                 extra = extra)
+                 extra = list(mod.summary.rel = mod.summary.rel,
+                              mod.summary.perm = mod.summary.perm))
 
   rtMod.out(rt,
             print.plot,

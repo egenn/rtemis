@@ -214,10 +214,11 @@ mplot3.survfit <- function(x,
 
   # Median survival line(s) ====
   if (plot.median) {
+    survmean <- getFromNamespace("survmean", "survival")
     .median <- if (nstrata == 1) {
-      survival:::survmean(x, scale = 1, rmean = "none")$matrix["median"]
+      survmean(x, scale = 1, rmean = "none")$matrix["median"]
     } else {
-      survival:::survmean(x, scale = 1, rmean = "none")$matrix[, "median"]
+      survmean(x, scale = 1, rmean = "none")$matrix[, "median"]
     }
     for (i in .median) {
       lines(x = c(i, i), y = c(.5, 0),

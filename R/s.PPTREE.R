@@ -90,7 +90,7 @@ s.PPTREE <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ PPTREE ] ====
+  # PPtree::PP.Tree ====
   if (verbose) msg("Training Projection Pursuit Tree...", newline.pre = TRUE)
   mod <- PPtree::PP.Tree(PPmethod = PPmethod,
                          i.class = y,

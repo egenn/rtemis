@@ -45,7 +45,7 @@ s.BART <- function(x, y = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    java.mem.size = 12, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) { print(args(s.BART)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -56,12 +56,12 @@ s.BART <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "BART"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("bartMachine", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) { print(args(s.BART)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.BART)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -71,7 +71,7 @@ s.BART <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -104,7 +104,7 @@ s.BART <- function(x, y = NULL,
     y.train <- y
   }
 
-  # [ BART ] ====
+  # BART ====
   java.mem <- paste0("-Xmx", java.mem.size, "g")
   options(java.parameters = java.mem)
   bartMachine::set_bart_machine_num_cores(n.cores)
@@ -120,7 +120,7 @@ s.BART <- function(x, y = NULL,
                                     verbose = trace > 0, ...)
   if (trace > 0) summary(mod)
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (type == "Classification") {
     fitted.prob <- predict(mod, x, type = "prob")
     fitted <- factor(levels(y)[round(fitted.prob) + 1], levels = levels(y))
@@ -131,7 +131,7 @@ s.BART <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   if (!is.null(x.test) & !is.null(y.test)) {
     if (type == "Classification") {
       predicted.prob <- predict(mod, x.test, type = "prob")
@@ -146,7 +146,7 @@ s.BART <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # [ Outro ] ====
+  # Outro ====
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
                  mod.name = mod.name,

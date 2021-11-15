@@ -26,6 +26,7 @@
 #' @field xnames Character vector: Column names of x
 #' @field mod Trained model
 #' @field type Classification, Regression, or Survival
+#' @field gridsearch Grid search output
 #' @field parameters List of hyperparameters used when building model
 #' @field fitted Fitted values
 #' @field se.fit Standard error of the fit
@@ -51,6 +52,7 @@ rtMod <- R6::R6Class("rtMod",
                        xnames = NULL,
                        mod = NULL,
                        type = NULL,
+                       gridsearch = NULL,
                        parameters = NULL,
                        fitted = NULL,
                        se.fit = NULL,
@@ -71,6 +73,7 @@ rtMod <- R6::R6Class("rtMod",
                                              xnames = character(),
                                              mod = list(),
                                              type = character(),
+                                             gridsearch = list(),
                                              parameters = list(),
                                              fitted = numeric(),
                                              se.fit = NULL,
@@ -90,6 +93,7 @@ rtMod <- R6::R6Class("rtMod",
                          self$xnames <- xnames
                          self$mod <- mod
                          self$type <- type
+                         self$gridsearch <- gridsearch
                          self$parameters <- parameters
                          self$fitted <- fitted
                          self$se.fit <- se.fit
@@ -703,6 +707,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                               xnames = character(),
                                                               mod = list(),
                                                               type = character(),
+                                                              gridsearch = list(),
                                                               parameters = list(),
                                                               fitted = numeric(),
                                                               fitted.prob = numeric(),
@@ -723,6 +728,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                            xnames,
                                                            mod,
                                                            type,
+                                                           gridsearch,
                                                            parameters,
                                                            fitted,
                                                            se.fit,

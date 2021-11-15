@@ -67,7 +67,7 @@ s.GLMNET <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.GLMNET))
     return(invisible(9))
@@ -81,12 +81,12 @@ s.GLMNET <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMNET"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("glmnet", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.GLMNET))
     stop("x is missing")
@@ -104,7 +104,7 @@ s.GLMNET <- function(x, y = NULL,
   which.cv.lambda <- match.arg(which.cv.lambda)
   grid.search.type <- match.arg(grid.search.type)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -153,7 +153,7 @@ s.GLMNET <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # '- MODEL MATRIX ====
+  # Model matrix ====
   dat <- data.frame(x, y = y)
   if (nway.interactions > 0) {
     .formula <- as.formula(paste0("y ~ .^", nway.interactions))
@@ -172,7 +172,7 @@ s.GLMNET <- function(x, y = NULL,
     x.test <- model.matrix(.formula, dat.test)[, -1]
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -209,7 +209,7 @@ s.GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda,
                                 newline.pre = TRUE)
 
-  # [ GLMNET ] ====
+  # glmnet::cv.glmnet/glmnet ====
   if (.gs && cv.lambda) {
     mod <- glmnet::cv.glmnet(x,
                              if (family == "binomial") reverseLevels(y) else y,
@@ -233,7 +233,7 @@ s.GLMNET <- function(x, y = NULL,
                           penalty.factor = penalty.factor, ...)
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
@@ -253,7 +253,7 @@ s.GLMNET <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -278,12 +278,12 @@ s.GLMNET <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs)
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = list(lambda = lambda, alpha = alpha),
                  y.train = y,
                  y.test = y.test,
@@ -300,8 +300,7 @@ s.GLMNET <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = as.matrix(coef(mod))[-1, 1],
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

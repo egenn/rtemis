@@ -87,7 +87,7 @@ s.KNN <- function(x, y = NULL,
   if (verbose) parameterSummary(k, algorithm,
                                 newline.pre = TRUE)
 
-  # [ KNN ] ====
+  # FNN::knn/knn.reg ====
   if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
   .x.test <- if (is.null(x.test)) x else x.test
   if (type == "Classification") {

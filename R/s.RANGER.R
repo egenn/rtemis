@@ -327,7 +327,7 @@ s.RANGER <- function(x, y = NULL,
   }
 
   # Outro ====
-  extra <- list(gridSearch = gs)
+  extra <- list()
 
   if (imetrics) {
     n.nodes <- sum(plyr::ldply(mod$forest$child.nodeIDs,
@@ -338,6 +338,7 @@ s.RANGER <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,

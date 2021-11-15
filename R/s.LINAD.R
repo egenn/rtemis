@@ -418,10 +418,10 @@ s.LINAD <- function(x, y = NULL,
     # This is probably a vague measure of overall variable importance.
     apply(mod$leaves$coefs[, -1, drop = FALSE], 2, function(i) mean(abs(i)))
   }
-  extra <- list(gridSearch = gs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,
@@ -437,8 +437,7 @@ s.LINAD <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = varimp,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   if (cluster) {
     if (verbose) msg("Getting clusters...")

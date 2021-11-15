@@ -82,7 +82,7 @@ s.QDA <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ QDA ] ====
+  # MASS::qda ====
   params <- c(list(x = x, grouping = y,
                    method = method,
                    nu = nu), list(...))

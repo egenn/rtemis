@@ -70,7 +70,7 @@ s.MARS <- function(x, y = NULL,
                    save.mod = FALSE,
                    outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.MARS))
     return(invisible(9))
@@ -84,12 +84,12 @@ s.MARS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "MARS"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("earth", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.MARS)); stop("x is missing")
   }
@@ -105,7 +105,7 @@ s.MARS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -136,7 +136,7 @@ s.MARS <- function(x, y = NULL,
   }
   if (is.null(nk)) nk <- min(200, max(20, 2 * NCOL(x))) + 1
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -170,7 +170,7 @@ s.MARS <- function(x, y = NULL,
     nk <- gs$best.tune$nk
   }
 
-  # [ EARTH ] ====
+  # earth::earth ====
   if (verbose) msg("Training MARS model...", newline.pre = TRUE)
   if (verbose) parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk,
                    newline.pre = TRUE)
@@ -204,7 +204,7 @@ s.MARS <- function(x, y = NULL,
   params <- args
   params$x <- params$y <- NULL
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- predict(mod)
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -215,7 +215,7 @@ s.MARS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -231,7 +231,7 @@ s.MARS <- function(x, y = NULL,
     }
   }
 
-  # [ Variable importance ] ====
+  # Variable importance ====
   .evimp <- as.matrix(earth::evimp(mod))
   .evimp <- earth::evimp(mod)
   varimp <- rep(0, NCOL(x))
@@ -241,12 +241,13 @@ s.MARS <- function(x, y = NULL,
     varimp[which(.evimpnames[i] == xnames)] <- .evimp[i, 4]
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs)
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
+                 parameters = params,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -261,9 +262,7 @@ s.MARS <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = varimp,
-                 parameters = params,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,

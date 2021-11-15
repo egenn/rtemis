@@ -249,12 +249,12 @@ s.TFN <- function(x, y = NULL,
   }
   if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
 
-  ### '- INIT ====
+  ### '- Init ====
   if (is.null(net)) {
 
     net <- keras::keras_model_sequential()
 
-    ### '- HIDDEN LAYERS ====
+    ### '- Hidden layers ====
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
         keras::layer_dense(net,

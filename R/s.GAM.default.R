@@ -46,7 +46,7 @@ s.GAM.default <- function(x, y = NULL,
                           outdir = NULL,
                           save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.GAM))
     return(invisible(9))
@@ -60,12 +60,12 @@ s.GAM.default <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAM"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("mgcv", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.GAM))
     stop("x is missing")
@@ -77,7 +77,7 @@ s.GAM.default <- function(x, y = NULL,
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -111,7 +111,7 @@ s.GAM.default <- function(x, y = NULL,
     }
   }
 
-  # [ Formula ] ====
+  # Formula ====
   if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
   lin.index <- which(!(seq(NCOL(x)) %in% spline.index))
 
@@ -124,7 +124,7 @@ s.GAM.default <- function(x, y = NULL,
   df.test <- NULL
   if (!is.null(x.test)) {
 
-    # [ REMOVE MISSING LEVELS ] ====
+    # Remove missing levels ====
     if (removeMissingLevels) {
       index.factor <- which(sapply(x, is.factor))
       if (length(index.factor) > 0) {
@@ -164,7 +164,7 @@ s.GAM.default <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ GAM ] ====
+  # GAM ====
   if (verbose) msg("Training GAM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  family = family,
@@ -177,7 +177,7 @@ s.GAM.default <- function(x, y = NULL,
   mod <- do.call(mgcv::gam, args)
   if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (type == "Regression") {
     fitted <- predict(mod, df.train, se.fit = TRUE)
     se.fit <- as.numeric(fitted$se.fit)
@@ -196,7 +196,7 @@ s.GAM.default <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(df.test)) {
     if (type == "Regression") {
@@ -220,7 +220,7 @@ s.GAM.default <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

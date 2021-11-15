@@ -60,7 +60,6 @@ s.SPLS <- function(x, y = NULL,
                    plot.predicted = NULL,
                    plot.theme = getOption("rt.fit.theme", "lightgrid"),
                    question = NULL,
-                   rtclass = NULL,
                    verbose = TRUE,
                    trace = 0,
                    grid.verbose = TRUE,
@@ -68,7 +67,7 @@ s.SPLS <- function(x, y = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    n.cores = rtCores, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.SPLS))
     return(invisible(9))
@@ -82,12 +81,12 @@ s.SPLS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SPLS"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("spls", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.SPLS))
     stop("x is missing")
@@ -107,7 +106,7 @@ s.SPLS <- function(x, y = NULL,
     k <- NCOL(x)
   }
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -133,7 +132,7 @@ s.SPLS <- function(x, y = NULL,
     classifier <- match.arg(classifier)
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -166,11 +165,13 @@ s.SPLS <- function(x, y = NULL,
     select <- gs$best.tune$select
     fit <- gs$best.tune$fit
     maxstep <- gs$best.tune$maxstep
+  } else {
+    gs <- NULL
   }
 
-  # [ SPLS ] ====
+  # spls::splsda/spls ====
   if (verbose) msg0("Training Sparse Partial Least Squares ", type , "...",
-                     newline.pre = TRUE)
+                    newline.pre = TRUE)
   if (type == "Classification") {
     # Cannot include select, scale.y, or trace options; see source
     mod <- spls::splsda(data.matrix(x), y1,
@@ -198,7 +199,7 @@ s.SPLS <- function(x, y = NULL,
 
   if (trace > 0) mod
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- predict(mod, x, type = "fit")
   if (type == "Classification") {
     fitted <- factor(fitted)
@@ -207,10 +208,10 @@ s.SPLS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ COEFFS ] ====
+  # Coefficients ====
   coeffs <- spls::coef.spls(mod)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test, type = "fit")
@@ -224,25 +225,25 @@ s.SPLS <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(coeffs = coeffs)
-  rt <- rtModSet(rtclass = rtclass,
-                  mod = mod,
-                  mod.name = mod.name,
-                  type = type,
-                  y.train = y,
-                  y.test = y.test,
-                  x.name = x.name,
-                  y.name = y.name,
-                  xnames = xnames,
-                  fitted = fitted,
-                  se.fit = NULL,
-                  error.train = error.train,
-                  predicted = predicted,
-                  se.prediction = se.prediction,
-                  error.test = error.test,
-                  question = question,
-                  extra = extra)
+  rt <- rtModSet(mod = mod,
+                 mod.name = mod.name,
+                 type = type,
+                 gridsearch = gs,
+                 y.train = y,
+                 y.test = y.test,
+                 x.name = x.name,
+                 y.name = y.name,
+                 xnames = xnames,
+                 fitted = fitted,
+                 se.fit = NULL,
+                 error.train = error.train,
+                 predicted = predicted,
+                 se.prediction = se.prediction,
+                 error.test = error.test,
+                 question = question,
+                 extra = extra)
 
   rtMod.out(rt,
             print.plot,

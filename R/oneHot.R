@@ -17,8 +17,144 @@
 #' @author E.D. Gennatas
 #' @export
 
-oneHot <- function(x, verbose = FALSE) {
+oneHot <- function(x,
+                   xname = NULL,
+                   verbose = FALSE) {
 
   UseMethod("oneHot", x)
 
 } # rtemis::oneHot
+
+
+#' @rdname oneHot
+#' @export
+
+oneHot.default <- function(x,
+                           xname = NULL,
+                           verbose = TRUE) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  x <- factor(x)
+  .levels <- levels(x)
+  ncases <- NROW(x)
+  index <- as.integer(x)
+  oh <- matrix(0, ncases, length(.levels))
+  colnames(oh) <- paste(xname, .levels, sep = "_")
+  for (i in seq(ncases)) oh[i, index[i]] <- 1
+  oh
+
+} # rtemis::oneHot.default
+
+
+# included for benchmarking mostly
+onehotcm <- function(x,
+                     xname = deparse(substitute(x)),
+                     return = "data.frame") {
+  stopifnot(is.factor(x))
+  dt <- data.table(ID = 1:length(x),
+                   x = x)
+  setnames(dt, "x", xname)
+  out <- dcast(melt(dt, id.vars = "ID"), ID ~ variable + value, fun.aggregate = length)[, -1]
+  if (return == "data.frame") setDF(out)
+  out
+}
+
+# loop is faster than dcast/melt
+# x <- iris$Species
+# microbenchmark::microbenchmark(loop = oneHot.default(x), dt = onehotcm(x))
+
+#' @rdname oneHot
+#' @export
+#' @examples
+#' oneHot(iris) |> head()
+
+oneHot.data.frame <- function(x,
+                              xname = NULL,
+                              verbose = TRUE) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  ncases <- NROW(x)
+  factor.index <- which(sapply(x, is.factor))
+  one.hot <- as.list(x)
+  if (verbose) .names <- colnames(x)
+  for (i in factor.index) {
+    if (verbose) msg0("One hot encoding ", .names[i], "...")
+    .levels <- levels(x[, i])
+    index <- as.numeric(x[, i])
+    oh <- matrix(0, ncases, length(.levels))
+    colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (j in seq(ncases)) oh[j, index[j]] <- 1
+    one.hot[[i]] <- oh
+  }
+  if (verbose) msg("Done")
+  as.data.frame(one.hot)
+} # rtemis::oneHot
+
+
+#' @rdname oneHot
+#'
+#' \code{oneHot.data.table} operates on a copy of its input.
+#' See \code{oneHot_} for one-hot encoding **in-place**
+#'
+#' @export
+#' @examples
+#' ir <- data.table::as.data.table(iris)
+#' ir_oh <- oneHot(ir)
+#' ir_oh
+
+oneHot.data.table <- function(x,
+                              xname = NULL,
+                              verbose = TRUE) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  x <- copy(x)
+  ncases <- NROW(x)
+  factor.index <- which(sapply(x, is.factor))
+  .names <- colnames(x)
+  for (i in factor.index) {
+    if (verbose) info(paste0("One hot encoding ", .names[i], "..."))
+    .levels <- levels(x[[i]])
+    index <- as.numeric(x[[i]])
+    oh <- as.data.table(matrix(0, ncases, length(.levels)))
+    .colnames <- colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (k in seq_along(.levels)) oh[index == k, (.colnames[k]) := 1]
+    x[, (paste(.names[i], .levels, sep = "_")) := oh]
+  }
+  # remove original factor(s)
+  x[, paste(.names[factor.index]) := NULL]
+  if (verbose) msg("Done")
+  invisible(x)
+
+} # rtemis::oneHot.data.table
+
+
+#' @rdname oneHot
+#'
+#' \code{oneHot_} replaces factors with onehot encoded columns **in-place**
+#' and returns a data.table invisibly
+#'
+#' @export
+#' @examples
+#' ir <- data.table::as.data.table(iris)
+#' oneHot_(ir)
+#' ir
+
+oneHot_ <- function(x,
+                    xname = NULL,
+                    verbose = TRUE) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  ncases <- NROW(x)
+  factor.index <- which(sapply(x, is.factor))
+  .names <- colnames(x)
+  for (i in factor.index) {
+    if (verbose) info(paste0("One hot encoding ", .names[i], "..."))
+    .levels <- levels(x[[i]])
+    index <- as.numeric(x[[i]])
+    oh <- as.data.table(matrix(0, ncases, length(.levels)))
+    .colnames <- colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (k in seq_along(.levels)) oh[index == k, (.colnames[k]) := 1]
+    x[, (paste(.names[i], .levels, sep = "_")) := oh]
+  }
+  # remove original factor(s)
+  x[, paste(.names[factor.index]) := NULL]
+  if (verbose) msg("Done")
+  invisible(x)
+
+} # rtemis::oneHot.data.table

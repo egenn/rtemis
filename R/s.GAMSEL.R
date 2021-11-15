@@ -58,7 +58,7 @@ s.GAMSEL <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.GAMSEL))
     return(invisible(9))
@@ -72,13 +72,13 @@ s.GAMSEL <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAMSEL"
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("gamsel2", verbose = FALSE)) {
     cat("\n")
     stop("Please install dependency using remotes::install_github('egenn/gamsel2') and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.GAMSEL))
     stop("y is missing")
@@ -89,7 +89,7 @@ s.GAMSEL <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -149,7 +149,7 @@ s.GAMSEL <- function(x, y = NULL,
   # if (trace > 1) cat(".: 'dfs' set to:", dfs, "\n")
   # if (length(dfs) != n.features) dfs <- rep(dfs, n.features)[seq_len(n.features)]
 
-  # [ GAMSEL ] ====
+  # gamsel2::gamsel ====
   # bases <- gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
   if (verbose) msg("Training GAMSEL...", newline.pre = TRUE)
   args <- list(x = x,
@@ -183,7 +183,7 @@ s.GAMSEL <- function(x, y = NULL,
   # nlambdas <- length(mod$lambdas)
   lambda.index <- if (which.lambda == "lambda.min") mod$index.min else mod$index.1se
 
-  # [ Fitted ] ====
+  # Fitted ====
   # TODO: switch both fitted and predicted to predict.rtMod
   if (type == "Regression") {
     # in gamsel2, this works with both "gamsel" and "cv.gamsel" objects
@@ -199,7 +199,7 @@ s.GAMSEL <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
@@ -215,7 +215,7 @@ s.GAMSEL <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   lambda.used <- if (which.lambda == "lambda.min") mod$lambda[mod$lambda.min] else mod$lambda[mod$index.1se]
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

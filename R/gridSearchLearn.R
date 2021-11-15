@@ -303,8 +303,8 @@ gridCheck <- function(...) {
 print.gridSearch <- function(x, ...) {
 
   objcat("gridSearch object")
-  type <- if (x$type == "exhaustive") "An exhaustive grid search"
-                 else paste0("A randomized grid search (p = ", x$p, ")")
+  type <- if (x$type == "exhaustive") "An exhaustive grid search" else
+    paste0("A randomized grid search (p = ", x$p, ")")
   resamples <- if (x$resample.rtset$resample == "kfold") {
     "independent folds"
   } else if (x$resample.rtset$resample == "strat.sub") {

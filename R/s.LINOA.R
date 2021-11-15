@@ -8,8 +8,8 @@
 #'
 #' Train a Linear Optimized Additive Tree
 #'
-#' The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear models
-#' are fit on each child.
+#' The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear
+#' models are fit on each child.
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
@@ -86,7 +86,7 @@ s.LINOA <- function(x, y = NULL,
                         verbose = TRUE,
                         trace = 1) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.LINOA))
     return(invisible(9))
@@ -102,19 +102,19 @@ s.LINOA <- function(x, y = NULL,
   # delta 02.06.2020
   # if (max.leaves <= 1) force.max.leaves <- 1
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   # ENH: deps for lincoef
   if (!depCheck("glmnet", "rpart", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
   # if (.gs && nvmax == 0) lin.type = "none"
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -161,7 +161,7 @@ s.LINOA <- function(x, y = NULL,
     nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
   }
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (metric == "auto") {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -258,7 +258,7 @@ s.LINOA <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # [ shyoptleaves ] ====
+  # shyoptleaves ====
   if (.gs) {
     if (lookback) {
       x.valid <- x.test
@@ -315,7 +315,7 @@ s.LINOA <- function(x, y = NULL,
                      cv.glmnet.nfolds = cv.glmnet.nfolds,
                      which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (type == "Classification") {
     .fitted <- predict.shyoptleaves(mod, x, type = "all")
     fitted <- .fitted$estimate
@@ -327,7 +327,7 @@ s.LINOA <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -352,11 +352,11 @@ s.LINOA <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
-  extra <- list(gridSearch = gs)
+  # Outro ====
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 gridsearch = gs,
                  parameters = parameters,
                  y.train = y,
                  y.test = y.test,
@@ -372,8 +372,7 @@ s.LINOA <- function(x, y = NULL,
                  se.prediction = NULL,
                  error.test = error.test,
                  varimp = NULL,
-                 question = question,
-                 extra = extra)
+                 question = question)
 
   rtMod.out(rt,
             print.plot,
