@@ -4,12 +4,14 @@
 \alias{colorGrad.x}
 \title{Color gradient for continuous variable}
 \usage{
-colorGrad.x(x, color = c("gray20", "#18A3AC"))
+colorGrad.x(x, color = c("gray20", "#18A3AC"), space = "Lab")
 }
 \arguments{
 \item{x}{Float, vector}
 
 \item{color}{Color, vector, length 2}
+
+\item{space}{Character: "rgb" or "Lab", Default = "Lab"}
 }
 \description{
 Color gradient for continuous variable

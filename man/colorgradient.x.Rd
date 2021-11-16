@@ -9,11 +9,14 @@ colorgradient.x(
   symmetric = FALSE,
   lo.col = "#0290EE",
   mid.col = "#1A1A1A",
-  hi.col = "#FFBD4F"
+  hi.col = "#FFBD4F",
+  space = "Lab"
 )
 }
 \arguments{
 \item{x}{Float, vector}
+
+\item{space}{Character: "rgb" or "Lab". Default = "Lab"}
 
 \item{color}{Color, vector, length 2}
 }

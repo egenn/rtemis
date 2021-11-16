@@ -6,6 +6,7 @@
 #'
 #' @param x Float, vector
 #' @param color Color, vector, length 2
+#' @param space Character: "rgb" or "Lab". Default = "Lab"
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -21,9 +22,10 @@ colorgradient.x <- function(x,
                             symmetric = FALSE,
                             lo.col = "#0290EE",
                             mid.col = "#1A1A1A",
-                            hi.col = "#FFBD4F") {
+                            hi.col = "#FFBD4F",
+                            space = "Lab") {
 
-  grad <- colorRampPalette(c(lo.col, mid.col, hi.col))(201)
+  grad <- colorRampPalette(c(lo.col, mid.col, hi.col), space = space)(201)
 
   if (symmetric) {
     maxabsx <- max(abs(x))
