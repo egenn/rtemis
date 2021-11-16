@@ -582,6 +582,11 @@ dplot3.box <- function(x,
   }
 
   # if (print.plot) suppressWarnings(print(plt))
-  if (print.plot) plt else invisible(plt)
+  if (print.plot) {
+    # suppress bogus warning about boxgap argument
+    suppressWarnings(print(plt))
+  } else {
+    invisible(plt)
+  }
 
 } # rtemis::dplot3.box.R
