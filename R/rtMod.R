@@ -1148,7 +1148,8 @@ rtModCV <- R6::R6Class("rtModCV",
                          },
                          plotPredicted = function(which.repeat = 1,
                                                   theme = getOption("rt.fit.theme", "lightgrid"),
-                                                  filename = NULL, ...) {
+                                                  filename = NULL,
+                                                  mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated predicted vs. true values"
                            predicted <- unlist(self$predicted.res[[which.repeat]],
                                                use.names = FALSE)
@@ -1173,14 +1174,16 @@ rtModCV <- R6::R6Class("rtModCV",
                                         xlab = paste("True", self$y.name),
                                         ylab = paste("Predicted", self$y.name),
                                         theme = theme,
-                                        filename = filename, ...)
+                                        filename = filename,
+                                        mar = mar, ...)
                            } else {
                              msg("Plotting for survival not currently supported")
                            }
                          },
                          plotFitted = function(which.repeat = 1,
                                                theme = getOption("rt.fit.theme", "lightgrid"),
-                                               filename = NULL, ...) {
+                                               filename = NULL,
+                                               mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated fitted vs. true values"
                            fitted <- unlist(self$fitted.res[[which.repeat]],
                                             recursive = TRUE, use.names = FALSE)
@@ -1205,7 +1208,8 @@ rtModCV <- R6::R6Class("rtModCV",
                                         xlab = paste("True", self$y.name),
                                         ylab = paste("Fitted", self$y.name),
                                         theme = theme,
-                                        filename = filename, ...)
+                                        filename = filename,
+                                        mar = mar, ...)
                            } else {
                              msg("Plotting for survival not currently supported")
                            }

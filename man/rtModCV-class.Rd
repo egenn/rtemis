@@ -156,6 +156,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
   which.repeat = 1,
   theme = getOption("rt.fit.theme", "lightgrid"),
   filename = NULL,
+  mar = c(2.5, 3, 2.5, 1),
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -170,6 +171,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
   which.repeat = 1,
   theme = getOption("rt.fit.theme", "lightgrid"),
   filename = NULL,
+  mar = c(2.5, 3, 2.5, 1),
   ...
 )}\if{html}{\out{</div>}}
 }
