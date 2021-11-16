@@ -120,3 +120,16 @@ catsize <- function(x, verbose = TRUE) {
   invisible(c(.nrow, .ncol))
 
 }
+
+#' Get data.frame names and types
+#'
+#' @param x data.frame / data.table or similar
+#' @returns character vector of column names with attribute "type" holding the class of each
+#' column
+#' @export
+
+getnamesandtypes <- function(x) {
+  xnames <- names(x)
+  attr(xnames, "type") <- sapply(x, class)
+  xnames
+} # rtemis::namesandtypes
