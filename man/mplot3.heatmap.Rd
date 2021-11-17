@@ -18,7 +18,6 @@ mplot3.heatmap(
   colorbar = TRUE,
   cb.n = 21,
   cb.title = NULL,
-  cb.cex = 1,
   cb.title.cex = 1,
   cb.mar = NULL,
   Rowv = TRUE,
@@ -92,8 +91,6 @@ then only lo and hi are used to create the color gradient.}
 If midline is zero, this corresponds to 10 percent increments / decrements}
 
 \item{cb.title}{Character: Title for the colorbar. Default = NULL}
-
-\item{cb.cex}{Float: Character expansion (\code{cex}) for colobar. Default = 1}
 
 \item{cb.title.cex}{Float: \code{cex} for colorbar title. Default = 1}
 
@@ -176,6 +173,8 @@ otherwise = \code{range(x)}.}
 \item{pdf.height}{Float: Height of PDF output, if \code{filename} is set}
 
 \item{...}{Additional arguments passed to \code{graphics::image}}
+
+\item{cb.cex}{Float: Character expansion (\code{cex}) for colobar. Default = 1}
 }
 \description{
 Customized heatmap with optional colorbar
