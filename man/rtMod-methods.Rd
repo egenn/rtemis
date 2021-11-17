@@ -20,13 +20,7 @@
 
 \method{residuals}{rtMod}(object, ...)
 
-\method{plot}{rtMod}(
-  x,
-  estimate = NULL,
-  theme = getOption("rt.fit.theme", "lightgrid"),
-  filename = NULL,
-  ...
-)
+\method{plot}{rtMod}(x, estimate = NULL, theme = getOption("rt.theme"), filename = NULL, ...)
 
 \method{summary}{rtMod}(
   object,
@@ -38,7 +32,7 @@
   se.fit = TRUE,
   single.fig = TRUE,
   summary = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   title.col = NULL,
   ...
 )

@@ -16,7 +16,7 @@
   hline.dash = "dash",
   ylim = NULL,
   ylab = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   displayModeBar = FALSE,
   ...
 )

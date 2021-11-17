@@ -17,7 +17,7 @@ dplot3.box(
   alpha = 0.6,
   bg = NULL,
   plot.bg = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   boxpoints = "outliers",
   quartilemethod = "linear",

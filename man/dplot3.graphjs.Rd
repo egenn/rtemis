@@ -26,7 +26,7 @@ dplot3.graphjs(
   cluster_mark_groups = TRUE,
   cluster_color_vertices = FALSE,
   main = "",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   theme_extra_args = list(),
   palette = getOption("rt.palette", "rtCol1"),
   mar = rep(0, 4),

@@ -15,7 +15,7 @@ dplot3.graphd3(
   zoom = TRUE,
   legend = FALSE,
   palette = getOption("rt.palette", "rtCol1"),
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   ...
 )
 }

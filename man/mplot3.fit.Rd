@@ -12,7 +12,7 @@ mplot3.fit(
   fit.error = TRUE,
   axes.equal = TRUE,
   diagonal = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   marker.col = NULL,
   fit.col = NULL,
   pty = "s",

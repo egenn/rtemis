@@ -87,7 +87,7 @@ s.LIHAD <- function(x, y = NULL,
                      print.plot = TRUE,
                      plot.fitted = NULL,
                      plot.predicted = NULL,
-                     plot.theme = getOption("rt.fit.theme", "lightgrid"),
+                     plot.theme = getOption("rt.theme"),
                      save.mod = FALSE) {
 
   # [ Intro ] ====

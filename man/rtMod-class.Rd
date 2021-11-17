@@ -129,7 +129,7 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
   estimate = NULL,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -143,7 +143,7 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
   print.plot = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   main = NULL,
   filename = NULL,
   ...
@@ -158,7 +158,7 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
   print.plot = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   main = NULL,
   filename = NULL,
   ...
@@ -173,7 +173,7 @@ different approaches}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFittedPredicted(
   print.plot = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -188,7 +188,7 @@ different approaches}
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
   plot.top = 12,
   type = c("barplot", "lollipop"),
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -208,7 +208,7 @@ different approaches}
   se.fit = TRUE,
   single.fig = TRUE,
   summary = TRUE,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   title.col = NULL,
   ...
 )}\if{html}{\out{</div>}}

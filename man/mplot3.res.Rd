@@ -4,13 +4,7 @@
 \alias{mplot3.res}
 \title{\code{mplot3} Plot \code{resample}}
 \usage{
-mplot3.res(
-  res,
-  col = NULL,
-  mar = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
-  ...
-)
+mplot3.res(res, col = NULL, mar = NULL, theme = getOption("rt.theme"), ...)
 }
 \description{
 Visualizes resampling output using \link{mplot3.img}

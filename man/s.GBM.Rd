@@ -56,7 +56,7 @@ s.GBM(
   plotRelInf = FALSE,
   plotVarImp = FALSE,
   print.plot = TRUE,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   x.name = NULL,
   y.name = NULL,
   question = NULL,

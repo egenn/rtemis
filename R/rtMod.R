@@ -120,7 +120,7 @@ rtMod <- R6::R6Class("rtMod",
                          }
                        },
                        plot = function(estimate = NULL,
-                                       theme = getOption("rt.fit.theme", "lightgrid"),
+                                       theme = getOption("rt.theme"),
                                        filename = NULL, ...) {
                          "Plot predicted vs. true if available, otherwise fitted vs. true"
                          if (!is.null(estimate)) {
@@ -142,7 +142,7 @@ rtMod <- R6::R6Class("rtMod",
                          }
                        },
                        plotFitted = function(print.plot = TRUE,
-                                             theme = getOption("rt.fit.theme", "lightgrid"),
+                                             theme = getOption("rt.theme"),
                                              main = NULL,
                                              filename = NULL, ...) {
                          "Plot fitted vs. true values for Regression or confusion matrix for Classification"
@@ -170,7 +170,7 @@ rtMod <- R6::R6Class("rtMod",
                          }
                        },
                        plotPredicted = function(print.plot = TRUE,
-                                                theme = getOption("rt.fit.theme", "lightgrid"),
+                                                theme = getOption("rt.theme"),
                                                 main = NULL,
                                                 filename = NULL, ...) {
                          "Plot predicted vs. true values"
@@ -202,7 +202,7 @@ rtMod <- R6::R6Class("rtMod",
                          }
                        },
                        plotFittedPredicted = function(print.plot = TRUE,
-                                                      theme = getOption("rt.fit.theme", "lightgrid"),
+                                                      theme = getOption("rt.theme"),
                                                       filename = NULL, ...) {
                          "Plot fitted & predicted vs. true values"
                          if (self$type == "Classification") {
@@ -238,7 +238,7 @@ rtMod <- R6::R6Class("rtMod",
                        },
                        plotVarImp = function(plot.top = 12,
                                              type = c("barplot", "lollipop"),
-                                             theme = getOption("rt.fit.theme", "lightgrid"), ...) {
+                                             theme = getOption("rt.theme"), ...) {
                          if (length(self$varimp) == 0) {
                            warning("Variable importance is not available for this model")
                          } else {
@@ -263,7 +263,7 @@ rtMod <- R6::R6Class("rtMod",
                                           se.fit = TRUE,
                                           single.fig = TRUE,
                                           summary = TRUE,
-                                          theme = getOption("rt.fit.theme", "lightgrid"),
+                                          theme = getOption("rt.theme"),
                                           title.col = NULL, ...) {
                          "Get model summary"
                          summary.rtMod(self)
@@ -534,7 +534,7 @@ residuals.rtMod <- function(object, ...) {
 #' @rdname rtMod-methods
 #' @export
 plot.rtMod <- function(x, estimate = NULL,
-                       theme = getOption("rt.fit.theme", "lightgrid"),
+                       theme = getOption("rt.theme"),
                        filename = NULL, ...) {
 
   x$plot(estimate = estimate,
@@ -573,7 +573,7 @@ summary.rtMod <- function(object,
                           se.fit = TRUE,
                           single.fig = TRUE,
                           summary = TRUE,
-                          theme = getOption("rt.fit.theme", "lightgrid"),
+                          theme = getOption("rt.theme"),
                           title.col = NULL, ...) {
 
   # [ Arguments ]
@@ -743,7 +743,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           self$predicted.prob <- predicted.prob
                                         },
                                         ### Methods
-                                        plotROC = function(theme = getOption("rt.fit.theme",
+                                        plotROC = function(theme = getOption("rt.theme",
                                                                              "lightgrid"),
                                                            filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
@@ -757,7 +757,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCfitted = function(main = "ROC Training",
-                                                                 theme = getOption("rt.fit.theme",
+                                                                 theme = getOption("rt.theme",
                                                                                    "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
@@ -770,7 +770,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCpredicted = function(main = "ROC Testing",
-                                                                    theme = getOption("rt.fit.theme",
+                                                                    theme = getOption("rt.theme",
                                                                                       "lightgrid"),
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
@@ -782,7 +782,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
-                                        plotPR = function(theme = getOption("rt.fit.theme",
+                                        plotPR = function(theme = getOption("rt.theme",
                                                                             "lightgrid"),
                                                           filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
@@ -796,7 +796,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRfitted = function(main = "P-R Training",
-                                                                theme = getOption("rt.fit.theme",
+                                                                theme = getOption("rt.theme",
                                                                                   "lightgrid"),
                                                                 filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
@@ -809,7 +809,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRpredicted = function(main = "P-R Testing",
-                                                                   theme = getOption("rt.fit.theme",
+                                                                   theme = getOption("rt.theme",
                                                                                      "lightgrid"),
                                                                    filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
@@ -1147,7 +1147,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            self$plotPredicted(which.repeat = which.repeat, ...)
                          },
                          plotPredicted = function(which.repeat = 1,
-                                                  theme = getOption("rt.fit.theme", "lightgrid"),
+                                                  theme = getOption("rt.theme"),
                                                   filename = NULL,
                                                   mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated predicted vs. true values"
@@ -1181,7 +1181,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
                          },
                          plotFitted = function(which.repeat = 1,
-                                               theme = getOption("rt.fit.theme", "lightgrid"),
+                                               theme = getOption("rt.theme"),
                                                filename = NULL,
                                                mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated fitted vs. true values"
@@ -1217,7 +1217,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          plotVarImp = function(which.repeat = 1,
                                                type = c("barplot", "lollipop"),
                                                plot.top = 12,
-                                               theme = getOption("rt.theme", "lightgrid"), ...) {
+                                               theme = getOption("rt.theme"), ...) {
                            varimp <- colMeans(self$varimp[[which.repeat]])
                            if (length(varimp) == 0) {
                              warning("Variable importance is not available for this model")

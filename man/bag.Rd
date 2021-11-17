@@ -30,7 +30,7 @@ bag(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   print.base.plot = FALSE,
   n.cores = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),

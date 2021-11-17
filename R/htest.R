@@ -66,7 +66,7 @@ htest <- function(y, group = NULL,
                            "pearson", "kendall", "spearman", "ks"), # continuous vs. continuous
                   print.plot = TRUE,
                   plot.args = list(),
-                  theme = getOption("rt.theme", "lightgrid"),
+                  theme = getOption("rt.theme"),
                   verbose = TRUE, ...) {
 
   # Arguments ====
@@ -205,7 +205,7 @@ plot.rtTest <- function(x,
                         # plot.engine = "mplot3",
                         uni.type = c("density", "histogram", "hd"),
                         boxplot.xlab  = FALSE,
-                        theme = getOption("rt.theme", "lightgrid"),
+                        theme = getOption("rt.theme"),
                         par.reset = TRUE, ...) {
 
   # Theme ====

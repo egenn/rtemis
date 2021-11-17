@@ -23,7 +23,7 @@ s.GAMSELX(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   na.action = na.exclude,
   question = NULL,
   n.cores = 1,

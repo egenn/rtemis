@@ -15,7 +15,7 @@ dplot3.x(
   col = NULL,
   alpha = 0.75,
   plot.bg = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   axes.square = FALSE,
   group.names = NULL,

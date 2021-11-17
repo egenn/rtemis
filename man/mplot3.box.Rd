@@ -39,7 +39,7 @@ mplot3.box(
   pty = "m",
   yaxis = TRUE,
   ylim.pad = 0,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   labelify = TRUE,
   autolabel = letters,
   na.rm = TRUE,

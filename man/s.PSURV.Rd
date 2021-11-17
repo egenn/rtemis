@@ -17,7 +17,7 @@ s.PSURV(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   question = NULL,
   verbose = TRUE,
   trace = 0,

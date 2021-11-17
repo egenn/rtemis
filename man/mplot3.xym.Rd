@@ -28,7 +28,7 @@ mplot3.xym(
   axes = TRUE,
   xaxs = "r",
   yaxs = "r",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   par.reset = TRUE,
   widths = NULL,
   heights = NULL,

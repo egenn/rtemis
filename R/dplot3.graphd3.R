@@ -28,7 +28,7 @@ dplot3.graphd3 <- function(net,
                            zoom = TRUE,
                            legend = FALSE,
                            palette = getOption("rt.palette", "rtCol1"),
-                           theme = getOption("rt.theme", "lightgrid"),
+                           theme = getOption("rt.theme"),
                            ...) {
 
   # [ Dependencies ] ====

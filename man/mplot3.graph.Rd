@@ -30,7 +30,7 @@ mplot3.graph(
   mark.border = NULL,
   mark.border.alpha = 1,
   cluster_color_vertices = FALSE,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   theme_extra_args = list(),
   palette = getOption("rt.palette", "rtCol1"),
   mar = rep(0, 4),

@@ -53,7 +53,7 @@ s.LIHADBOOST(
   prefix = NULL,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   print.plot = TRUE,
   print.base.plot = FALSE,
   print.tune.plot = TRUE,

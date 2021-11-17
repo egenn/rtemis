@@ -43,7 +43,7 @@ dplot3.varimp <- function(x,
                           font.size = 16,
                           axis.font.size = 14,
                           # font.color = "000",
-                          theme = getOption("rt.theme", "lightgrid"),
+                          theme = getOption("rt.theme"),
                           showlegend = TRUE, ...) {
 
   # Dependencies ====

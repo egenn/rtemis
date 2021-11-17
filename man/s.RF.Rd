@@ -42,7 +42,7 @@ s.RF(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   proximity.tsne = FALSE,
   discard.forest = FALSE,
   tsne.perplexity = 5,

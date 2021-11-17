@@ -24,7 +24,7 @@ dplot3.xyz(
   alpha = 0.8,
   bg = NULL,
   plot.bg = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   axes.square = FALSE,
   group.names = NULL,

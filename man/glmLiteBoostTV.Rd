@@ -30,7 +30,7 @@ glmLiteBoostTV(
   print.progress.every = 5,
   print.error.plot = "final",
   prefix = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   plot.fitted = NULL,
   plot.predicted = NULL,
   print.plot = FALSE,

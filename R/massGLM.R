@@ -157,7 +157,7 @@ plot.massGLM <- function(x,
                          hline.dash = "dash",
                          ylim = NULL,
                          ylab = NULL,
-                         theme = getOption("rt.theme", "lightgrid"),
+                         theme = getOption("rt.theme"),
                          displayModeBar = FALSE, ...) {
 
   if (x$type == "massy") {

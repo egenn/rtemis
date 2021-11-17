@@ -20,7 +20,7 @@ mplot3.laterality(
   lty = 1,
   lwd = 0.3,
   ylim = NULL,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   labelify = TRUE,
   autolabel = letters,
   mar = NULL,

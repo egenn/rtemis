@@ -19,7 +19,7 @@ mplot3.lolli(
   segment.alpha = 0.333,
   lty = 3,
   lwd = 2,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   autolabel = letters,
   par.reset = TRUE,

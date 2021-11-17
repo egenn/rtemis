@@ -33,7 +33,7 @@ mplot3.survfit(
   xlab = "Time",
   ylab = "Survival",
   main = "",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   plot.error = FALSE,
   error.alpha = 0.33,

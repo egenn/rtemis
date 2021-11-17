@@ -24,7 +24,7 @@ metaMod(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   question = NULL,
   verbose.base.res.mods = FALSE,
   verbose.base.mods = FALSE,

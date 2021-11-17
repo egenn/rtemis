@@ -154,7 +154,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotPredicted(
   which.repeat = 1,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   mar = c(2.5, 3, 2.5, 1),
   ...
@@ -169,7 +169,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotFitted(
   which.repeat = 1,
-  theme = getOption("rt.fit.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   mar = c(2.5, 3, 2.5, 1),
   ...
@@ -186,7 +186,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
   which.repeat = 1,
   type = c("barplot", "lollipop"),
   plot.top = 12,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   ...
 )}\if{html}{\out{</div>}}
 }

@@ -43,7 +43,7 @@ mplot3.bar(
   barplot.axes = FALSE,
   yaxis = TRUE,
   ylim.pad = 0.04,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
   autolabel = letters,
   par.reset = TRUE,

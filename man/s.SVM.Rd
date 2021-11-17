@@ -31,7 +31,7 @@ s.SVM(
   plot.fitted = NULL,
   plot.predicted = NULL,
   print.plot = TRUE,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   n.cores = rtCores,
   question = NULL,
   rtclass = NULL,

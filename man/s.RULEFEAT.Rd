@@ -25,7 +25,7 @@ s.RULEFEAT(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   outdir = NULL,
   save.mod = if (!is.null(outdir)) TRUE else FALSE
 )

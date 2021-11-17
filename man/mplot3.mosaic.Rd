@@ -10,7 +10,7 @@ mplot3.mosaic(
   xlab = NULL,
   ylab = NULL,
   border = FALSE,
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   theme.args = list(),
   palette = getOption("rt.palette", "rtCol1"),
   mar = NULL,

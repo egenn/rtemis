@@ -17,7 +17,7 @@
 rtROC <- function(true.labels, predicted.probabilities,
                   thresholds = NULL,
                   plot = FALSE,
-                  theme = getOption("rt.theme", "lightgrid"),
+                  theme = getOption("rt.theme"),
                   verbose = TRUE) {
 
   true.labels <- as.factor(true.labels)

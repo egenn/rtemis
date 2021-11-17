@@ -26,7 +26,7 @@ d.H2OGLRM(
   svd.method = "Randomized",
   verbose = TRUE,
   print.plot = TRUE,
-  plot.theme = getOption("rt.fit.theme", "lightgrid"),
+  plot.theme = getOption("rt.theme"),
   n.cores = rtCores,
   ...
 )
