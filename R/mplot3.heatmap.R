@@ -106,7 +106,7 @@ mplot3.heatmap <- function(x,
                            colorbar = TRUE,
                            cb.n = 21,
                            cb.title = NULL,
-                           cb.cex = 1,
+                           # cb.cex = 1,
                            cb.title.cex = 1,
                            cb.mar = NULL,
                            Rowv = TRUE,
@@ -336,7 +336,9 @@ mplot3.heatmap <- function(x,
     par(mar = c(0.5, 0, 0, margins[2L]), bg = theme$bg)
     image(cbind(1L:nc), col = ColSideColors[colInd], axes = FALSE)
   }
-  par(mar = c(margins[1L], 0, 0, margins[2L]), bg = theme$bg)
+  par(mar = c(margins[1L], 0, 0, margins[2L]),
+      bg = theme$bg,
+      family = theme$font.family)
   if (!symm || scale != "none")
     x <- t(x)
   if (revC) {
@@ -418,7 +420,8 @@ mplot3.heatmap <- function(x,
               cb.n = cb.n,
               par.reset = TRUE,
               # cb.add = T,
-              cex = cb.cex, #1.6,
+              # cex = cb.cex, #1.6,
+              cex = theme$cex,
               cb.axis.pos = 1.2,
               cb.add = cb.add.new,
               cb.add.mar = cb.mar,
