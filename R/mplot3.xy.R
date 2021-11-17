@@ -626,6 +626,7 @@ mplot3.xy <- function(x, y = NULL,
   } else {
     par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
   }
+  par(family = theme$font.family)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   plot(NULL, NULL, xlim = xlim, ylim = ylim,
