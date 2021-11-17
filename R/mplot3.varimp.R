@@ -153,7 +153,7 @@ mplot3.varimp <- function(x,
   }
 
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex)
+  par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, family = theme$font.family)
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
