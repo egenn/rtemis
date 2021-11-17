@@ -52,6 +52,7 @@ mod$plot()
 * Themes: New darkgray theme now always on whether you like it or not - jk:
 it's the new default but you can can always set your own default using
 e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
+* New option to set default plotting font: e.g. `options(rt.font = "Fira Sans")`
 * Many improvements / additions to `dplot3*` functions.
 * Plenty more I haven't had a chance to document here
 
