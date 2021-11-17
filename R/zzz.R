@@ -14,7 +14,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                "\n  [", sessionInfo()[2], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
                                "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
                                "\n  Learn R: https://class.lambdamd.org/pdsr",
-                               '\n  Please make sure to cite: see `citation("rtemis")`'))
+                               '\n  See `citation("rtemis")` for how to cite'))
 
   # RStudio, VS Code
   try(if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
