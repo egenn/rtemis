@@ -1,7 +1,7 @@
 # **_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
 
 A platform for advanced Machine Learning research and applications.  
-The goal of __rtemis__ is to make data science efficient and accessible with no compromise on flexibility.
+The goal of **rtemis** is to make data science efficient and accessible with no compromise on flexibility.
 
 <div style="text-align:center">
 <a href="https://rtemis.lambdamd.org">
@@ -10,7 +10,7 @@ The goal of __rtemis__ is to make data science efficient and accessible with no 
 
 ## Documentation
 
-* [__Documentation and vignettes__](https://rtemis.lambdamd.org)  
+* [**Documentation and vignettes**](https://rtemis.lambdamd.org)  
 
 ## Requirements
 
@@ -27,7 +27,7 @@ remotes::install_github("egenn/rtemis")
 
 **Note:** *Make sure to keep your installation updated by running* `remotes::install_github("egenn/rtemis")` *regularly: it will only proceed if there are updates available*
 
-## 60-second intro to __rtemis__
+## 60-second intro to **rtemis**
 
 Install dependencies if they are not already installed:
 
@@ -37,7 +37,7 @@ packages <- c("pbapply", "ranger")
 install.packages(packages[.add])
 ```
 
-Load __rtemis__ and get cross-validated random forest performance on the iris dataset:
+Load **rtemis** and get cross-validated random forest performance on the iris dataset:
 
 ```r
 library(rtemis)
@@ -47,32 +47,40 @@ mod$plot()
 
 ## What's new
 
-### __0.80.0 Beta__
+### **0.82**
+
+* Themes: New darkgray theme now always on whether you like it or not - jk:
+it's the new default but you can can always set your own default using
+e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
+* Many improvements / additions to `dplot3*` functions.
+* Plenty more I haven't had a chance to document here
+
+### **0.80.0**
 
 An accumulation of updates and added functionality, algorithms, graphics.  
 Majority of `mplot3` and `dplot3` functions now work with the new theme system provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 
-### __0.79__
+### **0.79**
 
 07-02-2019: "Super Papaya" Release out
 
-### __0.78__
+### **0.78**
 
-04-02-2019: __rtemis__ moved to public repo
+04-02-2019: **rtemis** moved to public repo
 
 ## Features
 
-* __Visualization__
+* **Visualization**
   * Static: **_mplot3_** family (base graphics)
   * Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
-* __Unsupervised Learning__
+* **Unsupervised Learning**
   * Clustering: **_u.\*_**
   * Decomposition: **_d.\*_**
-* __Supervised Learning__
+* **Supervised Learning**
   * Classification, Regression, Survival Analysis: **_s.\*_**
-* __Cross-Decomposition__
+* **Cross-Decomposition**
   * Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
-* __Meta-Models__  
+* **Meta-Models**  
   * Model Stacking: **_metaMod()_**
   * Modality Stacking: **_metaFeat()_**
   * Group-weighted Stacking: **_metaGroup()_**
@@ -81,8 +89,8 @@ Majority of `mplot3` and `dplot3` functions now work with the new theme system p
 
 ## Ongoing work
 
-* __rtemis__ is under active development
-* Novel algorithms developed in __rtemis__ will generally be added to this public repository around the publication of the corresponding papers.
+* **rtemis** is under active development
+* Novel algorithms developed in **rtemis** will generally be added to this public repository around the publication of the corresponding papers.
 * R Documentation is ongoing.
 
 ---
