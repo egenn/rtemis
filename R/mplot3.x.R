@@ -540,7 +540,8 @@ mplot3.x <- function(x,
   # [ ANNOTATION ] ====
   if (!is.null(annotation)) {
     if (is.null(annot.col)) annot.col = col[[1]]
-    mtext(annotation, 1, -1.5, adj = .97, cex = theme$cex, col = annot.col,
+    mtext(annotation, 1, -1.5, adj = .97,
+          cex = theme$cex, col = annot.col,
           family = theme$family)
   }
 
@@ -582,7 +583,8 @@ mplot3.x <- function(x,
                                 function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
           col = c(theme$fg, unlist(col[seq_along(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
+          padj = seq(2, 2 + 1.5 * length(xl), 1.5),
+          family = theme$font.family)
     if (density.avg.line) {
       abline(v = unlist(avgl), col = unlist(col[seq_along(xl)]),
              lwd = density.avg.lwd, lty = density.avg.lty)
