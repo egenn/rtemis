@@ -25,6 +25,10 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                         text.padj = -.2, col = sample(2:8, 1))
   }, silent = TRUE)
 
+  if (is.null(getOption("rt.theme"))) {
+    options(rt.theme = "darkgray")
+  }
+
 }
 
 
