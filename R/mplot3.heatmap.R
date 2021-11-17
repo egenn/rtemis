@@ -1,8 +1,7 @@
 # mplot3.heatmap.R
 # ::rtemis::
 # 2016-9 E.D. Gennatas lambdamd.org
-# TODO: check dendrogram: compare to heatmap: same hierarchy, different layout, not wrong
-# TODO: only center around zero (if autorange) if 0 is within range of z,
+# consider: only center around zero (if autorange) if 0 is within range of z,
 #       otherwise range from 0 to max or closest multiple of ten, each depending on range.
 # When specifying zlim, make values below zlim[1] same color as zlim[1] and values above zlim[2]
 # same color as zlim[2]
