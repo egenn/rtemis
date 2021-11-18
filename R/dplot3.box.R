@@ -28,7 +28,7 @@
 #' @param alpha Float (0, 1]: Transparency for box colors. Default = .8
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area. Default = "white"
-#' @param theme Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"
+#' @param theme Character: Theme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"
 #' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"

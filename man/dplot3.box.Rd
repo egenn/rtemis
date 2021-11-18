@@ -71,7 +71,7 @@ dplot3.box(
 
 \item{plot.bg}{Color: Background color for plot area. Default = "white"}
 
-\item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
+\item{theme}{Character: Theme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 
