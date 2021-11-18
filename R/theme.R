@@ -98,8 +98,7 @@ theme_blackgrid <- function(bg = "#000000",
                             main.col = fg,
                             font.family = getOption("rt.font")) {
 
-  list(name = "blackgrid",
-       bg = bg,
+  list(bg = bg,
        plot.bg = plot.bg,
        fg = fg,
        pch = pch,
@@ -158,8 +157,7 @@ theme_blackgrid <- function(bg = "#000000",
 
 #' @rdname theme
 #' @export
-theme_darkgrid <- function(name = "darkgrid",
-                           bg = "#000000",
+theme_darkgrid <- function(bg = "#000000",
                            plot.bg = "#1A1A1A",
                            fg = "#ffffff",
                            pch = 16,
@@ -271,8 +269,7 @@ theme_darkgrid <- function(name = "darkgrid",
 
 #' @rdname theme
 #' @export
-theme_darkgraygrid <- function(name = "darkgraygrid",
-                               bg = "#121212", # #202020
+theme_darkgraygrid <- function(bg = "#121212", # #202020
                                plot.bg = "#202020", # #121212
                                fg = "#ffffff",
                                pch = 16,
@@ -384,8 +381,7 @@ theme_darkgraygrid <- function(name = "darkgraygrid",
 
 #' @rdname theme
 #' @export
-theme_black <- function(name = "black",
-                        bg = "#000000",
+theme_black <- function(bg = "#000000",
                         plot.bg = NA,
                         fg = "#ffffff",
                         pch = 16,
@@ -497,8 +493,7 @@ theme_black <- function(name = "black",
 
 #' @rdname theme
 #' @export
-theme_whitegrid <- function(name = "whitegrid",
-                            bg = "#ffffff",
+theme_whitegrid <- function(bg = "#ffffff",
                             plot.bg = NA,
                             fg = "#000000",
                             pch = 16,
@@ -610,8 +605,7 @@ theme_whitegrid <- function(name = "whitegrid",
 
 #' @rdname theme
 #' @export
-theme_lightgrid <- function(name = "lightgrid",
-                            bg = "#ffffff",
+theme_lightgrid <- function(bg = "#ffffff",
                             plot.bg = "#E6E6E6",
                             fg = "#000000",
                             pch = 16,
@@ -723,8 +717,7 @@ theme_lightgrid <- function(name = "lightgrid",
 
 #' @rdname theme
 #' @export
-theme_white <- function(name = "white",
-                        bg = "#ffffff",
+theme_white <- function(bg = "#ffffff",
                         plot.bg = NA,
                         fg = "#000000",
                         pch = 16,
@@ -836,8 +829,7 @@ theme_white <- function(name = "white",
 
 #' @rdname theme
 #' @export
-theme_darkgray <- function(name = "darkgray",
-                           bg = "#121212", # #202020
+theme_darkgray <- function(bg = "#121212", # #202020
                            plot.bg = "#00000000", # #121212
                            fg = "#ffffff",
                            pch = 16,
@@ -949,8 +941,7 @@ theme_darkgray <- function(name = "darkgray",
 
 #' @rdname theme
 #' @export
-theme_lightgray <- function(name = "lightgray",
-                            bg = "#ededed", # #202020
+theme_lightgray <- function(bg = "#ededed", # #202020
                             plot.bg = "#00000000", # #121212
                             fg = "#000000",
                             pch = 16,

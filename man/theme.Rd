@@ -64,7 +64,6 @@ theme_blackgrid(
 )
 
 theme_darkgrid(
-  name = "darkgrid",
   bg = "#000000",
   plot.bg = "#1A1A1A",
   fg = "#ffffff",
@@ -116,7 +115,6 @@ theme_darkgrid(
 )
 
 theme_darkgraygrid(
-  name = "darkgraygrid",
   bg = "#121212",
   plot.bg = "#202020",
   fg = "#ffffff",
@@ -168,7 +166,6 @@ theme_darkgraygrid(
 )
 
 theme_black(
-  name = "black",
   bg = "#000000",
   plot.bg = NA,
   fg = "#ffffff",
@@ -220,7 +217,6 @@ theme_black(
 )
 
 theme_whitegrid(
-  name = "whitegrid",
   bg = "#ffffff",
   plot.bg = NA,
   fg = "#000000",
@@ -272,7 +268,6 @@ theme_whitegrid(
 )
 
 theme_lightgrid(
-  name = "lightgrid",
   bg = "#ffffff",
   plot.bg = "#E6E6E6",
   fg = "#000000",
@@ -324,7 +319,6 @@ theme_lightgrid(
 )
 
 theme_white(
-  name = "white",
   bg = "#ffffff",
   plot.bg = NA,
   fg = "#000000",
@@ -376,7 +370,6 @@ theme_white(
 )
 
 theme_darkgray(
-  name = "darkgray",
   bg = "#121212",
   plot.bg = "#00000000",
   fg = "#ffffff",
@@ -428,7 +421,6 @@ theme_darkgray(
 )
 
 theme_lightgray(
-  name = "lightgray",
   bg = "#ededed",
   plot.bg = "#00000000",
   fg = "#000000",
