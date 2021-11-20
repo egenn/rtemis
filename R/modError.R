@@ -69,19 +69,19 @@ modError <- function(true,
     }
 
     # Sum of Squared Errors of prediction (SSE) a.k.a. Residual Sum of Squares (RSS)
-    SSE <- sum((x - y)^2)
+    SSE <- sum((x - y)^2, na.rm = na.rm)
     # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
-    SSR <- sum((mean(x) - y)^2)
+    SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
     # Total Sum of Squares (TSS or SST)
-    SST <- sum((x - mean(y))^2)
+    SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
     # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
     Rsq <- 1 - (SSE / SST)
 
     # Standard Error of the Estimate
-    stderr <- sqrt((sum((x - y)^2)) / length(x))
+    stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
 
     # Error of expectation(x) and percent reduction
-    error.exp <- x - mean(x)
+    error.exp <- x - mean(x, na.rm = na.rm)
     mae.exp <- mean(abs(error.exp))
     mae.red <- (mae.exp - mae) / mae.exp
     mse.exp <- mean(error.exp^2)
