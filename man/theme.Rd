@@ -10,6 +10,7 @@
 \alias{theme_white}
 \alias{theme_darkgray}
 \alias{theme_lightgray}
+\alias{theme_mediumgray}
 \title{Themes for \code{mplot3} and \code{dplot3} functions}
 \usage{
 theme_blackgrid(
@@ -421,7 +422,7 @@ theme_darkgray(
 )
 
 theme_lightgray(
-  bg = "#ededed",
+  bg = "#dfdfdf",
   plot.bg = "#00000000",
   fg = "#000000",
   pch = 16,
@@ -436,6 +437,57 @@ theme_lightgray(
   grid.nx = NULL,
   grid.ny = NULL,
   grid.col = "#c0c0c0",
+  grid.alpha = 1,
+  grid.lty = 1,
+  grid.lwd = 1,
+  axes.visible = TRUE,
+  axes.col = NA,
+  tick.col = "#00000000",
+  tick.alpha = 1,
+  tick.labels.col = fg,
+  tck = -0.01,
+  tcl = NA,
+  x.axis.side = 1,
+  y.axis.side = 2,
+  labs.col = fg,
+  x.axis.line = 0,
+  x.axis.las = 0,
+  x.axis.padj = -1.1,
+  x.axis.hadj = 0.5,
+  y.axis.line = 0,
+  y.axis.las = 1,
+  y.axis.padj = 0.5,
+  y.axis.hadj = 0.5,
+  xlab.line = 1.4,
+  ylab.line = 2,
+  zerolines = TRUE,
+  zerolines.col = fg,
+  zerolines.alpha = 0.5,
+  zerolines.lty = 1,
+  zerolines.lwd = 1,
+  main.line = 0.25,
+  main.adj = 0,
+  main.font = 2,
+  main.col = fg,
+  font.family = getOption("rt.font")
+)
+
+theme_mediumgray(
+  bg = "#b3b3b3",
+  plot.bg = "#00000000",
+  fg = "#000000",
+  pch = 16,
+  cex = 1,
+  lwd = 2,
+  bty = "n",
+  box.col = fg,
+  box.alpha = 1,
+  box.lty = 1,
+  box.lwd = 0.5,
+  grid = TRUE,
+  grid.nx = NULL,
+  grid.ny = NULL,
+  grid.col = "#d0d0d0",
   grid.alpha = 1,
   grid.lty = 1,
   grid.lwd = 1,
