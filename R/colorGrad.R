@@ -110,7 +110,7 @@ colorGrad <- function(n = 21,
   space <- match.arg(space)
   theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
 
-  # [ COLORS ] ====
+  # [ Colors ] ====
   if (!is.null(colors)) {
     if (colors == "french") {
       lo <- "#01256E"
@@ -142,7 +142,7 @@ colorGrad <- function(n = 21,
     }
   }
 
-  # [ GRAD ] ====
+  # [ Grad ] ====
   n <- as.integer(n)
   midpoint <- ceiling(n / 2)
   if (is.null(mid)) mid <- ifelse(theme == "light", "white", "black")
@@ -171,7 +171,7 @@ colorGrad <- function(n = 21,
     cb.midpoint <- midpoint
   }
 
-  # [ PREVIEW ] ====
+  # [ Preview ] ====
   if (preview) {
     plot(rep(1, n), col = grad, pch = 19, cex = 6,
          xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
@@ -180,7 +180,7 @@ colorGrad <- function(n = 21,
     segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
   }
 
-  # [ COLORBAR ] ====
+  # [ Colorbar ] ====
   if (colorbar) {
 
     if (theme == "light") {
@@ -214,7 +214,7 @@ colorGrad <- function(n = 21,
     if (!is.null(filename)) grDevices::dev.off()
   }
 
-  # [ PLOTLY CB ] ====
+  # [ Plotly cb ] ====
   if (plotlycb) {
     requireNamespace("plotly")
 
@@ -271,7 +271,7 @@ colorGrad <- function(n = 21,
     if (plotlycb & !rtrn.plotly) print(p)
   }
 
-  # [ OUT ] ====
+  # [ out ] ====
   if (rtrn.plotly) return(p)
   invisible(grad)
 
