@@ -21,7 +21,7 @@ dplot3.xy(
   xlab = NULL,
   ylab = NULL,
   col = NULL,
-  alpha = 0.66,
+  alpha = NULL,
   bg = NULL,
   plot.bg = NULL,
   theme = getOption("rt.theme"),

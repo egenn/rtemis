@@ -59,7 +59,7 @@ mplot3.xy(
   line.alpha = 0.66,
   lty = 1,
   marker.col = NULL,
-  marker.alpha = 0.65,
+  marker.alpha = NULL,
   error.x.col = NULL,
   error.y.col = NULL,
   error.x.lty = 1,

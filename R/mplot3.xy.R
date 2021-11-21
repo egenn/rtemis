@@ -216,7 +216,7 @@ mplot3.xy <- function(x, y = NULL,
                       line.alpha = .66,
                       lty = 1,
                       marker.col = NULL,
-                      marker.alpha = .65,
+                      marker.alpha = NULL,
                       error.x.col = NULL,
                       error.y.col = NULL,
                       error.x.lty = 1,
@@ -466,6 +466,10 @@ mplot3.xy <- function(x, y = NULL,
   # Scale point size by cex
   # if (is.null(point.inches)) point.inches <- cex * 1/20
 
+  if (is.null(marker.alpha)) {
+    marker.alpha = autoalpha(max(lengths(xl)))
+  }
+
   # Colors ====
   ### Point and Line colors
   if (all(type == "p")) {
@@ -699,11 +703,6 @@ mplot3.xy <- function(x, y = NULL,
   # Zero Lines ====
   if (theme$zerolines) {
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-    # if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd,
-    #                                         col = zerocol, lty = theme$zerolines.lty)
-    # if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd,
-    #                                         col = zerocol, lty = theme$zerolines.lty)
-    # without xpd, zerolines are halved if on a plot edge, with xpd they extend outside the plotting area
     if (ylim[1] <= 0 & 0 <= ylim[2]) {
       lines(c(xlim[1], xlim[2]), c(0, 0), lwd = theme$zerolines.lwd,
             col = zerocol, lty = theme$zerolines.lty, xpd = TRUE)
@@ -980,3 +979,7 @@ mplot3.fit <- function(x, y,
   }
 
 } # rtemis::mplot3.fit
+
+autoalpha <- function(x, gamma = .0005, min = .3) {
+  max(min, 1 - x * gamma)
+}

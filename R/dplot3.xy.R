@@ -51,7 +51,7 @@ dplot3.xy <- function(x, y = NULL,
                       xlab = NULL,
                       ylab = NULL,
                       col = NULL,
-                      alpha = .66,
+                      alpha = NULL,
                       bg = NULL,
                       plot.bg = NULL,
                       theme = getOption("rt.theme"),
@@ -203,6 +203,7 @@ dplot3.xy <- function(x, y = NULL,
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
+  if (is.null(alpha)) alpha <- autoalpha(max(lengths(x)))
 
   # Theme ====
   extraargs <- list(...)
@@ -293,7 +294,7 @@ dplot3.xy <- function(x, y = NULL,
     }
   }
 
-  # AXES LIMITS ====
+  # Axes Limits ====
   if (axes.equal) {
     if (is.null(xlim)) {
       xlim <- range(x)
