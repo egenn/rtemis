@@ -18,7 +18,12 @@
 #' this fraction of features. Default = NULL
 #' @param reportFeatures.thres Float (0, 1]: Report, by name, all features missing in greater or
 #' equal to this fraction of cases. Default = NULL
+#' @param toHTML Logical: If TRUE, convert output to HTML using the \code{fansi} package.
+#' Default = FALSE
+#' @param verbose Logical: If TRUE, print to console
 #' @author E.D. Gennatas
+#' @examples
+#' checkData(iris)
 #' @export
 
 checkData <- function(x,
@@ -26,16 +31,18 @@ checkData <- function(x,
                       str = FALSE,
                       recommend = TRUE,
                       reportCases.thres = NULL,
-                      reportFeatures.thres = NULL) {
+                      reportFeatures.thres = NULL,
+                      toHTML = FALSE,
+                      verbose = TRUE) {
 
   if (is.null(name)) name <- deparse(substitute(x))
   n.rows <- NROW(x)
   n.cols <- NCOL(x)
-  cat(" ", rtHighlight$bold(name))
-  cat(": A", class(x)[1], "with",
-      rtHighlight$bold(n.rows), ngettext(n.rows, "row", "rows"),
-      "and", rtHighlight$bold(n.cols), ngettext(n.cols, "feature:", "features:"), "\n")
-  # boxcat("Summary", pad = 2)
+  out <- paste0(" ", rtHighlight$bold(name),
+                paste(": A", class(x)[1], "with",
+                      rtHighlight$bold(n.rows), ngettext(n.rows, "row", "rows"),
+                      "and", rtHighlight$bold(n.cols), ngettext(n.cols, "feature", "features")))
+
   x <- as.data.frame(x)
   # This way avoids running line before all terminal colors are available
   orange <- crayon::make_style(orange = "orange")
@@ -56,9 +63,11 @@ checkData <- function(x,
   index.ordered <- which(sapply(x, is.ordered))
   n.ordered <- length(index.ordered)
 
-  cat(bold("\n  Data types"), "________________\n", sep = "")
-  cat("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features"), "\n")
-  cat("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features"), "\n")
+  out <- paste(out,
+               paste0(bold("\n  Data types"), "________________"),
+               paste("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features")),
+               paste("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features")),
+               sep = "\n")
   isOrdered <- if (n.factor == 1) {
     paste(", which", ngettext(n.ordered, "is", "is not"), "ordered")
   } else if (n.factor > 1) {
@@ -66,42 +75,55 @@ checkData <- function(x,
   } else {
     ""
   }
-  cat("  * ", bold(n.factor), " categorical", ngettext(n.factor, " feature", " features"),
-      isOrdered, "\n", sep = "")
-  # n.levels.nonordered <- sapply(x[, setdiff(index.factor, index.ordered)], function(x) length(levels(x)))
+  out <- paste(out,
+               paste0("  * ", bold(n.factor), " categorical", ngettext(n.factor, " feature", " features"),
+                      isOrdered),
+               sep = "\n")
   index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], function(x) length(levels(x))) > 2)
   n.gt2levels.nonordered <- length(index.gt2levels.nonordered)
   if (n.gt2levels.nonordered > 0) {
-    cat("    **", bold(n.gt2levels.nonordered), "unordered categorical",
-        ngettext(n.gt2levels.nonordered, "feature has", "features have"),
-        "more than 2 levels\n")
+    out <- paste(out,
+                 paste("     -", bold(n.gt2levels.nonordered), "unordered categorical",
+                       ngettext(n.gt2levels.nonordered, "feature has", "features have"),
+                       "more than 2 levels"),
+                 sep = "\n")
   }
 
   ## Characters ====
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
   .col <- if (n.character > 0) orange$bold else bold
-  cat("  *", .col(n.character), "character", ngettext(n.character, "feature", "features"), "\n")
+  out <- paste(out,
+               paste("  *", .col(n.character), "character", ngettext(n.character, "feature", "features")),
+               sep = "\n")
 
   ## Dates ====
   index.date <- which(sapply(x, function(col) inherits(col, "Date")))
   n.date <- length(index.date)
-  cat("  *", n.date, "date", ngettext(n.date, "feature", "features"), "\n")
+  out <- paste(out,
+               paste("  *", n.date, "date", ngettext(n.date, "feature", "features")),
+               sep = "\n")
 
   # Issues ====
 
   ## Constants ====
-  cat(bold("\n  Issues") ,"____________________\n", sep = "")
+  out <- paste(out,
+               paste0(bold("\n  Issues") ,"____________________"),
+               sep = "\n")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
   .col <- if (n.constant > 0) red$bold else bold
-  cat("  *", .col(n.constant), "constant", ngettext(n.constant, "feature", "features"), "\n")
+  out <- paste(out,
+               paste("  *", .col(n.constant), "constant", ngettext(n.constant, "feature", "features")),
+               sep = "\n")
 
   ## Duplicates ====
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
   .col <- if (n.dups > 0) red$bold else bold
-  cat("  *", .col(n.dups), "duplicated", ngettext(n.dups, "case", "cases"), "\n")
+  out <- paste(out,
+               paste("  *", .col(n.dups), "duplicated", ngettext(n.dups, "case", "cases")),
+               sep = "\n")
 
   ## NAs ====
   cols.anyna <- which(sapply(x, anyNA))
@@ -125,92 +147,117 @@ checkData <- function(x,
     na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
   .col <- if (n.cols.anyna > 0) orange$bold else bold
-  cat("  * ", .col(n.cols.anyna), ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
-      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", ngettext(n.na, "value", "values"), "total"), ""),
-      "\n", sep = "")
+  out <- paste(out,
+               paste0("  * ", .col(n.cols.anyna), ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
+                      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", ngettext(n.na, "value", "values"), "total"), "")),
+               sep = "\n")
   if (n.cols.anyna > 0) {
     if (!is.null(reportFeatures.thres)) {
       features.na.over.thres <- na.feature.pct[na.feature.pct$Pct.NA >= reportFeatures.thres, ]
       if (NROW(features.na.over.thres) > 0) {
-        cat("    ** ", .col(NROW(features.na.over.thres)), " features missing in >= ",
-            reportFeatures.thres*100, "% of cases:\n      *** ",
-            paste0(features.na.over.thres$Feature, ": ", ddSci(features.na.over.thres$Pct.NA),
-                   collapse = "\n      *** "), "\n",
-            sep = "")
+        out <- paste(out,
+                     paste0("     - ", .col(NROW(features.na.over.thres)), " features missing in >= ",
+                            reportFeatures.thres*100, "% of cases:\n      *** ",
+                            paste0(features.na.over.thres$Feature, ": ", ddSci(features.na.over.thres$Pct.NA),
+                                   collapse = "\n      *** ")), sep = "\n")
       }
     } else {
       max.na.feature.name <- names(cols.anyna)[which.max(na.feature.pct$Pct.NA)]
-      cat("    ** Max percent missing in a feature is ", .col(ddSci(max(na.feature.pct$Pct.NA)*100)), .col("%"), " (",
-          bold(max.na.feature.name), ")\n", sep = "")
+      out <- paste(out,
+                   paste0("     - Max percent missing in a feature is ", .col(ddSci(max(na.feature.pct$Pct.NA)*100)), .col("%"), " (",
+                          bold(max.na.feature.name), ")"),
+                   sep = "\n")
     }
 
     if (!is.null(reportCases.thres)) {
       cases.na.over.thres <- na.case.pct[na.case.pct$Pct.NA >= reportCases.thres, ]
       n.cases.na.over.thres <- NROW(cases.na.over.thres)
       if (n.cases.na.over.thres > 0 ) {
-        cat("    ** ", .col(n.cases.na.over.thres), ngettext(n.cases.na.over.thres, " case", " cases"),
-            " missing >= ", reportCases.thres*100, "% of features:\n      *** ",
-            paste0("#", cases.na.over.thres$Case, ": ", ddSci(cases.na.over.thres$Pct.NA),
-                   collapse = "\n      *** "), "\n",
-            sep = "")
+        out <- paste(out,
+                     paste0("     - ", .col(n.cases.na.over.thres), ngettext(n.cases.na.over.thres, " case", " cases"),
+                            " missing >= ", reportCases.thres*100, "% of features:\n      *** ",
+                            paste0("#", cases.na.over.thres$Case, ": ", ddSci(cases.na.over.thres$Pct.NA),
+                                   collapse = "\n      *** ")),
+                     sep = "\n")
       }
     } else {
       max.na.case.number <- index.incomplete[which.max(na.case.pct$Pct.NA)]
-      cat("    ** Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA)*100)), .col("%"), " (case #",
-          bold(max.na.case.number), ")\n", sep = "")
+      out <- paste(out,
+                   paste0("     - Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA)*100)), .col("%"), " (case #",
+                          bold(max.na.case.number), ")"), sep = "\n")
     }
 
-  }
-
-  # str() ====
-  if (str) {
-    boxcat("Feature structure", pad = 2)
-    str(x)
   }
 
   # Recommendations ====
   if (recommend) {
-    # boxcat("Recommendations", pad = 2)
-    cat(bold("\n  Recommendations") ,"___________\n", sep = "")
+    out <- paste(out,
+                 paste0(bold("\n  Recommendations") ,"___________"), sep = "\n")
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
-        cat(orange("  * Convert the character",
-                             ngettext(n.character, "feature", "features"), "to" ,
-                             ngettext(n.character, "a factor", "factors"),
-                             "\n"))
+        out <- paste(out,
+                     paste(orange$bold("  * Convert the character",
+                                  ngettext(n.character, "feature", "features"), "to" ,
+                                  ngettext(n.character, "a factor", "factors"))),
+                     sep = "\n")
       }
 
       if (n.constant > 0) {
-        cat(orange("  * Remove the constant", ngettext(n.constant, "feature", "features"), "\n"))
+        out <- paste(out,
+                     paste(orange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"))),
+                     sep = "\n")
       }
 
       if (n.dups > 0) {
-        cat(orange("  * Remove the duplicated", ngettext(n.dups, "case", "cases"), "\n"))
+        out <- paste(out,
+                     paste(orange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"))),
+                     sep = "\n")
       }
 
       if (n.cols.anyna > 0) {
-        cat(orange("  * Consider imputing missing values or use complete cases only\n"))
+        out <- paste(out,
+                     paste(orange$bold("  * Consider imputing missing values or use complete cases only")),
+                     sep = "\n")
       }
 
       if (n.gt2levels.nonordered > 0) {
-        cat("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
-            "unordered categorical",
-            ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
-            " with more than 2 levels and consider\n    if ordering would make sense\n", sep = "")
+        out <- paste(out,
+                     paste0("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
+                            "unordered categorical",
+                            ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
+                            " with more than 2 levels and consider\n    if ordering would make sense"),
+                     sep = "\n")
       }
       if (n.integer > 0) {
-        cat("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
-            "integer", ngettext(n.integer, " feature", " features"),
-            " and consider if", ngettext(n.integer, " it", " they"), " should be converted to ",
-            ngettext(n.integer, "factor\n", "factors\n"), sep = "")
+        out <- paste(out,
+                     paste0("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
+                            "integer", ngettext(n.integer, " feature", " features"),
+                            " and consider if", ngettext(n.integer, " it", " they"), " should be converted to ",
+                            ngettext(n.integer, "factor", "factors")),
+                     sep = "\n")
       }
     } else {
-      cat(green("  * Everything looks good\n"))
+      out <- paste(out,
+                   green("  * Everything looks good"),
+                   sep = "\n")
     }
 
   }
 
-  invisible(list(n.rows = n.rows,
+  if (toHTML) {
+    out <- gsub("\n", "<br>", out) |> fansi::sgr_to_html()
+  }
+  if (verbose) cat(out)
+
+  # str() ====
+  if (str & verbose) {
+    cat(bold("\n\n  Feature structure", "_________\n"))
+    str(x)
+    cat("\n")
+  }
+
+  invisible(list(out = out,
+                 n.rows = n.rows,
                  n.cols = n.cols,
                  n.continuous = n.continuous,
                  n.integer = n.integer,

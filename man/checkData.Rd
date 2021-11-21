@@ -10,7 +10,9 @@ checkData(
   str = FALSE,
   recommend = TRUE,
   reportCases.thres = NULL,
-  reportFeatures.thres = NULL
+  reportFeatures.thres = NULL,
+  toHTML = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -29,11 +31,19 @@ this fraction of features. Default = NULL}
 
 \item{reportFeatures.thres}{Float (0, 1]: Report, by name, all features missing in greater or
 equal to this fraction of cases. Default = NULL}
+
+\item{toHTML}{Logical: If TRUE, convert output to HTML using the \code{fansi} package.
+Default = FALSE}
+
+\item{verbose}{Logical: If TRUE, print to console}
 }
 \description{
 Runs a series of simple checks on a dataset that may be important to perform ahead of
 data analysis. This function makes no changes to data, but reports potential course of action
 that can be taken using \link{preprocess}
+}
+\examples{
+checkData(iris)
 }
 \author{
 E.D. Gennatas
