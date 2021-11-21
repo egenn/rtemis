@@ -50,7 +50,7 @@ mod$plot()
 ### **0.82**
 
 * Themes: New darkgray theme now always on whether you like it or not - jk:
-it's the new default but you can can always set your own default using
+it's the new default but you can always set your own default using
 e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
 * New option to set default plotting font: e.g. `options(rt.font = "Fira Sans")`
 * Many improvements / additions to `dplot3*` functions.
@@ -59,7 +59,8 @@ e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
 ### **0.80.0**
 
 An accumulation of updates and added functionality, algorithms, graphics.  
-Majority of `mplot3` and `dplot3` functions now work with the new theme system provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
+Majority of `mplot3` and `dplot3` functions now work with the new theme system
+provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 
 ### **0.79**
 
