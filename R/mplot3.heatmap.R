@@ -105,7 +105,7 @@ mplot3.heatmap <- function(x,
                            colorbar = TRUE,
                            cb.n = 21,
                            cb.title = NULL,
-                           # cb.cex = 1,
+                           cb.cex = NULL,
                            cb.title.cex = 1,
                            cb.mar = NULL,
                            Rowv = TRUE,
@@ -160,6 +160,7 @@ mplot3.heatmap <- function(x,
   }
   if (is.null(mid)) mid <- theme$bg
   col.axis <- theme$fg
+  if (is.null(cb.cex)) cb.cex <- theme$cex
 
   # Color ====
   col <- colorGrad(n = colorGrad.n,
@@ -419,7 +420,6 @@ mplot3.heatmap <- function(x,
               cb.n = cb.n,
               par.reset = TRUE,
               # cb.add = T,
-              # cex = cb.cex, #1.6,
               cex = theme$cex,
               cb.axis.pos = 1.2,
               cb.add = cb.add.new,
