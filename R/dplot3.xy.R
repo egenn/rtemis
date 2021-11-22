@@ -225,7 +225,7 @@ dplot3.xy <- function(x, y = NULL,
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col, theme$grid.alpha)
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
@@ -297,15 +297,10 @@ dplot3.xy <- function(x, y = NULL,
   # Axes Limits ====
   if (axes.equal) {
     if (is.null(xlim)) {
-      xlim <- range(x)
-      # if (is.list(error.x)) {
-      #   error.x.hi <- lapply(seq(xl), function(i) xl[[i]] + error.x[[i]])
-      #   error.x.lo <- lapply(seq(xl), function(i) xl[[i]] - error.x[[i]])
-      #   xlim <- range(error.x.lo, error.x.hi, xlim)
-      # }
+      xlim <- getlim(unlist(x), "r", .06)
     }
     if (is.null(ylim)) {
-      ylim <- range(y)
+      ylim <- getlim(unlist(y), "r", .06)
       if (is.list(fitted) & !is.list(se)) {
         ylim.hi <- max(unlist(fitted))
         ylim.lo <- min(unlist(fitted))
@@ -330,25 +325,24 @@ dplot3.xy <- function(x, y = NULL,
     xlim <- ylim <- range(xlim, ylim)
   }
 
-  # plotly ====
-  # if (n.groups > 1) {
-  #   legendgroup = .names
-  # }
+  if (is.null(xlim)) xlim <- getlim(unlist(x), "r", .06)
+  if (is.null(ylim)) xlim <- getlim(unlist(y), "r", .06)
 
+  # plotly ====
   if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
 
   plt <- plotly::plot_ly(width = width,
                          height = height)
 
   if (diagonal) {
+    lo = min(xlim[1], ylim[1])
+    hi = max(xlim[2], ylim[2])
     plt <- plotly::layout(plt,
                           shapes = list(type = "line",
-                                        x0 = 0,
-                                        x1 = 1,
-                                        xref = "x",
-                                        y0 = 0,
-                                        y1 = 1,
-                                        yref = "y",
+                                        x0 = lo,
+                                        x1 = hi,
+                                        y0 = lo,
+                                        y1 = hi,
                                         line = list(color = diagonal.col)))
   }
 
@@ -367,7 +361,6 @@ dplot3.xy <- function(x, y = NULL,
                              name = if (n.groups > 1) .names[i] else "Raw",
                              # text = .text[[i]],
                              # hoverinfo = "text",
-                             # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              marker = marker,
                              line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
@@ -418,7 +411,7 @@ dplot3.xy <- function(x, y = NULL,
             color = labs.col)
   tickfont <- list(family = theme$font.family,
                    size = font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
   .legend <- list(x = legend.xy[1],
                   xanchor = legend.xanchor,
                   y = legend.xy[2],
@@ -432,6 +425,7 @@ dplot3.xy <- function(x, y = NULL,
                   borderwidth = legend.borderwidth,
                   tracegroupgap = legend.group.gap)
 
+  zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
                                      showline = FALSE,
@@ -443,6 +437,8 @@ dplot3.xy <- function(x, y = NULL,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = theme$zerolines,
+                                     zerolinecolor = zerocol,
+                                     zerolinewidth = theme$zerolines.lwd,
                                      range = ylim,
                                      automargin = automargin.y),
                         xaxis = list(title = xlab,
@@ -455,6 +451,8 @@ dplot3.xy <- function(x, y = NULL,
                                      tickcolor = tick.col,
                                      tickfont = tickfont,
                                      zeroline = theme$zerolines,
+                                     zerolinecolor = zerocol,
+                                     zerolinewidth = theme$zerolines.lwd,
                                      range = xlim,
                                      automargin = automargin.x),
                         # barmode = barmode,  # group works without actual groups too
