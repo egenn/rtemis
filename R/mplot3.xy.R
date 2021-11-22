@@ -91,7 +91,7 @@
 #' @param y.axis.at As \code{x.axis.at} for y-axis
 #' @param x.axis.labs See \code{axis("labels")}
 #' @param y.axis.labs See \code{axis("labels")}
-#' @param point.cex Float: Character expansion for points. Default = .85
+#' @param point.cex Float: Character expansion for points. Default = 1
 #' @param point.bg.col Color: point background
 #' @param pch Integer: Point character. Default = 16
 #' @param line.col Color for lines
@@ -209,7 +209,7 @@ mplot3.xy <- function(x, y = NULL,
                       ylab.adj = .5,
                       mar = NULL,
                       oma = rep(0, 4),
-                      point.cex = .85,
+                      point.cex = 1,
                       point.bg.col = NULL,
                       pch = ifelse(is.null(point.bg.col), 16, 21),
                       line.col = NULL,
@@ -980,6 +980,6 @@ mplot3.fit <- function(x, y,
 
 } # rtemis::mplot3.fit
 
-autoalpha <- function(x, gamma = .0005, min = .3) {
+autoalpha <- function(x, gamma = .0008, min = .3) {
   max(min, 1 - x * gamma)
 }

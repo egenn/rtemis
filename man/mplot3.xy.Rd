@@ -52,7 +52,7 @@ mplot3.xy(
   ylab.adj = 0.5,
   mar = NULL,
   oma = rep(0, 4),
-  point.cex = 0.85,
+  point.cex = 1,
   point.bg.col = NULL,
   pch = ifelse(is.null(point.bg.col), 16, 21),
   line.col = NULL,
@@ -224,7 +224,7 @@ Default = "r"}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{point.cex}{Float: Character expansion for points. Default = .85}
+\item{point.cex}{Float: Character expansion for points. Default = 1}
 
 \item{point.bg.col}{Color: point background}
 
