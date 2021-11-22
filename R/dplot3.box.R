@@ -208,7 +208,7 @@ dplot3.box <- function(x,
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   # axes.col <- plotly::toRGB(theme$axes.col)
@@ -525,7 +525,7 @@ dplot3.box <- function(x,
             color = labs.col)
   tickfont <- list(family = theme$font.family,
                    size = font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
   .legend <- list(x = legend.xy[1],
                   y = legend.xy[2],
                   xanchor = legend.xanchor,
@@ -544,7 +544,7 @@ dplot3.box <- function(x,
                                        showgrid = theme$grid,
                                        gridcolor = grid.col,
                                        gridwidth = theme$grid.lwd,
-                                       tickcolor = grid.col,
+                                       tickcolor = if (horizontal) NA else tick.col,
                                        tickfont = tickfont,
                                        zeroline = FALSE,
                                        automargin = automargin.y),
@@ -552,7 +552,7 @@ dplot3.box <- function(x,
                                        type = if (horizontal) NULL else xaxis.type,
                                        titlefont = f,
                                        showgrid = FALSE,
-                                       tickcolor = grid.col,
+                                       tickcolor = if (horizontal) tick.col else NA,
                                        tickfont = tickfont,
                                        automargin = automargin.x),
                           title = list(text = main,
