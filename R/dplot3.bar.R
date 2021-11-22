@@ -66,7 +66,7 @@ dplot3.bar <-  function(x,
                         xlab = NULL,
                         ylab = NULL,
                         col = NULL,
-                        alpha = .8,
+                        alpha = .9,
                         horizontal = FALSE,
                         theme = getOption("rt.theme"),
                         palette = getOption("rt.palette", "rtCol1"),
@@ -167,7 +167,7 @@ dplot3.bar <-  function(x,
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   axes.col <- plotly::toRGB(theme$axes.col)
@@ -235,7 +235,7 @@ dplot3.bar <-  function(x,
             color = labs.col)
   tickfont <- list(family = theme$font.family,
                    size = font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
   .legend <- list(x = legend.xy[1],
                   y = legend.xy[2],
                   xanchor = legend.xanchor,
