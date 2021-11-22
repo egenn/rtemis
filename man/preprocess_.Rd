@@ -30,7 +30,6 @@ preprocess_(
   center = FALSE,
   removeConstants = TRUE,
   removeDuplicates = FALSE,
-  factorizeThresh = 0,
   oneHot = FALSE,
   exclude = NULL,
   verbose = TRUE,
@@ -120,7 +119,8 @@ Prepare data for analysis and visualization \strong{in-place}
 }
 \details{
 This function (ending in "_") performs operations \strong{in-place} and returns the
-preprocessed data.table silenty (e.g. for piping)
+preprocessed data.table silenty (e.g. for piping). Note: If imputing, operation
+cannot be performed in-place.
 By default, removes constant features and duplicated cases
 (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 

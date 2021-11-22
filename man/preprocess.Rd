@@ -31,7 +31,6 @@ preprocess(
   center = FALSE,
   removeConstants = TRUE,
   removeDuplicates = FALSE,
-  factorizeThresh = 0,
   oneHot = FALSE,
   exclude = NULL,
   verbose = TRUE,

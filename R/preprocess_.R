@@ -7,7 +7,8 @@
 #' Prepare data for analysis and visualization **in-place**
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
-#' preprocessed data.table silenty (e.g. for piping)
+#' preprocessed data.table silenty (e.g. for piping). Note: If imputing, operation
+#' cannot be performed in-place.
 #' By default, removes constant features and duplicated cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
@@ -134,7 +135,6 @@ preprocess_ <- function(x, y = NULL,
                        center = FALSE,
                        removeConstants = TRUE,
                        removeDuplicates = FALSE,
-                       factorizeThresh = 0,
                        oneHot = FALSE,
                        exclude = NULL,
                        verbose = TRUE,
