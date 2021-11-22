@@ -168,7 +168,7 @@ dplot3.x <- function(x,
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
@@ -182,7 +182,7 @@ dplot3.x <- function(x,
   # '- Tick font ====
   tickfont <- list(family = theme$font.family,
                    size = font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
 
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
@@ -310,6 +310,7 @@ dplot3.x <- function(x,
                                               titleY = ridge.y.labs)
 
   # [ Layout ] ====
+  zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
   # '- layout ====
   .legend <- list(x = legend.xy[1],
                   y = legend.xy[2],
@@ -355,6 +356,8 @@ dplot3.x <- function(x,
                                        tickcolor = tick.col,
                                        tickfont = tickfont,
                                        zeroline = zerolines,
+                                       zerolinecolor = zerocol,
+                                       zerolinewidth = theme$zerolines.lwd,
                                        automargin = automargin.y))
   }
 
