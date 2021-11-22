@@ -326,7 +326,7 @@ dplot3.xy <- function(x, y = NULL,
   }
 
   if (is.null(xlim)) xlim <- getlim(unlist(x), "r", .06)
-  if (is.null(ylim)) xlim <- getlim(unlist(y), "r", .06)
+  if (is.null(ylim)) ylim <- getlim(unlist(y), "r", .06)
 
   # plotly ====
   if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
