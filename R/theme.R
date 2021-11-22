@@ -292,7 +292,7 @@ theme_darkgraygrid <- function(bg = "#121212", # #202020
                                # axes --
                                axes.visible = TRUE,
                                axes.col = NA,
-                               tick.col = fg,
+                               tick.col = NA,
                                tick.alpha = 1,
                                tick.labels.col = fg,
                                tck = -0.01,
@@ -628,7 +628,7 @@ theme_lightgrid <- function(bg = "#ffffff",
                             # axes --
                             axes.visible = TRUE,
                             axes.col = NA,
-                            tick.col = fg,
+                            tick.col = NA,
                             tick.alpha = 1,
                             tick.labels.col = fg,
                             tck = -0.01,
