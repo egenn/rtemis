@@ -23,6 +23,7 @@
 \alias{csuCol}
 \alias{calpolyCol}
 \alias{caltechCol}
+\alias{scrippsCol}
 \alias{cmuCol}
 \alias{mitCol}
 \alias{princetonCol}
@@ -103,6 +104,8 @@ An object of class \code{list} of length 3.
 An object of class \code{list} of length 18.
 
 An object of class \code{list} of length 19.
+
+An object of class \code{list} of length 6.
 
 An object of class \code{list} of length 8.
 
@@ -222,6 +225,8 @@ csuCol
 calpolyCol
 
 caltechCol
+
+scrippsCol
 
 cmuCol
 
@@ -349,6 +354,8 @@ microsoftCol
 (https://universitymarketing.calpoly.edu/brand-guidelines/colors/)
 
 \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
+
+\code{scrippsCol}: Scripps Research color palette
 
 \code{cmuCol}: Carnegie Mellon color palette
 (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)

@@ -445,6 +445,18 @@ caltechCol <- list(orange = "#FF6C0C",
                    pms605c = "#E2CC00",
                    pms1915c = "#F54D80")
 
+# Scripps Research ====
+#' Scripps Research Colors
+#'
+#' \code{scrippsCol}: Scripps Research color palette
+#' @name rtPalettes
+
+scrippsCol <- list(yellow = "#edb035",
+                   orange = "#f1624f",
+                   maroon = "#610f37",
+                   blue = "#273d78",
+                   teal = "#116f79",
+                   lightblue = "#59c3d3")
 
 # CMU ====
 #' CMU Colors
