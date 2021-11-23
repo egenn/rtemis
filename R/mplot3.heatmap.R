@@ -420,7 +420,7 @@ mplot3.heatmap <- function(x,
               cb.n = cb.n,
               par.reset = TRUE,
               # cb.add = T,
-              cex = theme$cex,
+              cex = cb.cex,
               cb.axis.pos = 1.2,
               cb.add = cb.add.new,
               cb.add.mar = cb.mar,
@@ -437,15 +437,12 @@ mplot3.heatmap <- function(x,
     group.names <- levels(group.columns)
     ngroups <- length(group.names)
     frame()
-    # mtext(group.names, 3, line = seq(-1, -ngroups * 1.3, -1.3),
-    #       col = unlist(column.palette)[seq_len(ngroups)],
-    #       adj = 0, xpd = TRUE,
-    #       cex = theme$cex)
     par(mar = rep(0, 4), oma = rep(0, 4))
     mtext(group.names, 1, line = seq(1, ngroups * 1.3, 1.3) - (ngroups + 2),
           col = unlist(column.palette)[seq_len(ngroups)],
           adj = 0, xpd = TRUE,
           cex = theme$cex)
+    # line = seq(-1, -ngroups * 1.3, -1.3)
   }
 
   if (!is.null(filename)) dev.off()
