@@ -22,7 +22,13 @@
 #' (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)
 #' @param font.color Color for all text
 #' @param showlegend Logical: If TRUE, show legend
+#'
 #' @author E.D. Gennatas
+#' @examples
+#' # made-up data
+#' x <- rnorm(10)
+#' names(x) <- paste0("Feature_", seq(x))
+#' dplot3.varimp(x)
 #' @export
 
 dplot3.varimp <- function(x,
@@ -68,10 +74,9 @@ dplot3.varimp <- function(x,
   }
 
   bg <- plotly::toRGB(theme$bg)
-  # fg <- plotly::toRGB(theme$fg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
 
@@ -83,7 +88,7 @@ dplot3.varimp <- function(x,
   # '- Tick font ====
   tickfont <- list(family = theme$font.family,
                    size = font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
 
   # Data ====
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")

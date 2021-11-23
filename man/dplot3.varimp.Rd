@@ -62,6 +62,12 @@ Plot variable importance using \code{plotly}
 A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, which can be used
 to visualize variable importance, model coefficients, etc.
 }
+\examples{
+# made-up data
+x <- rnorm(10)
+names(x) <- paste0("Feature_", seq(x))
+dplot3.varimp(x)
+}
 \author{
 E.D. Gennatas
 }
