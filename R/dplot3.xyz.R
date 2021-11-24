@@ -41,16 +41,13 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                        axes.square = FALSE,
                        group.names = NULL,
                        font.size = 16,
-                       font.family = "Helvetica Neue",
                        marker.col = NULL,
                        marker.size = 8,
                        fit.col = NULL,
                        fit.alpha = .7,
                        fit.lwd = 2.5,
-                       tick.col = NULL,
                        tick.font.size = 12,
                        spike.col = NULL,
-                       grid.col = NULL,
                        legend = NULL,
                        legend.xy = c(0, 1),
                        legend.xanchor = "left",
@@ -215,11 +212,8 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
 
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
-  # use plot.bg as grid.col
-  # does not seem to use the alpha
-  # grid.col <- plotly::toRGB(theme$fg, grid.alpha)
-  if (is.null(grid.col)) grid.col <- if (sum(col2rgb(theme$bg)) < 382.5) plotly::toRGB("gray30") else plotly::toRGB("gray70")
-  tick.col <- plotly::toRGB(theme$tick.labels.col)
+  grid.col <- plotly::toRGB(theme$grid.col, theme$grid.alpha)
+  tick.col <- plotly::toRGB(theme$tick.col)
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
@@ -346,17 +340,17 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
 
   # [ Layout ] ====
   # '- layout ====
-  f <- list(family = font.family,
+  f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
-  tickfont <- list(family = font.family,
+  tickfont <- list(family = theme$font.family,
                    size = tick.font.size,
-                   color = tick.col)
+                   color = theme$tick.labels.col)
   .legend <- list(x = legend.xy[1],
                   xanchor = legend.xanchor,
                   y = legend.xy[2],
                   yanchor = legend.yanchor,
-                  font = list(family = font.family,
+                  font = list(family = theme$font.family,
                               size = font.size,
                               color = legend.col),
                   orientation = legend.orientation,
@@ -402,7 +396,7 @@ dplot3.xyz <- function(x, y = NULL, z = NULL,
                                        spikecolor = spike.col)
                         ),
                         title = list(text = main,
-                                     font = list(family = font.family,
+                                     font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col)),
                         # titlefont = list(),
