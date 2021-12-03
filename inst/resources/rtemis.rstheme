@@ -16,7 +16,7 @@
 .editor_dark {
     color: white;
     background: none;
-    background-color: #303030;
+    background-color: #191919 !important;
 }
 
 /* Jobs panel */
@@ -59,6 +59,13 @@
 .gwt-DialogBox-ModalDialog, .gwt-DecoratedPopupPanel {
     z-index: 1000;
     color: #191919;
+}
+
+/* Packages pane */
+.rstudio-themes-dark-grey .dataGridHeader, .rstudio-themes-dark-grey .GMFXJFVCGKC, .rstudio-themes-dark-grey .GMFXJFVCFLC {
+    border-color: #393939;
+    background-color: #191919;
+    color: #e7e7e7;
 }
 
 :root {
