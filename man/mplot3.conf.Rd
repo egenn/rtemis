@@ -124,8 +124,7 @@ List of metrics, invisibly
 Plots confusion matrix and classification metrics
 }
 \details{
-Because this function uses \code{layout}, it does not currently work with \code{rtlayout}
-- cannot nest \code{layout()} calls.
+This function uses its multiple cex args instead of the theme's `cex` parameter
 }
 \examples{
 \dontrun{

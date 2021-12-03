@@ -6,8 +6,7 @@
 #'
 #' Plots confusion matrix and classification metrics
 #'
-#' Because this function uses \code{layout}, it does not currently work with \code{rtlayout}
-#' - cannot nest \code{layout()} calls.
+#' This function uses its multiple cex args instead of the theme's `cex` parameter
 #'
 #' @param object Either a classification \code{rtMod}, or a table/matrix/data.frame
 #' @param main Character: Plot title
@@ -94,7 +93,7 @@ mplot3.conf <- function(object,
                         pdf.height = 7,
                         filename = NULL, ...) {
 
-  # [ Data ] ====
+  # Data ====
   .test <- NULL
   if (inherits(object, "rtMod")) {
     .test <- length(object$error.test) > 0
@@ -116,7 +115,7 @@ mplot3.conf <- function(object,
     if (!is.null(main) && main == "auto") main <- NULL
   }
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -145,6 +144,7 @@ mplot3.conf <- function(object,
   if (col.text.out == "auto") {
     col.text.out <- ifelse(mean.bg < 127, "gray70", "gray30")
   }
+  # consider multiplying all custom cex vals with theme$cex
 
   # File out ====
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
@@ -183,6 +183,7 @@ mplot3.conf <- function(object,
     # par(mar = c(0, 0, 0, 0), bg = col.bg, oma = oma)
     par(mar = c(0, 0, 0, 0), bg = col.bg, pty = "s", oma = oma)
   }
+  par(family = theme$font.family)
 
   # Plot ====
   if (!is.null(main)) {

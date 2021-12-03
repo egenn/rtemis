@@ -1,6 +1,6 @@
 # mplot3.x.R
 # ::rtemis::
-# 2016- E.D. Gennatas lambdamd.org
+# 2016-21 E.D. Gennatas lambdamd.org
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'
@@ -53,10 +53,16 @@
 #'   input containing NA values will result in error, depending on the \code{type}
 #' @param group.legend Logical: If TRUE, include legend with group names
 #' @param group.title Character: Title above group names
+#'
 #' @return Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
 #' @seealso \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' mplot3.x(iris)
+#' mplot3.x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
+#' }
 
 mplot3.x <- function(x,
                      type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
@@ -305,6 +311,7 @@ mplot3.x <- function(x,
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
+  par(family = theme$font.family)
   if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
     par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
@@ -363,8 +370,7 @@ mplot3.x <- function(x,
          col.axis = theme$tick.labels.col,
          tck = theme$tck,
          tcl = theme$tcl,
-         cex = theme$cex,
-         family = theme$font.family)
+         cex = theme$cex)
     axis(side = theme$y.axis.side,
          line = theme$y.axis.line,
          las = theme$y.axis.las,
@@ -375,18 +381,15 @@ mplot3.x <- function(x,
          col.axis = theme$tick.labels.col,
          tck = theme$tck,
          tcl = theme$tcl,
-         cex = theme$cex,
-         family = theme$font.family)
+         cex = theme$cex)
     mtext(xlab, side = 1,
           line = theme$xlab.line,
           cex = theme$cex,
-          col = theme$labs.col,
-          family = theme$font.family)
+          col = theme$labs.col)
     mtext(ylab, side = 2,
           line = theme$ylab.line,
           cex = theme$cex,
-          col = theme$labs.col,
-          family = theme$font.family)
+          col = theme$labs.col)
   }
 
   # [ ZERO LINES ] ====
@@ -521,8 +524,7 @@ mplot3.x <- function(x,
   if (length(main) > 0) {
     mtext(main, line = theme$main.line,
           font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col,
-          family = theme$font.family)
+          cex = theme$cex, col = theme$main.col)
   }
 
   # [ GROUP LEGEND ] ====
@@ -533,8 +535,7 @@ mplot3.x <- function(x,
           adj = group.adj,
           at = group.at,
           cex = theme$cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5),
-          family = theme$font.family)
+          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
   }
 
   # [ ANNOTATION ] ====
@@ -583,8 +584,7 @@ mplot3.x <- function(x,
                                 function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
           col = c(theme$fg, unlist(col[seq_along(xl)])),
           side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5),
-          family = theme$font.family)
+          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
     if (density.avg.line) {
       abline(v = unlist(avgl), col = unlist(col[seq_along(xl)]),
              lwd = density.avg.lwd, lty = density.avg.lty)

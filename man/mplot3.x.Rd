@@ -263,6 +263,12 @@ To plot histograms of multiple groups, it's best to use \code{hist.type = "lines
 use \link{mhist}
 and space apart the breaks for each group
 }
+\examples{
+\dontrun{
+mplot3.x(iris)
+mplot3.x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
+}
+}
 \seealso{
 \link{mplot3.xy}, \link{mplot3.xym}, \link{mplot3.heatmap}
 }
