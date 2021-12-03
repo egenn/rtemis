@@ -1,6 +1,68 @@
 /* rs-theme-name: rtemis */
 /* rs-theme-is-dark: TRUE */
+/* bg */
+  body .rstudio-themes-dark-grey {
+    background: #292929 !important;
+  }
+
+  .rstudio-themes-dark-grey .rstudio-themes-border, .rstudio-themes-dark-grey table.GMFXJFVCKQ>tbody>tr>td, .rstudio-themes-dark-grey .GMFXJFVCKV>div:last-child, .rstudio-themes-dark-grey .rstheme_secondaryToolbar, .rstudio-themes-dark-grey .gwt-TabLayoutPanel>div>div.gwt-TabLayoutPanelTabs {
+    border-color: transparent;
+}
+
+.rstudio-themes-dark-grey .gwt-SplitLayoutPanel-HDragger, .rstudio-themes-dark-grey .gwt-SplitLayoutPanel-VDragger {
+    background: transparent !important;
+}
+
+.editor_dark {
+    color: white;
+    background: none;
+    background-color: #303030;
+}
+
+/* Jobs panel */
+.GMFXJFVCCRD {
+    height: 100%;
+    width: 100%;
+    color: #fff;
+    background-color: #191919;
+}
+
+/* Files panel */
+.GMFXJFVCEDC {
+    font-size: 9pt;
+    outline: none;
+    background-color: #191919;
+    color: #e7e7e7;
+}
+
+/* Environment pane */
+.GMFXJFVCIOD {
+    height: 100%;
+    width: 100%;
+    cursor: default;
+    background-color: #191919;
+}
+
+/* */
+.rstudio-themes-dark-grey .rstudio-themes-background, .rstudio-themes-dark-grey .rstheme_toolbarWrapper, .rstudio-themes-dark-grey .gwt-TabLayoutPanelTabs .gwt-TabLayoutPanelTab-selected table.rstheme_tabLayoutCenter, .rstudio-themes-dark-grey .rstheme_secondaryToolbar, .rstudio-themes-dark-grey .GMFXJFVCKV.GMFXJFVCIO div.GMFXJFVCFO .GMFXJFVCFS, .rstudio-themes-dark-grey .gwt-TabLayoutPanelContent, .rstudio-themes-dark-grey .gwt-TabLayoutPanel {
+    background: transparent;
+}
+
+/* Menus */
+.rstudio-themes-dark-menus .menuPopupMiddleCenter, .rstudio-themes-dark-menus .themedPopupPanel .popupMiddleCenter, .rstudio-themes-dark-menus .gwt-SuggestBoxPopup .suggestPopupMiddleCenter {
+    background: #393939;
+    border: none;
+    color: #f0f0f0;
+}
+
+/* Settings window (light) */
+.gwt-DialogBox-ModalDialog, .gwt-DecoratedPopupPanel {
+    z-index: 1000;
+    color: #191919;
+}
+
 :root {
+
   /* Editor */
   --editor-background-color: 25, 25, 25;
   --editor-background: rgb(var(--editor-background-color));
@@ -430,6 +492,11 @@
 .ace_editor[id^="rstudio_source_text_editor"]:not(#rstudio_source_text_editor_0)
   :-webkit-any(.ace_gutter, .ace_scroller, .ace_scrollbar-v) {
   box-shadow: inset 0 6px 6px -6px black;
+}
+
+/* Separator between editor and console */
+.rstudio-themes-dark-grey .gwt-SplitLayoutPanel-HDragger, .rstudio-themes-dark-grey .gwt-SplitLayoutPanel-VDragger {
+    background: transparent !important;
 }
 
 /* datagrid */
