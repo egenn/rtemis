@@ -246,6 +246,8 @@ checkData <- function(x,
 
   if (toHTML) {
     out <- gsub("\n", "<br>", out) |> fansi::sgr_to_html()
+  } else {
+    out <- paste0(out, "\n")
   }
   if (verbose) cat(out)
 
