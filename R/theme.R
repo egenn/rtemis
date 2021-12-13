@@ -96,7 +96,7 @@ theme_blackgrid <- function(bg = "#000000",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font")) {
+                            font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -209,7 +209,7 @@ theme_darkgrid <- function(bg = "#000000",
                            main.adj = 0,
                            main.font = 2,
                            main.col = fg,
-                           font.family = getOption("rt.font")) {
+                           font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -321,7 +321,7 @@ theme_darkgraygrid <- function(bg = "#121212", # #202020
                                main.adj = 0,
                                main.font = 2,
                                main.col = fg,
-                               font.family = getOption("rt.font")) {
+                               font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -433,7 +433,7 @@ theme_black <- function(bg = "#000000",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = getOption("rt.font")) {
+                        font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -545,7 +545,7 @@ theme_whitegrid <- function(bg = "#ffffff",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font")) {
+                            font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -657,7 +657,7 @@ theme_lightgrid <- function(bg = "#ffffff",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font")) {
+                            font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -769,7 +769,7 @@ theme_white <- function(bg = "#ffffff",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = getOption("rt.font")) {
+                        font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -881,7 +881,7 @@ theme_darkgray <- function(bg = "#121212", # #202020
                            main.adj = 0,
                            main.font = 2,
                            main.col = fg,
-                           font.family = getOption("rt.font")) {
+                           font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -993,7 +993,7 @@ theme_lightgray <- function(bg = "#dfdfdf", # #202020
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font")) {
+                            font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1106,7 +1106,7 @@ theme_mediumgray <- function(bg = "#b3b3b3", # #202020
                              main.adj = 0,
                              main.font = 2,
                              main.col = fg,
-                             font.family = getOption("rt.font")) {
+                             font.family = getOption("rt.font", "")) {
 
   list(bg = bg,
        plot.bg = plot.bg,
