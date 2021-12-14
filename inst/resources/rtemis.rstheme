@@ -43,6 +43,15 @@
     background-color: #191919;
 }
 
+/* Also environment pane */
+.GEL-OVUBKOD {
+    height: 100%;
+    width: 100%;
+    cursor: default;
+    background-color: #191919;
+    color: #e7e7e7;
+}
+
 /* */
 .rstudio-themes-dark-grey .rstudio-themes-background, .rstudio-themes-dark-grey .rstheme_toolbarWrapper, .rstudio-themes-dark-grey .gwt-TabLayoutPanelTabs .gwt-TabLayoutPanelTab-selected table.rstheme_tabLayoutCenter, .rstudio-themes-dark-grey .rstheme_secondaryToolbar, .rstudio-themes-dark-grey .GMFXJFVCKV.GMFXJFVCIO div.GMFXJFVCFO .GMFXJFVCFS, .rstudio-themes-dark-grey .gwt-TabLayoutPanelContent, .rstudio-themes-dark-grey .gwt-TabLayoutPanel {
     background: transparent;
