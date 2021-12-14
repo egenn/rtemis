@@ -117,21 +117,21 @@ dplot3.leaflet <- function(dat,
     labels <- lapply(seq(NROW(geo)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
-    }) %>% lapply(htmltools::HTML)
+    }) |> lapply(htmltools::HTML)
   } else {
     labels <- lapply(seq(NROW(geo)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("%g", .labs[i])
-    }) %>% lapply(htmltools::HTML)
+    }) |> lapply(htmltools::HTML)
   }
   geo[["labels"]] <- labels[index]
 
   # leaflet map ====
-  map <- leaflet::leaflet(geo) %>%
+  map <- leaflet::leaflet(geo) |>
     leaflet::addProviderTiles(provider = bg.tile.provider,
-                              options = leaflet::providerTileOptions(opacity = bg.tile.alpha)) %>%
-    leaflet::addMapPane("polygons", zIndex = 410) %>%
-    leaflet::addMapPane("tiles", zIndex = 420) %>%
+                              options = leaflet::providerTileOptions(opacity = bg.tile.alpha)) |>
+    leaflet::addMapPane("polygons", zIndex = 410) |>
+    leaflet::addMapPane("tiles", zIndex = 420) |>
     leaflet::addPolygons(fillColor = ~pal(val),
                          fillOpacity = fillOpacity,
                          opacity = alpha,
@@ -149,15 +149,15 @@ dplot3.leaflet <- function(dat,
                            style = list("font-weight" = "normal", padding = "2px 2px"),
                            textsize = "15px",
                            direction = "auto")
-    ) %>%
+    ) |>
     leaflet::addProviderTiles(provider = fg.tile.provider,
-                              options = leaflet::pathOptions(pane = "tiles")) %>%
+                              options = leaflet::pathOptions(pane = "tiles")) |>
     leaflet::addLegend(position = legend.position,
                        pal = pal,
                        values = geo$val,
                        opacity = legend.alpha,
-                       title = legend.title) %>%
-    leaflet::addLayersControl(overlayGroups = c(legend.title)) %>%
+                       title = legend.title) |>
+    leaflet::addLayersControl(overlayGroups = c(legend.title)) |>
     leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
 
 

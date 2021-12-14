@@ -60,7 +60,7 @@ plotly.heat <- function(z, x = NULL, y = NULL,
                        colors = col,
                        colorbar = colorbar,
                        text = paste("Value =", ddSci(z)),
-                       hoverinfo = "all") %>%
+                       hoverinfo = "all") |>
     plotly::layout(title = title,
                    xaxis = x.axis,
                    yaxis = y.axis)

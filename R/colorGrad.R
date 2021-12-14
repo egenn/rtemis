@@ -260,13 +260,13 @@ colorGrad <- function(n = 21,
                          mode = "markers",
                          marker = m,
                          hoverinfo = "text",
-                         text = hovtext) %>%
+                         text = hovtext) |>
       plotly::layout(xaxis = x.ax, yaxis = y.ax,
                      width = plotly.width,
                      height = plotly.height,
                      annotations = a,
                      font = t,
-                     margin = margin) %>%
+                     margin = margin) |>
       plotly::config(displayModeBar = FALSE)
     if (plotlycb & !rtrn.plotly) print(p)
   }

@@ -246,7 +246,7 @@ dplot3.x <- function(x,
                                                               hoverinfo = "text",
                                                               showlegend = legend,
                                                               width = width,
-                                                              height = height) %>%
+                                                              height = height) |>
                       plotly::layout(xaxis = axis,
                                      yaxis = c(list(title = list(text = .names[i],
                                                                  font = f)),
@@ -295,7 +295,7 @@ dplot3.x <- function(x,
                                                               showlegend = legend,
                                                               width = width,
                                                               height = height,
-                                                              bingroup = bingroup) %>%
+                                                              bingroup = bingroup) |>
                       plotly::layout(xaxis = axis,
                                      yaxis = c(list(title = list(text = .names[i],
                                                                  font = f)),

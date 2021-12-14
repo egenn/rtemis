@@ -46,7 +46,7 @@ gamselx <- function(x, y,
     if (trace > 0) cat(i, "..")
     fit <- glm(pairy ~ c(x[, pairs[i, 1]] * x[, pairs[i, 2]]))
     summary(fit)$coefficients[2, 4]
-  }) %>% p.adjust(method = p.adjust.method) -> pairwise.glm.pvals.adj
+  }) |> p.adjust(method = p.adjust.method) -> pairwise.glm.pvals.adj
   if (trace > 0) msg("Done")
   pairs.index <- which(pairwise.glm.pvals.adj < alpha)
   if (verbose) msg("Found", length(pairs.index), "significant interactions")

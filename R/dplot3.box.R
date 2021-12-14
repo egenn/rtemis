@@ -315,7 +315,7 @@ dplot3.box <- function(x,
         if (type == "violin") args$box <- list(visible = violin.box)
         cataxis <- list(tickvals = 0:(NCOL(dt) - 2),
                         ticktext = .xnames)
-        plt <- do.call(plotly::plot_ly, args) %>%
+        plt <- do.call(plotly::plot_ly, args) |>
           plotly::layout(boxmode = "group",
                          xaxis = if (horizontal) NULL else cataxis,
                          yaxis = if (horizontal) cataxis else NULL)

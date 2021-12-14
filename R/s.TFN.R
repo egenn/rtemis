@@ -310,7 +310,7 @@ s.TFN <- function(x, y = NULL,
                       "...\n", newline.pre = TRUE)
 
     # '- Compile ====
-    net %>% keras::compile(
+    net |> keras::compile(
       loss = loss,
       optimizer = optimizer(lr = learning.rate),
       metrics = metric
@@ -320,7 +320,7 @@ s.TFN <- function(x, y = NULL,
   }
 
   # '- Fit ====
-  net %>%
+  net |>
     keras::fit(
       x.dm, y,
       epochs = epochs,

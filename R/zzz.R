@@ -80,7 +80,6 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 #' @docType package
 #' @name rtemis-package
 #' @import graphics grDevices methods stats utils parallel R6 data.table crayon future
-#' @importFrom magrittr "%>%"
 #' @importFrom crayon "%+%"
 
 NULL

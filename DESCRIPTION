@@ -8,7 +8,7 @@ Description: Advanced Machine Learning and Visualization. Unsupervised Learning 
 License: GPL (>=3)
 URL: https://rtemis.lambdamd.org
 ByteCompile: yes
-Imports: grDevices, graphics, stats, methods, utils, parallel, R6, data.table, crayon, future, magrittr
+Imports: grDevices, graphics, stats, methods, utils, parallel, R6, data.table, crayon, future
 Suggests: ada, arm, bartMachine, base64enc, cluster, C50, data.tree, deepnet, 
   dendextend (>= 0.18.0), DiagrammeR, DiagrammeRsvg, doParallel, dplyr, earth, EMCluster, extraTrees, 
   evtree, e1071, fansi, fastICA, flexclust, FNN, foreach, fpc, fs, gamsel, gamsel2, gbm, geojsonio, 

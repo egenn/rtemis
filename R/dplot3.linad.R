@@ -219,14 +219,14 @@ dplot3.linad <- function(x,
                          width = width,
                          height = height,
                          main = main,
-                         background = bg) %>%
+                         background = bg) |>
     # '- visHierarchicalLayout ====
     visNetwork::visHierarchicalLayout(levelSeparation = levelSeparation,
                                       nodeSpacing = nodeSpacing,
                                       blockShifting, blockShifting,
                                       edgeMinimization = edgeMinimization,
                                       parentCentralization = parentCentralization,
-                                      direction = direction) %>%
+                                      direction = direction) |>
     # '- visNodes ====
     visNetwork::visNodes(font = list(color = node.font.col,
                                      size = tree.font.size,
@@ -234,7 +234,7 @@ dplot3.linad <- function(x,
                          borderWidth = 1,
                          color = list(highlight = col.highlight,
                                       hover = list(background = col.highlight,
-                                                   border = col.highlight))) %>%
+                                                   border = col.highlight))) |>
     # '- visEdges ====
     visNetwork::visEdges(width = edge.width,
                          color = list(color = edge.col,
@@ -250,7 +250,7 @@ dplot3.linad <- function(x,
                              enabled = arrow.middle,
                              scaleFactor = arrow.scale)),
                          arrowStrikethrough = F,
-                         hoverWidth = 0) %>%
+                         hoverWidth = 0) |>
     visNetwork::visInteraction(hover = TRUE,
                                dragNodes = dragNodes,
                                dragView = TRUE,
