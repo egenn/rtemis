@@ -14,18 +14,35 @@
 #' @author E.D. Gennatas
 #' @export
 
-getMode <- function(x, na.rm = TRUE) {
+# getMode <- function(x, na.rm = TRUE) {
 
-  if (na.rm) x <- x[!is.na(x)]
-  freq <- as.data.frame(table(x))
-  if (is.factor(x)) {
-    # output factor
-    freq$x[which.max(freq$Freq)]
+  # if (na.rm) x <- x[!is.na(x)]
+  # freq <- as.data.frame(table(x))
+  # if (is.factor(x)) {
+  #   # output factor
+  #   freq$x[which.max(freq$Freq)]
+  # } else {
+  #   # output integer
+  #   as.integer(as.character(freq$x[which.max(freq$Freq)]))
+  # }
+
+# } # rtemis::getMode
+
+getMode <- function(x, na.rm = TRUE,
+                     getlast = FALSE) {
+  
+  if (na.rm) x <- na.exclude(x)
+  freq <- table(x)
+  if (getlast) {
+    maxval <- max(freq)
+    out <- names(freq)[rev(which(freq == maxval))[1]]
   } else {
-    # output integer
-    as.integer(as.character(freq$x[which.max(freq$Freq)]))
+    out <- names(freq)[which.max(freq)]
   }
-
+  
+  if (length(out) == 0) out <- NA
+  out
+  
 } # rtemis::getMode
 
 
