@@ -12,6 +12,7 @@
 #' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
 #' \code{x} and \code{y}, respectively
 #' @param y Numeric, vector/data.frame/list: y-axis data
+#' @param col Color for markers. Default=NULL, which will draw colors from palette
 #' @param rsq Logical: If TRUE, print R-squared values in legend if \code{fit} is set
 #' @param mode Character, vector: "markers", "lines", "markers+lines". Default = "markers"
 #' @param order.on.x Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
