@@ -12,7 +12,7 @@
 #' @param Decay Float: Decay time (in milliseconds)
 #' @param Sustain Float: Sustain Level (percent)
 #' @param Release Float: Release time (in milliseconds)
-#' @param Velocity Float: Velocity (percent)
+#' @param Value Float: Value (percent)
 #' @param I Float: Note on time (in milliseconds)
 #' @param O Float: Note off time (in milliseconds)
 #' @param theme Character: "light" or "dark" (Default)
@@ -24,12 +24,12 @@ mplot3.adsr <- function(Attack = 300,
                         Decay = 160,
                         Sustain = 40,
                         Release = 500,
-                        Velocity = 80,
+                        Value = 80,
                         I = 200,
                         O = 1800,
                         lty = 1,
                         lwd = 4,
-                        main = "ADSR Envelope Generator",
+                        main = "ADSR Envelope",
                         main.line = 1.6,
                         main.col = "white",
                         Attack.col = pennCol$lighterYellow,
@@ -49,7 +49,7 @@ mplot3.adsr <- function(Attack = 300,
                         grid.lwd = .4,
                         grid.col = NULL,
                         zerolines.col = "gray50",
-                        theme = "black",
+                        theme = "darkgray",
                         labs.col = "gray70",
                         # axes.col = "",
                         tick.col = "gray70",
@@ -64,21 +64,21 @@ mplot3.adsr <- function(Attack = 300,
                         yaxs = "i",
                         par.reset = TRUE, ...) {
 
-  # [ ENVELOPE ] ====
+  # Envelope ====
   A <- Attack
   D <- Decay
   S <- Sustain
   R <- Release
-  V <- Velocity
+  V <- Value
   x <- c(0, I, I + A, I + A + D, O, O + R)
   y <- c(0, 0, V, S, S, 0)
 
-  # [ PLOT ] ====
+  # Plot ====
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   mplot3.xy(x, y, type = 'l', theme = theme, xaxs = xaxs, yaxs = yaxs,
             scatter = FALSE, zerolines = FALSE,
-            xlab = "Time (ms)", ylab = "% Velocity",
+            xlab = "Time (ms)", ylab = "% Value",
             xlim = c(0, O + R + 300),
             ylim = c(0, 100),
             line.col = pennCol$lightestBlue, lwd = 4,
@@ -90,7 +90,7 @@ mplot3.adsr <- function(Attack = 300,
             mar = mar,
             main = main, main.col = main.col, main.line = main.line, ...)
 
-  # [ Shading ] ====
+  # Shading ====
   if (draw.poly) {
     polygon(c(I, I + A, I + A, I), c(0, 0, V, V), col = colorAdjust(Attack.col, poly.alpha))
     polygon(c(I + A, I + A + D, I + A + D, I + A), c(0, 0, V, V), col = colorAdjust(Decay.col, poly.alpha))
@@ -120,23 +120,23 @@ mplot3.adsr <- function(Attack = 300,
   # Post
   lines(c(O + R, 2 * O + R), c(0, 0), col = zerolines.col, lwd = lwd, lty = lty, xpd = TRUE)
 
-  # [ Verticals ] ====
+  # Vertical lines ====
   if (draw.verticals) {
     # Note ON
     abline(v = I, lwd = v.lwd, lty = v.lty, col = on.col)
-    text(I, 105, "Note ON", col = on.col, xpd = TRUE, font = 2)
-    # Peak Velocity
+    text(I, 102, "Note ON", col = on.col, xpd = TRUE, font = 2)
+    # Peak Value
     abline(v = I + A, lwd = v.lwd, lty = v.lty, col = Attack.col)
     # Decay end
     abline(v = I + A + D, lwd = v.lwd, lty = v.lty, col = Decay.col)
     # Sustain end - Note OFF
     abline(v = O, lwd = v.lwd, lty = v.lty, col = Sustain.col)
-    text(O, 105, "Note OFF", col = off.col, xpd = TRUE, font = 2)
+    text(O, 102, "Note OFF", col = off.col, xpd = TRUE, font = 2)
     # Release end
     abline(v = O + R, lwd = v.lwd, lty = v.lty, col = Release.col)
   }
 
-  # [ Arrows ] ====
+  # Arrows ====
   # Attack Time
   arrows(x0 = I, y0 = V/2, x1 = I + A, V/2,
          code = arrow.code, length = arrow.length, lwd = 1.5, lty = 1, col = Attack.col)
@@ -150,20 +150,22 @@ mplot3.adsr <- function(Attack = 300,
   arrows(x0 = O, y0 = S/2, x1 = O + R, y1 = S/2,
          code = arrow.code, length = arrow.length, lwd = 1.5, lty = 1, col = Release.col)
 
-  # [ MAIN ] ====
+  # Title ====
   # mtext(text = c("A", "D", "S", "R", "Envelope Generator"), side = 3,
   #       font = 2, cex = 1.2, adj = c(0, .03, .06, .09, .2), line = 1.5,
   #       col = c(Attack.col, Decay.col, Sustain.col, Release.col, "white"))
 
-  # [ Legend ] ====
+  # Legend ====
   # legend(O + R, 100, legend = c("Attack", "Decay", "Sustain", "Release"),
   #        col = c(Attack.col, Decay.col, Sustain.col, Release.col))
   # legend("topright",
   #        legend = c("Attack Time", "Decay Time", "Sustain Level", "Release Time"),
   #        text.col = c(Attack.col, Decay.col, Sustain.col, Release.col), bty = "n")
+  step = 1.9
   mtext(c("Attack Time", "Decay Time", "Sustain Level", "Release Time"),
         side = 3, font = 2,
         col = c(Attack.col, Decay.col, Sustain.col, Release.col),
-        adj = .98, padj = c(2, 3.7, 5.4, 7.1), cex = 1.2)
+        adj = .98, padj = seq(2, 2+step*3, by = step))
+  
 
 } # rtemis::adsr
