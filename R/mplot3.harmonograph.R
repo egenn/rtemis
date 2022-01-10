@@ -94,18 +94,18 @@ mplot3.harmonograph <- function(steps = seq(1,  500,  by  =  .01),
 } # rtemis::mplot3.harmonograph
 
 
-#' Chill a little
+#' Chill
 #'
-#' Relax. Use Ctrl-C to exit (and stay relaxed)
+#' Relax. Use Ctrl-C to exit (but try to stay relaxed)
 #'
-#' @param sleep Float: Time in seconds between drawings. Default = .3
+#' @param sleep Float: Time in seconds between drawings. Default = .5
 #' @param max Integer: Max times to repeat. Default = 1000
 #' @export
 
-chillalittle <- function(sleep = .3, text = NULL, max = 1000) {
+chill <- function(sleep = .5, text = NULL, max = 1000) {
   msg("Ctrl-C to exit")
   for (i in seq(max)) {
     Sys.sleep(sleep); mplot3.harmonograph(col = sample(2:8, 1),
                                           text = text)
   }
-}
+} # rtemis::chill
