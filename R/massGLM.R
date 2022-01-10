@@ -24,7 +24,7 @@
 #' you want to plot directly)
 #' @param trace Integer: If > 0, print more verbose output to console. Default = 0
 #' @param verbose Logical: If TRUE, print messages during run
-#' @param n.cores Integer: Number of cores to use
+#' @param n.cores Integer: Number of cores to use. Default = 1 (Do not change)
 #' @author E.D. Gennatas
 #' @export
 
@@ -37,7 +37,7 @@ massGLM <- function(x, y,
                     print.plot = FALSE,
                     verbose = TRUE,
                     trace = 0,
-                    n.cores = rtCores) {
+                    n.cores = 1) {
 
   # Intro ====
   start.time <- intro(verbose = verbose)
