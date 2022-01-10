@@ -31,6 +31,7 @@ dplot3.x(
   vline = NULL,
   vline.col = "#ff0000",
   vline.width = 1,
+  vline.dash = "dot",
   text = NULL,
   text.x = 1,
   text.xref = "paper",
@@ -99,11 +100,14 @@ legend top left within the plot area. Set to NULL to place legend top right besi
 
 \item{bargap}{Float: The gap between adjacent histogram bars in plot fraction. Default = .05}
 
-\item{vline}{Float: If defined, draw a vertical line at this x value. Default = NULL}
+\item{vline}{Float, vector: If defined, draw a vertical line at this x value(s). Default = NULL}
 
 \item{vline.col}{Color for \code{vline}. Default = "#ff0000" (red)}
 
 \item{vline.width}{Float: Width for \code{vline}. Default = 1}
+
+\item{vline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+or "longdashdot"}
 
 \item{text}{Character: If defined, add this text over the plot}
 
@@ -148,9 +152,6 @@ Turn to FALSE, if, for example, groups are ordered by date or similar.}
 \item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
 
 \item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
-
-\item{vline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
-or "longdashdot"}
 }
 \description{
 Draw interactive univariate plots using \code{plotly}

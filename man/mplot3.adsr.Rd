@@ -9,12 +9,12 @@ mplot3.adsr(
   Decay = 160,
   Sustain = 40,
   Release = 500,
-  Velocity = 80,
+  Value = 80,
   I = 200,
   O = 1800,
   lty = 1,
   lwd = 4,
-  main = "ADSR Envelope Generator",
+  main = "ADSR Envelope",
   main.line = 1.6,
   main.col = "white",
   Attack.col = pennCol$lighterYellow,
@@ -34,7 +34,7 @@ mplot3.adsr(
   grid.lwd = 0.4,
   grid.col = NULL,
   zerolines.col = "gray50",
-  theme = "black",
+  theme = "darkgray",
   labs.col = "gray70",
   tick.col = "gray70",
   on.lty = 2,
@@ -59,7 +59,7 @@ mplot3.adsr(
 
 \item{Release}{Float: Release time (in milliseconds)}
 
-\item{Velocity}{Float: Velocity (percent)}
+\item{Value}{Float: Value (percent)}
 
 \item{I}{Float: Note on time (in milliseconds)}
 

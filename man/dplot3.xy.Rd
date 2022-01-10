@@ -107,7 +107,7 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
+\item{col}{Color for markers. Default=NULL, which will draw colors from palette}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 

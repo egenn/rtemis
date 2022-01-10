@@ -42,67 +42,6 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{model}{character specifying the model to be used: \code{"lm"} (linear
-model), \code{"glm"} (generalized linear model), \code{"cox"} (Cox
-proportional hazards model), \code{"gmm"} (generalized method of moments),
-\code{"m"} (M-estimation). See \sQuote{Details}.}
-
-\item{model.control}{a list of parameters for controlling the model.
-\describe{
-  \item{\code{family} (\code{"glm"})}{a description of the error distribution and
-    link function to be used in the model. This can be a character string
-    naming a family function, a family function or the result of a call to
-    a family function. (See \code{\link[stats]{family}} for details of
-    family functions.)}
-  \item{\code{rank} (\code{"glm"})}{logical. Should the rank of the design matrix
-    be checked?}
-  \item{\code{fn} (\code{"gmm"})}{a function \eqn{g(\theta,x)} which returns a
-    \eqn{k}-vector corresponding to the \eqn{k} moment conditions. It is a
-    required argument if \code{gr} not specified.}
-  \item{\code{gr} (\code{"gmm"})}{a function to return the gradient. If
-    unspecified, a finite-difference approximation will be used.}
-  \item{\code{nparams} (\code{"gmm"})}{number of model parameters. This is
-    automatically determined for other models.}
-  \item{\code{type} (\code{"gmm"})}{character specifying the generalized method of
-    moments procedure: \code{"twostep"} (Hansen, 1982), \code{"iterative"}
-    (Hansen et al., 1996). Defaults to \code{"iterative"}.}
-  \item{\code{wmatrix} (\code{"gmm"})}{weighting matrix to be used in the loss
-    function. Defaults to the identity matrix.}
-  \item{\code{loss} (\code{"m"})}{character specifying the loss function to be
-    used in the estimating equation. Default is the Huber loss.}
-  \item{\code{lambda1}}{L1 regularization parameter. Default is 0.}
-  \item{\code{lambda2}}{L2 regularization parameter. Default is 0.}
-}}
-
-\item{sgd.control}{an optional list of parameters for controlling the estimation.
-\describe{
-  \item{\code{method}}{character specifying the method to be used: \code{"sgd"},
-    \code{"implicit"}, \code{"asgd"}, \code{"ai-sgd"}, \code{"momentum"},
-    \code{"nesterov"}. Default is \code{"ai-sgd"}. See \sQuote{Details}.}
-  \item{\code{lr}}{character specifying the learning rate to be used:
-    \code{"one-dim"}, \code{"one-dim-eigen"}, \code{"d-dim"},
-    \code{"adagrad"}, \code{"rmsprop"}. Default is \code{"one-dim"}.
-    See \sQuote{Details}.}
-  \item{\code{lr.control}}{vector of scalar hyperparameters one can
-    set dependent on the learning rate. For hyperparameters aimed
-    to be left as default, specify \code{NA} in the corresponding
-    entries. See \sQuote{Details}.}
-  \item{\code{start}}{starting values for the parameter estimates. Default is
-    random initialization around zero.}
-  \item{\code{size}}{number of SGD estimates to store for diagnostic purposes
-    (distributed log-uniformly over total number of iterations)}
-  \item{\code{reltol}}{relative convergence tolerance. The algorithm stops
-    if it is unable to change the relative mean squared difference in the
-    parameters by more than the amount. Default is \code{1e-05}.}
-  \item{\code{npasses}}{the maximum number of passes over the data. Default
-    is 3.}
-  \item{\code{pass}}{logical. Should \code{tol} be ignored and run the
-    algorithm for all of \code{npasses}?}
-  \item{\code{shuffle}}{logical. Should the algorithm shuffle the data set
-    including for each pass?}
-  \item{\code{verbose}}{logical. Should the algorithm print progress?}
-}}
-
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}

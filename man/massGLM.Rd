@@ -14,7 +14,7 @@ massGLM(
   print.plot = FALSE,
   verbose = TRUE,
   trace = 0,
-  n.cores = rtCores
+  n.cores = 1
 )
 }
 \arguments{
@@ -38,7 +38,7 @@ you want to plot directly)}
 
 \item{trace}{Integer: If > 0, print more verbose output to console. Default = 0}
 
-\item{n.cores}{Integer: Number of cores to use}
+\item{n.cores}{Integer: Number of cores to use. Default = 1 (Do not change)}
 }
 \description{
 Run a mass-univariate analysis with either:
