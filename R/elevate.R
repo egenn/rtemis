@@ -26,7 +26,7 @@
 #' @param .decompose Optional named list of parameters to be used for decomposition / dimensionality
 #' reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}
 #' @param .resample Optional named list of parameters to be passed to \link{resample}.
-#' NOTE: If set, this takes precedence over setting the individual resampling arguments ()
+#' NOTE: If set, this takes precedence over setting the individual resampling arguments
 #' @param res.index List where each element is a vector of training set indices. Use this for manual or
 #' precalculated train/test splits
 #' @param res.group Integer, vector, length = length(y): Integer vector, where numbers define fold membership.
@@ -65,8 +65,10 @@
 #' @param res.verbose Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
+#' @param debug Logical: If TRUE, sets \code{n.cores} to 1, and \code{options(error=recover)}
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
+#' 
 #' @return Object of class \code{rtModCV} (Regression) or \code{rtModCVclass} (Classification)
 #' \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
 #' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
@@ -131,7 +133,8 @@ elevate <- function(x, y = NULL,
                     save.plots = FALSE,
                     save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
                     save.mod = TRUE,
-                    save.res = FALSE, ...) {
+                    save.res = FALSE,
+                    debug = FALSE, ...) {
 
   # Intro ====
   if (missing(x)) {
@@ -140,6 +143,10 @@ elevate <- function(x, y = NULL,
     invisible(9)
   }
   if (toupper(mod) == "KNN") stop("KNN is not supported by elevate")
+  if (debug) {
+    n.cores <- 1
+    options(error = recover)
+  }
   if (!is.null(outdir)) {
     outdir <- normalizePath(outdir, mustWork = FALSE)
     dir.create(outdir, showWarnings = FALSE)
