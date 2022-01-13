@@ -23,4 +23,5 @@ onehot2factor <- function(x, labels = colnames(x)) {
     out[x[, i] == 1] <- labels[i]
   }
   out
-}
+  
+} # rtemis::onehot2factor
