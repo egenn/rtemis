@@ -30,7 +30,7 @@
 #' @param ridge.order.on.mean Logical: If TRUE, order groups by mean value when \code{mode = "ridge"}. Defaul = TRUE.
 #' Turn to FALSE, if, for example, groups are ordered by date or similar.
 #' @param vline Float, vector: If defined, draw a vertical line at this x value(s). Default = NULL
-#' @param vline.col Color for \code{vline}. Default = "#ff0000" (red)
+#' @param vline.col Color for \code{vline}. Default = theme$fg
 #' @param vline.width Float: Width for \code{vline}. Default = 1
 #' @param vline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
 #' or "longdashdot"
@@ -40,7 +40,7 @@
 #' @param text.xanchor Character: "auto", "left", "center", "right"
 #' @param text.yanchor Character: "auto", "top", "middle", "bottom"
 #' @param text.yref Character: "y": \code{text.y} refers to plot's y-axis; "paper": \code{text.y} refers to plotting area from 0-1
-#' @param text.col Color for \code{text}
+#' @param text.col Color for \code{text}. Default = theme$fg
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
 #' @author E.D. Gennatas
@@ -75,7 +75,7 @@ dplot3.x <- function(x,
                      bargap = .05,
                      bingroup = 1,
                      vline = NULL,
-                     vline.col = "#ff0000",
+                     vline.col = theme$fg,
                      vline.width = 1,
                      vline.dash = "dot",
                      text = NULL,
@@ -85,7 +85,7 @@ dplot3.x <- function(x,
                      text.y = 1,
                      text.yref = "paper",
                      text.yanchor = "top",
-                     text.col = "#ff0000",
+                     text.col = theme$fg,
                      margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
                      automargin.x = TRUE,
                      automargin.y = TRUE,
