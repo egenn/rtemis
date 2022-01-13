@@ -57,6 +57,14 @@ dplot3.xy(
   diagonal.col = NULL,
   diagonal.alpha = 0.2,
   fit.params = list(),
+  vline = NULL,
+  vline.col = theme$fg,
+  vline.width = 1,
+  vline.dash = "dot",
+  hline = NULL,
+  hline.col = theme$fg,
+  hline.width = 1,
+  hline.dash = "dot",
   width = NULL,
   height = NULL,
   displayModeBar = TRUE,
@@ -163,6 +171,19 @@ groups, or \code{fit} is set}
 
 \item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
 parameters}
+
+\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+
+\item{vline.col}{Color for vertical lines}
+
+\item{hline}{Float: If defined, draw a horizontal line at this y value. Default = NULL}
+
+\item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
+
+\item{hline.width}{Float: Width for \code{hline}. Default = 1}
+
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+or "longdashdot"}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 

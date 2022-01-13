@@ -5,7 +5,7 @@
 \title{\code{rtset.resample}: Set \link{resample} settings}
 \usage{
 rtset.resample(
-  resampler = "kfold",
+  resampler = "strat.sub",
   n.resamples = 10,
   stratify.var = NULL,
   train.p = 0.75,
@@ -15,8 +15,9 @@ rtset.resample(
 )
 }
 \arguments{
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "strat.sub" (Stratified subsampling), 
+"strat.boot" (Stratified bootstrap), "kfold", "bootstrap", "loocv" (Leave-one-out).
+Default = "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 

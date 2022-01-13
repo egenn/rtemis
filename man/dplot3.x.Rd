@@ -29,7 +29,7 @@ dplot3.x(
   bargap = 0.05,
   bingroup = 1,
   vline = NULL,
-  vline.col = "#ff0000",
+  vline.col = theme$fg,
   vline.width = 1,
   vline.dash = "dot",
   text = NULL,
@@ -39,7 +39,7 @@ dplot3.x(
   text.y = 1,
   text.yref = "paper",
   text.yanchor = "top",
-  text.col = "#ff0000",
+  text.col = theme$fg,
   margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
@@ -102,7 +102,7 @@ legend top left within the plot area. Set to NULL to place legend top right besi
 
 \item{vline}{Float, vector: If defined, draw a vertical line at this x value(s). Default = NULL}
 
-\item{vline.col}{Color for \code{vline}. Default = "#ff0000" (red)}
+\item{vline.col}{Color for \code{vline}. Default = theme$fg}
 
 \item{vline.width}{Float: Width for \code{vline}. Default = 1}
 
@@ -121,7 +121,7 @@ or "longdashdot"}
 
 \item{text.yanchor}{Character: "auto", "top", "middle", "bottom"}
 
-\item{text.col}{Color for \code{text}}
+\item{text.col}{Color for \code{text}. Default = theme$fg}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
 

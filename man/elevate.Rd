@@ -48,6 +48,7 @@ elevate(
   save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
   save.mod = TRUE,
   save.res = FALSE,
+  debug = FALSE,
   ...
 )
 }
@@ -68,14 +69,15 @@ be passed as part of \code{...} as well}
 reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}}
 
 \item{.resample}{Optional named list of parameters to be passed to \link{resample}.
-NOTE: If set, this takes precedence over setting the individual resampling arguments ()}
+NOTE: If set, this takes precedence over setting the individual resampling arguments}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "strat.sub" (Stratified subsampling), 
+"strat.boot" (Stratified bootstrap), "kfold", "bootstrap", "loocv" (Leave-one-out).
+Default = "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
@@ -162,6 +164,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{save.res}{Logical: If TRUE, save the full output of each model trained on differents resamples under
 subdirectories of \code{outdir}}
+
+\item{debug}{Logical: If TRUE, sets \code{n.cores} to 1, and \code{options(error=recover)}}
 
 \item{...}{Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 either way to pass learner arguments)}

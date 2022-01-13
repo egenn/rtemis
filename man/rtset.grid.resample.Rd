@@ -5,8 +5,8 @@
 \title{\code{rtset.grid.resample}: \link{resample} defaults for \link{gridSearchLearn}}
 \usage{
 rtset.grid.resample(
-  resampler = "strat.boot",
-  n.resamples = 10,
+  resampler = "kfold",
+  n.resamples = 5,
   stratify.var = NULL,
   train.p = 0.75,
   strat.n.bins = 4,
@@ -15,8 +15,9 @@ rtset.grid.resample(
 )
 }
 \arguments{
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "strat.sub" (Stratified subsampling), 
+"strat.boot" (Stratified bootstrap), "kfold", "bootstrap", "loocv" (Leave-one-out).
+Default = "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
