@@ -18,7 +18,7 @@ NULL
 #'
 #' @inheritParams resample
 #' @export
-rtset.resample <- function(resampler = "kfold",
+rtset.resample <- function(resampler = "strat.sub",
                            n.resamples = 10,
                            stratify.var = NULL,
                            train.p = .75,
@@ -42,7 +42,7 @@ rtset.resample <- function(resampler = "kfold",
 #'
 #' @inheritParams resample
 #' @export
-rtset.grid.resample <- function(resampler = "strat.boot", n.resamples = 10,
+rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
                                 stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                 target.length = NULL, verbose = TRUE) {
   list(resampler = resampler,
