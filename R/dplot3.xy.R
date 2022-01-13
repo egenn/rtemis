@@ -88,6 +88,14 @@ dplot3.xy <- function(x, y = NULL,
                       diagonal.col = NULL,
                       diagonal.alpha = .2,
                       fit.params = list(),
+                      vline = NULL,
+                      vline.col = theme$fg,
+                      vline.width = 1,
+                      vline.dash = "dot",
+                      hline = NULL,
+                      hline.col = theme$fg,
+                      hline.width = 1,
+                      hline.dash = "dot",
                       width = NULL,
                       height = NULL,
                       displayModeBar = TRUE,
@@ -471,6 +479,22 @@ dplot3.xy <- function(x, y = NULL,
                         showlegend = legend,
                         legend = .legend)
 
+  ## vline ====
+  if (!is.null(vline)) {
+    plt <- plotly::layout(plt, shapes = plotly_vline(vline,
+                                                     color = vline.col,
+                                                     width = vline.width,
+                                                     dash = vline.dash))
+  }
+  
+  ## hline ====
+  if (!is.null(hline)) {
+    plt <- plotly::layout(plt, shapes = plotly_hline(hline,
+                                                     color = hline.col,
+                                                     width = hline.width,
+                                                     dash = hline.dash))
+  }
+  
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,
