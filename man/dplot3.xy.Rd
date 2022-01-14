@@ -65,6 +65,7 @@ dplot3.xy(
   hline.col = theme$fg,
   hline.width = 1,
   hline.dash = "dot",
+  hovertext = NULL,
   width = NULL,
   height = NULL,
   displayModeBar = TRUE,
@@ -151,8 +152,6 @@ plot.}
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 groups, or \code{fit} is set}
 
-\item{legend.orientation}{Character: "v": vertical, or "h": horizontal. Default = "v"}
-
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
@@ -185,6 +184,8 @@ parameters}
 \item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
 or "longdashdot"}
 
+\item{hovertext}{List of character vectors with hovertext to include for each group of markers}
+
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
@@ -198,12 +199,6 @@ or "longdashdot"}
 \item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
 
 \item{...}{Additional arguments to be passed to theme function}
-
-\item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
-
-\item{histfunc}{Character: "count", "sum", "avg", "min", "max". Default = "count"}
-
-\item{hist.n.bins}{Integer: Number of bins to use if type = "histogram". Default = 20}
 }
 \description{
 Draw interactive scatter plots using \code{plotly}
@@ -213,7 +208,8 @@ use theme$tick.labels.col for both tick color and tick label color - this may ch
 }
 \examples{
 \dontrun{
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
+dplot3.xy(iris$Sepal.Length, iris$Petal.Length, 
+          fit = "gam", se.fit = TRUE, group = iris$Species)
 }
 }
 \author{

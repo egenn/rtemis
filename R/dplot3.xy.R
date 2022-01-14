@@ -23,17 +23,15 @@
 #' plot.
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 #' groups, or \code{fit} is set
-#' @param legend.orientation Character: "v": vertical, or "h": horizontal. Default = "v"
-#' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
-#' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
-#' @param hist.n.bins Integer: Number of bins to use if type = "histogram". Default = 20
+#' @param hovertext List of character vectors with hovertext to include for each group of markers
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{
-#' dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
+#' dplot3.xy(iris$Sepal.Length, iris$Petal.Length, 
+#'           fit = "gam", se.fit = TRUE, group = iris$Species)
 #' }
 
 dplot3.xy <- function(x, y = NULL,
@@ -96,6 +94,7 @@ dplot3.xy <- function(x, y = NULL,
                       hline.col = theme$fg,
                       hline.width = 1,
                       hline.dash = "dot",
+                      hovertext = NULL,
                       width = NULL,
                       height = NULL,
                       displayModeBar = TRUE,
@@ -188,8 +187,10 @@ dplot3.xy <- function(x, y = NULL,
   }
   n.groups <- length(x)
 
-  legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
-
+  if (is.null(legend)) {
+    legend <- if (n.groups == 1 & is.null(fit)) FALSE else TRUE
+  }
+  
   if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n.groups > 1
@@ -370,6 +371,7 @@ dplot3.xy <- function(x, y = NULL,
                              name = if (n.groups > 1) .names[i] else "Raw",
                              # text = .text[[i]],
                              # hoverinfo = "text",
+                             text = hovertext[[i]],
                              marker = marker,
                              line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
                              legendgroup = if (n.groups > 1) .names[i] else "Raw",
