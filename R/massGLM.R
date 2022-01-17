@@ -25,8 +25,21 @@
 #' @param trace Integer: If > 0, print more verbose output to console. Default = 0
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use. Default = 1 (Do not change)
+#' 
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' # Common usage is "reversed": 
+#' # x: outcome of interest as first column, optional covariates of no interest 
+#' # in the other columns
+#' # y: features whose influence on x you want to study
+#' set.seed(2022)
+#' features <- rnormmat(400, 20)
+#' outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
+#' massmod <- massGLM(outcome, features)
+#' plot(massmod)
+#' }
 
 massGLM <- function(x, y,
                     type = NULL,
