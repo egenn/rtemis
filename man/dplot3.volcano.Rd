@@ -27,16 +27,28 @@ dplot3.volcano(
   annotate.n = 7,
   ay.lo = NULL,
   ay.hi = NULL,
+  annotate = TRUE,
   annotate.alpha = 0.7,
   hovertext = NULL,
   displayModeBar = FALSE,
   filename = NULL,
   file.width = 500,
   file.height = 500,
+  verbose = TRUE,
   trace = 0,
   ...
 )
 }
+\arguments{
+\item{x}{Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.}
+
+\item{pvals}{Numeric vector: p-values}
+
+\item{p.thresh}{Numeric: p-value threshold of significance. Default = .05}
+}
 \description{
 Volcano Plot
+}
+\author{
+E.D. Gennatas
 }

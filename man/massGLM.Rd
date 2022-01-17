@@ -48,6 +48,19 @@ b) multiple different outcomes (y) with a fixed set of predictors (x) - "massy"
 Therefore the term mass-univariate refers to looking at one variable of interest (with
 potential covariates of no interest) at a time
 }
+\examples{
+\dontrun{
+# Common usage is "reversed": 
+# x: outcome of interest as first column, optional covariates of no interest 
+# in the other columns
+# y: features whose influence on x you want to study
+set.seed(2022)
+features <- rnormmat(400, 20)
+outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
+massmod <- massGLM(outcome, features)
+plot(massmod)
+}
+}
 \author{
 E.D. Gennatas
 }

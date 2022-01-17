@@ -75,9 +75,8 @@ NOTE: If set, this takes precedence over setting the individual resampling argum
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{resampler}{Character: Type of resampling to perform: "strat.sub" (Stratified subsampling), 
-"strat.boot" (Stratified bootstrap), "kfold", "bootstrap", "loocv" (Leave-one-out).
-Default = "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
+Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 

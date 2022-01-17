@@ -131,8 +131,6 @@ plot.}
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 groups, or \code{fit} is set}
 
-\item{legend.orientation}{Character: "v": vertical, or "h": horizontal. Default = "v"}
-
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
