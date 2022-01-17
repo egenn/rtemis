@@ -44,13 +44,20 @@
 }
 
 /* Also environment pane */
-.GEL-OVUBKOD {
+.GEL-OVUBKOD, .GEL-OVUBLOD {
     height: 100%;
     width: 100%;
     cursor: default;
     background-color: #191919;
     color: #e7e7e7;
 }
+
+/* Guess what - new environment pane 
+.macintosh .GEL-OVUBCW, .macintosh .GEL-OVUBCW td, .macintosh .GEL-OVUBCW pre {
+    line-height: 1.45;
+    background-color: #191919 !important;
+} */
+
 
 /* shiny window top toolbar remove bottom border*/
 .rstheme_toolbarWrapper {
