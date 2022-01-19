@@ -21,8 +21,9 @@ dplot3.volcano(
   alpha = 0.5,
   theme = getOption("rt.theme"),
   font.size = 16,
-  palette = list("#F48024", "#7f7f7f", "#18A3AC"),
-  legend.x = c(-0.2, 0.2),
+  palette = list("#18A3AC", "#7f7f7f", "#F48024"),
+  legend.x.lo = NULL,
+  legend.x.hi = NULL,
   legend.y = 0.97,
   annotate.n = 7,
   ay.lo = NULL,
@@ -48,6 +49,15 @@ dplot3.volcano(
 }
 \description{
 Volcano Plot
+}
+\examples{
+\dontrun{
+set.seed(2019)
+x <- rnormmat(500, 500)
+y <- x[, 3] + x[, 5] + x[, 9] + x[, 15] + rnorm(500)
+mod <- massGLM(y, x)
+dplot3.volcano(mod$summary$`Coefficient y`, mod$summary$`p_value y`)
+}
 }
 \author{
 E.D. Gennatas
