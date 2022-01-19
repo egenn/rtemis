@@ -57,14 +57,6 @@ clean_colnames <- function(x) {
   if (!inherits(x, "character")) {
     x <- if (inherits(x, "matrix")) colnames(x) else names(x)
   }
-  out <- gsub("[[:punct:]{1,}|[:space:]]{1,}", "_", x)
-  gsub("_$", "", out)
-}
-
-clean_colnames2 <- function(x) {
-  if (!inherits(x, "character")) {
-    x <- if (inherits(x, "matrix")) colnames(x) else names(x)
-  }
-  out <- gsub("[[:punct:]|[:space:]]", "_", x)
+  out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
   gsub("_$", "", out)
 }
