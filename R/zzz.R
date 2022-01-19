@@ -81,5 +81,6 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 #' @name rtemis-package
 #' @import graphics grDevices methods stats utils parallel R6 data.table crayon future
 #' @importFrom crayon "%+%"
+#' @importFrom htmltools strong HTML
 
 NULL
