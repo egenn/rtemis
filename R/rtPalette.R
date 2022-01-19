@@ -8,7 +8,6 @@
 #' \code{pennCol}: Penn color palette
 #' (http://www.upenn.edu/about/styleguide-color-type)
 #' @name rtPalettes
-#' @export
 
 pennCol <- list(darkestBlue = "#000f3a",
                 darkerBlue = "#00144d",
@@ -45,7 +44,6 @@ pennCol <- list(darkestBlue = "#000f3a",
 #' \code{pennPalette}: Subset of \code{pennCol}.
 #'
 #' @name rtPalettes
-#' @export
 pennPalette <- pennCol[c("lighterBlue", "red", "green", "yellow", "lighterPurple", "orange",
                          "lightestBlue", "lighterRed", "lighterGreen", "lightestPurple",
                          "lighterOrange")]
@@ -53,7 +51,6 @@ pennPalette <- pennCol[c("lighterBlue", "red", "green", "yellow", "lighterPurple
 #' \code{pennLightPalette}: Subset of \code{pennCol}. This is the lighter Penn palette for use with
 #' the dark themes
 #' @name rtPalettes
-#' @export
 pennLightPalette <- pennCol[c("lightestBlue", "lightestRed", "lightestGreen",
                               "lightestYellow", "lightestPurple")]
 
@@ -65,7 +62,6 @@ pennLightPalette <- pennCol[c("lightestBlue", "lightestRed", "lightestGreen",
 #' (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
 #'
 #' @name rtPalettes
-#' @export
 
 imperialCol <- list(navy = "#002147",
                     imperialBlue = "#003E74",
@@ -102,7 +98,6 @@ imperialCol <- list(navy = "#002147",
 #' (https://identity.stanford.edu/color.html#digital-color)
 #'
 #' @name rtPalettes
-#' @export
 
 stanfordCol <- list(cardinal = "#8c1515",
                     coolGrey = "#4d4f53",
@@ -139,7 +134,7 @@ stanfordCol <- list(cardinal = "#8c1515",
 #' \code{ucsfCol}: UCSF color palette (http://identity.ucsf.edu/color)
 #'
 #' @name rtPalettes
-#' @export
+
 ucsfCol <- list(navy = "#052049",
                 teal = "#18A3AC",
                 green = "#90BD31",
@@ -159,7 +154,6 @@ ucsfCol <- list(navy = "#052049",
 #' \code{ucsfPalette}: Subset of \code{ucsfCol}
 #'
 #' @name rtPalettes
-#' @export
 
 ucsfPalette <- ucsfCol[c("teal", "orange", "blue", "yellow", "purple",
                          "red", "navy", "green")]
@@ -171,7 +165,6 @@ ucsfPalette <- ucsfCol[c("teal", "orange", "blue", "yellow", "purple",
 #' \code{ucdCol}: UC Davis color palette
 #' (https://marketingtoolbox.ucdavis.edu/visual-identity/color.html)
 #' @name rtPalettes
-#' @export
 
 ucdCol <- list(davisBlue = "#002855",
                davisGold = "#DAAA00",
@@ -200,7 +193,6 @@ ucdCol <- list(davisBlue = "#002855",
 #' (https://brand.berkeley.edu/colors/)
 #'
 #' @name rtPalettes
-#' @export
 
 berkeleyCol <- list(berkeleyBlue = "#003262",
                     foundersRock = "#3B7EA1",
@@ -229,7 +221,6 @@ berkeleyCol <- list(berkeleyBlue = "#003262",
 #' (https://communications.ucsc.edu/visual-design/color/)
 #'
 #' @name rtPalettes
-#' @export
 
 ucscCol <- list(blue = "#003c6c",
                 gold = "#fdc700",
@@ -249,7 +240,6 @@ ucscCol <- list(blue = "#003c6c",
 #' (https://publicrelations.ucmerced.edu/color-guidelines)
 #'
 #' @name rtPalettes
-#' @export
 
 ucmercedCol <- list(mercedRiverBlue = "#092f44",
                     foothillsGold = "#a29061",
@@ -266,7 +256,6 @@ ucmercedCol <- list(mercedRiverBlue = "#092f44",
 #' \code{ucsbCol}: UC Santa Barbara color palette
 #' (https://www.ucsb.edu/visual-identity/color)
 #' @name rtPalettes
-#' @export
 
 ucsbCol <- list(navy = "#003660",
                 gold = "#FEBC11",
@@ -285,7 +274,6 @@ ucsbCol <- list(navy = "#003660",
 #'
 #' \code{uclaCol}: UCLA color palette (http://brand.ucla.edu/identity/colors)
 #' @name rtPalettes
-#' @export
 
 uclaCol <- list(blue = "#2774AE",
                 gold = "#FFD100",
@@ -307,7 +295,6 @@ uclaCol <- list(blue = "#2774AE",
 #'
 #' \code{ucrCol}: UC Riverside color palette (https://brand.ucr.edu/ucr-colors)
 #' @name rtPalettes
-#' @export
 
 ucrColor <- list(ucrBlue = "#2d6cc0",
                  ucrGold = "#f1ab00",
@@ -319,7 +306,6 @@ ucrColor <- list(ucrBlue = "#2d6cc0",
 #'
 #' \code{uciCol}: UCI color palette (https://communications.uci.edu/campus-resources/graphic-standards/colors.php)
 #' @name rtPalettes
-#' @export
 
 uciCol <- list(blue = "#0064a4",
                yellow = "#ffd200",
@@ -337,7 +323,6 @@ uciCol <- list(blue = "#0064a4",
 #' \code{ucsdCol}: UC San Diego color palette
 #' (https://ucpa.ucsd.edu/brand/elements/color-palette/)
 #' @name rtPalettes
-#' @export
 
 ucsdCol <- list(blue = "#182B49",
                 mediumBlue = "#006A96",
@@ -358,7 +343,6 @@ ucsdCol <- list(blue = "#182B49",
 #' \code{californiaCol}: University of California color palette
 #' (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 #' @name rtPalettes
-#' @export
 
 californiaCol <- list(ucBlue = "#1295D8",
                       ucGold = "#FFB511",
@@ -384,7 +368,6 @@ californiaCol <- list(ucBlue = "#1295D8",
 #' \code{csuCol}: California State University color palette
 #' (https://www2.calstate.edu/csu-system/csu-branding-standards/Documents/CSU-Brand-Guidelines-8-2018.pdf)
 #' @name rtPalettes
-#' @export
 
 csuCol <- list(red = "#CC0B2A",
                coolGray = "#D9D9D6",
@@ -397,7 +380,6 @@ csuCol <- list(red = "#CC0B2A",
 #' \code{calpolyCol}: Cal Poly color palette
 #' (https://universitymarketing.calpoly.edu/brand-guidelines/colors/)
 #' @name rtPalettes
-#' @export
 
 calpolyCol <- list(calpolygreen = "#154734",
                    calpolygold = "#C69214",
@@ -423,7 +405,6 @@ calpolyCol <- list(calpolygreen = "#154734",
 #'
 #' \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
 #' @name rtPalettes
-#' @export
 
 caltechCol <- list(orange = "#FF6C0C",
                    coolGray9 = "#76777B",
@@ -464,7 +445,6 @@ scrippsCol <- list(yellow = "#edb035",
 #' \code{cmuCol}: Carnegie Mellon color palette
 #' (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)
 #' @name rtPalettes
-#' @export
 
 cmuCol <- list(cmuRed = "#bb0000",
                gray = "#e0e0e0",
@@ -482,7 +462,7 @@ cmuCol <- list(cmuRed = "#bb0000",
 #' \code{mitCol}: MIT color palette
 #' (http://web.mit.edu/graphicidentity/colors.html)
 #' @name rtPalettes
-#' @export
+
 
 mitCol <- list(red = "#A31F34",
                gray = "#8A8B8C",
@@ -495,7 +475,7 @@ mitCol <- list(red = "#A31F34",
 #' \code{princetonCol}: Princeton color palette
 #' (https://communications.princeton.edu/guides-tools/logo-graphic-identity)
 #' @name rtPalettes
-#' @export
+
 
 princetonCol <- list(orangeOnWhite = "#e77500",
                      orangeOnBlack = "#f58025")
@@ -507,7 +487,7 @@ princetonCol <- list(orangeOnWhite = "#e77500",
 #' \code{columbiaCol}: Columbia color palette
 #' (https://visualidentity.columbia.edu/content/web-0)
 #' @name rtPalettes
-#' @export
+
 
 columbiaCol <- list(blue = "#000d74",
                     blue1 = "#C4D8E2",
@@ -536,7 +516,7 @@ columbiaCol <- list(blue = "#000d74",
 #' \code{brownCol}: Brown color palette
 #' (https://www.brown.edu/university-identity/sites/university-identity/files/Brown_Visual_Identity_Policy_2016-07-22.pdf)
 #' @name rtPalettes
-#' @export
+
 
 brownCol <- list(red = "#ED1C24",
                  brown = "#4E3629",
@@ -553,7 +533,7 @@ brownCol <- list(red = "#ED1C24",
 #'
 #' \code{yaleCol}: Yale color palette (https://yaleidentity.yale.edu/web)
 #' @name rtPalettes
-#' @export
+
 
 yaleCol <- list(yaleBlue = "#00356b",
                 mediumBlue = "#286dc0",
@@ -573,7 +553,7 @@ yaleCol <- list(yaleBlue = "#00356b",
 #' \code{cornellCol}: Yale color palette
 #' (https://brand.cornell.edu/design-center/colors/
 #' @name rtPalettes
-#' @export
+
 
 cornellCol <- list(carnellian = "#B31B1B",
                    darkGrey = "#222222",
@@ -596,7 +576,7 @@ cornellCol <- list(carnellian = "#B31B1B",
 #' \code{hmsCol}: Harvard Medical School color palette
 #' (https://identityguide.hms.harvard.edu/color)
 #' @name rtPalettes
-#' @export
+
 
 hmsCol <- list(crimson = "#A51C30",
                black = "#1E1E1E",
@@ -620,7 +600,7 @@ hmsCol <- list(crimson = "#A51C30",
 #' \code{dartmouthCol}: Dartmouth color palette
 #' (https://communications.dartmouth.edu/visual-identity/design-elements/color-palette#web%20palette)
 #' @name rtPalettes
-#' @export
+
 
 dartmouthCol <- list(dartmouthGreen = "#00693e",
                      forestGreen = "#12312b",
@@ -644,7 +624,7 @@ dartmouthCol <- list(dartmouthGreen = "#00693e",
 #' (https://myusf.usfca.edu/marketing-communications/resources/graphics-resources/brand-standards/color-palette)
 #' Color conversions performed using https://www.pantone.com/color-finder/
 #' @name rtPalettes
-#' @export
+
 
 usfCol <- list(green = "#205C40",
                yellow = "#ffb81c",
@@ -657,7 +637,7 @@ usfCol <- list(green = "#205C40",
 #' \code{uwCol}: University of Washington color palette
 #' (http://www.washington.edu/brand/graphic-elements/primary-color-palette/)
 #' @name rtPalettes
-#' @export
+
 
 uwCol <- list(purple = "#4b2e83",
               gold = "#b7a57a",
@@ -670,7 +650,7 @@ uwCol <- list(purple = "#4b2e83",
 #' \code{jhuCol}: Johns Hopkins University color palette
 #' (https://brand.jhu.edu/color/)
 #' @name rtPalettes
-#' @export
+
 
 jhuCol <- list(heritageBlue = "#002d72",
                spiritBlue = "#68ace5",
@@ -701,7 +681,7 @@ jhuCol <- list(heritageBlue = "#002d72",
 #' \code{nyuCol}: NYU color palette
 #' (https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
 #' @name rtPalettes
-#' @export
+
 
 nyuCol <- list(brightPurple = "#8900e1",
                nyuPurple = "#57068c",
@@ -728,7 +708,7 @@ nyuCol <- list(brightPurple = "#8900e1",
 #' \code{chicagoCol}: University of Chicago color palette
 #' (https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
 #' @name rtPalettes
-#' @export
+
 
 chicagoCol <- list(maroon = "#800000",
                    darkGray  = "#767676",
@@ -763,7 +743,7 @@ chicagoCol <- list(maroon = "#800000",
 #' \code{texasCol}: Penn State color palette
 #' (https://brand.psu.edu/design-essentials.html#color)
 #' @name rtPalettes
-#' @export
+
 
 pennstateCol <- list(nittanyNavy = "#001E44",
                      beaverBlue = "#1E407C",
@@ -793,7 +773,7 @@ pennstateCol <- list(nittanyNavy = "#001E44",
 #' \code{sfsuCol}: SF State color palette
 #' (https://logo.sfsu.edu/color-system)
 #' @name rtPalettes
-#' @export
+
 
 sfsuCol <- list(`2755C` = "#231161",
                 `2755C_85pc` = "#463077",
@@ -811,7 +791,7 @@ sfsuCol <- list(`2755C` = "#231161",
 #' \code{illinoisCol}: University of Illinois color palette
 #' (https://www.uillinois.edu/OUR/brand/color_palettes)
 #' @name rtPalettes
-#' @export
+
 
 illinoisCol <- list(uofiblue = "#13294b",
                     urbanaOrange = "#E84A27",
@@ -835,7 +815,7 @@ illinoisCol <- list(uofiblue = "#13294b",
 #' \code{umdCol}: University of Maryland color palette
 #' (https://osc.umd.edu/licensing-trademarks/brand-standards/logos/#color)
 #' @name rtPalettes
-#' @export
+
 
 umdCol <- list(umdRed = "#E21833",
                umdYellow = "#ffd200",
@@ -847,7 +827,7 @@ umdCol <- list(umdRed = "#E21833",
 #' \code{texasCol}: University of Texas color palette
 #' (https://brand.utexas.edu/identity/color/)
 #' @name rtPalettes
-#' @export
+
 
 texasCol <- list(burntOrange = "#bf5700",
                  gray = "#333f48",
@@ -867,7 +847,7 @@ texasCol <- list(burntOrange = "#bf5700",
 #' \code{emoryCol}: Emory color palette
 #' (https://brand.emory.edu/color.html)
 #' @name rtPalettes
-#' @export
+
 
 emoryCol <- list(emoryBlue = "#012169",
                  darkBlue = "#0c2340",
@@ -898,7 +878,7 @@ emoryCol <- list(emoryBlue = "#012169",
 #' \code{techCol}: Georgia Tech color palette
 #' (http://www.licensing.gatech.edu/super-block/239)
 #' @name rtPalettes
-#' @export
+
 
 techCol <- list(techGold = "#B3A369",
                 buzzGold = "#EAAA00",
@@ -911,7 +891,7 @@ techCol <- list(techGold = "#B3A369",
 #' \code{vanderbiltCol}: Vanderbilt color palette
 #' (https://www.vanderbilt.edu/communications/brand/color.php)
 #' @name rtPalettes
-#' @export
+
 
 vanderbiltCol <- list(gold = "#D8AB4C",
                       blue = "#006682",
@@ -928,7 +908,7 @@ vanderbiltCol <- list(gold = "#D8AB4C",
 #'
 #' \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 #' @name rtPalettes
-#' @export
+
 
 jeffersonCol <- list(jeffDeepBlue = "#152456",
                      jeffBrightBlue = "#59B7df",
@@ -945,7 +925,7 @@ jeffersonCol <- list(jeffDeepBlue = "#152456",
 #'
 #' \code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
 #' @name rtPalettes
-#' @export
+
 
 hawaiiCol <- list(manoa = "#024731",
                   hilo = "#DA291C",
@@ -965,7 +945,7 @@ hawaiiCol <- list(manoa = "#024731",
 #'
 #' \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 #' @name rtPalettes
-#' @export
+
 
 nihCol <- list(blue = "#20558a",
                gray = "#616265")
@@ -975,7 +955,7 @@ nihCol <- list(blue = "#20558a",
 #'
 #' \code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
 #' @name rtPalettes
-#' @export
+
 
 ubcCol <- list(ubcBlue = "#002145",
                blue2 = "#0055B7",
@@ -989,7 +969,7 @@ ubcCol <- list(ubcBlue = "#002145",
 #'
 #' \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
 #' @name rtPalettes
-#' @export
+
 
 torontoCol <- list(blue = "#002043",
                    red = "#bb133e")
@@ -1000,7 +980,7 @@ torontoCol <- list(blue = "#002043",
 #'
 #' \code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
 #' @name rtPalettes
-#' @export
+
 
 mcgillCol <- list(mcgillRed = "#ED1B2F",
                   grey = "#5D6770",
@@ -1036,7 +1016,7 @@ mcgillCol <- list(mcgillRed = "#ED1B2F",
 #'
 #' \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
 #' @name rtPalettes
-#' @export
+
 
 uclCol <- list(darkGreen = "#555025",
                darkRed = "#651D32",
@@ -1068,7 +1048,7 @@ uclCol <- list(darkGreen = "#555025",
 #'
 #' \code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
 #' @name rtPalettes
-#' @export
+
 
 oxfordCol <- list(oxfordBlue = "#002147",
                   pantone279 = "#4891DC",
@@ -1101,7 +1081,7 @@ oxfordCol <- list(oxfordBlue = "#002147",
 #'
 #' \code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
 #' @name rtPalettes
-#' @export
+
 
 nhsCol <- list(nhsDarkBlue = "#003087",
                nhsBlue = "#005EB8",
@@ -1131,7 +1111,7 @@ nhsCol <- list(nhsDarkBlue = "#003087",
 #'
 #' \code{ethCol}: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
 #' @name rtPalettes
-#' @export
+
 
 ethCol <- list(eth1 = "#1F407A",
                eth2 = "#3C5A0F",
@@ -1150,7 +1130,7 @@ ethCol <- list(eth1 = "#1F407A",
 #'
 #' \code{rwthCol}: RWTH Aachen color palette (http://www9.rwth-aachen.de/global/show_document.asp?id=aaaaaaaaaadpbhq)
 #' @name rtPalettes
-#' @export
+
 rwthCol <- list(blau1 = "#00549F",
                 blau2 = "#407FB7",
                 blau3 = "#8EBAE5",
@@ -1218,7 +1198,7 @@ rwthCol <- list(blau1 = "#00549F",
 #' \code{mozillaCol}: Mozilla design colors
 #' (https://mozilla.design/mozilla/color/)
 #' @name rtPalettes
-#' @export
+
 
 mozillaCol <- list(neonBlue = "#00ffff",
                    lemonYellow = "#fff44f",
@@ -1235,7 +1215,7 @@ mozillaCol <- list(neonBlue = "#00ffff",
 #' \code{firefoxCol}: Firefox design colors
 #' (https://mozilla.design/firefox/color/)
 #' @name rtPalettes
-#' @export
+
 
 firefoxCol <- list(green = "#53FEBE",
                    blue = "#0290EE",
@@ -1252,7 +1232,7 @@ firefoxCol <- list(green = "#53FEBE",
 #' \code{appleCol}: Apple Human Interface Guidelines color palette
 #' (https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)
 #' @name rtPalettes
-#' @export
+
 
 appleCol <- list(red = "#FF3B30",
                  orange = "#FF9500",
@@ -1269,7 +1249,7 @@ appleCol <- list(red = "#FF3B30",
 #'
 #' \code{googleCol}: Google brand palette (https://brandpalettes.com/google-colors/)
 #' @name rtPalettes
-#' @export
+
 
 googleCol <- list(blue = "#4285F4",
                   red = "#DB4437",
@@ -1282,7 +1262,7 @@ googleCol <- list(blue = "#4285F4",
 #' \code{amazonCol}: Amazon brand palette
 #' (https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf)
 #' @name rtPalettes
-#' @export
+
 
 amazonCol <- list(orange = "#FF9900",
                   blue = "#146EB4")
@@ -1294,7 +1274,7 @@ amazonCol <- list(orange = "#FF9900",
 #' \code{microsoftCol}: Microsoft brand palette
 #' (https://brandcolors.net/b/microsoft)
 #' @name rtPalettes
-#' @export
+
 
 microsoftCol <- list(orange = "#f65314",
                      green = "#7cbb00",
@@ -1512,28 +1492,3 @@ rtemis_palette <- function(n,
   .palette[seq_len(n)]
 
 } # rtemis::rtemis_palette
-
-
-#' Convert R color to hexadecimal code
-#'
-#' Convert a color that R understands into the corresponding hexadecimal code
-#'
-#' @param color Color(s) that R understands
-#' @author E.D. Gennatas
-#' @export
-#' @examples
-#' col2hex(c("gray50", "skyblue"))
-
-col2hex <- function(color) {
-
-  .rgb <- col2rgb(color)
-  sapply(seq(color), function(i) {
-    paste0("#", paste0(sprintf("%02s",
-           c(as.character(as.hexmode(.rgb[1, i])),
-             as.character(as.hexmode(.rgb[2, i])),
-             as.character(as.hexmode(.rgb[3, i])))
-           ), collapse = ""
-           ))
-  })
-
-} # rtemis::col2hex
