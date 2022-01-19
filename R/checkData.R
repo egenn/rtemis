@@ -351,7 +351,7 @@ checkData_html <- function(x,
   ## Characters ====
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
-  .col <- if (n.character > 0) orange_bold else strong
+  .col <- if (n.character > 0) html_orange_bold else strong
   out <- paste(out,
                paste("  *", .col(n.character), "character", ngettext(n.character, "feature", "features")),
                sep = "\n")
