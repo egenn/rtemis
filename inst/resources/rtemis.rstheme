@@ -58,6 +58,11 @@
     background-color: #191919 !important;
 } */
 
+/* Is this... environment pane? */
+.rstudio-themes-dark-grey td.GEL-OVUBO5B, .rstudio-themes-dark-grey td.GEL-OVUBM5B, .rstudio-themes-dark-grey td.GEL-OVUBDAC, .rstudio-themes-dark-grey td.GEL-OVUBAAC, .rstudio-themes-dark-grey .GEL-OVUBL5B, .rstudio-themes-dark-grey .GEL-OVUBG5B {
+    border-color: #303030;
+    background-color: #191919;
+}
 
 /* shiny window top toolbar remove bottom border*/
 .rstheme_toolbarWrapper {
