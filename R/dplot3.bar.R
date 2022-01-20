@@ -208,6 +208,7 @@ dplot3.bar <-  function(x,
         for (i in seq(ncol(dat))) {
           plt |> plotly::add_annotations(xref = 'x', yref = 'y',
                                  x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
+                                 y = seq(nrow(dat)) - 1,
                                  text = paste(dat[, i]),
                                  font = list(family = theme$font.family,
                                              size = font.size,
@@ -217,6 +218,7 @@ dplot3.bar <-  function(x,
       } else {
         for (i in seq(ncol(dat))) {
           plt |> plotly::add_annotations(xref = 'x', yref = 'y',
+                                         x = seq(nrow(dat)) - 1,
                                  y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
                                  text = paste(signif(dat[, i], 2)),
                                  font = list(family = theme$font.family,
