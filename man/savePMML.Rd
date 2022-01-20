@@ -4,7 +4,16 @@
 \alias{savePMML}
 \title{Save rtemis model to PMML file}
 \usage{
-savePMML(x, filename)
+savePMML(
+  x,
+  filename,
+  transforms = NULL,
+  model_name = NULL,
+  model_version = NULL,
+  description = NULL,
+  copyright = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{rtemis model}
