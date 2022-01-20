@@ -139,7 +139,7 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{relInf}{Logical: If TRUE (Default), estimate variables' relative influence.}
 

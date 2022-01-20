@@ -3,7 +3,7 @@
 # E.D. Gennatas lambdamd.org
 
 rtenv <- new.env()
-.availableCores <- future::availableCores()
+.availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
 rtemis.version <- packageVersion("rtemis")
 rtHome = getOption("rt.home", Sys.getenv("HOME"))
@@ -45,7 +45,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 #'    \item{rt.theme}{General plotting theme; set to e.g. "light" or "dark"}
 #'    \item{ft.fit.theme}{Plotting theme for true vs. fitted; set to e.g. "lightgrid" or "darkgrid"}
 #'    \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by
-#'    future::availableCores(). In shared systems, you should limit this as appropriate.}
+#'    parallelly::availableCores(). In shared systems, you should limit this as appropriate.}
 #' }
 #' @section Visualization:
 #' Static graphics are handled using the \code{mplot3} family.
@@ -79,7 +79,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 #'
 #' @docType package
 #' @name rtemis-package
-#' @import graphics grDevices methods stats utils parallel R6 data.table crayon future
+#' @import graphics grDevices methods stats utils parallel R6 data.table crayon parallelly
 #' @importFrom crayon "%+%"
 #' @importFrom htmltools strong HTML
 

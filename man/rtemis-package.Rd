@@ -20,7 +20,7 @@ so you do not have to define each time you execute a function.
    \item{rt.theme}{General plotting theme; set to e.g. "light" or "dark"}
    \item{ft.fit.theme}{Plotting theme for true vs. fitted; set to e.g. "lightgrid" or "darkgrid"}
    \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by
-   future::availableCores(). In shared systems, you should limit this as appropriate.}
+   parallelly::availableCores(). In shared systems, you should limit this as appropriate.}
 }
 }
 

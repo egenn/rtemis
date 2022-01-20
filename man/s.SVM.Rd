@@ -115,7 +115,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{future::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
