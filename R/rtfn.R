@@ -1,6 +1,6 @@
 # rtfn.R
 # ::rtemis::
-# 2017-8 E.D. Gennatas lambdamd.org
+# 2017- E.D. Gennatas lambdamd.org
 
 
 #' Get the mode of a factor or integer
@@ -29,18 +29,31 @@
 # } # rtemis::getMode
 
 getMode <- function(x, na.rm = TRUE,
-                     getlast = FALSE) {
+                    getlast = FALSE,
+                    retain.class = TRUE) {
   
+  if (retain.class) .class <- class(x)
   if (na.rm) x <- na.exclude(x)
   freq <- table(x)
-  if (getlast) {
-    maxval <- max(freq)
-    out <- names(freq)[rev(which(freq == maxval))[1]]
+  if (sum(freq) > 0) {
+    if (getlast) {
+      maxval <- max(freq)
+      out <- names(freq)[rev(which(freq == maxval))[1]]
+    } else {
+      out <- names(freq)[which.max(freq)]
+    }
+    if (length(out) == 0) out <- NA
   } else {
-    out <- names(freq)[which.max(freq)]
+    out <- NA
   }
   
-  if (length(out) == 0) out <- NA
+  if (retain.class) {
+    if (is.factor(x)) {
+      out <- factor(NA, levels = levels(x))
+    } else {
+      class(out) <- .class
+    }
+  }
   out
   
 } # rtemis::getMode
