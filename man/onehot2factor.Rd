@@ -14,6 +14,10 @@ onehot2factor(x, labels = colnames(x))
 \description{
 Convert one-hot encoded matrix to factor
 }
+\details{
+If input has a single column, it will be converted to factor and 
+returned
+}
 \examples{
 \dontrun{
 x <- data.frame(matrix(F, 10, 3))

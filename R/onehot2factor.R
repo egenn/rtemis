@@ -3,9 +3,13 @@
 # 2021 E.D. Gennatas lambdamd.org
 
 #' Convert one-hot encoded matrix to factor
+#' 
+#' @details If input has a single column, it will be converted to factor and 
+#' returned
 #'
 #' @param x one-hot encoded matrix or data.frame
 #' @param labels Character vector of level names. Default = \code{colnames(x)}
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -17,8 +21,9 @@
 #' }
 
 onehot2factor <- function(x, labels = colnames(x)) {
-  if (any(rowSums(x) > 1)) stop("Input must be one-hot encoded.")
-  out <- factor(NROW(x), levels = labels)
+  if (NCOL(x) == 1) return(factor(x))
+  if (any(na.exclude(rowSums(x)) > 1)) stop("Input must be one-hot encoded.")
+  out <- factor(rep(NA, NROW(x)), levels = labels)
   for (i in seq_along(labels)) {
     out[x[, i] == 1] <- labels[i]
   }
