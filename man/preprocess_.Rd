@@ -115,13 +115,13 @@ Default = "missing"}
 \item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
 }
 \description{
-Prepare data for analysis and visualization \strong{in-place}
+Prepare data for analysis and visualization
 }
 \details{
 This function (ending in "_") performs operations \strong{in-place} and returns the
-preprocessed data.table silenty (e.g. for piping). Note: If imputing, operation
+preprocessed data.table silently (e.g. for piping). However, if imputing, operation
 cannot be performed in-place.
-By default, removes constant features and duplicated cases
+By default, removes constant features and duplicate cases
 (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 
 Order of operations (same as order of arguments in usage):

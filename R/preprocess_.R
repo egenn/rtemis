@@ -4,12 +4,12 @@
 
 #' Data preprocessing
 #'
-#' Prepare data for analysis and visualization **in-place**
+#' Prepare data for analysis and visualization 
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
-#' preprocessed data.table silenty (e.g. for piping). Note: If imputing, operation
+#' preprocessed data.table silently (e.g. for piping). However, if imputing, operation
 #' cannot be performed in-place.
-#' By default, removes constant features and duplicated cases
+#' By default, removes constant features and duplicate cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
 #' Order of operations (same as order of arguments in usage):
