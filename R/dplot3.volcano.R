@@ -108,20 +108,22 @@ dplot3.volcano <- function(x, pvals,
                    hovertext = hovertext)
   
   # High - Low legend ====
-  legend.x.lo <- if (is.null(legend.x)) {
-    Filter(\(x) x < x.thresh, x) |> range() |> diff() * -.2 + x.thresh
-  } else {
-    legend.x[1]
+  autolegend.x.lo <- is.null(legend.x.lo)
+  if (autolegend.x.lo) {
+    # legend.x.lo <- Filter(\(x) x < x.thresh, x) |> range() |> diff() * -.2 + x.thresh
+    legend.x.lo <- x.thresh - abs(diff(c(x.thresh, min(x, na.rm = TRUE)))) *.2
   }
   
-  legend.x.hi <- if (is.null(legend.x)) {
-    Filter(\(x) x > x.thresh, x) |> range() |> diff() * .2 + x.thresh
-  } else {
-    legend.x[2]
+  autolegend.x.hi <- is.null(legend.x.hi)
+  if (autolegend.x.hi) {
+    # legend.x.hi <- Filter(\(x) x > x.thresh, x) |> range() |> diff() * .2 + x.thresh
+    legend.x.hi <- x.thresh + abs(diff(c(x.thresh, max(x, na.rm = TRUE)))) *.2
   }
   
-  legend.x.lo <- x.thresh - (legend.x.hi - legend.x.lo)/2
-  legend.x.hi <- x.thresh + (legend.x.hi - legend.x.lo)/2
+  legxdiff <- legend.x.hi - legend.x.lo
+  
+  if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff/2
+  if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff/2
   
   if (Group.counts[1] > 0) {
     
@@ -207,7 +209,6 @@ dplot3.volcano <- function(x, pvals,
                                                  color = adjustcolor(theme$fg, annotate.alpha))) -> plt
     }
   }
-  
   
   plt |> plotly::config(toImageButtonOptions = list(format = "svg"))
   
