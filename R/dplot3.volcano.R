@@ -26,8 +26,8 @@ dplot3.volcano <- function(x, pvals,
                            p.thresh = .05,
                            p.transform = c("-log10", "none"),
                            p.adjust.method = "holm",
-                           label.lo = "<b>Low</b>",
-                           label.hi = "<b>High</b>",
+                           label.lo = NULL,
+                           label.hi = NULL,
                            xlab = NULL,
                            ylab = NULL,
                            xlim = NULL,
@@ -125,7 +125,7 @@ dplot3.volcano <- function(x, pvals,
   if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff/2
   if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff/2
   
-  if (Group.counts[1] > 0) {
+  if (Group.counts[1] > 0 & !is.null(label.lo)) {
     
     plt |> plotly::add_annotations(x = legend.x.lo,
                                    y = legend.y,
@@ -138,7 +138,7 @@ dplot3.volcano <- function(x, pvals,
                                                size = font.size)) -> plt
   }
   
-  if (Group.counts[3] > 0) {
+  if (Group.counts[3] > 0 & !is.null(label.hi)) {
     
     plt |> plotly::add_annotations(x = legend.x.hi,
                                    y = legend.y,
@@ -182,6 +182,7 @@ dplot3.volcano <- function(x, pvals,
                                      ax = 50,
                                      ay = ay.lo,
                                      font = list(size = 16,
+                                                 family = theme$font.family,
                                                  color = adjustcolor(theme$fg, annotate.alpha))) -> plt
     }
     
@@ -206,6 +207,7 @@ dplot3.volcano <- function(x, pvals,
                                      ax = -72,
                                      ay = ay.hi,
                                      font = list(size = 16,
+                                                 family = theme$font.family,
                                                  color = adjustcolor(theme$fg, annotate.alpha))) -> plt
     }
   }
