@@ -59,6 +59,7 @@ features <- rnormmat(400, 20)
 outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
 massmod <- massGLM(outcome, features)
 plot(massmod)
+plot(massmod, what = "volcano")
 }
 }
 \author{

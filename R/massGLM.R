@@ -39,6 +39,7 @@
 #' outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
 #' massmod <- massGLM(outcome, features)
 #' plot(massmod)
+#' plot(massmod, what = "volcano")
 #' }
 
 massGLM <- function(x, y,
@@ -162,15 +163,18 @@ summary.massGLM <- function(object, ...) {
 plot.massGLM <- function(x,
                          predictor = NULL,
                          main = NULL,
-                         what = c("adjusted", "raw", "coef"),
+                         what = c("adjusted", "raw", "coef", "volcano"),
                          p.adjust.method = "holm",
-                         p.transform = function(x) 1 - x,
+                         p.transform = function(x) -log10(x),
                          pval.hline = c(.001, .05),
                          hline.col = "#FE4AA3",
                          hline.dash = "dash",
                          ylim = NULL,
                          ylab = NULL,
                          theme = getOption("rt.theme"),
+                         volcano.annotate = TRUE,
+                         volcano.annotate.n = 7,
+                         volano.p.transform = "-log10",
                          displayModeBar = FALSE, ...) {
 
   if (x$type == "massy") {
@@ -181,7 +185,8 @@ plot.massGLM <- function(x,
       if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), "adjusted", pval_name, "p-value")
+      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), 
+                                       "adjusted", pval_name, "p-value")
       dplot3.bar(p.transform(p.adjust(x$summary[[pval_idi]],
                                 method = p.adjust.method)),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
@@ -199,7 +204,8 @@ plot.massGLM <- function(x,
       if (is.null(main)) main <- "p-values"
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
       pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), "raw", pval_name, "p-value")
+      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), 
+                                       "raw", pval_name, "p-value")
       dplot3.bar(p.transform(x$summary[[pval_idi]]),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
                  main = main,
@@ -211,7 +217,7 @@ plot.massGLM <- function(x,
                  hline.dash = hline.dash,
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
-    } else {
+    } else if (what == "coef") {
       if (is.null(main)) main <- "Coefficients"
       coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
       coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
@@ -222,6 +228,20 @@ plot.massGLM <- function(x,
                  ylab = paste(coef_name, "Coefficients"),
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
+    } else {
+      coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
+      coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
+      pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      dplot3.volcano(x = x$summary[[coef_idi]],
+                     pvals = x$summary[[pval_idi]],
+                     x.thresh = 0, 
+                     xnames = x$ynames,
+                     xlab = paste(coef_name, "Coefficient"),
+                     p.adjust.method = p.adjust.method, 
+                     p.transform = volano.p.transform,
+                     annotate = volcano.annotate,
+                     annotate.n = volcano.annotate.n,
+                     theme = theme)
     }
   } else {
     cat('"massx" support not yet implemented')
