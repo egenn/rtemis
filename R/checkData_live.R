@@ -180,12 +180,16 @@ checkData_live <- function(x,
   
   # HTML out ====
   out <- div(
-    p(html_highlight(name),
+    p(
+      div(
+        html_highlight(name),
       ": A", class(x)[1], "with",
       html_highlight(n.rows), 
       ngettext(n.rows, "row", "rows"),
       "and", html_highlight(n.cols), 
-      ngettext(n.cols, "feature", "features")
+      ngettext(n.cols, "feature", "features"),
+      class = "checkdata-header"
+      )
     ),
     p(
       span(strong("Data types"), class = "sidelined"),
