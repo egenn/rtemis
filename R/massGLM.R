@@ -175,7 +175,8 @@ plot.massGLM <- function(x,
                          volcano.annotate = TRUE,
                          volcano.annotate.n = 7,
                          volano.p.transform = "-log10",
-                         displayModeBar = FALSE, ...) {
+                         displayModeBar = FALSE,
+                         trace = 0, ...) {
 
   if (x$type == "massy") {
     if (is.null(predictor)) predictor <- x$xnames[1]
@@ -241,7 +242,8 @@ plot.massGLM <- function(x,
                      p.transform = volano.p.transform,
                      annotate = volcano.annotate,
                      annotate.n = volcano.annotate.n,
-                     theme = theme)
+                     theme = theme,
+                     verbose = trace > 0)
     }
   } else {
     cat('"massx" support not yet implemented')
