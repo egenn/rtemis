@@ -51,8 +51,7 @@ dplot3.volcano <- function(x, pvals,
                            filename = NULL,
                            file.width = 500,
                            file.height = 500,
-                           verbose = TRUE,
-                           trace = 0, ...) {
+                           verbose = TRUE, ...) {
   
   xname <- deparse(substitute(x))
   filt <- !is.na(x) & !is.na(pvals)
