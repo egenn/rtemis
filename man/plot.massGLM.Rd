@@ -21,6 +21,7 @@
   volcano.annotate.n = 7,
   volano.p.transform = "-log10",
   displayModeBar = FALSE,
+  trace = 0,
   ...
 )
 }
