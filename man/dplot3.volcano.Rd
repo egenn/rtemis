@@ -36,7 +36,6 @@ dplot3.volcano(
   file.width = 500,
   file.height = 500,
   verbose = TRUE,
-  trace = 0,
   ...
 )
 }

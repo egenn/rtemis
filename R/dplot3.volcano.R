@@ -57,7 +57,11 @@ dplot3.volcano <- function(x, pvals,
   filt <- !is.na(x) & !is.na(pvals)
   x <- x[filt]
   pvals <- pvals[filt]
-  if (is.null(xnames)) xnames <- names(x)
+  if (is.null(xnames)) {
+    xnames <- names(x)[filt]
+  } else {
+    xnames <- xnames[filt]
+  }
   if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
   
   p.transform <- match.arg(p.transform)
