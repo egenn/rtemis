@@ -197,6 +197,7 @@ checkData_live <- function(x,
         tags$li(continuous),
         tags$li(integer),
         tags$li(categorical),
+        tags$li(characters),
         tags$li(dates))
     ), # p Data Types
     p(
