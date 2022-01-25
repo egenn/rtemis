@@ -22,7 +22,7 @@ preprocess(
   logical2numeric = FALSE,
   numeric2factor = FALSE,
   numeric2factor.levels = NULL,
-  ltn2factor = 0,
+  len2factor = 0,
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing.level = "missing",
@@ -86,9 +86,9 @@ if \code{integer2factor = FALSE})}
 
 \item{numeric2factor}{Logical: If TRUE, convert all numeric variables to factors}
 
-\item{ltn2factor}{Integer (>2): Convert all numeric variables with less than this number of unique
+\item{len2factor}{Integer (>=2): Convert all numeric variables with less than or equal to this number of unique
 values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-you could use \code{ltn2factor = 3} to convert them to factors.}
+you could use \code{len2factor = 2} to convert them to factors. If race is encoded with 6 integers, you can use 6.}
 
 \item{character2factor}{Logical: If TRUE, convert all character variables to factors}
 

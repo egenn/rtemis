@@ -8,7 +8,7 @@
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
 #' preprocessed data.table silently (e.g. for piping). However, if imputing, operation
-#' cannot be performed in-place.
+#' cannot be performed in-place, so maybe this feature will be removed.
 #' By default, removes constant features and duplicate cases
 #' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
 #'
@@ -68,9 +68,9 @@
 #' @param logical2factor Logical: If TRUE, convert all logical variables to factors
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to numeric
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to factors
-#' @param ltn2factor Integer (>2): Convert all numeric variables with less than this number of unique
+#' @param len2factor Integer (>=2): Convert all numeric variables with less than or equal to this number of unique
 #' values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-#' you could use `ltn2factor = 3` to convert them to factors.
+#' you could use `len2factor = 2` to convert them to factors. If race is encoded with 6 integers, you can use 6.
 #' @param character2factor Logical: If TRUE, convert all character variables to factors
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of level
 #' \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
@@ -126,7 +126,7 @@ preprocess_ <- function(x, y = NULL,
                        logical2numeric = FALSE,
                        numeric2factor = FALSE,
                        numeric2factor.levels = NULL,
-                       ltn2factor = 0,
+                       len2factor = 0,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
@@ -290,16 +290,16 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ ltn2factor ] ====
-  if (ltn2factor > 2) {
+  # [ len2factor ] ====
+  if (len2factor > 1) {
     index.numeric <- which(sapply(x, is.numeric))
     if (length(index.numeric) > 0) {
-      index.numeric.ltn <- as.integer(which(x[, sapply(.SD, function(i) is.numeric(i) && length(unique(i)) < ltn2factor)]))
-      for (j in index.numeric.ltn) set(x, i = NULL, j, as.factor(x[[j]]))
+      index.numeric.len <- as.integer(which(x[, sapply(.SD, function(i) is.numeric(i) && length(unique(i)) <= len2factor)]))
+      for (j in index.numeric.len) set(x, i = NULL, j, as.factor(x[[j]]))
       if (verbose) {
-        nnumltn <- length(index.numeric.ltn)
-        msg("Converted", rtOrange$bold(nnumltn, ngettext(nnumltn, "column", "columns"),
-                                       "to", ngettext(nnumltn, "a factor", "factors")))
+        nnumlen <- length(index.numeric.len)
+        msg("Converted", rtOrange$bold(nnumlen, ngettext(nnumlen, "column", "columns"),
+                                       "to", ngettext(nnumlen, "a factor", "factors")))
       }
     }
   }
