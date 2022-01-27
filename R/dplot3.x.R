@@ -152,7 +152,7 @@ dplot3.x <- function(x,
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   n.groups <- length(x)
-  if (is.null(col)) col <- palette[seq_len(n.groups)]
+  if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
 
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 
