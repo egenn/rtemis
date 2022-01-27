@@ -17,13 +17,23 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                '\n  See `citation("rtemis")` for how to cite'))
 
   # RStudio, VS Code
-  try(if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
-    mplot3.harmonograph(text = "rtemis on VS Code", text.adj = .01,
-                        text.padj = -.2, col = sample(2:8, 1))
-  } else if (try(rstudioapi::isAvailable(), silent = TRUE)) {
-    mplot3.harmonograph(text = "rtemis on RStudio", text.adj = .01,
-                        text.padj = -.2, col = sample(2:8, 1))
-  }, silent = TRUE)
+  # try(if (interactive() && Sys.getenv("TERM_PROGRAM") == "vscode") {
+  #   mplot3.harmonograph(text = "rtemis on VS Code", text.adj = .01,
+  #                       text.padj = -.2, col = sample(2:8, 1))
+  # } else if (try(rstudioapi::isAvailable(), silent = TRUE)) {
+  #   mplot3.harmonograph(text = "rtemis on RStudio", text.adj = .01,
+  #                       text.padj = -.2, col = sample(2:8, 1))
+  # }, silent = TRUE)
+  
+  try(
+    if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
+    polyshadow(20, 20, jsd = 1,
+               text = "rtemis", 
+               col_lo = "#00ffff", col_hi = "#ff00ff",
+               text.cex = 2, col.text = "#ffffffef",
+               text.x = 95, text.adj = c(1, 0))
+  }, 
+  silent = TRUE)
 
   if (is.null(getOption("rt.theme"))) {
     options(rt.theme = "darkgray")
