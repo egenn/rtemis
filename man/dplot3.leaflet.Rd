@@ -5,7 +5,9 @@
 \title{Plot interactive choropleth map using \pkg{leaflet}}
 \usage{
 dplot3.leaflet(
-  dat,
+  fips,
+  values,
+  names = NULL,
   fillOpacity = 1,
   palette = NULL,
   color.mapping = c("Numeric", "Bin"),
@@ -32,9 +34,13 @@ dplot3.leaflet(
 )
 }
 \arguments{
-\item{dat}{data.frame where first column is county FIPS codes and second column is values to be
-plotted. County names can be provided on a third column and will appear as hover-over information
-along with values from column 2}
+\item{fips}{Character vector of FIPS codes. (If numeric, it will be 
+appropriately zero-padded)}
+
+\item{values}{Values to map to \code{fips}}
+
+\item{names}{Character vector: Optional county names to appear on hover 
+along \code{values}}
 
 \item{fillOpacity}{Float: Opacity for fill colors. Default = 1}
 
@@ -74,7 +80,7 @@ Default = "topright"}
 
 \item{legend.alpha}{Float: Legend box transparency. Default = .8}
 
-\item{legend.title}{Character: Defaults to \code{colnames(dat)[2]}}
+\item{legend.title}{Character: Defaults to name of \code{values} variable.}
 
 \item{init.lng}{Float: Center map around this longitude (in decimal form).
 Default = -98.54180833333334 (US geographic center)}
@@ -88,6 +94,15 @@ Default = 39.207413888888894 (US geographic center)}
 }
 \description{
 Plot interactive choropleth map using \pkg{leaflet}
+}
+\examples{
+\dontrun{
+# not a real demo, just a test
+fips <- c(06075, 42101)
+supervals <- c(100, 200)
+names <- c("SF", "Philly")
+dplot3.leaflet(fips, supervals, names)
+}
 }
 \author{
 E.D. Gennatas

@@ -4,9 +4,11 @@
 
 #' Plot interactive choropleth map using \pkg{leaflet}
 #'
-#' @param dat data.frame where first column is county FIPS codes and second column is values to be
-#' plotted. County names can be provided on a third column and will appear as hover-over information
-#' along with values from column 2
+#' @param fips Character vector of FIPS codes. (If numeric, it will be 
+#' appropriately zero-padded)
+#' @param values Values to map to \code{fips}
+#' @param names Character vector: Optional county names to appear on hover 
+#' along \code{values}
 #' @param fillOpacity Float: Opacity for fill colors. Default = 1
 #' @param palette Character: Color palette to use
 #' @param color.mapping Character: "Numeric" or "Bin"
@@ -27,18 +29,29 @@
 #' @param legend.position Character: One of: "topright", "bottomright", "bottomleft", "topleft".
 #' Default = "topright"
 #' @param legend.alpha Float: Legend box transparency. Default = .8
-#' @param legend.title Character: Defaults to \code{colnames(dat)[2]}
+#' @param legend.title Character: Defaults to name of \code{values} variable.
 #' @param init.lng Float: Center map around this longitude (in decimal form).
 #' Default = -98.54180833333334 (US geographic center)
 #' @param init.lat Float: Center map around this latitude (in decimal form).
 #' Default = 39.207413888888894 (US geographic center)
 #' @param init.zoom Integer: Initial zoom level (depends on device, i.e. window, size). Default = 3
 #' @param stroke Logical: If TRUE, draw polygon borders. Default = TRUE
+#' 
 #' @author E.D. Gennatas
 #' @export
+#' @examples 
+#' \dontrun{
+#' # not a real demo, just a test
+#' fips <- c(06075, 42101)
+#' supervals <- c(100, 200)
+#' names <- c("SF", "Philly")
+#' dplot3.leaflet(fips, supervals, names)
+#' }
 # NA in legend issue: https://github.com/rstudio/leaflet/issues/615
 
-dplot3.leaflet <- function(dat,
+dplot3.leaflet <- function(fips,
+                           values,
+                           names = NULL,
                            fillOpacity = 1,
                            palette = NULL,
                            color.mapping = c("Numeric", "Bin"),
@@ -64,38 +77,38 @@ dplot3.leaflet <- function(dat,
                            stroke = TRUE) {
 
   # Dependencies ====
-  if (!depCheck("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf", verbose = FALSE)) {
+  if (!depCheck("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf", 
+                verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
   # Arguments ====
+  vals.name <- deparse(substitute(values))
   color.mapping <- match.arg(color.mapping)
-  if (is.null(palette)) {
-    palette <- colorRamp(colors = c(col.lo, col.hi), interpolate = col.interpolate)
-  }
   col.interpolate <- match.arg(col.interpolate)
-  legend.position <- match.arg(legend.position)
-  if (is.null(legend.title)) legend.title <- labelify(colnames(dat)[2])
-
-  # Data ====
-  if (!class(dat)[1] %in% c("data.table", "data.frame")) {
-    dat <- as.data.frame(dat)
+  if (is.null(palette)) {
+    palette <- colorRamp(colors = c(col.lo, col.hi), 
+                         interpolate = col.interpolate)
   }
+  legend.position <- match.arg(legend.position)
+  if (is.null(legend.title)) legend.title <- labelify(vals.name)
 
   # State vs. County data ====
-  if (max(nchar(dat[[1]])) < 3) {
-    geo <- geojsonio::geojson_read(system.file("extdata", "us-states.json", package = "rtemis"),
+  if (max(nchar(fips)) < 3) {
+    geo <- geojsonio::geojson_read(system.file("extdata", "us-states.json", 
+                                               package = "rtemis"),
                                    what = "sp")
-    fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%02d", dat[[1]])
+    fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
   } else {
-    geo <- geojsonio::geojson_read(system.file("extdata", "us-counties.json", package = "rtemis"),
+    geo <- geojsonio::geojson_read(system.file("extdata", "us-counties.json", 
+                                               package = "rtemis"),
                                    what = "sp")
-    fips <- if (is.character(dat[[1]])) dat[[1]] else sprintf("%05d", dat[[1]])
+    fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
   }
 
   # Match input county-level data
   index <- match(geo$id, fips)
-  geo[["val"]] <- dat[[2]][index]
+  geo[["val"]] <- values[index]
 
   # Colorscale ====
   if (color.mapping == "Numeric") {
@@ -111,9 +124,9 @@ dplot3.leaflet <- function(dat,
   }
 
   # Hover labels ====
-  .labs <- dat[[2]][index]
-  if (ncol(dat) > 2) {
-    .names <- dat[[3]][index]
+  .labs <- values[index]
+  if (!is.null(names)) {
+    .names <- names[index]
     labels <- lapply(seq(NROW(geo)), function(i) {
       if (is.na(.labs[i])) '<div style="color:#7f7f7f;">N/A</div>'
       else sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
