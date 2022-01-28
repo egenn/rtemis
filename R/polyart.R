@@ -92,7 +92,7 @@ triart <- function(k_h = 10, k_v = 6,
   
 } # rtemis::polyart
 
-polyshadow <- function(k_h = 20, k_v = 20,
+polyshadow1 <- function(k_h = 20, k_v = 20,
                        jsd = 1,
                        shadow = .95,
                        col_lo = "#00ffff", 
@@ -151,7 +151,7 @@ polyshadow <- function(k_h = 20, k_v = 20,
   
 } # rtemis::polyshadow
 
-polyshadow2<- function(k_h = 20, k_v = 20,
+polyshadow<- function(k_h = 20, k_v = 20,
                        jsd = 1,
                        shadow = .95,
                        col_lo = "#00ffff", 
@@ -166,10 +166,12 @@ polyshadow2<- function(k_h = 20, k_v = 20,
                        text.adj = c(1, 0),
                        col.text = "#ffffff",
                        text.cex = 2,
-                       font.family = "") {
+                       font.family = "",
+                       seed = NULL) {
   
   color.progression <- match.arg(color.progression)
   
+  if (!is.null(seed)) set.seed(seed)
   x <- matrix(rep(seq(0, 100, length.out = k_h + 1), k_v + 1), k_v + 1, byrow = TRUE)
   for (i in seq(k_v + 1)) {
     x[i, -c(1, k_h + 1)] <- x[i, -c(1, k_h + 1)] + rnorm(k_h - 1, sd = jsd)

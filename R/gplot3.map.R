@@ -28,6 +28,7 @@
 #' @param theme \strong{ggplot2} theme to use. Default = \code{rt_gtheme_map()}
 #' @param labels Logical: If TRUE, label states. Default = FALSE
 #' @param col.labels Color for \code{labels}. Default = "gray50"
+#' 
 #' @author E.D. Gennatas
 #' @export
 
