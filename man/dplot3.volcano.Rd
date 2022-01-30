@@ -45,6 +45,28 @@ dplot3.volcano(
 \item{pvals}{Numeric vector: p-values}
 
 \item{p.thresh}{Numeric: p-value threshold of significance. Default = .05}
+
+\item{p.transform}{Character: Should the \code{pvals} be transformed? "-log10" or "none"}
+
+\item{p.adjust.method}{Character: p-value adjustment method. 
+"holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
+Default = "holm". Use "none" for raw p-values.}
+
+\item{label.lo}{Character: Label to annotate significant points below the
+\code{x.thresh}}
+
+\item{label.hi}{Character: Label to annotate significant points above the
+\code{x.thresh}}
+
+\item{xlab}{Character: x-axis label}
+
+\item{ylab}{Character: y-axis label}
+
+\item{xlim}{Numeric vector, length 2: x-axis limits}
+
+\item{ylim}{Numeric vector, length 2: y-axis limits}
+
+\item{alpha}{Numeric: point transparency}
 }
 \description{
 Volcano Plot

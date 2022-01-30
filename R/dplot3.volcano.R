@@ -7,6 +7,19 @@
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
 #' @param pvals Numeric vector: p-values
 #' @param p.thresh Numeric: p-value threshold of significance. Default = .05
+#' @param p.transform Character: Should the \code{pvals} be transformed? "-log10" or "none"
+#' @param p.adjust.method Character: p-value adjustment method. 
+#' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
+#' Default = "holm". Use "none" for raw p-values. 
+#' @param label.lo Character: Label to annotate significant points below the
+#' \code{x.thresh}
+#' @param label.hi Character: Label to annotate significant points above the
+#' \code{x.thresh}
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param xlim Numeric vector, length 2: x-axis limits
+#' @param ylim Numeric vector, length 2: y-axis limits
+#' @param alpha Numeric: point transparency
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -173,7 +186,8 @@ dplot3.volcano <- function(x, pvals,
       lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
       
       if (is.null(ay.lo)) {
-        ay.lo <- seq((max(lo_pval, na.rm = TRUE) - yrange[2])*4 -10, 10, length = annotate.n_lo)
+        ay.lo <- seq((max(lo_pval, na.rm = TRUE) - yrange[2])*4 -10, 10, 
+                     length = annotate.n_lo)
       }
       plt |> plotly::add_annotations(x = lo_x,
                                      y = lo_pval,
@@ -198,7 +212,8 @@ dplot3.volcano <- function(x, pvals,
       hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
       
       if (is.null(ay.hi)) {
-        ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2])*4 -10, 10, length = annotate.n_hi)
+        ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2])*4 -10, 10, 
+                     length = annotate.n_hi)
       }
       plt |> plotly::add_annotations(x = hi_x,
                                      y = hi_pval,
