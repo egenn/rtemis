@@ -8,6 +8,7 @@
 #'
 #' Learn more:
 #' (https://en.wikipedia.org/wiki/Synthesizer#Attack_Decay_Sustain_Release_.28ADSR.29_envelope "ADSR Wikipedia")
+#' 
 #' @param Attack Float: Attack time (in milliseconds)
 #' @param Decay Float: Decay time (in milliseconds)
 #' @param Sustain Float: Sustain Level (percent)
@@ -17,8 +18,13 @@
 #' @param O Float: Note off time (in milliseconds)
 #' @param theme Character: "light" or "dark" (Default)
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
+#' 
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' mplot3.adsr()
+#' }
 
 mplot3.adsr <- function(Attack = 300,
                         Decay = 160,
@@ -32,10 +38,10 @@ mplot3.adsr <- function(Attack = 300,
                         main = "ADSR Envelope",
                         main.line = 1.6,
                         main.col = "white",
-                        Attack.col = pennCol$lighterYellow,
-                        Decay.col = pennCol$orange,
-                        Sustain.col = pennCol$lighterRed,
-                        Release.col = pennCol$lighterBlue,
+                        Attack.col = "#44A6AC",
+                        Decay.col = "#F4A362",
+                        Sustain.col = "#3574A7",
+                        Release.col = "#C23A70",
                         Decay.nl = FALSE,
                         draw.poly = FALSE,
                         poly.alpha = .15,
@@ -76,12 +82,14 @@ mplot3.adsr <- function(Attack = 300,
   # Plot ====
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  mplot3.xy(x, y, type = 'l', theme = theme, xaxs = xaxs, yaxs = yaxs,
+  mplot3.xy(x, y, type = 'l', theme = theme, 
+            xaxs = xaxs, yaxs = yaxs,
             scatter = FALSE, zerolines = FALSE,
             xlab = "Time (ms)", ylab = "% Value",
             xlim = c(0, O + R + 300),
             ylim = c(0, 100),
-            line.col = pennCol$lightestBlue, lwd = 4,
+            line.col = "#00000000", 
+            lwd = 4,
             par.reset = FALSE, labs.col = labs.col,
             tck = -.02, tick.col = tick.col,
             grid = grid, grid.lty = grid.lty, grid.lwd = grid.lwd, grid.col = grid.col,
