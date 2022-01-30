@@ -202,7 +202,7 @@ mplot3.heatmap <- function(x,
     # names.nchar <- nchar(c(colnames(x), rownames(x)))
     # max.nchar <- max(0, names.nchar)
     # margins <- rep(1.4 + max.nchar * .45, 2)
-    margins <- rep(.5 + textwidth(c(colnames(x), rownames(x))), 2)
+    margins <- rep(1 + textwidth(c(colnames(x), rownames(x))), 2)
   }
 
   scale <- if (symm && missing(scale)) "none" else match.arg(scale)
