@@ -93,20 +93,20 @@ triart <- function(k_h = 10, k_v = 6,
 } # rtemis::polyart
 
 polyshadow1 <- function(k_h = 20, k_v = 20,
-                       jsd = 1,
-                       shadow = .95,
-                       col_lo = "#00ffff", 
-                       col_mid = NULL,
-                       col_hi = "#ff00ff",
-                       color.progression = c("product", "counter"),
-                       bg = "#121212",
-                       text = NULL,
-                       text.x = 95,
-                       text.y = 5, 
-                       text.adj = c(1, 0),
-                       col.text = "#ffffff",
-                       text.cex = 2,
-                       font.family = "") {
+                        jsd = 1,
+                        shadow = .95,
+                        col_lo = "#00ffff", 
+                        col_mid = NULL,
+                        col_hi = "#ff00ff",
+                        color.progression = c("product", "counter"),
+                        bg = "#121212",
+                        text = NULL,
+                        text.x = 95,
+                        text.y = 5, 
+                        text.adj = c(1, 0),
+                        col.text = "#ffffff",
+                        text.cex = 2,
+                        font.family = "") {
   
   color.progression <- match.arg(color.progression)
   
@@ -152,22 +152,22 @@ polyshadow1 <- function(k_h = 20, k_v = 20,
 } # rtemis::polyshadow
 
 polyshadow<- function(k_h = 20, k_v = 20,
-                       jsd = 1,
-                       shadow = .95,
-                       col_lo = "#00ffff", 
-                       col_mid = NULL,
-                       col_hi = "#ff00ff",
-                       color.progression = c("product", "counter"),
-                       shadow.direction = 1,
-                       bg = "#121212",
-                       text = NULL,
-                       text.x = 95,
-                       text.y = 5, 
-                       text.adj = c(1, 0),
-                       col.text = "#ffffff",
-                       text.cex = 2,
-                       font.family = "",
-                       seed = NULL) {
+                      jsd = 1,
+                      shadow = .95,
+                      col_lo = "#00ffff", 
+                      col_mid = NULL,
+                      col_hi = "#ff00ff",
+                      color.progression = c("product", "counter"),
+                      shadow.direction = 1,
+                      bg = "#121212",
+                      text = NULL,
+                      text.x = 95,
+                      text.y = 5, 
+                      text.adj = c(1, 0),
+                      col.text = "#ffffff",
+                      text.cex = 2,
+                      font.family = "",
+                      seed = NULL) {
   
   color.progression <- match.arg(color.progression)
   
