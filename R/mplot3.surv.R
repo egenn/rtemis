@@ -14,8 +14,14 @@
 #' @param lwd Float: Line width. Default = 2
 #' @param alpha Float: Alpha for lines. Default = 1
 #' @param ... Additional arguments to pass to \link{mplot3.xy}
+#' 
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' library(survival)
+#' mplot3.surv(Surv(time = lung$time, event = lung$status))
+#' }
 
 mplot3.surv <- function(x,
                         lty = 1,
@@ -42,7 +48,7 @@ mplot3.surv <- function(x,
                         group.at = NA,
                         par.reset = TRUE, ...) {
 
-  # [ Data ] ====
+  # Data ====
   if (class(x)[1] != "list") x <- list(x)
   # x <- lapply(1:length(x), function(i) as.numeric(as.matrix(x[[i]])[, 1]))
   # if (class(x)[[1]] != "Surv") stop("At least first object must be of type Survival")
@@ -53,22 +59,22 @@ mplot3.surv <- function(x,
     }
   }
 
-  # [ Theme ] ====
+  # Theme ====
   if (is.null(col)) {
     if (is.character(palette)) palette <- rtPalette(palette)
     col <- palette
   }
 
-  # [ Kaplan-Meier Estimate ] ====
+  # Kaplan-Meier Estimate ====
   .survfit <- lapply(x, function(i) survival::survfit(i ~ 1))
 
-  # [ LIMITS ] ====
+  # Limits ====
   xl <- lapply(.survfit, function(i) i$time)
   if (normalize.time) xl <- lapply(xl, drange)
   xlim <- range(unlist(xl))
   yl <- lapply(.survfit, function(i) i$surv)
 
-  # [ PLOT ] ====
+  # Plot ====
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -109,7 +115,7 @@ mplot3.surv <- function(x,
     }
   }
 
-  # [ GROUP LEGEND ] ====
+  # Group Legend ====
   if (!is.null(group.names)) {
     group.names <- c(group.title, group.names)
   } else {

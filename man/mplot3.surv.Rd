@@ -80,6 +80,12 @@ c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residenc
 \description{
 Plots survival step functions using \link{mplot3.xy}
 }
+\examples{
+\dontrun{
+library(survival)
+mplot3.surv(Surv(time = lung$time, event = lung$status))
+}
+}
 \author{
 E.D. Gennatas
 }
