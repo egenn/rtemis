@@ -257,9 +257,9 @@ dplot3.xy <- function(x, y = NULL,
   if (is.null(legend.col)) legend.col <- labs.col
 
   # Size ====
-  if (axes.square) {
-    width <- height <- min(dev.size("px"))
-  }
+  # if (axes.square) {
+    # width <- height <- min(dev.size("px"))
+  # }
 
   # fitted & se.fit ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
@@ -495,6 +495,12 @@ dplot3.xy <- function(x, y = NULL,
                                                      color = hline.col,
                                                      width = hline.width,
                                                      dash = hline.dash))
+  }
+  
+  ## square ====
+  if (axes.square) {
+    plt |> plotly::layout(yaxis = list(scaleanchor = "x",
+                               scaleratio = 1)) -> plt
   }
   
   # Config
