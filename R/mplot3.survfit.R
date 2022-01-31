@@ -59,6 +59,7 @@
 #' @param oma Float, vector, length 4: Outer margins. See \code{par("oma")}
 #' @param par.reset Logical: If TRUE, reset par to initial values before exit
 #' @param ... Additional arguments to pass to theme
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples
