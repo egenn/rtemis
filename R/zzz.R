@@ -36,7 +36,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   silent = TRUE)
 
   if (is.null(getOption("rt.theme"))) {
-    options(rt.theme = "darkgray")
+    options(rt.theme = "darkgraygrid")
   }
 
 }
