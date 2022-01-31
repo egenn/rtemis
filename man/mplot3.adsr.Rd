@@ -17,10 +17,10 @@ mplot3.adsr(
   main = "ADSR Envelope",
   main.line = 1.6,
   main.col = "white",
-  Attack.col = pennCol$lighterYellow,
-  Decay.col = pennCol$orange,
-  Sustain.col = pennCol$lighterRed,
-  Release.col = pennCol$lighterBlue,
+  Attack.col = "#44A6AC",
+  Decay.col = "#F4A362",
+  Sustain.col = "#3574A7",
+  Release.col = "#C23A70",
   Decay.nl = FALSE,
   draw.poly = FALSE,
   poly.alpha = 0.15,
@@ -75,6 +75,11 @@ Plot Attack Decay Sustain Release Envelope Generator using \code{mplot3}
 \details{
 Learn more:
 (https://en.wikipedia.org/wiki/Synthesizer#Attack_Decay_Sustain_Release_.28ADSR.29_envelope "ADSR Wikipedia")
+}
+\examples{
+\dontrun{
+mplot3.adsr()
+}
 }
 \author{
 E.D. Gennatas

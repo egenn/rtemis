@@ -10,7 +10,7 @@ dplot3.bar(
   xlab = NULL,
   ylab = NULL,
   col = NULL,
-  alpha = 0.9,
+  alpha = 1,
   horizontal = FALSE,
   theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
