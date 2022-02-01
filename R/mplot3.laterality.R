@@ -91,7 +91,7 @@ mplot3.laterality <- function(x, regionnames,
        xaxs = "i", yaxs = "i")
 
   # Plot bg ====
-  if (!is.na(theme$plot.bg)) {
+  if (theme$plot.bg != "transparent") {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 

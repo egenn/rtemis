@@ -205,7 +205,7 @@ mplot3.bar <- function(x,
        xaxs = "i", yaxs = "i")
 
   # [ PLOT BG ] ====
-  if (!is.na(theme$plot.bg)) {
+  if (theme$plot.bg != "transparent") {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 

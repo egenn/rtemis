@@ -16,7 +16,7 @@
 \usage{
 theme_black(
   bg = "#000000",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#ffffff",
   pch = 16,
   cex = 1,
@@ -34,7 +34,7 @@ theme_black(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = fg,
   tick.alpha = 0.5,
   tick.labels.col = fg,
@@ -67,7 +67,7 @@ theme_black(
 
 theme_blackgrid(
   bg = "#000000",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#ffffff",
   pch = 16,
   cex = 1,
@@ -85,7 +85,7 @@ theme_blackgrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
@@ -136,7 +136,7 @@ theme_blackigrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = fg,
   tick.alpha = 1,
   tick.labels.col = fg,
@@ -169,7 +169,7 @@ theme_blackigrid(
 
 theme_darkgray(
   bg = "#121212",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#ffffff",
   pch = 16,
   cex = 1,
@@ -187,7 +187,7 @@ theme_darkgray(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = fg,
   tick.alpha = 0.5,
   tick.labels.col = fg,
@@ -220,7 +220,7 @@ theme_darkgray(
 
 theme_darkgraygrid(
   bg = "#121212",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#ffffff",
   pch = 16,
   cex = 1,
@@ -238,7 +238,7 @@ theme_darkgraygrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = "#00000000",
   tick.alpha = 1,
   tick.labels.col = fg,
@@ -289,8 +289,8 @@ theme_darkgrayigrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
-  tick.col = NA,
+  axes.col = "transparent",
+  tick.col = "transparent",
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = -0.01,
@@ -322,7 +322,7 @@ theme_darkgrayigrid(
 
 theme_white(
   bg = "#ffffff",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#000000",
   pch = 16,
   cex = 1,
@@ -340,7 +340,7 @@ theme_white(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = fg,
   tick.alpha = 0.5,
   tick.labels.col = fg,
@@ -373,7 +373,7 @@ theme_white(
 
 theme_whitegrid(
   bg = "#ffffff",
-  plot.bg = NA,
+  plot.bg = "transparent",
   fg = "#000000",
   pch = 16,
   cex = 1,
@@ -391,7 +391,7 @@ theme_whitegrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = "#00000000",
   tick.alpha = 1,
   tick.labels.col = fg,
@@ -442,8 +442,8 @@ theme_whiteigrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
-  tick.col = NA,
+  axes.col = "transparent",
+  tick.col = "transparent",
   tick.alpha = 1,
   tick.labels.col = fg,
   tck = -0.01,
@@ -475,7 +475,7 @@ theme_whiteigrid(
 
 theme_lightgraygrid(
   bg = "#dfdfdf",
-  plot.bg = "#00000000",
+  plot.bg = "transparent",
   fg = "#000000",
   pch = 16,
   cex = 1,
@@ -493,7 +493,7 @@ theme_lightgraygrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = "#00000000",
   tick.alpha = 1,
   tick.labels.col = fg,
@@ -526,7 +526,7 @@ theme_lightgraygrid(
 
 theme_mediumgraygrid(
   bg = "#b3b3b3",
-  plot.bg = "#00000000",
+  plot.bg = "transparent",
   fg = "#000000",
   pch = 16,
   cex = 1,
@@ -544,7 +544,7 @@ theme_mediumgraygrid(
   grid.lty = 1,
   grid.lwd = 1,
   axes.visible = TRUE,
-  axes.col = NA,
+  axes.col = "transparent",
   tick.col = "#00000000",
   tick.alpha = 1,
   tick.labels.col = fg,

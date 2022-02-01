@@ -158,7 +158,7 @@ mplot3.varimp <- function(x,
        xaxs = "i", yaxs = "i")
 
   # [ Plot Background ] ====
-  if (!is.na(theme$plot.bg)) {
+  if (theme$plot.bg != "transparent") {
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = theme$plot.bg)
   }

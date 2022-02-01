@@ -327,7 +327,7 @@ mplot3.x <- function(x,
   }
 
   # [ Plot bg ] ====
-  if (!is.na(theme$plot.bg)) {
+  if (theme$plot.bg != "transparent") {
     x1 <- if (xaxs == "r") min(xlim) - .04 * diff(range(xlim)) else min(xlim)
     y1 <- if (yaxs == "r") min(ylim) - .04 * diff(range(ylim)) else min(ylim)
     x2 <- if (xaxs == "r") max(xlim) + .04 * diff(range(xlim)) else max(xlim)

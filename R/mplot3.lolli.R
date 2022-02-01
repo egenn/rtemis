@@ -135,7 +135,7 @@ mplot3.lolli <- function(x,
   }
 
   # Plot bg ====
-  if (!is.na(theme$plot.bg)) {
+  if (theme$plot.bg != "transparent") {
     if (.horizontal) {
       .xlim <- getlim(x, axs = xaxs)
       .ylim <- getlim(seq_along(x), axs = yaxs)
