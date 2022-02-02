@@ -35,10 +35,11 @@
 #' # in the other columns
 #' # y: features whose influence on x you want to study
 #' set.seed(2022)
-#' features <- rnormmat(400, 20)
-#' outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
+#' features <- rnormmat(500, 40)
+#' outcome <- features[, 3] - features[, 5] + features[, 14] + rnorm(500)
 #' massmod <- massGLM(outcome, features)
 #' plot(massmod)
+#' plot(massmod, what = "coef")
 #' plot(massmod, what = "volcano")
 #' }
 
@@ -171,78 +172,88 @@ plot.massGLM <- function(x,
                          hline.dash = "dash",
                          ylim = NULL,
                          ylab = NULL,
+                         col.neg = "#44A6AC",
+                         col.pos = "#F4A362",
+                         col.ns = "#7f7f7f",
                          theme = getOption("rt.theme"),
                          volcano.annotate = TRUE,
                          volcano.annotate.n = 7,
-                         volano.p.transform = "-log10",
+                         volcano.p.transform = "-log10",
                          displayModeBar = FALSE,
                          trace = 0, ...) {
 
   if (x$type == "massy") {
     if (is.null(predictor)) predictor <- x$xnames[1]
     what <- match.arg(what)
+    if (what == "raw") p.adjust.method <- "none"
 
-    if (what == "adjusted" & p.adjust.method != "none") {
+    if (what %in% c("adjusted", "raw")) {
+      # p-values ====
       if (is.null(main)) main <- "p-values"
-      pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-      pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), 
-                                       "adjusted", pval_name, "p-value")
-      dplot3.bar(p.transform(p.adjust(x$summary[[pval_idi]],
-                                method = p.adjust.method)),
+      .idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      .name <- gsub("p_value ", "", names(x$summary)[.idi])
+      .pvals <- p.adjust(x$summary[[.idi]], method = p.adjust.method)
+      .coefname <- getnames(x$summary, paste("Coefficient", .name))
+      .cols <- rep(col.ns, length(x$summary[[.coefname]]))
+      .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
+      .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
+      
+      if (is.null(ylab)) {
+        ylab <- paste(print_transform(deparse(p.transform)[2]), 
+                      what, .name, "p-value")
+      }
+      
+      dplot3.bar(p.transform(.pvals),
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
                  main = main,
                  # ylim = c(0, 1),
                  ylim = ylim,
                  legend = FALSE,
                  ylab = ylab,
+                 col = .cols,
                  hline = p.transform(pval.hline),
                  hline.col = hline.col,
                  hline.dash = hline.dash,
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
-    } else if (what == "raw" | (what == "adjusted" & p.adjust.method == "none")) {
-      if (is.null(main)) main <- "p-values"
-      pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-      pval_name <- gsub("p_value", "", names(x$summary)[pval_idi])
-      if (is.null(ylab)) ylab <- paste(print_transform(deparse(p.transform)[2]), 
-                                       "raw", pval_name, "p-value")
-      dplot3.bar(p.transform(x$summary[[pval_idi]]),
-                 group.names = if (x$type == "massy") x$ynames else x$xnames,
-                 main = main,
-                 ylim = ylim,
-                 legend = FALSE,
-                 ylab = ylab,
-                 hline = p.transform(pval.hline),
-                 hline.col = hline.col,
-                 hline.dash = hline.dash,
-                 theme = theme,
-                 displayModeBar = displayModeBar, ...)
+      
     } else if (what == "coef") {
+      # Coefficients ====
       if (is.null(main)) main <- "Coefficients"
-      coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
-      coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
-      dplot3.bar(x$summary[[coef_idi]],
+      pvals.idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      coef.idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
+      .name <- gsub("Coefficient ", "", names(x$summary)[coef.idi])
+      .pvals <- p.adjust(x$summary[[pvals.idi]], method = p.adjust.method)
+      .coefname <- getnames(x$summary, paste("Coefficient", .name))
+      .cols <- rep(col.ns, length(x$summary[[.coefname]]))
+      .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
+      .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
+      
+      dplot3.bar(x$summary[[coef.idi]],
                  group.names = if (x$type == "massy") x$ynames else x$xnames,
                  main = main,
                  legend = FALSE,
-                 ylab = paste(coef_name, "Coefficients"),
+                 ylab = paste(.name, "Coefficients"),
+                 col = .cols,
                  theme = theme,
                  displayModeBar = displayModeBar, ...)
     } else {
+      # Volcano ====
       coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
       coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
       pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      
       dplot3.volcano(x = x$summary[[coef_idi]],
                      pvals = x$summary[[pval_idi]],
                      x.thresh = 0, 
                      xnames = x$ynames,
                      xlab = paste(coef_name, "Coefficient"),
                      p.adjust.method = p.adjust.method, 
-                     p.transform = volano.p.transform,
+                     p.transform = volcano.p.transform,
                      annotate = volcano.annotate,
                      annotate.n = volcano.annotate.n,
                      theme = theme,
+                     displayModeBar = displayModeBar,
                      verbose = trace > 0)
     }
   } else {

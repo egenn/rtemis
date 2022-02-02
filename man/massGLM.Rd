@@ -55,10 +55,11 @@ potential covariates of no interest) at a time
 # in the other columns
 # y: features whose influence on x you want to study
 set.seed(2022)
-features <- rnormmat(400, 20)
-outcome <- features[, 3] + features[, 5] + features[, 14] + rnorm(400)
+features <- rnormmat(500, 40)
+outcome <- features[, 3] - features[, 5] + features[, 14] + rnorm(500)
 massmod <- massGLM(outcome, features)
 plot(massmod)
+plot(massmod, what = "coef")
 plot(massmod, what = "volcano")
 }
 }
