@@ -84,22 +84,16 @@ mplot3.graph <- function(net,
                          filename = NULL,
                          verbose = TRUE, ...) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("igraph", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Theme ] ====
+  # Theme ====
   # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
-    # theme <- do.call(paste0("theme_", theme), list())
   }
-  #  else {
-  #   for (i in seq(extraargs)) {
-  #     theme[[names(extraargs)[i]]] <- extraargs[[i]]
-  #   }
-  # }
 
   # Palette ====
   if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
@@ -110,7 +104,7 @@ mplot3.graph <- function(net,
     igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
-  # [ Plot ] ====
+  # Plot ====
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
