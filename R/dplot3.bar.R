@@ -189,7 +189,7 @@ dplot3.bar <-  function(x,
                          type = 'bar',
                          name = .feature.names[1],
                          text = hovernames[, 1],
-                         marker = list(color = plotly::toRGB(col, alpha)),
+                         marker = list(color = plotly::toRGB(if (p > 1) col[1] else col, alpha)),
                          showlegend = legend)
   if (p > 1) {
     for (i in seq_len(p)[-1]) plt <- plotly::add_trace(plt,
