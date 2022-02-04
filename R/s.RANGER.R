@@ -245,6 +245,7 @@ s.RANGER <- function(x, y = NULL,
                      ipw = ipw,
                      ipw.type = ipw.type,
                      upsample = upsample,
+                     downsample = downsample,
                      resample.seed = resample.seed)
 
   # Ranger ====
