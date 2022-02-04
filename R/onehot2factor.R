@@ -30,3 +30,46 @@ onehot2factor <- function(x, labels = colnames(x)) {
   out
   
 } # rtemis::onehot2factor
+
+# input: mat/df/dt of binary columns
+# output: character vector of concatenated values
+# repeated vals removed
+binmat2vec <- function(x, labels = colnames(x)) {
+  if (NCOL(x) == 1) return(factor(x))
+  dt <- as.data.table(x)
+  # dt[, which (.SD == 1), by = 1:NROW(dt)]
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, .(fn(.SD)), by = 1:NROW(dt)][[2]]
+  out[out == ""] <- NA
+  out
+  
+} # rtemis::binmat2vec
+
+`%BC%` <- function(x, labels) {
+  if (NCOL(x) == 1) return(factor(x))
+  dt <- as.data.table(x)
+  # dt[, which (.SD == 1), by = 1:NROW(dt)]
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, .(fn(.SD)), by = 1:NROW(dt)][[2]]
+  out[out == ""] <- NA
+  out
+}
+
+binmat2lvec <- function(x, 
+                        labels = colnames(x), 
+                        return.list = FALSE) {
+  if (NCOL(x) == 1) return(factor(x))
+  dt <- as.data.table(x)
+  # dt[, which (.SD == 1), by = 1:NROW(dt)]
+  if (return.list) {
+    fn <- \(r) list(labels[which(r == 1)])
+    out <- dt[, .(fn(.SD)), by = 1:NROW(dt)][[2]]
+    out[sapply(out, length) == 0] <- NA
+  } else {
+    fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+    out <- dt[, .(fn(.SD)), by = 1:NROW(dt)]
+    out[out == ""] <- NA
+  }
+  out
+  
+} # rtemis::binmat2lvec
