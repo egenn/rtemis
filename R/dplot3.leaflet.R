@@ -17,16 +17,21 @@
 #' @param col.na Color mappes to NA values
 #' @param col.highlight Hover border color. Default = "#FE8A4F" (orange)
 #' @param col.interpolate Character: "linear" or "spline"
-#' @param col.bins Integer: Number of color bins to create if \code{color.mapping = "Bin"}.
+#' @param col.bins Integer: Number of color bins to create if 
+#' \code{color.mapping = "Bin"}.
 #' Default = 21
-#' @param domain Limits for mapping colors to values. Default = NULL and set to range
+#' @param domain Limits for mapping colors to values.
+#' Default = NULL and set to range
 #' @param weight Float: Weight of county border lines. Default = .5
 #' @param color Color of county border lines. Default = "black"
 #' @param alpha Float: Overaly transparency. Default = 1
-#' @param bg.tile.provider Background tile (below overlay colors), one of \code{leaflet::providers}
+#' @param bg.tile.provider Background tile (below overlay colors), one of 
+#' \code{leaflet::providers}
 #' @param bg.tile.alpha Float: Background tile transparency. Default = .67
-#' @param fg.tile.provider Foreground tile (above overlay colors), one of \code{leaflet::providers}
-#' @param legend.position Character: One of: "topright", "bottomright", "bottomleft", "topleft".
+#' @param fg.tile.provider Foreground tile (above overlay colors), one of 
+#' \code{leaflet::providers}
+#' @param legend.position Character: One of: "topright", "bottomright", 
+#' "bottomleft", "topleft".
 #' Default = "topright"
 #' @param legend.alpha Float: Legend box transparency. Default = .8
 #' @param legend.title Character: Defaults to name of \code{values} variable.
@@ -34,7 +39,8 @@
 #' Default = -98.54180833333334 (US geographic center)
 #' @param init.lat Float: Center map around this latitude (in decimal form).
 #' Default = 39.207413888888894 (US geographic center)
-#' @param init.zoom Integer: Initial zoom level (depends on device, i.e. window, size). Default = 3
+#' @param init.zoom Integer: Initial zoom level (depends on device, i.e. window, 
+#' size). Default = 3
 #' @param stroke Logical: If TRUE, draw polygon borders. Default = TRUE
 #' 
 #' @author E.D. Gennatas
@@ -68,7 +74,8 @@ dplot3.leaflet <- function(fips,
                            bg.tile.provider = leaflet::providers$Stamen.TonerBackground,
                            bg.tile.alpha = .67,
                            fg.tile.provider = leaflet::providers$Stamen.TonerLabels,
-                           legend.position = c("topright", "bottomright", "bottomleft", "topleft"),
+                           legend.position = c("topright", "bottomright", 
+                                               "bottomleft", "topleft"),
                            legend.alpha = .8,
                            legend.title = NULL,
                            init.lng = -98.54180833333334,
