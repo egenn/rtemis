@@ -4,8 +4,9 @@
 \alias{rtModLogger}
 \title{\pkg{rtemis} model logger}
 \description{
-R6 class to save trained models' parameters and performance. Keep your experiment results tidy in
-one place, with an option to write out to a multi-sheet Excel file.
+R6 class to save trained models' parameters and performance. 
+Keep your experiment results tidy in one place, with an option to write out 
+to a multi-sheet Excel file.
 }
 \author{
 E.D. Gennatas

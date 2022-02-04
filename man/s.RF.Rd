@@ -238,6 +238,7 @@ Other Supervised Learning:
 \code{\link{s.QRNN}()},
 \code{\link{s.RANGER}()},
 \code{\link{s.RFSRC}()},
+\code{\link{s.SDA}()},
 \code{\link{s.SGD}()},
 \code{\link{s.SPLS}()},
 \code{\link{s.SVM}()},

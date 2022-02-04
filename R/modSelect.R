@@ -21,12 +21,12 @@ modSelect <- function(mod,
 
   # Name + CRS ====
   rtMods <- data.frame(rbind(
-    c("TREELINED", "Lined Tree Learner", F, T, F), # Yep -
-    c("RGB", "Representational Gradient Boosting", T, T, T), # that's
-    c("AADDT", "Asymmetric Additive Tree", T, T, F), # right,
-    c("CSL", "Conditional SuperLearner", T, T, F), # bud
-    c("LINAD", "Linear Additive Tree", T, T, F), # !
-    c("LINOA", "Linear Optimized Additive Tree", T, T, F), # !
+    c("TREELINED", "Lined Tree Learner", F, T, F), 
+    c("RGB", "Representational Gradient Boosting", T, T, T), 
+    c("AADDT", "Asymmetric Additive Tree", T, T, F), 
+    c("CSL", "Conditional SuperLearner", T, T, F), 
+    c("LINAD", "Linear Additive Tree", T, T, F),
+    c("LINOA", "Linear Optimized Additive Tree", T, T, F),
     c("LITEBOOSTTV", "Lite Boosted Learner", F, T, F),
     c("ADABOOST", "Adaptive Boosting", T, F, F),
     c("ADDTREE", "Additive Tree", T, F, F),
@@ -92,6 +92,7 @@ modSelect <- function(mod,
     c("RFSRC", "Random Forest SRC", T, T, T),
     c("RLM", "Robust Linear Model", F, T, F),
     c("RULEFEAT", "RuleFeat Ensemble Model", T, T, F),
+    c("SDA", "Sparse Linear Discriminant Analysis", T, F, F),
     c("SGD", "Stochastic Gradient Descent", F, T, F),
     c("SPLS", "Sparse Partial Least Squares", F, T, F),
     c("SVM", "Support Vector Machine", T, T, F),
