@@ -1,4 +1,4 @@
-# [ rtModLog ] ====
+# rtModLog ====
 #' \pkg{rtemis} Supervised Model Log Class
 #'
 #' @docType class
@@ -45,11 +45,12 @@ rtModLog <- R6::R6Class("rtModLog",
                           }
                         )) # /rtModLog
 
-# [ rtModLogger ] ====
+# rtModLogger ====
 #' \pkg{rtemis} model logger
 #'
-#' R6 class to save trained models' parameters and performance. Keep your experiment results tidy in
-#' one place, with an option to write out to a multi-sheet Excel file.
+#' R6 class to save trained models' parameters and performance. 
+#' Keep your experiment results tidy in one place, with an option to write out 
+#' to a multi-sheet Excel file.
 #'
 #' @author E.D. Gennatas
 #' @export
