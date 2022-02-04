@@ -20,6 +20,9 @@ s.LDA <- function(x, y = NULL,
                   prior = NULL,
                   method = "moment",
                   nu = NULL,
+                  upsample = TRUE,
+                  downsample = FALSE,
+                  resample.seed = NULL,
                   x.name = NULL,
                   y.name = NULL,
                   print.plot = TRUE,
@@ -68,6 +71,9 @@ s.LDA <- function(x, y = NULL,
   # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
+                    upsample = upsample,
+                    downsample = downsample,
+                    resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x
   y <- dt$y
