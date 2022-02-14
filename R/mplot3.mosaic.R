@@ -48,11 +48,11 @@ mplot3.mosaic <- function(x,
                           pdf.width = 5,
                           pdf.height = 5, ...) {
 
-  # [ Arguments ] ====
+  # Arguments ====
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
 
-  # [ Theme ] ====
+  # Theme ====
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme.args)
   } else {
@@ -67,14 +67,14 @@ mplot3.mosaic <- function(x,
     dir.create(dirname(filename), recursive = TRUE)
   }
 
-  # [ Main Title ] ====
+  # Main Title ====
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # [ Plot ] ====
+  # Plot ====
   if (is.null(mar)) {
     topmar <- ifelse(is.null(main), 1, 2.5)
     mar <- c(2.5, 2.5, topmar, 1)
@@ -83,17 +83,20 @@ mplot3.mosaic <- function(x,
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
+  par(bg = theme$bg, 
+      fg = theme$fg, 
+      cex = theme$cex,
+      col.axis = theme$axes.col, 
+      col.lab = theme$labs.col, 
+      col.main = theme$main.col,
+      col.sub = theme$main.col,
+      mar = mar, 
+      new = new,
+      family = theme$font.family)
   if (exists("rtpar", envir = rtenv)) {
     par.reset <- FALSE
-    par(bg = theme$bg, fg = theme$fg, cex = theme$cex,
-        col.axis = theme$axes.col, col.lab = theme$labs.col, col.main = theme$main.col,
-        col.sub = theme$main.col,
-        mar = mar, new = new)
   } else {
-    par(bg = theme$bg, fg = theme$fg, cex = theme$cex,
-        col.axis = theme$axes.col, col.lab = theme$labs.col, col.main = theme$main.col,
-        col.sub = theme$main.col,
-        mar = mar, oma = oma, new = new)
+    par(oma = oma)
   }
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
@@ -102,7 +105,8 @@ mplot3.mosaic <- function(x,
              xlab = xlab,
              ylab = ylab,
              color = unlist(palette),
-             border = border,...)
+             border = border, 
+             cex.axis = theme$cex, ...)
 
   if (!is.null(main)) {
     mtext(main, line = theme$main.line,
