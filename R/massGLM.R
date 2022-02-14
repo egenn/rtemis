@@ -167,9 +167,10 @@ plot.massGLM <- function(x,
                          what = c("adjusted", "raw", "coef", "volcano"),
                          p.adjust.method = "holm",
                          p.transform = function(x) -log10(x),
-                         pval.hline = c(.001, .05),
-                         hline.col = "#FE4AA3",
+                         pval.hline = c(.05, .001),
+                         hline.col = "#ffffff",
                          hline.dash = "dash",
+                         hline.annotate = as.character(pval.hline),
                          ylim = NULL,
                          ylab = NULL,
                          col.neg = "#44A6AC",
@@ -179,6 +180,7 @@ plot.massGLM <- function(x,
                          volcano.annotate = TRUE,
                          volcano.annotate.n = 7,
                          volcano.p.transform = "-log10",
+                         margin = NULL,
                          displayModeBar = FALSE,
                          trace = 0, ...) {
 
@@ -214,7 +216,9 @@ plot.massGLM <- function(x,
                  hline = p.transform(pval.hline),
                  hline.col = hline.col,
                  hline.dash = hline.dash,
+                 hline.annotate = hline.annotate,
                  theme = theme,
+                 margin = margin,
                  displayModeBar = displayModeBar, ...)
       
     } else if (what == "coef") {
@@ -236,6 +240,7 @@ plot.massGLM <- function(x,
                  ylab = paste(.name, "Coefficients"),
                  col = .cols,
                  theme = theme,
+                 margin = margin,
                  displayModeBar = displayModeBar, ...)
     } else {
       # Volcano ====
