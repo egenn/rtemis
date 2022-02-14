@@ -21,7 +21,7 @@
 #' "relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.
 #' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
 #' @param order.by.val Logical: If TRUE, order bars by increasing value.
-#' Only be use for single group data. Default = NULL
+#' Only use for single group data. Default = NULL
 #' @param ylim Float, vector, length 2: y-axis limits.
 #' @param hovernames Character, vector: Optional character vector to show on hover over each bar.
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
@@ -86,10 +86,12 @@ dplot3.bar <-  function(x,
                         legend.xanchor = "left",
                         legend.yanchor = "auto",
                         hline = NULL,
-                        hline.col = "#FE4AA3",
+                        hline.col = "#ffffff",
                         hline.width = 1,
                         hline.dash = "solid",
-                        margin = list(b = 50, l = 50, t = 50, r = 20),
+                        hline.annotate = NULL,
+                        hline.annotation.x = 1,
+                        margin = NULL, # list(b = 50, l = 50, t = 50, r = 20),
                         automargin.x = TRUE,
                         automargin.y = TRUE,
                         padding = 0,
@@ -98,32 +100,32 @@ dplot3.bar <-  function(x,
                         file.width = 500,
                         file.height = 500,
                         trace = 0, ...) {
-
+  
   # Dependencies ====
   if (!depCheck("plotly", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
-
+  
   # Arguments ====
   barmode <- match.arg(barmode)
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
-
+  
   dat <- as.data.frame(x)
   if (NROW(dat) == 1 & barmode != "stack") dat <- as.data.frame(t(dat))
-
+  
   # Order by val ====
   if (order.by.val) {
     if (NCOL(dat) > 1) {
       .order <- order(sapply(dat, mean, na.rm = TRUE))
       dat <- dat[, .order]
     } else {
-      .order <- order(dat)
+      .order <- order(dat[[1]])
       dat <- dat[.order, , drop = FALSE]
     }
     if (!is.null(group.names)) group.names <- group.names[.order]
     if (!is.null(hovernames)) hovernames <- hovernames[.order]
   }
-
+  
   # Group names ====
   .group.names <- group.names
   if (is.null(group.names)) {
@@ -133,9 +135,9 @@ dplot3.bar <-  function(x,
     rownames(dat) <- .group.names
     dat <- dat[, .group.names]
   }
-
+  
   if (trace > 0) cat(".group.names:", .group.names, "\n")
-
+  
   # Feature names ====
   .feature.names <- feature.names
   if (is.null(.feature.names)) {
@@ -145,15 +147,15 @@ dplot3.bar <-  function(x,
       .feature.names <- paste0("Feature", seq(NCOL(dat)))
     }
   }
-
+  
   if (trace > 0) cat(".feature.names:", .feature.names, "\n")
   if (is.null(legend)) legend <- length(.feature.names) > 1
-
+  
   # Colors ====
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
-
+  
   # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
@@ -163,7 +165,7 @@ dplot3.bar <-  function(x,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-
+  
   bg <- plotly::toRGB(theme$bg)
   plot.bg <- plotly::toRGB(theme$plot.bg)
   grid.col <- plotly::toRGB(theme$grid.col)
@@ -171,17 +173,17 @@ dplot3.bar <-  function(x,
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
   axes.col <- plotly::toRGB(theme$axes.col)
-
+  
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
-
+  
   if (!is.null(hovernames)) {
     hovernames <- matrix(hovernames)
     if (NCOL(hovernames) == 1 & p > 1) {
       hovernames <- matrix(rep(hovernames, p), ncol = p)
     }
   }
-
+  
   # plot_ly ====
   .group.names <- factor(.group.names, levels = .group.names)
   plt <- plotly::plot_ly(x = if (horizontal) dat[[1]] else .group.names,
@@ -199,7 +201,7 @@ dplot3.bar <-  function(x,
                                                        text = hovernames[, i],
                                                        marker = list(color = plotly::toRGB(col[i], alpha)))
   }
-
+  
   if (annotate) {
     if (barmode != "stack") {
       warning('Set barmode to "stack" to allow annotation')
@@ -207,30 +209,30 @@ dplot3.bar <-  function(x,
       if (horizontal) {
         for (i in seq(ncol(dat))) {
           plt |> plotly::add_annotations(xref = 'x', yref = 'y',
-                                 x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
-                                 y = seq(nrow(dat)) - 1,
-                                 text = paste(dat[, i]),
-                                 font = list(family = theme$font.family,
-                                             size = font.size,
-                                             color = annotate.col),
-                                 showarrow = FALSE) -> plt
+                                         x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
+                                         y = seq(nrow(dat)) - 1,
+                                         text = paste(dat[, i]),
+                                         font = list(family = theme$font.family,
+                                                     size = font.size,
+                                                     color = annotate.col),
+                                         showarrow = FALSE) -> plt
         }
       } else {
         for (i in seq(ncol(dat))) {
           plt |> plotly::add_annotations(xref = 'x', yref = 'y',
                                          x = seq(nrow(dat)) - 1,
-                                 y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
-                                 text = paste(signif(dat[, i], 2)),
-                                 font = list(family = theme$font.family,
-                                             size = font.size,
-                                             color = annotate.col),
-                                 showarrow = FALSE) -> plt
+                                         y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
+                                         text = paste(signif(dat[, i], 2)),
+                                         font = list(family = theme$font.family,
+                                                     size = font.size,
+                                                     color = annotate.col),
+                                         showarrow = FALSE) -> plt
         }
       }
     }
-
+    
   }
-
+  
   # Layout ====
   f <- list(family = theme$font.family,
             size = font.size,
@@ -247,7 +249,7 @@ dplot3.bar <-  function(x,
                               size = font.size,
                               color = legend.col),
                   orientation = legend.orientation)
-
+  
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
                                      # showline = axes.visible,
@@ -283,7 +285,7 @@ dplot3.bar <-  function(x,
                         margin = margin,
                         # showlegend = legend,
                         legend = .legend)
-
+  
   # hline ====
   if (!is.null(hline)) {
     hline.col <- recycle(hline.col, hline)
@@ -298,23 +300,38 @@ dplot3.bar <-  function(x,
                        dash = hline.dash[i]))
     })
     plt <- plotly::layout(plt, shapes = hlinel)
+    
+    # Annotate horizontal lines on the right border of the plot
+    if (!is.null(hline.annotate)) {
+      plt |> plotly::add_annotations(xref = 'paper', 
+                                     yref = 'y',
+                                     xanchor = "right",
+                                     yanchor = "bottom",
+                                     x = hline.annotation.x,
+                                     y = hline,
+                                     text = hline.annotate,
+                                     font = list(family = theme$font.family,
+                                                 size = font.size,
+                                                 color = annotate.col),
+                                     showarrow = FALSE) -> plt
+    }
   }
-
+  
   # Padding
   plt$sizingPolicy$padding <- padding
-
+  
   # Config
   plt <- plotly::config(plt,
                         displaylogo = FALSE,
                         displayModeBar = displayModeBar)
-
+  
   # Write to file ====
   if (!is.null(filename)) {
     filename <- file.path(filename)
     plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
                          format = tools::file_ext(filename), out_file = filename)
   }
-
+  
   plt
-
+  
 } # rtemis::dplot3.bar.R
