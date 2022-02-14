@@ -62,7 +62,7 @@
 date2factor <- function(x,
                         time_bin = c("year", "quarter", "month", "day"),
                         make_bins = c("range", "present"),
-                        bin_range = range(x),
+                        bin_range = range(x, na.rm = TRUE),
                         ordered = FALSE) {
 
   time_bin <- match.arg(time_bin)
