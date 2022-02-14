@@ -53,8 +53,6 @@ dplot3.volcano <- function(x, pvals,
                            legend.x.hi = NULL,
                            legend.y = .97,
                            annotate.n = 7,
-                           # ay.lo = seq(-10, 10, length = annotate.n),
-                           # ay.hi = seq(-10, 10, length = annotate.n),
                            ay.lo = NULL,
                            ay.hi = NULL,
                            annotate = TRUE,
@@ -110,8 +108,6 @@ dplot3.volcano <- function(x, pvals,
   }
   
   # Plot ====
-  # stopifnot(length(x) == length(list(xnames)[[1]]))
-  # return(xnames)
   if (is.null(hovertext)) hovertext <- split(xnames, droplevels(Group))
   plt <- dplot3.xy(x, p.transformed,
                    xlab = xlab,
