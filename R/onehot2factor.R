@@ -31,6 +31,14 @@ onehot2factor <- function(x, labels = colnames(x)) {
   
 } # rtemis::onehot2factor
 
+
+#' Binary matrix times character vector
+#' 
+#' @param x A binary matrix or data.frame
+#' @param labels Character vector length equal to \code{ncol(x)}
+#' 
+#' @returns a character vector
+#' @export
 # input: mat/df/dt of binary columns
 # output: character vector of concatenated values
 # repeated vals removed
@@ -44,6 +52,14 @@ binmat2vec <- function(x, labels = colnames(x)) {
   out
   
 } # rtemis::binmat2vec
+
+#' Binary matrix times character vector
+#' 
+#' @param x A binary matrix or data.frame
+#' @param labels Character vector length equal to \code{ncol(x)}
+#' 
+#' @returns a character vector
+#' @export
 
 `%BC%` <- function(x, labels) {
   if (NCOL(x) == 1) return(factor(x))
