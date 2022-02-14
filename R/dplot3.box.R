@@ -323,7 +323,6 @@ dplot3.box <- function(x,
         # A.2.b Grouped boxplots with split and loop ====
         # Replaces A.2.a to allow annotation positioning
         if (is.null(legend)) legend <- TRUE
-        # dt <- cbind(data.table::as.data.table(x), group = group)
         dts <- split(data.table::as.data.table(x), group, drop = TRUE)
 
         if (is.null(ylab)) ylab <- ""
@@ -413,54 +412,19 @@ dplot3.box <- function(x,
     dt <- data.table::as.data.table(x)
     if (!is.null(group)) dt[, group := group]
     if (!is.null(hovertext)) dt[, hovertext := hovertext]
-    # dt[, timeperiod := factor(switch(time.bin,
-    #                                  year = data.table::year(time),
-    #                                  quarter = paste(data.table::year(time), quarters(time)),
-    #                                  month = paste(data.table::year(time), months(time, TRUE)),
-    #                                  day = time))]
+
     dt[, timeperiod := date2factor(time, time.bin)] |>
       setkey(timeperiod)
 
-    # Npertimeperiod <- dt[, .N, by = timeperiod]
-    # Npertimeperiod <- dt[, lapply(.SD, function(i) length(na.exclude(i))), by = timeperiod] |>
-    #   setorder()
-    # index by key timeperiod to include N = 0 groups
     Npertimeperiod <- dt[levels(timeperiod)][, lapply(.SD, function(i) length(na.exclude(i))),
                                              by = timeperiod] |>
       setorder()
-    #    timeperiod alpha  beta gamma
-    #        <fctr> <int> <int> <int>
-    # 1:       2019    24    24    24
-    # 2:       2020   302   302   302
-    # 3:       2021    74    74    74
 
     ## Long data
     dtlong <- data.table::melt(dt[, ID := .I],
                                id.vars = c("ID",
                                            "timeperiod",
                                            mgetnames(dt, "group", "hovertext")))
-
-    # group by
-    # if (!is.null(group)) {
-    #   group <- factor(group)
-    #   grouplevels <- levels(group)
-    #   transforms <- list(
-    #     list(
-    #       type = 'groupby',
-    #       groups = group,
-    #       styles =
-    #         lapply(seq_along(grouplevels), function(i) {
-    #           list(target = grouplevels[i],
-    #                value = list(line = list(color = plotly::toRGB(col[i])),
-    #                             fillcolor = plotly::toRGB(col[i], alpha),
-    #                             marker = list(color = plotly::toRGB(col[i], alpha)))
-    #           )
-    #         })
-    #     )
-    #   )
-    # } else {
-    #   transforms <- NULL
-    # }
 
     if (is.null(group)) {
       args <- list(data = dtlong,
@@ -495,7 +459,6 @@ dplot3.box <- function(x,
 
     ## annotations ====
     if (is.null(group) & annotate_n) {
-      # Nperbox <- Filter(function(i) i > 0, Npertimeperiod[[2]])
       Nperbox <- Npertimeperiod[[2]] # include zeros
       plt |> plotly::add_annotations(xref = 'paper', yref = 'paper',
                                      xanchor = "right",
@@ -581,7 +544,6 @@ dplot3.box <- function(x,
                          format = tools::file_ext(filename), out_file = filename)
   }
 
-  # if (print.plot) suppressWarnings(print(plt))
   if (print.plot) {
     # suppress bogus warning about boxgap argument
     suppressWarnings(print(plt))
