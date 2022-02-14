@@ -626,9 +626,11 @@ mplot3.xy <- function(x, y = NULL,
   par.orig <- par(no.readonly = TRUE)
   if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
-    par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+    par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new,
+        family = theme$font.family)
   } else {
-    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, 
+        new = new, family = theme$font.family)
   }
   par(family = theme$font.family)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -693,11 +695,30 @@ mplot3.xy <- function(x, y = NULL,
 
   # Grid ====
   if (theme$grid) {
-    grid(nx = theme$grid.nx,
-         ny = theme$grid.ny,
-         col = colorAdjust(theme$grid.col, theme$grid.alpha),
-         lty = theme$grid.lty,
-         lwd = theme$grid.lwd)
+    if (is.null(x.axis.at)) {
+      grid(nx = theme$grid.nx,
+           ny = NA,
+           col = colorAdjust(theme$grid.col, theme$grid.alpha),
+           lty = theme$grid.lty,
+           lwd = theme$grid.lwd)
+    } else {
+      basegrid(x = x.axis.at,
+               col = colorAdjust(theme$grid.col, theme$grid.alpha),
+               lty = theme$grid.lty,
+               lwd = theme$grid.lwd)
+    }
+    if (is.null(y.axis.at)) {
+      grid(nx = NA,
+           ny = theme$grid.ny,
+           col = colorAdjust(theme$grid.col, theme$grid.alpha),
+           lty = theme$grid.lty,
+           lwd = theme$grid.lwd)
+    } else {
+      basegrid(y = y.axis.at,
+               col = colorAdjust(theme$grid.col, theme$grid.alpha),
+               lty = theme$grid.lty,
+               lwd = theme$grid.lwd)
+    }
   }
 
   # Zero Lines ====
