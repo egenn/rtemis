@@ -109,14 +109,18 @@ mplot3.survfit <- function(x,
                            error.alpha = .33,
                            autonames = TRUE,
                            group.legend = NULL,
+                           group.legend.type = c("legend", "mtext"),
                            group.names = NULL,
                            group.title = NULL,
                            group.line = NULL,
-                           group.side = NULL,
+                           group.side = NULL, # for group.legend.type "mtext"
+                           legend.x = NULL,   # for group.legend.type "legend"
                            mar = c(2.5, 3, 2, 1),
                            oma = NULL,
                            par.reset = TRUE, ...) {
 
+  group.legend.type <- match.arg(group.legend.type)
+  
   # Data ====
   if (class(x)[1] != "survfit") stop("Input must be of class 'survfit'")
   nstrata <- if (is.null(x$strata)) 1 else length(x$strata)
@@ -266,16 +270,18 @@ mplot3.survfit <- function(x,
   if (autonames && nstrata > 1) {
     if (is.null(group.title)) {
       group.title <- paste(
-        gsub("=.*", "",
+        sub("=.*", "",
              strsplit(names(x$strata)[1], ", ")[[1]]),
         collapse = ", ")
     }
-    group.names <- unlist(
-      lapply(strsplit(
-        gsub(" *", "", names(x$strata)),
-        ","), function(i)
-        paste(gsub(".*=", "", i), collapse = ", "))
-    )
+    if (is.null(group.names)) {
+      group.names <- unlist(
+        lapply(strsplit(
+          gsub(" *", "", names(x$strata)),
+          ","), function(i)
+            paste(sub(".*?=", "", i), collapse = ", "))
+      )
+    }
   }
   if (!is.null(group.title) && group.median) {
     group.title <- paste(group.title, "(median)")
@@ -308,21 +314,37 @@ mplot3.survfit <- function(x,
   if (is.null(group.side)) {
     group.side <- if (min(x$surv) < .5) 3 else 1
   }
+  
+  if (is.null(legend.x)) {
+    legend.x <- if (min(x$surv) < .5) "topright" else "bottomright"
+  }
 
   if (group.legend) {
     col <- if (!is.null(group.title)) {
-       c(adjustcolor(theme$fg, .5), unlist(col)[seq(nstrata)])
+       c(theme$fg, unlist(col)[seq(nstrata)])
     } else {
       unlist(col)[seq(nstrata)]
     }
-    mtext(text = c(group.title, group.names),
-          side = group.side,
-          line = group.line,
-          col = col,
-          adj = 1,
-          at = xlim[2],
-          cex = theme$cex,
-          family = theme$font.family)
+    if (group.legend.type == "mtext") {
+      mtext(text = c(group.title, group.names),
+            side = group.side,
+            line = group.line,
+            col = col,
+            adj = 1,
+            at = xlim[2],
+            cex = theme$cex,
+            family = theme$font.family)
+    } else {
+      legend("topright",
+             title = group.title,
+             legend = group.names,
+             text.col = theme$labs.col,
+             fill = col[-1],
+             border = NA,
+             bg = theme$bg,
+             box.lwd = 0)
+    }
+    
   }
 
   # nrisk table ====
