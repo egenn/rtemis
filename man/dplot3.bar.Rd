@@ -30,10 +30,12 @@ dplot3.bar(
   legend.xanchor = "left",
   legend.yanchor = "auto",
   hline = NULL,
-  hline.col = "#FE4AA3",
+  hline.col = "#ffffff",
   hline.width = 1,
   hline.dash = "solid",
-  margin = list(b = 50, l = 50, t = 50, r = 20),
+  hline.annotate = NULL,
+  hline.annotation.x = 1,
+  margin = NULL,
   automargin.x = TRUE,
   automargin.y = TRUE,
   padding = 0,
@@ -68,7 +70,7 @@ dplot3.bar(
 \item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
 
 \item{order.by.val}{Logical: If TRUE, order bars by increasing value.
-Only be use for single group data. Default = NULL}
+Only use for single group data. Default = NULL}
 
 \item{ylim}{Float, vector, length 2: y-axis limits.}
 

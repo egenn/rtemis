@@ -12,6 +12,9 @@ s.LDA(
   prior = NULL,
   method = "moment",
   nu = NULL,
+  upsample = TRUE,
+  downsample = FALSE,
+  resample.seed = NULL,
   x.name = NULL,
   y.name = NULL,
   print.plot = TRUE,
@@ -35,6 +38,15 @@ s.LDA(
 Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Note: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
 
 \item{x.name}{Character: Name for feature set}
 

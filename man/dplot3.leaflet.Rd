@@ -58,10 +58,12 @@ along \code{values}}
 
 \item{col.interpolate}{Character: "linear" or "spline"}
 
-\item{col.bins}{Integer: Number of color bins to create if \code{color.mapping = "Bin"}.
+\item{col.bins}{Integer: Number of color bins to create if 
+\code{color.mapping = "Bin"}.
 Default = 21}
 
-\item{domain}{Limits for mapping colors to values. Default = NULL and set to range}
+\item{domain}{Limits for mapping colors to values.
+Default = NULL and set to range}
 
 \item{weight}{Float: Weight of county border lines. Default = .5}
 
@@ -69,13 +71,16 @@ Default = 21}
 
 \item{alpha}{Float: Overaly transparency. Default = 1}
 
-\item{bg.tile.provider}{Background tile (below overlay colors), one of \code{leaflet::providers}}
+\item{bg.tile.provider}{Background tile (below overlay colors), one of 
+\code{leaflet::providers}}
 
 \item{bg.tile.alpha}{Float: Background tile transparency. Default = .67}
 
-\item{fg.tile.provider}{Foreground tile (above overlay colors), one of \code{leaflet::providers}}
+\item{fg.tile.provider}{Foreground tile (above overlay colors), one of 
+\code{leaflet::providers}}
 
-\item{legend.position}{Character: One of: "topright", "bottomright", "bottomleft", "topleft".
+\item{legend.position}{Character: One of: "topright", "bottomright", 
+"bottomleft", "topleft".
 Default = "topright"}
 
 \item{legend.alpha}{Float: Legend box transparency. Default = .8}
@@ -88,7 +93,8 @@ Default = -98.54180833333334 (US geographic center)}
 \item{init.lat}{Float: Center map around this latitude (in decimal form).
 Default = 39.207413888888894 (US geographic center)}
 
-\item{init.zoom}{Integer: Initial zoom level (depends on device, i.e. window, size). Default = 3}
+\item{init.zoom}{Integer: Initial zoom level (depends on device, i.e. window, 
+size). Default = 3}
 
 \item{stroke}{Logical: If TRUE, draw polygon borders. Default = TRUE}
 }
