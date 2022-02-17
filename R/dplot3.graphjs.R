@@ -14,7 +14,8 @@
 #' @param vertex.frame.col Color for vertex border (frame)
 #' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep existing
 #' names in \code{net} if any. Set to NA to avoid printing vertex labels
-#' @param vertex.shape Character, vector, length 1 or N nodes: Vertex shape. See \code{graphjs("vertex.shape")}. Default = "circle"
+#' @param vertex.shape Character, vector, length 1 or N nodes: Vertex shape. 
+#' See \code{graphjs("vertex.shape")}. Default = "circle"
 #' @param edge.col Color for edges
 #' @param edge.alpha Numeric: Transparency for edges
 #' @param edge.curved Numeric: Curvature of edges. Default = .35
@@ -74,7 +75,8 @@ dplot3.graphjs <- function(net,
                            mar = rep(0, 4),
                            par.reset = TRUE,
                            filename = NULL,
-                           verbose = TRUE, ...) {
+                           verbose = TRUE,
+                           elementId = "dplot3graphjs", ...) {
 
   # Dependencies ====
   if (!depCheck("igraph", "threejs", verbose = FALSE)) {
@@ -149,6 +151,7 @@ dplot3.graphjs <- function(net,
                    vertex.frame.color = vertex.frame.col,
                    edge.curved = edge.curved,
                    vertex.label.family = theme$font.family,
+                   font.main = theme$font.family,
                    stroke = NULL,
                    verbose = verbose, ...)
 

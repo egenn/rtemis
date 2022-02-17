@@ -31,12 +31,12 @@ dplot3.graphd3 <- function(net,
                            theme = getOption("rt.theme"),
                            ...) {
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck("networkD3", verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Theme ] ====
+  # Theme ====
   # extraargs <- list(...)
   if (is.character(theme)) {
     # theme <- do.call(paste0("theme_", theme), extraargs)
