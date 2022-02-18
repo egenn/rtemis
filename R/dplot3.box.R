@@ -117,7 +117,7 @@ dplot3.box <- function(x,
                        margin = list(t = 35, pad = 0),
                        automargin.x = TRUE,
                        automargin.y = TRUE,
-                       boxgap = 0, #1/nvars, #.12,
+                       # boxgap = 0, #1/nvars, #.12,
                        boxgroupgap = NULL,
                        hovertext = NULL,
                        show_n = FALSE,
@@ -528,7 +528,7 @@ dplot3.box <- function(x,
                           plot_bgcolor = plot.bg,
                           margin = margin,
                           legend = .legend,
-                          boxgap = boxgap,
+                          # boxgap = boxgap,
                           boxgroupgap = boxgroupgap)
   })
 
@@ -545,8 +545,7 @@ dplot3.box <- function(x,
   }
 
   if (print.plot) {
-    # suppress bogus warning about boxgap argument
-    suppressWarnings(print(plt))
+    print(plt)
   } else {
     invisible(plt)
   }

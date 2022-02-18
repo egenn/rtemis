@@ -40,7 +40,6 @@ dplot3.box(
   margin = list(t = 35, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
-  boxgap = 0,
   boxgroupgap = NULL,
   hovertext = NULL,
   show_n = FALSE,
