@@ -33,6 +33,7 @@ dplot3.graphjs(
   par.reset = TRUE,
   filename = NULL,
   verbose = TRUE,
+  elementId = "dplot3graphjs",
   ...
 )
 }
