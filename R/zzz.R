@@ -27,11 +27,26 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   
   try(
     if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
-    polyshadow(20, 20, jsd = 1,
-               text = "rtemis", 
-               col_lo = "#00ffff", col_hi = "#ff00ff",
-               text.cex = 2, col.text = "#ffffffef",
-               text.x = 95, text.adj = c(1, 0))
+    # polyshadow(20, 20, jsd = 1,
+    #            text = "rtemis", 
+    #            col_lo = "#00ffff", col_hi = "#ff00ff",
+    #            text.cex = 2, col.text = "#ffffffef",
+    #            text.x = 95, text.adj = c(1, 0))
+      col <- sample(unlist(rtCol1), 1)
+      polyshadow2(20, 20, 1, 
+                  # seed = 12231984,
+                  # shadow = seq(.7, .99, length = 400),
+                  text = "rtemis",
+                  text.x = 2,
+                  text.y = 2,
+                  text.adj = c(0, 0),
+                  text.col = col,
+                  # text.srt = 90,
+                  text.cex = 1.2,
+                  shadow = 1,
+                  col_lo =  "#00000040",
+                  col_hi =  col,
+                  color.progression = "prod")
   }, 
   silent = TRUE)
 
