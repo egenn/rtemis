@@ -9,7 +9,7 @@ rtemis.version <- packageVersion("rtemis")
 rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
 .onAttach <- function(libname, pkgname) {
-
+  
   packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
                                "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
                                "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
@@ -20,24 +20,24 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
     if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
       col <- sample(unlist(rtemis:::rtCol1), 1)
       n <- 20
-      polyshadow2(n, n, .8, 
-                  text = "rtemis",
-                  text.x = 2,
-                  text.y = 2,
-                  text.adj = c(0, 0),
-                  text.col = col,
-                  text.cex = 1.2,
-                  shadow = seq(.9, .96, length = n^2),
-                  col_lo =  "#00000040",
-                  col_hi =  col,
-                  color.progression = "prod")
-  }, 
-  silent = TRUE)
-
+      polyshadow(n, n, .8, 
+                 text = "rtemis",
+                 text.x = 2,
+                 text.y = 2,
+                 text.adj = c(0, 0),
+                 text.col = col,
+                 text.cex = 1.2,
+                 shadow = seq(.9, .96, length = n^2),
+                 col_lo =  "#00000040",
+                 col_hi =  col,
+                 color.progression = "prod")
+    }, 
+    silent = TRUE)
+  
   if (is.null(getOption("rt.theme"))) {
     options(rt.theme = "darkgraygrid")
   }
-
+  
 }
 
 
