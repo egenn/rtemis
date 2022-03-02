@@ -11,7 +11,6 @@
   x.name = NULL,
   y.name = NULL,
   k = 6,
-  interactions = TRUE,
   family = gaussian(),
   weights = NULL,
   method = "REML",
@@ -35,8 +34,6 @@
 \item{y.name}{Character: Name for outcome}
 
 \item{k}{Integer. Number of bases for smoothing spline}
-
-\item{interactions}{Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
