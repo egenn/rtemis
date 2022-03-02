@@ -4,7 +4,7 @@
 \alias{getMode}
 \title{Get the mode of a factor or integer}
 \usage{
-getMode(x, na.rm = TRUE, getlast = FALSE, retain.class = TRUE)
+getMode(x, na.exclude = TRUE, getlast = TRUE, retain.class = TRUE)
 }
 \arguments{
 \item{x}{Vector, factor or integer}
