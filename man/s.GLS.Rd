@@ -44,11 +44,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{interactions}{Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}}
-
-\item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
-
-\item{covariate}{Character: Name of column to be included as interaction term in formula, must be factor}
+\item{interactions}{List of character pairs denoting column names in \code{x}
+that should be entered as interaction terms in the GLM formula}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.

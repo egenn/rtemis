@@ -71,8 +71,6 @@ combinations. Default = .1}
 
 \item{intercept}{Logical: If TRUE, include intercept in the model. Default = TRUE}
 
-\item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
-
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
 \item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
