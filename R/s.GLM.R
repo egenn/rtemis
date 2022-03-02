@@ -22,11 +22,12 @@
 #'   Columns must correspond to columns in \code{x}
 #' @param y.test Numeric vector of testing set outcome
 #' @param family Error distribution and link function. See \code{stats::family}
-#' @param covariate Character: Name of column to be included as interaction term in formula, must be factor
+# @param covariate Character: Name of column to be included as interaction term in formula, must be factor
 #' @param x.name Character: Name for feature set
 #' @param y.name Character: Name for outcome
-#' @param interactions Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}
-#' @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
+#' @param interactions List of character pairs denoting column names in \code{x}
+#' that should be entered as interaction terms in the GLM formula
+# @param nway.interactions Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}
 #' @param class.method Character: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try \code{nnet::multinom} instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -86,9 +87,7 @@ s.GLM <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   family = NULL,
-                  interactions = FALSE,
-                  nway.interactions = 0,
-                  covariate = NULL,
+                  interactions = NULL,
                   class.method = NULL,
                   weights = NULL,
                   ipw = TRUE,
@@ -190,33 +189,25 @@ s.GLM <- function(x, y = NULL,
   # For example, splines produces output with integers as colnames.
   df.train <- cbind(x, y = if (mod.name == "LOGISTIC") reverseLevels(y) else y)
   if (!polynomial) {
-    if (nway.interactions > 0) {
-      .formula <- paste0(y.name, " ~ .^", nway.interactions)
-    } else if (interactions) {
-      .formula <- paste(y.name, "~ .*.")
-    } else if (!is.null(covariate)) {
-      features <- xnames[!grepl(covariate, xnames)]
-      .formula <- paste(y.name, "~", paste(features, "*", covariate, collapse = " + "))
-    } else {
-      .formula <- paste(y.name, "~ .")
-    }
+    .formula <- paste(y.name, "~ .")
   } else {
-    # polynomial
-    if (!is.null(covariate)) {
-      warning("Covariate not supported with polynomial - will be ignored.
-              You can pass squares and cubes manually")
-    }
     features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
                                        collapse = " + poly("))
     .formula <- paste0(y.name, " ~ ", features)
-    }
+  }
+  
+  if (!is.null(interactions)) {
+    .formula <- paste(.formula, " + ",
+                      lapply(interactions, \(i) paste(i, collapse = ":")) |> 
+                        paste(collapse = " + "))
+  }
 
   # Intercept
   if (!intercept) .formula <- paste(.formula, "- 1")
   .formula <- as.formula(.formula)
 
   # glm, nnet ====
-  if (trace > 0) msg("Using formula", .formula)
+  if (trace > 0) msg("Using formula:", .formula)
   if (mod.name != "MULTINOM") {
       if (verbose) msg("Training GLM...", newline.pre = TRUE)
       mod <- glm(.formula, family = family, data = df.train,

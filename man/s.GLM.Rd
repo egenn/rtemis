@@ -12,9 +12,7 @@ s.GLM(
   x.name = NULL,
   y.name = NULL,
   family = NULL,
-  interactions = FALSE,
-  nway.interactions = 0,
-  covariate = NULL,
+  interactions = NULL,
   class.method = NULL,
   weights = NULL,
   ipw = TRUE,
@@ -57,11 +55,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{interactions}{Logical: If TRUE, include all pairwise interactions. \code{formula = y ~.*.}}
-
-\item{nway.interactions}{Integer: Include n-way interactions. This integer defined the n: \code{formula = y ~^n}}
-
-\item{covariate}{Character: Name of column to be included as interaction term in formula, must be factor}
+\item{interactions}{List of character pairs denoting column names in \code{x}
+that should be entered as interaction terms in the GLM formula}
 
 \item{class.method}{Character: Define "logistic" or "multinom" for classification. The only purpose
 of this is so you can try \code{nnet::multinom} instead of glm for binary classification}
