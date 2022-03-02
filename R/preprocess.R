@@ -1,6 +1,7 @@
 # preprocess.R
 # ::rtemis::
-# 2017-9 E.D. Gennatas lambdamd.org
+# 2017-22 E.D. Gennatas lambdamd.org
+# todo: merge with preprocess_ as single data.table-based preprocess
 
 #' Data preprocessing
 #'
@@ -126,7 +127,7 @@ preprocess <- function(x, y = NULL,
 
   isdatatable <- data.table::is.data.table(x)
   x <- as.data.frame(x)
-
+  
   # [ Complete cases ] ====
   if (completeCases) {
     if (verbose) msg("Filtering complete cases...")
@@ -142,11 +143,15 @@ preprocess <- function(x, y = NULL,
 
   # [ Remove duplicates ] ====
   if (removeDuplicates) {
-    Ndups <- sum(duplicated(x))
+    # Ndups <- sum(duplicated(x))
+    duplicate.index <- which(duplicated(x))
+    Ndups <- length(duplicate.index)
     if (Ndups > 0) {
       if (verbose) msg0("Removing ", singorplu(Ndups, "duplicated case"), "...")
       x <- unique(x)
     }
+  } else {
+    duplicate.index <- NULL
   }
 
   # [ Remove Cases by missing feature threshold ] ====
@@ -377,6 +382,13 @@ preprocess <- function(x, y = NULL,
 
   # [ Add back excluded ] ====
   if (!is.null(exclude) && length(exclude) > 0) {
+    
+    # remove any duplicates
+    if (!is.null(duplicate.index)) {
+      excluded <- excluded[-duplicate.index, ]
+    }
+    
+    # remove by case thres
     if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
       n.feat.inc <- NCOL(x)
       x <- cbind(x, excluded[-removeCases.thres.index, ])
@@ -385,7 +397,7 @@ preprocess <- function(x, y = NULL,
       x <- cbind(x, excluded)
     }
   }
-
+  
   if (isdatatable) data.table::setDT(x)
   if (verbose) msg("Done")
   x
