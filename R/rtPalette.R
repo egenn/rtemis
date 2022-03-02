@@ -2,152 +2,67 @@
 # ::rtemis::
 # 2016-9 E.D. Gennatas lambdamd.org
 
-# Penn ====
-#' rtemis Color Palettes
-#'
-#' \code{pennCol}: Penn color palette
-#' (http://www.upenn.edu/about/styleguide-color-type)
-#' @name rtPalettes
-
-pennCol <- list(darkestBlue = "#000f3a",
-                darkerBlue = "#00144d",
-                blue = "#01256e",
-                lighterBlue = "#045ea7",
-                lightestBlue = "#82afd3",
-                darkestRed = "#57000a",
-                darkerRed = "#74000e",
-                red = "#95001a",
-                lighterRed = "#c2004d",
-                lightestRed = "#e180a6",
-                darkestYellow = "#af7f00",
-                darkerYellow = "#eaa900",
-                yellow = "#f2c100",
-                lighterYellow = "#f8de00",
-                lightestYellow = "#fcef80",
-                darkestGreen = "#005200",
-                darkerGreen = "#006e00",
-                green = "#008e00",
-                lighterGreen = "#00be00",
-                lightestGreen = "#80df80",
-                darkestOrange = "#812d00",
-                darkerOrange = "#ac3c00",
-                orange = "#c35a00",
-                lighterOrange = "#df9700",
-                lightestOrange = "#efcb80",
-                darkestPurple = "#23001f",
-                darkerPurple = "#2f0029",
-                purple = "#4a0042",
-                lighterPurple = "#890082",
-                lightestPurple = "#c480c1")
-
-
-#' \code{pennPalette}: Subset of \code{pennCol}.
-#'
-#' @name rtPalettes
-pennPalette <- pennCol[c("lighterBlue", "red", "green", "yellow", "lighterPurple", "orange",
-                         "lightestBlue", "lighterRed", "lighterGreen", "lightestPurple",
-                         "lighterOrange")]
-
-#' \code{pennLightPalette}: Subset of \code{pennCol}. This is the lighter Penn palette for use with
-#' the dark themes
-#' @name rtPalettes
-pennLightPalette <- pennCol[c("lightestBlue", "lightestRed", "lightestGreen",
-                              "lightestYellow", "lightestPurple")]
-
-
-# Imperial ====
-#' Imperial Colours
-#'
-#' \code{imperialCol}: Imperial College London colour palette
-#' (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
-#'
-#' @name rtPalettes
-
-imperialCol <- list(navy = "#002147",
-                    imperialBlue = "#003E74",
-                    lightGrey = "#EBEEEE",
-                    coolGrey = "#9D9D9D",
-                    lightBlue = "#D4EFFC",
-                    blue = "#006EAF",
-                    processBlue = "#0091D4",
-                    poolBlue = "#00ACD7",
-                    darkTeal = "#0F8291",
-                    teal = "#009CBC",
-                    seaglass = "#379f9f",
-                    darkGreen = "#02893B",
-                    kermitGreen = "#66A40A",
-                    lime = "#BBCE00",
-                    orange = "#D24000",
-                    tangerine = "#EC7300",
-                    lemonYellow = "#FFDD00",
-                    brick = "#A51900",
-                    red = "#DD2501",
-                    cherry = "#E40043",
-                    raspberry = "#9F004E",
-                    magentaPink = "#C81E78",
-                    iris = "#751E66",
-                    violet = "#960078",
-                    plum = "#321E6D",
-                    purple = "#653098")
-
-
-# Stanford ====
-#' Stanford Colors
-#'
-#' \code{stanfordCol}: Stanford color palette
-#' (https://identity.stanford.edu/color.html#digital-color)
-#'
-#' @name rtPalettes
-
-stanfordCol <- list(cardinal = "#8c1515",
-                    coolGrey = "#4d4f53",
-                    black = "#2e2d29",
-                    brightRed = "#B1040E",
-                    chocolate = "#2F2424",
-                    stone = "#544948",
-                    fog = "#F4F4F4",
-                    lightSandstone = "#F9F6EF",
-                    sandstone = "#d2c295",
-                    warmGrey = "#3f3c30",
-                    beige = "#9d9573",
-                    lightSage = "#c7d1c5",
-                    clay = "#5f574f",
-                    cloud = "#dad7cb",
-                    driftwood = "#b6b1a9",
-                    sandhill = "#b3995d",
-                    paloAlto = "#175e54",
-                    teal = "#00505c",
-                    purple = "#53284f",
-                    redwood = "#8d3c1e",
-                    brown = "#5e3032",
-                    sky = "#0098db",
-                    lagunita = "#007c92",
-                    mint = "#009b76",
-                    gold = "#b26f16",
-                    sun = "#eaab00",
-                    poppy = "#e98300")
-
-
 # UCSF ====
 #' UCSF Colors
 #'
-#' \code{ucsfCol}: UCSF color palette (http://identity.ucsf.edu/color)
+#' \code{ucsfCol}: UCSF color palette (https://identity.ucsf.edu/brand-guide/color)
 #'
 #' @name rtPalettes
 
-ucsfCol <- list(navy = "#052049",
-                teal = "#18A3AC",
-                green = "#90BD31",
-                blue = "#178CCB",
-                orange = "#F48024",
-                purple = "#716FB2",
-                red = "#EC1848",
-                yellow = "#FFDD00",
-                iTeal = "#058488",
-                iGreen = "#6EA400",
-                iBlue = "#007CBE",
-                iOrange = "#F26D04",
-                iRed = "#EB093C")
+# ucsfCol <- list(navy = "#052049",
+#                 teal = "#18A3AC",
+#                 green = "#90BD31",
+#                 blue = "#178CCB",
+#                 orange = "#F48024",
+#                 purple = "#716FB2",
+#                 red = "#EC1848",
+#                 yellow = "#FFDD00",
+#                 iTeal = "#058488",
+#                 iGreen = "#6EA400",
+#                 iBlue = "#007CBE",
+#                 iOrange = "#F26D04",
+#                 iRed = "#EB093C")
+
+ucsfCol <- list(Navy = "#052049",
+                A2 = "#0F388A",
+                A3_CTA_Blue = "#006BE9",
+                B3_Blue = "#178CCB",
+                B5 = "#B8E6FA",
+                B6 = "#E2F4FC",
+                C1 = "#0E5258",
+                C2 = "#14828C",
+                C3_Teal = "#16A0AC",
+                C4 = "#60D0DA",
+                C5 = "#B4E2E8",
+                D1 = "#00483A",
+                D2 = "#007242",
+                D3_Green = "#32A03E",
+                E3_Chartreuse = "#84C234",
+                E4_Point_Reyes = "#B4DC55",
+                F1 = "#2E2872",
+                F2 = "#443E8C",
+                F3_Purple = "#6C62D0",
+                F4_Yosemite = "#8A8CE3",
+                F5 = "#C0C0EA",
+                G1 = "#461850",
+                G2 = "#6C247C",
+                G3_Violet = "#A238BA",
+                G4 = "#C45ED8",
+                G5 = "#EACCF0",
+                H1 = "#561038",
+                H2 = "#821A56",
+                H3_Magenta = "#C42882",
+                H4 = "#E266AE",
+                H5 = "#F2C2DE",
+                I3_Blue_Gray = "#506380",
+                I6 = "#F2F3F4",
+                J2 = "#878D96",
+                J3_Cool_Gray = "#B4B9BF",
+                J5 = "#E1E3E5",
+                K3_Gray = "#D1D3D3",
+                L3_Yellow = "#FEB80A",
+                M3_Orange = "#FA6E1E",
+                N3_Red = "#E61048")
 
 #' UCSF Color Palette
 #'
@@ -362,6 +277,42 @@ californiaCol <- list(ucBlue = "#1295D8",
                       warmGray1 = "#DBD5CD",
                       metallicGold = "#B4975A")
 
+# Stanford ====
+#' Stanford Colors
+#'
+#' \code{stanfordCol}: Stanford color palette
+#' (https://identity.stanford.edu/color.html#digital-color)
+#'
+#' @name rtPalettes
+
+stanfordCol <- list(cardinal = "#8c1515",
+                    coolGrey = "#4d4f53",
+                    black = "#2e2d29",
+                    brightRed = "#B1040E",
+                    chocolate = "#2F2424",
+                    stone = "#544948",
+                    fog = "#F4F4F4",
+                    lightSandstone = "#F9F6EF",
+                    sandstone = "#d2c295",
+                    warmGrey = "#3f3c30",
+                    beige = "#9d9573",
+                    lightSage = "#c7d1c5",
+                    clay = "#5f574f",
+                    cloud = "#dad7cb",
+                    driftwood = "#b6b1a9",
+                    sandhill = "#b3995d",
+                    paloAlto = "#175e54",
+                    teal = "#00505c",
+                    purple = "#53284f",
+                    redwood = "#8d3c1e",
+                    brown = "#5e3032",
+                    sky = "#0098db",
+                    lagunita = "#007c92",
+                    mint = "#009b76",
+                    gold = "#b26f16",
+                    sun = "#eaab00",
+                    poppy = "#e98300")
+
 # California State University ====
 #' California State University Colors
 #'
@@ -438,6 +389,59 @@ scrippsCol <- list(yellow = "#edb035",
                    blue = "#273d78",
                    teal = "#116f79",
                    lightblue = "#59c3d3")
+
+# Penn ====
+#' rtemis Color Palettes
+#'
+#' \code{pennCol}: Penn color palette
+#' (http://www.upenn.edu/about/styleguide-color-type)
+#' @name rtPalettes
+
+pennCol <- list(darkestBlue = "#000f3a",
+                darkerBlue = "#00144d",
+                blue = "#01256e",
+                lighterBlue = "#045ea7",
+                lightestBlue = "#82afd3",
+                darkestRed = "#57000a",
+                darkerRed = "#74000e",
+                red = "#95001a",
+                lighterRed = "#c2004d",
+                lightestRed = "#e180a6",
+                darkestYellow = "#af7f00",
+                darkerYellow = "#eaa900",
+                yellow = "#f2c100",
+                lighterYellow = "#f8de00",
+                lightestYellow = "#fcef80",
+                darkestGreen = "#005200",
+                darkerGreen = "#006e00",
+                green = "#008e00",
+                lighterGreen = "#00be00",
+                lightestGreen = "#80df80",
+                darkestOrange = "#812d00",
+                darkerOrange = "#ac3c00",
+                orange = "#c35a00",
+                lighterOrange = "#df9700",
+                lightestOrange = "#efcb80",
+                darkestPurple = "#23001f",
+                darkerPurple = "#2f0029",
+                purple = "#4a0042",
+                lighterPurple = "#890082",
+                lightestPurple = "#c480c1")
+
+
+#' \code{pennPalette}: Subset of \code{pennCol}.
+#'
+#' @name rtPalettes
+pennPalette <- pennCol[c("lighterBlue", "red", "green", "yellow", "lighterPurple", "orange",
+                         "lightestBlue", "lighterRed", "lighterGreen", "lightestPurple",
+                         "lighterOrange")]
+
+#' \code{pennLightPalette}: Subset of \code{pennCol}. This is the lighter Penn palette for use with
+#' the dark themes
+#' @name rtPalettes
+pennLightPalette <- pennCol[c("lightestBlue", "lightestRed", "lightestGreen",
+                              "lightestYellow", "lightestPurple")]
+
 
 # CMU ====
 #' CMU Colors
@@ -909,7 +913,6 @@ vanderbiltCol <- list(gold = "#D8AB4C",
 #' \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 #' @name rtPalettes
 
-
 jeffersonCol <- list(jeffDeepBlue = "#152456",
                      jeffBrightBlue = "#59B7df",
                      legacyMaroon = "#9f2943",
@@ -919,13 +922,11 @@ jeffersonCol <- list(jeffDeepBlue = "#152456",
                      darkGray = "#8e9089",
                      black = "#231f20")
 
-
 # Hawaii ====
 #' University of Hawaii Colors
 #'
 #' \code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
 #' @name rtPalettes
-
 
 hawaiiCol <- list(manoa = "#024731",
                   hilo = "#DA291C",
@@ -939,84 +940,55 @@ hawaiiCol <- list(manoa = "#024731",
                   windward = "#7AB800",
                   system = "#B3995D")
 
-
 # NIH ====
 #' NIH Colors
 #'
 #' \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 #' @name rtPalettes
 
-
 nihCol <- list(blue = "#20558a",
                gray = "#616265")
 
-# UBC ====
-#' UBC Colors
+# Imperial ====
+#' Imperial Colours
 #'
-#' \code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
+#' \code{imperialCol}: Imperial College London colour palette
+#' (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
+#'
 #' @name rtPalettes
 
-
-ubcCol <- list(ubcBlue = "#002145",
-               blue2 = "#0055B7",
-               blue3 = "#00A7E1",
-               blue4 = "#40B4E5",
-               blue5 = "#6EC4E8",
-               blue6 = "#97D4E9")
-
-# U Toronto ====
-#' U Toronto Colors
-#'
-#' \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
-#' @name rtPalettes
-
-
-torontoCol <- list(blue = "#002043",
-                   red = "#bb133e")
-
-
-# McGill ====
-#' McGill Colors
-#'
-#' \code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
-#' @name rtPalettes
-
-
-mcgillCol <- list(mcgillRed = "#ED1B2F",
-                  grey = "#5D6770",
-                  pastelOrange = "#FFD794",
-                  brightOrange = "#F7941D",
-                  mutedOrange = "#D3674A",
-                  darkOrange = "#AA4B31",
-                  pastelYellow = "#FFF193",
-                  brightYellow = "#FFD400",
-                  mutedYellow = "#E8B92E",
-                  darkYellow = "#B28C35",
-                  pastelTeal = "#B5E1E1",
-                  brightTeal = "#27BDBE",
-                  mutedTeal = "#087F8C",
-                  darkTeal = "#0A6266",
-                  pastelBlue = "#C8EAF5",
-                  brightBlue = "#44C8F5",
-                  mutedBlue = "#0096C9",
-                  darkBlue = "#024F6D",
-                  pastelGreen = "#D5E6A8",
-                  brightGreen = "#B2D235",
-                  mutedGreen = "#8BA04E",
-                  darkGreen = "#305534",
-                  pastelPink = "#E2A7CC",
-                  brightPink = "#C768A9",
-                  mutedPink = "#9B5678",
-                  darkPink = "#673567",
-                  darkRed = "#9E0918")
-
+imperialCol <- list(navy = "#002147",
+                    imperialBlue = "#003E74",
+                    lightGrey = "#EBEEEE",
+                    coolGrey = "#9D9D9D",
+                    lightBlue = "#D4EFFC",
+                    blue = "#006EAF",
+                    processBlue = "#0091D4",
+                    poolBlue = "#00ACD7",
+                    darkTeal = "#0F8291",
+                    teal = "#009CBC",
+                    seaglass = "#379f9f",
+                    darkGreen = "#02893B",
+                    kermitGreen = "#66A40A",
+                    lime = "#BBCE00",
+                    orange = "#D24000",
+                    tangerine = "#EC7300",
+                    lemonYellow = "#FFDD00",
+                    brick = "#A51900",
+                    red = "#DD2501",
+                    cherry = "#E40043",
+                    raspberry = "#9F004E",
+                    magentaPink = "#C81E78",
+                    iris = "#751E66",
+                    violet = "#960078",
+                    plum = "#321E6D",
+                    purple = "#653098")
 
 # UCL ====
 #' UCL Colours
 #'
 #' \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
 #' @name rtPalettes
-
 
 uclCol <- list(darkGreen = "#555025",
                darkRed = "#651D32",
@@ -1041,7 +1013,6 @@ uclCol <- list(darkGreen = "#555025",
                grey = "#8C8279",
                blueCeleste = "#A4DBE8",
                IOEblue = "#24509A")
-
 
 # Oxford ====
 #' Oxford Colours
@@ -1105,6 +1076,62 @@ nhsCol <- list(nhsDarkBlue = "#003087",
                nhsWarmYellow = "#FFB81C",
                nhsYellow = "#FAE100")
 
+# UBC ====
+#' UBC Colors
+#'
+#' \code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
+#' @name rtPalettes
+
+ubcCol <- list(ubcBlue = "#002145",
+               blue2 = "#0055B7",
+               blue3 = "#00A7E1",
+               blue4 = "#40B4E5",
+               blue5 = "#6EC4E8",
+               blue6 = "#97D4E9")
+
+# U Toronto ====
+#' U Toronto Colors
+#'
+#' \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
+#' @name rtPalettes
+
+
+torontoCol <- list(blue = "#002043",
+                   red = "#bb133e")
+
+# McGill ====
+#' McGill Colors
+#'
+#' \code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
+#' @name rtPalettes
+
+mcgillCol <- list(mcgillRed = "#ED1B2F",
+                  grey = "#5D6770",
+                  pastelOrange = "#FFD794",
+                  brightOrange = "#F7941D",
+                  mutedOrange = "#D3674A",
+                  darkOrange = "#AA4B31",
+                  pastelYellow = "#FFF193",
+                  brightYellow = "#FFD400",
+                  mutedYellow = "#E8B92E",
+                  darkYellow = "#B28C35",
+                  pastelTeal = "#B5E1E1",
+                  brightTeal = "#27BDBE",
+                  mutedTeal = "#087F8C",
+                  darkTeal = "#0A6266",
+                  pastelBlue = "#C8EAF5",
+                  brightBlue = "#44C8F5",
+                  mutedBlue = "#0096C9",
+                  darkBlue = "#024F6D",
+                  pastelGreen = "#D5E6A8",
+                  brightGreen = "#B2D235",
+                  mutedGreen = "#8BA04E",
+                  darkGreen = "#305534",
+                  pastelPink = "#E2A7CC",
+                  brightPink = "#C768A9",
+                  mutedPink = "#9B5678",
+                  darkPink = "#673567",
+                  darkRed = "#9E0918")
 
 # ETH ====
 #' ETH Colours
@@ -1123,7 +1150,6 @@ ethCol <- list(eth1 = "#1F407A",
                eth8 = "#007A92",
                eth9 = "#956013",
                eth10 = "#82BE1E")
-
 
 # RWTH Aachen ====
 #' RWTH Aachen Colours
@@ -1199,7 +1225,6 @@ rwthCol <- list(blau1 = "#00549F",
 #' (https://mozilla.design/mozilla/color/)
 #' @name rtPalettes
 
-
 mozillaCol <- list(neonBlue = "#00ffff",
                    lemonYellow = "#fff44f",
                    warmRed = "#ff4f5e",
@@ -1263,10 +1288,8 @@ googleCol <- list(blue = "#4285F4",
 #' (https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf)
 #' @name rtPalettes
 
-
 amazonCol <- list(orange = "#FF9900",
                   blue = "#146EB4")
-
 
 # Microsoft ====
 #' Microsoft Colors
@@ -1282,99 +1305,37 @@ microsoftCol <- list(orange = "#f65314",
                      yellow = "#ffbb00")
 
 # rtemis palettes ====
-rtCol <- desaturate(c(pennCol$lighterBlue,
-                      pennCol$lightestBlue,
-                      pennCol$blue,
-                      pennCol$lighterRed,
-                      pennCol$lightestRed,
-                      pennCol$red,
-                      pennCol$orange,
-                      pennCol$lighterOrange,
-                      pennCol$darkerOrange,
-                      pennCol$lighterPurple,
-                      pennCol$lightestPurple,
-                      pennCol$purple), .3)
 
-rtCol0 <- list(ucsfCol$teal,
-               ucsfCol$orange,
-               pennCol$lighterBlue,
-               pennCol$lighterRed,
-               pennCol$lighterOrange,
-               pennCol$lighterPurple,
-               pennCol$lightestBlue,
-               pennCol$lightestRed,
-               pennCol$lightestOrange,
-               pennCol$lightestPurple,
-               pennCol$blue,
-               pennCol$red,
-               pennCol$orange,
-               pennCol$purple)
+rtCol1 <- desaturate(c(
+  ucsfCol$C3_Teal,
+  ucsfCol$M3_Orange,
+  pennCol$lighterBlue,
+  pennCol$lighterRed,
+  pennCol$lighterOrange,
+  pennCol$lighterPurple,
+  ucsfCol$A3_CTA_Blue,
+  pennCol$lightestOrange,
+  pennCol$lightestPurple,
+  pennCol$blue,
+  pennCol$red,
+  pennCol$orange,
+  pennCol$purple), .3)
 
-rtCol1 <-      desaturate(c(
-               ucsfCol$teal,
-               ucsfCol$orange,
-               pennCol$lighterBlue,
-               pennCol$lighterRed,
-               pennCol$lighterOrange,
-               pennCol$lighterPurple,
-               pennCol$lightestBlue,
-               pennCol$lightestRed,
-               pennCol$lightestOrange,
-               pennCol$lightestPurple,
-               pennCol$blue,
-               pennCol$red,
-               pennCol$orange,
-               pennCol$purple), .3)
-
-rtCol1a <- list(rtblue = "#80ffff",
-               rtorange = "#FFDB71",
-               # ucsfCol$teal,
-               # ucsfCol$orange,
-               pennCol$lighterBlue,
-               pennCol$lighterRed,
-               pennCol$lighterOrange,
-               pennCol$lighterPurple,
-               pennCol$lightestBlue,
-               pennCol$lightestRed,
-               pennCol$lightestOrange,
-               pennCol$lightestPurple,
-               pennCol$blue,
-               pennCol$red,
-               pennCol$orange,
-               pennCol$purple)
-
-rtCol1b <- c(list(rtblue = "#80ffff",
-                 rtorange = "#FFDB71"),
-                 desaturate(c(# ucsfCol$teal,
-                       # ucsfCol$orange,
-                       pennCol$lighterBlue,
-                       pennCol$lighterRed,
-                       pennCol$lighterOrange,
-                       pennCol$lighterPurple,
-                       pennCol$lightestBlue,
-                       pennCol$lightestRed,
-                       pennCol$lightestOrange,
-                       pennCol$lightestPurple,
-                       pennCol$blue,
-                       pennCol$red,
-                       pennCol$orange,
-                       pennCol$purple), .3))
-
-rtCol2 <- desaturate(c(pennCol$lightestBlue,
-                       pennCol$lighterBlue,
-                       pennCol$blue,
-                       pennCol$lightestRed,
-                       pennCol$lighterRed,
-                       pennCol$red,
-                       pennCol$lighterOrange,
-                       pennCol$orange,
-                       pennCol$darkerOrange,
-                       pennCol$lightestPurple,
-                       pennCol$lighterPurple,
-                       pennCol$purple), .3)
-
-rtCol3 <- desaturate(colorMix(list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
-                                   gray = c("gray10", "gray85")), 6), .3)
+rtCol1n <- desaturate(c(
+  ucsfCol$C3_Teal,
+  ucsfCol$M3_Orange,
+  pennCol$lighterBlue,
+  pennCol$lighterRed,
+  pennCol$lighterOrange,
+  pennCol$lighterPurple,
+  pennCol$lightestBlue,
+  ucsfCol$G4,
+  pennCol$lightestOrange,
+  pennCol$lightestPurple,
+  pennCol$blue,
+  pennCol$red,
+  pennCol$orange,
+  pennCol$purple), .3)
 
 rtcoldev <- list(rtemisblue = "#80ffff",
                   rtemisbluetoo = "#00D6FF",
@@ -1431,10 +1392,10 @@ rtPalettes <- list(pennCol = pennCol,
                    googleCol = googleCol,
                    amazonCol = amazonCol,
                    microsoftCol = microsoftCol,
-                   rtCol = rtCol,
+                   # rtCol = rtCol,
                    rtCol1 = rtCol1,
-                   rtCol2 = rtCol2,
-                   rtCol3 = rtCol3,
+                   # rtCol2 = rtCol2,
+                   # rtCol3 = rtCol3,
                    grays = grays)
 
 #' \pkg{rtemis} Color Palettes
@@ -1462,7 +1423,6 @@ rtPalette <- function(palette = NULL) {
   }
 
 } # rtemis::rtPalette
-
 
 # Custom crayon styles ====
 teal <- crayon::make_style(teal = "#18A3AC")
