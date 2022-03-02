@@ -3,11 +3,6 @@
 \docType{data}
 \name{rtPalettes}
 \alias{rtPalettes}
-\alias{pennCol}
-\alias{pennPalette}
-\alias{pennLightPalette}
-\alias{imperialCol}
-\alias{stanfordCol}
 \alias{ucsfCol}
 \alias{ucsfPalette}
 \alias{ucdCol}
@@ -20,10 +15,14 @@
 \alias{uciCol}
 \alias{ucsdCol}
 \alias{californiaCol}
+\alias{stanfordCol}
 \alias{csuCol}
 \alias{calpolyCol}
 \alias{caltechCol}
 \alias{scrippsCol}
+\alias{pennCol}
+\alias{pennPalette}
+\alias{pennLightPalette}
 \alias{cmuCol}
 \alias{mitCol}
 \alias{princetonCol}
@@ -49,12 +48,13 @@
 \alias{jeffersonCol}
 \alias{hawaiiCol}
 \alias{nihCol}
-\alias{ubcCol}
-\alias{torontoCol}
-\alias{mcgillCol}
+\alias{imperialCol}
 \alias{uclCol}
 \alias{oxfordCol}
 \alias{nhsCol}
+\alias{ubcCol}
+\alias{torontoCol}
+\alias{mcgillCol}
 \alias{ethCol}
 \alias{rwthCol}
 \alias{mozillaCol}
@@ -63,19 +63,9 @@
 \alias{googleCol}
 \alias{amazonCol}
 \alias{microsoftCol}
-\title{rtemis Color Palettes}
+\title{UCSF Colors}
 \format{
-An object of class \code{list} of length 30.
-
-An object of class \code{list} of length 11.
-
-An object of class \code{list} of length 5.
-
-An object of class \code{list} of length 26.
-
-An object of class \code{list} of length 27.
-
-An object of class \code{list} of length 13.
+An object of class \code{list} of length 40.
 
 An object of class \code{list} of length 8.
 
@@ -99,6 +89,8 @@ An object of class \code{list} of length 11.
 
 An object of class \code{list} of length 17.
 
+An object of class \code{list} of length 27.
+
 An object of class \code{list} of length 3.
 
 An object of class \code{list} of length 18.
@@ -106,6 +98,12 @@ An object of class \code{list} of length 18.
 An object of class \code{list} of length 19.
 
 An object of class \code{list} of length 6.
+
+An object of class \code{list} of length 30.
+
+An object of class \code{list} of length 11.
+
+An object of class \code{list} of length 5.
 
 An object of class \code{list} of length 8.
 
@@ -157,17 +155,19 @@ An object of class \code{list} of length 11.
 
 An object of class \code{list} of length 2.
 
-An object of class \code{list} of length 6.
-
-An object of class \code{list} of length 2.
-
-An object of class \code{list} of length 27.
+An object of class \code{list} of length 26.
 
 An object of class \code{list} of length 23.
 
 An object of class \code{list} of length 24.
 
 An object of class \code{list} of length 21.
+
+An object of class \code{list} of length 6.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 27.
 
 An object of class \code{list} of length 10.
 
@@ -186,16 +186,6 @@ An object of class \code{list} of length 2.
 An object of class \code{list} of length 4.
 }
 \usage{
-pennCol
-
-pennPalette
-
-pennLightPalette
-
-imperialCol
-
-stanfordCol
-
 ucsfCol
 
 ucsfPalette
@@ -220,6 +210,8 @@ ucsdCol
 
 californiaCol
 
+stanfordCol
+
 csuCol
 
 calpolyCol
@@ -227,6 +219,12 @@ calpolyCol
 caltechCol
 
 scrippsCol
+
+pennCol
+
+pennPalette
+
+pennLightPalette
 
 cmuCol
 
@@ -278,17 +276,19 @@ hawaiiCol
 
 nihCol
 
-ubcCol
-
-torontoCol
-
-mcgillCol
+imperialCol
 
 uclCol
 
 oxfordCol
 
 nhsCol
+
+ubcCol
+
+torontoCol
+
+mcgillCol
 
 ethCol
 
@@ -307,16 +307,7 @@ amazonCol
 microsoftCol
 }
 \description{
-\code{pennCol}: Penn color palette
-(http://www.upenn.edu/about/styleguide-color-type)
-
-\code{imperialCol}: Imperial College London colour palette
-(https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
-
-\code{stanfordCol}: Stanford color palette
-(https://identity.stanford.edu/color.html#digital-color)
-
-\code{ucsfCol}: UCSF color palette (http://identity.ucsf.edu/color)
+\code{ucsfCol}: UCSF color palette (https://identity.ucsf.edu/brand-guide/color)
 
 \code{ucsfPalette}: Subset of \code{ucsfCol}
 
@@ -347,6 +338,9 @@ microsoftCol
 \code{californiaCol}: University of California color palette
 (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 
+\code{stanfordCol}: Stanford color palette
+(https://identity.stanford.edu/color.html#digital-color)
+
 \code{csuCol}: California State University color palette
 (https://www2.calstate.edu/csu-system/csu-branding-standards/Documents/CSU-Brand-Guidelines-8-2018.pdf)
 
@@ -356,6 +350,9 @@ microsoftCol
 \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
 
 \code{scrippsCol}: Scripps Research color palette
+
+\code{pennCol}: Penn color palette
+(http://www.upenn.edu/about/styleguide-color-type)
 
 \code{cmuCol}: Carnegie Mellon color palette
 (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)
@@ -429,17 +426,20 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 
-\code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
-
-\code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
-
-\code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
+\code{imperialCol}: Imperial College London colour palette
+(https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
 
 \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
 
 \code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
 
 \code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
+
+\code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
+
+\code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
+
+\code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
 
 \code{ethCol}: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
 
