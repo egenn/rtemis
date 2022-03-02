@@ -1,9 +1,9 @@
-# s.RULEFEAT.R
+# s.RULEFIT.R
 # ::rtemis::
 # 2017-8 E.D. Gennatas lambdamd.org
 # TODO: Add option to include raw features as well as rules
 
-#' ruleFeat [C, R]
+#' ruleFit [C, R]
 #'
 #' Train a gradient boosting model, extract rules,
 #' and fit using LASSO
@@ -19,7 +19,7 @@
 #' by crossvalidation)
 #' @param meta.extra.params Named list: Parameters for \link{s.GLMNET} for the feature
 #' selection step
-#' @param cases.by.rules Matrix of cases by rules from a previoue rulefeat run. If provided,
+#' @param cases.by.rules Matrix of cases by rules from a previoue rulefit run. If provided,
 #' the GBM step is skipped. Default = NULL
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
@@ -27,7 +27,7 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #' @export
 
-s.RULEFEAT <- function(x, y = NULL,
+s.RULEFIT <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        n.trees = 100,
                        gbm.params = list(bag.fraction = .5,
@@ -53,7 +53,7 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ Intro ] ====
   if (missing(x)) {
-    print(args(s.RULEFEAT))
+    print(args(s.RULEFIT))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -63,7 +63,7 @@ s.RULEFEAT <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "RULEFEAT"
+  mod.name <- "RULEFIT"
   which.gbm <- match.arg(which.gbm)
   .gbm <- ifelse(which.gbm == "gbm", "s.GBM", "s.GBM3")
 
@@ -74,7 +74,7 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.RULEFEAT))
+    print(args(s.RULEFIT))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -177,8 +177,8 @@ s.RULEFEAT <- function(x, y = NULL,
               row.names = FALSE)
   }
 
-  # [ ruleFeat object ] ====
-  rulefeat.obj <- list(mod.gbm = mod.gbm,
+  # [ rulefit object ] ====
+  rulefit.obj <- list(mod.gbm = mod.gbm,
                        gbm.rules = gbm.rules,
                        gbm.rules.names = gbm.rules.names,
                        mod.glmnet.select = mod.glmnet.select,
@@ -194,7 +194,7 @@ s.RULEFEAT <- function(x, y = NULL,
                        y = y,
                        metrics = data.frame(N.Rules.Total = n.rules.total,
                                             N.Nonzero.Rules = n.nonzero.rules))
-  class(rulefeat.obj) <- c("ruleFeat", "list")
+  class(rulefit.obj) <- c("rulefit", "list")
 
   # [ Fitted ] ====
   fitted <- mod.glmnet.select$fitted
@@ -210,7 +210,7 @@ s.RULEFEAT <- function(x, y = NULL,
   # [ Predicted ] ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict(rulefeat.obj, x.test, verbose = verbose)
+    predicted <- predict(rulefit.obj, x.test, verbose = verbose)
     if (type == "Classification") {
       predicted.prob <- predicted$prob
       predicted <- predicted$estimate
@@ -223,7 +223,7 @@ s.RULEFEAT <- function(x, y = NULL,
 
   # [ Outro ] ====
   rt <- rtModSet(rtclass = "rtMod",
-                 mod = rulefeat.obj,
+                 mod = rulefit.obj,
                  mod.name = mod.name,
                  type = type,
                  call = call,
@@ -260,22 +260,22 @@ s.RULEFEAT <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.RULEFEAT
+} # rtemis::s.RULEFIT
 
 
-# predict.ruleFeat
+# predict.rulefit
 # ::rtemis::
 
-#' \code{predict} method for \code{ruleFeat} object
+#' \code{predict} method for \code{rulefit} object
 #'
-#' @param object \code{ruleFeat} object
+#' @param object \code{rulefit} object
 #' @param newdata Feature matrix / data.frame: will be converted to \code{data.table}
 #' @param verbose Logical: If TRUE, print messages during execution. Default = TRUE
 #' @param ... Ignored
 #' @return Vector of estimated values
 #' @export
 
-predict.ruleFeat <- function(object, newdata = NULL,
+predict.rulefit <- function(object, newdata = NULL,
                              verbose = TRUE, ...) {
 
   # [ Rules ] ====
@@ -314,7 +314,7 @@ predict.ruleFeat <- function(object, newdata = NULL,
     return(list(prob = prob, estimate = yhat))
   }
 
-} # rtemis::predict.ruleFeat
+} # rtemis::predict.rulefit
 
 
 rt.GBM2List <- function(gbm1, X, which.gbm = "gbm") {
