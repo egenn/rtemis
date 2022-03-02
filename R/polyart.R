@@ -92,7 +92,7 @@ triart <- function(k_h = 10, k_v = 6,
   
 } # rtemis::polyart
 
-polyshadow1 <- function(k_h = 20, k_v = 20,
+polyshadow0 <- function(k_h = 20, k_v = 20,
                         jsd = 1,
                         shadow = .95,
                         col_lo = "#00ffff", 
@@ -151,7 +151,7 @@ polyshadow1 <- function(k_h = 20, k_v = 20,
   
 } # rtemis::polyshadow
 
-polyshadow<- function(k_h = 20, k_v = 20,
+polyshadow1 <- function(k_h = 20, k_v = 20,
                       jsd = 1,
                       shadow = .95,
                       col_lo = "#00ffff", 
@@ -225,40 +225,36 @@ polyshadow<- function(k_h = 20, k_v = 20,
   
 } # rtemis::polyshadow
 
-# polyshadow(50, 50, jsd = 5,
-#            text = "rtemis", 
-#            col_lo = "#00ffff", col_hi = "#ff00ff",
-#            text.cex = 2, text.col = "#ffffffef",
-#            text.x = 95, text.adj = c(1, 0))
 
-polyshadow2 <- function(k_h = 20, k_v = 20,
-                        jsd = 1,
-                        shadow = 1, # seq(.98, .92, length.out = k_h*k_v)
-                        col_lo = "#00ffff", 
-                        col_mid = NULL,
-                        col_hi = "#ff00ff",
-                        space = c("rgb", "Lab"),
-                        alpha = TRUE,
-                        color.progression = c("mean", "product", "counter"),
-                        shadow.direction = 1,
-                        border.alpha = 1,
-                        poly.border = NA,
-                        bg = "#000000",
-                        text = NULL,
-                        text.x = 97,
-                        text.y = 3, 
-                        text.adj = c(1, 0),
-                        text.col = "#ffffff80",
-                        text.cex = 2,
-                        text.srt = 0,
-                        font.family = "",
-                        xpd = FALSE,
-                        seed = NULL,
-                        filename = NULL,
-                        pdf.width = 6,
-                        pdf.height = 6,
-                        trace = 0,
-                        par.reset = TRUE) {
+polyshadow <- function(k_h = 50, k_v = 50,
+                       jsd = 5,
+                       shadow = 1, # seq(.98, .92, length.out = k_h*k_v)
+                       col_lo = "#00000000",
+                       col_mid = NULL,
+                       col_hi = "#ff00ff",
+                       space = c("rgb", "Lab"),
+                       alpha = TRUE,
+                       color.progression = c("product", "mean", "counter"),
+                       shadow.direction = 1,
+                       border.alpha = 1,
+                       poly.border = NA,
+                       bg = "#000000",
+                       text = NULL,
+                       text.x = 97,
+                       text.y = 3,
+                       text.adj = c(1, 0),
+                       text.col = "#ffffff80",
+                       text.cex = 2,
+                       text.srt = 0,
+                       font.family = "",
+                       xpd = FALSE,
+                       seed = NULL,
+                       filename = NULL,
+                       pdf.width = 6,
+                       pdf.height = 6,
+                       trace = 0,
+                       verbose = TRUE,
+                       par.reset = TRUE) {
   
   color.progression <- match.arg(color.progression)
   # space <- match.arg(space)
@@ -275,10 +271,8 @@ polyshadow2 <- function(k_h = 20, k_v = 20,
     y[-c(1, k_v + 1), i] <- y[-c(1, k_v + 1), i] + rnorm(k_v - 1, sd = jsd)
   }
   
-  .col <- colorRampPalette(c(col_lo, col_mid, col_hi), 
-                           # space = space,
+  .col <- colorRampPalette(c(col_lo, col_mid, col_hi),
                            alpha = alpha)(k_h * k_v)
-  
   
   # Plot ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height)
@@ -294,12 +288,10 @@ polyshadow2 <- function(k_h = 20, k_v = 20,
        axes = FALSE, ann = FALSE, xpd = xpd)
   for (i in seq(k_v)) {
     for (j in seq(k_h)) {
-      # ind <- if (color.progression == "product") i*j else j + k_h*(i - 1)
       ind <- switch (color.progression,
-        product = i*j,
-        counter = j + k_h*(i - 1),
-        # mean = round((.5*(i+j) / .5*(k_h+k_v)) * k_h*k_v)
-        mean = round( ((.5*(i+j)) / (.5*(k_h+k_v))) * k_h*k_v )
+                     product = i*j,
+                     counter = j + k_h*(i - 1),
+                     mean = round( ((.5*(i+j)) / (.5*(k_h+k_v))) * k_h*k_v )
       )
       if (trace > 0) cat("i=", i, "; j=", j, "; ind=", ind, "\n")
       if (all(shadow == 1)) {
@@ -360,13 +352,17 @@ polyshadow2 <- function(k_h = 20, k_v = 20,
          srt = text.srt)
   }
   
-  if (!is.null(filename)) dev.off()
+  if (!is.null(filename)) {
+    dev.off()
+    if (verbose) {
+      if (file.exists(filename)) {
+        msg("Saved", filename)
+      } else {
+        rtWarning("Failed to save", filename)
+      }
+    }
+  }
+  
+  invisible(.col)
   
 } # rtemis::polyshadow
-
-xy2v <- function(x, y) {
-  # 0, 0 = 0
-  # .5, .5 = .5
-  # 1, 1 = 1
-  mean(c(x, y))
-}
