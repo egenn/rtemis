@@ -250,18 +250,19 @@ s.GLM <- function(x, y = NULL,
     if (removeMissingLevels) {
       index.factor <- which(sapply(x, is.factor))
       if (length(index.factor) > 0) {
-        levels.training <- lapply(x[, index.factor], function(x) levels(droplevels(x)))
-        levels.testing <- lapply(x.test[, index.factor], levels)
+        levels.training <- lapply(x[, index.factor], \(z) levels(droplevels(z)))
+        levels.testing <- lapply(x.test[, index.factor], \(z) levels(droplevels(z)))
         # Get index of levels present in test set and not in training
-        index.missing <- lapply(seq_len(levels.training), function(i) levels.testing[[i]] %in% levels.training[[i]])
+        index.missing <- lapply(seq(levels.training), function(i) !levels.testing[[i]] %in% levels.training[[i]])
         # Set levels present in testing but missing in training to NA
-        which.missing <- sapply(index.missing, all)
-        if (any(!which.missing)) {
-          if (verbose) msg("Levels present in testing and not in training replaced with NA")
-          for (i in which(!which.missing)) {
-            missing.level <- levels.testing[[i]][!index.missing[[i]]]
-            index.extralevel <- x.test[, index.factor][, i] == missing.level
-            x.test[, index.factor][, i][index.extralevel] <- NA
+        train.missing <- sapply(index.missing, any)
+        if (any(train.missing)) {
+          featnames <- names(index.factor)[train.missing]
+          if (verbose) msg("Levels present in testing and not in training will be replaced with NA")
+          for (i in which(train.missing)) {
+            missing.level <- levels.testing[[i]][index.missing[[i]]]
+            index.extralevel <- which(x.test[[featnames[i]]] == missing.level)
+            if (length(index.extralevel) > 0) x.test[index.extralevel, featnames[i]] <- NA
           }
         }
       }
