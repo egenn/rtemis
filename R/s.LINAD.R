@@ -134,10 +134,10 @@ s.LINAD <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
+  checkType(type, c("Classification", "Regression"), mod.name)
   .weights <- if (is.null(weights) & ipw) dt$weights else weights
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
-  # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(max.leaves,
                                 learning.rate,
