@@ -29,6 +29,7 @@ Other Clustering:
 \code{\link{u.H2OKMEANS}()},
 \code{\link{u.HOPACH}()},
 \code{\link{u.KMEANS}()},
+\code{\link{u.MEANSHIFT}()},
 \code{\link{u.NGAS}()},
 \code{\link{u.PAMK}()},
 \code{\link{u.PAM}()},

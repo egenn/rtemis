@@ -1,6 +1,6 @@
 # clustSelect.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016-22 E.D. Gennatas lambdamd.org
 
 #' Select \pkg{rtemis} Clusterer
 #'
@@ -26,6 +26,7 @@ clustSelect <- function(clust,
     "HOPACH" = "Hierarchical Ordered Partitioning And Collapsing Hybrid",
     "H2OKMEANS" = "H2O K-Means Clustering",
     "KMEANS" = "K-Means Clustering",
+    "MEANSHIFT" = "Mean Shift Clustering",
     "NGAS" = "Neural Gas Clustering",
     "PAM" = "Partitioning Around Medoids",
     "PAMK" = "Partitioning Around Medoids with k estimation",
@@ -36,12 +37,12 @@ clustSelect <- function(clust,
 
   if (missing(clust)) {
     cat(".:clustSelect\nrtemis supports the following clustering algorithms:\n\n")
-    print(description, quote = F, row.names = FALSE)
+    print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
 
   name.vec <- toupper(c("cmeans", "emc", "hardcl", "hopach", "h2okmeans",
-                        "kmeans", "ngas", "pam", "pamk", "spec"))
+                        "kmeans", "meanshift", "ngas", "pam", "pamk", "spec"))
   name <- name.vec[pmatch(toupper(clust), name.vec)]
   if (is.na(name)) {
     print(description, quote = FALSE)
@@ -58,6 +59,7 @@ clustSelect <- function(clust,
   if (name == "HOPACH") clusterer <- if (fn) u.HOPACH else "u.HOPACH"
   if (name == "H2OKMEANS") clusterer <- if (fn) u.KMEANS else "u.H2OKMEANS"
   if (name == "KMEANS") clusterer <- if (fn) u.KMEANS else "u.KMEANS"
+  if (name == "MEANSHIFT") clusterer <- if (fn) u.MEANSHIFT else "u.MEANSHIFT"
   if (name == "NGAS") clusterer <- if (fn) u.NGAS else "u.NGAS"
   if (name == "PAM") clusterer <- if (fn) u.PAM else "u.PAM"
   if (name == "PAMK") clusterer <- if (fn) u.PAMK else "u.PAMK"

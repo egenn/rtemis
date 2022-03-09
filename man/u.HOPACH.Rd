@@ -48,6 +48,7 @@ Other Clustering:
 \code{\link{u.H2OKMEANS}()},
 \code{\link{u.HARDCL}()},
 \code{\link{u.KMEANS}()},
+\code{\link{u.MEANSHIFT}()},
 \code{\link{u.NGAS}()},
 \code{\link{u.PAMK}()},
 \code{\link{u.PAM}()},

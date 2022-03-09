@@ -42,6 +42,7 @@ Other Clustering:
 \code{\link{u.HARDCL}()},
 \code{\link{u.HOPACH}()},
 \code{\link{u.KMEANS}()},
+\code{\link{u.MEANSHIFT}()},
 \code{\link{u.NGAS}()},
 \code{\link{u.PAMK}()},
 \code{\link{u.SPEC}()}
