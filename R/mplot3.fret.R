@@ -19,10 +19,10 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3.fret <- function(theme = "white",
+mplot3.fret <- function(theme = getOption("rt.theme"),
                         useSharps = FALSE,
-                        strings.col = "black",
-                        frets.col = "black",
+                        strings.col = "auto",
+                        frets.col = "auto",
                         inlays = TRUE,
                         inlays.col = "auto",
                         inlays.cex = 2,
@@ -38,9 +38,9 @@ mplot3.fret <- function(theme = "white",
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  if (strings.col == "auto") strings.col <- theme$fg
-  if (frets.col == "auto") frets.col <- theme$fg
-  if (inlays.col == "auto") inlays.col <- adjustcolor(theme$fg, .5)
+  if (strings.col == "auto") strings.col <- adjustcolor(theme$fg, .8)
+  if (frets.col == "auto") frets.col <- adjustcolor(theme$fg, .8)
+  if (inlays.col == "auto") inlays.col <- adjustcolor(theme$fg, .35)
 
   if (par.reset) {
     par.orig <- par(no.readonly = TRUE)
