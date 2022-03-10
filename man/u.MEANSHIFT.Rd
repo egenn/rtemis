@@ -32,6 +32,7 @@ Perform Mean Shift clustering using \code{meanShiftR::meanShift}
 \seealso{
 Other Clustering: 
 \code{\link{u.CMEANS}()},
+\code{\link{u.DBSCAN}()},
 \code{\link{u.EMC}()},
 \code{\link{u.H2OKMEANS}()},
 \code{\link{u.HARDCL}()},

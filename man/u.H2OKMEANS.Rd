@@ -68,6 +68,7 @@ For additional information, see help on \code{h2o::h2o.kmeans}
 \seealso{
 Other Clustering: 
 \code{\link{u.CMEANS}()},
+\code{\link{u.DBSCAN}()},
 \code{\link{u.EMC}()},
 \code{\link{u.HARDCL}()},
 \code{\link{u.HOPACH}()},

@@ -49,6 +49,7 @@ Perform fuzzy C-means clustering using \code{e1071::cmeans}
 }
 \seealso{
 Other Clustering: 
+\code{\link{u.DBSCAN}()},
 \code{\link{u.EMC}()},
 \code{\link{u.H2OKMEANS}()},
 \code{\link{u.HARDCL}()},

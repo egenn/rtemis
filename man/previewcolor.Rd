@@ -13,15 +13,18 @@ previewcolor(
   main.y = 0.2,
   main.adj = 0,
   main.cex = 0.9,
-  main.font = 2,
+  main.font = 1,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),
   asp = 1,
   labels.y = 1.55,
   label.cex = NULL,
-  mar = c(0, 0, 0, 0),
-  par.reset = TRUE
+  mar = c(0, 0, 0, 1),
+  par.reset = TRUE,
+  filename = NULL,
+  pdf.width = 8,
+  pdf.height = 2.5
 )
 }
 \arguments{
