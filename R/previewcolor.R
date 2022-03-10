@@ -38,15 +38,18 @@ previewcolor <- function(x,
                          main.y = 0.2,
                          main.adj = 0,
                          main.cex = .9,
-                         main.font = 2,
+                         main.font = 1,
                          width = NULL,
                          xlim = NULL,
                          ylim = c(0, 2.2),
                          asp = 1,
                          labels.y = 1.55,
                          label.cex = NULL,
-                         mar = c(0, 0, 0, 0),
-                         par.reset = TRUE) {
+                         mar = c(0, 0, 0, 1),
+                         par.reset = TRUE,
+                         filename = NULL,
+                         pdf.width = 8,
+                         pdf.height = 2.5) {
 
   if (is.null(main)) main <- deparse(substitute(x))
   x <- unlist(x)
@@ -57,6 +60,7 @@ previewcolor <- function(x,
 
   if (is.null(width)) width <- max(3, .3 * length(x))
   if (is.null(xlim)) xlim <- c(0.3, width + .7)
+  if (!is.null(filename)) pdf(filename, pdf.width, pdf.height)
   par(bg = bg, xaxs = "i", yaxs = "i", mar = mar, oma = c(0, 0, 0, 0))
 
   # Plot ====
@@ -104,6 +108,8 @@ previewcolor <- function(x,
          col = main.col, adj = main.adj,
          font = main.font, cex = main.cex)
   }
+  
+  if (!is.null(filename)) dev.off()
 
 } # rtemis::previewcolor
 
