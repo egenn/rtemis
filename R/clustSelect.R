@@ -21,6 +21,7 @@ clustSelect <- function(clust,
 
   description <- list(
     "CMEANS" = "Fuzzy C-means Clustering",
+    "DBSCAN" = "Density-based spatial clustering of applications with noise",
     "EMC" = "Expectation Maximization Clustering",
     "HARDCL" = "Hard Competitive Learning",
     "HOPACH" = "Hierarchical Ordered Partitioning And Collapsing Hybrid",
@@ -54,6 +55,7 @@ clustSelect <- function(clust,
   }
 
   if (name == "CMEANS") clusterer <- if (fn) u.CMEANS else "u.CMEANS"
+  if (name == "DBSCAN") clusterer <- if (fn) u.DBSCAN else "u.DBSCAN"
   if (name == "EMC") clusterer <- if (fn) u.EMC else "u.EMC"
   if (name == "HARDCL") clusterer <- if (fn) u.HARDCL else "u.HARDCL"
   if (name == "HOPACH") clusterer <- if (fn) u.HOPACH else "u.HOPACH"
