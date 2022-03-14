@@ -62,7 +62,7 @@ outro <- function(start.time,
                   as.message = FALSE,
                   sinkOff = FALSE,
                   color = silver,
-                  newline.pre = TRUE) {
+                  newline.pre = FALSE) {
 
   # sinkOff must be FALSE by default since there is no logging by default, would result in warning
   elapsed <- as.numeric(proc.time() - start.time)
