@@ -403,7 +403,7 @@ dplot3.xy <- function(x, y = NULL,
     }
     if (!is.null(fit)) {
       ##  { Fitted line } ====
-      lfit = list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
+      lfit <- list(color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
                   width = fit.lwd)
       plt <- plotly::add_trace(plt, x = x[[i]], y = fitted[[i]],
                                type = "scatter",
