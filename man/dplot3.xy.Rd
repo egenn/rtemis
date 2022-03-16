@@ -37,6 +37,7 @@ dplot3.xy(
   fit.lwd = 2.5,
   se.col = NULL,
   se.alpha = 0.4,
+  scatter.type = "scatter",
   legend = NULL,
   legend.xy = c(0, 1),
   legend.xanchor = "left",
