@@ -34,8 +34,14 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
     }, 
     silent = TRUE)
   
+  # Set default theme
   if (is.null(getOption("rt.theme"))) {
     options(rt.theme = "darkgraygrid")
+  }
+  
+  # Set default palette
+  if (is.null(getOption("rt.palette"))) {
+    options(rt.theme = "rtCol1")
   }
   
 }
