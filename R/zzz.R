@@ -41,7 +41,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   
   # Set default palette
   if (is.null(getOption("rt.palette"))) {
-    options(rt.theme = "rtCol1")
+    options(rt.palette = "rtCol1")
   }
   
 }
