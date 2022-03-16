@@ -29,10 +29,15 @@ dplot3.ts <- function(x, time,
                 roll.col = NULL,
                 roll.alpha = 1,
                 roll.lwd = 2,
+                roll.name = NULL,
+                alpha = NULL,
                 align = "center",
                 use = "data.table",
                 xlab = "Time",
                 n.xticks = 12,
+                tickmode = "array",
+                scatter.type = "scattergl",
+                legend = TRUE,
                 theme = getOption("rt.theme"),
                 palette = getOption("rt.palette", "rtCol1"), ...) {
     
@@ -41,6 +46,7 @@ dplot3.ts <- function(x, time,
 
     # Palette ====
     if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.null(roll.col)) roll.col <- palette[[1]]
 
     # Timeseries ====
     xt <- zoo::zoo(x, time)
@@ -61,36 +67,56 @@ dplot3.ts <- function(x, time,
     }
     
     # dplot3.xy ====
-    if (is.null(roll.col)) {
-        roll.col <- palette[[1]]
-    }
     linefmt <- list(color = plotly::toRGB(roll.col, alpha = roll.alpha),
                 width = roll.lwd)
     plt <- dplot3.xy(seq_along(time), x, 
                 xlab = xlab,
                 theme = theme, 
-                palette = palette, ...)
-
-    if (use == "data.table") {
-        plt |> plotly::add_trace(x = seq_along(x), y = avg_line,
-                type = "scatter",
-                mode = "lines",
-                line = linefmt) -> plt
-    } else {
-        x_avg <- match(index(avg_line), index(xt))
-        plt |> plotly::add_trace(x = x_avg, y = avg_line,
-                type = "scatter",
-                mode = "lines",
-                line = linefmt)  -> plt
+                palette = palette,
+                alpha = alpha,
+                legend = legend,
+                scatter.type = scatter.type, ...)
+    
+    # Rolling function line ====
+    if (is.null(roll.name)) {
+        roll.name <- paste0(window, "-unit rolling ", roll.fn)
+    }
+    if (!is.null(window)) {
+        if (use == "data.table") {
+            plt |> plotly::add_trace(x = seq_along(x), y = avg_line,
+                    type = "scatter",
+                    mode = "lines",
+                    line = linefmt,
+                    name = roll.name) -> plt
+        } else {
+            x_avg <- match(index(avg_line), index(xt))
+            plt |> plotly::add_trace(x = x_avg, y = avg_line,
+                    type = "scatter",
+                    mode = "lines",
+                    line = linefmt,
+                    name = roll.name)  -> plt
+        }
     }
     
+    # Tick labels
+    # ticks not in idx will not show correct labels on hover
     idx <- c(TRUE, rep(FALSE, floor(length(x)/n.xticks)))
-    
     plt |> plotly::layout(
               xaxis = list(
                   ticktext = index(xt)[idx],
                   tickvals = seq_along(xt)[idx],
-                  tickmode = "array")) -> plt
+                  tickmode = tickmode)) -> plt
+    # cannot (?) show only select ticks / ticks every some interval, 
+    # dtick doesn't work with custom ticktext and tickvals
+    # plt |> plotly::layout(
+    #             xaxis = list(
+    #                 # dtick = floor(length(xt) / n.xticks),
+    #                 dtick = 100,
+    #                 ticktext = index(xt),
+    #                 tickvals = seq_along(xt),
+    #                 # tickmode = "array"
+    #                 tickmode = tickmode
+    #             )) -> plt
     plt
 
 } # rtemis::dplot3.ts
