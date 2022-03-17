@@ -1,4 +1,4 @@
-# graphops.R
+# plotops.R
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.lambdamd.org
 
