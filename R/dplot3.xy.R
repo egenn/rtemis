@@ -77,6 +77,8 @@ dplot3.xy <- function(x, y = NULL,
                       legend.border.col = "#FFFFFF00",
                       legend.borderwidth = 0,
                       legend.group.gap = 0,
+                      x.showspikes = FALSE,
+                      y.showspikes = FALSE,
                       margin = list(t = 35, pad = 0),
                       automargin.x = TRUE,
                       automargin.y = TRUE,
@@ -336,8 +338,9 @@ dplot3.xy <- function(x, y = NULL,
     xlim <- ylim <- range(xlim, ylim)
   }
 
-  if (is.null(xlim)) xlim <- getlim(unlist(x), "r", .06)
-  if (is.null(ylim)) ylim <- getlim(unlist(y), "r", .06)
+  # unlist will coerce Dates to numeric, also don't want padding
+  if (is.null(xlim) & class(x[[1]]) != "Date") xlim <- getlim(unlist(x), "r", .06)
+  if (is.null(ylim) & class(y[[1]]) != "Date") ylim <- getlim(unlist(y), "r", .06)
 
   # plotly ====
   if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
@@ -441,6 +444,7 @@ dplot3.xy <- function(x, y = NULL,
   plt <- plotly::layout(plt,
                         yaxis = list(title = ylab,
                                      showline = FALSE,
+                                     showspikes = y.showspikes,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,
@@ -455,6 +459,7 @@ dplot3.xy <- function(x, y = NULL,
                                      automargin = automargin.y),
                         xaxis = list(title = xlab,
                                      showline = FALSE,
+                                     showspikes = x.showspikes,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,
