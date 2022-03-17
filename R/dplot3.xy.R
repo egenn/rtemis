@@ -79,6 +79,11 @@ dplot3.xy <- function(x, y = NULL,
                       legend.group.gap = 0,
                       x.showspikes = FALSE,
                       y.showspikes = FALSE,
+                      spikedash = "solid",
+                      spikemode = "across",
+                      spikesnap = "hovered data",
+                      spikecolor = NULL,
+                      spikethickness = 1,
                       margin = list(t = 35, pad = 0),
                       automargin.x = TRUE,
                       automargin.y = TRUE,
@@ -256,8 +261,8 @@ dplot3.xy <- function(x, y = NULL,
     se.col <- col
   }
 
-  # Derived
   if (is.null(legend.col)) legend.col <- labs.col
+  if (is.null(spikecolor)) spikecolor <- theme$fg
 
   # Size ====
   # if (axes.square) {
@@ -445,6 +450,10 @@ dplot3.xy <- function(x, y = NULL,
                         yaxis = list(title = ylab,
                                      showline = FALSE,
                                      showspikes = y.showspikes,
+                                     spikedash = spikedash,
+                                     spikemode = spikemode,
+                                     spikesnap = spikesnap,
+                                     spikethickness = spikethickness,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,
@@ -460,6 +469,10 @@ dplot3.xy <- function(x, y = NULL,
                         xaxis = list(title = xlab,
                                      showline = FALSE,
                                      showspikes = x.showspikes,
+                                     spikedash = spikedash,
+                                     spikemode = spikemode,
+                                     spikesnap = spikesnap,
+                                     spikethickness = spikethickness,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
                                      showgrid = theme$grid,

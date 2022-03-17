@@ -17,8 +17,11 @@
 #' rolling function
 #' @param xlab Character: x-axis label
 #' @param n.xticks Integer: number of x-axis ticks to use (approximately)
+#' @param x.showspikes Logical: If TRUE, show x-axis spikes on hover
+#' @param displayModeBar Logical: If TRUE, display plotly's modebar
 #' @param theme Character: theme name or list of theme parameters
 #' @param palette Character: palette name, or list of colors
+#' @param filename Character: filename to save plot to
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -36,10 +39,19 @@ dplot3.ts <- function(x, time,
                 xlab = "Time",
                 n.xticks = 12,
                 tickmode = "array",
-                scatter.type = "scattergl",
+                scatter.type = "scatter",
                 legend = TRUE,
+                x.showspikes = TRUE,
+                y.showspikes = FALSE,
+                spikedash = "solid",
+                spikemode = "across",
+                spikesnap = "hovered data",
+                spikecolor = NULL,
+                spikethickness = 1,
+                displayModeBar = TRUE,
                 theme = getOption("rt.theme"),
-                palette = getOption("rt.palette", "rtCol1"), ...) {
+                palette = getOption("rt.palette", "rtCol1"),
+                filename = NULL, ...) {
     
     # Arguments ====
     roll.fn <- match.arg(roll.fn)
@@ -69,13 +81,20 @@ dplot3.ts <- function(x, time,
     # dplot3.xy ====
     linefmt <- list(color = plotly::toRGB(roll.col, alpha = roll.alpha),
                 width = roll.lwd)
-    plt <- dplot3.xy(seq_along(time), x, 
+    plt <- dplot3.xy(time, x, 
                 xlab = xlab,
                 theme = theme, 
                 palette = palette,
                 alpha = alpha,
                 legend = legend,
-                scatter.type = scatter.type, ...)
+                scatter.type = scatter.type,
+                x.showspikes = x.showspikes,
+                y.showspikes = y.showspikes,
+                spikedash = spikedash,
+                spikemode = spikemode,
+                spikesnap = spikesnap,
+                spikecolor = spikecolor,
+                spikethickness = spikethickness, ...)
     
     # Rolling function line ====
     if (is.null(roll.name)) {
@@ -83,13 +102,13 @@ dplot3.ts <- function(x, time,
     }
     if (!is.null(window)) {
         if (use == "data.table") {
-            plt |> plotly::add_trace(x = seq_along(x), y = avg_line,
+            plt |> plotly::add_trace(x = time, y = avg_line,
                     type = "scatter",
                     mode = "lines",
                     line = linefmt,
                     name = roll.name) -> plt
         } else {
-            x_avg <- match(index(avg_line), index(xt))
+            x_avg <- index(avg_line)[match(index(avg_line), index(xt))]
             plt |> plotly::add_trace(x = x_avg, y = avg_line,
                     type = "scatter",
                     mode = "lines",
@@ -97,26 +116,19 @@ dplot3.ts <- function(x, time,
                     name = roll.name)  -> plt
         }
     }
-    
-    # Tick labels
-    # ticks not in idx will not show correct labels on hover
-    idx <- c(TRUE, rep(FALSE, floor(length(x)/n.xticks)))
-    plt |> plotly::layout(
-              xaxis = list(
-                  ticktext = index(xt)[idx],
-                  tickvals = seq_along(xt)[idx],
-                  tickmode = tickmode)) -> plt
-    # cannot (?) show only select ticks / ticks every some interval, 
-    # dtick doesn't work with custom ticktext and tickvals
-    # plt |> plotly::layout(
-    #             xaxis = list(
-    #                 # dtick = floor(length(xt) / n.xticks),
-    #                 dtick = 100,
-    #                 ticktext = index(xt),
-    #                 tickvals = seq_along(xt),
-    #                 # tickmode = "array"
-    #                 tickmode = tickmode
-    #             )) -> plt
+
+    # Config
+    plt <- plotly::config(plt,
+                            displaylogo = FALSE,
+                            displayModeBar = displayModeBar)
+
+    # Write to file ====
+    if (!is.null(filename)) {
+        filename <- file.path(filename)
+        plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
+                            format = tools::file_ext(filename), out_file = filename)
+    }
+
     plt
 
 } # rtemis::dplot3.ts
