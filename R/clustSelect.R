@@ -42,8 +42,9 @@ clustSelect <- function(clust,
     return(invisible(9))
   }
 
-  name.vec <- toupper(c("cmeans", "emc", "hardcl", "hopach", "h2okmeans",
-                        "kmeans", "meanshift", "ngas", "pam", "pamk", "spec"))
+  name.vec <- toupper(c("cmeans", "dbscan", "emc", "hardcl", "hopach", 
+              "h2okmeans", "kmeans", "meanshift", "ngas", "pam", "pamk", 
+              "spec"))
   name <- name.vec[pmatch(toupper(clust), name.vec)]
   if (is.na(name)) {
     print(description, quote = FALSE)
