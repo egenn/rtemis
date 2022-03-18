@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2022 E.D. Gennatas lambdamd.org
 
+# => recalc limits for fn = "sum"
+
 #' Interactive Timeseries Plots
 #' 
 #' Draw interactive timeseries plots using \code{plotly}
@@ -28,7 +30,7 @@
 
 dplot3.ts <- function(x, time,
                 window = 7,
-                roll.fn = c("mean", "median", "max", "sum"),
+                roll.fn = c("mean", "median", "max", "none"),
                 roll.col = NULL,
                 roll.alpha = 1,
                 roll.lwd = 2,
@@ -55,14 +57,18 @@ dplot3.ts <- function(x, time,
     
     # Arguments ====
     roll.fn <- match.arg(roll.fn)
+    if (roll.fn == "none") window <- NULL
 
     # Palette ====
     if (is.character(palette)) palette <- rtPalette(palette)
     if (is.null(roll.col)) roll.col <- palette[[1]]
 
     # Timeseries ====
+    idx <- order(time)
+    x <- x[idx]
+    time <- time[idx]
     xt <- zoo::zoo(x, time)
-    if (!is.null(window)) {
+    if (!is.null(window) && window > 0) {
         if (use == "data.table") {
             avg_line <- switch(roll.fn,
                 mean = data.table::frollmean(xt, window, align = align),
@@ -98,7 +104,7 @@ dplot3.ts <- function(x, time,
     
     # Rolling function line ====
     if (is.null(roll.name)) {
-        roll.name <- paste0(window, "-unit rolling ", roll.fn)
+        roll.name <- paste0("Rolling ", roll.fn, " (window=", window, ")")
     }
     if (!is.null(window)) {
         if (use == "data.table") {
