@@ -3,7 +3,7 @@
 \docType{data}
 \name{rtPalettes}
 \alias{rtPalettes}
-\alias{ucsfCol}
+\alias{ucsfLegacyCol}
 \alias{ucsfPalette}
 \alias{ucdCol}
 \alias{berkeleyCol}
@@ -65,7 +65,7 @@
 \alias{microsoftCol}
 \title{UCSF Colors}
 \format{
-An object of class \code{list} of length 40.
+An object of class \code{list} of length 13.
 
 An object of class \code{list} of length 8.
 
@@ -186,7 +186,7 @@ An object of class \code{list} of length 2.
 An object of class \code{list} of length 4.
 }
 \usage{
-ucsfCol
+ucsfLegacyCol
 
 ucsfPalette
 

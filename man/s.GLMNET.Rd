@@ -147,8 +147,6 @@ alpha and resample combination
 
 \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
 automatically performed
-Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
-variable standard deviation.
 }
 \seealso{
 \link{elevate} for external cross-validation

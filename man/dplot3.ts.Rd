@@ -8,7 +8,7 @@ dplot3.ts(
   x,
   time,
   window = 7,
-  roll.fn = c("mean", "median", "max", "sum"),
+  roll.fn = c("mean", "median", "max", "none"),
   roll.col = NULL,
   roll.alpha = 1,
   roll.lwd = 2,
@@ -19,10 +19,19 @@ dplot3.ts(
   xlab = "Time",
   n.xticks = 12,
   tickmode = "array",
-  scatter.type = "scattergl",
+  scatter.type = "scatter",
   legend = TRUE,
+  x.showspikes = TRUE,
+  y.showspikes = FALSE,
+  spikedash = "solid",
+  spikemode = "across",
+  spikesnap = "hovered data",
+  spikecolor = NULL,
+  spikethickness = 1,
+  displayModeBar = TRUE,
   theme = getOption("rt.theme"),
   palette = getOption("rt.palette", "rtCol1"),
+  filename = NULL,
   ...
 )
 }
@@ -48,9 +57,15 @@ rolling function}
 
 \item{n.xticks}{Integer: number of x-axis ticks to use (approximately)}
 
+\item{x.showspikes}{Logical: If TRUE, show x-axis spikes on hover}
+
+\item{displayModeBar}{Logical: If TRUE, display plotly's modebar}
+
 \item{theme}{Character: theme name or list of theme parameters}
 
 \item{palette}{Character: palette name, or list of colors}
+
+\item{filename}{Character: filename to save plot to}
 }
 \description{
 Draw interactive timeseries plots using \code{plotly}

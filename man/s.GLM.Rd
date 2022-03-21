@@ -139,8 +139,6 @@ levels than those in the same predictor in the training set, resulting in error.
 when training on resamples of a data set, especially after stratifying against a different
 outcome, and results in error and no prediction. \code{s.GLM} automatically finds such cases
 and substitutes levels present in \code{x.test} and not in \code{x} with NA.
-Variable importance saved under \code{varImp} in the output R6 object is equal to the coefficients times the
-variable standard deviation.
 }
 \examples{
 x <- rnorm(100)
