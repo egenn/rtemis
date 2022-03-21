@@ -1,6 +1,6 @@
 # rtPalette.R
 # ::rtemis::
-# 2016-9 E.D. Gennatas lambdamd.org
+# 2016-22 E.D. Gennatas lambdamd.org
 
 # UCSF ====
 #' UCSF Colors
@@ -9,19 +9,19 @@
 #'
 #' @name rtPalettes
 
-# ucsfCol <- list(navy = "#052049",
-#                 teal = "#18A3AC",
-#                 green = "#90BD31",
-#                 blue = "#178CCB",
-#                 orange = "#F48024",
-#                 purple = "#716FB2",
-#                 red = "#EC1848",
-#                 yellow = "#FFDD00",
-#                 iTeal = "#058488",
-#                 iGreen = "#6EA400",
-#                 iBlue = "#007CBE",
-#                 iOrange = "#F26D04",
-#                 iRed = "#EB093C")
+ucsfLegacyCol <- list(navy = "#052049",
+                      teal = "#18A3AC",
+                      green = "#90BD31",
+                      blue = "#178CCB",
+                      orange = "#F48024",
+                      purple = "#716FB2",
+                      red = "#EC1848",
+                      yellow = "#FFDD00",
+                      iTeal = "#058488",
+                      iGreen = "#6EA400",
+                      iBlue = "#007CBE",
+                      iOrange = "#F26D04",
+                      iRed = "#EB093C")
 
 ucsfCol <- list(Navy = "#052049",
                 A2 = "#0F388A",
@@ -1344,11 +1344,38 @@ rtcoldev <- list(rtemisblue = "#80ffff",
 
 grays <- list("gray10", "gray30", "gray50", "gray70", "gray90")
 
+# Pantone 2022 ====
+pantoneBalancingAct <- list(Granite_Green = "#86A293",
+                            Muted_Clay = "#D29381",
+                            Very_Peri = "#6667AB",
+                            Hawthorne_Rose = "#884C5E",
+                            Dried_Moss = "#CCB97E",
+                            Elderberry = "#9D848E",
+                            Lotus = "#E3C1C0",
+                            Burnished_Lilac = "#C4AEB1")
+
+pantoneWellspring <- list(Eggshell_Blue = "#A1CAC9",
+                          Celery = "#CFBF54",
+                          Dewberry = "#8C5896",
+                          Chai_tea = "#B3832F",
+                          Greenbrier = "#48996B",
+                          Very_Peri = "#6667AB",
+                          Treetop = "#436A2F",
+                          Foliage = "#759F51")
+
+pantoneAmusements <- list(Tawny_Orange = "#D77E6F",
+                          Very_Peri = "#6667AB",
+                          Iced_Coffee = "#B38F6A",
+                          Pink_Flambe = "#D75078",
+                          Fuchsia_Pink = "#E288B6",
+                          Paradise_Pink = "#E9445D",
+                          Cornsilk = "#EEC272",
+                          Tourmaline = "#85A0A9")
 # rtPalettes ====
-rtPalettes <- list(pennCol = pennCol,
+rtPalettes <- list(ucsfCol = ucsfCol,
+                   pennCol = pennCol,
                    imperialCol = imperialCol,
                    stanfordCol = stanfordCol,
-                   ucsfCol = ucsfCol,
                    ucdCol = ucdCol,
                    berkeleyCol = berkeleyCol,
                    ucscCol = ucscCol,
@@ -1392,10 +1419,10 @@ rtPalettes <- list(pennCol = pennCol,
                    googleCol = googleCol,
                    amazonCol = amazonCol,
                    microsoftCol = microsoftCol,
-                   # rtCol = rtCol,
                    rtCol1 = rtCol1,
-                   # rtCol2 = rtCol2,
-                   # rtCol3 = rtCol3,
+                   pantoneBalancingAct = pantoneBalancingAct,
+                   pantoneWellspring = pantoneWellspring,
+                   pantoneAmusements = pantoneAmusements,
                    grays = grays)
 
 #' \pkg{rtemis} Color Palettes
