@@ -97,6 +97,7 @@ sqcoldist <- function(x, y) {
 
 order_colors <- function(x, start_with = 1, order_by = c("similarity", "dissimilarity")) {
     order_by <- match.arg(order_by)
+    if (!is.integer(start_with)) start_with <- which(x == start_with)
     fn <- switch(order_by,
         similarity = which.min,
         dissimilarity = which.max)
@@ -125,6 +126,7 @@ order_colors <- function(x, start_with = 1, order_by = c("similarity", "dissimil
 #' @export 
 
 separate_colors <- function(x, start_with = 1) {
+    if (!is.integer(start_with)) start_with <- which(x == start_with)
     out <- start_with
     dist <- outer(x, x, Vectorize(sqcoldist))
     colnames(dist) <- seq_along(x)
@@ -168,3 +170,25 @@ col2grayscale <- function(x,
     }
 
 } # col2grayscale
+
+palettize <- function(x,
+                      grayscale_hicut = .8,
+                      start_with = "#16A0AC",
+                      order_by = c("separation", "dissimilarity", "similarity")) {
+        order_by <- match.arg(order_by)
+        x <- unlist(x)
+        if (!is.integer(start_with)) {
+            start_with <- x[which.min(Vectorize(sqcoldist)(x, start_with))]
+        }
+        if (!is.null(grayscale_hicut)) {
+            xgray <- col2grayscale(x, "dec")
+            xf <- x[xgray < grayscale_hicut]
+        } else {
+            xf <- x
+        }
+        
+        switch(order_by,
+            separation = separate_colors(xf, start_with),
+            dissimilarity = order_colors(xf, start_with, "dissimilarity"),
+            similarity = order_colors(xf, start_with, "similarity"))
+    } # palettize
