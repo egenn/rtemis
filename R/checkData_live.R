@@ -157,15 +157,15 @@ checkData_live <- function(x,
     NULL
   }
   
-  rec_int <- if (n.integer > 0) {
-    tags$li(HTML(paste(ifelse(n.integer > 1, paste("", n.integer, ""), " "),
-                       "integer", ngettext(n.integer, " feature", " features"),
-                       " and consider if", ngettext(n.integer, " it", " they"), 
-                       " should be converted to ",
-                       ngettext(n.integer, "factor", "factors"))))
-  } else {
-    NULL
-  }
+  # rec_int <- if (n.integer > 0) {
+  #   tags$li(HTML(paste(ifelse(n.integer > 1, paste("Check the ", n.integer, ""), " "),
+  #                      "integer", ngettext(n.integer, " feature", " features"),
+  #                      " and consider if", ngettext(n.integer, " it", " they"), 
+  #                      " should be converted to ",
+  #                      ngettext(n.integer, "factor", "factors"))))
+  # } else {
+  #   NULL
+  # }
   
   
   recs <- if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) == 0) {
@@ -174,8 +174,9 @@ checkData_live <- function(x,
     list(rec_char,
          rec_constant,
          rec_dups,
-         rec_na,
-         rec_int)
+         rec_na
+        #  rec_int
+         )
   }
   
   # HTML out ====
