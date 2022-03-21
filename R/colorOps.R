@@ -95,7 +95,8 @@ sqcoldist <- function(x, y) {
 #' @examples
 #' 
 
-order_colors <- function(x, start_with = 1, order_by = "similarity") {
+order_colors <- function(x, start_with = 1, order_by = c("similarity", "dissimilarity")) {
+    order_by <- match.arg(order_by)
     fn <- switch(order_by,
         similarity = which.min,
         dissimilarity = which.max)
@@ -159,7 +160,7 @@ col2grayscale <- function(x,
     
     what <- match.arg(what)
     col <- col2rgb(x)
-    gs <- (0.299 * col[1] + 0.587 * col[2] + 0.114 * col[3])/255
+    gs <- (0.299 * col[1, ] + 0.587 * col[2, ] + 0.114 * col[3, ])/255
     if (what == "color") {
         gray(gs)
     } else {
