@@ -171,6 +171,22 @@ col2grayscale <- function(x,
 
 } # col2grayscale
 
+
+#' Palettize colors
+#' 
+#' Filter and order a set of colors to produce a palette suitable for
+#' multicolor plots
+#' 
+#' @param x Color vector
+#' @param grayscale_hicut Numeric: exclude colors whose grayscale equivalent
+#' is greater than this value
+#' @param start_with Integer or color: For integer, start with this color out 
+#' of \code{x}, otherwise find color \code{x} closer to this color and place it 
+#' first
+#' @param order_by Character: "similarity" or "dissimilarity"
+#' 
+#' @author 
+#' @export
 palettize <- function(x,
                       grayscale_hicut = .8,
                       start_with = "#16A0AC",

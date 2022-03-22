@@ -4,7 +4,7 @@
 \alias{order_colors}
 \title{Order colors}
 \usage{
-order_colors(x, start_with = 1, order_by = "similarity")
+order_colors(x, start_with = 1, order_by = c("similarity", "dissimilarity"))
 }
 \arguments{
 \item{x}{Vector of colors}
