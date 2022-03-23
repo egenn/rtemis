@@ -12,7 +12,6 @@ s.XGB(
   x.name = NULL,
   y.name = NULL,
   booster = c("gbtree", "gblinear", "dart"),
-  silent = 1,
   missing = NA,
   nrounds = 500L,
   force.nrounds = NULL,
@@ -90,8 +89,6 @@ Columns must correspond to columns in \code{x}}
 \item{y.name}{Character: Name for outcome}
 
 \item{booster}{Character: Booster to use. Options: "gbtree", "gblinear"}
-
-\item{silent}{0: print XGBoost messages; 1: print no XGBoost messages}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
 

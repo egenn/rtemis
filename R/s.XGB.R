@@ -22,7 +22,6 @@
 #' \link{s.XGBLIN} is a wrapper for \code{s.XGB} with \code{booster = "gblinear"}
 #' @inheritParams s.GLM
 #' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
-#' @param silent 0: print XGBoost messages; 1: print no XGBoost messages
 #' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number as early stopping
 #'   will limit nrounds by monitoring inner CV error
 #' @param force.nrounds Integer: Number of rounds to run if not estimating optimal number by CV
@@ -65,7 +64,6 @@ s.XGB <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   booster = c("gbtree", "gblinear", "dart"),
-                  silent = 1,
                   missing = NA,
                   nrounds = 500L,
                   force.nrounds = NULL,
@@ -128,7 +126,7 @@ s.XGB <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.XGB))
     return(invisible(9))
@@ -141,12 +139,12 @@ s.XGB <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (!depCheck(c("xgboost", "pbapply"), verbose = FALSE)) {
     cat("\n"); stop("Please install dependencies and try again")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.XGB))
     stop("y is missing")
@@ -172,7 +170,7 @@ s.XGB <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   parallel.type <- match.arg(parallel.type)
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -221,12 +219,12 @@ s.XGB <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ MAIN ] ====
+  # Main ====
   if (n.resamples > 0) {
 
     # {{ Grid Search WITH INTERNAL RESAMPLING }}
 
-    # [ RESAMPLES ] ====
+    # Resamples ====
     n.resamples <- as.integer(n.resamples)
     if (is.null(target.length)) target.length <- length(y)
     res.part <- resample(y = stratify.var,
@@ -237,7 +235,7 @@ s.XGB <- function(x, y = NULL,
                          target.length = target.length,
                          seed = seed)
 
-    # [ {GRID} FN ] ====
+    # {GRID} FN ====
     xgb.1 <- function(index, grid,
                       x.int, y.int,
                       res.part,
@@ -304,7 +302,7 @@ s.XGB <- function(x, y = NULL,
       return(s.out.1)
     } # END {GRID} FN
 
-    # [ GRID ] ====
+    # GRID ====
     if (booster == "gbtree") {
       grid <- expand.grid(eta = eta,
                           gamma = gamma,
@@ -357,7 +355,7 @@ s.XGB <- function(x, y = NULL,
     n.gridLines <- NROW(grid)
     if (n.gridLines < n.cores) n.cores <- n.gridLines
 
-    # [ GRID RUN ] ====
+    # GRID RUN ====
     if (verbose) msg("Running XGB grid search:",
                      "\n                            N models total = ", n.gridLines,
                      "\n                            N resamples = ", n.resamples,
@@ -430,7 +428,6 @@ s.XGB <- function(x, y = NULL,
 
     if (booster == "gbtree") {
       params <- list(booster = booster,
-                     silent = silent,
                      eta = best.tune$eta,
                      gamma = best.tune$gamma,
                      max.depth = best.tune$max.depth,
@@ -453,7 +450,6 @@ s.XGB <- function(x, y = NULL,
                      normalize.type = normalize.type,
                      rate.drop = rate.drop,
                      skip.drop = skip.drop,
-                     silent = silent,
                      eta = eta,
                      gamma = gamma,
                      max.depth = max.depth,
@@ -472,7 +468,6 @@ s.XGB <- function(x, y = NULL,
                      nthread = nthread)
     } else {
       params <- list(booster = booster,
-                     silent = silent,
                      lambda = best.tune$lambda,
                      alpha = best.tune$alpha,
                      lambda.bias = best.tune$lambda.bias,
@@ -489,7 +484,6 @@ s.XGB <- function(x, y = NULL,
     res.part <- grid.performance <- grid.performance.by.tune.id <- best.tune <- NULL
     if (booster == "gbtree") {
       params <- list(booster = booster,
-                     silent = silent,
                      eta = eta,
                      gamma = gamma,
                      max.depth = max.depth,
@@ -508,7 +502,6 @@ s.XGB <- function(x, y = NULL,
       if (objective == "multi:softmax") params$num.class <- nclass
     } else {
       params <- list(booster = booster,
-                     silent = silent,
                      lambda = lambda,
                      alpha = alpha,
                      lambda.bias = lambda.bias,
@@ -518,7 +511,7 @@ s.XGB <- function(x, y = NULL,
     }
   }
 
-  # [ FULL XGBOOST ] ====
+  # Full XGBoost ====
   if (verbose) msg("Training full XGB model with", booster, "booster...", newline.pre = TRUE)
   if (!is.null(objective)) objective <- deparse(substitute(objective))
   if (!is.null(feval)) feval <- deparse(substitute(feval))
@@ -531,29 +524,37 @@ s.XGB <- function(x, y = NULL,
                             verbose = verbose,
                             print_every_n = print_every_n)
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- predict(mod, xg.dat)
+  fitted.prob <- NULL
   if (type == "Classification") {
-    # round() gives correct result whether response is integer or probability
-    fitted.prob <- 1 - fitted
-    fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
-    levels(fitted) <- levels(y)
-  } else {
-    fitted.prob <- NULL
+    if (nclass == 2) {
+        fitted.prob <- 1 - fitted
+        fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
+            levels = c(1, 0),
+            labels = levels(y))
+    } else {
+        fitted <- factor(fitted, labels = levels(y))
+    } 
   }
 
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     data.test <- xgboost::xgb.DMatrix(data = as.matrix(x.test), missing = missing)
     predicted <- predict(mod, data.test)
     if (type == "Classification") {
-      predicted.prob <- 1 - predicted
-      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
-      levels(predicted) <- levels(y)
+        if (nclass == 2) {
+            predicted.prob <- 1 - predicted
+            predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+                levels = c(1, 0),
+                labels = levels(y))
+        } else {
+            predicted <- factor(predicted, labels = levels(y))
+        }
     }
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted, predicted.prob)
@@ -561,7 +562,7 @@ s.XGB <- function(x, y = NULL,
     }
   }
 
-  # [ RELATIVE INFLUENCE / VARIABLE IMPORTANCE ] ====
+  # Relative Influence / Variable Importance ====
   .importance <- NULL
   # This may take a while
   if (importance) {
@@ -569,7 +570,7 @@ s.XGB <- function(x, y = NULL,
     .importance <- xgboost::xgb.importance(model = mod, feature_names = colnames(x))
   }
 
-  # [ Outro ] ====
+  # Outro ====
   # sink(logOut, append = T, split = T)
   extra <- list(resampler = resampler,
                 booster = booster,
