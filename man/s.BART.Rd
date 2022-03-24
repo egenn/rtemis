@@ -148,6 +148,7 @@ Other Supervised Learning:
 \code{\link{s.SVM}()},
 \code{\link{s.TFN}()},
 \code{\link{s.XGBLIN}()},
+\code{\link{s.XGBOOST}()},
 \code{\link{s.XGB}()}
 
 Other Tree-based methods: 
@@ -169,6 +170,7 @@ Other Tree-based methods:
 \code{\link{s.RANGER}()},
 \code{\link{s.RFSRC}()},
 \code{\link{s.RF}()},
+\code{\link{s.XGBOOST}()},
 \code{\link{s.XGB}()}
 }
 \author{

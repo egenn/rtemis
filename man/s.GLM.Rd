@@ -197,6 +197,7 @@ Other Supervised Learning:
 \code{\link{s.SVM}()},
 \code{\link{s.TFN}()},
 \code{\link{s.XGBLIN}()},
+\code{\link{s.XGBOOST}()},
 \code{\link{s.XGB}()}
 
 Other Interpretable models: 
