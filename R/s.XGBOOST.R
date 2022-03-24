@@ -418,6 +418,8 @@ s.XGBOOST <- function(x, y = NULL,
       )
       varimp <- .xgbvarimp$Gain
       names(varimp) <- .xgbvarimp$Feature
+      # xgboost can assign NA to varimp
+      varimp[is.na(varimp)] <- 0
   }
 
   # Outro ====
