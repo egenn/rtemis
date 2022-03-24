@@ -104,7 +104,7 @@ s.GBM <- function(x, y = NULL,
                   save.rds = TRUE,
                   save.res = FALSE,
                   save.res.mod = FALSE,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
   # Intro ====
   if (missing(x)) {
@@ -371,7 +371,10 @@ s.GBM <- function(x, y = NULL,
                        "\n    * current mod$n.trees =", mod$n.trees,
                        "\n    * best n.trees = ", n.trees,
                        "\n    * max.trees =", max.trees)
-      mod <- gbm::gbm.more(mod, n.new.trees = n.new.trees, verbose = gbm.fit.verbose)
+      mod <- gbm::gbm.more(mod,
+        n.new.trees = n.new.trees,
+        verbose = gbm.fit.verbose
+      )
       # CHECK: does this need to be checked the same way as mod above?
       gst <- gbm.select.trees(mod,
                               smooth = gbm.select.smooth,
