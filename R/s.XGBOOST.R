@@ -335,6 +335,13 @@ s.XGBOOST <- function(x, y = NULL,
       objective = objective,
       base_score = base_score
   )
+
+  if (booster == "dart") {
+      parameters$rate_drop <- rate_drop
+      parameters$one_drop <- one_drop
+      parameters$skip_drop <- skip_drop
+  }
+
   if (objective == "multi:softmax") parameters$num_class <- nclass
 #   if (verbose) {
 #       # => add params
@@ -349,6 +356,7 @@ s.XGBOOST <- function(x, y = NULL,
   } else {
       NULL
   }
+  if (trace > 0) printls(parameters)
   mod <- xgboost::xgb.train(parameters,
       data = xg.dat.train,
       nrounds = nrounds,

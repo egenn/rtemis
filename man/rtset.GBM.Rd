@@ -40,8 +40,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
-
-\item{...}{Additional arguments}
 }
 \description{
 \code{rtset.GBM}: Set parameters for \link{s.GBM}
