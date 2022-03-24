@@ -99,6 +99,7 @@ modSelect <- function(mod,
     c("TFN", "TensorFlow Neural Network", T, T, F),
     c("TLS", "Total Least Squares", F, T, F),
     c("XGB", "XGBoost", T, T, F),
+    c("XGBOOST", "XGBoost", T, T, F),
     c("XGBLIN", "XGBoost with Linear Models", F, T, F)
   ))
   colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")

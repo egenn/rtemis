@@ -48,6 +48,7 @@ s.GBM(
   keep.data = TRUE,
   var.names = NULL,
   response.name = "y",
+  checkmods = FALSE,
   group = NULL,
   plot.perf = FALSE,
   plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
@@ -192,6 +193,7 @@ Other Supervised Learning:
 \code{\link{s.GAMSELX}()},
 \code{\link{s.GAMSEL}()},
 \code{\link{s.GAM}()},
+\code{\link{s.GBM0}()},
 \code{\link{s.GBM3}()},
 \code{\link{s.GLMNET}()},
 \code{\link{s.GLM}()},
@@ -234,6 +236,7 @@ Other Tree-based methods:
 \code{\link{s.CTREE}()},
 \code{\link{s.ET}()},
 \code{\link{s.EVTREE}()},
+\code{\link{s.GBM0}()},
 \code{\link{s.GBM3}()},
 \code{\link{s.H2OGBM}()},
 \code{\link{s.H2ORF}()},
@@ -247,6 +250,7 @@ Other Tree-based methods:
 
 Other Ensembles: 
 \code{\link{s.ADABOOST}()},
+\code{\link{s.GBM0}()},
 \code{\link{s.GBM3}()},
 \code{\link{s.RANGER}()},
 \code{\link{s.RF}()}

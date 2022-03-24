@@ -42,7 +42,7 @@
 #' @family Ensembles
 #' @export
 
-s.GBM <- function(x, y = NULL,
+s.GBM0 <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   weights = NULL,
                   ipw = TRUE,
@@ -83,7 +83,6 @@ s.GBM <- function(x, y = NULL,
                   keep.data = TRUE,
                   var.names = NULL,
                   response.name = "y",
-                  checkmods = FALSE,
                   group = NULL,
                   plot.perf = FALSE,
                   plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
@@ -236,7 +235,6 @@ s.GBM <- function(x, y = NULL,
                                               ipw = ipw,
                                               ipw.type = ipw.type,
                                               upsample = upsample,
-                                              downsample = downsample,
                                               resample.seed = resample.seed,
                                               relInf = FALSE,
                                               plot.tune.error = plot.tune.error,
@@ -317,32 +315,28 @@ s.GBM <- function(x, y = NULL,
                       group = group)
   if (!is.null(logFile)) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
 
-  if (checkmods) {
-      while (all(is.na(mod$valid.error))) {
-          msg("###   Caught gbm.fit error; retrying...   ###")
-          warning("Caught gbm.fit error: retraining last model and continuing")
-          if (!is.null(logFile)) sink() # pause logging
-          mod <- gbm::gbm.fit(
-              x = .x.train, y = .y.train,
-              offset = offset,
-              misc = misc,
-              distribution = distribution,
-              w = .weights,
-              var.monotone = var.monotone,
-              n.trees = n.trees,
-              interaction.depth = interaction.depth,
-              n.minobsinnode = n.minobsinnode,
-              shrinkage = shrinkage,
-              bag.fraction = bag.fraction,
-              nTrain = NROW(.x),
-              keep.data = keep.data,
-              verbose = gbm.fit.verbose,
-              var.names = var.names,
-              response.name = response.name,
-              group = group
-          )
-          if (!is.null(logFile)) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
-      }
+  while (all(is.na(mod$valid.error))) {
+    msg("###   Caught gbm.fit error; retrying...   ###")
+    warning("Caught gbm.fit error: retraining last model and continuing")
+    if (!is.null(logFile)) sink() # pause logging
+    mod <- gbm::gbm.fit(x = .x.train, y = .y.train,
+                        offset = offset,
+                        misc = misc,
+                        distribution = distribution,
+                        w = .weights,
+                        var.monotone = var.monotone,
+                        n.trees = n.trees,
+                        interaction.depth = interaction.depth,
+                        n.minobsinnode = n.minobsinnode,
+                        shrinkage = shrinkage,
+                        bag.fraction = bag.fraction,
+                        nTrain = NROW(.x),
+                        keep.data = keep.data,
+                        verbose = gbm.fit.verbose,
+                        var.names = var.names,
+                        response.name = response.name,
+                        group = group)
+    if (!is.null(logFile)) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
   }
 
   # If we are in .gs, use the best n.trees to get fitted and predicted values,
@@ -403,25 +397,13 @@ s.GBM <- function(x, y = NULL,
   } else {
     if (distribution == "multinomial") {
       # Get probabilities per class
-      fitted.prob <- fitted <- predict(mod, .x,
-          n.trees = n.trees,
-          type = "response"
-      )
-      fitted <- factor(
-          apply(fitted, 1, function(x) levels(y)[which.max(x)]),
-          levels = levels(y)
-      )
+      fitted.prob <- fitted <- predict(mod, .x, n.trees = n.trees, type = "response")
+      fitted <- apply(fitted, 1, function(x) levels(y)[which.max(x)])
     } else {
       # Bernoulli: convert {0, 1} back to factor
-      fitted.prob <- 1 - predict(
-          mod, .x,
-          n.trees = n.trees,
-          type = "response"
-      )
-      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
-          levels = c(1, 0),
-          labels = levels(y)
-      )
+      fitted.prob <- 1 - predict(mod, .x, n.trees = n.trees, type = "response")
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      levels(fitted) <- levels(y)
     }
   }
 
@@ -463,15 +445,10 @@ s.GBM <- function(x, y = NULL,
     } else {
       if (distribution == "multinomial") {
         if (trace > 0) msg("Using predict for multinomial classification with type = response")
-        # Get per-class probabilities
-        predicted.prob <- predicted <- predict(mod, x.test,
-            n.trees = n.trees, type = "response"
-        )
+        # Get probabilities per class
+        predicted.prob <- predicted <- predict(mod, x.test, n.trees = n.trees, type = "response")
         # Now get the predicted classes
-        predicted <- factor(
-            apply(predicted, 1, function(x) levels(y.test)[which.max(x)]),
-            levels = levels(y)
-        )
+        predicted <- apply(predicted, 1, function(x) levels(y.test)[which.max(x)])
       } else {
         # Bernoulli: convert {0, 1} back to factor
         predicted.prob <- 1 - predict(mod, x.test, n.trees = n.trees, type = "response")

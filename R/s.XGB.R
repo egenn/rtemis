@@ -97,8 +97,8 @@ s.XGB <- function(x, y = NULL,
                   objective = NULL,
                   sample.type = "uniform",
                   normalize.type = "forest",
-                  rate.drop = .1,
-                  skip.drop = .5,
+                  rate.drop = 0,
+                  skip.drop = 0,
                   resampler = "strat.sub",
                   n.resamples = 10,
                   train.p = 0.75,
@@ -127,6 +127,7 @@ s.XGB <- function(x, y = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
   # Intro ====
+  warning("This old XGBoost training function will be removed as it is being replaced by the new s.XGBOOST")
   if (missing(x)) {
     print(args(s.XGB))
     return(invisible(9))
@@ -193,7 +194,7 @@ s.XGB <- function(x, y = NULL,
   nclass <- ifelse(type == "Classification", length(levels(y)), 0)
   if (is.null(objective)) {
     if (type == "Regression") {
-      objective <- "reg:linear"
+      objective <- "reg:squarederror"
     } else {
       objective <- ifelse(nclass == 2, "binary:logistic", "multi:softmax")
     }
@@ -563,11 +564,16 @@ s.XGB <- function(x, y = NULL,
   }
 
   # Relative Influence / Variable Importance ====
-  .importance <- NULL
+  varimp <- NULL
   # This may take a while
   if (importance) {
     if (verbose) msg("Estimating variable importance...")
-    .importance <- xgboost::xgb.importance(model = mod, feature_names = colnames(x))
+    .xgbvarimp <- xgboost::xgb.importance(
+      model = mod,
+      feature_names = colnames(x)
+    )
+    varimp <- .xgbvarimp$Gain
+    names(varimp) <- .xgbvarimp$Feature
   }
 
   # Outro ====
@@ -590,6 +596,7 @@ s.XGB <- function(x, y = NULL,
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
+                 parameters = params,
                  y.train = y,
                  y.test = y.test,
                  x.name = x.name,
@@ -603,7 +610,7 @@ s.XGB <- function(x, y = NULL,
                  predicted.prob = predicted.prob,
                  se.prediction = NULL,
                  error.test = error.test,
-                 varimp = .importance,
+                 varimp = varimp,
                  question = question,
                  extra = extra)
 
