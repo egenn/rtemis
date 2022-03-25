@@ -38,14 +38,17 @@
 #' dplot3.ts(x1, time)
 #' # Multiple timeseries input as list
 #' dplot3.ts(list(Alpha = x1, Beta = x2), time)
-#' # Multiple timeseries input as single vector grouped by group
-#' x <- c(x1, x2)
-#' group <- rep(c("Alpha", "Beta"), each = 140)
-#' dplot3.ts(x, time, group = group)
+#' # Multiple timeseries grouped by group, different lengths
+#' time1 <- sample(seq(as.Date("2020-03-01"), as.Date("2020-07-23"), length.out = 100))
+#' time2 <- sample(seq(as.Date("2020-05-01"), as.Date("2020-09-23"), length.out = 140))
+#' time <- c(time1, time2)
+#' x <- c(rnorm(100), rnorm(140, 1, 1.5))
+#' group <- c(rep("Alpha", 100), rep("Beta", 140))
+#' dplot3.ts(x, time, 7, group)
 #' }
 #'
 dplot3.ts <- function(x, time,
-                      window = 7,
+                      window = 7L,
                       group = NULL,
                       roll.fn = c("mean", "median", "max", "none"),
                       roll.col = NULL,
@@ -55,6 +58,7 @@ dplot3.ts <- function(x, time,
                       alpha = NULL,
                       align = "center",
                       # use = "data.table",
+                      group.names = NULL,
                       xlab = "Time",
                       n.xticks = 12,
                       tickmode = "array",
@@ -98,6 +102,14 @@ dplot3.ts <- function(x, time,
         time <- list(time)
     }
 
+    if (is.null(group.names)) {
+        group.names <- if (!is.null(names(x))) {
+            names(x)
+        } else {
+            paste("Group", seq_along(x))
+        }
+    }
+
     idx <- lapply(time, order)
     time <- lapply(seq_along(time), \(i) time[[i]][idx[[i]]])
     if (length(time) < length(x)) {
@@ -109,10 +121,10 @@ dplot3.ts <- function(x, time,
 
     if (!is.null(window) && window > 0) {
         avg_line <- switch(roll.fn,
-            mean = lapply(x, \(xt) data.table::frollmean(xt, window, align = align)),
-            median = lapply(x, \(xt) data.table::frollapply(xt, window, median, align = align)),
-            max = lapply(x, \(xt) data.table::frollapply(xt, window, max, align = align)),
-            sum = lapply(x, \(xt) data.table::frollsum(xt, window, align = align))
+            mean = lapply(x, \(xt) data.table::frollmean(xt, n = window, align = align)),
+            median = lapply(x, \(xt) data.table::frollapply(xt, n = window, median, align = align)),
+            max = lapply(x, \(xt) data.table::frollapply(xt, n = window, max, align = align)),
+            sum = lapply(x, \(xt) data.table::frollsum(xt, n = window, align = align))
         )
     }
 
@@ -126,6 +138,7 @@ dplot3.ts <- function(x, time,
         theme = theme,
         palette = palette,
         alpha = alpha,
+        group.names = group.names,
         legend = legend,
         scatter.type = scatter.type,
         x.showspikes = x.showspikes,

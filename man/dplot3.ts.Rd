@@ -7,7 +7,7 @@
 dplot3.ts(
   x,
   time,
-  window = 7,
+  window = 7L,
   group = NULL,
   roll.fn = c("mean", "median", "max", "none"),
   roll.col = NULL,
@@ -16,6 +16,7 @@ dplot3.ts(
   roll.name = NULL,
   alpha = NULL,
   align = "center",
+  group.names = NULL,
   xlab = "Time",
   n.xticks = 12,
   tickmode = "array",
@@ -81,10 +82,13 @@ x2 <- rnorm(140, 1, 1.2)
 dplot3.ts(x1, time)
 # Multiple timeseries input as list
 dplot3.ts(list(Alpha = x1, Beta = x2), time)
-# Multiple timeseries input as single vector grouped by group
-x <- c(x1, x2)
-group <- rep(c("Alpha", "Beta"), each = 140)
-dplot3.ts(x, time, group = group)
+# Multiple timeseries grouped by group, different lengths
+time1 <- sample(seq(as.Date("2020-03-01"), as.Date("2020-07-23"), length.out = 100))
+time2 <- sample(seq(as.Date("2020-05-01"), as.Date("2020-09-23"), length.out = 140))
+time <- c(time1, time2)
+x <- c(rnorm(100), rnorm(140, 1, 1.5))
+group <- c(rep("Alpha", 100), rep("Beta", 140))
+dplot3.ts(x, time, 7, group)
 }
 
 }
