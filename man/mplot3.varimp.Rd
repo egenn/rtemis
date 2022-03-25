@@ -74,6 +74,9 @@ Position of bar centers (invisibly)
 \description{
 Draw horizontal barplots for variable importance
 }
+\details{
+"NA" values in input are set to zero.
+}
 \author{
 E.D. Gennatas
 }

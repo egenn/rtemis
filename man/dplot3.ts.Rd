@@ -8,6 +8,7 @@ dplot3.ts(
   x,
   time,
   window = 7,
+  group = NULL,
   roll.fn = c("mean", "median", "max", "none"),
   roll.col = NULL,
   roll.alpha = 1,
@@ -15,7 +16,6 @@ dplot3.ts(
   roll.name = NULL,
   alpha = NULL,
   align = "center",
-  use = "data.table",
   xlab = "Time",
   n.xticks = 12,
   tickmode = "array",
@@ -36,9 +36,11 @@ dplot3.ts(
 )
 }
 \arguments{
-\item{x}{Numeric vector of values to plot}
+\item{x}{Numeric vector of values to plot or list of vectors}
 
 \item{time}{Numeric or Date vector of time corresponding to values of \code{x}}
+
+\item{window}{Integer: apply \code{roll.fn} over this many units of time}
 
 \item{roll.fn}{Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of \code{x}}
 
@@ -49,9 +51,6 @@ dplot3.ts(
 \item{roll.lwd}{Numeric: width of rolling line}
 
 \item{align}{Character: "center", "right", or "left"}
-
-\item{use}{Character: "data.table" or "zoo": which package to use to apply
-rolling function}
 
 \item{xlab}{Character: x-axis label}
 
@@ -66,9 +65,28 @@ rolling function}
 \item{palette}{Character: palette name, or list of colors}
 
 \item{filename}{Character: filename to save plot to}
+
+\item{use}{Character: "data.table" or "zoo": which package to use to apply
+rolling function}
 }
 \description{
 Draw interactive timeseries plots using \code{plotly}
+}
+\examples{
+\dontrun{
+time <- sample(seq(as.Date("2020-03-01"), as.Date("2020-09-23"), length.out = 140))
+x1 <- rnorm(140)
+x2 <- rnorm(140, 1, 1.2)
+# Single timeseries
+dplot3.ts(x1, time)
+# Multiple timeseries input as list
+dplot3.ts(list(Alpha = x1, Beta = x2), time)
+# Multiple timeseries input as single vector grouped by group
+x <- c(x1, x2)
+group <- rep(c("Alpha", "Beta"), each = 140)
+dplot3.ts(x, time, group = group)
+}
+
 }
 \author{
 E.D. Gennatas
