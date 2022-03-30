@@ -50,8 +50,8 @@ potential covariates of no interest) at a time
 }
 \examples{
 \dontrun{
-# Common usage is "reversed": 
-# x: outcome of interest as first column, optional covariates of no interest 
+# Common usage is "reversed":
+# x: outcome of interest as first column, optional covariates of no interest
 # in the other columns
 # y: features whose influence on x you want to study
 set.seed(2022)
@@ -62,6 +62,7 @@ plot(massmod)
 plot(massmod, what = "coef")
 plot(massmod, what = "volcano")
 }
+
 }
 \author{
 E.D. Gennatas
