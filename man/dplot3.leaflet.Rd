@@ -34,12 +34,12 @@ dplot3.leaflet(
 )
 }
 \arguments{
-\item{fips}{Character vector of FIPS codes. (If numeric, it will be 
+\item{fips}{Character vector of FIPS codes. (If numeric, it will be
 appropriately zero-padded)}
 
 \item{values}{Values to map to \code{fips}}
 
-\item{names}{Character vector: Optional county names to appear on hover 
+\item{names}{Character vector: Optional county names to appear on hover
 along \code{values}}
 
 \item{fillOpacity}{Float: Opacity for fill colors. Default = 1}
@@ -58,7 +58,7 @@ along \code{values}}
 
 \item{col.interpolate}{Character: "linear" or "spline"}
 
-\item{col.bins}{Integer: Number of color bins to create if 
+\item{col.bins}{Integer: Number of color bins to create if
 \code{color.mapping = "Bin"}.
 Default = 21}
 
@@ -71,15 +71,15 @@ Default = NULL and set to range}
 
 \item{alpha}{Float: Overaly transparency. Default = 1}
 
-\item{bg.tile.provider}{Background tile (below overlay colors), one of 
+\item{bg.tile.provider}{Background tile (below overlay colors), one of
 \code{leaflet::providers}}
 
 \item{bg.tile.alpha}{Float: Background tile transparency. Default = .67}
 
-\item{fg.tile.provider}{Foreground tile (above overlay colors), one of 
+\item{fg.tile.provider}{Foreground tile (above overlay colors), one of
 \code{leaflet::providers}}
 
-\item{legend.position}{Character: One of: "topright", "bottomright", 
+\item{legend.position}{Character: One of: "topright", "bottomright",
 "bottomleft", "topleft".
 Default = "topright"}
 
@@ -93,7 +93,7 @@ Default = -98.54180833333334 (US geographic center)}
 \item{init.lat}{Float: Center map around this latitude (in decimal form).
 Default = 39.207413888888894 (US geographic center)}
 
-\item{init.zoom}{Integer: Initial zoom level (depends on device, i.e. window, 
+\item{init.zoom}{Integer: Initial zoom level (depends on device, i.e. window,
 size). Default = 3}
 
 \item{stroke}{Logical: If TRUE, draw polygon borders. Default = TRUE}
@@ -103,12 +103,12 @@ Plot interactive choropleth map using \pkg{leaflet}
 }
 \examples{
 \dontrun{
-# not a real demo, just a test
 fips <- c(06075, 42101)
-supervals <- c(100, 200)
+population <- c(874961, 1579000)
 names <- c("SF", "Philly")
 dplot3.leaflet(fips, supervals, names)
 }
+
 }
 \author{
 E.D. Gennatas
