@@ -181,7 +181,7 @@ dplot3.xy <- function(x, y = NULL,
         y <- split(y, group, drop = TRUE)
         if (is.null(group.names)) group.names <- levels(droplevels(group))
         names(x) <- names(y) <- .names <- group.names
-        hovertext <- split(hovertext, group, drop = TRUE)
+        if (!is.null(hovertext)) hovertext <- split(hovertext, group, drop = TRUE)
     }
 
     # Try to get names from list or data frame inputs
@@ -204,7 +204,7 @@ dplot3.xy <- function(x, y = NULL,
         y <- rep(y, length(x))
         .names <- names(x)
     }
-    if (length(hovertext) == 1 & length(x) > 1) {
+    if (!is.null(hovertext) && length(hovertext) == 1 & length(x) > 1) {
         hovertext <- rep(hovertext, length(x))
     }
     n.groups <- length(x)
