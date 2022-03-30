@@ -216,9 +216,11 @@ use theme$tick.labels.col for both tick color and tick label color - this may ch
 }
 \examples{
 \dontrun{
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length, 
-          fit = "gam", se.fit = TRUE, group = iris$Species)
+dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+    fit = "gam", se.fit = TRUE, group = iris$Species
+)
 }
+
 }
 \author{
 E.D. Gennatas
