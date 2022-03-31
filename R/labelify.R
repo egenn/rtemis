@@ -25,12 +25,12 @@ labelify <- function(x,
                      toLower = FALSE,
                      toTitleCase = TRUE,
                      capitalize.strings = c("id"),
-                     stringsToSpaces = c("\\$")) {
+                     stringsToSpaces = c("\\$", "`")) {
 
   if (is.null(x)) return(NULL)
   xf <- x
   for (i in stringsToSpaces) {
-    xf <- gsub(i, " ", x)
+    xf <- gsub(i, " ", xf)
   }
   for (i in capitalize.strings) {
     xf <- gsub(paste0("^", i, "$"), toupper(i), xf)
@@ -39,8 +39,8 @@ labelify <- function(x,
   if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
   if (toLower) xf <- tolower(xf)
   if (toTitleCase) xf <- tools::toTitleCase(xf)
-
-  xf
+  xf <- gsub(" {2,}", " ", xf)
+  gsub(" $", "", xf)
 
 } # rtemis::labelify
 

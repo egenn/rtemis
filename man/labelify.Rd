@@ -11,7 +11,7 @@ labelify(
   toLower = FALSE,
   toTitleCase = TRUE,
   capitalize.strings = c("id"),
-  stringsToSpaces = c("\\\\$")
+  stringsToSpaces = c("\\\\$", "`")
 )
 }
 \arguments{
