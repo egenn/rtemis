@@ -8,7 +8,7 @@
 #' a) single outome (y) and multiple predictors (x), one at a time, with optional a common set of
 #' covariates in each model - "massx"
 #' b) multiple different outcomes (y) with a fixed set of predictors (x) - "massy"
-#' Therefore the term mass-univariate refers to looking at one variable of interest (with
+#' Therefore, the term mass-univariate refers to looking at one variable of interest (with
 #' potential covariates of no interest) at a time
 #'
 #' @param x Matrix / data frame of features
@@ -112,6 +112,7 @@ massGLM <- function(x, y,
         mods = if (save.mods) mods else NULL,
         summary = glm2table(mods),
         xnames = xnames,
+        coefnames = names(coef(mods[[1]])),
         ynames = ynames,
         type = type
     )
@@ -247,16 +248,20 @@ plot.massGLM <- function(x,
             )
         } else {
             # Volcano ====
-            coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
-            coef_name <- gsub("Coefficient", "", names(x$summary)[coef_idi])
-            pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+            # coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
+            coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
+            # coef_name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
+            # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+            pval_idi <- which(names(x$summary) == paste("p_value", predictor))
 
             dplot3.volcano(
                 x = x$summary[[coef_idi]],
                 pvals = x$summary[[pval_idi]],
                 x.thresh = 0,
+                label.lo = "Neg",
+                label.hi = "Pos",
                 xnames = x$ynames,
-                xlab = paste(coef_name, "Coefficient"),
+                xlab = paste(predictor, "Coefficient"),
                 p.adjust.method = p.adjust.method,
                 p.transform = volcano.p.transform,
                 annotate = volcano.annotate,
