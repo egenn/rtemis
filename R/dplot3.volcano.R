@@ -11,9 +11,9 @@
 #' @param p.adjust.method Character: p-value adjustment method. 
 #' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' Default = "holm". Use "none" for raw p-values. 
-#' @param label.lo Character: Label to annotate significant points below the
+#' @param legend.lo Character: Legend to annotate significant points below the
 #' \code{x.thresh}
-#' @param label.hi Character: Label to annotate significant points above the
+#' @param legend.hi Character: Legend to annotate significant points above the
 #' \code{x.thresh}
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
@@ -34,35 +34,37 @@
 #' }
 
 dplot3.volcano <- function(x, pvals,
-                           xnames = NULL,
-                           x.thresh = 0,
-                           p.thresh = .05,
-                           p.transform = c("-log10", "none"),
-                           p.adjust.method = "holm",
-                           label.lo = NULL,
-                           label.hi = NULL,
-                           xlab = NULL,
-                           ylab = NULL,
-                           xlim = NULL,
-                           ylim = NULL,
-                           alpha = .5,
-                           theme = getOption("rt.theme"),
-                           font.size = 16,
-                           palette = list("#18A3AC", "#7f7f7f", "#F48024"),
-                           legend.x.lo = NULL,
-                           legend.x.hi = NULL,
-                           legend.y = .97,
-                           annotate.n = 7,
-                           ay.lo = NULL,
-                           ay.hi = NULL,
-                           annotate = TRUE,
-                           annotate.alpha = .7,
-                           hovertext = NULL,
-                           displayModeBar = FALSE,
-                           filename = NULL,
-                           file.width = 500,
-                           file.height = 500,
-                           verbose = TRUE, ...) {
+            xnames = NULL,
+            x.thresh = 0,
+            p.thresh = .05,
+            p.transform = c("-log10", "none"),
+            p.adjust.method = "holm",
+            legend.lo = NULL,
+            legend.hi = NULL,
+            label.lo = "Low",
+            label.hi = "High",
+            xlab = NULL,
+            ylab = NULL,
+            xlim = NULL,
+            ylim = NULL,
+            alpha = .5,
+            theme = getOption("rt.theme"),
+            font.size = 16,
+            palette = list("#18A3AC", "#7f7f7f", "#F48024"),
+            legend.x.lo = NULL,
+            legend.x.hi = NULL,
+            legend.y = .97,
+            annotate.n = 7,
+            ay.lo = NULL,
+            ay.hi = NULL,
+            annotate = TRUE,
+            annotate.alpha = .7,
+            hovertext = NULL,
+            displayModeBar = FALSE,
+            filename = NULL,
+            file.width = 500,
+            file.height = 500,
+            verbose = TRUE, ...) {
   
   xname <- deparse(substitute(x))
   filt <- !is.na(x) & !is.na(pvals)
@@ -76,7 +78,7 @@ dplot3.volcano <- function(x, pvals,
   if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
   
   p.transform <- match.arg(p.transform)
-  p.transformed <- if (p.transform == "none") pvals else -log10(pvals)
+  p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
   if (is.null(xlab)) xlab <- labelify(xname)
   
   if (is.null(ylab)) {
@@ -86,9 +88,9 @@ dplot3.volcano <- function(x, pvals,
   Group <- rep("NS", length(pvals))
   p_adjusted <- p.adjust(pvals, method = p.adjust.method)
   index_ltpthresh <- p_adjusted < p.thresh
-  Group[index_ltpthresh & x < x.thresh] <- "Low"
-  Group[index_ltpthresh & x > x.thresh] <- "High"
-  Group <- factor(Group, levels = c("Low", "NS", "High"))
+  Group[index_ltpthresh & x < x.thresh] <- label.lo
+  Group[index_ltpthresh & x > x.thresh] <- label.hi
+  Group <- factor(Group, levels = c(label.lo, "NS", label.hi))
   Group.counts <- table(Group)
   include <- Group.counts > 0
   if (verbose) {
@@ -108,8 +110,8 @@ dplot3.volcano <- function(x, pvals,
   }
   
   # Plot ====
-  if (is.null(hovertext)) hovertext <- split(xnames, droplevels(Group))
-  plt <- dplot3.xy(x, p.transformed,
+  # if (is.null(hovertext)) hovertext <- split(xnames, droplevels(Group))
+  plt <- dplot3.xy(x, p_transformed,
                    xlab = xlab,
                    ylab = ylab,
                    alpha = alpha, 
@@ -137,11 +139,11 @@ dplot3.volcano <- function(x, pvals,
   if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff/2
   if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff/2
   
-  if (Group.counts[1] > 0 & !is.null(label.lo)) {
+  if (Group.counts[1] > 0 & !is.null(legend.lo)) {
     
     plt |> plotly::add_annotations(x = legend.x.lo,
                                    y = legend.y,
-                                   text = label.lo,
+                                   text = legend.lo,
                                    xref = "x",
                                    yref = "paper",
                                    showarrow = FALSE,
@@ -150,11 +152,11 @@ dplot3.volcano <- function(x, pvals,
                                                size = font.size)) -> plt
   }
   
-  if (Group.counts[3] > 0 & !is.null(label.hi)) {
+  if (Group.counts[3] > 0 & !is.null(legend.hi)) {
     
     plt |> plotly::add_annotations(x = legend.x.hi,
                                    y = legend.y,
-                                   text = label.hi,
+                                   text = legend.hi,
                                    xref = "x",
                                    yref = "paper",
                                    showarrow = FALSE,
@@ -165,7 +167,7 @@ dplot3.volcano <- function(x, pvals,
     
   # Annotations ====
   if (annotate) {
-    yrange <- range(p.transformed)
+    yrange <- range(p_transformed)
     index_ltxthresh <- x < x.thresh
     index_gtxthresh <- x > x.thresh
     
@@ -178,7 +180,7 @@ dplot3.volcano <- function(x, pvals,
     if (annotate.n_lo > 0) {
       lo_ord <- order(pvals[index_lo])
       lo_x <- x[index_lo][lo_ord[seq_len(annotate.n_lo)]]
-      lo_pval <- p.transformed[index_lo][lo_ord[seq_len(annotate.n_lo)]]
+      lo_pval <- p_transformed[index_lo][lo_ord[seq_len(annotate.n_lo)]]
       lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
       
       if (is.null(ay.lo)) {
@@ -204,7 +206,7 @@ dplot3.volcano <- function(x, pvals,
     if (annotate.n_hi > 0) {
       hi_ord <- order(pvals[index_ltpthresh & index_gtxthresh])
       hi_x <- x[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-      hi_pval <- p.transformed[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
+      hi_pval <- p_transformed[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
       hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
       
       if (is.null(ay.hi)) {
