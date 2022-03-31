@@ -43,6 +43,10 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   if (is.null(getOption("rt.palette"))) {
     options(rt.palette = "rtCol1")
   }
+
+   # Set default warn level
+   rt.warn <- getOption("rt.warn", 1)
+   options(warn = rt.warn)
   
 }
 
