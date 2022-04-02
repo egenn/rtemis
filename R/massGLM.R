@@ -189,7 +189,7 @@ plot.massGLM <- function(x,
             trace = 0, ...) {
     what <- match.arg(what)
     if (x$type == "massy") {
-        if (is.null(predictor)) predictor <- x$xnames[1]
+        if (is.null(predictor)) predictor <- x$coefnames[2]
         what <- match.arg(what)
         if (what == "pvals") {
             # p-values ====
