@@ -12,8 +12,10 @@ dplot3.volcano(
   p.thresh = 0.05,
   p.transform = c("-log10", "none"),
   p.adjust.method = "holm",
-  label.lo = NULL,
-  label.hi = NULL,
+  legend.lo = NULL,
+  legend.hi = NULL,
+  label.lo = "Low",
+  label.hi = "High",
   xlab = NULL,
   ylab = NULL,
   xlim = NULL,
@@ -52,10 +54,10 @@ dplot3.volcano(
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 Default = "holm". Use "none" for raw p-values.}
 
-\item{label.lo}{Character: Label to annotate significant points below the
+\item{legend.lo}{Character: Legend to annotate significant points below the
 \code{x.thresh}}
 
-\item{label.hi}{Character: Label to annotate significant points above the
+\item{legend.hi}{Character: Legend to annotate significant points above the
 \code{x.thresh}}
 
 \item{xlab}{Character: x-axis label}

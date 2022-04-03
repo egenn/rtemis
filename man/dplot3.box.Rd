@@ -10,6 +10,7 @@ dplot3.box(
   time.bin = c("year", "quarter", "month", "day"),
   type = c("box", "violin"),
   group = NULL,
+  x.transform = c("none", "scale", "minmax"),
   main = NULL,
   xlab = "",
   ylab = NULL,
@@ -55,6 +56,20 @@ dplot3.box(
 }
 \arguments{
 \item{x}{Vector or List of vectors: Input}
+
+\item{time}{Date or date-time vector}
+
+\item{time.bin}{Character: "year", "quarter", "month", or "day". What to bin
+by}
+
+\item{type}{Character: "box" or "violin"}
+
+\item{group}{Factor to group by}
+
+\item{x.transform}{Character: "none", "scale", or "minmax" to use raw values,
+scaled and centered values or min-max normalized to 0-1, respectively.
+Transform is applied to each variable before grouping, so that groups are
+comparable}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -108,13 +123,16 @@ Draw interactive boxplots or violin plots using \pkg{plotly}
 \details{
 For multiple box plots, the recommendation is:
 - `x=dat[, columnindex]` for multiple variables of a data.frame
-- `x=list(a=..., b=..., etc.)` for multiple variables of potentially different length
-- `x=split(var, group)` for one variable with multiple groups: group names appear below boxplots
-- `x=dat[, columnindex], group = factor` for grouping multiple variables: group names appear in legend
+- `x=list(a=..., b=..., etc.)` for multiple variables of potentially
+different length
+- `x=split(var, group)` for one variable with multiple groups: group names
+appear below boxplots
+- `x=dat[, columnindex], group = factor` for grouping multiple variables:
+group names appear in legend
 
-If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa. Similarly,
-\code{x.axist.type} applies to y-axis - this defaults to "category" and would not normally need
-changing.
+If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa.
+Similarly, \code{x.axist.type} applies to y-axis - this defaults to
+"category" and would not normally need changing.
 }
 \examples{
 \dontrun{
@@ -136,11 +154,14 @@ dplot3.box(x[, 1], time, "year", ylab = "alpha")
 dplot3.box(x, time, "year", legend.xy = c(0, 1))
 dplot3.box(x, time, "quarter", legend.xy = c(0, 1))
 dplot3.box(x, time, "month",
-           legend.orientation = "h",
-           legend.xy = c(0, 1),
-           legend.yanchor = "bottom")
+    legend.orientation = "h",
+    legend.xy = c(0, 1),
+    legend.yanchor = "bottom"
+)
 # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 }
+
+
 }
 \author{
 E.D. Gennatas
