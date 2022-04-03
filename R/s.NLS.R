@@ -37,7 +37,7 @@ s.NLS <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.NLS))
     return(invisible(9))
@@ -51,7 +51,7 @@ s.NLS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NLS"
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -59,7 +59,7 @@ s.NLS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -77,7 +77,7 @@ s.NLS <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ Formula ] ====
+  # Formula ====
   if (is.null(.type)) {
     if (is.null(formula)) {
       feature.names <- colnames(df)[-NCOL(df)]
@@ -108,7 +108,7 @@ s.NLS <- function(x, y = NULL,
     formula <- as.formula(paste0("y ~ b_o + W_o * sigmoid(b_h + ", wxf,")"))
   }
 
-  # [ NLS ] ====
+  # NLS ====
   if (verbose) msg("Training NLS model...", newline.pre = TRUE)
   mod <- nls(formula,
              data = df,
@@ -128,12 +128,12 @@ s.NLS <- function(x, y = NULL,
     }
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- predict(mod, x)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
@@ -143,7 +143,7 @@ s.NLS <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(formula = formula,
                 .type = .type)
   if (save.func) extra$model <- .func

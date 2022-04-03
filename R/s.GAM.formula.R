@@ -56,9 +56,7 @@ s.GAM.formula <- function(formula,
   mod.name <- "GAM"
 
   # Dependencies ====
-  if (!depCheck("mgcv", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("mgcv")
 
   # Arguments ====
   .formula <- as.formula(formula)

@@ -57,9 +57,7 @@ s.C50 <- function(x, y = NULL,
   mod.name <- "C50"
 
   # Dependencies ====
-  if (!depCheck("C50", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("C50")
 
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -68,7 +66,6 @@ s.C50 <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  # if (is.null(weights)) weights <- rep(1, nrow(x))
 
   # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,

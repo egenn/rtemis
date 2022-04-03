@@ -53,9 +53,7 @@ s.SGD <- function(x, y = NULL,
   mod.name <- "SGD"
 
   # Dependencies ====
-  if (!depCheck("sgd", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("sgd")
 
   # Arguments ====
   if (missing(x)) {

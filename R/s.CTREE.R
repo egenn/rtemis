@@ -51,9 +51,7 @@ s.CTREE <- function(x, y = NULL,
   mod.name <- "CTREE"
 
   # Dependencies ====
-  if (!depCheck("partykit", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("partykit")
 
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")

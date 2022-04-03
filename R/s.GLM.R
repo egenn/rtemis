@@ -211,9 +211,7 @@ s.GLM <- function(x, y = NULL,
       mod <- glm(.formula, family = family, data = df.train,
                  weights = .weights, na.action = na.action, ...)
   } else {
-    if (!depCheck("nnet", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("nnet")
     if (verbose) msg("Training multinomial logistic regression model...", newline.pre = TRUE)
     mod <- nnet::multinom(.formula, data = df.train,
                           weights = .weights, na.action = na.action, ...)

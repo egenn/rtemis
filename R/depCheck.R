@@ -30,3 +30,20 @@ depCheck <- function(..., verbose = TRUE) {
   }
 
 } # rtemis::depCheck
+
+
+dependency_check <- function(..., verbose = FALSE) {
+    
+    ns <- as.list(c(...))
+    err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
+
+    if (any(err)) {
+        stop(
+            "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
+            pastels(ns[err], bullet = "    -")
+        )
+    } else {
+        if (verbose) msg("Dependency check passed", as.message = FALSE)
+    }
+    
+} # rtemis::depCheck2

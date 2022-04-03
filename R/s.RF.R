@@ -121,9 +121,7 @@ s.RF <- function(x, y = NULL,
   mod.name <- "RF"
 
   # Dependencies  ====
-  if (!depCheck("randomForest", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("randomForest")
 
   # Arguments  ====
   if (is.null(y) & NCOL(x) < 2) {

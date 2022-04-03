@@ -85,9 +85,7 @@ s.MARS <- function(x, y = NULL,
   mod.name <- "MARS"
 
   # Dependencies ====
-  if (!depCheck("earth", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("earth")
 
   # Arguments ====
   if (missing(x)) {

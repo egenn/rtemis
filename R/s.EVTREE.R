@@ -56,9 +56,7 @@ s.EVTREE <- function(x, y = NULL,
   mod.name <- "EVTREE"
 
   # Dependencies ====
-  if (!depCheck("evtree", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("evtree")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {

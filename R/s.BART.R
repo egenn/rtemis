@@ -57,9 +57,7 @@ s.BART <- function(x, y = NULL,
   mod.name <- "BART"
 
   # Dependencies ====
-  if (!depCheck("bartMachine", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("bartMachine")
 
   # Arguments ====
   if (missing(x)) { print(args(s.BART)); stop("x is missing") }

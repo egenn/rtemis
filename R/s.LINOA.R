@@ -104,9 +104,7 @@ s.LINOA <- function(x, y = NULL,
 
   # Dependencies ====
   # ENH: deps for lincoef
-  if (!depCheck("glmnet", "rpart", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("glmnet", "rpart")
 
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")

@@ -90,7 +90,7 @@ s.H2ODL <- function(x, y = NULL,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.H2ODL))
     return(invisible(9))
@@ -104,12 +104,10 @@ s.H2ODL <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "H2ODL"
 
-  # [ Dependencies ] ====
-  if (!depCheck("h2o", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("h2o")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(s.H2ODL)); stop("x is missing")
   }
@@ -125,7 +123,7 @@ s.H2ODL <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -163,7 +161,7 @@ s.H2ODL <- function(x, y = NULL,
     df.valid <- NULL
   }
 
-  # [ H2ODL ] ====
+  # H2ODL ====
   net.args <- list(y = "y",
                    training_frame = df.train,
                    model_id = paste0("rtemis.H2ODL.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
@@ -198,7 +196,7 @@ s.H2ODL <- function(x, y = NULL,
   mod <- do.call(h2o::h2o.deeplearning, net.args)
   if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (verbose) msg("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
@@ -207,7 +205,7 @@ s.H2ODL <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg("Getting predicted values...")
@@ -221,7 +219,7 @@ s.H2ODL <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(n.hidden.nodes = n.hidden.nodes,
                 epochs = epochs)
   rt <- rtModSet(rtclass = "rtMod",

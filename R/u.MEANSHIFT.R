@@ -36,9 +36,7 @@ u.MEANSHIFT <- function(x,
   xnames <- colnames(x) <- .colnames
 
   # Dependencies ====
-  if (!depCheck("meanShiftR", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("meanShiftR")
 
   # Arguments ====
   if (missing(x)) {

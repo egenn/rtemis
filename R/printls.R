@@ -219,3 +219,10 @@ printtable <- function(x, spacing = 2, pad = 2) {
           spacing = spacing)
 
 } # rtemis::printtable
+
+
+pastels <- function(x, bullet = "  -") {
+    
+    paste(paste(bullet, x, collapse = "\n"), "\n")
+
+}

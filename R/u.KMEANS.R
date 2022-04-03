@@ -20,14 +20,13 @@ u.KMEANS <- function(x, x.test = NULL,
                      k = 2,
                      dist = "euclidean",
                      verbose = TRUE, ...) {
-  # Dependencies ====
-  if (!depCheck("flexclust", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
 
   # Intro ====
   start.time <- intro(verbose = verbose)
   clust.name <- "KMEANS"
+
+  # Dependencies ====
+  dependency_check("flexclust")
 
   # Arguments ====
   if (missing(x)) {

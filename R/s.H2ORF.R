@@ -72,10 +72,8 @@ s.H2ORF <- function(x, y = NULL,
   mod.name <- "H2ORF"
 
   # Dependencies ====
-  if (!depCheck("h2o", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
-
+  dependency_check("h2o")
+ 
   # Arguments ====
   if (missing(x)) {
     print(args(s.H2ORF)); stop("x is missing")

@@ -4,7 +4,7 @@
 
 #' Artificial Neural Network [C, R]
 #'
-#' Train an DN for Regression or Classification using \pkg{deepnet}
+#' Train a deep net for Regression or Classification using \pkg{deepnet}
 #'
 #' @inheritParams s.GLM
 #' @param n.hidden.nodes Integer, vector: Length indicated number of hidden layers, value of each element determines
@@ -65,9 +65,7 @@ s.DN <- function(x, y = NULL,
   mod.name <- "DN"
 
   # Dependencies ====
-  if (!depCheck("deepnet", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("deepnet")
 
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")

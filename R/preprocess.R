@@ -128,20 +128,20 @@ preprocess <- function(x, y = NULL,
   isdatatable <- data.table::is.data.table(x)
   x <- as.data.frame(x)
   
-  # [ Complete cases ] ====
+  # Complete cases ====
   if (completeCases) {
     if (verbose) msg("Filtering complete cases...")
     x <- x[complete.cases(x), ]
   }
 
-  # [ Set aside excluded ] ====
+  # Set aside excluded ====
   if (!is.null(exclude) && length(exclude) > 0) {
     excluded <- x[, exclude, drop = FALSE]
     excluded.names <- colnames(x)[exclude]
     x <- x[, -exclude, drop = FALSE]
   }
 
-  # [ Remove duplicates ] ====
+  # Remove duplicates ====
   if (removeDuplicates) {
     # Ndups <- sum(duplicated(x))
     duplicate.index <- which(duplicated(x))
@@ -154,7 +154,7 @@ preprocess <- function(x, y = NULL,
     duplicate.index <- NULL
   }
 
-  # [ Remove Cases by missing feature threshold ] ====
+  # Remove Cases by missing feature threshold ====
   if (!is.null(removeCases.thres)) {
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
@@ -170,7 +170,7 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ Remove Features by missing feature threshold ] ====
+  # Remove Features by missing feature threshold ====
   if (!is.null(removeFeatures.thres)) {
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
@@ -184,35 +184,35 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ Integer to factor ] ====
+  # Integer to factor ====
   if (integer2factor) {
     index.integer <- which(sapply(x, is.integer))
     if (verbose) msg("Converting integers to factors...")
     for (i in index.integer) x[, i] <- as.factor(x[, i])
   }
 
-  # [ Integer to numeric ] ====
+  # Integer to numeric ====
   if (integer2numeric) {
     index.integer <- which(sapply(x, is.integer))
     if (verbose) msg("Converting integers to numeric...")
     for (i in index.integer) x[, i] <- as.numeric(x[, i])
   }
 
-  # [ Logical to factor ] ====
+  # Logical to factor ====
   if (logical2factor) {
     index.logical <- which(sapply(x, is.logical))
     if (verbose) msg("Converting logicals to factors...")
     for (i in index.logical) x[, i] <- as.factor(x[, i])
   }
 
-  # [ Logical to numeric ] ====
+  # Logical to numeric ====
   if (logical2numeric) {
     index.logical <- which(sapply(x, is.logical))
     if (verbose) msg("Converting logicals to numeric...")
     for (i in index.logical) x[, i] <- as.numeric(x[, i])
   }
 
-  # [ Numeric to factor ] ====
+  # Numeric to factor ====
   if (numeric2factor) {
     index.numeric <- which(sapply(x, is.numeric))
     if (verbose) msg("Converting numeric to factors...")
@@ -223,28 +223,28 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ len2factor ] ====
+  # len2factor ====
   if (len2factor > 1) {
     index.numeric <- which(sapply(x, is.numeric))
     index.numeric.len <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) <= len2factor))
     for (i in index.numeric.len) x[, index.numeric][, i] <- factor(x[, index.numeric][, i])
   }
 
-  # [ Character to factor ] ====
+  # Character to factor ====
   if (character2factor) {
     index.char <- which(sapply(x, is.character))
     if (verbose) msg("Converting characters to factors...")
     for (i in index.char) x[, i] <- as.factor(x[, i])
   }
 
-  # [ factor NA to level ] ====
+  # factor NA to level ====
   if (factorNA2missing) {
     index.factor <- which(sapply(x, is.factor))
     if (verbose) msg0('Converting NA in factors to level "', factorNA2missing.level, '"...')
     for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
   }
 
-  # [ Nonzero factors ] ====
+  # Nonzero factors ====
   if (nonzeroFactors) {
     if (verbose) msg("Shifting factor levels to exclude 0...")
     if (any(sapply(x, is.factor))) {
@@ -258,7 +258,7 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ Missingness ] ====
+  # Missingness ====
   if (missingness) {
     cols.with.na <- which(apply(x, 2, anyNA))
     .colnames <- colnames(x)
@@ -268,13 +268,11 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ Impute ] ====
+  # Impute ====
   if (impute) {
     if (impute.type == "missRanger") {
       # '- missRanger ====
-      if (!depCheck("missRanger", verbose = FALSE)) {
-        cat("\n"); stop("Please install dependencies and try again")
-      }
+      dependency_check("missRanger")
       if (verbose) {
         if (impute.missRanger.params$pmm.k > 0) {
           msg("Imputing missing values using predictive mean matching with missRanger...")
@@ -285,9 +283,7 @@ preprocess <- function(x, y = NULL,
       x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
                                   verbose = ifelse(verbose, 1, 0))
     } else if (impute.type == "micePMM") {
-      if (!depCheck("mice", verbose = FALSE)) {
-        cat("\n"); stop("Please install dependencies and try again")
-      }
+      dependency_check("mice")
       if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
       x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
     # } else if (impute.type == "missForest") {
@@ -345,7 +341,7 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ Scale +/- center ] ====
+  # Scale +/- center ====
   if (scale | center) {
     # Get index of numeric features
     numeric_index <- which(sapply(x, is.numeric))
@@ -365,10 +361,9 @@ preprocess <- function(x, y = NULL,
       msg(paste(c(sc, ce), collapse = " and "),
           "was requested \n                                but no numeric features were found: Please check data.")
     }
-
   }
 
-  # [ Remove constants ] ====
+  # Remove constants ====
   if (removeConstants) {
     constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
     if (length(constant) > 0) {
@@ -377,10 +372,10 @@ preprocess <- function(x, y = NULL,
     }
   }
 
-  # [ One Hot Encoding ] ====
+  # One Hot Encoding ====
   if (oneHot) x <- oneHot(x, verbose = verbose)
 
-  # [ Add back excluded ] ====
+  # Add back excluded ====
   if (!is.null(exclude) && length(exclude) > 0) {
     
     # remove any duplicates

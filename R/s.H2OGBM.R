@@ -92,9 +92,7 @@ s.H2OGBM <- function(x, y = NULL,
   mod.name <- "H2OGBM"
 
   # Dependencies ====
-  if (!depCheck("h2o", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("h2o")
 
   # Arguments ====
   if (missing(x)) {

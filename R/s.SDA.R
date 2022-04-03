@@ -54,9 +54,7 @@ s.SDA <- function(x, y = NULL,
   mod.name <- "SDA"
   
   # Dependencies ====
-  if (!depCheck("sparseLDA", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("sparseLDA")
   
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")

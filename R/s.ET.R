@@ -58,9 +58,7 @@ s.ET <- function(x, y = NULL,
   mod.name <- "ET"
 
   # Dependencies ====
-  if (!depCheck("extraTrees", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("extraTrees")
 
   # Arguments ====
   if (missing(x)) {

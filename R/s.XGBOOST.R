@@ -143,9 +143,7 @@ s.XGBOOST <- function(x, y = NULL,
   mod.name <- "XGBOOST"
 
   # Dependencies ====
-  if (!depCheck("xgboost", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("xgboost")
 
   # Arguments ====
 #   if (save.res.mod) save.res <- TRUE

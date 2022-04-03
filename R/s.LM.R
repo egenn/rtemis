@@ -77,7 +77,7 @@ s.LM <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) { print(args(s.LM)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -96,19 +96,15 @@ s.LM <- function(x, y = NULL,
     mod.name <- "LM"
   }
 
-  # [ Dependencies ] ====
+  # Dependencies ====
   if (robust) {
-    if (!depCheck("MASS", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("MASS")
   }
   if (gls) {
-    if (!depCheck("nlme", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("nlme")
   }
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & NCOL(x) < 2) { print(args(s.LM)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -120,7 +116,7 @@ s.LM <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -143,7 +139,7 @@ s.LM <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ Formula ] ====
+  # Formula ====
   df.train <- data.frame(y = y, x)
   if (!polynomial) {
     features <- paste(xnames, collapse = " + ")
@@ -157,21 +153,21 @@ s.LM <- function(x, y = NULL,
   if (!intercept) formula.str <- paste(formula.str, "- 1")
   myformula <- as.formula(formula.str)
 
-  # [ LM & POLY ] ====
+  # LM & POLY ====
     if (!robust & !gls) {
       if (verbose) msg("Training linear model...", newline.pre = TRUE)
       mod <- lm(myformula, data = df.train,
                 weights = weights,
                 na.action = na.action, ...)
     }
-    # [ RLM ]
+    # RLM
     if (robust) {
       if (verbose) msg("Training robust linear model...", newline.pre = TRUE)
       mod <- MASS::rlm(myformula, data = df.train,
                        weights = weights,
                        na.action = na.action, ...)
     }
-    # [ GLS ]
+    # GLS
     if (gls) {
       if (verbose) msg("Training generalized least squares...", newline.pre = TRUE)
       mod <- nlme::gls(myformula, data = df.train,
@@ -181,7 +177,7 @@ s.LM <- function(x, y = NULL,
 
     if (trace > 0) print(summary(mod))
 
-  # [ Fitted ] ====
+  # Fitted ====
     if (!gls) {
       fitted <- predict(mod, x, se.fit = TRUE)
       se.fit <- as.numeric(fitted$se.fit)
@@ -194,7 +190,7 @@ s.LM <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
       if (gls) {
@@ -212,7 +208,7 @@ s.LM <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

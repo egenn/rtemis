@@ -26,12 +26,10 @@ distillTreeRules <- function(mod, x, y = NULL,
                              typeDecay = 2,
                              verbose = TRUE) {
   
-  # [ Dependencies ] ====
-  if (!depCheck("inTrees", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("inTrees")
   
-  # [ INPUT ] ====
+  # Input ====
   mod.name <- mod$mod.name
   mod <- mod$mod
   if (class(mod)[1] == "rtMod") mod <- mod$mod
@@ -48,7 +46,7 @@ distillTreeRules <- function(mod, x, y = NULL,
   
   if (verbose) msg("Working on", mod.name, "model; looking at", n.trees, "trees")
   
-  # [ Get Rules ] ====
+  # Get Rules ====
   if (mod.name == "RF") {
     trees <- inTrees::RF2List(mod)
   } else {

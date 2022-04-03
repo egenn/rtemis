@@ -114,9 +114,7 @@ s.RANGER <- function(x, y = NULL,
   mod.name <- "RANGER"
 
   # Dependencies ====
-  if (!depCheck("ranger", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("ranger")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {

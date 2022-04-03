@@ -127,9 +127,7 @@ s.GBM <- function(x, y = NULL,
   }
 
   # Dependencies ====
-  if (!depCheck("gbm", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("gbm")
 
   # Arguments ====
   if (save.res.mod) save.res <- TRUE

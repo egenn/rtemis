@@ -82,9 +82,7 @@ s.SPLS <- function(x, y = NULL,
   mod.name <- "SPLS"
 
   # Dependencies ====
-  if (!depCheck("spls", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("spls")
 
   # Arguments ====
   if (missing(x)) {

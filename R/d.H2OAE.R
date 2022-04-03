@@ -58,7 +58,7 @@ d.H2OAE <- function(x,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(d.H2OAE))
     return(invisible(9))
@@ -71,15 +71,13 @@ d.H2OAE <- function(x,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ Dependencies ] ====
-  if (!depCheck("h2o", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("h2o")
 
-  # [ Intro ] ====
+  # Intro ====
   decom.name <- "H2OAE"
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(d.H2OAE)); stop("x is missing")
   }
@@ -87,7 +85,7 @@ d.H2OAE <- function(x,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", decom.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x); p <- NCOL(x)
@@ -112,7 +110,7 @@ d.H2OAE <- function(x,
     df.test <- NULL
   }
 
-  # [ H2OAE ] ====
+  # H2OAE ====
   if (verbose) msg("Training H2O Autoencoder...")
   params <- list(x = 1:ncol(x), training_frame = df.train,
                  model_id = paste0("rtemis.H2OAE.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
@@ -134,7 +132,7 @@ d.H2OAE <- function(x,
 
   if (verbose) print(summary(mod))
 
-  # [ Projections ] ====
+  # Projections ====
   if (verbose) msg("Extracting Deep Features...")
   projections.train <- as.data.frame(h2o::h2o.deepfeatures(mod, df.train, layer = extract.layer))
   if (!is.null(x.test)) {
@@ -143,7 +141,7 @@ d.H2OAE <- function(x,
     projections.test <- NULL
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = mod,

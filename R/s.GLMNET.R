@@ -80,9 +80,7 @@ s.GLMNET <- function(x, y = NULL,
   mod.name <- "GLMNET"
 
   # Dependencies ====
-  if (!depCheck("glmnet", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("glmnet")
 
   # Arguments ====
   if (missing(x)) {

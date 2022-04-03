@@ -61,9 +61,7 @@ s.GAM.default <- function(x, y = NULL,
   mod.name <- "GAM"
 
   # Dependencies ====
-  if (!depCheck("mgcv", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("mgcv")
 
   # Arguments ====
   if (missing(x)) {

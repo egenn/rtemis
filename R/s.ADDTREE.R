@@ -96,9 +96,7 @@ s.ADDTREE <- function(x, y = NULL,
   mod.name <- "ADDTREE"
 
   # Dependencies ====
-  if (!depCheck("rpart", "data.tree", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("rpart", "data.tree")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {

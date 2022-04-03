@@ -67,10 +67,7 @@ s.GAMSELX2 <- function(x, y = NULL,
   mod.name <- "GAMSELX2"
 
   # [ Dependencies ] ====
-  if (!depCheck("gamsel2", verbose = FALSE)) {
-    cat("\n")
-    stop("Please install dependency using remotes::install_github('egenn/gamsel2') and try again")
-  }
+  dependency_check("gamsel2")
 
   # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {

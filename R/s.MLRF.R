@@ -66,9 +66,7 @@ s.MLRF <- function(x, y = NULL,
   mod.name <- "MLRF"
 
   # Dependencies ====
-  if (!depCheck("sparklyr", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("sparklyr")
 
   # Arguments ====
   if (missing(x)) {

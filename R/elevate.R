@@ -177,9 +177,7 @@ elevate <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # Dependencies ====
-  if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("plyr", "pbapply")
 
   # Arguments ====
   # Allow elevate(df, "mod")

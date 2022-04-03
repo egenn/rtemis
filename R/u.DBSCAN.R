@@ -25,9 +25,7 @@ u.DBSCAN <- function(x, x.test = NULL,
                      verbose = TRUE, ...) {
   
   # Dependencies ====
-  if (!depCheck("flexclust", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("flexclust")
 
   # Intro ====
   start.time <- intro(verbose = verbose)

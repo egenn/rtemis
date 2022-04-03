@@ -70,10 +70,8 @@ s.IRF <- function(x, y = NULL,
   mod.name <- "IRF"
 
   # Dependencies ====
-  if (!depCheck("iRF", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
-
+  dependency_check("iRF")
+  
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s.IRF))

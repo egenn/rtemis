@@ -85,9 +85,7 @@ x.CCA <- function(x, z,
   xdecom.name <- "CCA"
 
   # Dependencies ====
-  if (!depCheck("PMA", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("PMA")
 
   # Arguments ====
   if (is.null(n.cores)) {
@@ -156,7 +154,6 @@ x.CCA <- function(x, z,
     test.zprojections <- data.matrix(z.test) %*% xdecom$v
     scaled.test.zprojections <- scale(data.matrix(z.test)) %*% xdecom$v
   }
-
 
   # Outro ====
   extra <- list(CCA.perm = CCA.perm,
@@ -341,10 +338,8 @@ x.CCA.permute.both <- function(x, z,
   CheckVs <- getFromNamespace("CheckVs", "PMA")
 
   # Dependencies ====
-  if (!depCheck(c("PMA", "pbapply"), verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
-
+  dependency_check("PMA", "pbapply")
+  
   # Arguments ====
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
 

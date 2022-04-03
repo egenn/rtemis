@@ -52,9 +52,7 @@ s.KNN <- function(x, y = NULL,
   mod.name <- "KNN"
 
   # [ Dependencies ] ====
-  if (!depCheck("FNN", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("FNN")
 
   # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {

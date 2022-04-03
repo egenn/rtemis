@@ -90,7 +90,7 @@ s.LIHADBOOST <- function(x, y = NULL,
                        n.cores = rtCores,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -105,12 +105,10 @@ s.LIHADBOOST <- function(x, y = NULL,
   mod.name <- "LIHADBOOST"
   lin.type <- match.arg(lin.type)
 
-  # [ Dependencies ] ====
-  if (!depCheck("rpart", "glmnet", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("rpart", "glmnet")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -123,7 +121,7 @@ s.LIHADBOOST <- function(x, y = NULL,
   # mod.params$learning.rate <- learning.rate
   # if (!is.null(force.n.iter)) max.iter <- force.n.iter
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # x.valid = x.valid, y.valid = y.valid,
@@ -149,7 +147,7 @@ s.LIHADBOOST <- function(x, y = NULL,
   }
   if (is.null(init)) init <- mean(y)
 
-  # [ Grid Search ] ====
+  # Grid Search ====
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -213,7 +211,7 @@ s.LIHADBOOST <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # [ LIHADBOOST ] ====
+  # LIHADBOOST ====
   if (verbose) parameterSummary(init,
                                 max.iter,
                                 learning.rate,
@@ -278,7 +276,7 @@ s.LIHADBOOST <- function(x, y = NULL,
     n.iter <- NULL # will use all iterations, will not be max.iter if earlystopping on training
   }
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (is.null(n.iter)) {
     fitted <- mod$fitted
   } else {
@@ -287,10 +285,10 @@ s.LIHADBOOST <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ VALID ] ====
+  # VALID ====
   # error.valid <- if (!is.null(y.valid)) mod$error.valid else NULL
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) cat("\n"); msg("Getting predicted values...")
@@ -301,7 +299,7 @@ s.LIHADBOOST <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   parameters <- list(init = init,
                      max.iter = max.iter,
                      earlystop.params = earlystop.params,

@@ -39,27 +39,25 @@ u.SPEC <- function(x,
                    na.action = na.omit,
                    verbose = TRUE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
   clust.name <- "SPEC"
 
-  # [ Data ] ====
+  # Data ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ Dependencies ] ====
-  if (!depCheck("kernlab", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("kernlab")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(u.SPEC))
     stop("x is missing")
   }
 
-  # [ SPECTRAL CLUST ] ====
+  # Spectral clust ====
   if (verbose) msg("Performing Spectral Clustering with k = ", k, "...", sep = "")
   clust <- kernlab::specc(data.matrix(x),
                           centers = k,
@@ -71,11 +69,11 @@ u.SPEC <- function(x,
                           mod.sample = mod.sample,
                           na.action = na.action, ...)
 
-  # [ Clusters ] ====
+  # Clusters ====
   clusters.train <- clust@.Data
   clusters.test <- NULL
 
-  # [ Outro ] ====
+  # Outro ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

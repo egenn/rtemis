@@ -106,9 +106,7 @@ s.CART <- function(x, y = NULL,
   mod.name <- "CART"
 
   # Dependencies ====
-  if (!depCheck("rpart", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("rpart")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {

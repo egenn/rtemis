@@ -50,9 +50,7 @@ s.LDA <- function(x, y = NULL,
   mod.name <- "LDA"
 
   # Dependencies ====
-  if (!depCheck("MASS", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("MASS")
 
   # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")

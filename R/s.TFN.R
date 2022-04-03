@@ -110,7 +110,7 @@ s.TFN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.TFN))
     return(invisible(9))
@@ -124,12 +124,10 @@ s.TFN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "TFN"
 
-  # [ Dependencies ] ====
-  if (!depCheck("tensorflow", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("tensorflow")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -156,7 +154,7 @@ s.TFN <- function(x, y = NULL,
   optimizer <- getFromNamespace(optimizer, "keras")
 
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -240,7 +238,7 @@ s.TFN <- function(x, y = NULL,
     batch.size <- floor(.25 * length(y))
   }
 
-  # [ NETWORK ] ====
+  # Network ====
   if (n.hidden.nodes[1] == 0) {
     n.hnodes <- n.hlayers <- 0
   } else {
@@ -304,7 +302,7 @@ s.TFN <- function(x, y = NULL,
                          pad = 0,
                          newline.pre = TRUE)
 
-    # [ TF ] ====
+    # TF ====
     if (verbose) msg0("Training Neural Network ", type, " with ",
                       n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
                       "...\n", newline.pre = TRUE)
@@ -330,7 +328,7 @@ s.TFN <- function(x, y = NULL,
       class_weight = .class.weights.int
     )
 
-  # [ Fitted ] ====
+  # Fitted ====
   if (type == "Regression") {
     fitted <- c(predict(net, x.dm))
     error.train <- modError(y, fitted, type = type)
@@ -343,7 +341,7 @@ s.TFN <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
@@ -359,7 +357,7 @@ s.TFN <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(scale = scale,
                 col_means_train = if (scale) col_means_train else NULL,
                 col_stddevs_train = if (scale) col_stddevs_train else NULL)

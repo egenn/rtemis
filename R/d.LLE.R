@@ -51,22 +51,20 @@ d.LLE <- function(x,
                   verbose = TRUE,
                   n.cores = 1, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
   decom.name <- "LLE"
 
-  # [ Dependencies ] ====
-  if (!depCheck("lle", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("lle")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(d.LLE))
     stop("x is missing")
   }
 
-  # [ Data ] ====
+  # Data ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -78,7 +76,7 @@ d.LLE <- function(x,
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
 
-  # [ LLE ] ====
+  # LLE ====
   if (nn == 0) {
     if (verbose) msg("Estimating optimal number of neighbors...")
     nn <- rt_lle_calc_k(x, m = k,
@@ -98,10 +96,10 @@ d.LLE <- function(x,
                                      id = id,
                                      iLLE = iLLE, ...))
 
-  # [ Projections ] ====
+  # Projections ====
   projections.train <- decom$Y
 
-  # [ Outro ] ====
+  # Outro ====
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,

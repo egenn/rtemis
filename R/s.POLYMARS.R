@@ -58,9 +58,7 @@ s.POLYMARS <- function(x, y = NULL,
   mod.name <- "POLYMARS"
 
   # Dependencies ====
-  if (!depCheck("polspline", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("polspline")
 
   # Arguments ====
   if (missing(x)) {

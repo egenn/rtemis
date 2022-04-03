@@ -27,7 +27,7 @@ s.TLS <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   if (missing(x)) {
     print(args(s.TLS))
     return(invisible(9))
@@ -41,7 +41,7 @@ s.TLS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "TLS"
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) { print(args(s.TLS)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.TLS)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -51,7 +51,7 @@ s.TLS <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -68,7 +68,7 @@ s.TLS <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # [ TLS ] ====
+  # TLS ====
   if (verbose) msg("Running Total Least Squares...", newline.pre = TRUE)
   M <- cbind(as.matrix(x), y)
   m <- nrow(x)
@@ -84,7 +84,7 @@ s.TLS <- function(x, y = NULL,
   mod <- list(a = a, b = b)
   class(mod) <- c("rtTLS", "list")
 
-  # [ Fitted ] ====
+  # Fitted ====
   fitted <- c(cbind(as.matrix(x), 1) %*% c(a, b))
   normal <- V[, n + 1]
   error <- abs((M - M.mean) %*% normal)
@@ -92,7 +92,7 @@ s.TLS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # Predicted ====
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- c(cbind(as.matrix(x.test), 1) %*% c(a, b))
@@ -102,7 +102,7 @@ s.TLS <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(M = M, M.svd = M.svd, a = a, b = b, error = error, ssq = ssq)
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,

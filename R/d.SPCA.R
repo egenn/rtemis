@@ -42,23 +42,21 @@ d.SPCA <- function(x,
                    center = TRUE,
                    verbose = TRUE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
   decom.name <- "SPCA"
 
-  # [ Dependencies ] ====
-  if (!depCheck("nsprcomp", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("nsprcomp")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(d.SPCA))
     stop("x is missing")
   }
   method <- match.arg(method)
 
-  # [ Data ] ====
+  # Data ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -70,7 +68,7 @@ d.SPCA <- function(x,
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
-  # [ scale ] ====
+  # scale ====
   if (scale | center) {
     x <- scale(x, scale = scale, center = center)
     .center <- attr(x, "scaled:center")
@@ -79,7 +77,7 @@ d.SPCA <- function(x,
     .center <- .scale <- FALSE
   }
 
-  # [ sPCA ] ====
+  # sPCA ====
   if (verbose) msg("Performing Sparse Principal Components Analysis...")
   if (method == "cumulative") {
     decom <- nsprcomp::nscumcomp(x, ncomp = k, k = nz, nneg = nneg, gamma = gamma, scale. = FALSE, ...)
@@ -89,7 +87,7 @@ d.SPCA <- function(x,
 
   vectors <- decom$rotation
 
-  # [ Projections ] ====
+  # Projections ====
   projections.train <- x %*% vectors
   projections.test <- NULL
   if (!is.null(x.test)) {
@@ -99,7 +97,7 @@ d.SPCA <- function(x,
     projections.test <- x.test %*% vectors
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

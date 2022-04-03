@@ -141,9 +141,7 @@ s.XGB <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # Dependencies ====
-  if (!depCheck(c("xgboost", "pbapply"), verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("xgboost", "pbapply")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {

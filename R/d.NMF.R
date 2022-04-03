@@ -35,22 +35,20 @@ d.NMF <- function(x,
                   center = FALSE,
                   verbose = TRUE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
   decom.name <- "NMF"
 
-  # [ Dependencies ] ====
-  if (!depCheck("NMF", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("NMF")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(d.NMF))
     stop("x is missing")
   }
 
-  # [ Data ] ====
+  # Data ====
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -62,14 +60,14 @@ d.NMF <- function(x,
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
-  # [ NMF ] ====
+  # NMF ====
   if (verbose) msg("Running Non-negative Matrix Factorization...")
   decom <- NMF::nmf(t(x), rank = k, method = method, ...)
   basis <- NMF::basis(decom)
   coef <- NMF::coef(decom)
   scoef <- NMF::scoef(decom)
 
-  # [ Projections ] ====
+  # Projections ====
   projections.test <- NULL
   if (scale) {
     projections.train <- scale(x, center = center) %*% basis
@@ -79,7 +77,7 @@ d.NMF <- function(x,
     if (!is.null(x.test)) projections.test <- x.test %*% basis
   }
 
-  # [ Outro ] ====
+  # Outro ====
   extra <- list(basis = basis,
                 coef = coef,
                 scoef = scoef)

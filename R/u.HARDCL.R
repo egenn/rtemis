@@ -20,34 +20,32 @@ u.HARDCL <- function(x, x.test = NULL,
                      dist = "euclidean",
                      verbose = TRUE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
   clust.name <- "HARDCL"
 
-  # [ Data ] ====
+  # Data ====
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # [ Dependencies ] ====
-  if (!depCheck("flexclust", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("flexclust")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) {
     print(args(u.HARDCL))
     stop("x is missing")
   }
 
-  # [ CCLUST ] ====
+  # CCLUST ====
   if (verbose) msg0("Running Hard Competitive Learning with k = ", k, "...")
   clust <- flexclust::cclust(x,
                              k = k,
                              dist = dist,
                              method = "hardcl", ...)
 
-  # [ Clusters ] ====
+  # Clusters ====
   clusters.train <- flexclust::clusters(clust)
   if (!is.null(x.test)) {
     clusters.test <- flexclust::clusters(clust, x.test)
@@ -55,7 +53,7 @@ u.HARDCL <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
 
-  # [ Outro ] ====
+  # Outro ====
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,
