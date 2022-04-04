@@ -110,7 +110,7 @@ dplot3_volcano <- function(x, pvals,
   }
   
   # Plot ====
-  # if (is.null(hovertext)) hovertext <- split(xnames, droplevels(Group))
+  if (is.null(hovertext)) hovertext <- xnames
   plt <- dplot3_xy(x, p_transformed,
                    xlab = xlab,
                    ylab = ylab,
