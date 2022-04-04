@@ -47,6 +47,17 @@ mod$plot()
 
 ## What's new
 
+### **0.90**
+
+Multiple additions and updates.  
+**Major change**: Renamed modeling and visualization functions to substitute 
+dots with underscores:
+
+- Supervised learning `s.` => `s_`
+- Decomposition: `d.` => `d_`
+- Clustering functions: from `u.` => `c_`
+- Static graphics: `mplot3.` => `mplot3_` and `mplot.` => `mplot_`
+- Interactive graphics: `dplot3.` => `dplot3_`
 ### **0.82**
 
 * Themes: New darkgray theme now always on whether you like it or not - jk:
@@ -76,12 +87,12 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
   * Static: **_mplot3_** family (base graphics)
   * Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
 * **Unsupervised Learning**
-  * Clustering: **_u.\*_**
-  * Decomposition: **_d.\*_**
+  * Clustering: **_c_\*_**
+  * Decomposition: **_d_\*_**
 * **Supervised Learning**
-  * Classification, Regression, Survival Analysis: **_s.\*_**
+  * Classification, Regression, Survival Analysis: **_s_\*_**
 * **Cross-Decomposition**
-  * Sparse Canonical Correlation / Sparse Decomposition: **_x.\*_**
+  * Sparse Canonical Correlation / Sparse Decomposition: **_x_\*_**
 * **Meta-Models**  
   * Model Stacking: **_metaMod()_**
   * Modality Stacking: **_metaFeat()_**
