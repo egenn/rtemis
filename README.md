@@ -53,11 +53,13 @@ Multiple additions and updates.
 **Major change**: Renamed modeling and visualization functions to substitute 
 dots with underscores:
 
-- Supervised learning `s.` => `s_`
-- Decomposition: `d.` => `d_`
-- Clustering functions: from `u.` => `c_`
-- Static graphics: `mplot3.` => `mplot3_` and `mplot.` => `mplot_`
-- Interactive graphics: `dplot3.` => `dplot3_`
+* Supervised learning: `s.` => `s_`
+* Decomposition: `d.` => `d_`
+* Clustering: `u.` => `c_`
+* Cross-decomposition: `x.` => `x_`
+* Static graphics: `mplot3.` => `mplot3_`; `mplot.` => `mplot_`; `gplot3.` => `gplot3_`
+* Interactive graphics: `dplot3.` => `dplot3_`
+
 ### **0.82**
 
 * Themes: New darkgray theme now always on whether you like it or not - jk:
