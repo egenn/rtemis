@@ -24,7 +24,7 @@
 \arguments{
 \item{x}{\code{rtModCV} object}
 
-\item{...}{Additional arguments to pass to \code{mplot3.fit}}
+\item{...}{Additional arguments to pass to \code{mplot3_fit}}
 
 \item{newdata}{Set of predictors to use}
 }

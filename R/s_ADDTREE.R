@@ -30,7 +30,7 @@
 #' @param imetrics Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE
 #' @param rpart.params List: \code{rpart} parameters, passed to \code{rpart::rpart("parms")}
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-#' percent of cases match each rule. If available, these are used by \link{dplot3.addtree} when plotting. Default = TRUE
+#' percent of cases match each rule. If available, these are used by \link{dplot3_addtree} when plotting. Default = TRUE
 #' @return Object of class \link{rtMod}
 #' @author E.D. Gennatas
 #' @family Supervised Learning

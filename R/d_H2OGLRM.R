@@ -35,7 +35,7 @@
 #' @param svd.method Character: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"
 #' @param verbose Logical: If TRUE, print console messages
 #' @param print.plot Logical: If TRUE, print objective score against iteration number
-#' @param plot.theme Character: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}
+#' @param plot.theme Character: Theme to pass to \link{mplot3_xy} if \code{print.plot = TRUE}
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to \code{h2o::h2o.glrm}
 #' @return \link{rtDecom} object
@@ -124,7 +124,7 @@ d_H2OGLRM <- function(x,
                          init = init,
                          svd_method = svd.method, ...)
 
-  if (print.plot) mplot3.xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
+  if (print.plot) mplot3_xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
                             type = 'l', zerolines = FALSE,
                             xlab = "Iteration", ylab = "Objective",
                             main = "Objective Function Value per Iteration",

@@ -232,7 +232,7 @@ plot.rtTest <- function(x,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (x$test %in% c("t.test", "wilcox.test", "aov", "kruskal.test")) {
-      mplot3.box(split(x$y, x$group),
+      mplot3_box(split(x$y, x$group),
                  # main = main,
                  oma = c(0, 0, 1.5, 0),
                  theme = theme,
@@ -242,18 +242,18 @@ plot.rtTest <- function(x,
   } else if (x$test == "ks") {
     dat <- list(x = x$x, y = x$y)
     names(dat) <- c(x$xname, x$yname)
-    mplot3.x(dat, type = match.arg(uni.type),
+    mplot3_x(dat, type = match.arg(uni.type),
              density.avg.line = TRUE,
              oma = c(0, 0, 1.5, 0),
              mar = mar, par.reset = FALSE)
   } else if (x$test %in% c("chisq.test", "fisher.test")) {
-    mplot3.mosaic(table(x$y, x$group),
+    mplot3_mosaic(table(x$y, x$group),
                   # main = main,
                   oma = c(0, 0, 1.5, 0),
                   theme = theme,
                   mar = mar, par.reset = FALSE)
   } else {
-    mplot3.xy(x$x, x$y, fit = "lm", se.fit = TRUE,
+    mplot3_xy(x$x, x$y, fit = "lm", se.fit = TRUE,
               # main = main,
               oma = c(0, 0, 1.5, 0),
               fit.legend = FALSE, theme = theme,

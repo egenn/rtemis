@@ -32,7 +32,7 @@ selectiter <- function(loss.valid,
                 `Smoothed Validation` = loss.smooth)
     if (is.null(loss.valid)) names(dat)[3] <- "Smoothed Training"
     dat <- Filter(Negate(is.null), dat)
-    mplot3.xy(seq(nsteps), dat,
+    mplot3_xy(seq(nsteps), dat,
               type = 'l', group.adj = .95,
               line.col = c(ucsfCol$teal, ucsfCol$orange, ucsfCol$red),
               vline = c(which.min(loss), which.min(loss.smooth)),

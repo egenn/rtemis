@@ -79,7 +79,7 @@ non-rotated plot - i.e. \code{xlab} will become the y-axis label}
 Draws a histogram using lines.
 }
 \details{
-Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3.xym})
+Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3_xym})
 }
 \author{
 E.D. Gennatas

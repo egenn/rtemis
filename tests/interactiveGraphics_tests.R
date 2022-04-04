@@ -5,17 +5,17 @@
 library(rtemis)
 
 if (requireNamespace("plotly", quietly = TRUE)) {
-  dplot3.bar(VADeaths)
+  dplot3_bar(VADeaths)
   x <- rnormmat(20, 5, return.df = T, seed = 2019)
-  dplot3.box(x)
-  dplot3.box(x, type = "violin")
-  dplot3.x(split(iris$Sepal.Length, iris$Species))
-  dplot3.x(iris$Sepal.Length, group = iris$Species)
-  dplot3.xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
-  dplot3.heatmap(cor(rnormmat(10, 10, seed = 2019)))
+  dplot3_box(x)
+  dplot3_box(x, type = "violin")
+  dplot3_x(split(iris$Sepal.Length, iris$Species))
+  dplot3_x(iris$Sepal.Length, group = iris$Species)
+  dplot3_xy(iris$Sepal.Length, iris$Petal.Length, fit = "gam", se.fit = TRUE, group = iris$Species)
+  dplot3_heatmap(cor(rnormmat(10, 10, seed = 2019)))
   varimp <- rnorm(10)
   names(varimp) <- paste0("Feature_", seq(10))
-  dplot3.varimp(varimp)
+  dplot3_varimp(varimp)
 }
 
 if (requireNamespace("data.tree", quietly = TRUE) &
@@ -23,5 +23,5 @@ if (requireNamespace("data.tree", quietly = TRUE) &
   iris2 <- iris[51:150, ]
   iris2$Species <- factor(iris2$Species)
   mod <- s.CART(iris2, maxdepth = 2)
-  dplot3.cart(mod)
+  dplot3_cart(mod)
 }

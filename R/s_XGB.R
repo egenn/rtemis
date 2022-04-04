@@ -291,7 +291,7 @@ s_XGB <- function(x, y = NULL,
           predicted.1.series <- sapply(ntreelimit, function(i) {
             predict(mod.xgb.1, data.test.1, ntreelimit = i) })
           mse.test.1.series <- apply(predicted.1.series, 2, function(p) mse(y.test.g, p))
-          if (plot.res) mplot3.xy(ntreelimit, list(mse.test.1.series, mse.train.1.series),
+          if (plot.res) mplot3_xy(ntreelimit, list(mse.test.1.series, mse.train.1.series),
                                   type = "l", group.legend = F, xlab = "N iterations", ylab = "MSE", lwd = 4,
                                   vline = mod.xgb.1$bestInd, vline.lty = 2, vline.lwd = 2,
                                   legend.tc = paste("best n.trees =", mod.xgb.1$bestInd,

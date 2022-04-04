@@ -7,7 +7,7 @@
 #'
 #' Draws a histogram using lines.
 #'
-#' Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3.xym})
+#' Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3_xym})
 #' @param x Input vector
 #' @param breaks See \code{hist("breaks")} Default = "Sturges"
 #' @param measure Character: "density"(Default), "counts"

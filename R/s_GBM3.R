@@ -385,7 +385,7 @@ s_GBM3.R <- function(x, y = NULL,
                              verbose = verbose)
     n.trees <- gst$n.trees
     valid.error.smooth <- gst$valid.error.smooth
-    if (plot.tune.error) mplot3.xy(seq(valid.error.smooth),
+    if (plot.tune.error) mplot3_xy(seq(valid.error.smooth),
                                    list(Training = mod$train.error,
                                         Validation = mod$valid.error,
                                         `Smoothed Validation` = valid.error.smooth),
@@ -410,7 +410,7 @@ s_GBM3.R <- function(x, y = NULL,
                                verbose = verbose)
       n.trees <- gst$n.trees
       valid.error.smooth <- gst$valid.error.smooth
-      if (plot.tune.error) mplot3.xy(seq(valid.error.smooth),
+      if (plot.tune.error) mplot3_xy(seq(valid.error.smooth),
                                      list(Training = mod$train.error,
                                           Validation = mod$valid.error,
                                           `Smoothed Validation` = valid.error.smooth),
@@ -567,7 +567,7 @@ gbm3.select.trees <- function(object,
   }
   valid.error <- if (smooth) valid.error.smooth else object$valid.error
 
-  if (plot) mplot3.xy(seq(n.trees), list(Training = object$train.error,
+  if (plot) mplot3_xy(seq(n.trees), list(Training = object$train.error,
                                          Validation = object$valid.error,
                                          `Smoothed Validation` = valid.error.smooth),
                       type = 'l', group.adj = .95,

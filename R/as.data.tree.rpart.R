@@ -5,7 +5,7 @@
 #' Convert \code{rpart} rules to \code{data.tree} object
 #'
 #' Convert an \code{rpart} object to a \code{data.tree} object, which can be plotted with
-#' \link{dplot3.cart}
+#' \link{dplot3_cart}
 #' @param object \code{rpart} object
 #' @param verbose Logical: If TRUE, print messages to console
 #' @return \code{data.tree} object

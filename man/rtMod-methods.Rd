@@ -42,7 +42,7 @@
 \method{predict}{rtModLite}(object, newdata, ...)
 }
 \arguments{
-\item{...}{Additional arguments to be passed to \link{mplot3.xy}}
+\item{...}{Additional arguments to be passed to \link{mplot3_xy}}
 
 \item{object}{Trained model of class \code{rtMod}}
 

@@ -64,13 +64,13 @@ ruleDist <- function(x,
   if (print.plot) {
     plot.type <- match.arg(plot.type)
     if (plot.type == "static") {
-      mplot3.heatmap(rxr.hamming,
+      mplot3_heatmap(rxr.hamming,
                      Rowv = TRUE, Colv = TRUE,
                      autorange = FALSE,
                      zlim = c(0, nrow(x)),
                      lo = heat.lo, mid = heat.mid, hi = heat.hi)
     } else {
-      dplot3.heatmap(rxr.hamming,
+      dplot3_heatmap(rxr.hamming,
                      Rowv = TRUE, Colv = TRUE,
                      limits = c(0, nrow(x)),
                      lo = heat.lo, mid = heat.mid, hi = heat.hi)

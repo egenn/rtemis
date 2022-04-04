@@ -62,9 +62,9 @@
 \item{what}{Character: "adjusted" or "raw" p-values to plot}
 }
 \description{
-Plots a \code{massGLM} object using \link{dplot3.bar}
+Plots a \code{massGLM} object using \link{dplot3_bar}
 
-Plots a \code{massGLM} object using \link{dplot3.bar}
+Plots a \code{massGLM} object using \link{dplot3_bar}
 }
 \author{
 E.D. Gennatas

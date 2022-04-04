@@ -147,21 +147,21 @@ rtMod <- R6::R6Class("rtMod",
                                              filename = NULL, ...) {
                          "Plot fitted vs. true values for Regression or confusion matrix for Classification"
                          if (self$type == "Regression") {
-                           mplot3.fit(self$y.train, self$fitted,
+                           mplot3_fit(self$y.train, self$fitted,
                                       xlab = paste("True", self$y.name),
                                       ylab = paste("Fitted", self$y.name),
                                       main = if (is.null(main)) paste(self$mod.name, "Training") else main,
                                       theme = theme,
                                       filename = filename, ...)
                          } else if (self$type == "Classification") {
-                           mplot3.conf(self$error.train,
+                           mplot3_conf(self$error.train,
                                        xlab = "Reference",
                                        ylab = "Fitted",
                                        main = if (is.null(main)) paste(self$mod.name, "Training") else main,
                                        theme = theme,
                                        filename = filename, ...)
                          } else {
-                           mplot3.surv(list(True = self$y.train, Fitted = self$fitted),
+                           mplot3_surv(list(True = self$y.train, Fitted = self$fitted),
                                        main = if (is.null(main)) paste(self$mod.name,
                                                     "Kaplan-Meier estimate") else main,
                                        normalize.time = TRUE,
@@ -179,21 +179,21 @@ rtMod <- R6::R6Class("rtMod",
                            return(NULL)
                          }
                          if (self$type == "Regression") {
-                           mplot3.fit(self$y.test, self$predicted,
+                           mplot3_fit(self$y.test, self$predicted,
                                       xlab = paste("True", self$y.name),
                                       ylab = paste("Predicted", self$y.name),
                                       main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
                                       theme = theme,
                                       filename = filename, ...)
                          } else  if (self$type == "Classification") {
-                           mplot3.conf(self$error.test,
+                           mplot3_conf(self$error.test,
                                        xlab = "Reference",
                                        ylab = "Predicted",
                                        main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
                                        theme = theme,
                                        filename = filename, ...)
                          } else {
-                           mplot3.surv(list(True = self$y.test, Predicted = self$predicted),
+                           mplot3_surv(list(True = self$y.test, Predicted = self$predicted),
                                        main = if (is.null(main)) paste(self$mod.name,
                                                     "Kaplan-Meier estimate") else main,
                                        normalize.time = TRUE,
@@ -207,12 +207,12 @@ rtMod <- R6::R6Class("rtMod",
                          "Plot fitted & predicted vs. true values"
                          if (self$type == "Classification") {
                            rtlayout(2, 1)
-                           mplot3.conf(self$error.train,
+                           mplot3_conf(self$error.train,
                                        xlab = "Refernece",
                                        ylab = "Fitted",
                                        main = paste(self$mod.name, "Training"),
                                        theme = theme, ...)
-                           mplot3.conf(self$error.test,
+                           mplot3_conf(self$error.test,
                                        xlab = "Reference",
                                        ylab = "Predicted",
                                        main = paste(self$mod.name, "Testing"),
@@ -227,7 +227,7 @@ rtMod <- R6::R6Class("rtMod",
                            warning("No testing data available")
                            return(NULL)
                          }
-                         mplot3.fit(list(Train = self$y.train, Test = self$y.test),
+                         mplot3_fit(list(Train = self$y.train, Test = self$y.test),
                                     list(Train = self$fitted, Test = self$predicted),
                                     xlab = paste("True", self$y.name),
                                     ylab = paste("Predicted", self$y.name),
@@ -244,12 +244,12 @@ rtMod <- R6::R6Class("rtMod",
                          } else {
                            type <- match.arg(type)
                            if (type == "lollipop") {
-                             mplot3.lolli(self$varimp,
+                             mplot3_lolli(self$varimp,
                                           plot.top = plot.top,
                                           xlab = "Variable Importance",
                                           theme = theme, ...)
                            } else {
-                             mplot3.varimp(self$varimp,
+                             mplot3_varimp(self$varimp,
                                            plot.top = plot.top,
                                            theme = theme, ...)
                            }
@@ -560,7 +560,7 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @param summary Logical: If TRUE, print summary. Default = TRUE
 #' @param theme Character: theme to use. Options: "box", "darkbox", "light", "dark"
 #' @param title.col Color for main title
-#' @param ... Additional arguments to be passed to \link{mplot3.xy}
+#' @param ... Additional arguments to be passed to \link{mplot3_xy}
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
@@ -616,7 +616,7 @@ summary.rtMod <- function(object,
 
       # [ PLOTS ]
       # 1. Fitted vs. True
-      mplot3.xy(y.train, fitted,
+      mplot3_xy(y.train, fitted,
                 xlab = "True", ylab = "Fitted", main = "Training",
                 fit = fit.true.line, fit.legend = fit.legend, se.fit = se.fit,
                 axes.equal = TRUE, fit.error = TRUE, cex = cex,
@@ -625,7 +625,7 @@ summary.rtMod <- function(object,
 
       # 2. Predicted vs. True
       if (do.test) {
-        mplot3.xy(y.test, predicted,
+        mplot3_xy(y.test, predicted,
                   xlab = "True", ylab = "Predicted", main = "Testing",
                   fit = fit.true.line, fit.legend = fit.legend, se.fit = se.fit,
                   axes.equal = TRUE,  fit.error = TRUE, cex = cex,
@@ -634,7 +634,7 @@ summary.rtMod <- function(object,
       }
 
       # 3. Residuals vs. Fitted
-      mplot3.xy(fitted, residuals,
+      mplot3_xy(fitted, residuals,
                 xlab = "Fitted", ylab = "Residuals", main = "Residuals",
                 fit = resid.fit.line, fit.legend = fit.legend, se.fit = se.fit,
                 point.col = pennCol$red, fit.col = pennCol$lighterBlue,
@@ -642,7 +642,7 @@ summary.rtMod <- function(object,
 
       # 4. Prediction error vs. True
       if (do.test) {
-        mplot3.xy(y.test, error^2, main = "Error", # old: predicted, error
+        mplot3_xy(y.test, error^2, main = "Error", # old: predicted, error
                   xlab = "True", ylab = "Squared Error",
                   fit = resid.fit.line, fit.legend = fit.legend, se.fit = se.fit,
                   point.col = pennCol$red, fit.col = pennCol$lighterBlue,
@@ -650,14 +650,14 @@ summary.rtMod <- function(object,
       }
 
       # 5. Residuals Q-Q plot
-      mplot3.x(residuals, type = "qqline",
+      mplot3_x(residuals, type = "qqline",
                main = "Residuals Q-Q Plot",
                col = pennCol$blue, qqline.col = pennCol$green,
                cex = cex, theme = theme, par.reset = pr, ...)
 
       # 6. Error Q-Q plot
       if (do.test) {
-        mplot3.x(error, type = "qqline",
+        mplot3_x(error, type = "qqline",
                  main = "Error Q-Q Plot",
                  col = pennCol$blue, qqline.col = pennCol$green,
                  cex = cex, theme = theme, par.reset = pr, ...)
@@ -761,7 +761,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                                    "lightgrid"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
-                                            mplot3.roc(self$fitted.prob, self$y.train,
+                                            mplot3_roc(self$fitted.prob, self$y.train,
                                                        main = main,
                                                        theme = theme,
                                                        filename = filename, ...)
@@ -774,7 +774,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                                       "lightgrid"),
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
-                                            mplot3.roc(self$predicted.prob, self$y.test,
+                                            mplot3_roc(self$predicted.prob, self$y.test,
                                                        main = main,
                                                        theme = theme,
                                                        filename = filename, ...)
@@ -800,7 +800,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                                   "lightgrid"),
                                                                 filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
-                                            mplot3.pr(self$fitted.prob, self$y.train,
+                                            mplot3_pr(self$fitted.prob, self$y.train,
                                                       main = main,
                                                       theme = theme,
                                                       filename = filename, ...)
@@ -813,7 +813,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                                      "lightgrid"),
                                                                    filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
-                                            mplot3.pr(self$predicted.prob, self$y.test,
+                                            mplot3_pr(self$predicted.prob, self$y.test,
                                                       main = main,
                                                       theme = theme,
                                                       filename = filename, ...)
@@ -1163,13 +1163,13 @@ rtModCV <- R6::R6Class("rtModCV",
                                                  ")"))
                            if (self$type == "Classification") {
                              conf <- classError(y.test, predicted)$ConfusionMatrix
-                             mplot3.conf(conf, main = main,
+                             mplot3_conf(conf, main = main,
                                          # mar = c(3, 3, 5, 3),
                                          dim.main = 2,
                                          theme = theme,
                                          filename = filename, ...)
                            } else if (self$type == "Regression") {
-                             mplot3.fit(y.test, predicted,
+                             mplot3_fit(y.test, predicted,
                                         main = main,
                                         xlab = paste("True", self$y.name),
                                         ylab = paste("Predicted", self$y.name),
@@ -1197,13 +1197,13 @@ rtModCV <- R6::R6Class("rtModCV",
                                                  ")"))
                            if (self$type == "Classification") {
                              conf <- classError(y.train, fitted)$ConfusionMatrix
-                             mplot3.conf(conf, main = main,
+                             mplot3_conf(conf, main = main,
                                          # mar = c(3, 3, 5, 3),
                                          filename = filename,
                                          theme = theme,
                                          dim.main = 2, ...)
                            } else if (self$type == "Regression") {
-                             mplot3.fit(y.train, fitted,
+                             mplot3_fit(y.train, fitted,
                                         main = main,
                                         xlab = paste("True", self$y.name),
                                         ylab = paste("Fitted", self$y.name),
@@ -1224,12 +1224,12 @@ rtModCV <- R6::R6Class("rtModCV",
                            } else {
                              type <- match.arg(type)
                              if (type == "lollipop") {
-                               mplot3.lolli(varimp,
+                               mplot3_lolli(varimp,
                                             plot.top = plot.top,
                                             xlab = "Variable Importance",
                                             theme = theme, ...)
                              } else {
-                               mplot3.varimp(varimp,
+                               mplot3_varimp(varimp,
                                              plot.top = plot.top,
                                              theme = theme, ...)
                              }
@@ -1325,7 +1325,7 @@ NULL
 #'
 #' @method plot rtModCV
 #' @param x \code{rtModCV} object
-#' @param ... Additional arguments to pass to \code{mplot3.fit}
+#' @param ... Additional arguments to pass to \code{mplot3_fit}
 #' @rdname rtModCV-methods
 #' @export
 plot.rtModCV <- function(x, ...) {
@@ -1469,7 +1469,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotROCfitted = function(which.repeat = 1,
                                                                    main = "ROC Training", ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
-                                              mplot3.roc(self$fitted.prob.aggr[[which.repeat]],
+                                              mplot3_roc(self$fitted.prob.aggr[[which.repeat]],
                                                          self$y.train.res.aggr[[which.repeat]],
                                                          main = main, ...)
                                             } else {
@@ -1479,7 +1479,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotROCpredicted = function(which.repeat = 1,
                                                                       main = "ROC Testing", ...) {
                                             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
-                                              mplot3.roc(self$predicted.prob.aggr[[which.repeat]],
+                                              mplot3_roc(self$predicted.prob.aggr[[which.repeat]],
                                                          self$y.test.res.aggr[[which.repeat]],
                                                          main = main, ...)
                                             } else {
@@ -1492,7 +1492,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotPRfitted = function(which.repeat = 1,
                                                                   main = "P-R Training", ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
-                                              mplot3.pr(self$fitted.prob.aggr[[which.repeat]],
+                                              mplot3_pr(self$fitted.prob.aggr[[which.repeat]],
                                                         self$y.train.res.aggr[[which.repeat]],
                                                         main = main, ...)
                                             } else {
@@ -1502,7 +1502,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           plotPRpredicted = function(which.repeat = 1,
                                                                      main = "P-R Testing", ...) {
                                             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
-                                              mplot3.pr(self$predicted.prob.aggr[[which.repeat]],
+                                              mplot3_pr(self$predicted.prob.aggr[[which.repeat]],
                                                         self$y.test.res.aggr[[which.repeat]],
                                                         main = main, ...)
                                             } else {

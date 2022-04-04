@@ -407,7 +407,7 @@ s_LINOA <- function(x, y = NULL,
 #   }
 #   valid.error <- if (smooth) valid.error.smooth else object$valid.error
 #
-#   if (plot) mplot3.xy(seq(n.trees), list(Training = object$train.error,
+#   if (plot) mplot3_xy(seq(n.trees), list(Training = object$train.error,
 #                                          Validation = object$valid.error,
 #                                          `Smoothed Validation` = valid.error.smooth),
 #                       type = 'l', group.adj = .95,

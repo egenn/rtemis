@@ -24,7 +24,7 @@ rfVarSelect <- function(x, y,
   if (verbose) msg("Running Variable Selection using Random Forest...")
   mod <- s_RF(x, y, importance = TRUE)
   importance <- mod$mod$importance[, 1]
-  if (print.plot) mplot3.x(mod$mod$importance, group.title = "")
+  if (print.plot) mplot3_x(mod$mod$importance, group.title = "")
   importance.rank <- order(importance, decreasing = TRUE)
   top.index <- importance.rank[1:(p * n)]
   if (verbose) msg(length(top.index), "variables selected based on RF-estimated importance")

@@ -216,7 +216,7 @@ resample <- function(y,
 
 plot.resample <- function(x, col = NULL, ...) {
 
-  mplot3.res(x, col = col, ...)
+  mplot3_res(x, col = col, ...)
 
 } # rtemis::plot.resample
 

@@ -17,9 +17,9 @@
 #' @param adjust.lo Float: Threshold to be used if \code{adjust = TRUE}
 #' @examples
 #' \dontrun{
-#' mplot3.x(sapply(1:100, function(x) cov(rnorm(100))), 'd', xlab = 'rnorm(100) x 100 times')
+#' mplot3_x(sapply(1:100, function(x) cov(rnorm(100))), 'd', xlab = 'rnorm(100) x 100 times')
 #' # cov of rnorm without adjustment is all over the place
-#' mplot3.x(sapply(1:100, function(x) cov(rnorm(100), adjust = T)), 'd',
+#' mplot3_x(sapply(1:100, function(x) cov(rnorm(100), adjust = T)), 'd',
 #' xlab = 'rnorm(100) x 100 times')
 #' # COV after shifting above 1 is what you probably want
 #' }

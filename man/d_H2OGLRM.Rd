@@ -77,7 +77,7 @@ d_H2OGLRM(
 
 \item{print.plot}{Logical: If TRUE, print objective score against iteration number}
 
-\item{plot.theme}{Character: Theme to pass to \link{mplot3.xy} if \code{print.plot = TRUE}}
+\item{plot.theme}{Character: Theme to pass to \link{mplot3_xy} if \code{print.plot = TRUE}}
 
 \item{n.cores}{Integer: Number of cores to use}
 

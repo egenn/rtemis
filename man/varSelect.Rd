@@ -27,7 +27,7 @@ varSelect(
 what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 positives which can be dealt by an appropriate learning algorithm. (Default = .2)}
 
-\item{print.plot}{Logical: If TRUE, print index plot of variable importance using \link{mplot3.x}}
+\item{print.plot}{Logical: If TRUE, print index plot of variable importance using \link{mplot3_x}}
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
 }

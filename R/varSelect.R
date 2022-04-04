@@ -13,7 +13,7 @@
 #' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 #'   positives which can be dealt by an appropriate learning algorithm. (Default = .2)
-#' @param print.plot Logical: If TRUE, print index plot of variable importance using \link{mplot3.x}
+#' @param print.plot Logical: If TRUE, print index plot of variable importance using \link{mplot3_x}
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @author E.D. Gennatas
 #' @export
@@ -42,7 +42,7 @@ varSelect <- function(x, y,
   }
 
   # Plot ====
-  if (print.plot) mplot3.x(importance)
+  if (print.plot) mplot3_x(importance)
   importance.rank <- order(abs(importance), decreasing = TRUE)
   top.rank <- importance.rank[1:(p * n)]
   if (verbose) msg(length(top.rank), " variables selected based on ", method, "-estimated importance", sep = "")

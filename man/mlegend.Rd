@@ -19,7 +19,7 @@ mlegend(
 }
 \arguments{
 \item{lims}{List with plot limits in the form list(xlim = xlim, ylim = ylim)
-e.g. as returned by \link{mplot3.xy}}
+e.g. as returned by \link{mplot3_xy}}
 }
 \description{
 Add legend to \code{mplot3} plot

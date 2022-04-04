@@ -225,13 +225,13 @@ hytboost <- function(x, y,
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
       if (is.null(x.valid)) {
-        mplot3.xy(seq(error), error, type = plot.type,
+        mplot3_xy(seq(error), error, type = plot.type,
                   xlab = "Iteration", ylab = "MSE",
                   x.axis.at = seq(error),
                   main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                   theme = plot.theme)
       } else {
-        mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
+        mplot3_xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                   xlab = "Iteration", ylab = "MSE", group.adj = .95,
                   x.axis.at = seq(error),
                   main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
@@ -258,13 +258,13 @@ hytboost <- function(x, y,
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
-      mplot3.xy(seq(error), error, type = plot.type,
+      mplot3_xy(seq(error), error, type = plot.type,
                 xlab = "Iteration", ylab = "MSE",
                 x.axis.at = seq(error),
                 main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
                 theme = plot.theme)
     } else {
-      mplot3.xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
+      mplot3_xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
                 xlab = "Iteration", ylab = "MSE", group.adj = .95,
                 x.axis.at = seq(error),
                 main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,

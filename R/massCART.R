@@ -202,11 +202,11 @@ massCART <- function(x, y = NULL,
 
   # [ PLOT ] ====
   if (print.plot) {
-    mplot3.bar(metrics.train[, 2:4], legend.names = metrics.train$Feature,
+    mplot3_bar(metrics.train[, 2:4], legend.names = metrics.train$Feature,
                group.legend = TRUE, col = pennPalette[1:4],
                main = paste("Training set:", metric))
     if (!is.null(x.test)) {
-      mplot3.bar(metrics.test[, 2:4], legend.names = metrics.test$Feature,
+      mplot3_bar(metrics.test[, 2:4], legend.names = metrics.test$Feature,
                  group.legend = TRUE, col = pennPalette[1:4],
                  main = paste("Testing set:", metric))
     }

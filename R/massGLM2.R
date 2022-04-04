@@ -166,7 +166,7 @@ summary.massGLM <- function(object, ...) {
 
 #' Plot \code{massGLM} object
 #'
-#' Plots a \code{massGLM} object using \link{dplot3.bar}
+#' Plots a \code{massGLM} object using \link{dplot3_bar}
 #'
 #' @method plot massGLM
 #' @param x \code{massGLM} object
@@ -218,7 +218,7 @@ plot.massGLM <- function(x,
                     what, .name, "p-value"
                 )
             }
-            dplot3.bar(p.transform(.pvals),
+            dplot3_bar(p.transform(.pvals),
                 group.names = if (x$type == "massy") x$ynames else x$xnames,
                 main = main,
                 # ylim = c(0, 1),
@@ -246,7 +246,7 @@ plot.massGLM <- function(x,
             .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
             .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
 
-            dplot3.bar(x$summary[[coef.idi]],
+            dplot3_bar(x$summary[[coef.idi]],
                 group.names = if (x$type == "massy") x$ynames else x$xnames,
                 main = main,
                 legend = FALSE,
@@ -264,7 +264,7 @@ plot.massGLM <- function(x,
             # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
             pval_idi <- which(names(x$summary) == paste("p_value", predictor))
 
-            dplot3.volcano(
+            dplot3_volcano(
                 x = x$summary[[coef_idi]],
                 pvals = x$summary[[pval_idi]],
                 x.thresh = 0,

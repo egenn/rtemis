@@ -1066,7 +1066,7 @@ selectleaves <- function(object,
   }
 
   if (print.plot) {
-    mplot3.xy(seq(n.leaves), list(Training = train.error,
+    mplot3_xy(seq(n.leaves), list(Training = train.error,
                                   Validation = valid.error,
                                   `Smoothed Valid.` = valid.error.smooth),
               type = 'l', group.adj = .95, lty = c(1, 1, 2),
