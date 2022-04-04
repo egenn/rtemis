@@ -60,7 +60,7 @@ dplot3_bar(
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{theme}{Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"}
+\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
 

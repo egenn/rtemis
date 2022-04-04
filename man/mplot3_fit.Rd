@@ -39,10 +39,7 @@ be passed as a string.}
 
 \item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{marker.col}{Color for marker}
 

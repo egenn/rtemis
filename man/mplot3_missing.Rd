@@ -36,10 +36,7 @@ mplot3_missing(
 \item{show}{Character: "percent" or "total". Show percent missing or total missing per column
 on the x-axis}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 

@@ -1286,3 +1286,7 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
   
 } # rtemis::theme_mediumdgray
 
+themes <- function() {
+     cat("Available themes:\n")
+     cat('    "white", "whitegrid", "whiteigrid",\n    "black", "blackgrid", "blackigrid",\n    "darkgray", "darkgraygrid", "darkgrayigrid",\n    "lightgraygrid", "mediumgraygrid"\n')
+}

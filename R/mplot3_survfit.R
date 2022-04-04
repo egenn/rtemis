@@ -38,10 +38,7 @@
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param main Character: main title
-#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-#' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-#' You can set a system-wide default in your \code{.Rprofile} by including a line like
-#' options(rt.theme = 'darkgrid')
+#' @param theme Character: Run \code{themes()} for available themes
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
 #' \code{rtPalette()}
 # @param error.lty

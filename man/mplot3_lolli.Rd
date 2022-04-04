@@ -68,10 +68,7 @@ points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 
 \item{lwd}{Float: Width for segment segments. See \code{par("lty")} Default = 1}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}

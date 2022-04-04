@@ -1,6 +1,6 @@
 #' Plot AGGTEobj object
 #'
-#' Plot AGGTEobj object from the \strong{did} package.
+#' Plot AGGTEobj object from the \pkg{did} package.
 #'
 #' @inheritParams mplot3_xy
 #' @param x AGGTEobj object
@@ -18,7 +18,7 @@ mplot_AGGTEobj <- function(x,
                            xlab = NULL,
                            ylab = NULL,
                            mar = c(2.5, 3.5, 2, 7),
-                           font.family = "Helvetica Neue",
+                           theme = getOption("rt.theme"),
                            col = c("#EC1848", "#18A3AC"),
                            filename = NULL,
                            file.width = 6.5,
@@ -49,12 +49,8 @@ mplot_AGGTEobj <- function(x,
   lim <- mplot3_xy(split(x$egt * x.factor, group),
                    split(x$att.egt * y.factor, group),
                    error.y = split(errory, group),
-                   theme = theme_lightgrid(font.family = font.family),
+                   theme = theme,
                    marker.col = col,
-                   # group.names = c("Not in effect", "In effect"),
-                   # group.title = "Mask Mandate",
-                   # group.adj = 1.5,
-                   # group.padj = 1,
                    group.legend = F,
                    par.reset = F,
                    mar = mar,

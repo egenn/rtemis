@@ -38,7 +38,8 @@ dplot3_volcano <- function(x, pvals,
             x.thresh = 0,
             p.thresh = .05,
             p.transform = c("-log10", "none"),
-            p.adjust.method = "holm",
+            p.adjust.method = c("holm", "hochberg", "hommel", "bonferroni", 
+                "BH", "BY", "fdr", "none"),
             legend.lo = NULL,
             legend.hi = NULL,
             label.lo = "Low",
@@ -67,6 +68,7 @@ dplot3_volcano <- function(x, pvals,
             verbose = TRUE, ...) {
   
   xname <- deparse(substitute(x))
+  p.adjust.method <- match.arg(p.adjust.method)
   filt <- !is.na(x) & !is.na(pvals)
   x <- x[filt]
   pvals <- pvals[filt]

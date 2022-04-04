@@ -42,10 +42,7 @@ htest(
 
 \item{print.plot}{Logical: If TRUE, print plot. Default = TRUE}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 

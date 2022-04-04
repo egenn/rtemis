@@ -15,7 +15,7 @@
 #' @param alpha Float (0, 1]: Transparency for bar colors. Default = .8
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area. Default = "white"
-#' @param theme Character: THeme to use: "light", "dark", "lightgrid", "darkgrid". Default = "lightgrid"
+#' @param theme Character: Theme to use: Run \code{themes()} for available themes
 #' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
 #' @param barmode Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
 #' "relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.

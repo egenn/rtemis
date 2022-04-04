@@ -87,10 +87,7 @@ order. Default = NULL, i.e. no reordering}
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
 \code{autolabel = TRUE}. Default = \code{letters}}

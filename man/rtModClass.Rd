@@ -72,11 +72,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \if{latex}{\out{\hypertarget{method-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(
-  theme = getOption("rt.theme", "lightgrid"),
-  filename = NULL,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 }
@@ -87,7 +83,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCfitted(
   main = "ROC Training",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -101,7 +97,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCpredicted(
   main = "ROC Testing",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -113,11 +109,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \if{latex}{\out{\hypertarget{method-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(
-  theme = getOption("rt.theme", "lightgrid"),
-  filename = NULL,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 }
@@ -128,7 +120,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRfitted(
   main = "P-R Training",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -142,7 +134,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRpredicted(
   main = "P-R Testing",
-  theme = getOption("rt.theme", "lightgrid"),
+  theme = getOption("rt.theme"),
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}

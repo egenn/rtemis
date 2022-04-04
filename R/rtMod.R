@@ -743,8 +743,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           self$predicted.prob <- predicted.prob
                                         },
                                         ### Methods
-                                        plotROC = function(theme = getOption("rt.theme",
-                                                                             "lightgrid"),
+                                        plotROC = function(theme = getOption("rt.theme"),
                                                            filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -757,8 +756,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCfitted = function(main = "ROC Training",
-                                                                 theme = getOption("rt.theme",
-                                                                                   "lightgrid"),
+                                                                 theme = getOption("rt.theme"),
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3_roc(self$fitted.prob, self$y.train,
@@ -770,8 +768,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotROCpredicted = function(main = "ROC Testing",
-                                                                    theme = getOption("rt.theme",
-                                                                                      "lightgrid"),
+                                                                    theme = getOption("rt.theme"),
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3_roc(self$predicted.prob, self$y.test,
@@ -782,8 +779,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
-                                        plotPR = function(theme = getOption("rt.theme",
-                                                                            "lightgrid"),
+                                        plotPR = function(theme = getOption("rt.theme"),
                                                           filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -796,8 +792,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRfitted = function(main = "P-R Training",
-                                                                theme = getOption("rt.theme",
-                                                                                  "lightgrid"),
+                                                                theme = getOption("rt.theme"),
                                                                 filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3_pr(self$fitted.prob, self$y.train,
@@ -809,8 +804,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           }
                                         },
                                         plotPRpredicted = function(main = "P-R Testing",
-                                                                   theme = getOption("rt.theme",
-                                                                                     "lightgrid"),
+                                                                   theme = getOption("rt.theme"),
                                                                    filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3_pr(self$predicted.prob, self$y.test,

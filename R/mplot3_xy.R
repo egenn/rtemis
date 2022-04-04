@@ -61,10 +61,7 @@
 #' @param ylab.line Float: Similar to \code{xlab.line} for the y axis
 #' @param xlab.adj Float: \code{adj} for \code{xlab} (See \code{par("adj")})
 #' @param ylab.adj Float: \code{adj} for \code{ylab} (See \code{par("adj")})
-#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-#' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-#' You can set a system-wide default in your \code{.Rprofile} by including a line like
-#' options(rt.theme = 'darkgrid')
+#' @param theme Character: Run \code{themes()} for available themes
 #' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
 #' @param oma Float, vector, length 4: Outer margins; see \code{par("oma")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend

@@ -61,8 +61,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
 #' \describe{
-#'    \item{rt.theme}{General plotting theme; set to e.g. "light" or "dark"}
-#'    \item{ft.fit.theme}{Plotting theme for true vs. fitted; set to e.g. "lightgrid" or "darkgrid"}
+#'    \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
 #'    \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by
 #'    parallelly::availableCores(). In shared systems, you should limit this as appropriate.}
 #' }

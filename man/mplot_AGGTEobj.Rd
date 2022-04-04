@@ -15,7 +15,7 @@ mplot_AGGTEobj(
   xlab = NULL,
   ylab = NULL,
   mar = c(2.5, 3.5, 2, 7),
-  font.family = "Helvetica Neue",
+  theme = getOption("rt.theme"),
   col = c("#EC1848", "#18A3AC"),
   filename = NULL,
   file.width = 6.5,
@@ -37,6 +37,8 @@ mplot_AGGTEobj(
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
+\item{theme}{Character: Run \code{themes()} for available themes}
+
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
@@ -44,7 +46,7 @@ mplot_AGGTEobj(
 \item{...}{Additional arguments to be passed to theme function}
 }
 \description{
-Plot AGGTEobj object from the \strong{did} package.
+Plot AGGTEobj object from the \pkg{did} package.
 }
 \author{
 E.D. Gennatas

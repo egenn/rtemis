@@ -11,10 +11,7 @@
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param border Color vector for cell borders or FALSE to turn off. Default = FALSE
-#' @param theme Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-#' Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-#' You can set a system-wide default in your \code{.Rprofile} by including a line like
-#' options(rt.theme = 'darkgrid')
+#' @param theme Character: Run \code{themes()} for available themes
 #' @param theme.args List of arguments to pass to \code{theme}. Optional, same args can be passed
 #' to theme function
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with

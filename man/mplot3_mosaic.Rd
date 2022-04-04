@@ -34,10 +34,7 @@ mplot3_mosaic(
 
 \item{border}{Color vector for cell borders or FALSE to turn off. Default = FALSE}
 
-\item{theme}{Character: "black", "blackgrid", "darkgrid", "white", "whitegrid", "lightgrid"
-Default = "lightgrid" if no default \code{"rt.fit"} is set using \code{options}.
-You can set a system-wide default in your \code{.Rprofile} by including a line like
-options(rt.theme = 'darkgrid')}
+\item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{theme.args}{List of arguments to pass to \code{theme}. Optional, same args can be passed
 to theme function}
