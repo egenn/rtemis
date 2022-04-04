@@ -1,4 +1,4 @@
-# gplot3.map
+# gplot3_map
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.lambdamd.org
 
@@ -32,7 +32,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-gplot3.map <- function(dat,
+gplot3_map <- function(dat,
                        regions = c("states", "state", "counties", "county"),
                        include = NULL,
                        exclude = NULL,
@@ -187,11 +187,11 @@ gplot3.map <- function(dat,
     plt
   }
 
-} # rtemis::gplot3.map
+} # rtemis::gplot3_map
 
 #' **ggplot2** map theme
 #'
-#' **ggplot2** map theme for use with \link{gplot3.map}
+#' **ggplot2** map theme for use with \link{gplot3_map}
 #' based on \code{usmap:::theme_map()}
 #'
 #' @param base_size Float: Character \code{base_size.} Default = 9
