@@ -1,4 +1,4 @@
-# s.NBAYES.R
+# s_NBAYES.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
@@ -33,7 +33,7 @@ s_NBAYES <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.NBAYES))
+    print(args(s_NBAYES))
     invisible(9)
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -137,4 +137,4 @@ s_NBAYES <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.NBAYES
+} # rtemis::s_NBAYES

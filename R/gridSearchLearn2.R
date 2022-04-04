@@ -11,7 +11,7 @@
 #' as they need to be resampled along \code{x} and \code{y}, and should not be passed along with
 #' \code{grid.params}. \code{ipw} and \code{ipw.type} should be passed as part of \code{grid.params}
 #' and will be passed on to the learner.
-#' Includes a special case for training \link{s.H2OGBM} or \link{s_GBM} which requires extracting and averaging n.trees
+#' Includes a special case for training \link{s_H2OGBM} or \link{s_GBM} which requires extracting and averaging n.trees
 #' along with params.
 #'
 #' @param x features - training set. Will be resampled to multiple train-test sets
@@ -125,7 +125,7 @@ gridSearchLearn2 <- function(x, y, mod,
         )
 
         # '-- Learner-specific collect ====
-        if (learner == "s.H2OGBM") out1$est.n.trees <- mod1$mod@model$model_summary$number_of_trees
+        if (learner == "s_H2OGBM") out1$est.n.trees <- mod1$mod@model$model_summary$number_of_trees
         if (learner == "s_GBM" | learner == "s_GBM3") {
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
@@ -214,7 +214,7 @@ gridSearchLearn2 <- function(x, y, mod,
     # we therefore need to extract it and average it
 
     # '- GBM, H2OGBM ====
-    if (learner %in% c("s.H2OGBM", "s_GBM", "s_GBM3")) {
+    if (learner %in% c("s_H2OGBM", "s_GBM", "s_GBM3")) {
         est.n.trees.all <- data.frame(n.trees = plyr::laply(
             grid_run,
             function(x) x$est.n.trees

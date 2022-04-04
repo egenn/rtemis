@@ -371,20 +371,3 @@ s_POLY <- function(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FA
         polynomial = TRUE, poly.d = poly.d, poly.raw = poly.raw, ...)
 
 } # rtemis::s_POLY
-
-#
-# #' Generalized Least Squares
-# #'
-# #' Convenience alias for \code{s_GLM(gls = TRUE)}. Uses \code{nlme::gls}
-# #'
-# #' GLS can be useful in place of a standard linear model, when there is correlation among
-# #'   the residuals
-# #' @inheritParams s_GLM
-# #' @param ... Additional parameters to be passed to \code{nlme::gls}
-# #' @export
-#
-# s.GLS <- function(x, y = NULL, x.test = NULL, y.test = NULL, ...) {
-#
-#   s_GLM(x, y, x.test = x.test, y.test = y.test, gls = TRUE, ...)
-#
-# } # rtemis::s.GLS
