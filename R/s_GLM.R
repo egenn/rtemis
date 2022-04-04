@@ -334,12 +334,12 @@ s_GLM <- function(x, y = NULL,
 #' Convenience alias for \code{s_GLM(family = binomial(link = "logit"))}.
 #' @inheritParams s_GLM
 #' @export
-s.LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
+s_LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
                        family = binomial(link = "logit"), ...) {
 
   s_GLM(x, y, x.test = x.test, y.test = y.test, family = family, ...)
 
-} # rtemis::s.LOGISTIC
+} # rtemis::s_LOGISTIC
 
 
 #' Multinomial Logistic Regression
@@ -347,12 +347,12 @@ s.LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
 #' Convenience alias for \code{s_GLM(class.method = "multinom")}.
 #' @inheritParams s_GLM
 #' @export
-s.MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
+s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
                        class.method = "multinom", ...) {
 
   s_GLM(x, y, x.test = x.test, y.test = y.test, class.method = class.method, ...)
 
-} # rtemis::s.MULTINOM
+} # rtemis::s_MULTINOM
 
 
 #' Polynomial Regression
@@ -365,26 +365,26 @@ s.MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
 #'   orthogonal polynomials. See \code{stats::poly}
 #' @export
 
-s.POLY <- function(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FALSE, ...) {
+s_POLY <- function(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FALSE, ...) {
 
   s_GLM(x, y, x.test = x.test, y.test = y.test,
         polynomial = TRUE, poly.d = poly.d, poly.raw = poly.raw, ...)
 
-} # rtemis::s.POLY
+} # rtemis::s_POLY
 
-#'
-#' #' Generalized Least Squares
-#' #'
-#' #' Convenience alias for \code{s_GLM(gls = TRUE)}. Uses \code{nlme::gls}
-#' #'
-#' #' GLS can be useful in place of a standard linear model, when there is correlation among
-#' #'   the residuals
-#' #' @inheritParams s_GLM
-#' #' @param ... Additional parameters to be passed to \code{nlme::gls}
-#' #' @export
-#'
-#' s.GLS <- function(x, y = NULL, x.test = NULL, y.test = NULL, ...) {
-#'
-#'   s_GLM(x, y, x.test = x.test, y.test = y.test, gls = TRUE, ...)
-#'
-#' } # rtemis::s.GLS
+#
+# #' Generalized Least Squares
+# #'
+# #' Convenience alias for \code{s_GLM(gls = TRUE)}. Uses \code{nlme::gls}
+# #'
+# #' GLS can be useful in place of a standard linear model, when there is correlation among
+# #'   the residuals
+# #' @inheritParams s_GLM
+# #' @param ... Additional parameters to be passed to \code{nlme::gls}
+# #' @export
+#
+# s.GLS <- function(x, y = NULL, x.test = NULL, y.test = NULL, ...) {
+#
+#   s_GLM(x, y, x.test = x.test, y.test = y.test, gls = TRUE, ...)
+#
+# } # rtemis::s.GLS
