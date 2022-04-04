@@ -1,4 +1,4 @@
-# s.LDA.R
+# s_LDA.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
@@ -15,7 +15,7 @@
 #' @family Supervised Learning
 #' @export
 
-s.LDA <- function(x, y = NULL,
+s_LDA <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   prior = NULL,
                   method = "moment",
@@ -37,7 +37,7 @@ s.LDA <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.LDA))
+    print(args(s_LDA))
     invisible(9)
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -150,4 +150,4 @@ s.LDA <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.LDA
+} # rtemis::s_LDA

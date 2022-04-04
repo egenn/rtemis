@@ -1,4 +1,4 @@
- # s.KNN.R
+ # s_KNN.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 # TODO: Consider replacing knn fn
@@ -22,7 +22,7 @@
 #' @family Supervised Learning
 #' @export
 
-s.KNN <- function(x, y = NULL,
+s_KNN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   k = 3,
@@ -39,7 +39,7 @@ s.KNN <- function(x, y = NULL,
 
   # [ Intro ] ====
   if (missing(x)) {
-    print(args(s.KNN))
+    print(args(s_KNN))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -56,7 +56,7 @@ s.KNN <- function(x, y = NULL,
 
   # [ Arguments ] ====
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.KNN))
+    print(args(s_KNN))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -162,4 +162,4 @@ s.KNN <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.KNN
+} # rtemis::s_KNN

@@ -1,4 +1,4 @@
-# s.GLS.R
+# s_GLS.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
@@ -13,7 +13,7 @@
 #' @family Supervised Learning
 #' @export
 
-s.GLS <- function(x, y = NULL,
+s_GLS <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   interactions = FALSE,
@@ -35,7 +35,7 @@ s.GLS <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.GLS))
+    print(args(s_GLS))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -51,7 +51,7 @@ s.GLS <- function(x, y = NULL,
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.GLS))
+    print(args(s_GLS))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -155,4 +155,4 @@ s.GLS <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.GLS
+} # rtemis::s_GLS

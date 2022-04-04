@@ -24,6 +24,6 @@ orthogonal polynomials. See \code{stats::poly}}
 \item{...}{Additional arguments}
 }
 \description{
-Convenience alias for \code{s.LM(polynomial = T)}.
+Convenience alias for \code{s_GLM(polynomial = T)}.
   Substitutes all features with \code{poly(x, poly.d)}
 }

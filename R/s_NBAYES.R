@@ -16,7 +16,7 @@
 #' @family Supervised Learning
 #' @export
 
-s.NBAYES <- function(x, y = NULL,
+s_NBAYES <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      laplace = 0,
                      x.name = NULL,

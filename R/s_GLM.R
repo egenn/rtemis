@@ -357,7 +357,7 @@ s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
 
 #' Polynomial Regression
 #'
-#' Convenience alias for \code{s.LM(polynomial = T)}.
+#' Convenience alias for \code{s_GLM(polynomial = T)}.
 #'   Substitutes all features with \code{poly(x, poly.d)}
 #' @inheritParams s_GLM
 #' @param poly.d Integer: degree of polynomial(s) to use

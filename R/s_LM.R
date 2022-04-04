@@ -1,7 +1,6 @@
-# s.LM.R
+# s_LM.R
 # ::rtemis::
 # 2015 E.D. Gennatas lambdamd.org
-# rtTODO: should we add support for formula input? see latest s_GAM
 
 #' Linear model
 #'
@@ -47,10 +46,10 @@
 #' @examples
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100)/2
-#' mod <- s.LM(x, y)
+#' mod <- s_LM(x, y)
 #' @export
 
-s.LM <- function(x, y = NULL,
+s_LM <- function(x, y = NULL,
                  x.test = NULL, y.test = NULL,
                  x.name = NULL, y.name = NULL,
                  weights = NULL,
@@ -78,7 +77,7 @@ s.LM <- function(x, y = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # Intro ====
-  if (missing(x)) { print(args(s.LM)); return(invisible(9)) }
+  if (missing(x)) { print(args(s_LM)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
@@ -105,7 +104,7 @@ s.LM <- function(x, y = NULL,
   }
 
   # Arguments ====
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.LM)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) { print(args(s_LM)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (sum(c(robust, gls, polynomial)) > 1) {
@@ -241,19 +240,19 @@ s.LM <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.LM
+} # rtemis::s_LM
 
 
 #' Robust linear model
 #'
-#' Convenience alias for \code{s.LM(robust = T)}. Uses \code{MASS::rlm}
+#' Convenience alias for \code{s_LM(robust = T)}. Uses \code{MASS::rlm}
 #'
 #' @inheritParams s_GLM
 #' @param ... Additional parameters to be passed to \code{MASS::rlm}
 #' @export
 
-s.RLM <- function(x, y, x.test = NULL, y.test = NULL, ...) {
+s_RLM <- function(x, y, x.test = NULL, y.test = NULL, ...) {
 
-  s.LM(x, y, x.test = x.test, y.test = y.test, robust = TRUE, ...)
+  s_LM(x, y, x.test = x.test, y.test = y.test, robust = TRUE, ...)
 
-} # rtemis::s.RLM
+} # rtemis::s_RLM

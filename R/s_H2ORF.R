@@ -1,4 +1,4 @@
-# s.H2ORF.R
+# s_H2ORF.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
@@ -26,7 +26,7 @@
 #' @family Tree-based methods
 #' @export
 
-s.H2ORF <- function(x, y = NULL,
+s_H2ORF <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     x.valid = NULL, y.valid = NULL,
                     x.name = NULL, y.name = NULL,
@@ -59,7 +59,7 @@ s.H2ORF <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.H2ORF))
+    print(args(s_H2ORF))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -76,10 +76,10 @@ s.H2ORF <- function(x, y = NULL,
  
   # Arguments ====
   if (missing(x)) {
-    print(args(s.H2ORF)); stop("x is missing")
+    print(args(s_H2ORF)); stop("x is missing")
   }
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.H2ORF))
+    print(args(s_H2ORF))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -140,7 +140,7 @@ s.H2ORF <- function(x, y = NULL,
   mod <- h2o::h2o.randomForest(y = "y",
                                training_frame = df.train,
                                validation_frame = df.valid,
-                               model_id = paste0("rtemis.H2ORF.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+                               model_id = paste0("rtemis_H2ORF.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
                                nfolds = nfolds,
                                ntrees = n.trees,
                                max_depth = max.depth,
@@ -215,4 +215,4 @@ s.H2ORF <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.H2ORF
+} # rtemis::s_H2ORF

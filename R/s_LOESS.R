@@ -1,4 +1,4 @@
-# s.LOESS.R
+# s_LOESS.R
 # ::rtemis::
 # 2016 E.D. Gennatas lambdamd.org
 
@@ -18,7 +18,7 @@
 #' @seealso \link{elevate}
 #' @export
 
-s.LOESS <- function(x, y = NULL,
+s_LOESS <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     x.name = NULL, y.name = NULL,
                     print.plot = TRUE,
@@ -34,7 +34,7 @@ s.LOESS <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.LOESS))
+    print(args(s_LOESS))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -47,8 +47,8 @@ s.LOESS <- function(x, y = NULL,
   mod.name <- "LOESS"
 
   # Arguments ====
-  if (missing(x)) { print(args(s.LOESS)); stop("x is missing") }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.LOESS)); stop("y is missing") }
+  if (missing(x)) { print(args(s_LOESS)); stop("x is missing") }
+  if (is.null(y) & NCOL(x) < 2) { print(args(s_LOESS)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   prefix <- paste0(y.name, "~", x.name)
@@ -132,4 +132,4 @@ s.LOESS <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.LOESS
+} # rtemis::s_LOESS

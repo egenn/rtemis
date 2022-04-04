@@ -1,4 +1,4 @@
-# s.IRF.R
+# s_IRF.R
 # ::rtemis::
 # 2018 E.D. Gennatas lambdamd.org
 
@@ -18,7 +18,7 @@
 #' @family Tree-based methods
 #' @export
 
-s.IRF <- function(x, y = NULL,
+s_IRF <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   n.trees = 1000,
@@ -57,7 +57,7 @@ s.IRF <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.IRF))
+    print(args(s_IRF))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -74,7 +74,7 @@ s.IRF <- function(x, y = NULL,
   
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.IRF))
+    print(args(s_IRF))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -229,4 +229,4 @@ s.IRF <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   return(rt)
 
-} # rtemis::s.IRF
+} # rtemis::s_IRF

@@ -1,4 +1,4 @@
-# s.H2OGBM.R
+# s_H2OGBM.R
 # ::rtemis::
 # 2017-8 E.D. Gennatas lambdamd.org
 
@@ -8,7 +8,7 @@
 #'
 #' [gS] denotes tunable hyperparameters
 #' Warning: If you get an HTTP 500 error at random, use \code{h2o.shutdown()} to shutdown the server.
-#' It will be restarted when \code{s.H2OGBM} is called
+#' It will be restarted when \code{s_H2OGBM} is called
 #' @inheritParams s_GLM
 #' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
@@ -32,7 +32,7 @@
 #' @family Tree-based methods
 #' @export
 
-s.H2OGBM <- function(x, y = NULL,
+s_H2OGBM <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
                      ip = "localhost",
@@ -79,7 +79,7 @@ s.H2OGBM <- function(x, y = NULL,
 
   # Intro ====
   if (missing(x)) {
-    print(args(s.H2OGBM))
+    print(args(s_H2OGBM))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -96,10 +96,10 @@ s.H2OGBM <- function(x, y = NULL,
 
   # Arguments ====
   if (missing(x)) {
-    print(args(s.H2OGBM)); stop("x is missing")
+    print(args(s_H2OGBM)); stop("x is missing")
   }
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s.H2OGBM))
+    print(args(s_H2OGBM))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -237,7 +237,7 @@ s.H2OGBM <- function(x, y = NULL,
 
   mod <- h2o::h2o.gbm(y = "y",
                       training_frame = df.train,
-                      model_id = paste0("rtemis.H2OGBM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+                      model_id = paste0("rtemis_H2OGBM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
                       validation_frame = df.valid,
                       weights_column = "weights",
                       ntrees = n.trees,
@@ -324,4 +324,4 @@ s.H2OGBM <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s.H2OGBM
+} # rtemis::s_H2OGBM

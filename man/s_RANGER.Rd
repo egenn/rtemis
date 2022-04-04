@@ -211,14 +211,6 @@ balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Rando
 \link{elevate} for external cross-validation
 
 Other Supervised Learning: 
-\code{\link{s.GLS}()},
-\code{\link{s.H2OGBM}()},
-\code{\link{s.H2ORF}()},
-\code{\link{s.IRF}()},
-\code{\link{s.KNN}()},
-\code{\link{s.LDA}()},
-\code{\link{s.LM}()},
-\code{\link{s.NBAYES}()},
 \code{\link{s_ADABOOST}()},
 \code{\link{s_ADDTREE}()},
 \code{\link{s_BART}()},
@@ -240,9 +232,17 @@ Other Supervised Learning:
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
 \code{\link{s_GLM}()},
+\code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},
+\code{\link{s_H2OGBM}()},
+\code{\link{s_H2ORF}()},
+\code{\link{s_IRF}()},
+\code{\link{s_KNN}()},
+\code{\link{s_LDA}()},
+\code{\link{s_LM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
+\code{\link{s_NBAYES}()},
 \code{\link{s_NLA}()},
 \code{\link{s_NLS}()},
 \code{\link{s_NW}()},
@@ -263,9 +263,6 @@ Other Supervised Learning:
 \code{\link{s_XGB}()}
 
 Other Tree-based methods: 
-\code{\link{s.H2OGBM}()},
-\code{\link{s.H2ORF}()},
-\code{\link{s.IRF}()},
 \code{\link{s_ADABOOST}()},
 \code{\link{s_ADDTREE}()},
 \code{\link{s_BART}()},
@@ -277,6 +274,9 @@ Other Tree-based methods:
 \code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
+\code{\link{s_H2OGBM}()},
+\code{\link{s_H2ORF}()},
+\code{\link{s_IRF}()},
 \code{\link{s_MLRF}()},
 \code{\link{s_PPTREE}()},
 \code{\link{s_RFSRC}()},
