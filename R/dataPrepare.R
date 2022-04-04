@@ -7,7 +7,7 @@
 #'
 #' Prepare data for \pkg{rtemis} modeling
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param x.valid Matrix / Data frame: Validation set features
 #' @param y.valid Vector: Validation outcome
 #' @param ipw Logical: If TRUE, return class weights for inverse probability weighting

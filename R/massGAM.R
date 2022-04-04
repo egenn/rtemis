@@ -10,7 +10,7 @@
 #'
 #' NA in the input will be kept as NA in the results, maintaining n of cases.
 #'
-#' @inheritParams s.GAM.default
+#' @inheritParams s_GAM.default
 #' @param y Float, Matrix / data frame: Outcomes
 #' @param x.name Character: Name of the predictor
 #' @param y.name Character, vector: Names of the outcomes

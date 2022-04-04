@@ -9,7 +9,7 @@
 #' With \code{max.nodes = 0}, the model is logistic regression trained according to \code{lin.type}
 #' (i.e. standard or regularized using glmnet, etc.)
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.LINAD
+#' @inheritParams s_LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 #' model is trained. Otherwise, this should be an even number as each split introduces two children nodes.

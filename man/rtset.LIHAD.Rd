@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.LIHAD}
 \alias{rtset.LIHAD}
-\title{\code{rtset.LIHAD}: Set parameters for \link{s.LIHAD}}
+\title{\code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}}
 \usage{
 rtset.LIHAD(
   max.depth = 2,
@@ -29,5 +29,5 @@ rtset.LIHAD(
 \item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
 }
 \description{
-\code{rtset.LIHAD}: Set parameters for \link{s.LIHAD}
+\code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}
 }

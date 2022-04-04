@@ -54,20 +54,20 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
     return(as.character(description[description$Name == name, 2]))
   }
 
-  if (name == "CUR") decomposer <- if (fn) d.CUR else "d.CUR"
-  if (name == "H2OAE") decomposer <- if (fn) d.H2OAE else "d.H2OAE"
-  if (name == "H2OGLRM") decomposer <- if (fn) d.H2OGLRM else "d.H2OGLRM"
-  if (name == "ICA") decomposer <- if (fn) d.ICA else "d.ICA"
-  if (name == "ISOMAP") decomposer <- if (fn) d.ISOMAP else "d.ISOMAP"
-  if (name == "KPCA") decomposer <- if (fn) d.KPCA else "d.KPCA"
-  if (name == "LLE") decomposer <- if (fn) d.LLE else "d.LLE"
-  if (name == "MDS") decomposer <- if (fn) d.MDS else "d.MDS"
-  if (name == "NMF") decomposer <- if (fn) d.NMF else "d.NMF"
-  if (name == "PCA") decomposer <- if (fn) d.PCA else "d.PCA"
-  if (name == "SPCA") decomposer <- if (fn) d.SPCA else "d.SPCA"
-  if (name == "SVD") decomposer <- if (fn) d.SVD else "d.SVD"
-  if (name == "TSNE") decomposer <- if (fn) d.TSNE else "d.TSNE"
-  if (name == "UMAP") decomposer <- if (fn) d.UMAP else "d.UMAP"
+  if (name == "CUR") decomposer <- if (fn) d_CUR else "d_CUR"
+  if (name == "H2OAE") decomposer <- if (fn) d_H2OAE else "d_H2OAE"
+  if (name == "H2OGLRM") decomposer <- if (fn) d_H2OGLRM else "d_H2OGLRM"
+  if (name == "ICA") decomposer <- if (fn) d_ICA else "d_ICA"
+  if (name == "ISOMAP") decomposer <- if (fn) d_ISOMAP else "d_ISOMAP"
+  if (name == "KPCA") decomposer <- if (fn) d_KPCA else "d_KPCA"
+  if (name == "LLE") decomposer <- if (fn) d_LLE else "d_LLE"
+  if (name == "MDS") decomposer <- if (fn) d_MDS else "d_MDS"
+  if (name == "NMF") decomposer <- if (fn) d_NMF else "d_NMF"
+  if (name == "PCA") decomposer <- if (fn) d_PCA else "d_PCA"
+  if (name == "SPCA") decomposer <- if (fn) d_SPCA else "d_SPCA"
+  if (name == "SVD") decomposer <- if (fn) d_SVD else "d_SVD"
+  if (name == "TSNE") decomposer <- if (fn) d_TSNE else "d_TSNE"
+  if (name == "UMAP") decomposer <- if (fn) d_UMAP else "d_UMAP"
 
   return(decomposer)
 

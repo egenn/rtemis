@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.GBM}
 \alias{rtset.GBM}
-\title{\code{rtset.GBM}: Set parameters for \link{s.GBM}}
+\title{\code{rtset.GBM}: Set parameters for \link{s_GBM}}
 \usage{
 rtset.GBM(
   interaction.depth = 2,
@@ -42,5 +42,5 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 }
 \description{
-\code{rtset.GBM}: Set parameters for \link{s.GBM}
+\code{rtset.GBM}: Set parameters for \link{s_GBM}
 }

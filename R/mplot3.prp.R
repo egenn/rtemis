@@ -7,7 +7,7 @@
 #' Plot output of a regression or classification tree created using \code{rpart}
 #' A wrapper for \code{rpart.plot::rpart.plot}
 #'
-#' @param object Output of \link{s.CART}
+#' @param object Output of \link{s_CART}
 #' @param palette Color vector
 #' @export
 
@@ -26,11 +26,11 @@ mplot3.prp <- function(object,
   if (class(object)[1] == "rtMod") {
     if (class(object$mod)[1] == "rpart") {
       .mod <- object$mod
-    } else stop("rtMod must be trained using s.CART")
+    } else stop("rtMod must be trained using s_CART")
   } else if (class(object)[1] == "rpart") {
     .mod <- object
   } else {
-    stop ("Input object must be either of class rtMod (s.CART) or rpart")
+    stop ("Input object must be either of class rtMod (s_CART) or rpart")
   }
 
   # [ Dependencies ] ====

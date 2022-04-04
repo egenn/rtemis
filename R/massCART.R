@@ -8,7 +8,7 @@
 #' Predict outcome from each predictor separately and rank by percent Variance explained
 #' or Classification Accuracy
 #'
-#' @inheritParams s.CART
+#' @inheritParams s_CART
 #' @param n.cores Integer: Number of cores to use
 #' @author E.D. Gennatas
 #' @export
@@ -105,7 +105,7 @@ massCART <- function(x, y = NULL,
 
     x <- x[, index, drop = FALSE]
     x.test <- x.test[, index, drop = FALSE]
-    mod <- s.CART(x, y, x.test, y.test,
+    mod <- s_CART(x, y, x.test, y.test,
                   weights = weights,
                   minsplit = minsplit,
                   minbucket = minbucket,

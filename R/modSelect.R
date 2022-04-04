@@ -136,7 +136,7 @@ modSelect <- function(mod,
   } else if (name == "BOOST") {
     learner <- if (fn) getFromNamespace("boost", "rtemis") else "boost"
   } else {
-    s.name <- paste0("s.", name)
+    s.name <- paste0("s_", name)
     learner <- if (fn) getFromNamespace(s.name, "rtemis") else s.name
   }
 

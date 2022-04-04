@@ -11,7 +11,7 @@
 #' as they need to be resampled along \code{x} and \code{y}, and should not be passed along with
 #' \code{grid.params}. \code{ipw} and \code{ipw.type} should be passed as part of \code{grid.params}
 #' and will be passed on to the learner.
-#' Includes a special case for training \link{s.H2OGBM} or \link{s.GBM} which requires extracting and averaging n.trees
+#' Includes a special case for training \link{s.H2OGBM} or \link{s_GBM} which requires extracting and averaging n.trees
 #' along with params.
 #'
 #' @param x features - training set. Will be resampled to multiple train-test sets
@@ -127,16 +127,16 @@ gridSearchLearn <- function(x, y, mod,
 
         # '-- Learner-specific collect ====
         if (learner == "s.H2OGBM") out1$est.n.trees <- mod1$mod@model$model_summary$number_of_trees
-        if (learner == "s.GBM" | learner == "s.GBM3") {
+        if (learner == "s_GBM" | learner == "s_GBM3") {
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
         }
-        if (learner == "s.GLMNET") {
+        if (learner == "s_GLMNET") {
             out1$lambda.min <- mod1$mod$lambda.min
             out1$lambda.1se <- mod1$mod$lambda.1se
         }
-        if (learner %in% c("s.LINAD", "s.LINOA")) out1$est.n.leaves <- mod1$mod$n.leaves
-        if (learner == "s.LIHADBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
+        if (learner %in% c("s_LINAD", "s_LINOA")) out1$est.n.leaves <- mod1$mod$n.leaves
+        if (learner == "s_LIHADBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
         if (save.mod) out1$mod1 <- mod1
         out1
     }
@@ -204,7 +204,7 @@ gridSearchLearn <- function(x, y, mod,
     # we therefore need to extract it and average it
 
     # '- GBM, H2OGBM ====
-    if (learner %in% c("s.H2OGBM", "s.GBM", "s.GBM3")) {
+    if (learner %in% c("s.H2OGBM", "s_GBM", "s_GBM3")) {
         est.n.trees.all <- data.frame(n.trees = plyr::laply(
             grid.run,
             function(x) x$est.n.trees
@@ -240,7 +240,7 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     # '- GLMNET ====
-    if (learner == "s.GLMNET") {
+    if (learner == "s_GLMNET") {
         if (is.null(grid.params$lambda)) {
             # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
             lambda.all <- data.frame(lambda = plyr::laply(
@@ -258,7 +258,7 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     # '- LINAD ====
-    if (learner %in% c("s.LINAD", "s.LINOA")) {
+    if (learner %in% c("s_LINAD", "s_LINOA")) {
         # ERROR
         est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
             grid.run,
@@ -274,7 +274,7 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     # '- LIHADBOOST ====
-    if (learner == "s.LIHADBOOST") {
+    if (learner == "s_LIHADBOOST") {
         est.n.steps.all <- data.frame(n.steps = plyr::laply(grid.run, function(x) x$sel.n.steps))
         est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
         est.n.steps.by.param.id <- aggregate(

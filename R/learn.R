@@ -8,7 +8,7 @@
 #'
 #' \code{args} and \code{...} allow you to either pass named arguments, or a list of arguments (or both)
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param mod Character: Learner to use. To get list of options, run \code{modSelect()}
 #' @param args Optional list of parameters to be passed to learner
 #' @param ... Additional arguments to be passed to learner

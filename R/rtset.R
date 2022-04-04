@@ -249,9 +249,9 @@ rtset.earlystop <- function(window = 150,
 } # rtemis::rtset.earlystop
 
 
-#' \code{rtset.LIHAD}: Set parameters for \link{s.LIHAD}
+#' \code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}
 #'
-#' @inheritParams s.LIHAD
+#' @inheritParams s_LIHAD
 #' @export
 
 rtset.LIHAD <- function(max.depth = 2,
@@ -274,9 +274,9 @@ rtset.LIHAD <- function(max.depth = 2,
 } # rtemis::rtset.ADDT
 
 
-#' \code{rtset.GBM}: Set parameters for \link{s.GBM}
+#' \code{rtset.GBM}: Set parameters for \link{s_GBM}
 #'
-#' @inheritParams s.GBM
+#' @inheritParams s_GBM
 #' @export
 
 rtset.GBM <- function(interaction.depth = 2,
@@ -307,9 +307,9 @@ rtset.GBM <- function(interaction.depth = 2,
 } # rtemis::rtset.GBM
 
 
-#' \code{rtset.RANGER}: Set parameters for \link{s.RANGER}
+#' \code{rtset.RANGER}: Set parameters for \link{s_RANGER}
 #'
-#' @inheritParams s.RANGER
+#' @inheritParams s_RANGER
 #' @export
 
 rtset.RANGER <- function(n.trees = 1000,
@@ -334,9 +334,9 @@ rtset.RANGER <- function(n.trees = 1000,
 } # rtemis::rtset.RANGER
 
 
-#' \code{rtset.DN}: Set parameters for \link{s.DN}
+#' \code{rtset.DN}: Set parameters for \link{s_DN}
 #'
-#' @inheritParams s.DN
+#' @inheritParams s_DN
 #' @export
 
 rtset.DN <- function(hidden = 1,
@@ -365,9 +365,9 @@ rtset.DN <- function(hidden = 1,
 } # rtemis::rtset.DN
 
 
-# \code{rtset.MXN}: Set parameters for \link{s.MXN}
+# \code{rtset.MXN}: Set parameters for \link{s_MXN}
 #
-# @inheritParams s.MXN
+# @inheritParams s_MXN
 # @export
 #
 # rtset.MXN <- function(n.hidden.nodes = NULL,
@@ -456,9 +456,9 @@ rtset.lincoef <- function(method = c("glmnet",
 } # rtemis::rtset.lincoef
 
 
-#' \code{rtset.MARS}: Set parameters for \link{s.MARS}
+#' \code{rtset.MARS}: Set parameters for \link{s_MARS}
 #'
-#' @inheritParams s.MARS
+#' @inheritParams s_MARS
 #' @export
 
 rtset.MARS <- function(hidden = 1,

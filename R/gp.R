@@ -7,7 +7,7 @@
 #'
 #' Fit a gaussian process
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param new.x (Optional) Numeric vector or matrix of new set of features

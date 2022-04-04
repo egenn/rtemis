@@ -6,7 +6,7 @@
 #' \pkg{rtemis} internal: Boosting of Hybrid Trees
 #'
 #' Boosted Hybrid Trees. This is lower-level than \code{s.*} functions
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
 #' @param mod Algorithm to boost, for options, see \link{modSelect}

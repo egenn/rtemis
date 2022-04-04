@@ -9,7 +9,7 @@
 #' Train an ensemble using boosting of any learner
 #'
 #' If \code{learning.rate} is set to 0, a nullmod will be created
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param x.valid Data.frame; optional: Validation data
 #' @param y.valid Float, vector; optional: Validation outcome
 #' @param mod Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"

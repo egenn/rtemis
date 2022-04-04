@@ -570,7 +570,7 @@ mplot3.xy <- function(x, y = NULL,
       if (class(mod)[1] == "try-error") {
         warning("Fitting ", fit, " failed: Defaulting to GLM fit")
         fit <- "GLM"
-        mod <- do.call(s.GLM, list(x = x, y = y, verbose = FALSE))
+        mod <- do.call(s_GLM, list(x = x, y = y, verbose = FALSE))
       }
       fitted[[i]] <- fitted(mod)
       if (se.fit) sel[[i]] <- se(mod)

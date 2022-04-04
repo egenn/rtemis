@@ -10,7 +10,7 @@
 #'
 #' With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
-#' @inheritParams s.LINAD
+#' @inheritParams s_LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach.
 #' 1 is a special case where no split is performed and a linear model is trained.
@@ -31,7 +31,7 @@ shytreegamleaves <- function(x, y,
                              weights = NULL,
                              max.leaves = 5,
                              gamleaves = FALSE,
-                             gamlearner = "s.GAMSEL",
+                             gamlearner = "s_GAMSEL",
                              gam.params = list(degrees = 5),
                              learning.rate = 1,
                              minobsinnode.lin = 10,

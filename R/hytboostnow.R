@@ -5,7 +5,7 @@
 
 #' \pkg{rtemis} internal: Low-level function for boosting Hard Hybrid Trees (no weights)
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
 #' @param mod Algorithm to boost, for options, see \link{modSelect}

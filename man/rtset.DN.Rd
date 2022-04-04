@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.DN}
 \alias{rtset.DN}
-\title{\code{rtset.DN}: Set parameters for \link{s.DN}}
+\title{\code{rtset.DN}: Set parameters for \link{s_DN}}
 \usage{
 rtset.DN(
   hidden = 1,
@@ -19,5 +19,5 @@ rtset.DN(
 )
 }
 \description{
-\code{rtset.DN}: Set parameters for \link{s.DN}
+\code{rtset.DN}: Set parameters for \link{s_DN}
 }

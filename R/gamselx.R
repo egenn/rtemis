@@ -24,12 +24,12 @@ gamselx <- function(x, y,
                             print.plot = FALSE,
                             verbose = trace > 1),
                        gamsel.params1)
-  mod1 <- do.call("s.GAMSEL", .gamsel.params1)
+  mod1 <- do.call("s_GAMSEL", .gamsel.params1)
 
   # # 2. CART ====
   # cart.args <- c(list(x = x, y = y - mod1$fitted),
   #                cart.args)
-  # mod2 <- do.call("s.CART", cart.args)
+  # mod2 <- do.call("s_CART", cart.args)
   # rules <- as.rules.rpart(mod2$mod)[, 1]
   # index <- indexCasesByRules(x, rules)
   # table(index)
@@ -70,7 +70,7 @@ gamselx <- function(x, y,
                               print.plot = FALSE,
                               verbose = trace > 1),
                          gamsel.params2)
-    modext <- do.call("s.GAMSEL", .gamsel.params2)
+    modext <- do.call("s_GAMSEL", .gamsel.params2)
   } else {
     .pairs <- NULL
     modext <- list(fitted = 0)

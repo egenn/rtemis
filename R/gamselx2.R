@@ -38,7 +38,7 @@ gamselx2 <- function(x, y,
                    verbose = trace > 1,
                    print.plot = FALSE)
     if (verbose) msg("Training CART on", n.cat, "categorical variables...", color = rtOrange)
-    mod1 <- do.call("s.CART", cart.args)
+    mod1 <- do.call("s_CART", cart.args)
   } else {
     mod1 <- list()
     class(mod1) <- "nullmod"
@@ -53,7 +53,7 @@ gamselx2 <- function(x, y,
                          print.plot = FALSE,
                          verbose = trace > 1),
                     gamsel.params1)
-  mod2 <- do.call("s.GAMSEL", gamsel.args1)
+  mod2 <- do.call("s_GAMSEL", gamsel.args1)
 
   F <- F + predict(mod2)
 
@@ -101,7 +101,7 @@ gamselx2 <- function(x, y,
                            print.plot = FALSE,
                            verbose = trace > 1),
                       gamsel.params2)
-    mod3 <- do.call("s.GAMSEL", gamsel.args2)
+    mod3 <- do.call("s_GAMSEL", gamsel.args2)
   } else {
     .pairs <- NULL
     extnames <- NULL

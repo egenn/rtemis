@@ -6,7 +6,7 @@
 #'
 #' A super-stripped down decision tree for when space and performance are critical
 #'
-#' @inheritParams s.CART
+#' @inheritParams s_CART
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
 #' @author E.D. Gennatas
 #' @noRd

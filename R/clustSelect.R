@@ -4,9 +4,9 @@
 
 #' Select \pkg{rtemis} Clusterer
 #'
-#' Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} function name or
-#'   the function itself.
-#'   If run with no parameters, prints list of available algorithms.
+#' Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} 
+#' function name or the function itself.
+#' If run with no parameters, prints list of available algorithms.
 #'
 #' @param clust Character: Clustering algorithm name. Case insensitive, supports partial matching. e.g. "hop" for HOPACH
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
@@ -55,18 +55,18 @@ clustSelect <- function(clust,
     return(as.character(description[description$Name == name, 2]))
   }
 
-  if (name == "CMEANS") clusterer <- if (fn) u.CMEANS else "u.CMEANS"
-  if (name == "DBSCAN") clusterer <- if (fn) u.DBSCAN else "u.DBSCAN"
-  if (name == "EMC") clusterer <- if (fn) u.EMC else "u.EMC"
-  if (name == "HARDCL") clusterer <- if (fn) u.HARDCL else "u.HARDCL"
-  if (name == "HOPACH") clusterer <- if (fn) u.HOPACH else "u.HOPACH"
-  if (name == "H2OKMEANS") clusterer <- if (fn) u.KMEANS else "u.H2OKMEANS"
-  if (name == "KMEANS") clusterer <- if (fn) u.KMEANS else "u.KMEANS"
-  if (name == "MEANSHIFT") clusterer <- if (fn) u.MEANSHIFT else "u.MEANSHIFT"
-  if (name == "NGAS") clusterer <- if (fn) u.NGAS else "u.NGAS"
-  if (name == "PAM") clusterer <- if (fn) u.PAM else "u.PAM"
-  if (name == "PAMK") clusterer <- if (fn) u.PAMK else "u.PAMK"
-  if (name == "SPEC") clusterer <- if (fn) u.SPEC else "u.SPEC"
+  if (name == "CMEANS") clusterer <- if (fn) c_CMEANS else "c_CMEANS"
+  if (name == "DBSCAN") clusterer <- if (fn) c_DBSCAN else "c_DBSCAN"
+  if (name == "EMC") clusterer <- if (fn) c_EMC else "c_EMC"
+  if (name == "HARDCL") clusterer <- if (fn) c_HARDCL else "c_HARDCL"
+  if (name == "HOPACH") clusterer <- if (fn) c_HOPACH else "c_HOPACH"
+  if (name == "H2OKMEANS") clusterer <- if (fn) c_KMEANS else "c_H2OKMEANS"
+  if (name == "KMEANS") clusterer <- if (fn) c_KMEANS else "c_KMEANS"
+  if (name == "MEANSHIFT") clusterer <- if (fn) c_MEANSHIFT else "c_MEANSHIFT"
+  if (name == "NGAS") clusterer <- if (fn) c_NGAS else "c_NGAS"
+  if (name == "PAM") clusterer <- if (fn) c_PAM else "c_PAM"
+  if (name == "PAMK") clusterer <- if (fn) c_PAMK else "c_PAMK"
+  if (name == "SPEC") clusterer <- if (fn) c_SPEC else "c_SPEC"
 
   clusterer
 

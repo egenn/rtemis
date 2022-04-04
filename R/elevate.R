@@ -16,7 +16,7 @@
 #' - If there is an error while running either the outer or inner resamples in parallel, the error
 #' message returned by R will likely be unhelpful. Repeat the command after setting both inner
 #' and outer resample run to use a single core, which should provide an informative message.
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @inheritParams resample
 #' @param mod Character: Learner to use. Options: \link{modSelect}
 #' @param mod.params Optional named list of parameters to be passed to \code{mod}. All parameters can

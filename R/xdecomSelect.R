@@ -44,7 +44,7 @@ xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
     return(as.character(description[description$Name == name, 2]))
   }
 
-  if (name == "CCA") xdecomposer <- if (fn) x.CCA else "x.CCA"
+  if (name == "CCA") xdecomposer <- if (fn) x_CCA else "x_CCA"
   # if (name == "SD2RES") xdecomposer <- if (fn) x.SD2RES else "x.SD2RES"
   # if (name == "SD2RESDEF") xdecomposer <- if (fn) x.SD2RESDEF else "x.SD2RESDEF"
 

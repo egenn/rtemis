@@ -33,11 +33,11 @@ varSelect <- function(x, y,
   # Model ====
   if (method == "RANGER") {
     if (verbose) msg("Running Variable Selection using Random Forest...")
-    mod <- s.RANGER(x, y)
+    mod <- s_RANGER(x, y)
     importance <- mod$varimp
   } else {
     if (verbose) msg("Running Variable Selection using XGboost with linear booster...")
-    mod <- do.call(s.XGBLIN, args = c(list(x = x, y = y), xgb.params))
+    mod <- do.call(s_XGBLIN, args = c(list(x = x, y = y), xgb.params))
     importance <- xgboost::xgb.importance(feature_names = mod$xnames, model = mod$mod)$Weight
   }
 

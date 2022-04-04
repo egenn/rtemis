@@ -7,7 +7,7 @@
 #'
 #' Train a bagged ensemble using any learner
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param mod Character: Algorithm to bag, for options, see \link{modSelect}
 #' @param k Integer: Number of base learners to train
 #' @param mod.params Named list of arguments for \code{mod}

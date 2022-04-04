@@ -17,9 +17,9 @@ clustSelect(clust, fn = FALSE, desc = FALSE)
 Name of function (Default) or function (\code{fn=TRUE}) or full name of algorithm (\code{desc=TRUE})
 }
 \description{
-Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} function name or
-  the function itself.
-  If run with no parameters, prints list of available algorithms.
+Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} 
+function name or the function itself.
+If run with no parameters, prints list of available algorithms.
 }
 \author{
 E.D. Gennatas

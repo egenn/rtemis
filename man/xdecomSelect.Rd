@@ -23,7 +23,7 @@ Accepts decomposer name (supports abbreviations) and returns \pkg{rtemis} functi
 }
 \seealso{
 Other Cross-Decomposition: 
-\code{\link{x.CCA}()}
+\code{\link{x_CCA}()}
 }
 \author{
 E.D. Gennatas

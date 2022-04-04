@@ -22,7 +22,7 @@ rfVarSelect <- function(x, y,
   if (n < 2) stop("You need 2 or more variables to select from")
   start.time <- intro(verbose = verbose)
   if (verbose) msg("Running Variable Selection using Random Forest...")
-  mod <- s.RF(x, y, importance = TRUE)
+  mod <- s_RF(x, y, importance = TRUE)
   importance <- mod$mod$importance[, 1]
   if (print.plot) mplot3.x(mod$mod$importance, group.title = "")
   importance.rank <- order(importance, decreasing = TRUE)

@@ -65,8 +65,8 @@ Underlying model (e.g. \code{randomForest}, \code{rpart}, etc) must support stan
 \examples{
 \dontrun{
 dat <- as.data.frame(mlbench::mlbench.2dnormals(200))
-mod.cart <- s.CART(dat)
-mod.rf <- s.RF(dat)
+mod.cart <- s_CART(dat)
+mod.rf <- s_RF(dat)
 mplot3.decision(mod.cart, dat)
 mplot3.decision(mod.rf, dat)
 }

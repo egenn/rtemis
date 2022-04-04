@@ -4,7 +4,7 @@
 
 #' \pkg{rtemis} internal: NonLinear Activation regression (NLAreg)
 #'
-#' @inheritParams s.GLM
+#' @inheritParams s_GLM
 #' @param activation String or Function: Activation function to use: provide its name or the function itself.
 #' Default = link{softplus}
 #' @param b_o Float, vector (length y): Output bias. Defaults to \code{mean(y)}

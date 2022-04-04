@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2020 E.D. Gennatas lambdamd.org
 
-#' Plot a Linear Additive Tree trained by \code{s.LINAD} using \strong{visNetwork}
+#' Plot a Linear Additive Tree trained by \code{s_LINAD} using \strong{visNetwork}
 #'
-#' @param tree \code{s.LINAD} tree
+#' @param tree \code{s_LINAD} tree
 #' @param main Character: Title. Default = NULL
 #' @param bg Background color. Default = "#FFFFFF" (white)
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",

@@ -106,7 +106,7 @@ resLearn <- function(x, y, mod,
                  verbose = res.verbose,
                  outdir = outdir1)
     args <- c(args, params)
-    # mod1 <- R.utils::doCall(learner, args = args) # because you need to ignore unused arguments (e.g. bag.resampler in s.GBM)
+    # mod1 <- R.utils::doCall(learner, args = args) # because you need to ignore unused arguments (e.g. bag.resampler in s_GBM)
     mod1 <- do.call(learner, args = args)
     if (!save.mods) mod1$mod <- NA
     out1 <- list(mod1 = mod1,

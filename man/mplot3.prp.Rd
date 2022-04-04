@@ -19,7 +19,7 @@ mplot3.prp(
 )
 }
 \arguments{
-\item{object}{Output of \link{s.CART}}
+\item{object}{Output of \link{s_CART}}
 
 \item{palette}{Color vector}
 }
