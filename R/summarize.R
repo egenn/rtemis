@@ -9,7 +9,8 @@
 #' of type numeric.
 #' @param group_by Character, vector: Variable name(s) of factors to group by. Must be column names
 #' in \code{x}. Default = NULL
-#' @param type Character: "median-range" or "mean-sd". Default = "median-range"
+#' @param type Character: "all", "median-range" or "mean-sd". Default = "all",
+#' which returns Mean, SD, Median, Range, NA (number of NA values)
 #' @param na.rm Logical: Passed to \code{median} and \code{mean}. Default = TRUE
 #'
 #' @return \code{data.table} with summary
@@ -20,7 +21,7 @@
 summarize <- function(x,
                       varname,
                       group_by = NULL,
-                      type = c("median-range", "mean-sd"),
+                      type = c("all", "median-range", "mean-sd"),
                       na.rm = TRUE) {
 
   UseMethod("summarize")
@@ -32,7 +33,7 @@ summarize <- function(x,
 summarize.data.frame <- function(x,
                                  varname,
                                  group_by = NULL,
-                                 type = c("median-range", "mean-sd"),
+                                 type = c("all", "median-range", "mean-sd"),
                                  na.rm = TRUE) {
   summarize(as.data.table(x),
             varname,
@@ -46,12 +47,25 @@ summarize.data.frame <- function(x,
 summarize.data.table <- function(x,
                                  varname,
                                  group_by = NULL,
-                                 type = c("median-range", "mean-sd"),
+                                 type = c("all", "median-range", "mean-sd"),
                                  na.rm = TRUE) {
 
   type <- match.arg(type)
 
-  if (type == "median-range") {
+  if (type == "all") {
+    x[, .(
+      Var = varname,
+      N = sapply(.SD, length),
+      Mean = sapply(.SD, mean, na.rm = na.rm),
+      SD = sapply(.SD, sd, na.rm = na.rm),
+      Median = sapply(.SD, median, na.rm = na.rm),
+      Range = sapply(.SD, catrange),
+      `NA` = sapply(.SD, function(i) sum(is.na(i)))
+    ),
+    .SDcols = varname,
+    by = group_by
+    ]
+  } else if (type == "median-range") {
     x[, .(Var = varname,
           N = sapply(.SD, length),
           Median = sapply(.SD, median, na.rm = na.rm),
@@ -63,7 +77,7 @@ summarize.data.table <- function(x,
     x[, .(Var = varname,
           N = sapply(.SD, length),
           Mean = sapply(.SD, mean, na.rm = na.rm),
-          SD = sapply(.SD, sd),
+          SD = sapply(.SD, sd, na.rm = na.rm),
           `NA` = sapply(.SD, function(i) sum(is.na(i)))),
       .SDcols = varname,
       by = group_by]
