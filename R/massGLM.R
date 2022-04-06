@@ -49,6 +49,7 @@ massGLM <- function(x, y,
             ynames = NULL,
             save.mods = TRUE,
             print.plot = FALSE,
+            include_anova_pvals = NA,
             verbose = TRUE,
             trace = 0,
             n.cores = 1) {
@@ -69,7 +70,11 @@ massGLM <- function(x, y,
     if (verbose) msg("Will train", nmods, "models")
 
     if (is.null(xnames)) {
-        xnames <- if (is.null(colnames(x))) paste(deparse(substitute(x)), seq_len(NCOL(x)), sep = "_") else colnames(x)
+        xnames <- if (is.null(colnames(x))) {
+            paste(deparse(substitute(x)), seq_len(NCOL(x)), sep = "_")
+        } else {
+            colnames(x)
+        }
     }
     if (trace > 0) msg("Feature names:", paste(xnames, collapse = ", "))
     if (is.null(ynames)) {
@@ -110,7 +115,7 @@ massGLM <- function(x, y,
     # Outro ====
     out <- list(
         mods = if (save.mods) mods else NULL,
-        summary = glm2table(mods),
+        summary = glm2table(mods, include_anova_pvals = include_anova_pvals),
         xnames = xnames,
         coefnames = names(coef(mods[[1]])),
         ynames = ynames,
@@ -120,6 +125,7 @@ massGLM <- function(x, y,
     if (print.plot) print(plot(out))
     outro(start.time, verbose = verbose)
     out
+
 } # rtemis::massGLM
 
 
@@ -169,8 +175,10 @@ plot.massGLM <- function(x,
             predictor = NULL,
             main = NULL,
             what = c("coefs", "pvals", "volcano"),
+            which_pvals = c("glm", "anova2", "anova3"),
             p.adjust.method = "none",
-            p.transform = function(x) -log10(x),
+            p.transform = \(x) -log10(x),
+            show = c("all", "signif"),
             pval.hline = c(.05, .001),
             hline.col = "#ffffff",
             hline.dash = "dash",
@@ -183,20 +191,36 @@ plot.massGLM <- function(x,
             theme = getOption("rt.theme"),
             volcano.annotate = TRUE,
             volcano.annotate.n = 7,
-            volcano.p.transform = "-log10",
+            volcano.p.transform = \(x) -log10(x),
             margin = NULL,
             displayModeBar = FALSE,
             trace = 0, ...) {
+
     what <- match.arg(what)
+    which_pvals <- match.arg(which_pvals)
+    show <- match.arg(show)
+    
     if (x$type == "massy") {
-        if (is.null(predictor)) predictor <- x$coefnames[2]
+        if (is.null(predictor)) {
+            if (which_pvals == "glm") {
+                predictor <- x$coefnames[2]
+            } else {
+                predictor <- x$xnames[1]
+            }
+        }
         what <- match.arg(what)
+        
+        pval_idi <- switch(which_pvals,
+            glm = which(names(x$summary) == paste("p_value", predictor)),
+            anova2 = which(names(x$summary) == paste("p_value type II", predictor)),
+            anova3 = which(names(x$summary) == paste("p_value type III", predictor))
+        )
         if (what == "pvals") {
             # p-values ====
             if (is.null(main)) main <- "p-values"
-            .idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-            .name <- gsub("p_value ", "", names(x$summary)[.idi])
-            .pvals <- p.adjust(x$summary[[.idi]], method = p.adjust.method)
+            pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+            .name <- gsub("p_value ", "", names(x$summary)[pval_idi])
+            .pvals <- p.adjust(x$summary[[pval_idi]], method = p.adjust.method)
             .coefname <- getnames(x$summary, paste("Coefficient", .name))
             .cols <- rep(col.ns, length(x$summary[[.coefname]]))
             .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
@@ -204,7 +228,8 @@ plot.massGLM <- function(x,
 
             if (is.null(ylab)) {
                 ylab <- paste(
-                    print_transform(deparse(p.transform)[2]),
+                    # print_transform(deparse(p.transform)[2]),
+                    print_fn(p.transform),
                     what, .name, "p-value"
                 )
             }
@@ -227,17 +252,17 @@ plot.massGLM <- function(x,
         } else if (what == "coefs") {
             # Coefficients ====
             if (is.null(main)) main <- "Coefficients"
-            pvals.idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-            coef.idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
-            .name <- gsub("Coefficient ", "", names(x$summary)[coef.idi])
-            .pvals <- p.adjust(x$summary[[pvals.idi]], method = p.adjust.method)
+            coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
+            .name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
+            .pvals <- p.adjust(x$summary[[pval_idi]], method = p.adjust.method)
             .coefname <- getnames(x$summary, paste("Coefficient", .name))
             .cols <- rep(col.ns, length(x$summary[[.coefname]]))
             .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
             .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
 
-            dplot3_bar(x$summary[[coef.idi]],
-                group.names = if (x$type == "massy") x$ynames else x$xnames,
+            dplot3_bar(x$summary[[coef_idi]],
+                # group.names = if (x$type == "massy") x$ynames else x$xnames,
+                group.names = x$ynames,
                 main = main,
                 legend = FALSE,
                 ylab = paste(.name, "Coefficients"),
@@ -248,12 +273,7 @@ plot.massGLM <- function(x,
             )
         } else {
             # Volcano ====
-            # coef_idi <- grep(paste("Coefficient", predictor), names(x$summary))[1]
             coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
-            # coef_name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
-            # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-            pval_idi <- which(names(x$summary) == paste("p_value", predictor))
-
             dplot3_volcano(
                 x = x$summary[[coef_idi]],
                 pvals = x$summary[[pval_idi]],
@@ -276,4 +296,10 @@ plot.massGLM <- function(x,
     }
 } # rtemis::plot.massGLM
 
-print_transform <- function(x) gsub("[x()]", "", x)
+# print_transform <- function(x) gsub("[x()]", "", x)
+print_fn <- function(x) {
+    fn <- deparse(x)[2]
+    fn <- gsub("\\(.*", "", fn)
+    if (fn == "I") fn <- ""
+    fn
+}
