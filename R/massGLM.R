@@ -175,7 +175,7 @@ plot.massGLM <- function(x,
             predictor = NULL,
             main = NULL,
             what = c("coefs", "pvals", "volcano"),
-            which_pvals = c("glm", "anova2", "anova3"),
+            # which_pvals = c("glm", "anova2", "anova3"),
             p.adjust.method = "none",
             p.transform = \(x) -log10(x),
             show = c("all", "signif"),
@@ -197,7 +197,8 @@ plot.massGLM <- function(x,
             trace = 0, ...) {
 
     what <- match.arg(what)
-    which_pvals <- match.arg(which_pvals)
+    # which_pvals <- match.arg(which_pvals)
+    which_pvals <- "glm"
     show <- match.arg(show)
     
     if (x$type == "massy") {
@@ -210,11 +211,12 @@ plot.massGLM <- function(x,
         }
         what <- match.arg(what)
         
-        pval_idi <- switch(which_pvals,
-            glm = which(names(x$summary) == paste("p_value", predictor)),
-            anova2 = which(names(x$summary) == paste("p_value type II", predictor)),
-            anova3 = which(names(x$summary) == paste("p_value type III", predictor))
-        )
+        # pval_idi <- switch(which_pvals,
+        #     glm = which(names(x$summary) == paste("p_value", predictor)),
+        #     anova2 = which(names(x$summary) == paste("p_value type II", predictor)),
+        #     anova3 = which(names(x$summary) == paste("p_value type III", predictor))
+        # )
+        pval_idi <- which(names(x$summary) == paste("p_value", predictor))
         if (what == "pvals") {
             # p-values ====
             if (is.null(main)) main <- "p-values"
