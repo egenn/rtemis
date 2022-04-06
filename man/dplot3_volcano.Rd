@@ -10,7 +10,7 @@ dplot3_volcano(
   xnames = NULL,
   x.thresh = 0,
   p.thresh = 0.05,
-  p.transform = c("-log10", "none"),
+  p.transform = function(x) -log10(x),
   p.adjust.method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
     "none"),
   legend.lo = NULL,
@@ -49,7 +49,7 @@ dplot3_volcano(
 
 \item{p.thresh}{Numeric: p-value threshold of significance. Default = .05}
 
-\item{p.transform}{Character: Should the \code{pvals} be transformed? "-log10" or "none"}
+\item{p.transform}{function. Default = \code{\(x) -log10(x)}}
 
 \item{p.adjust.method}{Character: p-value adjustment method. 
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"

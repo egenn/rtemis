@@ -4,7 +4,7 @@
 \alias{glm2table}
 \title{Collect summary table from list of massGLMs with same predictors, different outcome ("massy")}
 \usage{
-glm2table(x, xnames = NULL)
+glm2table(x, xnames = NULL, include_anova_pvals = NA)
 }
 \arguments{
 \item{x}{list of \link{glm} models}

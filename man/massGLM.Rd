@@ -12,6 +12,7 @@ massGLM(
   ynames = NULL,
   save.mods = TRUE,
   print.plot = FALSE,
+  include_anova_pvals = NA,
   verbose = TRUE,
   trace = 0,
   n.cores = 1
