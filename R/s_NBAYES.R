@@ -17,19 +17,19 @@
 #' @export
 
 s_NBAYES <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     laplace = 0,
-                     x.name = NULL,
-                     y.name = NULL,
-                     print.plot = TRUE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = getOption("rt.theme"),
-                     question = NULL,
-                     rtclass = NULL,
-                     verbose = TRUE,
-                     outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+            x.test = NULL, y.test = NULL,
+            laplace = 0,
+            x.name = NULL,
+            y.name = NULL,
+            print.plot = TRUE,
+            plot.fitted = NULL,
+            plot.predicted = NULL,
+            plot.theme = getOption("rt.theme"),
+            question = NULL,
+            rtclass = NULL,
+            verbose = TRUE,
+            outdir = NULL,
+            save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # Intro ====
   if (missing(x)) {
