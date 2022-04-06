@@ -7,7 +7,7 @@
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
 #' @param pvals Numeric vector: p-values
 #' @param p.thresh Numeric: p-value threshold of significance. Default = .05
-#' @param p.transform Character: Should the \code{pvals} be transformed? "-log10" or "none"
+#' @param p.transform function. Default = \code{\(x) -log10(x)}
 #' @param p.adjust.method Character: p-value adjustment method. 
 #' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' Default = "holm". Use "none" for raw p-values. 
@@ -37,7 +37,7 @@ dplot3_volcano <- function(x, pvals,
             xnames = NULL,
             x.thresh = 0,
             p.thresh = .05,
-            p.transform = c("-log10", "none"),
+            p.transform = \(x) -log10(x),
             p.adjust.method = c("holm", "hochberg", "hommel", "bonferroni", 
                 "BH", "BY", "fdr", "none"),
             legend.lo = NULL,
@@ -79,12 +79,13 @@ dplot3_volcano <- function(x, pvals,
   }
   if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
   
-  p.transform <- match.arg(p.transform)
-  p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
+  # p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
+  p_transformed <- p.transform(pvals)
   if (is.null(xlab)) xlab <- labelify(xname)
   
   if (is.null(ylab)) {
-    ylab <- if (p.transform == "none") "p-value" else "-log<sub>10</sub> p-value"
+    # ylab <- if (p.transform == "none") "p-value" else "-log<sub>10</sub> p-value"
+    ylab <- paste(print_fn(p.transform), "p-value")
   }
   
   Group <- rep("NS", length(pvals))
