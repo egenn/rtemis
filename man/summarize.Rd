@@ -8,7 +8,7 @@ summarize(
   x,
   varname,
   group_by = NULL,
-  type = c("median-range", "mean-sd"),
+  type = c("all", "median-range", "mean-sd"),
   na.rm = TRUE
 )
 }
@@ -21,7 +21,8 @@ of type numeric.}
 \item{group_by}{Character, vector: Variable name(s) of factors to group by. Must be column names
 in \code{x}. Default = NULL}
 
-\item{type}{Character: "median-range" or "mean-sd". Default = "median-range"}
+\item{type}{Character: "all", "median-range" or "mean-sd". Default = "all",
+which returns Mean, SD, Median, Range, NA (number of NA values)}
 
 \item{na.rm}{Logical: Passed to \code{median} and \code{mean}. Default = TRUE}
 }
