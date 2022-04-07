@@ -14,6 +14,7 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
                                "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
                                "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
                                "\n  Learn R: https://class.lambdamd.org/pdsr",
+                               "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
                                '\n  See `citation("rtemis")` for how to cite'))
   
   try(
