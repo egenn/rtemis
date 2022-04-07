@@ -45,6 +45,12 @@ mod <- elevate(iris)
 mod$plot()
 ```
 
+## VS Code theme
+
+Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark).
+
+Recommended font is Fira Code with its beautiful ligatures.
+
 ## What's new
 
 ### **0.90**
