@@ -48,8 +48,10 @@ dplot3_box(
   use_plotly_group = FALSE,
   displayModeBar = TRUE,
   filename = NULL,
-  file.width = 500,
-  file.height = 500,
+  output_format = "svg",
+  file_width = 500,
+  file_height = 500,
+  file.scale = 1,
   print.plot = TRUE,
   ...
 )

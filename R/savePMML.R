@@ -6,7 +6,7 @@
 #'
 #' @param x rtemis model
 #' @param filename Character: path to file
-#' 
+#'
 #' @export
 #' @author E.D. Gennatas
 
@@ -17,21 +17,21 @@ savePMML <- function(x, filename,
                      description = NULL,
                      copyright = NULL, ...) {
 
-  if (!depCheck("pmml", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+    # Dependencies ====
+    dependency_check("pmml")
 
-  supported <- c("GLM", "LOGISTIC", "GBM", "CART", "SVM", "RF", "RFSRC")
-  if (!x$mod.name %in% supported) stop("Unsupported model")
+    supported <- c("GLM", "LOGISTIC", "GBM", "CART", "SVM", "RF", "RFSRC")
+    if (!x$mod.name %in% supported) stop("Unsupported model")
 
-  mod_pmml <- pmml::pmml(model = x$mod,
-                         model_name = model_name,
-                         app_name = "rtemis",
-                         description = description,
-                         copyright = copyright,
-                         model_version = model_version,
-                         transforms = transforms, ...)
+    mod_pmml <- pmml::pmml(
+        model = x$mod,
+        model_name = model_name,
+        app_name = "rtemis",
+        description = description,
+        copyright = copyright,
+        model_version = model_version,
+        transforms = transforms, ...
+    )
 
-  pmml::save_pmml(mod_pmml, name = filename)
-
+    pmml::save_pmml(mod_pmml, name = filename)
 } # rtemis::savePMML

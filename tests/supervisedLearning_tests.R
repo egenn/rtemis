@@ -258,7 +258,16 @@ if (requireNamespace("mlbench", quietly = TRUE)) {
   data(Sonar, package = "mlbench")
   sonar.train <- Sonar[-res$Subsample_1, ]
   sonar.test <- Sonar[-res$Subsample_1, ]
-  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test, ipw = F, upsample = F, ipw.case.weights = F, ipw.class.weights = F)
-  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test, ipw = T, upsample = F, ipw.case.weights = T, ipw.class.weights = F)
-  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test, ipw = T, upsample = F, ipw.case.weights = F, ipw.class.weights = T)
+  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test,
+    ipw = F, upsample = F,
+    ipw.case.weights = F, ipw.class.weights = F
+  )
+  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test,
+    ipw = T, upsample = F,
+    ipw.case.weights = T, ipw.class.weights = F
+  )
+  mod.rf.ipw <- s_RANGER(sonar.train, sonar.test,
+    ipw = T, upsample = F,
+    ipw.case.weights = F, ipw.class.weights = T
+  )
 }

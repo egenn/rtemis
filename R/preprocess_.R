@@ -144,7 +144,7 @@ preprocess_ <- function(x, y = NULL,
   impute.type <- match.arg(impute.type)
   if (!inherits(x, "data.table")) setDT(x)
 
-  # [ Complete cases ] ====
+  # Complete cases ====
   if (completeCases) {
     if (anyNA(x)) {
 
@@ -163,14 +163,14 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Set aside excluded ] ====
+  # Set aside excluded ====
   if (!is.null(exclude) && length(exclude) > 0) {
     excluded <- x[, ..exclude, drop = FALSE]
     excluded.names <- colnames(x)[exclude]
     x <- x[, (exclude) := NULL]
   }
 
-  # [ Remove duplicates ] ====
+  # Remove duplicates ====
   if (removeDuplicates) {
     Ndups <- sum(duplicated(x))
     if (Ndups > 0) {
@@ -179,7 +179,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Remove Cases by missing feature threshold ] ====
+  # Remove Cases by missing feature threshold ====
   if (!is.null(removeCases.thres)) {
     if (anyNA(x)) {
       # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
@@ -196,7 +196,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Remove Features by missing feature threshold ] ====
+  # Remove Features by missing feature threshold ====
   if (!is.null(removeFeatures.thres)) {
     if (anyNA(x)) {
       nrows <- NROW(x)
@@ -210,7 +210,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Integer to factor ] ====
+  # Integer to factor ====
   if (integer2factor) {
     if (verbose) info("Converting integers to factors...")
     index.integer <- as.integer(which(sapply(x, is.integer)))
@@ -226,7 +226,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Integer to numeric ] ====
+  # Integer to numeric ====
   if (integer2numeric) {
     if (verbose) info("Converting integers to numeric")
     index.integer <- as.integer(which(sapply(x, is.integer)))
@@ -242,7 +242,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Logical to factor ] ====
+  # Logical to factor ====
   if (logical2factor) {
     if (verbose) info("Converting logical to factor")
     index.logical <- as.integer(which(sapply(x, is.logical)))
@@ -258,7 +258,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Logical to numeric ] ====
+  # Logical to numeric ====
   if (logical2numeric) {
     if (verbose) info("Converting logical to numeric")
     index.logical <- as.integer(which(sapply(x, is.logical)))
@@ -274,7 +274,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Numeric to factor ] ====
+  # Numeric to factor ====
   if (numeric2factor) {
     if (verbose) info("Converting numeric to factor")
     index.numeric <- as.integer(which(sapply(x, is.numeric)))
@@ -290,7 +290,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ len2factor ] ====
+  # len2factor ====
   if (len2factor > 1) {
     index.numeric <- which(sapply(x, is.numeric))
     if (length(index.numeric) > 0) {
@@ -304,7 +304,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Character to factor ] ====
+  # Character to factor ====
   if (character2factor) {
     if (verbose) info("Converting character to factor")
     index.char <- as.integer(which(sapply(x, is.character)))
@@ -320,7 +320,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ factor NA to level ] ====
+  # factor NA to level ====
   if (factorNA2missing) {
     index.factor <- which(sapply(x, is.factor))
     index.factorna <- as.integer(which(x[, sapply(.SD, function(i) is.factor(i) && anyNA(i))]))
@@ -338,7 +338,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Missingness ] ====
+  # Missingness ====
   # missingness columns do not show up by reference on data.frame input
   # exclude missingness from imputation
   if (missingness) {
@@ -354,13 +354,11 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Impute ] ====
+  # Impute ====
   if (impute) {
     if (impute.type == "missRanger") {
       # '- missRanger ====
-      if (!depCheck("missRanger", verbose = FALSE)) {
-        cat("\n"); stop("Please install dependencies and try again")
-      }
+      dependency_check("missRanger")
       if (verbose) {
         if (impute.missRanger.params$pmm.k > 0) {
           msg("Imputing missing values using predictive mean matching with missRanger...")
@@ -371,9 +369,7 @@ preprocess_ <- function(x, y = NULL,
       x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
                                   verbose = ifelse(verbose, 1, 0))
     } else if (impute.type == "micePMM") {
-      if (!depCheck("mice", verbose = FALSE)) {
-        cat("\n"); stop("Please install dependencies and try again")
-      }
+      dependency_check("mice")
       if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
       x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
       setDT(x)
@@ -398,7 +394,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Scale +/- center ] ====
+  # Scale +/- center ====
   if (scale | center) {
     # Get index of numeric features
     numeric_index <- which(sapply(x, is.numeric))
@@ -415,7 +411,7 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ Remove constants ] ====
+  # Remove constants ====
   if (removeConstants) {
     constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
     if (length(constant) > 0) {
@@ -424,10 +420,10 @@ preprocess_ <- function(x, y = NULL,
     }
   }
 
-  # [ One Hot Encoding ] ====
+  # One Hot Encoding ====
   if (oneHot) oneHot(x, verbose = verbose)
 
-  # [ Add back excluded ] ====
+  # Add back excluded ====
   if (!is.null(exclude) && length(exclude) > 0) {
     if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
       excluded <- excluded[-removeCases.thres.index, ]

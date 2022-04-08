@@ -286,27 +286,6 @@ preprocess <- function(x, y = NULL,
       dependency_check("mice")
       if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
       x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
-    # } else if (impute.type == "missForest") {
-    #   # '- missForest ----
-    #   if (!depCheck("missForest", verbose = FALSE)) {
-    #     cat("\n"); stop("Please install dependencies and try again")
-    #   }
-    #   if (verbose) msg("Imputing missing values using missForest...")
-    #   x <- missForest::missForest(x,
-    #                               maxiter = impute.missForest.params$maxiter,
-    #                               ntree = impute.missForest.params$ntree,
-    #                               parallelize = impute.missForest.params$parallelize)$ximp
-    #
-    # } else if (impute.type == "rfImpute") {
-    #   # '- rfImpute ----
-    #   if (!depCheck("randomForest", verbose = FALSE)) {
-    #     cat("\n"); stop("Please install dependencies and try again")
-    #   }
-    #   if (is.null(y)) stop("Please provide outcome 'y' for imputation using proximity from randomForest or use
-    #                        missForest instead")
-    #   x <- randomForest::rfImpute(x, y,
-    #                               iter = impute.rfImpute.params$niter,
-    #                               ntree = impute.rfImpute.params$ntree)
     } else {
       # '- mean/mode ----
       if (verbose) msg0("Imputing missing values using ", deparse(substitute(impute.numeric)),

@@ -267,7 +267,7 @@ s_XGBOOST <- function(x, y = NULL,
             )
         )
     }
-    gs <- gridSearchLearn2(
+    gs <- gridSearchLearn(
         x = x0, y = y0,
         mod = mod.name,
         resample.rtset = grid.resample.rtset,

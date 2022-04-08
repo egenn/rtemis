@@ -85,12 +85,7 @@ dplot3_leaflet <- function(fips,
                            stroke = TRUE) {
 
     # Dependencies ====
-    if (!depCheck("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf",
-        verbose = FALSE
-    )) {
-        cat("\n")
-        stop("Please install dependencies and try again")
-    }
+    dependency_check("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
 
     # Arguments ====
     vals.name <- deparse(substitute(values))

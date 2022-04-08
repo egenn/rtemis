@@ -1,6 +1,6 @@
 # massGLM.R
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021-2 E.D. Gennatas lambdamd.org
 
 #' Mass-univariate GLM Analysis
 #'
@@ -13,6 +13,8 @@
 #'
 #' @param x Matrix / data frame of features
 #' @param y Matrix / data frame of outcomes
+#' @param scale.x Logical: If TRUE, scale and center \code{x}
+#' @param scale.y Logical: If TRUE, scale and center \code{y}
 #' @param type Character: "massx" or "massy". Default = NULL,
 #' where if (NCOL(x) > NCOL(y)) "massx" else "massy"
 #' @param xnames Character vector: names of \code{x} feature(s)
@@ -28,6 +30,7 @@
 #'
 #' @author E.D. Gennatas
 #' @export
+#' 
 #' @examples
 #' \dontrun{
 #' # Common usage is "reversed":
@@ -42,8 +45,10 @@
 #' plot(massmod, what = "coef")
 #' plot(massmod, what = "volcano")
 #' }
-#'
+
 massGLM <- function(x, y,
+            scale.x = FALSE,
+            scale.y = FALSE,
             type = NULL,
             xnames = NULL,
             ynames = NULL,
@@ -82,6 +87,8 @@ massGLM <- function(x, y,
     }
     if (trace > 0) msg("Outcome names:", paste(ynames, collapse = ", "))
 
+    if (scale.x) x <- scale(x)
+    if (scale.y) y <- scale(y)
     dat <- data.frame(x, y)
     colnames(dat) <- c(xnames, ynames)
 

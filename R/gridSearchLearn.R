@@ -39,7 +39,7 @@
 #' @author E.D. Gennatas
 #' @noRd
 
-gridSearchLearn <- function(x, y, mod,
+gridSearchLearn1 <- function(x, y, mod,
                             grid.params,
                             fixed.params = NULL,
                             search.type = c("exhaustive", "randomized"),

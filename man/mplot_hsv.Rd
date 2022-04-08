@@ -20,9 +20,11 @@ mplot_hsv(
 )
 }
 \arguments{
-\item{h.steps}{Float, vector: Hue values to plot. Default = \code{seq(0, 1, .0125)}}
+\item{h.steps}{Float, vector: Hue values to plot.
+Default = \code{seq(0, 1, .0125)}}
 
-\item{s.steps}{Float, vector: Saturation values to plot. Default = same as \code{h.steps}}
+\item{s.steps}{Float, vector: Saturation values to plot. Default = same as
+\code{h.steps}}
 
 \item{v}{Float: Value. Default = 1}
 
@@ -32,17 +34,22 @@ mplot_hsv(
 
 \item{bg}{Colot: Background color. Default = "black"}
 
-\item{axes}{Logical: for \code{type = "cartesian"}: If TRUE, draw axes. Default = TRUE}
+\item{axes}{Logical: for \code{type = "cartesian"}: If TRUE, draw axes.
+Default = TRUE}
 
-\item{pty}{Character: for \code{type = "cartesian"}: "s", "r", par's pty argument. Default = "s" (square plot)}
+\item{pty}{Character: for \code{type = "cartesian"}: "s", "r", par's pty
+argument. Default = "s" (square plot)}
 
 \item{cex}{Float: \code{par/plot}'s cex argument. Default = 1}
 
-\item{mar}{Float, vector: for \code{type = "cartesian"}: \code{par}'s mar argument. Default = c(3, 3, 2, .5)}
+\item{mar}{Float, vector: for \code{type = "cartesian"}: \code{par}'s mar
+argument. Default = c(3, 3, 2, .5)}
 
-\item{lab.col}{Color: Color for axes and labels. Defaults to inverse of \code{bg}, i.e. white if bg is black}
+\item{lab.col}{Color: Color for axes and labels. Defaults to inverse of
+\code{bg}, i.e. white if bg is black}
 
-\item{type}{Character: "cartesian" for square plot, "polar" for radial plot. Default = "polar"}
+\item{type}{Character: "cartesian" for square plot, "polar" for radial plot.
+Default = "polar"}
 }
 \description{
 Plot HSV color range

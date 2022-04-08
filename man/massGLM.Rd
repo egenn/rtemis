@@ -7,6 +7,8 @@
 massGLM(
   x,
   y,
+  scale.x = FALSE,
+  scale.y = FALSE,
   type = NULL,
   xnames = NULL,
   ynames = NULL,
@@ -22,6 +24,10 @@ massGLM(
 \item{x}{Matrix / data frame of features}
 
 \item{y}{Matrix / data frame of outcomes}
+
+\item{scale.x}{Logical: If TRUE, scale and center \code{x}}
+
+\item{scale.y}{Logical: If TRUE, scale and center \code{y}}
 
 \item{type}{Character: "massx" or "massy". Default = NULL,
 where if (NCOL(x) > NCOL(y)) "massx" else "massy"}
@@ -63,7 +69,6 @@ plot(massmod)
 plot(massmod, what = "coef")
 plot(massmod, what = "volcano")
 }
-
 }
 \author{
 E.D. Gennatas

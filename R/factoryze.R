@@ -45,6 +45,7 @@
 #' @param do.hclust Logical: If TRUE, perform hierarchical cluster analysis. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @param ... Additional arguments to pass to \code{psych::fa}
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -66,17 +67,15 @@ factoryze <- function(x,
                       do.hclust = FALSE,
                       verbose = TRUE, ...) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("psych", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("psych")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(x.name)) x.name <- deparse(substitute(x))
   if (is.null(n.factors)) do.pa <- TRUE
   omega.rotation <- match.arg(omega.rotation)
 
-  # [ PARALLEL ANALYSIS - Estimate Number of Factors ] ====
+  # Parallel Analysis - Estimate Number of Factors ====
   if (do.pa) {
     if (verbose) msg("Running Parallel Analysis...")
     parallel.analysis <- psych::fa.parallel(x, fm = method,
@@ -98,7 +97,7 @@ factoryze <- function(x,
   }
   if (verbose) msg("Using", n.factors, "factors")
 
-  # [ FACTORS ANALYSIS ] ====
+  # Factor Analysis ====
   if (do.fa) {
     if (verbose) msg("Running Exploratory Factor Analysis...")
     x.fa <- psych::fa(x, nfactors = n.factors,
@@ -115,7 +114,7 @@ factoryze <- function(x,
     x.fa <- fa.scores <- NULL
   }
 
-  # [ BIFACTOR ANALYSIS ] ====
+  # Bifactor Analysis ====
   if (do.bifactor) {
     if (verbose) msg("Running Bifactor Analysis...")
     x.omega <- psych::omegaSem(x, nfactors = n.factors,
@@ -129,7 +128,7 @@ factoryze <- function(x,
     x.omega <- bifactor.scores <- NULL
   }
 
-  # [ HIERARCHICAL CLUSTER ANALYSIS ] ====
+  # Hierarchical Cluster Analysis ====
   if (do.hclust) {
     if (verbose) msg("Performing hierarchical cluster analysis...")
     x.pvclust <- pvclust::pvclust(x)
@@ -138,7 +137,7 @@ factoryze <- function(x,
     x.pvclust <- NULL
   }
 
-  # [ OUTPUT ] ====
+  # Output ====
   s.out <- list(parallel.analysis = parallel.analysis,
                 factor.analysis = x.fa,
                 factor.scores = fa.scores,

@@ -22,6 +22,8 @@
 #' @param single.lin.type Character same options as \code{lin.type}, linear model to fit when
 #' \code{max.leaves = 1}
 #' @param init Initial value. Default = \code{mean(y)}
+#' @param gamma Numeric: Soft weighting parameter. Weights of cases that do not
+#' belong to node get multiplied by this amount 
 #' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only

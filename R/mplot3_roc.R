@@ -95,9 +95,7 @@ mplot3_roc <- function(prob, labels,
     for (i in seq(labelsl)) {
       levels(labelsl[[i]]) <- c(1, 0)
     }
-    if (!depCheck("pROC", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("pROC")
     .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]],
                                                      levels = c(0, 1), direction = "<"))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) rev(.roc[[l]]$sensitivities))

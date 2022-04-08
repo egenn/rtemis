@@ -22,7 +22,7 @@ mplot3_prp <- function(object,
                         pdf.width = 7,
                         pdf.height = 5, ...) {
 
-  # [ INPUT ] ====
+  # Arguments ====
   if (class(object)[1] == "rtMod") {
     if (class(object$mod)[1] == "rpart") {
       .mod <- object$mod
@@ -33,12 +33,10 @@ mplot3_prp <- function(object,
     stop ("Input object must be either of class rtMod (s_CART) or rpart")
   }
 
-  # [ Dependencies ] ====
-  if (!depCheck("rpart.plot", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("rpart.plot")
 
-  # [ Arguments ] ====
+  # Arguments ====
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -59,7 +57,7 @@ mplot3_prp <- function(object,
     }
   }
 
-  # [ PLOT ] ====
+  # rpart.plot ====
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height)
   rpart.plot::rpart.plot(.mod,
                          type = type,
@@ -69,7 +67,7 @@ mplot3_prp <- function(object,
                          fallen.leaves = fallen.leaves,
                          box.palette = palette, ...)
 
-  # [ Outro ] ====
+  # Outro ====
   if (!is.null(filename)) dev.off()
 
 } # rtemis::mplot3_prp

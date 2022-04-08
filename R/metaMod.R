@@ -76,9 +76,7 @@ metaMod <- function(x, y = NULL,
   mod.name <- paste0("META.", paste(base.mod.names, collapse = "."))
 
   # Dependencies ====
-  if (!depCheck("plyr", verbose = trace > 0)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("plyr")
 
   # Arguments ====
   if (is.null(y) & NCOL(x) < 2) {
@@ -112,10 +110,10 @@ metaMod <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # RESAMPLES ====
+  # Resamples ====
   res.part <- resample(y, rtset = base.resample.rtset, verbose = verbose)
 
-  # {GRID} FUNCTION ====
+  # {Grid} Function ====
   waffle1 <- function(index, grid,
                       x.int, y.int,
                       res.part,
@@ -138,7 +136,7 @@ metaMod <- function(x, y = NULL,
     base.mod1
   }
 
-  # BASE RES MODS ====
+  # Base res mods ====
   # For each resample, for each base
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
   nbases <- length(base.mod.names)
@@ -176,14 +174,14 @@ metaMod <- function(x, y = NULL,
     }))}))
   colnames(base.res.predicted) <- base.mod.names
 
-  # BASE RES PERFORMANCE  ====
+  # Base res Performance  ====
   # Get error accross resamples
   base.res.error <- lapply(seq(base.mod.names),
                            function(mod) modError(base.res.y.test,
                                                   base.res.predicted[, mod]))
   names(base.res.error) <- base.mod.names
 
-  # META LEARNER ====
+  # Meta Learner ====
   if (verbose) msg("Training", toupper(meta.mod), "meta learner...")
   meta.mod <- do.call(modSelect(meta.mod.name),
                       c(list(x = base.res.predicted,
@@ -191,7 +189,7 @@ metaMod <- function(x, y = NULL,
                              print.plot = FALSE),
                         meta.params))
 
-  # FULL TRAINING BASE MODS ====
+  # Full Training Base mods ====
   if (meta.input == "bag") {
     if (verbose) msg("Bagging base resamples to get final base outputs...")
     base.mods.fitted <- sapply()

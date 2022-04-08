@@ -57,10 +57,8 @@ gplot3_map <- function(dat,
                        file.width = 7,
                        file.height = 5, ...) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("ggplot2", "usmap", "scales", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("ggplot2", "usmap", "scales")
 
   regions_ <- match.arg(regions)
   colnames(dat)[1] <- "fips"

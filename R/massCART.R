@@ -37,18 +37,16 @@ massCART <- function(x, y = NULL,
                      grid.verbose = TRUE,
                      print.plot = FALSE, ...) {
 
-  # [ Intro ] ====
+  # Intro ====
   start.time <- intro(verbose = verbose)
 
-  # [ Arguments ] ====
+  # Arguments ====
   parallel.type <- match.arg(parallel.type)
 
-  # [ Dependencies ] ====
-  if (!depCheck("plyr", "pbapply", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("plyr", "pbapply")
 
-  # [ Data ] ====
+  # Data ====
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     upsample = upsample,
@@ -70,7 +68,7 @@ massCART <- function(x, y = NULL,
   if (is.null(metric)) metric <- if (type == "Classification") "Balanced Accuracy" else "Rsq"
   nclasses <- length(levels(y))
 
-  # [ CART ] ====
+  # CART ====
   if (verbose) msg("Running massCART analysis...")
   if (verbose) pbapply::pboptions(type = "timer") else pbapply::pboptions(type = "none")
   if (n.cores > 1) {
@@ -140,7 +138,7 @@ massCART <- function(x, y = NULL,
                            cl = cl)
   names(mod) <- paste0("CART", 1:length(mod))
 
-  # [ COLLECT ERROR & METRICS ] ====
+  # Error & metrics ====
   error.train <- plyr::llply(mod, function(m) m$error.train)
   # names(error.train) <- paste0("CART", 1:length(mod))
   if (!is.null(x.test)) {
@@ -200,7 +198,7 @@ massCART <- function(x, y = NULL,
   s.out$metrics.train <- metrics.train
   s.out$metrics.test <- metrics.test
 
-  # [ PLOT ] ====
+  # mplot3_bar ====
   if (print.plot) {
     mplot3_bar(metrics.train[, 2:4], legend.names = metrics.train$Feature,
                group.legend = TRUE, col = pennPalette[1:4],
@@ -212,7 +210,7 @@ massCART <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # Outro ====
   outro(start.time, verbose = verbose)
   s.out
 

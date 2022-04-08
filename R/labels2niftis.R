@@ -24,12 +24,10 @@ labels2niftis <- function(datamat,
                           verbose = TRUE,
                           n.cores = parallel::detectCores()) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("oro.nifti", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("oro.nifti")
 
-  # [ {GRID FN} ] ====
+  # {Grid fn} ====
   s.datacol2nii.g1 <- function(datamat, fnim, prefix, verbose) {
     index <- datamat[1]
     values <- datamat[2:length(datamat)]
@@ -44,21 +42,19 @@ labels2niftis <- function(datamat,
     if (verbose) msg("+ + + Wrote nifti", outname)
   }
 
-  # [ MAIN ] ====
+  # Main ====
   scriptVersion <- 0.2
   if (verbose) msg(date(), "\nlabels2niftis version ", scriptVersion, "\nHello, ",
                    Sys.getenv('USER'), ".\n", sep = "")
   labelednim <- oro.nifti::readNIfTI(labeledNifti)
   dim <- dim(labelednim)
-  # labels <- labelednim[]
-  # nim <- list()
   if (verbose) msg("Working on", NCOL(datamat), "files")
   nim <- labelednim
   # replace labels with cluster numbers using factor levels ----
   # create factor with levels = the labels
   fnim <- factor(labelednim[])
-  # fastest assignment of weights to labels, ever
-  # explanation: levels gives an ordered list of the factor levels;
+  # fast assignment of weights to labels:
+  # levels() gives an ordered list of the factor levels;
   # as long as your data(results) is saved in the same order, this works
   # i.e. your nifti labels say go from 1:10
   # and assuming your results are saved in that order,
@@ -67,13 +63,9 @@ labels2niftis <- function(datamat,
   if (verbose) msg("Starting cluster...")
   cluster <- makeCluster(n.cores)
   on.exit(if (!is.null(cluster)) { stopCluster(cluster) })
-  # index <- as.list(1:ncol(datamat))
-  # parallel::parLapply(cl = cluster, index, s.datamat2nii.g1,
-  #                     datamat = datamat, fnim = fnim, prefix = prefix)
   datamat <- rbind(seq(NCOL(datamat)), datamat)
   parApply(cl = cluster, datamat, 2, s.datacol2nii.g1,
            fnim = fnim, prefix = prefix, verbose = verbose)
-  # stopCluster(cluster)
   cluster <- NULL
   if (verbose) msg("labels2niftis cluster stopped.\n")
   if (verbose) msg(date(), "::: labels2niftis", scriptVersion, "completed.\n")

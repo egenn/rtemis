@@ -32,36 +32,28 @@
 #' @export
 
 dplot3_varimp <- function(x,
-                          # error = NULL,
                           names = NULL,
                           main = NULL,
                           xlab = "Variable Importance",
                           ylab = "",
-                          # col = colorAdjust(colorGrad(length(names), "penn"), .8),
                           plot.top = 1, # 1 or less means plot this percent
                           labelify = TRUE,
                           col = NULL,
                           alpha = 1,
                           palette = NULL,
                           mar = NULL,
-                          # pad = 0,
-                          # font.family = "Helvetica Neue",
                           font.size = 16,
                           axis.font.size = 14,
-                          # font.color = "000",
                           theme = getOption("rt.theme"),
                           showlegend = TRUE, ...) {
 
   # Dependencies ====
-  if (!depCheck("plotly", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("plotly")
 
   # Arguments ====
   if (is.null(mar)) {
     mar <- if (is.null(main)) c(40, 0, 0, 20) else c(40, 0, 40, 20)
   }
-
 
   # Theme ====
   extraargs <- list(...)
@@ -122,7 +114,6 @@ dplot3_varimp <- function(x,
   index <- order(x)
   x <- x[index]
   y <- factor(.names[index], levels = .names[index])
-  # if (!is.null(error)) error <- error[index]
 
   # Colors ====
   # Default to a fg to teal gradient

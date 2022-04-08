@@ -46,11 +46,10 @@ massGAM <- function(x, y,
                     save.plots = FALSE,
                     new.x.breaks = 9) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("mgcv"))
-    { cat("\n"); stop("Please install dependencies and try again") }
+  # Dependencies ====
+  dependency_check("mgcv")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (missing(x)) { print(args(massGAM)); stop("x is missing") }
   if (missing(y) & NCOL(x) == 1) { print(args(massGAM)); stop("y is missing") }
   if (is.null(n.cores)) n.cores <- parallel::detectCores()
@@ -58,14 +57,14 @@ massGAM <- function(x, y,
     if (!is.list(covariates)) covariates <- as.list(as.data.frame(covariates))
   }
 
-  # [ Intro ] ====
+  # Intro ====
   ptm <- proc.time()
   scriptVersion <- 0.2
   start.date <- date()
   cat(start.date, "\n::: massGAM version ", scriptVersion,
       "\nHello, ", Sys.getenv('USER'), ".\n", sep = "")
 
-  # [ Data ] ====
+  # Data ====
   # Name cols first, because data.frame() or as.data.frame()
   # will assign colnames X1 ... Xn and V1 ... Vn respectively
   if (is.null(colnames(y))) colnames(y) <- paste0("Outcome.", 1:NCOL(y))
@@ -111,7 +110,7 @@ massGAM <- function(x, y,
   ### Output
   s.out <- list()
 
-  # [ GAM ] ====
+  # GAM ====
   # use na.exclude so that NAs give NAs when resid() is used. $residuals will still be shorter, don't use
   cat(">>> I will regress", NCOL(y), "outcomes on the following features:\n",
       paste0(features, covariates), "\n")
@@ -129,7 +128,7 @@ massGAM <- function(x, y,
 
   if (save.mods) s.out$mod.gam <- mod.gam
 
-  # [ OUTPUT ] ====
+  # Output ====
   # summary
   cat(">>> Getting GAM summary and statistics...\n")
   mod.summary <- lapply(mod.gam, summary)
@@ -161,7 +160,7 @@ massGAM <- function(x, y,
   s.out$se.pred <- data.frame(sapply(mod.pred, function(mod) return(mod$se.fit)))
   colnames(s.out$se.pred) <- colnames(y)
 
-  # [ RDS ]
+  # RDS ====
   if (!is.null(outdir)) {
     outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
@@ -175,7 +174,7 @@ massGAM <- function(x, y,
     }
   }
 
-  # [ Outro ]
+  # Outro ====
   cat(date(), "::: massGAM version", scriptVersion, "completed.\n")
   elapsed <- proc.time() - ptm
   cat("Elapsed time:\n")

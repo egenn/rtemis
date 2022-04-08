@@ -22,37 +22,34 @@
 #' dplot3_pie(VADeaths[, 1, drop = F])
 #' }
 
-dplot3_pie <-  function(x,
-                        main = NULL,
-                        xlab = NULL,
-                        ylab = NULL,
-                        col = NULL,
-                        alpha = .8,
-                        bg = NULL,
-                        plot.bg = NULL,
-                        theme = getOption("rt.theme", "black"),
-                        palette = getOption("rt.palette", "rtCol1"),
-                        category.names = NULL,
-                        textinfo = "label+percent",
-                        font.size = 16,
-                        # font.alpha = .8,
-                        # font.col = NULL,
-                        # main.col = NULL,
-                        labs.col = NULL,
-                        legend = TRUE,
-                        legend.col = NULL,
-                        sep.col = NULL,
-                        margin = list(b = 50, l = 50, t = 50, r = 20),
-                        padding = 0,
-                        displayModeBar = TRUE,
-                        filename = NULL,
-                        file.width = 500,
-                        file.height = 500, ...) {
+dplot3_pie <-  function(
+            x,
+            main = NULL,
+            xlab = NULL,
+            ylab = NULL,
+            col = NULL,
+            alpha = .8,
+            bg = NULL,
+            plot.bg = NULL,
+            theme = getOption("rt.theme", "black"),
+            palette = getOption("rt.palette", "rtCol1"),
+            category.names = NULL,
+            textinfo = "label+percent",
+            font.size = 16,
+            labs.col = NULL,
+            legend = TRUE,
+            legend.col = NULL,
+            sep.col = NULL,
+            margin = list(b = 50, l = 50, t = 50, r = 20),
+            padding = 0,
+            displayModeBar = TRUE,
+            filename = NULL,
+            file.width = 500,
+            file.height = 500,
+            file.scale = 1, ...) {
 
   # Dependencies ====
-  if (!depCheck("plotly", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("plotly")
 
   # Names ====
   .input.name <- deparse(substitute(x))
@@ -159,9 +156,12 @@ dplot3_pie <-  function(x,
 
   # Write to file ====
   if (!is.null(filename)) {
-    filename <- file.path(filename)
-    plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-                         format = tools::file_ext(file), out_file = filename)
+      plotly::save_image(
+          plt,
+          file.path(filename),
+          with = file.width, height = file.height,
+          scale = file.scale
+      )
   }
 
   plt

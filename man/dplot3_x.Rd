@@ -57,6 +57,7 @@ dplot3_x(
   filename = NULL,
   file.width = 500,
   file.height = 500,
+  file.scale = 1,
   ...
 )
 }
@@ -164,6 +165,7 @@ If input is data.frame, non-numeric variables will be removed
 dplot3_x(iris)
 dplot3_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 }
+
 }
 \author{
 E.D. Gennatas

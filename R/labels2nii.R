@@ -28,12 +28,10 @@ labels2nii <- function(label.vals,
                        datatype = "auto",
                        verbose = TRUE) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("RNifti", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("RNifti")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (!file.exists(labeledNifti)) stop("Error: Labeled nifti file not found")
   outdir <- dirname(prefix)
   if (!dir.exists(outdir)) {
@@ -41,7 +39,7 @@ labels2nii <- function(label.vals,
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
   }
 
-  # [ Main ] ====
+  # Main ====
   labelednim <- RNifti::readNifti(labeledNifti)
   dim <- dim(labelednim)
   labels <- as.array(labelednim)
@@ -59,7 +57,7 @@ labels2nii <- function(label.vals,
   # create factor with levels = the labels
   fnim <- factor(labels)
   # fast assignment of weights to labels
-  # explanation: levels() gives an ordered list of the factor levels;
+  # levels() gives an ordered list of the factor levels;
   # as long as your data(results) is saved in the same order, this works
   # i.e. your nifti labels say go from 1:10
   # and assuming your results are saved in that order,

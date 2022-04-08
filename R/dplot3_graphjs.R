@@ -1,4 +1,4 @@
-# dplot3_graphjs
+# dplot3_graphjs.R
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 
@@ -47,53 +47,45 @@
 #' @export
 
 dplot3_graphjs <- function(net,
-                           vertex.size = 1,
-                           vertex.col = NULL,
-                           # vertex.alpha = .33, # not supported
-                           vertex.label.col = NULL,
-                           vertex.label.alpha = .66,
-                           vertex.frame.col = NA,
-                           vertex.label = NULL,
-                           vertex.shape = "circle",
-                           edge.col = NULL,
-                           edge.alpha = .5,
-                           edge.curved = .35,
-                           edge.width = 2,
-                           layout = c("fr", "dh", "drl", "gem", "graphopt",
-                                      "kk", "lgl", "mds", "sugiyama"),
-                           coords = NULL,
-                           layout_params = list(),
-                           cluster = NULL,
-                           groups = NULL,
-                           cluster_params = list(),
-                           cluster_mark_groups = TRUE,
-                           cluster_color_vertices = FALSE,
-                           main = "",
-                           theme = getOption("rt.theme"),
-                           theme_extra_args = list(),
-                           palette = getOption("rt.palette", "rtCol1"),
-                           mar = rep(0, 4),
-                           par.reset = TRUE,
-                           filename = NULL,
-                           verbose = TRUE,
-                           elementId = "dplot3graphjs", ...) {
+            vertex.size = 1,
+            vertex.col = NULL,
+            vertex.label.col = NULL,
+            vertex.label.alpha = .66,
+            vertex.frame.col = NA,
+            vertex.label = NULL,
+            vertex.shape = "circle",
+            edge.col = NULL,
+            edge.alpha = .5,
+            edge.curved = .35,
+            edge.width = 2,
+            layout = c("fr", "dh", "drl", "gem", "graphopt",
+                        "kk", "lgl", "mds", "sugiyama"),
+            coords = NULL,
+            layout_params = list(),
+            cluster = NULL,
+            groups = NULL,
+            cluster_params = list(),
+            cluster_mark_groups = TRUE,
+            cluster_color_vertices = FALSE,
+            main = "",
+            theme = getOption("rt.theme"),
+            theme_extra_args = list(),
+            palette = getOption("rt.palette", "rtCol1"),
+            mar = rep(0, 4),
+            par.reset = TRUE,
+            filename = NULL,
+            verbose = TRUE,
+            elementId = "dplot3graphjs", ...) {
 
   # Dependencies ====
-  if (!depCheck("igraph", "threejs", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("igraph", "threejs")
 
   # Theme ====
   # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
-    # theme <- do.call(paste0("theme_", theme), list())
   }
-  #  else {
-  #   for (i in seq(extraargs)) {
-  #     theme[[names(extraargs)[i]]] <- extraargs[[i]]
-  #   }
-  # }
+  
   if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
 
   # Vertex names ====

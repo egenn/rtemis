@@ -20,9 +20,7 @@ prune.addtree <- function(addtree,
                           verbose = TRUE) {
 
   # Dependencies ====
-  if (!depCheck("data.tree", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("data.tree")
 
   # Tree ====
   if (inherits(addtree, "Node")) {

@@ -68,14 +68,13 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
                        trace = 0,
                        filename = NULL,
                        file.width = 500,
-                       file.height = 500, ...) {
+                       file.height = 500,
+                       file.scale = 1, ...) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("plotly", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("plotly")
 
-  # [ Arguments ] ====
+  # Arguments ====
   if (is.null(y) & is.null(z) & NCOL(x) > 2) {
     .colnames <- labelify(colnames(x))
     y <- x[, 2]
@@ -96,7 +95,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
   }
 
-  # [ CLUSTER ] ====
+  # CLUSTER ====
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(clustSelect(cluster),
                                       c(list(x = data.frame(x, y),
@@ -105,7 +104,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     group <- paste("Cluster", group)
   }
 
-  # [ Data ] ====
+  # Data ====
   # xlab, ylab ====
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
@@ -197,7 +196,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # Convert inputs to RGB
   spike.col <- plotly::toRGB(spike.col)
 
-  # [ Theme ] ====
+  # Theme ====
   axes.visible <- FALSE
   axes.mirrored <- FALSE
   extraargs <- list(...)
@@ -230,12 +229,12 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # Derived
   if (is.null(legend.col)) legend.col <- labs.col
 
-  # [ Size ] ====
+  # Size ====
   if (axes.square) {
     width <- height <- min(dev.size("px")) - 10
   }
 
-  # [ fitted & se.fit ] ====
+  # fitted & se.fit ====
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se.fit) se <- list() else se <- NULL
   if (rsq) .rsq <- list() else .rsq <- NULL
@@ -269,7 +268,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     }
   }
 
-  # [ plotly ] ====
+  # plotly ====
   plt <- plotly::plot_ly(width = width,
                          height = height)
   for (i in seq_len(n.groups)) {
@@ -338,7 +337,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     }
   }
 
-  # [ Layout ] ====
+  # Layout ====
   # '- layout ====
   f <- list(family = theme$font.family,
             size = font.size,
@@ -415,12 +414,14 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # Write to file ====
   if (!is.null(filename)) {
-    filename <- file.path(filename)
-    plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-                         format = tools::file_ext(file), out_file = filename)
+    plotly::save_image(
+      plt,
+      file.path(filename),
+      with = file.width, height = file.height,
+      scale = file.scale
+    )
   }
 
   plt
-
 
 } # rtemis::dplot3_xyz

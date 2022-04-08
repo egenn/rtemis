@@ -141,16 +141,15 @@ dplot3_box <- function(
             use_plotly_group = FALSE,
             displayModeBar = TRUE,
             filename = NULL,
-            file.width = 500,
-            file.height = 500,
+            output_format = "svg",
+            file_width = 500,
+            file_height = 500,
+            file.scale = 1,
             print.plot = TRUE,
             ...) {
 
     # Dependencies ====
-    if (!depCheck("plotly", verbose = FALSE)) {
-        cat("\n")
-        stop("Please install dependencies and try again")
-    }
+    dependency_check("plotly")
 
     # Arguments ====
     type <- match.arg(type)
@@ -644,15 +643,21 @@ dplot3_box <- function(
     # Config
     plt <- plotly::config(plt,
         displaylogo = FALSE,
-        displayModeBar = displayModeBar
+        displayModeBar = displayModeBar,
+        toImageButtonOptions = list(
+            format = output_format,
+            width = file_width,
+            height = file_height
+        )
     )
 
     # Write to file ====
     if (!is.null(filename)) {
-        filename <- file.path(filename)
-        plotly::plotly_IMAGE(plt,
-            width = file.width, height = file.height,
-            format = tools::file_ext(filename), out_file = filename
+        plotly::save_image(
+            plt,
+            file.path(filename),
+            with = file.width, height = file.height,
+            scale = file.scale
         )
     }
 

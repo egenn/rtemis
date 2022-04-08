@@ -18,35 +18,27 @@
 #' @param ... Additional arguments to pass to \code{networkD3}
 #' @author E.D. Gennatas
 #' @export
-dplot3_graphd3 <- function(net,
-                           groups = NULL,
-                           color.scale = NULL,
-                           edge.col = NULL,
-                           node.col = NULL,
-                           node.alpha = .5,
-                           edge.alpha = .33,
-                           zoom = TRUE,
-                           legend = FALSE,
-                           palette = getOption("rt.palette", "rtCol1"),
-                           theme = getOption("rt.theme"),
-                           ...) {
+dplot3_graphd3 <- function(
+            net,
+            groups = NULL,
+            color.scale = NULL,
+            edge.col = NULL,
+            node.col = NULL,
+            node.alpha = .5,
+            edge.alpha = .33,
+            zoom = TRUE,
+            legend = FALSE,
+            palette = getOption("rt.palette", "rtCol1"),
+            theme = getOption("rt.theme"),
+            ...) {
 
   # Dependencies ====
-  if (!depCheck("networkD3", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("networkD3")
 
   # Theme ====
-  # extraargs <- list(...)
   if (is.character(theme)) {
-    # theme <- do.call(paste0("theme_", theme), extraargs)
     theme <- do.call(paste0("theme_", theme), list())
   }
-  #  else {
-  #   for (i in seq(extraargs)) {
-  #     theme[[names(extraargs)[i]]] <- extraargs[[i]]
-  #   }
-  # }
 
   netd3 <- networkD3::igraph_to_networkD3(net)
   if (is.null(groups)) {

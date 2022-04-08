@@ -24,40 +24,39 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_cart <- function(object,
-                        col.positive = "#F48024DD",
-                        col.negative = "#18A3ACDD",
-                        col.lo = "#80ffff",
-                        col.mid = "gray20",
-                        col.hi = "#F4A0FF",
-                        node.col = "#666666",
-                        node.shape = "none",
-                        node.labels = TRUE,
-                        node.cond = TRUE,
-                        node.prob = TRUE,
-                        node.estimate = NULL,
-                        node.n = TRUE,
-                        edge.col = "#999999",
-                        edge.width = 2,
-                        edge.labels = FALSE,
-                        arrowhead = "vee",
-                        layout = "dot",
-                        drop.leaves = FALSE,
-                        rankdir = "TB",
-                        splines = "polyline",
-                        fontname = "helvetica",
-                        bg.color = "white",
-                        overlap = "false",
-                        prune = FALSE,
-                        prune.empty.leaves = TRUE,
-                        remove.bad.parents = TRUE,
-                        rpart.cp = NULL,
-                        verbose = TRUE) {
+dplot3_cart <- function(
+            object,
+            col.positive = "#F48024DD",
+            col.negative = "#18A3ACDD",
+            col.lo = "#80ffff",
+            col.mid = "gray20",
+            col.hi = "#F4A0FF",
+            node.col = "#666666",
+            node.shape = "none",
+            node.labels = TRUE,
+            node.cond = TRUE,
+            node.prob = TRUE,
+            node.estimate = NULL,
+            node.n = TRUE,
+            edge.col = "#999999",
+            edge.width = 2,
+            edge.labels = FALSE,
+            arrowhead = "vee",
+            layout = "dot",
+            drop.leaves = FALSE,
+            rankdir = "TB",
+            splines = "polyline",
+            fontname = "helvetica",
+            bg.color = "white",
+            overlap = "false",
+            prune = FALSE,
+            prune.empty.leaves = TRUE,
+            remove.bad.parents = TRUE,
+            rpart.cp = NULL,
+            verbose = TRUE) {
 
   # Dependencies ====
-  if (!depCheck("data.tree", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("data.tree")
 
   # Prune ====
   if (!is.null(rpart.cp)) {

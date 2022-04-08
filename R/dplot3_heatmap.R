@@ -83,17 +83,14 @@ dplot3_heatmap <- function(z,
                            filename = NULL,
                            ...) {
 
-  # [ Dependencies ] ====
-  if (!depCheck("heatmaply", verbose = FALSE)) {
-    cat("\n")
-    stop("Please install dependencies and try again")
-  }
+  # Dependencies ====
+  dependency_check("heatmaply")
 
-  # [ Colnames ] ====
+  # Colnames ====
   if (is.null(colnames(z))) colnames(z) <- 1:NCOL(z) # rtLetters(NCOL(z))
   if (is.null(rownames(z))) rownames(z) <- 1:NROW(z) # rtLetters(NCOL(z), caps = TRUE)
 
-  # [ Margins ] ====
+  # Margins ====
   # By default, allow 7 px per character
   if (is.null(margins)) {
     bottom <- max(nchar(colnames(z))) * 7 + 15
@@ -101,7 +98,7 @@ dplot3_heatmap <- function(z,
     margins <- c(bottom, left, 50, 50)
   }
 
-  # [ Tick Labels ] ====
+  # Tick Labels ====
   if (is.null(showticklabels)) {
     showticklabels <- c(ifelse(NCOL(z) < 50, TRUE, FALSE),
                         ifelse(NROW(z) < 50, TRUE, FALSE))
@@ -109,14 +106,14 @@ dplot3_heatmap <- function(z,
 
   if (is.null(font.size)) font.size <- 17.0769 - 0.2692*ncol(z)
 
-  # [ Limits ] ====
+  # Limits ====
   if (is.null(limits)) {
     maxabs <- max(abs(z), na.rm = TRUE)
     if (.2 < maxabs & maxabs < 1) maxabs <- 1
     limits <- c(-maxabs, maxabs)
   }
 
-  # [ Theme ] ====
+  # Theme ====
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -135,7 +132,7 @@ dplot3_heatmap <- function(z,
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
 
-  # [ Colors ] ====
+  # Colors ====
   if (is.null(mid)) mid <- theme$bg
   colors <- colorGrad(n = colorGrad.n,
                       colors = colors,
@@ -146,15 +143,15 @@ dplot3_heatmap <- function(z,
                       midhi = midhi,
                       hi = hi)
 
-  # [ Cluster ] ====
+  # Cluster ====
   if (cluster) Rowv <- Colv <- TRUE
 
-  # [ Cellnote ] ====
+  # Cellnote ====
   if (!is.null(cellnote)) {
     if (cellnote == "values") cellnote <- matrix(ddSci(z), NROW(z), NCOL(z))
   }
 
-  # [ heatmaply ] ====
+  # heatmaply ====
   ggp2text <- ggplot2::element_text(family = theme$font.family,
                                     color = theme$tick.labels.col)
   ggp2theme <- ggplot2::theme(
@@ -195,7 +192,7 @@ dplot3_heatmap <- function(z,
                                                # side_color_layers = ggp2theme,
                                                file = filename))
 
-  # [ Layout ] ====
+  # Layout ====
   # '- layout ====
   f <- list(family = theme$font.family,
             size = font.size,

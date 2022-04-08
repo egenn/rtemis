@@ -81,6 +81,7 @@ dplot3_xy(
   filename = NULL,
   file.width = 500,
   file.height = 500,
+  file.scale = 1,
   ...
 )
 }

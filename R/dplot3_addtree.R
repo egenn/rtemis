@@ -18,33 +18,31 @@
 #' @export
 
 dplot3_addtree <- function(addtree,
-                           col.positive = "#F48024DD",
-                           col.negative = "#18A3ACDD",
-                           node.col = "#666666",
-                           node.shape = "none",
-                           node.labels = TRUE,
-                           node.labels.pct.pos = NULL,
-                           pos.name = NULL,
-                           edge.col = "#999999",
-                           edge.width = 2,
-                           edge.labels = FALSE,
-                           arrowhead = "vee",
-                           layout = "dot",
-                           drop.leaves = FALSE,
-                           rankdir = "TB",
-                           splines = "polyline",
-                           fontname = "helvetica",
-                           bg.color = "#ffffff",
-                           overlap = "false",
-                           prune = NULL,
-                           prune.empty.leaves = TRUE,
-                           remove.bad.parents = FALSE,
-                           filename = NULL) {
+            col.positive = "#F48024DD",
+            col.negative = "#18A3ACDD",
+            node.col = "#666666",
+            node.shape = "none",
+            node.labels = TRUE,
+            node.labels.pct.pos = NULL,
+            pos.name = NULL,
+            edge.col = "#999999",
+            edge.width = 2,
+            edge.labels = FALSE,
+            arrowhead = "vee",
+            layout = "dot",
+            drop.leaves = FALSE,
+            rankdir = "TB",
+            splines = "polyline",
+            fontname = "helvetica",
+            bg.color = "#ffffff",
+            overlap = "false",
+            prune = NULL,
+            prune.empty.leaves = TRUE,
+            remove.bad.parents = FALSE,
+            filename = NULL) {
 
   # Dependencies ====
-  if (!depCheck("data.tree", "DiagrammeR", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("data.tree", "DiagrammeR")
 
   # Tree ====
   if (inherits(addtree, "Node")) {
@@ -140,9 +138,7 @@ dplot3_addtree <- function(addtree,
 
   # Write to file ====
   if (!is.null(filename)) {
-    if (!depCheck("DiagrammeRsvg", "rsvg", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("DiagrammeRsvg", "rsvg")
     filename <- file.path(filename)
     plt_svg <- DiagrammeRsvg::export_svg(plt)
     rsvg::rsvg_pdf(charToRaw(plt_svg), file = filename)

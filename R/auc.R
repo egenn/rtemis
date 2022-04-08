@@ -37,15 +37,11 @@ auc <- function(prob, labels,
   if (method == "auc_pairs") {
     .auc <- auc_pairs(prob, labels, verbose = verbose)
   } else if (method == "pROC") {
-    if (!depCheck("pROC", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("pROC")
     # maybe define cases and controls here as well
     .auc <- as.numeric(pROC::roc(labels, prob, direction = ">")$auc)
   } else {
-    if (!depCheck("ROCR", verbose = FALSE)) {
-      cat("\n"); stop("Please install dependencies and try again")
-    }
+    dependency_check("ROCR")
     .pred <- ROCR::prediction(prob, labels, label.ordering = rev(levels(labels)))
     .auc <- ROCR::performance(.pred, "auc")@y.values[[1]]
   }

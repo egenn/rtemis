@@ -12,9 +12,7 @@
 survError <- function(true, estimated) {
 
   # Dependencies ====
-  if (!depCheck("survival", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("survival")
 
   if (!survival::is.Surv(true)) stop("true must be Survival object")
   out <- survival::concordancefit(true, estimated)

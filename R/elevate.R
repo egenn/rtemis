@@ -218,8 +218,8 @@ elevate <- function(x, y = NULL,
     } else {
       n.cores <- 1
     }
-  } else if (mod == "H2OGBM" | mod == "H2ORF" | mod == "H2OGLM" | mod == "H2ODL" | mod == "XGB" |
-             mod == "XGBLIN" | mod == "LGB") {
+  } else if (mod == "H2OGBM" | mod == "H2ORF" | mod == "H2OGLM" | 
+    mod == "H2ODL" | mod == "XGB" | mod == "XGBLIN" | mod == "LGB") {
     if (verbose) msg("Warning: using", mod, "- n.cores for resamples set to 1")
     n.cores <- 1
   }

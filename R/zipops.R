@@ -31,9 +31,7 @@ zip2longlat <- function(x, zipdt) {
 zipdist <- function(x, y, zipdt) {
 
   # Dependencies ====
-  if (!depCheck("geosphere", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("geosphere")
 
   # distHaversine ====
   geosphere::distHaversine(zip2longlat(x, zipdt)[, -1],

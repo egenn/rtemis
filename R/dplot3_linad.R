@@ -83,9 +83,7 @@ dplot3_linad <- function(x,
                          trace = 0) {
 
   # Dependencies ====
-  if (!depCheck("visNetwork", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("visNetwork")
 
   # Arguments ====
   if (inherits(x, "rtMod")) {

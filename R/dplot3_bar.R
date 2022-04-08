@@ -99,12 +99,11 @@ dplot3_bar <-  function(x,
                         filename = NULL,
                         file.width = 500,
                         file.height = 500,
+                        file.scale = 1,
                         trace = 0, ...) {
   
   # Dependencies ====
-  if (!depCheck("plotly", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("plotly")
   
   # Arguments ====
   barmode <- match.arg(barmode)
@@ -327,9 +326,12 @@ dplot3_bar <-  function(x,
   
   # Write to file ====
   if (!is.null(filename)) {
-    filename <- file.path(filename)
-    plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-                         format = tools::file_ext(filename), out_file = filename)
+      plotly::save_image(
+          plt,
+          file.path(filename),
+          with = file.width, height = file.height,
+          scale = file.scale
+      )
   }
   
   plt

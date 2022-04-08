@@ -85,12 +85,9 @@ mplot3_graph <- function(net,
                          verbose = TRUE, ...) {
 
   # Dependencies ====
-  if (!depCheck("igraph", verbose = FALSE)) {
-    cat("\n"); stop("Please install dependencies and try again")
-  }
+  dependency_check("igraph")
 
   # Theme ====
-  # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
   }

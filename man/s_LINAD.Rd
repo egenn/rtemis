@@ -110,6 +110,9 @@ Default = NULL (random seed)}
 \item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
 Default = TRUE}
 
+\item{gamma}{Numeric: Soft weighting parameter. Weights of cases that do not
+belong to node get multiplied by this amount}
+
 \item{lin.type}{Character: See \link{lincoef} for options}
 
 \item{single.lin.type}{Character same options as \code{lin.type}, linear model to fit when
