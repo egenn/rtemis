@@ -34,26 +34,25 @@
 #' @param call.depth Integer: passed to \link{msg}. Default = 2
 #' @param grid.verbose Logical: Passed to \code{learner}'s \code{verbose} argument
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Additional arguments to be passed to \link{resample}
 #'
 #' @author E.D. Gennatas
 #' @noRd
 
-gridSearchLearn1 <- function(x, y, mod,
-                            grid.params,
-                            fixed.params = NULL,
-                            search.type = c("exhaustive", "randomized"),
-                            resample.rtset = rtset.resample(),
-                            randomized.p = .05,
-                            weights = NULL,
-                            error.aggregate.fn = mean,
-                            metric = NULL,
-                            maximize = NULL,
-                            save.mod = FALSE,
-                            verbose = TRUE,
-                            call.depth = 1,
-                            grid.verbose = FALSE,
-                            n.cores = rtCores, ...) {
+gridSearchLearn <- function(x, y, mod,
+                             grid.params,
+                             fixed.params = NULL,
+                             search.type = c("exhaustive", "randomized"),
+                             resample.rtset = rtset.resample(),
+                             randomized.p = .05,
+                             weights = NULL,
+                             error.aggregate.fn = mean,
+                             metric = NULL,
+                             maximize = NULL,
+                             save.mod = FALSE,
+                             verbose = TRUE,
+                             call.depth = 1,
+                             grid.verbose = FALSE,
+                             n.cores = rtCores) {
 
     # Intro ====
     start.time <- intro(
@@ -100,10 +99,10 @@ gridSearchLearn1 <- function(x, y, mod,
                          save.mod) {
         if (verbose) msg("Running grid line #", index, " of ", NROW(param.grid), "...", sep = "")
         res1 <- res[[param.grid[index, 1]]]
-        x.train1 <- x[res1, ]
+        x.train1 <- x[res1, , drop = FALSE]
         y.train1 <- y[res1]
         weights1 <- weights[res1]
-        x.test1 <- x[-res1, ]
+        x.test1 <- x[-res1, , drop = FALSE]
         y.test1 <- y[-res1]
         args <- c(
             list(
@@ -131,6 +130,10 @@ gridSearchLearn1 <- function(x, y, mod,
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
         }
+        if (learner == "s_XGBOOST") {
+            out1$best_iteration <- mod1$mod$best_iteration
+            out1$best_score <- mod1$mod$best_score
+        }
         if (learner == "s_GLMNET") {
             out1$lambda.min <- mod1$mod$lambda.min
             out1$lambda.1se <- mod1$mod$lambda.1se
@@ -156,7 +159,7 @@ gridSearchLearn1 <- function(x, y, mod,
     } else {
         pbapply::pboptions(type = "none")
     }
-    grid.run <- pbapply::pblapply(seq(NROW(param.grid)), learner1,
+    grid_run <- pbapply::pblapply(seq(NROW(param.grid)), learner1,
         learner,
         x, y, res,
         param.grid,
@@ -168,7 +171,7 @@ gridSearchLearn1 <- function(x, y, mod,
     )
 
     # Metric ====
-    type <- grid.run[[1]]$type
+    type <- grid_run[[1]]$type
     if (is.null(metric)) {
         if (type == "Classification") {
             metric <- "Balanced Accuracy"
@@ -189,12 +192,19 @@ gridSearchLearn1 <- function(x, y, mod,
     n.params <- length(grid.params)
     # Average test errors
     if (type %in% c("Regression", "Survival")) {
-        error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test))))
+        error.test.all <- as.data.frame(t(sapply(
+            grid_run,
+            function(r) unlist(r$error.test)
+        )))
     } else if (type == "Classification") {
-        error.test.all <- as.data.frame(t(sapply(grid.run, function(r) unlist(r$error.test$Overall))))
+        error.test.all <- as.data.frame(t(sapply(
+            grid_run,
+            function(r) unlist(r$error.test$Overall)
+        )))
     }
     error.test.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
-    error.test.mean.by.param.id <- aggregate(error.test.all,
+    error.test.mean.by.param.id <- aggregate(
+        error.test.all,
         by = list(param.id = error.test.all$param.id),
         error.aggregate.fn
     )[, -1]
@@ -206,7 +216,7 @@ gridSearchLearn1 <- function(x, y, mod,
     # '- GBM, H2OGBM ====
     if (learner %in% c("s_H2OGBM", "s_GBM", "s_GBM3")) {
         est.n.trees.all <- data.frame(n.trees = plyr::laply(
-            grid.run,
+            grid_run,
             function(x) x$est.n.trees
         ))
         est.n.trees.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
@@ -214,28 +224,22 @@ gridSearchLearn1 <- function(x, y, mod,
             n.trees ~ param.id, est.n.trees.all,
             error.aggregate.fn
         )
-        tune.results <- cbind(
-            n.trees = round(est.n.trees.by.param.id$n.trees),
-            tune.results
-        )
+        tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
         n.params <- n.params + 1
     }
 
     # '- XGBoost ====
-    if (learner == "XGB") {
+    if (learner == "s_XGBOOST") {
         est.nrounds.all <- data.frame(nrounds = plyr::laply(
-            grid.run,
-            function(x) x$best_iteration
+            grid_run,
+            function(m) m$best_iteration
         ))
         est.nrounds.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
         est.nrounds.by.param.id <- aggregate(
             nrounds ~ param.id, est.nrounds.all,
             error.aggregate.fn
         )
-        tune.results <- cbind(
-            nrounds = round(est.nrounds.by.param.id$nrounds),
-            tune.results
-        )
+        tune.results <- cbind(nrounds = round(est.nrounds.by.param.id$nrounds), tune.results)
         n.params <- n.params + 1
     }
 
@@ -243,10 +247,7 @@ gridSearchLearn1 <- function(x, y, mod,
     if (learner == "s_GLMNET") {
         if (is.null(grid.params$lambda)) {
             # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-            lambda.all <- data.frame(lambda = plyr::laply(
-                grid.run,
-                function(x) x[[fixed.params$which.cv.lambda]]
-            ))
+            lambda.all <- data.frame(lambda = plyr::laply(grid_run, function(x) x[[fixed.params$which.cv.lambda]]))
             lambda.all$param.id <- rep(1:n.param.combs, each = n.resamples)
             lambda.by.param.id <- aggregate(
                 lambda ~ param.id, lambda.all,
@@ -259,9 +260,8 @@ gridSearchLearn1 <- function(x, y, mod,
 
     # '- LINAD ====
     if (learner %in% c("s_LINAD", "s_LINOA")) {
-        # ERROR
         est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
-            grid.run,
+            grid_run,
             function(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
         ))
         est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
@@ -275,7 +275,7 @@ gridSearchLearn1 <- function(x, y, mod,
 
     # '- LIHADBOOST ====
     if (learner == "s_LIHADBOOST") {
-        est.n.steps.all <- data.frame(n.steps = plyr::laply(grid.run, function(x) x$sel.n.steps))
+        est.n.steps.all <- data.frame(n.steps = plyr::laply(grid_run, function(x) x$sel.n.steps))
         est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
         est.n.steps.by.param.id <- aggregate(
             n.steps ~ param.id, est.n.steps.all,
@@ -290,8 +290,12 @@ gridSearchLearn1 <- function(x, y, mod,
     best.tune <- tune.results[select.fn(tune.results[[metric]]), seq_len(n.params),
         drop = FALSE
     ]
-    if (verbose) parameterSummary(best.tune, title = paste("Best parameters to", verb, metric))
-
+    if (verbose) {
+        parameterSummary(
+            best.tune,
+            title = paste("Best parameters to", verb, metric)
+        )
+    }
 
     # Outro ====
     outro(start.time, verbose = verbose)
@@ -311,12 +315,11 @@ gridSearchLearn1 <- function(x, y, mod,
         error.aggregate.fn = deparse(substitute(error.aggregate.fn))
     )
 
-    if (save.mod) gs$mods <- grid.run
+    if (save.mod) gs$mods <- grid_run
 
     class(gs) <- c("gridSearch", "list")
     gs
-} # rtemis::gridSearchLearn
-
+} # rtemis::gridSearchLearn2
 
 #' \pkg{rtemis} internal: Grid check
 #'
