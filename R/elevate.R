@@ -1,7 +1,6 @@
 # elevate.R
 # ::rtemis::
 # 2016-8 E.D. Gennatas lambdamd.org
-# add names Repeat1, etc. to resamples list
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
@@ -105,53 +104,50 @@
 #' }
 #' @export
 
-elevate <- function(x, y = NULL,
-                    mod = "ranger",
-                    mod.params = list(),
-                    .preprocess = NULL,
-                    .decompose = NULL,
-                    .resample = NULL,
-                    weights = NULL,
-                    resampler = "strat.sub",
-                    n.resamples = 10,
-                    n.repeats = 1,
-                    stratify.var = NULL,
-                    train.p = .8,
-                    strat.n.bins = 4,
-                    target.length = NULL,
-                    seed = NULL,
-                    res.index = NULL,
-                    res.group = NULL,
-                    bag.fn = median,
-                    x.name = NULL,
-                    y.name = NULL,
-                    save.mods = TRUE,
-                    save.tune = TRUE,
-                    # save.data = TRUE,
-                    cex = 1.4,
-                    col = "#18A3AC",
-                    bag.fitted = FALSE,
-                    n.cores = 1,
-                    parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
-                    print.plot = TRUE,
-                    plot.fitted = FALSE,
-                    plot.predicted = TRUE,
-                    plot.theme = getOption("rt.theme"),
-                    print.res.plot = FALSE,
-                    # yhat.plots = TRUE,
-                    # plot.mean = NULL,
-                    # plot.type = "density",
-                    question = NULL,
-                    verbose = TRUE,
-                    trace = 0,
-                    res.verbose = FALSE,
-                    headless = FALSE,
-                    outdir = NULL,
-                    save.plots = FALSE,
-                    save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
-                    save.mod = TRUE,
-                    save.res = FALSE,
-                    debug = FALSE, ...) {
+elevate <- function(
+            x, y = NULL,
+            mod = "ranger",
+            mod.params = list(),
+            .preprocess = NULL,
+            .decompose = NULL,
+            .resample = NULL,
+            weights = NULL,
+            resampler = "strat.sub",
+            n.resamples = 10,
+            n.repeats = 1,
+            stratify.var = NULL,
+            train.p = .8,
+            strat.n.bins = 4,
+            target.length = NULL,
+            seed = NULL,
+            res.index = NULL,
+            res.group = NULL,
+            bag.fn = median,
+            x.name = NULL,
+            y.name = NULL,
+            save.mods = TRUE,
+            save.tune = TRUE,
+            cex = 1.4,
+            col = "#18A3AC",
+            bag.fitted = FALSE,
+            n.cores = 1,
+            parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
+            print.plot = TRUE,
+            plot.fitted = FALSE,
+            plot.predicted = TRUE,
+            plot.theme = getOption("rt.theme"),
+            print.res.plot = FALSE,
+            question = NULL,
+            verbose = TRUE,
+            trace = 0,
+            res.verbose = FALSE,
+            headless = FALSE,
+            outdir = NULL,
+            save.plots = FALSE,
+            save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
+            save.mod = TRUE,
+            save.res = FALSE,
+            debug = FALSE, ...) {
 
   # Intro ====
   if (missing(x)) {
@@ -228,10 +224,6 @@ elevate <- function(x, y = NULL,
 
   if (save.rt & is.null(outdir)) outdir <- paste0("./elevate.", mod)
 
-  # Plot mean if not kfold, loocv
-  # if (is.null(plot.mean)) {
-  #   plot.mean <- if (resampler %in% c("kfold", "loocv")) FALSE else TRUE
-  # }
   if (.Platform$OS.type == "windows" & parallel.type == "fork") {
     warning("Forking is not possible in Windows, using PSOCK cluster instead")
     parallel.type <- "psock"
@@ -244,7 +236,6 @@ elevate <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (verbose) dataSummary(x, y, type = type, testSet = FALSE)
-  # if (verbose & length(mod.params) > 0) parameterSummary(mod.params, title = paste(mod, "Parameters"))
   if (type == "Classification") {
     nclasses <- length(levels(y))
     if (nclasses != length(unique(y))) warning("elevate: Outcome contains empty classes")
@@ -276,10 +267,6 @@ elevate <- function(x, y = NULL,
                         group = res.group,
                         index = res.index)
   if (n.cores > 1) print.res.plot <- FALSE
-  # nres <- if (resampler == "loocv") NROW(y) else n.resamples
-  # if (verbose) msg("Cross-validating ", mod.name, " ", type, " with ", nres,
-  #                  " resamples on ", n.cores, ifelse(n.cores == 1, " core", " cores"), "...", sep = "")
-  # if (verbose) msg("Training", mod.name, "on", nres, "resamples...")
   if (!is.null(logFile) & trace < 2) sink() # pause writing to file
   res.outdir <- if (save.res) outdir else NULL
   res.run <- mods <- res <- list()
@@ -355,16 +342,6 @@ elevate <- function(x, y = NULL,
   }
   names(error.train.res.aggr) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
 
-  # if (verbose) {
-  #   for (i in seq(n.repeats)) {
-  #     if (resampler == "kfold" | resampler == "loocv") {
-  #       errorSummary(error.train.res.aggr[[i]], mod.name, pre = paste0("Repeat #", i ," Aggregated Train"))
-  #     } else {
-  #       errorSummary(error.train.res.mean[[i]], mod.name, pre = paste0("Repeat #", i ," Mean Train"))
-  #     }
-  #   }
-  # }
-
   # Res predicted ====
   # The predicted values and testing error from each resample
   y.test.res <- lapply(seq(n.repeats), function(n)
@@ -406,13 +383,6 @@ elevate <- function(x, y = NULL,
       modError(unlist(y.test.res[[n]]), unlist(predicted.res[[n]])))
   }
   names(error.test.res.aggr) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
-
-  # Exclude or TODO: fix for different resamplers
-  # if (verbose) {
-  #   for (i in seq(n.repeats)) {
-  #     errorSummary(error.test.res.aggr[[i]], mod.name, pre = paste0("Repeat #", i ," Aggregated Test"))
-  #   }
-  # }
 
   # Mean repeats error ====
   if (resampler == "loocv" | resampler == "kfold") {
