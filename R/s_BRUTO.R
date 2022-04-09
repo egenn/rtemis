@@ -98,7 +98,8 @@ s_BRUTO <- function(x, y = NULL,
                                              maxit.backfit = maxit.backfit,
                                              thresh = thresh),
                           weights = weights,
-                          minimize = "MSE",
+                          metric = "MSE",
+                          maximize = FALSE,
                           verbose = verbose,
                           n.cores = n.cores)
     dfmax <- gs$best.tune$dfmax

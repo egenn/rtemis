@@ -152,15 +152,20 @@ s_MARS <- function(x, y = NULL,
   gs <- NULL
   if (gridCheck(pmethod, degree, nprune, penalty, nk)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(pmethod = pmethod,
-                                             degree = degree,
-                                             nprune = nprune,
-                                             penalty = penalty,
-                                             nk = nk),
-                          fixed.params = list(glm = glm),
-                          weights = weights,
-                          minimize = "MSE", verbose = verbose, n.cores = n.cores)
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        pmethod = pmethod,
+        degree = degree,
+        nprune = nprune,
+        penalty = penalty,
+        nk = nk
+      ),
+      fixed.params = list(glm = glm),
+      weights = weights,
+      metric = "MSE",
+      maximize = FALSE,
+      verbose = verbose, n.cores = n.cores
+    )
     pmethod <- as.character(gs$best.tune$pmethod)
     degree <- gs$best.tune$degree
     nprune <- gs$best.tune$nprune

@@ -103,13 +103,18 @@ s_POLYMARS <- function(x, y = NULL,
   # Grid Search ====
   if (gridCheck(maxsize)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(maxsize = maxsize),
-                          fixed.params = list(classify = classify,
-                                              ipw = ipw,
-                                              ipw.type = ipw.type),
-                          weights = weights,
-                          minimize = "MSE", verbose = verbose, n.cores = n.cores)
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(maxsize = maxsize),
+      fixed.params = list(
+        classify = classify,
+        ipw = ipw,
+        ipw.type = ipw.type
+      ),
+      weights = weights,
+      metric = "MSE",
+      maximize = FALSE,
+      verbose = verbose, n.cores = n.cores
+    )
     maxsize <- gs$best.tune$maxsize
   } else {
     gs <- NULL
