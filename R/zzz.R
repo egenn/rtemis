@@ -1,3 +1,8 @@
+# ▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·
+# ▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.
+# ▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄
+# ▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█
+# .▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀
 # zzz.R
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
@@ -9,13 +14,44 @@ rtemis.version <- packageVersion("rtemis")
 rtHome = getOption("rt.home", Sys.getenv("HOME"))
 
 .onAttach <- function(libname, pkgname) {
+
+  packageStartupMessage(paste0(
+    "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+    "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+    "\n  Documentation: https://rtemis.lambdamd.org",
+    "\n  Learn R: https://class.lambdamd.org/pdsr",
+    "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+    '\n  Use `citation("rtemis")` for citation info'
+  ))
   
-  packageStartupMessage(paste0("  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-                               "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-                               "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
-                               "\n  Learn R: https://class.lambdamd.org/pdsr",
-                               "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-                               '\n  See `citation("rtemis")` for how to cite'))
+  # packageStartupMessage(paste0(
+  #   "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+  #   "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+  #   "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
+  #   "\n  Learn R: https://class.lambdamd.org/pdsr",
+  #   "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+  #   '\n  See `citation("rtemis")` for how to cite'
+  # ))
+
+  # packageStartupMessage(
+  #   "                                         d8,           ",
+  #   "\n             d8P                        `8P           |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+  #   "\n          d888888P                                    |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+  #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |", "  Documentation & vignettes: https://rtemis.lambdamd.org",
+  #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |", "  Learn R: https://class.lambdamd.org/pdsr",
+  #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |", "  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+  #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |", '  See `citation("rtemis")` for how to cite'
+  # )
+  
+# packageStartupMessage(
+#   "▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·  |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+# "\n▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.  |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+# "\n▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄ |", "  Documentation: https://rtemis.lambdamd.org",
+# "\n▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█ |", "  Learn R: https://class.lambdamd.org/pdsr",
+# "\n.▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀  |", '  See `citation("rtemis")` for how to cite',
+# "\n VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark"
+# )
+
   
   try(
     if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
