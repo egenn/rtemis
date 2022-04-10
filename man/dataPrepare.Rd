@@ -11,6 +11,7 @@ dataPrepare(
   y.test = NULL,
   x.valid = NULL,
   y.valid = NULL,
+  filter.y.na = FALSE,
   ipw = FALSE,
   ipw.type = 2,
   upsample = FALSE,
@@ -22,18 +23,12 @@ dataPrepare(
 )
 }
 \arguments{
-\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
-
-\item{y}{Numeric vector of outcome, i.e. dependent variable}
-
-\item{x.test}{Numeric vector or matrix / data frame of testing set features
-Columns must correspond to columns in \code{x}}
-
-\item{y.test}{Numeric vector of testing set outcome}
-
 \item{x.valid}{Matrix / Data frame: Validation set features}
 
 \item{y.valid}{Vector: Validation outcome}
+
+\item{filter.y.na}{Logical: If TRUE, filter out cases with missing values
+in \code{y}}
 
 \item{ipw}{Logical: If TRUE, return class weights for inverse probability weighting
 (for Classification)}
@@ -54,5 +49,8 @@ Some algorithms do not work with variable names containing dots (SparkML)}
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
-Prepare data for \pkg{rtemis} modeling
+Prepare data for \pkg{rtemis} supervised learning
+}
+\author{
+E.D. Gennatas
 }
