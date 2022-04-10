@@ -121,7 +121,11 @@ dplot3_x <- function(x,
 
     # '- Group ====
     if (!is.null(group)) {
-        group <- as.factor(group)
+        if (is.factor(group)) {
+            group <- droplevels(group)
+        } else {
+            group <- as.factor(group)
+        }
         x <- as.data.frame(x)
         x <- split(x, group)
         x <- sapply(x, as.vector)
