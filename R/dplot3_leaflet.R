@@ -213,8 +213,3 @@ dplot3_leaflet <- function(fips,
     map <- htmlwidgets::prependContent(map, insert)
     map
 } # rtemis:: dplot3_leaflet
-
-
-# geographic center of the United States:
-# latitude 39°12'26.686", longitude 98°32'30.506"
-# lat: 39.207413888888894, long: -98.54180833333334
