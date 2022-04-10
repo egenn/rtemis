@@ -1,8 +1,3 @@
-# ▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·
-# ▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.
-# ▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄
-# ▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█
-# .▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀
 # zzz.R
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
@@ -23,15 +18,6 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
     "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
     '\n  Use `citation("rtemis")` for citation info'
   ))
-  
-  # packageStartupMessage(paste0(
-  #   "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-  #   "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-  #   "\n  Documentation & vignettes: https://rtemis.lambdamd.org",
-  #   "\n  Learn R: https://class.lambdamd.org/pdsr",
-  #   "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-  #   '\n  See `citation("rtemis")` for how to cite'
-  # ))
 
   # packageStartupMessage(
   #   "                                         d8,           ",
@@ -42,16 +28,6 @@ rtHome = getOption("rt.home", Sys.getenv("HOME"))
   #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |", "  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
   #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |", '  See `citation("rtemis")` for how to cite'
   # )
-  
-# packageStartupMessage(
-#   "▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·  |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-# "\n▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.  |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-# "\n▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄ |", "  Documentation: https://rtemis.lambdamd.org",
-# "\n▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█ |", "  Learn R: https://class.lambdamd.org/pdsr",
-# "\n.▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀  |", '  See `citation("rtemis")` for how to cite',
-# "\n VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark"
-# )
-
   
   try(
     if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
