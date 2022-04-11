@@ -177,7 +177,7 @@ gridSearchLearn_future <- function(x, y, mod,
         )
         msg(n.resamples, " resamples; ", NROW(param.grid),
             " models total; running on ",
-            singorplu(n.cores, "core"),
+            singorplu(n.cores, "worker"),
             " (", Sys.getenv("R_PLATFORM"), ")\n",
             sep = ""
         )

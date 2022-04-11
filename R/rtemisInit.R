@@ -145,9 +145,8 @@ parameterSummary <- function(...,
         x <- list(...)
         xnames <- as.character(substitute(list(...)))[-1L]
         names(x) <- xnames
-        for (i in seq(x)) {
+        for (i in seq_along(x)) {
             if (is.list(x[[i]]) && length(x[[i]]) > 0) {
-                # x[[i]] <- as.list(x[[i]]) # because data.frame also gives is.list TRUE
                 if (is.null(names(x[[i]]))) {
                     names(x[[i]]) <- paste0(
                         xnames[i], ".",
@@ -234,6 +233,7 @@ rtemis_init <- function(n.cores = 1,
                         context = NULL,
                         verbose = TRUE) {
 
+    # Future plan ====
     if (!is.null(context)) context <- paste0(context, ":")
     if (n.cores > 1) {
         rtPlan <- getOption(
@@ -258,14 +258,13 @@ rtemis_init <- function(n.cores = 1,
         }
     }
 
+    # Progress handlers
     if (is.null(rtenv$handlers_set)) {
-        rtProgress <- getOption("rt.progress", "global")
-        if (rtProgress == "global") progressr::handlers(global = TRUE)
         rtHandler <- getOption("rt.handler", "progress")
         progressr::handlers(rtHandler)
         rtenv$handlers_set <- 1
         if (verbose) {
-            msg("Global progression handler enabled using",
+            msg("Progressi handler set to",
                 crayon::bold(rtHandler),
                 color = crayon::magenta
             )
