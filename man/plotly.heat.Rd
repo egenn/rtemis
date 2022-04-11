@@ -31,7 +31,7 @@ plotly.heat(
 
 \item{zlab}{z value label}
 
-\item{transpose}{Logical. Transpose matrix}
+\item{transpose}{Logical: If TRUE, transpose matrix}
 }
 \description{
 Draw a heatmap using \code{plotly}

@@ -51,7 +51,7 @@ dplot3_volcano(
 
 \item{p.transform}{function. Default = \code{\(x) -log10(x)}}
 
-\item{p.adjust.method}{Character: p-value adjustment method. 
+\item{p.adjust.method}{Character: p-value adjustment method.
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 Default = "holm". Use "none" for raw p-values.}
 

@@ -17,6 +17,7 @@ Allows you to get `n` colors of a defined palette, useful for passing to other f
 }
 \examples{
 rtemis_palette(3)
+
 }
 \author{
 E.D. Gennatas

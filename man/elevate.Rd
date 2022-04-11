@@ -40,14 +40,15 @@ elevate(
   print.res.plot = FALSE,
   question = NULL,
   verbose = TRUE,
-  trace = 0,
   res.verbose = FALSE,
+  trace = 0,
   headless = FALSE,
   outdir = NULL,
   save.plots = FALSE,
   save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
   save.mod = TRUE,
   save.res = FALSE,
+  backend = "future",
   debug = FALSE,
   ...
 )
@@ -145,9 +146,9 @@ from all resamples. Defaults to TRUE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: (Not really used) Print additional information if > 0. Default = 0}
-
 \item{res.verbose}{Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument}
+
+\item{trace}{Integer: (Not really used) Print additional information if > 0. Default = 0}
 
 \item{headless}{Logical: If TRUE, turn off all plotting.}
 

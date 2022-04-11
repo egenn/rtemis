@@ -7,11 +7,16 @@
 auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"), verbose = FALSE)
 }
 \arguments{
-\item{prob}{Float, Vector: Probabilities or model scores (e.g. c(.32, .75, .63), etc)}
+\item{prob}{Numeric, Vector: Probabilities or model scores 
+(e.g. c(.32, .75, .63), etc)}
 
 \item{labels}{True labels of outcomes (e.g. c(0, 1, 1))}
 
-\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use. Will use \code{pROC::roc},}
+\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use. 
+Will use \code{pROC::roc},
+\link{auc_pairs},
+\code{ROCR::performance}, respectively. They should all give the same result, 
+they are included for testing.}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 }
@@ -21,13 +26,12 @@ Get the Area under the ROC curve to assess classifier performance using \code{pR
 \details{
 Consider looking at Balanced Accuracy and F1 as well
 
-Important Note: We always assume that true labels are a factor where the first level is the
-"positive" case, a.k.a. the event. All methods used here, "pROC", "auc_pairs", "ROCR", have been
-setup to expect this. This goes against the default sertting for both "pROC" and "ROCR", which
-will not give an AUC less than .5 because they will reorder levels. We don't want this because we
-believe you CAN make a classifier perform worse than chance (for research or whatnot). It can be
-very confusing if levels are reordered automatically and different functions give you different
-AUC. Also, AUC has been very popular, but I strongly recommend reporting Balanced Accuracy (=
-mean, per-class sensitivity = mean of Sensitivity + Specificity in binary classification)
-instead or as well.
+Important Note: We assume that true labels are a factor where the first level 
+is the "positive" case, a.k.a. the event. All methods used here, "pROC", 
+"auc_pairs", "ROCR", have been setup to expect this. This goes against the 
+default sertting for both "pROC" and "ROCR", which will not give an AUC less 
+than .5 because they will reorder levels. We don't want this because you
+can have a classifier perform worse than .5 and tt can be very confusing if 
+levels are reordered automatically and different functions give you different
+AUC.
 }
