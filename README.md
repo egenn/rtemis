@@ -53,6 +53,11 @@ Recommended font is Fira Code with its beautiful ligatures.
 
 ## What's new
 
+### **0.91**
+
+Switched the main parallelizable functions (resLearn for outer resamples;
+gridSearchlearn for inner resamples) to use [`future`](https://github.com/HenrikBengtsson/future) for parallelization
+and [`progressr`](https://github.com/HenrikBengtsson/progressr) for progress reporting.
 ### **0.90**
 
 Multiple additions and updates.  
