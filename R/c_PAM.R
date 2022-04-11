@@ -25,25 +25,25 @@ c_PAM <- function(x,
                   do.swap = TRUE,
                   verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "PAM"
 
-  # Data ====
+  # Data ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("cluster")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_PAM))
     stop("x is missing")
   }
 
-  # CLUST ====
+  # CLUST ----
   if (verbose) msg("Partitioning Around Medoids with k = ", k, "...", sep = "")
   clust <- cluster::pam(x,
                         k = k,
@@ -52,10 +52,10 @@ c_PAM <- function(x,
                         do.swap = do.swap,
                         trace.lev = ifelse(verbose, 3, 0), ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- clust$clustering
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

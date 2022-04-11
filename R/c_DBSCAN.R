@@ -24,26 +24,26 @@ c_DBSCAN <- function(x, x.test = NULL,
                      search = c("kdtree", "linear", "dist"),
                      verbose = TRUE, ...) {
   
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("flexclust")
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "DBSCAN"
   
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_DBSCAN))
     stop("x is missing")
   }
   search <- match.arg(search)
 
-  # Data ====
+  # Data ----
   .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.matrix(x)
   xnames <- colnames(x) <- .colnames
   
-  # DBSCAN ====
+  # DBSCAN ----
   if (verbose) msg("Performing DBSCAN Clustering...")
   clust <- dbscan::dbscan(x,
                           eps = eps,
@@ -52,7 +52,7 @@ c_DBSCAN <- function(x, x.test = NULL,
                           borderPoints = borderPoints,
                           search = search, ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- clust$cluster
   if (!is.null(x.test)) {
     clusters.test <- predict(clust, newdata = as.matrix(x.test), 
@@ -61,7 +61,7 @@ c_DBSCAN <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
   
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = length(unique(clusters.train)),
                     xnames = xnames,

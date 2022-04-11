@@ -41,7 +41,7 @@ s_PPTREE <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_PPTREE))
     invisible(9)
@@ -55,10 +55,10 @@ s_PPTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "PPTREE"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("PPtree")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -66,7 +66,7 @@ s_PPTREE <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -88,7 +88,7 @@ s_PPTREE <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # PPtree::PP.Tree ====
+  # PPtree::PP.Tree ----
   if (verbose) msg("Training Projection Pursuit Tree...", newline.pre = TRUE)
   mod <- PPtree::PP.Tree(PPmethod = PPmethod,
                          i.class = y,
@@ -101,14 +101,14 @@ s_PPTREE <- function(x, y = NULL,
                          energy = energy, ...)
   if (trace > 0) summary(mod)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- PPtree::PP.classify(test.data = x, true.class = y, Tree.result = mod)$predict.class
   fitted <- factor(fitted)
   levels(fitted) <- levels(y)
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test) & !is.null(y.test)) {
     predicted <- PPtree::PP.classify(test.data = x.test, true.class = y.test, Tree.result = mod)$predict.class
@@ -120,7 +120,7 @@ s_PPTREE <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtMod$new(mod.name = mod.name,
                   y.train = y,

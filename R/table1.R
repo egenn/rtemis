@@ -47,9 +47,9 @@ table1 <- function(x,
   index.cont <- which(sapply(x, is.numeric))
   index.disc <- which(sapply(x, is.factor) | sapply(x, is.character))
 
-  # Get summary statistics ====
+  # Get summary statistics ----
 
-  ## '- Continuous Features ====
+  ## '- Continuous Features ----
   if (length(index.cont) > 0) {
     # .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn1)
     .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i)
@@ -62,7 +62,7 @@ table1 <- function(x,
     .summary_cont <- NULL
   }
 
-  ## '- Discrete Features ====
+  ## '- Discrete Features ----
   if (length(index.disc)  > 0) {
     .summary1_disc <- lapply(index.disc, function(i) table(x[, i]))
     .summary_disc <- sapply(.summary1_disc, function(i) paste0(names(i), ": ", i, collapse = "; "))
@@ -70,7 +70,7 @@ table1 <- function(x,
     .summary_disc <- NULL
   }
 
-  # Table 1 ====
+  # Table 1 ----
   .table1 <- data.frame(Feature = c(.names[index.cont], .names[index.disc]),
                         Value = c(.summary_cont, .summary_disc))
   colnames(.table1)[2] <- "Mean (sd) | Count per group"

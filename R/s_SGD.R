@@ -38,7 +38,7 @@ s_SGD <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_SGD))
     return(invisible(9))
@@ -52,10 +52,10 @@ s_SGD <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SGD"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("sgd")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_SGD))
     stop("x is missing")
@@ -67,7 +67,7 @@ s_SGD <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -116,14 +116,14 @@ s_SGD <- function(x, y = NULL,
     x.test <- data.matrix(cbind(Intercept = 1, x.test))
   }
 
-  # sgd::sgd ====
+  # sgd::sgd ----
   if (verbose) msg("Training SGD model...", newline.pre = TRUE)
   mod <- sgd::sgd(x = x, y = y,
                   model = model,
                   model.control = model.control,
                   sgd.control = sgd.control, ...)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- mod$fitted.values[, 1]
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -140,7 +140,7 @@ s_SGD <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -155,7 +155,7 @@ s_SGD <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

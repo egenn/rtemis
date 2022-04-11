@@ -99,7 +99,7 @@ s_RANGER <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_RANGER))
     return(invisible(9))
@@ -113,10 +113,10 @@ s_RANGER <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RANGER"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("ranger")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_RANGER))
     stop("y is missing")
@@ -128,7 +128,7 @@ s_RANGER <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   grid.search.type <- match.arg(grid.search.type)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -176,12 +176,12 @@ s_RANGER <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  # Formula ====
+  # Formula ----
   df.train <- data.frame(x, y)
   colnames(df.train)[ncol(df.train)] <- y.name
   .formula <- as.formula(paste(y.name, "~ ."))
 
-  # Grid Search ====
+  # Grid Search ----
   if (gridCheck(mtry, min.node.size)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -218,7 +218,7 @@ s_RANGER <- function(x, y = NULL,
     min.node.size <- if (type == "Classification") 1 else 5
   }
 
-  # tuneRF ====
+  # tuneRF ----
   if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
   if (autotune) {
     if (verbose) msg("Tuning for mtry...")
@@ -246,7 +246,7 @@ s_RANGER <- function(x, y = NULL,
                      downsample = downsample,
                      resample.seed = resample.seed)
 
-  # Ranger ====
+  # Ranger ----
   if (stratify.on.y) {
     inbag.resample <- rtset.resample("strat.boot", n.trees)
   }
@@ -277,7 +277,7 @@ s_RANGER <- function(x, y = NULL,
                         num.threads = n.cores,
                         verbose = verbose, ...)
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Classification") {
     if (!probability) {
       fitted.all <- predict(mod, x, predict.all = TRUE)
@@ -297,7 +297,7 @@ s_RANGER <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -325,7 +325,7 @@ s_RANGER <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
 
   if (imetrics) {

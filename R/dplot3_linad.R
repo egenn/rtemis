@@ -82,10 +82,10 @@ dplot3_linad <- function(x,
                          direction = "UD",
                          trace = 0) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("visNetwork")
 
-  # Arguments ====
+  # Arguments ----
   if (inherits(x, "rtMod")) {
     if (inherits(x$mod, "shytreeLeavesRC")) tree <- x$mod$tree
     if (inherits(x$mod, "shytreegamleaves")) tree <- x$mod$tree
@@ -93,7 +93,7 @@ dplot3_linad <- function(x,
     stop("Please provide an rtMod object with a LINAD model")
   }
 
-  # Data ====
+  # Data ----
   nodeids <- as.numeric(names(tree))
   nodeids_depth <- floor(log(nodeids, 2))
   .nodelabels <- x$mod$all.step.leaves$rules$condition
@@ -128,7 +128,7 @@ dplot3_linad <- function(x,
     # index <- seq(NROW(coefs))
   }
 
-  # Theme ====
+  # Theme ----
   # Need to merge devel first
   # if (is.null(bg)) bg <- theme$plot.background
   if (is.null(node.font.col)) {
@@ -139,10 +139,10 @@ dplot3_linad <- function(x,
     }
   }
 
-  # HTML tables for tooltips ====
+  # HTML tables for tooltips ----
   # for vertical coefsl
   if (tooltip.coefs) {
-    # '- custom ====
+    # '- custom ----
     # exclude intercept so that it doesn't soak up all the range
     # account for sorting and/or top
     # coefsl.noint <- lapply(coefsl, function(i) i[-1, ])
@@ -172,7 +172,7 @@ dplot3_linad <- function(x,
   target_index <- 2:length(nodeids)
   Ncases <- sapply(tree, function(i) sum(i$weights == 1))
 
-  # visNetwork ====
+  # visNetwork ----
   if (!rules.on.edges) {
     if (ncases.inlabels) {
       .nodelabels <- paste0(.nodelabels, "\n(n=", Ncases, ")")
@@ -212,20 +212,20 @@ dplot3_linad <- function(x,
     edges$value <- Ncases[-1]
   }
   if (trace > 0) msg("Drawing graph with visNetwork...")
-  # '- visNetwork ====
+  # '- visNetwork ----
   visNetwork::visNetwork(nodes, edges,
                          width = width,
                          height = height,
                          main = main,
                          background = bg) |>
-    # '- visHierarchicalLayout ====
+    # '- visHierarchicalLayout ----
     visNetwork::visHierarchicalLayout(levelSeparation = levelSeparation,
                                       nodeSpacing = nodeSpacing,
                                       blockShifting, blockShifting,
                                       edgeMinimization = edgeMinimization,
                                       parentCentralization = parentCentralization,
                                       direction = direction) |>
-    # '- visNodes ====
+    # '- visNodes ----
     visNetwork::visNodes(font = list(color = node.font.col,
                                      size = tree.font.size,
                                      face = font.family),
@@ -233,7 +233,7 @@ dplot3_linad <- function(x,
                          color = list(highlight = col.highlight,
                                       hover = list(background = col.highlight,
                                                    border = col.highlight))) |>
-    # '- visEdges ====
+    # '- visEdges ----
     visNetwork::visEdges(width = edge.width,
                          color = list(color = edge.col,
                                       highlight = col.highlight),
@@ -286,7 +286,7 @@ twocol2html <- function(x,
                         # table
                         dat.padding = "5px") {
 
-  # 1. table style ====
+  # 1. table style ----
   tablestyle <- paste0('<table style="font-family: ', font.family,
                        ', sans-serif; display: table; border-collapse: collapse; margin-left: auto; margin-right: auto; color:',
                        font.col, '; font-size: ', font.size,
@@ -294,7 +294,7 @@ twocol2html <- function(x,
                        table.bg, '; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ',
                        height, '; display: box">')
 
-  # 2. header row ====
+  # 2. header row ----
   header <- paste0('<tr><th style="font-weight: bold; padding: ', head.padding,
                    '; text-align: center;',
                    'background-color: ', header.bg,
@@ -305,7 +305,7 @@ twocol2html <- function(x,
     '">',
     colnames(x)[2], '</th></tr>')
 
-  # 3. Data rows ====
+  # 3. Data rows ----
   tab <- vector("character", NROW(x))
   for (i in seq(tab)) {
     # first column: variable name; second column: coefficient

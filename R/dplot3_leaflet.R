@@ -84,10 +84,10 @@ dplot3_leaflet <- function(fips,
                            init.zoom = 3,
                            stroke = TRUE) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
 
-    # Arguments ====
+    # Arguments ----
     vals.name <- deparse(substitute(values))
     color.mapping <- match.arg(color.mapping)
     col.interpolate <- match.arg(col.interpolate)
@@ -100,7 +100,7 @@ dplot3_leaflet <- function(fips,
     legend.position <- match.arg(legend.position)
     if (is.null(legend.title)) legend.title <- labelify(vals.name)
 
-    # State vs. County data ====
+    # State vs. County data ----
     if (max(nchar(fips)) < 3) {
         geo <- geojsonio::geojson_read(system.file(
             "extdata", "us-states.json",
@@ -123,7 +123,7 @@ dplot3_leaflet <- function(fips,
     index <- match(geo$id, fips)
     geo[["val"]] <- values[index]
 
-    # Colorscale ====
+    # Colorscale ----
     if (color.mapping == "Numeric") {
         pal <- leaflet::colorNumeric(
             palette = palette,
@@ -140,7 +140,7 @@ dplot3_leaflet <- function(fips,
         )
     }
 
-    # Hover labels ====
+    # Hover labels ----
     .labs <- values[index]
     if (!is.null(names)) {
         .names <- names[index]
@@ -162,7 +162,7 @@ dplot3_leaflet <- function(fips,
     }
     geo[["labels"]] <- labels[index]
 
-    # leaflet map ====
+    # leaflet map ----
     map <- leaflet::leaflet(geo) |>
         leaflet::addProviderTiles(
             provider = bg.tile.provider,

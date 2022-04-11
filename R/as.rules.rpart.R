@@ -2,23 +2,23 @@
 # ::rtemis::
 # 2019 E.D. Gennatas lambdamd.org
 
-#' Convert \code{rpart} rules to \code{data.tree} object
-#'
-#' Convert an \code{rpart} object to a \code{data.tree} object, which can be plotted with
-#' \link{dplot3_cart}
+#' Convert \code{rpart} object to rules
+#' 
+#' Convert an \code{rpart} object to a set of rules
+#' 
 #' @param object \code{rpart} object
 #' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @return \code{data.tree} object
 #' @author E.D. Gennatas
-#' @noRd
-#' @export
+#' @keywords internal
 
 as.rules.rpart <- function(object, verbose = FALSE) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("rpart", "data.tree")
 
-    # Object ====
+    # Object ----
     if (inherits(object, "rpart")) {
         # frame <- object$frame
         if (verbose) msg("Working on rpart object")
@@ -29,7 +29,7 @@ as.rules.rpart <- function(object, verbose = FALSE) {
         stop("Input must be rpart object or rtemis CART model")
     }
 
-    # To rules ====
+    # To rules ----
     leaf.index <- which(object$frame$var == "<leaf>")
     frame <- object$frame[leaf.index, ]
     node.id <- rownames(frame)
@@ -53,7 +53,7 @@ as.rules.rpart <- function(object, verbose = FALSE) {
     rules$Depth <- floor(log(as.numeric(node.id), base = 2))
     if (object$method == "class") {
         nclasses <- (ncol(frame$yval2) - 2) / 2
-        for (i in 1:nclasses) {
+        for (i in seq_len(nclasses)) {
             rules[[paste0("ProbClass", i)]] <- frame$yval2[, -(1:(nclasses + 1))][, i]
         }
     }

@@ -67,20 +67,20 @@ d_H2OGLRM <- function(x,
                       plot.theme = getOption("rt.theme"),
                       n.cores = rtCores, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "H2OGLRM"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("h2o")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_H2OGLRM))
     stop("x is missing")
   }
 
-  # Data ====
+  # Data ----
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x)
@@ -104,7 +104,7 @@ d_H2OGLRM <- function(x,
     df.valid <- NULL
   }
 
-  # GLRM ====
+  # GLRM ----
   if (verbose) msg("Performing Generalized Low Rank Decomposition...")
   decom <- h2o::h2o.glrm(training_frame = df.train,
                          model_id = paste0("rtemis.H2OGLRM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
@@ -130,7 +130,7 @@ d_H2OGLRM <- function(x,
                             main = "Objective Function Value per Iteration",
                             theme = plot.theme)
 
-  # Projections ====
+  # Projections ----
   projections.train <- data.matrix(x) %*% t(data.matrix(decom@model$archetypes))
   if (!is.null(x.test)) {
     projections.test <- data.matrix(x.test) %*% t(data.matrix(decom@model$archetypes))
@@ -138,7 +138,7 @@ d_H2OGLRM <- function(x,
     projections.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

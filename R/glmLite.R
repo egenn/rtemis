@@ -35,7 +35,7 @@ glmLite <- function(x, y,
                     sgd.control = list(method = "ai-sgd"),
                     save.fitted = FALSE, ...) {
 
-  # Arguments ====
+  # Arguments ----
   method <- match.arg(method)
   which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
   args <- c(list(x = x,

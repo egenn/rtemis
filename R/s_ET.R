@@ -46,7 +46,7 @@ s_ET <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) { print(args(s.NW)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -57,10 +57,10 @@ s_ET <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "ET"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("extraTrees")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_ET))
     stop("x is missing")
@@ -74,7 +74,7 @@ s_ET <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -98,7 +98,7 @@ s_ET <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # ET ====
+  # ET ----
   if (verbose) msg("Training extraTrees model...", newline.pre = TRUE)
   mod <- extraTrees::extraTrees(x = x, y = y,
                                 ntree = n.trees,
@@ -108,12 +108,12 @@ s_ET <- function(x, y = NULL,
                                 numThreads = n.cores, ...)
   if (trace > 0) summary(mod)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- as.numeric(predict(mod, x))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
@@ -123,7 +123,7 @@ s_ET <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,
                  mod.name = mod.name,

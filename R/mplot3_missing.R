@@ -41,14 +41,14 @@ mplot3_missing <- function(x,
                            oma = c(.5, .5, .5, .5),
                            par.reset = TRUE, ...) {
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(feat.names)) feat.names <- colnames(x)
   if (is.null(case.names)) case.names <- rownames(x)
   if (is.null(main)) main <- paste("Missing Data in", deparse(substitute(x)))
   if (is.null(case.names.every)) case.names.every <- ceiling(NROW(x) * .1)
   show <- match.arg(show)
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -87,7 +87,7 @@ mplot3_missing <- function(x,
     col.present <- rgb(.col, .col, .col)
   }
 
-  # Image ====
+  # Image ----
   image(x, y, data.matrix(z),
         col = c(col.present, col.missing),
         zlim = c(0, 1),
@@ -95,7 +95,7 @@ mplot3_missing <- function(x,
         mar = c(0, 0, 0, 0),
         oma = c(0, 0, 0, 0))
 
-  # Annotations ====
+  # Annotations ----
   # title below image
   mtext(main, side = 1, font = 2, line = 2,
         # cex = theme$cex,

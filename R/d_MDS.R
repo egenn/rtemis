@@ -40,18 +40,18 @@ d_MDS <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   dist.method <- match.arg(dist.method)
   decom.name <- "MDS"
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_MDS))
     stop("x is missing")
   }
 
-  # Data ====
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -65,16 +65,16 @@ d_MDS <- function(x,
     x <- scale(x, center = center)
   }
 
-  # MDS ====
+  # MDS ----
   if (verbose) msg("Running Multidimensional Scaling...")
   .dist <- dist(x, method = dist.method)
   decom <- cmdscale(.dist, k = k, eig = eig, add = add, x.ret = x.ret, list. = TRUE)
 
-  # Projections ====
+  # Projections ----
   projections.train <- decom$points
   colnames(projections.train) <- paste0("MDS", seq(NCOL(projections.train)))
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

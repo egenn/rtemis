@@ -32,10 +32,10 @@ dplot3_graphd3 <- function(
             theme = getOption("rt.theme"),
             ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("networkD3")
 
-  # Theme ====
+  # Theme ----
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), list())
   }
@@ -47,7 +47,7 @@ dplot3_graphd3 <- function(
     netd3$nodes$group <- groups
   }
 
-  # Colors ====
+  # Colors ----
   if (is.null(node.col) & length(unique(netd3$nodes$group)) == 1) {
     node.col <- theme$fg
   }
@@ -79,7 +79,7 @@ dplot3_graphd3 <- function(
     edge.col <- adjustcolor(edge.col, edge.alpha)
   }
 
-  # Plot ====
+  # Plot ----
   fn <- networkD3::forceNetwork(Links = netd3$links,
                                 Nodes = netd3$nodes,
                                 Source = 'source',

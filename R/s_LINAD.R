@@ -95,7 +95,7 @@ s_LINAD <- function(x, y = NULL,
                     save.mod = FALSE,
                     .gs = FALSE) {
 
-  # Intro  ====
+  # Intro  ----
   if (missing(x)) {
     print(args(s_LINAD))
     return(invisible(9))
@@ -110,17 +110,17 @@ s_LINAD <- function(x, y = NULL,
   mod.name <- "LINAD"
   leaf.model <- match.arg(leaf.model)
 
-  # Dependencies  ====
+  # Dependencies  ----
   # ENH: deps for lincoef
   dependency_check("glmnet", "rpart")
 
-  # Arguments  ====
+  # Arguments  ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
   # if (.gs && nvmax == 0) lin.type = "none"
 
-  # Data  ====
+  # Data  ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -171,7 +171,7 @@ s_LINAD <- function(x, y = NULL,
     nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
   }
 
-  # Grid Search  ====
+  # Grid Search  ----
   if (metric == "auto") {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -265,7 +265,7 @@ s_LINAD <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # shytreegamleaves  ====
+  # shytreegamleaves  ----
   if (.gs) {
     if (lookback) {
       x.valid <- x.test
@@ -371,7 +371,7 @@ s_LINAD <- function(x, y = NULL,
                      resample.seed = resample.seed,
                      plot.tuning = plot.tuning)
 
-  # Fitted  ====
+  # Fitted  ----
   if (trace > 1) msg("Getting fitted values...")
   if (type == "Classification") {
     .fitted <- predict(mod, x, type = "all")
@@ -384,7 +384,7 @@ s_LINAD <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # Predicted  ====
+  # Predicted  ----
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (trace > 1) msg("Getting predicted values...")
@@ -410,7 +410,7 @@ s_LINAD <- function(x, y = NULL,
     }
   }
 
-  # Outro  ====
+  # Outro  ----
   varimp <- if (lin.type == "none") {
     numeric()
   } else {

@@ -52,7 +52,7 @@ modError <- function(true,
 
   if (type == "Regression") {
 
-    # [ Regression ] ====
+    # [ Regression ] ----
     x <- as.numeric(x)
     y <- as.numeric(y)
     error <- x - y
@@ -121,7 +121,7 @@ modError <- function(true,
 
   } else if (type == "Classification")  {
 
-    # [ Classification ] ====
+    # [ Classification ] ----
     if (class(x) != "factor") x <- as.factor(x)
     # if (class(y) != "factor") y <- as.factor(y)
     n.classes <- length(levels(x))
@@ -130,7 +130,7 @@ modError <- function(true,
 
   } else {
 
-    # [ Survival ] ====
+    # [ Survival ] ----
     s.out <- survError(x, y)
 
   }

@@ -76,7 +76,7 @@ s_LM <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) { print(args(s_LM)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -95,7 +95,7 @@ s_LM <- function(x, y = NULL,
     mod.name <- "LM"
   }
 
-  # Dependencies ====
+  # Dependencies ----
   if (robust) {
     dependency_check("MASS")
   }
@@ -103,7 +103,7 @@ s_LM <- function(x, y = NULL,
     dependency_check("nlme")
   }
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) { print(args(s_LM)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -115,7 +115,7 @@ s_LM <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -138,7 +138,7 @@ s_LM <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # Formula ====
+  # Formula ----
   df.train <- data.frame(y = y, x)
   if (!polynomial) {
     features <- paste(xnames, collapse = " + ")
@@ -152,7 +152,7 @@ s_LM <- function(x, y = NULL,
   if (!intercept) formula.str <- paste(formula.str, "- 1")
   myformula <- as.formula(formula.str)
 
-  # LM & POLY ====
+  # LM & POLY ----
     if (!robust & !gls) {
       if (verbose) msg("Training linear model...", newline.pre = TRUE)
       mod <- lm(myformula, data = df.train,
@@ -176,7 +176,7 @@ s_LM <- function(x, y = NULL,
 
     if (trace > 0) print(summary(mod))
 
-  # Fitted ====
+  # Fitted ----
     if (!gls) {
       fitted <- predict(mod, x, se.fit = TRUE)
       se.fit <- as.numeric(fitted$se.fit)
@@ -189,7 +189,7 @@ s_LM <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
       if (gls) {
@@ -207,7 +207,7 @@ s_LM <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

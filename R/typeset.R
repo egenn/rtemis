@@ -22,17 +22,17 @@ typeset <- function(x,
                     orderedfactor.index = NULL,
                     integer.index = NULL) {
 
-  # [ Factors ] ====
+  # [ Factors ] ----
   if (!is.null(factor.index)) {
     for (i in factor.index) x[, i] <- factor(x[, i])
   }
 
-  # [ Ordered factors ] ====
+  # [ Ordered factors ] ----
   if (!is.null(orderedfactor.index)) {
     for (i in orderedfactor.index) x[, i] <- factor(x[, i], ordered = TRUE)
   }
 
-  # [ Integers ] ====
+  # [ Integers ] ----
   if (!is.null(integer.index)) {
     for (i in integer.index) x[, i] <- as.integer(x[, i])
   }

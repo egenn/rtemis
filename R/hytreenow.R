@@ -34,7 +34,7 @@ hytreenow <- function(x, y,
                       verbose = FALSE,
                       trace = 0) {
 
-  # [ Check y is not constant ] ====
+  # [ Check y is not constant ] ----
   if (is.constant(y)) {
     coefs <- list(rep(0, NCOL(x) + 1))
     names(coefs) <- c("(Intercept)", colnames(x))
@@ -46,10 +46,10 @@ hytreenow <- function(x, y,
     return(.mod)
   }
 
-  # [ GLOBAL ] ====
+  # [ GLOBAL ] ----
   .env <- environment()
 
-  # [ lin1 ] ====
+  # [ lin1 ] ----
   if (verbose) msg("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
 
   coef.c <- lincoef(x, y, method = lin.type,
@@ -59,7 +59,7 @@ hytreenow <- function(x, y,
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
   if (trace > 0) msg("hytreenow Fval is", head(Fval), color = crayon::red)
 
-  # [ Run hyt ] ====
+  # [ Run hyt ] ----
   root <- list(x = x,
                y = y,
                Fval = Fval,
@@ -96,7 +96,7 @@ hytreenow <- function(x, y,
              verbose = verbose,
              trace = trace)
 
-  # [ MOD ] ====
+  # [ MOD ] ----
   .mod <- list(init = init,
                shrinkage = shrinkage,
                rules = .env$leaf.rule,
@@ -144,7 +144,7 @@ hyt <- function(node = list(x = NULL,
                 verbose = TRUE,
                 trace = 0) {
 
-  # [ EXIT ] ====
+  # [ EXIT ] ----
   if (node$terminal) return(node)
 
   x <- node$x
@@ -158,7 +158,7 @@ hyt <- function(node = list(x = NULL,
   if (trace > 0) msg("hyt resid   is", head(resid), color = crayon::red)
   nobsinnode <- length(node$index)
 
-  # [ Add partlin to node ] ====
+  # [ Add partlin to node ] ----
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
     if (trace > 1) msg("y1 (resid) is", resid)
     node$partlin <- partLm(x1 = x, y1 = resid,
@@ -177,7 +177,7 @@ hyt <- function(node = list(x = NULL,
 
     if (trace > 1) msg("Fval is", head(Fval))
 
-    # '- If node split ====
+    # '- If node split ----
     if (!node$partlin$terminal) {
       node$type <- "split"
       left.index <- node$partlin$left.index
@@ -240,7 +240,7 @@ hyt <- function(node = list(x = NULL,
       }
 
       # Run Left and Right nodes
-      # [ LEFT ] ====
+      # [ LEFT ] ----
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
       node$left <- hyt(node$left,
                        coef.c = coef.c.left,
@@ -262,7 +262,7 @@ hyt <- function(node = list(x = NULL,
                        lin.type = lin.type,
                        verbose = verbose,
                        trace = trace)
-      # [ RIGHT ] ====
+      # [ RIGHT ] ----
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
       node$right <- hyt(node$right,
                         coef.c = coef.c.right,
@@ -336,7 +336,7 @@ partLm <- function(x1, y1,
                    verbose = TRUE,
                    trace = 0) {
 
-  # [ PART ] ====
+  # [ PART ] ----
   dat <- data.frame(x1, y1)
   part <- rpart::rpart(y1 ~., dat,
                        control = rpart::rpart.control(minsplit = part.minsplit,
@@ -397,7 +397,7 @@ partLm <- function(x1, y1,
     }
   }
 
-  # [ LIN ] ====
+  # [ LIN ] ----
   resid <- y1 - part.val
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
@@ -430,7 +430,7 @@ partLm <- function(x1, y1,
 
   } # if (!is.null(cutFeat.name))
 
-  # [ Output ] ====
+  # [ Output ] ----
   list(lin.coef.left = lin.coef.left,
        lin.coef.right = lin.coef.right,
        part.c.left = part.c.left,
@@ -478,10 +478,10 @@ predict.hytreenow <- function(object, newdata,
                               verbose = FALSE,
                               trace = 0, ...) {
 
-  # [ newdata colnames ] ====
+  # [ newdata colnames ] ----
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  # [ PREDICT ] ====
+  # [ PREDICT ] ----
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   rules <- plyr::ldply(object$rules)[, 1]
   if (is.null(fixed.cxr)) {

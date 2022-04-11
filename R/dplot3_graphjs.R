@@ -77,10 +77,10 @@ dplot3_graphjs <- function(net,
             verbose = TRUE,
             elementId = "dplot3graphjs", ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("igraph", "threejs")
 
-  # Theme ====
+  # Theme ----
   # extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
@@ -88,13 +88,13 @@ dplot3_graphjs <- function(net,
   
   if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
 
-  # Vertex names ====
+  # Vertex names ----
   # by default use names in input net.
   if (!is.null(vertex.label)) {
     igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
-  # Layout ====
+  # Layout ----
   layout <- match.arg(layout)
   if (is.null(coords) & !is.null(layout)) {
     coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
@@ -102,7 +102,7 @@ dplot3_graphjs <- function(net,
     if (layout == "sugiyama") coords <- coords$layout
   }
 
-  # Cluster ====
+  # Cluster ----
   if (is.null(groups) & !is.null(cluster)) {
     groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
                       c(list(net), cluster_params))
@@ -127,7 +127,7 @@ dplot3_graphjs <- function(net,
     edge.col <- "#18A3AC"
   }
 
-  # Plot ====
+  # Plot ----
   threejs::graphjs(net,
                    layout = coords,
                    vertex.color = vertex.col,

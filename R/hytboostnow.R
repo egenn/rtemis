@@ -72,14 +72,14 @@ hytboostnow <- function(x, y,
                         # print.base.plot = FALSE,
                         plot.type = 'l') {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (!verbose) print.plot <- FALSE
   # extra.args <- list(...)
   # mod.params <- c(mod.params, extra.args)
   if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
-  # [ BOOST ] ====
-  # hytreenow params ====
+  # [ BOOST ] ----
+  # hytreenow params ----
   mod.params <- list(max.depth = max.depth,
                      # gamma = gamma,
                      shrinkage = shrinkage,
@@ -107,7 +107,7 @@ hytboostnow <- function(x, y,
                                   title = "hytboostnow Parameters")
   if (trace > 0) msg("Initial MSE =", mse(y, init))
 
-  # '- New series ====
+  # '- New series ----
   # init learning.rate vector
   if (is.null(boost.obj)) {
     mods <- list()
@@ -126,7 +126,7 @@ hytboostnow <- function(x, y,
     i <- 1
     if (verbose) msg("[ Boosting Hybrid Tree... ]", sep = "")
   } else {
-    # '- Expand series ====
+    # '- Expand series ----
     .learning.rate <- boost.obj$learning.rate
     mods <- boost.obj$mods
     Fval <- penult.fitted <- boost.obj$fitted
@@ -165,7 +165,7 @@ hytboostnow <- function(x, y,
     print.error.plot <- "iter"
   }
 
-  # '- Iterate learner ====
+  # '- Iterate learner ----
   while (i <= max.iter) {
     .learning.rate[i] <- learning.rate
     if (trace > 0) msg("learning.rate is", .learning.rate[i])
@@ -238,7 +238,7 @@ hytboostnow <- function(x, y,
       }
     }
 
-    # '- Early stopping ====
+    # '- Early stopping ----
     if (!is.null(earlystop.params)) {
       if (earlystop.using == "valid" && !is.null(x.valid)) {
         es <- do.call(earlystop, c(list(x = error.valid), earlystop.params))
@@ -271,8 +271,8 @@ hytboostnow <- function(x, y,
     }
   }
 
-  # [ Outro ] ====
-  # '- boost object ====
+  # [ Outro ] ----
+  # '- boost object ----
   obj <- list(init = init,
               learning.rate = .learning.rate,
               penult.fitted = penult.fitted,

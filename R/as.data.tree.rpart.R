@@ -8,17 +8,17 @@
 #' \link{dplot3_cart}
 #' @param object \code{rpart} object
 #' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @return \code{data.tree} object
 #' @author E.D. Gennatas
-#' @noRd
 #' @export
 
 as.data.tree.rpart <- function(object, verbose = FALSE) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("rpart", "data.tree")
 
-    # Object ====
+    # Object ----
     if (inherits(object, "rpart")) {
         # frame <- object$frame
         if (verbose) msg("Working on rpart object")
@@ -29,7 +29,7 @@ as.data.tree.rpart <- function(object, verbose = FALSE) {
         stop("Input must be rpart object or rtemis CART model")
     }
 
-    # To data.tree ====
+    # To data.tree ----
     frame <- object$frame
     node.id <- rownames(frame)
     rules <- rpart::path.rpart(object, node.id, print.it = verbose)

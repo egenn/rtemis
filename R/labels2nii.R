@@ -28,10 +28,10 @@ labels2nii <- function(label.vals,
                        datatype = "auto",
                        verbose = TRUE) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("RNifti")
 
-  # Arguments ====
+  # Arguments ----
   if (!file.exists(labeledNifti)) stop("Error: Labeled nifti file not found")
   outdir <- dirname(prefix)
   if (!dir.exists(outdir)) {
@@ -39,7 +39,7 @@ labels2nii <- function(label.vals,
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
   }
 
-  # Main ====
+  # Main ----
   labelednim <- RNifti::readNifti(labeledNifti)
   dim <- dim(labelednim)
   labels <- as.array(labelednim)

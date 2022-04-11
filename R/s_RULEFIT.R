@@ -51,7 +51,7 @@ s_RULEFIT <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = if (!is.null(outdir)) TRUE else FALSE) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_RULEFIT))
     return(invisible(9))
@@ -67,10 +67,10 @@ s_RULEFIT <- function(x, y = NULL,
   which.gbm <- match.arg(which.gbm)
   .gbm <- ifelse(which.gbm == "gbm", "s_GBM", "s_GBM3")
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check(which.gbm, "glmnet", "gsubfn", "inTrees", "data.table")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_RULEFIT))
     stop("y is missing")
@@ -79,7 +79,7 @@ s_RULEFIT <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     verbose = verbose)
   x <- dt$x
@@ -97,7 +97,7 @@ s_RULEFIT <- function(x, y = NULL,
   }
 
   if (is.null(cases.by.rules)) {
-    # Gradient Boosting ====
+    # Gradient Boosting ----
     gbm.args <- c(list(x = x, y = y,
                        force.n.trees = n.trees,
                        verbose = verbose,
@@ -107,7 +107,7 @@ s_RULEFIT <- function(x, y = NULL,
     if (verbose) msg("Running Gradient Boosting...")
     mod.gbm <- do.call(.gbm, gbm.args)
 
-    # Get Rules ====
+    # Get Rules ----
     if (verbose) msg("Collecting Gradient Boosting Rules (Trees)...")
     gbm.list <- rt.GBM2List(mod.gbm$mod, X = x, which.gbm = which.gbm)
     gbm.rules <- inTrees::extractRules(gbm.list, X = x, ntree = n.trees,
@@ -119,13 +119,13 @@ s_RULEFIT <- function(x, y = NULL,
     gbm.rules.names <- inTrees::presentRules(gbm.rules, colN = names(x))
     colnames(gbm.rules.names) <- "Rule"
 
-    # Match Cases by Rules ====
+    # Match Cases by Rules ----
     cases.by.rules <- matchCasesByRules(x, gbm.rules.names, verbose = verbose)
   } else {
     mod.gbm <- gbm.rules <- gbm.rules.names <- NA
   }
 
-  # Meta: Select Rules ====
+  # Meta: Select Rules ----
   if (verbose) msg("Running LASSO on GBM rules...")
   glmnet.select.args <- c(list(x = cases.by.rules, y = y,
                                alpha = meta.alpha,
@@ -153,7 +153,7 @@ s_RULEFIT <- function(x, y = NULL,
     }
   }
 
-  # Empirical risk ====
+  # Empirical risk ----
   dat <- as.data.table(cbind(x, outcome = y))
   empirical.risk <- vector("numeric", length(rules.selected))
   for (i in seq_along(rules.selected)) {
@@ -162,7 +162,7 @@ s_RULEFIT <- function(x, y = NULL,
     empirical.risk[i] <- freq[1]/sum(freq)
   }
 
-  # Write CSV ====
+  # Write CSV ----
   rules.selected.formatted <- formatRules(rules.selected, decimal.places = 2)
   rules.selected.coef.er <- data.frame(Rule_ID = seq(rules.selected.formatted),
                                        Rule = rules.selected.formatted,
@@ -175,7 +175,7 @@ s_RULEFIT <- function(x, y = NULL,
               row.names = FALSE)
   }
 
-  # rulefit object ====
+  # rulefit object ----
   rulefit.obj <- list(mod.gbm = mod.gbm,
                        gbm.rules = gbm.rules,
                        gbm.rules.names = gbm.rules.names,
@@ -194,7 +194,7 @@ s_RULEFIT <- function(x, y = NULL,
                                             N.Nonzero.Rules = n.nonzero.rules))
   class(rulefit.obj) <- c("rulefit", "list")
 
-  # Fitted ====
+  # Fitted ----
   fitted <- mod.glmnet.select$fitted
   if (type == "Classification") {
     fitted.prob <- mod.glmnet.select$fitted.prob
@@ -205,7 +205,7 @@ s_RULEFIT <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(rulefit.obj, x.test, verbose = verbose)
@@ -219,7 +219,7 @@ s_RULEFIT <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = rulefit.obj,
                  mod.name = mod.name,
@@ -276,11 +276,11 @@ s_RULEFIT <- function(x, y = NULL,
 predict.rulefit <- function(object, newdata = NULL,
                              verbose = TRUE, ...) {
 
-  # Rules ====
+  # Rules ----
   # Get rules.selected from object
   rules <- object$gbm.rules.names
 
-  # Match ====
+  # Match ----
   # Match newdata to rules: create features for predict
   if (!is.null(newdata)) {
     if (verbose) msg("Matching newdata to rules...")
@@ -289,7 +289,7 @@ predict.rulefit <- function(object, newdata = NULL,
     cases.by.rules <- object$cases.by.rules.selected
   }
 
-  # Predict ====
+  # Predict ----
   if (object$mod.gbm$type == "Classification") {
 
     prob <- predict(object$mod.glmnet.select$mod,

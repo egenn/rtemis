@@ -45,20 +45,20 @@ dplot3_table <- function(x,
                                        t = 30, b = 0,
                                        pad = 0)) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("plotly")
 
-  # Input ====
+  # Input ----
   x <- as.data.frame(x)
   if (.ddSci) x <- dplyr::mutate_if(x, is.numeric, ddSci)
 
-  # Colnames ====
+  # Colnames ----
   if (!is.null(colnames(x))) colnames(x) <- paste0("<b>", colnames(x), "</b>")
 
-  # Rownames ====
+  # Rownames ----
   if (!is.null(rownames(x))) rownames(x) <- paste0("<b>", rownames(x), "</b>")
 
-  # plotly ====
+  # plotly ----
 
   plt <- plotly::plot_ly(x)
   plt <- plotly::add_table(plt,
@@ -87,7 +87,7 @@ dplot3_table <- function(x,
                                          size = font.size)
                            ))
 
-  # layout ====
+  # layout ----
   main <- paste0("<b>", main, "</b>")
   plt <- plotly::layout(plt,
                         title = list(text = main,

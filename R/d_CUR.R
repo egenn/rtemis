@@ -40,14 +40,14 @@ d_CUR <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "CUR"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("rCUR")
 
-  # Data ====
+  # Data ----
   x <- as.matrix(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -61,7 +61,7 @@ d_CUR <- function(x,
     x <- scale(x, center = center)
   }
 
-  # CUR ====
+  # CUR ----
   if (verbose) msg("Running CUR Decomposition...")
   decom <- rCUR::CUR(x, c = c, r = r, k = k,
                      sv = sv,
@@ -69,10 +69,10 @@ d_CUR <- function(x,
                      matrix.return = matrix.return,
                      error.return = error.return, ...)
 
-  # Projections ====
+  # Projections ----
   projections.train <- rCUR::getC(decom)
 
-  # Outro ====
+  # Outro ----
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,

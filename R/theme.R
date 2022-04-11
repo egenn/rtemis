@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 
-# Black ====
+# Black ----
 
 #' Themes for \code{mplot3} and \code{dplot3} functions
 #'
@@ -383,7 +383,7 @@ theme_blackigrid <- function(bg = "#000000",
   
 } # rtemis::theme_darkgrid
 
-# Darkgray ====
+# Darkgray ----
 
 #' @rdname theme
 #' @export
@@ -721,7 +721,7 @@ theme_darkgrayigrid <- function(bg = "#121212",
   
 } # rtemis::theme_darkgraygrid
 
-# White ====
+# White ----
 
 #' @rdname theme
 #' @export
@@ -1059,7 +1059,7 @@ theme_whiteigrid <- function(bg = "#ffffff",
   
 } # rtemis::theme_darkgrid
 
-# Grays ====
+# Grays ----
 
 #' @rdname theme
 #' @export

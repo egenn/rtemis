@@ -67,7 +67,7 @@ mplot3_confbin <- function(object,
                            pdf.height = 8.7,
                            filename = NULL, ...) {
 
-  # [ Data ] ====
+  # [ Data ] ----
   if (inherits(object, "rtMod")) {
     tbl <- if (length(object$error.test) > 0) object$error.test$ConfusionMatrix else object$error.train$ConfusionMatrix
     if (is.null(mod.name)) mod.name <- object$mod.name
@@ -77,10 +77,10 @@ mplot3_confbin <- function(object,
     tbl <- object
   }
 
-  # File out ====
+  # File out ----
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
 
-  # colors ====
+  # colors ----
   if (is.null(mid.color)) {
     mid.color <- if (theme == "light") "white" else "black"
   }
@@ -88,7 +88,7 @@ mplot3_confbin <- function(object,
   color.pos <- colorGrad(199, mid = mid.color, hi = hi.color.pos)
   color.neg <- colorGrad(199, mid = mid.color, hi = hi.color.neg)
 
-  # metrics ====
+  # metrics ----
   df <- as.data.frame(matrix(as.vector(tbl), nrow(tbl)))
   rownames(df) <- rownames(tbl)
   colnames(df) <- colnames(tbl)
@@ -148,12 +148,12 @@ mplot3_confbin <- function(object,
   # 24: F1 score
   # 25: Balanced Accuracy
 
-  # Par ====
+  # Par ----
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
 
-  # Plot ====
+  # Plot ----
   par(mar = c(0, 0, 0, 0))
   layout(lmat, widths = c(dim.lab, dim.lab, dim.in, dim.in, dim.out, dim.out),
          heights = c(dim.lab, dim.lab, dim.in, dim.in, dim.out, dim.out), respect = TRUE)

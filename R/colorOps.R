@@ -20,11 +20,11 @@ colorOp <- function(col,
                     fn = c("invert", "mean"),
                     space = c("HSV", "RGB")) {
 
-  # Arguments ====
+  # Arguments ----
   fn <- match.arg(fn)
   space <- match.arg(space)
 
-  # Colors ====
+  # Colors ----
   col <- as.list(col)
   col.rgb <- col2rgb(col, alpha = TRUE)
 

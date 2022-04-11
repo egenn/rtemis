@@ -36,7 +36,7 @@ s_PSURV <- function(x, y,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_PSURV))
     return(invisible(9))
@@ -50,10 +50,10 @@ s_PSURV <- function(x, y,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "PSURV"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("survival")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) { print(args(s_PSURV)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -68,7 +68,7 @@ s_PSURV <- function(x, y,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -82,10 +82,10 @@ s_PSURV <- function(x, y,
     stop("Please ensure 'y' is a survival object created by survival::Surv")
   }
 
-  # Formula ====
+  # Formula ----
   .formula <- y ~ .
 
-  # SURVREG ====
+  # SURVREG ----
   if (verbose) msg("Training Parametric Survival Regression model...", newline.pre = TRUE)
   mod <- survival::survreg(.formula,
                            data = x,
@@ -94,12 +94,12 @@ s_PSURV <- function(x, y,
                            control = control, ...)
   if (trace > 0) print(summary(mod))
 
-  # Fitted ====
+  # Fitted ----
   fitted <- predict(mod, newdata = x, type = "response")
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
       predicted <- predict(mod, newdata = x.test, type = "response")
@@ -109,7 +109,7 @@ s_PSURV <- function(x, y,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

@@ -21,16 +21,16 @@ gamselx2 <- function(x, y,
   }
   xnames <- colnames(x)
 
-  # Get categorical variables ====
+  # Get categorical variables ----
   index.cat <- which(sapply(x, is.factor))
   n.cat <- length(index.cat)
   if (verbose) msg("Found", n.cat, "categorical variables", color = rtOrange)
 
-  # Init ====
+  # Init ----
   if (is.null(init)) init <- mean(y)
   F <- init # maybe make vector length n
 
-  # 1. CART on categorical ====
+  # 1. CART on categorical ----
   # todo: consider auto-depth based on f(n of possible combinations)
   if (n.cat > 0) {
     cart.args <- c(list(x = x[, index.cat, drop = FALSE], y = y - F),
@@ -46,7 +46,7 @@ gamselx2 <- function(x, y,
 
   F <- F + predict(mod1)
 
-  # 2. GAMSEL I on continuous ====
+  # 2. GAMSEL I on continuous ----
   x.cont <- if (n.cat > 0) x[, -index.cat, drop = FALSE] else x
   if (verbose) msg("Training first stage GAMSEL...", color = rtOrange)
   gamsel.args1 <- c(list(x = x.cont, y = y - F,
@@ -57,7 +57,7 @@ gamselx2 <- function(x, y,
 
   F <- F + predict(mod2)
 
-  # 3. Pairwise interactions ====
+  # 3. Pairwise interactions ----
   if (verbose) msg("Looking for pairwise interactions...", color = rtOrange)
   n.continuous <- NCOL(x.cont)
   if (n.continuous > 1) {
@@ -82,7 +82,7 @@ gamselx2 <- function(x, y,
     pairs <- pairwise.glm.pvals.adj <- NULL
   }
 
-  # 4. GAMSEL II on interactions ====
+  # 4. GAMSEL II on interactions ----
   if (verbose) msg("Training second stage GAMSEL...", color = rtOrange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
@@ -111,7 +111,7 @@ gamselx2 <- function(x, y,
 
   F <- F + predict(mod3)
 
-  # mod ====
+  # mod ----
   mod <- list(init = init,
               index.cat = index.cat,
               mod1 = mod1, # CART on categorical

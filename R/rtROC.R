@@ -45,7 +45,7 @@ rtROC <- function(true.labels, predicted.probabilities,
     stop("Multiclass ROC not yet supported")
   }
 
-  # Plot ====
+  # Plot ----
   if (plot) {
     mplot3_xy(1 - specificity.t, sensitivity.t, type = "l",
               zerolines = FALSE, diagonal = TRUE, xaxs = "i", yaxs = "i",

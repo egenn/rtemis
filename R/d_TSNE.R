@@ -39,21 +39,21 @@ d_TSNE <- function(x,
                    verbose = TRUE,
                    outdir = "./") {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   if (verbose) msg("Running t-distributed Stochastic Neighbot Embedding")
   decom.name <- "TSNE"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("Rtsne")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_TSNE))
     stop("x is missing")
   }
 
-  # Data ====
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -67,7 +67,7 @@ d_TSNE <- function(x,
   x <- scale(x, scale = scale, center = center)
   # if (!is.null(x.test)) x.test <- scale(x.test, scale = scale, center = center)
 
-  # t-SNE ====
+  # t-SNE ----
   if (verbose) msg("Running t-SNE...")
   decom <- Rtsne::Rtsne(X = x,
                         dims = k,
@@ -80,7 +80,7 @@ d_TSNE <- function(x,
                         verbose = verbose,
                         is_distance = is.distance)
 
-  # Output ====
+  # Output ----
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

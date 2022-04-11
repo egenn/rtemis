@@ -41,10 +41,10 @@ dplot3_addtree <- function(addtree,
             remove.bad.parents = FALSE,
             filename = NULL) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("data.tree", "DiagrammeR")
 
-  # Tree ====
+  # Tree ----
   if (inherits(addtree, "Node")) {
     addtree <- data.tree::Clone(addtree)
     if (is.null(prune)) prune <- TRUE
@@ -59,19 +59,19 @@ dplot3_addtree <- function(addtree,
     }
   }
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(node.labels.pct.pos)) {
     node.labels.pct.pos <- if (is.null(addtree$pct.pos)) FALSE else TRUE
   }
 
-  # Prune ====
+  # Prune ----
   if (prune) {
     addtree <- prune.addtree(addtree,
                              prune.empty.leaves = prune.empty.leaves,
                              remove.bad.parents = remove.bad.parents)
   }
 
-  # Graph Style ====
+  # Graph Style ----
   data.tree::SetGraphStyle(addtree,
                            layout = layout,
                            rankdir = rankdir,
@@ -82,7 +82,7 @@ dplot3_addtree <- function(addtree,
                                            "\nDepth =", addtree$height - 1,
                                            "\nN nodes =", addtree$totalCount - 1,
                                            "\nN leaves =", length(addtree$leaves)))
-  # Node Style ====
+  # Node Style ----
   .node.labels <- if (node.labels) {
     if (node.labels.pct.pos) {
       # Include % positive cases
@@ -111,7 +111,7 @@ dplot3_addtree <- function(addtree,
                                                          sep = "\n"),
                           rank = function(node) node$Depth)
 
-  # Edge Style ====
+  # Edge Style ----
   # .edge.labels <- if (edge.labels) function(node) node$Condition else NULL
   # sometimes fails
   # data.tree::SetEdgeStyle(addtree,
@@ -136,7 +136,7 @@ dplot3_addtree <- function(addtree,
                             })
   })
 
-  # Write to file ====
+  # Write to file ----
   if (!is.null(filename)) {
     dependency_check("DiagrammeRsvg", "rsvg")
     filename <- file.path(filename)

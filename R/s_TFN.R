@@ -110,7 +110,7 @@ s_TFN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_TFN))
     return(invisible(9))
@@ -124,10 +124,10 @@ s_TFN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "TFN"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("tensorflow")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -153,7 +153,7 @@ s_TFN <- function(x, y = NULL,
   optimizer <- paste0("optimizer_", optimizer)
   optimizer <- getFromNamespace(optimizer, "keras")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -209,7 +209,7 @@ s_TFN <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # '- Normalize ====
+  # '- Normalize ----
   # Normalize training data
   if (scale) {
     x.dm <- scale(x.dm)
@@ -237,7 +237,7 @@ s_TFN <- function(x, y = NULL,
     batch.size <- floor(.25 * length(y))
   }
 
-  # Network ====
+  # Network ----
   if (n.hidden.nodes[1] == 0) {
     n.hnodes <- n.hlayers <- 0
   } else {
@@ -246,12 +246,12 @@ s_TFN <- function(x, y = NULL,
   }
   if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
 
-  ### '- Init ====
+  ### '- Init ----
   if (is.null(net)) {
 
     net <- keras::keras_model_sequential()
 
-    ### '- Hidden layers ====
+    ### '- Hidden layers ----
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
         keras::layer_dense(net,
@@ -272,7 +272,7 @@ s_TFN <- function(x, y = NULL,
       }
     } # /if (n.hlayers > 0)
 
-    ### '- OUTPUT ====
+    ### '- OUTPUT ----
     n.outputs <- if (type == "Regression") 1 else n.classes
     if (loss == "binary_crossentropy") n.outputs <- 1
     if (is.null(output)) {
@@ -288,7 +288,7 @@ s_TFN <- function(x, y = NULL,
                        activation = output,
                        name = "rt_Output")
 
-    # Parameters ====
+    # Parameters ----
     parameters <- list(n.hidden.nodes = n.hidden.nodes,
                        batch.size = batch.size,
                        batch.normalization = batch.normalization,
@@ -301,12 +301,12 @@ s_TFN <- function(x, y = NULL,
                          pad = 0,
                          newline.pre = TRUE)
 
-    # TF ====
+    # TF ----
     if (verbose) msg0("Training Neural Network ", type, " with ",
                       n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
                       "...\n", newline.pre = TRUE)
 
-    # '- Compile ====
+    # '- Compile ----
     net |> keras::compile(
       loss = loss,
       optimizer = optimizer(lr = learning.rate),
@@ -316,7 +316,7 @@ s_TFN <- function(x, y = NULL,
     if (verbose) msg("Training pre-built Network for", type, "...")
   }
 
-  # '- Fit ====
+  # '- Fit ----
   net |>
     keras::fit(
       x.dm, y,
@@ -327,7 +327,7 @@ s_TFN <- function(x, y = NULL,
       class_weight = .class.weights.int
     )
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Regression") {
     fitted <- c(predict(net, x.dm))
     error.train <- modError(y, fitted, type = type)
@@ -340,7 +340,7 @@ s_TFN <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression") {
@@ -356,7 +356,7 @@ s_TFN <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(scale = scale,
                 col_means_train = if (scale) col_means_train else NULL,
                 col_stddevs_train = if (scale) col_stddevs_train else NULL)

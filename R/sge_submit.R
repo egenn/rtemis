@@ -44,14 +44,14 @@ sge_submit <- function(expr,
 
   expr <- as.character(as.expression(substitute(expr)))
 
-  # Create temp_dir ====
+  # Create temp_dir ----
   if (!dir.exists(temp_dir)) {
     dir.create(temp_dir, recursive = TRUE)
     stopifnot(dir.exists(temp_dir))
     if (trace > 0) msg("Created temp_dir", temp_dir)
   }
 
-  # Save obj_names to temp ====
+  # Save obj_names to temp ----
   if (!is.null(obj_names)) {
     .temp <- tempfile(pattern = "guava", tmpdir = temp_dir)
     do.call(save, list(list = obj_names,
@@ -62,7 +62,7 @@ sge_submit <- function(expr,
     }
   }
 
-  # sge_out and sge_error ====
+  # sge_out and sge_error ----
   if (!dir.exists(sge_out)) {
     dir.create(sge_out, recursive = TRUE)
     if (trace > 0) msg("Created sge_out", sge_out)
@@ -76,38 +76,38 @@ sge_submit <- function(expr,
     msg("sge_error set to:", sge_error)
   }
 
-  # Write {.R file} to temp_dir ====
+  # Write {.R file} to temp_dir ----
   Rfilepath <- tempfile(pattern = "Rsub", tmpdir = temp_dir)
   if (trace > 0) msg("Rfilepath set to", Rfilepath)
 
-  ## init file ====
+  ## init file ----
   cat("# rtemis sge_submit", date(), "\n", file = Rfilepath)
 
-  ## R_command ====
+  ## R_command ----
   if (!is.null(R_command)) {
     cat(R_command, "\n", file = Rfilepath, append = TRUE)
   }
 
-  ## Load packages ====
+  ## Load packages ----
   if (!is.null(packages)) {
     cat(sapply(packages, function(p) paste0("library(", p, ")\n")),
         sep = "", file = Rfilepath, append = TRUE)
   }
 
-  ## Diag ====
+  ## Diag ----
   cat("rtemis::msg('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
       "\n", file = Rfilepath, append = TRUE)
 
-  ## Load data ====
+  ## Load data ----
   if (!is.null(obj_names)) {
     cat("load('", .temp, "')\n", sep = "", file = Rfilepath, append = TRUE)
   }
 
-  ## Expression ====
+  ## Expression ----
   cat(as.character(expr), "\n", file = Rfilepath, append = TRUE)
   stopifnot(file.exists(Rfilepath))
 
-  # Write {.sh file} to temp_dir ====
+  # Write {.sh file} to temp_dir ----
   shfilepath <- tempfile(pattern = "SHsub", tmpdir = temp_dir)
   if (trace > 0) msg("shfile set to:", shfilepath)
 
@@ -120,7 +120,7 @@ sge_submit <- function(expr,
 
   stopifnot(file.exists(shfilepath))
 
-  # Submit .sh to grid ====
+  # Submit .sh to grid ----
   qsub <- paste(
     "qsub -pe smp", n_threads,
     "-o", sge_out,

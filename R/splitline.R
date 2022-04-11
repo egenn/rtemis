@@ -127,7 +127,7 @@ cutnsplit <- function(x, y,
       return(Inf)
     }
 
-    # '- lm left ====
+    # '- lm left ----
     elnetLeft <- try(cbind(1, x) %*% lincoef(x, y, weightsLeft,
                                              method = lin.type,
                                              alpha = alpha,
@@ -141,7 +141,7 @@ cutnsplit <- function(x, y,
                      silent = trace < 2)
     if (inherits(elnetLeft, "try-error")) return(Inf)
 
-    # '- lm right ====
+    # '- lm right ----
     elnetRight <- try(cbind(1, x) %*% lincoef(x, y, weightsRight,
                                               method = lin.type,
                                               alpha = alpha,

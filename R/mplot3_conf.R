@@ -93,7 +93,7 @@ mplot3_conf <- function(object,
                         pdf.height = 7,
                         filename = NULL, ...) {
 
-  # Data ====
+  # Data ----
   .test <- NULL
   if (inherits(object, "rtMod")) {
     .test <- length(object$error.test) > 0
@@ -115,7 +115,7 @@ mplot3_conf <- function(object,
     if (!is.null(main) && main == "auto") main <- NULL
   }
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -146,7 +146,7 @@ mplot3_conf <- function(object,
   }
   # consider multiplying all custom cex vals with theme$cex
 
-  # File out ====
+  # File out ----
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
 
   color.pos <- colorRampPalette(c(mid.col, hi.color.pos))(100)
@@ -155,7 +155,7 @@ mplot3_conf <- function(object,
   # n.classes <-  length(class.labels)
   if (dim.out == -1) dim.out <- if (n.classes == 2) 1.2 else 1
 
-  # metrics ====
+  # metrics ----
   class.totals <- colSums(tbl)
   predicted.totals <- rowSums(tbl)
   total <- sum(tbl)
@@ -174,7 +174,7 @@ mplot3_conf <- function(object,
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
                                          title = "rtemis Graphics")
 
-  # Par ====
+  # Par ----
   if (!is.null(rtenv$rtpar)) {
     par(mar = c(0, 0, 0, 0), bg = col.bg, pty = "s")
   } else {
@@ -185,7 +185,7 @@ mplot3_conf <- function(object,
   }
   par(family = theme$font.family)
 
-  # Plot ====
+  # Plot ----
   if (!is.null(main)) {
     if (is.null(dim.main)) dim.main <- length(strsplit(main, "\\\n")[[1]])
   } else {
@@ -235,7 +235,7 @@ mplot3_conf <- function(object,
        adj = c(.5, .5),
        cex = cex.lab2, col = col.lab)
 
-  # '- Confusion matrix ====
+  # '- Confusion matrix ----
   for (i in seq_len(n.classes)) {
     for (j in seq_len(n.classes)) {
       frac <- tbl[j, i]/class.totals[i]
@@ -261,7 +261,7 @@ mplot3_conf <- function(object,
     }
   }
 
-  # '- Metrics ====
+  # '- Metrics ----
   if (plot.metrics) {
     if (n.classes == 2) {
       # 2 classes
@@ -362,7 +362,7 @@ mplot3_conf <- function(object,
   # text(0, 0, paste("Balanced\nAccuracy\n=", ddSci(balanced.accuracy)), srt = 45,
   #      col = col.text.out, cex = cex.out, font = font.out)
 
-  # '- Main ====
+  # '- Main ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -379,7 +379,7 @@ mplot3_conf <- function(object,
 
   if (!is.null(filename)) grDevices::dev.off()
 
-  # Return ====
+  # Return ----
   invisible(list(confusion.matrix = tbl,
                  n.classes = n.classes,
                  class.totals = class.totals,

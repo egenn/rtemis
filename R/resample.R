@@ -76,10 +76,10 @@ resample <- function(y,
   type <- if (!is.null(index)) ".index" else if (!is.null(group)) ".group" else ".res"
 
   if (type == ".res") {
-    # type = "res" ====
+    # type = "res" ----
     resampler <- match.arg(resampler)
 
-    # Input ====
+    # Input ----
     if (NCOL(y) > 1) {
       if (survival::is.Surv(y)) {
         if (verbose) msg("Survival object will be stratified on time")
@@ -95,7 +95,7 @@ resample <- function(y,
       if (train.p <= 0 | train.p >= 1) stop("train.p must be greater than 0 and less than 1")
     }
 
-    # Resample ====
+    # Resample ----
     .stratify.var <- if (is.null(stratify.var)) y else stratify.var
     # stratify.var is for printing with parameterSummary
     stratify.var <- if (is.null(stratify.var)) getName(y, "y") else deparse(substitute(stratify.var))
@@ -103,7 +103,7 @@ resample <- function(y,
     n.resamples <- as.integer(n.resamples)
     if (resampler == "loocv") n.resamples <- length(y)
 
-    # Print parameters ====
+    # Print parameters ----
     if (verbose) {
       if (resampler == "strat.sub") {
         parameterSummary(n.resamples, resampler, stratify.var, train.p, strat.n.bins,
@@ -120,14 +120,14 @@ resample <- function(y,
       }
     }
 
-    # Make resamples ====
+    # Make resamples ----
     if (resampler == "bootstrap") {
-      ## Bootstrap ====
+      ## Bootstrap ----
       res.part <- bootstrap(x = y,
                             n.resamples = n.resamples,
                             seed = seed)
     } else if (resampler == "kfold") {
-      ## kfold ====
+      ## kfold ----
       res.part <- kfold(x = y,
                         k = n.resamples,
                         stratify.var = .stratify.var,
@@ -135,10 +135,10 @@ resample <- function(y,
                         seed = seed,
                         verbose = verbose)
     } else if (resampler == "loocv") {
-      ## LOOCV ====
+      ## LOOCV ----
       res.part <- loocv(x = y)
     } else if (resampler == "strat.boot") {
-      ## strat.boot ====
+      ## strat.boot ----
       res.part <- strat.boot(x = y,
                              n.resamples = n.resamples,
                              train.p = train.p,
@@ -146,7 +146,7 @@ resample <- function(y,
                              strat.n.bins = strat.n.bins,
                              target.length = target.length)
     } else {
-      ## strat.sub ====
+      ## strat.sub ----
       res.part <- strat.sub(x = y,
                             n.resamples = n.resamples,
                             train.p = train.p,
@@ -158,7 +158,7 @@ resample <- function(y,
 
   } else if (type == ".group") {
 
-    # type = "group" ====
+    # type = "group" ----
     n.resamples <- length(unique(group))
     res.part <- vector("list", n.resamples)
     res.part <- plyr::llply(unique(group), function(i) which(group == i))
@@ -167,7 +167,7 @@ resample <- function(y,
 
   } else {
 
-    # type = "index" ====
+    # type = "index" ----
     if (!is.list(index)) stop("index must be list of training set indices")
     n.resamples <- length(index)
     res.part <- index
@@ -186,7 +186,7 @@ resample <- function(y,
 
   if (verbose) msg("Created", n.resamples, desc, newline.pre = TRUE)
 
-  # Attributes ====
+  # Attributes ----
   class(res.part) <- c("resample", "list")
   attr(res.part, "N") <- n.resamples
   attr(res.part, "type") <- resampler

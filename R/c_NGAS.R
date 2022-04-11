@@ -21,32 +21,32 @@ c_NGAS <- function(x, x.test = NULL,
                    dist = "euclidean",
                    verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "NGAS"
 
-  # Data ====
+  # Data ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("flexclust")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_NGAS))
     stop("x is missing")
   }
 
-  # NGAS ====
+  # NGAS ----
   if (verbose) msg("Performing Neural Gas clustering with k = ", k, "...", sep = "")
   clust <- flexclust::cclust(x,
                              k = k,
                              dist = dist,
                              method = "neuralgas", ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- flexclust::clusters(clust)
   if (!is.null(x.test)) {
     clusters.test <- flexclust::clusters(clust, x.test)
@@ -54,7 +54,7 @@ c_NGAS <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

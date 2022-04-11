@@ -25,8 +25,8 @@ cartLite <- function(x, y,
                      save.fitted = FALSE,
                      trace = 0, ...) {
 
-  # Arguments ====
-  # '- rpart.control ====
+  # Arguments ----
+  # '- rpart.control ----
   control <- list(minsplit = minsplit,
                   minbucket = minbucket,
                   cp = cp,

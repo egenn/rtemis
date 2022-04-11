@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016-9 E.D. Gennatas lambdamd.org
 
-# rtMod R6 ====
+# rtMod R6 ----
 #' \pkg{rtemis} Supervised Model Class
 #'
 #' R6 Class for \pkg{rtemis} Supervised Models
@@ -274,7 +274,7 @@ rtMod <- R6::R6Class("rtMod",
                          algorithm <- modSelect(self$mod.name, desc = T)
                          cat(algorithm, " was used for ", tolower(type), ".", sep = "")
 
-                         # Tuning ====
+                         # Tuning ----
                          if (!is.null(self$extra$gridSearch)) {
                            res <- self$extra$gridSearch$resample.rtset
                            n.resamples <- res$n.resamples
@@ -309,7 +309,7 @@ rtMod <- R6::R6Class("rtMod",
                            printls(self$extra$gridSearch$best.tune)
                          }
 
-                         # Error ====
+                         # Error ----
                          if (type == "Classification") {
                            cat("Training balanced accuracy was ",
                                ddSci(self$error.train$Overall$`Balanced Accuracy`), sep = "")
@@ -333,7 +333,7 @@ rtMod <- R6::R6Class("rtMod",
                        } # / describe
                      )) # /rtMod
 
-# rtMod S3 methods ====
+# rtMod S3 methods ----
 #' \code{rtMod} S3 methods
 #'
 #' S3 methods for \code{rtMod} class.
@@ -689,7 +689,7 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
 } # rtemis::coef.rtMod
 
 
-# rtModClass ====
+# rtModClass ----
 #' \pkg{rtemis} Classification Model Class
 #'
 #' R6 Class for \pkg{rtemis} Classification Models
@@ -818,7 +818,7 @@ rtModClass <- R6::R6Class("rtModClass",
 )
 
 
-# rtModBag R6 ====
+# rtModBag R6 ----
 #' \pkg{rtemis} Bagged Supervised Model Class
 #'
 #' R6 Class for \pkg{rtemis} Bagged Supervised Models
@@ -976,7 +976,7 @@ predict.rtModBag <- function(object, newdata,
 } # rtemis::predict.rtModBag
 
 
-# rtModCV R6 ====
+# rtModCV R6 ----
 #' \pkg{rtemis} Cross-Validated Supervised Model Class
 #'
 #' R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
@@ -1235,7 +1235,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            algorithm <- modSelect(self$mod.name, desc = TRUE)
                            cat(type, " was performed using ", algorithm, ".", sep = "")
 
-                           # Preprocessing ====
+                           # Preprocessing ----
                            if (!is.null(self$parameters$preprocess)) {
                              preproc <- self$parameters$preprocess
 
@@ -1253,14 +1253,14 @@ rtModCV <- R6::R6Class("rtModCV",
 
                            }
 
-                           # Decomposition ====
+                           # Decomposition ----
                            if (!is.null(self$parameters$decompose)) {
                              decom <- self$parameters$decompose
                              cat(" Input was projected to ", decom$k, " dimensions using ",
                                  decomSelect(decom$decom, desc = TRUE), ".", sep = "")
                            }
 
-                           # Tuning ====
+                           # Tuning ----
                            .gs <- !is.null(self$mod[[1]][[1]]$mod1$extra$gridSearch)
                            if (.gs) {
                              res <- self$mod[[1]][[1]]$mod1$extra$gridSearch$resample.rtset
@@ -1275,7 +1275,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                  n.resamples, resamples, ".", sep = "")
                            }
 
-                           # Performance ====
+                           # Performance ----
                            n.repeats <- self$n.repeats
                            n.resamples <- self$resampler.params$n.resamples
                            resampler <- self$resampler.params$resampler
@@ -1368,7 +1368,7 @@ predict.rtModCV <- function(object, newdata,
 } # rtemis::predict.rtModCV
 
 
-# rtModCVclass ====
+# rtModCVclass ----
 #' \pkg{rtemis} Cross-Validated Classification Model Class
 #'
 #' R6 Class for \pkg{rtemis} Cross-Validated Classification Models
@@ -1505,7 +1505,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                           })
 )
 
-# rtMeta R6 ====
+# rtMeta R6 ----
 #' \pkg{rtemis} Meta Model Class
 #'
 #' R6 Class for \pkg{rtemis} Meta Models
@@ -1653,7 +1653,7 @@ predict.rtMeta <- function(object, newdata, fn = median, ...) {
 } # rtemis::predict.rtMeta
 
 
-# rtModLite R6 ====
+# rtModLite R6 ----
 #' \pkg{rtemis} Lite Supervised Model Class
 #'
 #' R6 Class for \pkg{rtemis} Lite Supervised Models
@@ -1696,7 +1696,7 @@ rtModLite <- R6::R6Class("rtModLite",
                            }
                          )) # /rtModLite
 
-# rtModLite S3 methods ====
+# rtModLite S3 methods ----
 #' rtModLite S3 methods
 #'
 #' S3 methods for \code{rtModLite} class.
@@ -1763,7 +1763,7 @@ predict.rtModLite <- function(object, newdata, ...) {
 } # rtemis::predict.rtModLite
 
 
-# rtMod.out ====
+# rtMod.out ----
 # for all s. learners
 # Print plots / save plots and mods to outdir
 rtMod.out <- function(rt,

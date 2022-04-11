@@ -35,14 +35,14 @@ d_UMAP <- function(x,
       scale = TRUE,
       verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "UMAP"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("uwot")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_UMAP))
     stop("x is missing")
@@ -50,7 +50,7 @@ d_UMAP <- function(x,
   init <- match.arg(init)
   metric <- match.arg(metric)
 
-  # Data ====
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -62,7 +62,7 @@ d_UMAP <- function(x,
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
-  # UMAP ====
+  # UMAP ----
   if (verbose) msg("Performing UMAP Decomposition...")
   decom <- uwot::umap(x,
                       n_components = k,
@@ -75,7 +75,7 @@ d_UMAP <- function(x,
                       verbose = verbose,
                       ret_model = TRUE, ...)
 
-  # Projections ====
+  # Projections ----
   projections.train <- uwot::umap_transform(x, decom)
   if (!is.null(x.test)) {
     projections.test <- uwot::umap_transform(x.test, decom)
@@ -83,7 +83,7 @@ d_UMAP <- function(x,
     projections.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

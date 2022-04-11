@@ -56,7 +56,7 @@ mhist <- function(x,
                   main = "",
                   add = FALSE, ...) {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   measure <- match.arg(measure)
   xhist <- hist(x, breaks = breaks, plot = FALSE)
   .x <- if (horiz) xhist[[measure]] else xhist$mids
@@ -72,20 +72,20 @@ mhist <- function(x,
   .xaxis.line <- if (horiz) yaxis.line else xaxis.line
   .yaxis.line <- if (horiz) xaxis.line else yaxis.line
 
-  # [ PLOT ] ====
+  # [ PLOT ] ----
   if (add) par(new = TRUE)
   plot(.x, .y, type = 'n', xlim = .xlim, ylim = .ylim, axes = plot.axes, xaxs = .xaxs, yaxs = .yaxs,
        xlab = xlab, ylab = ylab, ...)
   if (.xaxis) axis(1, line = .xaxis.line)
   if (.yaxis) axis(2, line = .yaxis.line)
 
-  # [ BOX ] ====
+  # [ BOX ] ----
   if (box) box()
 
-  # [ GRID ] ====
+  # [ GRID ] ----
   if (grid) grid()
 
-  # [ HIST ] ====
+  # [ HIST ] ----
   if (horiz) {
     for (i in 1:length(.x)) {
       lines(c(0, .x[i]), c(.y[i], .y[i]), lwd = lwd, col = col, ...)

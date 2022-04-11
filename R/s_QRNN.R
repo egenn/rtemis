@@ -50,7 +50,7 @@ s_QRNN <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) { print(args(s.NW)); return(invisible(9)) }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
@@ -61,10 +61,10 @@ s_QRNN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "QRNN"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("qrnn")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) { print(args(s.NW)); stop("x is missing") }
   if (is.null(y) & NCOL(x) < 2) { print(args(s.NW)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -81,7 +81,7 @@ s_QRNN <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -92,7 +92,7 @@ s_QRNN <- function(x, y = NULL,
   checkType(type, "Regression", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
-  # QRNN ====
+  # QRNN ----
   if (verbose) msg("Training QRNN mmodel...", newline.pre = TRUE)
   mod <- qrnn::qrnn.fit(x = as.matrix(x), y = as.matrix(y),
                         n.hidden = n.hidden,
@@ -108,12 +108,12 @@ s_QRNN <- function(x, y = NULL,
                         penalty = penalty,
                         trace = verbose, ...)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- rowMeans(qrnn::qrnn.predict(as.matrix(x), mod))
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- rowMeans(qrnn::qrnn.predict(as.matrix(x.test), mod))
@@ -123,7 +123,7 @@ s_QRNN <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = rtclass,
               mod = mod,
               mod.name = mod.name,

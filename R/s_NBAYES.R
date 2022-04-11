@@ -31,7 +31,7 @@ s_NBAYES <- function(x, y = NULL,
             outdir = NULL,
             save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_NBAYES))
     invisible(9)
@@ -45,17 +45,17 @@ s_NBAYES <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NBAYES"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("e1071")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -73,12 +73,12 @@ s_NBAYES <- function(x, y = NULL,
   }
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # e1071::naiveBayes ====
+  # e1071::naiveBayes ----
   if (verbose) msg("Training Naive Bayes Classifier...", newline.pre = TRUE)
   mod <- e1071::naiveBayes(x, y,
                            laplace = laplace, ...)
 
-  # Fitted ====
+  # Fitted ----
   fitted.prob <- predict(mod, x, type = "raw")
   fitted <- predict(mod, x, type = "class")
   error.train <- modError(y, fitted,
@@ -86,7 +86,7 @@ s_NBAYES <- function(x, y = NULL,
                           type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.prob <- predict(mod, x, type = "raw")
@@ -99,7 +99,7 @@ s_NBAYES <- function(x, y = NULL,
     }
   }
 
-  # Outro====
+  # Outro----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

@@ -17,39 +17,22 @@
 #' @export
 
 boxcat <- function(x,
-                   style = 2,
                    col = NULL,
                    newline.pre = TRUE,
                    newline = FALSE,
                    pad = 0) {
-
-  x <- as.character(x)
-  if (newline.pre) cat("\n")
-  if (style == 1) {
-    x.len <- nchar(x)
+    x <- as.character(x)
+    if (newline.pre) cat("\n")
     cat(rep(" ", pad), sep = "")
-    cat(rep("-", x.len + 4), " \n| ", sep = "")
+    cat(crayon::blurred(".:"))
     if (!is.null(col)) {
-      col <- getFromNamespace(col, "crayon")
-      cat(col(x))
+        col <- getFromNamespace(col, "crayon")
+        cat(col$bold(x))
     } else {
-      cat(x)
+        cat(bold(x))
     }
-    cat(" |\n", rep("-", x.len + 4), "\n", sep = "")
-  } else {
-    csb <- silver$bold
-    cat(rep(" ", pad), sep = "")
-    cat(csb("[ "))
-    if (!is.null(col)) {
-      col <- getFromNamespace(col, "crayon")
-      cat(col$bold(x))
-    } else {
-      cat(bold(x))
-    }
-    cat(csb(" ]\n"))
-  }
-  if (newline) cat("\n")
-
+    cat("\n")
+    if (newline) cat("\n")
 } # rtemis::boxcat
 
 
@@ -64,7 +47,5 @@ boxcat <- function(x,
 #' @noRd
 
 objcat <- function(x) {
-
-  cat(bold(".:rtemis"), rtOrange$bold(x), "\n")
-
+    cat(bold(".:rtemis"), rtOrange$bold(x), "\n")
 } # rtemis::boxcat

@@ -25,6 +25,7 @@
 #' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
 #' @param outdir: Character: Path to output directory to save model. Default = NULL
 #' @param ... Additional parameters to be passed to learner
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -58,7 +59,7 @@ bag <- function(x, y = NULL,
                 parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                 outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # Intro ----
   if (missing(x)) {
     print(args(bag))
     return(invisible(9))
@@ -71,7 +72,7 @@ bag <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # [ Arguments ] ====
+  # Arguments ----
   n.cores <- as.numeric(n.cores)[1]
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -81,7 +82,7 @@ bag <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ Data ] ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -116,13 +117,13 @@ bag <- function(x, y = NULL,
     mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features/3), 1)
   }
 
-  # [ BAG ] ====
+  # Bag ----
   mod.name <- paste0("Bagged", toupper(mod))
   mod.desc <- modSelect(mod, desc = TRUE)
 
   if (verbose) parameterSummary(mod, mod.params)
 
-  # [ resLearn ] ====
+  # resLearn ----
   if (verbose) msg0("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
   rl <- resLearn(x = x, y = y,
                  mod = mod,
@@ -136,7 +137,7 @@ bag <- function(x, y = NULL,
                  n.cores = n.cores,
                  parallel.type = parallel.type)
 
-  # [ Fitted ] ====
+  # Fitted ----
   if (!verbose) pbapply::pboptions(type = "none")
 
   if (type == "Classification") {
@@ -152,7 +153,7 @@ bag <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ====
+  # Predicted ----
   predicted.bag <- predicted <- error.test <- NULL
 
   if (!is.null(x.test)) {
@@ -172,7 +173,7 @@ bag <- function(x, y = NULL,
     }
   }
 
-  # [ VARIMP ] ====
+  # Verimp ----
   if (length(rl$mods[[1]]$mod1$varimp) > 0) {
     varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
     varimp.res[is.na(varimp.res)] <- 0
@@ -182,7 +183,7 @@ bag <- function(x, y = NULL,
   }
 
 
-  # [ Outro ] ====
+  # Outro ----
   parameters <- list(mod = mod.name,
                      mod.params = mod.params,
                      k = k)

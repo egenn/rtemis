@@ -76,12 +76,12 @@ lincoef <- function(x, y,
   }
 
   if (method == "glm") {
-    # '-- "glm": base::lm.wfit ====
+    # '-- "glm": base::lm.wfit ----
     if (is.null(weights)) weights <- rep(1, NROW(y))
     dat <- data.frame(x, y)
     coef <- lm.wfit(model.matrix(y ~ ., dat), y, weights)$coefficients
   } else if (method == "glmnet") {
-    # '-- "glmnet": glmnet::glmnet ====
+    # '-- "glmnet": glmnet::glmnet ----
     if (is.null(weights)) weights <- rep(1, NROW(y))
     family <- switch(type,
                      Regression = "gaussian",
@@ -95,7 +95,7 @@ lincoef <- function(x, y,
     coef <- as.matrix(coef(lin1, s = lambda))[, 1]
 
   } else if (method == "cv.glmnet") {
-    # '-- "cv.glmnet": glmnet::cv.glmnet ====
+    # '-- "cv.glmnet": glmnet::cv.glmnet ----
     which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
     if (is.null(weights)) weights <- rep(1, NROW(y))
     lin1 <- glmnet::cv.glmnet(data.matrix(x), y, family = 'gaussian',
@@ -105,14 +105,14 @@ lincoef <- function(x, y,
                               nfolds = cv.glmnet.nfolds)
     coef <- as.matrix(coef(lin1, s = lin1[[which.cv.glmnet.lambda]]))[, 1]
   } else if (method == "lm.ridge") {
-    # '-- "lm.ridge": MASS::lm.ridge ====
+    # '-- "lm.ridge": MASS::lm.ridge ----
     if (!is.null(weights)) stop("method 'lm.ridge' does not support weights")
     dat <- data.frame(x, y)
     lin1 <- MASS::lm.ridge(y ~ ., dat,
                            lambda = lambda)
     coef <- coef(lin1)
   } else if (method == "forwardStepwise") {
-    # '-- "forwardStepwise": leaps::regsubsets ====
+    # '-- "forwardStepwise": leaps::regsubsets ----
     if (is.null(weights)) weights <- rep(1, length(y))
     mod <- leaps::regsubsets(x, y,
                              weights = weights,
@@ -124,7 +124,7 @@ lincoef <- function(x, y,
     names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "backwardStepwise") {
-    # '-- "backwardStepwise": leaps::regsubsets ====
+    # '-- "backwardStepwise": leaps::regsubsets ----
     if (is.null(weights)) weights <- rep(1, length(y))
     mod <- leaps::regsubsets(x, y,
                              weights = weights,
@@ -136,7 +136,7 @@ lincoef <- function(x, y,
     names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "allSubsets") {
-    # '-- "allSubsets": leaps::regsubsets ====
+    # '-- "allSubsets": leaps::regsubsets ----
     if (is.null(weights)) weights <- rep(1, length(y))
     mod <- leaps::regsubsets(x, y,
                              weights = weights,
@@ -150,13 +150,13 @@ lincoef <- function(x, y,
     names(coef) <- c("(Intercept)", colnames(x))
     coef[names(.coef)] <- .coef
   } else if (method == "solve") {
-    # '-- solve ====
+    # '-- solve ----
     if (!is.null(weights)) stop("method 'solve' does not support weights")
     x <- cbind(`(Intercept)` = 1, x)
     coef <- solve(t(x) %*% x, t(x) %*% y)[, 1]
     names(coef) <- colnames(x)
   } else if (method == "sgd") {
-    # '-- sgd ====
+    # '-- sgd ----
     if (!is.null(weights)) stop("provide weights for method 'sgd' using model.control$wmatrix")
     mod <- sgd::sgd(x = data.matrix(cbind(Intercept = 1, x)),
                     y = y,

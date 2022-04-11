@@ -67,7 +67,7 @@ s_SPLS <- function(x, y = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    n.cores = rtCores, ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_SPLS))
     return(invisible(9))
@@ -81,10 +81,10 @@ s_SPLS <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SPLS"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("spls")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_SPLS))
     stop("x is missing")
@@ -104,7 +104,7 @@ s_SPLS <- function(x, y = NULL,
     k <- NCOL(x)
   }
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -130,7 +130,7 @@ s_SPLS <- function(x, y = NULL,
     classifier <- match.arg(classifier)
   }
 
-  # Grid Search ====
+  # Grid Search ----
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -167,7 +167,7 @@ s_SPLS <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # spls::splsda/spls ====
+  # spls::splsda/spls ----
   if (verbose) msg0("Training Sparse Partial Least Squares ", type , "...",
                     newline.pre = TRUE)
   if (type == "Classification") {
@@ -197,7 +197,7 @@ s_SPLS <- function(x, y = NULL,
 
   if (trace > 0) mod
 
-  # Fitted ====
+  # Fitted ----
   fitted <- predict(mod, x, type = "fit")
   if (type == "Classification") {
     fitted <- factor(fitted)
@@ -206,10 +206,10 @@ s_SPLS <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Coefficients ====
+  # Coefficients ----
   coeffs <- spls::coef.spls(mod)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test, type = "fit")
@@ -223,7 +223,7 @@ s_SPLS <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(coeffs = coeffs)
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,

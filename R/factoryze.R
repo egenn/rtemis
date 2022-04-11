@@ -67,15 +67,15 @@ factoryze <- function(x,
                       do.hclust = FALSE,
                       verbose = TRUE, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("psych")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- deparse(substitute(x))
   if (is.null(n.factors)) do.pa <- TRUE
   omega.rotation <- match.arg(omega.rotation)
 
-  # Parallel Analysis - Estimate Number of Factors ====
+  # Parallel Analysis - Estimate Number of Factors ----
   if (do.pa) {
     if (verbose) msg("Running Parallel Analysis...")
     parallel.analysis <- psych::fa.parallel(x, fm = method,
@@ -97,7 +97,7 @@ factoryze <- function(x,
   }
   if (verbose) msg("Using", n.factors, "factors")
 
-  # Factor Analysis ====
+  # Factor Analysis ----
   if (do.fa) {
     if (verbose) msg("Running Exploratory Factor Analysis...")
     x.fa <- psych::fa(x, nfactors = n.factors,
@@ -114,7 +114,7 @@ factoryze <- function(x,
     x.fa <- fa.scores <- NULL
   }
 
-  # Bifactor Analysis ====
+  # Bifactor Analysis ----
   if (do.bifactor) {
     if (verbose) msg("Running Bifactor Analysis...")
     x.omega <- psych::omegaSem(x, nfactors = n.factors,
@@ -128,7 +128,7 @@ factoryze <- function(x,
     x.omega <- bifactor.scores <- NULL
   }
 
-  # Hierarchical Cluster Analysis ====
+  # Hierarchical Cluster Analysis ----
   if (do.hclust) {
     if (verbose) msg("Performing hierarchical cluster analysis...")
     x.pvclust <- pvclust::pvclust(x)
@@ -137,7 +137,7 @@ factoryze <- function(x,
     x.pvclust <- NULL
   }
 
-  # Output ====
+  # Output ----
   s.out <- list(parallel.analysis = parallel.analysis,
                 factor.analysis = x.fa,
                 factor.scores = fa.scores,

@@ -52,7 +52,7 @@ s_GAMSELX2 <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   if (missing(x)) {
     print(args(s_GAMSELX2))
     return(invisible(9))
@@ -66,10 +66,10 @@ s_GAMSELX2 <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAMSELX2"
 
-  # [ Dependencies ] ====
+  # [ Dependencies ] ----
   dependency_check("gamsel2")
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_GAMSELX2))
     stop("y is missing")
@@ -79,7 +79,7 @@ s_GAMSELX2 <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
 
-  # [ Data ] ====
+  # [ Data ] ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # ipw = ipw,
@@ -113,7 +113,7 @@ s_GAMSELX2 <- function(x, y = NULL,
   #   y <- 2 - as.numeric(y)
   # }
 
-  # [ Autopreprocess ] ====
+  # [ Autopreprocess ] ----
   if (autopreprocess) {
     n.unique.perfeat <- apply(x, 2, function(i) length(unique(i)))
     tofactor <- which(n.unique.perfeat < min.unique.perfeat)
@@ -125,7 +125,7 @@ s_GAMSELX2 <- function(x, y = NULL,
     tofactor <- NULL
   }
 
-  # [ GAMSELX2 ] ====
+  # [ GAMSELX2 ] ----
   if (verbose) msg("Training GAMSELX2...", newline.pre = TRUE)
   mod <- gamselx2(x, y,
                   gamsel.params1 = gamsel.params1,
@@ -138,7 +138,7 @@ s_GAMSELX2 <- function(x, y = NULL,
                   trace = trace)
   mod$tofactor <- tofactor
 
-  # [ Fitted ] ====
+  # [ Fitted ] ----
   # if (type == "Regression") {
   fitted <- mod$fitted
   error.train <- modError(y, fitted)
@@ -152,7 +152,7 @@ s_GAMSELX2 <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # [ Predicted ] ----
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     # if (type == "Regression") {
@@ -168,7 +168,7 @@ s_GAMSELX2 <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

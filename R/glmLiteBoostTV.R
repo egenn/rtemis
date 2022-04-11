@@ -58,7 +58,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                            n.cores = rtCores,
                            outdir = NULL, ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -72,7 +72,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMLITEBOOST"
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
@@ -80,7 +80,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ Data ] ====
+  # [ Data ] ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
@@ -116,7 +116,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     weights1 <- weights
   }
 
-  # [ BOOST ] ====
+  # [ BOOST ] ----
   learner <- "glmLite"
   learner.name <- "GLM"
   learner.short <- "GLMlite"
@@ -129,7 +129,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                                 weights.0)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
 
-  # '- New series ====
+  # '- New series ----
   # init learning.rate vector
   if (is.null(boost.obj)) {
     mods <- list()
@@ -150,7 +150,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     if (verbose) msg("[ Boosting ", learner.name, "... ]", sep = "")
   } else {
     .learning.rate <- boost.obj$mod$learning.rate
-    # '- Expand series ====
+    # '- Expand series ----
     mods <- boost.obj$mod$mods
     Fval <- penult.fitted <- boost.obj$mod$fitted
     error <- boost.obj$mod$error
@@ -189,7 +189,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     print.error.plot <- "iter"
   }
 
-  # '- Iterate learner ====
+  # '- Iterate learner ----
   if (!is.null(seed)) set.seed(seed)
   while (i <= max.iter) {
     .learning.rate[i] <- learning.rate
@@ -205,7 +205,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                        save.fitted = TRUE),
     mod.params)
 
-    # '- Train base learner ====
+    # '- Train base learner ----
     if (.learning.rate[i] != 0) {
       mods[[i]] <- do.call(learner, args = mod.args)
     } else {
@@ -272,7 +272,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     }
   }
 
-  # '- boost object ====
+  # '- boost object ----
   obj <- list(mod.name = mod.name,
               learning.rate = .learning.rate,
               init = init,
@@ -286,11 +286,11 @@ glmLiteBoostTV <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ Fitted ] ====
+  # [ Fitted ] ----
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ====
+  # [ Predicted ] ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test, n.cores = n.cores)
@@ -300,7 +300,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   parameters <- list(mod = learner.short,
                      mod.params = mod.params,
                      init = init,
@@ -533,7 +533,7 @@ as.glmLiteBoostTV <- function(object,
               mods = mods)
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   parameters <- list(mod = object$mod.name,
                      mod.params = object$parameters,
                      init = init,

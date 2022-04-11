@@ -37,7 +37,7 @@ s_KNN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   if (missing(x)) {
     print(args(s_KNN))
     return(invisible(9))
@@ -51,10 +51,10 @@ s_KNN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "KNN"
 
-  # [ Dependencies ] ====
+  # [ Dependencies ] ----
   dependency_check("FNN")
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_KNN))
     stop("y is missing")
@@ -73,7 +73,7 @@ s_KNN <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ====
+  # [ Data ] ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -85,7 +85,7 @@ s_KNN <- function(x, y = NULL,
   if (verbose) parameterSummary(k, algorithm,
                                 newline.pre = TRUE)
 
-  # FNN::knn/knn.reg ====
+  # FNN::knn/knn.reg ----
   if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
   .x.test <- if (is.null(x.test)) x else x.test
   if (type == "Classification") {
@@ -96,7 +96,7 @@ s_KNN <- function(x, y = NULL,
                         k = k, algorithm = algorithm)
   }
 
-  # [ Fitted / Predicted ] ====
+  # [ Fitted / Predicted ] ----
   # TODO: write & incorporate predict.knn / replace KNN fn
   if (type == "Classification") {
     if (is.null(x.test)) {
@@ -128,7 +128,7 @@ s_KNN <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   extra <- list()
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,

@@ -112,7 +112,7 @@ s_GBM3.R <- function(x, y = NULL,
                    save.res.mod = FALSE,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_GBM3.R))
     return(invisible(9))
@@ -132,10 +132,10 @@ s_GBM3.R <- function(x, y = NULL,
     n.trees <- min.trees
   }
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("gbm3")
 
-  # Arguments ====
+  # Arguments ----
   if (save.res.mod) save.res <- TRUE
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -154,7 +154,7 @@ s_GBM3.R <- function(x, y = NULL,
   grid.search.type <- match.arg(grid.search.type)
   smoother <- match.arg(smoother)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -210,7 +210,7 @@ s_GBM3.R <- function(x, y = NULL,
 
   if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
 
-  # Grid Search ====
+  # Grid Search ----
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -296,7 +296,7 @@ s_GBM3.R <- function(x, y = NULL,
                      newline.pre = TRUE)
   }
 
-  # GBM3 ====
+  # GBM3 ----
   if (!is.null(logFile)) sink() # pause writing to log
   # If we are in .gs, rbind train and test to get perf to tune n.trees
   # .xtrain and .ytrain to allow diff b/n .gs and full model
@@ -423,7 +423,7 @@ s_GBM3.R <- function(x, y = NULL,
     if (n.trees == max.trees & verbose) msg("Reached max.trees =", max.trees)
   }
 
-  # Fitted ====
+  # Fitted ----
   fitted.prob <- NULL
   if (type == "Regression" | type == "Survival") {
     if (distribution == "poisson") {
@@ -468,7 +468,7 @@ s_GBM3.R <- function(x, y = NULL,
                                  " GBM permutation-based variable importance"), padj = -2)
   }
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(.x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -500,7 +500,7 @@ s_GBM3.R <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(mod.summary.rel = mod.summary.rel,
                 mod.summary.perm = mod.summary.perm)
   if (imetrics) {

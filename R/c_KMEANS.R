@@ -21,32 +21,32 @@ c_KMEANS <- function(x, x.test = NULL,
                      dist = "euclidean",
                      verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "KMEANS"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("flexclust")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_KMEANS))
     stop("x is missing")
   }
 
-  # Data ====
+  # Data ----
   .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.data.frame(x)
   xnames <- colnames(x) <- .colnames
 
-  # KMEANS ====
+  # KMEANS ----
   if (verbose) msg("Performing K-means Clustering with k = ", k, "...", sep = "")
   clust <- flexclust::cclust(x,
                              k = k,
                              dist = dist,
                              method = "kmeans", ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- flexclust::clusters(clust)
   if (!is.null(x.test)) {
     clusters.test <- flexclust::clusters(clust, x.test)
@@ -54,7 +54,7 @@ c_KMEANS <- function(x, x.test = NULL,
     clusters.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

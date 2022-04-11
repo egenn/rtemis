@@ -59,7 +59,7 @@ rtClust <- R6::R6Class("rtClust",
                           }
                         )) # /rtClust
 
-# rtClust S3 methods ====
+# rtClust S3 methods ----
 
 #' rtClust S3 methods
 #'

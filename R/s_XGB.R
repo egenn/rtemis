@@ -126,7 +126,7 @@ s_XGB <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
-  # Intro ====
+  # Intro ----
   warning("This old XGBoost training function will be removed as it is being replaced by the new s_XGBOOST")
   if (missing(x)) {
     print(args(s_XGB))
@@ -140,10 +140,10 @@ s_XGB <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("xgboost", "pbapply")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_XGB))
     stop("y is missing")
@@ -169,7 +169,7 @@ s_XGB <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   parallel.type <- match.arg(parallel.type)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -218,12 +218,12 @@ s_XGB <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # Main ====
+  # Main ----
   if (n.resamples > 0) {
 
     # {{ Grid Search WITH INTERNAL RESAMPLING }}
 
-    # Resamples ====
+    # Resamples ----
     n.resamples <- as.integer(n.resamples)
     if (is.null(target.length)) target.length <- length(y)
     res.part <- resample(y = stratify.var,
@@ -234,7 +234,7 @@ s_XGB <- function(x, y = NULL,
                          target.length = target.length,
                          seed = seed)
 
-    # {GRID} FN ====
+    # {GRID} FN ----
     xgb.1 <- function(index, grid,
                       x.int, y.int,
                       res.part,
@@ -301,7 +301,7 @@ s_XGB <- function(x, y = NULL,
       return(s.out.1)
     } # END {GRID} FN
 
-    # GRID ====
+    # GRID ----
     if (booster == "gbtree") {
       grid <- expand.grid(eta = eta,
                           gamma = gamma,
@@ -354,7 +354,7 @@ s_XGB <- function(x, y = NULL,
     n.gridLines <- NROW(grid)
     if (n.gridLines < n.cores) n.cores <- n.gridLines
 
-    # GRID RUN ====
+    # GRID RUN ----
     if (verbose) msg("Running XGB grid search:",
                      "\n                            N models total = ", n.gridLines,
                      "\n                            N resamples = ", n.resamples,
@@ -479,7 +479,7 @@ s_XGB <- function(x, y = NULL,
                                   newline.pre = TRUE)
   } else {
 
-    # {{ NO Grid Search NOR INTERNAL RESAMPLING }} ====
+    # {{ NO Grid Search NOR INTERNAL RESAMPLING }} ----
     res.part <- grid.performance <- grid.performance.by.tune.id <- best.tune <- NULL
     if (booster == "gbtree") {
       params <- list(booster = booster,
@@ -510,7 +510,7 @@ s_XGB <- function(x, y = NULL,
     }
   }
 
-  # Full XGBoost ====
+  # Full XGBoost ----
   if (verbose) msg("Training full XGB model with", booster, "booster...", newline.pre = TRUE)
   if (!is.null(objective)) objective <- deparse(substitute(objective))
   if (!is.null(feval)) feval <- deparse(substitute(feval))
@@ -523,7 +523,7 @@ s_XGB <- function(x, y = NULL,
                             verbose = verbose,
                             print_every_n = print_every_n)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- predict(mod, xg.dat)
   fitted.prob <- NULL
   if (type == "Classification") {
@@ -540,7 +540,7 @@ s_XGB <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     data.test <- xgboost::xgb.DMatrix(data = as.matrix(x.test), missing = missing)
@@ -561,7 +561,7 @@ s_XGB <- function(x, y = NULL,
     }
   }
 
-  # Relative Influence / Variable Importance ====
+  # Relative Influence / Variable Importance ----
   varimp <- NULL
   # This may take a while
   if (importance) {
@@ -574,7 +574,7 @@ s_XGB <- function(x, y = NULL,
     names(varimp) <- .xgbvarimp$Feature
   }
 
-  # Outro ====
+  # Outro ----
   # sink(logOut, append = T, split = T)
   extra <- list(resampler = resampler,
                 booster = booster,

@@ -44,7 +44,7 @@ s_ADABOOST <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = ifelse(!is_null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_ADABOOST))
     invisible(9)
@@ -58,10 +58,10 @@ s_ADABOOST <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "ADABOOST"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("ada")
 
-  # Arguments ====
+  # Arguments ----
   .type <- type
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
@@ -71,7 +71,7 @@ s_ADABOOST <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     upsample = upsample,
                     downsample = downsample,
@@ -92,7 +92,7 @@ s_ADABOOST <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # ADABOOST ====
+  # ADABOOST ----
   if (verbose) msg("Training ADABOOST Classifier...", newline.pre = TRUE)
   mod <- ada::ada(x, y,
                   loss = loss,
@@ -103,14 +103,14 @@ s_ADABOOST <- function(x, y = NULL,
                   verbose = verbose, ...)
   if (trace > 0) summary(mod)
 
-  # Fitted ====
+  # Fitted ----
   fitted.raw <- predict(mod, x, "both")
   fitted.prob <- fitted.raw$probs
   fitted <- factor(levels(y)[as.numeric(fitted.raw$class)], levels = levels(y))
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test, type = "both")
@@ -122,7 +122,7 @@ s_ADABOOST <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(fitted.prob = fitted.prob,
                 predicted.prob = predicted.prob)
   rt <- rtMod$new(mod.name = mod.name,

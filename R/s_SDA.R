@@ -39,7 +39,7 @@ s_SDA <- function(x, y = NULL,
                   n.cores = rtCores,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
   
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_SDA))
     invisible(9)
@@ -53,10 +53,10 @@ s_SDA <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SDA"
   
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("sparseLDA")
   
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -70,7 +70,7 @@ s_SDA <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -96,7 +96,7 @@ s_SDA <- function(x, y = NULL,
   #   stop("All predictors need to be numeric")
   # }
   
-  # Grid Search ====
+  # Grid Search ----
   if (gridCheck(lambda, stop, Q)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -122,7 +122,7 @@ s_SDA <- function(x, y = NULL,
     gs <- NULL
   }
   
-  # sparseLDA::sda ====
+  # sparseLDA::sda ----
   params <- list(x = x, y = y,
                  lambda = lambda, 
                  stop = stop, 
@@ -133,7 +133,7 @@ s_SDA <- function(x, y = NULL,
   if (verbose) msg("Running Sparse Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(sparseLDA::sda, args = params)
   
-  # Fitted ====
+  # Fitted ----
   fitted.raw <- predict(mod, x)
   fitted <- fitted.raw$class
   fitted.prob <- fitted.raw$posterior
@@ -141,7 +141,7 @@ s_SDA <- function(x, y = NULL,
   error.train <- modError(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
   
-  # Predicted ====
+  # Predicted ----
   predicted.raw <- predicted <- predicted.prob <- test.projections <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test)
@@ -154,7 +154,7 @@ s_SDA <- function(x, y = NULL,
     }
   }
   
-  # Outro ====
+  # Outro ----
   extra <- list(fitted.prob = fitted.prob, 
                 predicted.prob = predicted.prob,
                 train.projections = train.projections, 

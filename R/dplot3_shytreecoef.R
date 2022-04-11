@@ -15,7 +15,7 @@ dplot3_shytreecoef <- function(tree,
     if (inherits(tree$mod, "shytreeLeavesRC")) tree <- tree$mod$tree
   }
 
-  # Data ====
+  # Data ----
   nodeids <- as.numeric(names(tree))
   # nodeids_depth <- floor(log(nodeids, 2))
   # .nodelabels <- sapply(tree, function(i) i$rule)

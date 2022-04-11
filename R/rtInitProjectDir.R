@@ -15,7 +15,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
   if (verbose) msg("Initializing project directory...")
   if (verbose) cat("  Working in ", wd, "...\n", sep = "")
 
-  # rtInit.log ====
+  # rtInit.log ----
   # if (verbose) cat(rtHighlight("  Writing 'rtInit.log' file..."))
   sink("rtInit.log", append = TRUE)
   cat(".:rtemis Project Directory\n")
@@ -24,7 +24,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
   print(sessionInfo())
   sink()
 
-  # ./R ./Data ./Results ====
+  # ./R ./Data ./Results ----
   dirs <- c("R", "Data", "Results")
   for (i in dirs) {
     if (verbose) cat("  > Creating ", crayon::bold(i), " folder...", sep = "")

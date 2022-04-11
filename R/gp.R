@@ -28,11 +28,11 @@ gp <- function(x, y,
                cex = 1.2,
                par.reset = TRUE, ...) {
 
-  # [ BGP ] ====
+  # [ BGP ] ----
   s.out <- list(mod.name = "BGP")
   s.out$mod <- mod <- tgp::bgp(X = x, Z = y, XX = new.x, ...)
 
-  # [ Fitted ] ====
+  # [ Fitted ] ----
   if (is.null(new.x)) {
     s.out$mean <- mean <- mod$Zp.mean
     s.out$q05 <- q05 <- mod$Zp.q1
@@ -43,7 +43,7 @@ gp <- function(x, y,
     s.out$q95 <- q95 <- mod$ZZ.q2
   }
 
-  # [ PLOT ] ====
+  # [ PLOT ] ----
   if (print.plot & class(x) == "numeric") {
     main <- "Bayesian Gaussian Process"
     if (!is.null(new.x)) {
@@ -90,7 +90,7 @@ gp <- function(x, y,
   #            group.title = "Estimated", group.names = c("Mean", "95th Q", "5th Q"))
   #   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   s.out
 
 } # rtemis::gp

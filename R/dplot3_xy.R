@@ -114,10 +114,10 @@ dplot3_xy <- function(x, y = NULL,
             file.height = 500,
             file.scale = 1, ...) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("plotly")
 
-    # Arguments ====
+    # Arguments ----
     if (is.null(y) & NCOL(x) > 1) {
         if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
         if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -142,12 +142,12 @@ dplot3_xy <- function(x, y = NULL,
         }
     }
 
-    # order.on.x ====
+    # order.on.x ----
     if (is.null(order.on.x)) {
         order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
     }
 
-    # Cluster ====
+    # Cluster ----
     if (!is.null(cluster)) {
         group <- suppressWarnings(do.call(
             clustSelect(cluster),
@@ -162,8 +162,8 @@ dplot3_xy <- function(x, y = NULL,
         group <- paste("Cluster", group)
     }
 
-    # Data ====
-    # xlab, ylab ====
+    # Data ----
+    # xlab, ylab ----
     # The gsubs remove all text up to and including a "$" symbol if present
     if (is.null(xlab)) {
         if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
@@ -172,7 +172,7 @@ dplot3_xy <- function(x, y = NULL,
         if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
     }
 
-    # Group ====
+    # Group ----
     if (!is.null(group)) {
         group <- as.factor(group)
         x <- split(x, group, drop = TRUE)
@@ -190,7 +190,7 @@ dplot3_xy <- function(x, y = NULL,
         if (is.null(.names) & !is.null(names(x))) .names <- names(x)
     }
 
-    # Convert to lists ====
+    # Convert to lists ----
     x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
     y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
     hovertext <- if (!is.null(hovertext) & !is.list(hovertext)) as.list(as.data.frame(hovertext)) else hovertext
@@ -222,7 +222,7 @@ dplot3_xy <- function(x, y = NULL,
         }
     }
 
-    # Reorder ====
+    # Reorder ----
     if (order.on.x) {
         index <- lapply(x, order)
         x <- lapply(seq(x), \(i) x[[i]][index[[i]]])
@@ -236,13 +236,13 @@ dplot3_xy <- function(x, y = NULL,
         id <- !is.na(x)
     }
 
-    # Colors ====
+    # Colors ----
     if (is.character(palette)) palette <- rtPalette(palette)
     if (is.null(col)) col <- palette[seq_len(n.groups)]
     if (length(col) < n.groups) col <- rep(col, n.groups / length(col))
     if (is.null(alpha)) alpha <- autoalpha(max(lengths(x)))
 
-    # Theme ====
+    # Theme ----
     extraargs <- list(...)
     if (is.character(theme)) {
         theme <- do.call(paste0("theme_", theme), extraargs)
@@ -283,12 +283,12 @@ dplot3_xy <- function(x, y = NULL,
     if (is.null(legend.col)) legend.col <- labs.col
     if (is.null(spikecolor)) spikecolor <- theme$fg
 
-    # Size ====
+    # Size ----
     # if (axes.square) {
     # width <- height <- min(dev.size("px"))
     # }
 
-    # fitted & se.fit ====
+    # fitted & se.fit ----
     # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
     if (se.fit) se <- list() else se <- NULL
     if (rsq) .rsq <- list() else .rsq <- NULL
@@ -339,7 +339,7 @@ dplot3_xy <- function(x, y = NULL,
         }
     }
 
-    # Axes Limits ====
+    # Axes Limits ----
     if (axes.equal) {
         if (is.null(xlim)) {
             xlim <- getlim(unlist(x), "r", .06)
@@ -382,7 +382,7 @@ dplot3_xy <- function(x, y = NULL,
     if (is.null(xlim) & class(x[[1]]) != "Date") xlim <- getlim(unlist(x), "r", .06)
     if (is.null(ylim) & class(y[[1]]) != "Date") ylim <- getlim(unlist(y), "r", .06)
 
-    # plotly ====
+    # plotly ----
     if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
 
     plt <- plotly::plot_ly(
@@ -406,7 +406,7 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     for (i in seq_len(n.groups)) {
-        ## { Scatter } ====
+        ## { Scatter } ----
         marker <- if (grepl("markers", .mode[i])) {
             list(
                 color = plotly::toRGB(marker.col[[i]], alpha = alpha),
@@ -432,7 +432,7 @@ dplot3_xy <- function(x, y = NULL,
             showlegend = legend
         )
         if (se.fit) {
-            ## { SE band } ====
+            ## { SE band } ----
             plt <- plotly::add_trace(plt,
                 x = x[[i]],
                 y = fitted[[i]] + se.times * se[[i]],
@@ -460,7 +460,7 @@ dplot3_xy <- function(x, y = NULL,
             )
         }
         if (!is.null(fit)) {
-            ##  { Fitted line } ====
+            ##  { Fitted line } ----
             lfit <- list(
                 color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
                 width = fit.lwd
@@ -478,7 +478,7 @@ dplot3_xy <- function(x, y = NULL,
         }
     }
 
-    # Layout ====
+    # Layout ----
     f <- list(
         family = theme$font.family,
         size = font.size,
@@ -570,7 +570,7 @@ dplot3_xy <- function(x, y = NULL,
         legend = .legend
     )
 
-    ## vline ====
+    ## vline ----
     if (!is.null(vline)) {
         plt <- plotly::layout(plt, shapes = plotly_vline(vline,
             color = vline.col,
@@ -579,7 +579,7 @@ dplot3_xy <- function(x, y = NULL,
         ))
     }
 
-    ## hline ====
+    ## hline ----
     if (!is.null(hline)) {
         plt <- plotly::layout(plt, shapes = plotly_hline(hline,
             color = hline.col,
@@ -588,7 +588,7 @@ dplot3_xy <- function(x, y = NULL,
         ))
     }
 
-    ## square ====
+    ## square ----
     if (axes.square) {
         plt |> plotly::layout(yaxis = list(
             scaleanchor = "x",
@@ -602,7 +602,7 @@ dplot3_xy <- function(x, y = NULL,
         displayModeBar = displayModeBar
     )
 
-    # Write to file ====
+    # Write to file ----
     if (!is.null(filename)) {
         plotly::save_image(
             plt,

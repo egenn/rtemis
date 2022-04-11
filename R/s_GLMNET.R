@@ -65,7 +65,7 @@ s_GLMNET <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_GLMNET))
     return(invisible(9))
@@ -79,10 +79,10 @@ s_GLMNET <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMNET"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("glmnet")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_GLMNET))
     stop("x is missing")
@@ -100,7 +100,7 @@ s_GLMNET <- function(x, y = NULL,
   which.cv.lambda <- match.arg(which.cv.lambda)
   grid.search.type <- match.arg(grid.search.type)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -149,7 +149,7 @@ s_GLMNET <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # Model matrix ====
+  # Model matrix ----
   dat <- data.frame(x, y = y)
   if (nway.interactions > 0) {
     .formula <- as.formula(paste0("y ~ .^", nway.interactions))
@@ -168,7 +168,7 @@ s_GLMNET <- function(x, y = NULL,
     x.test <- model.matrix(.formula, dat.test)[, -1]
   }
 
-  # Grid Search ====
+  # Grid Search ----
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -205,7 +205,7 @@ s_GLMNET <- function(x, y = NULL,
   if (verbose) parameterSummary(alpha, lambda,
                                 newline.pre = TRUE)
 
-  # glmnet::cv.glmnet/glmnet ====
+  # glmnet::cv.glmnet/glmnet ----
   if (.gs && cv.lambda) {
     mod <- glmnet::cv.glmnet(x,
                              if (family == "binomial") reverseLevels(y) else y,
@@ -229,7 +229,7 @@ s_GLMNET <- function(x, y = NULL,
                           penalty.factor = penalty.factor, ...)
   }
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Regression" | type == "Survival") {
     fitted <- as.numeric(predict(mod, newx = x))
     fitted.prob <- NULL
@@ -249,7 +249,7 @@ s_GLMNET <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
@@ -274,7 +274,7 @@ s_GLMNET <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

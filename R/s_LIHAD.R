@@ -90,7 +90,7 @@ s_LIHAD <- function(x, y = NULL,
                      plot.theme = getOption("rt.theme"),
                      save.mod = FALSE) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_LIHAD))
     return(invisible(9))
@@ -104,15 +104,15 @@ s_LIHAD <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "LIHAD"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("rpart")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # ipw = ipw, ipw.type = ipw.type,
@@ -145,10 +145,10 @@ s_LIHAD <- function(x, y = NULL,
     }
   }
 
-  # GLOBAL ====
+  # GLOBAL ----
   .env <- environment()
 
-  # Grid Search ====
+  # Grid Search ----
   if (gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
@@ -173,7 +173,7 @@ s_LIHAD <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # lin1 ====
+  # lin1 ----
   if (verbose) msg0("Training Hybrid Additive Tree (max depth = ", max.depth, ")...",
                     newline.pre = TRUE)
 
@@ -182,7 +182,7 @@ s_LIHAD <- function(x, y = NULL,
   coef.c <- do.call(lincoef, c(list(x = x, y  = y), lincoef.params))
   Fval <- learning.rate * (data.matrix(cbind(1, x)) %*% coef.c)
 
-  # .lihad ====
+  # .lihad ----
   root <- list(x = x,
                y = y,
                Fval = Fval,
@@ -227,7 +227,7 @@ s_LIHAD <- function(x, y = NULL,
                      lambda = lambda,
                      lincoef.params = lincoef.params)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- predict.lihad(mod, x,
                            learning.rate = learning.rate,
                            trace = trace,
@@ -243,7 +243,7 @@ s_LIHAD <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict.lihad(mod, x.test,
@@ -256,7 +256,7 @@ s_LIHAD <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
@@ -328,7 +328,7 @@ lihad <- function(node = list(x = NULL,
                    verbose = TRUE,
                    trace = 0) {
 
-  # EXIT ====
+  # EXIT ----
   if (node$terminal) return(node)
 
   # lincoef.params$alpha <- alpha
@@ -343,7 +343,7 @@ lihad <- function(node = list(x = NULL,
   resid <- y - Fval
   nobsinnode <- length(node$index)
 
-  # Add partlin to node ====
+  # Add partlin to node ----
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
     if (trace > 1) msg("y1 (resid) is", resid)
     node$partlin <- partLin(x1 = x, y1 = resid,
@@ -359,7 +359,7 @@ lihad <- function(node = list(x = NULL,
     # resid <- y - Fval
     if (trace > 1) msg("Fval is", Fval)
 
-    # '- If node split ====
+    # '- If node split ----
     if (!node$partlin$terminal) {
       node$type <- "split"
       left.index <- node$partlin$left.index
@@ -423,7 +423,7 @@ lihad <- function(node = list(x = NULL,
       }
 
       # Run Left and Right nodes
-      # LEFT ====
+      # LEFT ----
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
       node$left <- lihad(node$left,
                           coef.c = coef.c.left,
@@ -441,7 +441,7 @@ lihad <- function(node = list(x = NULL,
                           simplify = simplify,
                           verbose = verbose,
                           trace = trace)
-      # RIGHT ====
+      # RIGHT ----
       if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
       node$right <- lihad(node$right,
                            coef.c = coef.c.right,
@@ -504,7 +504,7 @@ partLin <- function(x1, y1,
                     verbose = TRUE,
                     trace = 0) {
 
-  # PART ====
+  # PART ----
   dat <- data.frame(x1, y1)
   part <- rpart::rpart(y1 ~., dat,
                        control = rpart::rpart.control(minsplit = part.minsplit,
@@ -569,7 +569,7 @@ partLin <- function(x1, y1,
     }
   }
 
-  # LIN ====
+  # LIN ----
   resid <- y1 - part.val
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
@@ -630,19 +630,19 @@ print.lihad <- function(x, ...) {
 }
 
 
-# preorderMatch lihad ====
+# preorderMatch lihad ----
 preorderMatch.lihad <- function(node, x, trace = 0) {
 
-  # EXIT ====
+  # EXIT ----
   if (node$terminal) return(node)
 
   if (trace > 1) msg("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
-    # LEFT ====
+    # LEFT ----
     if (trace > 1) msg("      <--- Left")
     node <- preorderMatch.lihad(node$left, x, trace = trace)
   } else {
-    # RIGHT ====
+    # RIGHT ----
     if (trace > 1) msg("           Right --->")
     node <- preorderMatch.lihad(node$right, x, trace = trace)
   }
@@ -689,10 +689,10 @@ predict.lihad <- function(object, newdata = NULL,
   # ENH: consider removing
   if (is.null(newdata)) return(object$fitted)
 
-  # newdata colnames ====
+  # newdata colnames ----
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  # PREDICT ====
+  # PREDICT ----
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   rules <- plyr::ldply(tree$leafs$rule)[, 1]
   cxr <- matchCasesByRules(newdata, rules, verbose = verbose)
@@ -731,11 +731,11 @@ betas.lihad <- function(object, newdata,
     stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
   }
 
-  # newdata colnames ====
+  # newdata colnames ----
   newdata <- as.data.frame(newdata)
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  # BETAS ====
+  # BETAS ----
   ncases <- NROW(newdata)
   betas <- as.data.frame(matrix(nrow = NROW(newdata), ncol = NCOL(newdata) + 1))
 
@@ -751,19 +751,19 @@ betas.lihad <- function(object, newdata,
 } # rtemis:: betas.lihad
 
 
-# preorder adddt ====
+# preorder adddt ----
 preorder.lihad <- function(node, x, trace = 0) {
 
-  # EXIT ====
+  # EXIT ----
   if (node$terminal) return(node)
 
   if (trace > 1) msg("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
-    # LEFT ====
+    # LEFT ----
     if (trace > 1) msg("      <--- Left")
     node <- preorder.lihad(node$left, x, trace = trace)
   } else {
-    # RIGHT ====
+    # RIGHT ----
     if (trace > 1) msg("           Right --->")
     node <- preorder.lihad(node$right, x, trace = trace)
   }
@@ -794,11 +794,11 @@ coef.lihad <- function(object, newdata,
     stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
   }
 
-  # newdata colnames ====
+  # newdata colnames ----
   newdata <- as.data.frame(newdata)
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
-  # BETAS ====
+  # BETAS ----
   ncases <- NROW(newdata)
   betas <- as.data.frame(matrix(nrow = NROW(newdata), ncol = NCOL(newdata) + 1))
 

@@ -13,28 +13,28 @@
 rstudio_theme_rtemis <- function(theme = "dark") {
 
   .theme <- if (theme == "dark") "rtemis" else "rtemis-light"
-  # '- Check we are in RStudio ====
+  # '- Check we are in RStudio ----
   if (!rstudioapi::isAvailable()) {
     stop("Please run this function from within RStudio")
   }
 
-  # '- Check RStudio supports themes ====
+  # '- Check RStudio supports themes ----
   if (compareVersion(as.character(rstudioapi::versionInfo()$version), "1.2.0") == -1) {
     stop("Please update to the latest RStudio version (or at least 1.2.0)")
   }
 
-  # '- Remove theme if already present ====
+  # '- Remove theme if already present ----
   if (.theme %in% names(rstudioapi::getThemes())) {
     rstudioapi::removeTheme(.theme)
   }
 
-  # '- Add theme ====
+  # '- Add theme ----
   msg("Adding rtemis theme...")
   .theme <- rstudioapi::addTheme(
     system.file(fs::path("resources", paste0(.theme, ".rstheme")), package = "rtemis")
   )
 
-  # '- Activate theme ====
+  # '- Activate theme ----
   rstudioapi::applyTheme(.theme)
   msg("You may need to restart RStudio for theme changes to take effect in the Options menu")
 

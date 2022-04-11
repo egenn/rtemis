@@ -67,7 +67,7 @@ checkpoint_earlystop <- function(x,
                 restart = TRUE))
   }
 
-  # Check absolute threshold ====
+  # Check absolute threshold ----
   if (!is.na(absolute.threshold)) {
 
     if (is.na(last.value)) {
@@ -86,7 +86,7 @@ checkpoint_earlystop <- function(x,
   }
 
 
-  # Check relative threshold ====
+  # Check relative threshold ----
   if (!is.na(relative.threshold)) {
     relative.threshold <- if (minimize)  -(abs(relative.threshold)) else abs(relative.threshold)
     first.value <- x[1]
@@ -105,7 +105,7 @@ checkpoint_earlystop <- function(x,
     check.rthresh <- FALSE
   }
 
-  # Check relative variance ====
+  # Check relative variance ----
   min.steps <- max(n.steps, min.steps)
   if (!is.na(relativeVariance.threshold) & length(x) >= min.steps) {
     last.n.steps <- rev(x)[seq(n.steps)]
@@ -120,7 +120,7 @@ checkpoint_earlystop <- function(x,
     check.rvar <- FALSE
   }
 
-  # Out ====
+  # Out ----
   if (!is.na(relative.threshold)) {
     if (combine.relative.thresholds == "AND") {
       .stop <- check.thresh | (check.rthresh & check.rvar)

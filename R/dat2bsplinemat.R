@@ -33,7 +33,7 @@ dat2bsplinemat <- function(x,
   nc <- NCOL(x)
   feat.names <- if (!is.null(colnames(x))) colnames(x) else paste0("Feat", seq(nc))
 
-  # Splines ====
+  # Splines ----
   Splines <- lapply(seq(nc), function(i) splines2::bSpline(x[, i],
                                                        df = df,
                                                        knots = knots,
@@ -41,7 +41,7 @@ dat2bsplinemat <- function(x,
                                                        intercept = intercept,
                                                        Boundary.knots = Boundary.knots))
 
-  # Derivatives ====
+  # Derivatives ----
   if (return.deriv) {
     dx.s <- lapply(seq(nc), function(i) deriv(Splines[[i]]))
     dx.s <- do.call(cbind, dx.s)

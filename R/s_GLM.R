@@ -110,7 +110,7 @@ s_GLM <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_GLM))
     return(invisible(9))
@@ -123,7 +123,7 @@ s_GLM <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_GLM))
     stop("y is missing")
@@ -136,7 +136,7 @@ s_GLM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (trace > 0) verbose <- TRUE
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -181,7 +181,7 @@ s_GLM <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # Formula ====
+  # Formula ----
   # do not use data.frame() here; x already data.frame from dataPrepare.
   # If colnames was integers, data.frame() would add 'X' in front of those.
   # For example, splines produces output with integers as colnames.
@@ -204,7 +204,7 @@ s_GLM <- function(x, y = NULL,
   if (!intercept) .formula <- paste(.formula, "- 1")
   .formula <- as.formula(.formula)
 
-  # glm, nnet ====
+  # glm, nnet ----
   if (trace > 0) msg("Using formula:", .formula)
   if (mod.name != "MULTINOM") {
       if (verbose) msg("Training GLM...", newline.pre = TRUE)
@@ -218,7 +218,7 @@ s_GLM <- function(x, y = NULL,
   }
   if (trace > 0) print(summary(mod))
 
-  # Fitted ====
+  # Fitted ----
   fitted.prob <- se.fit <- NULL
   if (type == "Regression") {
       fitted <- predict(mod, x, se.fit = TRUE)
@@ -238,11 +238,11 @@ s_GLM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- se.prediction <- error.test <- predicted.prob <- NULL
   if (!is.null(x.test)) {
 
-    # Remove missing levels ====
+    # Remove missing levels ----
     if (removeMissingLevels) {
       index.factor <- which(sapply(x, is.factor))
       if (length(index.factor) > 0) {
@@ -286,7 +286,7 @@ s_GLM <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(formula = .formula,
                 weights = .weights,
                 polynomia = polynomial)

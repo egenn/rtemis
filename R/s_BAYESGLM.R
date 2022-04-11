@@ -68,7 +68,7 @@ s_BAYESGLM <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_BAYESGLM))
     return(invisible(9))
@@ -82,10 +82,10 @@ s_BAYESGLM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "BAYESGLM"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("arm")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_BAYESGLM))
     stop("y is missing")
@@ -96,7 +96,7 @@ s_BAYESGLM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -138,7 +138,7 @@ s_BAYESGLM <- function(x, y = NULL,
     family <- if (type == "Regression") gaussian else binomial
   }
 
-  # Formula ====
+  # Formula ----
   df.train <- data.frame(x, y)
   colnames(df.train)[ncol(df.train)] <- y.name
   .formula <- as.formula(paste(y.name, "~ ."))
@@ -160,7 +160,7 @@ s_BAYESGLM <- function(x, y = NULL,
                        drop.baseline = drop.baseline,
                        maxit = maxit), extra.args)
 
-  # BAYESGLM ====
+  # BAYESGLM ----
   if (verbose) msg("Training Bayesian GLM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  data = df.train,
@@ -179,7 +179,7 @@ s_BAYESGLM <- function(x, y = NULL,
             extra.args)
   mod <- do.call(arm::bayesglm, args)
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Classification") {
     fitted.prob <- 1 - predict(mod, type = "response")
     fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
@@ -191,7 +191,7 @@ s_BAYESGLM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -211,7 +211,7 @@ s_BAYESGLM <- function(x, y = NULL,
     predicted <- error.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

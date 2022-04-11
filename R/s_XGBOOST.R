@@ -128,7 +128,7 @@ s_XGBOOST <- function(x, y = NULL,
                       outdir = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-    # Intro ====
+    # Intro ----
     if (missing(x)) {
         print(args(s_XGBOOST))
         return(invisible(9))
@@ -142,10 +142,10 @@ s_XGBOOST <- function(x, y = NULL,
     start.time <- intro(verbose = verbose, logFile = logFile)
     mod.name <- "XGBOOST"
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("xgboost")
 
-    # Arguments ====
+    # Arguments ----
     #   if (save.res.mod) save.res <- TRUE
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
@@ -159,7 +159,7 @@ s_XGBOOST <- function(x, y = NULL,
     #   }
     booster <- match.arg(booster)
 
-    # Data ====
+    # Data ----
     dt <- dataPrepare(x, y,
         x.test, y.test,
         ipw = ipw,
@@ -225,7 +225,7 @@ s_XGBOOST <- function(x, y = NULL,
 
     if (verbose) msg("Running XGBoost...", newline.pre = TRUE)
 
-    # Grid Search ====
+    # Grid Search ----
     if (is.null(metric)) {
         if (type == "Classification") {
             metric <- "Balanced Accuracy"
@@ -347,7 +347,7 @@ s_XGBOOST <- function(x, y = NULL,
     #                      newline.pre = TRUE)
     #   }
 
-    # XGBoost ====
+    # XGBoost ----
     if (verbose) msg("Training XGboost with", nrounds, "rounds...")
     watchlist <- if (.gs) {
         list(train = xg.dat.train, valid = xg.dat.test)
@@ -366,7 +366,7 @@ s_XGBOOST <- function(x, y = NULL,
         early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
     )
 
-    # Fitted ====
+    # Fitted ----
     fitted <- predict(mod, xg.dat.train)
     fitted.prob <- NULL
     if (type == "Classification") {
@@ -384,7 +384,7 @@ s_XGBOOST <- function(x, y = NULL,
     error.train <- modError(y, fitted, fitted.prob)
     if (verbose) errorSummary(error.train, mod.name)
 
-    # Predicted ====
+    # Predicted ----
     predicted.prob <- predicted <- error.test <- NULL
     if (!is.null(x.test)) {
         predicted <- predict(mod, xg.dat.test)
@@ -405,7 +405,7 @@ s_XGBOOST <- function(x, y = NULL,
         }
     }
 
-    # Relative Influence / Variable Importance ====
+    # Relative Influence / Variable Importance ----
     varimp <- NULL
     # This may take a while
     if (importance) {
@@ -418,7 +418,7 @@ s_XGBOOST <- function(x, y = NULL,
         names(varimp) <- .xgbvarimp$Feature
     }
 
-    # Outro ====
+    # Outro ----
     rt <- rtModSet(
         rtclass = "rtMod",
         mod = mod,

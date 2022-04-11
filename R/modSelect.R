@@ -19,7 +19,7 @@ modSelect <- function(mod,
                       fn = FALSE,
                       desc = FALSE) {
 
-  # Name + CRS ====
+  # Name + CRS ----
   rtMods <- data.frame(rbind(
     c("TREELINED", "Lined Tree Learner", F, T, F), 
     c("RGB", "Representational Gradient Boosting", T, T, T), 
@@ -130,7 +130,7 @@ modSelect <- function(mod,
 
   if (desc) return(as.character(rtMods$Description[rtMods[, 1] == name]))
 
-  # fn ====
+  # fn ----
   if (name == "BAG") {
     learner <- if (fn) getFromNamespace("bag", "rtemis") else "bag"
   } else if (name == "BOOST") {

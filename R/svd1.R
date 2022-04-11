@@ -14,19 +14,19 @@
 
 svd1 <- function(x, x.test = NULL) {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (missing(x)) {
     print(args(svd1))
     stop("x is missing")
   }
 
-  # [ SVD ] ====
+  # [ SVD ] ----
   x.svd <- svd(x, nu = 1, nv = 1)
 
-  # [ PROJECTION ] ====
+  # [ PROJECTION ] ----
   x.proj <- abs(scale(x, center = FALSE) %*% x.svd$v)
 
-  # [ TEST PROJECTION ] ====
+  # [ TEST PROJECTION ] ----
   x.test.proj <- NA
   if (!is.null(x.test)) {
     x.test.proj <- abs(scale(x.test, center = FALSE) %*% x.svd$v)

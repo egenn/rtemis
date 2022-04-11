@@ -60,7 +60,7 @@ ruleDist <- function(x,
     rules.ordered2 <- order(rules.total.dist2, decreasing = TRUE)
   }
 
-  # Plot ====
+  # Plot ----
   if (print.plot) {
     plot.type <- match.arg(plot.type)
     if (plot.type == "static") {

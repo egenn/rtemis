@@ -63,7 +63,7 @@ previewcolor <- function(x,
   if (!is.null(filename)) pdf(filename, pdf.width, pdf.height)
   par(bg = bg, xaxs = "i", yaxs = "i", mar = mar, oma = c(0, 0, 0, 0))
 
-  # Plot ====
+  # Plot ----
   plot(NULL, NULL, axes = FALSE,
        xlim = xlim, ylim = ylim, xlab = NA, ylab = NA,
        asp = asp)
@@ -78,7 +78,7 @@ previewcolor <- function(x,
 
   for (i in seq(x)) rhombus(xmid[i], 1, col = x[i])
 
-  # '- Labels ====
+  # '- Labels ----
   # ncolors => label.cex
   # 100, .4
   # 10, 1.2
@@ -102,7 +102,7 @@ previewcolor <- function(x,
        offset = 0, cex = label.cex,
        xpd = TRUE)
 
-  # '- Title ====
+  # '- Title ----
   if (!is.null(main)) {
     text(main.x, main.y, main,
          col = main.col, adj = main.adj,

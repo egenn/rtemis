@@ -19,10 +19,10 @@ prune.addtree <- function(addtree,
                           remove.bad.parents = TRUE,
                           verbose = TRUE) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("data.tree")
 
-  # Tree ====
+  # Tree ----
   if (inherits(addtree, "Node")) {
     addtree <- data.tree::Clone(addtree)
   } else {
@@ -30,13 +30,13 @@ prune.addtree <- function(addtree,
     addtree <- data.tree::Clone(addtree$mod$addtree)
   }
 
-  # Prune empty leaves ====
+  # Prune empty leaves ----
   if (prune.empty.leaves) {
     k <- data.tree::Prune(addtree, pruneFun = function(node) !(node$N == 0))
     if (verbose & k > 0) msg("Pruned", k, "empty", ifelse(k == 1, "leaf", "leaves"))
   }
 
-  # Prune leaf siblings ====
+  # Prune leaf siblings ----
   # Remove siblings with same estimate
   i <- data.tree::Prune(addtree, pruneFun = function(node) !(node$isLeaf
                                                              && length(node$siblings) == 1
@@ -44,12 +44,12 @@ prune.addtree <- function(addtree,
                                                              && node$Estimate == node$siblings[[1]]$Estimate))
   if (verbose & i > 0) msg("Pruned", i, "siblings with same estimate")
 
-  # Prune solo leaves ====
+  # Prune solo leaves ----
   j <- data.tree::Prune(addtree, pruneFun = function(node) !(node$isLeaf
                                                              && length(node$siblings) == 0))
   if (verbose & j > 0) msg("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
 
-  # Loop ====
+  # Loop ----
   while (i + j > 0) {
     i <- data.tree::Prune(addtree, pruneFun = function(node) !(node$isLeaf
                                                                && length(node$siblings) == 1
@@ -62,7 +62,7 @@ prune.addtree <- function(addtree,
     if (verbose & j > 0) msg("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
   }
 
-  # Prune empty leaves ====
+  # Prune empty leaves ----
   if (prune.empty.leaves) {
     k <- 1
     while (k > 0) {
@@ -71,7 +71,7 @@ prune.addtree <- function(addtree,
     }
   }
 
-  # Remove bad parents; send children to grandma ====
+  # Remove bad parents; send children to grandma ----
   # Remove one bad parent at a time
   if (remove.bad.parents) {
     bad.parents <- data.tree::Traverse(addtree,

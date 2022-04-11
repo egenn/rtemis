@@ -123,7 +123,7 @@ polyshadow0 <- function(k_h = 20, k_v = 20,
   .col <- colorRampPalette(c(col_lo, col_mid, col_hi))(k_h * k_v)
   
   
-  # Plot ====
+  # Plot ----
   par(bg = bg, mai = rep(0, 4), mar = rep(0, 4), xaxs = "i", yaxs = "i")
   plot(NULL, xlim = c(0, 100), ylim = c(0, 100))
   for (i in seq(k_v)) {
@@ -138,7 +138,7 @@ polyshadow0 <- function(k_h = 20, k_v = 20,
     }
   }
   
-  # Text ====
+  # Text ----
   if (!is.null(text)) {
     text(x = text.x, 
          y = text.y, 
@@ -185,7 +185,7 @@ polyshadow1 <- function(k_h = 20, k_v = 20,
   .col <- colorRampPalette(c(col_lo, col_mid, col_hi))(k_h * k_v)
   
   
-  # Plot ====
+  # Plot ----
   par(bg = bg, mai = rep(0, 4), mar = rep(0, 4), 
       xaxs = "i", yaxs = "i")
   plot(NULL, xlim = c(0, 100), ylim = c(0, 100),
@@ -212,7 +212,7 @@ polyshadow1 <- function(k_h = 20, k_v = 20,
     }
   }
   
-  # Text ====
+  # Text ----
   if (!is.null(text)) {
     text(x = text.x, 
          y = text.y, 
@@ -274,7 +274,7 @@ polyshadow <- function(k_h = 50, k_v = 50,
   .col <- colorRampPalette(c(col_lo, col_mid, col_hi),
                            alpha = alpha)(k_h * k_v)
   
-  # Plot ====
+  # Plot ----
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height)
   
   if (par.reset) {
@@ -340,7 +340,7 @@ polyshadow <- function(k_h = 50, k_v = 50,
     }
   }
   
-  # Text ====
+  # Text ----
   if (!is.null(text)) {
     text(x = text.x, 
          y = text.y, 

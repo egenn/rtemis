@@ -1,6 +1,6 @@
 # synthMultiModal.R
 # ::rtemis::
-# 2019 E.D. Gennatas
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Create "Multimodal" Synthetic Data
 #'
@@ -71,7 +71,7 @@ synthMultiModal <- function(n.cases = 10000,
 
   if (!is.null(seed)) set.seed(seed)
 
-  # [ Synth features ] ====
+  # Synth features ----
   x <- lapply(seq(n.groups), function(i) do.call(init.fn,
                                                  c(list(nrow = n.cases,
                                                         ncol = n.feat.per.group[i],
@@ -79,29 +79,29 @@ synthMultiModal <- function(n.cases = 10000,
                                                    init.fn.params)))
   names(x) <- paste0("Group_", seq(x))
 
-  # [ Indexes ] ====
-  # '- contrib ====
+  # Indexes ----
+  # '- contrib ----
   # index.contrib: The variables from each group contributing to the group's outcome
   index.contrib <- lapply(seq(n.groups), function(i)
     sort(sample(seq(n.feat.per.group[i]), contrib.p * n.feat.per.group[i])))
   names(index.contrib) <- names(x)
   if (verbose) cat("  Got index.contrib\n")
 
-  # '- linear ====
+  # '- linear ----
   #index.linear: The features within index.contrib that will be included linearly
   index.linear <- lapply(seq(n.groups), function(i)
     sort(sample(index.contrib[[i]], linear.p * length(index.contrib[[i]]))))
   names(index.linear) <- names(x)
   if (verbose) cat("  Got index.square\n")
 
-  # '- square ====
+  # '- square ----
   # index.square: The features within index.contrib that will be squared
   index.square <- lapply(seq(n.groups), function(i)
     sort(sample(index.contrib[[i]], square.p * length(index.contrib[[i]]))))
   names(index.square) <- names(x)
   if (verbose) cat("  Got index.square\n")
 
-  # '- atan ====
+  # '- atan ----
   # index.atan: The features within index.contrib that will be arctanned
   index.atan <- lapply(seq(n.groups), function(i) {
     index.open <- index.contrib[[i]][!index.contrib[[i]] %in% index.square[[i]]]
@@ -110,7 +110,7 @@ synthMultiModal <- function(n.cases = 10000,
   names(index.atan) <- names(x)
   if (verbose) cat("  Got index.atan\n")
 
-  # '- pair.multiply ====
+  # '- pair.multiply ----
   # index.pair.multiply
   index.pair.multiply <- lapply(seq(n.groups), function(i) {
     n.pairs <- 2 * round(pair.multiply.p * length(index.contrib[[i]]) / 2)
@@ -124,7 +124,7 @@ synthMultiModal <- function(n.cases = 10000,
   names(index.pair.multiply) <- names(x)
   if (verbose) cat("  Got index.pair.multiply\n")
 
-  # '- pair.square ====
+  # '- pair.square ----
   # index.pair.square
   index.pair.square <- lapply(seq(n.groups), function(i) {
     n.pairs <- 2 * round(pair.square.p * length(index.contrib[[i]]) / 2)
@@ -138,7 +138,7 @@ synthMultiModal <- function(n.cases = 10000,
   names(index.pair.square) <- names(x)
   if (verbose) cat("  Got index.pair.square\n")
 
-  # index.pair.atan ====
+  # index.pair.atan ----
   index.pair.atan <- lapply(seq(n.groups), function(i) {
     n.pairs <- 2 * round(pair.atan.p * length(index.contrib[[i]]) / 2)
     if (n.pairs == 0) {
@@ -150,8 +150,8 @@ synthMultiModal <- function(n.cases = 10000,
   })
   if (verbose) cat("  Got index.pair.atan\n")
 
-  # [ Outcome ] ====
-  # '- linear, squares & atans ====
+  # Outcome ----
+  # '- linear, squares & atans ----
   if (verbose) cat("  Adding linear, square and atan terms...")
   y1 <- lapply(seq(n.groups), function(i)
     matrixStats::rowSums2(rnorm(1) * x[[i]][, index.linear[[i]], drop = FALSE]) +
@@ -161,7 +161,7 @@ synthMultiModal <- function(n.cases = 10000,
   names(y1) <- names(x)
   if (verbose) cat(" Done\n")
 
-  # '- pair.multiply ====
+  # '- pair.multiply ----
   if (verbose) cat("  Getting pair products...")
   y2 <- vector("list", n.groups)
   names(y2) <- names(x)
@@ -175,7 +175,7 @@ synthMultiModal <- function(n.cases = 10000,
   }
   if (verbose) cat(" Done\n")
 
-  # '- pair.square ====
+  # '- pair.square ----
   if (verbose) cat("  Squaring pair products...")
   y3 <- vector("list", n.groups)
   names(y3) <- names(x)
@@ -189,7 +189,7 @@ synthMultiModal <- function(n.cases = 10000,
   }
   if (verbose) cat(" Done\n")
 
-  # '- pair.atan ====
+  # '- pair.atan ----
   if (verbose) cat("  Atan of pair products...")
   y4 <- vector("list", n.groups)
   names(y4) <- names(x)
@@ -215,7 +215,7 @@ synthMultiModal <- function(n.cases = 10000,
               index.pair.square = index.pair.square,
               index.pair.atan = index.pair.atan)
 
-  # Save RDS ====
+  # Save RDS ----
   if (!is.null(filename)) {
     if (verbose) cat("Saving data to file...\n")
     filename <- paste0(gsub(".rds", "", filename), ".rds")

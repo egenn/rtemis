@@ -41,7 +41,7 @@ s_GAM.formula <- function(formula,
                           outdir = NULL,
                           save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(formula) | missing(data)) {
     print(args(s_GAM.formula))
     return(invisible(9))
@@ -55,10 +55,10 @@ s_GAM.formula <- function(formula,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAM"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("mgcv")
 
-  # Arguments ====
+  # Arguments ----
   .formula <- as.formula(formula)
   if (is.null(data)) stop("Please provide data")
   df.train <- data
@@ -99,7 +99,7 @@ s_GAM.formula <- function(formula,
   mod <- do.call(mgcv::gam, args)
   if (verbose) print(summary(mod))
 
-  # Fitted ====
+  # Fitted ----
 
   fitted <- predict(mod, df.train, se.fit = TRUE)
   se.fit <- as.numeric(fitted$se.fit)
@@ -107,7 +107,7 @@ s_GAM.formula <- function(formula,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(df.test)) {
     predicted <- predict(mod, data.frame(df.test), se.fit = TRUE)
@@ -120,7 +120,7 @@ s_GAM.formula <- function(formula,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

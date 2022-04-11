@@ -57,7 +57,7 @@ s_RFSRC <- function(x, y = NULL,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
   print(args(s_RFSRC))
     return(invisible(9))
@@ -71,10 +71,10 @@ s_RFSRC <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RFSRC"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("randomForestSRC")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_RFSRC))
     stop("y is missing")
@@ -87,7 +87,7 @@ s_RFSRC <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(trace)) trace <- if (verbose) n.trees/10 else FALSE
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -113,7 +113,7 @@ s_RFSRC <- function(x, y = NULL,
   }
   if (is.null(nodesize)) nodesize <- if (type == "Classification") 1 else 5
 
-  # Formula ====
+  # Formula ----
   if (type != "Survival") {
     df.train <- data.frame(y, x)
     colnames(df.train)[1] <- y.name
@@ -126,7 +126,7 @@ s_RFSRC <- function(x, y = NULL,
     .formula <- as.formula(Surv(time, status) ~ .)
   }
 
-  # randomForestSRC::rfsrc ====
+  # randomForestSRC::rfsrc ----
   if (verbose) msg("Training Random Forest SRC", type, "with", n.trees, "trees...",
                    newline.pre = TRUE)
   mod <- randomForestSRC::rfsrc(.formula, data = df.train,
@@ -141,7 +141,7 @@ s_RFSRC <- function(x, y = NULL,
                                 na.action = na.action,
                                 do.trace = trace, ...)
 
-  # Fitted ====
+  # Fitted ----
   if (proximity) {
     fit <- predict(mod, x, proximity = TRUE)
     fitted <- fit$predicted
@@ -162,7 +162,7 @@ s_RFSRC <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   if (!is.null(x.test)) {
     if (proximity) {
       pred <- predict(mod, x.test, proximity = proximity)
@@ -192,7 +192,7 @@ s_RFSRC <- function(x, y = NULL,
     pred <- predicted <- error.test <- proximity.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(fit = fit,
                 proximity.test = proximity.test,
                 proximity.train = proximity.train)

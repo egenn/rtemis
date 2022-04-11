@@ -27,7 +27,7 @@ decom <- function(x,
     return(decomSelect())
   }
 
-  # [ DECOMPOSER ] ====
+  # [ DECOMPOSER ] ----
   args <- c(list(x = x,
                  x.test = x.test,
                  verbose = verbose),
@@ -35,7 +35,7 @@ decom <- function(x,
   decom <- R.utils::doCall(decomSelect(decom, fn = TRUE),
                            args = args)
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   decom
 
 } # rtemis::decom

@@ -47,15 +47,15 @@ dplot3_varimp <- function(x,
                           theme = getOption("rt.theme"),
                           showlegend = TRUE, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("plotly")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(mar)) {
     mar <- if (is.null(main)) c(40, 0, 0, 20) else c(40, 0, 40, 20)
   }
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -72,20 +72,20 @@ dplot3_varimp <- function(x,
   labs.col <- plotly::toRGB(theme$labs.col)
   main.col <- plotly::toRGB(theme$main.col)
 
-  # '- Axis font ====
+  # '- Axis font ----
   f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
 
-  # '- Tick font ====
+  # '- Tick font ----
   tickfont <- list(family = theme$font.family,
                    size = font.size,
                    color = theme$tick.labels.col)
 
-  # Data ====
+  # Data ----
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
 
-  # '- Names ====
+  # '- Names ----
   if (is.null(names)) {
     if (is.null(names(x))) {
       .names <- if (NCOL(x) == 1) labelify(rownames(x)) else labelify(colnames(x))
@@ -101,7 +101,7 @@ dplot3_varimp <- function(x,
     .names <- paste("Feature", 1:length(x))
   }
 
-  # '- Index ====
+  # '- Index ----
   index <- if (plot.top <= 1) {
     order(abs(x))[(length(x) - plot.top * length(x)):length(x)]
   } else {
@@ -115,7 +115,7 @@ dplot3_varimp <- function(x,
   x <- x[index]
   y <- factor(.names[index], levels = .names[index])
 
-  # Colors ====
+  # Colors ----
   # Default to a fg to teal gradient
   if (is.null(col)) {
     if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
@@ -123,14 +123,14 @@ dplot3_varimp <- function(x,
   }
   col <- colorAdjust(col, alpha = alpha)
 
-  # plotly ====
+  # plotly ----
   plt <- plotly::plot_ly(x = x, y = y,
                          type = 'bar',
                          orientation = 'h',
                          marker = list(color = col),
                          showlegend = FALSE)
 
-  # Layout ====
+  # Layout ----
   plt <- plotly::layout(plt,
                         margin = list(l = mar[2],
                                       t = mar[3],

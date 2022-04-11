@@ -45,11 +45,11 @@ mplot3_mosaic <- function(x,
                           pdf.width = 5,
                           pdf.height = 5, ...) {
 
-  # Arguments ====
+  # Arguments ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
 
-  # Theme ====
+  # Theme ----
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme.args)
   } else {
@@ -64,14 +64,14 @@ mplot3_mosaic <- function(x,
     dir.create(dirname(filename), recursive = TRUE)
   }
 
-  # Main Title ====
+  # Main Title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # Plot ====
+  # Plot ----
   if (is.null(mar)) {
     topmar <- ifelse(is.null(main), 1, 2.5)
     mar <- c(2.5, 2.5, topmar, 1)
@@ -112,7 +112,7 @@ mplot3_mosaic <- function(x,
           family = theme$font.family)
   }
 
-  # Outro ====
+  # Outro ----
   if (!is.null(filename)) dev.off()
 
 } # rtemis::mplot3_mosaic

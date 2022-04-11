@@ -66,7 +66,7 @@ mplot3_harmonograph <- function(steps = seq(1,  500,  by  =  .01),
   x <- xt(t)
   y <- yt(t)
 
-  # Plot ====
+  # Plot ----
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(par(par.orig))
   par(bg = bg, mar = mar, oma = oma)

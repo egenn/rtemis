@@ -21,14 +21,14 @@ colorAdjust <- function(color,
                         sat = 0,
                         val = 0) {
 
-  # [ MAIN ] ====
+  # [ MAIN ] ----
   ac <- color
 
-  # [ HSV ] ====
+  # [ HSV ] ----
   ac.hsv <- grDevices::rgb2hsv(grDevices::col2rgb(ac))
   ac <- grDevices::hsv(ac.hsv[1] + hue, ac.hsv[2] + sat, ac.hsv[3] + val)
 
-  # [ Alpha ] ====
+  # [ Alpha ] ----
   if (!is.null(alpha)) ac <- adjustcolor(color, alpha.f = alpha)
   ac
 

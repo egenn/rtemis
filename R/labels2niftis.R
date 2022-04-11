@@ -24,10 +24,10 @@ labels2niftis <- function(datamat,
                           verbose = TRUE,
                           n.cores = parallel::detectCores()) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("oro.nifti")
 
-  # {Grid fn} ====
+  # {Grid fn} ----
   s.datacol2nii.g1 <- function(datamat, fnim, prefix, verbose) {
     index <- datamat[1]
     values <- datamat[2:length(datamat)]
@@ -42,7 +42,7 @@ labels2niftis <- function(datamat,
     if (verbose) msg("+ + + Wrote nifti", outname)
   }
 
-  # Main ====
+  # Main ----
   scriptVersion <- 0.2
   if (verbose) msg(date(), "\nlabels2niftis version ", scriptVersion, "\nHello, ",
                    Sys.getenv('USER'), ".\n", sep = "")

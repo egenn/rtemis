@@ -11,7 +11,7 @@
 
 survError <- function(true, estimated) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("survival")
 
   if (!survival::is.Surv(true)) stop("true must be Survival object")

@@ -102,17 +102,17 @@ dplot3_bar <-  function(x,
                         file.scale = 1,
                         trace = 0, ...) {
   
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("plotly")
   
-  # Arguments ====
+  # Arguments ----
   barmode <- match.arg(barmode)
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
   
   dat <- as.data.frame(x)
   if (NROW(dat) == 1 & barmode != "stack") dat <- as.data.frame(t(dat))
   
-  # Order by val ====
+  # Order by val ----
   if (order.by.val) {
     if (NCOL(dat) > 1) {
       .order <- order(sapply(dat, mean, na.rm = TRUE))
@@ -125,7 +125,7 @@ dplot3_bar <-  function(x,
     if (!is.null(hovernames)) hovernames <- hovernames[.order]
   }
   
-  # Group names ====
+  # Group names ----
   .group.names <- group.names
   if (is.null(group.names)) {
     if (!is.null(rownames(dat))) .group.names <- rownames(dat)
@@ -137,7 +137,7 @@ dplot3_bar <-  function(x,
   
   if (trace > 0) cat(".group.names:", .group.names, "\n")
   
-  # Feature names ====
+  # Feature names ----
   .feature.names <- feature.names
   if (is.null(.feature.names)) {
     if (!is.null(colnames(dat))) {
@@ -150,12 +150,12 @@ dplot3_bar <-  function(x,
   if (trace > 0) cat(".feature.names:", .feature.names, "\n")
   if (is.null(legend)) legend <- length(.feature.names) > 1
   
-  # Colors ====
+  # Colors ----
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
   
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -183,7 +183,7 @@ dplot3_bar <-  function(x,
     }
   }
   
-  # plot_ly ====
+  # plot_ly ----
   .group.names <- factor(.group.names, levels = .group.names)
   plt <- plotly::plot_ly(x = if (horizontal) dat[[1]] else .group.names,
                          y = if (horizontal) .group.names else dat[[1]],
@@ -232,7 +232,7 @@ dplot3_bar <-  function(x,
     
   }
   
-  # Layout ====
+  # Layout ----
   f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
@@ -285,7 +285,7 @@ dplot3_bar <-  function(x,
                         # showlegend = legend,
                         legend = .legend)
   
-  # hline ====
+  # hline ----
   if (!is.null(hline)) {
     hline.col <- recycle(hline.col, hline)
     hline.width <- recycle(hline.width, hline)
@@ -324,7 +324,7 @@ dplot3_bar <-  function(x,
                         displaylogo = FALSE,
                         displayModeBar = displayModeBar)
   
-  # Write to file ====
+  # Write to file ----
   if (!is.null(filename)) {
       plotly::save_image(
           plt,

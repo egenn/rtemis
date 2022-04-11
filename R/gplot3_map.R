@@ -57,7 +57,7 @@ gplot3_map <- function(dat,
                        file.width = 7,
                        file.height = 5, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("ggplot2", "usmap", "scales")
 
   regions_ <- match.arg(regions)
@@ -65,7 +65,7 @@ gplot3_map <- function(dat,
   if (is.null(legend.title)) legend.title <- colnames(dat)[2]
   if (is.na(col.mid)) colorscale.midpoint <- NULL
 
-  # geom_args ====
+  # geom_args ----
   geom_args <- list(...)
 
   if (is.null(geom_args[["colour"]]) & is.null(geom_args[["color"]])) {
@@ -82,7 +82,7 @@ gplot3_map <- function(dat,
     warning("`fill` setting is ignored when `dat` is provided. Use `fill` to color regions with solid color when no data is being displayed.")
   }
 
-  # data ====
+  # data ----
   values <- colnames(dat)[2]
   map_df <- usmap::map_with_data(dat,
                                  values = values,
@@ -94,7 +94,7 @@ gplot3_map <- function(dat,
 
   polygon_layer <- do.call(ggplot2::geom_polygon, geom_args)
 
-  # '- Labels ====
+  # '- Labels ----
   if (labels) {
     centroidLabelsColClasses <- c("numeric", "numeric",
                                   "character", "character", "character")
@@ -135,7 +135,7 @@ gplot3_map <- function(dat,
     label_layer <- ggplot2::geom_blank()
   }
 
-  # '- colorscale ====
+  # '- colorscale ----
   colorscale <- if (is.null(colorscale.midpoint)) {
     ggplot2::scale_fill_gradient(limits = limits,
                                  oob = scales::squish,
@@ -163,13 +163,13 @@ gplot3_map <- function(dat,
   }
 
 
-  # '- colorbar ====
+  # '- colorbar ----
   guide <- ggplot2::guides(fill = ggplot2::guide_colorbar(barheight = ggplot2::unit(colorbar.height, "npc"),
                                                           barwidth = ggplot2::unit(colorbar.width, "npc"),
                                                           ticks.colour = NA,
                                                           ticks.linewidth = 1))
 
-  # '- ggplot ====
+  # '- ggplot ----
   if (labelify) legend.title <- labelify(legend.title)
   plt <- ggplot2::ggplot(data = map_df) +
     polygon_layer + label_layer + ggplot2::coord_equal() + theme +

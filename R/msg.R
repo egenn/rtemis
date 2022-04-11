@@ -56,7 +56,7 @@ msg <- function(...,
     if (!is.null(caller)) caller <- paste0(" ", caller)
   }
 
-  txt <- list(...)
+  txt <- Filter(Negate(is.null), list(...))
   .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
   if (as.message) {

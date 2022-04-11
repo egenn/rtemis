@@ -108,18 +108,18 @@ dplot3_x <- function(x,
                      file.height = 500,
                      file.scale = 1, ...) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("plotly")
 
-    # Arguments ====
+    # Arguments ----
     type <- match.arg(type)
     mode <- match.arg(mode)
     if (!is.null(main)) main <- paste0("<b>", main, "</b>")
     .xname <- labelify(deparse(substitute(x)))
 
-    # Data ====
+    # Data ----
 
-    # '- Group ====
+    # '- Group ----
     if (!is.null(group)) {
         if (is.factor(group)) {
             group <- droplevels(group)
@@ -154,14 +154,14 @@ dplot3_x <- function(x,
     }
     if (is.null(.names)) .names <- paste("Feature", seq_along(x))
 
-    # Colors ====
+    # Colors ----
     if (is.character(palette)) palette <- rtPalette(palette)
     n.groups <- length(x)
     if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
 
     if (length(col) < n.groups) col <- rep(col, n.groups / length(col))
 
-    # Theme ====
+    # Theme ----
     extraargs <- list(...)
     if (is.character(theme)) {
         theme <- do.call(paste0("theme_", theme), extraargs)
@@ -180,14 +180,14 @@ dplot3_x <- function(x,
     if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
 
 
-    # '- Axis font ====
+    # '- Axis font ----
     f <- list(
         family = theme$font.family,
         size = font.size,
         color = labs.col
     )
 
-    # '- Tick font ====
+    # '- Tick font ----
     tickfont <- list(
         family = theme$font.family,
         size = font.size,
@@ -197,12 +197,12 @@ dplot3_x <- function(x,
     # Derived
     if (is.null(legend.col)) legend.col <- labs.col
 
-    # Size ====
+    # Size ----
     if (axes.square) {
         width <- height <- min(dev.size("px")) - 10
     }
 
-    # Ridge ====
+    # Ridge ----
     if (mode == "ridge") {
         axis <- list(
             showline = FALSE,
@@ -217,7 +217,7 @@ dplot3_x <- function(x,
         ridge.groups <- if (ridge.order.on.mean) order(sapply(x, mean), decreasing = TRUE) else seq_len(n.groups)
     }
 
-    # plotly ====
+    # plotly ----
     # z <- if (mode == "overlap") rep(1, n.groups) else seq_len(n.groups)
     # plt <- vector("list", n.groups)
 
@@ -228,13 +228,13 @@ dplot3_x <- function(x,
         )
     })
 
-    # '- { Density } ====
+    # '- { Density } ----
     if (type == "density") {
         if (is.null(ylab)) ylab <- "Density"
         xl.density <- lapply(x, density, na.rm = TRUE)
 
         if (mode == "overlap") {
-            # '- Density overlap ====
+            # '- Density overlap ----
             plt <- plotly::plot_ly(
                 width = width,
                 height = height
@@ -254,7 +254,7 @@ dplot3_x <- function(x,
                 )
             }
         } else {
-            # '- Density ridge ====
+            # '- Density ridge ----
             plt <- lapply(ridge.groups, function(i) {
                 plotly::plot_ly(
                     x = xl.density[[i]]$x,
@@ -284,14 +284,14 @@ dplot3_x <- function(x,
         }
     } # End mode == "density"
 
-    # '- { Histogram } ====
+    # '- { Histogram } ----
     if (type == "histogram") {
         histnorm <- match.arg(histnorm)
         histfunc <- match.arg(histfunc)
         # if (is.null(ylab)) ylab <- "Count"
 
         if (mode == "overlap") {
-            # '-  Histogram overlap ====
+            # '-  Histogram overlap ----
             plt <- plotly::plot_ly(
                 width = width,
                 height = height
@@ -316,7 +316,7 @@ dplot3_x <- function(x,
                 bargap = bargap
             )
         } else {
-            # '- Histogram ridge ====
+            # '- Histogram ridge ----
             plt <- lapply(ridge.groups, function(i) {
                 plotly::plot_ly(
                     x = x[[i]],
@@ -357,9 +357,9 @@ dplot3_x <- function(x,
         )
     }
 
-    # Layout ====
+    # Layout ----
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-    # '- layout ====
+    # '- layout ----
     .legend <- list(
         x = legend.xy[1],
         y = legend.xy[2],
@@ -427,7 +427,7 @@ dplot3_x <- function(x,
         )
     }
 
-    # vline ====
+    # vline ----
     if (!is.null(vline)) {
         plt <- plotly::layout(plt, shapes = plotly_vline(vline,
             color = vline.col,
@@ -436,7 +436,7 @@ dplot3_x <- function(x,
         ))
     }
 
-    # text ====
+    # text ----
     if (!is.null(text)) {
         plt <- plotly::layout(plt,
             annotations = list(
@@ -463,7 +463,7 @@ dplot3_x <- function(x,
         displayModeBar = displayModeBar
     )
 
-    # Write to file ====
+    # Write to file ----
     if (!is.null(filename)) {
         plotly::save_image(
             plt,

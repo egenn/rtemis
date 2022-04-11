@@ -18,11 +18,13 @@
 #' @param gamma Float (0, 1): Accelaration factor
 #' @param update Character: "Exponential" or "Polynomial"
 #' @param verbose Logical: If TRUE, print messages to output
+#' 
 #' @author E.D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
+#' 
 #' @references Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles
 #' and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 #' Interpretable Decision Making in the Era of Precision Medicine.
-#' @noRd
+#' @keywords internal
 
 addtree <- function(x, y,
                     catPredictors = NULL,
@@ -41,10 +43,10 @@ addtree <- function(x, y,
                     verbose = TRUE,
                     trace = 1) {
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(catPredictors)) catPredictors <- lapply(x, class) == "factor"
 
-  # Data ====
+  # Data ----
   y0 <- y
   # replace dataPrepare
   dt <- dataPrepare(x, y, NULL, NULL)
@@ -54,7 +56,7 @@ addtree <- function(x, y,
     y <- as.numeric(as.character(y))
   }
 
-  # Weights ====
+  # Weights ----
   if (!is.null(weights)) if (length(weights) != length(y0))
     stop("weights must be length equal to N cases")
   if (is.null(weights)) weights <- rep(1, NROW(y0))
@@ -82,7 +84,7 @@ addtree <- function(x, y,
   # min.mem.counter: Count steps past min.membership
   min.mem.counter <- 0
 
-  # Split node ====
+  # Split node ----
   membership <- rep(TRUE, length(y))
 
   # Recursive function to build tree
@@ -107,7 +109,7 @@ addtree <- function(x, y,
                                        save.rpart,
                                        verbose = ifelse(trace < 2, FALSE, TRUE))
 
-  # Output ====
+  # Output ----
   tree$y <- y0
   tree$yfreq <- table(y0)
   class(tree) <- c("addtree", "list")
@@ -180,7 +182,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                          save.rpart,
                                          verbose = TRUE) {
 
-  # Intro ====
+  # Intro ----
   if (verbose) msg("Depth =", depth)
 
   # Initialize node
@@ -196,7 +198,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                membership = membership,
                depth = depth)
 
-  # Choose feature; split checks ====
+  # Choose feature; split checks ----
   if (sum(membership) <= min.membership) {
     min.mem.counter <- min.mem.counter + 1
   }
@@ -280,7 +282,7 @@ likelihoodMediboostSplitNode <- function(x, y,
       # Scalar
       weightedSecDerLeft <- c(leftWeight %*% secDerLeft)
 
-      # Update nodeValueLeft ====
+      # Update nodeValueLeft ----
       if (weightedFirstDerLeft == 0) {
         nodeValueLeft <- 0
       } else if (weightedSecDerLeft == 0) {
@@ -308,7 +310,7 @@ likelihoodMediboostSplitNode <- function(x, y,
       weightedFirstDerRight <-  c(rightWeight %*% firstDerRight) # delta 09.18
       weightedSecDerRight <- c(rightWeight %*% secDerRight)
 
-      # UPDATE nodeValueRight ====
+      # UPDATE nodeValueRight ----
       if (weightedFirstDerRight == 0) {
         nodeValueRight <- 0
       } else if (weightedSecDerRight == 0) {
@@ -341,7 +343,7 @@ likelihoodMediboostSplitNode <- function(x, y,
       # Indicator function that assigns 1 to the samples in the left
       # branch and gamma to the remaining ones
 
-      # Update Weights ====
+      # Update Weights ----
       if (update == "polynomial") {
         # Polynomial
         leftRule <- y
@@ -384,7 +386,7 @@ likelihoodMediboostSplitNode <- function(x, y,
       leftWeights <- leftWeights / sum(leftWeights)
       rightWeights <- rightWeights / sum(rightWeights)
 
-      # L&R SPLIT ====
+      # L&R SPLIT ----
       # Create the right and left terminal nodes
       node$right <- likelihoodMediboostSplitNode(x, y,
                                                  weights = rightWeights,
@@ -498,7 +500,7 @@ likelihoodMediboostChooseFeat <- function(x, y,
   x1 <- x[, colIdx]
   df <- data.frame(y, x1)
 
-  # rpart ====
+  # rpart ----
   tree <- rpart::rpart(y ~ ., data = df,
                        weights = weights,
                        control = rpart::rpart.control(maxdepth = 1,
@@ -527,7 +529,7 @@ likelihoodMediboostChooseFeat <- function(x, y,
     fIdx <- cutPoint <- cutCategory
   }
 
-  # OUT ====
+  # OUT ----
   list(fIdx = fIdx,
        cutPoint = cutPoint,
        cutCategory = cutCategory,
@@ -627,14 +629,14 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 #' @author E.D. Gennatas
 
 
-# preorder + Include Rules ====
+# preorder + Include Rules ----
 # Traverse ADDTREE tree
 preorderTree.addtree <- function(rt, x, verbose = FALSE) {
 
   varnames <- rt$xnames
   tree <- rt$mod
 
-  # Recursive preorder function ====
+  # Recursive preorder function ----
   preorder <- function(node, out = data.frame(), n = 1,
                        left = "left", right = "right",
                        condition = "All cases",
@@ -676,7 +678,7 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
                     verbose)
   } # recursive fn
 
-  # PREORDER ====
+  # PREORDER ----
   frame <- preorder(tree)
   frame$Estimate <- factor(frame$EstimateInt, levels = c(1, -1))
   levels(frame$Estimate) <- levels(rt$y.train)

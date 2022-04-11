@@ -17,7 +17,7 @@ savePMML <- function(x, filename,
                      description = NULL,
                      copyright = NULL, ...) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("pmml")
 
     supported <- c("GLM", "LOGISTIC", "GBM", "CART", "SVM", "RF", "RFSRC")

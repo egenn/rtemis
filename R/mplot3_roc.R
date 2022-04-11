@@ -53,7 +53,7 @@ mplot3_roc <- function(prob, labels,
                        pdf.width = 5,
                        pdf.height = 5, ...) {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -62,7 +62,7 @@ mplot3_roc <- function(prob, labels,
   # Compatibility with rtlayout()
   if (exists("rtpar")) par.reset <- FALSE
 
-  # [ Theme ] ====
+  # [ Theme ] ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -73,7 +73,7 @@ mplot3_roc <- function(prob, labels,
   }
   theme$zerolines <- FALSE
 
-  # [ ROC ] ====
+  # [ ROC ] ----
   probl <- if (!is.list(prob)) list(prob) else prob
   labelsl <- if (!is.list(labels)) list(labels) else labels
   # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
@@ -83,7 +83,7 @@ mplot3_roc <- function(prob, labels,
   }
 
   if (method == "rt") {
-    # '- method rt ====
+    # '- method rt ----
     .roc <- lapply(seq(probl), function(l) rtROC(labelsl[[l]], probl[[l]], verbose = FALSE))
     TPR <- Sensitivity <- lapply(seq(probl), function(l) .roc[[l]]$Sensitivity)
     Specificity <- lapply(seq(probl), function(l) .roc[[l]]$Specificity)
@@ -91,7 +91,7 @@ mplot3_roc <- function(prob, labels,
     AUC <- lapply(seq(probl), function(l) .roc[[l]]$AUC)
     names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
   } else if (method == "pROC") {
-    # '- method pROC ====
+    # '- method pROC ----
     for (i in seq(labelsl)) {
       levels(labelsl[[i]]) <- c(1, 0)
     }
@@ -110,10 +110,10 @@ mplot3_roc <- function(prob, labels,
     BA.max.index <- lapply(seq(probl), function(l) which.max(BA[[l]]))
   }
 
-  # Colors ====
+  # Colors ----
   if (is.null(col)) col <- rtPalette(palette)
 
-  # [ PLOT ] ====
+  # [ PLOT ] ----
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -180,7 +180,7 @@ mplot3_roc <- function(prob, labels,
   }
 
 
-  # [ AUC ANNOTATION ] ====
+  # [ AUC ANNOTATION ] ----
   if (annotation) {
     auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
     if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
@@ -194,7 +194,7 @@ mplot3_roc <- function(prob, labels,
           family = theme$font.family)
   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   if (!is.null(filename)) dev.off()
 
   if (type == "Sens.Spec") {

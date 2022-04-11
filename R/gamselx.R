@@ -18,7 +18,7 @@ gamselx <- function(x, y,
   }
   xnames <- colnames(x)
 
-  # 1. GAMSEL ====
+  # 1. GAMSEL ----
   if (verbose) msg("1: Training first stage GAMSEL", color = rtOrange)
   .gamsel.params1 <- c(list(x = x, y = y,
                             print.plot = FALSE,
@@ -26,7 +26,7 @@ gamselx <- function(x, y,
                        gamsel.params1)
   mod1 <- do.call("s_GAMSEL", .gamsel.params1)
 
-  # # 2. CART ====
+  # # 2. CART ----
   # cart.args <- c(list(x = x, y = y - mod1$fitted),
   #                cart.args)
   # mod2 <- do.call("s_CART", cart.args)
@@ -34,7 +34,7 @@ gamselx <- function(x, y,
   # index <- indexCasesByRules(x, rules)
   # table(index)
 
-  # 2. Pairwise interactions ====
+  # 2. Pairwise interactions ----
   if (verbose) msg("2: Looking for pairwise interactions...", color = rtOrange)
   pairs <- outer(seq_len(n.features), seq_len(n.features), FUN = paste)
   pairs <- pairs[lower.tri(pairs)]
@@ -51,7 +51,7 @@ gamselx <- function(x, y,
   pairs.index <- which(pairwise.glm.pvals.adj < alpha)
   if (verbose) msg("Found", length(pairs.index), "significant interactions")
 
-  # 3. GAMSELs ====
+  # 3. GAMSELs ----
   if (verbose) msg("3: Training second stage GAMSEL...", color = rtOrange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
@@ -77,14 +77,14 @@ gamselx <- function(x, y,
     class(modext) <- "nullmod"
   }
 
-  # fitted ====
+  # fitted ----
   fitted <- if (final.on.resid) {
     mod1$fitted + modext$fitted
   } else {
     modext$fitted
   }
 
-  # mod ====
+  # mod ----
   mod <- list(modext = modext,
               mod1 = mod1,
               final.on.resid = final.on.resid,

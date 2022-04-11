@@ -60,7 +60,7 @@ cartLinBoostTV <- function(x, y = NULL,
                            plot.type = 'l',
                            outdir = NULL) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -74,7 +74,7 @@ cartLinBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CARTLINBOOSTTV"
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -87,7 +87,7 @@ cartLinBoostTV <- function(x, y = NULL,
   learner.params <- list(cart = cart.params, glm = glm.params)
   if (base.mod[1] == "glm") learner.params <- rev(learner.params)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     verbose = verbose)
@@ -126,7 +126,7 @@ cartLinBoostTV <- function(x, y = NULL,
     weights1 <- weights
   }
 
-  # Boost ====
+  # Boost ----
   learner.name <- paste0(toupper(base.mod), "lite")
   learner.short <- paste0(paste0(toupper(base.mod), collapse = "-"), "seq")
 
@@ -139,7 +139,7 @@ cartLinBoostTV <- function(x, y = NULL,
                                 weights.0)
   if (trace > 0) msg("Initial MSE =", mse(y, init))
 
-  # '- New series ====
+  # '- New series ----
   # init learning.rate vector
   if (is.null(boost.obj)) {
     mods <- list()
@@ -159,7 +159,7 @@ cartLinBoostTV <- function(x, y = NULL,
     if (verbose) msg("[ Boosting ", learner.name, "... ]", sep = "")
   } else {
     .learning.rate <- boost.obj$mod$learning.rate
-    # '- Expand series ====
+    # '- Expand series ----
     mods <- boost.obj$mod$mods
     Fval <- penult.fitted <- boost.obj$mod$fitted_tv # CHECK
     error <- boost.obj$mod$error
@@ -198,7 +198,7 @@ cartLinBoostTV <- function(x, y = NULL,
     print.error.plot <- "iter"
   }
 
-  # '- Iterate learner ====
+  # '- Iterate learner ----
   if (!is.null(seed)) set.seed(seed)
   while (i <= max.iter) {
     .learning.rate[i] <- learning.rate
@@ -213,7 +213,7 @@ cartLinBoostTV <- function(x, y = NULL,
                      weights = weights1,
                      save.fitted = TRUE)
 
-    # '- Train base learner ====
+    # '- Train base learner ----
     if (.learning.rate[i] != 0) {
       mods[[i]] <- do.call(learner[[(i + 1) %% 2 + 1]], args = c(mod.args,
                                                                  learner.params[[(i + 1) %% 2 + 1]]))
@@ -280,7 +280,7 @@ cartLinBoostTV <- function(x, y = NULL,
     }
   }
 
-  # '- boost object ====
+  # '- boost object ----
   obj <- list(mod.name = mod.name,
               learning.rate = .learning.rate,
               init = init,
@@ -294,11 +294,11 @@ cartLinBoostTV <- function(x, y = NULL,
               mods = mods)
   class(obj) <- c("cartLinBoostTV", "list")
 
-  # Fitted ====
+  # Fitted ----
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
@@ -308,7 +308,7 @@ cartLinBoostTV <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   parameters <- list(mod = learner.short,
                      cart.params = cart.params,
                      glm.params = glm.params,
@@ -543,7 +543,7 @@ as.cartLinBoostTV <- function(object,
               mods = mods)
   class(obj) <- c("cartLinBoostTV", "list")
 
-  # Outro ====
+  # Outro ----
   parameters <- list(mod = object$mod.name,
                      cart.params = object$parameters$cart.params,
                      glm.params = object$parameters$glm.params,

@@ -84,24 +84,24 @@ mplot3_graph <- function(net,
                          filename = NULL,
                          verbose = TRUE, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("igraph")
 
-  # Theme ====
+  # Theme ----
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
   }
 
-  # Palette ====
+  # Palette ----
   if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
 
-  # Vertex names ====
+  # Vertex names ----
   # by default use names in input net.
   if (!is.null(vertex.label)) {
     igraph::igraph.options(net, vertex.label = vertex.label)
   }
 
-  # Plot ====
+  # Plot ----
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -109,7 +109,7 @@ mplot3_graph <- function(net,
                                          title = "rtemis Graphics")
   par(bg = theme$bg, mar = mar)
 
-  # Layout ====
+  # Layout ----
   layout <- match.arg(layout)
   if (is.null(coords) & !is.null(layout)) {
     coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
@@ -117,7 +117,7 @@ mplot3_graph <- function(net,
     if (layout == "sugiyama") coords <- coords$layout
   }
 
-  # Cluster ====
+  # Cluster ----
   if (is.null(groups) & !is.null(cluster)) {
     groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
                       c(list(net), cluster_params))

@@ -40,7 +40,7 @@ s_NW <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_NW))
     invisible(9)
@@ -54,10 +54,10 @@ s_NW <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "NW"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("np")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_NW)); stop("x is missing")
   }
@@ -70,7 +70,7 @@ s_NW <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -88,7 +88,7 @@ s_NW <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # NW ====
+  # NW ----
   # ! npregbw fails if 'np' is not loaded # used to fail?
   # suppressMessages(require(np, quietly = TRUE, warn.conflicts = FALSE))
   # requireNamespace("np", quietly = TRUE)
@@ -102,7 +102,7 @@ s_NW <- function(x, y = NULL,
   mod <- np::npreg(bw, txdat = x, tydat = y)
   if (trace > 0) summary(mod)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- predict(mod, x, se.fit = TRUE)
   se.fit <- as.numeric(fitted$se.fit)
   fitted <- as.numeric(fitted$fit)
@@ -110,7 +110,7 @@ s_NW <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test, se.fit = TRUE)
@@ -122,7 +122,7 @@ s_NW <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(bw = bw)
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,

@@ -38,14 +38,14 @@ d_KPCA <- function(x,
                    scale = TRUE,
                    verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "KPCA"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("kernlab")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_KPCA))
     stop("x is missing")
@@ -58,7 +58,7 @@ d_KPCA <- function(x,
     }
   }
 
-  # Data ====
+  # Data ----
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
@@ -70,7 +70,7 @@ d_KPCA <- function(x,
   if (!is.null(x.test)) colnames(x.test) <- xnames
   x <- as.matrix(x)
 
-  # scale ====
+  # scale ----
   if (scale | center) {
     x <- scale(x, scale = scale, center = center)
     .center <- attr(x, "scaled:center")
@@ -79,13 +79,13 @@ d_KPCA <- function(x,
     .center <- .scale <- FALSE
   }
 
-  # KPCA ====
+  # KPCA ----
   if (verbose) msg("Running Kernel Principal Components Analysis...")
   decom <- kernlab::kpca(x, features = k, th = th,
                          kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv
 
-  # Projections ====
+  # Projections ----
   projections.test <- NULL
   projections.train <- kernlab::predict(decom, x)
   if (!is.null(x.test)) {
@@ -96,7 +96,7 @@ d_KPCA <- function(x,
     projections.test <- kernlab::predict(decom, x.test)
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(vectors = vectors)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

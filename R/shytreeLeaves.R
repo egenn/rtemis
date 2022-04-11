@@ -19,7 +19,7 @@
 #' @author E.D. Gennatas
 #' @noRd
 
-# [[---F1---]] ====
+# [[---F1---]] ----
 shytreeLeavesRC <- function(x, y,
                             x.valid = NULL, y.valid = NULL,
                             lookback = FALSE,
@@ -48,7 +48,7 @@ shytreeLeavesRC <- function(x, y,
                             plot.tuning = TRUE,
                             trace = 0) {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   type <- if (is.factor(y))  "Classification" else "Regression"
   .class <- type == "Classification"
   if (.class) {
@@ -66,7 +66,7 @@ shytreeLeavesRC <- function(x, y,
   # lookback <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
   if (lookback && is.null(x.valid)) stop("You have asked for early stopping without providing a validation set.")
 
-  # [ Check y is not constant ] ====
+  # [ Check y is not constant ] ----
   if (is.constant(y)) {
     coefs <- rep(0, NCOL(x) + 1)
     names(coefs) <- c("(Intercept)", colnames(x))
@@ -88,12 +88,12 @@ shytreeLeavesRC <- function(x, y,
     return(.mod)
   }
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   # lin.type <- match.arg(lin.type)
   if (NCOL(x) == 1) lin.type <- "glm"
   if (trace > 1) msg0("Using lin.type '", lin.type, "'")
 
-  # [ GLOBAL ] ====
+  # [ GLOBAL ] ----
   g <- new.env()
   # g$x used by rpart, g$xm used by lincoef
   g$x <- x
@@ -124,11 +124,11 @@ shytreeLeavesRC <- function(x, y,
   names(g$stepindex) <- paste(seq(max.leaves))
   g$stepindex$`1` <- 1
 
-  # [ LOOP: step splitLine ] ====
+  # [ LOOP: step splitLine ] ----
   if (.class) {
     # vector: Initial probabilities
     probability <- weights / NROW(y) # n
-    # '- Init ====
+    # '- Init ----
     # scalar: Initial node value
     g$init <- c(log(1 + probability %*% y) - log(1 - probability %*% y)) # 1
   } else {
@@ -138,7 +138,7 @@ shytreeLeavesRC <- function(x, y,
   # vector: Initial observations
   Fval <- rep(g$init, NROW(y)) # n
 
-  # '- Gradient ====
+  # '- Gradient ----
   if (.class) {
     firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
   } else {
@@ -147,7 +147,7 @@ shytreeLeavesRC <- function(x, y,
 
   resid <- -firstDer # n
 
-  # '- Lin1 ====
+  # '- Lin1 ----
   if (verbose) msg("Training Stepwise Hybrid Tree ", type, " (max leaves = ", max.leaves, ")...", sep = "")
   if (trace > 0) msg("Training first Linear Model...")
   if (is.constant(resid)) stop("First gradient is constant")
@@ -176,7 +176,7 @@ shytreeLeavesRC <- function(x, y,
 
   Fval <- Fval + learning.rate * rho * linVal # n
 
-  # Special case: if max.leaves == 1 ====
+  # Special case: if max.leaves == 1 ----
   # return linear model
   if (max.leaves == 1) {
     leaves <- list(rules = data.frame(id = 0,
@@ -202,7 +202,7 @@ shytreeLeavesRC <- function(x, y,
     return(.mod)
   }
 
-  # '- Root ====
+  # '- Root ----
   root <- setNodeRC(g = g,
                     id = 1,
                     index = seq(NROW(y)),
@@ -216,13 +216,13 @@ shytreeLeavesRC <- function(x, y,
                     split.rule = NULL,
                     rule = "TRUE")
 
-  # '- Init nodes list ====
+  # '- Init nodes list ----
   g$tree[["1"]] <- root
   # open nodes are candidates for splitting
   g$open <- 1
   g$closed <- integer()
 
-  # '- Start loop ====
+  # '- Start loop ----
   stepid <- 1
   while (g$n.leaves < max.leaves && length(g$open) > 0) {
     if (trace > 1) msg("g$closed is", g$closed)
@@ -274,7 +274,7 @@ shytreeLeavesRC <- function(x, y,
       if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
 
       if (length(g$open) > 0) {
-        # '- Loss ====
+        # '- Loss ----
         # Find split with max loss reduction
         # 1.Error reduction for each open node
         open.loss.red <- data.frame(id = g$open,
@@ -348,7 +348,7 @@ shytreeLeavesRC <- function(x, y,
 
   # Add open and nosplit nodes to included
 
-  # [ Purge ] ====
+  # [ Purge ] ----
   if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
   if (g$n.nodes == 2) {
     g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
@@ -389,7 +389,7 @@ shytreeLeavesRC <- function(x, y,
   rownames(all.step.coefs) <- all.step.rules$id
 
 
-  # [ MOD ] ====
+  # [ MOD ] ----
   .mod <- list(type = g$type,
                init = g$init,
                learning.rate = learning.rate,
@@ -429,7 +429,7 @@ shytreeLeavesRC <- function(x, y,
 
 } # rtemis::shytreeLeavesRC
 
-# [[---F2---]]====
+# [[---F2---]]----
 setNodeRC <- function(g,
                       id,
                       index,
@@ -460,7 +460,7 @@ setNodeRC <- function(g,
 } # rtemis::setNodeRC
 
 
-# [[---F3---]] ====
+# [[---F3---]] ----
 #' \code{rtemis} internal: Ridge and Stump
 #'
 #' Edits environment 'g' in-place (no output)
@@ -492,7 +492,7 @@ splitLineRC <- function(g,
                         verbose = TRUE,
                         trace = 0) {
 
-  # '- Node ====
+  # '- Node ----
   .class <- type == "Classification"
   node <- g$tree[[paste(node.index)]]
   if (.class) {
@@ -504,7 +504,7 @@ splitLineRC <- function(g,
 
   weights <- node$weights
 
-  # '- [ Split ] ====
+  # '- [ Split ] ----
   # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
   dat <- data.frame(g$x, resid1)
   part <- rpart::rpart(resid1 ~., dat,
@@ -516,7 +516,7 @@ splitLineRC <- function(g,
                                                       cp = part.cp))
 
   if (is.null(part$splits)) {
-    # '-- Node did not split ====
+    # '-- Node did not split ----
     if (trace > 1) msg0("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
     g$tree[[paste(node.index)]]$type <- "nosplit"
@@ -538,7 +538,7 @@ splitLineRC <- function(g,
     weights.left <- weights.right <- weights
     Fval <- node$Fval
   } else {
-    # '-- Node did split --' ====
+    # '-- Node did split --' ----
     # Get correct Left & Right values - for Regression
     if (part$splits[1, 2] == 1) {
       left.yval.row <- 3
@@ -584,7 +584,7 @@ splitLineRC <- function(g,
 
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
 
-    # '--> Split updates -' ====
+    # '--> Split updates -' ----
     # Observations, weights and node coefficients
     # Calculate left weights and outputs
     left.y <- g$y[left.index] # < n
@@ -598,7 +598,7 @@ splitLineRC <- function(g,
     Fval.left <- node$Fval[left.index] # < n
     Fval.right <- node$Fval[right.index] # < n
 
-    # ''- Left ====
+    # ''- Left ----
     # Compute the coefficients of the left child node
     # Vector, length < y
     # ddlt
@@ -616,7 +616,7 @@ splitLineRC <- function(g,
       firstDerLeft <- weightedFirstDerLeft <- secDerLeft <- weightedSecDerLeft <- NA
     }
 
-    # ''- UPDATE nodeVal.left ====
+    # ''- UPDATE nodeVal.left ----
     # check
     coef.left <- node$coef
     if (.class) {
@@ -640,7 +640,7 @@ splitLineRC <- function(g,
     }
     coef.left[1] <- coef.left[1] + part.c.left
 
-    # ''- Right ====
+    # ''- Right ----
     if (.class) {
       # Compute the coefficients for the right child node
       firstDerRight <- -2 * right.y / (1 + exp(2 * right.y * Fval.right)) # < n
@@ -652,7 +652,7 @@ splitLineRC <- function(g,
       firstDerRight <- weightedFirstDerRight <- secDerRight <- weightedSecDerRight <- NA
     }
 
-    # ''- UPDATE nodeVal.right ====
+    # ''- UPDATE nodeVal.right ----
     coef.right <- node$coef
     if (.class) {
       if (weightedFirstDerRight == 0) {
@@ -689,12 +689,12 @@ splitLineRC <- function(g,
       # msg("nodeVal.left = ", nodeVal.left, "; nodeVal.right = ", nodeVal.right, sep = "")
     }
 
-    # '- Weights -' ====
+    # '- Weights -' ----
     weights.left <- weights.right <- weights
     weights.left[right.index] <- weights.left[right.index] * gamma
     weights.right[left.index] <- weights.right[left.index] * gamma
 
-    # '- [ Line ] -' ====
+    # '- [ Line ] -' ----
     if (.class) {
       firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
       resid2 <- -firstDer
@@ -724,7 +724,7 @@ splitLineRC <- function(g,
 
         linVal.left <- c(g$xm %*% linCoef.left)
 
-        # Lin Updates, Left ====
+        # Lin Updates, Left ----
         if (.class & g$.rho) {
           firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.left)[1]
           secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
@@ -758,7 +758,7 @@ splitLineRC <- function(g,
                                  which.cv.glmnet.lambda = which.cv.glmnet.lambda)
         linVal.right <- c(g$xm %*% linCoef.right)
 
-        # Lin Updates, Right ====
+        # Lin Updates, Right ----
 
       } # /if (length(right.index) < minobsinnode.lin)
 
@@ -776,7 +776,7 @@ splitLineRC <- function(g,
 
     }
 
-    # '- Side-effects -' ====
+    # '- Side-effects -' ----
 
     # Check: do we need this?
     depth <- g$tree[[paste(node.index)]]$depth + 1
@@ -827,7 +827,7 @@ splitLineRC <- function(g,
 } # rtemis::splitLineRC
 
 
-# [[---F4---]] ====
+# [[---F4---]] ----
 #' Predict method for \code{shytreeLeavesRC} object
 #'
 #' @method predict shytreeLeavesRC
@@ -860,7 +860,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
   type <- match.arg(type)
   .class <- object$type == "Classification"
 
-  # '-- Newdata ====
+  # '-- Newdata ----
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
 
   newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -868,7 +868,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
   newdata <- cbind(1, model.matrix(~. -1, data = newdata))
 
   if (type != "step") {
-    # '-- Rules ====
+    # '-- Rules ----
     if (is.null(n.leaves)) {
       n.leaves <- max(sapply(object$stepindex, length))
     }
@@ -887,7 +887,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
       coefs <- lapply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE])
       coefs <- data.matrix(do.call(rbind, coefs))
 
-      # '-- Cases x Rules ====
+      # '-- Cases x Rules ----
       if (is.null(fixed.cxr)) {
         cases <- if (is.null(cxr.newdata)) newdata else cxr.newdata
         .cxr <- matchCasesByRules(cases, rules, verbose = verbose)
@@ -900,7 +900,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
 
       .cxrcoef <- .cxr %*% coefs
 
-      # '-- yhat ====
+      # '-- yhat ----
       # TODO: Update to do length(rules) matrix multiplications and add
       yhat <- init + sapply(seq(NROW(newdata)), function(n)
         object$learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE])))
@@ -984,7 +984,7 @@ predict.shytreeLeavesRC <- function(object, newdata,
 
 } # rtemis:: predict.shytreeLeavesRC
 
-# [[---F5---]] ====
+# [[---F5---]] ----
 #' Print method for \code{shytreeLeavesRC} object
 #'
 #' @method print shytreeLeavesRC
@@ -1026,7 +1026,7 @@ class.lossw <- function(y, Fval, weights) {
 
 }
 
-# [[--F6--]] ====
+# [[--F6--]] ----
 selectleaves <- function(object,
                          x, y,
                          x.valid, y.valid,

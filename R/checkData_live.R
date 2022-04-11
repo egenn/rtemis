@@ -38,17 +38,17 @@ checkData_live <- function(x,
   n.rows <- NROW(x)
   n.cols <- NCOL(x)
   
-  # Data Types ====
+  # Data Types ----
   
-  ## Continuous ====
+  ## Continuous ----
   index.continuous <- which(sapply(x, function(i) is.numeric(i) & !is.integer(i)))
   n.continuous <- length(index.continuous)
   
-  ## Integer ====
+  ## Integer ----
   index.integer <- which(sapply(x, is.integer))
   n.integer <- length(index.integer)
   
-  ## Categorical ====
+  ## Categorical ----
   index.factor <- which(sapply(x, is.factor))
   n.factor <- length(index.factor)
   index.ordered <- which(sapply(x, is.ordered))
@@ -56,25 +56,25 @@ checkData_live <- function(x,
   index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], function(x) length(levels(x))) > 2)
   n.gt2levels.nonordered <- length(index.gt2levels.nonordered)
   
-  ## Characters ====
+  ## Characters ----
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
   
-  ## Dates ====
+  ## Dates ----
   index.date <- which(sapply(x, function(col) inherits(col, "Date")))
   n.date <- length(index.date)
   
-  # Issues ====
+  # Issues ----
   
-  ## Constants ====
+  ## Constants ----
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
   
-  ## Duplicates ====
+  ## Duplicates ----
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
   
-  ## NAs ====
+  ## NAs ----
   cols.anyna <- which(sapply(x, anyNA))
   n.cols.anyna <- length(cols.anyna)
   index.na <- which(is.na(x))
@@ -96,9 +96,9 @@ checkData_live <- function(x,
     na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
   
-  # HTML parts ====
+  # HTML parts ----
   
-  ## Data Types ====
+  ## Data Types ----
   continuous <- HTML(paste(strong(n.continuous), "continuous", 
                            ngettext(n.continuous, "feature", "features")))
   integer <- HTML(paste(strong(n.integer), "integer", 
@@ -116,7 +116,7 @@ checkData_live <- function(x,
                            ngettext(n.character, "feature", "features")))
   dates <- HTML(paste(strong(n.date), "date", ngettext(n.date, "feature", "features")))
   
-  ## Issues ====
+  ## Issues ----
   .col <- if (n.constant > 0) html_red_bold else strong
   constants <- HTML(paste(.col(n.constant), "constant", ngettext(n.constant, "feature", "features")))
   .col <- if (n.dups > 0) html_red_bold else strong
@@ -131,7 +131,7 @@ checkData_live <- function(x,
                                  ngettext(n.na, "value", "values"), 
                                  "total"), "")))
   
-  ## Recs html ====
+  ## Recs html ----
   rec_char <- if (n.character > 0) {
     tags$li(HTML(paste(html_orange_bold("Consider converting the character",
                                         ngettext(n.character, "feature", "features"), "to" ,
@@ -179,7 +179,7 @@ checkData_live <- function(x,
          )
   }
   
-  # HTML out ====
+  # HTML out ----
   out <- div(
     p(
       div(

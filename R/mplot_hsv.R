@@ -40,10 +40,10 @@ mplot_hsv <- function(h.steps = seq(0, 1, .0125),
                       lab.col = NULL,
                       type = c("polar", "cartesian")) {
     
-    # Arguments ====
+    # Arguments ----
     type <- match.arg(type)
 
-    # Plot ====
+    # Plot ----
     par.orig <- par(no.readonly = TRUE)
     on.exit(par(par.orig))
 
@@ -55,7 +55,7 @@ mplot_hsv <- function(h.steps = seq(0, 1, .0125),
     col <- hsv(h = grd[, 1], s = grd[, 2], v = v, alpha = alpha)
 
     if (type == "cartesian") {
-        # '- Square ====
+        # '- Square ----
         par(bg = bg, mar = mar, pty = pty)
         plot(grd,
             xlim = c(0, 1),
@@ -78,7 +78,7 @@ mplot_hsv <- function(h.steps = seq(0, 1, .0125),
         )
     } else {
 
-        # '- Radial ====
+        # '- Radial ----
         dependency_check("plotrix")
         par(bg = bg)
         plotrix::radial.plot(drange(grd[, 2], 0, 360 * pi / 180),

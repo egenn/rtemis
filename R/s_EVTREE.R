@@ -41,7 +41,7 @@ s_EVTREE <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_EVTREE))
     return(invisible(9))
@@ -55,10 +55,10 @@ s_EVTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "EVTREE"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("evtree")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_EVTREE))
     stop("y is missing")
@@ -71,7 +71,7 @@ s_EVTREE <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -97,11 +97,11 @@ s_EVTREE <- function(x, y = NULL,
   }
   df.train <- data.frame(y = y, x)
 
-  # Formula ====
+  # Formula ----
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
-  # evtree::evtree ====
+  # evtree::evtree ----
   if (verbose) msg("Training EVTREE...", newline.pre = TRUE)
   mod <- evtree::evtree(formula = .formula,
                         data = df.train,
@@ -109,7 +109,7 @@ s_EVTREE <- function(x, y = NULL,
                         control = control,
                         na.action = na.action, ...)
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Regression" | type == "Survival") {
     fitted <- predict(mod, x, type = "response")
     fitted.prob <- NULL
@@ -122,7 +122,7 @@ s_EVTREE <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   if (!is.null(x.test)) {
     if (type == "Regression" | type == "Survival") {
       predicted <- predict(mod, x.test, type = "response")
@@ -142,7 +142,7 @@ s_EVTREE <- function(x, y = NULL,
     predicted <- predicted.prob <- error.test <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(fitted.prob = fitted.prob,
                 prdicted.prob = predicted.prob)
   rt <- rtModSet(rtclass = rtclass,

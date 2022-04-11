@@ -86,7 +86,7 @@ s_LINOA <- function(x, y = NULL,
                         verbose = TRUE,
                         trace = 1) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_LINOA))
     return(invisible(9))
@@ -102,17 +102,17 @@ s_LINOA <- function(x, y = NULL,
   # delta 02.06.2020
   # if (max.leaves <= 1) force.max.leaves <- 1
 
-  # Dependencies ====
+  # Dependencies ----
   # ENH: deps for lincoef
   dependency_check("glmnet", "rpart")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   lin.type <- match.arg(lin.type)
   # if (.gs && nvmax == 0) lin.type = "none"
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -159,7 +159,7 @@ s_LINOA <- function(x, y = NULL,
     nvmax <- Filter(function(z) z <= NCOL(x), nvmax)
   }
 
-  # Grid Search ====
+  # Grid Search ----
   if (metric == "auto") {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -256,7 +256,7 @@ s_LINOA <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # shyoptleaves ====
+  # shyoptleaves ----
   if (.gs) {
     if (lookback) {
       x.valid <- x.test
@@ -313,7 +313,7 @@ s_LINOA <- function(x, y = NULL,
                      cv.glmnet.nfolds = cv.glmnet.nfolds,
                      which.cv.glmnet.lambda = which.cv.glmnet.lambda)
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Classification") {
     .fitted <- predict.shyoptleaves(mod, x, type = "all")
     fitted <- .fitted$estimate
@@ -325,7 +325,7 @@ s_LINOA <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
@@ -350,7 +350,7 @@ s_LINOA <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,

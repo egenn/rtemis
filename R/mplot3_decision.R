@@ -50,7 +50,7 @@ mplot3_decision <- function(rtmod, data,
                             point.pch = c(3, 4),
                             point.alpha = 1) {
 
-  # [ Data ] ====
+  # [ Data ] ----
   data <- as.data.frame(data)
   class.dat <- data[, ncol(data)]
   data[, ncol(data)] <- NULL
@@ -74,8 +74,8 @@ mplot3_decision <- function(rtmod, data,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  # Plot ====
-  # '- Background: decision surface ====
+  # Plot ----
+  # '- Background: decision surface ----
   mplot3_xy(dat[, 1], dat[, 2], group = predicted,
             xlab = names(data)[vars[1]],
             ylab = names(data)[vars[2]],
@@ -87,14 +87,14 @@ mplot3_decision <- function(rtmod, data,
             theme = theme,
             marker.col = col, xaxs = "i", yaxs = "i")
 
-  # '- Contour lines ====
+  # '- Contour lines ----
   contour(x, y, matrix(as.integer(predicted) - 1, dots.per.axis),
           lwd = contour.lwd,
           col = contour.col,
           drawlabels = FALSE,
           add = TRUE)
 
-  # '- Data points ====
+  # '- Data points ----
   mplot3_xy(xdat[, 1], ydat[, 1],
             xlab = "",
             ylab = "",

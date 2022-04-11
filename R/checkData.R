@@ -47,17 +47,17 @@ checkData <- function(x,
   # This way avoids running line before all terminal colors are available
   orange <- crayon::make_style(orange = "orange")
 
-  # Data Types ====
+  # Data Types ----
 
-  ## Integers ====
+  ## Integers ----
   index.integer <- which(sapply(x, is.integer))
   n.integer <- length(index.integer)
 
-  ## Floats ====
+  ## Floats ----
   index.continuous <- which(sapply(x, function(i) is.numeric(i) & !is.integer(i)))
   n.continuous <- length(index.continuous)
 
-  ## Factors ====
+  ## Factors ----
   index.factor <- which(sapply(x, is.factor))
   n.factor <- length(index.factor)
   index.ordered <- which(sapply(x, is.ordered))
@@ -89,7 +89,7 @@ checkData <- function(x,
                  sep = "\n")
   }
 
-  ## Characters ====
+  ## Characters ----
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
   .col <- if (n.character > 0) orange$bold else bold
@@ -97,16 +97,16 @@ checkData <- function(x,
                paste("  *", .col(n.character), "character", ngettext(n.character, "feature", "features")),
                sep = "\n")
 
-  ## Dates ====
+  ## Dates ----
   index.date <- which(sapply(x, function(col) inherits(col, "Date")))
   n.date <- length(index.date)
   out <- paste(out,
                paste("  *", n.date, "date", ngettext(n.date, "feature", "features")),
                sep = "\n")
 
-  # Issues ====
+  # Issues ----
 
-  ## Constants ====
+  ## Constants ----
   out <- paste(out,
                paste0(bold("\n  Issues") ,"____________________"),
                sep = "\n")
@@ -117,7 +117,7 @@ checkData <- function(x,
                paste("  *", .col(n.constant), "constant", ngettext(n.constant, "feature", "features")),
                sep = "\n")
 
-  ## Duplicates ====
+  ## Duplicates ----
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
   .col <- if (n.dups > 0) red$bold else bold
@@ -125,7 +125,7 @@ checkData <- function(x,
                paste("  *", .col(n.dups), "duplicated", ngettext(n.dups, "case", "cases")),
                sep = "\n")
 
-  ## NAs ====
+  ## NAs ----
   cols.anyna <- which(sapply(x, anyNA))
   n.cols.anyna <- length(cols.anyna)
   index.na <- which(is.na(x))
@@ -189,7 +189,7 @@ checkData <- function(x,
 
   }
 
-  # Recommendations ====
+  # Recommendations ----
   if (recommend) {
     out <- paste(out,
                  paste0(bold("\n  Recommendations") ,"___________"), sep = "\n")
@@ -251,7 +251,7 @@ checkData <- function(x,
   }
   if (verbose) cat(out)
 
-  # str() ====
+  # str() ----
   if (str & verbose) {
     cat(bold("\n\n  Feature structure", "_________\n"))
     str(x)

@@ -65,7 +65,7 @@ mplot3_xym <- function(x, y,
                        pdf.width = 7,
                        pdf.height = 7, ...) {
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   margin <- match.arg(margin)
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
@@ -84,19 +84,19 @@ mplot3_xym <- function(x, y,
     heights <- c(devh/5, devh)
   }
 
-  # [ LAYOUT ] ====
+  # [ LAYOUT ] ----
   lmat <- cbind(c(2, 1), c(0, 3))
   layout(lmat, widths = widths, heights = heights, respect = TRUE)
   # layout.show(3)
 
-  # [ PLOT 1: Scatter ] ====
+  # [ PLOT 1: Scatter ] ----
   lims <- mplot3_xy(x, y, fit = fit, se.fit = se.fit, fit.col = col,
                     xlim = xlim, ylim = ylim, xaxs = xaxs, yaxs = yaxs,
                     par.reset = FALSE, mar = mar, lwd = lwd, pty = pty,
                     theme = theme,
                     return.lims = TRUE, ...)
 
-  # [ PLOTS 2 & 3: Histogram / Density ] ====
+  # [ PLOTS 2 & 3: Histogram / Density ] ----
   if (margin == "density") {
     # Density Top
     mplot3_x(x, type = margin, axes.visible = axes.density,

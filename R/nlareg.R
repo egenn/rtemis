@@ -29,7 +29,7 @@ nlareg <- function(x, y,
                    lower = -Inf,
                    upper = Inf, ...) {
 
-  # Arguments ====
+  # Arguments ----
 
   if (is.character(activation)) {
     fn.name <- activation
@@ -67,7 +67,7 @@ nlareg <- function(x, y,
     sum((y - (b_o + W_o * activation(b_h + x %*% W_h)))^2)
   }
 
-  # optim ====
+  # optim ----
   est <- optim(c(b_o, W_o, b_h, W_h),
                minSS,
                method = optim.method,
@@ -76,7 +76,7 @@ nlareg <- function(x, y,
 
   if (est$convergence > 0) warning("Optimizer failed to converge. Error code: ", est$convergence)
 
-  # nlareg object ====
+  # nlareg object ----
   b_o <- est$par[1]
   W_o <- est$par[2]
   b_h <- est$par[3]

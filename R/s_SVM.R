@@ -64,7 +64,7 @@ s_SVM <- function(x, y = NULL,
                   osx.alert = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_SVM))
     return(invisible(9))
@@ -78,10 +78,10 @@ s_SVM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "SVM"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("e1071")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_SVM))
     stop("y is missing")
@@ -94,7 +94,7 @@ s_SVM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   grid.search.type <- match.arg(grid.search.type)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -123,7 +123,7 @@ s_SVM <- function(x, y = NULL,
   if (is.null(gamma)) gamma <- 1 / NCOL(x)
   if (type == "Classification") nlevels <- length(levels(y))
 
-  # Grid Search ====
+  # Grid Search ----
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -227,7 +227,7 @@ s_SVM <- function(x, y = NULL,
     parameters <- list(kernel = kernel, cost = cost, gamma = gamma, class.weights = .class.weights)
   }
 
-  # e1071::svm ====
+  # e1071::svm ----
   if (verbose) msg("Training SVM", type, "with", kernel, "kernel...", newline.pre = TRUE)
   mod <- e1071::svm(x = x, y = y,
                     kernel = kernel,
@@ -238,7 +238,7 @@ s_SVM <- function(x, y = NULL,
                     probability = probability,
                     class.weights = .class.weights, ...)
 
-  # Fitted ====
+  # Fitted ----
   fitted.prob <- predict(mod, x, probability = TRUE)
   fitted.prob <- attr(fitted.prob, "probabilities")[, levels(y)[1]]
   fitted <- predict(mod)
@@ -247,7 +247,7 @@ s_SVM <- function(x, y = NULL,
   error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.prob <- predict(mod, x.test, probability = TRUE)
@@ -260,7 +260,7 @@ s_SVM <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

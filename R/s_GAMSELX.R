@@ -49,7 +49,7 @@ s_GAMSELX <- function(x, y = NULL,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   if (missing(x)) {
     print(args(s_GAMSELX))
     return(invisible(9))
@@ -63,10 +63,10 @@ s_GAMSELX <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GAMSELX"
 
-  # [ Dependencies ] ====
+  # [ Dependencies ] ----
   dependency_check("gamsel2")
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_GAMSELX))
     stop("y is missing")
@@ -76,7 +76,7 @@ s_GAMSELX <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
 
-  # [ Data ] ====
+  # [ Data ] ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # ipw = ipw,
@@ -113,7 +113,7 @@ s_GAMSELX <- function(x, y = NULL,
 
 
 
-  # [ GAMSELX ] ====
+  # [ GAMSELX ] ----
   if (verbose) msg("Training GAMSELX...", newline.pre = TRUE)
   mod <- gamselx(x, y,
                  gamsel.params1 = gamsel.params1,
@@ -125,7 +125,7 @@ s_GAMSELX <- function(x, y = NULL,
                  verbose = verbose,
                  trace = trace)
 
-  # [ Fitted ] ====
+  # [ Fitted ] ----
   # if (type == "Regression") {
     fitted <- mod$fitted
     error.train <- modError(y, fitted)
@@ -139,7 +139,7 @@ s_GAMSELX <- function(x, y = NULL,
 
   if (verbose) errorSummary(error.train, mod.name)
 
-  # [ Predicted ] ====
+  # [ Predicted ] ----
   predicted.prob <- predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
     # if (type == "Regression") {
@@ -155,7 +155,7 @@ s_GAMSELX <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,

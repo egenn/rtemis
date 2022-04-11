@@ -10,7 +10,9 @@
 #' @param x Numeric vector or matrix / data frame: Input
 #' @param lo Target range minimum. Defaults to 0
 #' @param hi Target range maximum. Defaults to 1
-#' @param byCol Logical: If TRUE: if \code{x} is matrix, \code{drange} each column separately
+#' @param byCol Logical: If TRUE: if \code{x} is matrix, \code{drange} each 
+#' column separately
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' x <- runif(20, -10, 10)

@@ -57,7 +57,7 @@ mergelongtreatment <- function(x,
     printdf1(.summary, pad = 4)
   }
 
-  # [ Base dataset ] ====
+  # [ Base dataset ] ----
   # Contains final number of rows,
   # with "Date" and "ID" columns.
   # Each merge will add columns (not rows) by rolling joins
@@ -66,7 +66,7 @@ mergelongtreatment <- function(x,
                                                           interval_days),
                                                ID = group_varnames[1]))
 
-  # [ Merges ] ====
+  # [ Merges ] ----
   for (i in seq(x)) {
     .key <- group_varnames[min(which(group_varnames %in% names(x[[i]])))]
     setkeyv(dat, c(.key, time_varname))

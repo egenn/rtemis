@@ -50,7 +50,7 @@ s_DN <- function(x, y = NULL,
                  plot.theme = getOption("rt.theme"),
                  save.mod = FALSE) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_DN))
     return(invisible(9))
@@ -64,14 +64,14 @@ s_DN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "DN"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("deepnet")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw, ipw.type = ipw.type,
                     upsample = upsample,
@@ -121,7 +121,7 @@ s_DN <- function(x, y = NULL,
                                 visible_dropout,
                                 newline.pre = TRUE)
 
-  # Grid Search ====
+  # Grid Search ----
   if (gridCheck(batchsize,
                 numepochs,
                 learning.rate,
@@ -142,7 +142,7 @@ s_DN <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # deepnet::nn.train ====
+  # deepnet::nn.train ----
   if (verbose) msg0("Training Artificial Neural Network for ", type, "...",
                     newline.pre = TRUE)
   mod <- deepnet::nn.train(x, y,
@@ -159,7 +159,7 @@ s_DN <- function(x, y = NULL,
                            hidden_dropout = hidden_dropout,
                            visible_dropout = visible_dropout)
 
-  # Fitted ====
+  # Fitted ----
   fitted <- c(deepnet::nn.predict(mod, x))
   if (type == "Classification") {
     fitted.prob <- fitted
@@ -171,7 +171,7 @@ s_DN <- function(x, y = NULL,
   error.train <- modError(dt$y, fitted)
   if (verbose) errorSummary(error.train)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- c(deepnet::nn.predict(mod, x.test))
@@ -186,7 +186,7 @@ s_DN <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,

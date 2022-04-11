@@ -26,19 +26,19 @@ c_MEANSHIFT <- function(x,
                 parameters = NULL,
                 verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "MEANSHIFT"
 
-  # Data ====
+  # Data ----
   .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.matrix(x)
   xnames <- colnames(x) <- .colnames
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("meanShiftR")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_MEANSHIFT))
     stop("x is missing")
@@ -46,7 +46,7 @@ c_MEANSHIFT <- function(x,
   algorithm <- match.arg(algorithm)
   kernelType <- match.arg(kernelType)
 
-  # Mean Shift ====
+  # Mean Shift ----
   if (verbose) msg("Performing Mean Shift Clustering...", sep = "")
   clust <- meanShiftR::meanShift(
                 queryData = x,
@@ -61,10 +61,10 @@ c_MEANSHIFT <- function(x,
                 epsilonCluster = epsilonCluster,
                 parameters = parameters)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- as.integer(clust$assignment)
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     # k = k,
                     xnames = xnames,

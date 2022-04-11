@@ -43,25 +43,25 @@ d_ICA <- function(x,
                   verbose = TRUE,
                   trace = 0, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "ICA"
   package <- match.arg(package)
 
-  # Dependencies ====
+  # Dependencies ----
   if (package == "fastICA") {
     dependency_check("fastICA")
   } else {
     dependency_check("ica")
   }
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(d_ICA))
     stop("x is missing")
   }
 
-  # Data ====
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -77,7 +77,7 @@ d_ICA <- function(x,
     # if (!is.null(x.test)) x.test <- as.data.frame(scale(x.test, center = center))
   }
 
-  # ICA ====
+  # ICA ----
   if (verbose) msg("Running Independent Component Analysis...")
   if (package == "fastICA") {
     decom <- fastICA::fastICA(x,
@@ -94,12 +94,12 @@ d_ICA <- function(x,
                           alg = substr(alg.type, 1, 3), ...)
   }
 
-  # Projections ====
+  # Projections ----
   projections.train <- decom$S
   projections.test <- NULL
   colnames(projections.train) <- paste0("ICA", seq(k))
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

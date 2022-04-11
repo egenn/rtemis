@@ -76,11 +76,11 @@ dplot3_ts <- function(x, time,
                       palette = getOption("rt.palette", "rtCol1"),
                       filename = NULL, ...) {
 
-    # Arguments ====
+    # Arguments ----
     roll.fn <- match.arg(roll.fn)
     if (roll.fn == "none") window <- NULL
 
-    # Timeseries ====
+    # Timeseries ----
     if (!is.null(group)) {
         x <- split(x, group)
         time <- split(time, group)
@@ -128,11 +128,11 @@ dplot3_ts <- function(x, time,
         )
     }
 
-    # Palette ====
+    # Palette ----
     if (is.character(palette)) palette <- rtPalette(palette)
     if (is.null(roll.col)) roll.col <- palette[seq_along(x)]
 
-    # dplot3_xy ====
+    # dplot3_xy ----
     plt <- dplot3_xy(time, x,
         xlab = xlab,
         theme = theme,
@@ -150,7 +150,7 @@ dplot3_ts <- function(x, time,
         spikethickness = spikethickness, ...
     )
 
-    # Rolling function line ====
+    # Rolling function line ----
     if (is.null(roll.name)) {
         roll.name <- paste0("Rolling ", roll.fn, " (window=", window, ")")
     }
@@ -176,7 +176,7 @@ dplot3_ts <- function(x, time,
         displayModeBar = displayModeBar
     )
 
-    # Write to file ====
+    # Write to file ----
     if (!is.null(filename)) {
         filename <- file.path(filename)
         plotly::plotly_IMAGE(plt,

@@ -3,64 +3,71 @@
 # E.D. Gennatas lambdamd.org
 
 rtenv <- new.env()
+rtemis.version <- packageVersion("rtemis")
 .availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
-rtemis.version <- packageVersion("rtemis")
-rtHome = getOption("rt.home", Sys.getenv("HOME"))
+rtHome <- getOption("rt.home", Sys.getenv("HOME"))
+# rtPlan <- getOption("future.plan", "multisession")
+# future::plan(rtPlan)
+# rtProgress <- getOption("rt.progress", "global")
+# if (rtProgress == "global") progressr::handlers(global = TRUE)
+rtGSL <- getOption("rt.gsl", "future")
+if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 
 .onAttach <- function(libname, pkgname) {
+    packageStartupMessage(paste0(
+          "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+        "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+        "\n  Documentation: https://rtemis.lambdamd.org",
+        "\n  Learn R: https://class.lambdamd.org/pdsr",
+        "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+        '\n  Use `citation("rtemis")` for citation info'
+    ))
 
-  packageStartupMessage(paste0(
-    "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-    "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-    "\n  Documentation: https://rtemis.lambdamd.org",
-    "\n  Learn R: https://class.lambdamd.org/pdsr",
-    "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-    '\n  Use `citation("rtemis")` for citation info'
-  ))
+    # packageStartupMessage(
+    #   "                                         d8,           ",
+    #   "\n             d8P                        `8P           |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+    #   "\n          d888888P                                    |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
+    #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |", "  Documentation & vignettes: https://rtemis.lambdamd.org",
+    #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |", "  Learn R: https://class.lambdamd.org/pdsr",
+    #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |", "  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+    #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |", '  See `citation("rtemis")` for how to cite'
+    # )
 
-  # packageStartupMessage(
-  #   "                                         d8,           ",
-  #   "\n             d8P                        `8P           |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-  #   "\n          d888888P                                    |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-  #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |", "  Documentation & vignettes: https://rtemis.lambdamd.org",
-  #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |", "  Learn R: https://class.lambdamd.org/pdsr",
-  #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |", "  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-  #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |", '  See `citation("rtemis")` for how to cite'
-  # )
-  
-  try(
-    if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
-      col <- sample(unlist(rtemis:::rtCol1), 1)
-      n <- 20
-      polyshadow(n, n, .8, 
-                 text = "rtemis",
-                 text.x = 2,
-                 text.y = 2,
-                 text.adj = c(0, 0),
-                 text.col = col,
-                 text.cex = 1.2,
-                 shadow = seq(.9, .96, length = n^2),
-                 col_lo =  "#00000040",
-                 col_hi =  col,
-                 color.progression = "prod")
-    }, 
-    silent = TRUE)
-  
-  # Set default theme
-  if (is.null(getOption("rt.theme"))) {
-    options(rt.theme = "darkgraygrid")
-  }
-  
-  # Set default palette
-  if (is.null(getOption("rt.palette"))) {
-    options(rt.palette = "rtCol1")
-  }
+    try(
+        if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
+            col <- sample(unlist(rtemis:::rtCol1), 1)
+            n <- 20
+            polyshadow(n, n, .8,
+                text = "rtemis",
+                text.x = 2,
+                text.y = 2,
+                text.adj = c(0, 0),
+                text.col = col,
+                text.cex = 1.2,
+                shadow = seq(.9, .96, length = n^2),
+                col_lo = "#00000040",
+                col_hi = col,
+                color.progression = "prod"
+            )
+        },
+        silent = TRUE
+    )
 
-   # Set default warn level
-   rt.warn <- getOption("rt.warn", 1)
-   options(warn = rt.warn)
-  
+    # Set default theme
+    if (is.null(getOption("rt.theme"))) {
+        options(rt.theme = "darkgraygrid")
+    }
+
+    # Set default palette
+    if (is.null(getOption("rt.palette"))) {
+        options(rt.palette = "rtCol1")
+    }
+
+    # Set default warn level
+    rt.warn <- getOption("rt.warn", 1)
+    options(warn = rt.warn)
+    
 }
 
 

@@ -70,7 +70,7 @@ mplot3_adsr <- function(Attack = 300,
                         yaxs = "i",
                         par.reset = TRUE, ...) {
 
-  # Envelope ====
+  # Envelope ----
   A <- Attack
   D <- Decay
   S <- Sustain
@@ -79,7 +79,7 @@ mplot3_adsr <- function(Attack = 300,
   x <- c(0, I, I + A, I + A + D, O, O + R)
   y <- c(0, 0, V, S, S, 0)
 
-  # Plot ====
+  # Plot ----
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   mplot3_xy(x, y, type = 'l', theme = theme, 
@@ -98,7 +98,7 @@ mplot3_adsr <- function(Attack = 300,
             mar = mar,
             main = main, main.col = main.col, main.line = main.line, ...)
 
-  # Shading ====
+  # Shading ----
   if (draw.poly) {
     polygon(c(I, I + A, I + A, I), c(0, 0, V, V), col = colorAdjust(Attack.col, poly.alpha))
     polygon(c(I + A, I + A + D, I + A + D, I + A), c(0, 0, V, V), col = colorAdjust(Decay.col, poly.alpha))
@@ -128,7 +128,7 @@ mplot3_adsr <- function(Attack = 300,
   # Post
   lines(c(O + R, 2 * O + R), c(0, 0), col = zerolines.col, lwd = lwd, lty = lty, xpd = TRUE)
 
-  # Vertical lines ====
+  # Vertical lines ----
   if (draw.verticals) {
     # Note ON
     abline(v = I, lwd = v.lwd, lty = v.lty, col = on.col)
@@ -144,7 +144,7 @@ mplot3_adsr <- function(Attack = 300,
     abline(v = O + R, lwd = v.lwd, lty = v.lty, col = Release.col)
   }
 
-  # Arrows ====
+  # Arrows ----
   # Attack Time
   arrows(x0 = I, y0 = V/2, x1 = I + A, V/2,
          code = arrow.code, length = arrow.length, lwd = 1.5, lty = 1, col = Attack.col)
@@ -158,12 +158,12 @@ mplot3_adsr <- function(Attack = 300,
   arrows(x0 = O, y0 = S/2, x1 = O + R, y1 = S/2,
          code = arrow.code, length = arrow.length, lwd = 1.5, lty = 1, col = Release.col)
 
-  # Title ====
+  # Title ----
   # mtext(text = c("A", "D", "S", "R", "Envelope Generator"), side = 3,
   #       font = 2, cex = 1.2, adj = c(0, .03, .06, .09, .2), line = 1.5,
   #       col = c(Attack.col, Decay.col, Sustain.col, Release.col, "white"))
 
-  # Legend ====
+  # Legend ----
   # legend(O + R, 100, legend = c("Attack", "Decay", "Sustain", "Release"),
   #        col = c(Attack.col, Decay.col, Sustain.col, Release.col))
   # legend("topright",

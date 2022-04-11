@@ -90,7 +90,7 @@ s_CART <- function(x, y = NULL,
                    rtModLog = NULL) {
     tree.depth <- getFromNamespace("tree.depth", "rpart")
 
-    # Intro ====
+    # Intro ----
     if (missing(x)) {
         print(args(s_CART))
         return(invisible(9))
@@ -104,10 +104,10 @@ s_CART <- function(x, y = NULL,
     start.time <- intro(verbose = verbose, logFile = logFile)
     mod.name <- "CART"
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("rpart")
 
-    # Arguments ====
+    # Arguments ----
     if (is.null(y) & NCOL(x) < 2) {
         print(args(s_CART))
         stop("y is missing")
@@ -131,7 +131,7 @@ s_CART <- function(x, y = NULL,
     )
     grid.search.type <- match.arg(grid.search.type)
 
-    # Data ====
+    # Data ----
     dt <- dataPrepare(x, y, x.test, y.test,
         ipw = ipw,
         ipw.type = ipw.type,
@@ -184,11 +184,11 @@ s_CART <- function(x, y = NULL,
     }
     if (type == "Classification") n.classes <- length(levels(y))
 
-    # Formula ====
+    # Formula ----
     features <- paste(xnames, collapse = " + ")
     .formula <- as.formula(paste0(y.name, " ~ ", features))
 
-    # Grid Search for prune.cp ====
+    # Grid Search for prune.cp ----
     if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
         gs <- gridSearchLearn(x0, y0,
             mod = mod.name,
@@ -249,7 +249,7 @@ s_CART <- function(x, y = NULL,
         na.action = na.action
     )
 
-    # rpart ====
+    # rpart ----
     if (verbose) msg("Training CART...", newline.pre = TRUE)
     mod <- rpart::rpart(
         formula = .formula,
@@ -263,7 +263,7 @@ s_CART <- function(x, y = NULL,
         na.action = na.action
     )
 
-    # Cost-Complexity Pruning ====
+    # Cost-Complexity Pruning ----
     if (!is.null(prune.cp)) {
         if (return.unpruned) mod.unpruned <- mod
         if (use.prune.rpart.rt) {
@@ -273,7 +273,7 @@ s_CART <- function(x, y = NULL,
         }
     }
 
-    # Fitted ====
+    # Fitted ----
     fitted.prob <- NULL
     if (type == "Regression" | type == "Survival") {
         fitted <- predict(mod, x, type = "vector")
@@ -291,7 +291,7 @@ s_CART <- function(x, y = NULL,
     error.train <- modError(y, fitted, fitted.prob)
     if (verbose) errorSummary(error.train, mod.name)
 
-    # Predicted ====
+    # Predicted ----
     predicted.prob <- predicted <- error.test <- NULL
     if (!is.null(x.test)) {
         if (type == "Regression" | type == "Survival") {
@@ -313,7 +313,7 @@ s_CART <- function(x, y = NULL,
         predicted <- predicted.prob <- error.test <- NULL
     }
 
-    # Outro ====
+    # Outro ----
     varimp <- rep(NA, NCOL(x))
     varimp.cart <- if (!is.null(mod$variable.importance)) as.matrix(mod$variable.importance) else NULL
     varimp.index <- match(rownames(varimp.cart), colnames(x))

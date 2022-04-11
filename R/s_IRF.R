@@ -55,7 +55,7 @@ s_IRF <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_IRF))
     return(invisible(9))
@@ -69,10 +69,10 @@ s_IRF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "IRF"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("iRF")
   
-  # Arguments ====
+  # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_IRF))
     stop("y is missing")
@@ -83,7 +83,7 @@ s_IRF <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     upsample = upsample,
@@ -118,7 +118,7 @@ s_IRF <- function(x, y = NULL,
     sampsize <- if (replace) nrow(x) else ceiling(.632*nrow(x))
   }
 
-  # iRF::tuneRF/iRF ====
+  # iRF::tuneRF/iRF ----
   if (autotune) {
     if (verbose) msg("Tuning for mtry...")
     tuner <- iRF::tuneRF(x = x, y = y,
@@ -153,7 +153,7 @@ s_IRF <- function(x, y = NULL,
                      n.trees = n.trees,
                      mtry = mtry)
 
-  # Fitted ====
+  # Fitted ----
   fitted.raw <- lapply(mod$rf.list, function(i) predict(i, x))
   if (type == "Classification") {
     fitted <- factor(apply(do.call(cbind, fitted.raw), 1, function(i) as.integer(mean(i))))
@@ -164,7 +164,7 @@ s_IRF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   if (!is.null(x.test)) {
     predicted.raw <- lapply(mod$rf.list, function(i) predict(i, x.test))
     if (type == "Classification") {
@@ -183,7 +183,7 @@ s_IRF <- function(x, y = NULL,
     predicted.raw <- predicted <- error.test <- NULL
   }
 
-  # Variable importance ====
+  # Variable importance ----
   if (importance) {
     metric <- if (type == "Classification") "MeanDecreaseAccuracy" else "%IncMSE"
     varimp.raw <- lapply(mod$rf.list, function(i) i$importance[, metric])
@@ -192,7 +192,7 @@ s_IRF <- function(x, y = NULL,
     varimp <- NULL
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(fitted.raw = fitted.raw,
                 predicted.raw = predicted.raw)
   if (!is.null(importance)) extra$var.imp <- mod$variable.importance

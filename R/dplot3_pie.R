@@ -48,10 +48,10 @@ dplot3_pie <-  function(
             file.height = 500,
             file.scale = 1, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("plotly")
 
-  # Names ====
+  # Names ----
   .input.name <- deparse(substitute(x))
   .rownames <- rownames(x)
   .colnames <- colnames(x)
@@ -83,13 +83,13 @@ dplot3_pie <-  function(
 
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
-  # Colors ====
+  # Colors ----
   if (is.character(palette)) palette <- rtPalette(palette)
   p <- NROW(x)
   if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -109,7 +109,7 @@ dplot3_pie <-  function(
   if (is.null(legend.col)) legend.col <- labs.col
   sep.col <- if (is.null(sep.col)) bg else plotly::toRGB(sep.col)
 
-  # plotly ====
+  # plotly ----
   plt <- plotly::plot_ly(labels = .cat.names,
                          values = x[, 1],
                          type = 'pie',
@@ -119,7 +119,7 @@ dplot3_pie <-  function(
                          marker = list(colors = unlist(col),
                                        line = list(color = sep.col, width = 1)))
 
-  ## layout ====
+  ## layout ----
   f <- list(family = theme$font.family,
             size = font.size,
             color = labs.col)
@@ -154,7 +154,7 @@ dplot3_pie <-  function(
                         displaylogo = FALSE,
                         displayModeBar = displayModeBar)
 
-  # Write to file ====
+  # Write to file ----
   if (!is.null(filename)) {
       plotly::save_image(
           plt,

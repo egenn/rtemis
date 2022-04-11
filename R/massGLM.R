@@ -59,10 +59,10 @@ massGLM <- function(x, y,
             trace = 0,
             n.cores = 1) {
 
-    # Intro ====
+    # Intro ----
     start.time <- intro(verbose = verbose)
 
-    # Data ====
+    # Data ----
     if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
     if (trace > 0) msg0('massGLM type is "', type, '"')
     if (type == "massx") {
@@ -92,7 +92,7 @@ massGLM <- function(x, y,
     dat <- data.frame(x, y)
     colnames(dat) <- c(xnames, ynames)
 
-    # mod1: Loop function ====
+    # mod1: Loop function ----
     mod1 <- function(index, dat, type) {
         if (type == "massx") {
             .formula <- as.formula(paste(ynames, "~", xnames[index]))
@@ -105,7 +105,7 @@ massGLM <- function(x, y,
         }
     }
 
-    # Models ====
+    # Models ----
     if (verbose) msg("Training mass-GLM models...")
     if (verbose) {
         pbapply::pboptions(type = "timer")
@@ -119,7 +119,7 @@ massGLM <- function(x, y,
     )
     names(mods) <- if (type == "massx") xnames else ynames
 
-    # Outro ====
+    # Outro ----
     out <- list(
         mods = if (save.mods) mods else NULL,
         summary = glm2table(mods, include_anova_pvals = include_anova_pvals),
@@ -225,7 +225,7 @@ plot.massGLM <- function(x,
         # )
         pval_idi <- which(names(x$summary) == paste("p_value", predictor))
         if (what == "pvals") {
-            # p-values ====
+            # p-values ----
             if (is.null(main)) main <- "p-values"
             pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
             .name <- gsub("p_value ", "", names(x$summary)[pval_idi])
@@ -259,7 +259,7 @@ plot.massGLM <- function(x,
                 displayModeBar = displayModeBar, ...
             )
         } else if (what == "coefs") {
-            # Coefficients ====
+            # Coefficients ----
             if (is.null(main)) main <- "Coefficients"
             coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
             .name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
@@ -281,7 +281,7 @@ plot.massGLM <- function(x,
                 displayModeBar = displayModeBar, ...
             )
         } else {
-            # Volcano ====
+            # Volcano ----
             coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
             dplot3_volcano(
                 x = x$summary[[coef_idi]],

@@ -148,7 +148,7 @@ mplot3_heatmap <- function(x,
                            pdf.width = 7,
                            pdf.height = 7, ...) {
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -162,7 +162,7 @@ mplot3_heatmap <- function(x,
   col.axis <- theme$fg
   if (is.null(cb.cex)) cb.cex <- theme$cex
 
-  # Color ====
+  # Color ----
   col <- colorGrad(n = colorGrad.n,
                    colors = colorGrad.col,
                    space = space,
@@ -172,7 +172,7 @@ mplot3_heatmap <- function(x,
                    midhi = midhi,
                    hi = hi)
 
-  # Row and Col groups ====
+  # Row and Col groups ----
   if (!is.null(group.columns) & missing(ColSideColors)) {
     group.columns <- factor(group.columns)
     if (is.character(column.palette)) column.palette <- rtPalette(column.palette)
@@ -187,7 +187,7 @@ mplot3_heatmap <- function(x,
     RowSideColors <- unlist(row.palette)[group.rows]
   }
 
-  # zlim ====
+  # zlim ----
   if (is.null(zlim)) {
     if (autorange) {
       max.z <- max(abs(x), na.rm = TRUE)
@@ -197,7 +197,7 @@ mplot3_heatmap <- function(x,
     }
   }
 
-  # Automargins ====
+  # Automargins ----
   if (is.null(margins)) {
     # names.nchar <- nchar(c(colnames(x), rownames(x)))
     # max.nchar <- max(0, names.nchar)
@@ -319,7 +319,7 @@ mplot3_heatmap <- function(x,
   dev.hold()
   on.exit(dev.flush())
 
-  # par ====
+  # par ----
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   op <- par(no.readonly = TRUE)
@@ -374,14 +374,14 @@ mplot3_heatmap <- function(x,
   if (!missing(add.expr))
     eval.parent(substitute(add.expr))
 
-  # Main Title ====
+  # Main Title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
     rtenv$autolabel <- rtenv$autolabel + 1
   }
 
-  # Plot ====
+  # Plot ----
   par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)
   if (doRdend)
     plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
@@ -398,7 +398,7 @@ mplot3_heatmap <- function(x,
     title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
   }
 
-  # Colorbar ====
+  # Colorbar ----
   if (colorbar) {
     frame()
     # par(xpd = NA)
@@ -432,7 +432,7 @@ mplot3_heatmap <- function(x,
     if (!is.null(cb.title)) mtext(text = cb.title, cex = cb.title.cex)
   }
 
-  # (column) Group names ====
+  # (column) Group names ----
   if (group.legend) {
     group.names <- levels(group.columns)
     ngroups <- length(group.names)

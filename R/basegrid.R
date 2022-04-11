@@ -9,7 +9,7 @@ basegrid <- function(x = NULL,
                      lwd = NULL,
                      theme = getOption("rt.theme")) {
   
-  # Theme ====
+  # Theme ----
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), list())
   } else {

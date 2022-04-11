@@ -64,7 +64,7 @@ mplot3_laterality <- function(x, regionnames,
     mar <- c(bottom.mar, 3, 2, 1)
   }
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -74,7 +74,7 @@ mplot3_laterality <- function(x, regionnames,
     }
   }
 
-  # Plot ====
+  # Plot ----
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -90,12 +90,12 @@ mplot3_laterality <- function(x, regionnames,
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # Plot bg ====
+  # Plot bg ----
   if (theme$plot.bg != "transparent") {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # Grid ====
+  # Grid ----
   if (theme$grid) {
       grid(nx = 0,
            ny = theme$grid.ny,
@@ -104,7 +104,7 @@ mplot3_laterality <- function(x, regionnames,
            lwd = theme$grid.lwd)
   }
 
-  # lat plot ====
+  # lat plot ----
   line.col <- adjustcolor(line.col, line.alpha)
   delta <- numeric(length(regionnames))
   for (i in seq_along(regionnames)) {
@@ -121,7 +121,7 @@ mplot3_laterality <- function(x, regionnames,
     delta[i] <- vright.summary - vleft.summary
   }
 
-  # y-axis ====
+  # y-axis ----
   axis(side = 2,
        las = theme$y.axis.las,
        padj = theme$y.axis.padj,
@@ -134,21 +134,21 @@ mplot3_laterality <- function(x, regionnames,
        cex = theme$cex,
        family = theme$font.family)
 
-  # regionnames ====
+  # regionnames ----
   mtext(text = if (labelify) labelify(regionnames) else regionnames,
         side = 1,
         line = 1,
         las = 2, at = seq(regionnames)*2 - .5,
         col = theme$labs.col)
 
-  # ylab ====
+  # ylab ----
   if (!is.null(ylab)) mtext(ylab, side = theme$y.axis.side,
                             line = theme$ylab.line, cex = theme$cex,
                             # adj = ylab.adj,
                             col = theme$labs.col,
                             family = theme$font.family)
 
-  # deltas ====
+  # deltas ----
   if (deltas) {
     mtext(text = paste(summary.fn, "delta"),
           side = 3, line = 1.1, adj = 0,
@@ -159,7 +159,7 @@ mplot3_laterality <- function(x, regionnames,
           col = unlist(summary.col))
   }
 
-  # Main Title ====
+  # Main Title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -173,7 +173,7 @@ mplot3_laterality <- function(x, regionnames,
           family = theme$font.family)
   }
 
-  # Outro ====
+  # Outro ----
   if (!is.null(filename)) dev.off()
   invisible(delta)
 

@@ -36,7 +36,7 @@ s_CTREE <- function(x, y = NULL,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_CTREE))
     invisible(9)
@@ -50,10 +50,10 @@ s_CTREE <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "CTREE"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("partykit")
 
-  # Arguments ====
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -61,7 +61,7 @@ s_CTREE <- function(x, y = NULL,
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
                     ipw = ipw,
                     ipw.type = ipw.type,
@@ -84,12 +84,12 @@ s_CTREE <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # Formula ====
+  # Formula ----
   df.train <- data.frame(y = y, x)
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste(y.name, "~", features))
 
-  # CTREE ====
+  # CTREE ----
   if (verbose) msg("Training Conditional Inference Tree...", newline.pre = TRUE)
   # Instead of loading the whole package
   # because partykit::ctree does this:
@@ -101,7 +101,7 @@ s_CTREE <- function(x, y = NULL,
                          weights = weights,
                          control = control, ...)
 
-  # Fitted ====
+  # Fitted ----
   if (type == "Classification") {
     fitted.prob <- predict(mod, x, type = "prob")
   }
@@ -109,7 +109,7 @@ s_CTREE <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted.prob <- predict(mod, x.test, type = "prob")
@@ -120,7 +120,7 @@ s_CTREE <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list(formula = .formula,
                 weights = weights)
   if (type == "Classification") {

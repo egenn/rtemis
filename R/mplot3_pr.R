@@ -47,10 +47,10 @@ mplot3_pr <- function(prob, labels,
                       pdf.width = 5,
                       pdf.height = 5, ...) {
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("PRROC")
 
-  # Arguments ====
+  # Arguments ----
   # Output directory
   if (!is.null(filename))
     if (!dir.exists(dirname(filename)))
@@ -66,7 +66,7 @@ mplot3_pr <- function(prob, labels,
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -77,7 +77,7 @@ mplot3_pr <- function(prob, labels,
   }
   theme$zerolines <- FALSE
 
-  # PR ====
+  # PR ----
   pr <- lapply(seq_along(probl), function(i)
     PRROC::pr.curve(scores.class0 = probl[[i]], weights.class0 = 2 - as.numeric(labelsl[[i]]),
                     curve = TRUE))
@@ -91,10 +91,10 @@ mplot3_pr <- function(prob, labels,
     F1.max.index <- lapply(seq_along(probl), function(i) which.max(F1[[i]]))
   }
 
-  # Colors ====
+  # Colors ----
   if (is.null(col)) col <- rtPalette(palette)
 
-  # mplot3_xy ====
+  # mplot3_xy ----
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -124,7 +124,7 @@ mplot3_pr <- function(prob, labels,
     }
   }
 
-  # PR Annotation ====
+  # PR Annotation ----
   if (annotation) {
     auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
     if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
@@ -138,7 +138,7 @@ mplot3_pr <- function(prob, labels,
           family = theme$font.family)
   }
 
-  # Outro ====
+  # Outro ----
   if (!is.null(filename)) dev.off()
 
   invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))

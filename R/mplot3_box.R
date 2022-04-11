@@ -92,7 +92,7 @@ mplot3_box <- function(x,
                        pdf.height = 6,
                        filename = NULL, ...) {
 
-  # Arguments ====
+  # Arguments ----
   .grouped <- is.list(x) & is.list(x[[1]])
   if (.grouped) {
     ngroups <- length(x)
@@ -161,7 +161,7 @@ mplot3_box <- function(x,
     }
   }
 
-  # mar ====
+  # mar ----
   if (is.null(mar)) {
     # mar.bottom <- if (xnames.srt != 0) 1.8571 + max(nchar(xnames)) * .4107 else 2.5
     mar.bottom <- if (xnames.srt != 0) textwidth(xnames) else 2.5
@@ -179,7 +179,7 @@ mplot3_box <- function(x,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -189,7 +189,7 @@ mplot3_box <- function(x,
     }
   }
 
-  # xlim & ylim ====
+  # xlim & ylim ----
   xv <- unlist(x)
 
   if (is.null(xlim)) {
@@ -207,7 +207,7 @@ mplot3_box <- function(x,
     xlim <- xxlim
   }
 
-  # Plot ====
+  # Plot ----
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -223,12 +223,12 @@ mplot3_box <- function(x,
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # Plot bg ====
+  # Plot bg ----
   if (theme$plot.bg != "transparent") {
     rect(xlim[1], ylim[1], xlim[2], ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # Grid ====
+  # Grid ----
   if (theme$grid) {
     if (horizontal) {
       grid(nx = theme$grid.nx,
@@ -245,7 +245,7 @@ mplot3_box <- function(x,
     }
   }
 
-  # Order by fn ====
+  # Order by fn ----
   if (!.grouped & !is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
@@ -265,7 +265,7 @@ mplot3_box <- function(x,
     if (!is.null(groupnames)) groupnames <- groupnames[.order]
   }
 
-  # Boxplot ====
+  # Boxplot ----
   if (.grouped) {
     bp <- vector("list", length(x))
     for (i in seq_along(x)) {
@@ -292,7 +292,7 @@ mplot3_box <- function(x,
                   xlab = NULL)
   }
 
-  # y axis ====
+  # y axis ----
   if (yaxis) {
     axis(side = if (horizontal) 1 else 2,
          las = if (horizontal) theme$x.axis.las else theme$y.axis.las,
@@ -307,7 +307,7 @@ mplot3_box <- function(x,
          family = theme$font.family)
   }
 
-  # Main Title ====
+  # Main Title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -321,7 +321,7 @@ mplot3_box <- function(x,
           family = theme$font.family)
   }
 
-  # xnames ====
+  # xnames ----
   if (length(xnames) > 0 & !.grouped) {
     if (horizontal) {
       # .x <- xlim[1] - .04 * diff(xlim)
@@ -349,7 +349,7 @@ mplot3_box <- function(x,
     }
   }
 
-  # Axes Labels ====
+  # Axes Labels ----
   # if (!is.null(xlab))  mtext(xlab, 1, cex = theme$cex, line = theme$xlab.line)
   # if (!is.null(ylab))  mtext(ylab, 2, cex = theme$cex, line = theme$ylab.line)
 
@@ -364,7 +364,7 @@ mplot3_box <- function(x,
                             col = theme$labs.col,
                             family = theme$font.family)
 
-  # Group names and legend ====
+  # Group names and legend ----
   if (.grouped) {
 
     # Group names below x-axis
@@ -380,7 +380,7 @@ mplot3_box <- function(x,
                 col = col)
   }
 
-  # Outro ====
+  # Outro ----
   if (!is.null(filename)) dev.off()
   invisible(bp)
 

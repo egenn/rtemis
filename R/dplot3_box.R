@@ -148,10 +148,10 @@ dplot3_box <- function(
             print.plot = TRUE,
             ...) {
 
-    # Dependencies ====
+    # Dependencies ----
     dependency_check("plotly")
 
-    # Arguments ====
+    # Arguments ----
     type <- match.arg(type)
     x.transform <- match.arg(x.transform)
 
@@ -183,7 +183,7 @@ dplot3_box <- function(
         }
     }
 
-    # Order by fn ====
+    # Order by fn ----
     if (!is.null(order.by.fn) && order.by.fn != "none") {
         if (is.null(time)) {
             if (is.list(x)) {
@@ -214,14 +214,14 @@ dplot3_box <- function(
         if (labelify) .xnames <- labelify(.xnames)
     }
 
-    # Colors ====
+    # Colors ----
     if (is.character(palette)) palette <- rtPalette(palette)
     if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
     if (!is.null(order.by.fn) && order.by.fn != "none") {
         col <- col[.order]
     }
 
-    # Theme ====
+    # Theme ----
     extraargs <- list(...)
     if (is.character(theme)) {
         theme <- do.call(paste0("theme_", theme), extraargs)
@@ -245,7 +245,7 @@ dplot3_box <- function(
 
     if (is.null(time)) {
         if (is.null(group)) {
-            # A.1 Single and multiple boxplots ====
+            # A.1 Single and multiple boxplots ----
             if (is.null(legend)) legend <- FALSE
             args <- if (horizontal) {
                 list(x = x[[1]], y = NULL)
@@ -333,7 +333,7 @@ dplot3_box <- function(
             }
         } else {
             if (use_plotly_group) {
-                # A.2.a. Grouped boxplots with [group] ====
+                # A.2.a. Grouped boxplots with [group] ----
                 # Best to use this for multiple variables x group.
                 # For single variables x group, preferred way it to use split(var, group) => A1
                 if (is.null(legend)) legend <- TRUE
@@ -372,7 +372,7 @@ dplot3_box <- function(
                         yaxis = if (horizontal) cataxis else NULL
                     )
             } else {
-                # A.2.b Grouped boxplots with split and loop ====
+                # A.2.b Grouped boxplots with split and loop ----
                 # Replaces A.2.a to allow annotation positioning
                 if (is.null(legend)) legend <- TRUE
                 dts <- split(data.table::as.data.table(x), group, drop = TRUE)
@@ -476,7 +476,7 @@ dplot3_box <- function(
             }
         }
     } else {
-        # B. Time-binned boxplots ====
+        # B. Time-binned boxplots ----
         time.bin <- match.arg(time.bin)
         if (is.null(xlab)) xlab <- ""
         if (is.null(ylab)) ylab <- ""
@@ -540,7 +540,7 @@ dplot3_box <- function(
             plt |> plotly::layout(boxmode = "group") -> plt
         }
 
-        ## annotations ====
+        ## annotations ----
         if (is.null(group) & annotate_n) {
             Nperbox <- Npertimeperiod[[2]] # include zeros
             plt |>
@@ -573,7 +573,7 @@ dplot3_box <- function(
         }
     } # /time-binned boxplots
 
-    # layout ====
+    # layout ----
     f <- list(
         family = theme$font.family,
         size = font.size,
@@ -651,7 +651,7 @@ dplot3_box <- function(
         )
     )
 
-    # Write to file ====
+    # Write to file ----
     if (!is.null(filename)) {
         plotly::save_image(
             plt,

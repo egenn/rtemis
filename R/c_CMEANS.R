@@ -32,19 +32,19 @@ c_CMEANS <- function(x,
                      control = list(),
                      verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "CMEANS"
 
-  # Data ====
+  # Data ----
   .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
   x <- as.data.frame(x)
   xnames <- colnames(x) <- .colnames
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("e1071")
 
-  # CMEANS ====
+  # CMEANS ----
   if (verbose) msg0("Running Fuzzy C-means clustering with k = ", k, "...")
   clust <- e1071::cmeans(x, centers = k, iter.max = iter.max,
                          dist = dist,
@@ -54,11 +54,11 @@ c_CMEANS <- function(x,
                          weights = weights,
                          control = control, ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- clust$cluster
   clusters.test <- NULL
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

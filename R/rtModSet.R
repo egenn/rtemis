@@ -61,7 +61,7 @@ rtModSet <- function(rtclass = "rtMod",
                      question = character(),
                      extra = list()) {
 
-  # Arguments ====
+  # Arguments ----
   # rtclass will be NULL in all s.* learners so that it can be set to the same default
   if (is.null(rtclass)) rtclass <- "rtMod"
   if (type == "Classification" && rtclass == "rtMod") rtclass <- "rtModClass"
@@ -72,7 +72,7 @@ rtModSet <- function(rtclass = "rtMod",
   error.test <- ifNotNull(error.test, list)
 
   if (rtclass == "rtMod") {
-    # R6: rtMod ====
+    # R6: rtMod ----
     s.out <- rtMod$new(mod = mod,
                        mod.name = mod.name,
                        type = type,
@@ -94,7 +94,7 @@ rtModSet <- function(rtclass = "rtMod",
                        question = ifNotNull(question, character),
                        extra = ifNotNull(extra, list))
   } else if (rtclass == "rtModClass") {
-    # R6: rtModClass ====
+    # R6: rtModClass ----
     s.out <- rtModClass$new(mod = mod,
                             mod.name = mod.name,
                             type = type,
@@ -117,7 +117,7 @@ rtModSet <- function(rtclass = "rtMod",
                             question = ifNotNull(question, character),
                             extra = ifNotNull(extra, list))
   } else if (rtclass == "rtModBag") {
-    # R6: rtModBag ====
+    # R6: rtModBag ----
     s.out <- rtModBag$new(mod = mod,
                           mod.name = mod.name,
                           type = type,
@@ -141,7 +141,7 @@ rtModSet <- function(rtclass = "rtMod",
                           question = ifNotNull(question, character),
                           extra = ifNotNull(extra, list))
   } else if (rtclass == "rtModLite") {
-    # R6: rtModLite ====
+    # R6: rtModLite ----
     s.out <- rtModLite$new(mod = mod,
                            mod.name = mod.name,
                            fitted = fitted)

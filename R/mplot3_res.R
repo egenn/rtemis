@@ -23,7 +23,7 @@ mplot3_res <- function(res,
                        mar = NULL,
                        theme = getOption("rt.theme"), ...) {
 
-  # [ Theme ] ====
+  # [ Theme ] ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -40,7 +40,7 @@ mplot3_res <- function(res,
   ynames <- names(res)
   # if (is.null(mar)) mar <- c(2, 7, 2, .5)
 
-  # [ Plot ] ====
+  # [ Plot ] ----
   mplot3_img(resn,
              theme = theme,
              col = col,

@@ -18,11 +18,11 @@ classError <- function(true, estimated,
                        estimated.prob = NULL,
                        trace = 0) {
 
-  # Input ====
+  # Input ----
   # Binary class probabilities for now only
   if (length(estimated.prob) > length(true)) estimated.prob <- NULL
 
-  # Metrics ====
+  # Metrics ----
   if (!all(levels(true) == levels(estimated))) stop("True and Estimated must have the same levels")
   true.levels <- levels(true)
   n.classes <- length(true.levels)
@@ -63,7 +63,7 @@ classError <- function(true, estimated,
   Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
   # attr(Class$F1, "Formula") <- "2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)"
 
-  # Binary vs Multiclass ====
+  # Binary vs Multiclass ----
   if (n.classes == 2) {
     Overall$Sensitivity <- Class$Sensitivity[1]
     Overall$Specificity <- Class$Specificity[1]
@@ -82,13 +82,13 @@ classError <- function(true, estimated,
   Overall$Accuracy <- sum(Class$Hits)/Total
   # attr(Overall$Accuracy, "Formula") <- "sum(Class$Hits)/Total"
 
-  # Prob-based ====
+  # Prob-based ----
   if (!is.null(estimated.prob) & n.classes == 2) {
     Overall$AUC <- auc(estimated.prob, true)
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
 
-  # Outro ====
+  # Outro ----
   # Overall <- as.data.frame(do.call(rbind, Overall))
   Overall <- as.data.frame(do.call(cbind, Overall))
   rownames(Overall) <- "Overall"

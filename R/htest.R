@@ -66,7 +66,7 @@ htest <- function(y, group = NULL,
                   theme = getOption("rt.theme"),
                   verbose = TRUE, ...) {
 
-  # Arguments ====
+  # Arguments ----
   .y <- deparse(substitute(y))
   if (is.null(yname)) yname <- .y
   if (is.null(x)) {
@@ -94,7 +94,7 @@ htest <- function(y, group = NULL,
     test <- match.arg(test)
   }
 
-  # Test ====
+  # Test ----
   if (verbose) {
     testname <- switch(test,
       pearson = "Correlation test (Pearson)",
@@ -152,7 +152,7 @@ htest <- function(y, group = NULL,
     }
   }
 
-  # Pval ====
+  # Pval ----
   p.value <- if (test == "aov") {
     summary(.t)[[1]][1, 5]
   } else {
@@ -202,7 +202,7 @@ plot.rtTest <- function(x,
                         theme = getOption("rt.theme"),
                         par.reset = TRUE, ...) {
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -212,7 +212,7 @@ plot.rtTest <- function(x,
     }
   }
 
-  # Main ====
+  # Main ----
   if (is.null(main)) {
     main <- if (x$testname %in% c("pearson", "kendall", "spearman")) {
       paste(x$testname, "cor.test p-value =", ddSci(x$p.value))
@@ -221,7 +221,7 @@ plot.rtTest <- function(x,
     }
   }
 
-  # Plot ====
+  # Plot ----
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -255,7 +255,7 @@ plot.rtTest <- function(x,
               mar = mar, par.reset = FALSE)
   }
 
-  # Title and sub ====
+  # Title and sub ----
   mtext(x$formula, side = 3, line = 1.5, adj = 0, font = 2, col = theme$fg, xpd = TRUE)
   mtext(main, side = 3, line = .5, adj = 0, font = 1, col = theme$fg, xpd = TRUE)
 

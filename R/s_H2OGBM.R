@@ -77,7 +77,7 @@ s_H2OGBM <- function(x, y = NULL,
                      save.mod = FALSE,
                      outdir = NULL, ...) {
 
-  # Intro ====
+  # Intro ----
   if (missing(x)) {
     print(args(s_H2OGBM))
     return(invisible(9))
@@ -91,10 +91,10 @@ s_H2OGBM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "H2OGBM"
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("h2o")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(s_H2OGBM)); stop("x is missing")
   }
@@ -110,7 +110,7 @@ s_H2OGBM <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
-  # Data ====
+  # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -157,7 +157,7 @@ s_H2OGBM <- function(x, y = NULL,
     }
   }
 
-  # Grid Search ====
+  # Grid Search ----
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced Accuracy"
@@ -226,7 +226,7 @@ s_H2OGBM <- function(x, y = NULL,
                      p.row.sample = p.row.sample,
                      minobsinnode = minobsinnode)
 
-  # h2o::h2o.gbm ====
+  # h2o::h2o.gbm ----
   if (.final) {
     # Use estimated n.trees from grid search. These will be at most n.trees defined originally
     n.stopping.rounds <- 0
@@ -253,7 +253,7 @@ s_H2OGBM <- function(x, y = NULL,
 
   if (trace > 0) print(mod)
 
-  # Fitted ====
+  # Fitted ----
   if (verbose) msg("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
@@ -262,7 +262,7 @@ s_H2OGBM <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted ====
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg("Getting predicted values...")
@@ -281,7 +281,7 @@ s_H2OGBM <- function(x, y = NULL,
     }
   }
 
-  # Outro ====
+  # Outro ----
   extra <- list()
   if (imetrics) {
     extra$imetrics <- list(n.nodes = (2 ^ max.depth) * n.trees,

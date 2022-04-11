@@ -56,9 +56,9 @@ dataPrepare <- function(x, y = NULL,
         }
     }
 
-    # x/y, train/test ====
+    # x/y, train/test ----
 
-    # '- (x = x.train_y, y = x.test_y) ====
+    # '- (x = x.train_y, y = x.test_y) ----
     if (!is.null(y) && NCOL(y) > 1 && !inherits(y, "Surv") && NCOL(y) == ncol.x && is.null(x.test) && is.null(y.test)) {
         y <- as.data.frame(y)
         y.test <- y[, ncol.x]
@@ -67,14 +67,14 @@ dataPrepare <- function(x, y = NULL,
         x <- x[, -ncol.x]
     }
 
-    # '- (x = x.train_y) or (x = x.train_y, x.test = x.test_y) ====
+    # '- (x = x.train_y) or (x = x.train_y, x.test = x.test_y) ----
     # If no y is specified, assume it is the last column of x
     if (is.null(y) & ncol.x > 1) {
         y <- x[, ncol.x]
         x <- x[, -ncol.x, drop = FALSE]
     }
 
-    # '- (x = x.train_y, x.test = x.test_y) ====
+    # '- (x = x.train_y, x.test = x.test_y) ----
     if (!is.null(x.test) & is.null(y.test) & NCOL(x.test) == ncol.x) {
         y.test <- x.test[, ncol.x]
         x.test <- x.test[, seq(ncol.x - 1)]
@@ -85,7 +85,7 @@ dataPrepare <- function(x, y = NULL,
         x.valid <- x.valid[, seq(ncol.x - 1)]
     }
 
-    # preprocess ====
+    # preprocess ----
     if (!is.null(.preprocess)) {
         .preprocess$x <- x
         x <- do.call(preprocess, .preprocess)
@@ -107,7 +107,7 @@ dataPrepare <- function(x, y = NULL,
     #   if (!is.null(x.test)) if (NCOL(x.test) == 1) x.test <- as.data.frame(x.test)
     # }
 
-    # xnames and Dimensions check ====
+    # xnames and Dimensions check ----
     if (class(x)[1] == "list") {
         # for meta models
         # Test list lengths match
@@ -155,7 +155,7 @@ dataPrepare <- function(x, y = NULL,
         # [ end for meta.list ]
     } else {
         # x is not list
-        # '- Test dimensions match ====
+        # '- Test dimensions match ----
         if (NROW(x) != NROW(y)) stop("Training set features and outcome do not contain same number of cases")
         if (!is.null(x.test)) {
             if (NCOL(x) != NCOL(x.test)) {
@@ -168,7 +168,7 @@ dataPrepare <- function(x, y = NULL,
             }
         }
 
-        # '- Column names ====
+        # '- Column names ----
         xnames <- colnames(x)
         if (!is.null(x.test)) {
             x.test <- as.data.frame(x.test)
@@ -176,7 +176,7 @@ dataPrepare <- function(x, y = NULL,
         }
     } # //xnames and dimensions check
 
-    # Filter y NAs ====
+    # Filter y NAs ----
     if (filter.y.na) {
         if (anyNA(y)) {
             if (verbose) {
@@ -188,7 +188,7 @@ dataPrepare <- function(x, y = NULL,
         }
     }
 
-    # Type ====
+    # Type ----
     if (!is.null(dim(y)) && class(y) != "Surv") y <- as.vector(y)
     type <- switch(class(y),
         factor = "Classification",
@@ -196,7 +196,7 @@ dataPrepare <- function(x, y = NULL,
         "Regression"
     )
 
-    # UPSAMPLE: balance outcome class ====
+    # UPSAMPLE: balance outcome class ----
     if (type == "Classification" & upsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
@@ -229,7 +229,7 @@ dataPrepare <- function(x, y = NULL,
         x0 <- y0 <- NULL
     }
 
-    # DOWNSAMPLE: balance outcome class ====
+    # DOWNSAMPLE: balance outcome class ----
     if (type == "Classification" & downsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
@@ -254,7 +254,7 @@ dataPrepare <- function(x, y = NULL,
         x0 <- y0 <- NULL
     }
 
-    # IPW: Inverse Probability Weighting for Classification ====
+    # IPW: Inverse Probability Weighting for Classification ----
     class.weights <- weights <- NULL
     if (type == "Classification" & ipw) {
         freq <- as.data.frame(table(y))[, 2]
@@ -273,12 +273,12 @@ dataPrepare <- function(x, y = NULL,
         }
     }
 
-    # Survival ====
+    # Survival ----
     if (survival::is.Surv(y)) {
         type <- "Survival"
     }
 
-    # Outro ====
+    # Outro ----
     list(
         x = x, y = y,
         x.test = x.test, y.test = y.test,

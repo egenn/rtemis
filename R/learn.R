@@ -24,13 +24,13 @@ learn <- function(x, y = NULL,
                   verbose = TRUE,
                   print.plot = TRUE, ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   if (missing(x) | missing(y)) {
     cat("Usage:\n  learn(x, y, 'mod', x.test[optional], y.test[optional], ...)\n\n")
     return(modSelect())
   }
 
-  # [ LEARNER ] ====
+  # [ LEARNER ] ----
   mod <- R.utils::doCall(modSelect(mod),
                          x = x, y = y,
                          x.test = x.test, y.test = y.test,

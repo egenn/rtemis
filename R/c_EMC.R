@@ -26,25 +26,25 @@ c_EMC <- function(x, x.test = NULL,
                   # maxiter = 100,
                   verbose = TRUE, ...) {
 
-  # Intro ====
+  # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "EMC"
 
-  # Data ====
+  # Data ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   x <- as.data.frame(x)
   xnames <- colnames(x)
 
-  # Dependencies ====
+  # Dependencies ----
   dependency_check("EMCluster")
 
-  # Arguments ====
+  # Arguments ----
   if (missing(x)) {
     print(args(c_EMC))
     stop("x is missing")
   }
 
-  # EMC ====
+  # EMC ----
   if (verbose) msg("Initializing EM Clustering...")
   emobj <- EMCluster::simple.init(x, nclass = k)
   if (verbose) msg("Performing EM Clustering...")
@@ -53,10 +53,10 @@ c_EMC <- function(x, x.test = NULL,
                                 EMC = EMC,
                                 assign.class = TRUE, ...)
 
-  # Clusters ====
+  # Clusters ----
   clusters.train <- clust$class
 
-  # Outro ====
+  # Outro ----
   cl <- rtClust$new(clust.name = clust.name,
                     k = k,
                     xnames = xnames,

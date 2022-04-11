@@ -20,24 +20,24 @@ massUni <- function(x, y, mod = "gam",
                     verbose = TRUE,
                     n.cores = rtCores, ...) {
 
-  # [ Intro ] ====
+  # [ Intro ] ----
   start.time <- intro(verbose = verbose)
 
-  # [ Arguments ] ====
+  # [ Arguments ] ----
   learner <- modSelect(mod)
   args <- list(...)
 
-  # [ Data ] ====
+  # [ Data ] ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   ynames <- colnames(y)
 
-  # [ MOD1 ] ====
+  # [ MOD1 ] ----
   mod1 <- function(index, x, y, learner, args) {
     mod.1 <- R.utils::doCall(learner, x = x, y = y[, index], print.plot = FALSE, args = args)
     return(mod.1)
   }
 
-  # [ MODS ] ====
+  # [ MODS ] ----
   if (verbose) msg("Training mass-univariate models")
   if (verbose) {
     pbapply::pboptions(type = "timer")
@@ -48,14 +48,14 @@ massUni <- function(x, y, mod = "gam",
                             learner = learner, args = args,
                             cl = n.cores)
 
-  # [ ERRORS ] ====
+  # [ ERRORS ] ----
   if (verbose) msg("Collecting model errors")
   errors <- t(sapply(mods, function(m) as.data.frame(m$error.train)))
   rownames(errors) <- ynames
   # errors <- plyr::ldply(mods, function(m) as.data.frame(m$error.train), .progress = "text")
   # errors <- t(pbapply::pbsapply(mods, function(m) as.data.frame(m$error.train)))
 
-  # [ Outro ] ====
+  # [ Outro ] ----
   outro(start.time, verbose = verbose)
   if (!save.mods) mods <- NULL
   list(mods = mods,

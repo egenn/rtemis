@@ -67,7 +67,7 @@ mplot3_lolli <- function(x,
                          ylab.adj = .5,
                          filename = NULL, ...) {
 
-  # Arguments ====
+  # Arguments ----
   orientation <- match.arg(orientation)
   .horizontal <- orientation == "horizontal"
   if (.horizontal) {
@@ -84,7 +84,7 @@ mplot3_lolli <- function(x,
     }
   }
 
-  # Index ====
+  # Index ----
   if (plot.top != 1) {
     index <- if (plot.top <= 1) {
       order(abs(x))[(length(x) - plot.top * length(x)):length(x)]
@@ -107,7 +107,7 @@ mplot3_lolli <- function(x,
     dir.create(dirname(filename), recursive = TRUE)
   }
 
-  # Theme ====
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -117,12 +117,12 @@ mplot3_lolli <- function(x,
     }
   }
 
-  # Palette ====
+  # Palette ----
   if (is.character(palette)) palette <- rtPalette(palette)
   if (is.null(col)) col <- rep(palette[1], length(x))
   if (length(col) < length(x)) col <- recycle(col, x)
 
-  # Plot ====
+  # Plot ----
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
                               title = "rtemis Graphics")
   par.orig <- par(no.readonly = TRUE)
@@ -134,7 +134,7 @@ mplot3_lolli <- function(x,
     plot(NULL, NULL, ylim = getlim(x, axs = "i"), xlim = c(1, length(x)), axes = FALSE)
   }
 
-  # Plot bg ====
+  # Plot bg ----
   if (theme$plot.bg != "transparent") {
     if (.horizontal) {
       .xlim <- getlim(x, axs = xaxs)
@@ -146,7 +146,7 @@ mplot3_lolli <- function(x,
     rect(.xlim[1], .ylim[1], .xlim[2], .ylim[2], border = NA, col = theme$plot.bg)
   }
 
-  # Grid ====
+  # Grid ----
   if (theme$grid) {
     grid(nx = if (.horizontal) theme$grid.nx else NA,
          ny = if (.horizontal) NA else theme$grid.ny,
@@ -155,7 +155,7 @@ mplot3_lolli <- function(x,
          lwd = theme$grid.lwd)
   }
 
-  # Zero line ====
+  # Zero line ----
   .xlim <- getlim(x, axs = xaxs)
   if (theme$zerolines & .xlim[1] < 0 & 0 < .xlim[2]) {
     if (.horizontal) {
@@ -165,7 +165,7 @@ mplot3_lolli <- function(x,
     }
   }
 
-  # Axes ====
+  # Axes ----
   if (theme$axes.visible) {
     axis(side = theme$x.axis.side,
          line = theme$x.axis.line,
@@ -211,7 +211,7 @@ mplot3_lolli <- function(x,
           family = theme$font.family)
   }
 
-  # Lollipops ====
+  # Lollipops ----
   if (segments) {
     if (.horizontal) {
       for (i in seq_along(x)) {
@@ -240,7 +240,7 @@ mplot3_lolli <- function(x,
     }
   }
 
-  # Main Title ====
+  # Main Title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)

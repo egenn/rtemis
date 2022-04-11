@@ -52,7 +52,7 @@ matchcases <- function(target, pool,
   ntarget <- nrow(target)
   npool <- nrow(pool)
 
-  # Get IDs ====
+  # Get IDs ----
   if (is.null(target.id)) {
     targetID <- seq(ntarget)
   } else {

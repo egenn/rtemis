@@ -106,7 +106,7 @@ s_RF <- function(x, y = NULL,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # Intro  ====
+  # Intro  ----
   if (missing(x)) {
     print(args(s_RF))
     return(invisible(9))
@@ -120,10 +120,10 @@ s_RF <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "RF"
 
-  # Dependencies  ====
+  # Dependencies  ----
   dependency_check("randomForest")
 
-  # Arguments  ====
+  # Arguments  ----
   if (is.null(y) & NCOL(x) < 2) {
     print(args(s_RF))
     stop("y is missing")
@@ -136,7 +136,7 @@ s_RF <- function(x, y = NULL,
   if (is.null(do.trace)) do.trace <- if (verbose) n.trees/10 else FALSE
   if (proximity.tsne) proximity <- TRUE
 
-  # Data  ====
+  # Data  ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     ipw = ipw,
@@ -185,7 +185,7 @@ s_RF <- function(x, y = NULL,
     maximize <- if (type == "Classification") TRUE else FALSE
   }
 
-  # Grid Search  ====
+  # Grid Search  ----
   if (gridCheck(mtry, nodesize, maxnodes, sampsize.ratio)) {
     gs <- gridSearchLearn(x0, y0,
                           mod.name,
@@ -227,7 +227,7 @@ s_RF <- function(x, y = NULL,
 
   # maxnodes and sampsize.ratio can be NULL
 
-  # sampsize.ratio ====
+  # sampsize.ratio ----
   if (!is.null(sampsize.ratio) && length(sampsize.ratio) == 1) {
     strata <- y
     # Get frequency of minority class
@@ -236,7 +236,7 @@ s_RF <- function(x, y = NULL,
     if (verbose) msg("sampsize set to", sampsize)
   }
 
-  # tuneRF  ====
+  # tuneRF  ----
   # This is an alternative to doing our own gridsearch for mtry, use randomForest's own tuning
   # function for mtry
   if (autotune) {
@@ -254,7 +254,7 @@ s_RF <- function(x, y = NULL,
     if (verbose) msg("Best mtry :", mtry)
   }
 
-  # RF  ====
+  # RF  ----
   if (verbose) msg("Training Random Forest", type, "with", n.trees, "trees...",
                    newline.pre = TRUE)
   mod <- randomForest::randomForest(x = x, y = y,
@@ -271,7 +271,7 @@ s_RF <- function(x, y = NULL,
                                     na.action = na.exclude,
                                     do.trace = do.trace)
 
-  # Fitted  ====
+  # Fitted  ----
   if (proximity) {
     fit <- predict(mod, x, proximity = TRUE)
     fitted <- fit$predicted
@@ -285,7 +285,7 @@ s_RF <- function(x, y = NULL,
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
-  # Predicted  ====
+  # Predicted  ----
   if (!is.null(x.test)) {
     if (proximity) {
       pred <- predict(mod, x.test, proximity = proximity)
@@ -310,7 +310,7 @@ s_RF <- function(x, y = NULL,
   # Discard forest to save memory
   if (discard.forest) mod$forest <- NULL
 
-  # Proximity t-SNE  ====
+  # Proximity t-SNE  ----
   # Add failsafe
   if (proximity.tsne & type == "Classification") {
     cat("Running t-SNE on 1-proximity\n")
@@ -346,7 +346,7 @@ s_RF <- function(x, y = NULL,
     proximity.tsne.test <- NULL
   } # End t-SNE
 
-  # Outro  ====
+  # Outro  ----
   extra <- list(sampsize = sampsize,
                 fitted.prob = fitted.prob,
                 predicted.prob = predicted.prob)

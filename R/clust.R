@@ -25,16 +25,16 @@ clust <- function(x,
     return(clustSelect())
   }
 
-  # [ Intro ] ====
+  # Intro ----
   clusterer <- clustSelect(clust, fn = FALSE)
 
-  # [ DECOMPOSER ] ====
+  # DECOMPOSER ----
   clust <- R.utils::doCall(clusterer,
                            x = x,
                            x.test = x.test,
                            verbose = verbose, ...)
 
-  # [ Outro ] ====
+  # Outro ----
   clust
 
 } # rtemis::clust
