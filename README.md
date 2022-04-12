@@ -128,4 +128,4 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 
 ---
 
-[2021 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
+[&copy;2022 Efstathios (Stathis) D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
