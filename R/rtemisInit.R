@@ -264,7 +264,7 @@ rtemis_init <- function(n.cores = 1,
         progressr::handlers(rtHandler)
         rtenv$handlers_set <- 1
         if (verbose) {
-            msg("Progressi handler set to",
+            msg("Progress handler set to",
                 crayon::bold(rtHandler),
                 color = crayon::magenta
             )
