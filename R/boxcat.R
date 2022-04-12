@@ -33,8 +33,12 @@ boxcat <- function(x,
     }
     cat("\n")
     if (newline) cat("\n")
+
 } # rtemis::boxcat
 
+pastebox <- function(x, pad = 0) {
+    paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
+}
 
 # objcat.R
 # ::rtemis::
