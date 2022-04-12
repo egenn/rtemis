@@ -1431,8 +1431,8 @@ microsoftCol <- list(
 rtCol1 <- desaturate(c(
     ucsfCol$C3_Teal,
     ucsfCol$M3_Orange,
-    pennCol$lighterBlue,
     pennCol$lighterRed,
+    pennCol$lighterBlue,
     pennCol$lighterOrange,
     pennCol$lighterPurple,
     ucsfCol$A3_CTA_Blue,
