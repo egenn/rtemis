@@ -32,15 +32,15 @@
 #' mod <- massGLM(y, x)
 #' dplot3_volcano(mod$summary$`Coefficient y`, mod$summary$`p_value y`)
 #' }
-
+#'
 dplot3_volcano <- function(x, pvals,
                            xnames = NULL,
                            x.thresh = 0,
                            p.thresh = .05,
                            p.transform = \(x) -log10(x),
                            p.adjust.method = c(
-                             "holm", "hochberg", "hommel", "bonferroni",
-                             "BH", "BY", "fdr", "none"
+                               "holm", "hochberg", "hommel", "bonferroni",
+                               "BH", "BY", "fdr", "none"
                            ),
                            legend.lo = NULL,
                            legend.hi = NULL,
@@ -48,6 +48,7 @@ dplot3_volcano <- function(x, pvals,
                            label.hi = "High",
                            xlab = NULL,
                            ylab = NULL,
+                           margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
                            xlim = NULL,
                            ylim = NULL,
                            alpha = .5,
@@ -68,201 +69,202 @@ dplot3_volcano <- function(x, pvals,
                            file.width = 500,
                            file.height = 500,
                            verbose = TRUE, ...) {
-  xname <- deparse(substitute(x))
-  p.adjust.method <- match.arg(p.adjust.method)
-  filt <- !is.na(x) & !is.na(pvals)
-  x <- x[filt]
-  pvals <- pvals[filt]
-  if (is.null(xnames)) {
-    xnames <- names(x)[filt]
-  } else {
-    xnames <- xnames[filt]
-  }
-  if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
-
-  # p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
-  p_transformed <- p.transform(pvals)
-  if (is.null(xlab)) xlab <- labelify(xname)
-
-  if (is.null(ylab)) {
-    # ylab <- if (p.transform == "none") "p-value" else "-log<sub>10</sub> p-value"
-    ylab <- paste(print_fn(p.transform), "p-value")
-  }
-
-  Group <- rep("NS", length(pvals))
-  p_adjusted <- p.adjust(pvals, method = p.adjust.method)
-  index_ltpthresh <- p_adjusted < p.thresh
-  Group[index_ltpthresh & x < x.thresh] <- label.lo
-  Group[index_ltpthresh & x > x.thresh] <- label.hi
-  Group <- factor(Group, levels = c(label.lo, "NS", label.hi))
-  Group.counts <- table(Group)
-  include <- Group.counts > 0
-  if (verbose) {
-    cat("Table of Group counts:\n")
-    print(Group.counts)
-  }
-
-  # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    xname <- deparse(substitute(x))
+    p.adjust.method <- match.arg(p.adjust.method)
+    filt <- !is.na(x) & !is.na(pvals)
+    x <- x[filt]
+    pvals <- pvals[filt]
+    if (is.null(xnames)) {
+        xnames <- names(x)[filt]
+    } else {
+        xnames <- xnames[filt]
     }
-  }
+    if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
 
-  # Plot ----
-  if (is.null(hovertext)) hovertext <- xnames
-  plt <- dplot3_xy(x, p_transformed,
-    xlab = xlab,
-    ylab = ylab,
-    alpha = alpha,
-    theme = theme,
-    legend = FALSE,
-    group = Group,
-    palette = palette[include],
-    hovertext = hovertext
-  )
+    # p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
+    p_transformed <- p.transform(pvals)
+    if (is.null(xlab)) xlab <- labelify(xname)
 
-  # High - Low legend ----
-  autolegend.x.lo <- is.null(legend.x.lo)
-  if (autolegend.x.lo) {
-    # legend.x.lo <- Filter(\(x) x < x.thresh, x) |> range() |> diff() * -.2 + x.thresh
-    legend.x.lo <- x.thresh - abs(diff(c(x.thresh, min(x, na.rm = TRUE)))) * .2
-  }
-
-  autolegend.x.hi <- is.null(legend.x.hi)
-  if (autolegend.x.hi) {
-    # legend.x.hi <- Filter(\(x) x > x.thresh, x) |> range() |> diff() * .2 + x.thresh
-    legend.x.hi <- x.thresh + abs(diff(c(x.thresh, max(x, na.rm = TRUE)))) * .2
-  }
-
-  legxdiff <- legend.x.hi - legend.x.lo
-
-  if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff / 2
-  if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
-
-  if (Group.counts[1] > 0 & !is.null(legend.lo)) {
-    plt |> plotly::add_annotations(
-      x = legend.x.lo,
-      y = legend.y,
-      text = legend.lo,
-      xref = "x",
-      yref = "paper",
-      showarrow = FALSE,
-      font = list(
-        color = palette[[1]],
-        family = theme$font.family,
-        size = font.size
-      )
-    ) -> plt
-  }
-
-  if (Group.counts[3] > 0 & !is.null(legend.hi)) {
-    plt |> plotly::add_annotations(
-      x = legend.x.hi,
-      y = legend.y,
-      text = legend.hi,
-      xref = "x",
-      yref = "paper",
-      showarrow = FALSE,
-      font = list(
-        color = palette[[3]],
-        family = theme$font.family,
-        size = font.size
-      )
-    ) -> plt
-  }
-
-  # Annotations ----
-  if (annotate) {
-    yrange <- range(p_transformed)
-    index_ltxthresh <- x < x.thresh
-    index_gtxthresh <- x > x.thresh
-
-    index_lo <- index_ltpthresh & index_ltxthresh
-    index_hi <- index_ltpthresh & index_gtxthresh
-    annotate.n_lo <- annotate.n_hi <- annotate.n
-    if (sum(index_lo) < annotate.n) annotate.n_lo <- sum(index_lo)
-    if (sum(index_hi) < annotate.n) annotate.n_hi <- sum(index_hi)
-
-    if (annotate.n_lo > 0) {
-      lo_ord <- order(pvals[index_lo])
-      lo_x <- x[index_lo][lo_ord[seq_len(annotate.n_lo)]]
-      lo_pval <- p_transformed[index_lo][lo_ord[seq_len(annotate.n_lo)]]
-      lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
-
-      if (is.null(ay.lo)) {
-        ay.lo <- seq((max(lo_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
-          length = annotate.n_lo
-        )
-      }
-      plt |> plotly::add_annotations(
-        x = lo_x,
-        y = lo_pval,
-        text = lo_name,
-        arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
-        arrowsize = .5,
-        arrowwidth = 1,
-        ax = 50,
-        ay = ay.lo,
-        font = list(
-          size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate.alpha)
-        )
-      ) -> plt
+    if (is.null(ylab)) {
+        # ylab <- if (p.transform == "none") "p-value" else "-log<sub>10</sub> p-value"
+        ylab <- paste(print_fn(p.transform), "p-value")
     }
 
-
-    # Annotate 10 most significant increasing
-    if (annotate.n_hi > 0) {
-      hi_ord <- order(pvals[index_ltpthresh & index_gtxthresh])
-      hi_x <- x[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-      hi_pval <- p_transformed[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-      hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-
-      if (is.null(ay.hi)) {
-        ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
-          length = annotate.n_hi
-        )
-      }
-      plt |> plotly::add_annotations(
-        x = hi_x,
-        y = hi_pval,
-        text = hi_name,
-        arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
-        arrowsize = .5,
-        arrowwidth = 1,
-        ax = -72,
-        ay = ay.hi,
-        font = list(
-          size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate.alpha)
-        )
-      ) -> plt
+    Group <- rep("NS", length(pvals))
+    p_adjusted <- p.adjust(pvals, method = p.adjust.method)
+    index_ltpthresh <- p_adjusted < p.thresh
+    Group[index_ltpthresh & x < x.thresh] <- label.lo
+    Group[index_ltpthresh & x > x.thresh] <- label.hi
+    Group <- factor(Group, levels = c(label.lo, "NS", label.hi))
+    Group.counts <- table(Group)
+    include <- Group.counts > 0
+    if (verbose) {
+        cat("Table of Group counts:\n")
+        print(Group.counts)
     }
-  }
 
-  plt |> plotly::config(toImageButtonOptions = list(format = "svg"))
+    # Theme ----
+    extraargs <- list(...)
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), extraargs)
+    } else {
+        # Override with extra arguments
+        for (i in seq(extraargs)) {
+            theme[[names(extraargs)[i]]] <- extraargs[[i]]
+        }
+    }
 
-  # Config ----
-  plt <- plotly::config(plt,
-    displaylogo = FALSE,
-    displayModeBar = displayModeBar
-  )
+    # Plot ----
+    if (is.null(hovertext)) hovertext <- xnames
+    plt <- dplot3_xy(x, p_transformed,
+        xlab = xlab,
+        ylab = ylab,
+        alpha = alpha,
+        theme = theme,
+        margin = margin,
+        legend = FALSE,
+        group = Group,
+        palette = palette[include],
+        hovertext = hovertext
+    )
 
-  # Write to file ----
-  # if (!is.null(filename)) {
-  #   filename <- file.path(filename)
-  #   plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-  #                        format = tools::file_ext(filename), out_file = filename)
-  # }
+    # High - Low legend ----
+    autolegend.x.lo <- is.null(legend.x.lo)
+    if (autolegend.x.lo) {
+        # legend.x.lo <- Filter(\(x) x < x.thresh, x) |> range() |> diff() * -.2 + x.thresh
+        legend.x.lo <- x.thresh - abs(diff(c(x.thresh, min(x, na.rm = TRUE)))) * .2
+    }
 
-  plt
+    autolegend.x.hi <- is.null(legend.x.hi)
+    if (autolegend.x.hi) {
+        # legend.x.hi <- Filter(\(x) x > x.thresh, x) |> range() |> diff() * .2 + x.thresh
+        legend.x.hi <- x.thresh + abs(diff(c(x.thresh, max(x, na.rm = TRUE)))) * .2
+    }
+
+    legxdiff <- legend.x.hi - legend.x.lo
+
+    if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff / 2
+    if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
+
+    if (Group.counts[1] > 0 & !is.null(legend.lo)) {
+        plt |> plotly::add_annotations(
+            x = legend.x.lo,
+            y = legend.y,
+            text = legend.lo,
+            xref = "x",
+            yref = "paper",
+            showarrow = FALSE,
+            font = list(
+                color = palette[[1]],
+                family = theme$font.family,
+                size = font.size
+            )
+        ) -> plt
+    }
+
+    if (Group.counts[3] > 0 & !is.null(legend.hi)) {
+        plt |> plotly::add_annotations(
+            x = legend.x.hi,
+            y = legend.y,
+            text = legend.hi,
+            xref = "x",
+            yref = "paper",
+            showarrow = FALSE,
+            font = list(
+                color = palette[[3]],
+                family = theme$font.family,
+                size = font.size
+            )
+        ) -> plt
+    }
+
+    # Annotations ----
+    if (annotate) {
+        yrange <- range(p_transformed)
+        index_ltxthresh <- x < x.thresh
+        index_gtxthresh <- x > x.thresh
+
+        index_lo <- index_ltpthresh & index_ltxthresh
+        index_hi <- index_ltpthresh & index_gtxthresh
+        annotate.n_lo <- annotate.n_hi <- annotate.n
+        if (sum(index_lo) < annotate.n) annotate.n_lo <- sum(index_lo)
+        if (sum(index_hi) < annotate.n) annotate.n_hi <- sum(index_hi)
+
+        if (annotate.n_lo > 0) {
+            lo_ord <- order(pvals[index_lo])
+            lo_x <- x[index_lo][lo_ord[seq_len(annotate.n_lo)]]
+            lo_pval <- p_transformed[index_lo][lo_ord[seq_len(annotate.n_lo)]]
+            lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
+
+            if (is.null(ay.lo)) {
+                ay.lo <- seq((max(lo_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
+                    length = annotate.n_lo
+                )
+            }
+            plt |> plotly::add_annotations(
+                x = lo_x,
+                y = lo_pval,
+                text = lo_name,
+                arrowhead = 4,
+                arrowcolor = adjustcolor(theme$fg, .33),
+                arrowsize = .5,
+                arrowwidth = 1,
+                ax = 50,
+                ay = ay.lo,
+                font = list(
+                    size = 16,
+                    family = theme$font.family,
+                    color = adjustcolor(theme$fg, annotate.alpha)
+                )
+            ) -> plt
+        }
+
+
+        # Annotate 10 most significant increasing
+        if (annotate.n_hi > 0) {
+            hi_ord <- order(pvals[index_ltpthresh & index_gtxthresh])
+            hi_x <- x[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
+            hi_pval <- p_transformed[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
+            hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
+
+            if (is.null(ay.hi)) {
+                ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
+                    length = annotate.n_hi
+                )
+            }
+            plt |> plotly::add_annotations(
+                x = hi_x,
+                y = hi_pval,
+                text = hi_name,
+                arrowhead = 4,
+                arrowcolor = adjustcolor(theme$fg, .33),
+                arrowsize = .5,
+                arrowwidth = 1,
+                ax = -72,
+                ay = ay.hi,
+                font = list(
+                    size = 16,
+                    family = theme$font.family,
+                    color = adjustcolor(theme$fg, annotate.alpha)
+                )
+            ) -> plt
+        }
+    }
+
+    plt |> plotly::config(toImageButtonOptions = list(format = "svg"))
+
+    # Config ----
+    plt <- plotly::config(plt,
+        displaylogo = FALSE,
+        displayModeBar = displayModeBar
+    )
+
+    # Write to file ----
+    # if (!is.null(filename)) {
+    #   filename <- file.path(filename)
+    #   plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
+    #                        format = tools::file_ext(filename), out_file = filename)
+    # }
+
+    plt
 } # rtemis::dplot3_volcano

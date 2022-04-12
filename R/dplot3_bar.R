@@ -39,7 +39,7 @@
 #' @param hline.width Float: Width for \code{hline}. Default = 1
 #' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
 #' or "longdashdot"
-#' @param margin Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}
+#' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
 #' @param file.width Integer: File width in pixels for when \code{filename} is set. Default = 500
@@ -91,7 +91,7 @@ dplot3_bar <-  function(x,
                         hline.dash = "solid",
                         hline.annotate = NULL,
                         hline.annotation.x = 1,
-                        margin = NULL, # list(b = 50, l = 50, t = 50, r = 20),
+                        margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
                         automargin.x = TRUE,
                         automargin.y = TRUE,
                         padding = 0,

@@ -11,7 +11,13 @@
 #' If input is data.frame, non-numeric variables will be removed
 #' @inheritParams dplot3_bar
 #' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element
-#' @param group Vector: Will be converted to factor; levels define group members. Default = NULL
+#' @param type Character: "density" or "histogram"
+#' @param mode Character: "overlap", "ridge". How to plot different groups;
+#' on the same axes ("overlap"), or on separate plots with the same x-axis
+#' ("ridge")
+#' @param group Vector: Will be converted to factor; levels define group 
+#' members. Default = NULL
+#' @param main Character: Main title
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
@@ -86,7 +92,7 @@ dplot3_x <- function(x,
                      text.yref = "paper",
                      text.yanchor = "top",
                      text.col = theme$fg,
-                     margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
+                     margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
                      automargin.x = TRUE,
                      automargin.y = TRUE,
                      zerolines = FALSE,
