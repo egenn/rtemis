@@ -13,9 +13,8 @@
 #' Setting this to FALSE stops it from printing
 #' "Dependencies check passed".
 #' 
-#' @keywords internal
-#' 
 #' @author E.D. Gennatas
+#' @export
 
 dependency_check <- function(..., verbose = FALSE) {
     ns <- as.list(c(...))
