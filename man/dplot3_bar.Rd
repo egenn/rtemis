@@ -35,7 +35,7 @@ dplot3_bar(
   hline.dash = "solid",
   hline.annotate = NULL,
   hline.annotation.x = 1,
-  margin = NULL,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
   padding = 0,
@@ -96,7 +96,7 @@ more than one feature present}
 \item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
 or "longdashdot"}
 
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+\item{margin}{Named list: plot margins.}
 
 \item{padding}{Integer: N pixels to pad plot. Default = 0}
 

@@ -38,7 +38,7 @@ dplot3_box(
   legend.xanchor = "auto",
   legend.yanchor = "auto",
   xaxis.type = "category",
-  margin = list(t = 35, pad = 0),
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
   boxgroupgap = NULL,

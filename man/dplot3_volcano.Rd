@@ -19,6 +19,7 @@ dplot3_volcano(
   label.hi = "High",
   xlab = NULL,
   ylab = NULL,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   xlim = NULL,
   ylim = NULL,
   alpha = 0.5,
@@ -82,6 +83,7 @@ y <- x[, 3] + x[, 5] + x[, 9] + x[, 15] + rnorm(500)
 mod <- massGLM(y, x)
 dplot3_volcano(mod$summary$`Coefficient y`, mod$summary$`p_value y`)
 }
+
 }
 \author{
 E.D. Gennatas

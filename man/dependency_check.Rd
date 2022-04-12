@@ -20,4 +20,3 @@ Checks if dependencies can be loaded; names missing dependencies if not.
 \author{
 E.D. Gennatas
 }
-\keyword{internal}

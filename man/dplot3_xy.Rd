@@ -55,7 +55,7 @@ dplot3_xy(
   spikesnap = "hovered data",
   spikecolor = NULL,
   spikethickness = 1,
-  margin = list(t = 35, pad = 0),
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
   xlim = NULL,
@@ -163,7 +163,7 @@ groups, or \code{fit} is set}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+\item{margin}{Named list: plot margins.}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 

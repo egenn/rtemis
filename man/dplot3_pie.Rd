@@ -69,7 +69,7 @@ more than one feature present}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
 
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+\item{margin}{Named list: plot margins.}
 
 \item{padding}{Integer: N pixels to pad plot. Default = 0}
 

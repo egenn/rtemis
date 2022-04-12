@@ -40,7 +40,7 @@ dplot3_x(
   text.yref = "paper",
   text.yanchor = "top",
   text.col = theme$fg,
-  margin = list(b = 50, l = 50, t = 50, r = 20, pad = 0),
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
   zerolines = FALSE,
@@ -64,9 +64,16 @@ dplot3_x(
 \arguments{
 \item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element}
 
-\item{group}{Vector: Will be converted to factor; levels define group members. Default = NULL}
+\item{type}{Character: "density" or "histogram"}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{mode}{Character: "overlap", "ridge". How to plot different groups;
+on the same axes ("overlap"), or on separate plots with the same x-axis
+("ridge")}
+
+\item{group}{Vector: Will be converted to factor; levels define group 
+members. Default = NULL}
+
+\item{main}{Character: Main title}
 
 \item{xlab}{Character: x-axis label. Default = NULL}
 
@@ -124,7 +131,7 @@ or "longdashdot"}
 
 \item{text.col}{Color for \code{text}. Default = theme$fg}
 
-\item{margin}{Named list: plot margins. Default = \code{list(b = 50, l = 50, t = 50, r = 20)}}
+\item{margin}{Named list: plot margins.}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
