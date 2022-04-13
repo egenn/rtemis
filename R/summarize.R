@@ -60,7 +60,7 @@ summarize.data.table <- function(x,
       SD = sapply(.SD, sd, na.rm = na.rm),
       Median = sapply(.SD, median, na.rm = na.rm),
       Range = sapply(.SD, catrange),
-      `NA` = sapply(.SD, function(i) sum(is.na(i)))
+      `N missing` = sapply(.SD, function(i) sum(is.na(i)))
     ),
     .SDcols = varname,
     by = group_by
@@ -70,7 +70,7 @@ summarize.data.table <- function(x,
           N = sapply(.SD, length),
           Median = sapply(.SD, median, na.rm = na.rm),
           Range = sapply(.SD, catrange),
-          `NA` = sapply(.SD, function(i) sum(is.na(i)))),
+          `N missing` = sapply(.SD, function(i) sum(is.na(i)))),
       .SDcols = varname,
       by = group_by]
   } else {
@@ -78,7 +78,7 @@ summarize.data.table <- function(x,
           N = sapply(.SD, length),
           Mean = sapply(.SD, mean, na.rm = na.rm),
           SD = sapply(.SD, sd, na.rm = na.rm),
-          `NA` = sapply(.SD, function(i) sum(is.na(i)))),
+          `N missing` = sapply(.SD, function(i) sum(is.na(i)))),
       .SDcols = varname,
       by = group_by]
   }
