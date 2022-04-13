@@ -21,7 +21,9 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
         "\n  Documentation: https://rtemis.lambdamd.org",
         "\n  Learn R: https://class.lambdamd.org/pdsr",
         "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-        '\n  Use `citation("rtemis")` for citation info'
+        '\n  Use `citation("rtemis")` for citation info',
+        "\n  Use `progressr::handlers(global = TRUE)` to enable progress bars in rtemis",
+        "\n"
     ))
 
     # packageStartupMessage(
