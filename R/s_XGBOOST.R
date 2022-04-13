@@ -377,7 +377,10 @@ s_XGBOOST <- function(x, y = NULL,
                 labels = levels(y)
             )
         } else {
-            fitted <- factor(fitted, labels = levels(y))
+            fitted <- factor(fitted,
+                levels = seq(nclass) - 1,
+                labels = levels(y)
+            )
         }
     }
 
@@ -396,7 +399,10 @@ s_XGBOOST <- function(x, y = NULL,
                     labels = levels(y)
                 )
             } else {
-                predicted <- factor(predicted, labels = levels(y))
+                predicted <- factor(predicted,
+                    levels = seq(nclass) - 1,
+                    labels = levels(y)
+                )
             }
         }
         if (!is.null(y.test)) {
