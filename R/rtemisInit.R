@@ -260,6 +260,7 @@ rtemis_init <- function(n.cores = 1,
 
     # Progress handlers
     if (is.null(rtenv$handlers_set)) {
+        # progressr::handlers(global = TRUE)
         rtHandler <- getOption("rt.handler", "progress")
         progressr::handlers(rtHandler)
         rtenv$handlers_set <- 1
