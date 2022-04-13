@@ -102,7 +102,7 @@ s_RF <- function(x, y = NULL,
                  question = NULL,
                  rtclass = NULL,
                  verbose = TRUE,
-                 grid.verbose = TRUE,
+                 grid.verbose = verbose,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 

@@ -73,7 +73,7 @@ s_H2OGBM <- function(x, y = NULL,
                      question = NULL,
                      verbose = TRUE,
                      trace = 0,
-                     grid.verbose = TRUE,
+                     grid.verbose = verbose,
                      save.mod = FALSE,
                      outdir = NULL, ...) {
 
