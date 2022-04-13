@@ -222,23 +222,6 @@ elevate <- function(x, y = NULL,
     extraArgs <- list(...)
     mod.params <- c(mod.params, extraArgs)
 
-    # if (mod == "GBM") {
-    #     if (!is.null(mod.params$n.cores)) {
-    #         if (mod.params$n.cores > 1) {
-    #             if (verbose) {
-    #                 msg("Using GBM with inner n.cores > 1, setting outer n.cores to 1")
-    #             }
-    #             n.cores <- 1
-    #         }
-    #     } else {
-    #         n.cores <- 1
-    #     }
-    # } else if (mod %in% c("H2OGBM", "H2ORF", "H2OGLM", "H2ODL", 
-    #     "XGB", "XGBOOST", "XGBLIN","LGB")) {
-    #     if (verbose) msg("Using", mod, "- n.cores for outer resampling set to 1")
-    #     n.cores <- 1
-    # }
-
     if (n.cores > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
         "XGB", "XGBOOST", "XGBLIN", "LGB"
