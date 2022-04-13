@@ -87,7 +87,7 @@ mplot3_conf <- function(object,
                         theme = getOption("rt.theme", "white"),
                         mid.col = "auto",
                         hi.color.pos = "#18A3AC",
-                        hi.color.neg = "#F48024",
+                        hi.color.neg = "#C23A70", # "#F48024"
                         par.reset = TRUE,
                         pdf.width = 7,
                         pdf.height = 7,
