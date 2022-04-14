@@ -7,7 +7,10 @@ rtemis.version <- packageVersion("rtemis")
 .availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
 rtHome <- getOption("rt.home", Sys.getenv("HOME"))
-# rtPlan <- getOption("future.plan", "multisession")
+rtPlan <- getOption(
+    "future.plan",
+    ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+)
 # future::plan(rtPlan)
 # rtProgress <- getOption("rt.progress", "global")
 # if (rtProgress == "global") progressr::handlers(global = TRUE)
