@@ -65,7 +65,7 @@ s_GBM3.R(
   question = NULL,
   verbose = TRUE,
   trace = 0,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   gbm.fit.verbose = FALSE,
   outdir = NULL,
   save.gridrun = FALSE,

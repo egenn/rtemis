@@ -28,7 +28,7 @@ massCART(
   save.mod = FALSE,
   grid.print.plot = FALSE,
   verbose = TRUE,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   print.plot = FALSE,
   ...
 )

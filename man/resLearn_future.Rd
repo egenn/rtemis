@@ -18,7 +18,7 @@ resLearn_future(
   trace = 0,
   save.mods = TRUE,
   outdir = NULL,
-  n.cores = rtCores,
+  n.workers = 1,
   parallel.type = "nobodycares"
 )
 }
@@ -42,7 +42,7 @@ Use with \link{elevate} when training a large number of resamples. Default = TRU
 
 \item{outdir}{Character: Path to save output. Default = NULL}
 
-\item{n.cores}{Integer: Number of cores to use.}
+\item{n.workers}{Integer: Number of cores to use.}
 }
 \description{
 Train an \pkg{rtemis} learner on a set of resamples

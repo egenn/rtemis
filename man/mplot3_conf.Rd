@@ -36,7 +36,7 @@ mplot3_conf(
   theme = getOption("rt.theme", "white"),
   mid.col = "auto",
   hi.color.pos = "#18A3AC",
-  hi.color.neg = "#F48024",
+  hi.color.neg = "#C23A70",
   par.reset = TRUE,
   pdf.width = 7,
   pdf.height = 7,

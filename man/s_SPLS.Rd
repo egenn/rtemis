@@ -35,7 +35,7 @@ s_SPLS(
   question = NULL,
   verbose = TRUE,
   trace = 0,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   n.cores = rtCores,

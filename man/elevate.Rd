@@ -31,7 +31,7 @@ elevate(
   cex = 1.4,
   col = "#18A3AC",
   bag.fitted = FALSE,
-  n.cores = 1,
+  outer.n.workers = 1,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   print.plot = TRUE,
   plot.fitted = FALSE,
@@ -123,7 +123,7 @@ if running many resamples). Default = TRUE}
 \item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged prediction on the full sample. To get a
 bagged prediction on new data using the same models, use \link{predict.rtModCV}}
 
-\item{n.cores}{Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
+\item{outer.n.workers}{Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
 (tuning) or the learner itself is parallelized. Don't parallelize the parallelization}
 
 \item{parallel.type}{Character: "psock" (Default), "fork"}
@@ -165,7 +165,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{save.res}{Logical: If TRUE, save the full output of each model trained on differents resamples under
 subdirectories of \code{outdir}}
 
-\item{debug}{Logical: If TRUE, sets \code{n.cores} to 1, and \code{options(error=recover)}}
+\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}}
 
 \item{...}{Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 either way to pass learner arguments)}

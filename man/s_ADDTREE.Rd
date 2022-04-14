@@ -40,7 +40,7 @@ s_ADDTREE(
   verbose = TRUE,
   prune.verbose = FALSE,
   trace = 1,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   outdir = NULL,
   save.rpart = FALSE,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),

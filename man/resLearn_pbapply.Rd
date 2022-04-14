@@ -18,7 +18,7 @@ resLearn_pbapply(
   trace = 0,
   save.mods = TRUE,
   outdir = NULL,
-  n.cores = rtCores,
+  n.workers = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
 )
 }

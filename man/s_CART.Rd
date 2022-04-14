@@ -46,7 +46,7 @@ s_CART(
   plot.theme = getOption("rt.theme"),
   question = NULL,
   verbose = TRUE,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   rtModLog = NULL

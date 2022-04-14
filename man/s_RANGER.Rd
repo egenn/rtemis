@@ -50,7 +50,7 @@ s_RANGER(
   plot.predicted = NULL,
   plot.theme = getOption("rt.theme"),
   question = NULL,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   verbose = TRUE,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),

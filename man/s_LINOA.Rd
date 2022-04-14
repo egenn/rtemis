@@ -41,7 +41,7 @@ s_LINOA(
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = "exhaustive",
   save.gridrun = FALSE,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   keep.x = FALSE,
   simplify = TRUE,
   cxrcoef = FALSE,

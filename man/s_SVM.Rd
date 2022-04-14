@@ -36,7 +36,7 @@ s_SVM(
   question = NULL,
   rtclass = NULL,
   verbose = TRUE,
-  grid.verbose = TRUE,
+  grid.verbose = verbose,
   outdir = NULL,
   save.res = FALSE,
   osx.alert = FALSE,

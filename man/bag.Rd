@@ -32,7 +32,7 @@ bag(
   plot.predicted = NULL,
   plot.theme = getOption("rt.theme"),
   print.base.plot = FALSE,
-  n.cores = rtCores,
+  n.workers = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
   outdir = NULL,
   ...
@@ -109,7 +109,7 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner}
 
-\item{n.cores}{Integer: Number of cores to use}
+\item{n.workers}{Integer: Number of cores to use}
 
 \item{parallel.type}{Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
 
