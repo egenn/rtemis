@@ -86,18 +86,18 @@ gridSearchLearn_future <- function(x, y, mod,
     # }
     # if outer is sequential, tweak inner
     if (inherits(future::plan(), "sequential")) {
-        future::plan(list(sequential, tweak(rtPlan, workers = n.cores)))
+        future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
         if (trace > 0) {
             msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
-                "with", crayon::bold(n.workers), "workers",
+                "with", crayon::bold(n.cores), "workers",
                 color = crayon::magenta
             )
         }
     } else {
-        future::plan(rtPlan, worker = n.cores)
+        future::plan(rtPlan, workers = n.cores)
         if (trace > 0) {
             msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
-                "with", crayon::bold(n.workers), "workers",
+                "with", crayon::bold(n.cores), "workers",
                 color = crayon::magenta
             )
         }
