@@ -28,6 +28,7 @@
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -46,7 +47,7 @@ s_LINAD <- function(x, y = NULL,
                     nvmax = 3,
                     force.max.leaves = NULL,
                     lookback = TRUE, # requires cross-validation with gridSearchLearn
-                    gamma = 0,
+                    gamma = .5,
                     gamma.on.lin = FALSE,
                     lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge",
                                  "allSubsets", "backwardStepwise", "glm", "solve", "none"),
