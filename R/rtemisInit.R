@@ -234,29 +234,29 @@ rtemis_init <- function(n.cores = 1,
                         verbose = TRUE) {
 
     # Future plan ====
-    if (!is.null(context)) context <- paste0(context, ":")
-    if (n.cores > 1) {
-        rtPlan <- getOption(
-            "future.plan",
-            ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-        )
-        future::plan(rtPlan)
-        # rtenv$plan_set <- 1
-        if (verbose) {
-            msg(context, "Future plan set to", crayon::bold(rtPlan),
-                color = crayon::magenta,
-                "with", crayon::bold(n.cores), "workers"
-            )
-        }
-    } else {
-        future::plan("sequential")
-        if (verbose) {
-            msg(context, "Future plan set to", 
-                crayon::bold("sequential"),
-                color = crayon::magenta
-            )
-        }
-    }
+    # if (!is.null(context)) context <- paste0(context, ":")
+    # if (n.cores > 1) {
+    #     rtPlan <- getOption(
+    #         "future.plan",
+    #         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+    #     )
+    #     future::plan(rtPlan)
+    #     # rtenv$plan_set <- 1
+    #     if (verbose) {
+    #         msg(context, "Future plan set to", crayon::bold(rtPlan),
+    #             color = crayon::magenta,
+    #             "with", crayon::bold(n.cores), "workers"
+    #         )
+    #     }
+    # } else {
+    #     future::plan("sequential")
+    #     if (verbose) {
+    #         msg(context, "Future plan set to", 
+    #             crayon::bold("sequential"),
+    #             color = crayon::magenta
+    #         )
+    #     }
+    # }
 
     # Progress handlers
     if (is.null(rtenv$handlers_set)) {
