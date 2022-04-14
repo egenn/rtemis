@@ -54,6 +54,7 @@ gridSearchLearn_future <- function(x, y, mod,
                                    maximize = NULL,
                                    save.mod = FALSE,
                                    verbose = TRUE,
+                                   trace = 1,
                                    call.depth = 1,
                                    grid.verbose = FALSE,
                                    n.cores = rtCores) {
@@ -65,7 +66,7 @@ gridSearchLearn_future <- function(x, y, mod,
         message = "Running grid search...",
         newline.pre = TRUE
     )
-    rtemis_init(n.cores, context = "Inner resampling")
+    # rtemis_init(n.cores, context = "Inner resampling")
 
     # Arguments ----
     if (missing(x) | missing(y)) {
@@ -75,13 +76,31 @@ gridSearchLearn_future <- function(x, y, mod,
     search.type <- match.arg(search.type)
     n.resamples <- resample.rtset$n.resamples
     n.cores <- as.numeric(n.cores)[1]
-    if (inherits(future::plan(), "sequential") && n.cores > 1) {
-        warning(
-            "n.cores set to ", n.cores, ", but future plan is sequential.",
-            "\n n.cores will be set to 1.",
-            "\nUse `plan(multisession)` or similar to allow parallel execution."
-        )
-        n.cores <- 1
+    # if (inherits(future::plan(), "sequential") && n.cores > 1) {
+    #     warning(
+    #         "n.cores set to ", n.cores, ", but future plan is sequential.",
+    #         "\n n.cores will be set to 1.",
+    #         "\nUse `plan(multisession)` or similar to allow parallel execution."
+    #     )
+    #     n.cores <- 1
+    # }
+    # if outer is sequential, tweak inner
+    if (inherits(future::plan(), "sequential")) {
+        future::plan(list(sequential, tweak(rtPlan, workers = n.cores)))
+        if (trace > 0) {
+            msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
+                "with", crayon::bold(n.workers), "workers",
+                color = crayon::magenta
+            )
+        }
+    } else {
+        future::plan(rtPlan, worker = n.cores)
+        if (trace > 0) {
+            msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
+                "with", crayon::bold(n.workers), "workers",
+                color = crayon::magenta
+            )
+        }
     }
 
     # Data ----
