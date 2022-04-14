@@ -21,7 +21,7 @@
 #' @param base.verbose Logical: \code{verbose} argument passed to learner
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
-#' @param n.cores Integer: Number of cores to use
+#' @param n.workers Integer: Number of cores to use
 #' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows
 #' @param outdir: Character: Path to output directory to save model. Default = NULL
 #' @param ... Additional parameters to be passed to learner
@@ -55,7 +55,7 @@ bag <- function(x, y = NULL,
                 plot.predicted = NULL,
                 plot.theme = getOption("rt.theme"),
                 print.base.plot = FALSE,
-                n.cores = rtCores,
+                n.workers = rtCores,
                 parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                 outdir = NULL, ...) {
 
@@ -73,7 +73,7 @@ bag <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # Arguments ----
-  n.cores <- as.numeric(n.cores)[1]
+  n.workers <- as.numeric(n.workers)[1]
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -134,7 +134,7 @@ bag <- function(x, y = NULL,
                  res.verbose = base.verbose,
                  save.mods = TRUE,
                  outdir = NULL,
-                 n.cores = n.cores,
+                 n.workers = n.workers,
                  parallel.type = parallel.type)
 
   # Fitted ----
@@ -142,12 +142,12 @@ bag <- function(x, y = NULL,
 
   if (type == "Classification") {
     fitted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x)),
-                                    cl = n.cores)
+                                    cl = n.workers)
     fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))
     levels(fitted) <- levels(y)
   } else if (type == "Regression") {
     fitted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x),
-                                    cl = n.cores)
+                                    cl = n.workers)
     fitted <- apply(fitted.bag, 1, aggr.fn)
   }
   error.train <- modError(y, fitted)
@@ -159,7 +159,7 @@ bag <- function(x, y = NULL,
   if (!is.null(x.test)) {
     # as.numeric is to convert factors to numeric for type = Classification
     predicted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x.test)),
-                                       cl = n.cores)
+                                       cl = n.workers)
     if (type == "Classification") {
       predicted <- factor(round(apply(predicted.bag, 1, aggr.fn)))
       levels(predicted) <- levels(y)
