@@ -35,7 +35,7 @@ resLearn_pbapply <- function(x, y, mod,
                      trace = 0,
                      save.mods = TRUE,
                      outdir = NULL,
-                     n.cores = rtCores,
+                     n.workers = rtCores,
                      parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
 
   # Intro ----
@@ -44,7 +44,7 @@ resLearn_pbapply <- function(x, y, mod,
                       newline.pre = TRUE)
 
   # Arguments ----
-  n.cores <- as.numeric(n.cores)[1]
+  n.workers <- as.numeric(n.workers)[1]
   if (missing(x) | missing(y)) {
     print(args(resLearn))
     stop("Input missing")
@@ -61,7 +61,7 @@ resLearn_pbapply <- function(x, y, mod,
   res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
   resampler <- attr(res, "type") # for res.group and res.index
 
-  if (n.cores > resample.rtset$n.resamples) n.cores <- resample.rtset$n.resamples
+  if (n.workers > resample.rtset$n.resamples) n.workers <- resample.rtset$n.resamples
 
   # {Grid} function ----
   learner1 <- function(index, learner,
@@ -126,15 +126,15 @@ resLearn_pbapply <- function(x, y, mod,
                     length(res), " ", desc, "...", newline.pre = TRUE)
   pbapply.type <- if (verbose) "timer" else "none"
   pbapply::pboptions(type = pbapply.type)
-  if (n.cores > 1) {
+  if (n.workers > 1) {
     if (parallel.type == "psock") {
-      if (verbose) msg("Starting PSOCK cluster on", n.cores, "cores...")
-      cl <- makePSOCKcluster(n.cores)
+      if (verbose) msg("Starting PSOCK cluster on", n.workers, "cores...")
+      cl <- makePSOCKcluster(n.workers)
       on.exit(stopCluster(cl))
       clusterEvalQ(cl, library("rtemis"))
     } else {
-      if (verbose) msg("Parallelizing by forking on", n.cores, "cores...")
-      cl <- n.cores
+      if (verbose) msg("Parallelizing by forking on", n.workers, "cores...")
+      cl <- n.workers
     }
   } else {
     cl <- 1
