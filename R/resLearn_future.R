@@ -22,7 +22,7 @@
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with \link{elevate} when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
-#' @param n.cores Integer: Number of cores to use.
+#' @param n.workers Integer: Number of cores to use.
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -38,7 +38,7 @@ resLearn_future <- function(x, y, mod,
                             trace = 0,
                             save.mods = TRUE,
                             outdir = NULL,
-                            n.cores = rtCores,
+                            n.workers = 1,
                             parallel.type = "nobodycares") {
 
     # Intro ----
@@ -47,10 +47,9 @@ resLearn_future <- function(x, y, mod,
         message = "Starting resLearn...",
         newline.pre = TRUE
     )
-    rtemis_init(n.cores, context = "Outer resampling")
+    # rtemis_init(n.workers, context = "Outer resampling")
 
     # Arguments ----
-    n.cores <- as.numeric(n.cores)[1]
     if (missing(x) | missing(y)) {
         print(args(resLearn))
         stop("Input missing")
@@ -61,7 +60,8 @@ resLearn_future <- function(x, y, mod,
         if (!dir.exists(outdir)) {
             dir.create(outdir,
                 showWarnings = TRUE,
-                recursive = TRUE, mode = "0777"
+                recursive = TRUE,
+                mode = "0777"
             )
         }
     }
@@ -70,18 +70,29 @@ resLearn_future <- function(x, y, mod,
     learner <- modSelect(mod)
     res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
     resampler <- attr(res, "type") # for res.group and res.index
-
-    if (n.cores > resample.rtset$n.resamples) n.cores <- resample.rtset$n.resamples
-    if (inherits(future::plan(), "sequential") && n.cores > 1) {
-        warning(
-            "n.cores set to ", n.cores, ", but future plan is sequential.",
-            "\n n.cores will be set to 1.",
-            "\nUse `plan(multisession)` or similar to allow parallel execution."
-        )
-        n.cores <- 1
+    if (n.workers > resample.rtset$n.resamples) {
+        n.workers <- resample.rtset$n.resamples
     }
-    if (n.cores > 1) future::plan(rtStrategy, workers = n.cores)
-    # if (verbose) msg("Running on", n.cores, singorplu(n.cores, "worker"))
+
+    # Parallel ----
+    # rtPlan is the parallel plan set in zzz
+    if (n.workers == 1) {
+        future::plan(list("sequential", rtPlan), workers = n.workers)
+        if (verbose) {
+            msg("Outer resampling: Future plan set to",
+                crayon::bold("sequential"),
+                color = crayon::magenta
+            )
+        }
+    } else {
+        future::plan(list(rtPlan, "sequential"), workers = n.workers)
+        if (verbose) {
+            msg("Outer resampling: Future plan set to", crayon::bold(rtPlan),
+                "with", crayon::bold(n.workers), "workers",
+                color = crayon::magenta
+            )
+        }
+    }
 
     # learner1 ----
     p <- progressr::progressor(along = res)
@@ -110,9 +121,17 @@ resLearn_future <- function(x, y, mod,
 
         if (!is.null(.preprocess)) {
             # This allows imputing training and testing sets separately
-            preproc.params <- c(list(x = x.train1), .preprocess, verbose = verbose)
+            preproc.params <- c(
+                list(x = x.train1),
+                .preprocess,
+                verbose = verbose
+            )
             x.train1 <- do.call(preprocess, preproc.params)
-            preproc.params <- c(list(x = x.test1), .preprocess, verbose = verbose)
+            preproc.params <- c(
+                list(x = x.test1),
+                .preprocess,
+                verbose = verbose
+            )
             x.test1 <- do.call(preprocess, preproc.params)
         }
 
