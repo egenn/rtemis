@@ -41,7 +41,7 @@
 # #'   Defaults to TRUE
 #' @param cex Float: cex parameter for elevate plot
 #' @param col Color for elevate plot
-#' @param n.cores Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
+#' @param outer.n.workers Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
 #' (tuning) or the learner itself is parallelized. Don't parallelize the parallelization
 #' @param parallel.type Character: "psock" (Default), "fork"
 #' @param print.res.plot Logical: Print model performance plot for each resample.
@@ -64,7 +64,7 @@
 #' @param res.verbose Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
-#' @param debug Logical: If TRUE, sets \code{n.cores} to 1, and \code{options(error=recover)}
+#' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
 #'
@@ -129,7 +129,7 @@ elevate <- function(x, y = NULL,
                     cex = 1.4,
                     col = "#18A3AC",
                     bag.fitted = FALSE,
-                    n.cores = 1,
+                    outer.n.workers = 1,
                     parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                     print.plot = TRUE,
                     plot.fitted = FALSE,
@@ -157,7 +157,7 @@ elevate <- function(x, y = NULL,
     }
     if (toupper(mod) == "KNN") stop("KNN is not supported by elevate")
     if (debug) {
-        n.cores <- 1
+        outer.n.workers <- 1
         mod.params$n.cores <- 1
         error.orig <- getOption("error")
         options(error = recover)
@@ -222,12 +222,12 @@ elevate <- function(x, y = NULL,
     extraArgs <- list(...)
     mod.params <- c(mod.params, extraArgs)
 
-    if (n.cores > 1 && mod %in% c(
+    if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
         "XGB", "XGBOOST", "XGBLIN", "LGB"
     )) {
-        if (verbose) msg("Using", mod, "- n.cores for outer resampling set to 1")
-        n.cores <- 1
+        if (verbose) msg("Using", mod, "- outer.n.workers set to 1")
+        outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
     if (save.rt & is.null(outdir)) outdir <- paste0("./elevate.", mod)
@@ -264,7 +264,7 @@ elevate <- function(x, y = NULL,
         filename <- paste0(outdir, "elevate.", mod.name, ".rds")
     }
 
-    # resLearn ----
+    # resLearn: Outer resamples ----
     resample.rtset <- list(
         resampler = resampler,
         n.resamples = n.resamples,
@@ -276,7 +276,7 @@ elevate <- function(x, y = NULL,
         group = res.group,
         index = res.index
     )
-    if (n.cores > 1) print.res.plot <- FALSE
+    if (outer.n.workers > 1) print.res.plot <- FALSE
     if (!is.null(logFile) & trace < 2) sink() # pause writing to file
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
@@ -306,7 +306,7 @@ elevate <- function(x, y = NULL,
             trace = trace,
             save.mods = save.mods,
             outdir = res.outdir,
-            n.cores = n.cores,
+            n.workers = outer.n.workers,
             parallel.type = parallel.type
         )
         mods[[i]] <- res.run[[i]]$mods
