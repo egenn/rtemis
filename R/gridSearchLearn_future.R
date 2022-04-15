@@ -96,7 +96,7 @@ gridSearchLearn_future <- function(x, y, mod,
     } else {
         future::plan(rtPlan, workers = n.cores)
         if (trace > 0) {
-            msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
+            msg("Inner resampling plan set to", crayon::bold(rtPlan),
                 "with", crayon::bold(n.cores), "workers",
                 color = crayon::magenta
             )
