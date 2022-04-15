@@ -272,3 +272,13 @@ rtemis_init <- function(n.cores = 1,
         }
     }
 } # rtemis::rtemis_init
+
+
+# rtPlan <- function(parallel_plan = NULL) {
+
+#     getOption(
+#         "future.plan",
+#         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+#     )
+
+# }
