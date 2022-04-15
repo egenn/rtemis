@@ -7,12 +7,12 @@ rtemis.version <- packageVersion("rtemis")
 .availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
 rtHome <- getOption("rt.home", Sys.getenv("HOME"))
+# Set initial plan e.g. for s_ with gridSearchLearn,
+# will be overwritten by resLearn for nested plan
 rtPlan <- getOption(
     "future.plan",
     ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
 )
-# Set initial plan e.g. for s_ with gridSearchLearn,
-# will be overwritten by resLearn for nested plan
 future::plan(rtPlan)
 # rtProgress <- getOption("rt.progress", "global")
 # if (rtProgress == "global") progressr::handlers(global = TRUE)
