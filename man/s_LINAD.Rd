@@ -22,7 +22,7 @@ s_LINAD(
   nvmax = 3,
   force.max.leaves = NULL,
   lookback = TRUE,
-  gamma = 0,
+  gamma = 0.5,
   gamma.on.lin = FALSE,
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
