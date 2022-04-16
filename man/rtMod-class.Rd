@@ -6,9 +6,13 @@
 \alias{rtMod}
 \title{\pkg{rtemis} Supervised Model Class}
 \description{
-R6 Class for \pkg{rtemis} Supervised Models
+\pkg{rtemis} Supervised Model Class
+
+\pkg{rtemis} Supervised Model Class
 }
 \details{
+R6 Class for \pkg{rtemis} Supervised Models
+
 Note on terminology:
 The training set ('x.train') is used to build a model and calculate training error
 (rtMod$error.train). The testing set ('x.test') is not seen during training and
@@ -87,6 +91,7 @@ different approaches}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtMod} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$new(
   mod.name = character(),
@@ -112,11 +117,57 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod.name}}{Character: Algorithm name}
+
+\item{\code{y.train}}{Training set output}
+
+\item{\code{y.test}}{Testing set output}
+
+\item{\code{x.name}}{Character: Feature set name}
+
+\item{\code{y.name}}{Character: Output name}
+
+\item{\code{xnames}}{Character vector: Feature names}
+
+\item{\code{mod}}{Trained model}
+
+\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+
+\item{\code{gridsearch}}{Grid search output}
+
+\item{\code{parameters}}{List of training parameters}
+
+\item{\code{fitted}}{Fitted values (training set predictions)}
+
+\item{\code{se.fit}}{Standard error of fitted values}
+
+\item{\code{error.train}}{Training set error}
+
+\item{\code{predicted}}{Predicted values (Testing set predictions)}
+
+\item{\code{se.prediction}}{Standard error of predicted values}
+
+\item{\code{error.test}}{Testing set error}
+
+\item{\code{varimp}}{Variable importance}
+
+\item{\code{question}}{Question the model is trying to answer}
+
+\item{\code{extra}}{List of extra model info}
+
+\item{\code{sessionInfo}}{R session info at time of training}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+\code{rtMod} print method
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$print()}\if{html}{\out{</div>}}
 }
@@ -126,6 +177,7 @@ different approaches}
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
+\code{rtMod} plot method
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
   estimate = NULL,
@@ -135,11 +187,25 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{estimate}}{Character: "fitted" or "predicted"}
+
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+
+\item{\code{filenames}}{Character: Path to file to save plot}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotFitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotFitted}{}}}
 \subsection{Method \code{plotFitted()}}{
+Plot fitted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
   print.plot = TRUE,
@@ -150,11 +216,27 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{print.plot}}{Logical: If TRUE show plot}
+
+\item{\code{theme}}{Theme to be passed on to plotting function}
+
+\item{\code{main}}{Character: main title}
+
+\item{\code{filename}}{Character: path to file to save plot}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPredicted}{}}}
 \subsection{Method \code{plotPredicted()}}{
+Plot predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
   print.plot = TRUE,
@@ -165,11 +247,27 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{print.plot}}{Logical: If TRUE show plot}
+
+\item{\code{theme}}{Theme to be passed on to plotting function}
+
+\item{\code{main}}{Character: main title}
+
+\item{\code{filename}}{Character: path to file to save plot}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotFittedPredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotFittedPredicted}{}}}
 \subsection{Method \code{plotFittedPredicted()}}{
+Plot fitted and predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFittedPredicted(
   print.plot = TRUE,
@@ -179,11 +277,23 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{print.plot}}{Logical: If TRUE show plot}
+
+\item{\code{theme}}{Theme to be passed on to plotting function}
+
+\item{\code{filename}}{Character: path to file to save plot}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotVarImp"></a>}}
 \if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
+Plot variable importance
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
   plot.top = 12,
@@ -193,11 +303,25 @@ different approaches}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{plot.top}}{Integer: Plot this many top features}
+
+\item{\code{type}}{Character: "barplot" or "lollipop"}
+
+\item{\code{theme}}{Theme to be passed on to plotting function}
+
+\item{\code{...}}{Not used}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-summary"></a>}}
 \if{latex}{\out{\hypertarget{method-summary}{}}}
 \subsection{Method \code{summary()}}{
+Summary method for \code{rtMod} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$summary(
   plots = TRUE,
@@ -207,18 +331,48 @@ different approaches}
   fit.legend = TRUE,
   se.fit = TRUE,
   single.fig = TRUE,
-  summary = TRUE,
   theme = getOption("rt.theme"),
   title.col = NULL,
   ...
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{plots}}{Logical: If TRUE show plots}
+
+\item{\code{cex}}{Numeric: Character expansion factor}
+
+\item{\code{fit.true.line}}{Character: algorithm to use to fit
+true vs predicted curve}
+
+\item{\code{resid.fit.line}}{Character: algorithm to use to
+fit residuals plot}
+
+\item{\code{fit.legend}}{Logical: If TRUE, show legend in
+fit plot}
+
+\item{\code{se.fit}}{Logical: If TRUE, include standard error
+band in fit plot}
+
+\item{\code{single.fig}}{Logical: If TRUE, combine in 
+single plot}
+
+\item{\code{theme}}{Theme to pass to plotting functions}
+
+\item{\code{title.col}}{Title color}
+
+\item{\code{...}}{Extra argument to pass to}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-describe"></a>}}
 \if{latex}{\out{\hypertarget{method-describe}{}}}
 \subsection{Method \code{describe()}}{
+Describe model in plain English
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$describe()}\if{html}{\out{</div>}}
 }

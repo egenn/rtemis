@@ -6,6 +6,11 @@
 \alias{rtClust}
 \title{R6 class for \pkg{rtemis} clustering}
 \description{
+R6 class for \pkg{rtemis} clustering
+
+R6 class for \pkg{rtemis} clustering
+}
+\details{
 \pkg{rtemis} clustering object
 }
 \author{
@@ -16,7 +21,7 @@ E.D. Gennatas
 \describe{
 \item{\code{clust.name}}{Character: Name of clustering algorithm}
 
-\item{\code{call}}{Originating call}
+\item{\code{k}}{Integer: Number of clusters}
 
 \item{\code{xnames}}{Column names of x}
 
@@ -26,14 +31,9 @@ E.D. Gennatas
 
 \item{\code{clusters.test}}{Cluster assignment for testing set (if supported by algorithm and test set provided)}
 
+\item{\code{parameters}}{List of clustering algorithm parameters}
+
 \item{\code{extra}}{List: Algorithm-specific output}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{call}}{Originating call}
 }
 \if{html}{\out{</div>}}
 }
@@ -49,6 +49,7 @@ E.D. Gennatas
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Create a new rtClust object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtClust$new(
   clust.name = character(),
@@ -62,11 +63,33 @@ E.D. Gennatas
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{clust.name}}{Character: Clustering algorithm name}
+
+\item{\code{k}}{Integer: Number of cluster}
+
+\item{\code{xnames}}{Character vector: feature names}
+
+\item{\code{clust}}{Clustering object}
+
+\item{\code{clusters.train}}{Training set clustering results}
+
+\item{\code{clusters.test}}{Testing set clustering results}
+
+\item{\code{parameters}}{List of clustering algorithm parameters}
+
+\item{\code{extra}}{Optional list of algorithm-specific info}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Print method for \code{rtClust} objects
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtClust$print()}\if{html}{\out{</div>}}
 }

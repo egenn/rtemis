@@ -4,7 +4,15 @@
 \alias{rtModClass}
 \title{\pkg{rtemis} Classification Model Class}
 \description{
+\pkg{rtemis} Classification Model Class
+
+\pkg{rtemis} Classification Model Class
+}
+\details{
 R6 Class for \pkg{rtemis} Classification Models
+
+ @field fitted.prob Training set probability estimates
+ @filed predicted.prob Testing set probability estimates
 }
 \section{Super class}{
 \code{\link[rtemis:rtMod]{rtemis::rtMod}} -> \code{rtModClass}
@@ -40,6 +48,7 @@ R6 Class for \pkg{rtemis} Classification Models
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtModClass} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$new(
   mod.name = character(),
@@ -66,20 +75,81 @@ R6 Class for \pkg{rtemis} Classification Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod.name}}{Character: Algorithm name}
+
+\item{\code{y.train}}{Training set output}
+
+\item{\code{y.test}}{Testing set output}
+
+\item{\code{x.name}}{Character: Feature set name}
+
+\item{\code{y.name}}{Character: Output name}
+
+\item{\code{mod}}{Trained model}
+
+\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+
+\item{\code{gridsearch}}{Grid search output}
+
+\item{\code{parameters}}{List of training parameters}
+
+\item{\code{fitted}}{Fitted values (training set predictions)}
+
+\item{\code{fitted.prob}}{Training set probability estimates}
+
+\item{\code{se.fit}}{Standard error of the fit}
+
+\item{\code{error.train}}{Training set error}
+
+\item{\code{predicted}}{Predicted values (Testing set predictions)}
+
+\item{\code{predicted.prob}}{Testing set probability estimates}
+
+\item{\code{error.test}}{Testing set error}
+
+\item{\code{varimp}}{Variable importance}
+
+\item{\code{question}}{Question the model is trying to answer}
+
+\item{\code{extra}}{List of extra model info}
+
+\item{\code{xname}}{Character vector: Feature names}
+
+\item{\code{sessionInfo}}{R session info at time of training}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROC"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
+plot ROC. Uses testing set if available,
+otherwise training
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCfitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
+plot training set ROC
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCfitted(
   main = "ROC Training",
@@ -89,11 +159,23 @@ R6 Class for \pkg{rtemis} Classification Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCpredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
+plot testing set ROC
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCpredicted(
   main = "ROC Testing",
@@ -103,20 +185,45 @@ R6 Class for \pkg{rtemis} Classification Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPR"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
+plot Precision-Recall curve. Uses testing set 
+if available, otherwise training
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRfitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
+plot training set Precision-Recall curve.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRfitted(
   main = "P-R Training",
@@ -126,11 +233,23 @@ R6 Class for \pkg{rtemis} Classification Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRpredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
+plot testing set Precision-Recall curve.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRpredicted(
   main = "P-R Testing",
@@ -140,6 +259,17 @@ R6 Class for \pkg{rtemis} Classification Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{theme}}{Theme to pass to plotting function}
+
+\item{\code{filename}}{Character: Path to file to save plot}
+
+\item{\code{...}}{Extra arguments to pass to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

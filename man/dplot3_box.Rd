@@ -49,8 +49,8 @@ dplot3_box(
   displayModeBar = TRUE,
   filename = NULL,
   output_format = "svg",
-  file_width = 500,
-  file_height = 500,
+  file.width = 500,
+  file.height = 500,
   file.scale = 1,
   print.plot = TRUE,
   ...

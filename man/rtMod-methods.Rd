@@ -42,22 +42,32 @@
 \method{predict}{rtModLite}(object, newdata, ...)
 }
 \arguments{
+\item{x}{\code{rtMod} object}
+
 \item{...}{Additional arguments to be passed to \link{mplot3_xy}}
 
 \item{object}{Trained model of class \code{rtMod}}
 
 \item{newdata}{Testing set features}
 
+\item{trace}{Integer: Set trace level}
+
+\item{verbose}{Logical: If TRUE, output messages to console}
+
+\item{estimate}{Character: "fitted" or "predicted"}
+
 \item{theme}{Character: theme to use. Options: "box", "darkbox", "light", "dark"}
+
+\item{filename}{Character: Path to file to save plot}
 
 \item{plots}{Logical: If TRUE, print plots. Default = TRUE}
 
 \item{cex}{Float: Character expansion factor}
 
-\item{fit.true.line}{\pkg{rtemis} model to use for fitted vs. true line
+\item{fit.true.line}{\pkg{rtemis} algorithm to use for fitted vs. true line
 Options: \code{modSelect()}}
 
-\item{resid.fit.line}{\pkg{rtemis} model to use for residuals vs. fitted line.
+\item{resid.fit.line}{\pkg{rtemis} algorithm to use for residuals vs. fitted line.
 Options: \code{modSelect()}}
 
 \item{fit.legend}{Logical: If TRUE, print fit legend. Default  = TRUE}

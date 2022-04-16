@@ -22,24 +22,27 @@ d_ICA(
 
 \item{k}{Integer vector of length 1 or greater. Rank of decomposition}
 
-\item{package}{Character: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
+\item{package}{Character: Which package to use for ICA. "fastICA" will 
+use \code{fastICA::fastICA},
 "ica" will use \code{ica::fastica}. Default = "fastICA".
 Note: only \code{fastICA} works with \code{k = 1}}
 
-\item{alg.type}{Character: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"}
+\item{alg.type}{Character: For \code{package = "fastICA"}, "parallel" or 
+"deflation".}
 
 \item{maxit}{Integer: Maximum N of iterations}
 
-\item{scale}{Logical: If TRUE, scale input data before decomposition. Default = TRUE}
+\item{scale}{Logical: If TRUE, scale input data before decomposition.}
 
-\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
-Default = TRUE}
+\item{center}{Logical: If TRUE, also center input data if \code{scale} 
+is \code{TRUE}.}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 
 \item{trace}{Integer: If > 0, print messages during ICA run. Default = 0}
 
-\item{...}{Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}}
+\item{...}{Additional parameters to be passed to \code{fastICA::fastICA} 
+or \code{ica::icafast}}
 }
 \value{
 \link{rtDecom} object

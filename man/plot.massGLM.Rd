@@ -18,6 +18,7 @@
   hline.annotate = as.character(pval.hline),
   ylim = NULL,
   ylab = NULL,
+  group = NULL,
   col.neg = "#43A4AC",
   col.pos = "#FA9860",
   col.ns = "#7f7f7f",

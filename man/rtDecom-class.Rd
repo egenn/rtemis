@@ -6,6 +6,11 @@
 \alias{rtDecom}
 \title{R6 Class for \pkg{rtemis} Decompositions}
 \description{
+R6 Class for \pkg{rtemis} Decompositions
+
+R6 Class for \pkg{rtemis} Decompositions
+}
+\details{
 \pkg{rtemis} decomposition R6 object
 }
 \author{
@@ -15,8 +20,6 @@ E.D. Gennatas
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{decom.name}}{Character: Name of decomposition algorithm}
-
-\item{\code{call}}{Originating call}
 
 \item{\code{xnames}}{Character vector: Column names of x}
 
@@ -38,13 +41,6 @@ prior to decomposition}
 }
 \if{html}{\out{</div>}}
 }
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{call}}{Originating call}
-}
-\if{html}{\out{</div>}}
-}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -57,25 +53,44 @@ prior to decomposition}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initiali \code{rtDecom} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtDecom$new(
   decom.name = character(),
   xnames = character(),
   decom = list(),
   parameters = list(),
-  center = numeric(),
-  scale = numeric(),
   projections.train = numeric(),
   projections.test = numeric(),
   extra = list()
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{decom.name}}{Character: Decomposition algorithm name}
+
+\item{\code{xnames}}{Character vector: feature names}
+
+\item{\code{decom}}{Decomposition object}
+
+\item{\code{parameters}}{list of decomposition algorithm parameters}
+
+\item{\code{projections.train}}{Training set projections}
+
+\item{\code{projections.test}}{Testing set projections}
+
+\item{\code{extra}}{Optional list of algorithm-specific info}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Print method for \code{rtDecom} objects
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtDecom$print()}\if{html}{\out{</div>}}
 }
