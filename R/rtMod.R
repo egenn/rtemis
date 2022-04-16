@@ -65,6 +65,28 @@ rtMod <- R6::R6Class("rtMod",
                        extra = NULL,
                        sessionInfo = NULL,
                        ### Initialize
+                       #' @description
+                       #' Initialize \code{rtMod} object
+                       #' @param mod.name Character: Algorithm name
+                       #' @param y.train Training set output
+                       #' @param y.test Testing set output
+                       #' @param x.name Character: Feature set name
+                       #' @param y.name Character: Output name
+                       #' @param xnames Character vector: Feature names
+                       #' @param mod Trained model
+                       #' @param type Character: Type of model (Regression, Classification, Survival)
+                       #' @param gridsearch Grid search output
+                       #' @param parameters List of training parameters
+                       #' @param fitted Fitted values (training set predictions)
+                       #' @param se.fit Standard error of fitted values
+                       #' @param error.train Training set error
+                       #' @param predicted Predicted values (Testing set predictions)
+                       #' @param se.prediction Standard error of predicted values
+                       #' @param error.test Testing set error
+                       #' @param varimp Variable importance
+                       #' @param question Question the model is trying to answer
+                       #' @param extra List of extra model info
+                       #' @param sessionInfo R session info at time of training
                        initialize = function(mod.name = character(),
                                              y.train = numeric(),
                                              y.test = numeric(),
@@ -107,6 +129,8 @@ rtMod <- R6::R6Class("rtMod",
                          self$sessionInfo <- sessionInfo()
                        },
                        ### Methods
+                       #' @description
+                       #' \code{rtMod} print method
                        print = function() {
                          "show / print method for rtMod"
                          objcat("Supervised Model")
@@ -119,6 +143,12 @@ rtMod <- R6::R6Class("rtMod",
                            print(self$error.test)
                          }
                        },
+                       #' @description
+                       #' \code{rtMod} plot method
+                       #' @param estimate Character: "fitted" or "predicted"
+                       #' @param theme Theme to pass to plotting function
+                       #' @param filenames Character: Path to file to save plot
+                       #' @param ... Additional arguments passed to plotting function
                        plot = function(estimate = NULL,
                                        theme = getOption("rt.theme"),
                                        filename = NULL, ...) {
@@ -141,6 +171,13 @@ rtMod <- R6::R6Class("rtMod",
                            }
                          }
                        },
+                       #' @description
+                       #' Plot fitted values
+                       #' @param print.plot Logical: If TRUE show plot
+                       #' @param theme Theme to be passed on to plotting function
+                       #' @param main Character: main title
+                       #' @param filename Character: path to file to save plot
+                       #' @param ... Additional arguments passed to plotting function
                        plotFitted = function(print.plot = TRUE,
                                              theme = getOption("rt.theme"),
                                              main = NULL,
@@ -169,6 +206,13 @@ rtMod <- R6::R6Class("rtMod",
                                        filename = filename, ...)
                          }
                        },
+                       #' @description
+                       #' Plot predicted values
+                       #' @param print.plot Logical: If TRUE show plot
+                       #' @param theme Theme to be passed on to plotting function
+                       #' @param main Character: main title
+                       #' @param filename Character: path to file to save plot
+                       #' @param ... Additional arguments passed to plotting function
                        plotPredicted = function(print.plot = TRUE,
                                                 theme = getOption("rt.theme"),
                                                 main = NULL,
@@ -201,6 +245,11 @@ rtMod <- R6::R6Class("rtMod",
                                        filename = filename, ...)
                          }
                        },
+                       #' @description
+                       #' Plot fitted and predicted values
+                       #' @param print.plot Logical: If TRUE show plot
+                       #' @param theme Theme to be passed on to plotting function
+                       #' @param filename Character: path to file to save plot
                        plotFittedPredicted = function(print.plot = TRUE,
                                                       theme = getOption("rt.theme"),
                                                       filename = NULL, ...) {
@@ -236,6 +285,13 @@ rtMod <- R6::R6Class("rtMod",
                                     theme = theme,
                                     filename = filename, ...)
                        },
+                       #' @description
+                       #' Plot variable importance
+                       #' 
+                       #' @param plot.top Integer: Plot this many top features
+                       #' @param type Character: "barplot" or "lollipop"
+                       #' @param theme Theme to be passed on to plotting function
+                       #' @param ... Not used
                        plotVarImp = function(plot.top = 12,
                                              type = c("barplot", "lollipop"),
                                              theme = getOption("rt.theme"), ...) {
@@ -255,6 +311,23 @@ rtMod <- R6::R6Class("rtMod",
                            }
                          }
                        },
+                       #' @description
+                       #' Summary method for \code{rtMod} object
+                       #' @param plots Logical: If TRUE show plots
+                       #' @param cex Numeric: Character expansion factor
+                       #' @param fit.true.line Character: algorithm to use to fit
+                       #' true vs predicted curve
+                       #' @param resid.fit.line Character: algorithm to use to
+                       #' fit residuals plot
+                       #' @param fit.legend Logical: If TRUE, show legend in
+                       #' fit plot
+                       #' @param se.fit Logical: If TRUE, include standard error
+                       #' band in fit plot
+                       #' @param single.fig Logical: If TRUE, combine in 
+                       #' single plot
+                       #' @param theme Theme to pass to plotting functions
+                       #' @param title.col Title color
+                       #' @param ... Extra argument to pass to 
                        summary = function(plots = TRUE,
                                           cex = 1,
                                           fit.true.line = "lm",
@@ -262,51 +335,73 @@ rtMod <- R6::R6Class("rtMod",
                                           fit.legend = TRUE,
                                           se.fit = TRUE,
                                           single.fig = TRUE,
-                                          summary = TRUE,
                                           theme = getOption("rt.theme"),
                                           title.col = NULL, ...) {
                          "Get model summary"
                          summary.rtMod(self)
                        },
+                       #' @description
+                       #' Describe model in plain English
                        describe = function() {
 
                          type <- self$type
-                         algorithm <- modSelect(self$mod.name, desc = T)
-                         cat(algorithm, " was used for ", tolower(type), ".", sep = "")
+                         algorithm <- modSelect(self$mod.name, desc = TRUE)
+                         cat(algorithm, " was used for ",
+                           tolower(type), ".",
+                           sep = ""
+                         )
+                         desc <- paste0(
+                           algorithm, " was used for ",
+                           tolower(type), "."
+                         )
 
                          # Tuning ----
-                         if (!is.null(self$extra$gridSearch)) {
-                           res <- self$extra$gridSearch$resample.rtset
-                           n.resamples <- res$n.resamples
-                           resampler <- res$resampler
-                           resamples <- switch(resampler,
-                                               strat.sub = " stratified subsamples",
-                                               bootstrap = " bootstraps",
-                                               strat.boot = " stratified bootstraps",
-                                               kfold = "-fold crossvalidation",
-                                               "custom resamples")
-                           cat(" Model tuning was performed using ", n.resamples, resamples, ". ", sep = "")
-                           params <- self$extra$gridSearch$params$search
-                           search.index <- which(lapply(params, length) > 1)
-                           fixed.index <- which(lapply(params, length) == 1)
-                           fixed <- searched <- list()
-                           for (i in seq(search.index)) searched[[i]] <- params[[search.index[i]]]
-                           names(searched) <- names(params)[search.index]
-                           for (i in seq(fixed.index)) fixed[[i]] <- params[[fixed.index[i]]]
-                           names(fixed) <- names(params)[fixed.index]
-                           metric <- self$extra$gridSearch$metric
+                         if (!is.null(self$gridsearch)) {
+                             res <- self$gridsearch$resample.rtset
+                             n.resamples <- res$n.resamples
+                             resampler <- res$resampler
+                             resamples <- switch(resampler,
+                                 strat.sub = " stratified subsamples",
+                                 bootstrap = " bootstraps",
+                                 strat.boot = " stratified bootstraps",
+                                 kfold = "-fold crossvalidation",
+                                 "custom resamples"
+                             )
+                             cat(" Model tuning was performed using ",
+                                 n.resamples, resamples, ". ",
+                                 sep = ""
+                             )
+                             desc <- paste0(
+                                 desc,
+                                 " Hyperparameter tuning was performed using ",
+                                 n.resamples, resamples, "."
+                             )
+                             params <- self$gridsearch$params$search
+                             search.index <- which(lapply(params, length) > 1)
+                             fixed.index <- which(lapply(params, length) == 1)
+                             fixed <- searched <- list()
+                             for (i in seq_along(search.index)) {
+                                 searched[[i]] <- params[[search.index[i]]]
+                             }
+                             names(searched) <- names(params)[search.index]
+                             for (i in seq(fixed.index)) {
+                                 fixed[[i]] <- params[[fixed.index[i]]]
+                             }
+                             names(fixed) <- names(params)[fixed.index]
+                             metric <- self$gridsearch$metric
 
-                           if (length(fixed) > 0) {
-                             cat("The following parameters were fixed:\n")
-                             printls(fixed)
-                           }
-                           if (length(searched) > 0) {
-                             cat("Grid search was performed on:\n")
-                             printls(searched)
-                           }
-                           cat(metric, "was", ifelse(self$extra$gridSearch$maximize,
-                                                     "maximized", "minimized"), "with:")
-                           printls(self$extra$gridSearch$best.tune)
+                             if (length(fixed) > 0) {
+                                 cat("The following parameters were fixed:\n")
+                                 printls(fixed)
+                             }
+                             if (length(searched) > 0) {
+                                 cat("Grid search was performed on:\n")
+                                 printls(searched)
+                             }
+                             cat(metric, "was", ifelse(self$gridsearch$maximize,
+                                 "maximized", "minimized"
+                             ), "with:")
+                             printls(self$gridsearch$best.tune)
                          }
 
                          # Error ----
@@ -346,6 +441,8 @@ NULL
 #' \code{print.rtMod}: \code{print} method for \code{rtMod} object
 #'
 #' @method print rtMod
+#' @param x \code{rtMod} object
+#' @param ... Not use
 #' @rdname rtMod-methods
 #' @export
 print.rtMod <- function(x, ...) {
@@ -358,6 +455,8 @@ print.rtMod <- function(x, ...) {
 #' \code{fitted.rtMod}: \code{fitted} method for \code{rtMod} object
 #'
 #' @method fitted rtMod
+#' @param object \code{rtMod} object
+#' @param ... Not used
 #' @rdname rtMod-methods
 #' @export
 fitted.rtMod <- function(object, ...) {
@@ -370,7 +469,10 @@ fitted.rtMod <- function(object, ...) {
 #' \code{predict.rtMod}: \code{predict} method for \code{rtMod} object
 #'
 #' @method predict rtMod
-#' @param newdata Testing set features
+#' @param newdata Features to use for prediction
+#' @param trace Integer: Set trace level
+#' @param verbose Logical: If TRUE, output messages to console
+#' @param ... Extra arguments to pass to trained model's \code{predict} method
 #' @rdname rtMod-methods
 #' @export
 predict.rtMod <- function(object,
@@ -519,6 +621,8 @@ predict.rtMod <- function(object,
 #' \code{residuals.rtMod}: \code{residuals} method for \code{rtMod} object
 #'
 #' @method residuals rtMod
+#' @param object \code{rtMod} object
+#' @param ... Not used
 #' @rdname rtMod-methods
 #' @export
 residuals.rtMod <- function(object, ...) {
@@ -531,6 +635,9 @@ residuals.rtMod <- function(object, ...) {
 #' \code{plot.rtMod}: \code{plot} method for \code{rtMod} object
 #'
 #' @method plot rtMod
+#' @param x \code{rtMod} object
+#' @param estimate Character: "fitted" or "predicted"
+#' @param filename Character: Path to file to save plot
 #' @rdname rtMod-methods
 #' @export
 plot.rtMod <- function(x, estimate = NULL,
@@ -547,12 +654,12 @@ plot.rtMod <- function(x, estimate = NULL,
 #' \code{summary.rtMod}: \code{summary} method for \code{rtMod} object
 #'
 #' @method summary rtMod
-#' @param object \pkg{rtemis} model
+#' @param object \code{rtMod} object
 #' @param plots Logical: If TRUE, print plots. Default = TRUE
 #' @param cex Float: Character expansion factor
-#' @param fit.true.line \pkg{rtemis} model to use for fitted vs. true line
+#' @param fit.true.line \pkg{rtemis} algorithm to use for fitted vs. true line
 #'   Options: \code{modSelect()}
-#' @param resid.fit.line \pkg{rtemis} model to use for residuals vs. fitted line.
+#' @param resid.fit.line \pkg{rtemis} algorithm to use for residuals vs. fitted line.
 #'   Options: \code{modSelect()}
 #' @param fit.legend Logical: If TRUE, print fit legend. Default  = TRUE
 #' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
@@ -590,7 +697,7 @@ summary.rtMod <- function(object,
   error <- object$predicted - object$y.test
   question <- object$question
 
-  # [ PRINT TRAIN AND TEST ERRORS ]
+  # [ Print train and testing errors ]
   boxcat(".:rtemis Summary")
   if (length(question) > 0) cat("Question: ", question, "\n\n")
   cat(mod.name, "Training Error:\n")
@@ -600,7 +707,7 @@ summary.rtMod <- function(object,
     print(object$error.test)
   }
 
-  # [ PLOT ]
+  # [ Plot ]
   if (plots) {
     if (object$type == "Classification") {
       object$plot()
@@ -614,7 +721,6 @@ summary.rtMod <- function(object,
       }
       pr <- ifelse(single.fig, FALSE, TRUE)
 
-      # [ PLOTS ]
       # 1. Fitted vs. True
       mplot3_xy(y.train, fitted,
                 xlab = "True", ylab = "Fitted", main = "Training",
@@ -675,6 +781,8 @@ summary.rtMod <- function(object,
 #' \code{coef.rtMod}: \code{coef} method for \code{rtMod} object
 #'
 #' @param object Trained model of class \code{rtMod}
+#' @param verbose Logical: If TRUE, output messages to console
+#' 
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
@@ -694,11 +802,36 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
 #'
 #' R6 Class for \pkg{rtemis} Classification Models
 #'
+#'  @field fitted.prob Training set probability estimates
+#'  @filed predicted.prob Testing set probability estimates
 rtModClass <- R6::R6Class("rtModClass",
                           inherit = rtMod,
                           public = list(fitted.prob = NULL,
                                         predicted.prob = NULL,
                                         ### Initialize
+                                        #' @description
+                                        #' Initialize \code{rtModClass} object
+                                        #' @param mod.name Character: Algorithm name
+                                        #' @param y.train Training set output
+                                        #' @param y.test Testing set output
+                                        #' @param x.name Character: Feature set name
+                                        #' @param y.name Character: Output name
+                                        #' @param xname Character vector: Feature names
+                                        #' @param mod Trained model
+                                        #' @param type Character: Type of model (Regression, Classification, Survival)
+                                        #' @param gridsearch Grid search output
+                                        #' @param parameters List of training parameters
+                                        #' @param fitted Fitted values (training set predictions)
+                                        #' @param fitted.prob Training set probability estimates
+                                        #' @param se.fit Standard error of the fit
+                                        #' @param error.train Training set error
+                                        #' @param predicted Predicted values (Testing set predictions)
+                                        #' @param predicted.prob Testing set probability estimates
+                                        #' @param error.test Testing set error
+                                        #' @param varimp Variable importance
+                                        #' @param question Question the model is trying to answer
+                                        #' @param extra List of extra model info
+                                        #' @param sessionInfo R session info at time of training
                                         initialize = function(mod.name = character(),
                                                               y.train = numeric(),
                                                               y.test = numeric(),
@@ -743,6 +876,12 @@ rtModClass <- R6::R6Class("rtModClass",
                                           self$predicted.prob <- predicted.prob
                                         },
                                         ### Methods
+                                        #' @description
+                                        #' plot ROC. Uses testing set if available,
+                                        #' otherwise training
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotROC = function(theme = getOption("rt.theme"),
                                                            filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
@@ -755,6 +894,11 @@ rtModClass <- R6::R6Class("rtModClass",
                                                                filename = filename, ...)
                                           }
                                         },
+                                        #' @description
+                                        #' plot training set ROC
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotROCfitted = function(main = "ROC Training",
                                                                  theme = getOption("rt.theme"),
                                                                  filename = NULL, ...) {
@@ -767,6 +911,11 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
+                                        #' @description
+                                        #' plot testing set ROC
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotROCpredicted = function(main = "ROC Testing",
                                                                     theme = getOption("rt.theme"),
                                                                     filename = NULL, ...) {
@@ -779,6 +928,12 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
+                                        #' @description
+                                        #' plot Precision-Recall curve. Uses testing set 
+                                        #' if available, otherwise training
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotPR = function(theme = getOption("rt.theme"),
                                                           filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
@@ -791,6 +946,11 @@ rtModClass <- R6::R6Class("rtModClass",
                                                               filename = filename, ...)
                                           }
                                         },
+                                        #' @description
+                                        #' plot training set Precision-Recall curve.
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotPRfitted = function(main = "P-R Training",
                                                                 theme = getOption("rt.theme"),
                                                                 filename = NULL, ...) {
@@ -803,6 +963,11 @@ rtModClass <- R6::R6Class("rtModClass",
                                             msg("Estimated probabilities are not available")
                                           }
                                         },
+                                        #' @description
+                                        #' plot testing set Precision-Recall curve.
+                                        #' @param theme Theme to pass to plotting function
+                                        #' @param filename Character: Path to file to save plot
+                                        #' @param ... Extra arguments to pass to plotting function
                                         plotPRpredicted = function(main = "P-R Testing",
                                                                    theme = getOption("rt.theme"),
                                                                    filename = NULL, ...) {
@@ -1261,9 +1426,9 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
 
                            # Tuning ----
-                           .gs <- !is.null(self$mod[[1]][[1]]$mod1$extra$gridSearch)
+                           .gs <- !is.null(self$mod[[1]][[1]]$mod1$gridsearch)
                            if (.gs) {
-                             res <- self$mod[[1]][[1]]$mod1$extra$gridSearch$resample.rtset
+                             res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset
                              n.resamples <- res$n.resamples
                              resampler <- res$resampler
                              resamples <- switch(resampler,
