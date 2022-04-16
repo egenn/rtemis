@@ -143,8 +143,8 @@ dplot3_box <- function(
             displayModeBar = TRUE,
             filename = NULL,
             output_format = "svg",
-            file_width = 500,
-            file_height = 500,
+            file.width = 500,
+            file.height = 500,
             file.scale = 1,
             print.plot = TRUE,
             ...) {
@@ -171,12 +171,14 @@ dplot3_box <- function(
         }
     }
     nvars <- length(x)
-    if (nvars > 1 && !is.null(group) && !is.null(time)) stop("Better use subplot for each variable")
+    if (nvars > 1 && !is.null(group) && !is.null(time)) {
+        stop("Better use subplot for each variable")
+    }
     horizontal <- orientation == "h"
 
     if (x.transform != "none") {
         if (x.transform == "scale") {
-            x <- lapply(x, scale)
+            x <- lapply(x, \(z) as.numeric(scale(z)))
         } else if (x.transform == "minmax") {
             x <- lapply(x, drange)
         } else {
@@ -248,13 +250,13 @@ dplot3_box <- function(
         if (is.null(group)) {
             # A.1 Single and multiple boxplots ----
             if (is.null(legend)) legend <- FALSE
-            args <- if (horizontal) {
+            .args <- if (horizontal) {
                 list(x = x[[1]], y = NULL)
             } else {
                 list(x = NULL, y = x[[1]])
             }
-            args <- c(
-                args,
+            .args <- c(
+                .args,
                 list(
                     type = type,
                     # name = .xnames[1],
@@ -274,14 +276,14 @@ dplot3_box <- function(
                 hovertext <- list(hovertext)
             }
             if (type == "box") {
-                args <- c(args, list(
+                .args <- c(.args, list(
                     quartilemethod = quartilemethod,
                     boxpoints = boxpoints
                 ))
-                if (!is.null(hovertext)) args$text <- hovertext[[1]]
+                if (!is.null(hovertext)) .args$text <- hovertext[[1]]
             }
-            if (type == "violin") args$box <- list(visible = violin.box)
-            plt <- do.call(plotly::plot_ly, args)
+            if (type == "violin") .args$box <- list(visible = violin.box)
+            plt <- do.call(plotly::plot_ly, .args)
             if (n.groups > 1) {
                 for (i in seq_len(n.groups)[-1]) {
                     plt <- plotly::add_trace(plt,
@@ -302,7 +304,10 @@ dplot3_box <- function(
             }
 
             if (annotate_n) {
-                Nperbox <- Filter(function(i) i > 0, sapply(x, function(j) length(na.exclude(j))))
+                Nperbox <- Filter(
+                    function(i) i > 0,
+                    sapply(x, function(j) length(na.exclude(j)))
+                )
                 plt |>
                     plotly::add_annotations(
                         xref = "paper", yref = "paper",
@@ -339,9 +344,11 @@ dplot3_box <- function(
                 # For single variables x group, preferred way it to use split(var, group) => A1
                 if (is.null(legend)) legend <- TRUE
                 dt <- cbind(data.table::as.data.table(x), group = group)
-                dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))], id.vars = c("ID", "group"))
+                dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))],
+                    id.vars = c("ID", "group")
+                )
                 if (is.null(ylab)) ylab <- ""
-                args <- list(
+                .args <- list(
                     data = dtlong,
                     type = type,
                     x = if (horizontal) ~value else ~variable,
@@ -351,22 +358,22 @@ dplot3_box <- function(
                     showlegend = legend
                 )
                 if (type == "box") {
-                    args <- c(args, list(
+                    .args <- c(.args, list(
                         quartilemethod = quartilemethod,
                         boxpoints = boxpoints,
                         alpha = alpha
                     ))
                     if (!is.null(hovertext)) {
                         dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
-                        args$text <- dtlong$hovertext
+                        .args$text <- dtlong$hovertext
                     }
                 }
-                if (type == "violin") args$box <- list(visible = violin.box)
+                if (type == "violin") .args$box <- list(visible = violin.box)
                 cataxis <- list(
                     tickvals = 0:(NCOL(dt) - 2),
                     ticktext = .xnames
                 )
-                plt <- do.call(plotly::plot_ly, args) |>
+                plt <- do.call(plotly::plot_ly, .args) |>
                     plotly::layout(
                         boxmode = "group",
                         xaxis = if (horizontal) NULL else cataxis,
@@ -380,14 +387,14 @@ dplot3_box <- function(
 
                 if (is.null(ylab)) ylab <- ""
                 if (type == "box") {
-                    args <- list(
+                    .args <- list(
                         type = "box",
                         quartilemethod = quartilemethod,
                         boxpoints = boxpoints,
                         alpha = alpha
                     )
                 } else {
-                    args <- list(
+                    .args <- list(
                         type = "violin",
                         box = list(visible = violin.box)
                     )
@@ -404,7 +411,7 @@ dplot3_box <- function(
                 boxindex <- 0
 
                 # plt <- plotly::plot_ly(type = type) # box or violin
-                plt <- do.call(plotly::plot_ly, args)
+                plt <- do.call(plotly::plot_ly, .args)
                 for (i in seq_along(varnames)) {
                     # loop vars
                     for (j in seq_along(dts)) {
@@ -418,7 +425,7 @@ dplot3_box <- function(
                             line = list(color = plotly::toRGB(col[j])),
                             fillcolor = plotly::toRGB(col[j], alpha),
                             marker = list(color = plotly::toRGB(col[j], alpha)),
-                            showlegend = i == nvars,
+                            showlegend = legend & (i == nvars),
                             hoverinfo = "all",
                             legendgroup = groupnames[j]
                         ) -> plt
@@ -490,7 +497,7 @@ dplot3_box <- function(
         dt[, timeperiod := date2factor(time, time.bin)] |>
             setkey(timeperiod)
 
-        Npertimeperiod <- dt[levels(timeperiod)][, lapply(.SD, function(i) length(na.exclude(i))),
+        Npertimeperiod <- dt[levels(timeperiod)][, lapply(.SD, \(i) length(na.exclude(i))),
             by = timeperiod
         ] |>
             setorder()
@@ -505,7 +512,7 @@ dplot3_box <- function(
         )
 
         if (is.null(group)) {
-            args <- list(
+            .args <- list(
                 data = dtlong,
                 type = type,
                 x = if (horizontal) ~value else ~timeperiod,
@@ -515,7 +522,7 @@ dplot3_box <- function(
                 showlegend = legend
             )
         } else {
-            args <- list(
+            .args <- list(
                 data = dtlong,
                 type = type,
                 x = if (horizontal) ~value else ~timeperiod,
@@ -526,17 +533,17 @@ dplot3_box <- function(
             )
         }
 
-        if (!is.null(hovertext)) args$text <- dtlong$hovertext
+        if (!is.null(hovertext)) .args$text <- dtlong$hovertext
 
         if (type == "box") {
-            args <- c(args, list(
+            .args <- c(.args, list(
                 quartilemethod = quartilemethod,
                 boxpoints = boxpoints
             ))
         }
-        if (type == "violin") args$box <- list(visible = violin.box)
+        if (type == "violin") .args$box <- list(visible = violin.box)
 
-        plt <- do.call(plotly::plot_ly, args)
+        plt <- do.call(plotly::plot_ly, .args)
         if (!is.null(group) | nvars > 1) {
             plt |> plotly::layout(boxmode = "group") -> plt
         }
@@ -599,7 +606,7 @@ dplot3_box <- function(
         orientation = legend.orientation
     )
 
-    suppressWarnings({
+
         plt <- plotly::layout(plt,
             yaxis = list(
                 title = if (horizontal) xlab else ylab,
@@ -639,7 +646,6 @@ dplot3_box <- function(
             # boxgap = boxgap,
             boxgroupgap = boxgroupgap
         )
-    })
 
     # Config
     plt <- plotly::config(plt,
