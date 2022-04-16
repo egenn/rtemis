@@ -9,11 +9,12 @@
 #' @docType class
 #' @name rtClust-class
 #' @field clust.name Character: Name of clustering algorithm
-#' @field call Originating call
+#' @field k Integer: Number of clusters
 #' @field xnames Column names of x
 #' @field clust Clustering algorithm output
 #' @field clusters.train Cluster assignment for training set
 #' @field clusters.test Cluster assignment for testing set (if supported by algorithm and test set provided)
+#' @field parameters List of clustering algorithm parameters
 #' @field extra List: Algorithm-specific output
 #' @author E.D. Gennatas
 #' @export
@@ -30,6 +31,16 @@ rtClust <- R6::R6Class("rtClust",
                           parameters = NULL,
                           extra = NULL,
                           ### Initialize
+                          #' @description
+                          #' Create a new rtClust object
+                          #' @param clust.name Character: Clustering algorithm name
+                          #' @param k Integer: Number of cluster
+                          #' @param xnames Character vector: feature names
+                          #' @param clust Clustering object
+                          #' @param clusters.train Training set clustering results
+                          #' @param clusters.test Testing set clustering results
+                          #' @param parameters List of clustering algorithm parameters
+                          #' @param extra Optional list of algorithm-specific info
                           initialize = function(clust.name = character(),
                                                 k = NULL,
                                                 xnames = character(),
@@ -48,6 +59,8 @@ rtClust <- R6::R6Class("rtClust",
                             self$extra <- extra
                           },
                           ### Methods
+                          #' @description
+                          #' Print method for \code{rtClust} objects
                           print = function() {
                             "show / print method for rtClust"
                             objcat("Clustering object")
