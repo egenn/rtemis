@@ -18,16 +18,20 @@
 #' @param x Input data
 # @param x.test Optional test set. Will be projected on to ICA basis
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param package Character: Which package to use for ICA. "fastICA" will use \code{fastICA::fastICA},
+#' @param package Character: Which package to use for ICA. "fastICA" will 
+#' use \code{fastICA::fastICA},
 #' "ica" will use \code{ica::fastica}. Default = "fastICA".
 #' Note: only \code{fastICA} works with \code{k = 1}
-#' @param alg.type Character: For \code{package = "fastICA"}, "parallel" or "deflation". Default = "parallel"
+#' @param alg.type Character: For \code{package = "fastICA"}, "parallel" or 
+#' "deflation".
 #' @param maxit Integer: Maximum N of iterations
-#' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
-#' Default = TRUE
+#' @param scale Logical: If TRUE, scale input data before decomposition. 
+#' @param center Logical: If TRUE, also center input data if \code{scale} 
+#' is \code{TRUE}.
 #' @param trace Integer: If > 0, print messages during ICA run. Default = 0
-#' @param ... Additional parameters to be passed to \code{fastICA::fastICA} or \code{ica::icafast}
+#' @param ... Additional parameters to be passed to \code{fastICA::fastICA} 
+#' or \code{ica::icafast}
+#' 
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas
 #' @family Decomposition
@@ -100,7 +104,6 @@ d_ICA <- function(x,
   colnames(projections.train) <- paste0("ICA", seq(k))
 
   # Outro ----
-  extra <- list()
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,
                     xnames = xnames,
@@ -111,8 +114,7 @@ d_ICA <- function(x,
                                         alg.type = alg.type,
                                         maxit = maxit,
                                         scale = scale),
-                                   list(...)),
-                    extra = extra)
+                                   list(...)))
   outro(start.time, verbose = verbose)
   rt
 
