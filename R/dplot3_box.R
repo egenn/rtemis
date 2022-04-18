@@ -653,8 +653,8 @@ dplot3_box <- function(
         displayModeBar = displayModeBar,
         toImageButtonOptions = list(
             format = output_format,
-            width = file_width,
-            height = file_height
+            width = file.width,
+            height = file.height
         )
     )
 
