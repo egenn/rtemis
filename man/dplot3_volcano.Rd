@@ -45,7 +45,6 @@ dplot3_volcano(
   annotate.alpha = 0.7,
   hovertext = NULL,
   displayModeBar = FALSE,
-  mathjax = "cdn",
   filename = NULL,
   file.width = 500,
   file.height = 500,
