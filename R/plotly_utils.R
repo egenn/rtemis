@@ -44,14 +44,15 @@ plotly_hline1 <- function(y,
   )
 }
 
-plotly_hline <- function(y, 
+plotly_hline <- function(y,
                          color = "#F48024",
                          width = 1,
                          dash = "dot") {
-  color <- recycle(color, y)
-  width <- recycle(width, y)
-  dash <- recycle(dash, y)
-  mapply(plotly_hline1, y, color = color, width = width, dash = dash,
-         SIMPLIFY = FALSE)
-  
+    color <- recycle(color, y)
+    width <- recycle(width, y)
+    dash <- recycle(dash, y)
+    mapply(plotly_hline1, y,
+        color = color, width = width, dash = dash,
+        SIMPLIFY = FALSE
+    )
 }

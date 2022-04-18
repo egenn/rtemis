@@ -79,10 +79,16 @@ gridSearchLearn <- function(x, y, mod,
     # Since these will not be present in best.tune, assignment to the non-existent named elements will result in NULL,
     # as required. This is needed for functions with parameters that can take NULL value
     grid.params <- Filter(Negate(is.null), grid.params)
-    param.grid <- expand.grid(c(list(res.id = seq(n.resamples)), grid.params), stringsAsFactors = FALSE)
+    param.grid <- expand.grid(
+        c(list(res.id = seq(n.resamples)), grid.params),
+        stringsAsFactors = FALSE
+    )
     n.param.combs <- NROW(param.grid) / n.resamples
     if (search.type == "randomized") {
-        index.per.resample <- sample(n.param.combs, round(randomized.p * n.param.combs))
+        index.per.resample <- sample(
+            n.param.combs,
+            round(randomized.p * n.param.combs)
+        )
         param.grid <- param.grid[rep(index.per.resample, n.resamples), ]
     }
     learner <- modSelect(mod, fn = FALSE)
@@ -97,7 +103,12 @@ gridSearchLearn <- function(x, y, mod,
                          weights,
                          verbose,
                          save.mod) {
-        if (verbose) msg("Running grid line #", index, " of ", NROW(param.grid), "...", sep = "")
+        if (verbose) {
+            msg("Running grid line #", index, " of ",
+                NROW(param.grid), "...",
+                sep = ""
+            )
+        }
         res1 <- res[[param.grid[index, 1]]]
         x.train1 <- x[res1, , drop = FALSE]
         y.train1 <- y[res1]
@@ -125,7 +136,10 @@ gridSearchLearn <- function(x, y, mod,
         )
 
         # '-- Learner-specific collect ----
-        if (learner == "s_H2OGBM") out1$est.n.trees <- mod1$mod@model$model_summary$number_of_trees
+        if (learner == "s_H2OGBM") {
+            out1$est.n.trees <-
+                mod1$mod@model$model_summary$number_of_trees
+        }
         if (learner == "s_GBM" | learner == "s_GBM3") {
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
@@ -138,17 +152,29 @@ gridSearchLearn <- function(x, y, mod,
             out1$lambda.min <- mod1$mod$lambda.min
             out1$lambda.1se <- mod1$mod$lambda.1se
         }
-        if (learner %in% c("s_LINAD", "s_LINOA")) out1$est.n.leaves <- mod1$mod$n.leaves
+        if (learner %in% c("s_LINAD", "s_LINOA")) {
+            out1$est.n.leaves <- mod1$mod$n.leaves
+        }
         if (learner == "s_LIHADBOOST") out1$sel.n.steps <- mod1$mod$selected.n.steps
         if (save.mod) out1$mod1 <- mod1
         out1
     }
 
     # Grid run ----
-    if (verbose) parameterSummary(grid.params, fixed.params, title = "Search parameters")
-    if (verbose) msg("Tuning", modSelect(mod, desc = TRUE), "by", search.type, "grid search:")
     if (verbose) {
-        msg(n.resamples, " resamples; ", NROW(param.grid), " models total; running on ",
+        parameterSummary(grid.params, fixed.params,
+            title = "Search parameters"
+        )
+    }
+    if (verbose) {
+        msg(
+            "Tuning", modSelect(mod, desc = TRUE), "by",
+            search.type, "grid search:"
+        )
+    }
+    if (verbose) {
+        msg(n.resamples, " resamples; ", NROW(param.grid), 
+            " models total; running on ",
             n.cores, " ", ifelse(n.cores > 1, "cores", "core"),
             " (", Sys.getenv("R_PLATFORM"), ")\n",
             sep = ""
@@ -183,7 +209,12 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     if (is.null(maximize)) {
-        maximize <- if (metric %in% c("Accuracy", "Balanced Accuracy", "Concordance")) TRUE else FALSE
+        maximize <- 
+        if (metric %in% c("Accuracy", "Balanced Accuracy", "Concordance")) {
+            TRUE
+        } else {
+            FALSE
+        }
     }
     select.fn <- if (maximize) which.max else which.min
     verb <- if (maximize) "maximize" else "minimize"
@@ -210,8 +241,8 @@ gridSearchLearn <- function(x, y, mod,
     )[, -1]
     tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
 
-    # N of iterations is the one hyperparameter that may be determined automatically,
-    # we therefore need to extract it and average it
+    # N of iterations is the one hyperparameter that may be determined 
+    # automatically, we therefore need to extract it and average it
 
     # '- GBM, H2OGBM ----
     if (learner %in% c("s_H2OGBM", "s_GBM", "s_GBM3")) {
@@ -219,12 +250,17 @@ gridSearchLearn <- function(x, y, mod,
             grid_run,
             function(x) x$est.n.trees
         ))
-        est.n.trees.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
+        est.n.trees.all$param.id <- rep(seq_len(n.param.combs),
+            each = n.resamples
+        )
         est.n.trees.by.param.id <- aggregate(
             n.trees ~ param.id, est.n.trees.all,
             error.aggregate.fn
         )
-        tune.results <- cbind(n.trees = round(est.n.trees.by.param.id$n.trees), tune.results)
+        tune.results <- cbind(
+            n.trees = round(est.n.trees.by.param.id$n.trees),
+            tune.results
+        )
         n.params <- n.params + 1
     }
 
@@ -234,12 +270,17 @@ gridSearchLearn <- function(x, y, mod,
             grid_run,
             function(m) m$best_iteration
         ))
-        est.nrounds.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
+        est.nrounds.all$param.id <- rep(seq_len(n.param.combs),
+            each = n.resamples
+        )
         est.nrounds.by.param.id <- aggregate(
             nrounds ~ param.id, est.nrounds.all,
             error.aggregate.fn
         )
-        tune.results <- cbind(nrounds = round(est.nrounds.by.param.id$nrounds), tune.results)
+        tune.results <- cbind(
+            nrounds = round(est.nrounds.by.param.id$nrounds),
+            tune.results
+        )
         n.params <- n.params + 1
     }
 
@@ -247,7 +288,10 @@ gridSearchLearn <- function(x, y, mod,
     if (learner == "s_GLMNET") {
         if (is.null(grid.params$lambda)) {
             # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-            lambda.all <- data.frame(lambda = plyr::laply(grid_run, function(x) x[[fixed.params$which.cv.lambda]]))
+            lambda.all <- data.frame(lambda = plyr::laply(
+                grid_run,
+                function(x) x[[fixed.params$which.cv.lambda]]
+            ))
             lambda.all$param.id <- rep(1:n.param.combs, each = n.resamples)
             lambda.by.param.id <- aggregate(
                 lambda ~ param.id, lambda.all,
@@ -269,13 +313,20 @@ gridSearchLearn <- function(x, y, mod,
             n.leaves ~ param.id, est.n.leaves.all,
             error.aggregate.fn
         )
-        tune.results <- cbind(n.leaves = round(est.n.leaves.by.param.id$n.leaves), tune.results)
+        tune.results <-
+            cbind(
+                n.leaves = round(est.n.leaves.by.param.id$n.leaves),
+                tune.results
+            )
         n.params <- n.params + 1
     }
 
     # '- LIHADBOOST ----
     if (learner == "s_LIHADBOOST") {
-        est.n.steps.all <- data.frame(n.steps = plyr::laply(grid_run, function(x) x$sel.n.steps))
+        est.n.steps.all <- data.frame(n.steps = plyr::laply(
+            grid_run,
+            function(x) x$sel.n.steps
+        ))
         est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
         est.n.steps.by.param.id <- aggregate(
             n.steps ~ param.id, est.n.steps.all,

@@ -427,7 +427,9 @@ dplot3_xy <- function(x, y = NULL,
             # hoverinfo = "text",
             text = hovertext[[i]],
             marker = marker,
-            line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+            line = if (grepl("lines", .mode[i])) {
+                list(color = plotly::toRGB(marker.col[[i]], alpha = alpha))
+             } else NULL,
             legendgroup = if (n.groups > 1) .names[i] else "Raw",
             showlegend = legend
         )
