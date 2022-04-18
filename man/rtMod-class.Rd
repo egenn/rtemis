@@ -167,7 +167,7 @@ Initialize \code{rtMod} object
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
-\code{rtMod} print method
+code{print} method for \code{rtMod} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$print()}\if{html}{\out{</div>}}
 }
@@ -194,9 +194,9 @@ Initialize \code{rtMod} object
 
 \item{\code{theme}}{Theme to pass to plotting function}
 
-\item{\code{...}}{Additional arguments passed to plotting function}
+\item{\code{filename}}{Character: Path to file to save plot}
 
-\item{\code{filenames}}{Character: Path to file to save plot}
+\item{\code{...}}{Additional arguments passed to plotting function}
 }
 \if{html}{\out{</div>}}
 }
@@ -285,6 +285,8 @@ Plot fitted and predicted values
 \item{\code{theme}}{Theme to be passed on to plotting function}
 
 \item{\code{filename}}{Character: path to file to save plot}
+
+\item{\code{...}}{Additional arguments passed to \code{mplot3_conf}}
 }
 \if{html}{\out{</div>}}
 }
@@ -372,7 +374,7 @@ single plot}
 \if{html}{\out{<a id="method-describe"></a>}}
 \if{latex}{\out{\hypertarget{method-describe}{}}}
 \subsection{Method \code{describe()}}{
-Describe model in plain English
+Describe model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$describe()}\if{html}{\out{</div>}}
 }

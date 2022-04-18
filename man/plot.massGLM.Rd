@@ -23,12 +23,17 @@
   col.pos = "#FA9860",
   col.ns = "#7f7f7f",
   theme = getOption("rt.theme"),
+  alpha = NULL,
   volcano.annotate = TRUE,
   volcano.annotate.n = 7,
+  volcano.hline = NULL,
+  volcano.hline.dash = "dot",
+  volcano.hline.annotate = NULL,
   volcano.p.transform = function(x) -log10(x),
   margin = NULL,
   displayModeBar = FALSE,
   trace = 0,
+  filename = NULL,
   ...
 )
 }

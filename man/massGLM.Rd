@@ -58,9 +58,9 @@ potential covariates of no interest) at a time
 \examples{
 \dontrun{
 # Common usage is "reversed":
-# x: outcome of interest as first column, optional covariates of no interest
+# x: outcome of interest as first column, optional covariates
 # in the other columns
-# y: features whose influence on x you want to study
+# y: features whose association with x we want to study
 set.seed(2022)
 features <- rnormmat(500, 40)
 outcome <- features[, 3] - features[, 5] + features[, 14] + rnorm(500)

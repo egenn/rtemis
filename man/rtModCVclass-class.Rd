@@ -6,6 +6,11 @@
 \alias{rtModCVclass}
 \title{\pkg{rtemis} Cross-Validated Classification Model Class}
 \description{
+\pkg{rtemis} Cross-Validated Classification Model Class
+
+\pkg{rtemis} Cross-Validated Classification Model Class
+}
+\details{
 R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 }
 \section{Super class}{
@@ -87,6 +92,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 \if{html}{\out{<a id="method-plotROC"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
+Plot ROC
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROC(which.repeat = 1, ...)}\if{html}{\out{</div>}}
 }
@@ -96,6 +102,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 \if{html}{\out{<a id="method-plotROCfitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
+Plot ROC plot for fitted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCfitted(which.repeat = 1, main = "ROC Training", ...)}\if{html}{\out{</div>}}
 }
@@ -105,6 +112,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 \if{html}{\out{<a id="method-plotROCpredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
+Plot ROC plot for predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCpredicted(which.repeat = 1, main = "ROC Testing", ...)}\if{html}{\out{</div>}}
 }
@@ -114,28 +122,65 @@ R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 \if{html}{\out{<a id="method-plotPR"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
+Plot Precision-Recall curve
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPR(which.repeat = 1, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to use}
+
+\item{\code{...}}{Additional arguments passed to
+\code{plotPRpredicted} method}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRfitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
+Plot fitted Precision-Recall curve
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRfitted(which.repeat = 1, main = "P-R Training", ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to use}
+
+\item{\code{main}}{Character: main title}
+
+\item{\code{...}}{Additional arguments passed to
+\code{mplot3_pr}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPRpredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
+Plot predicted Precision-Recall curve
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotPRpredicted(which.repeat = 1, main = "P-R Testing", ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to use}
+
+\item{\code{main}}{Character: main title}
+
+\item{\code{...}}{Additional arguments passed to
+\code{mplot3_pr}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

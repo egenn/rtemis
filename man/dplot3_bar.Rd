@@ -30,7 +30,7 @@ dplot3_bar(
   legend.xanchor = "left",
   legend.yanchor = "auto",
   hline = NULL,
-  hline.col = "#ffffff",
+  hline.col = NULL,
   hline.width = 1,
   hline.dash = "solid",
   hline.annotate = NULL,

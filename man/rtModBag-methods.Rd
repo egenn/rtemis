@@ -8,9 +8,14 @@
 \method{predict}{rtModBag}(object, newdata, aggr.fn = NULL, n.cores = 1, verbose = FALSE, ...)
 }
 \arguments{
+\item{object}{\code{rtModBag} object}
+
 \item{newdata}{Testing set features}
 
-\item{aggr.fn}{Character: Function to aggregate models' prediction. Default = "median"}
+\item{aggr.fn}{Character: Function to aggregate models' prediction. 
+If NULL, defaults to "median"}
+
+\item{n.cores}{Integer: Number of cores to use}
 
 \item{...}{Not used}
 }

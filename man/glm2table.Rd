@@ -10,6 +10,8 @@ glm2table(x, xnames = NULL, include_anova_pvals = NA)
 \item{x}{list of \link{glm} models}
 
 \item{xnames}{Character, vector: names of models}
+
+\item{include_anova_pvals}{Logical: If TRUE, also output ANOVA p-values}
 }
 \value{
 \code{data.table} with glm summaries

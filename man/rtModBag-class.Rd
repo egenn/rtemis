@@ -6,6 +6,11 @@
 \alias{rtModBag}
 \title{\pkg{rtemis} Bagged Supervised Model Class}
 \description{
+\pkg{rtemis} Bagged Supervised Model Class
+
+\pkg{rtemis} Bagged Supervised Model Class
+}
+\details{
 R6 Class for \pkg{rtemis} Bagged Supervised Models
 }
 \section{Super class}{
@@ -143,6 +148,7 @@ Set using \link{rtset.bag.resample}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+\code{print} method for \code{rtModBag} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModBag$print()}\if{html}{\out{</div>}}
 }

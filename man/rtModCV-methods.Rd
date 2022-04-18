@@ -11,22 +11,22 @@
 
 \method{summary}{rtModCV}(object, ...)
 
-\method{predict}{rtModCV}(
-  object,
-  newdata,
-  which.repeat = 1,
-  bag.fn = mean,
-  verbose = TRUE,
-  n.cores = 1,
-  ...
-)
+\method{predict}{rtModCV}(object, newdata, which.repeat = 1, bag.fn = mean, n.cores = 1, ...)
 }
 \arguments{
 \item{x}{\code{rtModCV} object}
 
 \item{...}{Additional arguments to pass to \code{mplot3_fit}}
 
+\item{object}{\code{rtModCV} object}
+
 \item{newdata}{Set of predictors to use}
+
+\item{which.repeat}{Integer: Which repeat to use for prediction}
+
+\item{bag.fn}{Function to use to average predictions of different models}
+
+\item{n.cores}{Integer: Number of cores to use}
 }
 \description{
 S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} superclass

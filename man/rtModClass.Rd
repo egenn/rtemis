@@ -12,7 +12,7 @@
 R6 Class for \pkg{rtemis} Classification Models
 
  @field fitted.prob Training set probability estimates
- @filed predicted.prob Testing set probability estimates
+ @field predicted.prob Testing set probability estimates
 }
 \section{Super class}{
 \code{\link[rtemis:rtMod]{rtemis::rtMod}} -> \code{rtModClass}
@@ -88,6 +88,8 @@ Initialize \code{rtModClass} object
 
 \item{\code{y.name}}{Character: Output name}
 
+\item{\code{xnames}}{Character vector: Feature names}
+
 \item{\code{mod}}{Trained model}
 
 \item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
@@ -108,6 +110,8 @@ Initialize \code{rtModClass} object
 
 \item{\code{predicted.prob}}{Testing set probability estimates}
 
+\item{\code{se.prediction}}{}
+
 \item{\code{error.test}}{Testing set error}
 
 \item{\code{varimp}}{Variable importance}
@@ -115,8 +119,6 @@ Initialize \code{rtModClass} object
 \item{\code{question}}{Question the model is trying to answer}
 
 \item{\code{extra}}{List of extra model info}
-
-\item{\code{xname}}{Character vector: Feature names}
 
 \item{\code{sessionInfo}}{R session info at time of training}
 }

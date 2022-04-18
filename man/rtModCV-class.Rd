@@ -6,12 +6,21 @@
 \alias{rtModCV}
 \title{\pkg{rtemis} Cross-Validated Supervised Model Class}
 \description{
+\pkg{rtemis} Cross-Validated Supervised Model Class
+
+\pkg{rtemis} Cross-Validated Supervised Model Class
+}
+\details{
 R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{mod}}{\code{rtModCV} object}
+
 \item{\code{mod.name}}{Model (algorithm) name}
+
+\item{\code{type}}{"Classification", "Regression", or "Survival"}
 
 \item{\code{y.train}}{Training set y data}
 
@@ -22,6 +31,8 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \item{\code{y.name}}{Name of y data}
 
 \item{\code{xnames}}{Character vector: Column names of x}
+
+\item{\code{parameters}}{List of algorithm hyperparameters}
 
 \item{\code{resampler}}{List of settings for \link{resample}. Set using \link{rtset.cv.resample}}
 
@@ -88,6 +99,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtModCV} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$new(
   mod = NULL,
@@ -128,11 +140,57 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod}}{\code{rtModCV} object}
+
+\item{\code{mod.name}}{Character: Algorithm name}
+
+\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+
+\item{\code{y.train}}{Training set output}
+
+\item{\code{x.name}}{Character: Feature set name}
+
+\item{\code{y.name}}{Character: Output name}
+
+\item{\code{xnames}}{Character vector: Feature names}
+
+\item{\code{parameters}}{List of training parameters}
+
+\item{\code{varimp}}{Variable importance}
+
+\item{\code{question}}{Question the model is trying to answer}
+
+\item{\code{y.test}}{Testing set output}
+
+\item{\code{gridsearch}}{Grid search output}
+
+\item{\code{fitted}}{Fitted values (training set predictions)}
+
+\item{\code{se.fit}}{Standard error of fitted values}
+
+\item{\code{error.train}}{Training set error}
+
+\item{\code{predicted}}{Predicted values (Testing set predictions)}
+
+\item{\code{se.prediction}}{Standard error of predicted values}
+
+\item{\code{error.test}}{Testing set error}
+
+\item{\code{extra}}{List of extra model info}
+
+\item{\code{sessionInfo}}{R session info at time of training}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+\code{print} method for \code{rtModCV} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$print()}\if{html}{\out{</div>}}
 }
@@ -142,6 +200,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-plot"></a>}}
 \if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
+\code{plot} method for \code{rtModCV} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plot(which.repeat = 1, ...)}\if{html}{\out{</div>}}
 }
@@ -151,6 +210,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-plotPredicted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotPredicted}{}}}
 \subsection{Method \code{plotPredicted()}}{
+Plot predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotPredicted(
   which.repeat = 1,
@@ -166,6 +226,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-plotFitted"></a>}}
 \if{latex}{\out{\hypertarget{method-plotFitted}{}}}
 \subsection{Method \code{plotFitted()}}{
+Plot fitted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotFitted(
   which.repeat = 1,
@@ -181,6 +242,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-plotVarImp"></a>}}
 \if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
+Plot variable importance
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(
   which.repeat = 1,
@@ -196,6 +258,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \if{html}{\out{<a id="method-describe"></a>}}
 \if{latex}{\out{\hypertarget{method-describe}{}}}
 \subsection{Method \code{describe()}}{
+Describe \code{rtModCV}
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$describe()}\if{html}{\out{</div>}}
 }
