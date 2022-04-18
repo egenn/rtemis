@@ -1,16 +1,24 @@
 # dplot3_volcano
 # ::rtemis::
 # 2022 E.D. Gennatas lambdamd.org
+# allow custom grouping
 
 #' Volcano Plot
 #'
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
+#' @param xnames Character vector: \code{x} names
+#' @param group Factor: Used to color code points. If NULL, significant points
+#' below \code{x.thresh}, non-significant points, and significant points
+#' above \code{x.thresh} will be plotted with the first, second and third 
+#' color fo \code{palette}
 #' @param pvals Numeric vector: p-values
 #' @param p.thresh Numeric: p-value threshold of significance. Default = .05
 #' @param p.transform function. Default = \code{\(x) -log10(x)}
 #' @param p.adjust.method Character: p-value adjustment method.
 #' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' Default = "holm". Use "none" for raw p-values.
+#' @param legend Logical: If TRUE, show legend. Will default to FALSE, if
+#' \code{group = NULL}, otherwise to TRUE
 #' @param legend.lo Character: Legend to annotate significant points below the
 #' \code{x.thresh}
 #' @param legend.hi Character: Legend to annotate significant points above the
@@ -28,13 +36,14 @@
 #' \dontrun{
 #' set.seed(2019)
 #' x <- rnormmat(500, 500)
-#' y <- x[, 3] + x[, 5] + x[, 9] + x[, 15] + rnorm(500)
+#' y <- x[, 3] + x[, 5] - x[, 9] + x[, 15] + rnorm(500)
 #' mod <- massGLM(y, x)
 #' dplot3_volcano(mod$summary$`Coefficient y`, mod$summary$`p_value y`)
 #' }
 #'
 dplot3_volcano <- function(x, pvals,
                            xnames = NULL,
+                           group = NULL,
                            x.thresh = 0,
                            p.thresh = .05,
                            p.transform = \(x) -log10(x),
@@ -42,6 +51,7 @@ dplot3_volcano <- function(x, pvals,
                                "holm", "hochberg", "hommel", "bonferroni",
                                "BH", "BY", "fdr", "none"
                            ),
+                           legend = NULL,
                            legend.lo = NULL,
                            legend.hi = NULL,
                            label.lo = "Low",
@@ -51,10 +61,17 @@ dplot3_volcano <- function(x, pvals,
                            margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
                            xlim = NULL,
                            ylim = NULL,
-                           alpha = .5,
+                           alpha = NULL,
+                           hline = NULL,
+                           hline.col = NULL,
+                           hline.width = 1,
+                           hline.dash = "solid",
+                           hline.annotate = NULL,
+                           hline.annotation.x = 1,
+                           annotate.col = theme$labs.col,
                            theme = getOption("rt.theme"),
                            font.size = 16,
-                           palette = list("#18A3AC", "#7f7f7f", "#F48024"),
+                           palette = NULL,
                            legend.x.lo = NULL,
                            legend.x.hi = NULL,
                            legend.y = .97,
@@ -65,9 +82,11 @@ dplot3_volcano <- function(x, pvals,
                            annotate.alpha = .7,
                            hovertext = NULL,
                            displayModeBar = FALSE,
+                        #    mathjax = "cdn",
                            filename = NULL,
                            file.width = 500,
                            file.height = 500,
+                           file.scale = 1,
                            verbose = TRUE, ...) {
     xname <- deparse(substitute(x))
     p.adjust.method <- match.arg(p.adjust.method)
@@ -80,6 +99,7 @@ dplot3_volcano <- function(x, pvals,
         xnames <- xnames[filt]
     }
     if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
+    if (is.null(legend)) legend <- !is.null(group)
 
     # p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
     p_transformed <- p.transform(pvals)
@@ -90,29 +110,42 @@ dplot3_volcano <- function(x, pvals,
         ylab <- paste(print_fn(p.transform), "p-value")
     }
 
-    Group <- rep("NS", length(pvals))
     p_adjusted <- p.adjust(pvals, method = p.adjust.method)
     index_ltpthresh <- p_adjusted < p.thresh
-    Group[index_ltpthresh & x < x.thresh] <- label.lo
-    Group[index_ltpthresh & x > x.thresh] <- label.hi
-    Group <- factor(Group, levels = c(label.lo, "NS", label.hi))
-    Group.counts <- table(Group)
-    include <- Group.counts > 0
+
+    # Default to lo - ns - hi groups
+    if (is.null(group)) {
+        group <- rep("NS", length(pvals))
+        group[index_ltpthresh & x < x.thresh] <- label.lo
+        group[index_ltpthresh & x > x.thresh] <- label.hi
+        group <- factor(group, levels = c(label.lo, "NS", label.hi))
+        if (is.null (palette)) {
+            palette <- list("#18A3AC", "#7f7f7f", "#F48024")
+        }
+    }
+    
+    group.counts <- table(group)
+    include <- group.counts > 0
     if (verbose) {
-        cat("Table of Group counts:\n")
-        print(Group.counts)
+        cat("Group counts:\n")
+        print(group.counts)
+    }
+
+    if (is.null(palette)) {
+        palette <- rtPalette(getOption("rt.palette", "rtCol1"))
     }
 
     # Theme ----
-    extraargs <- list(...)
+    # extraargs <- list(...)
     if (is.character(theme)) {
-        theme <- do.call(paste0("theme_", theme), extraargs)
-    } else {
-        # Override with extra arguments
-        for (i in seq(extraargs)) {
-            theme[[names(extraargs)[i]]] <- extraargs[[i]]
-        }
-    }
+        theme <- do.call(paste0("theme_", theme), list())
+    } 
+    # else {
+    #     # Override with extra arguments
+    #     for (i in seq(extraargs)) {
+    #         theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    #     }
+    # }
 
     # Plot ----
     if (is.null(hovertext)) hovertext <- xnames
@@ -122,10 +155,10 @@ dplot3_volcano <- function(x, pvals,
         alpha = alpha,
         theme = theme,
         margin = margin,
-        legend = FALSE,
-        group = Group,
+        legend = legend,
+        group = group,
         palette = palette[include],
-        hovertext = hovertext
+        hovertext = hovertext, ...
     )
 
     # High - Low legend ----
@@ -146,7 +179,7 @@ dplot3_volcano <- function(x, pvals,
     if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff / 2
     if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
 
-    if (Group.counts[1] > 0 & !is.null(legend.lo)) {
+    if (group.counts[1] > 0 & !is.null(legend.lo)) {
         plt |> plotly::add_annotations(
             x = legend.x.lo,
             y = legend.y,
@@ -162,7 +195,7 @@ dplot3_volcano <- function(x, pvals,
         ) -> plt
     }
 
-    if (Group.counts[3] > 0 & !is.null(legend.hi)) {
+    if (group.counts[3] > 0 & !is.null(legend.hi)) {
         plt |> plotly::add_annotations(
             x = legend.x.hi,
             y = legend.y,
@@ -251,20 +284,64 @@ dplot3_volcano <- function(x, pvals,
         }
     }
 
+    # hline ----
+    if (!is.null(hline)) {
+        if (is.null(hline.col)) hline.col <- theme$fg
+        hline.col <- recycle(hline.col, hline)
+        hline.width <- recycle(hline.width, hline)
+        hline.dash <- recycle(hline.dash, hline)
+        hlinel <- lapply(seq_along(hline), function(i) {
+            list(
+                type = "line",
+                x0 = 0, x1 = 1, xref = "paper",
+                y0 = hline[i], y1 = hline[i],
+                line = list(
+                    color = hline.col[i],
+                    width = hline.width[i],
+                    dash = hline.dash[i]
+                )
+            )
+        })
+        plt <- plotly::layout(plt, shapes = hlinel)
+
+        # Annotate horizontal lines on the right border of the plot
+        if (!is.null(hline.annotate)) {
+            plt |> plotly::add_annotations(
+                xref = "paper",
+                yref = "y",
+                xanchor = "right",
+                yanchor = "bottom",
+                x = hline.annotation.x,
+                y = hline,
+                text = hline.annotate,
+                font = list(
+                    family = theme$font.family,
+                    size = font.size,
+                    color = annotate.col
+                ),
+                showarrow = FALSE
+            ) -> plt
+        }
+    }
+
     plt |> plotly::config(toImageButtonOptions = list(format = "svg"))
 
     # Config ----
     plt <- plotly::config(plt,
         displaylogo = FALSE,
         displayModeBar = displayModeBar
+        # mathjax = mathjax
     )
 
     # Write to file ----
-    # if (!is.null(filename)) {
-    #   filename <- file.path(filename)
-    #   plotly::plotly_IMAGE(plt, width = file.width, height = file.height,
-    #                        format = tools::file_ext(filename), out_file = filename)
-    # }
+    if (!is.null(filename)) {
+        plotly::save_image(
+            plt,
+            file.path(filename),
+            with = file.width, height = file.height,
+            scale = file.scale
+        )
+    }
 
     plt
 } # rtemis::dplot3_volcano
