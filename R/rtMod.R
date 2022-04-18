@@ -64,7 +64,7 @@ rtMod <- R6::R6Class("rtMod",
                        question = NULL,
                        extra = NULL,
                        sessionInfo = NULL,
-                       ### Initialize
+                       # Initialize rtMod ----
                        #' @description
                        #' Initialize \code{rtMod} object
                        #' @param mod.name Character: Algorithm name
@@ -129,8 +129,9 @@ rtMod <- R6::R6Class("rtMod",
                          self$sessionInfo <- sessionInfo()
                        },
                        ### Methods
+                       # Print rtMod ----
                        #' @description
-                       #' \code{rtMod} print method
+                       #' code{print} method for \code{rtMod} object
                        print = function() {
                          "show / print method for rtMod"
                          objcat("Supervised Model")
@@ -143,11 +144,12 @@ rtMod <- R6::R6Class("rtMod",
                            print(self$error.test)
                          }
                        },
+                       # Plot rtMod ----
                        #' @description
                        #' \code{rtMod} plot method
                        #' @param estimate Character: "fitted" or "predicted"
                        #' @param theme Theme to pass to plotting function
-                       #' @param filenames Character: Path to file to save plot
+                       #' @param filename Character: Path to file to save plot
                        #' @param ... Additional arguments passed to plotting function
                        plot = function(estimate = NULL,
                                        theme = getOption("rt.theme"),
@@ -171,6 +173,7 @@ rtMod <- R6::R6Class("rtMod",
                            }
                          }
                        },
+                       # Plot fitted rtMod ----
                        #' @description
                        #' Plot fitted values
                        #' @param print.plot Logical: If TRUE show plot
@@ -206,6 +209,7 @@ rtMod <- R6::R6Class("rtMod",
                                        filename = filename, ...)
                          }
                        },
+                       # Plot predicted rtMod ----
                        #' @description
                        #' Plot predicted values
                        #' @param print.plot Logical: If TRUE show plot
@@ -245,11 +249,13 @@ rtMod <- R6::R6Class("rtMod",
                                        filename = filename, ...)
                          }
                        },
+                       # Plot fitted & predicted rtMod ----
                        #' @description
                        #' Plot fitted and predicted values
                        #' @param print.plot Logical: If TRUE show plot
                        #' @param theme Theme to be passed on to plotting function
                        #' @param filename Character: path to file to save plot
+                       #' @param ... Additional arguments passed to \code{mplot3_conf}
                        plotFittedPredicted = function(print.plot = TRUE,
                                                       theme = getOption("rt.theme"),
                                                       filename = NULL, ...) {
@@ -285,6 +291,7 @@ rtMod <- R6::R6Class("rtMod",
                                     theme = theme,
                                     filename = filename, ...)
                        },
+                       # Plot variable importance rtMod ----
                        #' @description
                        #' Plot variable importance
                        #' 
@@ -311,6 +318,7 @@ rtMod <- R6::R6Class("rtMod",
                            }
                          }
                        },
+                       # Summary rtMod ----
                        #' @description
                        #' Summary method for \code{rtMod} object
                        #' @param plots Logical: If TRUE show plots
@@ -340,14 +348,15 @@ rtMod <- R6::R6Class("rtMod",
                          "Get model summary"
                          summary.rtMod(self)
                        },
+                       # Describe rtMod ----
                        #' @description
-                       #' Describe model in plain English
+                       #' Describe model
                        describe = function() {
 
                          type <- self$type
                          algorithm <- modSelect(self$mod.name, desc = TRUE)
                          cat(algorithm, " was used for ",
-                           tolower(type), ".",
+                           tolower(type), ".\n",
                            sep = ""
                          )
                          desc <- paste0(
@@ -355,7 +364,7 @@ rtMod <- R6::R6Class("rtMod",
                            tolower(type), "."
                          )
 
-                         # Tuning ----
+                         # '- Tuning ----
                          if (!is.null(self$gridsearch)) {
                              res <- self$gridsearch$resample.rtset
                              n.resamples <- res$n.resamples
@@ -367,8 +376,8 @@ rtMod <- R6::R6Class("rtMod",
                                  kfold = "-fold crossvalidation",
                                  "custom resamples"
                              )
-                             cat(" Model tuning was performed using ",
-                                 n.resamples, resamples, ". ",
+                             cat(" Hyperparameter tuning was performed using ",
+                                 n.resamples, resamples, ".\n",
                                  sep = ""
                              )
                              desc <- paste0(
@@ -400,31 +409,62 @@ rtMod <- R6::R6Class("rtMod",
                              }
                              cat(metric, "was", ifelse(self$gridsearch$maximize,
                                  "maximized", "minimized"
-                             ), "with:")
+                             ), "with:\n")
                              printls(self$gridsearch$best.tune)
                          }
 
-                         # Error ----
+                         # '- Error ----
                          if (type == "Classification") {
-                           cat("Training balanced accuracy was ",
-                               ddSci(self$error.train$Overall$`Balanced Accuracy`), sep = "")
+                           cat("Balanced accuracy was",
+                             ddSci(self$error.train$Overall$`Balanced Accuracy`),
+                             "(training)"
+                           )
+                           desc <- paste(
+                             desc, "Balanced accuracy was",
+                             ddSci(self$error.train$Overall$`Balanced Accuracy`),
+                             "on the training set"
+                           )
                            if (!is.null(self$error.test$Overall$`Balanced Accuracy`)) {
-                             cat(" and testing balanced accuracy was ",
-                                 ddSci(self$error.test$Overall$`Balanced Accuracy`), ".", sep = "")
+                             cat("and",
+                               ddSci(self$error.test$Overall$`Balanced Accuracy`),
+                               "(testing)."
+                             )
+                             desc <- paste(
+                               desc, "and",
+                               ddSci(self$error.test$Overall$`Balanced Accuracy`),
+                               "on the testing set."
+                             )
                            } else {
                              cat(".")
+                             desc <- paste0(desc, ".")
                            }
                          } else if (type == "Regression") {
 
-                           cat(" Training R-squared was ",
-                               ddSci(self$error.train$Rsq), sep = "")
+                           cat("R-squared was",
+                             ddSci(self$error.train$Rsq),
+                             "(training)"
+                           )
+                           desc <- paste(
+                             desc, "R-squared was",
+                             ddSci(self$error.train$Rsq),
+                             "on the training set"
+                           )
                            if (!is.null(self$error.test$`Balanced Accuracy`)) {
-                             cat(" and testing R-squared was ",
-                                 ddSci(self$error.test$Rsq), ".", sep = "")
+                             cat("and",
+                               ddSci(self$error.test$Rsq), "(testing)."
+                             )
+                             desc <- paste(
+                               desc, "and",
+                               ddSci(self$error.test$Rsq),
+                               "on the testing set."
+                             )
                            } else {
                              cat(".")
+                             desc <- paste0(desc, ".")
                            }
                          }
+                         cat("\n")
+                         invisible(desc)
                        } # / describe
                      )) # /rtMod
 
@@ -797,18 +837,18 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
 } # rtemis::coef.rtMod
 
 
-# rtModClass ----
+# rtModClass R6 ----
 #' \pkg{rtemis} Classification Model Class
 #'
 #' R6 Class for \pkg{rtemis} Classification Models
 #'
 #'  @field fitted.prob Training set probability estimates
-#'  @filed predicted.prob Testing set probability estimates
+#'  @field predicted.prob Testing set probability estimates
 rtModClass <- R6::R6Class("rtModClass",
                           inherit = rtMod,
                           public = list(fitted.prob = NULL,
                                         predicted.prob = NULL,
-                                        ### Initialize
+                                        # Initialize rtModClass ----
                                         #' @description
                                         #' Initialize \code{rtModClass} object
                                         #' @param mod.name Character: Algorithm name
@@ -816,7 +856,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param y.test Testing set output
                                         #' @param x.name Character: Feature set name
                                         #' @param y.name Character: Output name
-                                        #' @param xname Character vector: Feature names
+                                        #' @param xnames Character vector: Feature names
                                         #' @param mod Trained model
                                         #' @param type Character: Type of model (Regression, Classification, Survival)
                                         #' @param gridsearch Grid search output
@@ -827,6 +867,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param error.train Training set error
                                         #' @param predicted Predicted values (Testing set predictions)
                                         #' @param predicted.prob Testing set probability estimates
+                                        #' @param se.prediction 
                                         #' @param error.test Testing set error
                                         #' @param varimp Variable importance
                                         #' @param question Question the model is trying to answer
@@ -876,6 +917,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                           self$predicted.prob <- predicted.prob
                                         },
                                         ### Methods
+                                        # Plot ROC rtModClass ----
                                         #' @description
                                         #' plot ROC. Uses testing set if available,
                                         #' otherwise training
@@ -1017,7 +1059,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           predicted.bag = NULL,
                           se.prediction.bag = NULL,
                           aggr.fn = NULL,
-                          ### Initialize
+                          # Initialize rtModBar ----
                           initialize = function(mod.name = character(),
                                                 # call = call("NULL"),
                                                 y.train = numeric(),
@@ -1069,6 +1111,9 @@ rtModBag <- R6::R6Class("rtModBag",
                             self$extra <- extra
                           },
                           ### Methods
+                          # Print rtModBag ----
+                          #' @description
+                          #' \code{print} method for \code{rtModBag} object
                           print = function() {
                             "show / print method for rtModBag"
                             objcat("Bagged Supervised Model")
@@ -1104,17 +1149,26 @@ NULL
 #' \code{predict.rtModBag}: \code{predict} method for \code{rtModBag} object
 #'
 #' @method predict rtModBag
+#' @param object \code{rtModBag} object
 #' @param newdata Testing set features
-#' @param aggr.fn Character: Function to aggregate models' prediction. Default = "median"
+#' @param aggr.fn Character: Function to aggregate models' prediction. 
+#' If NULL, defaults to "median"
+#' @param n.cores Integer: Number of cores to use
 #' @param ... Not used
 #' @rdname rtModBag-methods
 #' @export
-predict.rtModBag <- function(object, newdata,
+predict.rtModBag <- function(object, 
+                             newdata,
                              aggr.fn = NULL,
                              n.cores = 1,
                              verbose = FALSE, ...) {
 
-  if (verbose) msg("Calculating estimated values of", length(object$mod), "bag resamples")
+  if (verbose) {
+    msg(
+      "Calculating estimated values of",
+      length(object$mod), "bag resamples"
+    )
+  }
   if (is.null(aggr.fn)) aggr.fn <- object$aggr.fn
   # estimated.df <- sapply(object$mod$mods, function(m) predict(m$mod1, newdata = newdata, ...))
   # estimated <- apply(estimated.df, 1, fn)
@@ -1148,12 +1202,15 @@ predict.rtModBag <- function(object, newdata,
 #'
 #' @docType class
 #' @name rtModCV-class
+#' @field mod \code{rtModCV} object
 #' @field mod.name Model (algorithm) name
+#' @field type "Classification", "Regression", or "Survival"
 #' @field y.train Training set y data
 #' @field y.test Testing set y data
 #' @field x.name Name of x data
 #' @field y.name Name of y data
 #' @field xnames Character vector: Column names of x
+#' @field parameters List of algorithm hyperparameters
 #' @field resampler List of settings for \link{resample}. Set using \link{rtset.cv.resample}
 #' @field n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
 #' \code{resampler} this many times.
@@ -1206,7 +1263,29 @@ rtModCV <- R6::R6Class("rtModCV",
                          varimp = NULL,
                          question = NULL,
                          sessionInfo = NULL,
-                         ### Initialize
+                         # Initialize rtModCV ----
+                         #' @description
+                         #' Initialize \code{rtModCV} object
+                         #' @param mod \code{rtModCV} object
+                         #' @param mod.name Character: Algorithm name
+                         #' @param y.train Training set output
+                         #' @param y.test Testing set output
+                         #' @param x.name Character: Feature set name
+                         #' @param y.name Character: Output name
+                         #' @param xnames Character vector: Feature names
+                         #' @param type Character: Type of model (Regression, Classification, Survival)
+                         #' @param gridsearch Grid search output
+                         #' @param parameters List of training parameters
+                         #' @param fitted Fitted values (training set predictions)
+                         #' @param se.fit Standard error of fitted values
+                         #' @param error.train Training set error
+                         #' @param predicted Predicted values (Testing set predictions)
+                         #' @param se.prediction Standard error of predicted values
+                         #' @param error.test Testing set error
+                         #' @param varimp Variable importance
+                         #' @param question Question the model is trying to answer
+                         #' @param extra List of extra model info
+                         #' @param sessionInfo R session info at time of training
                          initialize = function(mod = NULL,
                                                mod.name = NULL,
                                                type = NULL,
@@ -1279,7 +1358,10 @@ rtModCV <- R6::R6Class("rtModCV",
                            self$question <- question
                            self$sessionInfo <- sessionInfo()
                          },
-                         ### Methods
+                         # Methods
+                         # Print rtModCV ----
+                         #' @description
+                         #' \code{print} method for \code{rtModCV} object
                          print = function() {
                            "R6 show / print method for rtModCV"
                            objcat("Cross-Validated Model")
@@ -1301,10 +1383,16 @@ rtModCV <- R6::R6Class("rtModCV",
                                  self$error.test.repeats.mean$MSE.RED * 100, "\n")
                            }
                          },
+                         # Plot rtModCV ----
+                         #' @description
+                         #' \code{plot} method for \code{rtModCV} object
                          plot = function(which.repeat = 1, ...) {
                            "R6 plot method for rtModCV"
                            self$plotPredicted(which.repeat = which.repeat, ...)
                          },
+                         # Plot predicted rtModCV ----
+                         #' @description
+                         #' Plot predicted values
                          plotPredicted = function(which.repeat = 1,
                                                   theme = getOption("rt.theme"),
                                                   filename = NULL,
@@ -1339,6 +1427,9 @@ rtModCV <- R6::R6Class("rtModCV",
                              msg("Plotting for survival not currently supported")
                            }
                          },
+                         # Plot fitted rtModCV ----
+                         #' @description
+                         #' Plot fitted values
                          plotFitted = function(which.repeat = 1,
                                                theme = getOption("rt.theme"),
                                                filename = NULL,
@@ -1373,6 +1464,9 @@ rtModCV <- R6::R6Class("rtModCV",
                              msg("Plotting for survival not currently supported")
                            }
                          },
+                         # Plot varimp rtModCV ----
+                         #' @description
+                         #' Plot variable importance
                          plotVarImp = function(which.repeat = 1,
                                                type = c("barplot", "lollipop"),
                                                plot.top = 12,
@@ -1394,13 +1488,22 @@ rtModCV <- R6::R6Class("rtModCV",
                              }
                            }
                          },
+                         # Describe rtModCV ----
+                         #' @description
+                         #' Describe \code{rtModCV}
                          describe = function() {
 
                            type <- self$type
                            algorithm <- modSelect(self$mod.name, desc = TRUE)
-                           cat(type, " was performed using ", algorithm, ".", sep = "")
+                           cat(type, " was performed using ", algorithm, ".",
+                             sep = ""
+                           )
+                           desc <- paste0(
+                             type, " was performed using ",
+                             algorithm, "."
+                           )
 
-                           # Preprocessing ----
+                           # '- Preprocessing ----
                            if (!is.null(self$parameters$preprocess)) {
                              preproc <- self$parameters$preprocess
 
@@ -1415,17 +1518,26 @@ rtModCV <- R6::R6Class("rtModCV",
                              )
                              pre <- rev(gsub(",", ", and", rev(pre)))
                              cat(pre, ".", sep = "")
-
+                             desc <- paste(
+                               desc, "Data was preprocessed by",
+                               pre, "."
+                             )
                            }
 
-                           # Decomposition ----
+                           # '- Decomposition ----
                            if (!is.null(self$parameters$decompose)) {
                              decom <- self$parameters$decompose
                              cat(" Input was projected to ", decom$k, " dimensions using ",
-                                 decomSelect(decom$decom, desc = TRUE), ".", sep = "")
+                               decomSelect(decom$decom, desc = TRUE), ".",
+                               sep = ""
+                             )
+                             desc <- paste0(
+                               desc, " Input was projected to ", decom$k, " dimensions using ",
+                               decomSelect(decom$decom, desc = TRUE), "."
+                             )
                            }
 
-                           # Tuning ----
+                           # '- Tuning ----
                            .gs <- !is.null(self$mod[[1]][[1]]$mod1$gridsearch)
                            if (.gs) {
                              res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset
@@ -1436,11 +1548,18 @@ rtModCV <- R6::R6Class("rtModCV",
                                                  bootstrap = " bootstraps",
                                                  strat.boot = " stratified bootstraps",
                                                  kfold = "-fold crossvalidation")
-                             cat(" Model tuning was performed using ",
-                                 n.resamples, resamples, ".", sep = "")
+                             cat(" Hyperparameter tuning was performed using ",
+                               n.resamples, resamples, ".",
+                               sep = ""
+                             )
+                             desc <- paste0(
+                               desc, 
+                               " Hyperparameter tuning was performed using ",
+                               n.resamples, resamples, "."
+                             )
                            }
 
-                           # Performance ----
+                           # '- Performance ----
                            n.repeats <- self$n.repeats
                            n.resamples <- self$resampler.params$n.resamples
                            resampler <- self$resampler.params$resampler
@@ -1451,27 +1570,50 @@ rtModCV <- R6::R6Class("rtModCV",
                                                loocv = "leave-one-out crossvalidation",
                                                kfold = "-fold cross validation")
                            cat(" Model generalizability was assessed using ")
-                           if (n.repeats > 1) cat(n.repeats, "repeats of ")
+                           desc <- paste0(
+                             desc,
+                             " Model generalizability was assessed using "
+                           )
+                           if (n.repeats > 1) {
+                             cat(n.repeats, "repeats of ")
+                             desc <- paste0(desc, n.repeats, "repeats of ")
+                           }
                            if (resampler != "loocv") {
                              cat(n.resamples, resamples, ".", sep = "")
+                             desc <- paste0(desc, n.resamples, resamples, ".")
                            } else {
-                             cat(resamples)
+                             cat(resamples, ".", sep = "")
+                             desc <- paste(desc, resamples, ".")
                            }
                            if (type == "Classification") {
                              cat(" The mean Balanced Accuracy across all resamples was ",
-                                 ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
-                                 ".", sep = "")
+                               ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
+                               ".",
+                               sep = ""
+                             )
+                             desc <- paste0(
+                               desc, " The mean Balanced Accuracy across all resamples was ",
+                               ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
+                               "."
+                             )
                            } else if (type == "Regression") {
                              cat(" The mean R-squared across all resamples was ",
-                                 ddSci(self$error.test.repeats.mean$Rsq),
-                                 ".", sep = "")
+                               ddSci(self$error.test.repeats.mean$Rsq),
+                               ".",
+                               sep = ""
+                             )
+                             desc <- paste0(
+                               desc, " The mean R-squared across all resamples was ",
+                               ddSci(self$error.test.repeats.mean$Rsq),
+                               "."
+                             )
                            } else {
-
+                             # Survival
                            }
-
+                           cat("\n")
+                           invisible(desc)
                          } # /rtModCV$describe()
                        ))
-
 
 # rtModCV S3 methods ####
 #' S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} superclass
@@ -1509,18 +1651,22 @@ summary.rtModCV <- function(object, ...) {
 #' \code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
 #'
 #' @method predict rtModCV
+#' @param object \code{rtModCV} object
 #' @param newdata Set of predictors to use
+#' @param which.repeat Integer: Which repeat to use for prediction
+#' @param bag.fn Function to use to average predictions of different models
+#' @param n.cores Integer: Number of cores to use
 #' @rdname rtModCV-methods
 #' @export
 predict.rtModCV <- function(object, newdata,
                             which.repeat = 1,
                             bag.fn = mean,
-                            verbose = TRUE,
                             n.cores = 1, ...) {
 
   # extraArgs <- list(...)
   mods <- object$mod[[which.repeat]]
-  predicted <- as.data.frame(pbapply::pbsapply(mods, function(i) as.numeric(predict(i$mod1, newdata)),
+  predicted <- as.data.frame(pbapply::pbsapply(
+    mods, function(i) as.numeric(predict(i$mod1, newdata)),
                                                cl = n.cores))
   if (object$type == "Classification") {
     predicted <- apply(predicted, 1, function(j) round(bag.fn(j)))
@@ -1533,7 +1679,7 @@ predict.rtModCV <- function(object, newdata,
 } # rtemis::predict.rtModCV
 
 
-# rtModCVclass ----
+# rtModCVclass R6 ----
 #' \pkg{rtemis} Cross-Validated Classification Model Class
 #'
 #' R6 Class for \pkg{rtemis} Cross-Validated Classification Models
@@ -1545,7 +1691,7 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                             inherit = rtModCV,
                             public = list(fitted.prob.aggr = NULL,
                                           predicted.prob.aggr = NULL,
-                                          ### Initialize
+                                          # Initialize ----
                                           initialize = function(mod = NULL,
                                                                 mod.name = NULL,
                                                                 type = NULL,
@@ -1621,10 +1767,16 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                             self$fitted.prob.aggr <- fitted.prob.aggr
                                             self$predicted.prob.aggr <- predicted.prob.aggr
                                           },
-                                          ### Methods
+                                          # Methods
+                                          # Plot ROC ----
+                                          #' @description
+                                          #' Plot ROC
                                           plotROC = function(which.repeat = 1, ...) {
                                             self$plotROCpredicted(which.repeat = which.repeat, ...)
                                           },
+                                          # Plot fitted ROC ----
+                                          #' @description
+                                          #' Plot ROC plot for fitted values
                                           plotROCfitted = function(which.repeat = 1,
                                                                    main = "ROC Training", ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
@@ -1635,6 +1787,9 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                               msg("Estimated probabilities are not available")
                                             }
                                           },
+                                          # Plot predicted ROC ----
+                                          #' @description
+                                          #' Plot ROC plot for predicted values
                                           plotROCpredicted = function(which.repeat = 1,
                                                                       main = "ROC Testing", ...) {
                                             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
@@ -1645,9 +1800,22 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                               msg("Estimated probabilities are not available")
                                             }
                                           },
+                                          # Plot Precision-Recall curve ----
+                                          #' @description
+                                          #' Plot Precision-Recall curve
+                                          #' @param which.repeat Integer: Which repeat to use
+                                          #' @param ... Additional arguments passed to
+                                          #' \code{plotPRpredicted} method
                                           plotPR = function(which.repeat = 1, ...) {
                                             self$plotPRpredicted(which.repeat = which.repeat, ...)
                                           },
+                                          # Plot fitted Precision-Recall curve ----
+                                          #' @description
+                                          #' Plot fitted Precision-Recall curve
+                                          #' @param which.repeat Integer: Which repeat to use
+                                          #' @param main Character: main title
+                                          #' @param ... Additional arguments passed to
+                                          #' \code{mplot3_pr}
                                           plotPRfitted = function(which.repeat = 1,
                                                                   main = "P-R Training", ...) {
                                             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
@@ -1658,6 +1826,13 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
                                               msg("Estimated probabilities are not available")
                                             }
                                           },
+                                          # Plot predicted Precision-Recall curve ----
+                                          #' @description
+                                          #' Plot predicted Precision-Recall curve
+                                          #' @param which.repeat Integer: Which repeat to use
+                                          #' @param main Character: main title
+                                          #' @param ... Additional arguments passed to
+                                          #' \code{mplot3_pr}
                                           plotPRpredicted = function(which.repeat = 1,
                                                                      main = "P-R Testing", ...) {
                                             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
@@ -1709,7 +1884,7 @@ rtMeta <- R6::R6Class("rtMeta",
                         meta.params = NULL,
                         meta.mod = NULL,
                         sessionInfo = NULL,
-                        ### Initialize
+                        # Initialize rtMet ----
                         initialize = function(mod.name = character(),
                                               # call = call("NULL"),
                                               y.train = numeric(),
@@ -1768,6 +1943,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           self$sessionInfo <- sessionInfo()
                         },
                         ### Methods
+                        # Print rtMeta ----
                         print = function() {
                           "R6 show / print method for rtMeta"
                           objcat("Meta Model")
@@ -1792,7 +1968,7 @@ rtMeta <- R6::R6Class("rtMeta",
 #' @name rtMeta-methods
 NULL
 
-#' \code{predict.rtMeta}: \code{predict} method for \code{rtMeta} object
+#' \code{predict} method for \code{rtMeta} object
 #'
 #' @method predict rtMeta
 #' @param newdata Testing set features
@@ -1844,7 +2020,7 @@ rtModLite <- R6::R6Class("rtModLite",
                            mod.name = NULL,
                            mod = NULL,
                            fitted = NULL,
-                           ### Initialize
+                           # Initialize rtModLite ----
                            initialize = function(mod = list(),
                                                  mod.name = character(),
                                                  fitted = numeric()) {
@@ -1853,6 +2029,7 @@ rtModLite <- R6::R6Class("rtModLite",
                              self$fitted <- fitted
                            },
                            ### Methods
+                           # Print rtModLite ----
                            print = function() {
                              "show / print method for rtModLite"
                              objcat("Lite Supervised Model")
@@ -1931,6 +2108,9 @@ predict.rtModLite <- function(object, newdata, ...) {
 # rtMod.out ----
 # for all s. learners
 # Print plots / save plots and mods to outdir
+#' rtMod.out
+#' 
+#' @keywords internal
 rtMod.out <- function(rt,
                       print.plot,
                       plot.fitted,
@@ -1952,18 +2132,25 @@ rtMod.out <- function(rt,
   }
 
   if (print.plot | !is.null(outdir)) {
-    if (plot.fitted | !is.null(outdir)) plot(rt, estimate = "fitted",
-                                             print.plot = plot.fitted,
-                                             filename = filename.train,
-                                             theme = theme, ...)
-    if (!is.null(y.test) & (plot.predicted | !is.null(outdir))) plot(rt, estimate = "predicted",
-                                                                     print.plot = plot.predicted,
-                                                                     filename = filename.test,
-                                                                     theme = theme, ...)
+    if (plot.fitted | !is.null(outdir)) {
+      plot(rt,
+        estimate = "fitted",
+        print.plot = plot.fitted,
+        filename = filename.train,
+        theme = theme, ...
+      )
+    }
+    if (!is.null(y.test) & (plot.predicted | !is.null(outdir))) {
+      plot(rt,
+        estimate = "predicted",
+        print.plot = plot.predicted,
+        filename = filename.test,
+        theme = theme, ...
+      )
+    }
   }
   if (save.mod) rtSave(rt, outdir, verbose = verbose)
-}
-
+} # rtemis::rtMod.out
 
 cat("
                                         d8,
