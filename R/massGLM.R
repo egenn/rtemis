@@ -34,9 +34,9 @@
 #' @examples
 #' \dontrun{
 #' # Common usage is "reversed":
-#' # x: outcome of interest as first column, optional covariates of no interest
+#' # x: outcome of interest as first column, optional covariates
 #' # in the other columns
-#' # y: features whose influence on x you want to study
+#' # y: features whose association with x we want to study
 #' set.seed(2022)
 #' features <- rnormmat(500, 40)
 #' outcome <- features[, 3] - features[, 5] + features[, 14] + rnorm(500)
@@ -47,18 +47,18 @@
 #' }
 
 massGLM <- function(x, y,
-            scale.x = FALSE,
-            scale.y = FALSE,
-            type = NULL,
-            xnames = NULL,
-            ynames = NULL,
-            save.mods = TRUE,
-            print.plot = FALSE,
-            include_anova_pvals = NA,
-            verbose = TRUE,
-            trace = 0,
-            n.cores = 1) {
-
+                    scale.x = FALSE,
+                    scale.y = FALSE,
+                    type = NULL,
+                    xnames = NULL,
+                    ynames = NULL,
+                    save.mods = TRUE,
+                    print.plot = FALSE,
+                    include_anova_pvals = NA,
+                    verbose = TRUE,
+                    trace = 0,
+                    n.cores = 1) {
+            
     # Intro ----
     start.time <- intro(verbose = verbose)
 
@@ -112,7 +112,9 @@ massGLM <- function(x, y,
     } else {
         pbapply::pboptions(type = "none")
     }
-    mods <- pbapply::pblapply(seq_len(nmods), mod1,
+    mods <- pbapply::pblapply(
+        seq_len(nmods), 
+        mod1,
         dat = dat,
         type = type,
         cl = n.cores
@@ -192,16 +194,22 @@ plot.massGLM <- function(x,
             hline.annotate = as.character(pval.hline),
             ylim = NULL,
             ylab = NULL,
+            group = NULL,
             col.neg = "#43A4AC",
             col.pos = "#FA9860",
             col.ns = "#7f7f7f",
             theme = getOption("rt.theme"),
+            alpha = NULL,
             volcano.annotate = TRUE,
             volcano.annotate.n = 7,
+            volcano.hline = NULL,
+            volcano.hline.dash = "dot",
+            volcano.hline.annotate = NULL,
             volcano.p.transform = \(x) -log10(x),
             margin = NULL,
             displayModeBar = FALSE,
-            trace = 0, ...) {
+            trace = 0,
+            filename = NULL, ...) {
 
     what <- match.arg(what)
     # which_pvals <- match.arg(which_pvals)
@@ -256,7 +264,8 @@ plot.massGLM <- function(x,
                 hline.annotate = hline.annotate,
                 theme = theme,
                 margin = margin,
-                displayModeBar = displayModeBar, ...
+                displayModeBar = displayModeBar,
+                filename = filename, ...
             )
         } else if (what == "coefs") {
             # Coefficients ----
@@ -278,7 +287,8 @@ plot.massGLM <- function(x,
                 col = .cols,
                 theme = theme,
                 margin = margin,
-                displayModeBar = displayModeBar, ...
+                displayModeBar = displayModeBar,
+                filename = filename, ...
             )
         } else {
             # Volcano ----
@@ -286,6 +296,7 @@ plot.massGLM <- function(x,
             dplot3_volcano(
                 x = x$summary[[coef_idi]],
                 pvals = x$summary[[pval_idi]],
+                group = group,
                 x.thresh = 0,
                 label.lo = "Neg",
                 label.hi = "Pos",
@@ -295,9 +306,14 @@ plot.massGLM <- function(x,
                 p.transform = volcano.p.transform,
                 annotate = volcano.annotate,
                 annotate.n = volcano.annotate.n,
+                hline = volcano.hline,
+                hline.annotate = volcano.hline.annotate,
+                hline.dash = volcano.hline.dash,
                 theme = theme,
+                alpha = alpha,
                 displayModeBar = displayModeBar,
-                verbose = trace > 0
+                verbose = trace > 0,
+                filename = filename, ...
             )
         }
     } else {
