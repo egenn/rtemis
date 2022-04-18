@@ -1,7 +1,6 @@
 # dplot3_bar.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
-# add annotations in box https://plotly.com/r/horizontal-bar-charts/
+# 2019-22 E.D. Gennatas lambdamd.org
 
 #' Interactive Barplots
 #'
@@ -86,7 +85,7 @@ dplot3_bar <-  function(x,
                         legend.xanchor = "left",
                         legend.yanchor = "auto",
                         hline = NULL,
-                        hline.col = "#ffffff",
+                        hline.col = NULL,
                         hline.width = 1,
                         hline.dash = "solid",
                         hline.annotate = NULL,
@@ -287,6 +286,7 @@ dplot3_bar <-  function(x,
   
   # hline ----
   if (!is.null(hline)) {
+    if (is.null(hline.col)) hline.col <- theme$fg
     hline.col <- recycle(hline.col, hline)
     hline.width <- recycle(hline.width, hline)
     hline.dash <- recycle(hline.dash, hline)
