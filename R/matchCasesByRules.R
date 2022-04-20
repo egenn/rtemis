@@ -35,8 +35,9 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 #' and one rule only
 #'
 #' @inheritParams matchCasesByRules
+#' 
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 indexCasesByRules <- function(x, rules, verbose = TRUE) {
   cxr <- matchCasesByRules(x, rules, verbose)

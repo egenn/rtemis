@@ -36,7 +36,7 @@
 #' @param n.cores Integer: Number of cores to use
 #'
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 gridSearchLearn <- function(x, y, mod,
                              grid.params,

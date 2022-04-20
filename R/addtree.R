@@ -159,7 +159,8 @@ addtree <- function(x, y,
 #' \pkg{rtemis} internal: likelihoodMediboostSplitNode
 #'
 #' Recursive function that returns a node structure under the MediBoost paradigm
-#' @noRd
+#' 
+#' @keywords internal
 
 likelihoodMediboostSplitNode <- function(x, y,
                                          weights,
@@ -479,7 +480,7 @@ likelihoodMediboostSplitNode <- function(x, y,
 #' \pkg{rtemis} internal: likelihoodMediboostChooseFeat
 #' Selects a feature with maximum information gain and provides the decision values
 #' and column index for the chosen feature
-#' @noRd
+#' @keywords internal
 
 likelihoodMediboostChooseFeat <- function(x, y,
                                           catPredictors,

@@ -88,6 +88,7 @@ s_CART <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    rtModLog = NULL) {
+    # .call <- match.call()
     tree.depth <- getFromNamespace("tree.depth", "rpart")
 
     # Intro ----
@@ -320,10 +321,12 @@ s_CART <- function(x, y = NULL,
     varimp[varimp.index] <- varimp.cart
     varimp[is.na(varimp)] <- 0
     names(varimp) <- colnames(x)
-    extra <- list(imetrics = list(
-        n.nodes = NROW(mod$frame),
-        depth = max(tree.depth(as.numeric(rownames(mod$frame))))
-    ))
+    extra <- list(
+        imetrics = list(
+            n.nodes = NROW(mod$frame),
+            depth = max(tree.depth(as.numeric(rownames(mod$frame))))
+        )
+    )
     if (!is.null(prune.cp) & return.unpruned) extra$mod.unpruned <- mod.unpruned
     rt <- rtModSet(
         rtclass = "rtMod",
@@ -332,7 +335,7 @@ s_CART <- function(x, y = NULL,
         type = type,
         gridsearch = gs,
         parameters = parameters,
-        call = call,
+        # call = .call,
         y.train = y,
         y.test = y.test,
         x.name = x.name,

@@ -10,6 +10,7 @@
 #' Perform regression by boosting a base learner
 #'
 #' If \code{learning.rate} is set to 0, a nullmod will be created
+#' 
 #' @inheritParams boost
 #' @param mod.params Named list of arguments for \link{cartLite}
 #' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1
@@ -28,8 +29,9 @@
 #' for each base learner. Default = FALSE
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to \link{cartLite}
+#' 
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 #' @export
 
 

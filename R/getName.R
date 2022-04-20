@@ -11,8 +11,9 @@
 #' @param x Variable whose name you want to extract
 #' @param alt Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
 #' @param max.nchar Integer: Maximum N of characters to allow for name
+#' 
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 getName <- function(x, alt = "x", max.nchar = 20) {
 

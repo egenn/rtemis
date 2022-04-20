@@ -1,6 +1,6 @@
 # zzz.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# 2016-22 E.D. Gennatas lambdamd.org
 
 rtenv <- new.env()
 rtemis.version <- packageVersion("rtemis")
@@ -13,6 +13,7 @@ rtPlan <- getOption(
     "future.plan",
     ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
 )
+# ogplan <-
 future::plan(rtPlan)
 # rtProgress <- getOption("rt.progress", "global")
 # if (rtProgress == "global") progressr::handlers(global = TRUE)

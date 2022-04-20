@@ -9,8 +9,9 @@
 #' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
 #' @inheritParams s_LIHAD
 #' @param x data.frame
+#' 
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 hytreenow <- function(x, y,
                       max.depth = 5,
@@ -319,7 +320,7 @@ hyt <- function(node = list(x = NULL,
 #' \pkg{rtemis} internal: Ridge and Stump
 #'
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
-#' @noRd
+#' @keywords internal
 partLm <- function(x1, y1,
                    alpha = .1,
                    lambda = 1,

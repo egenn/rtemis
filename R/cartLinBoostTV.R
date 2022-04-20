@@ -7,6 +7,7 @@
 #' Perform regression by iteratively boosting a CART and a GLM base learner
 #'
 #' If \code{learning.rate} is set to 0, a nullmod will be created
+#' 
 #' @inheritParams boost
 #' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1
 #' @param weights.0 Float (0, 1): Set weights of excluded cases to this number. Default = 0, which is equivalent to
@@ -22,7 +23,8 @@
 #' during training. "none" for no plot. Default = "final"
 #' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner. Default = FALSE
-#' @noRd
+#' 
+#' @keywords internal
 #' @author E.D. Gennatas
 #' @export
 

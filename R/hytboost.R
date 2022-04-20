@@ -3,9 +3,10 @@
 # 2018 E.D. Gennatas lambdamd.org
 # 05-2020: switched to hytreew
 
-#' \pkg{rtemis} internal: Boosting of Hybrid Trees
+#' Boosting of Hybrid Trees
 #'
-#' Boosted Hybrid Trees. This is lower-level than \code{s.*} functions
+#' Boosted Hybrid Trees. This is a lower-level training function
+#' 
 #' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
@@ -24,9 +25,11 @@
 #' during training
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
+#' 
 #' @return \code{hytboost} object
 #' @author E.D. Gennatas
-#' @noRd
+#' 
+#' @keywords internal
 
 hytboost <- function(x, y,
                      x.valid = NULL, y.valid = NULL,

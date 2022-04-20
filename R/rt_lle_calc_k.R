@@ -4,7 +4,7 @@
 
 #' \pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}
 #'
-#' @noRd
+#' @keywords internal
 
 rt_lle_calc_k <- function(x, m,
                           kmin = 1, kmax = 20,

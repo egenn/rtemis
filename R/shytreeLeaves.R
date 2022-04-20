@@ -17,7 +17,7 @@
 #' @param loss.fn Function with arguments y, Fval, weights. Allows you to define a custom loss function.
 # Defaults to \code{log(1 + exp(-2 * y * Fval)) %*% weights}
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 # [[---F1---]] ----
 shytreeLeavesRC <- function(x, y,

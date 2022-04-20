@@ -12,8 +12,9 @@
 #' @param newline.pre Logical: If TRUE, start with a new line. Default = TRUE
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
+#' 
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 #' @export
 
 boxcat <- function(x,
@@ -48,7 +49,7 @@ pastebox <- function(x, pad = 0) {
 #'
 #' @param x Character: Object description
 #' @author E.D. Gennatas
-#' @noRd
+#' @keywords internal
 
 objcat <- function(x) {
     cat(bold(".:rtemis"), rtOrange$bold(x), "\n")
