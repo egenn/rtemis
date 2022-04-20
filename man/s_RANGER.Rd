@@ -85,10 +85,13 @@ Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 2: class.weights as in 0, divided by min(class.weights)
 Default = 2}
 
-\item{ipw.case.weights}{Logical: If TRUE, define ranger's \code{case.weights} using IPW. Default = TRUE
-Note: Cannot use case.weights together with \code{stratify.on.y} or \code{inbag.resample}}
+\item{ipw.case.weights}{Logical: If TRUE, define ranger's
+\code{case.weights} using IPW. Default = TRUE
+Note: Cannot use case.weights together with \code{stratify.on.y} or
+\code{inbag.resample}}
 
-\item{ipw.class.weights}{Logical: If TRUE, define ranger's \code{class.weights} using IPW. Default = FALSE}
+\item{ipw.class.weights}{Logical: If TRUE, define ranger's
+\code{class.weights} using IPW. Default = FALSE}
 
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
@@ -100,7 +103,8 @@ Default = NULL (random seed)}
 
 \item{autotune}{Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}}
 
-\item{classwt}{Vector, Float: Priors of the classes for \code{randomForest::tuneRF} if \code{autotune = TRUE}.
+\item{classwt}{Vector, Float: Priors of the classes for
+\code{randomForest::tuneRF} if \code{autotune = TRUE}.
 For classification only; need not add up to 1}
 
 \item{n.trees.try}{Integer: Number of trees to train for tuning, if \code{autotune = TRUE}}
@@ -108,17 +112,20 @@ For classification only; need not add up to 1}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split. Defaults to square root of n of
+\item{mtry}{[gS] Integer: Number of features sampled randomly at each split.
+ Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
-\item{inbag.resample}{List, length \code{n.tree}: Output of \link{rtset.resample} to define resamples used for each
+\item{inbag.resample}{List, length \code{n.tree}: Output of
+\link{rtset.resample} to define resamples used for each
 tree. Default = NULL}
 
-\item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to use stratified bootstraps for each tree.
-This can help improve test set performance in imbalanced datasets. Default = FALSE. Note: Cannot be used with
-\code{ipw.case.weights}}
+\item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to
+use stratified bootstraps for each tree.
+This can help improve test set performance in imbalanced datasets.
+Default = FALSE. Note: Cannot be used with \code{ipw.case.weights}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
@@ -134,19 +141,23 @@ Default = NULL, which results in "Balanced Accuracy" for Classification,
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
 
-\item{probability}{Logical: If TRUE, grow a probability forest. See \code{ranger::ranger}. Default = FALSE}
+\item{probability}{Logical: If TRUE, grow a probability forest.
+See \code{ranger::ranger}. Default = FALSE}
 
-\item{importance}{Character: "none", "impurity", "impurity_corrected", or "permutation"
+\item{importance}{Character: "none", "impurity", "impurity_corrected", or
+"permutation"
 Default = "impurity"}
 
-\item{local.importance}{Logical: If TRUE, return local importance values. Only applicable if
+\item{local.importance}{Logical: If TRUE, return local importance values.
+Only applicable if
 \code{importance} is set to "permutation".}
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
 
 \item{min.node.size}{[gS] Integer: Minimum node size}
 
-\item{splitrule}{Character: For classification: "gini" (Default) or "extratrees";
+\item{splitrule}{Character: For classification: "gini" (Default) or
+"extratrees";
 For regression: "variance" (Default), "extratrees" or "maxstat".
 For survival "logrank" (Default), "extratrees", "C" or "maxstat".}
 

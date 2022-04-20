@@ -133,6 +133,7 @@ Initialize \code{rtModCV} object
   mod = NULL,
   mod.name = NULL,
   type = NULL,
+  call = NULL,
   y.train = NULL,
   x.name = NULL,
   y.name = NULL,

@@ -66,9 +66,9 @@ s_LIHADBOOST(
 )
 }
 \arguments{
-\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
+\item{x}{Data frame: Input features}
 
-\item{y}{Numeric vector of outcome, i.e. dependent variable}
+\item{y}{Vector: Output}
 
 \item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}
@@ -80,6 +80,8 @@ Columns must correspond to columns in \code{x}}
 \item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
+
+\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
 
 \item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
 end of training. If integer, plot training and validation error curve every this many iterations
