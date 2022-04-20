@@ -18,7 +18,7 @@ checkData_live(
 \arguments{
 \item{name}{Character: Dataset name}
 
-\item{recommend}{Logical: If TRUE, output recommendations at the end. 
+\item{recommend}{Logical: If TRUE, output recommendations at the end.
 Default = TRUE}
 
 \item{font.family}{Character: Font family to use. Default = "Fira Sans"}
@@ -27,7 +27,7 @@ Default = TRUE}
 
 \item{background.color}{Character: Background color. Default = "transparent"}
 
-\item{class}{Character: CSS class to assign to div output. 
+\item{class}{Character: CSS class to assign to div output.
 Default = "checkData"}
 
 \item{verbose}{Logical: If TRUE, print output in HTML viewer.
@@ -40,6 +40,8 @@ Check Data (HTML output)
 \dontrun{
 checkData_live(iris)
 }
+
+
 }
 \author{
 E.D. Gennatas
