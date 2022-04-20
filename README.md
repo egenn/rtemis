@@ -113,12 +113,6 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 
   (metaFeat and metaGroup have been removed for updating)
 
-## Ongoing work
-
-* **rtemis** is under active development
-* Novel algorithms developed in **rtemis** will generally be added to this public repository around the publication of the corresponding papers.
-* R Documentation is ongoing.
-
 ---
 
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_vis_collage.png">
@@ -127,5 +121,16 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 </br>  
 
 ---
+
+## rtemislive
+
+**rtemislive** is rtemis' web interface / GUI.
+It brings advanced visualization and analytics a few clicks away.
+**rtemislive** is currently available for beta testing at UCSF,
+and will be made publicly available once funding is secured for a hosting server.
+
+<img align = "center" src="https://egenn.github.io/imgs/rtemislive_0.92_dplot3_xyz.jpeg">
+</br>
+
 
 [&copy;2022 E.D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
