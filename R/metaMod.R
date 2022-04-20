@@ -154,7 +154,7 @@ metaMod <- function(x, y = NULL,
   } else {
     pbapply::pboptions(type = "none")
   }
-  base.res <- pbapply::pblapply(seq(NROW(grid)), waffle1,
+  base.res <- pbapply::pblapply(seq_len(NROW(grid)), waffle1,
                                 grid = grid,
                                 x.int = x,
                                 y.int = y,
