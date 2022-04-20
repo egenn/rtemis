@@ -7,10 +7,14 @@
 #' One hot encode a vector or factors in a data.frame
 #'
 #' A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
-#' only column of type factor will be one-hot encoded. This function is used by \link{preprocess}
+#' only column of type factor will be one-hot encoded. 
+#' This function is used by \link{preprocess}.
+#' \code{oneHot.data.table} operates on a copy of its input.
+#' \code{oneHot_} performs one-hot encoding in-place.
 #'
 #' @param x Vector or data.frame
-#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
+#' @param xname Character: Variable name
+#' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @return For vector input, a one-hot-encoded matrix, for data.frame frame input, an expanded data.frame where all
 #' factors are one-hot encoded
@@ -91,9 +95,6 @@ oneHot.data.frame <- function(x,
 
 #' @rdname oneHot
 #'
-#' \code{oneHot.data.table} operates on a copy of its input.
-#' See \code{oneHot_} for one-hot encoding **in-place**
-#'
 #' @export
 #' @examples
 #' ir <- data.table::as.data.table(iris)
@@ -127,12 +128,10 @@ oneHot.data.table <- function(x,
 
 #' @rdname oneHot
 #'
-#' \code{oneHot_} replaces factors with onehot encoded columns **in-place**
-#' and returns a data.table invisibly
-#'
 #' @export
 #' @examples
 #' ir <- data.table::as.data.table(iris)
+#' # oneHot_ operates in-place; therefore no assignment is used:
 #' oneHot_(ir)
 #' ir
 
