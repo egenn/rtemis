@@ -3,11 +3,13 @@
 #'
 #' @docType class
 #' @name rtModLog-class
+#' 
 #' @field mod.name Learner algorithm name
 #' @field parameters List of hyperparameters used when building model
 #' @field error.train Training error
 #' @field error.test Testing error
 #' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -20,6 +22,13 @@ rtModLog <- R6::R6Class("rtModLog",
                           error.test = NULL,
                           sessionInfo = NULL,
                           ### Initialize
+                          #' @description
+                          #' Initialize \code{rtModLog} object
+                          #' 
+                          #' @param mod.name Learner algorithm name
+                          #' @param parameters List of hyperparameters used when building model
+                          #' @param error.train Training error
+                          #' @param error.test Testing error
                           initialize = function(mod.name = character(),
                                                 parameters = list(),
                                                 error.train = list(),
@@ -31,6 +40,8 @@ rtModLog <- R6::R6Class("rtModLog",
                             self$sessionInfo <- sessionInfo()
                           },
                           ### Methods
+                          #' @description
+                          #' Print method for \code{rtModLog} object
                           print = function() {
                             "show / print method for rtModLog"
                             boxcat(".:rtemis Supervised Model Log", newline.pre = FALSE)
@@ -52,6 +63,11 @@ rtModLog <- R6::R6Class("rtModLog",
 #' Keep your experiment results tidy in one place, with an option to write out 
 #' to a multi-sheet Excel file.
 #'
+#' @docType class
+#' @name rtModLogger-class
+#'
+#' @field mods List of trained models
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -59,13 +75,20 @@ rtModLogger <- R6::R6Class("rtModLogger",
                            public = list(
                              ### Attributes
                              mods = list(),
-                             ### Initialize
+                             # Initialize rtModLogger ----
+                             #' @description
+                             #' Initialize \code{rtModLogger} object
+                             #' 
+                             #' @param mods List of trained models
                              initialize = function(mods = list()) {
                                self$mods <- mods
                              },
                              ### Methods
+                             # Print rtModLogger ----
+                             #' @description
+                             #' Print method for \code{rtModLogger} object
                              print = function() {
-                               "show / print method for rtModLogger"
+                               "Show / print method for rtModLogger"
                                boxcat(".:rtemis Supervised Model Logger", newline.pre = FALSE)
                                n.mods <- length(self$mods)
                                cat("\n   Contents:",
@@ -76,8 +99,14 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                             paste(n.mods, "models"))),
                                    "\n\n")
                              },
+                             # Add to rtModLogger ----
+                             #' @description
+                             #' Add model to logger
+                             #' 
+                             #' @param mod Model to add
+                             #' @param verbose Logical: If TRUE, print messages to console
                              add = function(mod, verbose = TRUE) {
-                               "add model to logger"
+                               "Add model to logger"
                                id <- paste0(mod$mod.name, "_", length(self$mods) + 1)
                                self$mods[[id]] <- rtModLog$new(mod.name = mod$mod.name,
                                                                parameters = mod$parameters,
@@ -85,6 +114,19 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                                error.test = mod$error.test)
                                if (verbose) msg("Added 1 model to logger;", length(self$mods), "total")
                              },
+                             # Summarize rtModLogger ----
+                             #' @description
+                             #' Summary method for \code{rtModLogger}
+                             #' 
+                             #' @param class.metric Character: Metric to use for 
+                             #' Classification models
+                             #' @param reg.metric Character: Metric to use for 
+                             #' Regression models
+                             #' @param surv.metric Character: Metric to use for
+                             #' Survival models
+                             #' @param decimal.places Integer: Number of decimal
+                             #' places to display
+                             #' @param print.metric Logical: If TRUE, print metric name
                              summarize = function(class.metric = "Balanced Accuracy",
                                                 reg.metric = "Rsq",
                                                 surv.metric = "Coherence",
@@ -120,6 +162,16 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                        title.newline = FALSE, newline.pre = FALSE)
                                invisible(lst)
                              },
+                             # Summary rtModLogger ----
+                             #' @description
+                             #' Summary method for \code{rtModLogger}
+                             #' 
+                             #' @param class.metric Character: Metric to use for
+                             #' Classification models
+                             #' @param reg.metric Character: Metric to use for
+                             #' Regression models
+                             #' @param surv.metric Character: Metric to use for
+                             #' Survival models
                              summary = function(class.metric = "Balanced Accuracy",
                                                 reg.metric = "Rsq",
                                                 surv.metric = "Coherence") {
@@ -153,6 +205,13 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                }
                                invisible(tbl)
                              },
+                             # Tabulate rtModLogger ----
+                             #' @description
+                             #' Tabulate models' parameters and performance
+                             #' 
+                             #' @param filename Character: Path to file to save
+                             #' parameters and performance - will be saved as .xlsx file
+                             #' with multiple sheets
                              tabulate = function(filename = NULL) {
                                "Write parameters and performance for each model to an .xlsx file"
                                paramsl <- lapply(self$mods, function(i) {
@@ -183,8 +242,16 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                  paramsl
                                }
                              },
+                             # Plot rtModLogger
+                             #' @description
+                             #' Plot method for \code{rtModLogger}
+                             #' 
+                             #' @param names Character: Model names
+                             #' @param col Colors to use
+                             #' @param mar Float, vector: plot margins
+                             #' @param ... Additional arguments to pass to plotting function
                              plot = function(names = NULL,
-                                             col = unlist(ucsfPalette),
+                                             col = unlist(getOption("rt.palette", "rtCol1")),
                                              mar = NULL, ...) {
                                "Plot barplot of models' performance"
                                tbl <- self$summary()
@@ -219,7 +286,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              }
                            )) # /rtModLogger
 
-#' Reduce List to one value per element
+#' Reduce List to single value per element
 #'
 # reduceList <- function(x, char.max = 50, return.df = TRUE) {
 #
