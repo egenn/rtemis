@@ -6,6 +6,11 @@
 \alias{rtMeta}
 \title{\pkg{rtemis} Meta Model Class}
 \description{
+\pkg{rtemis} Meta Model Class
+
+\pkg{rtemis} Meta Model Class
+}
+\details{
 R6 Class for \pkg{rtemis} Meta Models
 }
 \section{Super class}{
@@ -106,6 +111,7 @@ R6 Class for \pkg{rtemis} Meta Models
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtMeta} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMeta$new(
   mod.name = character(),
@@ -138,11 +144,73 @@ R6 Class for \pkg{rtemis} Meta Models
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod.name}}{Character: Algorithm name}
+
+\item{\code{y.train}}{Training set output}
+
+\item{\code{y.test}}{Testing set output}
+
+\item{\code{x.name}}{Character: Feature set name}
+
+\item{\code{y.name}}{Character: Output name}
+
+\item{\code{xnames}}{Character vector: Feature names}
+
+\item{\code{grid}}{Data frame with combinations of algorithm
+names and resample IDs}
+
+\item{\code{base.resample.rtset}}{List with resampling 
+parameters for base learners}
+
+\item{\code{base.mod.names}}{Base learner algorithm names}
+
+\item{\code{base.params}}{Base learners' hyperparameters}
+
+\item{\code{base.res.y.test}}{Base learners' predicted values}
+
+\item{\code{base.mods.error.train}}{Base learners' training error}
+
+\item{\code{base.mods.error.test}}{Base learners' testing error}
+
+\item{\code{meta.mod.name}}{Meta model algorithm name}
+
+\item{\code{meta.params}}{Meta model hyperparameters}
+
+\item{\code{meta.mod}}{Trained meta model}
+
+\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+
+\item{\code{fitted}}{Fitted values (training set predictions)}
+
+\item{\code{se.fit}}{Standard error of fitted values}
+
+\item{\code{error.train}}{Training set error}
+
+\item{\code{predicted}}{Predicted values (Testing set predictions)}
+
+\item{\code{se.prediction}}{Standard error of predicted values}
+
+\item{\code{error.test}}{Testing set error}
+
+\item{\code{question}}{Question the model is trying to answer}
+
+\item{\code{extra}}{List of extra model info}
+
+\item{\code{base.res.mods}}{Base learner fitted models}
+
+\item{\code{sessionInfo}}{R session info at time of training}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Plot method for \code{rtMeta} objects
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMeta$print()}\if{html}{\out{</div>}}
 }

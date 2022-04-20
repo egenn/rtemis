@@ -2,10 +2,10 @@
 % Please edit documentation in R/rtModLog.R
 \name{reduceList}
 \alias{reduceList}
-\title{Reduce List to one value per element}
+\title{Reduce List to single value per element}
 \usage{
 reduceList(x, char.max = 50, return.df = TRUE)
 }
 \description{
-Reduce List to one value per element
+Reduce List to single value per element
 }

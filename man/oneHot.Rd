@@ -4,6 +4,8 @@
 \alias{oneHot}
 \alias{oneHot.default}
 \alias{oneHot.data.frame}
+\alias{oneHot.data.table}
+\alias{oneHot_}
 \title{One hot encoding}
 \usage{
 oneHot(x, xname = NULL, verbose = FALSE)
@@ -11,11 +13,17 @@ oneHot(x, xname = NULL, verbose = FALSE)
 \method{oneHot}{default}(x, xname = NULL, verbose = TRUE)
 
 \method{oneHot}{data.frame}(x, xname = NULL, verbose = TRUE)
+
+\method{oneHot}{data.table}(x, xname = NULL, verbose = TRUE)
+
+oneHot_(x, xname = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{Vector or data.frame}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+\item{xname}{Character: Variable name}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \value{
 For vector input, a one-hot-encoded matrix, for data.frame frame input, an expanded data.frame where all
@@ -26,10 +34,20 @@ One hot encode a vector or factors in a data.frame
 }
 \details{
 A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
-only column of type factor will be one-hot encoded. This function is used by \link{preprocess}
+only column of type factor will be one-hot encoded. 
+This function is used by \link{preprocess}.
+\code{oneHot.data.table} operates on a copy of its input.
+\code{oneHot_} performs one-hot encoding in-place.
 }
 \examples{
 oneHot(iris) |> head()
+ir <- data.table::as.data.table(iris)
+ir_oh <- oneHot(ir)
+ir_oh
+ir <- data.table::as.data.table(iris)
+# oneHot_ operates in-place; therefore no assignment is used:
+oneHot_(ir)
+ir
 }
 \author{
 E.D. Gennatas

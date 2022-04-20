@@ -97,6 +97,15 @@ Plot ROC
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROC(which.repeat = 1, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to plot}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCfitted"></a>}}
@@ -107,6 +116,17 @@ Plot ROC plot for fitted values
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCfitted(which.repeat = 1, main = "ROC Training", ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to plot}
+
+\item{\code{main}}{Character: Main title}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotROCpredicted"></a>}}
@@ -117,6 +137,17 @@ Plot ROC plot for predicted values
 \if{html}{\out{<div class="r">}}\preformatted{rtModCVclass$plotROCpredicted(which.repeat = 1, main = "ROC Testing", ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to plot}
+
+\item{\code{main}}{Character: Main title}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPR"></a>}}

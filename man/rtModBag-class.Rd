@@ -19,20 +19,7 @@ R6 Class for \pkg{rtemis} Bagged Supervised Models
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{mod.name}}{Model (algorithm) name}
-
-\item{\code{y.train}}{Training y data}
-
-\item{\code{y.test}}{Testing y data}
-
-\item{\code{x.name}}{Name of x data}
-
-\item{\code{y.name}}{Name of y data}
-
 \item{\code{xnames}}{Character vector: Column names of x}
-
-\item{\code{bag.resample.rtset}}{List of settings for \link{resample}.
-Set using \link{rtset.bag.resample}}
 
 \item{\code{mod}}{Trained model}
 
@@ -48,25 +35,30 @@ Set using \link{rtset.bag.resample}}
 
 \item{\code{error.test}}{Testing error}
 
+\item{\code{varimp}}{Variable importance}
+
 \item{\code{question}}{Question the model is hoping to answer}
 
 \item{\code{extra}}{Algorithm-specific output}
+
+\item{\code{bag.resample.rtset}}{List of settings for \link{resample}.
+Set using \link{rtset.bag.resample}}
+
+\item{\code{fitted.bag}}{Base learners' fitted values}
+
+\item{\code{se.fit.bag}}{Base learners' fitted values' standard error}
+
+\item{\code{predicted.bag}}{Base learners' predicted values}
+
+\item{\code{se.predicted.bag}}{Base learners' predicted values' standard error}
+
+\item{\code{aggr.fn}}{Function used to aggregated base learners' predictions}
 }
 \if{html}{\out{</div>}}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{mod.name}}{Model (algorithm) name}
-
-\item{\code{y.train}}{Training y data}
-
-\item{\code{y.test}}{Testing y data}
-
-\item{\code{x.name}}{Name of x data}
-
-\item{\code{y.name}}{Name of y data}
-
 \item{\code{xnames}}{Character vector: Column names of x}
 
 \item{\code{mod}}{Trained model}
@@ -82,6 +74,8 @@ Set using \link{rtset.bag.resample}}
 \item{\code{se.prediction}}{Standard error of the prediction}
 
 \item{\code{error.test}}{Testing error}
+
+\item{\code{varimp}}{Variable importance}
 
 \item{\code{question}}{Question the model is hoping to answer}
 
@@ -114,6 +108,7 @@ Set using \link{rtset.bag.resample}}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtModBag} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModBag$new(
   mod.name = character(),
@@ -133,7 +128,7 @@ Set using \link{rtset.bag.resample}}
   error.train = list(),
   predicted.bag = numaric(),
   predicted = numeric(),
-  se.prediction.bag = numeric(),
+  se.predicted.bag = numeric(),
   se.prediction = numeric(),
   aggr.fn = character(),
   error.test = list(),
@@ -143,6 +138,60 @@ Set using \link{rtset.bag.resample}}
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod.name}}{Model (algorithm) name}
+
+\item{\code{y.train}}{Training y data}
+
+\item{\code{y.test}}{Testing y data}
+
+\item{\code{x.name}}{Name of x data}
+
+\item{\code{y.name}}{Name of y data}
+
+\item{\code{xnames}}{Character vector: Column names of x}
+
+\item{\code{bag.resample.rtset}}{List of settings for \link{resample}.
+Set using \link{rtset.bag.resample}}
+
+\item{\code{mod}}{Trained model}
+
+\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+
+\item{\code{parameters}}{List of training parameters}
+
+\item{\code{fitted.bag}}{Base learners' fitted values}
+
+\item{\code{fitted}}{Fitted values}
+
+\item{\code{se.fit.bag}}{Base learners' fitted values' standard error}
+
+\item{\code{se.fit}}{Standard error of the fit}
+
+\item{\code{error.train}}{Training error}
+
+\item{\code{predicted.bag}}{Base learners' predicted values}
+
+\item{\code{predicted}}{Predicted values}
+
+\item{\code{se.prediction}}{Standard error of the prediction}
+
+\item{\code{aggr.fn}}{Aggregating function}
+
+\item{\code{error.test}}{Testing error}
+
+\item{\code{varimp}}{Variable importance}
+
+\item{\code{question}}{Question the model is hoping to answer}
+
+\item{\code{extra}}{Algorithm-specific output}
+
+\item{\code{se.predicted.bar}}{Base learners' predicted values' standard error}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}

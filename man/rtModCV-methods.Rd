@@ -16,7 +16,7 @@
 \arguments{
 \item{x}{\code{rtModCV} object}
 
-\item{...}{Additional arguments to pass to \code{mplot3_fit}}
+\item{...}{Not used}
 
 \item{object}{\code{rtModCV} object}
 

@@ -11,12 +11,14 @@ gridCheck(...)
 }
 \description{
 Checks if grid search needs to be performed.
-All tunable parameters should be passed to this function, individually or as a list. If any
-argument has more than one assigned values, the function returns TRUE, otherwise FALSE. This can
-be used to check whether \link{gridSearchLearn} must be run.
+All tunable parameters should be passed to this function, individually or as 
+a list. If any argument has more than one assigned values, the function 
+returns TRUE, otherwise FALSE. This can be used to check whether 
+\link{gridSearchLearn} must be run.
 }
 \details{
-The idea is that if you know which parameter values you want to use, you define them directly
+The idea is that if you know which parameter values you want to use, you 
+define them directly
   e.g. \code{alpha = 0, lambda = .2}.
 If you don't know, you enter the set of values to be tested,
   e.g. \code{alpha = c(0, .5, 1), lambda = seq(.1, 1, .1)}.

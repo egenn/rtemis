@@ -44,9 +44,9 @@
 \arguments{
 \item{x}{\code{rtMod} object}
 
-\item{...}{Additional arguments to be passed to \link{mplot3_xy}}
+\item{...}{Additional argument passed to \code{predict(object)}}
 
-\item{object}{Trained model of class \code{rtMod}}
+\item{object}{\code{rtModLite} object}
 
 \item{newdata}{Testing set features}
 
@@ -89,3 +89,4 @@ E.D. Gennatas
 
 E.D. Gennatas
 }
+\keyword{internal}

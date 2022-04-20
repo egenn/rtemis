@@ -27,7 +27,7 @@ rtModSet(
   predicted.bag = numeric(),
   predicted = numeric(),
   predicted.prob = numeric(),
-  se.prediction.bag = numeric(),
+  se.predicted.bag = numeric(),
   se.prediction = numeric(),
   error.test = list(),
   varimp = numeric(),

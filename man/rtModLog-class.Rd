@@ -40,6 +40,7 @@ E.D. Gennatas
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtModLog} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLog$new(
   mod.name = character(),
@@ -49,11 +50,25 @@ E.D. Gennatas
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod.name}}{Learner algorithm name}
+
+\item{\code{parameters}}{List of hyperparameters used when building model}
+
+\item{\code{error.train}}{Training error}
+
+\item{\code{error.test}}{Testing error}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Print method for \code{rtModLog} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLog$print()}\if{html}{\out{</div>}}
 }

@@ -18,7 +18,34 @@ rtMod.out(
   ...
 )
 }
+\arguments{
+\item{rt}{rtemid object}
+
+\item{print.plot}{Logical: If TRUE, print plot}
+
+\item{plot.fitted}{Logical: If TRUE, print fitted values plot}
+
+\item{plot.predicted}{Logical: If TRUE, print predicted values plot}
+
+\item{y.test}{Test set predictions}
+
+\item{mod.name}{Character: name of algorithm used to train model}
+
+\item{outdir}{Character: Path to directory to save model}
+
+\item{save.mod}{Logical: if TRUE, save trained model to \code{outdir},
+otherwise save only log, summary, and plots}
+
+\item{verbose}{Logical: If TRUE, print messages in console}
+
+\item{theme}{rtemis theme to use}
+
+\item{...}{Additional arguments passed to \code{plot(rt)}}
+}
 \description{
 rtMod.out
+}
+\author{
+E.D. Gennatas
 }
 \keyword{internal}

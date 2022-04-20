@@ -34,10 +34,37 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 
 \item{\code{parameters}}{List of algorithm hyperparameters}
 
-\item{\code{resampler}}{List of settings for \link{resample}. Set using \link{rtset.cv.resample}}
+\item{\code{resampler}}{List of settings for \link{resample}. 
+Set using \link{rtset.cv.resample}}
 
 \item{\code{n.repeats}}{Integer: Number of repeats. This is the outermost iterator: i.e. You will run
 \code{resampler} this many times.}
+
+\item{\code{resampler.params}}{List of resampling parameters}
+
+\item{\code{resamples}}{Resamples produced by \link{resample}}
+
+\item{\code{y.train.res}}{Resamples' fitted values}
+
+\item{\code{y.train.res.aggr}}{Aggregated training set outcomes}
+
+\item{\code{fitted.res}}{Resamples' fitted values}
+
+\item{\code{fitted.res.aggr}}{Aggregated fitted values}
+
+\item{\code{error.train.res}}{Resamples' training error}
+
+\item{\code{error.train.res.mean}}{Resamples' mean training error}
+
+\item{\code{error.train.res.aggr}}{Error of aggregated fitted values}
+
+\item{\code{error.train.repeats}}{Mean training error for each repeat}
+
+\item{\code{error.train.repeats.mean}}{Mean error across all repeats}
+
+\item{\code{error.train.repeats.sd}}{Standard deviation of error across all repeats}
+
+\item{\code{y.test.res}}{Resamples' predicted values}
 
 \item{\code{mod}}{Trained model}
 
@@ -64,7 +91,8 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \describe{
 \item{\code{y.test}}{Testing set y data}
 
-\item{\code{resampler}}{List of settings for \link{resample}. Set using \link{rtset.cv.resample}}
+\item{\code{resampler}}{List of settings for \link{resample}. 
+Set using \link{rtset.cv.resample}}
 
 \item{\code{fitted}}{Fitted values}
 
@@ -158,6 +186,9 @@ Initialize \code{rtModCV} object
 \item{\code{xnames}}{Character vector: Feature names}
 
 \item{\code{parameters}}{List of training parameters}
+
+\item{\code{n.repeats}}{Integer: Number of repeats. This is the outermost iterator: i.e. You will run
+\code{resampler} this many times.}
 
 \item{\code{varimp}}{Variable importance}
 

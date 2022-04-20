@@ -8,7 +8,11 @@
 \method{predict}{rtMeta}(object, newdata, fn = median, ...)
 }
 \arguments{
+\item{object}{\code{rtMeta} object}
+
 \item{newdata}{Testing set features}
+
+\item{fn}{Function to average predictions}
 }
 \description{
 S3 methods for \code{rtMeta} class that differ from those of the \code{rtMod} superclass

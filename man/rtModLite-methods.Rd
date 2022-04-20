@@ -7,6 +7,11 @@
 \usage{
 \method{print}{rtModLite}(x, ...)
 }
+\arguments{
+\item{x}{\code{rtModLite} object}
+
+\item{...}{Not used}
+}
 \description{
 S3 methods for \code{rtModLite} class.
 }

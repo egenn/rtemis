@@ -6,9 +6,13 @@
 \alias{rtModLite}
 \title{\pkg{rtemis} Lite Supervised Model Class}
 \description{
-R6 Class for \pkg{rtemis} Lite Supervised Models
+\pkg{rtemis} Lite Supervised Model Class
+
+\pkg{rtemis} Lite Supervised Model Class
 }
 \details{
+R6 Class for \pkg{rtemis} Lite Supervised Models
+
 Note on terminology for all models:
 The training set is used to build a model. The testing set is a separate set never touched during
 training and only used to a. create predictions using the trained model and
@@ -23,9 +27,11 @@ used automatically by \link{resample} when appropriate, they are not generally i
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{mod.name}}{Learner algorithm names}
+\item{\code{mod.name}}{Algorithm name}
 
 \item{\code{mod}}{Trained model}
+
+\item{\code{fitted}}{Vector of fitted values}
 }
 \if{html}{\out{</div>}}
 }
@@ -41,15 +47,28 @@ used automatically by \link{resample} when appropriate, they are not generally i
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialize \code{rtModLite} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLite$new(mod = list(), mod.name = character(), fitted = numeric())}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{mod}}{Trained model}
+
+\item{\code{mod.name}}{Algorithm name}
+
+\item{\code{fitted}}{Vector of fitted values}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
 \if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
+Plot method for \code{rtModLite} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModLite$print()}\if{html}{\out{</div>}}
 }
