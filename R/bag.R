@@ -141,7 +141,8 @@ bag <- function(x, y = NULL,
   if (!verbose) pbapply::pboptions(type = "none")
 
   if (type == "Classification") {
-    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x)),
+    fitted.bag <- pbapply::pbsapply(
+      rl$mods, function(k) as.numeric(predict(k$mod1, x)),
                                     cl = n.workers)
     fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))
     levels(fitted) <- levels(y)
@@ -203,7 +204,7 @@ bag <- function(x, y = NULL,
                      error.train = error.train,
                      predicted.bag = predicted.bag,
                      predicted = predicted,
-                     se.prediction.bag = NULL,
+                     se.predicted.bag = NULL,
                      se.prediction = NULL,
                      aggr.fn = aggr.fn,
                      error.test = error.test,
