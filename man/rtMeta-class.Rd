@@ -19,70 +19,31 @@ R6 Class for \pkg{rtemis} Meta Models
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{mod.name}}{Model (algorithm) name}
+\item{\code{grid}}{Grid of algorithm names and resamples IDs}
 
-\item{\code{y.train}}{Training y data}
+\item{\code{base.resample.rtset}}{List of resampling parameters for base learner training}
 
-\item{\code{y.test}}{Testing y data}
+\item{\code{base.mod.names}}{Character vector: names of base learner algorithms}
 
-\item{\code{x.name}}{Name of x data}
+\item{\code{base.params}}{Named list of lists with base model parameters}
 
-\item{\code{y.name}}{Name of y data}
+\item{\code{base.res.y.test}}{Base resamples' testing set outcomes}
 
-\item{\code{xnames}}{Character vector: Column names of x}
+\item{\code{base.res.predicted}}{Base resamples' predicted valuess}
 
-\item{\code{mod}}{Trained model}
+\item{\code{base.mods}}{Base learners}
 
-\item{\code{fitted}}{Fitted values}
+\item{\code{base.mods.error.train}}{Base learners' training error}
 
-\item{\code{se.fit}}{Standard error of the fit}
+\item{\code{base.mods.error.test}}{Base learners' testing error}
 
-\item{\code{error.train}}{Training error}
+\item{\code{meta.mod.name}}{Name of meta algorithm}
 
-\item{\code{predicted}}{Predicted values}
+\item{\code{meta.params}}{List of meta model parameters}
 
-\item{\code{se.prediction}}{Standard error of the prediction}
+\item{\code{meta.mod}}{Meta model}
 
-\item{\code{error.test}}{Testing error}
-
-\item{\code{question}}{Question the model is hoping to answer}
-
-\item{\code{extra}}{Algorithm-specific output}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{mod.name}}{Model (algorithm) name}
-
-\item{\code{y.train}}{Training y data}
-
-\item{\code{y.test}}{Testing y data}
-
-\item{\code{x.name}}{Name of x data}
-
-\item{\code{y.name}}{Name of y data}
-
-\item{\code{xnames}}{Character vector: Column names of x}
-
-\item{\code{mod}}{Trained model}
-
-\item{\code{fitted}}{Fitted values}
-
-\item{\code{se.fit}}{Standard error of the fit}
-
-\item{\code{error.train}}{Training error}
-
-\item{\code{predicted}}{Predicted values}
-
-\item{\code{se.prediction}}{Standard error of the prediction}
-
-\item{\code{error.test}}{Testing error}
-
-\item{\code{question}}{Question the model is hoping to answer}
-
-\item{\code{extra}}{Algorithm-specific output}
+\item{\code{sessionInfo}}{R session info at training time}
 }
 \if{html}{\out{</div>}}
 }
@@ -167,9 +128,13 @@ parameters for base learners}
 
 \item{\code{base.mod.names}}{Base learner algorithm names}
 
-\item{\code{base.params}}{Base learners' hyperparameters}
+\item{\code{base.params}}{Named list of lists with base model parameters}
 
 \item{\code{base.res.y.test}}{Base learners' predicted values}
+
+\item{\code{base.res.predicted}}{Base resamples' predicted valuess}
+
+\item{\code{base.mods}}{Base learners}
 
 \item{\code{base.mods.error.train}}{Base learners' training error}
 

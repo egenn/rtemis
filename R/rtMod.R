@@ -1047,17 +1047,6 @@ rtModClass <- R6::R6Class("rtModClass",
 #' @docType class
 #' @name rtModBag-class
 #' 
-#' @field xnames Character vector: Column names of x
-#' @field mod Trained model
-#' @field fitted Fitted values
-#' @field se.fit Standard error of the fit
-#' @field error.train Training error
-#' @field predicted Predicted values
-#' @field se.prediction Standard error of the prediction
-#' @field error.test Testing error
-#' @field varimp Variable importance
-#' @field question Question the model is hoping to answer
-#' @field extra Algorithm-specific output
 #' @field bag.resample.rtset List of settings for \link{resample}.
 #' Set using \link{rtset.bag.resample}
 #' @field fitted.bag Base learners' fitted values 
@@ -1097,7 +1086,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           #' @param se.fit Standard error of the fit
                           #' @param error.train Training error
                           #' @param predicted.bag Base learners' predicted values
-                          #' @param se.predicted.bar Base learners' predicted values' standard error
+                          #' @param se.predicted.bag Base learners' predicted values' standard error
                           #' @param predicted Predicted values
                           #' @param se.prediction Standard error of the prediction
                           #' @param aggr.fn Aggregating function
@@ -1252,13 +1241,10 @@ predict.rtModBag <- function(object,
 #' @field mod.name Model (algorithm) name
 #' @field type "Classification", "Regression", or "Survival"
 #' @field y.train Training set y data
-#' @field y.test Testing set y data
 #' @field x.name Name of x data
 #' @field y.name Name of y data
 #' @field xnames Character vector: Column names of x
 #' @field parameters List of algorithm hyperparameters
-#' @field resampler List of settings for \link{resample}. 
-#' Set using \link{rtset.cv.resample}
 #' @field n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
 #' \code{resampler} this many times.
 #' @field resampler.params List of resampling parameters
@@ -1266,23 +1252,28 @@ predict.rtModBag <- function(object,
 #' @field y.train.res Resamples' fitted values
 #' @field y.train.res.aggr Aggregated training set outcomes
 #' @field fitted.res Resamples' fitted values
-#' @field fitted.res.aggr Aggregated fitted values
+#' @field fitted.res.aggr Aggregated fitted values 
 #' @field error.train.res Resamples' training error
 #' @field error.train.res.mean Resamples' mean training error
 #' @field error.train.res.aggr Error of aggregated fitted values
 #' @field error.train.repeats Mean training error for each repeat
-#' @field error.train.repeats.mean Mean error across all repeats
-#' @field error.train.repeats.sd Standard deviation of error across all repeats
+#' @field error.train.repeats.mean Mean training error across all repeats
+#' @field error.train.repeats.sd Standard deviation of training error across all repeats
 #' @field y.test.res Resamples' predicted values
-#' @field mod Trained model
-#' @field fitted Fitted values
-#' @field se.fit Standard error of the fit
-#' @field error.train Training error
-#' @field predicted Predicted values
-#' @field se.prediction Standard error of the prediction
-#' @field error.test Testing error
+#' @field y.test.res.aggr Aggregated testing set outcomes
+#' @field predicted.res Resamples' predicted values 
+#' @field predicted.res.aggr Aggregated predicted values
+#' @field error.test.res Resamples' testing error
+#' @field error.test.res.mean Resamples' mean testing error
+#' @field error.test.res.aggr Error of aggregated predicted values
+#' @field error.test.repeats Mean testing error for each repeat
+#' @field error.test.repeats.mean Mean testing error across all repeats
+#' @field error.test.repeats.sd Standard deviation of testing error across all repeats
+#' @field fitted.bag Bagged model's fitted values
+#' @field error.bag Bagged model's error
+#' @field varimp Resamples' variable importance
 #' @field question Question the model is hoping to answer
-#' @field extra Algorithm-specific output
+#' @field sessionInfo R session info at time of training
 #' 
 #' @export
 rtModCV <- R6::R6Class("rtModCV",
@@ -1329,26 +1320,44 @@ rtModCV <- R6::R6Class("rtModCV",
                          #' Initialize \code{rtModCV} object
                          #' 
                          #' @param mod \code{rtModCV} object
-                         #' @param mod.name Character: Algorithm name
-                         #' @param y.train Training set output
-                         #' @param y.test Testing set output
-                         #' @param x.name Character: Feature set name
-                         #' @param y.name Character: Output name
-                         #' @param xnames Character vector: Feature names
-                         #' @param type Character: Type of model (Regression, Classification, Survival)
-                         #' @param gridsearch Grid search output
-                         #' @param parameters List of training parameters
+                         #' @param mod.name Model (algorithm) name
+                         #' @param type "Classification", "Regression", or "Survival"
+                         #' @param y.train Training set y data
+                         #' @param y.test Testing set y data
+                         #' @param x.name Name of x data
+                         #' @param y.name Name of y data
+                         #' @param xnames Character vector: Column names of x
+                         #' @param parameters List of algorithm hyperparameters
+                         #' @param resampler List of settings for \link{resample}.
+                         #' Set using \link{rtset.cv.resample}
                          #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
                          #' \code{resampler} this many times.
-                         #' @param fitted Fitted values (training set predictions)
-                         #' @param se.fit Standard error of fitted values
-                         #' @param error.train Training set error
-                         #' @param predicted Predicted values (Testing set predictions)
-                         #' @param se.prediction Standard error of predicted values
-                         #' @param error.test Testing set error
-                         #' @param varimp Variable importance
-                         #' @param question Question the model is trying to answer
-                         #' @param extra List of extra model info
+                         #' @param resampler.params List of resampling parameters
+                         #' @param resamples Resamples produced by \link{resample}
+                         #' @param y.train.res Resamples' fitted values
+                         #' @param y.train.res.aggr Aggregated training set outcomes
+                         #' @param fitted.res Resamples' fitted values
+                         #' @param fitted.res.aggr Aggregated fitted values
+                         #' @param error.train.res Resamples' training error
+                         #' @param error.train.res.mean Resamples' mean training error
+                         #' @param error.train.res.aggr Error of aggregated fitted values
+                         #' @param error.train.repeats Mean training error for each repeat
+                         #' @param error.train.repeats.mean Mean training error across all repeats
+                         #' @param error.train.repeats.sd Standard deviation of training error across all repeats
+                         #' @param y.test.res Resamples' predicted values
+                         #' @param y.test.res.aggr Aggregated testing set outcomes
+                         #' @param predicted.res Resamples' predicted values
+                         #' @param predicted.res.aggr Aggregated predicted values
+                         #' @param error.test.res Resamples' testing error
+                         #' @param error.test.res.mean Resamples' mean testing error
+                         #' @param error.test.res.aggr Error of aggregated predicted values
+                         #' @param error.test.repeats Mean testing error for each repeat
+                         #' @param error.test.repeats.mean Mean testing error across all repeats
+                         #' @param error.test.repeats.sd Standard deviation of testing error across all repeats
+                         #' @param fitted.bag Bagged model's fitted values
+                         #' @param error.bag Bagged model's error
+                         #' @param varimp Resamples' variable importance
+                         #' @param question Question the model is hoping to answer
                          #' @param sessionInfo R session info at time of training
                          initialize = function(mod = NULL,
                                                mod.name = NULL,
@@ -1450,6 +1459,8 @@ rtModCV <- R6::R6Class("rtModCV",
                          # Plot rtModCV ----
                          #' @description
                          #' \code{plot} method for \code{rtModCV} object
+                         #' @param which.repeat Integer: which repeat to plot
+                         #' @param ... Additional arguments passed to plotting function
                          plot = function(which.repeat = 1, ...) {
                            "R6 plot method for rtModCV"
                            self$plotPredicted(which.repeat = which.repeat, ...)
@@ -1457,6 +1468,11 @@ rtModCV <- R6::R6Class("rtModCV",
                          # Plot predicted rtModCV ----
                          #' @description
                          #' Plot predicted values
+                         #' @param which.repeat Integer: which repeat to plot
+                         #' @param theme rtemis theme
+                         #' @param filename Character: path to file to save plot
+                         #' @param mar Numeric vector of plot margins
+                         #' @param ... Additional arguments passed to plotting function
                          plotPredicted = function(which.repeat = 1,
                                                   theme = getOption("rt.theme"),
                                                   filename = NULL,
@@ -1494,6 +1510,11 @@ rtModCV <- R6::R6Class("rtModCV",
                          # Plot fitted rtModCV ----
                          #' @description
                          #' Plot fitted values
+                         #' @param which.repeat Integer: which repeat to plot
+                         #' @param theme rtemis theme
+                         #' @param filename Character: path to file to save plot
+                         #' @param mar Numeric vector of plot margins
+                         #' @param ... Additional arguments passed to plotting function
                          plotFitted = function(which.repeat = 1,
                                                theme = getOption("rt.theme"),
                                                filename = NULL,
@@ -1531,6 +1552,11 @@ rtModCV <- R6::R6Class("rtModCV",
                          # Plot varimp rtModCV ----
                          #' @description
                          #' Plot variable importance
+                         #' @param which.repeat Integer: which repeat to plot
+                         #' @param type Character: "barplot" or "lollipop"
+                         #' @param plot.top Integer: Plotting this many top features
+                         #' @param theme rtemis theme to use
+                         #' @param ... Additional arguments passed to plotting function
                          plotVarImp = function(which.repeat = 1,
                                                type = c("barplot", "lollipop"),
                                                plot.top = 12,
@@ -1750,19 +1776,69 @@ predict.rtModCV <- function(object, newdata,
 } # rtemis::predict.rtModCV
 
 
-# rtModCVclass R6 ----
+# rtModCVClass R6 ----
 #' \pkg{rtemis} Cross-Validated Classification Model Class
 #'
 #' R6 Class for \pkg{rtemis} Cross-Validated Classification Models
 #'
 #' @docType class
-#' @name rtModCVclass-class
+#' @name rtModCVClass-class
+#' 
+#' @field fitted.prob.aggr Aggregated training set probability estimates
+#' @field predicted.prob.aggr Aggregated testing set probability estimates
+#' 
+#' @author E.D. Gennatas
 #' @export
-rtModCVclass <- R6::R6Class("rtModCVclass",
+rtModCVClass <- R6::R6Class("rtModCVClass",
                             inherit = rtModCV,
                             public = list(fitted.prob.aggr = NULL,
                                           predicted.prob.aggr = NULL,
                                           # Initialize ----
+                                          #' @description
+                                          #' Initialize \code{rtModCVClass} object
+                                          #'
+                                          #' @param mod \code{rtModCV} object
+                                          #' @param mod.name Model (algorithm) name
+                                          #' @param type "Classification", "Regression", or "Survival"
+                                          #' @param y.train Training set y data
+                                          #' @param y.test Testing set y data
+                                          #' @param x.name Name of x data
+                                          #' @param y.name Name of y data
+                                          #' @param xnames Character vector: Column names of x
+                                          #' @param parameters List of algorithm hyperparameters
+                                          #' @param resampler List of settings for \link{resample}.
+                                          #' Set using \link{rtset.cv.resample}
+                                          #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
+                                          #' \code{resampler} this many times.
+                                          #' @param resampler.params List of resampling parameters
+                                          #' @param resamples Resamples produced by \link{resample}
+                                          #' @param y.train.res Resamples' fitted values
+                                          #' @param y.train.res.aggr Aggregated training set outcomes
+                                          #' @param fitted.res Resamples' fitted values
+                                          #' @param fitted.res.aggr Aggregated fitted values
+                                          #' @param fitted.prob.aggr Aggregated training set probability estimates
+                                          #' @param error.train.res Resamples' training error
+                                          #' @param error.train.res.mean Resamples' mean training error
+                                          #' @param error.train.res.aggr Error of aggregated fitted values
+                                          #' @param error.train.repeats Mean training error for each repeat
+                                          #' @param error.train.repeats.mean Mean training error across all repeats
+                                          #' @param error.train.repeats.sd Standard deviation of training error across all repeats
+                                          #' @param y.test.res Resamples' predicted values
+                                          #' @param y.test.res.aggr Aggregated testing set outcomes
+                                          #' @param predicted.res Resamples' predicted values
+                                          #' @param predicted.res.aggr Aggregated predicted values
+                                          #' @param error.test.res Resamples' testing error
+                                          #' @param error.test.res.mean Resamples' mean testing error
+                                          #' @param error.test.res.aggr Error of aggregated predicted values
+                                          #' @param predicted.prob.aggr Aggregated testing set probability estimates
+                                          #' @param error.test.repeats Mean testing error for each repeat
+                                          #' @param error.test.repeats.mean Mean testing error across all repeats
+                                          #' @param error.test.repeats.sd Standard deviation of testing error across all repeats
+                                          #' @param fitted.bag Bagged model's fitted values
+                                          #' @param error.bag Bagged model's error
+                                          #' @param varimp Resamples' variable importance
+                                          #' @param question Question the model is hoping to answer
+                                          #' @param sessionInfo R session info at time of training
                                           initialize = function(mod = NULL,
                                                                 mod.name = NULL,
                                                                 type = NULL,
@@ -1931,21 +2007,19 @@ rtModCVclass <- R6::R6Class("rtModCVclass",
 #'
 #' @docType class
 #' @name rtMeta-class
-#' @field mod.name Model (algorithm) name
-#' @field y.train Training y data
-#' @field y.test Testing y data
-#' @field x.name Name of x data
-#' @field y.name Name of y data
-#' @field xnames Character vector: Column names of x
-#' @field mod Trained model
-#' @field fitted Fitted values
-#' @field se.fit Standard error of the fit
-#' @field error.train Training error
-#' @field predicted Predicted values
-#' @field se.prediction Standard error of the prediction
-#' @field error.test Testing error
-#' @field question Question the model is hoping to answer
-#' @field extra Algorithm-specific output
+#' @field grid Grid of algorithm names and resamples IDs
+#' @field base.resample.rtset List of resampling parameters for base learner training
+#' @field base.mod.names Character vector: names of base learner algorithms
+#' @field base.params Named list of lists with base model parameters
+#' @field base.res.y.test Base resamples' testing set outcomes
+#' @field base.res.predicted Base resamples' predicted valuess
+#' @field base.mods Base learners
+#' @field base.mods.error.train Base learners' training error
+#' @field base.mods.error.test Base learners' testing error
+#' @field meta.mod.name Name of meta algorithm
+#' @field meta.params List of meta model parameters
+#' @field meta.mod Meta model
+#' @field sessionInfo R session info at training time
 #' @export
 rtMeta <- R6::R6Class("rtMeta",
                       inherit = rtMod,
@@ -1977,9 +2051,11 @@ rtMeta <- R6::R6Class("rtMeta",
                         #' @param base.resample.rtset List with resampling 
                         #' parameters for base learners
                         #' @param base.mod.names Base learner algorithm names
-                        #' @param base.params Base learners' hyperparameters
+                        #' @param base.params Named list of lists with base model parameters
                         #' @param base.res.y.test Base learners' predicted values
+                        #' @param base.res.predicted Base resamples' predicted valuess
                         #' @param base.res.mods Base learner fitted models
+                        #' @param base.mods Base learners
                         #' @param base.mods.error.train Base learners' training error
                         #' @param base.mods.error.test Base learners' testing error
                         #' @param meta.mod.name Meta model algorithm name

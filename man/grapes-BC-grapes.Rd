@@ -17,3 +17,6 @@ a character vector
 \description{
 Binary matrix times character vector
 }
+\author{
+E.D. Gennatas
+}

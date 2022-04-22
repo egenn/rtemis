@@ -24,8 +24,6 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 
 \item{\code{y.train}}{Training set y data}
 
-\item{\code{y.test}}{Testing set y data}
-
 \item{\code{x.name}}{Name of x data}
 
 \item{\code{y.name}}{Name of y data}
@@ -33,9 +31,6 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \item{\code{xnames}}{Character vector: Column names of x}
 
 \item{\code{parameters}}{List of algorithm hyperparameters}
-
-\item{\code{resampler}}{List of settings for \link{resample}. 
-Set using \link{rtset.cv.resample}}
 
 \item{\code{n.repeats}}{Integer: Number of repeats. This is the outermost iterator: i.e. You will run
 \code{resampler} this many times.}
@@ -60,53 +55,39 @@ Set using \link{rtset.cv.resample}}
 
 \item{\code{error.train.repeats}}{Mean training error for each repeat}
 
-\item{\code{error.train.repeats.mean}}{Mean error across all repeats}
+\item{\code{error.train.repeats.mean}}{Mean training error across all repeats}
 
-\item{\code{error.train.repeats.sd}}{Standard deviation of error across all repeats}
+\item{\code{error.train.repeats.sd}}{Standard deviation of training error across all repeats}
 
 \item{\code{y.test.res}}{Resamples' predicted values}
 
-\item{\code{mod}}{Trained model}
+\item{\code{y.test.res.aggr}}{Aggregated testing set outcomes}
 
-\item{\code{fitted}}{Fitted values}
+\item{\code{predicted.res}}{Resamples' predicted values}
 
-\item{\code{se.fit}}{Standard error of the fit}
+\item{\code{predicted.res.aggr}}{Aggregated predicted values}
 
-\item{\code{error.train}}{Training error}
+\item{\code{error.test.res}}{Resamples' testing error}
 
-\item{\code{predicted}}{Predicted values}
+\item{\code{error.test.res.mean}}{Resamples' mean testing error}
 
-\item{\code{se.prediction}}{Standard error of the prediction}
+\item{\code{error.test.res.aggr}}{Error of aggregated predicted values}
 
-\item{\code{error.test}}{Testing error}
+\item{\code{error.test.repeats}}{Mean testing error for each repeat}
+
+\item{\code{error.test.repeats.mean}}{Mean testing error across all repeats}
+
+\item{\code{error.test.repeats.sd}}{Standard deviation of testing error across all repeats}
+
+\item{\code{fitted.bag}}{Bagged model's fitted values}
+
+\item{\code{error.bag}}{Bagged model's error}
+
+\item{\code{varimp}}{Resamples' variable importance}
 
 \item{\code{question}}{Question the model is hoping to answer}
 
-\item{\code{extra}}{Algorithm-specific output}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{y.test}}{Testing set y data}
-
-\item{\code{resampler}}{List of settings for \link{resample}. 
-Set using \link{rtset.cv.resample}}
-
-\item{\code{fitted}}{Fitted values}
-
-\item{\code{se.fit}}{Standard error of the fit}
-
-\item{\code{error.train}}{Training error}
-
-\item{\code{predicted}}{Predicted values}
-
-\item{\code{se.prediction}}{Standard error of the prediction}
-
-\item{\code{error.test}}{Testing error}
-
-\item{\code{extra}}{Algorithm-specific output}
+\item{\code{sessionInfo}}{R session info at time of training}
 }
 \if{html}{\out{</div>}}
 }
@@ -173,44 +154,79 @@ Initialize \code{rtModCV} object
 \describe{
 \item{\code{mod}}{\code{rtModCV} object}
 
-\item{\code{mod.name}}{Character: Algorithm name}
+\item{\code{mod.name}}{Model (algorithm) name}
 
-\item{\code{type}}{Character: Type of model (Regression, Classification, Survival)}
+\item{\code{type}}{"Classification", "Regression", or "Survival"}
 
-\item{\code{y.train}}{Training set output}
+\item{\code{y.train}}{Training set y data}
 
-\item{\code{x.name}}{Character: Feature set name}
+\item{\code{x.name}}{Name of x data}
 
-\item{\code{y.name}}{Character: Output name}
+\item{\code{y.name}}{Name of y data}
 
-\item{\code{xnames}}{Character vector: Feature names}
+\item{\code{xnames}}{Character vector: Column names of x}
 
-\item{\code{parameters}}{List of training parameters}
+\item{\code{parameters}}{List of algorithm hyperparameters}
 
 \item{\code{n.repeats}}{Integer: Number of repeats. This is the outermost iterator: i.e. You will run
 \code{resampler} this many times.}
 
-\item{\code{varimp}}{Variable importance}
+\item{\code{resampler.params}}{List of resampling parameters}
 
-\item{\code{question}}{Question the model is trying to answer}
+\item{\code{resamples}}{Resamples produced by \link{resample}}
 
-\item{\code{y.test}}{Testing set output}
+\item{\code{y.train.res}}{Resamples' fitted values}
 
-\item{\code{gridsearch}}{Grid search output}
+\item{\code{y.train.res.aggr}}{Aggregated training set outcomes}
 
-\item{\code{fitted}}{Fitted values (training set predictions)}
+\item{\code{fitted.res}}{Resamples' fitted values}
 
-\item{\code{se.fit}}{Standard error of fitted values}
+\item{\code{fitted.res.aggr}}{Aggregated fitted values}
 
-\item{\code{error.train}}{Training set error}
+\item{\code{error.train.res}}{Resamples' training error}
 
-\item{\code{predicted}}{Predicted values (Testing set predictions)}
+\item{\code{error.train.res.mean}}{Resamples' mean training error}
 
-\item{\code{se.prediction}}{Standard error of predicted values}
+\item{\code{error.train.res.aggr}}{Error of aggregated fitted values}
 
-\item{\code{error.test}}{Testing set error}
+\item{\code{error.train.repeats}}{Mean training error for each repeat}
 
-\item{\code{extra}}{List of extra model info}
+\item{\code{error.train.repeats.mean}}{Mean training error across all repeats}
+
+\item{\code{error.train.repeats.sd}}{Standard deviation of training error across all repeats}
+
+\item{\code{y.test.res}}{Resamples' predicted values}
+
+\item{\code{y.test.res.aggr}}{Aggregated testing set outcomes}
+
+\item{\code{predicted.res}}{Resamples' predicted values}
+
+\item{\code{predicted.res.aggr}}{Aggregated predicted values}
+
+\item{\code{error.test.res}}{Resamples' testing error}
+
+\item{\code{error.test.res.mean}}{Resamples' mean testing error}
+
+\item{\code{error.test.res.aggr}}{Error of aggregated predicted values}
+
+\item{\code{error.test.repeats}}{Mean testing error for each repeat}
+
+\item{\code{error.test.repeats.mean}}{Mean testing error across all repeats}
+
+\item{\code{error.test.repeats.sd}}{Standard deviation of testing error across all repeats}
+
+\item{\code{fitted.bag}}{Bagged model's fitted values}
+
+\item{\code{error.bag}}{Bagged model's error}
+
+\item{\code{varimp}}{Resamples' variable importance}
+
+\item{\code{question}}{Question the model is hoping to answer}
+
+\item{\code{y.test}}{Testing set y data}
+
+\item{\code{resampler}}{List of settings for \link{resample}.
+Set using \link{rtset.cv.resample}}
 
 \item{\code{sessionInfo}}{R session info at time of training}
 }
@@ -236,6 +252,15 @@ Initialize \code{rtModCV} object
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plot(which.repeat = 1, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: which repeat to plot}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotPredicted"></a>}}
@@ -252,6 +277,21 @@ Plot predicted values
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: which repeat to plot}
+
+\item{\code{theme}}{rtemis theme}
+
+\item{\code{filename}}{Character: path to file to save plot}
+
+\item{\code{mar}}{Numeric vector of plot margins}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotFitted"></a>}}
@@ -268,6 +308,21 @@ Plot fitted values
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: which repeat to plot}
+
+\item{\code{theme}}{rtemis theme}
+
+\item{\code{filename}}{Character: path to file to save plot}
+
+\item{\code{mar}}{Numeric vector of plot margins}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-plotVarImp"></a>}}
@@ -284,6 +339,21 @@ Plot variable importance
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: which repeat to plot}
+
+\item{\code{type}}{Character: "barplot" or "lollipop"}
+
+\item{\code{plot.top}}{Integer: Plotting this many top features}
+
+\item{\code{theme}}{rtemis theme to use}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-describe"></a>}}

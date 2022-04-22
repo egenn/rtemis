@@ -19,28 +19,6 @@ R6 Class for \pkg{rtemis} Bagged Supervised Models
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{xnames}}{Character vector: Column names of x}
-
-\item{\code{mod}}{Trained model}
-
-\item{\code{fitted}}{Fitted values}
-
-\item{\code{se.fit}}{Standard error of the fit}
-
-\item{\code{error.train}}{Training error}
-
-\item{\code{predicted}}{Predicted values}
-
-\item{\code{se.prediction}}{Standard error of the prediction}
-
-\item{\code{error.test}}{Testing error}
-
-\item{\code{varimp}}{Variable importance}
-
-\item{\code{question}}{Question the model is hoping to answer}
-
-\item{\code{extra}}{Algorithm-specific output}
-
 \item{\code{bag.resample.rtset}}{List of settings for \link{resample}.
 Set using \link{rtset.bag.resample}}
 
@@ -53,33 +31,6 @@ Set using \link{rtset.bag.resample}}
 \item{\code{se.predicted.bag}}{Base learners' predicted values' standard error}
 
 \item{\code{aggr.fn}}{Function used to aggregated base learners' predictions}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{xnames}}{Character vector: Column names of x}
-
-\item{\code{mod}}{Trained model}
-
-\item{\code{fitted}}{Fitted values}
-
-\item{\code{se.fit}}{Standard error of the fit}
-
-\item{\code{error.train}}{Training error}
-
-\item{\code{predicted}}{Predicted values}
-
-\item{\code{se.prediction}}{Standard error of the prediction}
-
-\item{\code{error.test}}{Testing error}
-
-\item{\code{varimp}}{Variable importance}
-
-\item{\code{question}}{Question the model is hoping to answer}
-
-\item{\code{extra}}{Algorithm-specific output}
 }
 \if{html}{\out{</div>}}
 }
@@ -176,6 +127,8 @@ Set using \link{rtset.bag.resample}}
 
 \item{\code{predicted}}{Predicted values}
 
+\item{\code{se.predicted.bag}}{Base learners' predicted values' standard error}
+
 \item{\code{se.prediction}}{Standard error of the prediction}
 
 \item{\code{aggr.fn}}{Aggregating function}
@@ -187,8 +140,6 @@ Set using \link{rtset.bag.resample}}
 \item{\code{question}}{Question the model is hoping to answer}
 
 \item{\code{extra}}{Algorithm-specific output}
-
-\item{\code{se.predicted.bar}}{Base learners' predicted values' standard error}
 }
 \if{html}{\out{</div>}}
 }
