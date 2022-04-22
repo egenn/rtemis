@@ -123,7 +123,8 @@ checkData_live <- function(x,
             )
         }
     ))
-    .col <- if (n.character > 0) html_orange else strong
+    # .col <- if (n.character > 0) html_orange else strong
+    .col <- strong
     characters <- HTML(paste(
         .col(n.character), "character",
         ngettext(n.character, "feature", "features")
@@ -151,15 +152,16 @@ checkData_live <- function(x,
     ))
 
     ## Recs html ----
-    rec_char <- if (n.character > 0) {
-        tags$li(HTML(paste(html_orange(
-            "Consider converting the character",
-            ngettext(n.character, "feature", "features"), "to",
-            ngettext(n.character, "a factor", "factors")
-        ))))
-    } else {
-        NULL
-    }
+    # rec_char <- if (n.character > 0) {
+    #     tags$li(HTML(paste(html_orange(
+    #         "Consider converting the character",
+    #         ngettext(n.character, "feature", "features"), "to",
+    #         ngettext(n.character, "a factor", "factors")
+    #     ))))
+    # } else {
+    #     NULL
+    # }
+    rec_char <- NULL
     rec_constant <- if (n.constant > 0) {
         tags$li(HTML(paste(html_orange(
             "Remove the constant",
@@ -168,8 +170,12 @@ checkData_live <- function(x,
     } else {
         NULL
     }
+
     rec_dups <- if (n.dups > 0) {
-        tags$li(HTML(paste(html_orange("Remove the duplicate", ngettext(n.dups, "case", "cases")))))
+        tags$li(HTML(paste(html_orange(
+            "Remove the duplicate",
+            ngettext(n.dups, "case", "cases")
+        ))))
     } else {
         NULL
     }
@@ -191,11 +197,11 @@ checkData_live <- function(x,
     # }
 
 
-    recs <- if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) == 0) {
+    recs <- if (sum(n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) == 0) {
         tags$li(html_success("Everything looks good"))
     } else {
         list(
-            rec_char,
+            # rec_char,
             rec_constant,
             rec_dups,
             rec_na
