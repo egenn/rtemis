@@ -58,6 +58,7 @@ binmat2vec <- function(x, labels = colnames(x)) {
 #' @param x A binary matrix or data.frame
 #' @param labels Character vector length equal to \code{ncol(x)}
 #' 
+#' @author E.D. Gennatas
 #' @returns a character vector
 #' @export
 
