@@ -68,7 +68,7 @@
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
 #'
-#' @return Object of class \code{rtModCV} (Regression) or \code{rtModCVclass} (Classification)
+#' @return Object of class \code{rtModCV} (Regression) or \code{rtModCVClass} (Classification)
 #' \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
 #' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
 #' \item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
@@ -618,7 +618,7 @@ elevate <- function(x, y = NULL,
     })
 
     if (type == "Classification") {
-        rt <- rtModCVclass$new(
+        rt <- rtModCVClass$new(
             mod = mods,
             mod.name = mod.name,
             type = type,
