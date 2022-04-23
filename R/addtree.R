@@ -19,7 +19,8 @@
 #' @param update Character: "Exponential" or "Polynomial"
 #' @param verbose Logical: If TRUE, print messages to output
 #' 
-#' @author E.D. Gennatas (R), Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
+#' @author E.D. Gennatas (R), 
+#' Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
 #' 
 #' @references Valdes Gilmer, Luna Jose, Eaton Eric, Ungar Lyle, Simone Charles
 #' and Solberg Timothy. MediBoost: a Patient Stratification Tool for
