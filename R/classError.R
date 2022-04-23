@@ -6,15 +6,17 @@
 #'
 #' Calculates Classification Metrics
 #'
-#' @param true Vector, factor: True values
-#' @param estimated Vector, factor: Estimated values
-#' @param estimated Vector, factor: Estimated probabilities
+#' @param true Factor vector: True values
+#' @param estimated Factor vector: Estimated values
+#' @param estimated.prob Numeric vector: Estimated probabilities
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
+#' 
 #' @author E.D. Gennatas
 #' @return S3 object of type  "classError"
 #' @export
 
-classError <- function(true, estimated,
+classError <- function(true, 
+                       estimated,
                        estimated.prob = NULL,
                        trace = 0) {
 
@@ -140,3 +142,25 @@ print.classError <- function(x, decimal.places = 4, ...) {
   }
 
 } # rtemis::print.classError
+
+# f1.R
+# ::rtemis::
+# 2019 E.D. Gennatas
+
+#' F1 score
+#'
+#' Calculate the F1 score for classification:
+#'
+#' \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
+#'
+#' @param recall Float [0, 1]: Recall a.k.a. Sensitivity
+#' @param precision Float [0, 1]: Precision a.k.a. Positive Predictive Value
+#' 
+#' @author E.D. Gennatas
+#' @export
+
+f1 <- function(precision, recall) {
+  
+  2 * (recall * precision) / (recall + precision)
+  
+} # rtemis::f1
