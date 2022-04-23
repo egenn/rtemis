@@ -10,8 +10,8 @@
 #' @inheritParams s_GLM
 #' @param mod Character: Algorithm to bag, for options, see \link{modSelect}
 #' @param k Integer: Number of base learners to train
-#' @param mod.params Named list of arguments for \code{mod}
 #' @param mtry Integer: Number of features to randomly sample for each base learner.
+#' @param mod.params Named list of arguments for \code{mod}
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
 #' resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
 #' Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}
@@ -125,7 +125,7 @@ bag <- function(x, y = NULL,
 
   # resLearn ----
   if (verbose) msg0("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
-  rl <- resLearn(x = x, y = y,
+  rl <- resLearn_future(x = x, y = y,
                  mod = mod,
                  resample.rtset = .resample,
                  weights = weights,
