@@ -1,4 +1,4 @@
-# u_H2OKMEANS.R
+# c_H2OKMEANS.R
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
@@ -28,7 +28,7 @@
 #' @family Clustering
 #' @export
 
-u_H2OKMEANS <- function(x, x.test = NULL,
+c_H2OKMEANS <- function(x, x.test = NULL,
                         k = 2,
                         estimate.k = FALSE,
                         nfolds = 0,
@@ -110,4 +110,4 @@ u_H2OKMEANS <- function(x, x.test = NULL,
   outro(start.time, verbose = verbose)
   cl
 
-} # rtemis::u_H2OKMEANS
+} # rtemis::c_H2OKMEANS
