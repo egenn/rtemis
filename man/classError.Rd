@@ -7,9 +7,11 @@
 classError(true, estimated, estimated.prob = NULL, trace = 0)
 }
 \arguments{
-\item{true}{Vector, factor: True values}
+\item{true}{Factor vector: True values}
 
-\item{estimated}{Vector, factor: Estimated probabilities}
+\item{estimated}{Factor vector: Estimated values}
+
+\item{estimated.prob}{Numeric vector: Estimated probabilities}
 
 \item{trace}{Integer: If > 0, print  diagnostic messages. Default = 0}
 }

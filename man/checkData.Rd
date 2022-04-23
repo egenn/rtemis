@@ -35,7 +35,7 @@ equal to this fraction of cases. Default = NULL}
 \item{toHTML}{Logical: If TRUE, convert output to HTML using the \code{fansi} package.
 Default = FALSE}
 
-\item{verbose}{Logical: If TRUE, print to console}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Runs a series of simple checks on a dataset that may be important to perform ahead of

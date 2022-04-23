@@ -42,6 +42,7 @@ This can be very slow.
 Other Clustering: 
 \code{\link{c_CMEANS}()},
 \code{\link{c_DBSCAN}()},
+\code{\link{c_H2OKMEANS}()},
 \code{\link{c_HARDCL}()},
 \code{\link{c_HOPACH}()},
 \code{\link{c_KMEANS}()},
@@ -49,8 +50,7 @@ Other Clustering:
 \code{\link{c_NGAS}()},
 \code{\link{c_PAMK}()},
 \code{\link{c_PAM}()},
-\code{\link{c_SPEC}()},
-\code{\link{u_H2OKMEANS}()}
+\code{\link{c_SPEC}()}
 }
 \author{
 E.D. Gennatas

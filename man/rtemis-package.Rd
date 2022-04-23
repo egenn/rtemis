@@ -31,7 +31,7 @@ Dynamic graphics are handled using the \code{dplot3} family.
 
 \section{Supervised Learning}{
 
-Functions for Regression and Classification begin with \code{s.*}.
+Functions for Regression and Classification begin with \code{s_*}.
 Run \link{modSelect} to get a list of available algorithms
 The documentation of each supervised learning function indicates in brackets, after the title
 whether the function supports classification, regression, and survival analysis \code{[C, R, S]}
@@ -39,19 +39,19 @@ whether the function supports classification, regression, and survival analysis 
 
 \section{Clustering}{
 
-Functions for Clustering begin with \code{u.*}.
+Functions for Clustering begin with \code{c_*}.
 Run \link{clustSelect} to get a list of available algorithms
 }
 
 \section{Decomposition}{
 
-Functions for Decomposition and Dimensionality reduction begin with \code{d.*}.
+Functions for Decomposition and Dimensionality reduction begin with \code{d_*}.
 Run \link{decomSelect} to get a list of available algorithms
 }
 
 \section{Cross-Decomposition}{
 
-Functions for Cross-Decomposition begin with \code{x.*}.
+Functions for Cross-Decomposition begin with \code{x_*}.
 Run \link{xdecomSelect} to get a list of available algorithms
 }
 
