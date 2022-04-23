@@ -4,7 +4,7 @@
 
 library(rtemis)
 
-# Regression Data ====
+# Regression Data ----
 x <- rnormmat(50, 2, seed = 2018)
 w <- rnorm(2)
 y <- c(x %*% w + rnorm(50))
@@ -19,7 +19,7 @@ y <- dat.train[, 3]
 x.test <- dat.test[, -3]
 y.test <- dat.test[, 3]
 
-# Classification Data ====
+# Classification Data ----
 # iris2 <- iris[51:150, ]
 iris2 <- iris
 iris2$Species[iris2$Species  == "versicolor"] <- "setosa"
@@ -29,12 +29,12 @@ iris2.train <- iris2[res$Subsample_1, ]
 iris2.test <- iris2[-res$Subsample_1, ]
 checkData(iris2, str = TRUE)
 
-# Test different ways of data input (dataPrepare) ====
+# Test different ways of data input (dataPrepare) ----
 mod <- s_GLM(dat.train)
 mod <- s_GLM(dat.train, dat.test)
 mod <- s_GLM(x, y, x.test, y.test)
 
-# Test for tibble and data.table inputs ====
+# Test for tibble and data.table inputs ----
 # Commented out because tibble is not in Suggests and R CMD check gives warning
 # if (requireNamespace("tibble", quietly = TRUE)) {
 #   tb.train <- tibble::as_tibble(dat.train)
@@ -48,7 +48,7 @@ if (requireNamespace("data.table", quietly = TRUE)) {
   mod <- s_GLM(dt.train, dt.test)
 }
 
-# Classification & Regression Models ====
+# Classification & Regression Models ----
 if (requireNamespace("ada", quietly = TRUE)) {
   mod <- s_ADABOOST(iris2.train, iris2.test, iter = 5)
 }
@@ -230,30 +230,30 @@ if (requireNamespace("xgboost", quietly = TRUE)) {
   mod <- s_XGB(iris2.train, iris2.test, nrounds = 10)
 }
 
-# Bagging & Boosting ====
+# Bagging & Boosting ----
 if (requireNamespace("rpart", quietly = TRUE) & requireNamespace("pbapply", quietly = TRUE)) {
   mod <- bag(dat.train, dat.test, k = 4)
   mod <- bag(iris2.train, iris2.test, k = 10)
   mod <- boost(dat.train, dat.test, max.iter = 4)
 }
 
-# rtModLog ====
+# rtModLog ----
 logger <- rtModLogger$new()
 logger$add(mod)
 
-# distillTreeRules ====
+# distillTreeRules ----
 if (requireNamespace("randomForest", quietly = TRUE)) {
   mod <- s_RF(iris, n.trees = 3)
   rules <- distillTreeRules(mod, iris)
   formatRules(rules$rules)
 }
 
-# gp ====
+# gp ----
 if (requireNamespace("tgp", quietly = TRUE)) {
   mod <- gp(x, y)
 }
 
-# Ranger IPW ====
+# Ranger IPW ----
 if (requireNamespace("mlbench", quietly = TRUE)) {
   data(Sonar, package = "mlbench")
   sonar.train <- Sonar[-res$Subsample_1, ]
