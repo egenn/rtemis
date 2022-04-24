@@ -6,7 +6,6 @@ rtenv <- new.env()
 rtemis.version <- packageVersion("rtemis")
 .availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
-rtHome <- getOption("rt.home", Sys.getenv("HOME"))
 # Set initial plan e.g. for s_ with gridSearchLearn,
 # will be overwritten by resLearn for nested plan
 rtPlan <- getOption(
@@ -22,7 +21,7 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage(paste0(
-          "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+        "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
         "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
         "\n  Documentation: https://rtemis.lambdamd.org",
         "\n  Learn R: https://class.lambdamd.org/pdsr",
@@ -75,7 +74,6 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
     # Set default warn level
     rt.warn <- getOption("rt.warn", 1)
     options(warn = rt.warn)
-    
 }
 
 
@@ -89,9 +87,11 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
 #' \describe{
-#'    \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
-#'    \item{rtCores}{Number of cores to use. By default, rtemis will use available cores reported by
-#'    parallelly::availableCores(). In shared systems, you should limit this as appropriate.}
+#'     \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
+#'     \item{rt.palette}{Name of default palette to use. See options by running `rtPalette()`}
+#'     \item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
+#'     future::availableCores(). In shared systems, you should limit this as appropriate.}
+#'     \item{future.plan}{Default plan to use for parallel processing.}
 #' }
 #' @section Visualization:
 #' Static graphics are handled using the \code{mplot3} family.
