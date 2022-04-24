@@ -23,6 +23,7 @@
 #' @param as.message Logical: if TRUE, print using \code{message()}
 #' @param color Crayon color for message e.g. \code{crayon::red}
 #' @param sep Character: Use to separate objects in \code{...}
+#' 
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
 #' @export

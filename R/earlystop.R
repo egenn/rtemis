@@ -12,7 +12,7 @@
 #' \code{total_decrease_pct_max} corresponds to R-squared and \code{window_decrease_pct_min} to percent R-squared
 #' improvement over \code{window} last steps.
 #'
-#' @param window Integer: Number of steps to look at
+#' @param window Integer: Number of steps to consider
 #' @param window_decrease_pct_min Float: Stop if improvemenet is less than this percent over last `window` steps
 #' @param total_decrease_pct_max Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides `window_decrease_pct_min`
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE

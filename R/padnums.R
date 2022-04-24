@@ -9,4 +9,4 @@ padnums <- function(x, pad = "X") {
     }
   }
   x
-}
+} # rtemis::padnums

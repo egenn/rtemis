@@ -2,7 +2,7 @@
 % Please edit documentation in R/labelify.R
 \name{labelify}
 \alias{labelify}
-\title{Convert text for label printing}
+\title{Format text for label printing}
 \usage{
 labelify(
   x,
@@ -34,7 +34,7 @@ all-caps words, set \code{toLower} to TRUE if desired)}
 Default = "\\$", which formats common input of the type \code{data.frame$variable}}
 }
 \description{
-Convert text for label printing
+Format text for label printing
 }
 \author{
 E.D. Gennatas

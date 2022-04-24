@@ -16,5 +16,6 @@ Matrix where each row is a different permutation
 Creates all possible permutations
 }
 \details{
-n higher than 10 will take a while, or may run out of memory in systems with limited RAM
+n higher than 10 will take a while, or may run out of memory in systems 
+with limited RAM
 }

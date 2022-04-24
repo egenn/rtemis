@@ -6,9 +6,10 @@
 #'
 #' @param loss.valid Float, vector: Validation loss. Can be NULL
 #' @param loss.train Float, vector: Training loss
-#' @param smooth Logical: If TRUE, smooth loss before finding minimum. Default = TRUE
-#' @param plot Logical: If TRUE, plot loss curve. Default = FALSE
-#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
+#' @param smooth Logical: If TRUE, smooth loss before finding minimum.
+#' @param plot Logical: If TRUE, plot loss curve.
+#' @param verbose Logical: If TRUE, print messages to console.
+#' 
 #' @author E.D. Gennatas
 #' @export
 

@@ -5,6 +5,7 @@
 #' Reverse factor level order
 #' 
 #' @param x factor
+#' 
 #' @export 
 #' @author E.D. Gennatas
 

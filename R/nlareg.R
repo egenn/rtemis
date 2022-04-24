@@ -13,6 +13,7 @@
 #' @param W_h Float, vector (length \code{NCOL(x)}): Hidden layer weights. Defaults to 0
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
+#' 
 #' @export
 #' @author E.D. Gennatas
 #' @return \code{nlareg} object

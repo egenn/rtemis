@@ -9,9 +9,9 @@
 \arguments{
 \item{object}{Object of class \code{nullmod}}
 
-\item{newdata}{Unused}
+\item{newdata}{Not used}
 
-\item{...}{Unused}
+\item{...}{Not used}
 }
 \description{
 \pkg{rtemis} internal: predict for an object of class \code{nullmod}

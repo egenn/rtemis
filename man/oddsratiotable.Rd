@@ -7,10 +7,12 @@
 oddsratiotable(x, confint.method = c("default", "profilelikelihood"))
 }
 \arguments{
-\item{x}{\link{glm} object fit with family = binomial}
+\item{x}{\link{glm} object fit with \code{family = binomial}}
+
+\item{confint.method}{"default" or "profilelikelihood"}
 }
 \value{
-martix with 4 columns: OR, 2.5% & 97.5% CI, p_val
+matrix with 4 columns: OR, 2.5% & 97.5% CI, p_val
 }
 \description{
 Odds ratio table from logistic regression

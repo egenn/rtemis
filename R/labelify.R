@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
-#' Convert text for label printing
+#' Format text for label printing
 #'
 #' @param x Character: Input
 #' @param underscoresToSpaces Logical: If TRUE, convert underscores to spaces. Default = TRUE

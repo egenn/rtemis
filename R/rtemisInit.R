@@ -9,6 +9,7 @@
 #' Starts function execution timer and opens log file.
 #' Pairs with \code{outro}. Unfortunately the errors and warnings (the stderr; sink(type = "message"))
 #' cannot get split to file and console, so we keep in console only
+#' 
 #' @keywords internal
 intro <- function(message = NULL,
                   verbose = TRUE,
@@ -55,6 +56,7 @@ intro <- function(message = NULL,
 #' Stops function execution timer and closes log file.
 #'
 #' Second part to \code{intro}
+#' 
 #' @keywords internal
 outro <- function(start.time,
                   message = NULL,
@@ -84,6 +86,7 @@ outro <- function(start.time,
 #' \code{rtemis-internals}: \code{dataSummary}
 #'
 #' Print input data dimensions and test dimensions match
+#' 
 #' @keywords internal
 dataSummary <- function(x, y,
                         x.test = NULL, y.test = NULL,
@@ -166,7 +169,9 @@ parameterSummary <- function(...,
 
 #' \code{rtemis-internals}: \code{gridSummary}
 #'
-#' Pretty print list of parameters with more than one value, which will be used in a grid search
+#' Pretty print list of parameters with more than one value, 
+#' which will be used in a grid search
+#' 
 #' @keywords internal
 gridSummary <- function(...) {
     params <- list(...)
@@ -185,6 +190,7 @@ gridSummary <- function(...) {
 #' \code{rtemis-internals}: \code{errorSummary}
 #'
 #' Print Fit and Validation modError
+#' 
 #' @keywords internal
 errorSummary <- function(error, mod.name = NULL, pre = NULL) {
     id <- deparse(substitute(error))

@@ -5,6 +5,7 @@
 #' Magic 8-Ball
 #'
 #' @param question Character: Your question for the magic 8-ball
+#' 
 #' @export
 #' @author E.D. Gennatas
 

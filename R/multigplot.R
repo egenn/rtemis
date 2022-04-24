@@ -11,6 +11,7 @@
 #' to plot 2 plots per row
 #' @param byrow Logical: If TRUE, draw plots in order provided by row, otherwise by column.
 #' Default = TRUE
+#' 
 #' @author E.D. Gennatas
 #' @export
 

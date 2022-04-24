@@ -4,9 +4,10 @@
 
 #' Odds ratio table from logistic regression
 #'
-#' @param x \link{glm} object fit with family = binomial
+#' @param x \link{glm} object fit with \code{family = binomial}
+#' @param confint.method "default" or "profilelikelihood"
 #'
-#' @return martix with 4 columns: OR, 2.5% & 97.5% CI, p_val
+#' @return matrix with 4 columns: OR, 2.5% & 97.5% CI, p_val
 #'
 #' @author E.D. Gennatas
 #' @export

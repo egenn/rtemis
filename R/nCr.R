@@ -11,6 +11,7 @@
 #'
 #' @param n Integer: Total number of items
 #' @param r Integer: Number of items in each combination
+#' 
 #' @return Integer: Number of combinations
 #' @author E.D. Gennatas
 #' @export

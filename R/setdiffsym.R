@@ -1,11 +1,12 @@
 # setdiffsym.R
 # ::rtemis::
-# E.D. Gennatas rtemis.lambdamd.org
+# E.D. Gennatas lambdamd.org
 
 #' Symmetric Set Difference
 #'
 #' @param x vector
 #' @param y vector of same type as \code{x}
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -16,4 +17,4 @@
 
 setdiffsym <- function(x, y) {
   union(setdiff(x, y), setdiff(y, x))
-}
+} # rtemis::setdiffsym

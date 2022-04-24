@@ -6,9 +6,11 @@
 #'
 #' Creates all possible permutations
 #'
-#' n higher than 10 will take a while, or may run out of memory in systems with limited RAM
+#' n higher than 10 will take a while, or may run out of memory in systems 
+#' with limited RAM
 #'
 #' @param n Integer: Length of elements to permute
+#' 
 #' @export
 #' @returns Matrix where each row is a different permutation
 

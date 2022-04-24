@@ -17,11 +17,11 @@ selectiter(
 
 \item{loss.train}{Float, vector: Training loss}
 
-\item{smooth}{Logical: If TRUE, smooth loss before finding minimum. Default = TRUE}
+\item{smooth}{Logical: If TRUE, smooth loss before finding minimum.}
 
-\item{plot}{Logical: If TRUE, plot loss curve. Default = FALSE}
+\item{plot}{Logical: If TRUE, plot loss curve.}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
 }
 \description{
 Select N of learning iterations based on loss

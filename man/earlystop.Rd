@@ -13,7 +13,7 @@ earlystop(
 )
 }
 \arguments{
-\item{window}{Integer: Number of steps to look at}
+\item{window}{Integer: Number of steps to consider}
 
 \item{window_decrease_pct_min}{Float: Stop if improvemenet is less than this percent over last `window` steps}
 

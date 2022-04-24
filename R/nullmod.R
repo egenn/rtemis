@@ -5,8 +5,9 @@
 #' \pkg{rtemis} internal: predict for an object of class \code{nullmod}
 #'
 #' @param object Object of class \code{nullmod}
-#' @param newdata Unused
-#' @param ... Unused
+#' @param newdata Not used
+#' @param ... Not used
+#' 
 #' @method predict nullmod
 #' @export
 

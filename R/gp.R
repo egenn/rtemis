@@ -17,6 +17,7 @@
 #' @param cex Character expansion factor for plotting
 #' @param par.reset Logical. Reset \code{par} to its original state
 #' @param ... Additional arguments to be passed to tgp::bgp
+#' 
 #' @author E.D. Gennatas
 #' @export
 
