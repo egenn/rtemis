@@ -7,7 +7,7 @@
 #' Draw an html table using \code{plotly}
 #'
 #' @param x data.frame: Table to draw
-#' @param ddSci Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE
+#' @param .ddSci Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE
 #' @param main Character: Table tile. Default = NULL
 #' @param main.col Color: Title color. Default = "black"
 #' @param main.x Float [0, 1]: Align title: 0: left, .5: center, 1: right. Default = 0

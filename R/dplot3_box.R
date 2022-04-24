@@ -38,15 +38,17 @@
 #' scaled and centered values or min-max normalized to 0-1, respectively.
 #' Transform is applied to each variable before grouping, so that groups are
 #' comparable
-#' @param main Character: Plot title. Default = NULL
-#' @param xlab Character: x-axis label. Default = NULL
-#' @param ylab  Character: y-axis label. Default = NULL
-#' @param col Color, vector: Color for boxes. Default NULL, which will draw colors from \code{palette}
-#' @param alpha Float (0, 1]: Transparency for box colors. Default = .8
+#' @param main Character: Plot title.
+#' @param xlab Character: x-axis label.
+#' @param ylab  Character: y-axis label.
+#' @param col Color, vector: Color for boxes. Default NULL, which will draw 
+#' colors from \code{palette}
+#' @param alpha Float (0, 1]: Transparency for box colors.
 #' @param bg Color: Background color. Default = "white"
-#' @param plot.bg Color: Background color for plot area. Default = "white"
+#' @param plot.bg Color: Background color for plot area.
 #' @param theme Character: Theme to use: Run \code{themes()} for available themes
-#' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
+#' @param palette Character: Name of \pkg{rtemis} palette to use. 
+#' Default = "rtCol1". Only used if \code{col = NULL}
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
 #' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
@@ -61,7 +63,8 @@
 #' the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area
 #' @param xaxis.type Character: "linear", "log", "date", "category", "multicategory"
 #' Default = "category"
-#' @param margin Named list: plot margins. Default = \code{list(t = 35)}
+#' @param margin Named list: plot margins. 
+#' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
 #' @param violin.box Logical: If TRUE and type is "violin" show box within 
 #' violin plot
 #' @param orientation Character: "v" or "h" for vertical, horizontal
@@ -83,7 +86,7 @@
 #' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group 
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
-#' @param filename Character: Path to file to save static plot. Default = NULL
+#' @param filename Character: Path to file to save static plot.
 #' @param output.format Character: "svg", "png", "jpeg", "pdf"
 #' @param file.width Integer: File width in pixels for when \code{filename} is
 #' set.

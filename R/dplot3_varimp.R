@@ -11,7 +11,13 @@
 #' to visualize variable importance, model coefficients, etc.
 #' @inheritParams mplot3_varimp
 #' @param names Vector, string: Names of features
+#' @param main Character: main title
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
 #' @param col Vector, colors: Single value, or multiple values to define bar (feature) color(s)
+#' @param alpha Numeric: Transparency
+#' @param palette Character: Name of \pkg{rtemis} palette to use.
+#' Default = "rtCol1". Only used if \code{col = NULL}
 #' @param mar Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 #' Default = c(50, 110, 50, 50)
 #' @param pad Integer: Pad plot by this many pixels. Default = 10
@@ -20,8 +26,11 @@
 #' Default = 14
 #' @param axis.font.size Integer: Font size to use for axis labels and tick labels
 #' (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)
+#' @param theme Output of an rtemis theme function (list of parameters) or theme
+#' name. Use \code{themes()} to print available themes.
 #' @param font.color Color for all text
 #' @param showlegend Logical: If TRUE, show legend
+#' @param ... Additional arguments passed to theme
 #'
 #' @author E.D. Gennatas
 #' @examples

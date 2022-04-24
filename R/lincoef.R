@@ -26,6 +26,7 @@
 #'  \item{"solve"}{: uses \code{base::solve}}
 #'  \item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
 #' }
+#' @param type Character: "Regression", "Classification", or "Survival"
 #' @param alpha Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0
 #' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
 #' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for prediction. Training uses
@@ -41,6 +42,7 @@
 #' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
 # #' @param ... Additional parameters to pass to \code{leaps::regsubsets}
 #' "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.
+#' @param trace Integer: If set to zero, all warnings are ignored
 #' @return Named numeric vector of linear coefficients
 #' @export
 #' @author E.D. Gennatas

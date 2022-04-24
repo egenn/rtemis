@@ -42,6 +42,10 @@
 #' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", 
 #' "longdash", "dashdot",
 #' or "longdashdot"
+#' @param hline.annotate Character: Text of horizontal line annotation if
+#' \code{hline} is set
+#' @param hline.annotation.x Numeric: x position to place annotation with paper
+#' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
@@ -60,10 +64,6 @@
 #' "right", "auto"
 #' @param legend.yanchor Character: Legend's y anchor: "top", "middle", 
 #' "bottom", "auto"
-#' @param hline.annotate Character: Text of horizontal line annotation if 
-#' \code{hline} is set
-#' @param hline.annotation.x Numeric: x position to place annotation with paper
-#' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
 #' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar

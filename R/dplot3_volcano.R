@@ -11,6 +11,7 @@
 #' below \code{x.thresh}, non-significant points, and significant points
 #' above \code{x.thresh} will be plotted with the first, second and third 
 #' color fo \code{palette}
+#' @param x.thresh Numeric x-axis threshold separating low from high
 #' @param pvals Numeric vector: p-values
 #' @param p.thresh Numeric: p-value threshold of significance. Default = .05
 #' @param p.transform function. Default = \code{\(x) -log10(x)}
@@ -23,11 +24,26 @@
 #' \code{x.thresh}
 #' @param legend.hi Character: Legend to annotate significant points above the
 #' \code{x.thresh}
+#' @param label.lo Character: label for low values
+#' @param label.hi Character: label for high values
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
+#' @param margin Named list of plot margins. 
+#' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
 #' @param xlim Numeric vector, length 2: x-axis limits
 #' @param ylim Numeric vector, length 2: y-axis limits
 #' @param alpha Numeric: point transparency
+#' @param hline Float: If defined, draw a horizontal line at this y value.
+#' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
+#' @param hline.width Float: Width for \code{hline}. Default = 1
+#' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash",
+#' "longdash", "dashdot",
+#' or "longdashdot"
+#' @param hline.annotate Character: Text of horizontal line annotation if
+#' \code{hline} is set
+#' @param hline.annotation.x Numeric: x position to place annotation with paper
+#' as reference. 0: to the left of the plot area; 1: to the right of the plot area
+#' @param annotate.col Color for annotations
 #'
 #' @author E.D. Gennatas
 #' @export

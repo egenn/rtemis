@@ -4,11 +4,13 @@
 
 #' Mass-univariate Analysis
 #'
-#' Run a mass-univariate analysis: same set of features on multiple outcomes
+#' Run a mass-univariate analysis: same features (predictors) 
+#' on multiple outcomes
 #'
 #' @param x Matrix / data frame of features
 #' @param y Matrix / data frame of outcomes
 #' @param mod \pkg{rtemis} algorithm to use. Options: run \code{modSelect()}
+#' @param save.mods Logical: If TRUE, save fitted models
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Arguments to be passed to \code{mod}
@@ -20,24 +22,24 @@ massUni <- function(x, y, mod = "gam",
                     verbose = TRUE,
                     n.cores = rtCores, ...) {
 
-  # [ Intro ] ----
+  # Intro ----
   start.time <- intro(verbose = verbose)
 
-  # [ Arguments ] ----
+  # Arguments ----
   learner <- modSelect(mod)
   args <- list(...)
 
-  # [ Data ] ----
+  # Data ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   ynames <- colnames(y)
 
-  # [ MOD1 ] ----
+  # mod1 ----
   mod1 <- function(index, x, y, learner, args) {
     mod.1 <- R.utils::doCall(learner, x = x, y = y[, index], print.plot = FALSE, args = args)
     return(mod.1)
   }
 
-  # [ MODS ] ----
+  # Mods ----
   if (verbose) msg("Training mass-univariate models")
   if (verbose) {
     pbapply::pboptions(type = "timer")
@@ -48,14 +50,14 @@ massUni <- function(x, y, mod = "gam",
                             learner = learner, args = args,
                             cl = n.cores)
 
-  # [ ERRORS ] ----
+  # Errors ----
   if (verbose) msg("Collecting model errors")
   errors <- t(sapply(mods, function(m) as.data.frame(m$error.train)))
   rownames(errors) <- ynames
   # errors <- plyr::ldply(mods, function(m) as.data.frame(m$error.train), .progress = "text")
   # errors <- t(pbapply::pbsapply(mods, function(m) as.data.frame(m$error.train)))
 
-  # [ Outro ] ----
+  # Outro ----
   outro(start.time, verbose = verbose)
   if (!save.mods) mods <- NULL
   list(mods = mods,

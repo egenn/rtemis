@@ -11,20 +11,38 @@
 #' @param x Numeric vector of values to plot or list of vectors
 #' @param time Numeric or Date vector of time corresponding to values of \code{x}
 #' @param window Integer: apply \code{roll.fn} over this many units of time
+#' @param group Factor defining groups
 #' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of \code{x}
 #' @param roll.col Color for rolling line
 #' @param roll.alpha Numeric: transparency for rolling line
 #' @param roll.lwd Numeric: width of rolling line
+#' @param roll.name Rolling function name (for annotation)
+#' @param alpha Numeric [0, 1]: Transparency
 #' @param align Character: "center", "right", or "left"
-#' @param use Character: "data.table" or "zoo": which package to use to apply
-#' rolling function
+#' @param group.names Character vector of group names
 #' @param xlab Character: x-axis label
 #' @param n.xticks Integer: number of x-axis ticks to use (approximately)
+#  @param tickmode
+#' @param scatter.type Character: "scatter" or "lines"
+#' @param legend Logical: If TRUE, show legend
 #' @param x.showspikes Logical: If TRUE, show x-axis spikes on hover
+#' @param y.showspikes Logical: If TRUE, show y-axis spikes on hover
+#' @param spikedash Character: dash type string ("solid", "dot", "dash", 
+#' "longdash", "dashdot", or "longdashdot") or a dash length list in px 
+#' (eg "5px,10px,2px,2px")
 #' @param displayModeBar Logical: If TRUE, display plotly's modebar
 #' @param theme Character: theme name or list of theme parameters
 #' @param palette Character: palette name, or list of colors
-#' @param filename Character: filename to save plot to
+#' @param filename Character: Path to filename to save plot
+#' @param spikemode Character: If "toaxis", spike line is drawn from the data 
+#' point to the axis the series is plotted on. If "across", the line is drawn 
+#' across the entire plot area, and supercedes "toaxis". If "marker", then a 
+#' marker dot is drawn on the axis the series is plotted on
+#' @param spikesnap Character: "data", "cursor", "hovered data". Determines 
+#' whether spikelines are stuck to the cursor or to the closest datapoints.
+#' @param spikecolor Color for spike lines
+#' @param spikethickness Numeric: spike line thickness
+#' @param ... Additional arguments to be passed to \link{dplot3_xy}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -57,11 +75,10 @@ dplot3_ts <- function(x, time,
                       roll.name = NULL,
                       alpha = NULL,
                       align = "center",
-                      # use = "data.table",
                       group.names = NULL,
                       xlab = "Time",
                       n.xticks = 12,
-                      tickmode = "array",
+                    #   tickmode = "array",
                       scatter.type = "scatter",
                       legend = TRUE,
                       x.showspikes = TRUE,

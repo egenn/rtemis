@@ -319,7 +319,8 @@ print.hytboost <- function(x, ...) {
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
 #' \code{newdata}
 #' @param as.matrix Logical: If TRUE, output 
-#' @param 
+#' @param n.cores Integer: Number of cores to use
+#' @param verbose Logical: If TRUE, print messages to console
 #' @method predict hytboost
 #' @author E.D. Gennatas
 #' @export
