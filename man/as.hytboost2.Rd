@@ -20,3 +20,4 @@ as.hytboost2(
 \author{
 E.D. Gennatas
 }
+\keyword{internal}

@@ -4,6 +4,7 @@
 
 #' Check Data (HTML output)
 #'
+#' @param x data.frame, data.table or similar structure
 #' @param name Character: Dataset name
 #' @param recommend Logical: If TRUE, output recommendations at the end.
 #' Default = TRUE

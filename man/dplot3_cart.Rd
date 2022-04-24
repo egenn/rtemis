@@ -37,11 +37,11 @@ dplot3_cart(
 )
 }
 \arguments{
-\item{col.positive}{Color for outcome positive. Default = "#F48024DD"}
+\item{col.positive}{Color for outcome positive.}
 
-\item{col.negative}{Color for negative outcome. Default = "#18A3ACDD"}
+\item{col.negative}{Color for negative outcome.}
 
-\item{node.col}{Color for non-terminal leaves. Default = "#666666"}
+\item{node.col}{Color for non-terminal leaves.}
 
 \item{node.cond}{Logical: If TRUE, print the splitting condition inside each node. Default = TRUE}
 
@@ -53,9 +53,9 @@ Default = FALSE}
 
 \item{node.n}{Logical: If TRUE, print the number of cases (from training data) that matched this condition}
 
-\item{edge.col}{Color for edges. Default = "#999999"}
+\item{edge.col}{Color for edges.}
 
-\item{bg.color}{Background color. Default = "#ffffff"}
+\item{bg.color}{Background color.}
 }
 \description{
 Plot \code{data.tree} trees using \code{data.tree::plot.Node}

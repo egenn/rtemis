@@ -19,13 +19,15 @@ classError <- function(true,
                        estimated,
                        estimated.prob = NULL,
                        trace = 0) {
-
+  
   # Input ----
-  # Binary class probabilities for now only
+  # Binary class probabilities only (for now)
   if (length(estimated.prob) > length(true)) estimated.prob <- NULL
-
+  
   # Metrics ----
-  if (!all(levels(true) == levels(estimated))) stop("True and Estimated must have the same levels")
+  if (!all(levels(true) == levels(estimated))) {
+    stop("True and Estimated must have the same levels")
+  }
   true.levels <- levels(true)
   n.classes <- length(true.levels)
   Positive.class <- if (n.classes == 2) true.levels[1] else NA
@@ -38,9 +40,9 @@ classError <- function(true,
     }
   }
   tbl <- table(estimated, true)
-
+  
   names(attributes(tbl)$dimnames) <- c("Estimated", "Reference")
-
+  
   Class <- list()
   Overall <- list()
   Class$Totals <- colSums(tbl)
@@ -64,7 +66,7 @@ classError <- function(true,
   # attr(Class$NPV, "Formula") <- "Class$True.negative/(Total - Class$Predicted.totals)"
   Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
   # attr(Class$F1, "Formula") <- "2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)"
-
+  
   # Binary vs Multiclass ----
   if (n.classes == 2) {
     Overall$Sensitivity <- Class$Sensitivity[1]
@@ -83,13 +85,13 @@ classError <- function(true,
   }
   Overall$Accuracy <- sum(Class$Hits)/Total
   # attr(Overall$Accuracy, "Formula") <- "sum(Class$Hits)/Total"
-
+  
   # Prob-based ----
   if (!is.null(estimated.prob) & n.classes == 2) {
     Overall$AUC <- auc(estimated.prob, true)
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
-
+  
   # Outro ----
   # Overall <- as.data.frame(do.call(rbind, Overall))
   Overall <- as.data.frame(do.call(cbind, Overall))
@@ -106,7 +108,7 @@ classError <- function(true,
                   Positive.class = Positive.class)
   class(metrics) <- c("classError", "list")
   metrics
-
+  
 } # rtemis::classError
 
 
@@ -118,7 +120,7 @@ classError <- function(true,
 #' @export
 
 print.classError <- function(x, decimal.places = 4, ...) {
-
+  
   x$Overall$`Log loss` <- NULL
   tblpad <- 17 - max(nchar(colnames(x$ConfusionMatrix)), 9)
   printtable(x$ConfusionMatrix, pad = tblpad)
@@ -140,8 +142,9 @@ print.classError <- function(x, decimal.places = 4, ...) {
   } else {
     cat("  Positive Class: ", rtHighlight$bold(x$Positive.class), "\n")
   }
-
+  
 } # rtemis::print.classError
+
 
 # f1.R
 # ::rtemis::

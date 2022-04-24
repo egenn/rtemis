@@ -7,11 +7,12 @@
 #' Prune an ADDTREE tree in Node format using \code{data.tree} to remove sister nodes with same
 #' class estimate.
 #'
-#' @param addtree rtMod trained with \link{s.ADDTREE}
-#' @param prune.empty.leaves Logical: If TRUE, remove leaves with 0 cases. Default = TRUE
+#' @param addtree rtMod trained with \link{s_ADDTREE}
+#' @param prune.empty.leaves Logical: If TRUE, remove leaves with 0 cases.
 #' @param remove.bad.parents Logical: If TRUE, remove nodes with no siblings but children and
-#' give their children to their parent. Default = TRUE
-#' @author E.D. Gennatasd
+#' give their children to their parent.
+#' 
+#' @author E.D. Gennatas
 #' @export
 
 prune.addtree <- function(addtree,

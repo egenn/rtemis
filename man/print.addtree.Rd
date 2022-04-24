@@ -2,15 +2,15 @@
 % Please edit documentation in R/addtree.R
 \name{print.addtree}
 \alias{print.addtree}
-\title{Print method for \code{addtree} object created using \link{s.ADDTREE}}
+\title{Print method for \code{addtree} object created using \link{s_ADDTREE}}
 \usage{
 \method{print}{addtree}(x, ...)
 }
 \arguments{
-\item{x}{\code{rtMod} object created using \link{s.ADDTREE}}
+\item{x}{\code{rtMod} object created using \link{s_ADDTREE}}
 }
 \description{
-Print method for \code{addtree} object created using \link{s.ADDTREE}
+Print method for \code{addtree} object created using \link{s_ADDTREE}
 }
 \author{
 E.D. Gennatas

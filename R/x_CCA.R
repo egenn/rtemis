@@ -89,7 +89,7 @@ x_CCA <- function(x, z,
 
   # Arguments ----
   if (is.null(n.cores)) {
-    n.cores <- parallel::detectCores()
+    n.cores <- future::availableCores()
     if (verbose) msg("n.cores set to", n.cores)
   }
 
@@ -227,7 +227,7 @@ x_CCA.permute <- function(x, z,
   CCA.permute.zonly <- getFromNamespace("CCA.permute.zonly", "PMA")
 
   # Arguments ----
-  if (is.null(n.cores)) n.cores <- parallel::detectCores()
+  if (is.null(n.cores)) n.cores <- future::availableCores()
 
   if (NCOL(x) < 2)
     stop("Need at least 2 features in data set x.")
@@ -341,7 +341,7 @@ x_CCA.permute.both <- function(x, z,
   dependency_check("PMA", "pbapply")
   
   # Arguments ----
-  if (is.null(n.cores)) n.cores <- parallel::detectCores()
+  if (is.null(n.cores)) n.cores <- future::availableCores()
 
   call <- match.call()
   if (standardize) {

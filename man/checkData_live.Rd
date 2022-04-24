@@ -16,6 +16,8 @@ checkData_live(
 )
 }
 \arguments{
+\item{x}{data.frame, data.table or similar structure}
+
 \item{name}{Character: Dataset name}
 
 \item{recommend}{Logical: If TRUE, output recommendations at the end.

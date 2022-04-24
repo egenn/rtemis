@@ -22,3 +22,4 @@ All this will eventually be automated using an R6 object, maybe
 \author{
 E.D. Gennatas
 }
+\keyword{internal}

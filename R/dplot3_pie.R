@@ -15,6 +15,8 @@
 #' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"
 #' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
 #' @param theme Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}
+#' @param sep.col Separator color
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples

@@ -7,7 +7,6 @@
 \method{predict}{hytboost}(
   object,
   newdata = NULL,
-  n.feat = NCOL(newdata),
   n.iter = NULL,
   fixed.cxr = NULL,
   as.matrix = FALSE,
@@ -18,6 +17,15 @@
 }
 \arguments{
 \item{object}{\link{hytboost} object}
+
+\item{newdata}{data.frame of predictors}
+
+\item{n.iter}{Integer: Use the first so many trees for prediction}
+
+\item{fixed.cxr}{[Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
+\code{newdata}}
+
+\item{as.matrix}{Logical: If TRUE, output}
 }
 \description{
 Predict method for \code{hytboost} object

@@ -9,7 +9,7 @@ labels2niftis(
   labeledNifti,
   prefix,
   verbose = TRUE,
-  n.cores = parallel::detectCores()
+  n.cores = future::availableCores()
 )
 }
 \arguments{

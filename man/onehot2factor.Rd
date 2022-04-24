@@ -15,7 +15,7 @@ onehot2factor(x, labels = colnames(x))
 Convert one-hot encoded matrix to factor
 }
 \details{
-If input has a single column, it will be converted to factor and 
+If input has a single column, it will be converted to factor and
 returned
 }
 \examples{
@@ -25,6 +25,7 @@ colnames(x) <- c("Dx1", "Dx2", "Dx3")
 x$Dx1[1:3] <- x$Dx2[4:6] <- x$Dx3[7:10] <- T
 onehot2factor(x)
 }
+
 }
 \author{
 E.D. Gennatas

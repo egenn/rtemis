@@ -61,7 +61,7 @@
 #' bagged prediction on new data using the same models, use \link{predict.rtModCV}
 #' @param bag.fn Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}
 #' @param trace Integer: (Not really used) Print additional information if > 0. Default = 0
-#' @param res.verbose Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument
+#' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
 #' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}

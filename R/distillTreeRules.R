@@ -6,7 +6,7 @@
 #'
 #' Extract rules from RF or GBM model, prune, and remove unnecessary rules using \code{inTrees}
 #' 
-#' Models must be trained with \link{s_RF} or \link{s_GBM} / \link{s_GBM3}
+#' Models must be trained with \link{s_RF} or \link{s_GBM}
 #' 
 #' @param mod A trained RF or GBM model
 #' @param x The training set features

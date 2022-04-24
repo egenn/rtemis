@@ -52,7 +52,7 @@ massGAM <- function(x, y,
   # Arguments ----
   if (missing(x)) { print(args(massGAM)); stop("x is missing") }
   if (missing(y) & NCOL(x) == 1) { print(args(massGAM)); stop("y is missing") }
-  if (is.null(n.cores)) n.cores <- parallel::detectCores()
+  if (is.null(n.cores)) n.cores <- future::availableCores()
   if (!is.null(covariates)) {
     if (!is.list(covariates)) covariates <- as.list(as.data.frame(covariates))
   }

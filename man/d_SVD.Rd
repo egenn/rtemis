@@ -39,7 +39,7 @@ d_SVD(
 Perform SVD decomposition using \code{base::svd}
 }
 \details{
-Same solution as \link{d.PCA}
+Same solution as \link{d_PCA}
 }
 \seealso{
 Other Decomposition: 

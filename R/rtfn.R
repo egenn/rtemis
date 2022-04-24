@@ -401,8 +401,8 @@ roundtofrac <- function(x, t = .5) {
 #'
 #' @param x Numeric vector
 #' @param ddSci Logical: If TRUE, use \link{ddSci} or range. Default = TRUE
-#' @param decimal.place Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1
-#' @param na.rm Logical: passe to \link{range()}
+#' @param decimal.places Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1
+#' @param na.rm Logical: passe to \link{base::range()}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -436,7 +436,6 @@ lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
   out
 
 } # rtemis::lsapply
-
 
 null2na <- function(x) {
   if (is.null(x)) NA else x

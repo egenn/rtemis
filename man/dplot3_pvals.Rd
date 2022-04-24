@@ -29,6 +29,8 @@ dplot3_pvals(
 \item{hline.col}{Color for \code{pval.hline}. Default = "#FE4AA3"}
 
 \item{hline.dash}{Character: type of line to draw. Default = "dash"}
+
+\item{...}{Additional arguments passed to \link{dplot_bar}}
 }
 \description{
 Plot 1 - p-values as a barplot

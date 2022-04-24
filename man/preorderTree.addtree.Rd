@@ -7,7 +7,7 @@
 preorderTree.addtree(rt, x, verbose = FALSE)
 }
 \arguments{
-\item{rt}{rt Object from \link{s.ADDTREE}}
+\item{rt}{rt Object from \link{s_ADDTREE}}
 
 \item{x}{Features}
 

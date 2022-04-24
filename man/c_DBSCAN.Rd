@@ -21,6 +21,20 @@ c_DBSCAN(
 
 \item{x.test}{Testing set matrix / data.frame}
 
+\item{eps}{Numeric: Radius of the epsilon neighborhood}
+
+\item{minPts}{Integer: Number of minimum points required in the eps 
+neighborhood for core points (including the point itself).}
+
+\item{weights}{Numeric vector: Data points' weights. Needed for weighted 
+clustering.}
+
+\item{borderPoints}{Logical: If TRUE, assign border points to clusters,
+otherwise they are considered noise}
+
+\item{search}{Character: "kdtree", "linear" or "dist": nearest neighbor 
+search strategy}
+
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}

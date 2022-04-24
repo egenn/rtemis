@@ -6,7 +6,7 @@
 #'
 #' Perform SVD decomposition using \code{base::svd}
 #'
-#' Same solution as \link{d.PCA}
+#' Same solution as \link{d_PCA}
 #'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to SVD bases

@@ -9,6 +9,8 @@ chill(sleep = 0.5, text = NULL, max = 1000)
 \arguments{
 \item{sleep}{Float: Time in seconds between drawings. Default = .5}
 
+\item{text}{Character: Text to display}
+
 \item{max}{Integer: Max times to repeat. Default = 1000}
 }
 \description{

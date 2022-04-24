@@ -131,7 +131,7 @@ If \code{data} is provided, name of variable, unquoted.}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 be passed as a string.}
 
-\item{formula}{Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
+\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. If provided, \code{fit} is
 forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 and warnings, but is powerful. Use single letters for parameter names, no numbers.}
 

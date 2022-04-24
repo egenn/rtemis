@@ -13,6 +13,7 @@
 #' @param pval.hline Float: Significance level at which to plot horizontal line. Default = .05
 #' @param hline.col Color for \code{pval.hline}. Default = "#FE4AA3"
 #' @param hline.dash Character: type of line to draw. Default = "dash"
+#' @param ... Additional arguments passed to \link{dplot_bar}
 #'
 #' @author E.D. Gennatas
 #' @export

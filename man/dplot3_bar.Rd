@@ -41,15 +41,18 @@ dplot3_bar(
   padding = 0,
   displayModeBar = TRUE,
   filename = NULL,
+  output.format = "svg",
   file.width = 500,
   file.height = 500,
   file.scale = 1,
+  print.plot = TRUE,
   trace = 0,
   ...
 )
 }
 \arguments{
-\item{x}{vector (possibly named), matrix, or data.frame: If matrix or data.frame, rows are groups (can be 1 row), columns are features}
+\item{x}{vector (possibly named), matrix, or data.frame: If matrix or 
+data.frame, rows are groups (can be 1 row), columns are features}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -57,66 +60,104 @@ dplot3_bar(
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
+\item{horizontal}{Logical: If TRUE, plot bars horizontally}
 
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+themes}
 
-\item{barmode}{Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
-"relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
+\item{barmode}{Character: Type of bar plot to make: "group", "relative", 
+"stack", "overlay". Default = "group". Use
+"relative" for stacked bars, wich handles negative values correctly, 
+unlike "stack", as of writing.}
+
+\item{group.names}{Character, vector, length = NROW(x): Group names. 
+Default = NULL, which uses \code{rownames(x)}}
 
 \item{order.by.val}{Logical: If TRUE, order bars by increasing value.
 Only use for single group data. Default = NULL}
 
 \item{ylim}{Float, vector, length 2: y-axis limits.}
 
-\item{hovernames}{Character, vector: Optional character vector to show on hover over each bar.}
+\item{hovernames}{Character, vector: Optional character vector to show on 
+hover over each bar.}
 
-\item{feature.names}{Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
-\code{colnames(x)}}
+\item{feature.names}{Character, vector, length = NCOL(x): Feature names. 
+Default = NULL, which uses \code{colnames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
-more than one feature present}
+\item{annotate}{Logical: If TRUE, annotate stacked bars}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+\item{annotate.col}{Color for annotations}
 
-\item{hline}{Float: If defined, draw a horizontal line at this y value. Default = NULL}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be 
+turned on if there is more than one feature present}
+
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+theme}
+
+\item{legend.xy}{Numeric, vector, length 2: x and y for plotly's legend}
+
+\item{legend.orientation}{"v" or "h" for vertical or horizontal}
+
+\item{legend.xanchor}{Character: Legend's x anchor: "left", "center", 
+"right", "auto"}
+
+\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle", 
+"bottom", "auto"}
+
+\item{hline}{Float: If defined, draw a horizontal line at this y value.}
 
 \item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
 
 \item{hline.width}{Float: Width for \code{hline}. Default = 1}
 
-\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", 
+"longdash", "dashdot",
 or "longdashdot"}
+
+\item{hline.annotate}{Character: Text of horizontal line annotation if 
+\code{hline} is set}
+
+\item{hline.annotation.x}{Numeric: x position to place annotation with paper
+as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{margin}{Named list: plot margins.}
 
+\item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
+
+\item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
+
 \item{padding}{Integer: N pixels to pad plot. Default = 0}
+
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+\item{output.format}{Character: "svg", "png", "jpeg", "pdf"}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+set.}
 
-\item{bg}{Color: Background color. Default = "white"}
+\item{file.height}{Integer: File height in pixels for when \code{filename} 
+is set.}
 
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{font.family}{Character: Font family to use. Default = "Helvetica Neue"}
+\item{print.plot}{Logical: If TRUE, print plot, otherwise return it invisibly}
 
-\item{main.col}{Color: Title color. Default = NULL, determined by theme}
+\item{trace}{Integer: The hight the number the more diagnostic info is 
+printed to the console}
 
-\item{axes.col}{Color: Axes color. Default = NULL, determined, by theme}
-
-\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
+\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive barplots using \code{plotly}

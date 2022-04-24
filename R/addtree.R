@@ -624,7 +624,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 #'
 #' Recursively Traverses ADDTREE tree by preorder function and builds data frame representation
 #'
-#' @param rt rt Object from \link{s.ADDTREE}
+#' @param rt rt Object from \link{s_ADDTREE}
 #' @param x Features
 #' @param verbose Logical: If TRUE, print messages to stdout
 #'
@@ -701,9 +701,9 @@ addtree_path_to_rules <- function(x) {
 } # rtemis::addtree_path_to_rules
 
 
-#' Print method for \code{addtree} object created using \link{s.ADDTREE}
+#' Print method for \code{addtree} object created using \link{s_ADDTREE}
 #'
-#' @param x \code{rtMod} object created using \link{s.ADDTREE}
+#' @param x \code{rtMod} object created using \link{s_ADDTREE}
 #' @author E.D. Gennatas
 #' @export
 

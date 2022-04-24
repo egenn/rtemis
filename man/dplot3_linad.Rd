@@ -2,7 +2,8 @@
 % Please edit documentation in R/dplot3_linad.R
 \name{dplot3_linad}
 \alias{dplot3_linad}
-\title{Plot a Linear Additive Tree trained by \code{s_LINAD} using \strong{visNetwork}}
+\title{Plot a Linear Additive Tree trained by \code{s_LINAD} using 
+\strong{visNetwork}}
 \usage{
 dplot3_linad(
   x,
@@ -107,5 +108,6 @@ a custom html table creation function was made to replace some impossibly slow a
 \item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by number of cases with weight = 1}
 }
 \description{
-Plot a Linear Additive Tree trained by \code{s_LINAD} using \strong{visNetwork}
+Plot a Linear Additive Tree trained by \code{s_LINAD} using 
+\strong{visNetwork}
 }

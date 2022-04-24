@@ -13,7 +13,7 @@
 #' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
 #'   Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
 #'   be passed as a string.
-#' @param formula Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
+#' @param formula Formula: Provide a formula to be solved using \link{s_NLS}. If provided, \code{fit} is
 #' forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 #' and warnings, but is powerful. Use single letters for parameter names, no numbers.
 #' @param se.fit Logical: If TRUE, draw the standard error of the fit
@@ -561,7 +561,7 @@ mplot3_xy <- function(x, y = NULL,
       # verbose FALSE should turn off plotting for all learners, no need for print.plot F
       learner.args <- c(list(x = x, y = y, verbose = trace > 1),
                         fit.params)
-      if (learner == "s.NLS") learner.args <- c(learner.args,
+      if (learner == "s_NLS") learner.args <- c(learner.args,
                                                 list(formula = formula, save.func = TRUE))
       mod <- try(do.call(learner, learner.args))
       if (class(mod)[1] == "try-error") {

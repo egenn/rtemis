@@ -29,6 +29,8 @@ dplot3_graphd3(
 
 \item{edge.col}{Color for edges}
 
+\item{node.col}{Color for nodes}
+
 \item{node.alpha}{Float [0, 1]: Node opacity. Default = .5}
 
 \item{edge.alpha}{Float [0, 1]: Edge opacity. Default = .33}
@@ -39,6 +41,8 @@ dplot3_graphd3(
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
 \code{rtPalette()}}
+
+\item{theme}{rtemis theme to use}
 
 \item{...}{Additional arguments to pass to \code{networkD3}}
 }

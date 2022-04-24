@@ -11,9 +11,9 @@ catrange(x, ddSci = TRUE, decimal.places = 1, na.rm = TRUE)
 
 \item{ddSci}{Logical: If TRUE, use \link{ddSci} or range. Default = TRUE}
 
-\item{na.rm}{Logical: passe to \link{range()}}
+\item{decimal.places}{Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1}
 
-\item{decimal.place}{Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1}
+\item{na.rm}{Logical: passe to \link{base::range()}}
 }
 \description{
 Print range of continuous variable

@@ -124,25 +124,25 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
 # }
 
 
-#' \code{rtset.cluster}: Set up parallel processing using forking (Linux, macOS) or PSOCK cluster (macOS, Linux, Windows)
-#' Defaults to type = "fork", which would call \code{mclapply}
-#' Some functions fail to work correctly with \code{mclapply}, like \code{nnet::multinom}, in those cases
-#' we use PSOCK cluster
-#'
-#' @param type Character: "fork", "psock"
-#' @param hosts Vector of strings: For type = "psock": Host names on which to run (macOS, Linux, Windows)
-#' @param n.cores Integer: Number of cores to use on \code{localhost} for type = "fork" (macOS, Linux only)
-#' @param ... \code{rtset.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
-#' @return List with parameters
-#' @export
+# #' \code{rtset.cluster}: Set up parallel processing using forking (Linux, macOS) or PSOCK cluster (macOS, Linux, Windows)
+# #' Defaults to type = "fork", which would call \code{mclapply}
+# #' Some functions fail to work correctly with \code{mclapply}, like \code{nnet::multinom}, in those cases
+# #' we use PSOCK cluster
+# #'
+# #' @param type Character: "fork", "psock"
+# #' @param hosts Vector of strings: For type = "psock": Host names on which to run (macOS, Linux, Windows)
+# #' @param n.cores Integer: Number of cores to use on \code{localhost} for type = "fork" (macOS, Linux only)
+# #' @param ... \code{rtset.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
+# #' @return List with parameters
+# #' @export
 
-rtset.cluster <- function(type = "fork",
-                          hosts = NULL,
-                          n.cores = rtCores, ...) {
+# rtset.cluster <- function(type = "fork",
+#                           hosts = NULL,
+#                           n.cores = rtCores, ...) {
 
-  c(list(type = type, hosts = hosts, n.cores = n.cores), list(...))
+#   c(list(type = type, hosts = hosts, n.cores = n.cores), list(...))
 
-} # rtemis::rtset.cluster
+# } # rtemis::rtset.cluster
 
 
 #' \code{rtset.color}: Set parameters for \link{colorGrad}

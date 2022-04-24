@@ -44,11 +44,10 @@ dplot3_box(
   boxgroupgap = NULL,
   hovertext = NULL,
   show_n = FALSE,
-  boxmode = NULL,
-  use_plotly_group = FALSE,
+  use.plotly.group = FALSE,
   displayModeBar = TRUE,
   filename = NULL,
-  output_format = "svg",
+  output.format = "svg",
   file.width = 500,
   file.height = 500,
   file.scale = 1,
@@ -96,8 +95,21 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 
 \item{quartilemethod}{Character: "linear", "exclusive", "inclusive"}
 
+\item{violin.box}{Logical: If TRUE and type is "violin" show box within 
+violin plot}
+
+\item{orientation}{Character: "v" or "h" for vertical, horizontal}
+
+\item{annotate_n}{Logical: If TRUE, annotate with N in each box}
+
+\item{annotate_n_y}{Numeric: y position for \code{annotate_n}}
+
+\item{annotate.col}{Color for annotations}
+
 \item{xnames}{Character, vector, length = NROW(x): x-axis names. Default = NULL, which
 tries to set names appropriately}
+
+\item{labelify}{Logical: If TRUE, \link{labelify} x names}
 
 \item{order.by.fn}{Function: If defined, order boxes by increasing value of this function
 (e.g. median). Default = NULL}
@@ -111,13 +123,50 @@ tries to set names appropriately}
 \item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
 the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area}
 
+\item{legend.orientation}{"v" or "h" for vertical, horizontal}
+
+\item{legend.xanchor}{Character: Legend's x anchor: "left", "center",
+"right", "auto"}
+
+\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle",
+"bottom", "auto"}
+
 \item{xaxis.type}{Character: "linear", "log", "date", "category", "multicategory"
 Default = "category"}
 
 \item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
 
-\item{feature.names}{Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
-\code{colnames(x)}}
+\item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
+
+\item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
+
+\item{boxgroupgap}{Numeric: Sets the gap (in plot fraction) between boxes 
+of the same location coordinate}
+
+\item{hovertext}{Character vector: Text to show on hover for each data point}
+
+\item{show_n}{Logical: If TRUE, show N in each box}
+
+\item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group 
+boxes.}
+
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
+
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{output.format}{Character: "svg", "png", "jpeg", "pdf"}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
+set.}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename}
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{print.plot}{Logical: If TRUE, print plot, otherwise return it invisibly}
+
+\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}
@@ -162,7 +211,6 @@ dplot3_box(x, time, "month",
 )
 # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 }
-
 
 }
 \author{

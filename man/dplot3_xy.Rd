@@ -108,7 +108,7 @@ pass result to \code{group}. Run \link{clustSelect} for options}
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{formula}{Formula: Provide a formula to be solved using \link{s.NLS}. If provided, \code{fit} is
+\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. If provided, \code{fit} is
 forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
 and warnings, but is powerful. Use single letters for parameter names, no numbers.}
 
@@ -129,20 +129,19 @@ and warnings, but is powerful. Use single letters for parameter names, no number
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{bg}{Color: Background color. Default = "white"}
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+themes}
 
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
-
-\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
-
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
 Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
+\item{group.names}{Character, vector, length = NROW(x): Group names. 
+Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
@@ -161,9 +160,24 @@ plot.}
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 groups, or \code{fit} is set}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+\item{legend.xy}{Numeric, vector, length 2: x and y for plotly's legend}
+
+\item{legend.xanchor}{Character: Legend's x anchor: "left", "center", 
+"right", "auto"}
+
+\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle", 
+"bottom", "auto"}
+
+\item{legend.orientation}{"v" or "h" for vertical or horizontal}
+
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+theme}
 
 \item{margin}{Named list: plot margins.}
+
+\item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
+
+\item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
@@ -184,13 +198,14 @@ parameters}
 
 \item{vline.col}{Color for vertical lines}
 
-\item{hline}{Float: If defined, draw a horizontal line at this y value. Default = NULL}
+\item{hline}{Float: If defined, draw a horizontal line at this y value.}
 
 \item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
 
 \item{hline.width}{Float: Width for \code{hline}. Default = 1}
 
-\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", 
+"longdash", "dashdot",
 or "longdashdot"}
 
 \item{hovertext}{List of character vectors with hovertext to include for each group of markers}
@@ -199,15 +214,22 @@ or "longdashdot"}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
 
-\item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0}
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
+
+\item{trace}{Integer: The hight the number the more diagnostic info is 
+printed to the console}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+\item{file.height}{Integer: File height in pixels for when \code{filename} 
+is set.}
 
-\item{...}{Additional arguments to be passed to theme function}
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive scatter plots using \code{plotly}

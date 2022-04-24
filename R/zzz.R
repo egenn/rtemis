@@ -125,7 +125,7 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 #'
 #' @docType package
 #' @name rtemis-package
-#' @import graphics grDevices methods stats utils parallel R6 data.table htmltools crayon parallelly
+#' @import graphics grDevices methods stats utils data.table R6 future htmltools crayon
 #' @importFrom crayon "%+%"
 
 NULL

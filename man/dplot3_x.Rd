@@ -79,22 +79,24 @@ members. Default = NULL}
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+themes}
 
-\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
-
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
 Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}}
+\item{group.names}{Character, vector, length = NROW(x): Group names. 
+Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
@@ -104,7 +106,8 @@ plot.}
 \item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = c(0, 1), which places the
 legend top left within the plot area. Set to NULL to place legend top right beside the plot area}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+theme}
 
 \item{bargap}{Float: The gap between adjacent histogram bars in plot fraction. Default = .05}
 
@@ -133,6 +136,10 @@ or "longdashdot"}
 
 \item{margin}{Named list: plot margins.}
 
+\item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
+
+\item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
+
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0. Default = FALSE}
 
 \item{histnorm}{Character: NULL, "percent", "probability", "density", "probability density"}
@@ -141,8 +148,10 @@ or "longdashdot"}
 
 \item{hist.n.bins}{Integer: Number of bins to use if type = "histogram". Default = 20}
 
-\item{barmode}{Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
-"relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.}
+\item{barmode}{Character: Type of bar plot to make: "group", "relative", 
+"stack", "overlay". Default = "group". Use
+"relative" for stacked bars, wich handles negative values correctly, 
+unlike "stack", as of writing.}
 
 \item{ridge.sharex}{Logical: If TRUE, draw single x-axis when \code{mode = "ridge"}. Default = TRUE}
 
@@ -151,15 +160,23 @@ or "longdashdot"}
 \item{ridge.order.on.mean}{Logical: If TRUE, order groups by mean value when \code{mode = "ridge"}. Defaul = TRUE.
 Turn to FALSE, if, for example, groups are ordered by date or similar.}
 
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
+
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+\item{file.height}{Integer: File height in pixels for when \code{filename} 
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive univariate plots using \code{plotly}

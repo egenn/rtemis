@@ -43,17 +43,15 @@ the \code{category.names} argument}
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}}
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{bg}{Color: Background color. Default = "white"}
-
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
-
 \item{theme}{Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}}
 
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{category.names}{Character, vector, length = NROW(x): Category names. Default = NULL, which uses
 either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}}
@@ -62,22 +60,31 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{labs.col}{Color: Labels' color. Default = NULL, determined by theme}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be 
+turned on if there is more than one feature present}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
-more than one feature present}
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+theme}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+\item{sep.col}{Separator color}
 
 \item{margin}{Named list: plot margins.}
 
 \item{padding}{Integer: N pixels to pad plot. Default = 0}
 
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
+
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is set. Default = 500}
+\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} is set. Default = 500}
+\item{file.height}{Integer: File height in pixels for when \code{filename} 
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive pie charts using \code{plotly}

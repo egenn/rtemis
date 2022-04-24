@@ -23,6 +23,13 @@ dataPrepare(
 )
 }
 \arguments{
+\item{x}{Either training set features or combined training features and 
+outcome in last column}
+
+\item{x.test}{Testing set features}
+
+\item{y.test}{Testing set outcome}
+
 \item{x.valid}{Matrix / Data frame: Validation set features}
 
 \item{y.valid}{Vector: Validation outcome}
@@ -47,6 +54,9 @@ Some algorithms do not work with variable names containing dots (SparkML)}
 \item{.preprocess}{List: Preprocessing parameters to be passed to \link{preprocess}. Set with \link{rtset.preprocess}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{Either}{training set outcome or combined testing set features and
+outcome in last column.}
 }
 \description{
 Prepare data for \pkg{rtemis} supervised learning

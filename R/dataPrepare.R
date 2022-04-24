@@ -7,6 +7,12 @@
 #'
 #' Prepare data for \pkg{rtemis} supervised learning
 #'
+#' @param x Either training set features or combined training features and 
+#' outcome in last column
+#' @param Either training set outcome or combined testing set features and
+#' outcome in last column.
+#' @param x.test Testing set features
+#' @param y.test Testing set outcome
 #' @param x.valid Matrix / Data frame: Validation set features
 #' @param y.valid Vector: Validation outcome
 #' @param filter.y.na Logical: If TRUE, filter out cases with missing values

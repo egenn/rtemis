@@ -22,7 +22,40 @@ c_MEANSHIFT(
 \arguments{
 \item{x}{Input matrix}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{nNeighbors}{Integer: Number of neighbors to consider for kernel 
+density estimate}
+
+\item{algorithm}{Character: "LINEAR" or "KDTREE"}
+
+\item{kernelType}{Character: "NORMAL", "EPANECHNIKOV", "BIWEIGHT"}
+
+\item{bandwidth}{Numeric vector, length = ncol(x): Use in kernel density
+estimation for steepest ascent classification.}
+
+\item{alpha}{Numeric: A scalar tuning parameter for normal kernels. When 
+this parameter is set to zero, the mean shift algorithm will operate as 
+usual. When this parameter is set to one, the mean shift algorithm will be 
+approximated through Newton's Method. When set to a value between zero and 
+one, a generalization of Newton's Method and mean shift will be used 
+instead providing a means to balance convergence speed with stability.}
+
+\item{iterations}{Integer: Number of iterations to perform}
+
+\item{epsilon}{Numeric: used to determine when to terminate the iteration of 
+an individual query point. If the distance between the query point at 
+iteration i and i+1 is less than epsilon, then iteration ceases on this point.}
+
+\item{epsilonCluster}{Numeric: Used to determine the minimum distance between 
+distinct clusters. This distance is applied after all iterations have 
+finished and in order of the rows of queryData.}
+
+\item{parameters}{A scalar or vector of paramters used by the specific 
+algorithm. There are no optional parameters for the "LINEAR" method, 
+"KDTREE" supports optional parameters for the maximum number of points to 
+store in a leaf node and the maximum value for the quadratic form in the 
+normal kernel, ignoring the constant value -0.5.}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }

@@ -4,22 +4,23 @@
 
 #' Create an alternating sequence of graded colors
 #'
-#' @param color List: List of two or more elements, each containing two colors. A gradient will be created from the
-#' first to the second color of each element
-#' @param n Integer: Number of steps in each gradient. Default = 4
+#' @param color List: List of two or more elements, each containing two colors. 
+#' A gradient will be created from the first to the second color of each element
+#' @param n Integer: Number of steps in each gradient.
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples
-#' color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
+#' color <- list(blue = c("#82afd3", "#000f3a"),
 #'               gray = c("gray10", "gray85"))
 #' previewcolor(desaturate(colorMix(color, 6), .3))
 #'
-#' color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestRed),
+#' color <- list(blue = c("#82afd3", "#57000a"),
 #'               gray = c("gray10", "gray85"))
 #' previewcolor(desaturate(colorMix(color, 6), .3))
 #'
-#' color <- list(blue = c(pennCol$lightestBlue, pennCol$darkestBlue),
-#'               purple = c(pennCol$darkestPurple, pennCol$lightestPurple))
+#' color <- list(blue = c("#82afd3", "#000f3a"),
+#'               purple = c("#23001f", "#c480c1"))
 #' previewcolor(desaturate(colorMix(color, 5), .3))
 
 colorMix <- function(color, n = 4) {

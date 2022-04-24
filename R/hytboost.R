@@ -76,13 +76,13 @@ hytboost <- function(x, y,
                      # print.base.plot = FALSE,
                      plot.type = 'l') {
 
-  # [ Arguments ] ----
+  # Arguments ----
   if (!verbose) print.plot <- FALSE
   # extra.args <- list(...)
   # mod.params <- c(mod.params, extra.args)
   if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
-  # [ BOOST ] ----
+  # Boost ----
   # hytreew params ----
   mod.params <- list(max.depth = max.depth,
                      gamma = gamma,
@@ -275,7 +275,7 @@ hytboost <- function(x, y,
     }
   }
 
-  # [ Outro ] ----
+  # Outro ----
   # '- boost object ----
   obj <- list(init = init,
               learning.rate = .learning.rate,
@@ -313,13 +313,20 @@ print.hytboost <- function(x, ...) {
 #' Predict method for \code{hytboost} object
 #'
 #' @param object \link{hytboost} object
+#' @param newdata data.frame of predictors
+#  @param n.feat Integer: Use the first so many features
+#' @param n.iter Integer: Use the first so many trees for prediction
+#' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
+#' \code{newdata}
+#' @param as.matrix Logical: If TRUE, output 
+#' @param 
 #' @method predict hytboost
 #' @author E.D. Gennatas
 #' @export
 
 predict.hytboost <- function(object,
                              newdata = NULL,
-                             n.feat = NCOL(newdata),
+                            #  n.feat = NCOL(newdata),
                              n.iter = NULL,
                              fixed.cxr = NULL,
                              as.matrix = FALSE,
@@ -333,7 +340,7 @@ predict.hytboost <- function(object,
       .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", 1:NCOL(newdata))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
-      newdata <- newdata[, seq(n.feat), drop = FALSE]
+      # newdata <- newdata[, seq_len(n.feat), drop = FALSE]
     }
   }
 
@@ -371,7 +378,7 @@ predict.hytboost <- function(object,
 #' @inheritParams hytboost
 #' @param object \link{boost} object
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 expand.hytboost <- function(object,
                             x, y = NULL,
@@ -413,7 +420,7 @@ expand.hytboost <- function(object,
 #' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 as.hytboost <- function(object,
                         x, y,
@@ -457,7 +464,7 @@ as.hytboost <- function(object,
 #' @param object \link{hytboost} object
 #' @return \link{hytboost} object
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 # TODO: save penultimate fitted, add last
 
 update.hytboost <- function(object, x, y = NULL,
@@ -483,7 +490,7 @@ update.hytboost <- function(object, x, y = NULL,
 #' \code{as.hytboost} Place model in \link{hytboost} structure
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 as.hytboost2 <- function(object,
                          x, y,

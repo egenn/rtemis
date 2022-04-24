@@ -17,7 +17,8 @@ d_TSNE(
   center = FALSE,
   is.distance = FALSE,
   verbose = TRUE,
-  outdir = "./"
+  outdir = "./",
+  ...
 )
 }
 \arguments{

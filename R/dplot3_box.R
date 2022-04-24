@@ -7,6 +7,10 @@
 # todo: change group time bin similar to A2b without color
 # :annotate_n ngroups when one group is empty and dropped by plotly
 
+# showlegend in plot_ly so that subplot does not cause repetition of legend
+# known issue: boxmode = "group" works fine in single plots; but when used with 
+# subplot, forces separate plots sharing X to shift their boxplots.
+
 #' Interactive Boxplots & Violin plots
 #'
 #' Draw interactive boxplots or violin plots using \pkg{plotly}
@@ -50,8 +54,6 @@
 #' tries to set names appropriately
 #' @param order.by.fn Function: If defined, order boxes by increasing value of this function
 #' (e.g. median). Default = NULL
-#' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
-#' \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by theme
@@ -60,6 +62,36 @@
 #' @param xaxis.type Character: "linear", "log", "date", "category", "multicategory"
 #' Default = "category"
 #' @param margin Named list: plot margins. Default = \code{list(t = 35)}
+#' @param violin.box Logical: If TRUE and type is "violin" show box within 
+#' violin plot
+#' @param orientation Character: "v" or "h" for vertical, horizontal
+#' @param annotate_n Logical: If TRUE, annotate with N in each box
+#' @param annotate_n_y Numeric: y position for \code{annotate_n}
+#' @param annotate.col Color for annotations
+#' @param labelify Logical: If TRUE, \link{labelify} x names
+#' @param legend.orientation "v" or "h" for vertical, horizontal
+#' @param legend.xanchor Character: Legend's x anchor: "left", "center",
+#' "right", "auto"
+#' @param legend.yanchor Character: Legend's y anchor: "top", "middle",
+#' "bottom", "auto"
+#' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
+#' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
+#' @param boxgroupgap Numeric: Sets the gap (in plot fraction) between boxes 
+#' of the same location coordinate
+#' @param hovertext Character vector: Text to show on hover for each data point
+#' @param show_n Logical: If TRUE, show N in each box
+#' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group 
+#' boxes.
+#' @param displayModeBar Logical: If TRUE, show plotly's modebar
+#' @param filename Character: Path to file to save static plot. Default = NULL
+#' @param output.format Character: "svg", "png", "jpeg", "pdf"
+#' @param file.width Integer: File width in pixels for when \code{filename} is
+#' set.
+#' @param file.height Integer: File height in pixels for when \code{filename}
+#' is set.
+#' @param file.scale Numeric: If saving to file, scale plot by this number
+#' @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
+#' @param ... Additional arguments passed to theme
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -90,11 +122,7 @@
 #' # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 #' }
 #'
-# showlegend in plot_ly so that subplot does not cause repetition of legend
-# known issue: boxmode = "group" works fine in single plots; but when used with subplot,
-# forces separate plots sharing X to shift their boxplots.
-# => rewrite to avoid using boxmode "group" with use_plotly_group = FALSE
-#'
+
 dplot3_box <- function(
             x,
             time = NULL,
@@ -138,11 +166,11 @@ dplot3_box <- function(
             boxgroupgap = NULL,
             hovertext = NULL,
             show_n = FALSE,
-            boxmode = NULL,
-            use_plotly_group = FALSE,
+            # boxmode = NULL,
+            use.plotly.group = FALSE,
             displayModeBar = TRUE,
             filename = NULL,
-            output_format = "svg",
+            output.format = "svg",
             file.width = 500,
             file.height = 500,
             file.scale = 1,
@@ -338,7 +366,7 @@ dplot3_box <- function(
                     ) -> plt
             }
         } else {
-            if (use_plotly_group) {
+            if (use.plotly.group) {
                 # A.2.a. Grouped boxplots with [group] ----
                 # Best to use this for multiple variables x group.
                 # For single variables x group, preferred way it to use split(var, group) => A1
@@ -497,10 +525,10 @@ dplot3_box <- function(
         dt[, timeperiod := date2factor(time, time.bin)] |>
             setkey(timeperiod)
 
-        Npertimeperiod <- dt[levels(timeperiod)][, lapply(.SD, \(i) length(na.exclude(i))),
-            by = timeperiod
-        ] |>
-            setorder()
+        Npertimeperiod <- dt[levels(timeperiod)][, 
+            lapply(.SD, \(i) length(na.exclude(i))),
+            by = timeperiod] |>
+                setorder()
 
         ## Long data
         dtlong <- data.table::melt(dt[, ID := .I],
@@ -548,7 +576,7 @@ dplot3_box <- function(
             plt |> plotly::layout(boxmode = "group") -> plt
         }
 
-        ## annotations ----
+        ## Annotations ----
         if (is.null(group) & annotate_n) {
             Nperbox <- Npertimeperiod[[2]] # include zeros
             plt |>
@@ -581,7 +609,7 @@ dplot3_box <- function(
         }
     } # /time-binned boxplots
 
-    # layout ----
+    # Layout ----
     f <- list(
         family = theme$font.family,
         size = font.size,
@@ -647,12 +675,12 @@ dplot3_box <- function(
             boxgroupgap = boxgroupgap
         )
 
-    # Config
+    # Config ----
     plt <- plotly::config(plt,
         displaylogo = FALSE,
         displayModeBar = displayModeBar,
         toImageButtonOptions = list(
-            format = output_format,
+            format = output.format,
             width = file.width,
             height = file.height
         )
@@ -663,7 +691,8 @@ dplot3_box <- function(
         plotly::save_image(
             plt,
             file.path(filename),
-            with = file.width, height = file.height,
+            with = file.width, 
+            height = file.height,
             scale = file.scale
         )
     }
@@ -673,4 +702,5 @@ dplot3_box <- function(
     } else {
         invisible(plt)
     }
+
 } # rtemis::dplot3_box.R

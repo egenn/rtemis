@@ -31,21 +31,21 @@ dplot3_addtree(
 )
 }
 \arguments{
-\item{col.positive}{Color for outcome positive. Default = "#F48024DD"}
+\item{col.positive}{Color for outcome positive.}
 
-\item{col.negative}{Color for negative outcome. Default = "#18A3ACDD"}
+\item{col.negative}{Color for negative outcome.}
 
-\item{node.col}{Color for non-terminal leaves. Default = "#666666"}
+\item{node.col}{Color for non-terminal leaves.}
 
-\item{edge.col}{Color for edges. Default = "#999999"}
+\item{edge.col}{Color for edges.}
 
-\item{bg.color}{Background color. Default = "#ffffff"}
+\item{bg.color}{Background color.}
 
-\item{filename}{String, Optional: Save PDF to this file. Requires packages \code{DiagrammeRsvg}
-and \code{rsvg}. Default = NULL}
+\item{filename}{Character: Path to filename to save PDF
+Requires packages \code{DiagrammeRsvg} and \code{rsvg}. Default = NULL}
 }
 \description{
-Plot ADDTREE trees trained with \link{s.ADDTREE} using \code{data.tree::plot.Node}
+Plot ADDTREE trees trained with \link{s_ADDTREE} using \code{data.tree::plot.Node}
 }
 \details{
 Edge info and styles have been removed because of problems with \code{DiagrammeR}

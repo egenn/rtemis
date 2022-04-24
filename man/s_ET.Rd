@@ -20,7 +20,7 @@ s_ET(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = resample.seed,
-  n.cores = parallel::detectCores(),
+  n.cores = future::availableCores(),
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,

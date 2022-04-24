@@ -22,7 +22,7 @@ labels2niftis <- function(datamat,
                           labeledNifti,
                           prefix,
                           verbose = TRUE,
-                          n.cores = parallel::detectCores()) {
+                          n.cores = future::availableCores()) {
 
   # Dependencies ----
   dependency_check("oro.nifti")

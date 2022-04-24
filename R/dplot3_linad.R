@@ -2,7 +2,8 @@
 # ::rtemis::
 # 2020 E.D. Gennatas lambdamd.org
 
-#' Plot a Linear Additive Tree trained by \code{s_LINAD} using \strong{visNetwork}
+#' Plot a Linear Additive Tree trained by \code{s_LINAD} using 
+#' \strong{visNetwork}
 #'
 #' @param tree \code{s_LINAD} tree
 #' @param main Character: Title. Default = NULL

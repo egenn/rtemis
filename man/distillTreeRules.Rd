@@ -36,7 +36,7 @@ distillTreeRules(
 Extract rules from RF or GBM model, prune, and remove unnecessary rules using \code{inTrees}
 }
 \details{
-Models must be trained with \link{s_RF} or \link{s_GBM} / \link{s_GBM3}
+Models must be trained with \link{s_RF} or \link{s_GBM}
 }
 \author{
 E.D. Gennatas

@@ -99,7 +99,9 @@ mplot3_harmonograph <- function(steps = seq(1,  500,  by  =  .01),
 #' Relax. Use Ctrl-C to exit (but try to stay relaxed)
 #'
 #' @param sleep Float: Time in seconds between drawings. Default = .5
+#' @param text Character: Text to display
 #' @param max Integer: Max times to repeat. Default = 1000
+#' 
 #' @export
 
 chill <- function(sleep = .5, text = NULL, max = 1000) {

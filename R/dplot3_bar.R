@@ -6,43 +6,72 @@
 #'
 #' Draw interactive barplots using \code{plotly}
 #'
-#' @param x vector (possibly named), matrix, or data.frame: If matrix or data.frame, rows are groups (can be 1 row), columns are features
+#' @param x vector (possibly named), matrix, or data.frame: If matrix or 
+#' data.frame, rows are groups (can be 1 row), columns are features
 #' @param main Character: Plot title. Default = NULL
 #' @param xlab Character: x-axis label. Default = NULL
 #' @param ylab  Character: y-axis label. Default = NULL
-#' @param col Color, vector: Color for bars. Default NULL, which will draw colors from \code{palette}
+#' @param col Color, vector: Color for bars. Default NULL, which will draw 
+#' colors from \code{palette}
 #' @param alpha Float (0, 1]: Transparency for bar colors. Default = .8
-#' @param bg Color: Background color. Default = "white"
-#' @param plot.bg Color: Background color for plot area. Default = "white"
-#' @param theme Character: Theme to use: Run \code{themes()} for available themes
-#' @param palette Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}
-#' @param barmode Character: Type of bar plot to make: "group", "relative", "stack", "overlay". Default = "group". Use
-#' "relative" for stacked bars, wich handles negative values correctly, unlike "stack", as of writing.
-#' @param group.names Character, vector, length = NROW(x): Group names. Default = NULL, which uses \code{rownames(x)}
+#' @param theme Character: Theme to use: Use \code{themes()} to get available 
+#' themes
+#' @param palette Character: Name of \pkg{rtemis} palette to use.
+#'  Default = "rtCol1". Only used if \code{col = NULL}
+#' @param barmode Character: Type of bar plot to make: "group", "relative", 
+#' "stack", "overlay". Default = "group". Use
+#' "relative" for stacked bars, wich handles negative values correctly, 
+#' unlike "stack", as of writing.
+#' @param group.names Character, vector, length = NROW(x): Group names. 
+#' Default = NULL, which uses \code{rownames(x)}
 #' @param order.by.val Logical: If TRUE, order bars by increasing value.
 #' Only use for single group data. Default = NULL
 #' @param ylim Float, vector, length 2: y-axis limits.
-#' @param hovernames Character, vector: Optional character vector to show on hover over each bar.
-#' @param feature.names Character, vector, length = NCOL(x): Feature names. Default = NULL, which uses
-#' \code{colnames(x)}
+#' @param hovernames Character, vector: Optional character vector to show on 
+#' hover over each bar.
+#' @param feature.names Character, vector, length = NCOL(x): Feature names. 
+#' Default = NULL, which uses \code{colnames(x)}
 #' @param font.size  Float: Font size for all labels. Default = 16
-#' @param font.family Character: Font family to use. Default = "Helvetica Neue"
-#' @param main.col Color: Title color. Default = NULL, determined by theme
-#' @param axes.col Color: Axes color. Default = NULL, determined, by theme
-#' @param labs.col Color: Labels' color. Default = NULL, determined by theme
-#' @param legend Logical: If TRUE, draw legend. Default = NULL, and will be turned on if there is
-#' more than one feature present
-#' @param legend.col Color: Legend text color. Default = NULL, determined by theme
-#' @param hline Float: If defined, draw a horizontal line at this y value. Default = NULL
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, and will be 
+#' turned on if there is more than one feature present
+#' @param legend.col Color: Legend text color. Default = NULL, determined by 
+#' theme
+#' @param hline Float: If defined, draw a horizontal line at this y value. 
 #' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
 #' @param hline.width Float: Width for \code{hline}. Default = 1
-#' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+#' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", 
+#' "longdash", "dashdot",
 #' or "longdashdot"
 #' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
-#' @param file.width Integer: File width in pixels for when \code{filename} is set. Default = 500
-#' @param file.height Integer: File height in pixels for when \code{filename} is set. Default = 500
+#' @param output.format Character: "svg", "png", "jpeg", "pdf"
+#' @param file.width Integer: File width in pixels for when \code{filename} is 
+#' set.
+#' @param file.height Integer: File height in pixels for when \code{filename} 
+#' is set.
+#' @param file.scale Numeric: If saving to file, scale plot by this number
+#' @param horizontal Logical: If TRUE, plot bars horizontally
+#' @param annotate Logical: If TRUE, annotate stacked bars
+#' @param annotate.col Color for annotations
+#' @param legend.xy Numeric, vector, length 2: x and y for plotly's legend
+#' @param legend.orientation "v" or "h" for vertical or horizontal
+#' @param legend.xanchor Character: Legend's x anchor: "left", "center", 
+#' "right", "auto"
+#' @param legend.yanchor Character: Legend's y anchor: "top", "middle", 
+#' "bottom", "auto"
+#' @param hline.annotate Character: Text of horizontal line annotation if 
+#' \code{hline} is set
+#' @param hline.annotation.x Numeric: x position to place annotation with paper
+#' as reference. 0: to the left of the plot area; 1: to the right of the plot area
+#' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
+#' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
+#' @param displayModeBar Logical: If TRUE, show plotly's modebar
+#' @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
+#' @param trace Integer: The hight the number the more diagnostic info is 
+#' printed to the console
+#' @param ... Additional arguments passed to theme
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -96,9 +125,11 @@ dplot3_bar <-  function(x,
                         padding = 0,
                         displayModeBar = TRUE,
                         filename = NULL,
+                        output.format = "svg",
                         file.width = 500,
                         file.height = 500,
                         file.scale = 1,
+                        print.plot = TRUE,
                         trace = 0, ...) {
   
   # Dependencies ----
@@ -302,8 +333,8 @@ dplot3_bar <-  function(x,
     
     # Annotate horizontal lines on the right border of the plot
     if (!is.null(hline.annotate)) {
-      plt |> plotly::add_annotations(xref = 'paper', 
-                                     yref = 'y',
+      plt |> plotly::add_annotations(xref = "paper", 
+                                     yref = "y",
                                      xanchor = "right",
                                      yanchor = "bottom",
                                      x = hline.annotation.x,
@@ -321,19 +352,30 @@ dplot3_bar <-  function(x,
   
   # Config
   plt <- plotly::config(plt,
-                        displaylogo = FALSE,
-                        displayModeBar = displayModeBar)
+    displaylogo = FALSE,
+    displayModeBar = displayModeBar,
+    toImageButtonOptions = list(
+      format = output.format,
+      width = file.width,
+      height = file.height
+    )
+  )
   
   # Write to file ----
   if (!is.null(filename)) {
       plotly::save_image(
           plt,
           file.path(filename),
-          with = file.width, height = file.height,
+          with = file.width, 
+          height = file.height,
           scale = file.scale
       )
   }
   
-  plt
+  if (print.plot) {
+      print(plt)
+  } else {
+      invisible(plt)
+  }
   
 } # rtemis::dplot3_bar.R

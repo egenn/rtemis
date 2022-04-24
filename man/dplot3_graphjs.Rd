@@ -33,7 +33,6 @@ dplot3_graphjs(
   par.reset = TRUE,
   filename = NULL,
   verbose = TRUE,
-  elementId = "dplot3graphjs",
   ...
 )
 }
@@ -45,6 +44,8 @@ dplot3_graphjs(
 \item{vertex.col}{Color for vertices}
 
 \item{vertex.label.col}{Color for vertex labels}
+
+\item{vertex.label.alpha}{Numeric: transparency for \code{vertex.label.col}}
 
 \item{vertex.frame.col}{Color for vertex border (frame)}
 
@@ -62,32 +63,44 @@ See \code{graphjs("vertex.shape")}. Default = "circle"}
 
 \item{edge.width}{Numeric: Edge thickness}
 
-\item{layout}{Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds",
+\item{layout}{Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", 
+"lgl", "mds",
 "sugiyama", corresponding to all the available layouts in \pkg{igraph}}
 
-\item{coords}{Output of precomputed \pkg{igraph} layout. If provided, \code{layout} is ignored}
+\item{coords}{Output of precomputed \pkg{igraph} layout. If provided, 
+\code{layout} is ignored}
 
 \item{layout_params}{List of parameters to pass to \code{layout} function}
 
-\item{cluster}{Characer: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
-"leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
+\item{cluster}{Characer: one of: "edge_betweenness", "fast_greedy", 
+"infomap", "label_prop",
+"leading_eigen", "louvain", "optimal", "spinglass", "walktrap", 
+corresponding to all the
 available \pkg{igraph} clustering functions}
 
-\item{groups}{Output of precomputed \pkg{igraph} clustering. If provided, \code{cluster} is
+\item{groups}{Output of precomputed \pkg{igraph} clustering. If provided, 
+\code{cluster} is
 ignored}
 
 \item{cluster_params}{List of parameters to pass to \code{cluster} function}
 
-\item{cluster_mark_groups}{Logical: If TRUE, draw polygons to indicate clusters, if \code{groups}
+\item{cluster_mark_groups}{Logical: If TRUE, draw polygons to indicate 
+clusters, if \code{groups}
 or \code{cluster} defined}
 
-\item{cluster_color_vertices}{Logical: If TRUE, color vertices by cluster membership}
+\item{cluster_color_vertices}{Logical: If TRUE, color vertices by cluster 
+membership}
+
+\item{main}{Character: main title}
 
 \item{theme}{\pkg{rtemis} theme to use}
 
-\item{theme_extra_args}{List of extra arguments to pass to the theme function defined by
-\code{theme}. This argument is used when the extra args (...) are passed the plotting function
-(in this case \code{igraph::plot.igraph}) and not to the theme function}
+\item{theme_extra_args}{List of extra arguments to pass to the theme function 
+defined by \code{theme}. This argument is used when the extra args (...) are 
+passed the plotting function, in this case \code{igraph::plot.igraph} and 
+not to the theme function}
+
+\item{palette}{Color vector or name of rtemis palette}
 
 \item{mar}{Numeric vector, length 4: \code{par}'s margin argument}
 

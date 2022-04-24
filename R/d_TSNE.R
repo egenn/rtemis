@@ -20,6 +20,7 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param ... Options for \code{Rtsne::Rtsne}
 #' @param outdir Path to output directory
+#' 
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas
 #' @family Decomposition
@@ -37,7 +38,7 @@ d_TSNE <- function(x,
                    center = FALSE,
                    is.distance = FALSE,
                    verbose = TRUE,
-                   outdir = "./") {
+                   outdir = "./", ...) {
 
   # Intro ----
   start.time <- intro(verbose = verbose)
@@ -78,7 +79,7 @@ d_TSNE <- function(x,
                         pca = pca,
                         max_iter = max.iter,
                         verbose = verbose,
-                        is_distance = is.distance)
+                        is_distance = is.distance, ...)
 
   # Output ----
   extra <- list()

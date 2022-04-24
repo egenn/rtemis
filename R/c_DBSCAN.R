@@ -10,8 +10,18 @@
 #' \code{minPts}
 #' @param x Input matrix / data.frame
 #' @param x.test Testing set matrix / data.frame
+#' @param eps Numeric: Radius of the epsilon neighborhood
+#' @param minPts Integer: Number of minimum points required in the eps 
+#' neighborhood for core points (including the point itself).
+#' @param weights Numeric vector: Data points' weights. Needed for weighted 
+#' clustering.
+#' @param borderPoints Logical: If TRUE, assign border points to clusters,
+#' otherwise they are considered noise
+#' @param search Character: "kdtree", "linear" or "dist": nearest neighbor 
+#' search strategy
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' 
 #' @author Efstathios D. Gennatas
 #' @family Clustering
 #' @export

@@ -12,17 +12,17 @@ prune.addtree(
 )
 }
 \arguments{
-\item{addtree}{rtMod trained with \link{s.ADDTREE}}
+\item{addtree}{rtMod trained with \link{s_ADDTREE}}
 
-\item{prune.empty.leaves}{Logical: If TRUE, remove leaves with 0 cases. Default = TRUE}
+\item{prune.empty.leaves}{Logical: If TRUE, remove leaves with 0 cases.}
 
 \item{remove.bad.parents}{Logical: If TRUE, remove nodes with no siblings but children and
-give their children to their parent. Default = TRUE}
+give their children to their parent.}
 }
 \description{
 Prune an ADDTREE tree in Node format using \code{data.tree} to remove sister nodes with same
 class estimate.
 }
 \author{
-E.D. Gennatasd
+E.D. Gennatas
 }
