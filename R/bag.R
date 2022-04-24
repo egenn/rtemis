@@ -28,6 +28,22 @@
 #' 
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' # Data ----
+#' set.seed(2018)
+#' x <- rnormmat(500, 50)
+#' colnames(x) <- paste0("Feature", 1:50)
+#' w <- rnorm(50)
+#' y <- .7 * x[, 3]^2 + 1.2 * x[, 10] + .5 * x[, 15] + .8 * x[, 20] + rnorm(500)
+#' dat <- data.frame(x, y)
+#' res <- resample(dat, seed = 2018)
+#' dat_train <- dat[res$Subsample_1, ]
+#' dat_test <- dat[-res$Subsample_1, ]
+#'
+#' # bag ----
+#' mod <- bag(dat_train, dat_test)
+#' }
 
 bag <- function(x, y = NULL,
                 x.test = NULL, y.test = NULL,
