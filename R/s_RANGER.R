@@ -344,11 +344,15 @@ s_RANGER <- function(x, y = NULL,
             #     fitted.all$predictions, 1,
             #     \(n) sum(n == 1)
             # )
-            fitted.freq <- apply(
+            fitted.freq <- t(apply(
                 fitted.all$predictions, 1,
-                table
-            )
+                \(i) {
+                    one <- factor(i, levels = seq_len(nlevels))
+                    as.numeric(table(one))
+                }
+            ))
             fitted.prob <- fitted.freq / n.trees
+            if (nlevels == 2) fitted.prob <- fitted.prob[, 1]
             fitted <- predict(mod, x)$predictions
         } else {
             fitted.prob <- predict(mod, x)$predictions
