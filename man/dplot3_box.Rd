@@ -72,23 +72,25 @@ scaled and centered values or min-max normalized to 0-1, respectively.
 Transform is applied to each variable before grouping, so that groups are
 comparable}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Plot title.}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
-\item{col}{Color, vector: Color for boxes. Default NULL, which will draw colors from \code{palette}}
+\item{col}{Color, vector: Color for boxes. Default NULL, which will draw 
+colors from \code{palette}}
 
-\item{alpha}{Float (0, 1]: Transparency for box colors. Default = .8}
+\item{alpha}{Float (0, 1]: Transparency for box colors.}
 
 \item{bg}{Color: Background color. Default = "white"}
 
-\item{plot.bg}{Color: Background color for plot area. Default = "white"}
+\item{plot.bg}{Color: Background color for plot area.}
 
 \item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
 
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use. 
+Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{boxpoints}{Character or FALSE: "all", "suspectedoutliers", "outliers"
 See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}}
@@ -134,7 +136,8 @@ the legend top right beside the plot area. For example, c(0, 1) places the legen
 \item{xaxis.type}{Character: "linear", "log", "date", "category", "multicategory"
 Default = "category"}
 
-\item{margin}{Named list: plot margins. Default = \code{list(t = 35)}}
+\item{margin}{Named list: plot margins. 
+Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
 
 \item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
 
@@ -152,7 +155,7 @@ boxes.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{filename}{Character: Path to file to save static plot. Default = NULL}
+\item{filename}{Character: Path to file to save static plot.}
 
 \item{output.format}{Character: "svg", "png", "jpeg", "pdf"}
 

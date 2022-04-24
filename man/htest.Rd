@@ -42,6 +42,8 @@ htest(
 
 \item{print.plot}{Logical: If TRUE, print plot. Default = TRUE}
 
+\item{plot.args}{List of arguments to pass to plotting function}
+
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
@@ -75,11 +77,12 @@ ht_fisher <- htest(y, group, test = "fisher")
 
 # cor.test
 x <- rnorm(300)
-y <- x*.3 + rnorm(300)
+y <- x * .3 + rnorm(300)
 ht_pearson <- htest(x = x, y = y, test = "pearson")
 ht_kendall <- htest(x = x, y = y, test = "kendall")
 ht_kendall <- htest(x = x, y = y, test = "spearman")
 }
+
 }
 \author{
 E.D. Gennatas

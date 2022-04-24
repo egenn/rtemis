@@ -45,6 +45,8 @@ lincoef(
  \item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
 }}
 
+\item{type}{Character: "Regression", "Classification", or "Survival"}
+
 \item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
 
 \item{lambda}{Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
@@ -68,6 +70,8 @@ Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for predic
 
 \item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
+
+\item{trace}{Integer: If set to zero, all warnings are ignored}
 }
 \value{
 Named numeric vector of linear coefficients

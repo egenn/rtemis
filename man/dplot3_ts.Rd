@@ -19,7 +19,6 @@ dplot3_ts(
   group.names = NULL,
   xlab = "Time",
   n.xticks = 12,
-  tickmode = "array",
   scatter.type = "scatter",
   legend = TRUE,
   x.showspikes = TRUE,
@@ -43,6 +42,8 @@ dplot3_ts(
 
 \item{window}{Integer: apply \code{roll.fn} over this many units of time}
 
+\item{group}{Factor defining groups}
+
 \item{roll.fn}{Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of \code{x}}
 
 \item{roll.col}{Color for rolling line}
@@ -51,13 +52,41 @@ dplot3_ts(
 
 \item{roll.lwd}{Numeric: width of rolling line}
 
+\item{roll.name}{Rolling function name (for annotation)}
+
+\item{alpha}{Numeric [0, 1]: Transparency}
+
 \item{align}{Character: "center", "right", or "left"}
+
+\item{group.names}{Character vector of group names}
 
 \item{xlab}{Character: x-axis label}
 
 \item{n.xticks}{Integer: number of x-axis ticks to use (approximately)}
 
+\item{scatter.type}{Character: "scatter" or "lines"}
+
+\item{legend}{Logical: If TRUE, show legend}
+
 \item{x.showspikes}{Logical: If TRUE, show x-axis spikes on hover}
+
+\item{y.showspikes}{Logical: If TRUE, show y-axis spikes on hover}
+
+\item{spikedash}{Character: dash type string ("solid", "dot", "dash", 
+"longdash", "dashdot", or "longdashdot") or a dash length list in px 
+(eg "5px,10px,2px,2px")}
+
+\item{spikemode}{Character: If "toaxis", spike line is drawn from the data 
+point to the axis the series is plotted on. If "across", the line is drawn 
+across the entire plot area, and supercedes "toaxis". If "marker", then a 
+marker dot is drawn on the axis the series is plotted on}
+
+\item{spikesnap}{Character: "data", "cursor", "hovered data". Determines 
+whether spikelines are stuck to the cursor or to the closest datapoints.}
+
+\item{spikecolor}{Color for spike lines}
+
+\item{spikethickness}{Numeric: spike line thickness}
 
 \item{displayModeBar}{Logical: If TRUE, display plotly's modebar}
 
@@ -65,10 +94,9 @@ dplot3_ts(
 
 \item{palette}{Character: palette name, or list of colors}
 
-\item{filename}{Character: filename to save plot to}
+\item{filename}{Character: Path to filename to save plot}
 
-\item{use}{Character: "data.table" or "zoo": which package to use to apply
-rolling function}
+\item{...}{Additional arguments to be passed to \link{dplot3_xy}}
 }
 \description{
 Draw interactive timeseries plots using \code{plotly}

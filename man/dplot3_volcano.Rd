@@ -65,6 +65,8 @@ below \code{x.thresh}, non-significant points, and significant points
 above \code{x.thresh} will be plotted with the first, second and third 
 color fo \code{palette}}
 
+\item{x.thresh}{Numeric x-axis threshold separating low from high}
+
 \item{p.thresh}{Numeric: p-value threshold of significance. Default = .05}
 
 \item{p.transform}{function. Default = \code{\(x) -log10(x)}}
@@ -82,15 +84,40 @@ Default = "holm". Use "none" for raw p-values.}
 \item{legend.hi}{Character: Legend to annotate significant points above the
 \code{x.thresh}}
 
+\item{label.lo}{Character: label for low values}
+
+\item{label.hi}{Character: label for high values}
+
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
+
+\item{margin}{Named list of plot margins. 
+Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
 
 \item{xlim}{Numeric vector, length 2: x-axis limits}
 
 \item{ylim}{Numeric vector, length 2: y-axis limits}
 
 \item{alpha}{Numeric: point transparency}
+
+\item{hline}{Float: If defined, draw a horizontal line at this y value.}
+
+\item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
+
+\item{hline.width}{Float: Width for \code{hline}. Default = 1}
+
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
+"longdash", "dashdot",
+or "longdashdot"}
+
+\item{hline.annotate}{Character: Text of horizontal line annotation if
+\code{hline} is set}
+
+\item{hline.annotation.x}{Numeric: x position to place annotation with paper
+as reference. 0: to the left of the plot area; 1: to the right of the plot area}
+
+\item{annotate.col}{Color for annotations}
 }
 \description{
 Volcano Plot

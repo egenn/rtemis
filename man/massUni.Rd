@@ -21,6 +21,8 @@ massUni(
 
 \item{mod}{\pkg{rtemis} algorithm to use. Options: run \code{modSelect()}}
 
+\item{save.mods}{Logical: If TRUE, save fitted models}
+
 \item{verbose}{Logical: If TRUE, print messages during run}
 
 \item{n.cores}{Integer: Number of cores to use}
@@ -28,7 +30,8 @@ massUni(
 \item{...}{Arguments to be passed to \code{mod}}
 }
 \description{
-Run a mass-univariate analysis: same set of features on multiple outcomes
+Run a mass-univariate analysis: same features (predictors) 
+on multiple outcomes
 }
 \author{
 E.D. Gennatas

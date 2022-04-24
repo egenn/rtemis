@@ -124,7 +124,7 @@ theme}
 "longdash", "dashdot",
 or "longdashdot"}
 
-\item{hline.annotate}{Character: Text of horizontal line annotation if 
+\item{hline.annotate}{Character: Text of horizontal line annotation if
 \code{hline} is set}
 
 \item{hline.annotation.x}{Numeric: x position to place annotation with paper

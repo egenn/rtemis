@@ -23,27 +23,33 @@ matchcases(
 
 \item{pool}{data.frame you are looking for matches from}
 
-\item{target.id}{Character: Column name in \code{target} that holds unique cases IDs. Default = NULL,
-in which case integer case numbers will be used}
+\item{n.matches}{Integer: Number of matches to return}
+
+\item{target.id}{Character: Column name in \code{target} that holds unique 
+cases IDs. Default = NULL, in which case integer case numbers will be used}
 
 \item{pool.id}{Character: Same as \code{target.id} for \code{pool}}
 
-\item{exactmatch.factors}{Logical: If TRUE, selected cases will have to exactly match factors
+\item{exactmatch.factors}{Logical: If TRUE, selected cases will have to 
+exactly match factors
 available in \code{target}}
 
-\item{exactmatch.cols}{Character: Names of columns that should be matched exactly}
+\item{exactmatch.cols}{Character: Names of columns that should be matched 
+exactly}
 
-\item{distmatch.cols}{Character: Names of columns that should be distance-matched}
+\item{distmatch.cols}{Character: Names of columns that should be 
+distance-matched}
 
-\item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen once. Default = TRUE}
+\item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen 
+once.}
 
-\item{ignore.na}{Logical: If TRUE, ignore NA values during exact matching. Default = FALSE.}
+\item{ignore.na}{Logical: If TRUE, ignore NA values during exact matching.}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \description{
-Find one or more cases from a `pool` DataFrame that match cases in a target DataFrame.
-Match exactly and/or by distance (sum of squared distance).
+Find one or more cases from a `pool` data.frame that match cases in a target 
+data.frame. Match exactly and/or by distance (sum of squared distance).
 }
 \examples{
 set.seed(2021)

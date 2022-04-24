@@ -101,10 +101,17 @@ Default = 2}
 
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+\item{maxcompete}{Integer: The number of competitor splits saved in the 
+output}
 
 \item{maxsurrogate}{Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
 Default = 0}
+
+\item{usesurrogate}{See \code{rpart::rpart.control}}
+
+\item{surrogatestyle}{See \code{rpart::rpart.control}}
+
+\item{xval}{Integer: Number of cross-validations}
 
 \item{cost}{Vector, Float (> 0): One for each variable in the model.
 See \code{rpart::rpart("cost")}}

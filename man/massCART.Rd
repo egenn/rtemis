@@ -54,12 +54,19 @@ Default = 2}
 
 \item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+\item{maxcompete}{Integer: The number of competitor splits saved in the 
+output}
 
 \item{maxsurrogate}{Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
 Default = 0}
 
+\item{usesurrogate}{See \code{rpart::rpart.control}}
+
+\item{surrogatestyle}{See \code{rpart::rpart.control}}
+
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
+
+\item{xval}{Integer: Number of cross-validations}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}

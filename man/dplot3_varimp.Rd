@@ -28,6 +28,12 @@ dplot3_varimp(
 
 \item{names}{Vector, string: Names of features}
 
+\item{main}{Character: main title}
+
+\item{xlab}{Character: x-axis label}
+
+\item{ylab}{Character: y-axis label}
+
 \item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
 i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
 highest values}
@@ -36,7 +42,10 @@ highest values}
 
 \item{col}{Vector, colors: Single value, or multiple values to define bar (feature) color(s)}
 
-\item{alpha}{Float (0, 1): Alpha for \code{col}}
+\item{alpha}{Numeric: Transparency}
+
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{mar}{Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 Default = c(50, 110, 50, 50)}
@@ -47,7 +56,12 @@ Default = 14}
 \item{axis.font.size}{Integer: Font size to use for axis labels and tick labels
 (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)}
 
+\item{theme}{Output of an rtemis theme function (list of parameters) or theme
+name. Use \code{themes()} to print available themes.}
+
 \item{showlegend}{Logical: If TRUE, show legend}
+
+\item{...}{Additional arguments passed to theme}
 
 \item{pad}{Integer: Pad plot by this many pixels. Default = 10}
 

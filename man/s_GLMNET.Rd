@@ -69,14 +69,15 @@ Default = \code{rtset.resample("kfold", 5)}}
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{intercept}{Logical: If TRUE, include intercept in the model. Default = TRUE}
+\item{intercept}{Logical: If TRUE, include intercept in the model.}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
 \item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
-\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will compute its own lambda sequence}
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will 
+compute its own lambda sequence}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -99,7 +100,7 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{res.summary.fn}{Function: Used to average resample runs. Default = \code{mean}}
+\item{res.summary.fn}{Function: Used to average resample runs.}
 
 \item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,

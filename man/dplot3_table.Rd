@@ -26,6 +26,8 @@ dplot3_table(
 \arguments{
 \item{x}{data.frame: Table to draw}
 
+\item{.ddSci}{Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE}
+
 \item{main}{Character: Table tile. Default = NULL}
 
 \item{main.col}{Color: Title color. Default = "black"}
@@ -54,8 +56,6 @@ Default = "#18A3AC"  (teal)}
 \item{font.family}{Character: Font family. Default = "Helvetica Neue"}
 
 \item{margin}{List: plotly's margins. Default = \code{list(l = 0, r = 5, t = 30, b = 0, pad = 0)}}
-
-\item{ddSci}{Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE}
 }
 \description{
 Draw an html table using \code{plotly}

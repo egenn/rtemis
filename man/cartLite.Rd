@@ -37,9 +37,16 @@ Default = 2}
 
 \item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the output Default = 0}
+\item{maxcompete}{Integer: The number of competitor splits saved in the 
+output}
+
+\item{usesurrogate}{See \code{rpart::rpart.control}}
+
+\item{surrogatestyle}{See \code{rpart::rpart.control}}
 
 \item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
+
+\item{xval}{Integer: Number of cross-validations}
 
 \item{save.fitted}{Logical: If TRUE, save fitted values in output. Default = FALSE}
 }
