@@ -231,7 +231,7 @@ if (requireNamespace("xgboost", quietly = TRUE)) {
 }
 
 # Bagging & Boosting ----
-if (requireNamespace("rpart", quietly = TRUE) & requireNamespace("pbapply", quietly = TRUE)) {
+if (requireNamespace("rpart", quietly = TRUE) & requireNamespace("future.apply", quietly = TRUE)) {
   mod <- bag(dat.train, dat.test, k = 4)
   mod <- bag(iris2.train, iris2.test, k = 10)
   mod <- boost(dat.train, dat.test, max.iter = 4)
