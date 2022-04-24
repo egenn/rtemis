@@ -6,6 +6,12 @@
 \usage{
 ylo(pct_lower = 0.08)
 }
+\arguments{
+\item{pct_lower}{Numeric: Get y this percent below bottom of plot}
+}
 \description{
 Get y below current plot area
+}
+\author{
+E.D. Gennatas
 }

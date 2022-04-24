@@ -26,35 +26,45 @@ sge_submit(
 \arguments{
 \item{expr}{R expression}
 
-\item{obj_names}{Character vector: Names of objects to copy to cluster R session}
+\item{obj_names}{Character vector: Names of objects to copy to cluster R 
+session}
 
-\item{packages}{Character vector: Names of packages to load in cluster R session}
+\item{packages}{Character vector: Names of packages to load in cluster R 
+session}
 
 \item{queue}{Characer: Name of SGE queue to submit to}
 
 \item{n_threads}{Integer: Number of threads to request from scheduler}
 
-\item{sge_out}{Character: Path to directory to write standard out message files}
+\item{sge_out}{Character: Path to directory to write standard out message 
+files}
 
 \item{sge_error}{Character: Path to directory to write error message files}
 
 \item{sge_env}{Character: Shell environment for script to be submitted to SGE}
 
-\item{sge_opts}{Character: SGE options that will be written in shell script. Default = "#$ -cwd"}
+\item{sge_opts}{Character: SGE options that will be written in shell script. 
+Default = "#$ -cwd"}
 
-\item{system_command}{Character: system command to be run by shell script before executing R code.
+\item{R_command}{Character: Optional R command(s) to run at the beginning of
+the R script}
+
+\item{system_command}{Character: system command to be run by shell script 
+before executing R code.
 For example a command that export the R executable to use}
 
-\item{h_rt}{Character: Max time to request. Default = "00:25:00", i.e. 25 minutes}
+\item{h_rt}{Character: Max time to request. Default = "00:25:00", i.e. 25 
+minutes}
 
 \item{mem_free}{Character: Amount of memory to request from the scheduler}
 
-\item{temp_dir}{Character: Temporary directory that is accessible to all execution nodes.
+\item{temp_dir}{Character: Temporary directory that is accessible to all 
+execution nodes.
 Default = \code{file.path(getwd(), ".sge_tempdir")}}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 
-\item{trace}{Integer: If > 0 print diagnostic messages to console. Default = 1}
+\item{trace}{Integer: If > 0 print diagnostic messages to console.}
 }
 \description{
 Submit expression to SGE grid

@@ -8,6 +8,14 @@
 }
 \arguments{
 \item{object}{\link{hytboost} object}
+
+\item{x}{Features}
+
+\item{y}{Outcome}
+
+\item{trace}{Integer: If > 0, print diagnostic messages}
+
+\item{...}{Not used}
 }
 \value{
 \link{hytboost} object

@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\code{shytreegamleaves} object}
+
+\item{...}{Not used}
 }
 \description{
 Print method for \code{shytreegamleaves} object

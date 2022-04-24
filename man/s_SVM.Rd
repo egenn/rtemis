@@ -38,8 +38,6 @@ s_SVM(
   verbose = TRUE,
   grid.verbose = verbose,
   outdir = NULL,
-  save.res = FALSE,
-  osx.alert = FALSE,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
 )
@@ -66,9 +64,9 @@ Default = \code{rtset.resample("kfold", 5)}}
 \item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
 combinations. Default = .1}
 
-\item{class.weights}{Float, length = n levels of outcome: Weights for each outcome class.
-For classification, \code{class.weights} takes precedence over \code{ipw}, therefore set
-\code{class.weights = NULL} if using \code{ipw}. Default = NULL}
+\item{class.weights}{Float, length = n levels of outcome: Weights for each 
+outcome class.For classification, \code{class.weights} takes precedence over 
+\code{ipw}, therefore set \code{class.weights = NULL} if using \code{ipw}.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
@@ -89,14 +87,18 @@ Default = NULL (random seed)}
 
 \item{kernel}{Character: "linear", "polynomial", "radial", "sigmoid"}
 
-\item{degree}{[gS] Integer: Degree for \code{kernel = "polynomial"}. Default = 3}
+\item{degree}{[gS] Integer: Degree for \code{kernel = "polynomial"}.}
 
 \item{gamma}{[gS] Float: Parameter used in all kernels except \code{linear}}
 
-\item{coef0}{[gS] Float: Parameter used by kernels \code{polynomial} and \code{sigmoid}}
+\item{coef0}{[gS] Float: Parameter used by kernels \code{polynomial} and 
+\code{sigmoid}}
 
-\item{cost}{[gS] Float: Cost of constraints violation; the C constant of the regularization term in the Lagrange
-formulation.}
+\item{cost}{[gS] Float: Cost of constraints violation; the C constant of the 
+regularization term in the Lagrange
+  formulation.}
+
+\item{probability}{Logical: If TRUE, model allows probability estimates}
 
 \item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
 Default = NULL, which results in "Balanced Accuracy" for Classification,

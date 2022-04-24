@@ -117,9 +117,11 @@ group}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{proximity}{Logical: If TRUE, calculate proximity measure among cases. Default = FALSE}
+\item{importance}{Logical: If TRUE, estimate variable relative importance.}
 
-\item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
+\item{proximity}{Logical: If TRUE, calculate proximity measure among cases.}
+
+\item{replace}{Logical: If TRUE, sample cases with replacement during training.}
 
 \item{strata}{Vector, Factor: Will be used for stratified sampling}
 
@@ -135,15 +137,16 @@ Select \code{(sampsize.ratio * N minority cases)} cases from majority class.}
 If an integer, \code{randomForest} will report progress every this many trees. Default = \code{n.trees/10} if
 \code{verbose = TRUE}}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, if \code{autotune = TRUE}}
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+when \code{autotune = TRUE}}
 
-\item{imetrics}{Logical: If TRUE, calculate interpretability metrics (N of trees and N of nodes) and save under
-the 'extra' field of \link{rtMod}}
+\item{imetrics}{Logical: If TRUE, calculate interpretability metrics 
+(N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
-\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
+\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

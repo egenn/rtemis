@@ -87,9 +87,11 @@ divided by this value. Default = 1.5}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
-\item{proximity}{Logical: If TRUE, calculate proximity measure among cases. Default = FALSE}
+\item{proximity}{Logical: If TRUE, calculate proximity measure among cases.}
 
-\item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
+\item{importance}{Logical: If TRUE, estimate variable relative importance.}
+
+\item{replace}{Logical: If TRUE, sample cases with replacement during training.}
 
 \item{strata}{Vector, Factor: Will be used for stratified sampling}
 
@@ -97,9 +99,10 @@ divided by this value. Default = 1.5}
 can be a vector of the same length, in which case, corresponding values determine how many cases are drawn from
 the strata.}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, if \code{autotune = TRUE}}
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+when \code{autotune = TRUE}}
 
-\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
+\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

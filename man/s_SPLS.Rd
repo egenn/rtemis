@@ -69,21 +69,27 @@ Default = NULL (random seed)}
 
 \item{eta}{[gS] Float [0, 1): Thresholding parameter. Default = .5}
 
-\item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: controls effect of concavity of objective
-function. Default = .5}
+\item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: 
+controls effect of concavity of objective
+  function. Default = .5}
 
-\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable selection. Default = "pls2"}
+\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable 
+selection. Default = "pls2"}
 
-\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", "oscorespls". Algorithm for model fitting.
-Default = "simpls"}
+\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", 
+"oscorespls". Algorithm for model fitting.}
 
-\item{scale.x}{Logical: if TRUE, scale features by dividing each column by its sample standard deviation}
+\item{scale.x}{Logical: if TRUE, scale features by dividing each column by 
+its sample standard deviation}
 
-\item{scale.y}{Logical: if TRUE, scale outcomes by dividing each column by its sample standard deviation}
+\item{scale.y}{Logical: if TRUE, scale outcomes by dividing each column by 
+its sample standard deviation}
 
-\item{maxstep}{[gS] Integer: Maximum number of iteration when fitting direction vectors. Default = 100}
+\item{maxstep}{[gS] Integer: Maximum number of iteration when fitting 
+direction vectors. Default = 100}
 
-\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" or "logistic": Default = "lda"}
+\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" 
+or "logistic": Default = "lda"}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
 Default = \code{rtset.resample("kfold", 5)}}
@@ -113,6 +119,8 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
+\item{trace}{If > 0 print diagnostic messages}
+
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
@@ -123,7 +131,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{n.cores}{Integer: Number of cores to be used by \link{gridSearchLearn}, if applicable}
+\item{n.cores}{Integer: Number of cores to be used by 
+\link{gridSearchLearn_future}}
 
 \item{...}{Additional parameters to be passed to \code{npreg}}
 }

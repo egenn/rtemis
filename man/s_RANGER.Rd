@@ -152,7 +152,7 @@ Default = "impurity"}
 Only applicable if
 \code{importance} is set to "permutation".}
 
-\item{replace}{Logical: If TRUE, sample cases with replacement during training. Default = TRUE}
+\item{replace}{Logical: If TRUE, sample cases with replacement during training.}
 
 \item{min.node.size}{[gS] Integer: Minimum node size}
 
@@ -167,15 +167,16 @@ For survival "logrank" (Default), "extratrees", "C" or "maxstat".}
 can be a vector of the same length, in which case, corresponding values determine how many cases are drawn from
 the strata.}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, if \code{autotune = TRUE}}
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+when \code{autotune = TRUE}}
 
-\item{imetrics}{Logical: If TRUE, calculate interpretability metrics (N of trees and N of nodes) and save under
-the 'extra' field of \link{rtMod}}
+\item{imetrics}{Logical: If TRUE, calculate interpretability metrics 
+(N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
 \code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
-\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}. Default = FALSE}
+\item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

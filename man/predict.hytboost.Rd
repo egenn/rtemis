@@ -26,6 +26,12 @@
 \code{newdata}}
 
 \item{as.matrix}{Logical: If TRUE, output}
+
+\item{n.cores}{Integer: Number of cores to use}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{...}{Not used}
 }
 \description{
 Predict method for \code{hytboost} object

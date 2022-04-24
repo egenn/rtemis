@@ -18,16 +18,16 @@ s_RULEFIT(
   cases.by.rules = NULL,
   x.name = NULL,
   y.name = NULL,
-  question = NULL,
-  verbose = TRUE,
   n.cores = rtCores,
   which.gbm = c("gbm", "gbm3"),
+  question = NULL,
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = getOption("rt.theme"),
   outdir = NULL,
-  save.mod = if (!is.null(outdir)) TRUE else FALSE
+  save.mod = if (!is.null(outdir)) TRUE else FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -59,9 +59,11 @@ the GBM step is skipped. Default = NULL}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+\item{n.cores}{Integer: Number of cores to use}
 
-\item{verbose}{Logical: If TRUE, print summary to screen.}
+\item{which.gbm}{Character: "gbm" or "gbm3"}
+
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
@@ -78,6 +80,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{verbose}{Logical: If TRUE, print summary to screen.}
 }
 \value{
 \link{rtMod} object

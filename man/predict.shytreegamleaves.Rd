@@ -22,6 +22,11 @@
 
 \item{newdata}{Data frame of predictors}
 
+\item{type}{Character: "response", "probability", "all", "step"}
+
+\item{n.leaves}{Integer: Use the first \code{n.leaves} of the tree for 
+prediction}
+
 \item{fixed.cxr}{[Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
 \code{newdata}}
 
@@ -33,8 +38,7 @@
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{trace}{Integer: 0, 1, or 2. Provides increasing amount to information printed to the
-console}
+\item{...}{Not used}
 }
 \description{
 Predict method for \code{shytreegamleaves} object
