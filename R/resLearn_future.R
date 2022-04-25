@@ -41,6 +41,9 @@ resLearn_future <- function(x, y, mod,
                             n.workers = 1,
                             parallel.type = "nobodycares") {
 
+    # Dependencies ----
+    dependency_check("future.apply")
+    
     # Intro ----
     start.time <- intro(
         verbose = trace > 0,
