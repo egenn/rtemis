@@ -3,6 +3,7 @@
 S3method(coef,lihad)
 S3method(coef,rtMod)
 S3method(fitted,rtMod)
+S3method(format,call)
 S3method(oneHot,data.frame)
 S3method(oneHot,data.table)
 S3method(oneHot,default)
