@@ -8,6 +8,7 @@
 #'
 #' @docType class
 #' @name rtDecom-class
+#' 
 #' @field decom.name Character: Name of decomposition algorithm
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output
@@ -19,6 +20,7 @@
 #' @field projections.train Input data projected on new axes / basis
 #' @field projections.test Input test data projected on new axes / basis
 #' @field extra List: Algorithm-specific output
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -42,6 +44,10 @@ rtDecom <- R6::R6Class("rtDecom",
                           #' @param xnames Character vector: feature names
                           #' @param decom Decomposition object
                           #' @param parameters list of decomposition algorithm parameters
+                          #' @param center Numeric vector of column means if centering was applied using \code{scale()}
+                          #' prior to decomposition
+                          #' @param scale Numeric vector of column scale factor if scaling was applied using \code{scale()}
+                          #' prior to decomposition
                           #' @param projections.train Training set projections
                           #' @param projections.test Testing set projections
                           #' @param extra Optional list of algorithm-specific info
@@ -50,8 +56,8 @@ rtDecom <- R6::R6Class("rtDecom",
                                                 xnames = character(),
                                                 decom = list(),
                                                 parameters = list(),
-                                                # center = numeric(),
-                                                # scale = numeric(),
+                                                center = numeric(),
+                                                scale = numeric(),
                                                 projections.train = numeric(),
                                                 projections.test = numeric(),
                                                 extra = list()) {
@@ -60,8 +66,8 @@ rtDecom <- R6::R6Class("rtDecom",
                             self$xnames <- xnames
                             self$decom <- decom
                             self$parameters <- parameters
-                            # self$center <- center
-                            # self$scale <- scale
+                            self$center <- center
+                            self$scale <- scale
                             self$projections.train <- projections.train
                             self$projections.test <- projections.test
                             self$extra <- extra
