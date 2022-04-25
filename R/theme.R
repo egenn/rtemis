@@ -8,12 +8,13 @@
 #'
 #' @param bg Color: Figure background
 #' @param plot.bg Color: Plot region background
-#' @param fg Color: Foreground color used as default for multiple elements like axes and labels, which can
-#' be defined separately
+#' @param fg Color: Foreground color used as default for multiple elements like 
+#' axes and labels, which can be defined separately
 #' @param pch Integer: Point character. Default = 16
 #' @param cex Float: Character expansion factor. Default = 1.2
 #' @param lwd Float: Line width. Default = 2
-#' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". Default = "n" (no box)
+#' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
+#' Default = "n" (no box)
 #' @param box.col Box color if \code{bty != "n"}
 #' @param box.alpha Float: Box alpha
 #' @param box.lty Integer: Box line type
@@ -33,16 +34,18 @@
 #' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
 #' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
 #' @param labs.col Labels' color
-#' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within plot limits
+#' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within 
+#' plot limits
 #' @param zerolines.col Zerolines color
 #' @param zerolines.alpha Float: Zerolines alpha
 #' @param zerolines.lty Integer: Zerolines line type
 #' @param zerolines.lwd Float: Zerolines line width
-#' @param main.line Float: How many lines away from the plot region to draw title. Default = .5
+#' @param main.line Float: How many lines away from the plot region to draw 
+#' title. Default = .5
 #' @param main.adj Float: How to align title. Default = 0 (left-align)
 #' @param main.font Integer: 1: Regular, 2: Bold
 #' @param main.col Title color
-#' @param font.family Character: Font to be used throughout plot. Must be available to the OS
+#' @param font.family Character: Font to be used throughout plot.
 #'
 #' @rdname theme
 #' @export
@@ -99,7 +102,7 @@ theme_black <- function(bg = "#000000",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = getOption("rt.font", "")) {
+                        font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -212,7 +215,7 @@ theme_blackgrid <- function(bg = "#000000",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font", "")) {
+                            font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -325,7 +328,7 @@ theme_blackigrid <- function(bg = "#000000",
                              main.adj = 0,
                              main.font = 2,
                              main.col = fg,
-                             font.family = getOption("rt.font", "")) {
+                             font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -439,7 +442,7 @@ theme_darkgray <- function(bg = "#121212",
                            main.adj = 0,
                            main.font = 2,
                            main.col = fg,
-                           font.family = getOption("rt.font", "")) {
+                           font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -551,7 +554,7 @@ theme_darkgraygrid <- function(bg = "#121212",
                                main.adj = 0,
                                main.font = 2,
                                main.col = fg,
-                               font.family = getOption("rt.font", "")) {
+                               font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -663,7 +666,7 @@ theme_darkgrayigrid <- function(bg = "#121212",
                                 main.adj = 0,
                                 main.font = 2,
                                 main.col = fg,
-                                font.family = getOption("rt.font", "")) {
+                                font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -777,7 +780,7 @@ theme_white <- function(bg = "#ffffff",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = getOption("rt.font", "")) {
+                        font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -889,7 +892,7 @@ theme_whitegrid <- function(bg = "#ffffff",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = getOption("rt.font", "")) {
+                            font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1001,7 +1004,7 @@ theme_whiteigrid <- function(bg = "#ffffff",
                              main.adj = 0,
                              main.font = 2,
                              main.col = fg,
-                             font.family = getOption("rt.font", "")) {
+                             font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1115,7 +1118,7 @@ theme_lightgraygrid <- function(bg = "#dfdfdf",
                                 main.adj = 0,
                                 main.font = 2,
                                 main.col = fg,
-                                font.family = getOption("rt.font", "")) {
+                                font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1228,7 +1231,7 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
                                  main.adj = 0,
                                  main.font = 2,
                                  main.col = fg,
-                                 font.family = getOption("rt.font", "")) {
+                                 font.family = rtFont) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1286,7 +1289,13 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
   
 } # rtemis::theme_mediumdgray
 
+#' Print available rtemis themes
+#' 
+#' @export
 themes <- function() {
-     cat("Available themes:\n")
-     cat('    "white", "whitegrid", "whiteigrid",\n    "black", "blackgrid", "blackigrid",\n    "darkgray", "darkgraygrid", "darkgrayigrid",\n    "lightgraygrid", "mediumgraygrid"\n')
+     cat(rtHighlight("  Available themes:\n"))
+     cat('    "white", "whitegrid", "whiteigrid,\n')
+     cat('    "black", "blackgrid", "blackigrid",\n')
+     cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
+     cat('    "lightgraygrid", "mediumgraygrid"\n')
 }
