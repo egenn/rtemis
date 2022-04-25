@@ -62,7 +62,7 @@ theme_black(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_blackgrid(
@@ -113,7 +113,7 @@ theme_blackgrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_blackigrid(
@@ -164,7 +164,7 @@ theme_blackigrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_darkgray(
@@ -215,7 +215,7 @@ theme_darkgray(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_darkgraygrid(
@@ -266,7 +266,7 @@ theme_darkgraygrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_darkgrayigrid(
@@ -317,7 +317,7 @@ theme_darkgrayigrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_white(
@@ -368,7 +368,7 @@ theme_white(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_whitegrid(
@@ -419,7 +419,7 @@ theme_whitegrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_whiteigrid(
@@ -470,7 +470,7 @@ theme_whiteigrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_lightgraygrid(
@@ -521,7 +521,7 @@ theme_lightgraygrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 
 theme_mediumgraygrid(
@@ -572,7 +572,7 @@ theme_mediumgraygrid(
   main.adj = 0,
   main.font = 2,
   main.col = fg,
-  font.family = getOption("rt.font", "")
+  font.family = rtFont
 )
 }
 \arguments{
@@ -580,8 +580,8 @@ theme_mediumgraygrid(
 
 \item{plot.bg}{Color: Plot region background}
 
-\item{fg}{Color: Foreground color used as default for multiple elements like axes and labels, which can
-be defined separately}
+\item{fg}{Color: Foreground color used as default for multiple elements like 
+axes and labels, which can be defined separately}
 
 \item{pch}{Integer: Point character. Default = 16}
 
@@ -589,7 +589,8 @@ be defined separately}
 
 \item{lwd}{Float: Line width. Default = 2}
 
-\item{bty}{Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". Default = "n" (no box)}
+\item{bty}{Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
+Default = "n" (no box)}
 
 \item{box.col}{Box color if \code{bty != "n"}}
 
@@ -627,7 +628,8 @@ be defined separately}
 
 \item{labs.col}{Labels' color}
 
-\item{zerolines}{Logical: If TRUE, draw lines on x = 0, y = 0, if within plot limits}
+\item{zerolines}{Logical: If TRUE, draw lines on x = 0, y = 0, if within 
+plot limits}
 
 \item{zerolines.col}{Zerolines color}
 
@@ -637,7 +639,8 @@ be defined separately}
 
 \item{zerolines.lwd}{Float: Zerolines line width}
 
-\item{main.line}{Float: How many lines away from the plot region to draw title. Default = .5}
+\item{main.line}{Float: How many lines away from the plot region to draw 
+title. Default = .5}
 
 \item{main.adj}{Float: How to align title. Default = 0 (left-align)}
 
@@ -645,7 +648,7 @@ be defined separately}
 
 \item{main.col}{Title color}
 
-\item{font.family}{Character: Font to be used throughout plot. Must be available to the OS}
+\item{font.family}{Character: Font to be used throughout plot.}
 
 \item{axes}{Logical: If TRUE, draw axes}
 }
