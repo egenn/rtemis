@@ -554,7 +554,7 @@ setNodeRC <- function(g,
 
 
 # [[---3. splitlineRC---]] ----
-#' \code{rtemis} internal: Ridge and Stump
+#' Ridge and Stump
 #'
 #' Edits environment 'g' in-place (no output)
 #'
