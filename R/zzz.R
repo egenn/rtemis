@@ -21,7 +21,7 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage(paste0(
-        "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
+        "  .:", pkgname, " ", rtemis.version, "\U1F30A", ": Welcome, ", Sys.getenv("USER"),
         "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
         "\n  Documentation: https://rtemis.lambdamd.org",
         "\n  Learn R: https://class.lambdamd.org/pdsr",
