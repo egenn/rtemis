@@ -56,7 +56,11 @@ c_MEANSHIFT <- function(x,
   clust.name <- "MEANSHIFT"
 
   # Data ----
-  .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
+  .colnames <- if (is.null(colnames(x))) {
+    paste0("Feature_", seq(NCOL(x)))
+  } else {
+    colnames(x)
+  }
   x <- as.matrix(x)
   xnames <- colnames(x) <- .colnames
 
