@@ -53,12 +53,13 @@
 #' using \code{n.cores} or the xgboost execution using this setting. At the moment of writing, parallelization via this
 #' parameter causes a linear booster to fail most of the times. Therefore, default is rtCores
 #' for 'gbtree', 1 for 'gblinear'
+#' 
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
-#' @export
+#' @keywords internal
 
 s_XGB <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
