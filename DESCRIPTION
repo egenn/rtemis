@@ -9,7 +9,7 @@ License: GPL (>=3)
 URL: https://rtemis.lambdamd.org
 ByteCompile: yes
 Imports: grDevices, graphics, stats, methods, utils, data.table, R6,
-  future, crayon
+  future, crayon, htmltools
 Suggests: 
     ada,
     arm,
@@ -51,7 +51,6 @@ Suggests:
     gsubfn,
     heatmaply,
     hopach,
-    htmltools,
     htmlwidgets,
     h2o,
     ica,
