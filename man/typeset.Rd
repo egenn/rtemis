@@ -14,18 +14,22 @@ typeset(
 \arguments{
 \item{x}{data frame: input whose columns' types you want to edit}
 
-\item{factor.index}{Integer, vector: Index of columns to be converted to factors using \code{factor(x)}}
+\item{factor.index}{Integer, vector: Index of columns to be converted to 
+factors using \code{factor(x)}}
 
-\item{orderedfactor.index}{Integer, vector: Index of columns to be converted to ordered factors
-using \code{factor(x, ordered = TRUE)}}
+\item{orderedfactor.index}{Integer, vector: Index of columns to be 
+converted to ordered factors using \code{factor(x, ordered = TRUE)}}
 
-\item{integer.index}{Integer, vector: Index of columns to be converted to integers using \code{as.integer}}
+\item{integer.index}{Integer, vector: Index of columns to be converted to 
+integers using \code{as.integer}}
 }
 \description{
-Given an index of columns, convert identified columns of data.frame to factor, ordered factor,
-or integer. A number of datasets are distributed with an accompanying index of this sort,
-especially to define which variables should be treated as categorical (here, factors) for
-predicting modeling. This functions aims to make data type conversions in those cases easier.
+Given an index of columns, convert identified columns of data.frame to 
+factor, ordered factor, or integer. A number of datasets are distributed 
+with an accompanying index of this sort, especially to define which 
+variables should be treated as categorical (here, factors) for predicting 
+modeling. This functions aims to make data type conversions in those cases 
+easier.
 }
 \author{
 E.D. Gennatas
