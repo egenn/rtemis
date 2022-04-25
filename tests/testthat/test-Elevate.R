@@ -1,6 +1,6 @@
 # Data ----
 
-options(rt.font = "Helvetica")
+options(rt.font = "sans")
 
 # '- Regression ----
 x <- rnormmat(200, 5)

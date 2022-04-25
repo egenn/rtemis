@@ -1,6 +1,6 @@
 # Test Static Graphics
 
-options(rt.font = "Helvetica")
+options(rt.font = "sans")
 
 # mplot3_box ----
 test_that("mplot3_box succeeds", {

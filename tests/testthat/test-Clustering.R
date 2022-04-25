@@ -1,7 +1,7 @@
 # ::rtemis::
 # Clustering Tests ----
 
-options(rt.font = "Helvetica")
+options(rt.font = "sans")
 
 # Data ----
 x <- rnormmat(100, 10)

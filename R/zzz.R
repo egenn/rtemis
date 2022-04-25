@@ -6,13 +6,13 @@ rtenv <- new.env()
 rtemis.version <- packageVersion("rtemis")
 .availableCores <- parallelly::availableCores()
 rtCores <- getOption("rt.cores", .availableCores)
+rtFont <- getOption("rt.font", "Helvetica")
 # Set initial plan e.g. for s_ with gridSearchLearn,
-# will be overwritten by resLearn for nested plan
+# **will be overwritten by resLearn for nested plan as appropriate**
 rtPlan <- getOption(
     "future.plan",
     ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
 )
-# ogplan <-
 future::plan(rtPlan)
 # rtProgress <- getOption("rt.progress", "global")
 # if (rtProgress == "global") progressr::handlers(global = TRUE)

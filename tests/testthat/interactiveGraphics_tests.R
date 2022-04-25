@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+options(rt.font = "sans")
 library(rtemis)
 
 if (requireNamespace("plotly", quietly = TRUE)) {

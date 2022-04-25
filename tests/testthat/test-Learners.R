@@ -1,6 +1,6 @@
 # Supervised Learning Tests ----
 
-options(rt.font = "Helvetica")
+options(rt.font = "sans")
 
 # Data ----
 # '- Regression ----

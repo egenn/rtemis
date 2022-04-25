@@ -1,6 +1,8 @@
 # ::rtemis::
 # Crossdecomposition Tests ----
 
+options(rt.font = "sans")
+
 # Data ----
 x <- rnormmat(50, 10)
 z <- rnormmat(50, 10)

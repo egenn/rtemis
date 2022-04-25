@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+options(rt.font = "sans")
+
 if (requireNamespace("psych", quietly = TRUE) &&
   requireNamespace("GPArotation", quietly = TRUE) &&
   requireNamespace("lavaan", quietly = TRUE)) {

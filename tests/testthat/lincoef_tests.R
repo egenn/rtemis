@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas egenn.github.io
 
+options(rt.font = "sans")
+
 # Library ====
 library(rtemis)
 

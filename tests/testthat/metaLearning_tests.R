@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2019 Efstathios D. Gennatas MBBS AICSM PhD egenn.github.io
 
+options(rt.font = "sans")
 library(rtemis)
 
 # Regression Data ====

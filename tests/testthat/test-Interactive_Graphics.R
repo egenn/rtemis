@@ -1,6 +1,6 @@
 # Test Interactive Graphics
 
-# options(rt.font = "Helvetica")
+options(rt.font = "sans")
 
 # dplot3_box ----
 test_that("dplot3_box succeeds", {

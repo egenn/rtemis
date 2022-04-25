@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2018-20 Efstathios D. Gennatas MBBS AICSM PhD lambdamd.org
 
+options(rt.font = "sans")
 library(rtemis)
 
 # Synth data ====
