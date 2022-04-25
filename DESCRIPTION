@@ -115,8 +115,6 @@ Suggests:
     R.utils,
     scales (>= 0.2.5),
     sgd,
-    snow,
-    snowfall,
     sparklyr,
     sparseLDA,
     splines2,
