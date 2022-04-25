@@ -28,7 +28,7 @@ s_ADABOOST(
   verbose = TRUE,
   trace = 0,
   outdir = NULL,
-  save.mod = ifelse(!is_null(outdir), TRUE, FALSE),
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
 )
 }

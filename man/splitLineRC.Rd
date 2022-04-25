@@ -2,7 +2,7 @@
 % Please edit documentation in R/shytreegamleaves.R
 \name{splitlineRC}
 \alias{splitlineRC}
-\title{\code{rtemis} internal: Ridge and Stump}
+\title{Ridge and Stump}
 \usage{
 splitlineRC(
   g,

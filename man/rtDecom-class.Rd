@@ -60,6 +60,8 @@ Initiali \code{rtDecom} object
   xnames = character(),
   decom = list(),
   parameters = list(),
+  center = numeric(),
+  scale = numeric(),
   projections.train = numeric(),
   projections.test = numeric(),
   extra = list()
@@ -76,6 +78,12 @@ Initiali \code{rtDecom} object
 \item{\code{decom}}{Decomposition object}
 
 \item{\code{parameters}}{list of decomposition algorithm parameters}
+
+\item{\code{center}}{Numeric vector of column means if centering was applied using \code{scale()}
+prior to decomposition}
+
+\item{\code{scale}}{Numeric vector of column scale factor if scaling was applied using \code{scale()}
+prior to decomposition}
 
 \item{\code{projections.train}}{Training set projections}
 
