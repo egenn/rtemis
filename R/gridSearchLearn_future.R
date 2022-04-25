@@ -58,7 +58,9 @@ gridSearchLearn_future <- function(x, y, mod,
                                    call.depth = 1,
                                    grid.verbose = FALSE,
                                    n.cores = rtCores) {
-
+    # Dependencies ----
+    dependency_check("future.apply")
+    
     # Intro ----
     start.time <- intro(
         verbose = verbose,
