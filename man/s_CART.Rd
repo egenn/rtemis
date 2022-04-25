@@ -48,8 +48,7 @@ s_CART(
   verbose = TRUE,
   grid.verbose = verbose,
   outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-  rtModLog = NULL
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
 )
 }
 \arguments{

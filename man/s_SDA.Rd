@@ -14,18 +14,24 @@ s_SDA(
   maxIte = 100,
   Q = NULL,
   tol = 1e-06,
+  .preprocess = rtset.preprocess(scale = TRUE, center = TRUE),
   upsample = TRUE,
   downsample = FALSE,
   resample.seed = NULL,
   x.name = NULL,
   y.name = NULL,
+  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.search.type = c("exhaustive", "randomized"),
+  grid.randomized.p = 0.1,
+  metric = NULL,
+  maximize = NULL,
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = getOption("rt.theme"),
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
+  grid.verbose = verbose,
   trace = 0,
   outdir = NULL,
   n.cores = rtCores,
@@ -42,6 +48,20 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{lambda}{L2-norm weight for elastic net regression}
+
+\item{stop}{If STOP is negative, its absolute value corresponds to the desired number of variables. If STOP is positive, it corresponds to an upper bound on the L1-norm of the b coefficients. There is a one to one correspondence between stop and t. The default is -p (-the number of variables).}
+
+\item{maxIte}{Integer: Maximum number of iterations}
+
+\item{Q}{Integer: Number of components}
+
+\item{tol}{Numeric: Tolerance for change in RSS, which is the stopping
+criterion}
+
+\item{.preprocess}{List of preprocessing parameters. Scaling and centering
+is enabled by default, because it is crucial for algorithm to learn.}
+
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
@@ -55,6 +75,20 @@ Default = NULL (random seed)}
 
 \item{y.name}{Character: Name for outcome}
 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
+Default = \code{rtset.resample("kfold", 5)}}
+
+\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+
+\item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
+combinations. Default = .1}
+
+\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
+Default = NULL, which results in "Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
@@ -67,15 +101,16 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
+
+\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
+\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
@@ -86,6 +121,19 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \description{
 Train an SDA Classifier using \code{sparseLDA::sda}
+}
+\examples{
+\dontrun{
+datc2 <- iris[51:150, ]
+datc2$Species <- factor(datc2$Species)
+resc2 <- resample(datc2)
+datc2_train <- datc2[resc2$Subsample_1, ]
+datc2_test <- datc2[-resc2$Subsample_1, ]
+# Without scaling or centering, fails to learn
+mod_c2 <- s_SDA(datc2_train, datc2_test, .preprocess = NULL)
+# Learns fine with default settings (scaling & centering)
+mod_c2 <- s_SDA(datc2_train, datc2_test)
+}
 }
 \seealso{
 \link{elevate} for external cross-validation

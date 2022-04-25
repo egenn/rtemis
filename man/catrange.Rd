@@ -13,7 +13,7 @@ catrange(x, ddSci = TRUE, decimal.places = 1, na.rm = TRUE)
 
 \item{decimal.places}{Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1}
 
-\item{na.rm}{Logical: passe to \link{base::range}}
+\item{na.rm}{Logical: passed to \code{base::range}}
 }
 \description{
 Print range of continuous variable
