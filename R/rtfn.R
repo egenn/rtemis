@@ -402,7 +402,7 @@ roundtofrac <- function(x, t = .5) {
 #' @param x Numeric vector
 #' @param ddSci Logical: If TRUE, use \link{ddSci} or range. Default = TRUE
 #' @param decimal.places Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1
-#' @param na.rm Logical: passe to \link{base::range}
+#' @param na.rm Logical: passed to \code{base::range}
 #'
 #' @author E.D. Gennatas
 #' @export
