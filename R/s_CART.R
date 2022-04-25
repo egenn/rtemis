@@ -90,8 +90,7 @@ s_CART <- function(x, y = NULL,
                    verbose = TRUE,
                    grid.verbose = verbose,
                    outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                   rtModLog = NULL) {
+                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
     # .call <- match.call()
     tree.depth <- getFromNamespace("tree.depth", "rpart")
 
