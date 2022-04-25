@@ -41,18 +41,22 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{mod}{Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"}
+\item{mod}{Character: Algorithm to train base learners, for options, see 
+\link{modSelect}. Default = "cart"}
 
-\item{resid}{Float, vector, length = length(y): Residuals to work on. Do not change unless you know
-what you're doing. Default = NULL, for regular boosting}
+\item{resid}{Float, vector, length = length(y): Residuals to work on. Do 
+not change unless you know what you're doing. Default = NULL, for regular 
+boosting}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 
-\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
+\item{max.iter}{Integer: Maximum number of iterations (additive steps) to 
+perform. Default = 10}
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
-\item{case.p}{Float (0, 1]: Train each iteration using this perceent of cases. Default = 1, i.e. use all cases}
+\item{case.p}{Float (0, 1]: Train each iteration using this perceent of 
+cases. Default = 1, i.e. use all cases}
 
 \item{prefix}{Internal}
 
@@ -60,9 +64,10 @@ what you're doing. Default = NULL, for regular boosting}
 
 \item{trace}{Integer: If > 0, print diagnostic info to console}
 
-\item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
-end of training. If integer, plot training and validation error curve every this many iterations
-during training. "none" for no plot.}
+\item{print.error.plot}{String or Integer: "final" plots a training and 
+validation (if available) error curve at the end of training. If integer, 
+plot training and validation error curve every this many iterations during 
+training. "none" for no plot.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}

@@ -9,7 +9,7 @@
 #'
 #' @param x Either training set features or combined training features and 
 #' outcome in last column
-#' @param Either training set outcome or combined testing set features and
+#' @param y Either training set outcome or combined testing set features and
 #' outcome in last column.
 #' @param x.test Testing set features
 #' @param y.test Testing set outcome

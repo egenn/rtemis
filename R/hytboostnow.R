@@ -23,6 +23,7 @@
 #' during training
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
+#' 
 #' @return \code{hytboostnow} object
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -78,13 +79,13 @@ hytboostnow <- function(x, y,
   # mod.params <- c(mod.params, extra.args)
   if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
-  # [ BOOST ] ----
+  # [ Boost ] ----
   # hytreenow params ----
   mod.params <- list(max.depth = max.depth,
                      # gamma = gamma,
                      shrinkage = shrinkage,
                      minobsinnode.lin = minobsinnode.lin,
-                     # licoef params --
+                     # lincoef params --
                      alpha = alpha,
                      lambda = lambda,
                      lambda.seq = lambda.seq,
@@ -366,6 +367,7 @@ predict.hytboostnow <- function(object,
 #'
 #' @inheritParams hytboostnow
 #' @param object \link{boost} object
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -409,7 +411,7 @@ expand.hytboostnow <- function(object,
 #' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 as.hytboostnow <- function(object,
                            x, y,
@@ -451,9 +453,10 @@ as.hytboostnow <- function(object,
 #'
 #' @method update hytboostnow
 #' @param object \link{hytboostnow} object
+#' 
 #' @return \link{hytboostnow} object
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 # TODO: save penultimate fitted, add last
 
 update.hytboostnow <- function(object, x, y = NULL,
@@ -479,7 +482,7 @@ update.hytboostnow <- function(object, x, y = NULL,
 #' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 
 as.hytboostnow2 <- function(object,
                             x, y,

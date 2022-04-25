@@ -9,31 +9,43 @@
 #' Train an ensemble using boosting of any learner
 #'
 #' If \code{learning.rate} is set to 0, a nullmod will be created
+#' 
 #' @inheritParams s_GLM
 #' @param x.valid Data.frame; optional: Validation data
 #' @param y.valid Float, vector; optional: Validation outcome
-#' @param mod Character: Algorithm to train base learners, for options, see \link{modSelect}. Default = "cart"
-#' @param resid Float, vector, length = length(y): Residuals to work on. Do not change unless you know
-#' what you're doing. Default = NULL, for regular boosting
+#' @param mod Character: Algorithm to train base learners, for options, see 
+#' \link{modSelect}. Default = "cart"
+#' @param resid Float, vector, length = length(y): Residuals to work on. Do 
+#' not change unless you know what you're doing. Default = NULL, for regular 
+#' boosting
 #' @param boost.obj [Internal use]
 #' @param mod.params Named list of arguments for \code{mod}
-#' @param case.p Float (0, 1]: Train each iteration using this perceent of cases. Default = 1, i.e. use all cases
+#' @param case.p Float (0, 1]: Train each iteration using this perceent of 
+#' cases. Default = 1, i.e. use all cases
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
+#' @param earlystop.params List with early stopping parameters.
+#' Set using \link{rtset.earlystop}
+#' @param earlystop.using Character: "train" or "valid". For the latter,
+#' requires \code{x.valid}
 #' @param init Float: Initial value for prediction. Default = mean(y)
 #' @param tolerance Float: If training error <= this value, training stops
-#' @param tolerance.valid Float: If validation error <= this value, training stops
-#' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
+#' @param tolerance.valid Float: If validation error <= this value, training 
+#' stops
+#' @param max.iter Integer: Maximum number of iterations (additive steps) to 
+#' perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
 #' @param print.progress.every Integer: Print progress over this many iterations
 #' @param base.verbose Logical: \code{verbose} argument passed to learner
-#' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
-#' end of training. If integer, plot training and validation error curve every this many iterations
-#' during training. "none" for no plot.
-#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
-#' for each base learner
-#' @param plot.type Character: "l" or "p". Plot using lines or points. Default = "l"
+#' @param print.error.plot String or Integer: "final" plots a training and 
+#' validation (if available) error curve at the end of training. If integer, 
+#' plot training and validation error curve every this many iterations during 
+#' training. "none" for no plot.
+#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base 
+#' learner, i.e. if TRUE, print error plot for each base learner
+#' @param plot.type Character: "l" or "p". Plot using lines or points.
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to learner define by \code{mod}
+#' 
 #' @author E.D. Gennatas
 #' @export
 
