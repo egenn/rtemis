@@ -4,13 +4,13 @@
 
 library(rtemis)
 
-# Regression Data ====
+# Regression Data ----
 x <- rnormmat(100, 5)
 w <- rnorm(5)
 y <- x %*% w + rnorm(100)
 dat <- data.frame(x, y)
 
-# Classification Data ====
+# Classification Data ----
 iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 

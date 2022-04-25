@@ -29,7 +29,7 @@ mplot3_adsr()
 set.seed(2019)
 x1 <- rnorm(10)
 names(x1) <- paste0("c", seq(x1))
-mplot3_bar(x1, theme = "lightgrid")
+mplot3_bar(x1, theme = "whitegrid")
 
 # '- b. matrix ====
 x1 <- rnormmat(3, 6, seed = 2019)
@@ -43,7 +43,7 @@ mplot3_bar(x1, group.legend = FALSE)
 # mplot3_box ====
 mplot3_box(z)
 mplot3_box(z, theme = "whitegrid")
-mplot3_box(z, theme = "lightgrid")
+mplot3_box(z, theme = "whitegrid")
 
 # mplot3_xy ===
 mplot3_xy(x, y)
