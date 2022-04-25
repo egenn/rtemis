@@ -30,7 +30,7 @@ dplot3_pvals(
 
 \item{hline.dash}{Character: type of line to draw. Default = "dash"}
 
-\item{...}{Additional arguments passed to \link{dplot_bar}}
+\item{...}{Additional arguments passed to \link{dplot3_bar}}
 }
 \description{
 Plot 1 - p-values as a barplot

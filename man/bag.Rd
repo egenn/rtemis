@@ -113,13 +113,9 @@ for each base learner}
 
 \item{parallel.type}{Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows}
 
-\item{outdir}{Path to output directory.
-If defined, will save Predicted vs. True plot, if available,
-as well as full model output, if \code{save.mod} is TRUE}
+\item{outdir}{Character: Path to output directory to save model. Default = NULL}
 
 \item{...}{Additional parameters to be passed to learner}
-
-\item{outdir:}{Character: Path to output directory to save model. Default = NULL}
 }
 \description{
 Train a bagged ensemble using any learner

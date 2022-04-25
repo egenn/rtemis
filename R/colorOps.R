@@ -92,8 +92,6 @@ sqcoldist <- function(x, y) {
 #' @author E.D. Gennatas
 #' @export 
 #' 
-#' @examples
-#' 
 
 order_colors <- function(x, start_with = 1, order_by = c("similarity", "dissimilarity")) {
     order_by <- match.arg(order_by)
@@ -185,7 +183,7 @@ col2grayscale <- function(x,
 #' first
 #' @param order_by Character: "similarity" or "dissimilarity"
 #' 
-#' @author 
+#' @author E.D. Gennatas
 #' @export
 palettize <- function(x,
                       grayscale_hicut = .8,

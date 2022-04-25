@@ -28,5 +28,5 @@ Filter and order a set of colors to produce a palette suitable for
 multicolor plots
 }
 \author{
-
+E.D. Gennatas
 }

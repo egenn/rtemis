@@ -16,9 +16,6 @@ order_colors(x, start_with = 1, order_by = c("similarity", "dissimilarity"))
 \description{
 Order colors by RGB distance
 }
-\examples{
-
-}
 \author{
 E.D. Gennatas
 }
