@@ -150,6 +150,7 @@ elevate <- function(x, y = NULL,
                     debug = FALSE, ...) {
 
     # Intro ----
+    .call <- match.call()
     if (missing(x)) {
         cat("Usage:\n")
         print(args(elevate))
@@ -668,6 +669,7 @@ elevate <- function(x, y = NULL,
             fitted.bag = fitted.bag,
             error.bag = error.bag,
             varimp = varimp,
+            call = .call,
             question = question
         )
     } else {

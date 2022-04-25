@@ -1273,6 +1273,7 @@ predict.rtModBag <- function(object,
 #' @field error.bag Bagged model's error
 #' @field varimp Resamples' variable importance
 #' @field question Question the model is hoping to answer
+#' @field call elevate call
 #' @field sessionInfo R session info at time of training
 #' 
 #' @export
@@ -1314,6 +1315,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          error.bag = NULL,
                          varimp = NULL,
                          question = NULL,
+                         call = NULL,
                          sessionInfo = NULL,
                          # Initialize rtModCV ----
                          #' @description
@@ -1358,6 +1360,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          #' @param error.bag Bagged model's error
                          #' @param varimp Resamples' variable importance
                          #' @param question Question the model is hoping to answer
+                         #' @param call elevate call
                          #' @param sessionInfo R session info at time of training
                          initialize = function(mod = NULL,
                                                mod.name = NULL,
@@ -1393,6 +1396,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                                fitted.bag = NULL,
                                                error.bag = NULL,
                                                varimp = NULL,
+                                               call = NULL,
                                                question = NULL) {
                            self$mod <- mod
                            self$mod.name <- mod.name
@@ -1429,6 +1433,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            self$error.bag <- error.bag
                            self$varimp <- varimp
                            self$question <- question
+                           self$call <- call
                            self$sessionInfo <- sessionInfo()
                          },
                          # Methods
@@ -1838,6 +1843,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                           #' @param error.bag Bagged model's error
                                           #' @param varimp Resamples' variable importance
                                           #' @param question Question the model is hoping to answer
+                                          #' @param call elevate call
                                           #' @param sessionInfo R session info at time of training
                                           initialize = function(mod = NULL,
                                                                 mod.name = NULL,
@@ -1875,6 +1881,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                                 fitted.bag = NULL,
                                                                 error.bag = NULL,
                                                                 varimp = NULL,
+                                                                call = NULL,
                                                                 question = NULL) {
                                             super$initialize(mod,
                                                              mod.name,
@@ -1910,6 +1917,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                              fitted.bag,
                                                              error.bag,
                                                              varimp,
+                                                             call,
                                                              question)
                                             self$fitted.prob.aggr <- fitted.prob.aggr
                                             self$predicted.prob.aggr <- predicted.prob.aggr

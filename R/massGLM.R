@@ -62,6 +62,7 @@ massGLM <- function(x, y,
                     n.cores = 1) {
             
     # Intro ----
+    .call <- match.call()
     start.time <- intro(verbose = verbose)
 
     # Data ----
@@ -130,7 +131,8 @@ massGLM <- function(x, y,
         xnames = xnames,
         coefnames = names(coef(mods[[1]])),
         ynames = ynames,
-        type = type
+        type = type,
+        call = .call
     )
     class(out) <- c("massGLM", "list")
     if (print.plot) print(plot(out))
