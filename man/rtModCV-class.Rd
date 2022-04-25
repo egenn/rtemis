@@ -87,6 +87,8 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 
 \item{\code{question}}{Question the model is hoping to answer}
 
+\item{\code{call}}{elevate call}
+
 \item{\code{sessionInfo}}{R session info at time of training}
 }
 \if{html}{\out{</div>}}
@@ -145,6 +147,7 @@ Initialize \code{rtModCV} object
   fitted.bag = NULL,
   error.bag = NULL,
   varimp = NULL,
+  call = NULL,
   question = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -220,6 +223,8 @@ Initialize \code{rtModCV} object
 \item{\code{error.bag}}{Bagged model's error}
 
 \item{\code{varimp}}{Resamples' variable importance}
+
+\item{\code{call}}{elevate call}
 
 \item{\code{question}}{Question the model is hoping to answer}
 
