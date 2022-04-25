@@ -44,3 +44,6 @@ inst/doc
 # Temporary files created by editors
 *~
 .vscode/
+
+# PDFs
+*.pdf
