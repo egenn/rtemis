@@ -153,7 +153,7 @@ print.massGLM <- function(x, ...) {
     .text <- paste(
         "Mass-univariate GLM analysis with", nx,
         ngettext(nx, "predictor", "predictors"),
-        "and", ny, ngettext(ny, "outcome", "outcomes")
+        "and", ny, ngettext(ny, "outcome", "outcomes\n")
     )
     cat(.text)
     invisible(.text)
