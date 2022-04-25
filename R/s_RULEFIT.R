@@ -21,6 +21,9 @@
 #' selection step
 #' @param cases.by.rules Matrix of cases by rules from a previoue rulefit run. If provided,
 #' the GBM step is skipped. Default = NULL
+#' @param n.cores Integer: Number of cores to use
+#' @param which.gbm Character: "gbm" or "gbm3"
+#' 
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
 #' @references Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",
@@ -40,16 +43,16 @@ s_RULEFIT <- function(x, y = NULL,
                        cases.by.rules = NULL,
                        x.name = NULL,
                        y.name = NULL,
-                       question = NULL,
-                       verbose = TRUE,
                        n.cores = rtCores,
                        which.gbm = c("gbm", "gbm3"),
+                       question = NULL,
                        print.plot = TRUE,
                        plot.fitted = NULL,
                        plot.predicted = NULL,
                        plot.theme = getOption("rt.theme"),
                        outdir = NULL,
-                       save.mod = if (!is.null(outdir)) TRUE else FALSE) {
+                       save.mod = if (!is.null(outdir)) TRUE else FALSE,
+                       verbose = TRUE) {
 
   # Intro ----
   if (missing(x)) {

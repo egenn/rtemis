@@ -7,6 +7,7 @@
 #'
 #' Trains a POLYMARS model using \code{polspline::polymars} and validates it
 #'
+#' @inheritParams s_CART
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features

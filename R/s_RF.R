@@ -22,7 +22,7 @@
 #' 1 (Classification)
 #' @param maxnodes [gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
 #' grown to maximum possible
-#' @param replace Logical: If TRUE, sample cases with replacement during training. Default = TRUE
+#' @param replace Logical: If TRUE, sample cases with replacement during training.
 #' @param classwt Vector, Float: Priors of the classes for classification only. Need not add up to 1
 #' @param upsample Logical: If TRUE, upsample training set cases not belonging in majority outcome
 #' group
@@ -34,15 +34,16 @@
 #' @param sampsize.ratio Float (0, 1): Heuristic of sorts to increase sensitivity in unbalanced
 #' cases. Sample with replacement from minority case to create bootstraps of length N cases.
 #' Select \code{(sampsize.ratio * N minority cases)} cases from majority class.
-# @param importance Logical: If TRUE, estimate variable relative importance. Default = TRUE
-#' @param proximity Logical: If TRUE, calculate proximity measure among cases. Default = FALSE
+#' @param importance Logical: If TRUE, estimate variable relative importance.
+#' @param proximity Logical: If TRUE, calculate proximity measure among cases.
 #' @param do.trace Logical or integer: If TRUE, \code{randomForest} will outpout information while it is running.
 #' If an integer, \code{randomForest} will report progress every this many trees. Default = \code{n.trees/10} if
 #' \code{verbose = TRUE}
-#' @param tune.do.trace Same as \code{do.trace} but for tuning, if \code{autotune = TRUE}
-#' @param imetrics Logical: If TRUE, calculate interpretability metrics (N of trees and N of nodes) and save under
-#' the 'extra' field of \link{rtMod}
-#' @param print.tune.plot Logical: passed to \code{randomForest::tuneRF}. Default = FALSE
+#' @param tune.do.trace Same as \code{do.trace} but for tuning, 
+#' when \code{autotune = TRUE}
+#' @param imetrics Logical: If TRUE, calculate interpretability metrics 
+#' (N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}
+#' @param print.tune.plot Logical: passed to \code{randomForest::tuneRF}.
 #' @param proximity.tsne Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
 #' \link{rtMod}. Default = FALSE
 #' @param discard.forest Logical: If TRUE, remove forest from \link{rtMod} object to save space.

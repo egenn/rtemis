@@ -20,6 +20,7 @@
 #' @param loss.fn Function with arguments \code{y, Fval }
 #' Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
 #' \code{mse()} for regression
+#' 
 #' @author E.D. Gennatas
 #' @keywords internal
 
@@ -557,12 +558,14 @@ setNodeRC <- function(g,
 #'
 #' Edits environment 'g' in-place (no output)
 #'
-#' @param tree Node within tree environment
-#' @param node.index Open nodes to work on
-#'
 #' Fit a linear model on (x, y) and split on the gradient
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
+#' 
+#' @param tree Node within tree environment
+#' @param node.index Open nodes to work on
+#' 
+#' @keywords internal
 
 splitlineRC <- function(g,
                         type,
@@ -962,16 +965,19 @@ splitlineRC <- function(g,
 #' @method predict shytreegamleaves
 #' @param object \code{shytreeRaw}
 #' @param newdata Data frame of predictors
+#' @param type Character: "response", "probability", "all", "step"
+#' @param n.leaves Integer: Use the first \code{n.leaves} of the tree for 
+#' prediction
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
 #' \code{newdata}
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param trace Integer: 0, 1, or 2. Provides increasing amount to information printed to the
-#' console
-#' @export
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
+#' @export
 
 predict.shytreegamleaves <- function(object, newdata,
                                      type = c("response", "probability", "all", "step"),
@@ -1128,6 +1134,8 @@ predict.shytreegamleaves <- function(object, newdata,
 #'
 #' @method print shytreegamleaves
 #' @param x \code{shytreegamleaves} object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -1141,7 +1149,6 @@ print.shytreegamleaves <- function(x, ...) {
 
 
 }
-
 
 #' Convert \link{shytreegamleaves} to \code{data.tree} object
 #'
@@ -1171,6 +1178,12 @@ class.lossw <- function(y, Fval, weights) {
 }
 
 # [[---6. selectleaves---]] ----
+#' Select leaves
+#' 
+#' Select number of leaves based on validation error
+#' 
+#' @keywords internal
+
 selectleaves <- function(object,
                          x, y,
                          x.valid, y.valid,

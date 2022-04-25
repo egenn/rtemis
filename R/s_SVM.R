@@ -15,16 +15,20 @@
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @inheritParams resample
-#' @param class.weights Float, length = n levels of outcome: Weights for each outcome class.
-#' For classification, \code{class.weights} takes precedence over \code{ipw}, therefore set
-#' \code{class.weights = NULL} if using \code{ipw}. Default = NULL
+#' @param class.weights Float, length = n levels of outcome: Weights for each 
+#' outcome class.For classification, \code{class.weights} takes precedence over 
+#' \code{ipw}, therefore set \code{class.weights = NULL} if using \code{ipw}.
 #' @param kernel Character: "linear", "polynomial", "radial", "sigmoid"
-#' @param degree [gS] Integer: Degree for \code{kernel = "polynomial"}. Default = 3
-#' @param cost [gS] Float: Cost of constraints violation; the C constant of the regularization term in the Lagrange
+#' @param degree [gS] Integer: Degree for \code{kernel = "polynomial"}.
+#' @param cost [gS] Float: Cost of constraints violation; the C constant of the 
+#' regularization term in the Lagrange
 #'   formulation.
+#' @param probability Logical: If TRUE, model allows probability estimates
 #' @param gamma [gS] Float: Parameter used in all kernels except \code{linear}
-#' @param coef0 [gS] Float: Parameter used by kernels \code{polynomial} and \code{sigmoid}
+#' @param coef0 [gS] Float: Parameter used by kernels \code{polynomial} and 
+#' \code{sigmoid}
 #' @param ... Additional arguments to be passed to \code{e1071::svm}
+#' 
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
@@ -60,8 +64,6 @@ s_SVM <- function(x, y = NULL,
                   verbose = TRUE,
                   grid.verbose = verbose,
                   outdir = NULL,
-                  save.res = FALSE,
-                  osx.alert = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # Intro ----

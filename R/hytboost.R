@@ -321,6 +321,8 @@ print.hytboost <- function(x, ...) {
 #' @param as.matrix Logical: If TRUE, output 
 #' @param n.cores Integer: Number of cores to use
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param ... Not used
+#' 
 #' @method predict hytboost
 #' @author E.D. Gennatas
 #' @export
@@ -378,6 +380,7 @@ predict.hytboost <- function(object,
 #'
 #' @inheritParams hytboost
 #' @param object \link{boost} object
+#' 
 #' @author E.D. Gennatas
 #' @keywords internal
 
@@ -463,6 +466,11 @@ as.hytboost <- function(object,
 #'
 #' @method update hytboost
 #' @param object \link{hytboost} object
+#' @param x Features
+#' @param y Outcome
+#' @param trace Integer: If > 0, print diagnostic messages
+#' @param ... Not used
+#' 
 #' @return \link{hytboost} object
 #' @author E.D. Gennatas
 #' @keywords internal

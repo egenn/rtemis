@@ -10,7 +10,7 @@
 #'   training set prior to training model on full training set
 #'   Interactions: PPR automatically models interactions, no need to specify them
 #'
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param nterms [gS] Integer: number of terms to include in the final model
 #' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}
 #' @param sm.method [gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.

@@ -1,26 +1,35 @@
 # sge_submit.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas lambdamd.org
 
 #' Submit expression to SGE grid
 #'
 #' @param expr R expression
-#' @param obj_names Character vector: Names of objects to copy to cluster R session
-#' @param packages Character vector: Names of packages to load in cluster R session
+#' @param obj_names Character vector: Names of objects to copy to cluster R 
+#' session
+#' @param packages Character vector: Names of packages to load in cluster R 
+#' session
 #' @param queue Characer: Name of SGE queue to submit to
 #' @param n_threads Integer: Number of threads to request from scheduler
-#' @param sge_out Character: Path to directory to write standard out message files
+#' @param sge_out Character: Path to directory to write standard out message 
+#' files
 #' @param sge_error Character: Path to directory to write error message files
 #' @param sge_env Character: Shell environment for script to be submitted to SGE
-#' @param sge_opts Character: SGE options that will be written in shell script. Default = "#$ -cwd"
-#' @param system_command Character: system command to be run by shell script before executing R code.
+#' @param sge_opts Character: SGE options that will be written in shell script. 
+#' Default = "#$ -cwd"
+#' @param R_command Character: Optional R command(s) to run at the beginning of
+#' the R script
+#' @param system_command Character: system command to be run by shell script 
+#' before executing R code.
 #' For example a command that export the R executable to use
-#' @param h_rt Character: Max time to request. Default = "00:25:00", i.e. 25 minutes
+#' @param h_rt Character: Max time to request. Default = "00:25:00", i.e. 25 
+#' minutes
 #' @param mem_free Character: Amount of memory to request from the scheduler
-#' @param temp_dir Character: Temporary directory that is accessible to all execution nodes.
+#' @param temp_dir Character: Temporary directory that is accessible to all 
+#' execution nodes.
 #' Default = \code{file.path(getwd(), ".sge_tempdir")}
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
-#' @param trace Integer: If > 0 print diagnostic messages to console. Default = 1
+#' @param trace Integer: If > 0 print diagnostic messages to console.
 #'
 #' @author E.D. Gennatas
 #' @export

@@ -12,14 +12,23 @@ textwidth <- function(x) {
 
 #' Get y below current plot area
 #'
+#' @param pct_lower Numeric: Get y this percent below bottom of plot
+#'
+#' @author E.D. Gennatas
+#' @export
 
 ylo <- function(pct_lower = .08) {
-
   ylo <- par("usr")[3]
   yhi <- par("usr")[4]
   ylo - pct_lower * (yhi - ylo)
-
 }
+
+#' Get y above current plot area
+#'
+#' @param pct_higher Numeric: Get y this percent above top of plot
+#'
+#' @author E.D. Gennatas
+#' @export
 
 yhi <- function(pct_higher = .08) {
 
