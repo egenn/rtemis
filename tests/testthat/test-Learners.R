@@ -1,7 +1,8 @@
-# Data ----
+# Supervised Learning Tests ----
 
 options(rt.font = "Helvetica")
 
+# Data ----
 # '- Regression ----
 x <- rnormmat(200, 5)
 y <- x[, 3] + x[, 5] + rnorm(200)

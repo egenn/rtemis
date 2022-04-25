@@ -87,5 +87,5 @@ if (requireNamespace("ranger", quietly = TRUE)) {
 }
 
 # eightball ----
-eightball("Are you ready?")
+# eightball("Are you ready?")
 
