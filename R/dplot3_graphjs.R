@@ -79,9 +79,9 @@ dplot3_graphjs <- function(net,
             cluster_mark_groups = TRUE,
             cluster_color_vertices = FALSE,
             main = "",
-            theme = getOption("rt.theme"),
+            theme = rtTheme,
             theme_extra_args = list(),
-            palette = getOption("rt.palette", "rtCol1"),
+            palette = rtPalette,
             mar = rep(0, 4),
             par.reset = TRUE,
             filename = NULL,
@@ -96,7 +96,7 @@ dplot3_graphjs <- function(net,
     theme <- do.call(paste0("theme_", theme), theme_extra_args)
   }
   
-  if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
+  if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
 
   # Vertex names ----
   # by default use names in input net.

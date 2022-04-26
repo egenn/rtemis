@@ -89,8 +89,8 @@ dplot3_ts <- function(x, time,
                       spikecolor = NULL,
                       spikethickness = 1,
                       displayModeBar = TRUE,
-                      theme = getOption("rt.theme"),
-                      palette = getOption("rt.palette", "rtCol1"),
+                      theme = rtTheme,
+                      palette = rtPalette,
                       filename = NULL, ...) {
 
     # Arguments ----
@@ -146,7 +146,7 @@ dplot3_ts <- function(x, time,
     }
 
     # Palette ----
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     if (is.null(roll.col)) roll.col <- palette[seq_along(x)]
 
     # dplot3_xy ----
@@ -203,4 +203,5 @@ dplot3_ts <- function(x, time,
     }
 
     plt
+    
 } # rtemis::dplot3_ts

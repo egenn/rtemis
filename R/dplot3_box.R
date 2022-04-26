@@ -93,7 +93,7 @@
 #' @param file.height Integer: File height in pixels for when \code{filename}
 #' is set.
 #' @param file.scale Numeric: If saving to file, scale plot by this number
-#' @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
+# @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
 #' @param ... Additional arguments passed to theme
 #'
 #' @author E.D. Gennatas
@@ -140,8 +140,8 @@ dplot3_box <- function(
             alpha = .6,
             bg = NULL,
             plot.bg = NULL,
-            theme = getOption("rt.theme"),
-            palette = getOption("rt.palette", "rtCol1"),
+            theme = rtTheme,
+            palette = rtPalette,
             boxpoints = "outliers",
             quartilemethod = "linear",
             # width = 0,
@@ -177,7 +177,7 @@ dplot3_box <- function(
             file.width = 500,
             file.height = 500,
             file.scale = 1,
-            print.plot = TRUE,
+            # print.plot = TRUE,
             ...) {
 
     # Dependencies ----
@@ -249,7 +249,7 @@ dplot3_box <- function(
     }
 
     # Colors ----
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
     if (!is.null(order.by.fn) && order.by.fn != "none") {
         col <- col[.order]
@@ -700,10 +700,6 @@ dplot3_box <- function(
         )
     }
 
-    if (print.plot) {
-        print(plt)
-    } else {
-        invisible(plt)
-    }
+    plt
 
 } # rtemis::dplot3_box.R

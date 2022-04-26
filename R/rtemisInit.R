@@ -279,12 +279,24 @@ rtemis_init <- function(n.cores = 1,
     }
 } # rtemis::rtemis_init
 
-
-# rtPlan <- function(parallel_plan = NULL) {
-
-#     getOption(
-#         "future.plan",
-#         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-#     )
-
+rtPlanInit <- function() {
+    getOption(
+        "future.plan",
+        ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+    )
+}
+rtCoresInit <- function() {
+    getOption("rt.cores", .availableCores)
+}
+rtPaletteInit <- function() {
+    getOption("rt.palette", "rtCol1")
+}
+rtThemeInit <- function() {
+    getOption("rt.theme", "darkgraygrid")
+}
+rtFontInit <- function() {
+    getOption("rt.font", "Helvetica")
+}
+# rtWarnInit <- function() {
+#     getOption("rt.warn", 1)
 # }

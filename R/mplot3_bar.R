@@ -73,8 +73,8 @@ mplot3_bar <- function(x,
                        ylim.pad = .04,
                        # y.axis.padj = 1,
                        # tck = -.015,
-                       theme = getOption("rt.theme"),
-                       palette = getOption("rt.palette", "rtCol1"),
+                       theme = rtTheme,
+                       palette = rtPalette,
                        autolabel = letters,
                        par.reset = TRUE,
                        pdf.width = 6,
@@ -84,7 +84,7 @@ mplot3_bar <- function(x,
   # [ Arguments ] ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   x <- as.matrix(x)
   if (!is.null(error)) error <- as.matrix(error)
   if (NCOL(x) == 1) {

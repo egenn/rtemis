@@ -134,7 +134,7 @@ elevate <- function(x, y = NULL,
                     print.plot = TRUE,
                     plot.fitted = FALSE,
                     plot.predicted = TRUE,
-                    plot.theme = getOption("rt.theme"),
+                    plot.theme = rtTheme,
                     print.res.plot = FALSE,
                     question = NULL,
                     verbose = TRUE,
@@ -720,6 +720,7 @@ elevate <- function(x, y = NULL,
             error.test.repeats.mean = error.test.repeats.mean,
             error.test.repeats.sd = error.test.repeats.sd,
             varimp = varimp,
+            call = .call,
             question = question
         )
     }

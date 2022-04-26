@@ -36,8 +36,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
                        alpha = .8,
                        bg = NULL,
                        plot.bg = NULL,
-                       theme = getOption("rt.theme"),
-                       palette = getOption("rt.palette", "rtCol1"),
+                       theme = rtTheme,
+                       palette = rtPalette,
                        axes.square = FALSE,
                        group.names = NULL,
                        font.size = 16,
@@ -189,7 +189,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
   if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
 

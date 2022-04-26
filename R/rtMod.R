@@ -155,7 +155,7 @@ rtMod <- R6::R6Class("rtMod",
                        #' @param filename Character: Path to file to save plot
                        #' @param ... Additional arguments passed to plotting function
                        plot = function(estimate = NULL,
-                                       theme = getOption("rt.theme"),
+                                       theme = rtTheme,
                                        filename = NULL, ...) {
                          "Plot predicted vs. true if available, otherwise fitted vs. true"
                          if (!is.null(estimate)) {
@@ -185,7 +185,7 @@ rtMod <- R6::R6Class("rtMod",
                        #' @param filename Character: path to file to save plot
                        #' @param ... Additional arguments passed to plotting function
                        plotFitted = function(print.plot = TRUE,
-                                             theme = getOption("rt.theme"),
+                                             theme = rtTheme,
                                              main = NULL,
                                              filename = NULL, ...) {
                          "Plot fitted vs. true values for Regression or confusion matrix for Classification"
@@ -221,7 +221,7 @@ rtMod <- R6::R6Class("rtMod",
                        #' @param filename Character: path to file to save plot
                        #' @param ... Additional arguments passed to plotting function
                        plotPredicted = function(print.plot = TRUE,
-                                                theme = getOption("rt.theme"),
+                                                theme = rtTheme,
                                                 main = NULL,
                                                 filename = NULL, ...) {
                          "Plot predicted vs. true values"
@@ -260,7 +260,7 @@ rtMod <- R6::R6Class("rtMod",
                        #' @param filename Character: path to file to save plot
                        #' @param ... Additional arguments passed to \code{mplot3_conf}
                        plotFittedPredicted = function(print.plot = TRUE,
-                                                      theme = getOption("rt.theme"),
+                                                      theme = rtTheme,
                                                       filename = NULL, ...) {
                          "Plot fitted & predicted vs. true values"
                          if (self$type == "Classification") {
@@ -304,7 +304,7 @@ rtMod <- R6::R6Class("rtMod",
                        #' @param ... Not used
                        plotVarImp = function(plot.top = 12,
                                              type = c("barplot", "lollipop"),
-                                             theme = getOption("rt.theme"), ...) {
+                                             theme = rtTheme, ...) {
                          if (length(self$varimp) == 0) {
                            warning("Variable importance is not available for this model")
                          } else {
@@ -346,7 +346,7 @@ rtMod <- R6::R6Class("rtMod",
                                           fit.legend = TRUE,
                                           se.fit = TRUE,
                                           single.fig = TRUE,
-                                          theme = getOption("rt.theme"),
+                                          theme = rtTheme,
                                           title.col = NULL, ...) {
                          "Get model summary"
                          summary.rtMod(self)
@@ -684,7 +684,7 @@ residuals.rtMod <- function(object, ...) {
 #' @rdname rtMod-methods
 #' @export
 plot.rtMod <- function(x, estimate = NULL,
-                       theme = getOption("rt.theme"),
+                       theme = rtTheme,
                        filename = NULL, ...) {
 
   x$plot(estimate = estimate,
@@ -723,7 +723,7 @@ summary.rtMod <- function(object,
                           se.fit = TRUE,
                           single.fig = TRUE,
                           summary = TRUE,
-                          theme = getOption("rt.theme"),
+                          theme = rtTheme,
                           title.col = NULL, ...) {
 
   # [ Arguments ]
@@ -930,7 +930,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param theme Theme to pass to plotting function
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
-                                        plotROC = function(theme = getOption("rt.theme"),
+                                        plotROC = function(theme = rtTheme,
                                                            filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -950,7 +950,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
                                         plotROCfitted = function(main = "ROC Training",
-                                                                 theme = getOption("rt.theme"),
+                                                                 theme = rtTheme,
                                                                  filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3_roc(self$fitted.prob, self$y.train,
@@ -969,7 +969,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
                                         plotROCpredicted = function(main = "ROC Testing",
-                                                                    theme = getOption("rt.theme"),
+                                                                    theme = rtTheme,
                                                                     filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3_roc(self$predicted.prob, self$y.test,
@@ -986,7 +986,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param theme Theme to pass to plotting function
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
-                                        plotPR = function(theme = getOption("rt.theme"),
+                                        plotPR = function(theme = rtTheme,
                                                           filename = NULL, ...) {
                                           if (length(self$fitted.prob) == 0)
                                             stop("Estimated probabilities are not available")
@@ -1006,7 +1006,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
                                         plotPRfitted = function(main = "P-R Training",
-                                                                theme = getOption("rt.theme"),
+                                                                theme = rtTheme,
                                                                 filename = NULL, ...) {
                                           if (length(self$fitted.prob) > 0) {
                                             mplot3_pr(self$fitted.prob, self$y.train,
@@ -1025,7 +1025,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                         #' @param filename Character: Path to file to save plot
                                         #' @param ... Extra arguments to pass to plotting function
                                         plotPRpredicted = function(main = "P-R Testing",
-                                                                   theme = getOption("rt.theme"),
+                                                                   theme = rtTheme,
                                                                    filename = NULL, ...) {
                                           if (length(self$predicted.prob) > 0) {
                                             mplot3_pr(self$predicted.prob, self$y.test,
@@ -1479,7 +1479,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          #' @param mar Numeric vector of plot margins
                          #' @param ... Additional arguments passed to plotting function
                          plotPredicted = function(which.repeat = 1,
-                                                  theme = getOption("rt.theme"),
+                                                  theme = rtTheme,
                                                   filename = NULL,
                                                   mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated predicted vs. true values"
@@ -1521,7 +1521,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          #' @param mar Numeric vector of plot margins
                          #' @param ... Additional arguments passed to plotting function
                          plotFitted = function(which.repeat = 1,
-                                               theme = getOption("rt.theme"),
+                                               theme = rtTheme,
                                                filename = NULL,
                                                mar = c(2.5, 3, 2.5, 1), ...) {
                            "R6 method: Plot aggregated fitted vs. true values"
@@ -1565,7 +1565,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          plotVarImp = function(which.repeat = 1,
                                                type = c("barplot", "lollipop"),
                                                plot.top = 12,
-                                               theme = getOption("rt.theme"), ...) {
+                                               theme = rtTheme, ...) {
                            varimp <- colMeans(self$varimp[[which.repeat]])
                            if (length(varimp) == 0) {
                              warning("Variable importance is not available for this model")

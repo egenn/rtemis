@@ -40,7 +40,7 @@ mplot3_pr <- function(prob, labels,
                       annot.font = 1,
                       mar = c(2.5, 3, 2.5, 1),
                       theme = getOption("rt.theme", "whitegrid"),
-                      palette = getOption("rt.palette", "rtCol1"),
+                      palette = rtPalette,
                       par.reset = TRUE,
                       verbose = TRUE,
                       filename = NULL,
@@ -92,7 +92,7 @@ mplot3_pr <- function(prob, labels,
   }
 
   # Colors ----
-  if (is.null(col)) col <- rtPalette(palette)
+  if (is.null(col)) col <- rtpalette(palette)
 
   # mplot3_xy ----
   if (exists("rtpar", envir = rtenv)) par.reset <- FALSE

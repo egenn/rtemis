@@ -102,7 +102,7 @@ theme_black <- function(bg = "#000000",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = rtFont) {
+                        font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -215,7 +215,7 @@ theme_blackgrid <- function(bg = "#000000",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = rtFont) {
+                            font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -328,7 +328,7 @@ theme_blackigrid <- function(bg = "#000000",
                              main.adj = 0,
                              main.font = 2,
                              main.col = fg,
-                             font.family = rtFont) {
+                             font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -442,7 +442,7 @@ theme_darkgray <- function(bg = "#121212",
                            main.adj = 0,
                            main.font = 2,
                            main.col = fg,
-                           font.family = rtFont) {
+                           font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -554,7 +554,7 @@ theme_darkgraygrid <- function(bg = "#121212",
                                main.adj = 0,
                                main.font = 2,
                                main.col = fg,
-                               font.family = rtFont) {
+                               font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -666,7 +666,7 @@ theme_darkgrayigrid <- function(bg = "#121212",
                                 main.adj = 0,
                                 main.font = 2,
                                 main.col = fg,
-                                font.family = rtFont) {
+                                font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -780,7 +780,7 @@ theme_white <- function(bg = "#ffffff",
                         main.adj = 0,
                         main.font = 2,
                         main.col = fg,
-                        font.family = rtFont) {
+                        font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -892,7 +892,7 @@ theme_whitegrid <- function(bg = "#ffffff",
                             main.adj = 0,
                             main.font = 2,
                             main.col = fg,
-                            font.family = rtFont) {
+                            font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1004,7 +1004,7 @@ theme_whiteigrid <- function(bg = "#ffffff",
                              main.adj = 0,
                              main.font = 2,
                              main.col = fg,
-                             font.family = rtFont) {
+                             font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1118,7 +1118,7 @@ theme_lightgraygrid <- function(bg = "#dfdfdf",
                                 main.adj = 0,
                                 main.font = 2,
                                 main.col = fg,
-                                font.family = rtFont) {
+                                font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,
@@ -1231,7 +1231,7 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
                                  main.adj = 0,
                                  main.font = 2,
                                  main.col = fg,
-                                 font.family = rtFont) {
+                                 font.family = getOption("rt.font", "Helvetica")) {
   
   list(bg = bg,
        plot.bg = plot.bg,

@@ -15,7 +15,7 @@
 #' @param zoom Logical: If TRUE, graph is zoomable. Default = TRUE
 #' @param legend Logical: If TRUE, display legend for groups
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtPalette()}
+#' \code{rtpalette()}
 #' @param theme rtemis theme to use
 #' @param ... Additional arguments to pass to \code{networkD3}
 #' 
@@ -31,8 +31,8 @@ dplot3_graphd3 <- function(
             edge.alpha = .33,
             zoom = TRUE,
             legend = FALSE,
-            palette = getOption("rt.palette", "rtCol1"),
-            theme = getOption("rt.theme"),
+            palette = rtPalette,
+            theme = rtTheme,
             ...) {
 
   # Dependencies ----
@@ -60,7 +60,7 @@ dplot3_graphd3 <- function(
       color.scale <- paste0('d3.scaleOrdinal().domain(["A"]).range(["',
                             adjustcolor(node.col, node.alpha), '"]);')
     } else {
-      if (is.character(palette)) palette <- adjustcolor(unlist(rtPalette(palette)), node.alpha)
+      if (is.character(palette)) palette <- adjustcolor(unlist(rtpalette(palette)), node.alpha)
       ngroups <- length(unique(groups))
       .groups <- paste0(sort(unique(groups)), collapse = '", "')
       if (ngroups > length(palette)) {

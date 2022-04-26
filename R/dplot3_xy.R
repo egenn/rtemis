@@ -55,8 +55,8 @@ dplot3_xy <- function(x, y = NULL,
             alpha = NULL,
             bg = NULL,
             plot.bg = NULL,
-            theme = getOption("rt.theme"),
-            palette = getOption("rt.palette", "rtCol1"),
+            theme = rtTheme,
+            palette = rtPalette,
             axes.square = FALSE,
             group.names = NULL,
             font.size = 16,
@@ -237,7 +237,7 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     # Colors ----
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     if (is.null(col)) col <- palette[seq_len(n.groups)]
     if (length(col) < n.groups) col <- rep(col, n.groups / length(col))
     if (is.null(alpha)) alpha <- autoalpha(max(lengths(x)))
@@ -617,4 +617,5 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     plt
+    
 } # rtemis::dplot3_xy

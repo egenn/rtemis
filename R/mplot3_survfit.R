@@ -40,7 +40,7 @@
 #' @param main Character: main title
 #' @param theme Character: Run \code{themes()} for available themes
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtPalette()}
+#' \code{rtpalette()}
 # @param error.lty
 # @param error.alpha
 #' @param autonames Logical: If TRUE, extract grouping variable names and level labels from \code{x}
@@ -99,8 +99,8 @@ mplot3_survfit <- function(x,
                            xlab = "Time",
                            ylab = "Survival",
                            main = "", # "Kaplan-Meier Estimate"
-                           theme = getOption("rt.theme"),
-                           palette = getOption("rt.palette", "rtCol1"),
+                           theme = rtTheme,
+                           palette = rtPalette,
                            plot.error = FALSE,
                            # error.lty = 2,
                            error.alpha = .33,
@@ -132,7 +132,7 @@ mplot3_survfit <- function(x,
 
   # Theme ----
   if (is.null(col)) {
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     col <- palette
   }
   extraargs <- list(...)

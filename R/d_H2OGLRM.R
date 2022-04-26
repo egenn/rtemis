@@ -64,7 +64,7 @@ d_H2OGLRM <- function(x,
                       svd.method = "Randomized",
                       verbose = TRUE,
                       print.plot = TRUE,
-                      plot.theme = getOption("rt.theme"),
+                      plot.theme = rtTheme,
                       n.cores = rtCores, ...) {
 
   # Intro ----

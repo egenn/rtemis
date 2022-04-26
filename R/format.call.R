@@ -7,6 +7,8 @@
 #' @method format call
 #'
 #' @param x \code{call} object
+#' @param as.html Logical: If TRUE, output HTML span element
+#' @param font.family Character: font family to use when \code{as.html = TRUE}
 #' @param ... Not used
 #'
 #' @author E.D. Gennatas
@@ -22,8 +24,10 @@
 #' format(irmod$call) |> cat()
 #' }
 
-format.call <- function(x, ...) {
-    # leftpad <- nchar(x[1]) + 1
+format.call <- function(x, 
+                        as.html = FALSE,
+                        font.family = "monospace", ...) {
+    
     leftpad <- nchar(x[1])
     out <- paste0(format.default(x), collapse = "")
     out <- gsub(" +", " ", out)
@@ -32,5 +36,17 @@ format.call <- function(x, ...) {
         paste0(",\n", paste0(rep(" ", leftpad), collapse = "")),
         out
     )
-    paste0(out, "\n")
-}
+    out <- paste0(out, "\n")
+    if (as.html) {
+        span(
+            HTML(
+                gsub(" ", "&nbsp;", gsub("\n", "<br>", out))
+            ),
+            style = paste0("font-family: ", font.family)
+        )
+        
+    } else {
+        out
+    }
+
+} # rtemis::format.call

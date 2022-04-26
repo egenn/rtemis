@@ -13,7 +13,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-rtRandom <- function(pch = sample(15:18, 1),
+rtrandom <- function(pch = sample(15:18, 1),
                      col = rtCol,
                      text = "rtemis",
                      text.col = "gray50",

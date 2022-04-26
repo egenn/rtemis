@@ -85,7 +85,7 @@ dplot3_volcano <- function(x, pvals,
                            hline.annotate = NULL,
                            hline.annotation.x = 1,
                            annotate.col = theme$labs.col,
-                           theme = getOption("rt.theme"),
+                           theme = rtTheme,
                            font.size = 16,
                            palette = NULL,
                            legend.x.lo = NULL,
@@ -148,7 +148,7 @@ dplot3_volcano <- function(x, pvals,
     }
 
     if (is.null(palette)) {
-        palette <- rtPalette(getOption("rt.palette", "rtCol1"))
+        palette <- rtpalette(rtPalette)
     }
 
     # Theme ----

@@ -59,7 +59,7 @@ gridSearchLearn_future <- function(x, y, mod,
                                    grid.verbose = FALSE,
                                    n.cores = rtCores) {
     # Dependencies ----
-    dependency_check("future.apply")
+    dependency_check(c("futue", "future.apply"))
     
     # Intro ----
     start.time <- intro(
@@ -68,6 +68,7 @@ gridSearchLearn_future <- function(x, y, mod,
         message = "Running grid search...",
         newline.pre = TRUE
     )
+    future::plan(rtPlan)
     # rtemis_init(n.cores, context = "Inner resampling")
 
     # Arguments ----

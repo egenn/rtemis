@@ -1569,10 +1569,10 @@ rtPalettes <- list(
 #' @return
 #' A list of available palettes, invisibly
 #' @examples
-#' rtPalette("imperial")
+#' rtpalette("imperial")
 #' @export
 
-rtPalette <- function(palette = NULL) {
+rtpalette <- function(palette = NULL) {
     if (is.null(palette)) {
         msg(crayon::cyan("The following palettes are available:"))
         print(names(rtPalettes))
@@ -1598,16 +1598,16 @@ rtemisblue <- crayon::make_style(rtemisblue = "#80ffff")
 #' Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
 #'
 #' @param n Integer: Number of colors to output
-#' @param palette Character: Palette to use. See available options with \code{rtPalette()}.
-#' Default = \code{getOption("rt.palette", "rtCol1")}
+#' @param palette Character: Palette to use. See available options with \code{rtpalette()}.
+#' Default = \code{rtPalette}
 #' @export
 #' @author E.D. Gennatas
 #' @examples
 #' rtemis_palette(3)
 #'
 rtemis_palette <- function(n,
-                           palette = getOption("rt.palette", "rtCol1")) {
-    .palette <- unlist(rtPalette(palette))
+                           palette = rtPalette) {
+    .palette <- unlist(rtpalette(palette))
     names(.palette) <- NULL
     .palette[seq_len(n)]
 } # rtemis::rtemis_palette

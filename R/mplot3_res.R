@@ -21,7 +21,7 @@
 mplot3_res <- function(res,
                        col = NULL,
                        mar = NULL,
-                       theme = getOption("rt.theme"), ...) {
+                       theme = rtTheme, ...) {
 
   # [ Theme ] ----
   extraargs <- list(...)

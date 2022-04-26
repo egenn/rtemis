@@ -34,7 +34,7 @@ dplot3_pie <-  function(
             bg = NULL,
             plot.bg = NULL,
             theme = getOption("rt.theme", "black"),
-            palette = getOption("rt.palette", "rtCol1"),
+            palette = rtPalette,
             category.names = NULL,
             textinfo = "label+percent",
             font.size = 16,
@@ -86,7 +86,7 @@ dplot3_pie <-  function(
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
 
   # Colors ----
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   p <- NROW(x)
   if (is.null(col)) col <- palette[seq_len(p)]
   if (length(col) < p) col <- rep(col, p/length(col))

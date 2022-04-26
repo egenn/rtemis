@@ -38,14 +38,14 @@ mplot3_laterality <- function(x, regionnames,
                               lty = 1,
                               lwd = .3,
                               ylim = NULL,
-                              theme = getOption("rt.theme"),
+                              theme = rtTheme,
                               labelify = TRUE,
                               autolabel = letters,
                               # na.rm = TRUE,
                               mar = NULL,
                               oma = rep(0, 4),
                               pty = "m",
-                              palette = getOption("rt.palette", "rtCol1"),
+                              palette = rtPalette,
                               par.reset = TRUE,
                               pdf.width = 6,
                               pdf.height = 6,
@@ -57,7 +57,7 @@ mplot3_laterality <- function(x, regionnames,
   index <- sapply(.names, function(i) grep(paste0(i, "$"), xnames))
   if (is.null(ylim)) ylim <- getlim(unlist(x[, ..index]))
   xlim <- c(.5, length(regionnames)*2 + .5)
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   if (is.null(summary.col)) summary.col <- palette[seq_along(regionnames)]
   if (is.null(mar)) {
     bottom.mar <- textwidth(regionnames)

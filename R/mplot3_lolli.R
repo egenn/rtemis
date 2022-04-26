@@ -46,8 +46,8 @@ mplot3_lolli <- function(x,
                          segment.alpha = .333,
                          lty = 3,
                          lwd = 2,
-                         theme = getOption("rt.theme"),
-                         palette = getOption("rt.palette", "rtCol1"),
+                         theme = rtTheme,
+                         palette = rtPalette,
                          autolabel = letters,
                          par.reset = TRUE,
                          pdf.width = 6,
@@ -118,7 +118,7 @@ mplot3_lolli <- function(x,
   }
 
   # Palette ----
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   if (is.null(col)) col <- rep(palette[1], length(x))
   if (length(col) < length(x)) col <- recycle(col, x)
 

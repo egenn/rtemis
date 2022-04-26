@@ -15,7 +15,7 @@
 #' @param theme.args List of arguments to pass to \code{theme}. Optional, same args can be passed
 #' to theme function
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtPalette()}
+#' \code{rtpalette()}
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param pdf.width Float: Width in inches for PDF output, if \code{filename} is defined
@@ -34,9 +34,9 @@ mplot3_mosaic <- function(x,
                           xlab = NULL,
                           ylab = NULL,
                           border = FALSE,
-                          theme = getOption("rt.theme"),
+                          theme = rtTheme,
                           theme.args = list(),
-                          palette = getOption("rt.palette", "rtCol1"),
+                          palette = rtPalette,
                           mar = NULL,
                           oma = rep(0, 4),
                           par.reset = TRUE,
@@ -57,7 +57,7 @@ mplot3_mosaic <- function(x,
       theme[[names(theme.args)[i]]] <- theme.args[[i]]
     }
   }
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
 
   # Output directory
   if (!is.null(filename) && !dir.exists(dirname(filename))) {

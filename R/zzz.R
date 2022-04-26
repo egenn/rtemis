@@ -4,30 +4,63 @@
 
 rtenv <- new.env()
 rtemis.version <- packageVersion("rtemis")
-.availableCores <- parallelly::availableCores()
-rtCores <- getOption("rt.cores", .availableCores)
-rtFont <- getOption("rt.font", "Helvetica")
-# Set initial plan e.g. for s_ with gridSearchLearn,
-# **will be overwritten by resLearn for nested plan as appropriate**
-rtPlan <- getOption(
-    "future.plan",
-    ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-)
-future::plan(rtPlan)
-# rtProgress <- getOption("rt.progress", "global")
-# if (rtProgress == "global") progressr::handlers(global = TRUE)
-rtGSL <- getOption("rt.gsl", "future")
-if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
+.availableCores <- future::availableCores()
+
+# # Set initial plan e.g. for s_ with gridSearchLearn,
+# # **will be overwritten by resLearn for nested plan as appropriate**
+# rtPlan <- getOption(
+#     "future.plan",
+#     ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+# )
+# # future::plan(rtPlan)
+# # rtProgress <- getOption("rt.progress", "global")
+# # if (rtProgress == "global") progressr::handlers(global = TRUE)
+# # rtGSL <- getOption("rt.gsl", "future")
+# # if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
+
+.onLoad <- function(libname, pkgname) {
+    # Defaults ----
+    rtPlan <- rtPlanInit()
+    assign("rtPlan", rtPlan, envir = parent.env(environment()))
+    rtCores <- rtCoresInit()
+    assign("rtCores", rtCores, envir = parent.env(environment()))
+    rtTheme <- rtThemeInit()
+    assign("rtTheme", rtTheme, envir = parent.env(environment()))
+    rtFont <- rtFontInit()
+    assign("rtFont", rtFont, envir = parent.env(environment()))
+    rtPalette <- rtPaletteInit()
+    assign("rtPalette", rtPalette, envir = parent.env(environment()))
+}
 
 .onAttach <- function(libname, pkgname) {
+
+    # packageStartupMessage(paste0(
+    #     "  .:", pkgname, " ", rtemis.version, "\U1F30A", ": Welcome, ", Sys.getenv("USER"),
+    #     "\n  ", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores",
+    #     "\n  Documentation: https://rtemis.lambdamd.org",
+    #     "\n  Learn R: https://class.lambdamd.org/pdsr",
+    #     "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+    #     '\n  Use `citation("rtemis")` for citation info',
+    #     "\n  Use `progressr::handlers(global = TRUE)` to enable progress bars in rtemis",
+    #     "\n"
+    # ))
+    
     packageStartupMessage(paste0(
-        "  .:", pkgname, " ", rtemis.version, "\U1F30A", ": Welcome, ", Sys.getenv("USER"),
-        "\n  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-        "\n  Documentation: https://rtemis.lambdamd.org",
-        "\n  Learn R: https://class.lambdamd.org/pdsr",
-        "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-        '\n  Use `citation("rtemis")` for citation info',
-        "\n  Use `progressr::handlers(global = TRUE)` to enable progress bars in rtemis",
+        "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
+        # "\n  Welcome, ", Sys.getenv("USER"),
+        "\n\n  Defaults",
+        "\n  |   Theme: ", rtTheme,
+        "\n  |    Font: ", rtFont,
+        "\n  | Palette: ", rtPalette,
+        "\n  |    Plan: ", rtPlan,
+        "\n  |   Cores: ", rtCores, "/", .availableCores, " available",
+        "\n\n  Resources",
+        "\n  | Documentation: https://rtemis.lambdamd.org",
+        "\n  |       Learn R: https://class.lambdamd.org/pdsr",
+        "\n  | VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
+        '\n  |          Cite: Run `citation("rtemis")`',
+        "\n\n  Setup",
+        "\n  | Enable progress reporting: Run `progressr::handlers(global = TRUE)`",
         "\n"
     ))
 
@@ -46,7 +79,7 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
             col <- sample(unlist(rtCol1), 1)
             n <- 20
             polyshadow(n, n, .8,
-                text = "rtemis",
+                text = paste0("  .:", pkgname, " ", rtemis.version, " ", sessionInfo()[[2]]),
                 text.x = 2,
                 text.y = 2,
                 text.adj = c(0, 0),
@@ -61,19 +94,6 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
         silent = TRUE
     )
 
-    # Set default theme
-    if (is.null(getOption("rt.theme"))) {
-        options(rt.theme = "darkgraygrid")
-    }
-
-    # Set default palette
-    if (is.null(getOption("rt.palette"))) {
-        options(rt.palette = "rtCol1")
-    }
-
-    # Set default warn level
-    rt.warn <- getOption("rt.warn", 1)
-    options(warn = rt.warn)
 }
 
 
@@ -88,7 +108,7 @@ if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
 #' so you do not have to define each time you execute a function.
 #' \describe{
 #'     \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
-#'     \item{rt.palette}{Name of default palette to use. See options by running `rtPalette()`}
+#'     \item{rt.palette}{Name of default palette to use. See options by running `rtpalette()`}
 #'     \item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
 #'     future::availableCores(). In shared systems, you should limit this as appropriate.}
 #'     \item{future.plan}{Default plan to use for parallel processing.}

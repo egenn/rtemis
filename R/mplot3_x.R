@@ -142,8 +142,8 @@ mplot3_x <- function(x,
                      lwd = 2,
                      qqline.lwd = lwd,
                      density.lwd = lwd,
-                     theme = getOption("rt.theme"),
-                     palette = getOption("rt.palette", "rtCol1"),
+                     theme = rtTheme,
+                     palette = rtPalette,
                      pty = "m",
                      mar = NULL,
                      oma = rep(0, 4),
@@ -198,7 +198,7 @@ mplot3_x <- function(x,
 
   if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename),
                                                                          recursive = TRUE)
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
 
   # [ Data ] ----
   if (!is.null(group)) {

@@ -67,7 +67,7 @@
 #' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
 #' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
-#' @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
+# @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
 #' @param trace Integer: The hight the number the more diagnostic info is 
 #' printed to the console
 #' @param ... Additional arguments passed to theme
@@ -96,8 +96,8 @@ dplot3_bar <-  function(x,
                         col = NULL,
                         alpha = 1,
                         horizontal = FALSE,
-                        theme = getOption("rt.theme"),
-                        palette = getOption("rt.palette", "rtCol1"),
+                        theme = rtTheme,
+                        palette = rtPalette,
                         barmode = c("group", "relative", "stack", "overlay"),
                         group.names = NULL,
                         order.by.val = FALSE,
@@ -129,7 +129,6 @@ dplot3_bar <-  function(x,
                         file.width = 500,
                         file.height = 500,
                         file.scale = 1,
-                        print.plot = TRUE,
                         trace = 0, ...) {
   
   # Dependencies ----
@@ -181,7 +180,7 @@ dplot3_bar <-  function(x,
   if (is.null(legend)) legend <- length(.feature.names) > 1
   
   # Colors ----
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   p <- NCOL(dat)
   if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
   
@@ -372,10 +371,6 @@ dplot3_bar <-  function(x,
       )
   }
   
-  if (print.plot) {
-      print(plt)
-  } else {
-      invisible(plt)
-  }
+  plt
   
 } # rtemis::dplot3_bar.R

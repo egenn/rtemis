@@ -19,7 +19,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_fret <- function(theme = getOption("rt.theme"),
+mplot3_fret <- function(theme = rtTheme,
                         useSharps = FALSE,
                         strings.col = "auto",
                         frets.col = "auto",

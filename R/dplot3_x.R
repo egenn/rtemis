@@ -67,8 +67,8 @@ dplot3_x <- function(x,
                      col = NULL,
                      alpha = .75,
                      plot.bg = NULL,
-                     theme = getOption("rt.theme"),
-                     palette = getOption("rt.palette", "rtCol1"),
+                     theme = rtTheme,
+                     palette = rtPalette,
                      axes.square = FALSE,
                      group.names = NULL,
                      font.size = 16,
@@ -161,7 +161,7 @@ dplot3_x <- function(x,
     if (is.null(.names)) .names <- paste("Feature", seq_along(x))
 
     # Colors ----
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     n.groups <- length(x)
     if (is.null(col)) col <- recycle(palette, seq(n.groups))[seq(n.groups)]
 
@@ -478,5 +478,7 @@ dplot3_x <- function(x,
             scale = file.scale
         )
     }
+
     plt
+    
 } # rtemis::dplot3_x

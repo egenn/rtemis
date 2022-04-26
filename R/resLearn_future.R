@@ -50,6 +50,7 @@ resLearn_future <- function(x, y, mod,
         message = "Starting resLearn...",
         newline.pre = TRUE
     )
+    future::plan(rtPlan)
     # rtemis_init(n.workers, context = "Outer resampling")
 
     # Arguments ----
@@ -78,7 +79,6 @@ resLearn_future <- function(x, y, mod,
     }
 
     # Parallel ----
-    # rtPlan is the parallel plan set in zzz
     if (n.workers == 1) {
         future::plan(list("sequential", rtPlan), workers = n.workers)
         if (verbose) {

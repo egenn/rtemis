@@ -34,8 +34,8 @@ mplot3_surv <- function(x,
                         xlab = NULL,
                         ylab = "Survival",
                         main = "Kaplan-Meier curve",
-                        theme = getOption("rt.theme"),
-                        palette = getOption("rt.palette", "rtCol1"),
+                        theme = rtTheme,
+                        palette = rtPalette,
                         plot.error = FALSE,
                         error.lty = 2,
                         error.alpha = .5,
@@ -61,7 +61,7 @@ mplot3_surv <- function(x,
 
   # Theme ----
   if (is.null(col)) {
-    if (is.character(palette)) palette <- rtPalette(palette)
+    if (is.character(palette)) palette <- rtpalette(palette)
     col <- palette
   }
 

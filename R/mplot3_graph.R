@@ -76,9 +76,9 @@ mplot3_graph <- function(net,
                          mark.border = NULL,
                          mark.border.alpha = 1,
                          cluster_color_vertices = FALSE,
-                         theme = getOption("rt.theme"),
+                         theme = rtTheme,
                          theme_extra_args = list(),
-                         palette = getOption("rt.palette", "rtCol1"),
+                         palette = rtPalette,
                          mar = rep(0, 4),
                          par.reset = TRUE,
                          filename = NULL,
@@ -93,7 +93,7 @@ mplot3_graph <- function(net,
   }
 
   # Palette ----
-  if (is.character(palette)) palette <- unname(unlist(rtPalette(palette)))
+  if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
 
   # Vertex names ----
   # by default use names in input net.

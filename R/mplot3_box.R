@@ -82,11 +82,11 @@ mplot3_box <- function(x,
                        pty = "m",
                        yaxis = TRUE,
                        ylim.pad = 0,
-                       theme = getOption("rt.theme"),
+                       theme = rtTheme,
                        labelify = TRUE,
                        autolabel = letters,
                        na.rm = TRUE,
-                       palette = getOption("rt.palette", "rtCol1"),
+                       palette = rtPalette,
                        par.reset = TRUE,
                        pdf.width = 6,
                        pdf.height = 6,
@@ -147,7 +147,7 @@ mplot3_box <- function(x,
     xnames.srt <- 0
   }
 
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
 
   if (is.null(col)) {
     if (length(x) == 1) {

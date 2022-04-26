@@ -93,7 +93,7 @@ basegrid <- function(x = NULL,
                      col = NULL,
                      lty = NULL,
                      lwd = NULL,
-                     theme = getOption("rt.theme")) {
+                     theme = rtTheme) {
 
   # Theme ----
   if (is.character(theme)) {

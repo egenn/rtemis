@@ -46,7 +46,7 @@ mplot3_roc <- function(prob, labels,
                        pty = "s",
                        mar = c(2.5, 3, 2, 1),
                        theme = getOption("rt.theme", "whitegrid"),
-                       palette = getOption("rt.palette", "rtCol1"),
+                       palette = rtPalette,
                        verbose = TRUE,
                        par.reset = TRUE,
                        filename = NULL,
@@ -111,7 +111,7 @@ mplot3_roc <- function(prob, labels,
   }
 
   # Colors ----
-  if (is.null(col)) col <- rtPalette(palette)
+  if (is.null(col)) col <- rtpalette(palette)
 
   # [ PLOT ] ----
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE

@@ -122,9 +122,9 @@ mplot3_heatmap <- function(x,
                            margins = NULL,
                            group.columns = NULL,
                            group.legend = !is.null(group.columns),
-                           column.palette = getOption("rt.palette", "rtCol1"),
+                           column.palette = rtPalette,
                            group.rows = NULL,
-                           row.palette = getOption("rt.palette", "rtCol1"),
+                           row.palette = rtPalette,
                            ColSideColors,
                            RowSideColors,
                            cexRow = 0.2 + 1/log10(nr),
@@ -175,14 +175,14 @@ mplot3_heatmap <- function(x,
   # Row and Col groups ----
   if (!is.null(group.columns) & missing(ColSideColors)) {
     group.columns <- factor(group.columns)
-    if (is.character(column.palette)) column.palette <- rtPalette(column.palette)
+    if (is.character(column.palette)) column.palette <- rtpalette(column.palette)
     if (length(unique(group.columns)) > length(column.palette)) stop("Need more colors in column.palette")
     ColSideColors <- unlist(column.palette)[group.columns]
   }
 
   if (!is.null(group.rows) & missing(RowSideColors)) {
     group.rows <- factor(group.rows)
-    if (is.character(row.palette)) row.palette <- rtPalette(row.palette)
+    if (is.character(row.palette)) row.palette <- rtpalette(row.palette)
     if (length(unique(group.rows)) > length(row.palette)) stop("Need more colors in column.palette")
     RowSideColors <- unlist(row.palette)[group.rows]
   }

@@ -133,7 +133,7 @@
 #' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
 #' Set to FALSE if you know your data has no missing values.
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtPalette()}
+#' \code{rtpalette()}
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 #' otherwise FALSE
 #' @param autolabel Vector to be used to generate autolabels when using \link{rtlayout} with
@@ -260,8 +260,8 @@ mplot3_xy <- function(x, y = NULL,
                       fit.legend.at = NA,
                       labs.col = NULL,
                       rm.na = TRUE,
-                      theme = getOption("rt.theme"),
-                      palette = getOption("rt.palette", "rtCol1"),
+                      theme = rtTheme,
+                      palette = rtPalette,
                       order.on.x = NULL,
                       autolabel = letters,
                       new = FALSE,
@@ -284,7 +284,7 @@ mplot3_xy <- function(x, y = NULL,
   if (isTRUE(fit)) fit <- "GAM"
   if (is.null(fit)) se.fit <- FALSE
   if (!is.null(fit)) fit <- toupper(fit)
-  if (is.character(palette)) palette <- rtPalette(palette)
+  if (is.character(palette)) palette <- rtpalette(palette)
   # Check: using string names and data
   if (!is.null(data)) {
     if (missing(x)) x <- "x"
@@ -966,7 +966,7 @@ mplot3_fit <- function(x, y,
                        fit.error = TRUE,
                        axes.equal = TRUE,
                        diagonal = TRUE,
-                       theme = getOption("rt.theme"),
+                       theme = rtTheme,
                        marker.col = NULL,
                        fit.col = NULL,
                        pty = "s",

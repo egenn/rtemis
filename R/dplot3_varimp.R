@@ -53,7 +53,7 @@ dplot3_varimp <- function(x,
                           mar = NULL,
                           font.size = 16,
                           axis.font.size = 14,
-                          theme = getOption("rt.theme"),
+                          theme = rtTheme,
                           showlegend = TRUE, ...) {
 
   # Dependencies ----
