@@ -53,7 +53,7 @@ s_LIHADBOOST(
   prefix = NULL,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   print.plot = TRUE,
   print.base.plot = FALSE,
   print.tune.plot = TRUE,

@@ -19,7 +19,6 @@ gridSearchLearn(
   maximize = NULL,
   save.mod = FALSE,
   verbose = TRUE,
-  trace = 1,
   call.depth = 1,
   grid.verbose = FALSE,
   n.cores = rtCores

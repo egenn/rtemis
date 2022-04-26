@@ -43,8 +43,8 @@ mplot3_bar(
   barplot.axes = FALSE,
   yaxis = TRUE,
   ylim.pad = 0.04,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   autolabel = letters,
   par.reset = TRUE,
   pdf.width = 6,
@@ -93,7 +93,7 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
 \code{autolabel = TRUE}. Default = \code{letters}}

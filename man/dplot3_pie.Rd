@@ -14,7 +14,7 @@ dplot3_pie(
   bg = NULL,
   plot.bg = NULL,
   theme = getOption("rt.theme", "black"),
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   category.names = NULL,
   textinfo = "label+percent",
   font.size = 16,

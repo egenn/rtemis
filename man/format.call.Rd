@@ -4,10 +4,14 @@
 \alias{format.call}
 \title{Format method for \code{call} objects}
 \usage{
-\method{format}{call}(x, ...)
+\method{format}{call}(x, as.html = FALSE, font.family = "monospace", ...)
 }
 \arguments{
 \item{x}{\code{call} object}
+
+\item{as.html}{Logical: If TRUE, output HTML span element}
+
+\item{font.family}{Character: font family to use when \code{as.html = TRUE}}
 
 \item{...}{Not used}
 }

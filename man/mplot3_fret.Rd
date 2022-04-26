@@ -5,7 +5,7 @@
 \title{\code{mplot3}: Guitar Fretboard}
 \usage{
 mplot3_fret(
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   useSharps = FALSE,
   strings.col = "auto",
   frets.col = "auto",

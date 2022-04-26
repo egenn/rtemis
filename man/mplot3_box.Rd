@@ -39,11 +39,11 @@ mplot3_box(
   pty = "m",
   yaxis = TRUE,
   ylim.pad = 0,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   labelify = TRUE,
   autolabel = letters,
   na.rm = TRUE,
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   par.reset = TRUE,
   pdf.width = 6,
   pdf.height = 6,
@@ -96,7 +96,7 @@ order. Default = NULL, i.e. no reordering}
 Default = TRUE}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

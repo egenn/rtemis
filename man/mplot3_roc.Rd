@@ -26,7 +26,7 @@ mplot3_roc(
   pty = "s",
   mar = c(2.5, 3, 2, 1),
   theme = getOption("rt.theme", "whitegrid"),
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   verbose = TRUE,
   par.reset = TRUE,
   filename = NULL,
@@ -74,7 +74,7 @@ False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

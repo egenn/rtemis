@@ -28,7 +28,7 @@ mplot3_xym(
   axes = TRUE,
   xaxs = "r",
   yaxs = "r",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   par.reset = TRUE,
   widths = NULL,
   heights = NULL,

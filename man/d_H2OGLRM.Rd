@@ -26,7 +26,7 @@ d_H2OGLRM(
   svd.method = "Randomized",
   verbose = TRUE,
   print.plot = TRUE,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   n.cores = rtCores,
   ...
 )

@@ -32,7 +32,7 @@ dplot3_volcano(
   hline.annotate = NULL,
   hline.annotation.x = 1,
   annotate.col = theme$labs.col,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   font.size = 16,
   palette = NULL,
   legend.x.lo = NULL,

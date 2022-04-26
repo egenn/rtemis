@@ -16,8 +16,8 @@ mplot3_surv(
   xlab = NULL,
   ylab = "Survival",
   main = "Kaplan-Meier curve",
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   plot.error = FALSE,
   error.lty = 2,
   error.alpha = 0.5,
@@ -53,7 +53,7 @@ when survival estimates are not provided in original time scale. Default = FALSE
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 

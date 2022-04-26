@@ -10,7 +10,7 @@
   mar = NULL,
   uni.type = c("density", "histogram", "hd"),
   boxplot.xlab = FALSE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   par.reset = TRUE,
   ...
 )

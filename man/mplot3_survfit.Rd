@@ -33,8 +33,8 @@ mplot3_survfit(
   xlab = "Time",
   ylab = "Survival",
   main = "",
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   plot.error = FALSE,
   error.alpha = 0.33,
   autonames = TRUE,
@@ -115,7 +115,7 @@ values if \code{nrisk.table = TRUE}}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{autonames}{Logical: If TRUE, extract grouping variable names and level labels from \code{x}
 and use for legend. It is best to give informative level labels, like female, male instead of

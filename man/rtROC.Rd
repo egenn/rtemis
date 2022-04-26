@@ -9,7 +9,7 @@ rtROC(
   predicted.probabilities,
   thresholds = NULL,
   plot = FALSE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   verbose = TRUE
 )
 }

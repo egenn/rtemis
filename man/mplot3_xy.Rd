@@ -106,8 +106,8 @@ mplot3_xy(
   fit.legend.at = NA,
   labs.col = NULL,
   rm.na = TRUE,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   order.on.x = NULL,
   autolabel = letters,
   new = FALSE,
@@ -337,7 +337,7 @@ Set to FALSE if you know your data has no missing values.}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
 otherwise FALSE}

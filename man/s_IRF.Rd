@@ -37,7 +37,7 @@ s_IRF(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   n.cores = rtCores,
   question = NULL,
   verbose = TRUE,

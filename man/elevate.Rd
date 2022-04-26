@@ -36,7 +36,7 @@ elevate(
   print.plot = TRUE,
   plot.fitted = FALSE,
   plot.predicted = TRUE,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   print.res.plot = FALSE,
   question = NULL,
   verbose = TRUE,

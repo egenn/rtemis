@@ -12,8 +12,8 @@ dplot3_bar(
   col = NULL,
   alpha = 1,
   horizontal = FALSE,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   barmode = c("group", "relative", "stack", "overlay"),
   group.names = NULL,
   order.by.val = FALSE,
@@ -45,7 +45,6 @@ dplot3_bar(
   file.width = 500,
   file.height = 500,
   file.scale = 1,
-  print.plot = TRUE,
   trace = 0,
   ...
 )
@@ -151,8 +150,6 @@ set.}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
-
-\item{print.plot}{Logical: If TRUE, print plot, otherwise return it invisibly}
 
 \item{trace}{Integer: The hight the number the more diagnostic info is 
 printed to the console}

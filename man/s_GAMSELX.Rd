@@ -23,7 +23,7 @@ s_GAMSELX(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   na.action = na.exclude,
   question = NULL,
   n.cores = 1,

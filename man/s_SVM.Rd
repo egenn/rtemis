@@ -31,7 +31,7 @@ s_SVM(
   plot.fitted = NULL,
   plot.predicted = NULL,
   print.plot = TRUE,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   n.cores = rtCores,
   question = NULL,
   rtclass = NULL,

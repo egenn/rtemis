@@ -10,9 +10,9 @@ mplot3_mosaic(
   xlab = NULL,
   ylab = NULL,
   border = FALSE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   theme.args = list(),
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   mar = NULL,
   oma = rep(0, 4),
   par.reset = TRUE,
@@ -40,7 +40,7 @@ mplot3_mosaic(
 to theme function}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 

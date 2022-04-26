@@ -20,13 +20,13 @@ mplot3_laterality(
   lty = 1,
   lwd = 0.3,
   ylim = NULL,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   labelify = TRUE,
   autolabel = letters,
   mar = NULL,
   oma = rep(0, 4),
   pty = "m",
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   par.reset = TRUE,
   pdf.width = 6,
   pdf.height = 6,
@@ -80,7 +80,7 @@ Default = "median"}
 (See \code{par("pty")})}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

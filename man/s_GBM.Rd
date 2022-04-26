@@ -57,7 +57,7 @@ s_GBM(
   plotRelInf = FALSE,
   plotVarImp = FALSE,
   print.plot = TRUE,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   x.name = NULL,
   y.name = NULL,
   question = NULL,

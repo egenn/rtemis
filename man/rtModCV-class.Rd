@@ -275,7 +275,7 @@ Plot predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotPredicted(
   which.repeat = 1,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   mar = c(2.5, 3, 2.5, 1),
   ...
@@ -306,7 +306,7 @@ Plot fitted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotFitted(
   which.repeat = 1,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   mar = c(2.5, 3, 2.5, 1),
   ...
@@ -339,7 +339,7 @@ Plot variable importance
   which.repeat = 1,
   type = c("barplot", "lollipop"),
   plot.top = 12,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   ...
 )}\if{html}{\out{</div>}}
 }

@@ -81,8 +81,8 @@ mplot3_x(
   lwd = 2,
   qqline.lwd = lwd,
   density.lwd = lwd,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   pty = "m",
   mar = NULL,
   oma = rep(0, 4),
@@ -212,7 +212,7 @@ for \code{type = "density"}}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
 (See \code{par("pty")})}

@@ -14,8 +14,8 @@ dplot3_graphd3(
   edge.alpha = 0.33,
   zoom = TRUE,
   legend = FALSE,
-  palette = getOption("rt.palette", "rtCol1"),
-  theme = getOption("rt.theme"),
+  palette = rtPalette,
+  theme = rtTheme,
   ...
 )
 }
@@ -40,7 +40,7 @@ dplot3_graphd3(
 \item{legend}{Logical: If TRUE, display legend for groups}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{theme}{rtemis theme to use}
 

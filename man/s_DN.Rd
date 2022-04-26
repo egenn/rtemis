@@ -42,7 +42,7 @@ s_DN(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   save.mod = FALSE
 )
 }

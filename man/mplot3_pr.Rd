@@ -23,7 +23,7 @@ mplot3_pr(
   annot.font = 1,
   mar = c(2.5, 3, 2.5, 1),
   theme = getOption("rt.theme", "whitegrid"),
-  palette = getOption("rt.palette", "rtCol1"),
+  palette = rtPalette,
   par.reset = TRUE,
   verbose = TRUE,
   filename = NULL,
@@ -62,7 +62,7 @@ mplot3_pr(
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
 

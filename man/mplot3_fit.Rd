@@ -12,7 +12,7 @@ mplot3_fit(
   fit.error = TRUE,
   axes.equal = TRUE,
   diagonal = TRUE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   marker.col = NULL,
   fit.col = NULL,
   pty = "s",

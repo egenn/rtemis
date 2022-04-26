@@ -42,7 +42,7 @@ s_RF(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   proximity.tsne = FALSE,
   discard.forest = FALSE,
   tsne.perplexity = 5,

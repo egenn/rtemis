@@ -29,8 +29,8 @@ dplot3_ts(
   spikecolor = NULL,
   spikethickness = 1,
   displayModeBar = TRUE,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   filename = NULL,
   ...
 )

@@ -172,12 +172,7 @@ with multiple sheets}
 \subsection{Method \code{plot()}}{
 Plot method for \code{rtModLogger}
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModLogger$plot(
-  names = NULL,
-  col = unlist(getOption("rt.palette", "rtCol1")),
-  mar = NULL,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModLogger$plot(names = NULL, col = unlist(rtPalette), mar = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

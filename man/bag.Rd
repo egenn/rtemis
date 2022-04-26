@@ -30,7 +30,7 @@ bag(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   print.base.plot = FALSE,
   n.workers = rtCores,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),

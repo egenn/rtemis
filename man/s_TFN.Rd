@@ -48,7 +48,7 @@ s_TFN(
   rtlayout.mat = c(2, 1),
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   question = NULL,
   verbose = TRUE,
   verbose.checkpoint = FALSE,

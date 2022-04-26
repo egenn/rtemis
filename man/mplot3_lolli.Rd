@@ -19,8 +19,8 @@ mplot3_lolli(
   segment.alpha = 0.333,
   lty = 3,
   lwd = 2,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   autolabel = letters,
   par.reset = TRUE,
   pdf.width = 6,
@@ -71,7 +71,7 @@ points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtPalette()}}
+\code{rtpalette()}}
 
 \item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
 \code{autolabel = TRUE}. Default = \code{letters}}

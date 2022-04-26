@@ -22,7 +22,7 @@
   col.neg = "#43A4AC",
   col.pos = "#FA9860",
   col.ns = "#7f7f7f",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   alpha = NULL,
   volcano.annotate = TRUE,
   volcano.annotate.n = 7,

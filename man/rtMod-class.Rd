@@ -179,12 +179,7 @@ code{print} method for \code{rtMod} object
 \subsection{Method \code{plot()}}{
 \code{rtMod} plot method
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(
-  estimate = NULL,
-  theme = getOption("rt.theme"),
-  filename = NULL,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtMod$plot(estimate = NULL, theme = rtTheme, filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -209,7 +204,7 @@ Plot fitted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFitted(
   print.plot = TRUE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   main = NULL,
   filename = NULL,
   ...
@@ -240,7 +235,7 @@ Plot predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotPredicted(
   print.plot = TRUE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   main = NULL,
   filename = NULL,
   ...
@@ -271,7 +266,7 @@ Plot fitted and predicted values
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotFittedPredicted(
   print.plot = TRUE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -300,7 +295,7 @@ Plot variable importance
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
   plot.top = 12,
   type = c("barplot", "lollipop"),
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -333,7 +328,7 @@ Summary method for \code{rtMod} object
   fit.legend = TRUE,
   se.fit = TRUE,
   single.fig = TRUE,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   title.col = NULL,
   ...
 )}\if{html}{\out{</div>}}

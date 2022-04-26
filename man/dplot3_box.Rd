@@ -18,8 +18,8 @@ dplot3_box(
   alpha = 0.6,
   bg = NULL,
   plot.bg = NULL,
-  theme = getOption("rt.theme"),
-  palette = getOption("rt.palette", "rtCol1"),
+  theme = rtTheme,
+  palette = rtPalette,
   boxpoints = "outliers",
   quartilemethod = "linear",
   violin.box = TRUE,
@@ -51,7 +51,6 @@ dplot3_box(
   file.width = 500,
   file.height = 500,
   file.scale = 1,
-  print.plot = TRUE,
   ...
 )
 }
@@ -166,8 +165,6 @@ set.}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
-
-\item{print.plot}{Logical: If TRUE, print plot, otherwise return it invisibly}
 
 \item{...}{Additional arguments passed to theme}
 }

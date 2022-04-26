@@ -14,7 +14,7 @@ mplot3_missing(
   names.srt = 90,
   case.names.x = 0.25,
   case.names.every = NULL,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   use.alpha = FALSE,
   mar = c(3, 3.5, 5.5, 1),
   oma = c(0.5, 0.5, 0.5, 0.5),

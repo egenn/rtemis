@@ -49,7 +49,7 @@ s_H2ODL(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   question = NULL,
   verbose = TRUE,
   trace = 0,

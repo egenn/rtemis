@@ -36,7 +36,7 @@ mplot3_varimp(
   xaxis = TRUE,
   x.axis.padj = -1.2,
   tck = -0.015,
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   zerolines = FALSE,
   par.reset = TRUE,
   pdf.width = NULL,

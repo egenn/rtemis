@@ -24,7 +24,7 @@ s_RULEFIT(
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plot.theme = getOption("rt.theme"),
+  plot.theme = rtTheme,
   outdir = NULL,
   save.mod = if (!is.null(outdir)) TRUE else FALSE,
   verbose = TRUE

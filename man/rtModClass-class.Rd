@@ -140,7 +140,7 @@ Initialize \code{rtModClass} object
 plot ROC. Uses testing set if available,
 otherwise training
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROC(theme = rtTheme, filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -163,7 +163,7 @@ Plot training set ROC
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCfitted(
   main = "ROC Training",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -191,7 +191,7 @@ plot testing set ROC
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotROCpredicted(
   main = "ROC Testing",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -218,7 +218,7 @@ plot testing set ROC
 plot Precision-Recall curve. Uses testing set 
 if available, otherwise training
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(theme = getOption("rt.theme"), filename = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(theme = rtTheme, filename = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -241,7 +241,7 @@ Plot training set Precision-Recall curve.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRfitted(
   main = "P-R Training",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}
@@ -269,7 +269,7 @@ plot testing set Precision-Recall curve.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPRpredicted(
   main = "P-R Testing",
-  theme = getOption("rt.theme"),
+  theme = rtTheme,
   filename = NULL,
   ...
 )}\if{html}{\out{</div>}}

@@ -9,7 +9,7 @@ mlegend(
   title = NULL,
   group.names,
   title.col = "black",
-  col = rtPalette("rtCol1"),
+  col = rtpalette("rtCol1"),
   horiz.pad = 0.04,
   footer = NULL,
   font = 1,
