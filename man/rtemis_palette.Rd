@@ -4,13 +4,13 @@
 \alias{rtemis_palette}
 \title{Access rtemis palette colors}
 \usage{
-rtemis_palette(n, palette = getOption("rt.palette", "rtCol1"))
+rtemis_palette(n, palette = rtPalette)
 }
 \arguments{
 \item{n}{Integer: Number of colors to output}
 
-\item{palette}{Character: Palette to use. See available options with \code{rtPalette()}.
-Default = \code{getOption("rt.palette", "rtCol1")}}
+\item{palette}{Character: Palette to use. See available options with \code{rtpalette()}.
+Default = \code{rtPalette}}
 }
 \description{
 Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
