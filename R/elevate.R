@@ -151,10 +151,12 @@ elevate <- function(x, y = NULL,
 
     # Intro ----
     .call <- match.call()
+    # Make sure data is not substituted by list with entire raw data
+    .call[2] <- list(str2lang("dat"))
     if (missing(x)) {
         cat("Usage:\n")
         print(args(elevate))
-        invisible(9)
+        stop("x is missing: Please provide data")
     }
     if (toupper(mod) == "KNN") stop("KNN is not supported by elevate")
     if (debug) {

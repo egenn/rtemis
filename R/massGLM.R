@@ -63,6 +63,7 @@ massGLM <- function(x, y,
             
     # Intro ----
     .call <- match.call()
+    .call[2] <- list(str2lang("dat"))
     start.time <- intro(verbose = verbose)
 
     # Data ----
