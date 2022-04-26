@@ -33,17 +33,6 @@ rtemis.version <- packageVersion("rtemis")
 }
 
 .onAttach <- function(libname, pkgname) {
-
-    # packageStartupMessage(paste0(
-    #     "  .:", pkgname, " ", rtemis.version, "\U1F30A", ": Welcome, ", Sys.getenv("USER"),
-    #     "\n  ", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores",
-    #     "\n  Documentation: https://rtemis.lambdamd.org",
-    #     "\n  Learn R: https://class.lambdamd.org/pdsr",
-    #     "\n  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-    #     '\n  Use `citation("rtemis")` for citation info',
-    #     "\n  Use `progressr::handlers(global = TRUE)` to enable progress bars in rtemis",
-    #     "\n"
-    # ))
     
     packageStartupMessage(paste0(
         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
@@ -66,12 +55,12 @@ rtemis.version <- packageVersion("rtemis")
 
     # packageStartupMessage(
     #   "                                         d8,           ",
-    #   "\n             d8P                        `8P           |", "  .:", pkgname, " ", rtemis.version, ": Welcome, ", Sys.getenv("USER"),
-    #   "\n          d888888P                                    |", "  [", sessionInfo()[[2]], ": Defaulting to ", rtCores, "/", .availableCores, " available cores]",
-    #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |", "  Documentation & vignettes: https://rtemis.lambdamd.org",
-    #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |", "  Learn R: https://class.lambdamd.org/pdsr",
-    #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |", "  VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-    #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |", '  See `citation("rtemis")` for how to cite'
+    #   "\n             d8P                        `8P           |",
+    #   "\n          d888888P                                    |",
+    #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |",
+    #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |",
+    #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |",
+    #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |",
     # )
 
     try(
@@ -108,7 +97,8 @@ rtemis.version <- packageVersion("rtemis")
 #' so you do not have to define each time you execute a function.
 #' \describe{
 #'     \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
-#'     \item{rt.palette}{Name of default palette to use. See options by running `rtpalette()`}
+#'     \item{rt.palette}{Name of default palette to use in plots. See options by running `rtpalette()`}
+#'     \ite,{rt.font}{Font family to use in plots.}
 #'     \item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
 #'     future::availableCores(). In shared systems, you should limit this as appropriate.}
 #'     \item{future.plan}{Default plan to use for parallel processing.}
