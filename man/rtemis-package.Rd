@@ -18,7 +18,8 @@ There are some options you can define in your .Rprofile (usually found in your h
 so you do not have to define each time you execute a function.
 \describe{
     \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
-    \item{rt.palette}{Name of default palette to use. See options by running `rtpalette()`}
+    \item{rt.palette}{Name of default palette to use in plots. See options by running `rtpalette()`}
+    \ite,{rt.font}{Font family to use in plots.}
     \item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
     future::availableCores(). In shared systems, you should limit this as appropriate.}
     \item{future.plan}{Default plan to use for parallel processing.}
