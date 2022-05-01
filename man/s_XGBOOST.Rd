@@ -35,7 +35,7 @@ s_XGBOOST(
   colsample_bytree = 1,
   colsample_bylevel = 1,
   lambda = 0,
-  lambda.bias = 0,
+  lambda_bias = 0,
   alpha = 0,
   tree_method = "auto",
   sketch_eps = 0.03,
@@ -152,6 +152,8 @@ does not improve for this many rounds}
 
 \item{lambda}{[gS] L2 regularization on weights}
 
+\item{lambda_bias}{[gS] for *linear* booster: L2 regularization on bias}
+
 \item{alpha}{[gS] L1 regularization on weights}
 
 \item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
@@ -201,8 +203,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments}
-
-\item{lambda_bias}{[gS] for *linear* booster: L2 regularization on bias}
 }
 \value{
 \link{rtMod} object

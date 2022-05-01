@@ -13,6 +13,20 @@ rtROC(
   verbose = TRUE
 )
 }
+\arguments{
+\item{true.labels}{Factor with true labels}
+
+\item{predicted.probabilities}{Numeric vector of predicted probabilities /
+estimated score}
+
+\item{thresholds}{Numeric vector of thresholds to consider}
+
+\item{plot}{Logical: If TRUE, print plot}
+
+\item{theme}{rtemis theme to use}
+
+\item{vecrboe}{Logical: If TRUE, print messages to console}
+}
 \description{
 Calculate the points of an ROC curve and the AUC
 }

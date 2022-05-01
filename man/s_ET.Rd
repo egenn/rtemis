@@ -48,6 +48,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
+\item{n.trees}{Integer: Number of trees to grow. Default = 1000}
+
+\item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
+
+\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+1 (Classification)}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}

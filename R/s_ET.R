@@ -7,9 +7,11 @@
 #' Train an ExtraTrees model and validate
 #'
 #' @inheritParams s_GLM
+#' @inheritParams s_RF
 #' @param n.cores Integer. N of cores to use
 #' @param verbose Logical. Print summary to screen
 #' @param ... Additional parameters to be passed to \code{extraTrees}
+#' 
 #' @return Object of class \pkg{rtemis}
 #' @examples
 #' \dontrun{

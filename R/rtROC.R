@@ -11,6 +11,15 @@
 #' "positive" case. \code{predicted.probabilities} should be a vector of floats {0, 1} where \code{[0, .5)}
 #' corresponds to the first level and \code{[.5, 1]} corresponds to the second level.
 #' predicted.probabilities
+#' 
+#' @param true.labels Factor with true labels
+#' @param predicted.probabilities Numeric vector of predicted probabilities /
+#' estimated score
+#' @param thresholds Numeric vector of thresholds to consider
+#' @param plot Logical: If TRUE, print plot
+#' @param theme rtemis theme to use
+#' @param vecrboe Logical: If TRUE, print messages to console
+#' 
 #' @author E.D. Gennatas
 #' @export
 

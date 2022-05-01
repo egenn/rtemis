@@ -7,12 +7,9 @@
 #' Train a EVTREE for regression or classification using \code{evtree}
 #'
 #' @inheritParams s_GLM
-#' @param parms List of additional parameters for the splitting function.
-#' See \code{rpart::rpart("parms")}
-#' @param cost Float, vector >0: One for each variable in the model.
-#' See \code{rpart::rpart("cost")}
-#' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
-#' @param ... Additional arguments to be passed to \code{rpart::rpart}
+#' @param control Passed to \link{evtree::evtree}
+#' @param ... Additional arguments to be passed to \code{evtree::evtree}
+#' 
 #' @return Object of class \link{rtMod}
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation

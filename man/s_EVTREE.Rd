@@ -66,6 +66,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{control}{Passed to \link{evtree::evtree}}
+
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -92,15 +94,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{...}{Additional arguments to be passed to \code{rpart::rpart}}
-
-\item{parms}{List of additional parameters for the splitting function.
-See \code{rpart::rpart("parms")}}
-
-\item{cost}{Float, vector >0: One for each variable in the model.
-See \code{rpart::rpart("cost")}}
-
-\item{model}{Logical: If TRUE, keep a copy of the model. Default = TRUE}
+\item{...}{Additional arguments to be passed to \code{evtree::evtree}}
 }
 \value{
 Object of class \link{rtMod}

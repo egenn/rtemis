@@ -11,10 +11,13 @@ rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0)
 
 \item{x}{Data frame: Data to evaluate rules}
 
-\item{.ddSci}{Logical: If TRUE, format all continuous variables using \link{ddSci}, which will
-give either 2 decimal places, or scientific notation if two decimal places result in 0.00}
+\item{.ddSci}{Logical: If TRUE, format all continuous variables using
+\link{ddSci}, which will give either 2 decimal places, or scientific
+notation if two decimal places result in 0.00}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
+
+\item{trace}{Integer: If greater than zero, print progress}
 }
 \description{
 Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format
