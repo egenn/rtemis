@@ -34,6 +34,6 @@ x_CCA.permute.both(
 Run PMA::CCA.permute.both permutations in parallel
 }
 \author{
-adapted by Efstathios D Gennatas; original authors: Daniela M Witten, Robert Tibshirani
+adapted by E.D. Gennatas; original authors: Daniela M Witten, Robert Tibshirani
 }
 \keyword{internal}

@@ -19,7 +19,7 @@
 
 \item{x}{Data frame: Features}
 
-\item{last.step.only}{Logicall: If TRUE, \code{x} must be provided and only the last meta model will be updated
+\item{last.step.only}{Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 using this \code{x}}
 }
 \value{

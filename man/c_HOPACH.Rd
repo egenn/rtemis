@@ -2,7 +2,7 @@
 % Please edit documentation in R/c_HOPACH.R
 \name{c_HOPACH}
 \alias{c_HOPACH}
-\title{Hieararchical Ordered Partitioning and Collapsing Hybrid}
+\title{Hierarchical Ordered Partitioning and Collapsing Hybrid}
 \usage{
 c_HOPACH(
   x,

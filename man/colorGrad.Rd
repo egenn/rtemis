@@ -90,7 +90,7 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{bar.max}{Numeric: Max value in colorbar}
 
-\item{cex}{Float: Chracter expansion for axis}
+\item{cex}{Float: Character expansion for axis}
 
 \item{filename}{String (Optional: Path to file to save colorbar}
 

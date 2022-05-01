@@ -32,9 +32,9 @@ non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE}
 
 \item{x.ret}{Logical: If TRUE, return the doubly centered symmetric distance matrix. Default = FALSE}
 
-\item{scale}{Logicall: If TRUE, scale input data before decomposition. Default = TRUE}
+\item{scale}{Logical: If TRUE, scale input data before decomposition. Default = TRUE}
 
-\item{center}{Logicall: If TRUE, also center input data if \code{scale} is \code{TRUE}.
+\item{center}{Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}

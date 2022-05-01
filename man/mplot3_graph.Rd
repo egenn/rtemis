@@ -71,7 +71,7 @@ names in \code{net} if any. Set to NA to avoid printing vertex labels}
 
 \item{layout_params}{List of parameters to pass to \code{layout} function}
 
-\item{cluster}{Characer: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
+\item{cluster}{Character: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
 "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
 available \pkg{igraph} clustering functions}
 

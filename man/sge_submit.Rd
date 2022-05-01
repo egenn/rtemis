@@ -32,7 +32,7 @@ session}
 \item{packages}{Character vector: Names of packages to load in cluster R 
 session}
 
-\item{queue}{Characer: Name of SGE queue to submit to}
+\item{queue}{Character: Name of SGE queue to submit to}
 
 \item{n_threads}{Integer: Number of threads to request from scheduler}
 

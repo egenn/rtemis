@@ -36,7 +36,7 @@ addtree(
 \item{learningRate}{learning rate for the Newton Raphson step that updates the
 function values of the node for \code{update = "exponential"}}
 
-\item{gamma}{Float (0, 1): Accelaration factor}
+\item{gamma}{Float (0, 1): Acceleration factor}
 
 \item{update}{Character: "Exponential" or "Polynomial"}
 

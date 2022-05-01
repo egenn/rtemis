@@ -117,7 +117,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Object of class \pkg{rtemis}
 }
 \description{
-Train a Projection Pursuirt Regression model
+Train a Projection Pursuit Regression model
 }
 \details{
 [gS]: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the

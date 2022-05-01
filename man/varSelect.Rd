@@ -2,7 +2,7 @@
 % Please edit documentation in R/varSelect.R
 \name{varSelect}
 \alias{varSelect}
-\title{Variable Selection by Variable Importace}
+\title{Variable Selection by Variable Importance}
 \usage{
 varSelect(
   x,
@@ -19,7 +19,7 @@ varSelect(
 
 \item{y}{Outcome vector}
 
-\item{method}{Character: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"}
+\item{method}{Character: "RANGER", "XGBLIN": Learner to use for estimating variable importance. Default = "RANGER"}
 
 \item{xgb.params}{List of parameters for \code{method = "XGBLIN"}}
 

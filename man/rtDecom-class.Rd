@@ -53,7 +53,7 @@ prior to decomposition}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
-Initiali \code{rtDecom} object
+Initialize \code{rtDecom} object
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtDecom$new(
   decom.name = character(),

@@ -69,5 +69,5 @@ Fits a GAM for each of multiple outcomes using a fixed set of features (many y's
 NA in the input will be kept as NA in the results, maintaining n of cases.
 }
 \author{
-Eftsthios D. Gennatas
+E.D. Gennatas
 }

@@ -39,7 +39,7 @@ dplot3_table(
 \item{fill.col}{Color: Used to fill header with column names and first column with row names.
 Default = "#18A3AC"  (teal)}
 
-\item{table.bg}{Colot: Table background. Default = "white"}
+\item{table.bg}{Color: Table background. Default = "white"}
 
 \item{bg}{Color: Background. Default = "white"}
 

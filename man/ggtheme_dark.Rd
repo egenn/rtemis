@@ -13,7 +13,7 @@ ggtheme_dark(
   legend.key.fill = NA,
   legend.text.size.rel = 1,
   legend.position = "right",
-  strip.background.fill = "grey25"
+  strip.background.fill = "gray25"
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ ggtheme_dark(
 
 \item{legend.position}{Character: Legend position, "top", "bottom", "right", "left" Default  = "right"}
 
-\item{strip.background.fill}{Color: Fill color from facet labels. Default = "grey25"}
+\item{strip.background.fill}{Color: Fill color from facet labels. Default = "gray25"}
 }
 \description{
 \pkg{rtemis} \code{ggplot2} dark theme

@@ -151,7 +151,7 @@ is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{trace}{Integer: The hight the number the more diagnostic info is 
+\item{trace}{Integer: The height the number the more diagnostic info is 
 printed to the console}
 
 \item{...}{Additional arguments passed to theme}

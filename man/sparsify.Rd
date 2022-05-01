@@ -7,7 +7,7 @@
 sparsify(x, sparseness)
 }
 \arguments{
-\item{x}{Inpute vector}
+\item{x}{Input vector}
 
 \item{sparseness}{Percent of values of \code{x} to keep. The rest will be set to zero.}
 }

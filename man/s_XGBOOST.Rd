@@ -213,7 +213,7 @@ train a final model, and validate it
 }
 \details{
 [gS]: indicates parameter will be autotuned by grid search if multiple values are passed.
-Learn more about XGboost's parameters here: http://xgboost.readthedocs.io/en/latest/parameter.html
+Learn more about XGBoost's parameters here: http://xgboost.readthedocs.io/en/latest/parameter.html
 See how ipw = T fails and upsample = T works in imbalanced dataset.
 11.24.16: Updated to work with latest development version of XGBoost from github, which changed some of
 \code{xgboost}'s return values and is therefore not compatible with older versions

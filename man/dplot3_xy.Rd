@@ -216,7 +216,7 @@ or "longdashdot"}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{trace}{Integer: The hight the number the more diagnostic info is 
+\item{trace}{Integer: The height the number the more diagnostic info is 
 printed to the console}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}

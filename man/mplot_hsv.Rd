@@ -32,7 +32,7 @@ Default = \code{seq(0, 1, .0125)}}
 
 \item{pch}{Integer: pch plot parameter. Default = 15 (square)}
 
-\item{bg}{Colot: Background color. Default = "black"}
+\item{bg}{Color: Background color. Default = "black"}
 
 \item{axes}{Logical: for \code{type = "cartesian"}: If TRUE, draw axes.
 Default = TRUE}
