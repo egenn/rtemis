@@ -16,9 +16,16 @@ colorgradient.x(
 \arguments{
 \item{x}{Float, vector}
 
-\item{space}{Character: "rgb" or "Lab". Default = "Lab"}
+\item{symmetric}{Logical: If TRUE, make symmetric gradient between
+\code{-max(abs(x))} and \code{max(abs(x))}}
 
-\item{color}{Color, vector, length 2}
+\item{lo.col}{Low color}
+
+\item{mid.col}{Middle color}
+
+\item{hi.col}{High color}
+
+\item{space}{Character: "rgb" or "Lab". Default = "Lab"}
 }
 \description{
 Color gradient for continuous variable
