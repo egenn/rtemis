@@ -7,13 +7,20 @@
 #'
 #' Returns the mode of a factor or integer
 #'
-#' @param x Vector, factor or integer
-#' @param na.rm Logical: If TRUE, remove any NA values, if present, before finding mode.
-#' Default = TRUE
+#' @param x Vector, factor or integer: Input data
+#' @param na.exclude Logical: If TRUE, exclude NAs
+#' @param getlast Logical: If TRUE, get 
+#' @param retain.class Logical: If TRUE, output is always same class as input
+#' 
 #' @return The mode of \code{x}
 #' @author E.D. Gennatas
 #' @export
-
+#' @examples
+#' x <- c(9, 3, 4, 4, 0, 2, 2)
+#' getModwe(x)
+#' x <- c(9, 3, 2, 2, 0, 4, 4)
+#' getMode(x)
+#' getMode(x, getlast = FALSE)
 
 getMode <- function(x, 
                     na.exclude = TRUE,

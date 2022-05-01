@@ -10,6 +10,9 @@
 #'
 #' @inheritParams s_CART
 #' @param n.cores Integer: Number of cores to use
+#' @param parallel.type Character: "fork" (does not work in Windows) or "psock"
+#' (Works in all[?] OSs)
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -44,7 +47,7 @@ massCART <- function(x, y = NULL,
   parallel.type <- match.arg(parallel.type)
 
   # Dependencies ----
-  dependency_check("plyr", "pbapply")
+  dependency_check("plyr", "pbapply", "rpart")
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,

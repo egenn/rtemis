@@ -11,10 +11,10 @@
 
 \item{col}{Vector, color}
 
-\item{res}{\link{resample} object}
+\item{...}{Additional arguments passed to \link{mplot3_res}}
 }
 \description{
-\code{plot} method for \code{resample} object
+Run \link{mplot3_res} on a \link{resample} object
 }
 \author{
 E.D. Gennatas

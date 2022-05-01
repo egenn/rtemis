@@ -34,6 +34,8 @@ msg0(
 
 \item{date}{Logical: if TRUE, include date and time in the prefix}
 
+\item{caller}{Character: Name of calling function}
+
 \item{call.depth}{Integer: Print the system call path of this depth. Default = NULL}
 
 \item{caller.id}{Integer: Which function in the call stack to print}

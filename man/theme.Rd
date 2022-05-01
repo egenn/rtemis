@@ -614,6 +614,8 @@ Default = "n" (no box)}
 
 \item{grid.lwd}{Float: Grid line width}
 
+\item{axes.visible}{Logical: If TRUE, draw axes}
+
 \item{axes.col}{Axes colors}
 
 \item{tick.col}{Tick color}
@@ -622,11 +624,35 @@ Default = "n" (no box)}
 
 \item{tick.labels.col}{Tick labels' color}
 
+\item{tck}{\link{graphic::parr}'s tck argument}
+
+\item{tcl}{\link{graphic::parr}'s tcl argument}
+
 \item{x.axis.side}{Integer: Side to place x-axis. Default = 1 (bottom)}
 
 \item{y.axis.side}{Integer: Side to place y-axis. Default = 2 (left)}
 
 \item{labs.col}{Labels' color}
+
+\item{x.axis.line}{Numeric: \link{axis}'s \code{line} argument for the x-axis}
+
+\item{x.axis.las}{Numeric: \link{axis}'s \code{las} argument for the x-axis}
+
+\item{x.axis.padj}{Numeric: x-axis' \code{padj}}
+
+\item{x.axis.hadj}{Numeric: x-axis' \code{hadj}}
+
+\item{y.axis.line}{Numeric: \link{axis}'s \code{line} argument for the y-axis}
+
+\item{y.axis.las}{Numeric: \link{axis}'s \code{las} argument for the y-axis}
+
+\item{y.axis.padj}{Numeric: y-axis' \code{padj}}
+
+\item{y.axis.hadj}{Numeric: y-axis' \code{hadj}}
+
+\item{xlab.line}{Numeric: Line to place \code{xlab}}
+
+\item{ylab.line}{Numeric: Line to place \code{ylab}}
 
 \item{zerolines}{Logical: If TRUE, draw lines on x = 0, y = 0, if within 
 plot limits}
@@ -649,8 +675,6 @@ title. Default = .5}
 \item{main.col}{Title color}
 
 \item{font.family}{Character: Font to be used throughout plot.}
-
-\item{axes}{Logical: If TRUE, draw axes}
 }
 \description{
 Themes for \code{mplot3} and \code{dplot3} functions

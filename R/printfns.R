@@ -287,3 +287,78 @@ headdot <- function(x, maxlength = 9) {
         paste0(paste(head(x, n = maxlength), collapse = ", "), "...")
     }
 }
+
+# twocol2html.R
+# ::rtemis::
+# 2020 E.D. Gennatas lambdamd.org
+
+#' Create html table from a data.frame with 2 columns: Var name, and Coefs
+#'
+#' @examples
+#' \dontrun{
+#' x <- data.frame(
+#'     ID = c("Int", paste0("V", 1:10)),
+#'     Coef = rnorm(11)
+#' )
+#' twocol2html(x)
+#' }
+#' @keywords internal
+
+twocol2html <- function(x,
+                        font.family = "'Lato'",
+                        font.col = "#ffffff",
+                        font.size = "18px",
+                        header.bg = "#404040",
+                        table.bg = "#7F7F7F",
+                        dat.col = rep("#525252", NROW(x)), # get color grad using all tables
+                        dat.font.col = "#ffffff",
+                        height = "50px",
+                        # header
+                        head.padding = "5px",
+                        # table
+                        dat.padding = "5px") {
+
+    # 1. table style ----
+    tablestyle <- paste0(
+        '<table style="font-family: ', font.family,
+        ", sans-serif; display: table; border-collapse: collapse; margin-left: auto; margin-right: auto; color:",
+        font.col, "; font-size: ", font.size,
+        "; padding: 0px; text-align: right; background-color: ",
+        table.bg, "; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ",
+        height, '; display: box">'
+    )
+
+    # 2. header row ----
+    header <- paste0(
+        '<tr><th style="font-weight: bold; padding: ', head.padding,
+        "; text-align: center;",
+        "background-color: ", header.bg,
+        '">', colnames(x)[1], '</th>
+    <th style="font-weight: bold; padding:', head.padding,
+        "; text-align: center;",
+        "background-color: ", header.bg,
+        '">',
+        colnames(x)[2], "</th></tr>"
+    )
+
+    # 3. Data rows ----
+    tab <- vector("character", NROW(x))
+    for (i in seq(tab)) {
+        # first column: variable name; second column: coefficient
+        tab[i] <- paste0(
+            "<tr><td>", x[i, 1],
+            '</td><td style="color: ', dat.font.col,
+            "; font-variant-numeric: tabular-nums; background-color: ",
+            dat.col[i],
+            "; padding: ", dat.padding,
+            '">', ddSci(x[i, 2], 3), "</td></tr>"
+        )
+    }
+
+    # '- convert minus to &minus;
+    tab <- gsub(">-", ">&minus;", tab)
+    tab <- paste(tab, collapse = "")
+
+    # Combine
+    paste(tablestyle, header, tab, "</table>", collapse = "")
+} # rtemis::twocol2html

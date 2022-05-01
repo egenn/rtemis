@@ -13,6 +13,8 @@ earlystop(
 )
 }
 \arguments{
+\item{x}{Numeric vector: loss at each iteration}
+
 \item{window}{Integer: Number of steps to consider}
 
 \item{window_decrease_pct_min}{Float: Stop if improvement is less than this percent over last `window` steps}

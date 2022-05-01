@@ -7,16 +7,26 @@
 getMode(x, na.exclude = TRUE, getlast = TRUE, retain.class = TRUE)
 }
 \arguments{
-\item{x}{Vector, factor or integer}
+\item{x}{Vector, factor or integer: Input data}
 
-\item{na.rm}{Logical: If TRUE, remove any NA values, if present, before finding mode.
-Default = TRUE}
+\item{na.exclude}{Logical: If TRUE, exclude NAs}
+
+\item{getlast}{Logical: If TRUE, get}
+
+\item{retain.class}{Logical: If TRUE, output is always same class as input}
 }
 \value{
 The mode of \code{x}
 }
 \description{
 Returns the mode of a factor or integer
+}
+\examples{
+x <- c(9, 3, 4, 4, 0, 2, 2)
+getModwe(x)
+x <- c(9, 3, 2, 2, 0, 4, 4)
+getMode(x)
+getMode(x, getlast = FALSE)
 }
 \author{
 E.D. Gennatas

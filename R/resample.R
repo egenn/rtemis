@@ -206,11 +206,14 @@ resample <- function(y,
 
 
 #' \code{plot} method for \code{resample} object
+#' 
+#' Run \link{mplot3_res} on a \link{resample} object
 #'
 #' @method plot resample
 #' @param x Vector; numeric or factor: Outcome used for resampling
-#' @param res \link{resample} object
 #' @param col Vector, color
+#' @param ... Additional arguments passed to \link{mplot3_res}
+#' 
 #' @author E.D. Gennatas
 #' @export
 

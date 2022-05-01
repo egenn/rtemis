@@ -16,6 +16,7 @@
 #'
 #' @param ... Message to print
 #' @param date Logical: if TRUE, include date and time in the prefix
+#' @param caller Character: Name of calling function
 #' @param call.depth Integer: Print the system call path of this depth. Default = NULL
 #' @param caller.id Integer: Which function in the call stack to print
 #' @param newline Logical: If TRUE end with a new line. Default = FALSE

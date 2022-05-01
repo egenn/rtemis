@@ -27,19 +27,19 @@ massGAM(
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
-\item{y}{Float, Matrix / data frame: Outcomes}
+\item{y}{Numeric matrix / data frame: Outcomes}
+
+\item{covariates}{Numeric matrix / data.frame of additional covariates}
 
 \item{x.name}{Character: Name of the predictor}
 
 \item{y.name}{Character, vector: Names of the outcomes}
 
-\item{k}{Integer. Number of bases for smoothing spline}
+\item{k}{Integer: Basis dimension for smoothing spline}
 
 \item{family}{\code{family} argument for \code{mgcv::gam}}
 
-\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+\item{weights}{Vector, numeric: Weights for GAM}
 
 \item{method}{Estimation method for GAM}
 
@@ -59,8 +59,6 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{new.x.breaks}{Integer. Number of splits in the range of x
 to form vector of features for estimation of fitted values}
-
-\item{weight}{Vector. Weights for GAM}
 }
 \description{
 Fits a GAM for each of multiple outcomes using a fixed set of features (many y's, one X).

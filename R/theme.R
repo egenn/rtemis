@@ -26,14 +26,26 @@
 #' @param grid.alpha Float: Grid alpha
 #' @param grid.lty Integer: Grid line type
 #' @param grid.lwd Float: Grid line width
-#' @param axes Logical: If TRUE, draw axes
+#' @param axes.visible Logical: If TRUE, draw axes
 #' @param axes.col Axes colors
 #' @param tick.col Tick color
 #' @param tick.alpha Float: Tick alpha
 #' @param tick.labels.col Tick labels' color
+#' @param tck \link{graphic::parr}'s tck argument
+#' @param tcl \link{graphic::parr}'s tcl argument
 #' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
 #' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
 #' @param labs.col Labels' color
+#' @param x.axis.line Numeric: \link{axis}'s \code{line} argument for the x-axis
+#' @param x.axis.las Numeric: \link{axis}'s \code{las} argument for the x-axis
+#' @param x.axis.padj Numeric: x-axis' \code{padj}
+#' @param x.axis.hadj Numeric: x-axis' \code{hadj}
+#' @param y.axis.line Numeric: \link{axis}'s \code{line} argument for the y-axis
+#' @param y.axis.las Numeric: \link{axis}'s \code{las} argument for the y-axis
+#' @param y.axis.padj Numeric: y-axis' \code{padj}
+#' @param y.axis.hadj Numeric: y-axis' \code{hadj}
+#' @param xlab.line Numeric: Line to place \code{xlab}
+#' @param ylab.line Numeric: Line to place \code{ylab}
 #' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within 
 #' plot limits
 #' @param zerolines.col Zerolines color

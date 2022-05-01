@@ -9,25 +9,34 @@
 #' If both lo and prob.lo or both hi and prob.hi are NULL, cut-off is set to min(x) and max(x) respectively, i.e.
 #' no values are changed
 #'
-#' @param lo Numeric: If not NULL, replace any values in \code{x} lower than this with this. Default = NULL
-#' @param hi Numeric: If not NULL, replace any values in \code{x} higher than this with this. Default = NULL
-#' @param prob.lo Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample quantile that corresponds to this
-#' probability and set as \code{lo}. Default = .025
-#' @param prob.hi Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample quantile that corresponds to this
-#' probability and set as \code{hi}. Default = .975
-#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
+#' @param x Numeric vector: Input data
+#' @param lo Numeric: If not NULL, replace any values in \code{x} lower than 
+#' this with this. Default = NULL
+#' @param hi Numeric: If not NULL, replace any values in \code{x} higher than 
+#' this with this.
+#' @param prob.lo Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample 
+#' quantile that corresponds to this probability and set as \code{lo}. 
+#' @param prob.hi Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
+#' quantile that corresponds to this probability and set as \code{hi}.
+#' @param quantile.type Integer: passed to \link{stats::quantile}
+#' @param verbose Logical: If TRUE, print messages to console.
+#' 
 #' @examples
 #' # Winsorize a normally distributed variable
 #' x <- rnorm(500)
 #' xw <- winsorize(x)
-#' # Winsorize an exponentially distributed variable only on the top 5% highest values
+#' # Winsorize an exponentially distributed variable only on 
+#' # the top 5% highest values
 #' x <- rexp(500)
 #' xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
 #' @author E.D. Gennatas
 #' @export
 
-winsorize <- function(x, lo = NULL, hi = NULL,
-                      prob.lo = .025, prob.hi = .975,
+winsorize <- function(x, 
+                      lo = NULL,
+                      hi = NULL,
+                      prob.lo = .025, 
+                      prob.hi = .975,
                       quantile.type = 7,
                       verbose = TRUE) {
 

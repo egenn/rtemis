@@ -64,6 +64,7 @@
 #' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
+#' @param backend (For testing use only)
 #' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)

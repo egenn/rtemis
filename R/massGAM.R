@@ -11,12 +11,13 @@
 #' NA in the input will be kept as NA in the results, maintaining n of cases.
 #'
 #' @inheritParams s_GAM.default
-#' @param y Float, Matrix / data frame: Outcomes
+#' @param y Numeric matrix / data frame: Outcomes
+#' @param covariates Numeric matrix / data.frame of additional covariates
 #' @param x.name Character: Name of the predictor
 #' @param y.name Character, vector: Names of the outcomes
-#' @param k Integer. Number of bases for smoothing spline
+#' @param k Integer: Basis dimension for smoothing spline
 #' @param family \code{family} argument for \code{mgcv::gam}
-#' @param weight Vector. Weights for GAM
+#' @param weights Vector, numeric: Weights for GAM
 #' @param method Estimation method for GAM
 #' @param n.cores Integer. Number of cores to use
 #' @param save.mods Logical. Should models be saved
@@ -27,6 +28,7 @@
 #' @param save.plots Logical. Should plots be saved
 #' @param new.x.breaks Integer. Number of splits in the range of x
 #'   to form vector of features for estimation of fitted values
+#' 
 #' @author E.D. Gennatas
 #' @export
 

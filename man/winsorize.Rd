@@ -15,17 +15,23 @@ winsorize(
 )
 }
 \arguments{
-\item{lo}{Numeric: If not NULL, replace any values in \code{x} lower than this with this. Default = NULL}
+\item{x}{Numeric vector: Input data}
 
-\item{hi}{Numeric: If not NULL, replace any values in \code{x} higher than this with this. Default = NULL}
+\item{lo}{Numeric: If not NULL, replace any values in \code{x} lower than 
+this with this. Default = NULL}
 
-\item{prob.lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample quantile that corresponds to this
-probability and set as \code{lo}. Default = .025}
+\item{hi}{Numeric: If not NULL, replace any values in \code{x} higher than 
+this with this.}
 
-\item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample quantile that corresponds to this
-probability and set as \code{hi}. Default = .975}
+\item{prob.lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample 
+quantile that corresponds to this probability and set as \code{lo}.}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+\item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
+quantile that corresponds to this probability and set as \code{hi}.}
+
+\item{quantile.type}{Integer: passed to \link{stats::quantile}}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 }
 \description{
 Replace extreme values by absolute or quantile threshold
@@ -38,7 +44,8 @@ no values are changed
 # Winsorize a normally distributed variable
 x <- rnorm(500)
 xw <- winsorize(x)
-# Winsorize an exponentially distributed variable only on the top 5\% highest values
+# Winsorize an exponentially distributed variable only on 
+# the top 5\% highest values
 x <- rexp(500)
 xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
 }
