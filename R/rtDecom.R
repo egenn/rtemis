@@ -39,7 +39,7 @@ rtDecom <- R6::R6Class("rtDecom",
                           extra = NULL,
                           ### Initialize
                           #' @description
-                          #' Initiali \code{rtDecom} object
+                          #' Initialize \code{rtDecom} object
                           #' @param decom.name Character: Decomposition algorithm name
                           #' @param xnames Character vector: feature names
                           #' @param decom Decomposition object

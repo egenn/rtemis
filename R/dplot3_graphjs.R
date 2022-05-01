@@ -27,7 +27,7 @@
 #' @param coords Output of precomputed \pkg{igraph} layout. If provided, 
 #' \code{layout} is ignored
 #' @param layout_params List of parameters to pass to \code{layout} function
-#' @param cluster Characer: one of: "edge_betweenness", "fast_greedy", 
+#' @param cluster Character: one of: "edge_betweenness", "fast_greedy", 
 #' "infomap", "label_prop",
 #' "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", 
 #' corresponding to all the

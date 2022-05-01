@@ -9,7 +9,7 @@
 #' session
 #' @param packages Character vector: Names of packages to load in cluster R 
 #' session
-#' @param queue Characer: Name of SGE queue to submit to
+#' @param queue Character: Name of SGE queue to submit to
 #' @param n_threads Integer: Number of threads to request from scheduler
 #' @param sge_out Character: Path to directory to write standard out message 
 #' files

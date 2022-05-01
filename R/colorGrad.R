@@ -44,7 +44,7 @@
 #' @param bar.min Numeric: Lowest value in colorbar
 #' @param bar.mid Numeric: Middle value in colorbar
 #' @param bar.max Numeric: Max value in colorbar
-#' @param cex Float: Chracter expansion for axis
+#' @param cex Float: Character expansion for axis
 #' @param filename String (Optional: Path to file to save colorbar
 #' @param pdf.width Float: Width for PDF output. Default = 3
 #' @param pdf.height Float: Height for PDF output. Default = 7

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas lambdamd.org
 
-#' Hieararchical Ordered Partitioning and Collapsing Hybrid
+#' Hierarchical Ordered Partitioning and Collapsing Hybrid
 #'
 #' Perform HOPACH clustering using \code{hopach::hopach}
 #'

@@ -15,7 +15,7 @@
 #' @param depthLimit Integer: Maximum depth of tree to grow
 #' @param learningRate learning rate for the Newton Raphson step that updates the
 #' function values of the node for \code{update = "exponential"}
-#' @param gamma Float (0, 1): Accelaration factor
+#' @param gamma Float (0, 1): Acceleration factor
 #' @param update Character: "Exponential" or "Polynomial"
 #' @param verbose Logical: If TRUE, print messages to output
 #' 

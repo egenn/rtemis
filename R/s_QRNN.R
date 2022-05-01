@@ -51,7 +51,10 @@ s_QRNN <- function(x, y = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # Intro ----
-  if (missing(x)) { print(args(s.NW)); return(invisible(9)) }
+  if (missing(x)) {
+    print(args(s_QRNN))
+    return(invisible(9))
+  }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
@@ -65,8 +68,10 @@ s_QRNN <- function(x, y = NULL,
   dependency_check("qrnn")
 
   # Arguments ----
-  if (missing(x)) { print(args(s.NW)); stop("x is missing") }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s.NW)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) {
+    print(args(s_QRNN))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   prefix <- paste0(y.name, "~", x.name)

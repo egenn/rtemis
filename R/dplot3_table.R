@@ -14,7 +14,7 @@
 #' @param main.xanchor Character: "auto", "left", "right": plotly's layout xanchor for title. Default = "auto"
 #' @param fill.col Color: Used to fill header with column names and first column with row names.
 #' Default = "#18A3AC"  (teal)
-#' @param table.bg Colot: Table background. Default = "white"
+#' @param table.bg Color: Table background. Default = "white"
 #' @param bg Color: Background. Default = "white"
 #' @param line.col Color: Line color. Default = "white"
 #' @param lwd Float: Line width. Default = 1

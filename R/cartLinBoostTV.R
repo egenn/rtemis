@@ -587,7 +587,7 @@ as.cartLinBoostTV <- function(object,
 #' @method update cartLinBoostTV
 #' @param object \link{cartLinBoostTV} object
 #' @param x Data frame: Features
-#' @param last.step.only Logicall: If TRUE, \code{x} must be provided and only the last meta model will be updated
+#' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 #' using this \code{x}
 #' @return \link{cartLinBoostTV} object
 #' @author E.D. Gennatas

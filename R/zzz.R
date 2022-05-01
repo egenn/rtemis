@@ -46,10 +46,10 @@ rtemis.version <- packageVersion("rtemis")
         "\n\n  Resources",
         "\n  | Documentation: https://rtemis.lambdamd.org",
         "\n  |       Learn R: https://class.lambdamd.org/pdsr",
-        "\n  | VS Code theme: https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark",
-        '\n  |          Cite: Run `citation("rtemis")`',
+        "\n  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes",
+        '\n  |          Cite: `citation("rtemis")`',
         "\n\n  Setup",
-        "\n  | Enable progress reporting: Run `progressr::handlers(global = TRUE)`",
+        "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`",
         "\n"
     ))
 

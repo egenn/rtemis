@@ -21,8 +21,8 @@
 #' @param add Logical: If TRUE, an additive constant \code{c*} will be computed and added to the
 #' non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE
 #' @param x.ret Logical: If TRUE, return the doubly centered symmetric distance matrix. Default = FALSE
-#' @param scale Logicall: If TRUE, scale input data before decomposition. Default = TRUE
-#' @param center Logicall: If TRUE, also center input data if \code{scale} is \code{TRUE}.
+#' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
+#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
 #' Default = TRUE
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas

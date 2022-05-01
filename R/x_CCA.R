@@ -195,7 +195,7 @@ x_CCA <- function(x, z,
 #'
 #' Run PMA::CCA.permute permutation in parallel
 #'
-#' @author adapted by Efstathios D Gennatas; original authors: Daniela M. Witten, Robert Tibshirani
+#' @author adapted by E.D. Gennatas; original authors: Daniela M. Witten, Robert Tibshirani
 #' @keywords internal
 
 x_CCA.permute <- function(x, z,
@@ -308,7 +308,7 @@ x_CCA.permute <- function(x, z,
 #'
 #' Run PMA::CCA.permute.both permutations in parallel
 #'
-#' @author adapted by Efstathios D Gennatas; original authors: Daniela M Witten, Robert Tibshirani
+#' @author adapted by E.D. Gennatas; original authors: Daniela M Witten, Robert Tibshirani
 #' @keywords internal
 
 x_CCA.permute.both <- function(x, z,

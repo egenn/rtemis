@@ -574,7 +574,7 @@ as.glmLiteBoostTV <- function(object,
 #' @method update glmLiteBoostTV
 #' @param object \link{glmLiteBoostTV} object
 #' @param x Data frame: Features
-#' @param last.step.only Logicall: If TRUE, \code{x} must be provided and only the last meta model will be updated
+#' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 #' using this \code{x}
 #' @return \link{glmLiteBoostTV} object
 #' @author E.D. Gennatas

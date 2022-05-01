@@ -21,7 +21,7 @@
 #' "sugiyama", corresponding to all the available layouts in \pkg{igraph}
 #' @param coords Output of precomputed \pkg{igraph} layout. If provided, \code{layout} is ignored
 #' @param layout_params List of parameters to pass to \code{layout} function
-#' @param cluster Characer: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
+#' @param cluster Character: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
 #' "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
 #' available \pkg{igraph} clustering functions
 #' @param groups Output of precomputed \pkg{igraph} clustering. If provided, \code{cluster} is

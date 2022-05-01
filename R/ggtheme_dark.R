@@ -5,7 +5,7 @@
 #' \pkg{rtemis} \code{ggplot2} dark theme
 #'
 #' @inheritParams ggtheme_light
-#' @param strip.background.fill Color: Fill color from facet labels. Default = "grey25"
+#' @param strip.background.fill Color: Fill color from facet labels. Default = "gray25"
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -23,7 +23,7 @@ ggtheme_dark <- function(base_size = 14,
                               legend.key.fill = NA,
                               legend.text.size.rel = 1,
                               legend.position = "right",
-                              strip.background.fill = "grey25") {
+                              strip.background.fill = "gray25") {
 
   half_line <- base_size/2
 
@@ -49,7 +49,7 @@ ggtheme_dark <- function(base_size = 14,
                  axis.line.x = NULL,
                  axis.line.y = NULL,
                  axis.text = ggplot2::element_text(size = ggplot2::rel(axis.text.size.rel), # delta
-                                                   colour = "grey50"),
+                                                   colour = "gray50"),
                  axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = 0.8 * half_line/2),
                                                      vjust = 1),
                  axis.text.x.top = ggplot2::element_text(margin = ggplot2::margin(b = 0.8 * half_line/2),
@@ -58,7 +58,7 @@ ggtheme_dark <- function(base_size = 14,
                                                      hjust = 1),
                  axis.text.y.right = ggplot2::element_text(margin = ggplot2::margin(l = 0.8 * half_line/2),
                                                            hjust = 0),
-                 axis.ticks = ggplot2::element_line(colour = "grey20"),
+                 axis.ticks = ggplot2::element_line(colour = "gray20"),
                  axis.ticks.length = ggplot2::unit(half_line/2, "pt"),
                  axis.ticks.length.x = NULL,
                  axis.ticks.length.x.top = NULL,
@@ -97,7 +97,7 @@ ggtheme_dark <- function(base_size = 14,
                  legend.box.margin = ggplot2::margin(0, 0, 0, 0, "cm"),
                  legend.box.background = ggplot2::element_blank(),
                  legend.box.spacing = ggplot2::unit(2 * half_line, "pt"),
-                 panel.background = ggplot2::element_rect(fill = "grey15",
+                 panel.background = ggplot2::element_rect(fill = "gray15",
                                                           colour = NA),
                  panel.border = ggplot2::element_blank(),
                  panel.grid = ggplot2::element_line(colour = "black"),
@@ -108,7 +108,7 @@ ggtheme_dark <- function(base_size = 14,
                  panel.ontop = FALSE,
                  strip.background = ggplot2::element_rect(fill = strip.background.fill,
                                                           colour = NA),
-                 strip.text = ggplot2::element_text(colour = "grey90",
+                 strip.text = ggplot2::element_text(colour = "gray90",
                                                     size = ggplot2::rel(0.8),
                                                     margin = ggplot2::margin(0.8 * half_line, 0.8 * half_line, 0.8 * half_line, 0.8 * half_line)),
                  strip.text.x = NULL,

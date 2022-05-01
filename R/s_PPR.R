@@ -4,7 +4,7 @@
 
 #' Projection Pursuit Regression (PPR) [R]
 #'
-#' Train a Projection Pursuirt Regression model
+#' Train a Projection Pursuit Regression model
 #'
 #' [gS]: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the
 #'   training set prior to training model on full training set

@@ -11,7 +11,7 @@
 #' @param v Float: Value. Default = 1
 #' @param alpha Float: Alpha. Default = 1
 #' @param pch Integer: pch plot parameter. Default = 15 (square)
-#' @param bg Colot: Background color. Default = "black"
+#' @param bg Color: Background color. Default = "black"
 #' @param axes Logical: for \code{type = "cartesian"}: If TRUE, draw axes.
 #' Default = TRUE
 #' @param pty Character: for \code{type = "cartesian"}: "s", "r", par's pty

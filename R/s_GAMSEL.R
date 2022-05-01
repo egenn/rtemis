@@ -181,7 +181,7 @@ s_GAMSEL <- function(x, y = NULL,
   lambda.index <- if (which.lambda == "lambda.min") mod$index.min else mod$index.1se
 
   # Fitted ----
-  # TODO: switch both fitted and predicted to predict.rtMod
+  # TODO: switch fitted and predicted to predict.rtMod
   if (type == "Regression") {
     # in gamsel2, this works with both "gamsel" and "cv.gamsel" objects
     fitted <- c(predict(mod, x, index = lambda.index, type = "response"))

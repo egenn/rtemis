@@ -10,7 +10,8 @@
 #'
 #' If input is data.frame, non-numeric variables will be removed
 #' @inheritParams dplot3_bar
-#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element
+#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each 
+#' column of or each element
 #' @param type Character: "density" or "histogram"
 #' @param mode Character: "overlap", "ridge". How to plot different groups;
 #' on the same axes ("overlap"), or on separate plots with the same x-axis
@@ -18,37 +19,50 @@
 #' @param group Vector: Will be converted to factor; levels define group 
 #' members. Default = NULL
 #' @param main Character: Main title
-#' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
-#' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
-#' to draw the largest square available. This means that resizing the device window will not automatically resize the
-#' plot.
-#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than
-#' 1 element
-#' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = c(0, 1), which places the
-#' legend top left within the plot area. Set to NULL to place legend top right beside the plot area
-#' @param bargap Float: The gap between adjacent histogram bars in plot fraction. Default = .05
-#' @param zerolines Logical: If TRUE: draw lines at y = 0. Default = FALSE
-#' @param histnorm Character: NULL, "percent", "probability", "density", "probability density"
-#' @param histfunc Character: "count", "sum", "avg", "min", "max". Default = "count"
-#' @param hist.n.bins Integer: Number of bins to use if type = "histogram". Default = 20
-#' @param ridge.sharex Logical: If TRUE, draw single x-axis when \code{mode = "ridge"}. Default = TRUE
-#' @param ridge.y.labs Lofical: If TRUE, show individual y labs when \code{mode = "ridge"}. Default = FALSE
-#' @param ridge.order.on.mean Logical: If TRUE, order groups by mean value when \code{mode = "ridge"}. Defaul = TRUE.
+#' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic 
+#' device. Default = FALSE. Note: If TRUE, the device size at time of call is 
+#' captured and height and width are set so as to draw the largest square 
+#' available. This means that resizing the device window will not automatically 
+#' resize the plot.
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be 
+#' set to TRUE if x is a list of more than 1 element
+#' @param legend.xy Float, vector, length 2: Relative x, y position for legend. 
+#' Default = c(0, 1), which places the legend top left within the plot area. 
+#' Set to NULL to place legend top right beside the plot area
+#' @param bargap Float: The gap between adjacent histogram bars in plot 
+#' fraction.
+#' @param zerolines Logical: If TRUE: draw lines at y = 0. 
+#' @param histnorm Character: NULL, "percent", "probability", "density", 
+#' "probability density"
+#' @param histfunc Character: "count", "sum", "avg", "min", "max". 
+#' @param hist.n.bins Integer: Number of bins to use if type = "histogram".
+#' @param ridge.sharex Logical: If TRUE, draw single x-axis when 
+#' \code{mode = "ridge"}.
+#' @param ridge.y.labs Lofical: If TRUE, show individual y labs when 
+#' \code{mode = "ridge"}.
+#' @param ridge.order.on.mean Logical: If TRUE, order groups by mean value 
+#' when \code{mode = "ridge"}.
 #' Turn to FALSE, if, for example, groups are ordered by date or similar.
-#' @param vline Float, vector: If defined, draw a vertical line at this x value(s). Default = NULL
+#' @param vline Float, vector: If defined, draw a vertical line at this x 
+#' value(s). Default = NULL
 #' @param vline.col Color for \code{vline}. Default = theme$fg
 #' @param vline.width Float: Width for \code{vline}. Default = 1
-#' @param vline.dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot",
+#' @param vline.dash Character: Type of line to draw: "solid", "dot", "dash", 
+#' "longdash", "dashdot",
 #' or "longdashdot"
 #' @param text Character: If defined, add this text over the plot
 #' @param text.x Float: x-coordinate for \code{text}
-#' @param text.xref Character: "x": \code{text.x} refers to plot's x-axis; "paper": \code{text.x} refers to plotting area from 0-1
+#' @param text.xref Character: "x": \code{text.x} refers to plot's x-axis; 
+#' "paper": \code{text.x} refers to plotting area from 0-1
 #' @param text.xanchor Character: "auto", "left", "center", "right"
 #' @param text.yanchor Character: "auto", "top", "middle", "bottom"
-#' @param text.yref Character: "y": \code{text.y} refers to plot's y-axis; "paper": \code{text.y} refers to plotting area from 0-1
+#' @param text.yref Character: "y": \code{text.y} refers to plot's y-axis; 
+#' "paper": \code{text.y} refers to plotting area from 0-1
 #' @param text.col Color for \code{text}. Default = theme$fg
-#' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
-#' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
+#' @param width Float: Force plot size to this width. Default = NULL, i.e. fill 
+#' available space
+#' @param height Float: Force plot size to this height. Default = NULL, i.e. 
+#' fill available space
 #' @author E.D. Gennatas
 #' @export
 #' @examples

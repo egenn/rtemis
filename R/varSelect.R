@@ -2,13 +2,13 @@
 # ::rtemis::
 # 2017 E.D. Gennatas lambdamd.org
 
-#' Variable Selection by Variable Importace
+#' Variable Selection by Variable Importance
 #'
 #' Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
 #'
 #' @param x Matrix / Data Frame of Predictors
 #' @param y Outcome vector
-#' @param method Character: "RANGER", "XGBLIN": Learner to use for estimating variable importace. Default = "RANGER"
+#' @param method Character: "RANGER", "XGBLIN": Learner to use for estimating variable importance. Default = "RANGER"
 #' @param xgb.params List of parameters for \code{method = "XGBLIN"}
 #' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false

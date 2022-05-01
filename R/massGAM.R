@@ -27,7 +27,7 @@
 #' @param save.plots Logical. Should plots be saved
 #' @param new.x.breaks Integer. Number of splits in the range of x
 #'   to form vector of features for estimation of fitted values
-#' @author Eftsthios D. Gennatas
+#' @author E.D. Gennatas
 #' @export
 
 massGAM <- function(x, y,

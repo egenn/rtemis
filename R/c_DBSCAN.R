@@ -1,6 +1,6 @@
 # c_DBSCAN.R
 # ::rtemis::
-# Efstathios D. Gennatas egenn.github.io
+# E.D. Gennatas egenn.github.io
 
 #' Density-based spatial clustering of applications with noise
 #'

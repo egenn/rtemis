@@ -68,7 +68,7 @@
 #' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 # @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
-#' @param trace Integer: The hight the number the more diagnostic info is 
+#' @param trace Integer: The height the number the more diagnostic info is 
 #' printed to the console
 #' @param ... Additional arguments passed to theme
 #'
