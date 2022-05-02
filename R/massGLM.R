@@ -5,8 +5,8 @@
 #' Mass-univariate GLM Analysis
 #'
 #' Run a mass-univariate analysis with either:
-#' a) single outome (y) and multiple predictors (x), one at a time, with optional a common set of
-#' covariates in each model - "massx"
+#' a) single outome (y) and multiple predictors (x), one at a time, with an
+#' optional common set of covariates in each model - "massx"
 #' b) multiple different outcomes (y) with a fixed set of predictors (x) - "massy"
 #' Therefore, the term mass-univariate refers to looking at one variable of interest (with
 #' potential covariates of no interest) at a time
