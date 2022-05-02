@@ -126,8 +126,6 @@ If \code{data} is provided, \code{group} is name of variable if \code{data}}
 \item{index.ypad}{Float: Expand ylim by this much for plot type "index" Default = .1
 (Stops points being cut off)}
 
-\item{axes.col}{Character: Color for axes values (box color set with \code{box.col})}
-
 \item{index.type}{Character: "p" for points (Default), "l" for lines (timeseries)}
 
 \item{hist.breaks}{See \code{histogram("breaks")}}
@@ -163,7 +161,8 @@ Default = TRUE}
 
 \item{group.title}{Character: Title above group names}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+\item{group.names}{(Optional) If multiple groups are plotted, use these 
+names if \code{group.title = TRUE}}
 
 \item{group.side}{Integer: Side to show group legend}
 
@@ -172,10 +171,6 @@ Default = TRUE}
 \item{group.at}{Float: location for group legend. See \code{mtext("at")}}
 
 \item{line.col}{Color for lines}
-
-\item{x.axis.padj}{Float: Adjustment for the x axis tick labels position}
-
-\item{y.axis.padj}{Float: Similar to \code{x.axis.padj} for the y axis}
 
 \item{labs.col}{Color for labels}
 
@@ -211,36 +206,37 @@ for \code{type = "density"}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtpalette()}}
+\item{palette}{Vector of colors, or Character defining a builtin palette - 
+get options with \code{rtpalette()}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
-(See \code{par("pty")})}
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
-Default = "r"}
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; 
+"i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
 
-\item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
-\code{autolabel = TRUE}. Default = \code{letters}}
+\item{autolabel}{Vector to be used to generate autolabels when using 
+\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
 \item{na.rm}{Logical: Will be passed to all functions that support it. If set to FALSE,
 input containing NA values will result in error, depending on the \code{type}}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
 \item{filename}{Path to file: If supplied, plot will be printed to file}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+is set).}
 
-\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
+\item{pdf.height}{Float: Height in inches for pdf output.}
 
 \item{...}{Additional arguments to be passed to theme function}
 }

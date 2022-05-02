@@ -29,7 +29,8 @@ mplot_AGGTEobj(
 
 \item{main}{Character: Plot title}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}}
+\item{group.names}{(Optional) If multiple groups are plotted, use these 
+names if \code{group.title = TRUE}}
 
 \item{xlab}{Character: x-axis label}
 
@@ -41,7 +42,7 @@ mplot_AGGTEobj(
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
 \item{...}{Additional arguments to be passed to theme function}
 }

@@ -76,7 +76,6 @@ massGLM <- function(x, y,
         if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq(NCOL(y)))
         nmods <- NCOL(y)
     }
-    # if (verbose) msg("Will train", nmods, "models")
 
     if (is.null(xnames)) {
         xnames <- if (is.null(colnames(x))) {

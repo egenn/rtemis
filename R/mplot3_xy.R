@@ -10,81 +10,90 @@
 #'   If \code{data} is provided, name of variable, unquoted.
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If \code{data} is provided, name of variable, unquoted.
-#' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
-#'   Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
-#'   be passed as a string.
-#' @param formula Formula: Provide a formula to be solved using \link{s_NLS}. If provided, \code{fit} is
-#' forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
-#' and warnings, but is powerful. Use single letters for parameter names, no numbers.
+#' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit. 
+#' Options: see \code{modSelect}
+#' Can also be Logical, which will give a GAM fit if TRUE. If you specify 
+#' "NLA", the activation function should be passed as a string.
+#' @param formula Formula: Provide a formula to be solved using \link{s_NLS}. 
+#' If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a 
+#' power curve. Note: \code{nls} is powerful but is prone to errors
+#' and warnings. Use single letters for parameter names, no numbers.
 #' @param se.fit Logical: If TRUE, draw the standard error of the fit
-#' @param fit.params List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
-#' parameters
-#' @param error.x Vector, float: Error in \code{x} (e.g. standard deviation) will be plotted as bars around point
-#' @param error.y Vector, float: Error in \code{y} (e.g. standard deviation) will be plotted as bars around point
-#' @param cluster Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
-#' pass result to \code{group}. Run \link{clustSelect} for options
-#' @param cluster.params List: Names list of parameters to pass to the \code{cluster} function
+#' @param fit.params List: Arguments for learner defined by \code{fit}. 
+#' Default = NULL, i.e. use default learner parameters
+#' @param error.x Vector, float: Error in \code{x} (e.g. standard deviation) 
+#' will be plotted as bars around point
+#' @param error.y Vector, float: Error in \code{y} (e.g. standard deviation) 
+#' will be plotted as bars around point
+#' @param cluster Character: Clusterer name. Will cluster 
+#' \code{data.frame(x, y)} and pass result to \code{group}. 
+#' Run \link{clustSelect} for options
+#' @param cluster.params List: Names list of parameters to pass to the 
+#' \code{cluster} function
 #' @param data (Optional) data frame, where \code{x} and \code{y} are defined
 #' @param group Vector: will be converted to factor.
 #'   If \code{data} is provided, name of variable, unquoted.
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param main Character: Plot title
-#' @param se.lty How to draw the \code{se.fit} "poly" draws a polygon around the fit line,
-#'   otherwise an integer defines the lty (line type) for lines to be drawn
+#' @param se.lty How to draw the \code{se.fit} "poly" draws a polygon around 
+#' the fit line, otherwise an integer defines the lty (line type) for lines to 
+#' be drawn
 #' @param se.col Color for \code{se.fit}
 #' @param se.alpha Alpha for \code{se.fit}
-#' @param se.times Draw polygon or lines at +/- \code{se.times} * standard error of fit. Defaults to 2
-#'   (1.96 * standard error corresponds to 95\% confidence interval)
+#' @param se.times Draw polygon or lines at +/- \code{se.times} * standard 
+#' error of fit. Defaults to 1.96, which corresponds to 95\% confidence interval
 #' @param se.border Define border of polygon for \code{se.fit}.
 #'   See \code{border} in \code{graphics::polygon}
 #' @param se.density Density of shading line of polygon for \code{se.fit}.
 #'   See \code{density} in \code{graphics::polygon}
-#' @param type Character: "p" for points, "l" for lines, "s" for steps. Default = "p". If \code{x} and/or \code{y} contains multiple
-#'   vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will give a set of points and two sets
-#'   of lines. Otherwise, \code{type} is recycled to length of x
+#' @param type Character: "p" for points, "l" for lines, "s" for steps. 
+#' Default = "p". If \code{x} and/or \code{y} contains multiple
+#'   vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will 
+#' give a set of points and two sets of lines. Otherwise, \code{type} is 
+#' recycled to length of x
 #' @param xlim Float vector, length 2: x-axis limits
 #' @param ylim Float vector, length 2: y-axis limits
 #' @param axes.equal Logical: Should axes be equal? Defaults to FALSE
-#' @param axes.col Character: Color for axes values (box color set with \code{box.col})
-#' @param pty Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
-#'   (See \code{par("pty")})
+#' @param pty Character: "s" gives a square plot; "m" gives a plot that fills 
+#' graphics device size. Default = "m" (See \code{par("pty")})
 #' @param fit.lwd Float: Fit line width
 #' @param rsq Logical: If TRUE, add legend with R-squared (if fit is not NULL)
-#' @param rsq.pval Logical: If TRUE, add legend with R-squared and its p-value (if fit is not NULL)
+#' @param rsq.pval Logical: If TRUE, add legend with R-squared and its p-value,
+#' if fit is not NULL
 #' @param annotation Character: Add annotation at the bottom right of the plot
 #' @param annotation.col Color for annotation
-#' @param tck Float: Tick length. Can be negative (See \code{par("tck")})
-#' @param x.axis.padj Float: Adjustment for the x axis tick labels position
-#' @param xlab.line Float: Adjustment for the x axis label position (See code{line} in \code{?mtext})
-#' @param y.axis.padj Float: Similar to \code{x.axis.padj} for the y axis
-#' @param ylab.line Float: Similar to \code{xlab.line} for the y axis
 #' @param xlab.adj Float: \code{adj} for \code{xlab} (See \code{par("adj")})
 #' @param ylab.adj Float: \code{adj} for \code{ylab} (See \code{par("adj")})
 #' @param theme Character: Run \code{themes()} for available themes
 #' @param mar Float, vector, length 4: Margins; see \code{par("mar")}
 #' @param oma Float, vector, length 4: Outer margins; see \code{par("oma")}
 #' @param group.legend Logical: If TRUE, place \code{group.names} in a legend
-#' @param group.names (Optional) If multiple groups are plotted, use these names if \code{group.title = TRUE}
-#' @param group.title Character: Group title, shown above group names. e.g. if group names are
-#'   c("San Francisco", "Philadelphia"), \code{group.title} can be "Place of residence"
+#' @param group.names (Optional) If multiple groups are plotted, use these 
+#' names if \code{group.title = TRUE}
+#' @param group.title Character: Group title, shown above group names. e.g. 
+#' if group names are c("San Francisco", "Philadelphia"), \code{group.title} 
+#' can be "City"
 #' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
-#' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE: plotting clipped to figure region;
-#' NA: plotting clipped to device region. Default = TRUE
-#' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end; "i": Use exact x-axis limits.
-#' Default = "r"
+#' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE: 
+#' plotting clipped to figure region; NA: plotting clipped to device region. 
+#' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end; 
+#' "i": Use exact x-axis limits. Default = "r"
 #' @param yaxs Character: as \code{xaxs} for the y-axis. Default = "r"
-#' @param rsq.side Integer: [1:4] Where to place the \code{rsq} annotation. Default = 1 (i.e. bottom)
+#' @param rsq.side Integer: [1:4] Where to place the \code{rsq} annotation. 
+#' Default = 1 (i.e. bottom)
 #' @param rsq.adj Float: Adjust \code{rsq} annotation. See \code{mtext "adj"}
-#' @param rsq.col Color: Color for \code{rsq} annotation. Default = NULL, which results in \code{fit.col}
-#' @param fit.error  Logical: If TRUE: draw fit error annotation. Default = NULL, which results in TRUE, if fit is set
-#' @param fit.error.side Integer [1:4]: Which side to draw \code{fit.error} on. Default = 1
+#' @param rsq.col Color: Color for \code{rsq} annotation. Default = NULL, which 
+#' results in \code{fit.col}
+#' @param fit.error  Logical: If TRUE: draw fit error annotation. 
+#' Default = NULL, which results in TRUE, if fit is set
+#' @param fit.error.side Integer [1:4]: Which side to draw \code{fit.error} on.
 #' @param fit.error.padj Float: See \code{mtext:padg} Default = NA
 #' @param xaxp See \code{par("xaxp")}
 #' @param yaxp See \code{par("yaxp")}
-#' @param scatter Logical: If TRUE, plot (x, y) scatter points. Default = TRUE
-#' @param x.axis.at Float, vector: x coordinates to place tick marks. Default = NULL, determined by
-#' \code{graphics::axis} aautomatically
+#' @param scatter Logical: If TRUE, plot (x, y) scatter points.
+#' @param x.axis.at Float, vector: x coordinates to place tick marks. 
+#' Default = NULL, determined by \code{graphics::axis} aautomatically
 #' @param y.axis.at As \code{x.axis.at} for y-axis
 #' @param x.axis.labs See \code{axis("labels")}
 #' @param y.axis.labs See \code{axis("labels")}
@@ -103,7 +112,8 @@
 #' @param error.y.lty Integer: line type for y-axis error bars
 #' @param error.x.lwd Float: Line width for x-axis error bars
 #' @param error.y.lwd Float: Line width for y-axis error bars
-#' @param error.arrow.code Integer: Type of arrow to draw for error bars. See \code{arrows("code")}
+#' @param error.arrow.code Integer: Type of arrow to draw for error bars. 
+#' See \code{arrows("code")}
 #' @param fit.col Color: Color of the fit line.
 #' @param fit.alpha Float [0, 1]: Transparency for fit line
 #' @param fit.legend Logical: If TRUE, show fit legend
@@ -130,19 +140,21 @@
 #' @param fit.legend.adj Float: \code{adj} for fit legend
 #' @param fit.legend.padj Float: \code{padj} for fit legend
 #' @param fit.legend.at Float: location for fit legend. See \code{mtext("at")}
-#' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y. Default = TRUE.
+#' @param rm.na Logical: If TRUE, remove all NA values pairwise between x and y.
 #' Set to FALSE if you know your data has no missing values.
-#' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtpalette()}
-#' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. Default = NULL: will be set to TRUE if fit is set,
-#' otherwise FALSE
-#' @param autolabel Vector to be used to generate autolabels when using \link{rtlayout} with
-#' \code{autolabel = TRUE}. Default = \code{letters}
-#' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE
+#' @param palette Vector of colors, or Character defining a builtin palette - 
+#' get options with \code{rtpalette()}
+#' @param order.on.x Logical: If TRUE, order (x, y) by increasing x. 
+#' Default = NULL: will be set to TRUE if fit is set, otherwise FALSE
+#' @param autolabel Vector to be used to generate autolabels when using 
+#' \link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}
+#' @param par.reset Logical: If TRUE, reset \code{par} setting before exiting. 
 #' @param return.lims Logical: If TRUE, return xlim and ylim. Default = FALSE
-#' @param pdf.width Float: Width in inches for pdf output (if \code{filename} is set). Default = 6
-#' @param pdf.height Float: Height in inches for pdf output. Default = 6
-#' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and fit functions, if used. Default = 0
+#' @param pdf.width Float: Width in inches for pdf output (if \code{filename} 
+#' is set).
+#' @param pdf.height Float: Height in inches for pdf output.
+#' @param trace Integer: If > 0, pass \code{verbose = TRUE} to the cluster and 
+#' fit functions, if used. Default = 0
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to theme function
 #'
@@ -229,7 +241,7 @@ mplot3_xy <- function(x, y = NULL,
                       se.lwd = 1,
                       se.col = NULL,
                       se.alpha = .5,
-                      se.times = 2,
+                      se.times = 1.96,
                       se.border = FALSE,
                       se.density = NULL,
                       hline = NULL,

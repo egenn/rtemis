@@ -42,7 +42,7 @@ on the x-axis}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
 \item{...}{Additional arguments to be passed to theme function}
 }

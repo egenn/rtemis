@@ -69,21 +69,25 @@ dplot3_xyz(
 
 \item{z}{Numeric, vector/data.frame/list: z-axis data}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. Options: see \code{modSelect}
-Can also be Logical, which will give a GAM fit if TRUE. If you specify "NLA", the activation function should
-be passed as a string.}
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. 
+Options: see \code{modSelect}
+Can also be Logical, which will give a GAM fit if TRUE. If you specify 
+"NLA", the activation function should be passed as a string.}
 
-\item{cluster}{Character: Clusterer name. Will cluster \code{data.frame(x, y)} and
-pass result to \code{group}. Run \link{clustSelect} for options}
+\item{cluster}{Character: Clusterer name. Will cluster 
+\code{data.frame(x, y)} and pass result to \code{group}. 
+Run \link{clustSelect} for options}
 
-\item{cluster.params}{List: Names list of parameters to pass to the \code{cluster} function}
+\item{cluster.params}{List: Names list of parameters to pass to the 
+\code{cluster} function}
 
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. If provided, \code{fit} is
-forced to \code{'nls'}. e.g. y ~ b * m ^ x for a power curve. Note: \code{nls} is prone to errors
-and warnings, but is powerful. Use single letters for parameter names, no numbers.}
+\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. 
+If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a 
+power curve. Note: \code{nls} is powerful but is prone to errors
+and warnings. Use single letters for parameter names, no numbers.}
 
 \item{rsq}{Logical: If TRUE, print R-squared values in legend if \code{fit} is set}
 
@@ -147,8 +151,8 @@ theme}
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
 Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
-\item{fit.params}{List: Arguments for learner defined by \code{fit}. Default = NULL, i.e. use default learner
-parameters}
+\item{fit.params}{List: Arguments for learner defined by \code{fit}. 
+Default = NULL, i.e. use default learner parameters}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
 

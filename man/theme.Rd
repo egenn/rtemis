@@ -624,7 +624,7 @@ Default = "n" (no box)}
 
 \item{tick.labels.col}{Tick labels' color}
 
-\item{tck}{\link{graphic::parr}'s tck argument}
+\item{tck}{\link{graphic::parr}'s tck argument: Tick length, can be negative}
 
 \item{tcl}{\link{graphic::parr}'s tcl argument}
 
@@ -638,7 +638,8 @@ Default = "n" (no box)}
 
 \item{x.axis.las}{Numeric: \link{axis}'s \code{las} argument for the x-axis}
 
-\item{x.axis.padj}{Numeric: x-axis' \code{padj}}
+\item{x.axis.padj}{Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
+tick labels' position}
 
 \item{x.axis.hadj}{Numeric: x-axis' \code{hadj}}
 

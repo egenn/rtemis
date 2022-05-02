@@ -57,7 +57,6 @@ s_XGBOOST(
   error.curve = FALSE,
   plot.res = TRUE,
   save.res = FALSE,
-  save.res.mod = FALSE,
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = "exhaustive",

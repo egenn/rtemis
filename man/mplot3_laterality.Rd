@@ -69,24 +69,25 @@ Default = "median"}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{autolabel}{Vector to be used to generate autolabels when using \link{rtlayout} with
-\code{autolabel = TRUE}. Default = \code{letters}}
+\item{autolabel}{Vector to be used to generate autolabels when using 
+\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills graphics device size. Default = "m"
-(See \code{par("pty")})}
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+graphics device size. Default = "m" (See \code{par("pty")})}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - get options with
-\code{rtpalette()}}
+\item{palette}{Vector of colors, or Character defining a builtin palette - 
+get options with \code{rtpalette()}}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} is set). Default = 6}
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+is set).}
 
-\item{pdf.height}{Float: Height in inches for pdf output. Default = 6}
+\item{pdf.height}{Float: Height in inches for pdf output.}
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 

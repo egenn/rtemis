@@ -31,14 +31,15 @@
 #' @param tick.col Tick color
 #' @param tick.alpha Float: Tick alpha
 #' @param tick.labels.col Tick labels' color
-#' @param tck \link{graphic::parr}'s tck argument
+#' @param tck \link{graphic::parr}'s tck argument: Tick length, can be negative
 #' @param tcl \link{graphic::parr}'s tcl argument
 #' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
 #' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
 #' @param labs.col Labels' color
 #' @param x.axis.line Numeric: \link{axis}'s \code{line} argument for the x-axis
 #' @param x.axis.las Numeric: \link{axis}'s \code{las} argument for the x-axis
-#' @param x.axis.padj Numeric: x-axis' \code{padj}
+#' @param x.axis.padj Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
+#' tick labels' position
 #' @param x.axis.hadj Numeric: x-axis' \code{hadj}
 #' @param y.axis.line Numeric: \link{axis}'s \code{line} argument for the y-axis
 #' @param y.axis.las Numeric: \link{axis}'s \code{las} argument for the y-axis
