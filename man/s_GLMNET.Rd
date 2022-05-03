@@ -180,6 +180,7 @@ Other Supervised Learning:
 \code{\link{s_IRF}()},
 \code{\link{s_KNN}()},
 \code{\link{s_LDA}()},
+\code{\link{s_LMTREE}()},
 \code{\link{s_LM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
@@ -208,7 +209,8 @@ Other Interpretable models:
 \code{\link{s_ADDTREE}()},
 \code{\link{s_C50}()},
 \code{\link{s_CART}()},
-\code{\link{s_GLM}()}
+\code{\link{s_GLM}()},
+\code{\link{s_LMTREE}()}
 }
 \author{
 E.D. Gennatas
