@@ -2,12 +2,13 @@
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 
-#' Linear Tree [C, R]
+#' Linear Model Tree [R]
 #'
 #' Train a LMTREE for regression or classification using \code{rpart}
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
+#' @param ... Additional arguments passed to \code{partykit::mob_control}
 #'
 #' @return Object of class \link{rtMod}
 #' @author E.D. Gennatas
@@ -22,6 +23,32 @@ s_LMTREE <- function(x, y = NULL,
                      x.name = NULL, y.name = NULL,
                      weights = NULL,
                      offset = NULL,
+                    #  alpha = 0.05, 
+                    #  bonferroni = TRUE, 
+                    #  minsize = NULL, 
+                    #  maxdepth = Inf,
+                    #  mtry = Inf, 
+                    #  trim = 0.1, 
+                    #  breakties = FALSE, 
+                    #  parm = NULL, 
+                    #  dfsplit = TRUE, 
+                    #  prune = NULL,
+                    #  restart = TRUE, 
+                    #  verbose = FALSE, 
+                    #  caseweights = TRUE, 
+                    #  ytype = "vector", 
+                    #  xtype = "matrix",
+                    #  terminal = "object", 
+                    #  inner = terminal, 
+                    #  model = TRUE, 
+                    #  numsplit = "left",
+                    #  catsplit = "binary", 
+                    #  vcov = "opg", 
+                    #  ordinal = "chisq", 
+                    #  nrep = 10000,
+                    #  minsplit = minsize, 
+                    #  minbucket = minsize, 
+                    #  applyfun = NULL,
                      ipw = TRUE,
                      ipw.type = 2,
                      upsample = FALSE,
@@ -35,7 +62,7 @@ s_LMTREE <- function(x, y = NULL,
                      question = NULL,
                      verbose = TRUE,
                      outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
+                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
     # Intro ----
     if (missing(x)) {
         print(args(s_LMTREE))
@@ -105,7 +132,7 @@ s_LMTREE <- function(x, y = NULL,
         data = df.train,
         na.action = na.action,
         weights = .weights,
-        offset = offset
+        offset = offset, ...
     )
 
     # Fitted ----
@@ -119,7 +146,7 @@ s_LMTREE <- function(x, y = NULL,
     # Predicted ----
     predicted.prob <- predicted <- error.test <- NULL
     if (!is.null(x.test)) {
-        predicted <- predict(mod, x.test, type = "vector")
+        predicted <- predict(mod, x.test, type = "response")
         predicted.prob <- NULL
         if (!is.null(y.test)) {
             error.test <- modError(y.test, predicted, predicted.prob)
