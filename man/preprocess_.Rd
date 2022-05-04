@@ -2,7 +2,7 @@
 % Please edit documentation in R/preprocess_.R
 \name{preprocess_}
 \alias{preprocess_}
-\title{Data preprocessing}
+\title{Data preprocessing (in-place)}
 \usage{
 preprocess_(
   x,
@@ -11,11 +11,6 @@ preprocess_(
   removeCases.thres = NULL,
   removeFeatures.thres = NULL,
   missingness = FALSE,
-  impute = FALSE,
-  impute.type = c("missRanger", "micePMM", "meanMode"),
-  impute.missRanger.params = list(pmm.k = 3, maxiter = 10, num.trees = 500),
-  impute.discrete = getMode,
-  impute.numeric = mean,
   integer2factor = FALSE,
   integer2numeric = FALSE,
   logical2factor = FALSE,
@@ -28,103 +23,85 @@ preprocess_(
   factorNA2missing.level = "missing",
   scale = FALSE,
   center = FALSE,
-  removeConstants = TRUE,
+  removeConstants = FALSE,
   removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
-  verbose = TRUE,
-  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+  verbose = TRUE
 )
 }
 \arguments{
-\item{x}{data.table to be preprocessed}
+\item{x}{data.frame or data.table to be preprocessed. If data.frame, will
+be converted to data.table in-place}
 
-\item{completeCases}{Logical: If TRUE, only retain complete cases (no missing data).
-Default = FALSE}
+\item{completeCases}{Logical: If TRUE, only retain complete cases}
 
-\item{removeCases.thres}{Float (0, 1): Remove cases with >= to this fraction of missing features.
-Default = NULL}
+\item{removeCases.thres}{Float (0, 1): Remove cases with >= to this fraction
+of missing features.}
 
-\item{removeFeatures.thres}{Float (0, 1): Remove features with missing values in >= to this fraction of
-cases. Default = NULL}
+\item{removeFeatures.thres}{Float (0, 1): Remove features with missing
+values in >= to this fraction of cases.}
 
-\item{missingness}{Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
-which cases were missing data. Default = FALSE}
-
-\item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
-\code{impute.numeric} for how}
-
-\item{impute.type}{Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
-impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
-"meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-\code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest").
-"missForest" is included for compatibility with older pipelines.}
-
-\item{impute.missRanger.params}{Named list with elements "pmm.k" and "maxiter", which are passed to
-\code{missRanger::missRanger}. \code{pmm.k} greater than 0 results in predictive mean matching.
-Default \code{pmm.k = 3} \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
-faster imputation especially in large datasets. Set \code{pmm.k = 0} to disable predictive mean
-matching
-to \code{missForest::missForest}}
-
-\item{impute.discrete}{Function that returns single value: How to impute discrete variables for
-\code{impute.type = "meanMode"}. Default = \link{getMode}}
-
-\item{impute.numeric}{Function that returns single value: How to impute continuous variables for
-\code{impute.type = "meanMode"}.
-Default = \code{mean}}
+\item{missingness}{Logical: If TRUE, generate new boolean columns for each
+feature with missing values, indicating which cases were missing data.}
 
 \item{integer2factor}{Logical: If TRUE, convert all integers to factors}
 
-\item{integer2numeric}{Logical: If TRUE, convert all integers to numeric (will only work
-if \code{integer2factor = FALSE})}
+\item{integer2numeric}{Logical: If TRUE, convert all integers to numeric
+(will only work if \code{integer2factor = FALSE})}
 
-\item{logical2factor}{Logical: If TRUE, convert all logical variables to factors}
+\item{logical2factor}{Logical: If TRUE, convert all logical variables to
+factors}
 
-\item{logical2numeric}{Logical: If TRUE, convert all logical variables to numeric}
+\item{logical2numeric}{Logical: If TRUE, convert all logical variables to
+numeric}
 
-\item{numeric2factor}{Logical: If TRUE, convert all numeric variables to factors}
+\item{numeric2factor}{Logical: If TRUE, convert all numeric variables to
+factors}
 
-\item{len2factor}{Integer (>=2): Convert all numeric variables with less than or equal to this number of unique
-values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-you could use \code{len2factor = 2} to convert them to factors. If race is encoded with 6 integers, you can use 6.}
+\item{len2factor}{Integer (>=2): Convert all numeric variables with less
+than or equal to this number of unique values to factors.
+For example, if binary variables are encoded with 1, 2, you could use
+\code{len2factor = 2} to convert them to factors. If race is encoded with 6
+integers, you can use 6.}
 
-\item{character2factor}{Logical: If TRUE, convert all character variables to factors}
+\item{character2factor}{Logical: If TRUE, convert all character variables
+to factors}
 
-\item{factorNA2missing}{Logical: If TRUE, make NA values in factors be of level
-\code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
-categorical variables. Note that since this step is performed before imputation, you can use this
-option to handle missing data in categorical variables and impute numeric variables in the same
+\item{factorNA2missing}{Logical: If TRUE, make NA values in factors be of
+level \code{factorNA2missing.level}. In many cases this is the preferred way
+to handle missing data in categorical variables. Note that since this step
+is performed before imputation, you can use this option to handle missing
+data in categorical variables and impute numeric variables in the same
 \code{preprocess} call.}
 
-\item{factorNA2missing.level}{Character: Name of level if \code{factorNA2missing = TRUE}.
-Default = "missing"}
+\item{factorNA2missing.level}{Character: Name of level if
+\code{factorNA2missing = TRUE}.}
 
 \item{scale}{Logical: If TRUE, scale columns of \code{x}}
 
 \item{center}{Logical: If TRUE, center columns of \code{x}}
 
-\item{removeConstants}{Logical: If TRUE, remove constant columns. Default = TRUE}
+\item{removeConstants}{Logical: If TRUE, remove constant columns.}
 
-\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases. Default = FALSE}
+\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases.}
 
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
-\item{exclude}{Integer, vector: Exclude these columns from all preprocessing. Default = NULL}
+\item{exclude}{Integer, vector: Exclude these columns from all preprocessing.}
 
-\item{verbose}{Logical: If TRUE, write messages to console. Default = TRUE}
+\item{verbose}{Logical: If TRUE, write messages to console.}
 }
 \description{
 Prepare data for analysis and visualization
 }
 \details{
 This function (ending in "_") performs operations \strong{in-place} and returns the
-preprocessed data.table silently (e.g. for piping). However, if imputing, operation
-cannot be performed in-place, so maybe this feature will be removed.
-By default, removes constant features and duplicate cases
-(removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
+preprocessed data.table silently (e.g. for piping).
+Note that imputation is not currently supported - use \link{preprocess}
+for imputation.
 
-Order of operations (same as order of arguments in usage):
+Order of operations is the same as the order of arguments in usage:
 \itemize{
 \item keep complete cases only
 \item remove duplicates
@@ -139,7 +116,6 @@ Order of operations (same as order of arguments in usage):
 \item character to factor
 \item factor NA to named level
 \item add missingness column
-\item impute
 \item scale and/or center
 \item remove constants
 \item one-hot encoding
