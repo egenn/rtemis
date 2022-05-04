@@ -86,25 +86,26 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{method}{Character: "auto", "anova", "poisson", "class" or "exp". Default = "auto"}
+\item{method}{Character: "auto", "anova", "poisson", "class" or "exp".}
 
 \item{parms}{List of additional parameters for the splitting function.
 See \code{rpart::rpart("parms")}}
 
-\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a node before considering a split.
-Default = 2}
+\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+node before considering a split.}
 
-\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child node. Default = round(minsplit/3)}
+\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+node.}
 
-\item{cp}{[gS] Float: Complexity threshold for allowing a split. Default = .01}
+\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
 
-\item{maxdepth}{[gS] Integer: Maximum depth of tree. Default = 20}
+\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
 
 \item{maxcompete}{Integer: The number of competitor splits saved in the 
 output}
 
-\item{maxsurrogate}{Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
-Default = 0}
+\item{maxsurrogate}{Integer: The number of surrogate splits retained in the 
+output (See \code{rpart::rpart.control}).}
 
 \item{usesurrogate}{See \code{rpart::rpart.control}}
 
@@ -115,33 +116,37 @@ Default = 0}
 \item{cost}{Vector, Float (> 0): One for each variable in the model.
 See \code{rpart::rpart("cost")}}
 
-\item{model}{Logical: If TRUE, keep a copy of the model. Default = TRUE}
+\item{model}{Logical: If TRUE, keep a copy of the model.}
 
-\item{prune.cp}{[gS] Float: Complexity for cost-complexity pruning after tree is built}
+\item{prune.cp}{[gS] Float: Complexity for cost-complexity pruning after 
+tree is built}
 
 \item{use.prune.rpart.rt}{[Testing only, do not change]}
 
-\item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return unpruned tree under \code{extra}
-in \link{rtMod}. Default = FALSE}
+\item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return 
+unpruned tree under \code{extra} in \link{rtMod}.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-Default = \code{rtset.resample("kfold", 5)}}
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: 
+"exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
-combinations. Default = .1}
+\item{grid.randomized.p}{Float (0, 1): If 
+\code{grid.search.type = "randomized"}, randomly test this proportion of
+combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
-Default = NULL, which results in "Balanced Accuracy" for Classification,
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
@@ -174,7 +179,8 @@ Object of class \link{rtMod}
 Train a CART for regression or classification using \code{rpart}
 }
 \details{
-[gS] indicates grid search will be performed automatically if more than one value is passed
+[gS] indicates grid search will be performed automatically if more than one 
+value is passed
 }
 \seealso{
 \link{elevate} for external cross-validation

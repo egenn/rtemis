@@ -6,39 +6,47 @@
 #'
 #' Train a CART for regression or classification using \code{rpart}
 #'
-#' [gS] indicates grid search will be performed automatically if more than one value is passed
+#' [gS] indicates grid search will be performed automatically if more than one 
+#' value is passed
+#' 
 #' @inheritParams s_GLM
-#' @param method Character: "auto", "anova", "poisson", "class" or "exp". Default = "auto"
-#' @param cp [gS] Float: Complexity threshold for allowing a split. Default = .01
-#' @param maxdepth [gS] Integer: Maximum depth of tree. Default = 20
+#' @param method Character: "auto", "anova", "poisson", "class" or "exp".
+#' @param cp [gS] Float: Complexity threshold for allowing a split.
+#' @param maxdepth [gS] Integer: Maximum depth of tree.
 #' @param maxcompete Integer: The number of competitor splits saved in the 
 #' output
 #' @param usesurrogate See \code{rpart::rpart.control}
 #' @param xval Integer: Number of cross-validations
 #' @param surrogatestyle See \code{rpart::rpart.control}
-#' @param maxsurrogate Integer: The number of surrogate splits retained in the output (See \code{rpart::rpart.control}).
-#' Default = 0
-#' @param minsplit [gS] Integer: Minimum number of cases that must belong in a node before considering a split.
-#' Default = 2
-#' @param minbucket [gS] Integer: Minimum number of cases allowed in a child node. Default = round(minsplit/3)
-#' @param prune.cp [gS] Float: Complexity for cost-complexity pruning after tree is built
+#' @param maxsurrogate Integer: The number of surrogate splits retained in the 
+#' output (See \code{rpart::rpart.control}).
+#' @param minsplit [gS] Integer: Minimum number of cases that must belong in a 
+#' node before considering a split.
+#' @param minbucket [gS] Integer: Minimum number of cases allowed in a child 
+#' node.
+#' @param prune.cp [gS] Float: Complexity for cost-complexity pruning after 
+#' tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
-#' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return unpruned tree under \code{extra}
-#' in \link{rtMod}. Default = FALSE
-#' @param grid.resample.rtset List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-#' Default = \code{rtset.resample("kfold", 5)}
-#' @param grid.search.type Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"
-#' @param grid.randomized.p Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
-#' combinations. Default = .1
-#' @param metric Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
-#' Default = NULL, which results in "Balanced Accuracy" for Classification,
+#' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return 
+#' unpruned tree under \code{extra} in \link{rtMod}.
+#' @param grid.resample.rtset List: Output of \link{rtset.resample} defining 
+#' \link{gridSearchLearn} parameters. 
+#' @param grid.search.type Character: Type of grid search to perform: 
+#' "exhaustive" or "randomized".
+#' @param grid.randomized.p Float (0, 1): If 
+#' \code{grid.search.type = "randomized"}, randomly test this proportion of
+#' combinations.
+#' @param metric Character: Metric to minimize, or maximize if 
+#' \code{maximize = TRUE} during grid search. Default = NULL, which results in 
+#' "Balanced Accuracy" for Classification,
 #' "MSE" for Regression, and "Coherence" for Survival Analysis.
-#' @param maximize Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE
+#' @param maximize Logical: If TRUE, \code{metric} will be maximized if grid 
+#' search is run.
 #' @param parms List of additional parameters for the splitting function.
 #' See \code{rpart::rpart("parms")}
 #' @param cost Vector, Float (> 0): One for each variable in the model.
 #' See \code{rpart::rpart("cost")}
-#' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
+#' @param model Logical: If TRUE, keep a copy of the model.
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
 #' @param n.cores Integer: Number of cores to use.
 #' 
@@ -292,7 +300,6 @@ s_CART <- function(x, y = NULL,
         }
         fitted <- predict(mod, x, type = "class")
     }
-
 
     attr(fitted, "names") <- NULL
     error.train <- modError(y, fitted, fitted.prob)

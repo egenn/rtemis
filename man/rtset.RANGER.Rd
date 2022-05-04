@@ -25,8 +25,8 @@ rtset.RANGER(
  Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-Default = \code{rtset.resample("kfold", 5)}}
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}

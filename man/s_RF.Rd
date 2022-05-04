@@ -90,14 +90,16 @@ grown to maximum possible}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-Default = \code{rtset.resample("kfold", 5)}}
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
 
-\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
-Default = NULL, which results in "Balanced Accuracy" for Classification,
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
 
 \item{classwt}{Vector, Float: Priors of the classes for classification only. Need not add up to 1}
 
@@ -143,8 +145,7 @@ when \code{autotune = TRUE}}
 \item{imetrics}{Logical: If TRUE, calculate interpretability metrics 
 (N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 

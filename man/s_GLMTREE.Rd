@@ -12,13 +12,23 @@ s_GLMTREE(
   x.name = NULL,
   y.name = NULL,
   weights = NULL,
-  offset = NULL,
+  alpha = 0.05,
+  bonferroni = TRUE,
+  minsize = NULL,
+  maxdepth = Inf,
+  minsplit = minsize,
+  minbucket = minsize,
   ipw = TRUE,
   ipw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
   na.action = na.exclude,
+  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.search.type = c("exhaustive", "randomized"),
+  grid.randomized.p = 0.1,
+  metric = NULL,
+  maximize = NULL,
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
@@ -48,7 +58,13 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{offset}{Numeric vector of a priori known offsets}
+\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
+
+\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+node before considering a split.}
+
+\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+node.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
@@ -68,6 +84,24 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
+
+\item{grid.search.type}{Character: Type of grid search to perform: 
+"exhaustive" or "randomized".}
+
+\item{grid.randomized.p}{Float (0, 1): If 
+\code{grid.search.type = "randomized"}, randomly test this proportion of
+combinations.}
+
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
@@ -92,6 +126,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments passed to \code{partykit::mob_control}}
+
+\item{offset}{Numeric vector of a priori known offsets}
 }
 \value{
 Object of class \link{rtMod}

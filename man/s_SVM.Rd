@@ -56,13 +56,15 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-Default = \code{rtset.resample("kfold", 5)}}
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: 
+"exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
-combinations. Default = .1}
+\item{grid.randomized.p}{Float (0, 1): If 
+\code{grid.search.type = "randomized"}, randomly test this proportion of
+combinations.}
 
 \item{class.weights}{Float, length = n levels of outcome: Weights for each 
 outcome class.For classification, \code{class.weights} takes precedence over 
@@ -100,11 +102,13 @@ regularization term in the Lagrange
 
 \item{probability}{Logical: If TRUE, model allows probability estimates}
 
-\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
-Default = NULL, which results in "Balanced Accuracy" for Classification,
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -116,8 +120,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TR
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 

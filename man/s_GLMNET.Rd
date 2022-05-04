@@ -61,13 +61,15 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining \link{gridSearchLearn} parameters.
-Default = \code{rtset.resample("kfold", 5)}}
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: "exhaustive" or "randomized". Default = "exhaustive"}
+\item{grid.search.type}{Character: Type of grid search to perform: 
+"exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If \code{grid.search.type = "randomized"}, randomly run this proportion of
-combinations. Default = .1}
+\item{grid.randomized.p}{Float (0, 1): If 
+\code{grid.search.type = "randomized"}, randomly test this proportion of
+combinations.}
 
 \item{intercept}{Logical: If TRUE, include intercept in the model.}
 
@@ -102,14 +104,15 @@ Default = NULL (random seed)}
 
 \item{res.summary.fn}{Function: Used to average resample runs.}
 
-\item{metric}{Character: Metric to minimize, or maximize if \code{maximize = TRUE} during grid search.
-Default = NULL, which results in "Balanced Accuracy" for Classification,
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid search is run. Default = FALSE}
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
 
-\item{n.cores}{Integer: Number of cores to use. Defaults to available cores reported by
-\code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded}
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
