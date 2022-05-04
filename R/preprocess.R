@@ -34,57 +34,69 @@
 #' @param x data.frame to be preprocessed
 #' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
-#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction of missing features.
-#' Default = NULL
-#' @param removeFeatures.thres Float (0, 1): Remove features with missing values in >= to this fraction of
-#' cases. Default = NULL
-#' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
-#' which cases were missing data. Default = FALSE
+#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction 
+#' of missing features.
+#' @param removeFeatures.thres Float (0, 1): Remove features with missing 
+#' values in >= to this fraction of cases.
+#' @param missingness Logical: If TRUE, generate new boolean columns for each 
+#' feature with missing values, indicating which cases were missing data. 
 #' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
 #' \code{impute.numeric} for how
-#' @param impute.type Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
-#' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
-#' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest").
+#' @param impute.type Character: How to impute data: "missRanger" and 
+#' "missForest" use the packages of the same name to impute by iterative random 
+#' forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its 
+#' documentation), "meanMode" will use mean and mode by default or any custom 
+#' function defined in \code{impute.discrete} and \code{impute.numeric}. 
+#' Default = "missRanger" (which is much faster than "missForest").
 #' "missForest" is included for compatibility with older pipelines.
-#' @param impute.missRanger.params Named list with elements "pmm.k" and "maxiter", which are passed to
-#' \code{missRanger::missRanger}. \code{pmm.k} greater than 0 results in predictive mean matching.
-#' Default \code{pmm.k = 3} \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
-#' faster imputation especially in large datasets. Set \code{pmm.k = 0} to disable predictive mean
-#' matching
+#' @param impute.missRanger.params Named list with elements "pmm.k" and 
+#' "maxiter", which are passed to \code{missRanger::missRanger}. \code{pmm.k} 
+#' greater than 0 results in predictive mean matching. Default \code{pmm.k = 3} 
+#' \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
+#' faster imputation especially in large datasets. Set \code{pmm.k = 0} to 
+#' disable predictive mean matching
 #  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
 #' to \code{missForest::missForest}
 # @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
-#' @param impute.discrete Function that returns single value: How to impute discrete variables for
-#' \code{impute.type = "meanMode"}. Default = \link{getMode}
-#' @param impute.numeric Function that returns single value: How to impute continuous variables for
-#' \code{impute.type = "meanMode"}.
+#' @param impute.discrete Function that returns single value: How to impute 
+#' discrete variables for \code{impute.type = "meanMode"}. 
+#' Default = \link{getMode}
+#' @param impute.numeric Function that returns single value: How to impute 
+#' continuous variables for \code{impute.type = "meanMode"}.
 #' Default = \code{mean}
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
-#' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
-#' if \code{integer2factor = FALSE})
-#' @param logical2factor Logical: If TRUE, convert all logical variables to factors
-#' @param logical2numeric Logical: If TRUE, convert all logical variables to numeric
-#' @param numeric2factor Logical: If TRUE, convert all numeric variables to factors
-#' @param len2factor Integer (>=2): Convert all numeric variables with less than or equal to this number of unique
-#' values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-#' you could use `len2factor = 2` to convert them to factors. If race is encoded with 6 integers, you can use 6.
-#' @param character2factor Logical: If TRUE, convert all character variables to factors
-#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of level
-#' \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
-#' categorical variables. Note that since this step is performed before imputation, you can use this
-#' option to handle missing data in categorical variables and impute numeric variables in the same
+#' @param integer2numeric Logical: If TRUE, convert all integers to numeric 
+#' (will only work if \code{integer2factor = FALSE})
+#' @param logical2factor Logical: If TRUE, convert all logical variables to 
+#' factors
+#' @param logical2numeric Logical: If TRUE, convert all logical variables to 
+#' numeric
+#' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
+#' factors
+#' @param len2factor Integer (>=2): Convert all numeric variables with less 
+#' than or equal to this number of unique values to factors. Default = NULL. 
+#' For example, if binary variables are encoded with 1, 2, you could use 
+#' `len2factor = 2` to convert them to factors. If race is encoded with 6 
+#' integers, you can use 6.
+#' @param character2factor Logical: If TRUE, convert all character variables to 
+#' factors
+#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of 
+#' level \code{factorNA2missing.level}. In many cases this is the preferred way 
+#' to handle missing data in categorical variables. Note that since this step 
+#' is performed before imputation, you can use this option to handle missing 
+#' data in categorical variables and impute numeric variables in the same
 #' \code{preprocess} call.
-#' @param factorNA2missing.level Character: Name of level if \code{factorNA2missing = TRUE}.
-#' Default = "missing"
-#' @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
+#' @param factorNA2missing.level Character: Name of level if 
+#' \code{factorNA2missing = TRUE}. Default = "missing"
+#' @param nonzeroFactors Logical: Shift factor values to exclude zeros.
 #' @param scale Logical: If TRUE, scale columns of \code{x}
-#' @param center Logical: If TRUE, center columns of \code{x}
-#' @param removeConstants Logical: If TRUE, remove constant columns. Default = TRUE
-#' @param removeDuplicates Logical: If TRUE, remove duplicated cases. Default = FALSE
+#' @param center Logical: If TRUE, center columns of \code{x}. Note that by 
+#' default it is the same as \code{scale}
+#' @param removeConstants Logical: If TRUE, remove constant columns.
+#' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
-#' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
-#' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
+#' @param exclude Integer, vector: Exclude these columns from preprocessing.
+#' @param verbose Logical: If TRUE, write messages to console.
 #' @author E.D. Gennatas
 #' @export
 
@@ -114,7 +126,7 @@ preprocess <- function(x, y = NULL,
                        factorNA2missing.level = "missing",
                        nonzeroFactors = FALSE,
                        scale = FALSE,
-                       center = FALSE,
+                       center = scale,
                        removeConstants = TRUE,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
@@ -359,7 +371,7 @@ preprocess <- function(x, y = NULL,
     
     # remove any duplicates
     if (!is.null(duplicate.index)) {
-      excluded <- excluded[-duplicate.index, ]
+      excluded <- excluded[-duplicate.index, , drop = FALSE]
     }
     
     # remove by case thres
@@ -370,7 +382,7 @@ preprocess <- function(x, y = NULL,
     } else {
       x <- cbind(x, excluded)
     }
-  }
+  } # /add back excluded
   
   if (isdatatable) data.table::setDT(x)
   if (verbose) msg("Done")
