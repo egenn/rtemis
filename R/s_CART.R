@@ -40,8 +40,8 @@
 #' See \code{rpart::rpart("cost")}
 #' @param model Logical: If TRUE, keep a copy of the model. Default = TRUE
 #' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
-#' @param n.cores Integer: Number of cores to use. Defaults to available cores reported by
-#' \code{parallelly::availableCores()}, unless option \code{rt.cores} is set at the time the library is loaded
+#' @param n.cores Integer: Number of cores to use.
+#' 
 #' @return Object of class \link{rtMod}
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
@@ -122,17 +122,7 @@ s_CART <- function(x, y = NULL,
     verbose <- verbose | !is.null(logFile)
     if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-    control <- list(
-        minsplit = minsplit,
-        minbucket = minbucket,
-        cp = cp,
-        maxcompete = maxcompete,
-        maxsurrogate = maxsurrogate,
-        usesurrogate = usesurrogate,
-        surrogatestyle = surrogatestyle,
-        maxdepth = maxdepth,
-        xval = xval
-    )
+    
     grid.search.type <- match.arg(grid.search.type)
 
     # Data ----
@@ -151,7 +141,8 @@ s_CART <- function(x, y = NULL,
     xnames <- dt$xnames
     type <- dt$type
     .weights <- if (is.null(weights) & ipw) dt$weights else weights
-    x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+    # x0, y0 are passed to gridSearchLearn
+    x0 <- if (upsample | downsample) dt$x0 else x 
     y0 <- if (upsample | downsample) dt$y0 else y
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (type != "Survival") df.train <- data.frame(y = y, x)
@@ -192,7 +183,7 @@ s_CART <- function(x, y = NULL,
     features <- paste(xnames, collapse = " + ")
     .formula <- as.formula(paste0(y.name, " ~ ", features))
 
-    # Grid Search for prune.cp ----
+    # Grid Search ----
     if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
         gs <- gridSearchLearn(x0, y0,
             mod = mod.name,
@@ -251,6 +242,18 @@ s_CART <- function(x, y = NULL,
         xval = xval,
         cost = cost,
         na.action = na.action
+    )
+
+    control <- list(
+        minsplit = minsplit,
+        minbucket = minbucket,
+        cp = cp,
+        maxcompete = maxcompete,
+        maxsurrogate = maxsurrogate,
+        usesurrogate = usesurrogate,
+        surrogatestyle = surrogatestyle,
+        maxdepth = maxdepth,
+        xval = xval
     )
 
     # rpart ----
