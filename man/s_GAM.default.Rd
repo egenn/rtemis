@@ -141,6 +141,7 @@ Other Supervised Learning:
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_GLM}()},
 \code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},

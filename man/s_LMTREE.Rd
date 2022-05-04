@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LMTREE.R
 \name{s_LMTREE}
 \alias{s_LMTREE}
-\title{Linear Tree [C, R]}
+\title{Linear Model Tree [R]}
 \usage{
 s_LMTREE(
   x,
@@ -26,7 +26,8 @@ s_LMTREE(
   question = NULL,
   verbose = TRUE,
   outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
 )
 }
 \arguments{
@@ -89,6 +90,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{...}{Additional arguments passed to \code{partykit::mob_control}}
 }
 \value{
 Object of class \link{rtMod}
@@ -120,6 +123,7 @@ Other Supervised Learning:
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_GLM}()},
 \code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},
@@ -164,6 +168,7 @@ Other Tree-based methods:
 \code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
 \code{\link{s_IRF}()},
@@ -180,6 +185,7 @@ Other Interpretable models:
 \code{\link{s_C50}()},
 \code{\link{s_CART}()},
 \code{\link{s_GLMNET}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_GLM}()}
 }
 \author{

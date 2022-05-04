@@ -7,8 +7,6 @@
 preprocess_(
   x,
   y = NULL,
-  completeCases = FALSE,
-  removeCases.thres = NULL,
   removeFeatures.thres = NULL,
   missingness = FALSE,
   integer2factor = FALSE,
@@ -22,9 +20,8 @@ preprocess_(
   factorNA2missing = FALSE,
   factorNA2missing.level = "missing",
   scale = FALSE,
-  center = FALSE,
+  center = scale,
   removeConstants = FALSE,
-  removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
   verbose = TRUE
@@ -32,11 +29,7 @@ preprocess_(
 }
 \arguments{
 \item{x}{data.frame or data.table to be preprocessed. If data.frame, will
-be converted to data.table in-place}
-
-\item{completeCases}{Logical: If TRUE, only retain complete cases}
-
-\item{removeCases.thres}{Float (0, 1): Remove cases with >= to this fraction
+be converted to data.table in-place
 of missing features.}
 
 \item{removeFeatures.thres}{Float (0, 1): Remove features with missing
@@ -84,11 +77,9 @@ data in categorical variables and impute numeric variables in the same
 
 \item{removeConstants}{Logical: If TRUE, remove constant columns.}
 
-\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases.}
-
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
-\item{exclude}{Integer, vector: Exclude these columns from all preprocessing.}
+\item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 
 \item{verbose}{Logical: If TRUE, write messages to console.}
 }

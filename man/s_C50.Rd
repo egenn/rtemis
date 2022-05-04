@@ -130,6 +130,7 @@ Other Supervised Learning:
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_GLM}()},
 \code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},
@@ -174,6 +175,7 @@ Other Tree-based methods:
 \code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
 \code{\link{s_IRF}()},
@@ -190,6 +192,7 @@ Other Interpretable models:
 \code{\link{s_ADDTREE}()},
 \code{\link{s_CART}()},
 \code{\link{s_GLMNET}()},
+\code{\link{s_GLMTREE}()},
 \code{\link{s_GLM}()},
 \code{\link{s_LMTREE}()}
 }
