@@ -2,17 +2,16 @@
 # ::rtemis::
 # 2017-21 E.D. Gennatas lambdamd.org
 
-#' Data preprocessing
+#' Data preprocessing (in-place)
 #'
 #' Prepare data for analysis and visualization 
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
-#' preprocessed data.table silently (e.g. for piping). However, if imputing, operation
-#' cannot be performed in-place, so maybe this feature will be removed.
-#' By default, removes constant features and duplicate cases
-#' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
+#' preprocessed data.table silently (e.g. for piping).
+#' Note that imputation is not currently supported - use \link{preprocess}
+#' for imputation.
 #'
-#' Order of operations (same as order of arguments in usage):
+#' Order of operations is the same as the order of arguments in usage:
 #'
 #'   * keep complete cases only
 #'   * remove duplicates
@@ -27,66 +26,52 @@
 #'   * character to factor
 #'   * factor NA to named level
 #'   * add missingness column
-#'   * impute
 #'   * scale and/or center
 #'   * remove constants
 #'   * one-hot encoding
 #'
 #' @md
-#' @param x data.table to be preprocessed
-#' @param completeCases Logical: If TRUE, only retain complete cases (no missing data).
-#' Default = FALSE
-#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction of missing features.
-#' Default = NULL
-#' @param removeFeatures.thres Float (0, 1): Remove features with missing values in >= to this fraction of
-#' cases. Default = NULL
-#' @param missingness Logical: If TRUE, generate new boolean columns for each feature with missing values, indicating
-#' which cases were missing data. Default = FALSE
-#' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
-#' \code{impute.numeric} for how
-#' @param impute.type Character: How to impute data: "missRanger" and "missForest" use the packages of the same name to
-#' impute by iterative random forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its documentation),
-#' "meanMode" will use mean and mode by default or any custom function defined in \code{impute.discrete} and
-#' \code{impute.numeric}. Default = "missRanger" (which is much faster than "missForest").
-#' "missForest" is included for compatibility with older pipelines.
-#' @param impute.missRanger.params Named list with elements "pmm.k" and "maxiter", which are passed to
-#' \code{missRanger::missRanger}. \code{pmm.k} greater than 0 results in predictive mean matching.
-#' Default \code{pmm.k = 3} \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
-#' faster imputation especially in large datasets. Set \code{pmm.k = 0} to disable predictive mean
-#' matching
-#  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
-#' to \code{missForest::missForest}
-# @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
-#' @param impute.discrete Function that returns single value: How to impute discrete variables for
-#' \code{impute.type = "meanMode"}. Default = \link{getMode}
-#' @param impute.numeric Function that returns single value: How to impute continuous variables for
-#' \code{impute.type = "meanMode"}.
-#' Default = \code{mean}
+#' @param x data.frame or data.table to be preprocessed. If data.frame, will
+#' be converted to data.table in-place
+#' @param completeCases Logical: If TRUE, only retain complete cases 
+#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction 
+#' of missing features.
+#' @param removeFeatures.thres Float (0, 1): Remove features with missing 
+#' values in >= to this fraction of cases.
+#' @param missingness Logical: If TRUE, generate new boolean columns for each 
+#' feature with missing values, indicating which cases were missing data.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
-#' @param integer2numeric Logical: If TRUE, convert all integers to numeric (will only work
-#' if \code{integer2factor = FALSE})
-#' @param logical2factor Logical: If TRUE, convert all logical variables to factors
-#' @param logical2numeric Logical: If TRUE, convert all logical variables to numeric
-#' @param numeric2factor Logical: If TRUE, convert all numeric variables to factors
-#' @param len2factor Integer (>=2): Convert all numeric variables with less than or equal to this number of unique
-#' values to factors. Default = NULL. For example, if binary variables are encoded with 1, 2,
-#' you could use `len2factor = 2` to convert them to factors. If race is encoded with 6 integers, you can use 6.
-#' @param character2factor Logical: If TRUE, convert all character variables to factors
-#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of level
-#' \code{factorNA2missing.level}. In many cases this is the preferred way to handle missing data in
-#' categorical variables. Note that since this step is performed before imputation, you can use this
-#' option to handle missing data in categorical variables and impute numeric variables in the same
+#' @param integer2numeric Logical: If TRUE, convert all integers to numeric 
+#' (will only work if \code{integer2factor = FALSE})
+#' @param logical2factor Logical: If TRUE, convert all logical variables to 
+#' factors
+#' @param logical2numeric Logical: If TRUE, convert all logical variables to 
+#' numeric
+#' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
+#' factors
+#' @param len2factor Integer (>=2): Convert all numeric variables with less 
+#' than or equal to this number of unique values to factors.
+#' For example, if binary variables are encoded with 1, 2, you could use 
+#' `len2factor = 2` to convert them to factors. If race is encoded with 6 
+#' integers, you can use 6.
+#' @param character2factor Logical: If TRUE, convert all character variables 
+#' to factors
+#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of 
+#' level \code{factorNA2missing.level}. In many cases this is the preferred way 
+#' to handle missing data in categorical variables. Note that since this step 
+#' is performed before imputation, you can use this option to handle missing 
+#' data in categorical variables and impute numeric variables in the same
 #' \code{preprocess} call.
-#' @param factorNA2missing.level Character: Name of level if \code{factorNA2missing = TRUE}.
-#' Default = "missing"
-#  @param nonzeroFactors Logical: Shift factor values to exclude zeros. Default = FALSE
+#' @param factorNA2missing.level Character: Name of level if 
+#' \code{factorNA2missing = TRUE}. 
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
-#' @param removeConstants Logical: If TRUE, remove constant columns. Default = TRUE
-#' @param removeDuplicates Logical: If TRUE, remove duplicated cases. Default = FALSE
+#' @param removeConstants Logical: If TRUE, remove constant columns.
+#' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
-#' @param exclude Integer, vector: Exclude these columns from all preprocessing. Default = NULL
-#' @param verbose Logical: If TRUE, write messages to console. Default = TRUE
+#' @param exclude Integer, vector: Exclude these columns from all preprocessing.
+#' @param verbose Logical: If TRUE, write messages to console.
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -111,15 +96,15 @@ preprocess_ <- function(x, y = NULL,
                        removeCases.thres = NULL,
                        removeFeatures.thres = NULL,
                        missingness = FALSE,
-                       impute = FALSE,
-                       impute.type = c("missRanger",
-                                       "micePMM",
-                                       "meanMode"),
-                       impute.missRanger.params = list(pmm.k = 3,
-                                                       maxiter = 10,
-                                                       num.trees = 500),
-                       impute.discrete = getMode,
-                       impute.numeric = mean,
+                      #  impute = FALSE,
+                      #  impute.type = c("missRanger",
+                      #                  "micePMM",
+                      #                  "meanMode"),
+                      #  impute.missRanger.params = list(pmm.k = 3,
+                      #                                  maxiter = 10,
+                      #                                  num.trees = 500),
+                      #  impute.discrete = getMode,
+                      #  impute.numeric = mean,
                        integer2factor = FALSE,
                        integer2numeric = FALSE,
                        logical2factor = FALSE,
@@ -130,15 +115,13 @@ preprocess_ <- function(x, y = NULL,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
-                       # nonzeroFactors = FALSE,
                        scale = FALSE,
                        center = FALSE,
-                       removeConstants = TRUE,
+                       removeConstants = FALSE,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
                        exclude = NULL,
-                       verbose = TRUE,
-                       parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
+                       verbose = TRUE) {
 
   # Arguments ----
   impute.type <- match.arg(impute.type)
@@ -355,44 +338,44 @@ preprocess_ <- function(x, y = NULL,
   }
 
   # Impute ----
-  if (impute) {
-    if (impute.type == "missRanger") {
-      # '- missRanger ----
-      dependency_check("missRanger")
-      if (verbose) {
-        if (impute.missRanger.params$pmm.k > 0) {
-          msg("Imputing missing values using predictive mean matching with missRanger...")
-        } else {
-          msg("Imputing missing values using missRanger...")
-        }
-      }
-      x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
-                                  verbose = ifelse(verbose, 1, 0))
-    } else if (impute.type == "micePMM") {
-      dependency_check("mice")
-      if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
-      x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
-      setDT(x)
-    } else {
-      # '- mean/mode ----
-      if (verbose) info(paste0("Imputing missing values using ", deparse(substitute(impute.numeric)),
-                        " and ", deparse(substitute(impute.discrete)), "..."))
+  # if (impute) {
+  #   if (impute.type == "missRanger") {
+  #     # '- missRanger ----
+  #     dependency_check("missRanger")
+  #     if (verbose) {
+  #       if (impute.missRanger.params$pmm.k > 0) {
+  #         msg("Imputing missing values using predictive mean matching with missRanger...")
+  #       } else {
+  #         msg("Imputing missing values using missRanger...")
+  #       }
+  #     }
+  #     x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
+  #                                 verbose = ifelse(verbose, 1, 0))
+  #   } else if (impute.type == "micePMM") {
+  #     dependency_check("mice")
+  #     if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
+  #     x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
+  #     setDT(x)
+  #   } else {
+  #     # '- mean/mode ----
+  #     if (verbose) info(paste0("Imputing missing values using ", deparse(substitute(impute.numeric)),
+  #                       " and ", deparse(substitute(impute.discrete)), "..."))
 
-      discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
-      if (length(discrete.index) > 0) {
-        for (j in discrete.index) {
-          x[is.na(x[[j]]), (names(x)[j]) := impute.discrete(x[[j]])]
-        }
-      }
+  #     discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
+  #     if (length(discrete.index) > 0) {
+  #       for (j in discrete.index) {
+  #         x[is.na(x[[j]]), (names(x)[j]) := impute.discrete(x[[j]])]
+  #       }
+  #     }
 
-      numeric.index <- which(sapply(x, function(i) is.numeric(i) && anyNA(i)))
-      if (length(numeric.index) > 0) {
-        for (j in numeric.index) {
-          x[is.na(x[[j]]), (names(x)[j]) := impute.numeric(x[[j]], na.rm = TRUE)]
-        }
-      }
-    }
-  }
+  #     numeric.index <- which(sapply(x, function(i) is.numeric(i) && anyNA(i)))
+  #     if (length(numeric.index) > 0) {
+  #       for (j in numeric.index) {
+  #         x[is.na(x[[j]]), (names(x)[j]) := impute.numeric(x[[j]], na.rm = TRUE)]
+  #       }
+  #     }
+  #   }
+  # }
 
   # Scale +/- center ----
   if (scale | center) {
