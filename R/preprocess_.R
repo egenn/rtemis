@@ -33,8 +33,8 @@
 #' @md
 #' @param x data.frame or data.table to be preprocessed. If data.frame, will
 #' be converted to data.table in-place
-#' @param completeCases Logical: If TRUE, only retain complete cases 
-#' @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction 
+# @param completeCases Logical: If TRUE, only retain complete cases 
+# @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction 
 #' of missing features.
 #' @param removeFeatures.thres Float (0, 1): Remove features with missing 
 #' values in >= to this fraction of cases.
@@ -67,7 +67,7 @@
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}
 #' @param removeConstants Logical: If TRUE, remove constant columns.
-#' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
+# @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #' @param verbose Logical: If TRUE, write messages to console.
@@ -92,8 +92,8 @@
 #' }
 
 preprocess_ <- function(x, y = NULL,
-                       completeCases = FALSE,
-                       removeCases.thres = NULL,
+                      #  completeCases = FALSE,
+                      #  removeCases.thres = NULL,
                        removeFeatures.thres = NULL,
                        missingness = FALSE,
                       #  impute = FALSE,
@@ -118,7 +118,7 @@ preprocess_ <- function(x, y = NULL,
                        scale = FALSE,
                        center = FALSE,
                        removeConstants = FALSE,
-                       removeDuplicates = FALSE,
+                      #  removeDuplicates = FALSE,
                        oneHot = FALSE,
                        exclude = NULL,
                        verbose = TRUE) {
@@ -128,56 +128,56 @@ preprocess_ <- function(x, y = NULL,
   if (!inherits(x, "data.table")) setDT(x)
 
   # Complete cases ----
-  if (completeCases) {
-    if (anyNA(x)) {
+  # if (completeCases) {
+  #   if (anyNA(x)) {
 
-      if (verbose) {
-        nrows_start <- NROW(x)
-        info("Filtering complete cases...")
-      }
-      x <- x[complete.cases(x), ]
-      if (verbose) {
-        nrows <- NROW(x)
-        removed <- paste0(nrows_start - nrows, "/", nrows_start)
-        msg("Removed", rtOrange$bold(removed), "rows.")
-      }
-    } else {
-      if (verbose) msg(rtOrange$bold("No missing values"), "in dataset")
-    }
-  }
+  #     if (verbose) {
+  #       nrows_start <- NROW(x)
+  #       info("Filtering complete cases...")
+  #     }
+  #     x <- x[complete.cases(x), ]
+  #     if (verbose) {
+  #       nrows <- NROW(x)
+  #       removed <- paste0(nrows_start - nrows, "/", nrows_start)
+  #       msg("Removed", rtOrange$bold(removed), "rows.")
+  #     }
+  #   } else {
+  #     if (verbose) msg(rtOrange$bold("No missing values"), "in dataset")
+  #   }
+  # }
 
   # Set aside excluded ----
   if (!is.null(exclude) && length(exclude) > 0) {
     excluded <- x[, ..exclude, drop = FALSE]
     excluded.names <- colnames(x)[exclude]
-    x <- x[, (exclude) := NULL]
+    x[, (exclude) := NULL]
   }
 
   # Remove duplicates ----
-  if (removeDuplicates) {
-    Ndups <- sum(duplicated(x))
-    if (Ndups > 0) {
-      if (verbose) msg0("Removing ", rtOrange$bold(singorplu(Ndups, "duplicated case")), "...")
-      x <- unique(x)
-    }
-  }
+  # if (removeDuplicates) {
+  #   Ndups <- sum(duplicated(x))
+  #   if (Ndups > 0) {
+  #     if (verbose) msg0("Removing ", rtOrange$bold(singorplu(Ndups, "duplicated case")), "...")
+  #     x <- unique(x)
+  #   }
+  # }
 
   # Remove Cases by missing feature threshold ----
-  if (!is.null(removeCases.thres)) {
-    if (anyNA(x)) {
-      # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-      na.fraction.bycase <- data.table::transpose(x)[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
-      ncols <- ncol(x)
-      na.fraction.bycase <- x[, sum(is.na(.SD))/ncols, by = 1:NROW(x)]
-      removeCases.thres.index <- which(na.fraction.bycase[, 2] >= removeCases.thres)
-      if (length(removeCases.thres.index) > 0) {
-        if (verbose) msg("Removing", rtOrange$bold(length(removeCases.thres.index)), "cases with >=",
-                         removeCases.thres, "missing data...")
-        x <- x[-removeCases.thres.index, ]
+  # if (!is.null(removeCases.thres)) {
+  #   if (anyNA(x)) {
+  #     # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
+  #     na.fraction.bycase <- data.table::transpose(x)[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
+  #     ncols <- ncol(x)
+  #     na.fraction.bycase <- x[, sum(is.na(.SD))/ncols, by = 1:NROW(x)]
+  #     removeCases.thres.index <- which(na.fraction.bycase[, 2] >= removeCases.thres)
+  #     if (length(removeCases.thres.index) > 0) {
+  #       if (verbose) msg("Removing", rtOrange$bold(length(removeCases.thres.index)), "cases with >=",
+  #                        removeCases.thres, "missing data...")
+  #       x <- x[-removeCases.thres.index, ]
 
-      }
-    }
-  }
+  #     }
+  #   }
+  # }
 
   # Remove Features by missing feature threshold ----
   if (!is.null(removeFeatures.thres)) {
@@ -408,9 +408,9 @@ preprocess_ <- function(x, y = NULL,
 
   # Add back excluded ----
   if (!is.null(exclude) && length(exclude) > 0) {
-    if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
-      excluded <- excluded[-removeCases.thres.index, ]
-    }
+    # if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
+    #   excluded <- excluded[-removeCases.thres.index, ]
+    # }
     x[, (excluded.names) := excluded]
   }
 
