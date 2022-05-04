@@ -69,7 +69,7 @@
 #' @param removeConstants Logical: If TRUE, remove constant columns.
 #' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
-#' @param exclude Integer, vector: Exclude these columns from all preprocessing.
+#' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #' @param verbose Logical: If TRUE, write messages to console.
 #' 
 #' @author E.D. Gennatas
@@ -124,7 +124,7 @@ preprocess_ <- function(x, y = NULL,
                        verbose = TRUE) {
 
   # Arguments ----
-  impute.type <- match.arg(impute.type)
+  # impute.type <- match.arg(impute.type)
   if (!inherits(x, "data.table")) setDT(x)
 
   # Complete cases ----
