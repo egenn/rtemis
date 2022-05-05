@@ -296,7 +296,10 @@ s_SVM <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 
 } # rtemis::s_SVM

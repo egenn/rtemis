@@ -380,6 +380,9 @@ s_CART <- function(x, y = NULL,
         plot.theme
     )
 
-    outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+    outro(start.time,
+        verbose = verbose,
+        sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+    )
     rt
 } # rtemis::s_CART

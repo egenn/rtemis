@@ -18,6 +18,8 @@ s_GLMTREE(
   maxdepth = Inf,
   minsplit = minsize,
   minbucket = minsize,
+  epsilon = 1e-08,
+  maxit = 25,
   ipw = TRUE,
   ipw.type = 2,
   upsample = FALSE,
@@ -29,12 +31,14 @@ s_GLMTREE(
   grid.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
+  n.cores = rtCores,
   print.plot = TRUE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
   verbose = TRUE,
+  grid.verbose = verbose,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -103,6 +107,8 @@ combinations.}
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
 search is run.}
 
+\item{n.cores}{Integer: Number of cores to use.}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
@@ -116,6 +122,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

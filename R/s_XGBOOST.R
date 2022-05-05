@@ -7,12 +7,9 @@
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
 #'
-#' [gS]: indicates parameter will be autotuned by grid search if multiple values are passed.
-#' Learn more about XGBoost's parameters here: http://xgboost.readthedocs.io/en/latest/parameter.html
-#' See how ipw = T fails and upsample = T works in imbalanced dataset.
-#' 11.24.16: Updated to work with latest development version of XGBoost from github, which changed some of
-#' \code{xgboost}'s return values and is therefore not compatible with older versions
-#' \link{s_XGBLIN} is a wrapper for \code{s_XGB} with \code{booster = "gblinear"}
+#' [gS]: indicates parameter will be autotuned by grid search if multiple 
+#' values are passed. Learn more about XGBoost's parameters here: 
+#' http://xgboost.readthedocs.io/en/latest/parameter.html
 #' 
 #' @inheritParams s_GLM
 #' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
