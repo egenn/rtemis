@@ -180,7 +180,7 @@ resLearn_future <- function(x, y, mod,
     if (verbose) {
         msg0("Training ", modSelect(mod, desc = TRUE), " on ",
             length(res), " ", desc, "...",
-            newline.pre = TRUE
+            newline.pre = FALSE
         )
     }
 
