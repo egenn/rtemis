@@ -27,7 +27,7 @@ remotes::install_github("egenn/rtemis")
 
 **Note:** *Make sure to keep your installation updated by running* `remotes::install_github("egenn/rtemis")` *regularly: it will only proceed if there are updates available*
 
-## 60-second intro to **rtemis**
+## 30-second intro to **rtemis**
 
 Install dependencies if they are not already installed:
 
