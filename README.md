@@ -32,24 +32,18 @@ remotes::install_github("egenn/rtemis")
 Install dependencies if they are not already installed:
 
 ```r
-packages <- c("pbapply", "ranger")
+packages <- c("future", "ranger")
 .add <- !packages %in% installed.packages()
 install.packages(packages[.add])
 ```
 
-Load **rtemis** and get cross-validated random forest performance on the iris dataset:
+Get cross-validated random forest performance on the iris dataset:
 
 ```r
 library(rtemis)
 mod <- elevate(iris)
 mod$plot()
 ```
-
-## VS Code theme
-
-Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark).
-
-Recommended font is Fira Code with its beautiful ligatures.
 
 ## What's new
 
@@ -125,12 +119,17 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 ## rtemislive
 
 **rtemislive** is rtemis' web interface / GUI.
-It brings advanced visualization and analytics a few clicks away.
-**rtemislive** is currently available for beta testing at UCSF,
+It makes advanced visualization and modeling instantly accessible by all.
+It is currently available for beta testing at UCSF,
 and will be made publicly available once funding is secured for a hosting server.
 
 <img align = "center" src="https://egenn.github.io/imgs/rtemislive_0.92_dplot3_xyz.jpeg">
 </br>
 
+## VS Code theme
+
+Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark).
+
+Recommended font is Fira Code with its beautiful ligatures.
 
 [&copy;2022 E.D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
