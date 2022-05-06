@@ -42,7 +42,6 @@ Get cross-validated random forest performance on the iris dataset:
 ```r
 library(rtemis)
 mod <- elevate(iris)
-mod$plot()
 ```
 
 ## What's new
