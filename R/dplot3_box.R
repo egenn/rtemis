@@ -2,11 +2,11 @@
 # ::rtemis::
 # 201?-22 E.D. Gennatas lambdamd.org
 
+# -> some/most of these have been fixed
 # added option to avoid using color for group
 # todo: hovertext in A2B
 # todo: change group time bin similar to A2b without color
 # :annotate_n ngroups when one group is empty and dropped by plotly
-
 # showlegend in plot_ly so that subplot does not cause repetition of legend
 # known issue: boxmode = "group" works fine in single plots; but when used with 
 # subplot, forces separate plots sharing X to shift their boxplots.
@@ -83,6 +83,11 @@
 #' of the same location coordinate
 #' @param hovertext Character vector: Text to show on hover for each data point
 #' @param show_n Logical: If TRUE, show N in each box
+#' @param htest Character: e.g. "t.test", "wilcox.test" to compare each box to
+#' the *first* box. If grouped, compare within each group to the first box.
+#' If p-value of test is less than \code{htest.thresh}, add asterisk above/
+#' to the side of each box
+#' @param htest.thresh Numeric: Significance threshold for \code{htest}
 #' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group 
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
@@ -170,6 +175,9 @@ dplot3_box <- function(
             hovertext = NULL,
             show_n = FALSE,
             # boxmode = NULL,
+            htest = "none",
+            htest.thresh = .05,
+            htest.y = 1,
             use.plotly.group = FALSE,
             displayModeBar = TRUE,
             filename = NULL,
@@ -334,6 +342,7 @@ dplot3_box <- function(
                 }
             }
 
+            # '-Annotate N ----
             if (annotate_n) {
                 Nperbox <- Filter(
                     function(i) i > 0,
@@ -367,12 +376,37 @@ dplot3_box <- function(
                         ),
                         showarrow = FALSE
                     ) -> plt
+            } # /annotate_n
+            
+            # '-htest ----
+            if (htest != "none") {
+                pvals <- sapply(x[-1], \(v) {
+                    suppressWarnings(
+                        do.call(htest, list(x = x[[1]], y = v))$p.value
+                    )
+                })
+                plt |> plotly::add_annotations(
+                    xref = if (horizontal) "paper" else "x", 
+                    yref = if (horizontal) "x" else "paper",
+                    yanchor = if (horizontal) "auto" else "top",
+                    xanchor = if (horizontal) "center" else "auto",
+                    x = if (horizontal) htest.y else seq_along(pvals), # exclude first
+                    y = if (horizontal) seq_along(pvals) else htest.y,
+                    text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                    font = list(
+                        family = theme$font.family,
+                        size = font.size,
+                        color = annotate.col
+                    ),
+                    showarrow = FALSE
+                ) -> plt
             }
         } else {
             if (use.plotly.group) {
                 # A.2.a. Grouped boxplots with [group] ----
                 # Best to use this for multiple variables x group.
-                # For single variables x group, preferred way it to use split(var, group) => A1
+                # For single variables x group, preferred way it to use 
+                # split(var, group) => A1
                 if (is.null(legend)) legend <- TRUE
                 dt <- cbind(data.table::as.data.table(x), group = group)
                 dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))],
@@ -477,6 +511,7 @@ dplot3_box <- function(
                     yaxis = if (horizontal) cataxis else NULL
                 ) -> plt
 
+                # '-Annotate N ----
                 if (annotate_n) {
                     Nperbox <- Filter(
                         function(i) i > 0,
@@ -511,7 +546,53 @@ dplot3_box <- function(
                             ),
                             showarrow = FALSE
                         ) -> plt
-                }
+                } # /annotate_n
+                
+                # '- htest ----
+                if (htest != "none") {
+                # dts list elements are groups; columns are variables
+                # pvals is N groups -1 x N vars
+                pvals <- sapply(1:NCOL(dts[[1]]), \(cid) {
+                    sapply(2:length(dts), \(gid) {
+                        suppressWarnings(
+                            do.call(htest, list(
+                                x = dts[[1]][[cid]],
+                                y = dts[[gid]][[cid]]
+                            ))$p.value
+                        )
+                    })
+                })
+                pvals <- c(rbind(1, pvals))
+                # htest_text <- ifelse(pvals < htest.thresh, "*", "")
+
+                # pvals is N vars x N groups -1;
+                # comparing to first group for each var
+                # pvals <- sapply(2:length(dts), \(gid) {
+                #     sapply(1:NCOL(dts[[1]]), \(cid) {
+                #         do.call(htest, list(
+                #             x = dts[[1]][[cid]],
+                #             y = dts[[gid]][[cid]]
+                #         ))$p.value
+                #     })
+                # })
+                # pvals <- c(cbind(1, pvals))
+                    
+                    plt |> plotly::add_annotations(
+                        xref = if (horizontal) "paper" else "x",
+                        yref = if (horizontal) "x" else "paper",
+                        yanchor = if (horizontal) "auto" else "top",
+                        xanchor = if (horizontal) "center" else "auto",
+                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
+                        y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
+                        text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                        font = list(
+                            family = theme$font.family,
+                            size = font.size,
+                            color = annotate.col
+                        ),
+                        showarrow = FALSE
+                    ) -> plt
+                } # /htest grouped
             }
         }
     } else {
@@ -579,7 +660,7 @@ dplot3_box <- function(
             plt |> plotly::layout(boxmode = "group") -> plt
         }
 
-        ## Annotations ----
+        # '-Annotate N ----
         if (is.null(group) & annotate_n) {
             Nperbox <- Npertimeperiod[[2]] # include zeros
             plt |>
@@ -637,13 +718,12 @@ dplot3_box <- function(
         orientation = legend.orientation
     )
 
-
         plt <- plotly::layout(plt,
             yaxis = list(
                 title = if (horizontal) xlab else ylab,
                 type = if (horizontal) xaxis.type else NULL,
                 titlefont = f,
-                showgrid = theme$grid,
+                showgrid = if (horizontal) FALSE else theme$grid,
                 gridcolor = grid.col,
                 gridwidth = theme$grid.lwd,
                 tickcolor = if (horizontal) NA else tick.col,
@@ -655,7 +735,9 @@ dplot3_box <- function(
                 title = if (horizontal) ylab else xlab,
                 type = if (horizontal) NULL else xaxis.type,
                 titlefont = f,
-                showgrid = FALSE,
+                showgrid = if (horizontal) theme$grid else FALSE,
+                gridcolor = grid.col,
+                gridwidth = theme$grid.lwd,
                 tickcolor = if (horizontal) tick.col else NA,
                 tickfont = tickfont,
                 automargin = automargin.x
