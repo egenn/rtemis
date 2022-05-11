@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas lambdamd.org
 
-#' \code{mplot3}: Image (False color 2D)
+#' Draw image (False color 2D)
 #'
 #' Draw a bitmap from a matrix of values.
 #'
@@ -29,6 +29,7 @@
 #' @param file.height Output height in inches
 #' @param par.reset Logical: If TRUE, par will be reset to original settings before exit. Default = TRUE
 #' @param ... Additional arguments to be passed to \code{graphics::image}
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -96,11 +97,11 @@ mplot3_img <- function(z,
                        par.reset = TRUE,
                        ...) {
 
-  # [ Arguments ] ----
+  # Arguments ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
 
-  # [ Theme ] ----
+  # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -111,7 +112,7 @@ mplot3_img <- function(z,
     }
   }
 
-  # [ ZLIM ] ----
+  # zlim ----
   if (is.null(zlim)) {
     if (autorange) {
       max.z <- max(abs(z))
@@ -121,7 +122,7 @@ mplot3_img <- function(z,
     }
   }
 
-  # [ AUTOSIZE cex.ax ] ----
+  # Autosize cex.ax ----
   # at NROW == 50, cex.ax <- .5
   # at NROW == 20, cex.ax <- 1
   if (is.null(cex.ax)) {
@@ -134,14 +135,14 @@ mplot3_img <- function(z,
   if (is.null(cex.x)) cex.x <- cex.ax
   if (is.null(cex.y)) cex.y <- cex.ax
 
-  # [ ThemeS ] ----
+  # Themes ----
   if (is.null(cell.lab.lo.col)) cell.lab.lo.col <- theme$fg
   if (is.null(cell.lab.hi.col)) cell.lab.hi.col <- if (mean(col2rgb(theme$bg)) > 127) theme$bg else theme$fg
   if (is.null(col)) {
     col <- colorGrad(101, lo = "#18A3AC", mid = theme$bg, hi = "#F48024")
   }
 
-  # [ IMAGE ] ----
+  # Image ----
   if (!is.null(filename)) {
     graphics <- gsub(".*\\.", "", filename)
     if (is.null(file.width)) {
@@ -187,7 +188,7 @@ mplot3_img <- function(z,
   image(x, y, data.matrix(z), col = col, zlim = zlim,
         asp = asp, ann = ann, axes = axes, ...)
 
-  # [ TICK NAMES ] ----
+  # Tick names ----
   if (!is.null(if (as.mat) .ynames else .xnames)) {
     axis(side = theme$x.axis.side,
          at = seq_along(x),
@@ -213,7 +214,7 @@ mplot3_img <- function(z,
          family = theme$font.family)
   }
 
-  # [ MAIN TITLE ] ----
+  # Main title ----
   if (!is.null(rtenv$autolabel)) {
     autolab <- autolabel[rtenv$autolabel]
     main <- paste(autolab, main)
@@ -227,7 +228,7 @@ mplot3_img <- function(z,
           family = theme$font.family)
   }
 
-  # [ AXES & MAIN LABELS ] ----
+  # Axes & title ----
   if (!is.null(xlab)) mtext(xlab, side = theme$x.axis.side,
         line = xlab.line, cex = theme$cex,
         adj = xlab.adj, col = theme$labs.col,
@@ -237,7 +238,7 @@ mplot3_img <- function(z,
         adj = ylab.adj, col = theme$labs.col,
         family = theme$font.family)
 
-  # [ CELL LABELS ] ----
+  # Cell labels ----
   if (is.null(cell.labs.col)) {
     cell.labs.col <- ifelse(z >= quantile(zlim)[4], cell.lab.hi.col, cell.lab.lo.col)
   }
