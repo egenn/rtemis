@@ -368,7 +368,7 @@ rtMod <- R6::R6Class("rtMod",
                          )
 
                          # '- Tuning ----
-                         if (!is.null(self$gridsearch)) {
+                         if (length(self$gridsearch) > 0) {
                              res <- self$gridsearch$resample.rtset
                              n.resamples <- res$n.resamples
                              resampler <- res$resampler

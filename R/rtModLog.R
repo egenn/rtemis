@@ -251,7 +251,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              #' @param mar Float, vector: plot margins
                              #' @param ... Additional arguments to pass to plotting function
                              plot = function(names = NULL,
-                                             col = unlist(rtPalette),
+                                             col = unlist(rtpalette(rtPalette)),
                                              mar = NULL, ...) {
                                "Plot barplot of models' performance"
                                tbl <- self$summary()

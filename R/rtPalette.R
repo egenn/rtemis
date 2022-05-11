@@ -1519,6 +1519,7 @@ rtPalettes <- list(
     uciCol = uciCol,
     ucsdCol = ucsdCol,
     californiaCol = californiaCol,
+    scrippsCol = scrippsCol,
     caltechCol = caltechCol,
     cmuCol = cmuCol,
     princetonCol = princetonCol,

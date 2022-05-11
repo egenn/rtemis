@@ -107,12 +107,6 @@ dataPrepare <- function(x, y = NULL,
         if (!is.null(y.test)) y.test <- as.factor(y.test)
     }
 
-    # If x is vector, convert to matrix - later to data.frame
-    # if (NCOL(x) == 1 & class(x)[1] != "list") {
-    #   x <- as.data.frame(x) # if you use as.data.frame, it will be given colnames
-    #   if (!is.null(x.test)) if (NCOL(x.test) == 1) x.test <- as.data.frame(x.test)
-    # }
-
     # xnames and Dimensions check ----
     if (class(x)[1] == "list") {
         # for meta models
@@ -195,8 +189,8 @@ dataPrepare <- function(x, y = NULL,
     }
 
     # Type ----
-    if (!is.null(dim(y)) && class(y) != "Surv") y <- as.vector(y)
-    type <- switch(class(y),
+    if (!is.null(dim(y)) && !inherits(y, "Surv")) y <- as.vector(y)
+    type <- switch(class(y)[1],
         factor = "Classification",
         Surv = "Survival",
         "Regression"
