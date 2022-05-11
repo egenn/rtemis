@@ -44,6 +44,9 @@ dplot3_box(
   boxgroupgap = NULL,
   hovertext = NULL,
   show_n = FALSE,
+  htest = "none",
+  htest.thresh = 0.05,
+  htest.y = 1,
   use.plotly.group = FALSE,
   displayModeBar = TRUE,
   filename = NULL,
@@ -148,6 +151,13 @@ of the same location coordinate}
 \item{hovertext}{Character vector: Text to show on hover for each data point}
 
 \item{show_n}{Logical: If TRUE, show N in each box}
+
+\item{htest}{Character: e.g. "t.test", "wilcox.test" to compare each box to
+the *first* box. If grouped, compare within each group to the first box.
+If p-value of test is less than \code{htest.thresh}, add asterisk above/
+to the side of each box}
+
+\item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
 
 \item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group 
 boxes.}

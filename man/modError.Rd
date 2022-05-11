@@ -10,7 +10,7 @@ modError(
   estimated.prob = NULL,
   verbose = FALSE,
   type = NULL,
-  rho = TRUE,
+  rho = FALSE,
   tau = FALSE,
   na.rm = TRUE
 )
@@ -20,19 +20,20 @@ modError(
 
 \item{estimated}{Vector: Estimated values}
 
-\item{estimated.prob}{Vector: Estimated probabilities for Classification, if available. Default = NULL}
+\item{estimated.prob}{Vector: Estimated probabilities for Classification, 
+if available.}
 
 \item{verbose}{Logical: If TRUE, print output to screen}
 
-\item{type}{Character: "Regression", "Classification", or "Survival". If not provided, will be set
-to Regression if y is numeric.}
+\item{type}{Character: "Regression", "Classification", or "Survival". 
+If not provided, will be set to Regression if y is numeric.}
 
-\item{rho}{Logical: If TRUE, calculate Spearman's rho. Default = TRUE}
+\item{rho}{Logical: If TRUE, calculate Spearman's rho.}
 
-\item{tau}{Logical: If TRUE, calculate Kendall's tau. Default = FALSE
+\item{tau}{Logical: If TRUE, calculate Kendall's tau.
 This can be slow for long vectors}
 
-\item{na.rm}{Logical: Passed to \code{mean} and \code{range} functions. Default = TRUE}
+\item{na.rm}{Logical: Passed to \code{mean} and \code{range} functions.}
 }
 \value{
 Object of class \code{modError}
