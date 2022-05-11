@@ -511,7 +511,7 @@ elevate <- function(x, y = NULL,
                     sep = ""
                 )
                 cat(
-                    "Mean MSE reduction in each repeat = ",
+                    "Mean MSE reduction in each repeat =",
                     rtHighlight$bold(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE.RED * 100
@@ -520,7 +520,7 @@ elevate <- function(x, y = NULL,
                     ), "%\n", sep = "")
                 )
             } else {
-                cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat = ",
+                cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat =",
                     rtHighlight$bold(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$`Balanced.Accuracy`
