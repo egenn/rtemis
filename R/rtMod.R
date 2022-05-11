@@ -1633,7 +1633,7 @@ rtModCV <- R6::R6Class("rtModCV",
                            }
 
                            # '- Tuning ----
-                           .gs <- !is.null(self$mod[[1]][[1]]$mod1$gridsearch)
+                           .gs <- length(self$mod[[1]][[1]]$mod1$gridsearch) > 0
                            if (.gs) {
                              res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset
                              n.resamples <- res$n.resamples
