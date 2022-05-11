@@ -23,30 +23,37 @@ mplot3_res <- function(res,
                        mar = NULL,
                        theme = rtTheme, ...) {
 
-  # [ Theme ] ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    # Theme ----
+    extraargs <- list(...)
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), extraargs)
+    } else {
+        for (i in seq(extraargs)) {
+            theme[[names(extraargs)[i]]] <- extraargs[[i]]
+        }
     }
-  }
 
-  ind <- seq(length(unique(unlist(res))))
-  resn <- t(sapply(res, function(i) sapply(ind, function(k) sum(k == i))))
-  nlevels <- max(resn) * 2 + 1
-  if (is.null(col)) col <- colorGrad(nlevels, mid = theme$bg, midhi = ucsfCol$blue, hi = ucsfCol$teal)
-  ynames <- names(res)
-  # if (is.null(mar)) mar <- c(2, 7, 2, .5)
+    ind <- seq(length(unique(unlist(res))))
+    resn <- t(sapply(res, function(i) sapply(ind, function(k) sum(k == i))))
+    nlevels <- max(resn) * 2 + 1
+    if (is.null(col)) {
+        col <- colorGrad(
+            nlevels,
+            mid = theme$bg, 
+            midhi = "#006BE9", 
+            hi = "#16A0AC"
+        )
+    }
+    ynames <- names(res)
+    # if (is.null(mar)) mar <- c(2, 7, 2, .5)
 
-  # [ Plot ] ----
-  mplot3_img(resn,
-             theme = theme,
-             col = col,
-             y.axis.las = 2,
-             xlab = "Cases",
-             xlab.line = 0.5,
-             mar = mar)
-
+    # Plot ----
+    mplot3_img(resn,
+        theme = theme,
+        col = col,
+        y.axis.las = 2,
+        xlab = "Cases",
+        xlab.line = 0.5,
+        mar = mar
+    )
 } # rtemis::mplot3_res
