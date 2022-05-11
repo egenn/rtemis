@@ -2,7 +2,7 @@
 % Please edit documentation in R/mplot3_img.R
 \name{mplot3_img}
 \alias{mplot3_img}
-\title{\code{mplot3}: Image (False color 2D)}
+\title{Draw image (False color 2D)}
 \usage{
 mplot3_img(
   z,

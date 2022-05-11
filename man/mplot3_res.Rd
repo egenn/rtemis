@@ -6,6 +6,17 @@
 \usage{
 mplot3_res(res, col = NULL, mar = NULL, theme = rtTheme, ...)
 }
+\arguments{
+\item{res}{rtemis \link{resample} object}
+
+\item{col}{Color vector}
+
+\item{mar}{Numeric vector: image margins}
+
+\item{theme}{rtemis theme}
+
+\item{...}{Additional theme arguments}
+}
 \description{
 Visualizes resampling output using \link{mplot3_img}
 }

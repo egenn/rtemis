@@ -9,6 +9,12 @@
 #' For resampling with no replacement where each case may be selected 0 or 1 time,
 #' 0 is white and 1 is teal For resampling with replacement, 0 is white, 1 is blue, 2 is teal
 #'
+#' @param res rtemis \link{resample} object
+#' @param col Color vector
+#' @param mar Numeric vector: image margins
+#' @param theme rtemis theme
+#' @param ... Additional theme arguments
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
