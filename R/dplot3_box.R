@@ -156,6 +156,8 @@ dplot3_box <- function(
             annotate_n_y = 1,
             annotate.col = theme$labs.col,
             xnames = NULL,
+            group.lines = TRUE,
+            group.lines.col = NULL,
             labelify = TRUE,
             order.by.fn = NULL,
             font.size = 16,
@@ -511,6 +513,25 @@ dplot3_box <- function(
                     yaxis = if (horizontal) cataxis else NULL
                 ) -> plt
 
+                # '- Group lines ----
+                if (group.lines) {
+                    if (is.null(group.lines.col)) {
+                        group.lines.col <- adjustcolor(theme$fg, .33)
+                    }
+                    at <- seq((ngroups - .5), (ngroups * (nvars - 1) - .5), by = ngroups)
+                    if (horizontal) {
+                        plt |>
+                            plotly::layout(
+                                shapes = plotly_hline(at, color = group.lines.col)
+                            ) -> plt
+                    } else {
+                        plt |>
+                            plotly::layout(
+                                shapes = plotly_vline(at, color = group.lines.col)
+                            ) -> plt
+                    }
+                }
+                    
                 # '-Annotate N ----
                 if (annotate_n) {
                     Nperbox <- Filter(
