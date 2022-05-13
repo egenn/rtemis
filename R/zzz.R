@@ -37,18 +37,18 @@ rtemis.version <- packageVersion("rtemis")
     packageStartupMessage(paste0(
         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
         # "\n  Welcome, ", Sys.getenv("USER"),
-        "\n\n  Defaults",
+        "\n  Defaults",
         "\n  |   Theme: ", rtTheme,
         "\n  |    Font: ", rtFont,
         "\n  | Palette: ", rtPalette,
         "\n  |    Plan: ", rtPlan,
         "\n  |   Cores: ", rtCores, "/", .availableCores, " available",
-        "\n\n  Resources",
+        "\n  Resources",
         "\n  | Documentation: https://rtemis.lambdamd.org",
         "\n  |       Learn R: https://class.lambdamd.org/pdsr",
         "\n  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes",
         '\n  |          Cite: `citation("rtemis")`',
-        "\n\n  Setup",
+        "\n  Setup",
         "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`",
         "\n"
     ))
