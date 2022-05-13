@@ -315,11 +315,11 @@ rnormmat <- function(nrow = 10, ncol = 10,
                      return.df = FALSE,
                      seed = NULL) {
 
-  # [ Arguments ] ----
+  # Arguments ----
   if (length(mean) < ncol) mean <- rep(mean, ncol/length(mean))
   if (length(sd) < ncol) sd <- rep(sd, ncol/length(sd))
 
-  # [ rnorm ] ----
+  # rnorm ----
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
   if (return.df) mat <- as.data.frame(mat)
@@ -346,11 +346,11 @@ runifmat <- function(nrow = 10, ncol = 10,
                      return.df = FALSE,
                      seed = NULL) {
 
-  # [ Arguments ] ----
+  # Arguments ----
   if (length(min) < ncol) min <- rep(min, ncol/length(min))
   if (length(max) < ncol) max <- rep(max, ncol/length(max))
 
-  # [ rnorm ] ----
+  # rnorm ----
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
   if (return.df) mat <- as.data.frame(mat)
@@ -457,3 +457,8 @@ rtversion <- function() {
   printls(out)
   invisible(out)
 } # rtemis::rtversion
+
+
+popvar <- function(x) {
+  mean((x - mean(x))^2)
+}
