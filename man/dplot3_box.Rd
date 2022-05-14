@@ -28,6 +28,9 @@ dplot3_box(
   annotate_n_y = 1,
   annotate.col = theme$labs.col,
   xnames = NULL,
+  group.lines = TRUE,
+  group.lines.col = NULL,
+  group.lines.alpha = 0.5,
   labelify = TRUE,
   order.by.fn = NULL,
   font.size = 16,
@@ -112,6 +115,13 @@ violin plot}
 
 \item{xnames}{Character, vector, length = NROW(x): x-axis names. Default = NULL, which
 tries to set names appropriately}
+
+\item{group.lines}{Logical: If TRUE, add separating lines between groups of
+boxplots}
+
+\item{group.lines.col}{Color for \code{group.lines}}
+
+\item{group.lines.alpha}{Numeric: transparency for \code{group.lines.col}}
 
 \item{labelify}{Logical: If TRUE, \link{labelify} x names}
 
