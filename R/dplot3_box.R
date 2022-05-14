@@ -54,6 +54,10 @@
 #' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
 #' @param xnames Character, vector, length = NROW(x): x-axis names. Default = NULL, which
 #' tries to set names appropriately
+#' @param group.lines Logical: If TRUE, add separating lines between groups of
+#' boxplots
+#' @param group.lines.col Color for \code{group.lines}
+#' @param group.lines.alpha Numeric: transparency for \code{group.lines.col}
 #' @param order.by.fn Function: If defined, order boxes by increasing value of this function
 #' (e.g. median). Default = NULL
 #' @param font.size  Float: Font size for all labels. Default = 16
@@ -158,6 +162,7 @@ dplot3_box <- function(
             xnames = NULL,
             group.lines = TRUE,
             group.lines.col = NULL,
+            group.lines.alpha = .5,
             labelify = TRUE,
             order.by.fn = NULL,
             font.size = 16,
@@ -516,8 +521,12 @@ dplot3_box <- function(
                 # '- Group lines ----
                 if (group.lines) {
                     if (is.null(group.lines.col)) {
-                        group.lines.col <- adjustcolor(theme$fg, .33)
+                        group.lines.col <- theme$fg
                     }
+                    group.lines.col <- adjustcolor(
+                        group.lines.col,
+                        group.lines.alpha
+                    )
                     at <- seq((ngroups - .5), (ngroups * (nvars - 1) - .5), by = ngroups)
                     if (horizontal) {
                         plt |>
