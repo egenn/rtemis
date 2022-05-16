@@ -92,6 +92,10 @@
 #' If p-value of test is less than \code{htest.thresh}, add asterisk above/
 #' to the side of each box
 #' @param htest.thresh Numeric: Significance threshold for \code{htest}
+#' @param htest.annotate Logical: if TRUE, include htest annotation 
+#' e.g. "*pval < 0.05"
+#' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation
+#' @param htest.annotate.y Numeric: y-axis paper coordinate for htest annotation
 #' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group 
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
@@ -185,6 +189,9 @@ dplot3_box <- function(
             htest = "none",
             htest.thresh = .05,
             htest.y = 1,
+            htest.annotate = TRUE,
+            htest.annotate.x = 0,
+            htest.annotate.y = -.05,
             use.plotly.group = FALSE,
             displayModeBar = TRUE,
             filename = NULL,
@@ -296,6 +303,7 @@ dplot3_box <- function(
         if (is.null(group)) {
             # A.1 Single and multiple boxplots ----
             if (is.null(legend)) legend <- FALSE
+            # Args for first trace
             .args <- if (horizontal) {
                 list(x = x[[1]], y = NULL)
             } else {
@@ -393,7 +401,7 @@ dplot3_box <- function(
                     )
                 })
                 plt |> plotly::add_annotations(
-                    xref = if (horizontal) "paper" else "x", 
+                    xref = if (horizontal) "paper" else "x",
                     yref = if (horizontal) "x" else "paper",
                     yanchor = if (horizontal) "auto" else "top",
                     xanchor = if (horizontal) "center" else "auto",
@@ -407,7 +415,29 @@ dplot3_box <- function(
                     ),
                     showarrow = FALSE
                 ) -> plt
-            }
+            
+                if (htest.annotate) {
+                    test <- switch(htest,
+                    `wilcox.test` = "Wilcoxon",
+                    `t.test` = "T-test",
+                    htest)
+                    plt |> plotly::add_annotations(
+                        xref = "paper",
+                        yref = "paper",
+                        yanchor = "top",
+                        xanchor = "left",
+                        x = htest.annotate.x, 
+                        y = htest.annotate.y,
+                        text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                        font = list(
+                            family = theme$font.family,
+                            size = font.size,
+                            color = annotate.col
+                        ),
+                        showarrow = FALSE
+                    ) -> plt
+                }
+            } # / htest!="none"
         } else {
             if (use.plotly.group) {
                 # A.2.a. Grouped boxplots with [group] ----
@@ -519,7 +549,7 @@ dplot3_box <- function(
                 ) -> plt
 
                 # '- Group lines ----
-                if (group.lines) {
+                if (nvars > 1 & group.lines) {
                     if (is.null(group.lines.col)) {
                         group.lines.col <- theme$fg
                     }
@@ -527,7 +557,9 @@ dplot3_box <- function(
                         group.lines.col,
                         group.lines.alpha
                     )
-                    at <- seq((ngroups - .5), (ngroups * (nvars - 1) - .5), by = ngroups)
+                    at <- seq((ngroups - .5), (ngroups * (nvars - 1) - .5),
+                        by = ngroups
+                    )
                     if (horizontal) {
                         plt |>
                             plotly::layout(
@@ -606,15 +638,36 @@ dplot3_box <- function(
                 #     })
                 # })
                 # pvals <- c(cbind(1, pvals))
-                    
+
+                plt |> plotly::add_annotations(
+                    xref = if (horizontal) "paper" else "x",
+                    yref = if (horizontal) "x" else "paper",
+                    yanchor = if (horizontal) "auto" else "top",
+                    xanchor = if (horizontal) "center" else "auto",
+                    x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
+                    y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
+                    text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                    font = list(
+                        family = theme$font.family,
+                        size = font.size,
+                        color = annotate.col
+                    ),
+                    showarrow = FALSE
+                ) -> plt
+                if (htest.annotate) {
+                    test <- switch(htest,
+                        `wilcox.test` = "Wilcoxon",
+                        `t.test` = "T-test",
+                        htest
+                    )
                     plt |> plotly::add_annotations(
-                        xref = if (horizontal) "paper" else "x",
-                        yref = if (horizontal) "x" else "paper",
-                        yanchor = if (horizontal) "auto" else "top",
-                        xanchor = if (horizontal) "center" else "auto",
-                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
-                        y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
-                        text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                        xref = "paper",
+                        yref = "paper",
+                        yanchor = "top",
+                        xanchor = "left",
+                        x = htest.annotate.x,
+                        y = htest.annotate.y,
+                        text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
                         font = list(
                             family = theme$font.family,
                             size = font.size,
@@ -622,6 +675,7 @@ dplot3_box <- function(
                         ),
                         showarrow = FALSE
                     ) -> plt
+                }
                 } # /htest grouped
             }
         }
