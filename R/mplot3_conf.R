@@ -14,37 +14,44 @@
 #' @param ylab Character: y-axis label
 #' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE
 #' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
-#' \code{object$mod.name}. Default = NULL
-#' @param oma Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)
-#' @param dim.main Float: Height for title. Default = 1
-#' @param dim.lab Float: Height for labels. Default = 1
+#' \code{object$mod.name}. 
+#' @param oma Float, vector, length 4: Outer margins. 
+#' @param dim.main Float: Height for title.
+#' @param dim.lab Float: Height for labels.
 #' @param dim.in Float: Height/Width for confusion matrix cells. Default = 4
 #' @param dim.out Float: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
 #' @param font.in Integer: The \code{font} parameter for confusion matrix cells. Default = 2
-#' @param font.out Integer: The \code{font} parameter for metrics cells. Default = 1
-#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells. Default = 1.8
-#' @param cex.lab Float: The \code{cex} parameter for first line of label cells. Default = 1.8
-#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells. Default = 1.8
-#' @param cex.lab3 Float: The \code{cex} parameter for classification metrics. Default = 1.5
-#' @param cex.out Float: The \code{cex} parameter for metrics cells. Default = 1.4
+#' @param font.out Integer: The \code{font} parameter for metrics cells.
+#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells.
+#' @param cex.lab Float: The \code{cex} parameter for first line of label cells.
+#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells.
+#' @param cex.lab3 Float: The \code{cex} parameter for classification metrics.
+#' @param cex.out Float: The \code{cex} parameter for metrics cells.
 #' @param col.main Color for title. Default = "auto", determined by \code{theme}
 #' @param col.lab Color for labels. Default = "auto", determined by \code{theme}
-#' @param col.text.out Color for metrics cells' text. Default = "auto", determined by \code{theme}
-#' @param col.bg Color for background. Default = "auto", determined by \code{theme}
-#' @param col.bg.out1 Color for metrics cells' background (row1). Default = "auto", determined by \code{theme}
-#' @param col.bg.out2 Color for metrics cells' background (row2). Default = "auto", determined by \code{theme}
-#' @param col.text.hi Color for high confusion matrix values. Default = "auto", determined by \code{theme}
-#' @param col.text.lo Color for low confusion matrix values. Default = "auto", determined by \code{theme}
-#' @param show.ba Logical: If TRUE, show Balanced Accuracy at bottom right corner. Default = TRUE
-#' @param theme Character: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"
-#' @param mid.col Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
-#' theme = "light", "black" for "dark"
-#' @param hi.color.pos Color: The hi color for correct classification. Default = "#18A3AC" (teal)
-#' @param hi.color.neg Color: The hi color for missclassification. Default = "#F48024" (orange)
-#' @param par.reset Logical: If TRUE, reset par before exit. Default = TRUE
+#' @param col.text.out Color for metrics cells' text. Default = "auto", 
+#' determined by \code{theme}
+#' @param col.bg Color for background. Default = "auto", determined by 
+#' \code{theme}
+#' @param col.bg.out1 Color for metrics cells' background (row1). 
+#' Default = "auto", determined by \code{theme}
+#' @param col.bg.out2 Color for metrics cells' background (row2). 
+#' Default = "auto", determined by \code{theme}
+#' @param col.text.hi Color for high confusion matrix values. Default = "auto", 
+#' determined by \code{theme}
+#' @param col.text.lo Color for low confusion matrix values. Default = "auto", 
+#' determined by \code{theme}
+#' @param show.ba Logical: If TRUE, show Balanced Accuracy at bottom right corner.
+#' @param theme Character: "light", or "dark". Set to 
+#' \code{options("rt.theme")}, if set, otherwise "light"
+#' @param mid.col Color: The mid color for the confusion matrix. 
+#' Default = "auto", determined by \code{theme}
+#' @param hi.color.pos Color: The hi color for correct classification. 
+#' @param hi.color.neg Color: The hi color for missclassification.
+#' @param par.reset Logical: If TRUE, reset par before exit.
 #' @param pdf.width Float: PDF width, if \code{filename} is set
 #' @param pdf.height Float: PDF height, if \code{filename} is set
-#' @param filename Character: If specified, save plot to this path. Default = NULL
+#' @param filename Character: If specified, save plot to this path.
 #'
 #' @return List of metrics, invisibly
 #' @author E.D. Gennatas
