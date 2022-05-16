@@ -56,13 +56,13 @@ mplot3_conf(
 \item{plot.metrics}{Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE}
 
 \item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL, will look for
-\code{object$mod.name}. Default = NULL}
+\code{object$mod.name}.}
 
-\item{oma}{Float, vector, length 4: Outer margins. Default = c(0, 0, 0, 0)}
+\item{oma}{Float, vector, length 4: Outer margins.}
 
-\item{dim.main}{Float: Height for title. Default = 1}
+\item{dim.main}{Float: Height for title.}
 
-\item{dim.lab}{Float: Height for labels. Default = 1}
+\item{dim.lab}{Float: Height for labels.}
 
 \item{dim.in}{Float: Height/Width for confusion matrix cells. Default = 4}
 
@@ -70,52 +70,59 @@ mplot3_conf(
 
 \item{font.in}{Integer: The \code{font} parameter for confusion matrix cells. Default = 2}
 
-\item{font.out}{Integer: The \code{font} parameter for metrics cells. Default = 1}
+\item{font.out}{Integer: The \code{font} parameter for metrics cells.}
 
-\item{cex.in}{Float: The \code{cex} parameter for confusion matrix cells. Default = 1.8}
+\item{cex.in}{Float: The \code{cex} parameter for confusion matrix cells.}
 
-\item{cex.lab}{Float: The \code{cex} parameter for first line of label cells. Default = 1.8}
+\item{cex.lab}{Float: The \code{cex} parameter for first line of label cells.}
 
-\item{cex.lab2}{Float: The \code{cex} parameter for second line of label cells. Default = 1.8}
+\item{cex.lab2}{Float: The \code{cex} parameter for second line of label cells.}
 
-\item{cex.lab3}{Float: The \code{cex} parameter for classification metrics. Default = 1.5}
+\item{cex.lab3}{Float: The \code{cex} parameter for classification metrics.}
 
-\item{cex.out}{Float: The \code{cex} parameter for metrics cells. Default = 1.4}
+\item{cex.out}{Float: The \code{cex} parameter for metrics cells.}
 
 \item{col.main}{Color for title. Default = "auto", determined by \code{theme}}
 
 \item{col.lab}{Color for labels. Default = "auto", determined by \code{theme}}
 
-\item{col.text.out}{Color for metrics cells' text. Default = "auto", determined by \code{theme}}
+\item{col.text.out}{Color for metrics cells' text. Default = "auto", 
+determined by \code{theme}}
 
-\item{col.bg}{Color for background. Default = "auto", determined by \code{theme}}
+\item{col.bg}{Color for background. Default = "auto", determined by 
+\code{theme}}
 
-\item{col.bg.out1}{Color for metrics cells' background (row1). Default = "auto", determined by \code{theme}}
+\item{col.bg.out1}{Color for metrics cells' background (row1). 
+Default = "auto", determined by \code{theme}}
 
-\item{col.bg.out2}{Color for metrics cells' background (row2). Default = "auto", determined by \code{theme}}
+\item{col.bg.out2}{Color for metrics cells' background (row2). 
+Default = "auto", determined by \code{theme}}
 
-\item{col.text.hi}{Color for high confusion matrix values. Default = "auto", determined by \code{theme}}
+\item{col.text.hi}{Color for high confusion matrix values. Default = "auto", 
+determined by \code{theme}}
 
-\item{col.text.lo}{Color for low confusion matrix values. Default = "auto", determined by \code{theme}}
+\item{col.text.lo}{Color for low confusion matrix values. Default = "auto", 
+determined by \code{theme}}
 
-\item{show.ba}{Logical: If TRUE, show Balanced Accuracy at bottom right corner. Default = TRUE}
+\item{show.ba}{Logical: If TRUE, show Balanced Accuracy at bottom right corner.}
 
-\item{theme}{Character: "light", or "dark". Set to \code{options("rt.theme")}, if set, otherwise "light"}
+\item{theme}{Character: "light", or "dark". Set to 
+\code{options("rt.theme")}, if set, otherwise "light"}
 
-\item{mid.col}{Color: The mid color for the confusion matrix. Default = "auto", which results in "white" for
-theme = "light", "black" for "dark"}
+\item{mid.col}{Color: The mid color for the confusion matrix. 
+Default = "auto", determined by \code{theme}}
 
-\item{hi.color.pos}{Color: The hi color for correct classification. Default = "#18A3AC" (teal)}
+\item{hi.color.pos}{Color: The hi color for correct classification.}
 
-\item{hi.color.neg}{Color: The hi color for missclassification. Default = "#F48024" (orange)}
+\item{hi.color.neg}{Color: The hi color for missclassification.}
 
-\item{par.reset}{Logical: If TRUE, reset par before exit. Default = TRUE}
+\item{par.reset}{Logical: If TRUE, reset par before exit.}
 
 \item{pdf.width}{Float: PDF width, if \code{filename} is set}
 
 \item{pdf.height}{Float: PDF height, if \code{filename} is set}
 
-\item{filename}{Character: If specified, save plot to this path. Default = NULL}
+\item{filename}{Character: If specified, save plot to this path.}
 }
 \value{
 List of metrics, invisibly

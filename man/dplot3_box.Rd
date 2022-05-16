@@ -50,6 +50,9 @@ dplot3_box(
   htest = "none",
   htest.thresh = 0.05,
   htest.y = 1,
+  htest.annotate = TRUE,
+  htest.annotate.x = 0,
+  htest.annotate.y = -0.05,
   use.plotly.group = FALSE,
   displayModeBar = TRUE,
   filename = NULL,
@@ -168,6 +171,13 @@ If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
 \item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
+
+\item{htest.annotate}{Logical: if TRUE, include htest annotation 
+e.g. "*pval < 0.05"}
+
+\item{htest.annotate.x}{Numeric: x-axis paper coordinate for htest annotation}
+
+\item{htest.annotate.y}{Numeric: y-axis paper coordinate for htest annotation}
 
 \item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group 
 boxes.}
