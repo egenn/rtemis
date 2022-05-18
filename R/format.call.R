@@ -8,7 +8,8 @@
 #'
 #' @param x \code{call} object
 #' @param as.html Logical: If TRUE, output HTML span element
-#' @param font.family Character: font family to use when \code{as.html = TRUE}
+# @param font.family Character: font family to use when \code{as.html = TRUE}
+#' @param class Character: CSS class to assign to span containing code
 #' @param ... Not used
 #'
 #' @author E.D. Gennatas
@@ -26,7 +27,8 @@
 
 format.call <- function(x, 
                         as.html = FALSE,
-                        font.family = "monospace", ...) {
+                        # font.family = "monospace",
+                        class = "rtcode", ...) {
     
     leftpad <- nchar(x[1])
     out <- paste0(format.default(x), collapse = "")
@@ -42,7 +44,8 @@ format.call <- function(x,
             HTML(
                 gsub(" ", "&nbsp;", gsub("\n", "<br>", out))
             ),
-            style = paste0("font-family: ", font.family)
+            # style = paste0("font-family: ", font.family)
+            class = class
         )
         
     } else {

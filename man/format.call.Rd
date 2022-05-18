@@ -4,14 +4,14 @@
 \alias{format.call}
 \title{Format method for \code{call} objects}
 \usage{
-\method{format}{call}(x, as.html = FALSE, font.family = "monospace", ...)
+\method{format}{call}(x, as.html = FALSE, class = "rtcode", ...)
 }
 \arguments{
 \item{x}{\code{call} object}
 
 \item{as.html}{Logical: If TRUE, output HTML span element}
 
-\item{font.family}{Character: font family to use when \code{as.html = TRUE}}
+\item{class}{Character: CSS class to assign to span containing code}
 
 \item{...}{Not used}
 }
