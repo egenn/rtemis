@@ -43,7 +43,6 @@ Check Data (HTML output)
 checkData_live(iris)
 }
 
-
 }
 \author{
 E.D. Gennatas
