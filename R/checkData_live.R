@@ -24,8 +24,6 @@
 #' checkData_live(iris)
 #' }
 #'
-# May be will be replaced by new new unified checkData function
-#'
 checkData_live <- function(x,
                            name = NULL,
                            recommend = TRUE,
@@ -39,6 +37,7 @@ checkData_live <- function(x,
     n.cols <- NCOL(x)
 
     # Data Types ----
+    classes <- sapply(x, base::class)
 
     ## Continuous ----
     index.continuous <- which(sapply(x, function(i) is.numeric(i) & !is.integer(i)))
@@ -97,13 +96,17 @@ checkData_live <- function(x,
                 sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])
             })
         )
+
+        # Get types of features with NA
+        classes.na <- table(classes[cols.anyna])
+
     } else {
         na.feature.pct <- na.case.pct <- rep(0, n.cols)
     }
 
-    # HTML parts ----
+    # HTML out ----
 
-    ## Data Types ----
+    ## [] Data Types ----
     continuous <- HTML(paste(
         strong(n.continuous), "continuous",
         ngettext(n.continuous, "feature", "features")
@@ -130,38 +133,46 @@ checkData_live <- function(x,
         .col(n.character), "character",
         ngettext(n.character, "feature", "features")
     ))
-    dates <- HTML(paste(strong(n.date), "date", ngettext(n.date, "feature", "features")))
+    dates <- HTML(paste(
+        strong(n.date), "date",
+        ngettext(n.date, "feature", "features")
+    ))
 
-    ## Issues ----
+    ## [] Issues ----
     .col <- if (n.constant > 0) html_red else strong
-    constants <- HTML(paste(.col(n.constant), "constant", ngettext(n.constant, "feature", "features")))
+    constants <- HTML(paste(
+        .col(n.constant), "constant",
+        ngettext(n.constant, "feature", "features")
+    ))
     .col <- if (n.dups > 0) html_red else strong
-    duplicates <- HTML(paste(.col(n.dups), "duplicate", ngettext(n.dups, "case", "cases")))
+    duplicates <- HTML(paste(
+        .col(n.dups), "duplicate",
+        ngettext(n.dups, "case", "cases")
+    ))
 
 
     .col <- if (n.cols.anyna > 0) html_orange else strong
-    nas <- HTML(paste(
-        .col(n.cols.anyna),
-        ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
-        ifelse(n.cols.anyna > 0,
-            paste(
-                ";", .col(n.na), "'NA'",
-                ngettext(n.na, "value", "values"),
-                "total"
-            ), ""
-        )
-    ))
+    nas <- if (n.cols.anyna > 0) {
+        HTML(paste(
+            .col(n.na), "missing",
+            ngettext(n.na, "value", "values"),
+            "total in", .col(n.cols.anyna),
+            ngettext(n.cols.anyna, "feature", "features"),
+            tags$ul(
+                lapply(seq_along(classes.na), \(i) {
+                    tags$li(HTML(paste(
+                        .col(classes.na[i]),
+                        tolower(names(classes.na)[i]),
+                        ngettext(classes.na[i], "feature", "features")
+                    )))
+                })
+            )
+        ))
+    } else {
+        HTML(paste(strong("0"), "missing values"))
+    }
 
-    ## Recs html ----
-    # rec_char <- if (n.character > 0) {
-    #     tags$li(HTML(paste(html_orange(
-    #         "Consider converting the character",
-    #         ngettext(n.character, "feature", "features"), "to",
-    #         ngettext(n.character, "a factor", "factors")
-    #     ))))
-    # } else {
-    #     NULL
-    # }
+    ## [] Recs html ----
     rec_char <- NULL
     rec_constant <- if (n.constant > 0) {
         tags$li(HTML(paste(html_orange(
@@ -181,32 +192,34 @@ checkData_live <- function(x,
         NULL
     }
 
+    # rec_na <- if (n.cols.anyna > 0) {
+    #     tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
+    # } else {
+    #     NULL
+    # }
+
     rec_na <- if (n.cols.anyna > 0) {
-        tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
+        list(
+            if (isTRUE(classes.na["factor"] > 0)) {
+                tags$li(HTML(paste(html_orange(
+                    "Consider assigning factor 'NA' values to new 'missing' level"
+                ))))
+            },
+            tags$li(HTML(paste(html_orange(
+                "Consider imputing missing values or using complete cases only"
+            ))))
+        )
     } else {
         NULL
     }
-
-    # rec_int <- if (n.integer > 0) {
-    #   tags$li(HTML(paste(ifelse(n.integer > 1, paste("Check the ", n.integer, ""), " "),
-    #                      "integer", ngettext(n.integer, " feature", " features"),
-    #                      " and consider if", ngettext(n.integer, " it", " they"),
-    #                      " should be converted to ",
-    #                      ngettext(n.integer, "factor", "factors"))))
-    # } else {
-    #   NULL
-    # }
-
 
     recs <- if (sum(n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) == 0) {
         tags$li(html_success("Everything looks good"))
     } else {
         list(
-            # rec_char,
             rec_constant,
             rec_dups,
             rec_na
-            #  rec_int
         )
     }
 
