@@ -39,8 +39,6 @@
 #' @param y.name Character: Name of outcome
 # #' @param save.data Logical: Save train, test, fitted, and predicted data for each resample.
 # #'   Defaults to TRUE
-#' @param cex Float: cex parameter for elevate plot
-#' @param col Color for elevate plot
 #' @param outer.n.workers Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
 #' (tuning) or the learner itself is parallelized. Don't parallelize the parallelization
 #' @param parallel.type Character: "psock" (Default), "fork"
@@ -127,8 +125,6 @@ elevate <- function(x, y = NULL,
                     y.name = NULL,
                     save.mods = TRUE,
                     save.tune = TRUE,
-                    cex = 1.4,
-                    col = "#18A3AC",
                     bag.fitted = FALSE,
                     outer.n.workers = 1,
                     parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
@@ -318,7 +314,7 @@ elevate <- function(x, y = NULL,
         if (save.tune) {
             best.tune[[i]] <- plyr::ldply(
                 mods[[i]],
-                function(r) r$mod1$extra$gridSearch$best.tune
+                function(r) r$mod1$gridsearch$best.tune
             )
             if (NROW(best.tune[[i]]) > 0) colnames(best.tune[[i]])[1] <- "Resample"
         }
@@ -520,7 +516,7 @@ elevate <- function(x, y = NULL,
                     ), "%\n", sep = "")
                 )
             } else {
-                cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat =",
+                cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat = ",
                     rtHighlight$bold(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$`Balanced.Accuracy`
