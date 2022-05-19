@@ -83,8 +83,7 @@ dplot3_heatmap <- function(x,
                            col_side_palette = NULL,
                            font.size = NULL,
                            padding = 0,
-                           filename = NULL,
-                           ...) {
+                           filename = NULL, ...) {
 
     # Dependencies ----
     dependency_check("heatmaply")
@@ -124,7 +123,7 @@ dplot3_heatmap <- function(x,
         theme <- do.call(paste0("theme_", theme), extraargs)
     } else {
         # Override with extra arguments
-        for (i in seq(extraargs)) {
+        for (i in seq_along(extraargs)) {
             theme[[names(extraargs)[i]]] <- extraargs[[i]]
         }
     }

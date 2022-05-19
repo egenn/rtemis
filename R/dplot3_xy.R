@@ -302,8 +302,7 @@ dplot3_xy <- function(x, y = NULL,
             y1 <- y[[i]]
             learner.args <- c(
                 list(x = x1, y = y1, verbose = trace > 0),
-                fit.params,
-                list(...)
+                fit.params
             )
             if (fit == "NLS") {
                 learner.args <- c(
