@@ -5,7 +5,7 @@
 \title{Interactive Heatmaps}
 \usage{
 dplot3_heatmap(
-  z,
+  x,
   Rowv = TRUE,
   Colv = TRUE,
   cluster = FALSE,
@@ -31,7 +31,7 @@ dplot3_heatmap(
   showticklabels = NULL,
   colorbar_len = 0.7,
   plot_method = "plotly",
-  theme = getOption("rt.theme", "white"),
+  theme = rtTheme,
   row_side_colors,
   row_side_palette = NULL,
   col_side_colors,
@@ -43,7 +43,7 @@ dplot3_heatmap(
 )
 }
 \arguments{
-\item{z}{Input matrix}
+\item{x}{Input matrix}
 
 \item{Rowv}{Logical or dendrogram.
 If Logical: Compute dendrogram and reorder rows. Defaults to FALSE
@@ -59,7 +59,7 @@ See more at \code{heatmaply::heatmaply("Colv")}}
 
 \item{symm}{Logical: If TRUE, treat \code{x} symmetrically - \code{x} must be a square matrix. Default = FALSE}
 
-\item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(z)}}
+\item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(x)}}
 
 \item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
