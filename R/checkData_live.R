@@ -21,7 +21,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' checkData_live(iris)
+#' ir <- iris
+#' ir[12:15, 1] <- ir[103:107, 3] <- ir[58:61, 5] <- NA
+#' checkData_live(ir)
 #' }
 #'
 checkData_live <- function(x,
