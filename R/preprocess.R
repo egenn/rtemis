@@ -275,7 +275,7 @@ preprocess <- function(x, y = NULL,
     cols.with.na <- which(apply(x, 2, anyNA))
     .colnames <- colnames(x)
     for (i in cols.with.na) {
-      x[, paste0(.colnames[i], "_missing")] <- as.numeric(is.na(x[, i]))
+      x[, paste0(.colnames[i], "_missing")] <- factor(as.numeric(is.na(x[, i])))
       if (verbose) msg0("Created missingness indicator for ", .colnames[i], "...")
     }
   }
