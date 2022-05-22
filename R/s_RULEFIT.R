@@ -3,7 +3,7 @@
 # 2017-8 E.D. Gennatas lambdamd.org
 # TODO: Add option to include raw features as well as rules
 
-#' ruleFit [C, R]
+#' Rulefit [C, R]
 #'
 #' Train a gradient boosting model, extract rules,
 #' and fit using LASSO
