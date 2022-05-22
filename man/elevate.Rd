@@ -28,8 +28,6 @@ elevate(
   y.name = NULL,
   save.mods = TRUE,
   save.tune = TRUE,
-  cex = 1.4,
-  col = "#18A3AC",
   bag.fitted = FALSE,
   outer.n.workers = 1,
   parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
@@ -115,10 +113,6 @@ e.g. for 10-fold on a dataset with 1000 cases, you could use group = rep(1:10, e
 if running many resamples). Default = TRUE}
 
 \item{save.tune}{Logical: If TRUE, save the best.tune data frame for each resample (output of gridSearchLearn)}
-
-\item{cex}{Float: cex parameter for elevate plot}
-
-\item{col}{Color for elevate plot}
 
 \item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged prediction on the full sample. To get a
 bagged prediction on new data using the same models, use \link{predict.rtModCV}}
