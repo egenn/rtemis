@@ -83,7 +83,11 @@ dplot3_heatmap <- function(x,
                            col_side_palette = NULL,
                            font.size = NULL,
                            padding = 0,
-                           filename = NULL, ...) {
+                           displayModeBar = TRUE,
+                           filename = NULL,
+                           file.width = 500,
+                           file.height = 500,
+                           file.scale = 1, ...) {
 
     # Dependencies ----
     dependency_check("heatmaply")
@@ -223,9 +227,9 @@ dplot3_heatmap <- function(x,
         row_side_colors = row_side_colors,
         row_side_palette = row_side_palette,
         col_side_colors = col_side_colors,
-        col_side_palette = col_side_palette,
+        col_side_palette = col_side_palette
         # side_color_layers = ggp2theme,
-        file = filename
+        # file = filename
     ))
 
     # Layout ----
@@ -302,6 +306,21 @@ dplot3_heatmap <- function(x,
     # Manual layout ----
     # Set padding
     plt$sizingPolicy$padding <- padding
+
+    # Config ----
+    plt |> plotly::config(
+        displayModeBar = displayModeBar
+    )
+    
+    # Write to file ----
+    if (!is.null(filename)) {
+        plotly::save_image(
+            plt,
+            file.path(filename),
+            with = file.width, height = file.height,
+            scale = file.scale
+        )
+    }
 
     plt
 } # rtemis::dplot3_heatmap
