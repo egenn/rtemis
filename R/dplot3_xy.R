@@ -110,6 +110,7 @@ dplot3_xy <- function(x, y = NULL,
             displayModeBar = TRUE,
             trace = 0,
             filename = NULL,
+            file.format = "svg",
             file.width = 500,
             file.height = 500,
             file.scale = 1, ...) {
@@ -610,7 +611,9 @@ dplot3_xy <- function(x, y = NULL,
         plotly::save_image(
             plt,
             file.path(filename),
-            with = file.width, height = file.height,
+            format = file.format,
+            with = file.width, 
+            height = file.height,
             scale = file.scale
         )
     }
