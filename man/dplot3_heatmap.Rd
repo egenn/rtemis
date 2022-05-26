@@ -38,7 +38,12 @@ dplot3_heatmap(
   col_side_palette = NULL,
   font.size = NULL,
   padding = 0,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
   ...
 )
 }

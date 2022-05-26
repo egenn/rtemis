@@ -29,9 +29,13 @@ dplot3_ts(
   spikecolor = NULL,
   spikethickness = 1,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   theme = rtTheme,
   palette = rtPalette,
   filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
   ...
 )
 }

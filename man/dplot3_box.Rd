@@ -55,8 +55,8 @@ dplot3_box(
   htest.annotate.y = -0.05,
   use.plotly.group = FALSE,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   filename = NULL,
-  output.format = "svg",
   file.width = 500,
   file.height = 500,
   file.scale = 1,
@@ -184,9 +184,9 @@ boxes.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{filename}{Character: Path to file to save static plot.}
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf"}
 
-\item{output.format}{Character: "svg", "png", "jpeg", "pdf"}
+\item{filename}{Character: Path to file to save static plot.}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}

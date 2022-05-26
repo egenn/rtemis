@@ -40,8 +40,8 @@ dplot3_bar(
   automargin.y = TRUE,
   padding = 0,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   filename = NULL,
-  output.format = "svg",
   file.width = 500,
   file.height = 500,
   file.scale = 1,
@@ -141,8 +141,6 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{output.format}{Character: "svg", "png", "jpeg", "pdf"}
-
 \item{file.width}{Integer: File width in pixels for when \code{filename} is 
 set.}
 
@@ -155,6 +153,8 @@ is set.}
 printed to the console}
 
 \item{...}{Additional arguments passed to theme}
+
+\item{modeBar.output.format}{Character: "svg", "png", "jpeg", "pdf"}
 }
 \description{
 Draw interactive barplots using \code{plotly}

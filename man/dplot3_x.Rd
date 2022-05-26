@@ -52,6 +52,7 @@ dplot3_x(
   ridge.y.labs = FALSE,
   ridge.order.on.mean = TRUE,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   width = NULL,
   height = NULL,
   filename = NULL,

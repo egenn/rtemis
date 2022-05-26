@@ -53,6 +53,7 @@ dplot3_xyz(
   height = NULL,
   padding = 0,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   trace = 0,
   filename = NULL,
   file.width = 500,

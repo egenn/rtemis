@@ -77,11 +77,12 @@ dplot3_xy(
   width = NULL,
   height = NULL,
   displayModeBar = TRUE,
-  trace = 0,
+  modeBar.file.format = "svg",
   filename = NULL,
   file.width = 500,
   file.height = 500,
   file.scale = 1,
+  trace = 0,
   ...
 )
 }
@@ -220,9 +221,6 @@ or "longdashdot"}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{trace}{Integer: The height the number the more diagnostic info is 
-printed to the console}
-
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is 
@@ -232,6 +230,9 @@ set.}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{trace}{Integer: The height the number the more diagnostic info is 
+printed to the console}
 
 \item{...}{Additional arguments passed to theme}
 }

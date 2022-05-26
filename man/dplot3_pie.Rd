@@ -25,6 +25,7 @@ dplot3_pie(
   margin = list(b = 50, l = 50, t = 50, r = 20),
   padding = 0,
   displayModeBar = TRUE,
+  modeBar.file.format = "svg",
   filename = NULL,
   file.width = 500,
   file.height = 500,

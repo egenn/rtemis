@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_RULEFIT.R
 \name{s_RULEFIT}
 \alias{s_RULEFIT}
-\title{ruleFit [C, R]}
+\title{Rulefit [C, R]}
 \usage{
 s_RULEFIT(
   x,
