@@ -100,7 +100,7 @@
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 #' @param filename Character: Path to file to save static plot.
-#' @param output.format Character: "svg", "png", "jpeg", "pdf"
+#' @param modeBar.file.format Character: "svg", "png", "jpeg", "pdf"
 #' @param file.width Integer: File width in pixels for when \code{filename} is
 #' set.
 #' @param file.height Integer: File height in pixels for when \code{filename}
@@ -194,8 +194,8 @@ dplot3_box <- function(
             htest.annotate.y = -.05,
             use.plotly.group = FALSE,
             displayModeBar = TRUE,
+            modeBar.file.format = "svg",
             filename = NULL,
-            output.format = "svg",
             file.width = 500,
             file.height = 500,
             file.scale = 1,
@@ -849,7 +849,7 @@ dplot3_box <- function(
         displaylogo = FALSE,
         displayModeBar = displayModeBar,
         toImageButtonOptions = list(
-            format = output.format,
+            format = modeBar.file.format,
             width = file.width,
             height = file.height
         )
@@ -859,8 +859,8 @@ dplot3_box <- function(
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file.path(filename),
-            with = file.width, 
+            file = file.path(filename),
+            width = file.width, 
             height = file.height,
             scale = file.scale
         )

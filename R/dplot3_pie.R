@@ -45,6 +45,7 @@ dplot3_pie <-  function(
             margin = list(b = 50, l = 50, t = 50, r = 20),
             padding = 0,
             displayModeBar = TRUE,
+            modeBar.file.format = "svg",
             filename = NULL,
             file.width = 500,
             file.height = 500,
@@ -153,15 +154,22 @@ dplot3_pie <-  function(
   plt$sizingPolicy$padding <- padding
   # Config
   plt <- plotly::config(plt,
-                        displaylogo = FALSE,
-                        displayModeBar = displayModeBar)
+    displaylogo = FALSE,
+    displayModeBar = displayModeBar,
+    toImageButtonOptions = list(
+      format = modeBar.file.format,
+      width = file.width,
+      height = file.height
+    )
+  )
 
   # Write to file ----
   if (!is.null(filename)) {
       plotly::save_image(
           plt,
           file.path(filename),
-          with = file.width, height = file.height,
+          width = file.width,
+          height = file.height,
           scale = file.scale
       )
   }

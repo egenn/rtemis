@@ -84,6 +84,7 @@ dplot3_heatmap <- function(x,
                            font.size = NULL,
                            padding = 0,
                            displayModeBar = TRUE,
+                           modeBar.file.format = "svg",
                            filename = NULL,
                            file.width = 500,
                            file.height = 500,
@@ -308,8 +309,14 @@ dplot3_heatmap <- function(x,
     plt$sizingPolicy$padding <- padding
 
     # Config ----
-    plt |> plotly::config(
-        displayModeBar = displayModeBar
+    plt <- plotly::config(plt,
+        displaylogo = FALSE,
+        displayModeBar = displayModeBar,
+        toImageButtonOptions = list(
+            format = modeBar.file.format,
+            width = file.width,
+            height = file.height
+        )
     )
     
     # Write to file ----
@@ -317,7 +324,8 @@ dplot3_heatmap <- function(x,
         plotly::save_image(
             plt,
             file.path(filename),
-            with = file.width, height = file.height,
+            width = file.width, 
+            height = file.height,
             scale = file.scale
         )
     }

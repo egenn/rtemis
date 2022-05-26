@@ -108,12 +108,12 @@ dplot3_xy <- function(x, y = NULL,
             width = NULL,
             height = NULL,
             displayModeBar = TRUE,
-            trace = 0,
+            modeBar.file.format = "svg",
             filename = NULL,
-            file.format = "svg",
             file.width = 500,
             file.height = 500,
-            file.scale = 1, ...) {
+            file.scale = 1,
+            trace = 0, ...) {
 
     # Dependencies ----
     dependency_check("plotly")
@@ -603,16 +603,20 @@ dplot3_xy <- function(x, y = NULL,
     # Config
     plt <- plotly::config(plt,
         displaylogo = FALSE,
-        displayModeBar = displayModeBar
+        displayModeBar = displayModeBar,
+        toImageButtonOptions = list(
+            format = modeBar.file.format,
+            width = file.width,
+            height = file.height
+        )
     )
 
     # Write to file ----
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file.path(filename),
-            format = file.format,
-            with = file.width, 
+            file = file.path(filename),
+            width = file.width, 
             height = file.height,
             scale = file.scale
         )

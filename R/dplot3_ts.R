@@ -89,9 +89,13 @@ dplot3_ts <- function(x, time,
                       spikecolor = NULL,
                       spikethickness = 1,
                       displayModeBar = TRUE,
+                      modeBar.file.format = "svg",
                       theme = rtTheme,
                       palette = rtPalette,
-                      filename = NULL, ...) {
+                      filename = NULL,
+                      file.width = 500,
+                      file.height = 500,
+                      file.scale = 1, ...) {
 
     # Arguments ----
     roll.fn <- match.arg(roll.fn)
@@ -190,15 +194,22 @@ dplot3_ts <- function(x, time,
     # Config
     plt <- plotly::config(plt,
         displaylogo = FALSE,
-        displayModeBar = displayModeBar
+        displayModeBar = displayModeBar,
+        toImageButtonOptions = list(
+            format = modeBar.file.format,
+            width = file.width,
+            height = file.height
+        )
     )
 
     # Write to file ----
     if (!is.null(filename)) {
-        filename <- file.path(filename)
-        plotly::plotly_IMAGE(plt,
-            width = file.width, height = file.height,
-            format = tools::file_ext(filename), out_file = filename
+        plotly::save_image(
+            plt,
+            file = file.path(filename),
+            width = file.width,
+            height = file.height,
+            scale = file.scale
         )
     }
 

@@ -121,6 +121,7 @@ dplot3_x <- function(x,
                      ridge.y.labs = FALSE,
                      ridge.order.on.mean = TRUE,
                      displayModeBar = TRUE,
+                     modeBar.file.format = "svg",
                      width = NULL,
                      height = NULL,
                      filename = NULL,
@@ -480,15 +481,21 @@ dplot3_x <- function(x,
     # Config
     plt <- plotly::config(plt,
         displaylogo = FALSE,
-        displayModeBar = displayModeBar
+        displayModeBar = displayModeBar,
+        toImageButtonOptions = list(
+            format = modeBar.file.format,
+            width = file.width,
+            height = file.height
+        )
     )
 
     # Write to file ----
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file.path(filename),
-            with = file.width, height = file.height,
+            file = file.path(filename),
+            width = file.width,
+            height = file.height,
             scale = file.scale
         )
     }

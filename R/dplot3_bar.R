@@ -49,7 +49,7 @@
 #' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
-#' @param output.format Character: "svg", "png", "jpeg", "pdf"
+#' @param modeBar.output.format Character: "svg", "png", "jpeg", "pdf"
 #' @param file.width Integer: File width in pixels for when \code{filename} is 
 #' set.
 #' @param file.height Integer: File height in pixels for when \code{filename} 
@@ -124,8 +124,8 @@ dplot3_bar <-  function(x,
                         automargin.y = TRUE,
                         padding = 0,
                         displayModeBar = TRUE,
+                        modeBar.file.format = "svg",
                         filename = NULL,
-                        output.format = "svg",
                         file.width = 500,
                         file.height = 500,
                         file.scale = 1,
@@ -354,7 +354,7 @@ dplot3_bar <-  function(x,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
-      format = output.format,
+      format = modeBar.file.format,
       width = file.width,
       height = file.height
     )
@@ -364,8 +364,8 @@ dplot3_bar <-  function(x,
   if (!is.null(filename)) {
       plotly::save_image(
           plt,
-          file.path(filename),
-          with = file.width, 
+          file = file.path(filename),
+          width = file.width, 
           height = file.height,
           scale = file.scale
       )
