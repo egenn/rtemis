@@ -9,13 +9,13 @@ c_HARDCL(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 \arguments{
 \item{x}{Input matrix / data.frame}
 
-\item{x.test}{Testing set matrix / data.frame}
+\item{x.test}{Optional test set data}
 
 \item{k}{Integer: Number of clusters to get}
 
 \item{dist}{Character: Distance measure to use: 'euclidean' or 'manhattan'}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }

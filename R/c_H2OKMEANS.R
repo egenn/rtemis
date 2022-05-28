@@ -9,6 +9,7 @@
 #' e.g. if running on localhost, point your web browser to \code{localhost:54321}
 #'
 #' For additional information, see help on \code{h2o::h2o.kmeans}
+#' 
 #' @inheritParams c_KMEANS
 #' @param estimate.k Logical: if TRUE, estimate k up to a maximum set by the \code{k} argument
 #' @param nfolds Integer: Number of cross-validation folds
@@ -23,6 +24,7 @@
 #' Default = "AUTO"
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to \code{h2p::h2o.kmeans}
+#' 
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
 #' @family Clustering

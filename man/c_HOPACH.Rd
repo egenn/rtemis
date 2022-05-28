@@ -34,9 +34,9 @@ the Mean/Median Split Silhouette. Usually same as \code{kmax}}
 
 \item{trace}{Integer: If trace > 0, print messages during HOPACH run. Default = 0}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{...}{Additional parameters to be passed to \code{cluster::hopach}}
+\item{...}{Additional parameters to pass to \code{cluster::hopach}}
 }
 \description{
 Perform HOPACH clustering using \code{hopach::hopach}

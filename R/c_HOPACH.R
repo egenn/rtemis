@@ -6,7 +6,6 @@
 #'
 #' Perform HOPACH clustering using \code{hopach::hopach}
 #'
-#' @inheritParams c_KMEANS
 #' @param x Input matrix / data.frame
 #' @param dmat Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
 #' If NULL, it is computed based on \code{metric}
@@ -17,7 +16,9 @@
 #' @param khigh Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
 #' the Mean/Median Split Silhouette. Usually same as \code{kmax}
 #' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
-#' @param ... Additional parameters to be passed to \code{cluster::hopach}
+#' @param verbose Logical: If TRUE, print messages to console
+#' @param ... Additional parameters to pass to \code{cluster::hopach}
+#' 
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export

@@ -11,12 +11,14 @@
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' 
 #' @author E.D. Gennatas
 #' @return \link{rtClust} object
 #' @family Clustering
 #' @export
 
-c_NGAS <- function(x, x.test = NULL,
+c_NGAS <- function(x, 
+                   x.test = NULL,
                    k = 2,
                    dist = "euclidean",
                    verbose = TRUE, ...) {

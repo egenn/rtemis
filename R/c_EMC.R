@@ -10,11 +10,13 @@
 #' followed by \code{EMCluster::emcluster(x, emobj = emobj, assign.class = TRUE, ...)}
 #'
 #' This can be very slow.
+#' 
 #' @inheritParams c_KMEANS
 #' @param lab Vector, length \code{NROW(x)}: Labels for semi-supervised clustering
 #' @param EMC List of control parameters for \code{EMCluster::emcluster}. Default = \code{EMCluster::.EMC}
 # @param maxiter Integer: Maximum number of iterations. Default = 100
 #' @param ... Additional parameters to be passed to \code{EMCluster::emcluster}
+#' 
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export

@@ -11,12 +11,14 @@
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' @param ... Additional parameters to pass to \code{flexclust::cclust}
+#' 
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 
-c_KMEANS <- function(x, x.test = NULL,
+c_KMEANS <- function(x, 
+                     x.test = NULL,
                      k = 2,
                      dist = "euclidean",
                      verbose = TRUE, ...) {

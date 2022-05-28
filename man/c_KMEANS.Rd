@@ -17,7 +17,7 @@ c_KMEANS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
 
-\item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
+\item{...}{Additional parameters to pass to \code{flexclust::cclust}}
 }
 \description{
 Perform K-means clustering using \code{flexclust::cclust}

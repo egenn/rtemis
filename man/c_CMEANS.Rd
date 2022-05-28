@@ -19,7 +19,7 @@ c_CMEANS(
 )
 }
 \arguments{
-\item{x}{Input matrix / data.frame}
+\item{x}{Input data}
 
 \item{k}{Integer: Number of clusters to get. Default = 2}
 
@@ -36,8 +36,6 @@ c_CMEANS(
 \item{weights}{Float (>0): Case weights}
 
 \item{control}{List of control parameters. See \code{e1071::cmeans}}
-
-\item{verbose}{Logical: If TRUE, print messages to screen}
 
 \item{...}{Additional parameters to be passed to \code{e1071::cmeans}}
 }

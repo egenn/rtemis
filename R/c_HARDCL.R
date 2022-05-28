@@ -6,16 +6,19 @@
 #'
 #' Perform clustering by Hard Competitive Learning using \code{flexclust::cclust}
 #'
-#' @inheritParams c_KMEANS
 #' @param x Input matrix / data.frame
+#' @param x.test Optional test set data
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
+#' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' 
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 
-c_HARDCL <- function(x, x.test = NULL,
+c_HARDCL <- function(x, 
+                     x.test = NULL,
                      k = 2,
                      dist = "euclidean",
                      verbose = TRUE, ...) {

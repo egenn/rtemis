@@ -8,6 +8,7 @@
 #'
 #' See \code{dbscan::dbscan} for info on how to choose \code{eps} and 
 #' \code{minPts}
+#' 
 #' @param x Input matrix / data.frame
 #' @param x.test Testing set matrix / data.frame
 #' @param eps Numeric: Radius of the epsilon neighborhood

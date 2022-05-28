@@ -6,7 +6,7 @@
 #'
 #' Perform fuzzy C-means clustering using \code{e1071::cmeans}
 #'
-#' @inheritParams c_KMEANS
+#' @param x Input data
 #' @param k Integer: Number of clusters to get. Default = 2
 #' @param iter.max Integer: Maximum number of iterations. Default = 100
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'. Default = "euclidean"
@@ -16,6 +16,7 @@
 #' @param weights Float (>0): Case weights
 #' @param control List of control parameters. See \code{e1071::cmeans}
 #' @param ... Additional parameters to be passed to \code{e1071::cmeans}
+#' 
 #' @author E.D. Gennatas
 #' @return \link{rtClust} object
 #' @family Clustering
