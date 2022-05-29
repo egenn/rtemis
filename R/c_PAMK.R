@@ -21,7 +21,10 @@
 #' FALSE otherwise.
 #' @param metric Character: Dissimilarity metric to be used. Options: 
 #' 'euclidean', 'manhattan'
+#' @param do.swap Logical: If TRUE, perform the swap phase. See \code{fpc::pam}
+#' for more info
 #' @param trace Integer [0, 3]: Trace level for \code{fpc::pamk}
+#' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters to be passed to \code{fpc::pamk} and/or 
 #' \code{cluster::pam}
 #' 

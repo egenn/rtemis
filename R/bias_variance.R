@@ -10,7 +10,9 @@
 #' @param res1_train.p Numeric: Proportion of cases to use for training
 #' @param params List of \code{mod} parameters
 #' @param resample.rtset Output of \link{rtset.resample}
+#' @param seed Integer: Seed for initial train/test split
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param res.verbose Logical: passed to the learning function
 #' @param ... Additional arguments passed to \link{resLearn_future}
 #' 
 #' @author E.D. Gennatas

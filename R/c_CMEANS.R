@@ -15,6 +15,7 @@
 #' @param rate.par Float (0, 1): Learning rate for the online variant. (Default = .3)
 #' @param weights Float (>0): Case weights
 #' @param control List of control parameters. See \code{e1071::cmeans}
+#' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters to be passed to \code{e1071::cmeans}
 #' 
 #' @author E.D. Gennatas

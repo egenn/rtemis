@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' x <- c(9, 3, 4, 4, 0, 2, 2)
-#' getModwe(x)
+#' getMode(x)
 #' x <- c(9, 3, 2, 2, 0, 4, 4)
 #' getMode(x)
 #' getMode(x, getlast = FALSE)
