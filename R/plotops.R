@@ -58,17 +58,6 @@ ymid <- function() .5 * sum(par("usr")[3:4])
 
 xmid <- function() .5 * (par("usr")[1:2])
 
-#' Get midpoint of `cut` label
-#'
-
-cutmidpoint <- function(x) {
-
-  unlist(lapply(strsplit(x, ","),
-                function(i) mean(as.numeric(gsub("[^num[:digit:]]", "", i)))))
-
-} # rtemis::cutmidpoint
-
-
 getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
   axs <- match.arg(axs)
 
