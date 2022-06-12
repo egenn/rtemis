@@ -2,7 +2,7 @@
 % Please edit documentation in R/d_UMAP.R
 \name{d_UMAP}
 \alias{d_UMAP}
-\title{Uniform Manifold Approximation and Projection}
+\title{Uniform Manifold Approximation and Projection (UMAP)}
 \usage{
 d_UMAP(
   x,
@@ -47,7 +47,7 @@ Default = TRUE}
 \link{rtDecom} object
 }
 \description{
-Perform UMAP decomposition using github package \code{jlmelville/uwot}
+Perform UMAP decomposition using \code{uwot::umap}
 }
 \seealso{
 Other Decomposition: 

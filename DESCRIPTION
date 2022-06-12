@@ -131,6 +131,7 @@ Suggests:
     uwot,
     testthat (>= 3.0.0)
 Remotes: egenn/gamsel2, gbm-developers/gbm3
-RoxygenNote: 7.1.2
+Encoding: UTF-8
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 Config/testthat/edition: 3

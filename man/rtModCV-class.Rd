@@ -96,19 +96,19 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModCV$new()}}
-\item \href{#method-print}{\code{rtModCV$print()}}
-\item \href{#method-plot}{\code{rtModCV$plot()}}
-\item \href{#method-plotPredicted}{\code{rtModCV$plotPredicted()}}
-\item \href{#method-plotFitted}{\code{rtModCV$plotFitted()}}
-\item \href{#method-plotVarImp}{\code{rtModCV$plotVarImp()}}
-\item \href{#method-describe}{\code{rtModCV$describe()}}
-\item \href{#method-clone}{\code{rtModCV$clone()}}
+\item \href{#method-rtModCV-new}{\code{rtModCV$new()}}
+\item \href{#method-rtModCV-print}{\code{rtModCV$print()}}
+\item \href{#method-rtModCV-plot}{\code{rtModCV$plot()}}
+\item \href{#method-rtModCV-plotPredicted}{\code{rtModCV$plotPredicted()}}
+\item \href{#method-rtModCV-plotFitted}{\code{rtModCV$plotFitted()}}
+\item \href{#method-rtModCV-plotVarImp}{\code{rtModCV$plotVarImp()}}
+\item \href{#method-rtModCV-describe}{\code{rtModCV$describe()}}
+\item \href{#method-rtModCV-clone}{\code{rtModCV$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModCV-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModCV} object
 \subsection{Usage}{
@@ -239,8 +239,8 @@ Set using \link{rtset.cv.resample}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtModCV-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-print}{}}}
 \subsection{Method \code{print()}}{
 \code{print} method for \code{rtModCV} object
 \subsection{Usage}{
@@ -249,8 +249,8 @@ Set using \link{rtset.cv.resample}}
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-rtModCV-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-plot}{}}}
 \subsection{Method \code{plot()}}{
 \code{plot} method for \code{rtModCV} object
 \subsection{Usage}{
@@ -268,8 +268,8 @@ Set using \link{rtset.cv.resample}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPredicted}{}}}
+\if{html}{\out{<a id="method-rtModCV-plotPredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-plotPredicted}{}}}
 \subsection{Method \code{plotPredicted()}}{
 Plot predicted values
 \subsection{Usage}{
@@ -299,8 +299,8 @@ Plot predicted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotFitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotFitted}{}}}
+\if{html}{\out{<a id="method-rtModCV-plotFitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-plotFitted}{}}}
 \subsection{Method \code{plotFitted()}}{
 Plot fitted values
 \subsection{Usage}{
@@ -330,8 +330,8 @@ Plot fitted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotVarImp"></a>}}
-\if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
+\if{html}{\out{<a id="method-rtModCV-plotVarImp"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
 Plot variable importance
 \subsection{Usage}{
@@ -361,8 +361,8 @@ Plot variable importance
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-describe"></a>}}
-\if{latex}{\out{\hypertarget{method-describe}{}}}
+\if{html}{\out{<a id="method-rtModCV-describe"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-describe}{}}}
 \subsection{Method \code{describe()}}{
 Describe \code{rtModCV}
 \subsection{Usage}{
@@ -371,8 +371,8 @@ Describe \code{rtModCV}
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModCV-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCV-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

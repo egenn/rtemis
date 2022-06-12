@@ -46,14 +46,14 @@ E.D. Gennatas
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtXDecom$new()}}
-\item \href{#method-print}{\code{rtXDecom$print()}}
-\item \href{#method-clone}{\code{rtXDecom$clone()}}
+\item \href{#method-rtXDecom-new}{\code{rtXDecom$new()}}
+\item \href{#method-rtXDecom-print}{\code{rtXDecom$print()}}
+\item \href{#method-rtXDecom-clone}{\code{rtXDecom$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtXDecom-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtXDecom-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtXDecom$new(
@@ -100,8 +100,8 @@ E.D. Gennatas
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtXDecom-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtXDecom-print}{}}}
 \subsection{Method \code{print()}}{
 Print method for \code{rtXDecom} objects
 \subsection{Usage}{
@@ -110,8 +110,8 @@ Print method for \code{rtXDecom} objects
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtXDecom-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtXDecom-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

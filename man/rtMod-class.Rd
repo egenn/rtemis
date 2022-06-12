@@ -75,21 +75,21 @@ different approaches}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtMod$new()}}
-\item \href{#method-print}{\code{rtMod$print()}}
-\item \href{#method-plot}{\code{rtMod$plot()}}
-\item \href{#method-plotFitted}{\code{rtMod$plotFitted()}}
-\item \href{#method-plotPredicted}{\code{rtMod$plotPredicted()}}
-\item \href{#method-plotFittedPredicted}{\code{rtMod$plotFittedPredicted()}}
-\item \href{#method-plotVarImp}{\code{rtMod$plotVarImp()}}
-\item \href{#method-summary}{\code{rtMod$summary()}}
-\item \href{#method-describe}{\code{rtMod$describe()}}
-\item \href{#method-clone}{\code{rtMod$clone()}}
+\item \href{#method-rtMod-new}{\code{rtMod$new()}}
+\item \href{#method-rtMod-print}{\code{rtMod$print()}}
+\item \href{#method-rtMod-plot}{\code{rtMod$plot()}}
+\item \href{#method-rtMod-plotFitted}{\code{rtMod$plotFitted()}}
+\item \href{#method-rtMod-plotPredicted}{\code{rtMod$plotPredicted()}}
+\item \href{#method-rtMod-plotFittedPredicted}{\code{rtMod$plotFittedPredicted()}}
+\item \href{#method-rtMod-plotVarImp}{\code{rtMod$plotVarImp()}}
+\item \href{#method-rtMod-summary}{\code{rtMod$summary()}}
+\item \href{#method-rtMod-describe}{\code{rtMod$describe()}}
+\item \href{#method-rtMod-clone}{\code{rtMod$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtMod-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtMod} object
 \subsection{Usage}{
@@ -164,8 +164,8 @@ Initialize \code{rtMod} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtMod-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-print}{}}}
 \subsection{Method \code{print()}}{
 code{print} method for \code{rtMod} object
 \subsection{Usage}{
@@ -174,8 +174,8 @@ code{print} method for \code{rtMod} object
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-rtMod-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-plot}{}}}
 \subsection{Method \code{plot()}}{
 \code{rtMod} plot method
 \subsection{Usage}{
@@ -197,8 +197,8 @@ code{print} method for \code{rtMod} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotFitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotFitted}{}}}
+\if{html}{\out{<a id="method-rtMod-plotFitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-plotFitted}{}}}
 \subsection{Method \code{plotFitted()}}{
 Plot fitted values
 \subsection{Usage}{
@@ -228,8 +228,8 @@ Plot fitted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPredicted}{}}}
+\if{html}{\out{<a id="method-rtMod-plotPredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-plotPredicted}{}}}
 \subsection{Method \code{plotPredicted()}}{
 Plot predicted values
 \subsection{Usage}{
@@ -259,8 +259,8 @@ Plot predicted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotFittedPredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotFittedPredicted}{}}}
+\if{html}{\out{<a id="method-rtMod-plotFittedPredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-plotFittedPredicted}{}}}
 \subsection{Method \code{plotFittedPredicted()}}{
 Plot fitted and predicted values
 \subsection{Usage}{
@@ -287,8 +287,8 @@ Plot fitted and predicted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotVarImp"></a>}}
-\if{latex}{\out{\hypertarget{method-plotVarImp}{}}}
+\if{html}{\out{<a id="method-rtMod-plotVarImp"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-plotVarImp}{}}}
 \subsection{Method \code{plotVarImp()}}{
 Plot variable importance
 \subsection{Usage}{
@@ -315,8 +315,8 @@ Plot variable importance
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-summary"></a>}}
-\if{latex}{\out{\hypertarget{method-summary}{}}}
+\if{html}{\out{<a id="method-rtMod-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-summary}{}}}
 \subsection{Method \code{summary()}}{
 Summary method for \code{rtMod} object
 \subsection{Usage}{
@@ -366,8 +366,8 @@ single plot}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-describe"></a>}}
-\if{latex}{\out{\hypertarget{method-describe}{}}}
+\if{html}{\out{<a id="method-rtMod-describe"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-describe}{}}}
 \subsection{Method \code{describe()}}{
 Describe model
 \subsection{Usage}{
@@ -376,8 +376,8 @@ Describe model
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtMod-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtMod-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

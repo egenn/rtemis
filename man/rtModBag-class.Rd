@@ -37,27 +37,27 @@ Set using \link{rtset.bag.resample}}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModBag$new()}}
-\item \href{#method-print}{\code{rtModBag$print()}}
-\item \href{#method-clone}{\code{rtModBag$clone()}}
+\item \href{#method-rtModBag-new}{\code{rtModBag$new()}}
+\item \href{#method-rtModBag-print}{\code{rtModBag$print()}}
+\item \href{#method-rtModBag-clone}{\code{rtModBag$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe">}\href{../../rtemis/html/rtMod.html#method-describe}{\code{rtemis::rtMod$describe()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot">}\href{../../rtemis/html/rtMod.html#method-plot}{\code{rtemis::rtMod$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted">}\href{../../rtemis/html/rtMod.html#method-plotFitted}{\code{rtemis::rtMod$plotFitted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted">}\href{../../rtemis/html/rtMod.html#method-plotFittedPredicted}{\code{rtemis::rtMod$plotFittedPredicted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted">}\href{../../rtemis/html/rtMod.html#method-plotPredicted}{\code{rtemis::rtMod$plotPredicted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp">}\href{../../rtemis/html/rtMod.html#method-plotVarImp}{\code{rtemis::rtMod$plotVarImp()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary">}\href{../../rtemis/html/rtMod.html#method-summary}{\code{rtemis::rtMod$summary()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe"><a href='../../rtemis/html/rtMod.html#method-rtMod-describe'><code>rtemis::rtMod$describe()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot"><a href='../../rtemis/html/rtMod.html#method-rtMod-plot'><code>rtemis::rtMod$plot()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFitted'><code>rtemis::rtMod$plotFitted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFittedPredicted'><code>rtemis::rtMod$plotFittedPredicted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotPredicted'><code>rtemis::rtMod$plotPredicted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotVarImp'><code>rtemis::rtMod$plotVarImp()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary"><a href='../../rtemis/html/rtMod.html#method-rtMod-summary'><code>rtemis::rtMod$summary()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModBag-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModBag-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModBag} object
 \subsection{Usage}{
@@ -145,8 +145,8 @@ Set using \link{rtset.bag.resample}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtModBag-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModBag-print}{}}}
 \subsection{Method \code{print()}}{
 \code{print} method for \code{rtModBag} object
 \subsection{Usage}{
@@ -155,8 +155,8 @@ Set using \link{rtset.bag.resample}}
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModBag-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModBag-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

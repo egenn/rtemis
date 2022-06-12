@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2019 E.D. Gennatas lambdamd.org
 
-#' Uniform Manifold Approximation and Projection
+#' Uniform Manifold Approximation and Projection (UMAP)
 #'
-#' Perform UMAP decomposition using github package \code{jlmelville/uwot}
+#' Perform UMAP decomposition using \code{uwot::umap}
 #'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to UMAP bases

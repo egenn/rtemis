@@ -30,7 +30,11 @@ bias_variance(
 
 \item{resample.rtset}{Output of \link{rtset.resample}}
 
+\item{seed}{Integer: Seed for initial train/test split}
+
 \item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{res.verbose}{Logical: passed to the learning function}
 
 \item{...}{Additional arguments passed to \link{resLearn_future}}
 }

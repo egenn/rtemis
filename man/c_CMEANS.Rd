@@ -37,6 +37,8 @@ c_CMEANS(
 
 \item{control}{List of control parameters. See \code{e1071::cmeans}}
 
+\item{verbose}{Logical: If TRUE, print messages to console}
+
 \item{...}{Additional parameters to be passed to \code{e1071::cmeans}}
 }
 \value{

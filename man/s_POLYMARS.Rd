@@ -19,7 +19,9 @@ s_POLYMARS(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  maxsize = ceiling(min(6 * (nrow(x)^{     1/3 }), nrow(x)/4, 100)),
+  maxsize = ceiling(min(6 * (nrow(x)^{
+     1/3
+ }), nrow(x)/4, 100)),
   classify = NULL,
   n.cores = rtCores,
   print.plot = TRUE,

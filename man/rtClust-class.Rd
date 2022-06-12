@@ -40,14 +40,14 @@ E.D. Gennatas
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtClust$new()}}
-\item \href{#method-print}{\code{rtClust$print()}}
-\item \href{#method-clone}{\code{rtClust$clone()}}
+\item \href{#method-rtClust-new}{\code{rtClust$new()}}
+\item \href{#method-rtClust-print}{\code{rtClust$print()}}
+\item \href{#method-rtClust-clone}{\code{rtClust$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtClust-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtClust-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new rtClust object
 \subsection{Usage}{
@@ -86,8 +86,8 @@ Create a new rtClust object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtClust-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtClust-print}{}}}
 \subsection{Method \code{print()}}{
 Print method for \code{rtClust} objects
 \subsection{Usage}{
@@ -96,8 +96,8 @@ Print method for \code{rtClust} objects
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtClust-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtClust-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

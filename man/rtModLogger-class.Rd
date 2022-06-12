@@ -28,19 +28,19 @@ E.D. Gennatas
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModLogger$new()}}
-\item \href{#method-print}{\code{rtModLogger$print()}}
-\item \href{#method-add}{\code{rtModLogger$add()}}
-\item \href{#method-summarize}{\code{rtModLogger$summarize()}}
-\item \href{#method-summary}{\code{rtModLogger$summary()}}
-\item \href{#method-tabulate}{\code{rtModLogger$tabulate()}}
-\item \href{#method-plot}{\code{rtModLogger$plot()}}
-\item \href{#method-clone}{\code{rtModLogger$clone()}}
+\item \href{#method-rtModLogger-new}{\code{rtModLogger$new()}}
+\item \href{#method-rtModLogger-print}{\code{rtModLogger$print()}}
+\item \href{#method-rtModLogger-add}{\code{rtModLogger$add()}}
+\item \href{#method-rtModLogger-summarize}{\code{rtModLogger$summarize()}}
+\item \href{#method-rtModLogger-summary}{\code{rtModLogger$summary()}}
+\item \href{#method-rtModLogger-tabulate}{\code{rtModLogger$tabulate()}}
+\item \href{#method-rtModLogger-plot}{\code{rtModLogger$plot()}}
+\item \href{#method-rtModLogger-clone}{\code{rtModLogger$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModLogger-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModLogger} object
 \subsection{Usage}{
@@ -56,8 +56,8 @@ Initialize \code{rtModLogger} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtModLogger-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-print}{}}}
 \subsection{Method \code{print()}}{
 Print method for \code{rtModLogger} object
 \subsection{Usage}{
@@ -66,8 +66,8 @@ Print method for \code{rtModLogger} object
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add"></a>}}
-\if{latex}{\out{\hypertarget{method-add}{}}}
+\if{html}{\out{<a id="method-rtModLogger-add"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-add}{}}}
 \subsection{Method \code{add()}}{
 Add model to logger
 \subsection{Usage}{
@@ -85,8 +85,8 @@ Add model to logger
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-summarize"></a>}}
-\if{latex}{\out{\hypertarget{method-summarize}{}}}
+\if{html}{\out{<a id="method-rtModLogger-summarize"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-summarize}{}}}
 \subsection{Method \code{summarize()}}{
 Summary method for \code{rtModLogger}
 \subsection{Usage}{
@@ -120,8 +120,8 @@ places to display}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-summary"></a>}}
-\if{latex}{\out{\hypertarget{method-summary}{}}}
+\if{html}{\out{<a id="method-rtModLogger-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-summary}{}}}
 \subsection{Method \code{summary()}}{
 Summary method for \code{rtModLogger}
 \subsection{Usage}{
@@ -148,8 +148,8 @@ Survival models}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-tabulate"></a>}}
-\if{latex}{\out{\hypertarget{method-tabulate}{}}}
+\if{html}{\out{<a id="method-rtModLogger-tabulate"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-tabulate}{}}}
 \subsection{Method \code{tabulate()}}{
 Tabulate models' parameters and performance
 \subsection{Usage}{
@@ -167,8 +167,8 @@ with multiple sheets}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-rtModLogger-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-plot}{}}}
 \subsection{Method \code{plot()}}{
 Plot method for \code{rtModLogger}
 \subsection{Usage}{
@@ -195,8 +195,8 @@ Plot method for \code{rtModLogger}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModLogger-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLogger-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

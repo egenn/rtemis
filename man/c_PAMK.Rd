@@ -41,7 +41,12 @@ FALSE otherwise.}
 \item{metric}{Character: Dissimilarity metric to be used. Options: 
 'euclidean', 'manhattan'}
 
+\item{do.swap}{Logical: If TRUE, perform the swap phase. See \code{fpc::pam}
+for more info}
+
 \item{trace}{Integer [0, 3]: Trace level for \code{fpc::pamk}}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{...}{Additional parameters to be passed to \code{fpc::pamk} and/or 
 \code{cluster::pam}}

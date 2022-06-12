@@ -31,31 +31,31 @@ E.D. Gennatas
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModCVClass$new()}}
-\item \href{#method-plotROC}{\code{rtModCVClass$plotROC()}}
-\item \href{#method-plotROCfitted}{\code{rtModCVClass$plotROCfitted()}}
-\item \href{#method-plotROCpredicted}{\code{rtModCVClass$plotROCpredicted()}}
-\item \href{#method-plotPR}{\code{rtModCVClass$plotPR()}}
-\item \href{#method-plotPRfitted}{\code{rtModCVClass$plotPRfitted()}}
-\item \href{#method-plotPRpredicted}{\code{rtModCVClass$plotPRpredicted()}}
-\item \href{#method-clone}{\code{rtModCVClass$clone()}}
+\item \href{#method-rtModCVClass-new}{\code{rtModCVClass$new()}}
+\item \href{#method-rtModCVClass-plotROC}{\code{rtModCVClass$plotROC()}}
+\item \href{#method-rtModCVClass-plotROCfitted}{\code{rtModCVClass$plotROCfitted()}}
+\item \href{#method-rtModCVClass-plotROCpredicted}{\code{rtModCVClass$plotROCpredicted()}}
+\item \href{#method-rtModCVClass-plotPR}{\code{rtModCVClass$plotPR()}}
+\item \href{#method-rtModCVClass-plotPRfitted}{\code{rtModCVClass$plotPRfitted()}}
+\item \href{#method-rtModCVClass-plotPRpredicted}{\code{rtModCVClass$plotPRpredicted()}}
+\item \href{#method-rtModCVClass-clone}{\code{rtModCVClass$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="describe">}\href{../../rtemis/html/rtModCV.html#method-describe}{\code{rtemis::rtModCV$describe()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plot">}\href{../../rtemis/html/rtModCV.html#method-plot}{\code{rtemis::rtModCV$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotFitted">}\href{../../rtemis/html/rtModCV.html#method-plotFitted}{\code{rtemis::rtModCV$plotFitted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotPredicted">}\href{../../rtemis/html/rtModCV.html#method-plotPredicted}{\code{rtemis::rtModCV$plotPredicted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotVarImp">}\href{../../rtemis/html/rtModCV.html#method-plotVarImp}{\code{rtemis::rtModCV$plotVarImp()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="print">}\href{../../rtemis/html/rtModCV.html#method-print}{\code{rtemis::rtModCV$print()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="describe"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-describe'><code>rtemis::rtModCV$describe()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plot"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plot'><code>rtemis::rtModCV$plot()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotFitted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotFitted'><code>rtemis::rtModCV$plotFitted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotPredicted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotPredicted'><code>rtemis::rtModCV$plotPredicted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotVarImp"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotVarImp'><code>rtemis::rtModCV$plotVarImp()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="print"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-print'><code>rtemis::rtModCV$print()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModCVClass} object
 \subsection{Usage}{
@@ -192,8 +192,8 @@ Set using \link{rtset.cv.resample}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROC"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROC}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotROC"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
 Plot ROC
 \subsection{Usage}{
@@ -211,8 +211,8 @@ Plot ROC
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROCfitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotROCfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
 Plot ROC plot for fitted values
 \subsection{Usage}{
@@ -232,8 +232,8 @@ Plot ROC plot for fitted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROCpredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotROCpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
 Plot ROC plot for predicted values
 \subsection{Usage}{
@@ -253,8 +253,8 @@ Plot ROC plot for predicted values
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPR"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPR}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotPR"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
 Plot Precision-Recall curve
 \subsection{Usage}{
@@ -273,8 +273,8 @@ Plot Precision-Recall curve
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPRfitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotPRfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
 Plot fitted Precision-Recall curve
 \subsection{Usage}{
@@ -295,8 +295,8 @@ Plot fitted Precision-Recall curve
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPRpredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-plotPRpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
 Plot predicted Precision-Recall curve
 \subsection{Usage}{
@@ -317,8 +317,8 @@ Plot predicted Precision-Recall curve
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModCVClass-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -38,14 +38,14 @@ used automatically by \link{resample} when appropriate, they are not generally i
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModLite$new()}}
-\item \href{#method-print}{\code{rtModLite$print()}}
-\item \href{#method-clone}{\code{rtModLite$clone()}}
+\item \href{#method-rtModLite-new}{\code{rtModLite$new()}}
+\item \href{#method-rtModLite-print}{\code{rtModLite$print()}}
+\item \href{#method-rtModLite-clone}{\code{rtModLite$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModLite-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLite-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModLite} object
 \subsection{Usage}{
@@ -65,8 +65,8 @@ Initialize \code{rtModLite} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtModLite-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLite-print}{}}}
 \subsection{Method \code{print()}}{
 Plot method for \code{rtModLite} object
 \subsection{Usage}{
@@ -75,8 +75,8 @@ Plot method for \code{rtModLite} object
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModLite-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLite-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

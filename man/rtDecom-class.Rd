@@ -44,14 +44,14 @@ prior to decomposition}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtDecom$new()}}
-\item \href{#method-print}{\code{rtDecom$print()}}
-\item \href{#method-clone}{\code{rtDecom$clone()}}
+\item \href{#method-rtDecom-new}{\code{rtDecom$new()}}
+\item \href{#method-rtDecom-print}{\code{rtDecom$print()}}
+\item \href{#method-rtDecom-clone}{\code{rtDecom$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtDecom-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtDecom-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtDecom} object
 \subsection{Usage}{
@@ -95,8 +95,8 @@ prior to decomposition}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtDecom-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtDecom-print}{}}}
 \subsection{Method \code{print()}}{
 Print method for \code{rtDecom} objects
 \subsection{Usage}{
@@ -105,8 +105,8 @@ Print method for \code{rtDecom} objects
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtDecom-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtDecom-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

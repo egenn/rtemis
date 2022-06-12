@@ -28,33 +28,33 @@ R6 Class for \pkg{rtemis} Classification Models
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModClass$new()}}
-\item \href{#method-plotROC}{\code{rtModClass$plotROC()}}
-\item \href{#method-plotROCfitted}{\code{rtModClass$plotROCfitted()}}
-\item \href{#method-plotROCpredicted}{\code{rtModClass$plotROCpredicted()}}
-\item \href{#method-plotPR}{\code{rtModClass$plotPR()}}
-\item \href{#method-plotPRfitted}{\code{rtModClass$plotPRfitted()}}
-\item \href{#method-plotPRpredicted}{\code{rtModClass$plotPRpredicted()}}
-\item \href{#method-clone}{\code{rtModClass$clone()}}
+\item \href{#method-rtModClass-new}{\code{rtModClass$new()}}
+\item \href{#method-rtModClass-plotROC}{\code{rtModClass$plotROC()}}
+\item \href{#method-rtModClass-plotROCfitted}{\code{rtModClass$plotROCfitted()}}
+\item \href{#method-rtModClass-plotROCpredicted}{\code{rtModClass$plotROCpredicted()}}
+\item \href{#method-rtModClass-plotPR}{\code{rtModClass$plotPR()}}
+\item \href{#method-rtModClass-plotPRfitted}{\code{rtModClass$plotPRfitted()}}
+\item \href{#method-rtModClass-plotPRpredicted}{\code{rtModClass$plotPRpredicted()}}
+\item \href{#method-rtModClass-clone}{\code{rtModClass$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe">}\href{../../rtemis/html/rtMod.html#method-describe}{\code{rtemis::rtMod$describe()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot">}\href{../../rtemis/html/rtMod.html#method-plot}{\code{rtemis::rtMod$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted">}\href{../../rtemis/html/rtMod.html#method-plotFitted}{\code{rtemis::rtMod$plotFitted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted">}\href{../../rtemis/html/rtMod.html#method-plotFittedPredicted}{\code{rtemis::rtMod$plotFittedPredicted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted">}\href{../../rtemis/html/rtMod.html#method-plotPredicted}{\code{rtemis::rtMod$plotPredicted()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp">}\href{../../rtemis/html/rtMod.html#method-plotVarImp}{\code{rtemis::rtMod$plotVarImp()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="print">}\href{../../rtemis/html/rtMod.html#method-print}{\code{rtemis::rtMod$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary">}\href{../../rtemis/html/rtMod.html#method-summary}{\code{rtemis::rtMod$summary()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe"><a href='../../rtemis/html/rtMod.html#method-rtMod-describe'><code>rtemis::rtMod$describe()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot"><a href='../../rtemis/html/rtMod.html#method-rtMod-plot'><code>rtemis::rtMod$plot()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFitted'><code>rtemis::rtMod$plotFitted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFittedPredicted'><code>rtemis::rtMod$plotFittedPredicted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotPredicted'><code>rtemis::rtMod$plotPredicted()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotVarImp'><code>rtemis::rtMod$plotVarImp()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="print"><a href='../../rtemis/html/rtMod.html#method-rtMod-print'><code>rtemis::rtMod$print()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary"><a href='../../rtemis/html/rtMod.html#method-rtMod-summary'><code>rtemis::rtMod$summary()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModClass-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModClass} object
 \subsection{Usage}{
@@ -134,8 +134,8 @@ Initialize \code{rtModClass} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROC"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROC}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotROC"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotROC}{}}}
 \subsection{Method \code{plotROC()}}{
 plot ROC. Uses testing set if available,
 otherwise training
@@ -156,8 +156,8 @@ otherwise training
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROCfitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROCfitted}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotROCfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotROCfitted}{}}}
 \subsection{Method \code{plotROCfitted()}}{
 Plot training set ROC
 \subsection{Usage}{
@@ -184,8 +184,8 @@ Plot training set ROC
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotROCpredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotROCpredicted}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotROCpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotROCpredicted}{}}}
 \subsection{Method \code{plotROCpredicted()}}{
 plot testing set ROC
 \subsection{Usage}{
@@ -212,8 +212,8 @@ plot testing set ROC
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPR"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPR}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotPR"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
 plot Precision-Recall curve. Uses testing set 
 if available, otherwise training
@@ -234,8 +234,8 @@ if available, otherwise training
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPRfitted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPRfitted}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotPRfitted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotPRfitted}{}}}
 \subsection{Method \code{plotPRfitted()}}{
 Plot training set Precision-Recall curve.
 \subsection{Usage}{
@@ -262,8 +262,8 @@ Plot training set Precision-Recall curve.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plotPRpredicted"></a>}}
-\if{latex}{\out{\hypertarget{method-plotPRpredicted}{}}}
+\if{html}{\out{<a id="method-rtModClass-plotPRpredicted"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-plotPRpredicted}{}}}
 \subsection{Method \code{plotPRpredicted()}}{
 plot testing set Precision-Recall curve.
 \subsection{Usage}{
@@ -290,8 +290,8 @@ plot testing set Precision-Recall curve.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModClass-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModClass-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

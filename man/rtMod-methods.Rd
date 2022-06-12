@@ -86,6 +86,4 @@ Excludes functions \code{print} and \code{plot} defined within the \link{rtMod} 
 }
 \author{
 E.D. Gennatas
-
-E.D. Gennatas
 }

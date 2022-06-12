@@ -31,14 +31,14 @@ E.D. Gennatas
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{rtModLog$new()}}
-\item \href{#method-print}{\code{rtModLog$print()}}
-\item \href{#method-clone}{\code{rtModLog$clone()}}
+\item \href{#method-rtModLog-new}{\code{rtModLog$new()}}
+\item \href{#method-rtModLog-print}{\code{rtModLog$print()}}
+\item \href{#method-rtModLog-clone}{\code{rtModLog$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-rtModLog-new"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLog-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize \code{rtModLog} object
 \subsection{Usage}{
@@ -65,8 +65,8 @@ Initialize \code{rtModLog} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-rtModLog-print"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLog-print}{}}}
 \subsection{Method \code{print()}}{
 Print method for \code{rtModLog} object
 \subsection{Usage}{
@@ -75,8 +75,8 @@ Print method for \code{rtModLog} object
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-rtModLog-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModLog-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
