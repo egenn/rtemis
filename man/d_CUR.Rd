@@ -33,11 +33,13 @@ d_CUR(
 \item{method}{Character: "random", "top.scores", "ortho.top.scores",
 "exact.num.random", "highest.ranks" (Default). See \code{rCUR::CUR("method")}}
 
-\item{matrix.return}{Logical: if TRUE, matrices C, U, and R are returned. If FALSE,
-U is not computed, which can be expensive, if r and c are large. Default = TRUE}
+\item{matrix.return}{Logical: if TRUE, matrices C, U, and R are returned. 
+If FALSE, U is not computed, which can be expensive if \code{r} and \code{c} 
+are large.}
 
-\item{error.return}{Logical: if TRUE, the Frobenius norm of the difference between the original matrix and the
-CUR approximation is returned. Effective only if \code{matrix.return = TRUE}. Default = FALSE}
+\item{error.return}{Logical: if TRUE, the Frobenius norm of the difference 
+between the original matrix and the CUR approximation is returned. 
+Effective only if \code{matrix.return = TRUE}.}
 
 \item{scale}{Logical: If TRUE, scale input}
 
@@ -54,7 +56,8 @@ CUR approximation is returned. Effective only if \code{matrix.return = TRUE}. De
 Performs CUR decomposition using \code{rCUR::CUR}
 }
 \details{
-Note that \code{k} here does not correspond with \code{k} in the other decomposition functions.
+Note that \code{k} here does not correspond with \code{k} in the other 
+decomposition functions.
 Use \code{c} to determine dimensionality of resulting decomposition
 }
 \seealso{

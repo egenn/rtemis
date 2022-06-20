@@ -8,6 +8,8 @@ graph_node_metrics(x, verbose = TRUE)
 }
 \arguments{
 \item{x}{\pkg{igraph} network}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Node-wise (i.e. vertex-wise) graph metrics
