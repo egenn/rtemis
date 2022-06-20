@@ -1,10 +1,11 @@
 # graph_node_metrics.R
 # ::rtemis::
-# 2021 E.D. Gennatas
+# 2021 E.D. Gennatas lambdamd.org
 
 #' Node-wise (i.e. vertex-wise) graph metrics
 #'
 #' @param x \pkg{igraph} network
+#' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
 #' @export
