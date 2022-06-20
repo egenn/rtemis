@@ -42,7 +42,9 @@ checkData_live2 <- function(x,
     classes <- sapply(x, base::class)
 
     ## Continuous ----
-    index.continuous <- which(sapply(x, function(i) is.numeric(i) & !is.integer(i)))
+    index.continuous <- which(
+        sapply(x, function(i) is.numeric(i) & !is.integer(i))
+    )
     n.continuous <- length(index.continuous)
 
     ## Integer ----
@@ -54,7 +56,12 @@ checkData_live2 <- function(x,
     n.factor <- length(index.factor)
     index.ordered <- which(sapply(x, is.ordered))
     n.ordered <- length(index.ordered)
-    index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], function(x) length(levels(x))) > 2)
+    index.gt2levels.nonordered <- which(
+        sapply(
+            x[, setdiff(index.factor, index.ordered), drop = FALSE],
+            function(x) length(levels(x))
+        ) > 2
+    )
     n.gt2levels.nonordered <- length(index.gt2levels.nonordered)
 
     ## Characters ----
