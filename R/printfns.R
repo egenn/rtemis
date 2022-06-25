@@ -15,7 +15,6 @@
 #' @author E.D. Gennatas
 #' @export
 
-
 printls <- function(x,
                     prefix = "",
                     pad = 3,
@@ -362,3 +361,29 @@ twocol2html <- function(x,
     # Combine
     paste(tablestyle, header, tab, "</table>", collapse = "")
 } # rtemis::twocol2html
+
+#' Print Size
+#'
+#' Get \code{NCOL(x)} and \code{NROW{x}}
+#'
+#' @param x R object (usually that inherits from matrix or data.frame)
+#' @param verbose Logical: If TRUE, print NROW and NCOL to console.
+#' @param newline Logical: If TRUE, end with new line character.
+#'
+#' @return vector of NROW, NCOL invisibly
+#' @author E.D. Gennatas
+#' @export
+
+catsize <- function(x, verbose = TRUE, newline = TRUE) {
+    .nrow <- NROW(x)
+    .ncol <- NCOL(x)
+    if (verbose) {
+        if (inherits(x, c("matrix", "data.frame"))) {
+            cat("There are", .nrow, "rows and", .ncol, "columns")
+        } else if (inherits(x, "list")) {
+            cat("There are", length(x), "elements")
+        }
+        if (newline) cat("\n")
+    }
+    invisible(c(.nrow, .ncol))
+}
