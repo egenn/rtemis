@@ -49,7 +49,7 @@ once.}
 }
 \description{
 Find one or more cases from a `pool` data.frame that match cases in a target 
-data.frame. Match exactly and/or by distance (sum of squared distance).
+data.frame. Match exactly and/or by distance (sum of squared distances).
 }
 \examples{
 set.seed(2021)

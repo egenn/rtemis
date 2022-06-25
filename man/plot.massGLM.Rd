@@ -17,6 +17,7 @@
   hline.dash = "dash",
   hline.annotate = as.character(pval.hline),
   ylim = NULL,
+  xlab = NULL,
   ylab = NULL,
   group = NULL,
   col.neg = "#43A4AC",
@@ -41,6 +42,8 @@
 \item{x}{\code{massGLM} object}
 
 \item{what}{Character: "adjusted" or "raw" p-values to plot}
+
+\item{xlab}{Character: x-axis label for volcano plot}
 }
 \description{
 Plots a \code{massGLM} object using \link{dplot3_bar}

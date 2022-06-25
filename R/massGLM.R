@@ -181,6 +181,7 @@ summary.massGLM <- function(object, ...) {
 #' @method plot massGLM
 #' @param x \code{massGLM} object
 #' @param what Character: "adjusted" or "raw" p-values to plot
+#' @param xlab Character: x-axis label for volcano plot
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -198,6 +199,7 @@ plot.massGLM <- function(x,
             hline.dash = "dash",
             hline.annotate = as.character(pval.hline),
             ylim = NULL,
+            xlab = NULL,
             ylab = NULL,
             group = NULL,
             col.neg = "#43A4AC",
@@ -297,6 +299,7 @@ plot.massGLM <- function(x,
             )
         } else {
             # Volcano ----
+            if (is.null(xlab)) xlab <- paste(predictor, "Coefficient")
             coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
             dplot3_volcano(
                 x = x$summary[[coef_idi]],
@@ -306,7 +309,8 @@ plot.massGLM <- function(x,
                 label.lo = "Neg",
                 label.hi = "Pos",
                 xnames = x$ynames,
-                xlab = paste(predictor, "Coefficient"),
+                xlab = xlab,
+                main = main,
                 p.adjust.method = p.adjust.method,
                 p.transform = volcano.p.transform,
                 annotate = volcano.annotate,

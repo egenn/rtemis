@@ -5,7 +5,7 @@
 #' Match cases by covariates
 #'
 #' Find one or more cases from a `pool` data.frame that match cases in a target 
-#' data.frame. Match exactly and/or by distance (sum of squared distance).
+#' data.frame. Match exactly and/or by distance (sum of squared distances).
 #'
 #' @param target data.frame you are matching against
 #' @param pool data.frame you are looking for matches from
