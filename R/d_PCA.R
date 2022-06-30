@@ -27,17 +27,17 @@ d_PCA <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ Intro ] ----
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "PCA"
 
-  # [ Arguments ] ----
+  # Arguments ----
   if (missing(x)) {
     print(args(d_PCA))
     stop("x is missing")
   }
 
-  # [ Data ] ----
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -54,13 +54,13 @@ d_PCA <- function(x,
   }
   # -> (x :matrix, x.test :matrix)
 
-  # [ PCA ] ----
+  # PCA ----
   if (verbose) msg("Performing Principal Component Analysis...")
   decom <- prcomp(x, scale = FALSE, center = FALSE, ...)
   # decom <- prcomp(~ ., data = x, scale = FALSE, center = FALSE, ...)
   rotation <- decom$rotation
 
-  # [ Projections ] ----
+  # Projections ----
   projections.train <- data.matrix(x) %*% rotation
   if (!is.null(k)) projections.train <- projections.train[, seq(k)]
   projections.test <- NULL
@@ -69,7 +69,7 @@ d_PCA <- function(x,
     if (!is.null(k)) projections.test <- projections.test[, seq(k)]
   }
 
-  # [ Outro ] ----
+  # Outro ----
   extra <- list(rotation = rotation)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

@@ -31,8 +31,10 @@
 
 d_MDS <- function(x,
                   k = 2,
-                  dist.method = c("euclidean", "maximum", "manhattan",
-                                  "canberra", "binary", "minkowski"),
+                  dist.method = c(
+                      "euclidean", "maximum", "manhattan",
+                      "canberra", "binary", "minkowski"
+                  ),
                   eig = FALSE,
                   add = FALSE,
                   x.ret = FALSE,
@@ -40,56 +42,66 @@ d_MDS <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # Intro ----
-  start.time <- intro(verbose = verbose)
-  dist.method <- match.arg(dist.method)
-  decom.name <- "MDS"
+    # Intro ----
+    start.time <- intro(verbose = verbose)
+    dist.method <- match.arg(dist.method)
+    decom.name <- "MDS"
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_MDS))
-    stop("x is missing")
-  }
+    # Arguments ----
+    if (missing(x)) {
+        print(args(d_MDS))
+        stop("x is missing")
+    }
 
-  # Data ----
-  x <- as.data.frame(x)
-  n <- NROW(x)
-  p <- NCOL(x)
-  if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
-  }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
-  xnames <- colnames(x)
-  if (scale) {
-    x <- scale(x, center = center)
-  }
+    # Data ----
+    x <- as.data.frame(x)
+    n <- NROW(x)
+    p <- NCOL(x)
+    if (verbose) {
+        msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+        msg("    interpreted as", n, "cases with", p, "features.")
+    }
+    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+    xnames <- colnames(x)
+    if (scale) {
+        x <- scale(x, center = center)
+    }
 
-  # MDS ----
-  if (verbose) msg("Running Multidimensional Scaling...")
-  .dist <- dist(x, method = dist.method)
-  decom <- cmdscale(.dist, k = k, eig = eig, add = add, x.ret = x.ret, list. = TRUE)
+    # MDS ----
+    if (verbose) msg("Running Multidimensional Scaling...")
+    .dist <- dist(x, method = dist.method)
+    decom <- cmdscale(
+        .dist,
+        k = k,
+        eig = eig,
+        add = add,
+        x.ret = x.ret,
+        list. = TRUE
+    )
 
-  # Projections ----
-  projections.train <- decom$points
-  colnames(projections.train) <- paste0("MDS", seq(NCOL(projections.train)))
+    # Projections ----
+    projections.train <- decom$points
+    colnames(projections.train) <- paste0("MDS", seq(NCOL(projections.train)))
 
-  # Outro ----
-  extra <- list()
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = NULL,
-                    parameters = list(k = k,
-                                      dist.method = dist.method,
-                                      eig = eig,
-                                      add = add,
-                                      x.ret = x.ret,
-                                      scale = scale,
-                                      center = center),
-                    extra = extra)
-  outro(start.time, verbose = verbose)
-  rt
-
+    # Outro ----
+    extra <- list()
+    rt <- rtDecom$new(
+        decom.name = decom.name,
+        decom = decom,
+        xnames = xnames,
+        projections.train = projections.train,
+        projections.test = NULL,
+        parameters = list(
+            k = k,
+            dist.method = dist.method,
+            eig = eig,
+            add = add,
+            x.ret = x.ret,
+            scale = scale,
+            center = center
+        ),
+        extra = extra
+    )
+    outro(start.time, verbose = verbose)
+    rt
 } # rtemis::d_MDS

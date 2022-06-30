@@ -12,61 +12,65 @@
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param ... Additional parameters to pass to \code{flexclust::cclust}
-#' 
+#'
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 
-c_KMEANS <- function(x, 
+c_KMEANS <- function(x,
                      x.test = NULL,
                      k = 2,
                      dist = "euclidean",
                      verbose = TRUE, ...) {
 
-  # Intro ----
-  start.time <- intro(verbose = verbose)
-  clust.name <- "KMEANS"
+    # Intro ----
+    start.time <- intro(verbose = verbose)
+    clust.name <- "KMEANS"
 
-  # Dependencies ----
-  dependency_check("flexclust")
+    # Dependencies ----
+    dependency_check("flexclust")
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(c_KMEANS))
-    stop("x is missing")
-  }
+    # Arguments ----
+    if (missing(x)) {
+        print(args(c_KMEANS))
+        stop("x is missing")
+    }
 
-  # Data ----
-  .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
-  x <- as.data.frame(x)
-  xnames <- colnames(x) <- .colnames
+    # Data ----
+    .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
+    x <- as.data.frame(x)
+    xnames <- colnames(x) <- .colnames
 
-  # KMEANS ----
-  if (verbose) msg("Performing K-means Clustering with k = ", k, "...", sep = "")
-  clust <- flexclust::cclust(x,
-                             k = k,
-                             dist = dist,
-                             method = "kmeans", ...)
+    # KMEANS ----
+    if (verbose) msg("Performing K-means Clustering with k = ", k, "...", sep = "")
+    clust <- flexclust::cclust(x,
+        k = k,
+        dist = dist,
+        method = "kmeans", ...
+    )
 
-  # Clusters ----
-  clusters.train <- flexclust::clusters(clust)
-  if (!is.null(x.test)) {
-    clusters.test <- flexclust::clusters(clust, x.test)
-  } else {
-    clusters.test <- NULL
-  }
+    # Clusters ----
+    clusters.train <- flexclust::clusters(clust)
+    if (!is.null(x.test)) {
+        clusters.test <- flexclust::clusters(clust, x.test)
+    } else {
+        clusters.test <- NULL
+    }
 
-  # Outro ----
-  cl <- rtClust$new(clust.name = clust.name,
-                    k = k,
-                    xnames = xnames,
-                    clust = clust,
-                    clusters.train = clusters.train,
-                    clusters.test = clusters.test,
-                    parameters = list(k = k,
-                                      dist = dist),
-                    extra = list())
-  outro(start.time, verbose = verbose)
-  cl
-
+    # Outro ----
+    cl <- rtClust$new(
+        clust.name = clust.name,
+        k = k,
+        xnames = xnames,
+        clust = clust,
+        clusters.train = clusters.train,
+        clusters.test = clusters.test,
+        parameters = list(
+            k = k,
+            dist = dist
+        ),
+        extra = list()
+    )
+    outro(start.time, verbose = verbose)
+    cl
 } # rtemis::c_KMEANS
