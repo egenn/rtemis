@@ -555,7 +555,6 @@ dplot3_xy <- function(x, y = NULL,
             automargin = automargin.x
         ),
         # barmode = barmode,  # group works without actual groups too
-        # title = main,
         title = list(
             text = main,
             font = list(
