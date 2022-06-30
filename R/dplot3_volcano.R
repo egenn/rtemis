@@ -44,6 +44,7 @@
 #' @param hline.annotation.x Numeric: x position to place annotation with paper
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param annotate.col Color for annotations
+#' @param ... Additional parameters passed to \link{dplot3_xy}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -72,6 +73,7 @@ dplot3_volcano <- function(x, pvals,
                            legend.hi = NULL,
                            label.lo = "Low",
                            label.hi = "High",
+                           main = NULL,
                            xlab = NULL,
                            ylab = NULL,
                            margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
@@ -92,7 +94,9 @@ dplot3_volcano <- function(x, pvals,
                            legend.x.hi = NULL,
                            legend.y = .97,
                            annotate.n = 7,
+                           ax.lo = NULL, # 40,
                            ay.lo = NULL,
+                           ax.hi = NULL, # -40,
                            ay.hi = NULL,
                            annotate = TRUE,
                            annotate.alpha = .7,
@@ -165,7 +169,10 @@ dplot3_volcano <- function(x, pvals,
 
     # Plot ----
     if (is.null(hovertext)) hovertext <- xnames
-    plt <- dplot3_xy(x, p_transformed,
+    plt <- dplot3_xy(
+        x,
+        p_transformed,
+        main = main,
         xlab = xlab,
         ylab = ylab,
         alpha = alpha,
@@ -246,10 +253,23 @@ dplot3_volcano <- function(x, pvals,
             lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
 
             if (is.null(ay.lo)) {
-                ay.lo <- seq((max(lo_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
-                    length = annotate.n_lo
-                )
+                # ay.lo <- seq(
+                #     (max(lo_pval, na.rm = TRUE) - yrange[2]) * 4 - 10,
+                #     10,
+                #     length = annotate.n_lo
+                # )
+                1 => 0
+                8 => 30
+                lm(c(0, 30) ~ c(1, 8))
+                lm()
+                ay.c
+                if (is.null(ay.lo)) {
+                    ay.lo <- drange(order(lo_pval), 30, -30)
+                }
             }
+            if (is.null(ax.lo)) ax.lo <- 5 + 5 * annotate.n_lo
+            # browser()
+            # return(ay.lo)
             plt |> plotly::add_annotations(
                 x = lo_x,
                 y = lo_pval,
@@ -258,8 +278,9 @@ dplot3_volcano <- function(x, pvals,
                 arrowcolor = adjustcolor(theme$fg, .33),
                 arrowsize = .5,
                 arrowwidth = 1,
-                ax = 50,
+                ax = ax.lo,
                 ay = ay.lo,
+                xanchor = "left",
                 font = list(
                     size = 16,
                     family = theme$font.family,
@@ -277,10 +298,12 @@ dplot3_volcano <- function(x, pvals,
             hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
 
             if (is.null(ay.hi)) {
-                ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
-                    length = annotate.n_hi
-                )
+                # ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
+                #     length = annotate.n_hi
+                # )
+                ay.hi <- drange(order(hi_pval), 50, -50)
             }
+            if (is.null(ax.hi)) ax.hi <- -5 -5 * annotate.n_hi
             plt |> plotly::add_annotations(
                 x = hi_x,
                 y = hi_pval,
@@ -289,8 +312,9 @@ dplot3_volcano <- function(x, pvals,
                 arrowcolor = adjustcolor(theme$fg, .33),
                 arrowsize = .5,
                 arrowwidth = 1,
-                ax = -72,
+                ax = ax.hi,
                 ay = ay.hi,
+                xanchor = "right",
                 font = list(
                     size = 16,
                     family = theme$font.family,
