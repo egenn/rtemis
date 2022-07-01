@@ -1,6 +1,6 @@
 # dplot3_graphjs.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Plot network using \pkg{threejs::graphjs}
 #'

@@ -1,6 +1,6 @@
 # gridSearchLearn_future.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 # new version using future
 # => support for Survival
 

@@ -1,6 +1,6 @@
 # plotly_utils
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 # plotly_vline calls plotly_vline1 to create a list for one or more vertical
 # lines, to be passed to plotly::layout's shapes argument

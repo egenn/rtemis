@@ -1,6 +1,6 @@
 # recycle.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Recycle values of vector to match length of target
 #' 

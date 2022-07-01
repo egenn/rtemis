@@ -1,6 +1,6 @@
 # igraph_layout
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 igraph_layout <- function(net, 
                           layout = "mds",

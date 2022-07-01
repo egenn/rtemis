@@ -1,6 +1,6 @@
 # dataPrepare.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 # consider: check missing y.test with present x.test
 
 #' \code{rtemis-internals}: \code{dataPrepare}

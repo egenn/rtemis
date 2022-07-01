@@ -1,6 +1,6 @@
 # sparsernorm.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Sparse rnorm
 #'

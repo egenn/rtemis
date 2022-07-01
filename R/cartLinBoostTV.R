@@ -1,6 +1,6 @@
 # cartLinBoostTV
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' CART and linear model boosting [R]
 #'

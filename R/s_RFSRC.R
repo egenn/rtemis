@@ -1,6 +1,6 @@
 # s_RFSRC.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Random Forest for Classification, Regression, and Survival [C, R, S]
 #'

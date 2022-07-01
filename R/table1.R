@@ -1,6 +1,6 @@
 # table1.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Table 1
 #'

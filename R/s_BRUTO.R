@@ -1,6 +1,6 @@
 # s_BRUTO.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Projection Pursuit Regression (BRUTO) [R]
 #'

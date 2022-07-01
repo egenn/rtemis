@@ -1,6 +1,6 @@
 # s_RULEFIT.R
 # ::rtemis::
-# 2017-8 E.D. Gennatas lambdamd.org
+# 2017-8 E.D. Gennatas www.lambdamd.org
 # TODO: Add option to include raw features as well as rules
 
 #' Rulefit [C, R]

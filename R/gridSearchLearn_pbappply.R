@@ -1,6 +1,6 @@
 # gridSearchLearn.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 # => support for Survival
 
 #' \pkg{rtemis} internal: Grid Search for Hyperparameter Tuning of \pkg{rtemis} Learners

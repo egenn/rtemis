@@ -1,6 +1,6 @@
 # varSelect.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Variable Selection by Variable Importance
 #'

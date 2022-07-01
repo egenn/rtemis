@@ -1,6 +1,6 @@
 # mplot_missing.R
 # :: rtemis::
-# 2020 E.D. Gennatas lambdamd.org
+# 2020 E.D. Gennatas www.lambdamd.org
 # Biostat214: Documentation with roxygen + keeping function definitions tidy + push to GitHub
 
 #' Plot missingness

@@ -1,6 +1,6 @@
 # glmLite.R
 # ::rtemis::
-# E.D. Gennatas MBBS PhD lambdamd.org
+# E.D. Gennatas MBBS PhD www.lambdamd.org
 
 #' Bare bones decision tree derived from \code{rpart}
 #'

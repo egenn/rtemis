@@ -1,6 +1,6 @@
 # dplot3_bar.R
 # ::rtemis::
-# 2019-22 E.D. Gennatas lambdamd.org
+# 2019-22 E.D. Gennatas www.lambdamd.org
 
 #' Interactive Barplots
 #'

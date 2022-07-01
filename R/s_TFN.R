@@ -1,6 +1,6 @@
 # s_TFN.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' Artificial Neural Network with \pkg{tensorflow} [C, R]
 #'

@@ -1,6 +1,6 @@
 # timebin.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Date to factor time bin
 #'

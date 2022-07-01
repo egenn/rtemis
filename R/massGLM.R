@@ -1,6 +1,6 @@
 # massGLM.R
 # ::rtemis::
-# 2021-2 E.D. Gennatas lambdamd.org
+# 2021-2 E.D. Gennatas www.lambdamd.org
 
 #' Mass-univariate GLM Analysis
 #'

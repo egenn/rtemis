@@ -1,6 +1,6 @@
 # sge_submit.R
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 #' Submit expression to SGE grid
 #'

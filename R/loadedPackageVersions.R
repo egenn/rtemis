@@ -1,6 +1,6 @@
 # loadedPackageVersions.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Get version of all loaded packages (namespaces)
 #'

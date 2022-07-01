@@ -1,6 +1,6 @@
  # s_KNN.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 # TODO: Consider replacing knn fn
 
 #' k-Nearest Neighbors Classification and Regression [C, R]

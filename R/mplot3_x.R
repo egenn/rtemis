@@ -1,6 +1,6 @@
 # mplot3_x.R
 # ::rtemis::
-# 2016-21 E.D. Gennatas lambdamd.org
+# 2016-21 E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
 #'

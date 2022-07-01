@@ -1,6 +1,6 @@
 # mplot3_lolli
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3} Lollipop Plot
 #'

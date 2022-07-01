@@ -1,6 +1,6 @@
 # mplot3_box.R
 # ::rtemis::
-# 2017-2021 E.D. Gennatas lambdamd.org
+# 2017-2021 E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3}: Boxplot
 #'

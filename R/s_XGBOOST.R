@@ -1,6 +1,6 @@
 # s_XGBOOST.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 #' XGBoost Classification and Regression [C, R]
 #'

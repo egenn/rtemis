@@ -1,6 +1,6 @@
 # prune.addtree.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Prune ADDTREE tree
 #'

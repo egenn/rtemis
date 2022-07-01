@@ -1,6 +1,6 @@
 # distillTreeRules.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Distill rules from trained RF and GBM learners
 #'

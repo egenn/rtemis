@@ -1,6 +1,6 @@
 # rtModSet.R
 # ::rtemis::
-# 2016-2021 E.D. Gennatas lambdamd.org
+# 2016-2021 E.D. Gennatas www.lambdamd.org
 
 #' \pkg{rtemis} model
 #'

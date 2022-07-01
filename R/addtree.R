@@ -1,6 +1,6 @@
 # addtree.R
 # ::rtemis::
-# G. Valdes (MATLAB), E.D. Gennatas (R) lambdamd.org
+# G. Valdes (MATLAB), E.D. Gennatas (R) www.lambdamd.org
 
 #' Additive Tree
 #'

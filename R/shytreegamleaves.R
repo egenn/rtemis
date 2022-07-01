@@ -1,6 +1,6 @@
 # shytreegamleaves.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 # g$n.nodes
 # => full linear model as first step
 

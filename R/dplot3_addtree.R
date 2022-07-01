@@ -1,6 +1,6 @@
 # dplot3_addtree
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Plot ADDTREE trees
 #'

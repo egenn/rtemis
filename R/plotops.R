@@ -75,7 +75,7 @@ getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
 
 # basegrid.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 basegrid <- function(x = NULL,
                      y = NULL,

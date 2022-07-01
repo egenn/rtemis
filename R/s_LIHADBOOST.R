@@ -1,6 +1,6 @@
 # s_LIHADBOOST.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 # boosting learning.rate vs. hytree learning.rate
 # ... added to allow "weights = NULL" from gridSearchLearn
 

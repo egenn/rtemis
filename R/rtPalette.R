@@ -1,6 +1,6 @@
 # rtPalette.R
 # ::rtemis::
-# 2016-22 E.D. Gennatas lambdamd.org
+# 2016-22 E.D. Gennatas www.lambdamd.org
 
 # UCSF ----
 #' UCSF Colors

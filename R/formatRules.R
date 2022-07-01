@@ -1,6 +1,6 @@
 # formatRules
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Format rules
 #'

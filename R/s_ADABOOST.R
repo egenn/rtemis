@@ -1,6 +1,6 @@
 # s_ADABOOST.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Adaboost Binary Classifier [C]
 #'

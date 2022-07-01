@@ -1,6 +1,6 @@
 # checkData.R
 # ::rtemis::
-# 2017-21 E.D. Gennatas lambdamd.org
+# 2017-21 E.D. Gennatas www.lambdamd.org
 
 #' Check Data
 #'

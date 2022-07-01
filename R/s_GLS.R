@@ -1,6 +1,6 @@
 # s_GLS.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Generalized Least Squares [R]
 #'

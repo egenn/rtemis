@@ -1,6 +1,6 @@
 # rtClust.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 
 #' R6 class for \pkg{rtemis} clustering
 #'

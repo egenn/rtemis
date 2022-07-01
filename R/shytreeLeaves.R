@@ -1,6 +1,6 @@
 # shytreeLeavesRC.R
 # ::rtemis::
-# 2018-9 E.D. Gennatas lambdamd.org
+# 2018-9 E.D. Gennatas www.lambdamd.org
 # shytreeLeavesRC with no-line option
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure

@@ -1,6 +1,6 @@
 # s_MARS.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 # method = "cv" fails to find nk and penalty
 
 #' Multivariate adaptive regression splines (MARS) [C, R]

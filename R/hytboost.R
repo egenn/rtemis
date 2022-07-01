@@ -1,6 +1,6 @@
 # hytboost.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 # 05-2020: switched to hytreew
 
 #' Boosting of Hybrid Trees

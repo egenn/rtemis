@@ -1,6 +1,6 @@
 # dplot3_graphd3
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Plot graph using \pkg{networkD3}
 #'

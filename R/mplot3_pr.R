@@ -1,6 +1,6 @@
 # mplot3_pr
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3} Precision Recall curves
 #'

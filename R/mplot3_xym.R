@@ -1,6 +1,6 @@
 # mplot3_xym.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 # TODO: Add group support for marginal plots to mhist
 
 #' \code{mplot3} Scatter plot with marginal density and/or histogram

@@ -1,6 +1,6 @@
 # s_CART.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Classification and Regression Trees [C, R, S]
 #'

@@ -1,6 +1,6 @@
 # checkData_live.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 #' Check Data (HTML output)
 #'

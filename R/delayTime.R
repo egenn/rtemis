@@ -1,6 +1,6 @@
 # delayTime.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 
 #' Delay and Reverb Time Calculator
 #' 

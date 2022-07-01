@@ -1,6 +1,6 @@
 # mplot3_survfit.R
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3}: Plot \code{survfit} objects
 #'

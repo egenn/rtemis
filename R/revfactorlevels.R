@@ -1,6 +1,6 @@
 # revfactorlevels.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 #' Reverse factor level order
 #' 

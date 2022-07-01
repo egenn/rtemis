@@ -1,6 +1,6 @@
 # boxcat.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' Box cat
 #'
@@ -43,7 +43,7 @@ pastebox <- function(x, pad = 0) {
 
 # objcat.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' `rtemis-internal`: Object cat
 #'

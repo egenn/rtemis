@@ -1,6 +1,6 @@
 # s_GAMSELX.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 # TODO: Update to use cv.gamsel similar to s_GLMNET
 # TODO: Add special case in rtMod predict
 

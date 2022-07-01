@@ -1,6 +1,6 @@
 # permute.R
 # ::rtemis::
-# lambdamd.org
+# www.lambdamd.org
 
 #' Create permutations
 #'

@@ -1,6 +1,6 @@
 # elevate2.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'

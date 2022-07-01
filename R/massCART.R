@@ -1,6 +1,6 @@
 # massCART.R
 # ::rtemis::
-# 2017 E.D. Gennatas lambdamd.org
+# 2017 E.D. Gennatas www.lambdamd.org
 # TODO: Add resampling
 
 #' Mass-univariate CART prediction and variable importance

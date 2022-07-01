@@ -1,6 +1,6 @@
 # desaturate.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' Pastelify a color (make a color more pastel)
 #'

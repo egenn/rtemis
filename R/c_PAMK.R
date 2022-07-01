@@ -1,6 +1,6 @@
 # c_PAMK.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Partitioning Around Medoids with k Estimation
 #'

@@ -1,6 +1,6 @@
 # mplot3_img.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Draw image (False color 2D)
 #'

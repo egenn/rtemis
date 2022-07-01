@@ -1,6 +1,6 @@
 # dependency_check.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 # replaced depCheck
 
 #' \pkg{rtemis} internal: Dependencies check

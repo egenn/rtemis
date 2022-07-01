@@ -1,6 +1,6 @@
 # cc.R
 # ::rtemis::
-# 2015 E.D. Gennatas lambdamd.org
+# 2015 E.D. Gennatas www.lambdamd.org
 
 #' Concatenate Vectors
 #' 

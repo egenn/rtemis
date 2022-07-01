@@ -1,6 +1,6 @@
 # reverseLevels.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019 E.D. Gennatas www.lambdamd.org
 
 #' Reverse factor levels
 #'

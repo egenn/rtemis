@@ -1,6 +1,6 @@
 # mplot3_xy.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' \code{mplot3}: XY Scatter and line plots
 #'

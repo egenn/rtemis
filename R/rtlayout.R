@@ -1,6 +1,6 @@
 # rtlayout.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 
 #' Create multipanel plots with the \code{mplot3} family
 #'

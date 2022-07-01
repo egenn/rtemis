@@ -1,6 +1,6 @@
 # s_GLM.R
 # ::rtemis::
-# 2017-22 E.D. Gennatas lambdamd.org
+# 2017-22 E.D. Gennatas www.lambdamd.org
 
 #' Generalized Linear Model [C, R]
 #'

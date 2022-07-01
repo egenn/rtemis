@@ -1,6 +1,6 @@
 # s_LOESS.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Local Polynomial Regression (LOESS) [R]
 #'

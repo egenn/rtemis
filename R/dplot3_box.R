@@ -1,6 +1,6 @@
 # dplot3_box.R
 # ::rtemis::
-# 201?-22 E.D. Gennatas lambdamd.org
+# 201?-22 E.D. Gennatas www.lambdamd.org
 
 # -> some/most of these have been fixed
 # added option to avoid using color for group

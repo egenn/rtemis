@@ -1,6 +1,6 @@
 # onehot2factor
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 #' Convert one-hot encoded matrix to factor
 #'

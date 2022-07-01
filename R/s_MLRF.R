@@ -1,6 +1,6 @@
 # s_MLRF.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Spark MLlib Random Forest [C, R]
 #'

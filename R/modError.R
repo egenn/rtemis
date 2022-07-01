@@ -1,6 +1,6 @@
 # modError.R
 # ::rtemis::
-# 2015-8 E.D. Gennatas lambdamd.org
+# 2015-8 E.D. Gennatas www.lambdamd.org
 
 #' Error Metrics for Supervised Learning
 #'
@@ -338,7 +338,7 @@ factorHarmonize <- function(reference, x,
 
 # print.regError.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 
 #' Print \code{regError} object
 #'

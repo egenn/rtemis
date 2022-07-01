@@ -1,6 +1,6 @@
 # gp.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 # make into rtMod
 
 #' Bayesian Gaussian Processes [R]

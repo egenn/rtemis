@@ -1,6 +1,6 @@
 # s_SDA.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Sparse Linear Discriminant Analysis
 #'

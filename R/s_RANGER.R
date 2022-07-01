@@ -1,6 +1,6 @@
 # s_RANGER.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 # fix multiclass prob with probability F, predict with probability T
 # TODO: Add Survival support
 # TODO: Use inbag and resample for stratified bootstraps

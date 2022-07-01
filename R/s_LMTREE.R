@@ -1,6 +1,6 @@
 # s_LMTREE.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Linear Model Tree [R]
 #'

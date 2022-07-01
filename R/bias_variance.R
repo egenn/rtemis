@@ -1,6 +1,6 @@
 # bias_variance.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Bias-Variance Decomposition
 #' 

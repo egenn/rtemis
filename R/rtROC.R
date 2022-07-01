@@ -1,6 +1,6 @@
 # rtROC.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 # TODO: consider renaming to estimated.probabilities
 
 #' Build an ROC curve

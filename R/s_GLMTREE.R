@@ -1,6 +1,6 @@
 # s_GLMTREE.R
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Generalized Linear Model Tree [R]
 #'

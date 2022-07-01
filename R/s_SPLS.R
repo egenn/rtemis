@@ -1,6 +1,6 @@
 # s_SPLS.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 # TODO: Add spgls option for Classification
 
 #' Sparse Partial Least Squares Regression [C, R]

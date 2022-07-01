@@ -1,6 +1,6 @@
 # preprocess.R
 # ::rtemis::
-# 2017-21 E.D. Gennatas lambdamd.org
+# 2017-21 E.D. Gennatas www.lambdamd.org
 
 #' Data preprocessing (in-place)
 #'

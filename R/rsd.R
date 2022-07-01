@@ -1,6 +1,6 @@
 # rsd.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Coefficient of Variation (Relative standard deviation)
 #'

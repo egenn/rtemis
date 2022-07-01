@@ -1,6 +1,6 @@
 # bag.R
 # ::rtemis::
-# 2018-9 E.D. Gennatas lambdamd.org
+# 2018-9 E.D. Gennatas www.lambdamd.org
 # check fitted.prob and predicted.prob; varimp
 
 #' Bag an \pkg{rtemis} learner for regression or classification [C, R]

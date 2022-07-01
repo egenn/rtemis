@@ -1,6 +1,6 @@
 # s_BART.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Bayesian Additive Regression Trees [C, R]
 #'

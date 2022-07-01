@@ -1,6 +1,6 @@
 # dplot3_ts.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 # => recalc limits for fn = "sum"
 

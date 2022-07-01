@@ -1,6 +1,6 @@
 # s_GLMNET.R
 # ::rtemis::
-# 2016-7 E.D. Gennatas lambdamd.org
+# 2016-7 E.D. Gennatas www.lambdamd.org
 # [=>?] Consider fixing foldid
 
 #' GLM with Elastic Net Regularization [C, R, S]

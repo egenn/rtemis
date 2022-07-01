@@ -1,6 +1,6 @@
 # boost.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 # TODO: add error vector (1 * n.iter)
 # TODO: make learning.rate input into max.iter vector
 

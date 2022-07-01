@@ -1,6 +1,6 @@
 # s_LINAD.R
 # ::rtemis::
-# 2019-20 E.D. Gennatas lambdamd.org
+# 2019-20 E.D. Gennatas www.lambdamd.org
 # Allow early stopping
 # varimp: N cases-weighted mean of absolute coefficients
 

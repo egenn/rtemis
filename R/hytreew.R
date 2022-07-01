@@ -1,6 +1,6 @@
 # hytreew.R
 # ::rtemis::
-# 2018 E.D. Gennatas lambdamd.org
+# 2018 E.D. Gennatas www.lambdamd.org
 
 #' \code{rtemis internal}: Low-level Hybrid Tree procedure
 #'

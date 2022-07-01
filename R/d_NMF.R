@@ -1,6 +1,6 @@
 # d_NMF.R
 # ::rtemis::
-# 2016 E.D. Gennatas lambdamd.org
+# 2016 E.D. Gennatas www.lambdamd.org
 
 #' Non-negative Matrix Factorization (NMF)
 #'

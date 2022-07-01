@@ -1,6 +1,6 @@
 # matchcases.R
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 #' Match cases by covariates
 #'

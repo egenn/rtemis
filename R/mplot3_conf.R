@@ -1,6 +1,6 @@
 # mplot3_conf
 # ::rtemis::
-# E.D. Gennatas lambdamd.org
+# E.D. Gennatas www.lambdamd.org
 
 #' Plot confusion matrix
 #'

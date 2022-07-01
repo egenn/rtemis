@@ -1,6 +1,6 @@
 # graph_node_metrics.R
 # ::rtemis::
-# 2021 E.D. Gennatas lambdamd.org
+# 2021 E.D. Gennatas www.lambdamd.org
 
 #' Node-wise (i.e. vertex-wise) graph metrics
 #'
