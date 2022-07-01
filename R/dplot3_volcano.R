@@ -253,16 +253,6 @@ dplot3_volcano <- function(x, pvals,
             lo_name <- xnames[index_lo][lo_ord[seq_len(annotate.n_lo)]]
 
             if (is.null(ay.lo)) {
-                # ay.lo <- seq(
-                #     (max(lo_pval, na.rm = TRUE) - yrange[2]) * 4 - 10,
-                #     10,
-                #     length = annotate.n_lo
-                # )
-                1 => 0
-                8 => 30
-                lm(c(0, 30) ~ c(1, 8))
-                lm()
-                ay.c
                 if (is.null(ay.lo)) {
                     ay.lo <- drange(order(lo_pval), 30, -30)
                 }

@@ -19,6 +19,7 @@ dplot3_volcano(
   legend.hi = NULL,
   label.lo = "Low",
   label.hi = "High",
+  main = NULL,
   xlab = NULL,
   ylab = NULL,
   margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
@@ -39,7 +40,9 @@ dplot3_volcano(
   legend.x.hi = NULL,
   legend.y = 0.97,
   annotate.n = 7,
+  ax.lo = 40,
   ay.lo = NULL,
+  ax.hi = -40,
   ay.hi = NULL,
   annotate = TRUE,
   annotate.alpha = 0.7,
@@ -118,6 +121,8 @@ or "longdashdot"}
 as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{annotate.col}{Color for annotations}
+
+\item{...}{Additional parameters passed to \link{dplot3_xy}}
 }
 \description{
 Volcano Plot
