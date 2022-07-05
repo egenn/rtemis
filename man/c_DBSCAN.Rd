@@ -23,16 +23,16 @@ c_DBSCAN(
 
 \item{eps}{Numeric: Radius of the epsilon neighborhood}
 
-\item{minPts}{Integer: Number of minimum points required in the eps 
+\item{minPts}{Integer: Number of minimum points required in the eps
 neighborhood for core points (including the point itself).}
 
-\item{weights}{Numeric vector: Data points' weights. Needed for weighted 
+\item{weights}{Numeric vector: Data points' weights. Needed for weighted
 clustering.}
 
 \item{borderPoints}{Logical: If TRUE, assign border points to clusters,
 otherwise they are considered noise}
 
-\item{search}{Character: "kdtree", "linear" or "dist": nearest neighbor 
+\item{search}{Character: "kdtree", "linear" or "dist": nearest neighbor
 search strategy}
 
 \item{verbose}{Logical: If TRUE, print messages to screen}
@@ -43,7 +43,7 @@ search strategy}
 Perform DBSCAN clustering
 }
 \details{
-See \code{dbscan::dbscan} for info on how to choose \code{eps} and 
+See \code{dbscan::dbscan} for info on how to choose \code{eps} and
 \code{minPts}
 }
 \seealso{
