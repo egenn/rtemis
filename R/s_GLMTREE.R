@@ -33,7 +33,7 @@ s_GLMTREE <- function(x, y = NULL,
                       #  breakties = FALSE,
                       #  parm = NULL,
                       #  dfsplit = TRUE,
-                      #  prune = NULL,
+                       prune = NULL,
                       #  restart = TRUE,
                       #  verbose = FALSE,
                       #  caseweights = TRUE,
@@ -169,6 +169,7 @@ s_GLMTREE <- function(x, y = NULL,
             ),
             fixed.params = list(
                 bonferroni = bonferroni,
+                prune = prune,
                 na.action = na.action,
                 ipw = ipw,
                 ipw.type = ipw.type,
@@ -199,6 +200,7 @@ s_GLMTREE <- function(x, y = NULL,
         minsplit = minsplit,
         minbucket = minbucket,
         bonferroni = bonferroni,
+        prune = prune,
         na.action = na.action
     )
 
@@ -216,7 +218,8 @@ s_GLMTREE <- function(x, y = NULL,
         minsplit = minsplit,
         minbucket = minbucket,
         epsilon = epsilon,
-        maxit = maxit, ...
+        maxit = maxit,
+        prune = prune, ...
     )
 
     # Fitted ----
