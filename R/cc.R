@@ -6,9 +6,13 @@
 #' 
 #' Concatenate that maintains factors
 #'
-#' A \code{c()} replacement that maintains factors as factors because it doesn't make sense not to.
-#' If all inputs are factors, they are converted to character, concatenated and converted to factor again.
-#' Otherwise, they are passed to \code{c()}
+#' A \code{c()} replacement that maintains factors as factors because it 
+#' doesn't make sense not to.
+#' If all inputs are factors, they are converted to character, concatenated and 
+#' converted to factor again.
+#' Otherwise, they are passed to \code{base::c()}
+#' 
+#' [!] This code is no longer needed as of R 4.1.0
 #'
 #' @param ... Two or more vectors of any type
 #' @return Concatenation of \code{...}
@@ -18,7 +22,7 @@
 cc <- function(...) {
 
   inputs <- list(...)
-  if (all(as.logical(lapply(inputs, function(i) class(i) == "factor")))) {
+  if (all(as.logical(lapply(inputs, \(i) is(i, "factor"))))) {
     as.factor(unlist(sapply(inputs, as.character)))
   } else {
     c(...)
