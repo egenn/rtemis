@@ -48,7 +48,7 @@ gp <- function(x, y,
     }
 
     # Plot ----
-    if (print.plot & class(x) == "numeric") {
+    if (print.plot & is.numeric(x)) {
         main <- "Bayesian Gaussian Process"
         if (!is.null(new.x)) {
             xl <- list(new.x, new.x, new.x)

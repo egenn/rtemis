@@ -53,7 +53,8 @@ mplot3_surv <- function(x,
   # x <- lapply(1:length(x), function(i) as.numeric(as.matrix(x[[i]])[, 1]))
   # if (class(x)[[1]] != "Surv") stop("At least first object must be of type Survival")
   for (i in seq(x)) {
-    if (class(x[[i]]) != "Surv") {
+    # if (class(x[[i]]) != "Surv") {
+    if (!inherits(x[[i]]), "Surv") {
       # Adding 1's assuming time to event for all
       x[[i]] <- survival::Surv(x[[i]], rep(1, length(x[[i]])))
     }

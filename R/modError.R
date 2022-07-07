@@ -128,8 +128,7 @@ modError <- function(true,
     } else if (type == "Classification") {
 
         # [ Classification ] ----
-        if (class(x) != "factor") x <- as.factor(x)
-        # if (class(y) != "factor") y <- as.factor(y)
+        if (!is.factor(x)) x <- as.factor(x)
         n.classes <- length(levels(x))
         if (n.classes < 2) stop("Classification requires at least two classes")
         s.out <- classError(x, y, estimated.prob)

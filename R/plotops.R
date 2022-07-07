@@ -34,7 +34,7 @@ yhi <- function(pct_higher = .08) {
 
   ylo <- par("usr")[3]
   yhi <- par("usr")[4]
-  yhi + pct_lower * (yhi - ylo)
+  yhi + pct_higher * (yhi - ylo)
 
 }
 
