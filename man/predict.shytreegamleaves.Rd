@@ -24,7 +24,7 @@
 
 \item{type}{Character: "response", "probability", "all", "step"}
 
-\item{n.leaves}{Integer: Use the first \code{n.leaves} of the tree for 
+\item{n.leaves}{Integer: Use the first \code{n.leaves} of the tree for
 prediction}
 
 \item{fixed.cxr}{[Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
