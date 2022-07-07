@@ -141,7 +141,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Object of class \link{rtMod}
 }
 \description{
-Train a GLMTREE for regression or classification using \code{rpart}
+Train a GLMTREE for regression or classification using 
+\code{partykit::glmtree}
 }
 \seealso{
 \link{elevate} for external cross-validation

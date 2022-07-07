@@ -4,7 +4,8 @@
 
 #' Generalized Linear Model Tree [R]
 #'
-#' Train a GLMTREE for regression or classification using \code{rpart}
+#' Train a GLMTREE for regression or classification using 
+#' \code{partykit::glmtree}
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
@@ -24,9 +25,9 @@ s_GLMTREE <- function(x, y = NULL,
                       weights = NULL,
                     #   offset = NULL,
                       alpha = 0.05,
-                       bonferroni = TRUE,
-                       minsize = NULL,
-                       maxdepth = Inf,
+                      bonferroni = TRUE,
+                      minsize = NULL,
+                      maxdepth = Inf,
                       #  mtry = Inf,
                       #  trim = 0.1,
                       #  breakties = FALSE,
@@ -46,8 +47,8 @@ s_GLMTREE <- function(x, y = NULL,
                       #  vcov = "opg",
                       #  ordinal = "chisq",
                       #  nrep = 10000,
-                       minsplit = minsize,
-                       minbucket = minsize,
+                      minsplit = minsize,
+                      minbucket = minsize,
                       #  applyfun = NULL,
                       epsilon = 1e-8, 
                       maxit = 25,
