@@ -16,6 +16,7 @@ s_GLMTREE(
   bonferroni = TRUE,
   minsize = NULL,
   maxdepth = Inf,
+  prune = NULL,
   minsplit = minsize,
   minbucket = minsize,
   epsilon = 1e-08,
