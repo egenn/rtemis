@@ -8,21 +8,19 @@
 #' Default = \code{seq(0, 1, .0125)}
 #' @param s.steps Float, vector: Saturation values to plot. Default = same as
 #' \code{h.steps}
-#' @param v Float: Value. Default = 1
-#' @param alpha Float: Alpha. Default = 1
+#' @param v Float: Value.
+#' @param alpha Float: Alpha. 
 #' @param pch Integer: pch plot parameter. Default = 15 (square)
 #' @param bg Color: Background color. Default = "black"
 #' @param axes Logical: for \code{type = "cartesian"}: If TRUE, draw axes.
-#' Default = TRUE
 #' @param pty Character: for \code{type = "cartesian"}: "s", "r", par's pty
 #' argument. Default = "s" (square plot)
-#' @param cex Float: \code{par/plot}'s cex argument. Default = 1
+#' @param cex Float: \code{par/plot}'s cex argument.
 #' @param mar Float, vector: for \code{type = "cartesian"}: \code{par}'s mar
-#' argument. Default = c(3, 3, 2, .5)
+#' argument.
 #' @param lab.col Color: Color for axes and labels. Defaults to inverse of
 #' \code{bg}, i.e. white if bg is black
 #' @param type Character: "cartesian" for square plot, "polar" for radial plot.
-#' Default = "polar"
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -81,14 +79,14 @@ mplot_hsv <- function(h.steps = seq(0, 1, .0125),
         # '- Radial ----
         dependency_check("plotrix")
         par(bg = bg)
-        plotrix::radial.plot(drange(grd[, 2], 0, 360 * pi / 180),
+        plotrix::radial.plot(
+            drange(grd[, 2], 0, 360 * pi / 180),
             drange(grd[, 1], 0, 360 * pi / 180),
             start = pi / 2,
             clockwise = TRUE,
             rp.type = "s",
             point.symbols = 18,
             point.col = col,
-            labels = ddSci(seq(0, 1, 1 / 12))[-13],
             label.prop = 1,
             show.grid = T,
             show.grid.labels = 1,
