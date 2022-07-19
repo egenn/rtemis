@@ -387,3 +387,19 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
     }
     invisible(c(.nrow, .ncol))
 }
+
+
+#' Print single line of object info
+#'
+#' @param x object to print
+#' @param ... Not used
+#' 
+#' @export
+
+print1 <- function(x, ...) {
+    UseMethod("print1")
+}
+
+print1.default <- function(x, ...) {
+    head(x, 1)
+}
