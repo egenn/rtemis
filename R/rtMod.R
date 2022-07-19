@@ -1442,22 +1442,38 @@ rtModCV <- R6::R6Class("rtModCV",
                          #' \code{print} method for \code{rtModCV} object
                          print = function() {
                            "R6 show / print method for rtModCV"
-                           objcat("Cross-Validated Model")
+                           objcat(paste("Cross-Validated", self$type, "Model"))
                            cat(rtHighlight$bold(self$mod.name), " (",
                                modSelect(self$mod.name, desc = TRUE),
                                ")\n", sep = "")
-                           cat("                 Algorithm: ", self$mod.name, " (",
-                               modSelect(self$mod.name, desc = TRUE),
-                               ")\n", sep = "")
-                           cat("                Resampling: n = ",
-                               self$resampler.params$n.resamples,
-                               ", type = ", self$resampler.params$resampler, "\n", sep = "")
-                           cat("              N of repeats:", self$n.repeats, "\n")
+                          #  cat(
+                          #   "             Algorithm: ", self$mod.name, " (",
+                          #      modSelect(self$mod.name, desc = TRUE),
+                          #      ")\n", sep = "")
+                          #  cat("          Outer resampling: n = ",
+                          #      self$resampler.params$n.resamples,
+                          #      ", type = ", self$resampler.params$resampler, "\n", sep = "")
+                          # cat("              N of repeats:", self$n.repeats, "\n")
+                          cat(
+                            "      Outer resampling: ",
+                            print1(self$resamples[[1]], verbose = FALSE),
+                            " (", singorplu(self$n.repeats, "repeat"),
+                            ")\n", sep = ""
+                          )
+                          if (!is.null(self$mod[[1]][[1]]$mod1$gridsearch)) {
+                            cat(
+                              "      Inner resampling:",
+                              print.resamplertset(
+                                self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset,
+                                verbose = FALSE
+                              ), "\n"
+                            )
+                          }
                            if (self$type == "Classification") {
-                             cat(" Mean Balanced Accuracy across repeats =",
+                             cat("Mean Balanced Accuracy:",
                                  self$error.test.repeats.mean$Balanced.Accuracy, "\n")
                            } else {
-                             cat(" Mean MSE % reduction across repeats =",
+                             cat("  Mean MSE % reduction:",
                                  self$error.test.repeats.mean$MSE.RED * 100, "\n")
                            }
                          },
