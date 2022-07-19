@@ -2,15 +2,6 @@
 # ::rtemis::
 # 201?-22 E.D. Gennatas www.lambdamd.org
 
-# -> some/most of these have been fixed
-# added option to avoid using color for group
-# todo: hovertext in A2B
-# todo: change group time bin similar to A2b without color
-# :annotate_n ngroups when one group is empty and dropped by plotly
-# showlegend in plot_ly so that subplot does not cause repetition of legend
-# known issue: boxmode = "group" works fine in single plots; but when used with 
-# subplot, forces separate plots sharing X to shift their boxplots.
-
 #' Interactive Boxplots & Violin plots
 #'
 #' Draw interactive boxplots or violin plots using \pkg{plotly}
@@ -58,15 +49,15 @@
 #' boxplots
 #' @param group.lines.col Color for \code{group.lines}
 #' @param group.lines.alpha Numeric: transparency for \code{group.lines.col}
-#' @param order.by.fn Function: If defined, order boxes by increasing value of this function
-#' (e.g. median). Default = NULL
+#' @param order.by.fn Function: If defined, order boxes by increasing value of 
+#' this function (e.g. median).
 #' @param font.size  Float: Font size for all labels. Default = 16
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
-#' @param legend.col Color: Legend text color. Default = NULL, determined by theme
-#' @param legend.xy Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
-#' the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area
-#' @param xaxis.type Character: "linear", "log", "date", "category", "multicategory"
-#' Default = "category"
+#' @param legend.col Color: Legend text color. Default = NULL, determined by 
+#' the theme
+#' @param legend.xy Float, vector, length 2: Relative x, y position for legend.
+#' @param xaxis.type Character: "linear", "log", "date", "category", 
+#' "multicategory"
 #' @param margin Named list: plot margins. 
 #' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
 #' @param violin.box Logical: If TRUE and type is "violin" show box within 
