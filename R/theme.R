@@ -10,9 +10,9 @@
 #' @param plot.bg Color: Plot region background
 #' @param fg Color: Foreground color used as default for multiple elements like 
 #' axes and labels, which can be defined separately
-#' @param pch Integer: Point character. Default = 16
-#' @param cex Float: Character expansion factor. Default = 1.2
-#' @param lwd Float: Line width. Default = 2
+#' @param pch Integer: Point character.
+#' @param cex Float: Character expansion factor.
+#' @param lwd Float: Line width.
 #' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
 #' Default = "n" (no box)
 #' @param box.col Box color if \code{bty != "n"}
@@ -31,18 +31,18 @@
 #' @param tick.col Tick color
 #' @param tick.alpha Float: Tick alpha
 #' @param tick.labels.col Tick labels' color
-#' @param tck \link{graphic::parr}'s tck argument: Tick length, can be negative
-#' @param tcl \link{graphic::parr}'s tcl argument
+#' @param tck \code{graphics::parr}'s tck argument: Tick length, can be negative
+#' @param tcl \code{graphics::parr}'s tcl argument
 #' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
 #' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
 #' @param labs.col Labels' color
-#' @param x.axis.line Numeric: \link{axis}'s \code{line} argument for the x-axis
-#' @param x.axis.las Numeric: \link{axis}'s \code{las} argument for the x-axis
+#' @param x.axis.line Numeric: \code{graphics::axis}'s \code{line} argument for the x-axis
+#' @param x.axis.las Numeric: \code{graphics::axis}'s \code{las} argument for the x-axis
 #' @param x.axis.padj Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
 #' tick labels' position
 #' @param x.axis.hadj Numeric: x-axis' \code{hadj}
-#' @param y.axis.line Numeric: \link{axis}'s \code{line} argument for the y-axis
-#' @param y.axis.las Numeric: \link{axis}'s \code{las} argument for the y-axis
+#' @param y.axis.line Numeric: \code{graphics::axis}'s \code{line} argument for the y-axis
+#' @param y.axis.las Numeric: \code{graphics::axis}'s \code{las} argument for the y-axis
 #' @param y.axis.padj Numeric: y-axis' \code{padj}
 #' @param y.axis.hadj Numeric: y-axis' \code{hadj}
 #' @param xlab.line Numeric: Line to place \code{xlab}
@@ -54,7 +54,7 @@
 #' @param zerolines.lty Integer: Zerolines line type
 #' @param zerolines.lwd Float: Zerolines line width
 #' @param main.line Float: How many lines away from the plot region to draw 
-#' title. Default = .5
+#' title.
 #' @param main.adj Float: How to align title. Default = 0 (left-align)
 #' @param main.font Integer: 1: Regular, 2: Bold
 #' @param main.col Title color

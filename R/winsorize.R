@@ -18,7 +18,7 @@
 #' quantile that corresponds to this probability and set as \code{lo}. 
 #' @param prob.hi Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
 #' quantile that corresponds to this probability and set as \code{hi}.
-#' @param quantile.type Integer: passed to \link{stats::quantile}
+#' @param quantile.type Integer: passed to \code{stats::quantile}
 #' @param verbose Logical: If TRUE, print messages to console.
 #' 
 #' @examples

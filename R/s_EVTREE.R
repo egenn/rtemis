@@ -7,7 +7,7 @@
 #' Train a EVTREE for regression or classification using \code{evtree}
 #'
 #' @inheritParams s_GLM
-#' @param control Passed to \link{evtree::evtree}
+#' @param control Passed to \code{evtree::evtree}
 #' @param ... Additional arguments to be passed to \code{evtree::evtree}
 #' 
 #' @return Object of class \link{rtMod}

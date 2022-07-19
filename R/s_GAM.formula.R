@@ -12,9 +12,11 @@
 #' \link{s_GAM.default} is the preferred way to train GAMs
 #' @inheritParams s_GLM
 #' @param covariates Factors to be included as covariates in model building
-#' @param covariates.test Factors to be included as covariates in model validation
+#' @param covariates.test Factors to be included as covariates in model 
+#' validation
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to \code{mgcv::gam}
+#' 
 #' @return \link{rtMod}
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
