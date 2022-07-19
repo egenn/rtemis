@@ -21,6 +21,7 @@
 #' @param toHTML Logical: If TRUE, convert output to HTML using the \code{fansi} package.
 #' Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' checkData(iris)

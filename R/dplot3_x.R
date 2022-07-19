@@ -63,6 +63,7 @@
 #' available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. 
 #' fill available space
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples

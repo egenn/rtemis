@@ -1,6 +1,6 @@
 # elevate2.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas www.lambdamd.org
+# 2016-22 E.D. Gennatas www.lambdamd.org
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
@@ -15,6 +15,7 @@
 #' - If there is an error while running either the outer or inner resamples in parallel, the error
 #' message returned by R will likely be unhelpful. Repeat the command after setting both inner
 #' and outer resample run to use a single core, which should provide an informative message.
+#' 
 #' @inheritParams s_GLM
 #' @inheritParams resample
 #' @param mod Character: Learner to use. Options: \link{modSelect}
