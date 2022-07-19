@@ -244,6 +244,29 @@ print.resample <- function(x, ...) {
 }
 
 
+print1.resample <- function(x, verbose = TRUE, ...) {
+
+    resampler <- attr(x, "type")
+    if (resampler == "loocv") {
+        .text <- "Leave-one-out crossvalidation"
+    } else {
+        .text <- paste0(
+            attr(x, "N"),
+            resamples <- switch(resampler,
+                strat.sub = " stratified subsamples",
+                bootstrap = " bootstraps",
+                strat.boot = " stratified bootstraps",
+                kfold = "-fold crossvalidation"
+            )
+        )
+    }
+
+    if (verbose) print(.text)
+    invisible(.text)
+  
+} # rtemis::print1.resample
+
+
 #' Bootstrap Resampling
 #'
 #' @param x Input vector
@@ -412,3 +435,24 @@ loocv <- function(x) {
   res
 
 } # rtemis::loocv
+
+
+print.resamplertset <- function(x, verbose = TRUE) {
+    resampler <- x$resampler
+    if (resampler == "loocv") {
+        .text <- "Leave-one-out crossvalidation"
+    } else {
+        .text <- paste0(
+            x$n.resamples,
+            resamples <- switch(resampler,
+                strat.sub = " stratified subsamples",
+                bootstrap = " bootstraps",
+                strat.boot = " stratified bootstraps",
+                kfold = "-fold crossvalidation"
+            )
+        )
+    }
+
+    if (verbose) print(.text)
+    invisible(.text)
+}
