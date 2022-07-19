@@ -82,6 +82,7 @@
 #' @param pdf.width Float: Width of PDF output, if \code{filename} is set
 #' @param pdf.height Float: Height of PDF output, if \code{filename} is set
 #' @param ... Additional arguments passed to \code{graphics::image}
+#' 
 #' @author E.D. Gennatas modified from original \code{stats::heatmap}
 #' by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
 #' @examples
