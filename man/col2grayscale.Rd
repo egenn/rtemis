@@ -9,17 +9,18 @@ col2grayscale(x, what = c("color", "decimal"))
 \arguments{
 \item{x}{Color to convert to grayscale}
 
-\item{what}{Character: "color" returns a hexadecimal color, 
+\item{what}{Character: "color" returns a hexadecimal color,
 "decimal" returns a decimal between 0 and 1}
 }
 \description{
 Convert a color to grayscale
 }
 \details{
-Uses the NTSC grayscale conversion: 
+Uses the NTSC grayscale conversion:
 0.299 * R + 0.587 * G + 0.114 * B
 }
 \examples{
 col2grayscale("red")
 col2grayscale("red", "dec")
+
 }

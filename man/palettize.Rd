@@ -17,8 +17,8 @@ palettize(
 \item{grayscale_hicut}{Numeric: exclude colors whose grayscale equivalent
 is greater than this value}
 
-\item{start_with}{Integer or color: For integer, start with this color out 
-of \code{x}, otherwise find color \code{x} closer to this color and place it 
+\item{start_with}{Integer or color: For integer, start with this color out
+of \code{x}, otherwise find color \code{x} closer to this color and place it
 first}
 
 \item{order_by}{Character: "similarity" or "dissimilarity"}

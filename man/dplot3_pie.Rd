@@ -75,6 +75,9 @@ theme}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+output file type supported by plotly and your system}
+
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is 

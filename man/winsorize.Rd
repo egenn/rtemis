@@ -29,7 +29,7 @@ quantile that corresponds to this probability and set as \code{lo}.}
 \item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
 quantile that corresponds to this probability and set as \code{hi}.}
 
-\item{quantile.type}{Integer: passed to \link{stats::quantile}}
+\item{quantile.type}{Integer: passed to \code{stats::quantile}}
 
 \item{verbose}{Logical: If TRUE, print messages to console.}
 }

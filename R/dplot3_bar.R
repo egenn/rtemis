@@ -49,7 +49,6 @@
 #' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
-#' @param modeBar.output.format Character: "svg", "png", "jpeg", "pdf"
 #' @param file.width Integer: File width in pixels for when \code{filename} is 
 #' set.
 #' @param file.height Integer: File height in pixels for when \code{filename} 
@@ -67,6 +66,8 @@
 #' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
 #' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
+#' @param modeBar.file.format Character: "svg", "png", "jpeg", "pdf" / any 
+#' output file type supported by plotly and your system
 # @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
 #' @param trace Integer: The height the number the more diagnostic info is 
 #' printed to the console

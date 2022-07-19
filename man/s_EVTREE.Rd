@@ -66,7 +66,7 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{control}{Passed to \link{evtree::evtree}}
+\item{control}{Passed to \code{evtree::evtree}}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 

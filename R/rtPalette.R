@@ -2,6 +2,9 @@
 # ::rtemis::
 # 2016-22 E.D. Gennatas www.lambdamd.org
 
+# Useful color resource
+# https://encycolorpedia.com
+
 # UCSF ----
 #' UCSF Colors
 #'

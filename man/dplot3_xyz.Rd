@@ -161,6 +161,9 @@ Default = NULL, i.e. use default learner parameters}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+output file type supported by plotly and your system}
+
 \item{trace}{Integer: The height the number the more diagnostic info is 
 printed to the console}
 

@@ -128,17 +128,17 @@ boxplots}
 
 \item{labelify}{Logical: If TRUE, \link{labelify} x names}
 
-\item{order.by.fn}{Function: If defined, order boxes by increasing value of this function
-(e.g. median). Default = NULL}
+\item{order.by.fn}{Function: If defined, order boxes by increasing value of 
+this function (e.g. median).}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by theme}
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+the theme}
 
-\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. Default = NULL, which places
-the legend top right beside the plot area. For example, c(0, 1) places the legend top left within the plot area}
+\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend.}
 
 \item{legend.orientation}{"v" or "h" for vertical, horizontal}
 
@@ -148,8 +148,8 @@ the legend top right beside the plot area. For example, c(0, 1) places the legen
 \item{legend.yanchor}{Character: Legend's y anchor: "top", "middle",
 "bottom", "auto"}
 
-\item{xaxis.type}{Character: "linear", "log", "date", "category", "multicategory"
-Default = "category"}
+\item{xaxis.type}{Character: "linear", "log", "date", "category", 
+"multicategory"}
 
 \item{margin}{Named list: plot margins. 
 Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}

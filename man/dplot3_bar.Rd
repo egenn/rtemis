@@ -139,6 +139,9 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+output file type supported by plotly and your system}
+
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is 
@@ -153,8 +156,6 @@ is set.}
 printed to the console}
 
 \item{...}{Additional arguments passed to theme}
-
-\item{modeBar.output.format}{Character: "svg", "png", "jpeg", "pdf"}
 }
 \description{
 Draw interactive barplots using \code{plotly}

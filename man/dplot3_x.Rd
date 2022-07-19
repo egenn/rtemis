@@ -175,6 +175,9 @@ Turn to FALSE, if, for example, groups are ordered by date or similar.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+output file type supported by plotly and your system}
+
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill 
 available space}
 

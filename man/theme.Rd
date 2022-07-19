@@ -583,11 +583,11 @@ theme_mediumgraygrid(
 \item{fg}{Color: Foreground color used as default for multiple elements like 
 axes and labels, which can be defined separately}
 
-\item{pch}{Integer: Point character. Default = 16}
+\item{pch}{Integer: Point character.}
 
-\item{cex}{Float: Character expansion factor. Default = 1.2}
+\item{cex}{Float: Character expansion factor.}
 
-\item{lwd}{Float: Line width. Default = 2}
+\item{lwd}{Float: Line width.}
 
 \item{bty}{Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
 Default = "n" (no box)}
@@ -624,9 +624,9 @@ Default = "n" (no box)}
 
 \item{tick.labels.col}{Tick labels' color}
 
-\item{tck}{\link{graphic::parr}'s tck argument: Tick length, can be negative}
+\item{tck}{\code{graphics::parr}'s tck argument: Tick length, can be negative}
 
-\item{tcl}{\link{graphic::parr}'s tcl argument}
+\item{tcl}{\code{graphics::parr}'s tcl argument}
 
 \item{x.axis.side}{Integer: Side to place x-axis. Default = 1 (bottom)}
 
@@ -634,18 +634,18 @@ Default = "n" (no box)}
 
 \item{labs.col}{Labels' color}
 
-\item{x.axis.line}{Numeric: \link{axis}'s \code{line} argument for the x-axis}
+\item{x.axis.line}{Numeric: \code{graphics::axis}'s \code{line} argument for the x-axis}
 
-\item{x.axis.las}{Numeric: \link{axis}'s \code{las} argument for the x-axis}
+\item{x.axis.las}{Numeric: \code{graphics::axis}'s \code{las} argument for the x-axis}
 
 \item{x.axis.padj}{Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
 tick labels' position}
 
 \item{x.axis.hadj}{Numeric: x-axis' \code{hadj}}
 
-\item{y.axis.line}{Numeric: \link{axis}'s \code{line} argument for the y-axis}
+\item{y.axis.line}{Numeric: \code{graphics::axis}'s \code{line} argument for the y-axis}
 
-\item{y.axis.las}{Numeric: \link{axis}'s \code{las} argument for the y-axis}
+\item{y.axis.las}{Numeric: \code{graphics::axis}'s \code{las} argument for the y-axis}
 
 \item{y.axis.padj}{Numeric: y-axis' \code{padj}}
 
@@ -667,7 +667,7 @@ plot limits}
 \item{zerolines.lwd}{Float: Zerolines line width}
 
 \item{main.line}{Float: How many lines away from the plot region to draw 
-title. Default = .5}
+title.}
 
 \item{main.adj}{Float: How to align title. Default = 0 (left-align)}
 
