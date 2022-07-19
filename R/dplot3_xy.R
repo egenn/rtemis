@@ -107,8 +107,11 @@ dplot3_xy <- function(x, y = NULL,
             hovertext = NULL,
             width = NULL,
             height = NULL,
+            # config
             displayModeBar = TRUE,
             modeBar.file.format = "svg",
+            scrollZoom = TRUE,
+            # file out
             filename = NULL,
             file.width = 500,
             file.height = 500,
@@ -558,7 +561,6 @@ dplot3_xy <- function(x, y = NULL,
             range = xlim,
             automargin = automargin.x
         ),
-        # barmode = barmode,  # group works without actual groups too
         title = list(
             text = main,
             font = list(
@@ -579,27 +581,32 @@ dplot3_xy <- function(x, y = NULL,
 
     ## vline ----
     if (!is.null(vline)) {
-        plt <- plotly::layout(plt, shapes = plotly_vline(vline,
-            color = vline.col,
-            width = vline.width,
-            dash = vline.dash
+        plt <- plotly::layout(plt, 
+            shapes = plotly_vline(
+                vline,
+                color = vline.col,
+                width = vline.width,
+                dash = vline.dash
         ))
     }
 
     ## hline ----
     if (!is.null(hline)) {
-        plt <- plotly::layout(plt, shapes = plotly_hline(hline,
-            color = hline.col,
-            width = hline.width,
-            dash = hline.dash
+        plt <- plotly::layout(plt, 
+            shapes = plotly_hline(
+                hline,
+                color = hline.col,
+                width = hline.width,
+                dash = hline.dash
         ))
     }
 
     ## square ----
     if (axes.square) {
-        plt |> plotly::layout(yaxis = list(
-            scaleanchor = "x",
-            scaleratio = 1
+        plt |> plotly::layout(
+            yaxis = list(
+                scaleanchor = "x",
+                scaleratio = 1
         )) -> plt
     }
 
@@ -611,7 +618,8 @@ dplot3_xy <- function(x, y = NULL,
             format = modeBar.file.format,
             width = file.width,
             height = file.height
-        )
+        ),
+        scrollZoom = scrollZoom
     )
 
     # Write to file ----
