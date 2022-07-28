@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2020 E.D. Gennatas www.lambdamd.org
 
-#' Split where lines would minimize error
+#' Split where lines minimize error
 #'
 #'
 #' @author E.D. Gennatas

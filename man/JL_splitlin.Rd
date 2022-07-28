@@ -2,12 +2,12 @@
 % Please edit documentation in R/JL_splitlin.R
 \name{JL_splitlin}
 \alias{JL_splitlin}
-\title{Split where lines would minimize error}
+\title{Split where lines minimize error}
 \usage{
 JL_splitlin(x, y, wts = rep(1, length(y)), lambda = 0.1, verbose = TRUE)
 }
 \description{
-Split where lines would minimize error
+Split where lines minimize error
 }
 \author{
 E.D. Gennatas

@@ -57,10 +57,9 @@ over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
 \item{max.leaves}{Integer: Total number of terminal nodes to reach.
-1 is a special case where no split is performed and a linear model is trained.
-Otherwise, this should be an even number as each split introduces two children nodes.
-Note: this is total N of nodes in the tree, with the root uncounted,
-not the number of terminal nodes.}
+1 is a special case where no split is performed and a linear model is 
+trained. Otherwise, this should be an even number as each split introduces 
+two children nodes.}
 
 \item{lin.type}{Character: See \link{lincoef} for options}
 
@@ -78,8 +77,8 @@ belong to node get multiplied by this amount}
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
 \item{loss.fn}{Function with arguments \code{y, Fval }
-Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
-\code{mse()} for regression}
+Allows you to define a custom loss function. Defaults to \code{class.loss()} 
+for classification and \code{mse()} for regression}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -91,8 +90,10 @@ Allows you to define a custom loss function. Defaults to \code{class.loss()} for
 Train a Linear Additive Tree for Classification & Regression
 }
 \details{
-With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
-Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
+With \code{max.nodes = 0}, the output is a linear model trained according to 
+\code{lin.type}.
+Note that lambda is treated differently by \code{glmnet::glmnet} and 
+\code{MASS::lm.ridge}
 }
 \author{
 E.D. Gennatas

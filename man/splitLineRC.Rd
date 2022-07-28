@@ -40,4 +40,7 @@ Fit a linear model on (x, y) and split on the gradient
 Input: environment holding tree and index of node
 Output: None; Expands tree within environment g by splitting indexed node
 }
+\author{
+E.D. Gennatas
+}
 \keyword{internal}

@@ -8,18 +8,19 @@
 #'
 #' Train a Linear Additive Tree for Classification & Regression
 #'
-#' With \code{max.nodes = 0}, the output is a linear model trained according to \code{lin.type}
-#' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
+#' With \code{max.nodes = 0}, the output is a linear model trained according to 
+#' \code{lin.type}.
+#' Note that lambda is treated differently by \code{glmnet::glmnet} and 
+#' \code{MASS::lm.ridge}
 #' @inheritParams s_LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach.
-#' 1 is a special case where no split is performed and a linear model is trained.
-#' Otherwise, this should be an even number as each split introduces two children nodes.
-#' Note: this is total N of nodes in the tree, with the root uncounted,
-#' not the number of terminal nodes.
+#' 1 is a special case where no split is performed and a linear model is 
+#' trained. Otherwise, this should be an even number as each split introduces 
+#' two children nodes.
 #' @param loss.fn Function with arguments \code{y, Fval }
-#' Allows you to define a custom loss function. Defaults to \code{class.loss()} for classification
-#' \code{mse()} for regression
+#' Allows you to define a custom loss function. Defaults to \code{class.loss()} 
+#' for classification and \code{mse()} for regression
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -153,7 +154,7 @@ shytreegamleaves <- function(x, y,
     names(g$stepindex) <- paste(seq(max.leaves))
     g$stepindex$`1` <- 1
 
-    # Loop: step splitLine  ----
+    # Loop: step splitline  ----
     # Special case: max.leaves == 1 ----
     # return linear model
     if (max.leaves == 1) {
@@ -359,7 +360,7 @@ shytreegamleaves <- function(x, y,
             } else {
                 if (trace > 2) msg("Node #", i, " already processed", sep = "")
             }
-        } # /for (i in g$open) splitLine
+        } # /for (i in g$open) splitline
 
         if (length(g$tree) == 3) {
             if (trace > 1) msg("Tree length is", length(g$tree))
@@ -372,7 +373,7 @@ shytreegamleaves <- function(x, y,
             g$stepindex[["2"]] <- 2:3
             # g$steprules <- c(g$steprules, getStepRules(g, 2:3))
         } else {
-            # Nodes that did not split are removed from open by splitLine
+            # Nodes that did not split are removed from open by splitline
             if (trace > 1) msg("+++ g$open is", g$open)
             if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
 
@@ -605,6 +606,7 @@ setNodeRC <- function(g,
 #' @param tree Node within tree environment
 #' @param node.index Open nodes to work on
 #'
+#' @author E.D. Gennatas
 #' @keywords internal
 
 splitlineRC <- function(g,

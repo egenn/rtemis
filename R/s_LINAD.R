@@ -40,7 +40,7 @@ s_LINAD <- function(x, y = NULL,
                     upsample = FALSE,
                     downsample = FALSE,
                     resample.seed = NULL,
-                    max.leaves = 8,
+                    max.leaves = 20,
                     leaf.model = c("line", "spline"),
                     gamlearner = "gamsel",
                     gam.params = list(),  # use force.lambda to force gamsel over cv.gamsel
@@ -49,8 +49,9 @@ s_LINAD <- function(x, y = NULL,
                     lookback = TRUE, # requires cross-validation with gridSearchLearn
                     gamma = .5,
                     gamma.on.lin = FALSE,
-                    lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge",
-                                 "allSubsets", "backwardStepwise", "glm", "solve", "none"),
+                    lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", 
+                                 "lm.ridge", "allSubsets", "backwardStepwise", 
+                                 "glm", "solve", "none"),
                     single.lin.type = "glmnet",
                     cv.glmnet.nfolds = 5,
                     which.cv.glmnet.lambda = "lambda.min",
@@ -101,9 +102,14 @@ s_LINAD <- function(x, y = NULL,
     print(args(s_LINAD))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir)) {
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  }
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir, "/", sys.calls()[[1]][[1]], ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+    )
   } else {
     NULL
   }
@@ -153,8 +159,12 @@ s_LINAD <- function(x, y = NULL,
                                 part.cp,
                                 newline.pre = TRUE)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted)) {
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    }
+    if (is.null(plot.predicted)) {
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    }
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -195,7 +205,8 @@ s_LINAD <- function(x, y = NULL,
       gc <- gridCheck(learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
                       part.minsplit, part.minbucket, part.cp)
     } else {
-      # not recommended to cv max.leaves - use lookback instead; option likely will be removed
+      # not recommended to cv max.leaves - use lookback instead; 
+      # option likely will be removed
       gc <- gridCheck(learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
                       part.minsplit, part.minbucket, part.cp, max.leaves)
     }
@@ -331,7 +342,8 @@ s_LINAD <- function(x, y = NULL,
     levels <- paste0("'", cat_levels[[var]], "'")
     excl <- strsplit(gsub(".*\\(|\\)", "", conditions_fmtd[i]), ", ")[[1]]
     incl <- setdiff(levels, excl)
-    conditions_fmtd[i] <- gsub("%in%.*", paste("%in%", paste(incl, collapse = ", ")),
+    conditions_fmtd[i] <- gsub("%in%.*", 
+                               paste("%in%", paste(incl, collapse = ", ")),
                                conditions_fmtd[i])
   }
   conditions_fmtd <- gsub("%in%", "is", conditions_fmtd)
@@ -459,7 +471,10 @@ s_LINAD <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 
 } # rtemis:: s_LINAD
