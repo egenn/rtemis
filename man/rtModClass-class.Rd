@@ -41,14 +41,14 @@ R6 Class for \pkg{rtemis} Classification Models
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe"><a href='../../rtemis/html/rtMod.html#method-rtMod-describe'><code>rtemis::rtMod$describe()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot"><a href='../../rtemis/html/rtMod.html#method-rtMod-plot'><code>rtemis::rtMod$plot()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFitted'><code>rtemis::rtMod$plotFitted()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFittedPredicted'><code>rtemis::rtMod$plotFittedPredicted()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotPredicted'><code>rtemis::rtMod$plotPredicted()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotVarImp'><code>rtemis::rtMod$plotVarImp()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="print"><a href='../../rtemis/html/rtMod.html#method-rtMod-print'><code>rtemis::rtMod$print()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary"><a href='../../rtemis/html/rtMod.html#method-rtMod-summary'><code>rtemis::rtMod$summary()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="describe"><a href='../../rtemis/html/rtMod.html#method-rtMod-describe'><code>rtemis::rtMod$describe()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plot"><a href='../../rtemis/html/rtMod.html#method-rtMod-plot'><code>rtemis::rtMod$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFitted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFitted'><code>rtemis::rtMod$plotFitted()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotFittedPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotFittedPredicted'><code>rtemis::rtMod$plotFittedPredicted()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotPredicted"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotPredicted'><code>rtemis::rtMod$plotPredicted()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="plotVarImp"><a href='../../rtemis/html/rtMod.html#method-rtMod-plotVarImp'><code>rtemis::rtMod$plotVarImp()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="print"><a href='../../rtemis/html/rtMod.html#method-rtMod-print'><code>rtemis::rtMod$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtMod" data-id="summary"><a href='../../rtemis/html/rtMod.html#method-rtMod-summary'><code>rtemis::rtMod$summary()</code></a></span></li>
 </ul>
 </details>
 }}

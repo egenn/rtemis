@@ -78,6 +78,7 @@ dplot3_xy(
   height = NULL,
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
+  scrollZoom = TRUE,
   filename = NULL,
   file.width = 500,
   file.height = 500,

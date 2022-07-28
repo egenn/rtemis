@@ -7,8 +7,7 @@
 d_MDS(
   x,
   k = 2,
-  dist.method = c("euclidean", "maximum", "manhattan", "canberra", "binary",
-    "minkowski"),
+  dist.method = c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski"),
   eig = FALSE,
   add = FALSE,
   x.ret = FALSE,

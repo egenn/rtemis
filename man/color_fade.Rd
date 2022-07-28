@@ -2,22 +2,23 @@
 % Please edit documentation in R/colorOps.R
 \name{color_fade}
 \alias{color_fade}
-\title{Fade color to black or white}
+\title{Fade color towards target}
 \usage{
-color_fade(x, add = -0.2, mul = 1)
+color_fade(x, to = "#000000", pct = 0.5)
 }
 \arguments{
-\item{x}{Color input}
+\item{x}{Color source}
 
-\item{add}{Numeric [0, 1]: Add this number to each RGB channel}
+\item{to}{Target color}
 
-\item{mul}{Numeric: Multiply each RGB channel by this number}
+\item{pct}{Numeric (0, 1) fraction of the distance in RGBA space between
+\code{x} and \code{to} to move. e.g. .5 gets the mean RGBA value of the two}
 }
 \value{
 Color in hex notation
 }
 \description{
-Fade color to black or white
+Fade color towards target
 }
 \author{
 E.D. Gennatas

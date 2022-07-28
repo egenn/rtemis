@@ -8,37 +8,49 @@ dplot3_prot1(
   x,
   group = NULL,
   motif = NULL,
-  n.per.row = 20,
+  ptm = NULL,
+  n.per.row = NULL,
   main = NULL,
   main.xy = c(0.055, 0.975),
   main.xref = "paper",
   main.yref = "paper",
   main.xanchor = "middle",
   main.yanchor = "top",
-  layout = c("1curve", "grid"),
+  layout = c("simple", "grid", "1curve", "2curve"),
   show.markers = TRUE,
   show.text = TRUE,
   font.size = 11,
   text.col = NULL,
   scatter.mode = "markers+lines",
-  marker.size = 20,
-  marker.col = "gray18",
+  marker.size = 26,
+  marker.col = NULL,
   marker.alpha = 1,
   marker.symbol = "circle",
   marker.hoverinfo = "text",
-  line.col = "gray18",
+  line.col = NULL,
   line.alpha = 1,
   line.width = 2,
   show.full.names = FALSE,
   motif.scatter.mode = "markers+lines",
-  motif.style = 1,
+  motif.style = 3,
   motif.marker.size = marker.size,
   motif.marker.alpha = 0.6,
   motif.marker.symbol = "circle",
-  motif.line.width = 6,
+  motif.line.dash = "solid",
+  motif.line.shape = "line",
+  motif.line.smoothing = 1,
+  motif.line.width = 1,
   motif.line.alpha = 0.6,
   theme = rtTheme,
   motif.palette = rtPalette,
+  motif.outline.only = FALSE,
+  motif.outline.pad = 2,
+  motif.pad = 0.45,
+  motif.fill.alpha = 0.1666666,
+  motif.fill.shape = "line",
+  motif.fill.smoothing = 1,
+  bpadcx = 0.5,
+  bpadcy = 0.5,
   group.marker.size = marker.size,
   group.marker.symbol = marker.symbol,
   group.marker.alpha = 1,
@@ -47,6 +59,15 @@ dplot3_prot1(
   disease.variants = NULL,
   text.group = NULL,
   text.group.palette = c(theme$fg, "red"),
+  showlegend.ptm = TRUE,
+  ptm.col = 2:10,
+  ptm.symbol = "circle",
+  ptm.offset = 0.2,
+  ptm.pad = 0.1,
+  ptm.marker.size = marker.size/4,
+  annotate.position.every = 10,
+  annotate.position.alpha = 0.5,
+  annotate.position.ay = -0.4 * marker.size,
   legend.xy = c(0.97, 0.954),
   legend.xanchor = "left",
   legend.yanchor = "top",
@@ -57,18 +78,24 @@ dplot3_prot1(
   legend.borderwidth = 0,
   legend.group.gap = 0,
   margin = list(b = 0, l = 0, t = 0, r = 0, pad = 0),
+  showgrid.x = FALSE,
+  showgrid.y = FALSE,
   automargin.x = TRUE,
   automargin.y = TRUE,
   xaxis.autorange = TRUE,
   yaxis.autorange = "reversed",
+  scaleanchor.y = "x",
+  scaleratio.y = 1,
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
+  scrollZoom = TRUE,
   filename = NULL,
   file.width = 500,
   file.height = 500,
   file.scale = 1,
   width = NULL,
   height = NULL,
+  trace = 0,
   ...
 )
 }
@@ -78,7 +105,7 @@ dplot3_prot1(
 \item{group}{Named list of lists with indices of groups. These will be
 highlighted by coloring the border of markers}
 
-\item{motif}{Named list of lists with indices of motifs. These will be 
+\item{motif}{Named list of lists with indices of motifs. These will be
 highlighted by coloring the markers and lines of motifs using the
 \code{palette} colors}
 
@@ -103,7 +130,7 @@ middle}
 
 \item{show.markers}{Logical: If TRUE, show amino acid markers}
 
-\item{show.text}{Logical: If TRUE, annotate amino acids with elements 
+\item{show.text}{Logical: If TRUE, annotate amino acids with elements
 from input \code{x}}
 }
 \description{
@@ -112,9 +139,11 @@ Plot the primary amino acid sequence of a protein
 \examples{
 \dontrun{
 tau <- seqinr::read.fasta("https://rest.uniprot.org/uniprotkb/P10636.fasta",
-                          seqtype = "AA")
+    seqtype = "AA"
+)
 dplot3_prot1(as.character(tau[[1]]))
 }
+
 }
 \author{
 E.D. Gennatas

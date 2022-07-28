@@ -44,12 +44,12 @@ E.D. Gennatas
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="describe"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-describe'><code>rtemis::rtModCV$describe()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plot"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plot'><code>rtemis::rtModCV$plot()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotFitted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotFitted'><code>rtemis::rtModCV$plotFitted()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotPredicted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotPredicted'><code>rtemis::rtModCV$plotPredicted()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotVarImp"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotVarImp'><code>rtemis::rtModCV$plotVarImp()</code></a></li>
-<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="print"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-print'><code>rtemis::rtModCV$print()</code></a></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="describe"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-describe'><code>rtemis::rtModCV$describe()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plot"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plot'><code>rtemis::rtModCV$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotFitted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotFitted'><code>rtemis::rtModCV$plotFitted()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotPredicted"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotPredicted'><code>rtemis::rtModCV$plotPredicted()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="plotVarImp"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-plotVarImp'><code>rtemis::rtModCV$plotVarImp()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="rtemis" data-topic="rtModCV" data-id="print"><a href='../../rtemis/html/rtModCV.html#method-rtModCV-print'><code>rtemis::rtModCV$print()</code></a></span></li>
 </ul>
 </details>
 }}
