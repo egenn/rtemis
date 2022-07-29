@@ -15,7 +15,7 @@ s_LINAD(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  max.leaves = 8,
+  max.leaves = 20,
   leaf.model = c("line", "spline"),
   gamlearner = "gamsel",
   gam.params = list(),
