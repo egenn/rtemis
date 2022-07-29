@@ -1,4 +1,4 @@
-# dplot3_prot1
+# dplot3_protein
 
 #' Plot the primary amino acid sequence of a protein
 #'
@@ -30,114 +30,118 @@
 #' tau <- seqinr::read.fasta("https://rest.uniprot.org/uniprotkb/P10636.fasta",
 #'     seqtype = "AA"
 #' )
-#' dplot3_prot1(as.character(tau[[1]]))
+#' dplot3_protein(as.character(tau[[1]]))
 #' }
 #'
-dplot3_prot1 <- function(x,
-                         group = NULL,
-                         motif = NULL,
-                         ptm = NULL,
-                         n.per.row = NULL,
-                         main = NULL,
-                         main.xy = c(0.055, .975),
-                         main.xref = "paper",
-                         main.yref = "paper",
-                         main.xanchor = "middle",
-                         main.yanchor = "top",
-                         layout = c("simple", "grid", "1curve", "2curve"),
-                         show.markers = TRUE,
-                         show.text = TRUE,
-                         font.size = 11,
-                         text.col = NULL,
-                         scatter.mode = "markers+lines",
-                         # AA marker
-                         marker.size = 26,
-                         marker.col = NULL, #"gray18",
-                         marker.alpha = 1,
-                         marker.symbol = "circle",
-                         marker.hoverinfo = "text",
-                         # AA line
-                         line.col = NULL, #"gray18",
-                         line.alpha = 1,
-                         line.width = 2,
-                         # Hover names
-                         show.full.names = FALSE,
-                         # Motifs
-                         motif.scatter.mode = "markers+lines",
-                         motif.style = 3,
-                         motif.marker.size = marker.size,
-                         motif.marker.alpha = .6,
-                         motif.marker.symbol = "circle",
-                         motif.line.dash = "solid",
-                         motif.line.shape = "line",
-                         motif.line.smoothing = 1,
-                         motif.line.width = 1,
-                         motif.line.alpha = .6,
-                         theme = rtTheme,
-                         motif.palette = rtPalette,
-                         motif.outline.only = FALSE,
-                         motif.outline.pad = 2, # for fake polys
-                         motif.pad = .45, # for real polys
-                         motif.fill.alpha = .1666666,
-                         motif.fill.shape = "line",
-                         motif.fill.smoothing = 1,
-                         bpadcx = .5,
-                         bpadcy = .5,
-                         # Groups
-                         group.marker.size = marker.size,
-                         group.marker.symbol = marker.symbol,
-                         group.marker.alpha = 1,
-                         group.border.width = 1,
-                         group.palette = rtPalette,
-                         # Text groups
-                         disease.variants = NULL,
-                         text.group = NULL,
-                         text.group.palette = c(theme$fg, "red"),
-                         # PTMs
-                         showlegend.ptm = TRUE,
-                         ptm.col = 2:10,
-                         ptm.symbol = "circle",
-                         ptm.offset = .2,
-                         ptm.pad = .1,
-                         ptm.marker.size = marker.size/4,
-                         # Position annotations
-                         annotate.position.every = 10,
-                         annotate.position.alpha = .5,
-                         annotate.position.ay = -.4 * marker.size,
-                         # Legend
-                         legend.xy = c(.97, .954),
-                         legend.xanchor = "left",
-                         legend.yanchor = "top",
-                         legend.orientation = "v",
-                         legend.col = NULL,
-                         legend.bg = "#FFFFFF00",
-                         legend.border.col = "#FFFFFF00",
-                         legend.borderwidth = 0,
-                         legend.group.gap = 0,
-                         margin = list(b = 0, l = 0, t = 0, r = 0, pad = 0),
-                         # Axes
-                         showgrid.x = FALSE,
-                         showgrid.y = FALSE,
-                         automargin.x = TRUE,
-                         automargin.y = TRUE,
-                         xaxis.autorange = TRUE,
-                         yaxis.autorange = "reversed",
-                         scaleanchor.y = "x",
-                         scaleratio.y = 1,
-                         # config
-                         displayModeBar = TRUE,
-                         modeBar.file.format = "svg",
-                         scrollZoom = TRUE,
-                         # file out
-                         filename = NULL,
-                         file.width = 500,
-                         file.height = 500,
-                         file.scale = 1,
-                         width = NULL,
-                         height = NULL,
-                         trace = 0, ...) {
+dplot3_protein <- function(x,
+                           group = NULL,
+                           motif = NULL,
+                           ptm = NULL,
+                           n.per.row = NULL,
+                           main = NULL,
+                           main.xy = c(0.055, .975),
+                           main.xref = "paper",
+                           main.yref = "paper",
+                           main.xanchor = "middle",
+                           main.yanchor = "top",
+                           layout = c("simple", "grid", "1curve", "2curve"),
+                           show.markers = TRUE,
+                           show.text = TRUE,
+                           font.size = 11,
+                           text.col = NULL,
+                           scatter.mode = "markers+lines",
+                           # AA marker
+                           marker.size = 26,
+                           marker.col = NULL, #"gray18",
+                           marker.alpha = 1,
+                           marker.symbol = "circle",
+                           marker.hoverinfo = "text",
+                           # AA line
+                           line.col = NULL, #"gray18",
+                           line.alpha = 1,
+                           line.width = 2,
+                           # Hover names
+                           show.full.names = FALSE,
+                           # Motifs
+                           motif.scatter.mode = "markers+lines",
+                           motif.style = 3,
+                           motif.marker.size = marker.size,
+                           motif.marker.alpha = .6,
+                           motif.marker.symbol = "circle",
+                           motif.line.dash = "solid",
+                           motif.line.shape = "line",
+                           motif.line.smoothing = 1,
+                           motif.line.width = 1,
+                           motif.line.alpha = .6,
+                           theme = rtTheme,
+                           motif.palette = rtPalette,
+                           motif.outline.only = FALSE,
+                           motif.outline.pad = 2, # for fake polys
+                           motif.pad = .45, # for real polys
+                           motif.fill.alpha = .1666666,
+                           motif.fill.shape = "line",
+                           motif.fill.smoothing = 1,
+                           bpadcx = .5,
+                           bpadcy = .5,
+                           # Groups
+                           group.marker.size = marker.size,
+                           group.marker.symbol = marker.symbol,
+                           group.marker.alpha = 1,
+                           group.border.width = 1,
+                           group.palette = rtPalette,
+                           # Text groups
+                           disease.variants = NULL,
+                           text.group = NULL,
+                           text.group.palette = c(theme$fg, "red"),
+                           # PTMs
+                           showlegend.ptm = TRUE,
+                           ptm.col = 2:10,
+                           ptm.symbol = "circle",
+                           ptm.offset = .2,
+                           ptm.pad = .1,
+                           ptm.marker.size = marker.size/4,
+                           # Position annotations
+                           annotate.position.every = 10,
+                           annotate.position.alpha = .5,
+                           annotate.position.ay = -.4 * marker.size,
+                           # Legend
+                           legend.xy = c(.97, .954),
+                           legend.xanchor = "left",
+                           legend.yanchor = "top",
+                           legend.orientation = "v",
+                           legend.col = NULL,
+                           legend.bg = "#FFFFFF00",
+                           legend.border.col = "#FFFFFF00",
+                           legend.borderwidth = 0,
+                           legend.group.gap = 0,
+                           margin = list(b = 0, l = 0, t = 0, r = 0, pad = 0),
+                           # Axes
+                           showgrid.x = FALSE,
+                           showgrid.y = FALSE,
+                           automargin.x = TRUE,
+                           automargin.y = TRUE,
+                           xaxis.autorange = TRUE,
+                           yaxis.autorange = "reversed",
+                           scaleanchor.y = "x",
+                           scaleratio.y = 1,
+                           # config
+                           displayModeBar = TRUE,
+                           modeBar.file.format = "svg",
+                           scrollZoom = TRUE,
+                           # file out
+                           filename = NULL,
+                           file.width = 500,
+                           file.height = 500,
+                           file.scale = 1,
+                           width = NULL,
+                           height = NULL,
+                           verbose = TRUE,
+                           trace = 0, ...) {
 
     # Data ----
+    if (length(x) == 1) {
+        x <- uniprot_get(x, verbose = verbose)[["Sequence"]]
+    }
     x <- toupper(x)
     position <- seq_along(x)
     n <- length(x)
@@ -656,10 +660,11 @@ dplot3_prot1 <- function(x,
             height = file.height,
             scale = file.scale
         )
+
     }
 
     plt
-} # rtemis::dplot3_prot1
+} # rtemis::dplot3_protein
 
 aa <- data.frame(
     Abbreviation1 = c(
