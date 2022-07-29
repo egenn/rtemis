@@ -1,12 +1,15 @@
-# elevate.R
+# elevate1.R
 # ::rtemis::
-# 2016-22 E.D. Gennatas www.lambdamd.org
+# 2016-8 E.D. Gennatas www.lambdamd.org
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
 #' \code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
 #' by nested resampling, with optional preprocessing and decomposition of input features
 #'
+#' This is the old elevate function maintained here for compatibility with 
+#' older projects.
+#' 
 #' - Note on resampling: You can never use an outer resampling method with replacement
 #' if you will also be using an inner resampling (for tuning).
 #' The duplicated cases from the outer resampling may appear both in the training and
@@ -15,7 +18,6 @@
 #' - If there is an error while running either the outer or inner resamples in parallel, the error
 #' message returned by R will likely be unhelpful. Repeat the command after setting both inner
 #' and outer resample run to use a single core, which should provide an informative message.
-#' 
 #' @inheritParams s_GLM
 #' @inheritParams resample
 #' @param mod Character: Learner to use. Options: \link{modSelect}
@@ -25,6 +27,17 @@
 #' \link{rtset.preprocess}, e.g. \code{decom = rtset.preprocess(impute = TRUE)}
 #' @param .decompose Optional named list of parameters to be used for decomposition / dimensionality
 #' reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}
+#' @param .resample Optional named list of parameters to be passed to \link{resample}.
+#' NOTE: If set, this takes precedence over setting the individual resampling arguments
+#' @param res.index List where each element is a vector of training set indices. Use this for manual or
+#' precalculated train/test splits
+#' @param res.group Integer, vector, length = length(y): Integer vector, where numbers define fold membership.
+#' e.g. for 10-fold on a dataset with 1000 cases, you could use group = rep(1:10, each = 100)
+#' @param n.repeats Integer: Number of times the external resample should be repeated. This allows you to do,
+#' for example, 10 times 10-fold crossvalidation. Default = 1. In most cases it makes sense to use 1 repeat of
+#' many resamples, e.g. 25 stratified subsamples,
+#' @param stratify.var Numeric vector: Used to stratify external sampling (if applicable)
+#'   Defaults to outcome \code{y}
 #' @param x.name Character: Name of predictor dataset
 #' @param y.name Character: Name of outcome
 # #' @param save.data Logical: Save train, test, fitted, and predicted data for each resample.
@@ -52,6 +65,7 @@
 #' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of \code{outdir}
+#' @param backend (For testing use only)
 #' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}
 #' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
@@ -92,21 +106,23 @@
 #' }
 #' @export
 
-elevate <- function(x, y = NULL,
+elevate1 <- function(x, y = NULL,
                     mod = "ranger",
                     mod.params = list(),
                     .preprocess = NULL,
                     .decompose = NULL,
+                    .resample = NULL,
                     weights = NULL,
+                    resampler = "strat.sub",
+                    n.resamples = 10,
                     n.repeats = 1,
-                    outer.resampling = rtset.resample(
-                        resampler = "strat.sub",
-                        n.resamples = 10,
-                    ),
-                    inner.resampling = rtset.resample(
-                        resampler = "kfold",
-                        n.resamples = 5
-                    ),
+                    stratify.var = NULL,
+                    train.p = .8,
+                    strat.n.bins = 4,
+                    target.length = NULL,
+                    seed = NULL,
+                    res.index = NULL,
+                    res.group = NULL,
                     bag.fn = median,
                     x.name = NULL,
                     y.name = NULL,
@@ -114,6 +130,7 @@ elevate <- function(x, y = NULL,
                     save.tune = TRUE,
                     bag.fitted = FALSE,
                     outer.n.workers = 1,
+                    parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                     print.plot = TRUE,
                     plot.fitted = FALSE,
                     plot.predicted = TRUE,
@@ -129,6 +146,7 @@ elevate <- function(x, y = NULL,
                     save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
                     save.mod = TRUE,
                     save.res = FALSE,
+                    backend = "future",
                     debug = FALSE, ...) {
 
     # Intro ----
@@ -164,7 +182,16 @@ elevate <- function(x, y = NULL,
     start.time <- intro(verbose = verbose, logFile = logFile)
 
     # Dependencies ----
-    dependency_check(c("future", "plyr"))
+    dependency_check("plyr")
+    if (backend == "future") {
+        dependency_check("future")
+    } else {
+        dependency_check("pbapply")
+        if (.Platform$OS.type == "windows" & parallel.type == "fork") {
+            warning("Forking is not possible in Windows, using PSOCK cluster instead")
+            parallel.type <- "psock"
+        }
+    }
 
     # Arguments ----
     # Allow elevate(df, "mod")
@@ -183,12 +210,20 @@ elevate <- function(x, y = NULL,
     # If learner is multicore, run CV in series
     # Note: for mod "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
+    # Override all resampler arguments if .resample given
+    if (!is.null(.resample)) {
+        resampler <- .resample$resampler
+        n.resamples <- .resample$n.resamples
+        stratify.var <- .resample$stratify.var
+        train.p <- .resample$train.p
+        strat.n.bins <- .resample$strat.n.bins
+        target.length <- .resample$target.length
+        seed <- .resample$seed
+    }
+
     # Combine mod.params with (...)
-    mod.params <- c(
-        mod.params, 
-        list(...),
-        list(grid.resample.rtset = inner.resampling)
-    )
+    extraArgs <- list(...)
+    mod.params <- c(mod.params, extraArgs)
 
     if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
@@ -233,30 +268,39 @@ elevate <- function(x, y = NULL,
     }
 
     # resLearn: Outer resamples ----
-    # resample.rtset <- list(
-    #     resampler = resampler,
-    #     n.resamples = n.resamples,
-    #     stratify.var = stratify.var,
-    #     train.p = train.p,
-    #     strat.n.bins = strat.n.bins,
-    #     target.length = target.length,
-    #     seed = seed,
-    #     group = res.group,
-    #     index = res.index
-    # )
+    resample.rtset <- list(
+        resampler = resampler,
+        n.resamples = n.resamples,
+        stratify.var = stratify.var,
+        train.p = train.p,
+        strat.n.bins = strat.n.bins,
+        target.length = target.length,
+        seed = seed,
+        group = res.group,
+        index = res.index
+    )
     if (outer.n.workers > 1) print.res.plot <- FALSE
     if (!is.null(logFile) & trace < 2) sink() # pause writing to file
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
     if (trace > 1) msg("Starting resLearn")
+    resLearn <- if (backend == "future") resLearn_future else resLearn
+
+    if (verbose) {
+        if (backend == "future") {
+            msg("Using future framework")
+        } else {
+            msg("Using pbapply")
+        }
+    }
 
     # Loop through repeats (this is often set to one)
     for (i in seq(n.repeats)) {
-        res.run[[i]] <- resLearn_future(
+        res.run[[i]] <- resLearn(
             x = x, y = y,
             mod = mod.name,
-            resample.rtset = outer.resampling,
+            resample.rtset = resample.rtset,
             weights = weights,
             params = mod.params,
             .preprocess = .preprocess,
@@ -576,17 +620,6 @@ elevate <- function(x, y = NULL,
         .vi
     })
 
-
-    resampler.params <- list(
-                resampler = outer.resampling$resampler,
-                n.resamples = outer.resampling$n.resamples,
-                stratify.var = outer.resampling$stratify.var,
-                train.p = outer.resampling$train.p,
-                strat.n.bins = outer.resampling$strat.n.bins,
-                target.length = outer.resampling$target.length,
-                seed = outer.resampling$seed
-            )
-
     if (type == "Classification") {
         rt <- rtModCVClass$new(
             mod = mods,
@@ -603,7 +636,15 @@ elevate <- function(x, y = NULL,
                 best.tune = best.tune
             ),
             n.repeats = n.repeats,
-            resampler.params = resampler.params,
+            resampler.params = list(
+                resampler = resampler,
+                n.resamples = n.resamples,
+                stratify.var = stratify.var,
+                train.p = train.p,
+                strat.n.bins = strat.n.bins,
+                target.length = target.length,
+                seed = seed
+            ),
             resamples = res,
             y.train.res = y.train.res,
             y.train.res.aggr = y.train.res.aggr,
@@ -650,7 +691,15 @@ elevate <- function(x, y = NULL,
                 best.tune = best.tune
             ),
             n.repeats = n.repeats,
-            resampler.params = resampler.params,
+            resampler.params = list(
+                resampler = resampler,
+                n.resamples = n.resamples,
+                stratify.var = stratify.var,
+                train.p = train.p,
+                strat.n.bins = strat.n.bins,
+                target.length = target.length,
+                seed = seed
+            ),
             resamples = res,
             y.train.res = y.train.res,
             y.train.res.aggr = y.train.res.aggr,
