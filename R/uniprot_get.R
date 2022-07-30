@@ -23,14 +23,15 @@ uniprot_get <- function(accession = "Q9UMX9",
     
     path <- paste0(baseURL, "/", accession, ".fasta")
     dat <- seqinr::read.fasta(path, seqtype = "AA")
-    Identifier
-    Description <- attr(dat[[1]], "Annot")
+    Annotation <- attr(dat[[1]], "Annot")
+    Identifier <- gsub(" .*", "", Annotation)
     if (verbose) {
-        msg("Got:", crayon::cyan(Description))
+        msg("Got:", crayon::cyan(Annotation))
     }
     
     list(
-        Annotation = annot,
+        Identifier = Identifier,
+        Annotation = Annotation,
         Sequence = as.character(dat[[1]])
     )
 } # rtemis::uniprot_get

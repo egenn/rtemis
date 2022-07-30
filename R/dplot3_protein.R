@@ -32,6 +32,8 @@
 #' )
 #' dplot3_protein(as.character(tau[[1]]))
 #' }
+#' # or directly using the UniProt accession number:
+#' dplot3_protein("P10636")
 #'
 dplot3_protein <- function(x,
                            group = NULL,
@@ -140,7 +142,9 @@ dplot3_protein <- function(x,
 
     # Data ----
     if (length(x) == 1) {
-        x <- uniprot_get(x, verbose = verbose)[["Sequence"]]
+        dat <- uniprot_get(x, verbose = verbose)
+        x <- dat[["Sequence"]]
+        if (is.null(main)) main <- dat[["Identifier"]]
     }
     x <- toupper(x)
     position <- seq_along(x)
