@@ -224,7 +224,7 @@ shytreegamleaves <- function(x, y,
         )
         class(.mod) <- c("shytreegamleaves", "list")
         return(.mod)
-    }
+    } # / if (max.leaves == 1)
 
     if (.class) {
         # Classification
@@ -274,7 +274,7 @@ shytreegamleaves <- function(x, y,
     g$n.leaves <- 1 # ddlt
     linVal <- c(g$xm %*% coef) # n
 
-    if (.class & .rho) {
+    if (.class && .rho && lin.type != "none") {
         firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
         secDer.rho <- t((4 * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
         rho <- -firstDer.rho / secDer.rho
@@ -915,7 +915,7 @@ splitlineRC <- function(g,
                 linVal.left <- c(g$xm %*% linCoef.left)
 
                 # Lin Updates, Left ----
-                if (.class & g$.rho) {
+                if (.class && g$.rho && lin.type != "none") {
                     firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.left)[1]
                     secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
                     rho.left <- -firstDer.rho.left / secDer.rho.left
@@ -1110,7 +1110,10 @@ predict.shytreegamleaves <- function(object, newdata,
                 }
             } else {
                 # No gamleaves
-                coefs <- lapply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE])
+                coefs <- lapply(
+                    rule.ids,
+                    \(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE]
+                )
                 coefs <- data.matrix(do.call(rbind, coefs))
                 .cxrcoef <- .cxr %*% coefs
                 # '-- yhat ----
@@ -1132,7 +1135,7 @@ predict.shytreegamleaves <- function(object, newdata,
             } else if (type == "all") {
                 prob <- exp(2 * yhat) / (1 + exp(2 * yhat))
                 estimate <- sign(yhat)
-                estimate <- factor(estimate, levels = c(-1, 1))
+                estimate <- factor(estimate, levels = c(1, -1))
                 # check when levels should be reversed
                 levels(estimate) <- object$ylevels
                 out <- list(estimate = estimate, probability = prob)
