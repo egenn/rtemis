@@ -73,7 +73,7 @@ rtemis.version <- packageVersion("rtemis")
                 text.y = 2,
                 text.adj = c(0, 0),
                 text.col = col,
-                text.cex = 1.2,
+                text.cex = 1,
                 shadow = seq(.9, .96, length = n^2),
                 col_lo = "#00000040",
                 col_hi = col,
