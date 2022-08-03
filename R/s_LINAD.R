@@ -13,14 +13,25 @@
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
 #' @inheritParams s_GLM
-#' @param max.leaves Integer: Maximum number of terminal nodes to grow
+#' @param max.leaves Integer: Maximum number of terminal nodes to grow. Setting
+#' this to a value > 1, triggers cross-validation to find best number of leaves.
+#' To force a given number of leaves and not cross-validate, set 
+#' \code{force.max.leaves} to any (integer) value.
+#' @param force.max.leaves Integer: If set, \code{max.leaves} is ignored and
+#' the tree will attempt to reach this number of leaves, without performing
+#' tuning number of leaves.
+#' @param learning.rate Numeric: learning rate for steps after initial
+#' linear model
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 #' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
 #' @param lookback Logical: If TRUE, check validation error to decide best number of leaves to use.
 #' Default = TRUE
-#' @param lin.type Character: See \link{lincoef} for options
-#' @param single.lin.type Character same options as \code{lin.type}, linear model to fit when
-#' \code{max.leaves = 1}
+#' @param lin.type Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
+#' "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
+#' to not fit linear models
+#' See \link{lincoef} for more
+#' @param single.lin.type Character: same options as \code{lin.type}, linear 
+#' model to fit when \code{max.leaves = 1}
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param gamma Numeric: Soft weighting parameter. Weights of cases that do not
 #' belong to node get multiplied by this amount 
@@ -35,17 +46,18 @@
 s_LINAD <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     weights = NULL,
+                    max.leaves = 20,
+                    force.max.leaves = NULL,
+                    learning.rate = .5,
                     ipw = TRUE,
                     ipw.type = 1,
                     upsample = FALSE,
                     downsample = FALSE,
                     resample.seed = NULL,
-                    max.leaves = 20,
                     leaf.model = c("line", "spline"),
                     gamlearner = "gamsel",
                     gam.params = list(),  # use force.lambda to force gamsel over cv.gamsel
                     nvmax = 3,
-                    force.max.leaves = NULL,
                     lookback = TRUE, # requires cross-validation with gridSearchLearn
                     gamma = .5,
                     gamma.on.lin = FALSE,
@@ -59,7 +71,7 @@ s_LINAD <- function(x, y = NULL,
                     lambda = .05,
                     lambda.seq = NULL,
                     minobsinnode.lin = 10,
-                    learning.rate =.5,
+                    
                     # rpart
                     part.minsplit = 2,
                     part.xval = 0,
@@ -74,7 +86,6 @@ s_LINAD <- function(x, y = NULL,
                     grid.resample.rtset = rtset.resample("kfold", 5),
                     grid.search.type = "exhaustive",
                     save.gridrun = FALSE,
-                    grid.verbose = verbose,
                     select.leaves.smooth = TRUE,
                     cluster = FALSE,
                     keep.x = FALSE,
@@ -83,6 +94,7 @@ s_LINAD <- function(x, y = NULL,
                     n.cores = rtCores,
                     .preprocess = NULL,
                     verbose = TRUE,
+                    grid.verbose = FALSE,
                     plot.tuning = TRUE,
                     verbose.predict = FALSE,
                     trace = 1,
@@ -251,7 +263,7 @@ s_LINAD <- function(x, y = NULL,
                           metric = metric,
                           maximize = maximize,
                           save.mod = save.gridrun,
-                          verbose = verbose,
+                          verbose = grid.verbose,
                           grid.verbose = grid.verbose,
                           n.cores = n.cores)
 
