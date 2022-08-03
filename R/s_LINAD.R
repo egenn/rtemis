@@ -30,8 +30,8 @@
 #' "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 #' to not fit linear models
 #' See \link{lincoef} for more
-#' @param single.lin.type Character: same options as \code{lin.type}, linear 
-#' model to fit when \code{max.leaves = 1}
+#' @param first.lin.type Character: same options as \code{lin.type}, the first
+#' linear model to fit on the root node.
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param gamma Numeric: Soft weighting parameter. Weights of cases that do not
 #' belong to node get multiplied by this amount 
@@ -64,7 +64,7 @@ s_LINAD <- function(x, y = NULL,
                     lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", 
                                  "lm.ridge", "allSubsets", "backwardStepwise", 
                                  "glm", "solve", "none"),
-                    single.lin.type = "glmnet",
+                    first.lin.type = "glmnet",
                     cv.glmnet.nfolds = 5,
                     which.cv.glmnet.lambda = "lambda.min",
                     alpha = 1,
@@ -329,7 +329,7 @@ s_LINAD <- function(x, y = NULL,
                           rho.max = rho.max,
                           weights = .weights,
                           lin.type = lin.type,
-                          single.lin.type = single.lin.type,
+                          first.lin.type = first.lin.type,
                           cv.glmnet.nfolds = cv.glmnet.nfolds,
                           which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                           select.leaves.smooth = select.leaves.smooth,

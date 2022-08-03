@@ -27,7 +27,7 @@ s_LINAD(
   gamma.on.lin = FALSE,
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
-  single.lin.type = "glmnet",
+  first.lin.type = "glmnet",
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   alpha = 1,
@@ -128,8 +128,8 @@ belong to node get multiplied by this amount}
 to not fit linear models
 See \link{lincoef} for more}
 
-\item{single.lin.type}{Character: same options as \code{lin.type}, linear 
-model to fit when \code{max.leaves = 1}}
+\item{first.lin.type}{Character: same options as \code{lin.type}, the first
+linear model to fit on the root node.}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
