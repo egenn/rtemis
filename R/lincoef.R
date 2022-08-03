@@ -27,22 +27,30 @@
 #'  \item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
 #' }
 #' @param type Character: "Regression", "Classification", or "Survival"
-#' @param alpha Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0
-#' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
-#' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for prediction. Training uses
-#' \code{lambda.seq}. Default = .01
-#' @param lambda.seq Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL
+#' @param learning.rate Numeric: Coefficients will be multiplied by this number
+#' @param alpha Float: \code{alpha} for method = \code{glmnet} or 
+#' \code{cv.glmnet}.
+#' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, 
+#' \code{lm.ridge}
+#' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for 
+#' prediction. Training uses \code{lambda.seq}.
+#' @param lambda.seq Float, vector: lambda sequence for \code{glmnet} and 
+#' \code{cv.glmnet}. 
 #' @param cv.glmnet.nfolds Integer: Number of folds for \code{cv.glmnet}
-#' @param which.cv.glmnet.lambda Character: Whitch lambda to pick from cv.glmnet:
-#' "lambda.min": Lambda that gives minimum cross-validated error;
-#' @param nbest Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1
-#' @param nvmax Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.
-#' @param sgd.model Character: Model to use for \code{method = "sgd"}. Default = "glm"
-#' @param sgd.model.control List: \code{model.control} list to pass to \code{sgd::sgd}
+#' @param which.cv.glmnet.lambda Character: Whitch lambda to pick from 
+#' cv.glmnet: "lambda.min": Lambda that gives minimum cross-validated error;
+#' @param nbest Integer: For \code{method = "allSubsets"}, number of subsets of 
+#' each size to record. Default = 1
+#' @param nvmax Integer: For \code{method = "allSubsets"}, maximum number of 
+#' subsets to examine.
+#' @param sgd.model Character: Model to use for \code{method = "sgd"}.
+#' @param sgd.model.control List: \code{model.control} list to pass to 
+#' \code{sgd::sgd}
 #' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
 # #' @param ... Additional parameters to pass to \code{leaps::regsubsets}
 #' "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.
 #' @param trace Integer: If set to zero, all warnings are ignored
+#' 
 #' @return Named numeric vector of linear coefficients
 #' @export
 #' @author E.D. Gennatas
@@ -51,6 +59,7 @@ lincoef <- function(x, y,
                     weights = NULL,
                     method = "glmnet",
                     type = c("Regression", "Classification", "Survival"),
+                    learning.rate = 1,
                     alpha = 1,
                     lambda = .05,
                     lambda.seq = NULL,
@@ -176,6 +185,6 @@ lincoef <- function(x, y,
     names(coef) <- c("(Intercept)", colnames(x))
   }
 
-  coef
+  learning.rate * coef
 
 } # rtemis::lincoef
