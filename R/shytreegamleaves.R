@@ -1,4 +1,4 @@
-# shytreegamleaves.R
+# linadleaves.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 # g$n.nodes
@@ -25,8 +25,8 @@
 #' @author E.D. Gennatas
 #' @keywords internal
 
-# [[---1. shytreegamleaves---]] ----
-shytreegamleaves <- function(x, y,
+# [[---1. linadleaves---]] ----
+linadleaves <- function(x, y,
                              x.valid = NULL, y.valid = NULL,
                              type,
                              lookback = FALSE,
@@ -111,7 +111,7 @@ shytreegamleaves <- function(x, y,
             ),
             ylevels = ylevels
         )
-        class(.mod) <- c("shytreegamleaves", "list")
+        class(.mod) <- c("linadleaves", "list")
         return(.mod)
     }
 
@@ -237,7 +237,7 @@ shytreegamleaves <- function(x, y,
             stepindex = g$stepindex,
             ylevels = ylevels
         )
-        class(.mod) <- c("shytreegamleaves", "list")
+        class(.mod) <- c("linadleaves", "list")
         return(.mod)
     } # / if (max.leaves == 1)
 
@@ -553,7 +553,7 @@ shytreegamleaves <- function(x, y,
         # lookback = lookback,
         valid.error.smooth = NULL
     )
-    class(.mod) <- c("shytreegamleaves", "list")
+    class(.mod) <- c("linadleaves", "list")
 
     if (lookback) {
         if (trace > 1) msg("Starting lookback...", color = rtHighlight)
@@ -571,7 +571,7 @@ shytreegamleaves <- function(x, y,
     }
 
     .mod
-} # rtemis::shytreegamleaves
+} # rtemis::linadleaves
 
 # [[---2. setNodeRC---]]----
 setNodeRC <- function(g,
@@ -1046,9 +1046,9 @@ splitlineRC <- function(g,
 
 
 # [[---4. predict---]] ----
-#' Predict method for \code{shytreegamleaves} object
+#' Predict method for \code{linadleaves} object
 #'
-#' @method predict shytreegamleaves
+#' @method predict linadleaves
 #' @param object \code{shytreeRaw}
 #' @param newdata Data frame of predictors
 #' @param type Character: "response", "probability", "all", "step"
@@ -1065,7 +1065,7 @@ splitlineRC <- function(g,
 #' @author E.D. Gennatas
 #' @export
 
-predict.shytreegamleaves <- function(object, newdata,
+predict.linadleaves <- function(object, newdata,
                                      type = c("response", "probability", 
                                               "all", "step"),
                                      n.leaves = NULL,
@@ -1254,19 +1254,19 @@ predict.shytreegamleaves <- function(object, newdata,
         }
         yhat.l
     }
-} # rtemis:: predict.shytreegamleaves
+} # rtemis:: predict.linadleaves
 
 # [[---5. print---]] ----
-#' Print method for \code{shytreegamleaves} object
+#' Print method for \code{linadleaves} object
 #'
-#' @method print shytreegamleaves
-#' @param x \code{shytreegamleaves} object
+#' @method print linadleaves
+#' @param x \code{linadleaves} object
 #' @param ... Not used
 #'
 #' @author E.D. Gennatas
 #' @export
 
-print.shytreegamleaves <- function(x, ...) {
+print.linadleaves <- function(x, ...) {
     if (x$gamleaves) {
         cat("\n  A Linear Additive GAMleaf Tree model with", x$n.leaves, "leaves\n\n")
     } else {
@@ -1274,11 +1274,11 @@ print.shytreegamleaves <- function(x, ...) {
     }
 }
 
-#' Convert \link{shytreegamleaves} to \code{data.tree} object
+#' Convert \link{linadleaves} to \code{data.tree} object
 #'
-#' @param object \link{shytreegamleaves} object
+#' @param object \link{linadleaves} object
 
-as.data.tree.shytreegamleaves <- function(object) {
+as.data.tree.linadleaves <- function(object) {
     as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
     dat <- object$leaves$rules
     dat$rule <- gsub(" & ", "/", dat$rule)

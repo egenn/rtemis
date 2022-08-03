@@ -89,7 +89,7 @@ dplot3_linad <- function(x,
   # Arguments ----
   if (inherits(x, "rtMod")) {
     if (inherits(x$mod, "shytreeLeavesRC")) tree <- x$mod$tree
-    if (inherits(x$mod, "shytreegamleaves")) tree <- x$mod$tree
+    if (inherits(x$mod, "linadleaves")) tree <- x$mod$tree
   } else {
     stop("Please provide an rtMod object with a LINAD model")
   }

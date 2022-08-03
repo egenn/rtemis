@@ -71,7 +71,6 @@ s_LINAD <- function(x, y = NULL,
                     lambda = .05,
                     lambda.seq = NULL,
                     minobsinnode.lin = 10,
-                    
                     # rpart
                     part.minsplit = 2,
                     part.xval = 0,
@@ -289,7 +288,7 @@ s_LINAD <- function(x, y = NULL,
   }
   if (!is.null(force.max.leaves)) max.leaves <- force.max.leaves
 
-  # shytreegamleaves  ----
+  # linadleaves  ----
   if (.gs) {
     if (lookback) {
       x.valid <- x.test
@@ -305,7 +304,7 @@ s_LINAD <- function(x, y = NULL,
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
 
   if (length(max.leaves) == 0) max.leaves <- 1
-  mod <- shytreegamleaves(x, y,
+  mod <- linadleaves(x, y,
                           x.valid = x.valid, y.valid = y.valid,
                           type = type,
                           lookback = lookback,
