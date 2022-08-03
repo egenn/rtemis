@@ -38,7 +38,7 @@ shytreegamleaves <- function(x, y,
                              learning.rate = 1,
                              minobsinnode.lin = 10,
                              lin.type = "glmnet",
-                             single.lin.type = "glmnet",
+                             single.lin.type = "glmnet", # 
                              gamma = .01,
                              gamma.on.lin = FALSE,
                              select.leaves.smooth = TRUE,
@@ -82,12 +82,13 @@ shytreegamleaves <- function(x, y,
 
     if (is.null(weights)) weights <- rep(1, NROW(y))
 
-    # Specify lookback directly
+    # Check lookback
     if (lookback && is.null(x.valid) && max.leaves > 1) {
         stop("You have asked for lookback without providing a validation set.")
     }
 
     # Check y is not constant ----
+    # Todo: init for .class
     if (is.constant(y)) {
         # No training
         coefs <- rep(0, NCOL(x) + 1)
@@ -155,7 +156,20 @@ shytreegamleaves <- function(x, y,
     g$stepindex$`1` <- 1
 
     # Loop: step splitline  ----
-    # Special case: max.leaves == 1 ----
+    if (.class) {
+        # Classification
+        # vector: Initial probabilities
+        # probability <- weights / NROW(y) # n
+        # '- Init ----
+        # scalar: Initial node value
+        # g$init <- c(log(1 + probability %*% y) - log(1 - probability %*% y)) # 1
+        g$init <- 0
+    } else {
+        # Regression, Survival
+        g$init <- mean(y) # 1
+    }
+
+    # max.leaves == 1 special cases ----
     # return linear model
     if (max.leaves == 1) {
         if (lin.type == "none") lin.type <- "constant"
@@ -197,7 +211,7 @@ shytreegamleaves <- function(x, y,
         }
         .mod <- list(
             type = type,
-            init = 0,
+            init = g$init,
             tree = list(
                 id = 1,
                 index = TRUE,
@@ -225,18 +239,6 @@ shytreegamleaves <- function(x, y,
         class(.mod) <- c("shytreegamleaves", "list")
         return(.mod)
     } # / if (max.leaves == 1)
-
-    if (.class) {
-        # Classification
-        # vector: Initial probabilities
-        probability <- weights / NROW(y) # n
-        # '- Init ----
-        # scalar: Initial node value
-        g$init <- c(log(1 + probability %*% y) - log(1 - probability %*% y)) # 1
-    } else {
-        # Regression, Survival
-        g$init <- mean(y) # 1
-    }
 
     # vector: Initial observations
     Fval <- rep(g$init, NROW(y)) # n
@@ -1051,7 +1053,8 @@ splitlineRC <- function(g,
 #' @export
 
 predict.shytreegamleaves <- function(object, newdata,
-                                     type = c("response", "probability", "all", "step"),
+                                     type = c("response", "probability", 
+                                              "all", "step"),
                                      n.leaves = NULL,
                                      fixed.cxr = NULL,
                                      cxr.newdata = NULL,
@@ -1062,34 +1065,48 @@ predict.shytreegamleaves <- function(object, newdata,
     type <- match.arg(type)
     .class <- object$type == "Classification"
 
-    # '-- Newdata ----
-    if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
+    # Newdata ----
+    if (is.null(colnames(newdata))) {
+        colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
+    }
 
     # Add column of ones for intercept and convert factors to dummies
-    newdata_lin <- if (!object$gamleaves) model.matrix(~., data = newdata) else newdata
+    newdata_lin <- if (!object$gamleaves) {
+        model.matrix(~., data = newdata)
+    } else {
+        newdata
+    }
 
     if (type != "step") {
-        # '-- Rules ----
+        # Not "step" ----
         if (is.null(n.leaves)) {
             n.leaves <- max(sapply(object$stepindex, length))
         }
 
         if (n.leaves == 1) {
+            # '-- n.leaves == 1 ----
             if (object$gamleaves) {
                 yhat <- c(predict(object$leaves$gams[[1]], newdata))
             } else {
-                if (object$type == "Survival") {
+                if (object$type == "Regression") {
+                    yhat <- c(newdata_lin %*% t(object$leaves$coefs))
+                } else if (object$type == "Classification") {
+                    # glmnet
+                    yhat <- -c(newdata_lin %*% t(object$leaves$coefs))
+                } else if (object$type == "Survival") {
                     # check: init
                     yhat <- c(newdata_lin[, -1] %*% t(object$leaves$coefs))
-                } else {
-                    yhat <- c(newdata_lin %*% t(object$leaves$coefs))
                 }
             }
         } else {
+            # '-- n.leaves > 1 ----
             rule.ids <- object$stepindex[[paste(n.leaves)]]
-            rules <- sapply(rule.ids, function(j) object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == j])
+            rules <- sapply(
+                rule.ids,
+                \(j) object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == j]
+            )
 
-            # '-- Cases x Rules ----
+            # '---- Cases x Rules ----
             if (is.null(fixed.cxr)) {
                 cases <- if (is.null(cxr.newdata)) newdata else cxr.newdata
                 .cxr <- matchCasesByRules(cases, rules, verbose = verbose)
@@ -1103,7 +1120,7 @@ predict.shytreegamleaves <- function(object, newdata,
             if (object$gamleaves) {
                 # gamleaves
                 yhat <- rep(NA, NROW(newdata))
-                xleaf.index <- apply(.cxr, 1, function(i) which(i == 1))
+                xleaf.index <- apply(.cxr, 1, \(i) which(i == 1))
                 for (i in seq(n.leaves)) {
                     index <- xleaf.index == i
                     yhat[index] <- predict(object$leaves$gams[[i]], newdata[index, ])
@@ -1118,26 +1135,24 @@ predict.shytreegamleaves <- function(object, newdata,
                 .cxrcoef <- .cxr %*% coefs
                 # '-- yhat ----
                 # consider doing length(rules) matrix multiplications and add
-                yhat <- init + sapply(seq(NROW(newdata)), function(nr) {
+                yhat <- init + sapply(seq(NROW(newdata)), \(nr) {
                     object$learning.rate * (newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE]))
                 })
             }
         } # / n.leaves > 1
 
+        # Class levels ----
         if (.class) {
             if (type == "response") {
                 yhat <- sign(yhat)
-                yhat <- factor(yhat, levels = c(1, -1))
-                levels(yhat) <- object$ylevels
+                yhat <- factor(yhat, levels = c(1, -1), labels = object$ylevels)
             } else if (type == "probability") {
                 # Calculate probability using GBM paper equation 21.
                 yhat <- exp(2 * yhat) / (1 + exp(2 * yhat))
             } else if (type == "all") {
                 prob <- exp(2 * yhat) / (1 + exp(2 * yhat))
                 estimate <- sign(yhat)
-                estimate <- factor(estimate, levels = c(1, -1))
-                # check when levels should be reversed
-                levels(estimate) <- object$ylevels
+                estimate <- factor(estimate, levels = c(1, -1), labels = object$ylevels)
                 out <- list(estimate = estimate, probability = prob)
                 return(out)
             }
@@ -1156,13 +1171,22 @@ predict.shytreegamleaves <- function(object, newdata,
         out
         # /type != "step"
     } else {
+        # "step" ----
         # >>> type == "step": Get predictions at each step
         max.leaves <- max(sapply(object$stepindex, length))
 
         if (max.leaves == 1) {
-            yhat.l <- list(c(init + newdata %*% t(object$leaves$coefs)))
+            # '-- n.leaves == 1 ----
+            if (!.class) {
+                yhat.l <- list(c(init + newdata %*% t(object$leaves$coefs)))
+            } else {
+                yhat.l <- list(c(newdata_lin[, -1] %*% t(object$leaves$coefs)))
+            }
         } else {
-            if (verbose) msg("Getting estimated values for each of", max.leaves, "steps...")
+            # '-- n.leaves > 1 ----
+            if (verbose) {
+                msg("Getting estimated values for each of", max.leaves, "steps...")
+            }
 
             rules.l <- plyr::llply(seq(max.leaves), function(j) {
                 paste(sapply(object$stepindex[[paste(j)]], function(k) {
@@ -1197,8 +1221,7 @@ predict.shytreegamleaves <- function(object, newdata,
                 })
                 if (.class) {
                     yhat <- sign(yhat)
-                    yhat <- factor(yhat, levels = c(1, -1))
-                    levels(yhat) <- object$ylevels
+                    yhat <- factor(yhat, levels = c(1, -1), labels = object$ylevels)
                 }
                 yhat
             })
