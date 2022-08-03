@@ -10,17 +10,18 @@ s_LINAD(
   x.test = NULL,
   y.test = NULL,
   weights = NULL,
+  max.leaves = 20,
+  force.max.leaves = NULL,
+  learning.rate = 0.5,
   ipw = TRUE,
   ipw.type = 1,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  max.leaves = 20,
   leaf.model = c("line", "spline"),
   gamlearner = "gamsel",
   gam.params = list(),
   nvmax = 3,
-  force.max.leaves = NULL,
   lookback = TRUE,
   gamma = 0.5,
   gamma.on.lin = FALSE,
@@ -33,7 +34,6 @@ s_LINAD(
   lambda = 0.05,
   lambda.seq = NULL,
   minobsinnode.lin = 10,
-  learning.rate = 0.5,
   part.minsplit = 2,
   part.xval = 0,
   part.max.depth = 1,
@@ -47,7 +47,6 @@ s_LINAD(
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = "exhaustive",
   save.gridrun = FALSE,
-  grid.verbose = verbose,
   select.leaves.smooth = TRUE,
   cluster = FALSE,
   keep.x = FALSE,
@@ -56,6 +55,7 @@ s_LINAD(
   n.cores = rtCores,
   .preprocess = NULL,
   verbose = TRUE,
+  grid.verbose = FALSE,
   plot.tuning = TRUE,
   verbose.predict = FALSE,
   trace = 1,
@@ -85,6 +85,18 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
+\item{max.leaves}{Integer: Maximum number of terminal nodes to grow. Setting
+this to a value > 1, triggers cross-validation to find best number of leaves.
+To force a given number of leaves and not cross-validate, set 
+\code{force.max.leaves} to any (integer) value.}
+
+\item{force.max.leaves}{Integer: If set, \code{max.leaves} is ignored and
+the tree will attempt to reach this number of leaves, without performing
+tuning number of leaves.}
+
+\item{learning.rate}{Numeric: learning rate for steps after initial
+linear model}
+
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
 
@@ -102,8 +114,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{max.leaves}{Integer: Maximum number of terminal nodes to grow}
-
 \item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
@@ -113,10 +123,13 @@ Default = TRUE}
 \item{gamma}{Numeric: Soft weighting parameter. Weights of cases that do not
 belong to node get multiplied by this amount}
 
-\item{lin.type}{Character: See \link{lincoef} for options}
+\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
+"lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
+to not fit linear models
+See \link{lincoef} for more}
 
-\item{single.lin.type}{Character same options as \code{lin.type}, linear model to fit when
-\code{max.leaves = 1}}
+\item{single.lin.type}{Character: same options as \code{lin.type}, linear 
+model to fit when \code{max.leaves = 1}}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 

@@ -144,6 +144,8 @@ tau <- seqinr::read.fasta("https://rest.uniprot.org/uniprotkb/P10636.fasta",
 )
 dplot3_protein(as.character(tau[[1]]))
 }
+# or directly using the UniProt accession number:
+dplot3_protein("P10636")
 
 }
 \author{

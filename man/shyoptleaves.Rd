@@ -51,10 +51,16 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
 
+\item{learning.rate}{Numeric: learning rate for steps after initial
+linear model}
+
 \item{gamma}{Numeric: Soft weighting parameter. Weights of cases that do not
 belong to node get multiplied by this amount}
 
-\item{lin.type}{Character: See \link{lincoef} for options}
+\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
+"lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
+to not fit linear models
+See \link{lincoef} for more}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 

@@ -10,6 +10,7 @@ lincoef(
   weights = NULL,
   method = "glmnet",
   type = c("Regression", "Classification", "Survival"),
+  learning.rate = 1,
   alpha = 1,
   lambda = 0.05,
   lambda.seq = NULL,
@@ -47,26 +48,34 @@ lincoef(
 
 \item{type}{Character: "Regression", "Classification", or "Survival"}
 
-\item{alpha}{Float: \code{alpha} for method = \code{glmnet} or \code{cv.glmnet}. Default = 0}
+\item{learning.rate}{Numeric: Coefficients will be multiplied by this number}
 
-\item{lambda}{Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, \code{lm.ridge}
-Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for prediction. Training uses
-\code{lambda.seq}. Default = .01}
+\item{alpha}{Float: \code{alpha} for method = \code{glmnet} or 
+\code{cv.glmnet}.}
 
-\item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and \code{cv.glmnet}. Default = NULL}
+\item{lambda}{Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, 
+\code{lm.ridge}
+Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for 
+prediction. Training uses \code{lambda.seq}.}
+
+\item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and 
+\code{cv.glmnet}.}
 
 \item{cv.glmnet.nfolds}{Integer: Number of folds for \code{cv.glmnet}}
 
-\item{which.cv.glmnet.lambda}{Character: Whitch lambda to pick from cv.glmnet:
-"lambda.min": Lambda that gives minimum cross-validated error;}
+\item{which.cv.glmnet.lambda}{Character: Whitch lambda to pick from 
+cv.glmnet: "lambda.min": Lambda that gives minimum cross-validated error;}
 
-\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of each size to record. Default = 1}
+\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of 
+each size to record. Default = 1}
 
-\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of subsets to examine.}
+\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of 
+subsets to examine.}
 
-\item{sgd.model}{Character: Model to use for \code{method = "sgd"}. Default = "glm"}
+\item{sgd.model}{Character: Model to use for \code{method = "sgd"}.}
 
-\item{sgd.model.control}{List: \code{model.control} list to pass to \code{sgd::sgd}}
+\item{sgd.model.control}{List: \code{model.control} list to pass to 
+\code{sgd::sgd}}
 
 \item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
