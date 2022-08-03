@@ -179,6 +179,7 @@ shytreegamleaves <- function(x, y,
         coef <- lincoef(
             x = g$xm[!index, -1, drop = FALSE],
             y = yraw[!index],
+            learning.rate = 1,
             type = type,
             weights = weights[!index],
             method = single.lin.type,
@@ -263,6 +264,7 @@ shytreegamleaves <- function(x, y,
     coef <- lincoef(
         x = g$xm[!index, -1, drop = FALSE],
         y = resid[!index],
+        learning.rate = 1,
         weights = weights[!index],
         method = lin.type,
         nvmax = nvmax,
@@ -298,7 +300,10 @@ shytreegamleaves <- function(x, y,
         rho[is.na(rho)] <- rho.def
     }
 
-    Fval <- Fval + learning.rate * rho * linVal # n
+    # orig before linmod1
+    # Fval <- Fval + learning.rate * rho * linVal # n
+    # linmod1
+    Fval <- Fval + rho * linVal # n
 
     # '- Root ----
     root <- setNodeRC(
@@ -404,7 +409,7 @@ shytreegamleaves <- function(x, y,
                 }
 
                 if ((selected.red)) {
-                    if (trace > 1) msg(">>> Selected node #", selected, sep = "")
+                    if (trace > 1) msg0(">>> Selected node #", selected)
                     if (trace > 1) msg("g$terminal is", g$terminal)
                     # +tree: Remove selected from terminal
                     if (trace > 1) msg("Removing selected from terminal nodes")
@@ -436,7 +441,10 @@ shytreegamleaves <- function(x, y,
                 } else {
                     g$closed <- c(g$closed, selected)
                     g$open <- setdiff(g$open, selected)
-                    if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
+                    if (trace > 1) {
+                        msg0("Node id #", selected, "
+                             did not reduce loss and was closed")
+                    }
                 }
             }
         } # /if (length(g$tree) == 3)
@@ -695,8 +703,9 @@ splitlineRC <- function(g,
             left.yval.row <- 2
             right.yval.row <- 3
         }
-        part.c.left <- part$frame$yval[left.yval.row]
-        part.c.right <- part$frame$yval[right.yval.row]
+        # linmod1 add learning.rate on constant
+        part.c.left <- g$learning.rate * part$frame$yval[left.yval.row]
+        part.c.right <- g$learning.rate * part$frame$yval[right.yval.row]
 
         g$tree[[paste(node.index)]]$type <- "split"
         g$tree[[paste(node.index)]]$terminal <- FALSE
@@ -798,11 +807,11 @@ splitlineRC <- function(g,
                     if (trace > 1) warning("NAs found in rho")
                     rho[is.na(rho)] <- rho.def
                 }
-                nodeVal.left <- g$learning.rate * sign((weightedFirstDerLeft)) *
+                nodeVal.left <- sign((weightedFirstDerLeft)) *
                     min(g$rho.max, rho) # 1
             }
         } else {
-            nodeVal.left <- g$learning.rate * part.c.left
+            nodeVal.left <- part.c.left
         }
         coef.left[1] <- coef.left[1] + part.c.left
 
@@ -839,11 +848,11 @@ splitlineRC <- function(g,
                     if (trace > 1) warning("NAs found in rho")
                     rho[is.na(rho)] <- rho.def
                 }
-                nodeVal.right <- g$learning.rate * sign(weightedFirstDerRight) *
+                nodeVal.right <- sign(weightedFirstDerRight) *
                     min(g$rho.max, rho)
             }
         } else {
-            nodeVal.right <- g$learning.rate * part.c.right
+            nodeVal.right <- part.c.right
         }
 
         coef.right[1] <- coef.right[1] + part.c.right
@@ -904,6 +913,7 @@ splitlineRC <- function(g,
                 linCoef.left <- lincoef(
                     x = g$xm[!index, -1, drop = FALSE],
                     y = resid2[!index],
+                    learning.rate = g$learning.rate,
                     weights = .weights[!index],
                     method = lin.type,
                     nvmax = nvmax,
@@ -926,7 +936,7 @@ splitlineRC <- function(g,
                     rho.left <- 1
                 }
 
-                Fval.left <- Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index] # n
+                Fval.left <- Fval[left.index] + rho.left * linVal.left[left.index] # n
                 coef.left <- coef.left + linCoef.left
             } # /if (length(left.index) < minobsinnode.lin)
 
@@ -953,6 +963,7 @@ splitlineRC <- function(g,
                 linCoef.right <- lincoef(
                     x = g$xm[!index, -1, drop = FALSE],
                     y = resid2[!index],
+                    learning.rate = g$learning.rate,
                     weights = .weights[!index],
                     method = lin.type,
                     nvmax = nvmax,
@@ -976,7 +987,9 @@ splitlineRC <- function(g,
                 rho.right <- 1
             }
 
-            Fval.right <- Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+            # pre-linmod1
+            # Fval.right <- Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+            Fval.right <- Fval[right.index] + rho.right * linVal.right[right.index] # n
             coef.right <- coef.right + linCoef.right
         }
 
@@ -1109,13 +1122,14 @@ predict.shytreegamleaves <- function(object, newdata,
             # '---- Cases x Rules ----
             if (is.null(fixed.cxr)) {
                 cases <- if (is.null(cxr.newdata)) newdata else cxr.newdata
+                # n cases by n rules i.e. n leaves
                 .cxr <- matchCasesByRules(cases, rules, verbose = verbose)
             } else {
                 .cxr <- fixed.cxr
             }
 
             # each case must match one leaf and one leaf only
-            # DIAG: all(apply(.cxr, 1, sum) == 1)
+            # >>DIAG<<: all(apply(.cxr, 1, sum) == 1)
 
             if (object$gamleaves) {
                 # gamleaves
@@ -1131,12 +1145,20 @@ predict.shytreegamleaves <- function(object, newdata,
                     rule.ids,
                     \(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE]
                 )
+                # coefs: n.leaves by n vars
                 coefs <- data.matrix(do.call(rbind, coefs))
+                # n cases by n vars
+                # .cxrcoef <- .cxr %*% coefs
                 .cxrcoef <- .cxr %*% coefs
                 # '-- yhat ----
                 # consider doing length(rules) matrix multiplications and add
-                yhat <- init + sapply(seq(NROW(newdata)), \(nr) {
-                    object$learning.rate * (newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE]))
+                # Todo: do not apply learning rate on first linear model
+                # before full lin mod step 1
+                # yhat <- init + sapply(seq_len(NROW(newdata)), \(nr) {
+                #     object$learning.rate * (newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE]))
+                # })
+                yhat <- init + sapply(seq_len(NROW(newdata)), \(nr) {
+                    newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE])
                 })
             }
         } # / n.leaves > 1
@@ -1176,18 +1198,22 @@ predict.shytreegamleaves <- function(object, newdata,
         max.leaves <- max(sapply(object$stepindex, length))
 
         if (max.leaves == 1) {
-            # '-- n.leaves == 1 ----
+            # '-- step & n.leaves == 1 ----
             if (!.class) {
                 yhat.l <- list(c(init + newdata %*% t(object$leaves$coefs)))
             } else {
                 yhat.l <- list(c(newdata_lin[, -1] %*% t(object$leaves$coefs)))
             }
         } else {
-            # '-- n.leaves > 1 ----
+            # '-- step & n.leaves > 1 ----
             if (verbose) {
-                msg("Getting estimated values for each of", max.leaves, "steps...")
+                msg(
+                    "Getting estimated values for each of",
+                    max.leaves, "steps..."
+                )
             }
 
+            # List of all stepwise rules starting with "TRUE"
             rules.l <- plyr::llply(seq(max.leaves), function(j) {
                 paste(sapply(object$stepindex[[paste(j)]], function(k) {
                     c(object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == k])
@@ -1199,7 +1225,7 @@ predict.shytreegamleaves <- function(object, newdata,
                 matchCasesByRules(cases, rules.l[[j]], verbose = verbose)
             })
 
-            # get coefs for each leaf for each step in list
+            # Get coefs for each leaf for each step in list
             coefs.l <- plyr::llply(seq(max.leaves), function(k) {
                 object$all.step.leaves$coefs[object$all.step.leaves$rules$id == k, ]
             })
@@ -1217,7 +1243,7 @@ predict.shytreegamleaves <- function(object, newdata,
 
             yhat.l <- plyr::llply(seq(max.leaves), function(j) {
                 yhat <- sapply(seq(NROW(newdata)), function(n) {
-                    object$learning.rate * (newdata_lin[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE]))
+                    newdata_lin[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE])
                 })
                 if (.class) {
                     yhat <- sign(yhat)
