@@ -101,7 +101,7 @@ dplot3_protein <- function(x,
                            ptm.symbol = "circle",
                            ptm.offset = .15,
                            ptm.pad = .15,
-                           ptm.marker.size = marker.size/4,
+                           ptm.marker.size = marker.size/4.5,
                            # Position annotations
                            annotate.position.every = 10,
                            annotate.position.alpha = .5,
