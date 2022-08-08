@@ -82,7 +82,7 @@ lincoef <- function(x, y,
 
   type <- match.arg(type)
 
-  if (type != "Regression" & method != "glmnet") {
+  if (type != "Regression" && !method %in% c("glmnet", "cv.glmnet")) {
     stop("Use method 'glmnet' for", type)
   }
 
@@ -95,9 +95,10 @@ lincoef <- function(x, y,
     # '-- "glmnet": glmnet::glmnet ----
     if (is.null(weights)) weights <- rep(1, NROW(y))
     family <- switch(type,
-                     Regression = "gaussian",
-                     Classification = ifelse(length(levels(y)) == 2, "binomial", "multinomial"),
-                     Survival = "cox")
+      Regression = "gaussian",
+      Classification = ifelse(length(levels(y)) == 2, "binomial", "multinomial"),
+      Survival = "cox"
+    )
     lin1 <- glmnet::glmnet(data.matrix(x), y,
                            family = family,
                            weights = weights,
@@ -109,7 +110,12 @@ lincoef <- function(x, y,
     # '-- "cv.glmnet": glmnet::cv.glmnet ----
     which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
     if (is.null(weights)) weights <- rep(1, NROW(y))
-    lin1 <- glmnet::cv.glmnet(data.matrix(x), y, family = 'gaussian',
+    family <- switch(type,
+      Regression = "gaussian",
+      Classification = ifelse(length(levels(y)) == 2, "binomial", "multinomial"),
+      Survival = "cox"
+    )
+    lin1 <- glmnet::cv.glmnet(data.matrix(x), y, family = family,
                               weights = weights,
                               alpha = alpha,
                               lambda = lambda.seq,
