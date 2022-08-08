@@ -562,7 +562,7 @@ dplot3_protein <- function(x,
     }
 
     # Position annotations ----
-    if (!is.null(annotate.position.every)) {
+    if (!is.null(annotate.position.every) && length(x) > annotate.position.every) {
         idxpos <- seq(annotate.position.every, n, annotate.position.every)
         plt |> plotly::add_annotations(
             x = xs[idxpos],
