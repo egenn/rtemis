@@ -12,6 +12,9 @@
 #' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
+#' [gS] indicates tunable hyperparameters that can accept a vector of possible 
+#' values
+#' 
 #' @inheritParams s_GLM
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow. Setting
 #' this to a value > 1, triggers cross-validation to find best number of leaves.
@@ -20,7 +23,7 @@
 #' @param force.max.leaves Integer: If set, \code{max.leaves} is ignored and
 #' the tree will attempt to reach this number of leaves, without performing
 #' tuning number of leaves.
-#' @param learning.rate Numeric: learning rate for steps after initial
+#' @param learning.rate [gS] Numeric: learning rate for steps after initial
 #' linear model
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 #' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
@@ -32,10 +35,20 @@
 #' See \link{lincoef} for more
 #' @param first.lin.type Character: same options as \code{lin.type}, the first
 #' linear model to fit on the root node.
+#' @param first.lin.alpha Numeric: alpha for the first linear model, if
+#' \code{first.lin.type} is "glmnet" or "cv.glmnet"
 #' @param init Initial value. Default = \code{mean(y)}
-#' @param gamma Numeric: Soft weighting parameter. Weights of cases that do not
+#' @param gamma [gS] Numeric: Soft weighting parameter. Weights of cases that do not
 #' belong to node get multiplied by this amount 
-#' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
+#' @param lambda [gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
+#' @param part.minsplit [gS] Integer: Minimum number of observations in node to
+#' consider splitting
+#' @param part.minbucket [gS] Integer: Minimum number of observations allowed in
+#' child node to allow splitting
+#' @param part.cp [gS] Numeric: Split must decrease complexity but at least 
+#' this much to be considered
+#' @param minobsinnode.lin [gS] Integer: Minimum number of observation needed to fit
+#' linear model
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
@@ -64,7 +77,8 @@ s_LINAD <- function(x, y = NULL,
                     lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", 
                                  "lm.ridge", "allSubsets", "backwardStepwise", 
                                  "glm", "solve", "none"),
-                    first.lin.type = "glmnet",
+                    first.lin.type = "cv.glmnet",
+                    fist.lin.alpha = 1,
                     cv.glmnet.nfolds = 5,
                     which.cv.glmnet.lambda = "lambda.min",
                     alpha = 1,
@@ -315,7 +329,7 @@ s_LINAD <- function(x, y = NULL,
                           nvmax = nvmax,
                           gamma = gamma,
                           gamma.on.lin = gamma.on.lin,
-                          alpha = alpha,
+                          alpha = first.lin.alpha,
                           lambda = lambda,
                           lambda.seq = lambda.seq,
                           minobsinnode.lin = minobsinnode.lin,
