@@ -27,7 +27,8 @@ s_LINAD(
   gamma.on.lin = FALSE,
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
-  first.lin.type = "glmnet",
+  first.lin.type = "cv.glmnet",
+  fist.lin.alpha = 1,
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   alpha = 1,
@@ -94,7 +95,7 @@ To force a given number of leaves and not cross-validate, set
 the tree will attempt to reach this number of leaves, without performing
 tuning number of leaves.}
 
-\item{learning.rate}{Numeric: learning rate for steps after initial
+\item{learning.rate}{[gS] Numeric: learning rate for steps after initial
 linear model}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
@@ -120,7 +121,7 @@ Default = NULL (random seed)}
 \item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
 Default = TRUE}
 
-\item{gamma}{Numeric: Soft weighting parameter. Weights of cases that do not
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that do not
 belong to node get multiplied by this amount}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
@@ -131,9 +132,21 @@ See \link{lincoef} for more}
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
 
-\item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+
+\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed to fit
+linear model}
+
+\item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
+consider splitting}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+
+\item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
+this much to be considered}
+
+\item{part.minbucket}{[gS] Integer: Minimum number of observations allowed in
+child node to allow splitting}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
 
@@ -168,6 +181,9 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{internal use only}
+
+\item{first.lin.alpha}{Numeric: alpha for the first linear model, if
+\code{first.lin.type} is "glmnet" or "cv.glmnet"}
 }
 \description{
 Train a Linear Additive Tree for Regression or Binary Classification
@@ -176,6 +192,9 @@ Train a Linear Additive Tree for Regression or Binary Classification
 The Linear Additive Tree trains a tree using a sequence of regularized linear models and splits.
 We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
 because depending on the other parameters and the datasets, splitting may stop early.
+
+[gS] indicates tunable hyperparameters that can accept a vector of possible 
+values
 }
 \author{
 E.D. Gennatas

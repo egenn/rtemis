@@ -61,7 +61,10 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 trained. Otherwise, this should be an even number as each split introduces 
 two children nodes.}
 
-\item{learning.rate}{Numeric: learning rate for steps after initial
+\item{learning.rate}{[gS] Numeric: learning rate for steps after initial
+linear model}
+
+\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed to fit
 linear model}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
@@ -72,15 +75,24 @@ See \link{lincoef} for more}
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
 
-\item{gamma}{Numeric: Soft weighting parameter. Weights of cases that do not
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that do not
 belong to node get multiplied by this amount}
 
-\item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
 \item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
+\item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
+consider splitting}
+
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+
+\item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
+this much to be considered}
+
+\item{part.minbucket}{[gS] Integer: Minimum number of observations allowed in
+child node to allow splitting}
 
 \item{loss.fn}{Function with arguments \code{y, Fval }
 Allows you to define a custom loss function. Defaults to \code{class.loss()} 
