@@ -3,10 +3,10 @@
 #' Plot the primary amino acid sequence of a protein
 #'
 #' @param x Character vector of amino acid sequence (1-letter abbreviations)
-#' @param group Named list of lists with indices of groups. These will be
+#' @param site Named list of lists with indices of sites. These will be
 #' highlighted by coloring the border of markers
-#' @param motif Named list of lists with indices of motifs. These will be
-#' highlighted by coloring the markers and lines of motifs using the
+#' @param region Named list of lists with indices of regions. These will be
+#' highlighted by coloring the markers and lines of regions using the
 #' \code{palette} colors
 #' @param n.per.row Integer: Number of amino acids to show per row
 #' @param main Character: Main title
@@ -36,8 +36,8 @@
 #' dplot3_protein("P10636")
 #'
 dplot3_protein <- function(x,
-                           group = NULL,
-                           motif = NULL,
+                           site = NULL,
+                           region = NULL,
                            ptm = NULL,
                            n.per.row = NULL,
                            main = NULL,
@@ -64,33 +64,33 @@ dplot3_protein <- function(x,
                            line.width = 2,
                            # Hover names
                            show.full.names = FALSE,
-                           # Motifs
-                           motif.scatter.mode = "markers+lines",
-                           motif.style = 3,
-                           motif.marker.size = marker.size,
-                           motif.marker.alpha = .6,
-                           motif.marker.symbol = "circle",
-                           motif.line.dash = "solid",
-                           motif.line.shape = "line",
-                           motif.line.smoothing = 1,
-                           motif.line.width = 1,
-                           motif.line.alpha = .6,
+                           # regions
+                           region.scatter.mode = "markers+lines",
+                           region.style = 3,
+                           region.marker.size = marker.size,
+                           region.marker.alpha = .6,
+                           region.marker.symbol = "circle",
+                           region.line.dash = "solid",
+                           region.line.shape = "line",
+                           region.line.smoothing = 1,
+                           region.line.width = 1,
+                           region.line.alpha = .6,
                            theme = rtTheme,
-                           motif.palette = rtPalette,
-                           motif.outline.only = FALSE,
-                           motif.outline.pad = 2, # for fake polys
-                           motif.pad = .45, # for real polys
-                           motif.fill.alpha = .1666666,
-                           motif.fill.shape = "line",
-                           motif.fill.smoothing = 1,
+                           region.palette = rtPalette,
+                           region.outline.only = FALSE,
+                           region.outline.pad = 2, # for fake polys
+                           region.pad = .45, # for real polys
+                           region.fill.alpha = .1666666,
+                           region.fill.shape = "line",
+                           region.fill.smoothing = 1,
                            bpadcx = .5,
                            bpadcy = .5,
-                           # Groups
-                           group.marker.size = marker.size,
-                           group.marker.symbol = marker.symbol,
-                           group.marker.alpha = 1,
-                           group.border.width = 1,
-                           group.palette = rtPalette,
+                           # Sites - colored marker border
+                           site.marker.size = marker.size,
+                           site.marker.symbol = marker.symbol,
+                           site.marker.alpha = 1,
+                           site.border.width = 1,
+                           site.palette = rtPalette,
                            # Text groups
                            disease.variants = NULL,
                            text.group = NULL,
@@ -99,8 +99,8 @@ dplot3_protein <- function(x,
                            showlegend.ptm = TRUE,
                            ptm.col = 2:10,
                            ptm.symbol = "circle",
-                           ptm.offset = .2,
-                           ptm.pad = .1,
+                           ptm.offset = .15,
+                           ptm.pad = .15,
                            ptm.marker.size = marker.size/4,
                            # Position annotations
                            annotate.position.every = 10,
@@ -227,8 +227,8 @@ dplot3_protein <- function(x,
     grid.col <- plotly::toRGB(theme$grid.col, theme$grid.alpha)
 
     # Palette ----
-    if (is.character(motif.palette)) motif.palette <- rtpalette(motif.palette)
-    if (is.character(group.palette)) group.palette <- rtpalette(group.palette)
+    if (is.character(region.palette)) region.palette <- rtpalette(region.palette)
+    if (is.character(site.palette)) site.palette <- rtpalette(site.palette)
 
     # Match abbreviations to full names ----
     if (show.full.names) {
@@ -285,61 +285,61 @@ dplot3_protein <- function(x,
         ) -> plt
     }
 
-    # Motifs ----
-    if (!is.null(motif)) {
-        motifnames <- names(motif)
-        if (is.null(motifnames)) {
-            motifnames <- paste("Motif", seq_along(motif))
+    # regions ----
+    if (!is.null(region)) {
+        regionnames <- names(region)
+        if (is.null(regionnames)) {
+            regionnames <- paste("region", seq_along(region))
         }
 
-        if (motif.style == 1) {
-            # '- Motif style 1 ----
-            # for overlapping sets within each motif
-            for (i in seq_along(motif)) {
-                for (j in seq_along(motif[[i]])) {
+        if (region.style == 1) {
+            # '- region style 1 ----
+            # for overlapping sets within each region
+            for (i in seq_along(region)) {
+                for (j in seq_along(region[[i]])) {
                     plt |> plotly::add_trace(
-                        x = xs[motif[[i]][[j]]],
-                        y = ys[motif[[i]][[j]]],
+                        x = xs[region[[i]][[j]]],
+                        y = ys[region[[i]][[j]]],
                         type = "scatter",
-                        mode = motif.scatter.mode,
+                        mode = region.scatter.mode,
                         marker = list(
                             color = plotly::toRGB(
-                                motif.palette[[i]],
-                                alpha = motif.marker.alpha
+                                region.palette[[i]],
+                                alpha = region.marker.alpha
                             ),
-                            size = motif.marker.size,
-                            symbol = motif.marker.symbol
+                            size = region.marker.size,
+                            symbol = region.marker.symbol
                         ),
                         line = list(
                             color = plotly::toRGB(
-                                motif.palette[[i]],
-                                alpha = motif.line.alpha
+                                region.palette[[i]],
+                                alpha = region.line.alpha
                             ),
-                            dash = motif.line.dash,
-                            shape = motif.line.shape,
-                            smoothing = motif.line.smoothing,
-                            width = motif.line.width
+                            dash = region.line.dash,
+                            shape = region.line.shape,
+                            smoothing = region.line.smoothing,
+                            width = region.line.width
                         ),
-                        name = motifnames[i],
-                        legendgroup = motifnames[i],
+                        name = regionnames[i],
+                        legendgroup = regionnames[i],
                         showlegend = j == 1
                     ) -> plt
-                    if (motif.outline.only) {
+                    if (region.outline.only) {
                         # simulate rounded selection around AAs
-                        # need motif.marker.size & line.width > marker.size
+                        # need region.marker.size & line.width > marker.size
                         plt |> plotly::add_trace(
-                            x = xs[motif[[i]][[j]]],
-                            y = ys[motif[[i]][[j]]],
+                            x = xs[region[[i]][[j]]],
+                            y = ys[region[[i]][[j]]],
                             type = "scatter",
-                            mode = motif.scatter.mode,
+                            mode = region.scatter.mode,
                             marker = list(
                                 color = plotly::toRGB(
                                     # marker.col,
                                     theme$bg,
                                     alpha = marker.alpha
                                 ),
-                                size = motif.marker.size - motif.outline.pad,
-                                symbol = motif.marker.symbol
+                                size = region.marker.size - region.outline.pad,
+                                symbol = region.marker.symbol
                             ),
                             line = list(
                                 color = plotly::toRGB(
@@ -347,17 +347,17 @@ dplot3_protein <- function(x,
                                     theme$bg,
                                     alpha = line.alpha
                                 ),
-                                shape = motif.line.shape,
-                                smoothing = motif.line.smoothing,
-                                width = motif.line.width - motif.outline.pad
+                                shape = region.line.shape,
+                                smoothing = region.line.smoothing,
+                                width = region.line.width - region.outline.pad
                             ),
                             name = NULL,
-                            legendgroup = motifnames[i],
+                            legendgroup = regionnames[i],
                             showlegend = F
                         ) -> plt
                         plt |> plotly::add_trace(
-                            x = xs[motif[[i]][[j]]],
-                            y = ys[motif[[i]][[j]]],
+                            x = xs[region[[i]][[j]]],
+                            y = ys[region[[i]][[j]]],
                             type = "scatter",
                             mode = scatter.mode,
                             marker = list(
@@ -370,36 +370,36 @@ dplot3_protein <- function(x,
                                 width = line.width
                             ),
                             name = NULL,
-                            legendgroup = motifnames[i],
+                            legendgroup = regionnames[i],
                             showlegend = F
                         ) -> plt
                     }
                 }
             }
-        } else if (motif.style == 2) {
-            # '- Motif style 2 ----
-            # for non-overlapping sets within each motif
-            for (i in seq_along(motif)) {
+        } else if (region.style == 2) {
+            # '- region style 2 ----
+            # for non-overlapping sets within each region
+            for (i in seq_along(region)) {
                 plt |> plotly::add_trace(
-                    x = xs[unlist(motif[[i]])],
-                    y = ys[unlist(motif[[i]])],
+                    x = xs[unlist(region[[i]])],
+                    y = ys[unlist(region[[i]])],
                     type = "scatter",
                     mode = "markers",
                     marker = list(
                         color = plotly::toRGB(
-                            motif.palette[[i]],
-                            alpha = motif.marker.alpha
+                            region.palette[[i]],
+                            alpha = region.marker.alpha
                         ),
-                        size = motif.marker.size,
-                        symbol = motif.marker.symbol
+                        size = region.marker.size,
+                        symbol = region.marker.symbol
                     ),
-                    name = motifnames[i]
+                    name = regionnames[i]
                 ) -> plt
             }
         } else {
-            # '- Motif style 3 ----
+            # '- region style 3 ----
             # for 1curve only
-            # motif polys: get marker direction and location:
+            # region polys: get marker direction and location:
             # left, leftborder, right, rightborder
             dl <- c(
                 "r",
@@ -407,58 +407,58 @@ dplot3_protein <- function(x,
             )
             dl[seq(n.per.row, n, n.per.row - 1)] <-
                 paste0(dl[seq(n.per.row, n, n.per.row - 1)], "b")
-            # i: IDI of motif group
-            for (i in seq_along(motif)) {
-                # each motif's directions
-                motif_dl <- lapply(seq_along(motif[[i]]), \(j) {
-                    dl[motif[[i]][[j]]]
+            # i: IDI of region group
+            for (i in seq_along(region)) {
+                # each region's directions
+                region_dl <- lapply(seq_along(region[[i]]), \(j) {
+                    dl[region[[i]][[j]]]
                 })
 
-                motif_poly_xy <- lapply(seq_along(motif[[i]]), \(j) {
+                region_poly_xy <- lapply(seq_along(region[[i]]), \(j) {
                     poly_xys(
-                        xs = xs[motif[[i]][[j]]],
-                        ys = ys[motif[[i]][[j]]],
-                        d = motif_dl[[j]],
-                        pad = motif.pad,
+                        xs = xs[region[[i]][[j]]],
+                        ys = ys[region[[i]][[j]]],
+                        d = region_dl[[j]],
+                        pad = region.pad,
                         bpadcx = bpadcx,
                         bpadcy = bpadcy
                     )
                 })
                 
-                for (j in seq_along(motif[[i]])) {
+                for (j in seq_along(region[[i]])) {
                     plt |> plotly::add_polygons(
-                        x = motif_poly_xy[[j]]$px,
-                        y = motif_poly_xy[[j]]$py,
+                        x = region_poly_xy[[j]]$px,
+                        y = region_poly_xy[[j]]$py,
                         line = list(
-                            color = motif.palette[[i]], 
-                            width = motif.line.width, 
-                            shape = motif.fill.shape,
-                            smoothing = motif.fill.smoothing),
+                            color = region.palette[[i]], 
+                            width = region.line.width, 
+                            shape = region.fill.shape,
+                            smoothing = region.fill.smoothing),
                         fillcolor = plotly::toRGB(
-                            motif.palette[[i]],
-                            alpha = motif.fill.alpha
+                            region.palette[[i]],
+                            alpha = region.fill.alpha
                         ),
-                        name = motifnames[i],
-                        legendgroup = motifnames[i],
+                        name = regionnames[i],
+                        legendgroup = regionnames[i],
                         showlegend = j == 1
                     ) -> plt
                 }
-            } # each motif's regions' coords
+            } # each region's individual regions' coords
         }
-    } # /motifs
+    } # /regions
 
-    # Groups ----
-    if (!is.null(group)) {
-        groupnames <- names(group)
-        if (is.null(groupnames)) {
-            groupnames <- paste("Group", seq_along(group))
+    # Sites ----
+    if (!is.null(site)) {
+        sitenames <- names(site)
+        if (is.null(sitenames)) {
+            sitenames <- paste("Site", seq_along(site))
         }
-        # for overlapping sets within each motif
-        for (i in seq_along(group)) {
-            for (j in seq_along(group[[i]])) {
+        # for overlapping sets within each region
+        for (i in seq_along(site)) {
+            for (j in seq_along(site[[i]])) {
                 plt |> plotly::add_trace(
-                    x = xs[group[[i]][[j]]],
-                    y = ys[group[[i]][[j]]],
+                    x = xs[site[[i]][[j]]],
+                    y = ys[site[[i]][[j]]],
                     type = "scatter",
                     mode = "markers",
                     marker = list(
@@ -466,23 +466,23 @@ dplot3_protein <- function(x,
                             "#000000",
                             alpha = 0
                         ),
-                        size = group.marker.size,
-                        symbol = group.marker.symbol,
+                        size = site.marker.size,
+                        symbol = site.marker.symbol,
                         line = list(
                             color = plotly::toRGB(
-                                group.palette[[i]],
-                                alpha = group.marker.alpha
+                                site.palette[[i]],
+                                alpha = site.marker.alpha
                             ),
-                            width = group.border.width
+                            width = site.border.width
                         )
                     ),
-                    name = groupnames[i],
-                    legendgroup = groupnames[i],
+                    name = sitenames[i],
+                    legendgroup = sitenames[i],
                     showlegend = j == 1
                 ) -> plt
             }
         }
-    } # /groups
+    } # /sites
 
     # PTMs ----
     if (!is.null(ptm)) {
@@ -726,7 +726,7 @@ poly_xys <- function(xs,
     )
 
     # aller ----
-    # k: IDI of individual amino acid within region
+    # k: IDI of individual amino acid within individual region
     px_aller <-
         sapply(seq_along(d), \(k) {
             if (d[k] == "rb") {

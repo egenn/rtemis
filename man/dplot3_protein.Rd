@@ -6,8 +6,8 @@
 \usage{
 dplot3_protein(
   x,
-  group = NULL,
-  motif = NULL,
+  site = NULL,
+  region = NULL,
   ptm = NULL,
   n.per.row = NULL,
   main = NULL,
@@ -31,31 +31,31 @@ dplot3_protein(
   line.alpha = 1,
   line.width = 2,
   show.full.names = FALSE,
-  motif.scatter.mode = "markers+lines",
-  motif.style = 3,
-  motif.marker.size = marker.size,
-  motif.marker.alpha = 0.6,
-  motif.marker.symbol = "circle",
-  motif.line.dash = "solid",
-  motif.line.shape = "line",
-  motif.line.smoothing = 1,
-  motif.line.width = 1,
-  motif.line.alpha = 0.6,
+  region.scatter.mode = "markers+lines",
+  region.style = 3,
+  region.marker.size = marker.size,
+  region.marker.alpha = 0.6,
+  region.marker.symbol = "circle",
+  region.line.dash = "solid",
+  region.line.shape = "line",
+  region.line.smoothing = 1,
+  region.line.width = 1,
+  region.line.alpha = 0.6,
   theme = rtTheme,
-  motif.palette = rtPalette,
-  motif.outline.only = FALSE,
-  motif.outline.pad = 2,
-  motif.pad = 0.45,
-  motif.fill.alpha = 0.1666666,
-  motif.fill.shape = "line",
-  motif.fill.smoothing = 1,
+  region.palette = rtPalette,
+  region.outline.only = FALSE,
+  region.outline.pad = 2,
+  region.pad = 0.45,
+  region.fill.alpha = 0.1666666,
+  region.fill.shape = "line",
+  region.fill.smoothing = 1,
   bpadcx = 0.5,
   bpadcy = 0.5,
-  group.marker.size = marker.size,
-  group.marker.symbol = marker.symbol,
-  group.marker.alpha = 1,
-  group.border.width = 1,
-  group.palette = rtPalette,
+  site.marker.size = marker.size,
+  site.marker.symbol = marker.symbol,
+  site.marker.alpha = 1,
+  site.border.width = 1,
+  site.palette = rtPalette,
   disease.variants = NULL,
   text.group = NULL,
   text.group.palette = c(theme$fg, "red"),
@@ -103,11 +103,11 @@ dplot3_protein(
 \arguments{
 \item{x}{Character vector of amino acid sequence (1-letter abbreviations)}
 
-\item{group}{Named list of lists with indices of groups. These will be
+\item{site}{Named list of lists with indices of sites. These will be
 highlighted by coloring the border of markers}
 
-\item{motif}{Named list of lists with indices of motifs. These will be
-highlighted by coloring the markers and lines of motifs using the
+\item{region}{Named list of lists with indices of regions. These will be
+highlighted by coloring the markers and lines of regions using the
 \code{palette} colors}
 
 \item{n.per.row}{Integer: Number of amino acids to show per row}
