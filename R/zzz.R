@@ -68,7 +68,8 @@ rtemis.version <- packageVersion("rtemis")
             col <- sample(unlist(rtCol1), 1)
             n <- 20
             polyshadow(n, n, .8,
-                text = paste0("  .:", pkgname, " ", rtemis.version, " ", sessionInfo()[[2]]),
+                text = paste0("  .:", pkgname, " ", 
+                              rtemis.version, " ", sessionInfo()[[2]]),
                 text.x = 2,
                 text.y = 2,
                 text.adj = c(0, 0),
@@ -109,13 +110,15 @@ rtemis.version <- packageVersion("rtemis")
 #' @section Supervised Learning:
 #' Functions for Regression and Classification begin with \code{s_*}.
 #' Run \link{modSelect} to get a list of available algorithms
-#' The documentation of each supervised learning function indicates in brackets, after the title
-#' whether the function supports classification, regression, and survival analysis \code{[C, R, S]}
+#' The documentation of each supervised learning function indicates in 
+#' brackets, after the title whether the function supports classification, 
+#' regression, and survival analysis \code{[C, R, S]}
 #' @section Clustering:
 #' Functions for Clustering begin with \code{c_*}.
 #' Run \link{clustSelect} to get a list of available algorithms
 #' @section Decomposition:
-#' Functions for Decomposition and Dimensionality reduction begin with \code{d_*}.
+#' Functions for Decomposition and Dimensionality reduction begin with 
+#' \code{d_*}.
 #' Run \link{decomSelect} to get a list of available algorithms
 #' @section Cross-Decomposition:
 #' Functions for Cross-Decomposition begin with \code{x_*}.
@@ -124,13 +127,15 @@ rtemis.version <- packageVersion("rtemis")
 #' Meta models are trained using \code{meta*} functions.
 #'
 #' @section Notes:
-#' Function documentation includes input type (e.g. "String", "Integer", "Float", etc) and
-#' range in interval notation where applicable. For example, Float: [0, 1)" means floats between 0 and 1 including 0,
-#' but excluding 1
+#' Function documentation includes input type (e.g. "String", "Integer", 
+#' "Float"/"Numeric", etc) and
+#' range in interval notation where applicable. For example, Float: [0, 1)" 
+#' means floats between 0 and 1 including 0, but excluding 1
 #'
-#' For all classification models, the outcome should be provided as a factor, with the first level
-#' of the factor being the 'positive' class, if applicable. A character vector supplied as outcome
-#' will be converted to factors, where by default the levels are set alphabetically and therefore
+#' For all classification models, the outcome should be provided as a factor, 
+#' with the first level of the factor being the 'positive' class, if 
+#' applicable. A character vector supplied as outcome will be converted to 
+#' factors, where by default the levels are set alphabetically and therefore
 #' the positive class may not be set correctly.
 #'
 #' @docType package
