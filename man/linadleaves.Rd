@@ -20,6 +20,7 @@ linadleaves(
   minobsinnode.lin = 10,
   lin.type = "glmnet",
   first.lin.type = "glmnet",
+  first.lin.alpha = 1,
   gamma = 0.01,
   gamma.on.lin = FALSE,
   select.leaves.smooth = TRUE,
@@ -74,6 +75,9 @@ See \link{lincoef} for more}
 
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
+
+\item{first.lin.alpha}{Numeric: alpha for the first linear model, if
+\code{first.lin.type} is "glmnet" or "cv.glmnet"}
 
 \item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
 do not belong to node get multiplied by this amount}

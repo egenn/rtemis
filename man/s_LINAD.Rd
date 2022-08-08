@@ -28,7 +28,7 @@ s_LINAD(
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
     "backwardStepwise", "glm", "solve", "none"),
   first.lin.type = "cv.glmnet",
-  fist.lin.alpha = 1,
+  first.lin.alpha = 1,
   cv.glmnet.nfolds = 5,
   which.cv.glmnet.lambda = "lambda.min",
   alpha = 1,
@@ -133,6 +133,9 @@ See \link{lincoef} for more}
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
 
+\item{first.lin.alpha}{Numeric: alpha for the first linear model, if
+\code{first.lin.type} is "glmnet" or "cv.glmnet"}
+
 \item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
 
 \item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
@@ -183,9 +186,6 @@ Requires \code{x.test} and \code{y.test}}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{internal use only}
-
-\item{first.lin.alpha}{Numeric: alpha for the first linear model, if
-\code{first.lin.type} is "glmnet" or "cv.glmnet"}
 }
 \description{
 Train a Linear Additive Tree for Regression or Binary Classification
