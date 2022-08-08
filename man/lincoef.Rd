@@ -25,8 +25,8 @@ lincoef(
 )
 }
 \arguments{
-\item{x}{Feature matrix or data.frame. Will be coerced to data.frame for method = "allSubsets",
-"forwardStepwise", or "backwardStepwise"}
+\item{x}{Feature matrix or data.frame. Will be coerced to data.frame for 
+method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
 
 \item{y}{Outcome}
 
@@ -89,8 +89,10 @@ Named numeric vector of linear coefficients
 Get linear model coefficients
 }
 \details{
-This function minimizes checks for speed. It doesn't check dimensionality of \code{x}.
-Only use methods "glm", "sgd", or "solve" if there is only one feature in \code{x}.
+This function minimizes checks for speed. It doesn't check dimensionality 
+of \code{x}.
+Only use methods "glm", "sgd", or "solve" if there is only one feature in 
+\code{x}.
 }
 \author{
 E.D. Gennatas
