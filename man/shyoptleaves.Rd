@@ -40,8 +40,8 @@ shyoptleaves(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
-Default = TRUE}
+\item{lookback}{Logical: If TRUE, check validation error to decide best 
+number of leaves to use.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -54,18 +54,19 @@ Note: this is total N of nodes in the tree, with the root uncounted, not the num
 \item{learning.rate}{[gS] Numeric: learning rate for steps after initial
 linear model}
 
-\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that do not
-belong to node get multiplied by this amount}
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
+do not belong to node get multiplied by this amount}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
 "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 to not fit linear models
 See \link{lincoef} for more}
 
-\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
+"allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
+than n of features in \code{x} are provided, they will be excluded}
 
 \item{loss.fn}{Function with arguments y, Fval, weights. Allows you to define a custom loss function.}
 

@@ -115,14 +115,15 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
+"allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
+than n of features in \code{x} are provided, they will be excluded}
 
-\item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
-Default = TRUE}
+\item{lookback}{Logical: If TRUE, check validation error to decide best 
+number of leaves to use.}
 
-\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that do not
-belong to node get multiplied by this amount}
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
+do not belong to node get multiplied by this amount}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
 "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
@@ -132,15 +133,16 @@ See \link{lincoef} for more}
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
 
-\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
 
-\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed to fit
-linear model}
+\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
+to fit linear model}
 
 \item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
 consider splitting}
 
-\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+\item{part.max.depth}{Integer: Max depth for each tree model within the 
+additive tree}
 
 \item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
 this much to be considered}
@@ -189,9 +191,10 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a Linear Additive Tree for Regression or Binary Classification
 }
 \details{
-The Linear Additive Tree trains a tree using a sequence of regularized linear models and splits.
-We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
-because depending on the other parameters and the datasets, splitting may stop early.
+The Linear Additive Tree trains a tree using a sequence of regularized 
+linear models and splits. We specify an upper threshold of leaves using 
+\code{max.leaves} instead of directly defining a number, because depending 
+on the other parameters and the datasets, splitting may stop early.
 
 [gS] indicates tunable hyperparameters that can accept a vector of possible 
 values

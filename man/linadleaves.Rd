@@ -49,8 +49,8 @@ linadleaves(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{lookback}{Logical: If TRUE, check validation error to decide best number of leaves to use.
-Default = TRUE}
+\item{lookback}{Logical: If TRUE, check validation error to decide best 
+number of leaves to use.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
@@ -64,8 +64,8 @@ two children nodes.}
 \item{learning.rate}{[gS] Numeric: learning rate for steps after initial
 linear model}
 
-\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed to fit
-linear model}
+\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
+to fit linear model}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
 "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
@@ -75,18 +75,20 @@ See \link{lincoef} for more}
 \item{first.lin.type}{Character: same options as \code{lin.type}, the first
 linear model to fit on the root node.}
 
-\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that do not
-belong to node get multiplied by this amount}
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
+do not belong to node get multiplied by this amount}
 
-\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
+\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-"backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
+"allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
+than n of features in \code{x} are provided, they will be excluded}
 
 \item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
 consider splitting}
 
-\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
+\item{part.max.depth}{Integer: Max depth for each tree model within the 
+additive tree}
 
 \item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
 this much to be considered}
