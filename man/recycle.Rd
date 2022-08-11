@@ -9,7 +9,7 @@ recycle(x, target)
 \arguments{
 \item{x}{Vector to be recycled}
 
-\item{target}{Vector whose length defines target length}
+\item{target}{Object whose length defines target length}
 }
 \description{
 Recycle values of vector to match length of target
@@ -17,4 +17,3 @@ Recycle values of vector to match length of target
 \author{
 E.D. Gennatas
 }
-\keyword{internal}

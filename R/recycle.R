@@ -5,10 +5,10 @@
 #' Recycle values of vector to match length of target
 #' 
 #' @param x Vector to be recycled
-#' @param target Vector whose length defines target length
+#' @param target Object whose length defines target length
 #'
 #' @author E.D. Gennatas
-#' @keywords internal
+#' @export
 
 recycle <- function(x, target) {
 
