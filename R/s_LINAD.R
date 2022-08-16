@@ -20,6 +20,8 @@
 #' this to a value > 1, triggers cross-validation to find best number of leaves.
 #' To force a given number of leaves and not cross-validate, set 
 #' \code{force.max.leaves} to any (integer) value.
+#' @param lookback Logical: If TRUE, use validation error to decide best
+#' number of leaves to use.
 #' @param force.max.leaves Integer: If set, \code{max.leaves} is ignored and
 #' the tree will attempt to reach this number of leaves, without performing
 #' tuning number of leaves.
@@ -28,8 +30,6 @@
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type 
 #' "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 #' than n of features in \code{x} are provided, they will be excluded
-#' @param lookback Logical: If TRUE, check validation error to decide best 
-#' number of leaves to use.
 #' @param lin.type Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
 #' "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 #' to not fit linear models
@@ -41,7 +41,8 @@
 #' @param init Initial value. Default = \code{mean(y)}
 #' @param gamma [gS] Numeric: Soft weighting parameter. Weights of cases that 
 #' do not belong to node get multiplied by this amount 
-#' @param lambda [gS] Float: lambda parameter for \code{MASS::lm.ridge}
+#' @param lambda [gS] Numeric: lambda value for lin.type \code{glmnet}, 
+#' \code{cv.glmnet}, \code{lm.ridge}
 #' @param part.minsplit [gS] Integer: Minimum number of observations in node to
 #' consider splitting
 #' @param part.minbucket [gS] Integer: Minimum number of observations allowed in
@@ -62,6 +63,7 @@ s_LINAD <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     weights = NULL,
                     max.leaves = 20,
+                    lookback = TRUE, # induces cross-validation with gridSearchLearn
                     force.max.leaves = NULL,
                     learning.rate = .5,
                     ipw = TRUE,
@@ -73,7 +75,6 @@ s_LINAD <- function(x, y = NULL,
                     gamlearner = "gamsel",
                     gam.params = list(),  # use force.lambda to force gamsel over cv.gamsel
                     nvmax = 3,
-                    lookback = TRUE, # requires cross-validation with gridSearchLearn
                     gamma = .5,
                     gamma.on.lin = FALSE,
                     lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", 
