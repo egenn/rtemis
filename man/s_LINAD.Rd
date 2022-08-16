@@ -11,6 +11,7 @@ s_LINAD(
   y.test = NULL,
   weights = NULL,
   max.leaves = 20,
+  lookback = TRUE,
   force.max.leaves = NULL,
   learning.rate = 0.5,
   ipw = TRUE,
@@ -22,7 +23,6 @@ s_LINAD(
   gamlearner = "gamsel",
   gam.params = list(),
   nvmax = 3,
-  lookback = TRUE,
   gamma = 0.5,
   gamma.on.lin = FALSE,
   lin.type = c("glmnet", "forwardStepwise", "cv.glmnet", "lm.ridge", "allSubsets",
@@ -91,6 +91,9 @@ this to a value > 1, triggers cross-validation to find best number of leaves.
 To force a given number of leaves and not cross-validate, set 
 \code{force.max.leaves} to any (integer) value.}
 
+\item{lookback}{Logical: If TRUE, use validation error to decide best
+number of leaves to use.}
+
 \item{force.max.leaves}{Integer: If set, \code{max.leaves} is ignored and
 the tree will attempt to reach this number of leaves, without performing
 tuning number of leaves.}
@@ -119,9 +122,6 @@ Default = NULL (random seed)}
 "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 than n of features in \code{x} are provided, they will be excluded}
 
-\item{lookback}{Logical: If TRUE, check validation error to decide best 
-number of leaves to use.}
-
 \item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
 do not belong to node get multiplied by this amount}
 
@@ -136,7 +136,8 @@ linear model to fit on the root node.}
 \item{first.lin.alpha}{Numeric: alpha for the first linear model, if
 \code{first.lin.type} is "glmnet" or "cv.glmnet"}
 
-\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
+\item{lambda}{[gS] Numeric: lambda value for lin.type \code{glmnet}, 
+\code{cv.glmnet}, \code{lm.ridge}}
 
 \item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
 to fit linear model}

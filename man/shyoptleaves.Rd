@@ -40,7 +40,7 @@ shyoptleaves(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{lookback}{Logical: If TRUE, check validation error to decide best 
+\item{lookback}{Logical: If TRUE, use validation error to decide best
 number of leaves to use.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -62,7 +62,8 @@ do not belong to node get multiplied by this amount}
 to not fit linear models
 See \link{lincoef} for more}
 
-\item{lambda}{[gS] Float: lambda parameter for \code{MASS::lm.ridge}}
+\item{lambda}{[gS] Numeric: lambda value for lin.type \code{glmnet}, 
+\code{cv.glmnet}, \code{lm.ridge}}
 
 \item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
 "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
