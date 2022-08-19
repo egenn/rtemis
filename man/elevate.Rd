@@ -13,7 +13,7 @@ elevate(
   .decompose = NULL,
   weights = NULL,
   n.repeats = 1,
-  outer.resampling = rtset.resample(resampler = "strat.sub", n.resamples = 10, ),
+  outer.resampling = rtset.resample(resampler = "strat.sub", n.resamples = 10),
   inner.resampling = rtset.resample(resampler = "kfold", n.resamples = 5),
   bag.fn = median,
   x.name = NULL,

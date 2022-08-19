@@ -29,8 +29,10 @@
 #' @param y.name Character: Name of outcome
 # #' @param save.data Logical: Save train, test, fitted, and predicted data for each resample.
 # #'   Defaults to TRUE
-#' @param outer.n.workers Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
-#' (tuning) or the learner itself is parallelized. Don't parallelize the parallelization
+#' @param outer.n.workers Integer: Number of cores to use for the outer i.e. 
+#' testing resamples. You are likely parallelizing either in the inner
+#' (tuning) or the learner itself is parallelized. Don't parallelize the 
+#' parallelization
 #' @param parallel.type Character: "psock" (Default), "fork"
 #' @param print.res.plot Logical: Print model performance plot for each resample.
 #'   Defaults to FALSE
@@ -101,7 +103,7 @@ elevate <- function(x, y = NULL,
                     n.repeats = 1,
                     outer.resampling = rtset.resample(
                         resampler = "strat.sub",
-                        n.resamples = 10,
+                        n.resamples = 10
                     ),
                     inner.resampling = rtset.resample(
                         resampler = "kfold",
@@ -113,6 +115,7 @@ elevate <- function(x, y = NULL,
                     save.mods = TRUE,
                     save.tune = TRUE,
                     bag.fitted = FALSE,
+                    # parallelize outer (testing) resamples
                     outer.n.workers = 1,
                     print.plot = TRUE,
                     plot.fitted = FALSE,
