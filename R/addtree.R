@@ -13,7 +13,7 @@
 #' @param y Integer {-1, 1}: Vector of binary outcomes
 #' @param catPredictors Optional: Logical vector indicating categorical features
 #' @param depthLimit Integer: Maximum depth of tree to grow
-#' @param learningRate learning rate for the Newton Raphson step that updates the
+#' @param learning.rate learning rate for the Newton Raphson step that updates the
 #' function values of the node for \code{update = "exponential"}
 #' @param gamma Float (0, 1): Acceleration factor
 #' @param update Character: "Exponential" or "Polynomial"
@@ -30,7 +30,7 @@
 addtree <- function(x, y,
                     catPredictors = NULL,
                     depthLimit = 8,
-                    learningRate = 1,
+                    learning.rate = 1,
                     gamma = 0,
                     update = "exponential",
                     min.update = ifelse(update == "polynomial", 10, 1000),
@@ -97,7 +97,7 @@ addtree <- function(x, y,
                                        colIdx = seq(NCOL(x)),
                                        depth = 0,
                                        depthLimit,
-                                       learningRate,
+                                       learning.rate,
                                        gamma,
                                        membership,
                                        min.membership,
@@ -132,7 +132,7 @@ addtree <- function(x, y,
 #   colIdx          -   the indices of features (columns) under consideration
 #   depth           -   current depth of the tree
 #   depthLimit      -   maximum depth of the tree
-#   learningRate    -   learning rate for the Newton Raphson step that
+#   learning.rate    -   learning rate for the Newton Raphson step that
 #                       updates the function values of the node
 #   lambda          -   acceleration factor
 #
@@ -171,7 +171,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                          colIdx,
                                          depth,
                                          depthLimit,
-                                         learningRate,
+                                         learning.rate,
                                          gamma,
                                          membership,
                                          min.membership,
@@ -291,7 +291,7 @@ likelihoodMediboostSplitNode <- function(x, y,
         # nodeValueLeft <- c(sign(y[leftIdx] %*% leftWeight) * Inf)
         nodeValueLeft <- -sign(weightedFirstDerLeft) * Inf
       } else {
-        updateVal <- learningRate * sign((weightedFirstDerLeft)) *
+        updateVal <- learning.rate * sign((weightedFirstDerLeft)) *
           min(min.update, abs(weightedFirstDerLeft / weightedSecDerLeft))
         nodeValueLeft <- c(node$value - updateVal) # scalar
       }
@@ -299,8 +299,8 @@ likelihoodMediboostSplitNode <- function(x, y,
       # Protect from taking too big a step: ensure step is always smaller than optimal
       # Using exp(log(a)-log(b)) = a/b to avoid singularity errors in
       # the gradient step when the weights approach zero
-      # nodeValueLeft <- node$value - Re(exp(log(learningRate * (weightedFirstDerLeft)) - log(weightedSecDerLeft)))
-      # observValuesLeft <- funcValueLeft - Re(exp(log(learningRate * (weightedFirstDerLeft)) - log(weightedSecDerLeft)))
+      # nodeValueLeft <- node$value - Re(exp(log(learning.rate * (weightedFirstDerLeft)) - log(weightedSecDerLeft)))
+      # observValuesLeft <- funcValueLeft - Re(exp(log(learning.rate * (weightedFirstDerLeft)) - log(weightedSecDerLeft)))
 
       # vector, length < y
       observValuesLeft <- funcValueLeft - nodeValueLeft
@@ -319,8 +319,8 @@ likelihoodMediboostSplitNode <- function(x, y,
         # nodeValueRight <- c(sign(y[rightIdx] %*% rightWeight) * Inf)
         nodeValueRight <- -sign(weightedFirstDerRight) * Inf
       } else {
-        # 12.31.2017 add learningRate
-        updateVal <- learningRate * sign(weightedFirstDerRight) *
+        # 12.31.2017 add learning.rate
+        updateVal <- learning.rate * sign(weightedFirstDerRight) *
           min(min.update, abs(weightedFirstDerRight / weightedSecDerRight))
         nodeValueRight <- c(node$value - updateVal) # scalar
       }
@@ -398,7 +398,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                                  colIdx = seq(NCOL(x)),
                                                  depth = depth + 1,
                                                  depthLimit,
-                                                 learningRate,
+                                                 learning.rate,
                                                  gamma,
                                                  membership = membershipRight,
                                                  min.membership = min.membership,
@@ -418,7 +418,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                                 colIdx = seq(NCOL(x)),
                                                 depth = depth + 1,
                                                 depthLimit,
-                                                learningRate,
+                                                learning.rate,
                                                 gamma,
                                                 membership = membershipLeft,
                                                 min.membership = min.membership,
