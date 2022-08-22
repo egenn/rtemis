@@ -403,3 +403,30 @@ print1 <- function(x, ...) {
 print1.default <- function(x, ...) {
     head(x, 1)
 }
+
+
+list2text <- function(x, sep = ": ", line = "\n") {
+    .names <- names(x)
+    sapply(seq_along(x), \(i) {
+        paste0(.names[i], sep, x[[i]], line)
+    }) |> paste0(collapse = "")
+}
+
+
+list2html <- function(x, sep = ": ",
+                      col = "#16A0AC",
+                      key.weight = 100,
+                      value.weight = 300,
+                      line = "<br>") {
+    .names <- names(x)
+    sapply(seq_along(x), \(i) {
+        paste0(
+            span(.names[i], style = paste0("font-weight:", key.weight, ";")),
+            sep,
+            span(x[[i]], style = paste0("color:", col, "; font-weight:", value.weight, ";")),
+            line
+        )
+    }) |>
+        paste0(collapse = "") |>
+        htmltools::HTML()
+}
