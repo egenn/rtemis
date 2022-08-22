@@ -9,7 +9,7 @@ addtree(
   y,
   catPredictors = NULL,
   depthLimit = 8,
-  learningRate = 1,
+  learning.rate = 1,
   gamma = 0,
   update = "exponential",
   min.update = ifelse(update == "polynomial", 10, 1000),
@@ -33,7 +33,7 @@ addtree(
 
 \item{depthLimit}{Integer: Maximum depth of tree to grow}
 
-\item{learningRate}{learning rate for the Newton Raphson step that updates the
+\item{learning.rate}{learning rate for the Newton Raphson step that updates the
 function values of the node for \code{update = "exponential"}}
 
 \item{gamma}{Float (0, 1): Acceleration factor}

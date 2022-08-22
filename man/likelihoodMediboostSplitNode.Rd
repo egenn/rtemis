@@ -14,7 +14,7 @@ likelihoodMediboostSplitNode(
   colIdx,
   depth,
   depthLimit,
-  learningRate,
+  learning.rate,
   gamma,
   membership,
   min.membership,

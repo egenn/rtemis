@@ -20,7 +20,9 @@ linadleaves(
   minobsinnode.lin = 10,
   lin.type = "glmnet",
   first.lin.type = "glmnet",
+  first.lin.learning.rate = 1,
   first.lin.alpha = 1,
+  first.lin.lambda = NULL,
   gamma = 0.01,
   gamma.on.lin = FALSE,
   select.leaves.smooth = TRUE,
@@ -38,8 +40,7 @@ linadleaves(
   .rho = TRUE,
   rho.max = 1000,
   rho.def = 0.1,
-  loss.fn = switch(type, Regression = mse, Classification = class.loss, Survival =
-    surv.loss),
+  loss.fn = switch(type, Regression = mse, Classification = class.loss),
   verbose = TRUE,
   plot.tuning = TRUE,
   trace = 0

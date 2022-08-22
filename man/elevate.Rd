@@ -75,8 +75,10 @@ if running many resamples). Default = TRUE}
 \item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged prediction on the full sample. To get a
 bagged prediction on new data using the same models, use \link{predict.rtModCV}}
 
-\item{outer.n.workers}{Integer: Number of cores to use. Default = 1. You are likely parallelizing either in the inner
-(tuning) or the learner itself is parallelized. Don't parallelize the parallelization}
+\item{outer.n.workers}{Integer: Number of cores to use for the outer i.e. 
+testing resamples. You are likely parallelizing either in the inner
+(tuning) or the learner itself is parallelized. Don't parallelize the 
+parallelization}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
