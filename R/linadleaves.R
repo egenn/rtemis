@@ -27,44 +27,46 @@
 
 # [[---1. linadleaves---]] ----
 linadleaves <- function(x, y,
-                             x.valid = NULL, y.valid = NULL,
-                             type,
-                             lookback = FALSE,
-                             weights = NULL,
-                             max.leaves = 5,
-                             gamleaves = FALSE,
-                             gamlearner = "s_GAMSEL",
-                             gam.params = list(degrees = 5),
-                             learning.rate = 1,
-                             minobsinnode.lin = 10,
-                             lin.type = "glmnet",
-                             first.lin.type = "glmnet", # 
-                             first.lin.alpha = 1,
-                             gamma = .01,
-                             gamma.on.lin = FALSE,
-                             select.leaves.smooth = TRUE,
-                             alpha = 1,
-                             lambda = .01,
-                             lambda.seq = NULL,
-                             cv.glmnet.nfolds = 5,
-                             which.cv.glmnet.lambda = "lambda.1se",
-                             nvmax = 2,
-                             part.minsplit = 100,
-                             part.xval = 0,
-                             part.max.depth = 1,
-                             part.cp = 0,
-                             part.minbucket = 50,
-                             .rho = TRUE,
-                             rho.max = 1000,
-                             rho.def = .1,
-                             loss.fn = switch(type,
-                                 Regression = mse,
-                                 Classification = class.loss,
-                                 Survival = surv.loss
-                             ),
-                             verbose = TRUE,
-                             plot.tuning = TRUE,
-                             trace = 0) {
+                        x.valid = NULL, y.valid = NULL,
+                        type,
+                        lookback = FALSE,
+                        weights = NULL,
+                        max.leaves = 5,
+                        gamleaves = FALSE,
+                        gamlearner = "s_GAMSEL",
+                        gam.params = list(degrees = 5),
+                        learning.rate = 1,
+                        minobsinnode.lin = 10,
+                        lin.type = "glmnet",
+                        first.lin.type = "glmnet", # 
+                        first.lin.learning.rate = 1,
+                        first.lin.alpha = 1,
+                        first.lin.lambda = NULL,
+                        gamma = .01,
+                        gamma.on.lin = FALSE,
+                        select.leaves.smooth = TRUE,
+                        alpha = 1,
+                        lambda = .01,
+                        lambda.seq = NULL,
+                        cv.glmnet.nfolds = 5,
+                        which.cv.glmnet.lambda = "lambda.1se",
+                        nvmax = 2,
+                        part.minsplit = 100,
+                        part.xval = 0,
+                        part.max.depth = 1,
+                        part.cp = 0,
+                        part.minbucket = 50,
+                        .rho = TRUE,
+                        rho.max = 1000,
+                        rho.def = .1,
+                        loss.fn = switch(type,
+                            Regression = mse,
+                            Classification = class.loss
+                        #  Survival = surv.loss
+                        ),
+                        verbose = TRUE,
+                        plot.tuning = TRUE,
+                        trace = 0) {
 
     # Arguments  ----
     .class <- type == "Classification"
@@ -186,7 +188,7 @@ linadleaves <- function(x, y,
             method = first.lin.type,
             nvmax = nvmax,
             alpha = first.lin.alpha,
-            lambda = lambda,
+            lambda = first.lin.lambda,
             lambda.seq = lambda.seq,
             cv.glmnet.nfolds = cv.glmnet.nfolds,
             which.cv.glmnet.lambda = which.cv.glmnet.lambda
@@ -265,7 +267,7 @@ linadleaves <- function(x, y,
     coef <- lincoef(
         x = g$xm[!index, -1, drop = FALSE],
         y = resid[!index],
-        learning.rate = 1,
+        learning.rate = first.lin.learning.rate,
         weights = weights[!index],
         method = first.lin.type,
         nvmax = nvmax,
@@ -280,8 +282,9 @@ linadleaves <- function(x, y,
     linVal <- c(g$xm %*% coef) # n
 
     if (.class && .rho && lin.type != "none") {
-        firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
-        secDer.rho <- t((4 * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
+        # check learning.rate
+        firstDer.rho <- t((-2 * 1 / learning.rate * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
+        secDer.rho <- t((4 * 1 / learning.rate * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
         rho <- -firstDer.rho / secDer.rho
         if (trace > 1) {
             if (any(rho > rho.max)) warning("rho values > rho.max =", rho.max, "found")
@@ -1289,12 +1292,12 @@ as.data.tree.linadleaves <- function(object) {
 
 
 class.loss <- function(y, Fval) {
-    c(log(1 + exp(-2 * y * Fval)))
+    -c(log(1 + exp(-2 * y * Fval)))
 }
 
-class.lossw <- function(y, Fval, weights) {
-    c(log(1 + exp(-2 * y * Fval)) %*% weights)
-}
+# class.lossw <- function(y, Fval, weights) {
+#     c(log(1 + exp(-2 * y * Fval)) %*% weights)
+# }
 
 # [[---6. selectleaves---]] ----
 #' Select leaves
