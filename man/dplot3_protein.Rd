@@ -9,6 +9,9 @@ dplot3_protein(
   site = NULL,
   region = NULL,
   ptm = NULL,
+  variant = NULL,
+  disease.variants = NULL,
+  label.group = NULL,
   n.per.row = NULL,
   main = NULL,
   main.xy = c(0.055, 0.975),
@@ -18,9 +21,9 @@ dplot3_protein(
   main.yanchor = "top",
   layout = c("simple", "grid", "1curve", "2curve"),
   show.markers = TRUE,
-  show.text = TRUE,
-  font.size = 11,
-  text.col = NULL,
+  show.labels = TRUE,
+  font.size = 16,
+  label.col = NULL,
   scatter.mode = "markers+lines",
   marker.size = 26,
   marker.col = NULL,
@@ -30,7 +33,7 @@ dplot3_protein(
   line.col = NULL,
   line.alpha = 1,
   line.width = 2,
-  show.full.names = FALSE,
+  show.full.names = TRUE,
   region.scatter.mode = "markers+lines",
   region.style = 3,
   region.marker.size = marker.size,
@@ -56,9 +59,8 @@ dplot3_protein(
   site.marker.alpha = 1,
   site.border.width = 1,
   site.palette = rtPalette,
-  disease.variants = NULL,
-  text.group = NULL,
-  text.group.palette = c(theme$fg, "red"),
+  variant.col = c("#FA6E1E"),
+  disease.variant.col = "#ff0000",
   showlegend.ptm = TRUE,
   ptm.col = 2:10,
   ptm.symbol = "circle",
@@ -68,6 +70,7 @@ dplot3_protein(
   annotate.position.every = 10,
   annotate.position.alpha = 0.5,
   annotate.position.ay = -0.4 * marker.size,
+  position.font.size = font.size - 3,
   legend.xy = c(0.97, 0.954),
   legend.xanchor = "left",
   legend.yanchor = "top",
@@ -86,6 +89,7 @@ dplot3_protein(
   yaxis.autorange = "reversed",
   scaleanchor.y = "x",
   scaleratio.y = 1,
+  hoverlabel.align = "left",
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
   scrollZoom = TRUE,
@@ -110,6 +114,10 @@ highlighted by coloring the border of markers}
 highlighted by coloring the markers and lines of regions using the
 \code{palette} colors}
 
+\item{ptm}{List of post-translational modifications}
+
+\item{variant}{List of variant information}
+
 \item{n.per.row}{Integer: Number of amino acids to show per row}
 
 \item{main}{Character: Main title}
@@ -131,7 +139,7 @@ middle}
 
 \item{show.markers}{Logical: If TRUE, show amino acid markers}
 
-\item{show.text}{Logical: If TRUE, annotate amino acids with elements
+\item{show.labels}{Logical: If TRUE, annotate amino acids with elements
 from input \code{x}}
 }
 \description{
@@ -143,10 +151,10 @@ tau <- seqinr::read.fasta("https://rest.uniprot.org/uniprotkb/P10636.fasta",
     seqtype = "AA"
 )
 dplot3_protein(as.character(tau[[1]]))
-}
+
 # or directly using the UniProt accession number:
 dplot3_protein("P10636")
-
+}
 }
 \author{
 E.D. Gennatas

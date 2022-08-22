@@ -2,7 +2,7 @@
 % Please edit documentation in R/addtree.R
 \name{addtree}
 \alias{addtree}
-\title{Additive Tree}
+\title{Additive Tree training preocedure}
 \usage{
 addtree(
   x,
@@ -56,7 +56,7 @@ and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 Interpretable Decision Making in the Era of Precision Medicine.
 }
 \author{
-E.D. Gennatas (R), 
+E.D. Gennatas (R),
 Gilmer Valdes, Jose Marcio Luna Castaneda (original MATLAB)
 }
 \keyword{internal}
