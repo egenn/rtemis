@@ -868,19 +868,6 @@ as.data.tree.shyoptleaves <- function(object) {
 } # rtemis::as.data.tree.shytreeLeaves
 
 
-class.loss <- function(y, Fval) {
-
-  c(log(1 + exp(-2 * y * Fval)))
-
-}
-
-class.lossw <- function(y, Fval, weights) {
-
-  c(log(1 + exp(-2 * y * Fval)) %*% weights)
-
-}
-
-
 shyoptree.select.leaves <- function(object,
                                     x, y,
                                     x.valid, y.valid,
