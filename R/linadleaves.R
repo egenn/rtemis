@@ -343,7 +343,6 @@ linadleaves <- function(x, y,
         for (i in g$open) {
             if (is.null(g$tree[[paste(i)]]$split.rule)) {
                 if (trace > 0) msg0("Working on node id #", i, "...")
-                if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
                 splitlineRC(
                     g = g,
                     type = type,
@@ -365,6 +364,7 @@ linadleaves <- function(x, y,
                     verbose = verbose,
                     trace = trace
                 )
+                if (trace > 1) msg0("Node #", i, ": split.rule: ", g$tree[[paste(i)]]$split.rule)
             } else {
                 if (trace > 2) msg("Node #", i, " already processed", sep = "")
             }
