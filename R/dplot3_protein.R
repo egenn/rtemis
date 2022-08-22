@@ -8,6 +8,8 @@
 #' @param region Named list of lists with indices of regions. These will be
 #' highlighted by coloring the markers and lines of regions using the
 #' \code{palette} colors
+#' @param ptm List of post-translational modifications
+#' @param variant List of variant information
 #' @param n.per.row Integer: Number of amino acids to show per row
 #' @param main Character: Main title
 #' @param main.xy Numeric vector, length 2: x and y coordinates for title.
@@ -20,7 +22,7 @@
 #' @param main.yanchor Character: yanchor for title
 #' @param layout Character: "1curve", "grid": type of layout to use
 #' @param show.markers Logical: If TRUE, show amino acid markers
-#' @param show.text Logical: If TRUE, annotate amino acids with elements
+#' @param show.labels Logical: If TRUE, annotate amino acids with elements
 #' from input \code{x}
 #'
 #' @author E.D. Gennatas
@@ -31,14 +33,17 @@
 #'     seqtype = "AA"
 #' )
 #' dplot3_protein(as.character(tau[[1]]))
-#' }
+#' 
 #' # or directly using the UniProt accession number:
 #' dplot3_protein("P10636")
-#'
+#' }
 dplot3_protein <- function(x,
                            site = NULL,
                            region = NULL,
                            ptm = NULL,
+                           variant = NULL,
+                           disease.variants = NULL,
+                           label.group = NULL,
                            n.per.row = NULL,
                            main = NULL,
                            main.xy = c(0.055, .975),
@@ -48,9 +53,9 @@ dplot3_protein <- function(x,
                            main.yanchor = "top",
                            layout = c("simple", "grid", "1curve", "2curve"),
                            show.markers = TRUE,
-                           show.text = TRUE,
-                           font.size = 11,
-                           text.col = NULL,
+                           show.labels = TRUE,
+                           font.size = 16,
+                           label.col = NULL,
                            scatter.mode = "markers+lines",
                            # AA marker
                            marker.size = 26,
@@ -63,7 +68,7 @@ dplot3_protein <- function(x,
                            line.alpha = 1,
                            line.width = 2,
                            # Hover names
-                           show.full.names = FALSE,
+                           show.full.names = TRUE,
                            # regions
                            region.scatter.mode = "markers+lines",
                            region.style = 3,
@@ -91,10 +96,10 @@ dplot3_protein <- function(x,
                            site.marker.alpha = 1,
                            site.border.width = 1,
                            site.palette = rtPalette,
+                           # Variants
+                           variant.col = c("#FA6E1E"),
                            # Text groups
-                           disease.variants = NULL,
-                           text.group = NULL,
-                           text.group.palette = c(theme$fg, "red"),
+                           disease.variant.col = "#ff0000",
                            # PTMs
                            showlegend.ptm = TRUE,
                            ptm.col = 2:10,
@@ -106,6 +111,7 @@ dplot3_protein <- function(x,
                            annotate.position.every = 10,
                            annotate.position.alpha = .5,
                            annotate.position.ay = -.4 * marker.size,
+                           position.font.size = font.size - 3,
                            # Legend
                            legend.xy = c(.97, .954),
                            legend.xanchor = "left",
@@ -126,6 +132,8 @@ dplot3_protein <- function(x,
                            yaxis.autorange = "reversed",
                            scaleanchor.y = "x",
                            scaleratio.y = 1,
+                           # Layout
+                           hoverlabel.align = "left",
                            # config
                            displayModeBar = TRUE,
                            modeBar.file.format = "svg",
@@ -215,7 +223,8 @@ dplot3_protein <- function(x,
             theme[[names(extraargs)[i]]] <- extraargs[[i]]
         }
     }
-    if (is.null(text.col)) text.col <- theme$fg
+    if (is.null(label.col)) label.col <- theme$fg
+    label.col <- recycle(label.col, x)
     if (is.null(marker.col)) marker.col <- color_fade(theme$fg, theme$bg, .9)
     marker.col <- plotly::toRGB(marker.col, alpha = marker.alpha)
     if (is.null(line.col)) line.col <- color_fade(theme$fg, theme$bg, .9)
@@ -255,6 +264,18 @@ dplot3_protein <- function(x,
         }
     } else {
         xnames <- x
+    }
+
+    # Variants: overwrite xnames with tooltip info
+    if (!is.null(variant)) {
+        for (i in seq_along(variant)) {
+            varidi <- variant[[i]][["Position"]]
+            xnames[varidi] <- paste0(
+                xnames[varidi],
+                "\n\n",
+                list2html(variant[[i]], col = variant.col)
+            )
+        }
     }
 
     # plotly ----
@@ -512,36 +533,46 @@ dplot3_protein <- function(x,
     }
 
     # AA labels ----
-    if (show.text) {
-        text.col.levels <- unique(text.col)
-        n.text.groups <- length(text.col.levels)
-        if (is.null(text.group) & n.text.groups > 1) {
-            text.group <- factor(text.col)
+    if (show.labels) {
+        # Variants
+        if (!is.null(variant)) {
+            variant.idi <- sapply(variant, \(v) v$Position)
+            label.col[variant.idi] <- variant.col
         }
-        if (is.null(text.group) & !is.null(disease.variants)) {
-            text.group <- character(length(x))
-            text.group[disease.variants] <- "Disease-Associated Variant"
-            text.group <- factor(text.group)
+        # Disease variants
+        if (!is.null(disease.variants)) {
+            label.col[disease.variants] <- disease.variant.col
         }
-        if (is.null(text.group)) {
-            plt |> plotly::add_annotations(
-                xref = "x",
-                yref = "y",
-                x = xs,
-                y = ys,
-                text = x,
-                font = list(
-                    family = theme$font.family,
-                    size = font.size,
-                    color = text.col
-                ),
-                showarrow = FALSE
-            ) -> plt
-        } else {
-            text.group <- factor(text.group)
-            text.group.levels <- levels(text.group)
-            for (i in seq_along(text.group.levels)) {
-                idx <- text.group == text.group.levels[i]
+        label.group <- factor(label.col)
+        # label.col.levels <- unique(label.col)
+        # n.label.groups <- length(label.col.levels)
+        # if (is.null(label.group) & n.label.groups > 1) {
+        #     label.group <- factor(label.col)
+        # }
+        # if (is.null(label.group) & !is.null(disease.variants)) {
+        #     label.group <- character(length(x))
+        #     label.group[disease.variants] <- "Disease-Associated Variant"
+        #     label.group <- factor(label.group)
+        # }
+        # if (is.null(label.group)) {
+        #     plt |> plotly::add_annotations(
+        #         xref = "x",
+        #         yref = "y",
+        #         x = xs,
+        #         y = ys,
+        #         text = x,
+        #         font = list(
+        #             family = theme$font.family,
+        #             size = font.size,
+        #             color = label.col
+        #         ),
+        #         showarrow = FALSE
+        #     ) -> plt
+        # } else {
+            # label.group <- factor(label.group)
+            label.group.col <- levels(label.group)
+            for (i in seq_along(label.group.col)) {
+                idx <- label.group == label.group.col[i]
                 plt |> plotly::add_annotations(
                     xref = "x",
                     yref = "y",
@@ -551,14 +582,14 @@ dplot3_protein <- function(x,
                     font = list(
                         family = theme$font.family,
                         size = font.size,
-                        color = text.group.palette[[i]]
+                        color = label.group.col[[i]]
                     ),
                     showarrow = FALSE
-                    # name = text.group.levels[[i]],
-                    # showlegend = nchar(text.group.levels[[i]]) > 0
+                    # name = label.group.levels[[i]],
+                    # showlegend = nchar(label.group.levels[[i]]) > 0
                 ) -> plt
             }
-        }
+        # }
     }
 
     # Position annotations ----
@@ -577,7 +608,7 @@ dplot3_protein <- function(x,
             showarrow = T,
             arrowcolor = "#ffffff00",
             font = list(
-                size = font.size,
+                size = position.font.size,
                 family = theme$font.family,
                 color = plotly::toRGB(theme$fg, alpha = annotate.position.alpha)
             )
@@ -640,7 +671,8 @@ dplot3_protein <- function(x,
         paper_bgcolor = theme$bg,
         plot_bgcolor = theme$plot.bg,
         margin = margin,
-        legend = .legend
+        legend = .legend,
+        hoverlabel = list(align = "hoverlabel.align")
     )
 
     # Config
