@@ -54,11 +54,11 @@ dplot3_protein <- function(x,
                            layout = c("simple", "grid", "1curve", "2curve"),
                            show.markers = TRUE,
                            show.labels = TRUE,
-                           font.size = 16,
+                           font.size = 20,
                            label.col = NULL,
                            scatter.mode = "markers+lines",
                            # AA marker
-                           marker.size = 26,
+                           marker.size = 28,
                            marker.col = NULL, #"gray18",
                            marker.alpha = 1,
                            marker.symbol = "circle",
@@ -84,7 +84,7 @@ dplot3_protein <- function(x,
                            region.palette = rtPalette,
                            region.outline.only = FALSE,
                            region.outline.pad = 2, # for fake polys
-                           region.pad = .45, # for real polys
+                           region.pad = .35, # for real polys
                            region.fill.alpha = .1666666,
                            region.fill.shape = "line",
                            region.fill.smoothing = 1,
@@ -94,7 +94,7 @@ dplot3_protein <- function(x,
                            site.marker.size = marker.size,
                            site.marker.symbol = marker.symbol,
                            site.marker.alpha = 1,
-                           site.border.width = 1,
+                           site.border.width = 1.5,
                            site.palette = rtPalette,
                            # Variants
                            variant.col = c("#FA6E1E"),
@@ -104,14 +104,14 @@ dplot3_protein <- function(x,
                            showlegend.ptm = TRUE,
                            ptm.col = 2:10,
                            ptm.symbol = "circle",
-                           ptm.offset = .15,
-                           ptm.pad = .15,
+                           ptm.offset = .12,
+                           ptm.pad = .12,
                            ptm.marker.size = marker.size/4.5,
                            # Position annotations
                            annotate.position.every = 10,
                            annotate.position.alpha = .5,
                            annotate.position.ay = -.4 * marker.size,
-                           position.font.size = font.size - 3,
+                           position.font.size = font.size - 6,
                            # Legend
                            legend.xy = c(.97, .954),
                            legend.xanchor = "left",
@@ -210,9 +210,6 @@ dplot3_protein <- function(x,
         ys[seq(n.per.row, n, n.per.row) + 1] <-
             ys[seq(n.per.row, n, n.per.row)] + 1
     }
-
-    # add .5 to ends of lines
-    # diff(ys)
 
     # Theme ----
     extraargs <- list(...)
@@ -738,13 +735,7 @@ poly_xys <- function(xs,
         }
     }
 
-    # dd <- c(0, diff(as.integer(factor(d))))
-    # dd <- cumsum(abs(c(0, diff(as.integer(factor(d))))))
-    # dn <- factor(d, levels = c("rb", "l", "r", "lb"), labels = c(-2, -1, 1, 2))
-    # dd <- c(0, diff(dn))
-    # dn <- factor(d, levels = c("rb", "l", "r", "lb"), labels = c(0, -1, 1, 0))
-
-    # first ----
+    # première ----
     px_1 <- switch(d[1],
         "r" = xs[1] - pad,
         "l" = xs[1] + pad,
@@ -821,16 +812,16 @@ poly_xys <- function(xs,
     px_retour <-
         sapply(seq_along(dr), \(k) {
             if (dr[k] == "rb") {
-                if (k == 1 |k == length(dr)) {
+                if (k == 1 | k == length(dr)) {
                     rep(xsr[k] - pad, 2)
                 } else {
-                    rep(xsr[k] - sqrt(.5 * pad^2), 2)
+                    rep(xsr[k] - 1.5* sqrt(.5 * pad^2), 2)
                 }
             } else if (dr[k] == "lb") {
                 if (k == 1 | k == length(dr)) {
                     rep(xsr[k] + pad, 2)
                 } else {
-                    rep(xsr[k] + sqrt(.5 * pad^2), 2)
+                    rep(xsr[k] + 1.5* sqrt(.5 * pad^2), 2)
                 }
             } else {
                 xsr[k]
@@ -871,7 +862,7 @@ poly_xys <- function(xs,
         }
     }
 
-    # penultimate ----
+    # pénultième ----
     py_pen <- if (d[1] %in% c("rb", "lb")) ys[1] - sqrt(.5 * pad^2) else ys[1] + pad
 
     # out ----
