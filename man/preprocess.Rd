@@ -29,7 +29,7 @@ preprocess(
   nonzeroFactors = FALSE,
   scale = FALSE,
   center = scale,
-  removeConstants = TRUE,
+  removeConstants = FALSE,
   removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
@@ -133,9 +133,6 @@ default it is the same as \code{scale}}
 Prepare data for analysis and visualization
 }
 \details{
-By default, removes constant features and duplicated cases
-(removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
-
 Order of operations (reflected by order of arguments in usage):
 \itemize{
 \item keep complete cases only
