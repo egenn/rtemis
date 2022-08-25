@@ -44,7 +44,7 @@ linadleaves <- function(x, y,
                         first.lin.lambda = NULL,
                         gamma = .01,
                         gamma.on.lin = FALSE,
-                        select.leaves.smooth = TRUE,
+                        select.leaves.smooth = FALSE,
                         alpha = 1,
                         lambda = .01,
                         lambda.seq = NULL,
@@ -564,7 +564,8 @@ linadleaves <- function(x, y,
 
     if (lookback) {
         if (trace > 1) msg("Starting lookback...", color = rtHighlight)
-        opt.leaves <- selectleaves(.mod,
+        opt.leaves <- selectleaves(
+            .mod,
             x = x, y = y,
             x.valid = x.valid, y.valid = y.valid,
             smooth = select.leaves.smooth,
@@ -1312,7 +1313,7 @@ class.loss <- function(y, Fval) {
 selectleaves <- function(object,
                          x, y,
                          x.valid, y.valid,
-                         smooth = TRUE,
+                         smooth = FALSE,
                          print.plot = TRUE,
                          verbose = TRUE,
                          trace = 0) {
