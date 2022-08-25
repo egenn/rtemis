@@ -16,10 +16,17 @@
 #' @param xname Character: Variable name
 #' @param verbose Logical: If TRUE, print messages to console
 #'
-#' @return For vector input, a one-hot-encoded matrix, for data.frame frame input, an expanded data.frame where all
-#' factors are one-hot encoded
+#' @return For vector input, a one-hot-encoded matrix, for data.frame frame 
+#' input, an expanded data.frame where all factors are one-hot encoded
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' iris_oh <- oneHot(iris)
+#' # factor with only one unique value but 2 levels:
+#' vf <- factor(rep("alpha", 20), levels = c("alpha", "beta"))
+#' vf_onehot <- oneHot(vf)
+#' }
 
 oneHot <- function(x,
                    xname = NULL,
@@ -37,7 +44,8 @@ oneHot.default <- function(x,
                            xname = NULL,
                            verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
-  x <- factor(x)
+  # ensures if factor without all levels present, gets all columns created
+  if (!is.factor(x)) x <- factor(x)
   .levels <- levels(x)
   ncases <- NROW(x)
   index <- as.integer(x)
