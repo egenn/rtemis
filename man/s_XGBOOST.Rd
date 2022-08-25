@@ -35,7 +35,6 @@ s_XGBOOST(
   colsample_bytree = 1,
   colsample_bylevel = 1,
   lambda = 0,
-  lambda_bias = 0,
   alpha = 0,
   tree_method = "auto",
   sketch_eps = 0.03,
@@ -150,8 +149,6 @@ does not improve for this many rounds}
 \item{colsample_bylevel}{[gS] Numeric}
 
 \item{lambda}{[gS] L2 regularization on weights}
-
-\item{lambda_bias}{[gS] for *linear* booster: L2 regularization on bias}
 
 \item{alpha}{[gS] L1 regularization on weights}
 

@@ -17,7 +17,7 @@
 #'   will limit nrounds by monitoring inner CV error
 #' @param force.nrounds Integer: Number of rounds to run if not estimating optimal number by CV
 #' @param lambda [gS] L2 regularization on weights
-#' @param lambda_bias [gS] for *linear* booster: L2 regularization on bias
+# @param lambda_bias [gS] for *linear* booster: L2 regularization on bias
 #' @param alpha [gS] L1 regularization on weights
 #' @param eta [gS] Numeric (0, 1): Learning rate. Default = .1
 #' @param gamma [gS] Numeric: Minimum loss reduction required to make further partition
@@ -79,7 +79,7 @@ s_XGBOOST <- function(x, y = NULL,
                       colsample_bytree = 1,
                       colsample_bylevel = 1,
                       lambda = 0,
-                      lambda_bias = 0,
+                    #   lambda_bias = 0,
                       alpha = 0,
                       tree_method = "auto",
                       sketch_eps = .03,
@@ -324,7 +324,7 @@ s_XGBOOST <- function(x, y = NULL,
         colsample_bytree = colsample_bytree,
         colsample_bylevel = colsample_bylevel,
         lambda = lambda,
-        lambda_bias = lambda_bias,
+        # lambda_bias = lambda_bias,
         alpha = alpha,
         tree_method = tree_method,
         sketch_eps = sketch_eps,
