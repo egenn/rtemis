@@ -25,7 +25,7 @@ linadleaves(
   first.lin.lambda = NULL,
   gamma = 0.01,
   gamma.on.lin = FALSE,
-  select.leaves.smooth = TRUE,
+  select.leaves.smooth = FALSE,
   alpha = 1,
   lambda = 0.01,
   lambda.seq = NULL,

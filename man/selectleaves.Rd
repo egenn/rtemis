@@ -10,7 +10,7 @@ selectleaves(
   y,
   x.valid,
   y.valid,
-  smooth = TRUE,
+  smooth = FALSE,
   print.plot = TRUE,
   verbose = TRUE,
   trace = 0
