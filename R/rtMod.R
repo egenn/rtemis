@@ -607,12 +607,19 @@ predict.rtMod <- function(object,
     } else if (object$mod.name == "RANGER") {
       predict.ranger <- getFromNamespace("predict.ranger", "ranger")
       estimated <- predict.ranger(object$mod, data = newdata, ...)$predictions
-    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" |
-               object$mod.name == "XGBDART") {
+    } else if (object$mod.name %in% c("XGBOOST", "XGBLIN", "XGBDART")) {
       # XGB: must convert newdata to xgb.DMatrix
-      estimated <- predict(object$mod, newdata = xgboost::xgb.DMatrix(as.matrix(newdata)))
+      if (any(sapply(newdata, is.factor))) {
+        newdata <- preprocess(newdata, oneHot = TRUE)
+      }
+      estimated <- predict(object$mod,
+        newdata = xgboost::xgb.DMatrix(as.matrix(newdata))
+      )
     } else if (object$mod.name == "MXFFN") {
-      estimated <- predict(object$mod, data.matrix(newdata), array.layout = "rowmajor")
+      estimated <- predict(object$mod,
+        data.matrix(newdata),
+        array.layout = "rowmajor"
+      )
     } else if (object$mod.name == "H2ODL") {
       newdata <- h2o::as.h2o(newdata, "newdata")
       estimated <- c(as.matrix(predict(object$mod, newdata)))
@@ -2320,9 +2327,11 @@ predict.rtModLite <- function(object, newdata, ...) {
       # GBM: must supply n.trees
       if (is.null(extraArgs$n.trees)) stop("Please provide n.trees")
       estimated <- predict(object$mod, n.trees = extraArgs$n.trees, ...)
-    } else if (object$mod.name == "XGB" | object$mod.name == "XGBLIN" |
-               object$mod.name == "XGBDART") {
+    } else if (object$mod.name %in% c("XGBOOST", "XGBLIN", "XGBDART")) {
       # XGB: must convert newdata to xgb.DMatrix
+      if (any(sapply(newdata, is.factor))) {
+        newdata <- preprocess(newdata, oneHot = TRUE)
+      }
       estimated <- predict(object$mod, newdata = xgboost::xgb.DMatrix(as.matrix(newdata)))
     } else if (object$mod.name == "MXFFN") {
       estimated <- predict(object$mod, data.matrix(newdata), array.layout = "rowmajor")
