@@ -7,9 +7,6 @@
 #'
 #' Prepare data for analysis and visualization
 #'
-#' By default, removes constant features and duplicated cases
-#' (removeConstants = TRUE, removeDuplicates = TRUE), everything else must be specified.
-#'
 #' Order of operations (reflected by order of arguments in usage):
 #'
 #'   * keep complete cases only
@@ -127,7 +124,7 @@ preprocess <- function(x, y = NULL,
                        nonzeroFactors = FALSE,
                        scale = FALSE,
                        center = scale,
-                       removeConstants = TRUE,
+                       removeConstants = FALSE,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
                        exclude = NULL,
