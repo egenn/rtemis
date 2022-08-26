@@ -161,6 +161,8 @@ dplot3_box <- function(
             labelify = TRUE,
             order.by.fn = NULL,
             font.size = 16,
+            # Axes
+            ylab.standoff = 18,
             legend = NULL,
             legend.col = NULL,
             legend.xy = NULL,
@@ -169,7 +171,7 @@ dplot3_box <- function(
             legend.yanchor = "auto",
             xaxis.type = "category",
             # margin = list(t = 35, pad = 0),
-            margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+            margin = list(b = 65, l = 65, t = 50, r = 12, pad = 0),
             automargin.x = TRUE,
             automargin.y = TRUE,
             # boxgap = 0, #1/nvars, #.12,
@@ -794,9 +796,10 @@ dplot3_box <- function(
         orientation = legend.orientation
     )
 
+    yaxis.title <- if (horizontal) xlab else ylab
         plt <- plotly::layout(plt,
             yaxis = list(
-                title = if (horizontal) xlab else ylab,
+                title = list(text = yaxis.title, standoff = ylab.standoff),
                 type = if (horizontal) xaxis.type else NULL,
                 titlefont = f,
                 showgrid = if (horizontal) FALSE else theme$grid,
