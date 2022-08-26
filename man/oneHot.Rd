@@ -26,8 +26,8 @@ oneHot_(x, xname = NULL, verbose = TRUE)
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \value{
-For vector input, a one-hot-encoded matrix, for data.frame frame input, an expanded data.frame where all
-factors are one-hot encoded
+For vector input, a one-hot-encoded matrix, for data.frame frame 
+input, an expanded data.frame where all factors are one-hot encoded
 }
 \description{
 One hot encode a vector or factors in a data.frame
@@ -40,6 +40,12 @@ This function is used by \link{preprocess}.
 \code{oneHot_} performs one-hot encoding in-place.
 }
 \examples{
+\dontrun{
+iris_oh <- oneHot(iris)
+# factor with only one unique value but 2 levels:
+vf <- factor(rep("alpha", 20), levels = c("alpha", "beta"))
+vf_onehot <- oneHot(vf)
+}
 oneHot(iris) |> head()
 ir <- data.table::as.data.table(iris)
 ir_oh <- oneHot(ir)
