@@ -4,6 +4,9 @@
 
 #' Present elevate models
 #' 
+#' Plot training and testing performance boxplots of multiple \link{rtModCV}
+#' objects created by \link{elevate} using \link{dplot3_box}
+#' 
 #' @param ... rtModCV objects created with \link{elevate}
 #' @param which.repeat Integer: which \code{rtModCV} repeat to plot
 #' @param metric Character: which metric to plot
