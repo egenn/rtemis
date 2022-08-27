@@ -88,7 +88,7 @@ is set).}
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
 graphics device size. Default = "m" (See \code{par("pty")})}
 
-\item{pch}{Integer: Point character. Default = 16}
+\item{pch}{Integer: Point character.}
 
 \item{x.axis.at}{Float, vector: x coordinates to place tick marks. 
 Default = NULL, determined by \code{graphics::axis} aautomatically}

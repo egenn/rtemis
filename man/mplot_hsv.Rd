@@ -5,18 +5,25 @@
 \title{Plot HSV color range}
 \usage{
 mplot_hsv(
-  h.steps = seq(0, 1, 0.0125),
-  s.steps = h.steps,
+  h.steps = seq(0, 1, 0.025),
+  s.steps = seq(0, 1, 0.05),
   v = 1,
   alpha = 1,
-  pch = 15,
+  pch = 16,
   bg = "black",
   axes = TRUE,
   pty = "s",
-  cex = 1,
+  cex = 2,
   mar = c(3, 3, 2, 0.5),
   lab.col = NULL,
-  type = c("polar", "cartesian")
+  type = c("radial", "square"),
+  line.col = "gray50",
+  show.grid = TRUE,
+  show.radial.grid = FALSE,
+  show.grid.labels = 1,
+  cex.axis = 1,
+  cex.lab = 1,
+  par.reset = TRUE
 )
 }
 \arguments{
@@ -34,23 +41,32 @@ Default = \code{seq(0, 1, .0125)}}
 
 \item{bg}{Color: Background color. Default = "black"}
 
-\item{axes}{Logical: for \code{type = "cartesian"}: If TRUE, draw axes.}
+\item{axes}{Logical: for \code{type = "square"}: If TRUE, draw axes.}
 
-\item{pty}{Character: for \code{type = "cartesian"}: "s", "r", par's pty
+\item{pty}{Character: for \code{type = "square"}: "s", "r", par's pty
 argument. Default = "s" (square plot)}
 
 \item{cex}{Float: \code{par/plot}'s cex argument.}
 
-\item{mar}{Float, vector: for \code{type = "cartesian"}: \code{par}'s mar
+\item{mar}{Float, vector: for \code{type = "square"}: \code{par}'s mar
 argument.}
 
 \item{lab.col}{Color: Color for axes and labels. Defaults to inverse of
 \code{bg}, i.e. white if bg is black}
 
-\item{type}{Character: "cartesian" for square plot, "polar" for radial plot.}
+\item{type}{Character: "square" for square plot, "radial" for radial plot.}
+
+\item{show.grid}{Logical: if TRUE, show grid then type is "radial"}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} before exit}
 }
 \description{
 Plot HSV color range
+}
+\examples{
+\dontrun{
+mplot_hsv()
+}
 }
 \author{
 E.D. Gennatas

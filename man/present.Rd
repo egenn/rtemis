@@ -8,16 +8,32 @@ present(
   ...,
   which.repeat = 1,
   metric = NULL,
+  plot.train = TRUE,
+  plot.test = TRUE,
   main = NULL,
   htest = "wilcox.test",
-  htest.annotate.y = -0.05
+  htest.annotate.y = NULL,
+  margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)
 )
 }
 \arguments{
 \item{...}{rtModCV objects created with \link{elevate}}
+
+\item{which.repeat}{Integer: which \code{rtModCV} repeat to plot}
+
+\item{metric}{Character: which metric to plot}
+
+\item{main}{Character: title}
+
+\item{htest}{Character: "none", "t.test", or "wilcox.test"}
+
+\item{htest.annotate.y}{Numeric: y-axis coordinate for htest annotation}
+
+\item{margin}{Named list with margins and padding}
 }
 \description{
-Present elevate models
+Plot training and testing performance boxplots of multiple \link{rtModCV}
+objects created by \link{elevate} using \link{dplot3_box}
 }
 \author{
 E.D. Gennatas

@@ -236,11 +236,11 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{point.cex}{Float: Character expansion for points. Default = 1}
+\item{point.cex}{Float: Character expansion for points.}
 
 \item{point.bg.col}{Color: point background}
 
-\item{pch}{Integer: Point character. Default = 16}
+\item{pch}{Integer: Point character.}
 
 \item{line.col}{Color for lines}
 
