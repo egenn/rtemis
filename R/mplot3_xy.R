@@ -97,9 +97,9 @@
 #' @param y.axis.at As \code{x.axis.at} for y-axis
 #' @param x.axis.labs See \code{axis("labels")}
 #' @param y.axis.labs See \code{axis("labels")}
-#' @param point.cex Float: Character expansion for points. Default = 1
+#' @param point.cex Float: Character expansion for points.
 #' @param point.bg.col Color: point background
-#' @param pch Integer: Point character. Default = 16
+#' @param pch Integer: Point character.
 #' @param line.col Color for lines
 #' @param line.alpha Float [0, 1]: Transparency for lines
 #' @param lty Integer: Line type. See \code{par("lty")}
