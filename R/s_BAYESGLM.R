@@ -30,6 +30,7 @@
 #' @param drop.baseline Logical: If TRUE, drop the base level of factor features. Default = TRUE
 #' @param maxit Integer: Maximum number of iterations
 #' @param ... Additional parameters to pass to \code{arm::bayesglm}
+#' 
 #' @family Bayesian
 #' @family Supervised Learning
 #' @export

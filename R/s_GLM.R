@@ -212,7 +212,11 @@ s_GLM <- function(x, y = NULL,
                  weights = .weights, na.action = na.action, ...)
   } else {
     dependency_check("nnet")
-    if (verbose) msg("Training multinomial logistic regression model...", newline.pre = TRUE)
+    if (verbose) {
+      msg("Training multinomial logistic regression model...",
+        newline.pre = TRUE
+      )
+    }
     mod <- nnet::multinom(.formula, data = df.train,
                           weights = .weights, na.action = na.action, ...)
   }

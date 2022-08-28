@@ -19,46 +19,56 @@
 #' @inheritParams s_GLM
 #' @inheritParams resample
 #' @param mod Character: Learner to use. Options: \link{modSelect}
-#' @param mod.params Optional named list of parameters to be passed to \code{mod}. All parameters can
-#' be passed as part of \code{...} as well
-#' @param .preprocess Optional named list of parameters to be passed to \link{preprocess}. Set using
-#' \link{rtset.preprocess}, e.g. \code{decom = rtset.preprocess(impute = TRUE)}
-#' @param .decompose Optional named list of parameters to be used for decomposition / dimensionality
-#' reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}
+#' @param mod.params Optional named list of parameters to be passed to 
+#' \code{mod}. All parameters can be passed as part of \code{...} as well
+#' @param .preprocess Optional named list of parameters to be passed to 
+#' \link{preprocess}. Set using \link{rtset.preprocess}, 
+#' e.g. \code{decom = rtset.preprocess(impute = TRUE)}
+#' @param .decompose Optional named list of parameters to be used for 
+#' decomposition / dimensionality reduction. Set using \link{rtset.decompose}, 
+#' e.g. \code{decom = rtset.decompose("ica", 12)}
 #' @param x.name Character: Name of predictor dataset
 #' @param y.name Character: Name of outcome
-# #' @param save.data Logical: Save train, test, fitted, and predicted data for each resample.
-# #'   Defaults to TRUE
+# #' @param save.data Logical: Save train, test, fitted, and predicted data for 
+# #'   each resample. Defaults to TRUE
 #' @param outer.n.workers Integer: Number of cores to use for the outer i.e. 
 #' testing resamples. You are likely parallelizing either in the inner
 #' (tuning) or the learner itself is parallelized. Don't parallelize the 
 #' parallelization
 #' @param parallel.type Character: "psock" (Default), "fork"
-#' @param print.res.plot Logical: Print model performance plot for each resample.
-#'   Defaults to FALSE
+#' @param print.res.plot Logical: Print model performance plot for each 
+#' resample.
 # @param yhat.plots Logical: Print aggregate plots for fitted vs. true and predicted vs. true
 #'   from all resamples. Defaults to TRUE
-# @param plot.mean Logical: Print plot of type \code{plot.type} plot of models' error. Defaults to TRUE
+# @param plot.mean Logical: Print plot of type \code{plot.type} plot of models' error.
 # @param plot.type Character: Type of plot to draw for all models' errors: "density" (Default), "histogram"
 #' @param headless Logical: If TRUE, turn off all plotting.
 #' @param outdir Character: Path where output should be saved
-#' @param save.mods Logical: If TRUE, retain trained models in object, otherwise discard (save space
-#' if running many resamples). Default = TRUE
-#' @param save.tune Logical: If TRUE, save the best.tune data frame for each resample (output of gridSearchLearn)
-#' @param save.rt Logical: If TRUE and \code{outdir} is set, save all models to \code{outdir}
+#' @param save.mods Logical: If TRUE, retain trained models in object, 
+#' otherwise discard (save space if running many resamples). 
+#' @param save.tune Logical: If TRUE, save the best.tune data frame for each 
+#' resample (output of gridSearchLearn)
+#' @param save.rt Logical: If TRUE and \code{outdir} is set, save all models to 
+#' \code{outdir}
 #' @param save.plots Logical: If TRUE, save plots to outdir
-#' @param bag.fitted Logical: If TRUE, use all models to also get a bagged prediction on the full sample. To get a
-#' bagged prediction on new data using the same models, use \link{predict.rtModCV}
-#' @param bag.fn Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}
-#' @param trace Integer: (Not really used) Print additional information if > 0. Default = 0
-#' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument
-#' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
-#' subdirectories of \code{outdir}
-#' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}
-#' @param ... Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
+#' @param bag.fitted Logical: If TRUE, use all models to also get a bagged 
+#' prediction on the full sample. To get a bagged prediction on new data using 
+#' the same models, use \link{predict.rtModCV}
+#' @param bag.fn Function to use to average prediction if 
+#' \code{bag.fitted = TRUE}. Default = \code{median}
+#' @param trace Integer: (Not really used) Print additional information if > 0. 
+#' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each 
+#' individual learner's \code{verbose} argument
+#' @param save.res Logical: If TRUE, save the full output of each model trained 
+#' on differents resamples under subdirectories of \code{outdir}
+#' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and 
+#' \code{options(error=recover)}
+#' @param ... Additional mod.params to be passed to learner (Will be 
+#' concatenated with \code{mod.params}, so that you can use
 #' either way to pass learner arguments)
 #'
-#' @return Object of class \code{rtModCV} (Regression) or \code{rtModCVClass} (Classification)
+#' @return Object of class \code{rtModCV} (Regression) or 
+#' \code{rtModCVClass} (Classification)
 #' \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
 #' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
 #' \item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
@@ -187,11 +197,16 @@ elevate <- function(x, y = NULL,
     # Note: for mod "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
     # Combine mod.params with (...)
-    mod.params <- c(
-        mod.params, 
-        list(...),
-        list(grid.resample.rtset = inner.resampling)
-    )
+    mod.params <- c(mod.params, list(...))
+    
+    if (mod %in% c("ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", 
+    "GLMTREE", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", 
+    "RANGER", "RF", "SPLS", "SVM", "XGBOOST")) {
+        mod.params <- c(
+            mod.params,
+            list(grid.resample.rtset = inner.resampling)
+        )
+    }
 
     if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",

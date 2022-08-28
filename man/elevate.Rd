@@ -48,32 +48,37 @@ elevate(
 
 \item{mod}{Character: Learner to use. Options: \link{modSelect}}
 
-\item{mod.params}{Optional named list of parameters to be passed to \code{mod}. All parameters can
-be passed as part of \code{...} as well}
+\item{mod.params}{Optional named list of parameters to be passed to 
+\code{mod}. All parameters can be passed as part of \code{...} as well}
 
-\item{.preprocess}{Optional named list of parameters to be passed to \link{preprocess}. Set using
-\link{rtset.preprocess}, e.g. \code{decom = rtset.preprocess(impute = TRUE)}}
+\item{.preprocess}{Optional named list of parameters to be passed to 
+\link{preprocess}. Set using \link{rtset.preprocess}, 
+e.g. \code{decom = rtset.preprocess(impute = TRUE)}}
 
-\item{.decompose}{Optional named list of parameters to be used for decomposition / dimensionality
-reduction. Set using \link{rtset.decompose}, e.g. \code{decom = rtset.decompose("ica", 12)}}
+\item{.decompose}{Optional named list of parameters to be used for 
+decomposition / dimensionality reduction. Set using \link{rtset.decompose}, 
+e.g. \code{decom = rtset.decompose("ica", 12)}}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{bag.fn}{Function to use to average prediction if \code{bag.fitted = TRUE}. Default = \code{median}}
+\item{bag.fn}{Function to use to average prediction if 
+\code{bag.fitted = TRUE}. Default = \code{median}}
 
 \item{x.name}{Character: Name of predictor dataset}
 
 \item{y.name}{Character: Name of outcome}
 
-\item{save.mods}{Logical: If TRUE, retain trained models in object, otherwise discard (save space
-if running many resamples). Default = TRUE}
+\item{save.mods}{Logical: If TRUE, retain trained models in object, 
+otherwise discard (save space if running many resamples).}
 
-\item{save.tune}{Logical: If TRUE, save the best.tune data frame for each resample (output of gridSearchLearn)}
+\item{save.tune}{Logical: If TRUE, save the best.tune data frame for each 
+resample (output of gridSearchLearn)}
 
-\item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged prediction on the full sample. To get a
-bagged prediction on new data using the same models, use \link{predict.rtModCV}}
+\item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged 
+prediction on the full sample. To get a bagged prediction on new data using 
+the same models, use \link{predict.rtModCV}}
 
 \item{outer.n.workers}{Integer: Number of cores to use for the outer i.e. 
 testing resamples. You are likely parallelizing either in the inner
@@ -90,17 +95,18 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{print.res.plot}{Logical: Print model performance plot for each resample.
-Defaults to FALSE
-from all resamples. Defaults to TRUE}
+\item{print.res.plot}{Logical: Print model performance plot for each 
+resample.
+  from all resamples. Defaults to TRUE}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument}
+\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each 
+individual learner's \code{verbose} argument}
 
-\item{trace}{Integer: (Not really used) Print additional information if > 0. Default = 0}
+\item{trace}{Integer: (Not really used) Print additional information if > 0.}
 
 \item{headless}{Logical: If TRUE, turn off all plotting.}
 
@@ -108,24 +114,28 @@ from all resamples. Defaults to TRUE}
 
 \item{save.plots}{Logical: If TRUE, save plots to outdir}
 
-\item{save.rt}{Logical: If TRUE and \code{outdir} is set, save all models to \code{outdir}}
+\item{save.rt}{Logical: If TRUE and \code{outdir} is set, save all models to 
+\code{outdir}}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{save.res}{Logical: If TRUE, save the full output of each model trained on differents resamples under
-subdirectories of \code{outdir}}
+\item{save.res}{Logical: If TRUE, save the full output of each model trained 
+on differents resamples under subdirectories of \code{outdir}}
 
-\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and \code{options(error=recover)}}
+\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and 
+\code{options(error=recover)}}
 
-\item{...}{Additional mod.params to be passed to learner (Will be concatenated with \code{mod.params}, so that you can use
+\item{...}{Additional mod.params to be passed to learner (Will be 
+concatenated with \code{mod.params}, so that you can use
 either way to pass learner arguments)}
 
 \item{parallel.type}{Character: "psock" (Default), "fork"}
 }
 \value{
-Object of class \code{rtModCV} (Regression) or \code{rtModCVClass} (Classification)
+Object of class \code{rtModCV} (Regression) or 
+\code{rtModCVClass} (Classification)
 \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
 \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
 \item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}

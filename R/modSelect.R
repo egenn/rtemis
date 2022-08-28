@@ -144,3 +144,9 @@ modSelect <- function(mod,
   learner
 
 } # rtemis::modSelect
+
+gsc <- c(
+  "ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", "GLMTREE",
+  "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", "RANGER",
+  "RF", "SPLS", "SVM", "XGBOOST"
+)
