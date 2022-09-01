@@ -276,12 +276,13 @@ s_RULEFIT <- function(x, y = NULL,
 #' @return Vector of estimated values
 #' @export
 
-predict.rulefit <- function(object, newdata = NULL,
-                             verbose = TRUE, ...) {
+predict.rulefit <- function(object, 
+                            newdata = NULL,
+                            verbose = TRUE, ...) {
 
   # Rules ----
   # Get rules.selected from object
-  rules <- object$gbm.rules.names
+  rules <- object$rules.selected
 
   # Match ----
   # Match newdata to rules: create features for predict
