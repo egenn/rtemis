@@ -142,18 +142,21 @@ Object of class \code{rtModCV} (Regression) or
 \item{error.test.res}{the error for each resample, for each repeat}
 }
 \description{
-\code{elevate} is a high-level function to tune, train, and test an \pkg{rtemis} model
-by nested resampling, with optional preprocessing and decomposition of input features
+\code{elevate} is a high-level function to tune, train, and test an 
+\pkg{rtemis} model by nested resampling, with optional preprocessing and 
+decomposition of input features
 }
 \details{
-- Note on resampling: You can never use an outer resampling method with replacement
-if you will also be using an inner resampling (for tuning).
-The duplicated cases from the outer resampling may appear both in the training and
-testing sets of the inner resamples, leading to artificially decreased error.
+- Note on resampling: You can never use an outer resampling method with 
+replacement if you will also be using an inner resampling (for tuning).
+The duplicated cases from the outer resampling may appear both in the 
+training and testing sets of the inner resamples, leading to underestimated 
+testing error.
 
-- If there is an error while running either the outer or inner resamples in parallel, the error
-message returned by R will likely be unhelpful. Repeat the command after setting both inner
-and outer resample run to use a single core, which should provide an informative message.
+- If there is an error while running either the outer or inner resamples in 
+parallel, the error message returned by R will likely be unhelpful. Repeat 
+the command after setting both inner and outer resample run to use a single 
+core, which should provide an informative message.
 }
 \examples{
 \dontrun{
