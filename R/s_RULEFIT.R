@@ -281,8 +281,8 @@ predict.rulefit <- function(object,
                             verbose = TRUE, ...) {
 
   # Rules ----
-  # Get rules.selected from object
-  rules <- object$rules.selected
+  # Get all rules, some have 0 coefficients
+  rules <- object$gbm.rules.names
 
   # Match ----
   # Match newdata to rules: create features for predict
