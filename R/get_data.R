@@ -16,7 +16,7 @@
 #' @examples
 #' \dontrun{
 #' datadir <- "~/icloud/Data"
-#' dat <- get_data("iris.csv")
+#' dat <- get_data("iris.csv", datadir)
 #' }
 
 get_data <- function(filename,
@@ -33,7 +33,7 @@ get_data <- function(filename,
             "Read in",
             rtHighlight$bold(.nrow), 
             "rows by", 
-            rtHighlight$bold(.ncol), "columns.\n"
+            rtHighlight$bold(.ncol), "columns."
         )
     }
     if (make_unique) {
@@ -51,10 +51,10 @@ get_data <- function(filename,
                 rtHighlight$bold(.nrowp),
                 "by",
                 rtHighlight(.ncol),
-                "columns.\n"
+                "columns."
             )
         }
     }
     .dat
-    
+
 } # rtemis::get_data
