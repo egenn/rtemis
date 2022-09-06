@@ -21,7 +21,7 @@ Convenience function to read data into a data.table
 \examples{
 \dontrun{
 datadir <- "~/icloud/Data"
-dat <- get_data("iris.csv")
+dat <- get_data("iris.csv", datadir)
 }
 }
 \author{
