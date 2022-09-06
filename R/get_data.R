@@ -37,20 +37,21 @@ get_data <- function(filename,
         )
     }
     if (make_unique) {
-        .dat |> unique()
+        .dat <- unique(.dat)
         .nrowp <- nrow(.dat)
         .dup <- .nrow - .nrowp
         if (verbose && .dup > 0) {
             msg(
                 "Removed",
-                rtHighlight$bold(.dup),
-                "duplicate rows:\n"
+                rtOrange$bold(.dup),
+                "duplicate",
+                paste0(ngettext(.dup, "row", "rows"), ".")
             )
             msg(
                 "New dimensions:",
                 rtHighlight$bold(.nrowp),
                 "by",
-                rtHighlight(.ncol),
+                rtHighlight$bold(.ncol),
                 "columns."
             )
         }
