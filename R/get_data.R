@@ -10,6 +10,7 @@
 #' @param datadir Character: path to directory where \code{filename} is located
 #' @param make_unique Logical: If TRUE, keep unique rows only
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param ... Additional parameters to pass to \code{data.table::fread}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -22,18 +23,18 @@
 get_data <- function(filename,
                      datadir = NULL,
                      make_unique = TRUE,
-                     verbose = TRUE) {
+                     verbose = TRUE, ...) {
 
     dependency_check("data.table")
-    .dat <- data.table::fread(file.path(datadir, filename))
+    .dat <- data.table::fread(file.path(datadir, filename), ...)
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
     if (verbose) {
         msg(
             "Read in",
-            rtHighlight$bold(.nrow), 
+            rtHighlight$bold(format(.nrow, big.mark = ",")), 
             "rows by", 
-            rtHighlight$bold(.ncol), "columns."
+            rtHighlight$bold(format(.ncol, big.mark = ",")), "columns."
         )
     }
     if (make_unique) {
@@ -43,15 +44,15 @@ get_data <- function(filename,
         if (verbose && .dup > 0) {
             msg(
                 "Removed",
-                rtOrange$bold(.dup),
+                rtOrange$bold(format(.dup, big.mark = ",")),
                 "duplicate",
                 paste0(ngettext(.dup, "row", "rows"), ".")
             )
             msg(
                 "New dimensions:",
-                rtHighlight$bold(.nrowp),
+                rtHighlight$bold(format(.nrowp, big.mark = ",")),
                 "by",
-                rtHighlight$bold(.ncol),
+                rtHighlight$bold(format(.ncol, big.mark = ",")),
                 "columns."
             )
         }
