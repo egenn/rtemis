@@ -28,13 +28,18 @@
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
+#' }
 
 msg <- function(...,
                 date = TRUE,
                 caller = NULL,
                 call.depth = 1,
                 caller.id = 1,
-                newline = FALSE,
+                newline = TRUE,
+                extraline = FALSE,
                 newline.pre = FALSE,
                 as.message = FALSE,
                 color = NULL,
@@ -44,7 +49,7 @@ msg <- function(...,
     callStack.list <- as.list(sys.calls())
     stack.length <- length(callStack.list)
     if (stack.length < 2) {
-      caller <- "(interactive)"
+      caller <- ">"
     } else {
       call.depth <- call.depth + caller.id
       if (call.depth > stack.length) call.depth <- stack.length
@@ -67,12 +72,12 @@ msg <- function(...,
     if (newline.pre) cat("\n")
     if (is.null(color)) {
       cat(silver(paste0("[", .dt, bold(caller), "] ")))
-      cat(paste(txt, collapse = sep), "\n")
+      cat(paste(txt, collapse = sep), if (newline) "\n")
     } else {
       cat(silver(paste0("[", .dt, bold(caller), "] ")))
-      cat(paste(color(txt), collapse = sep), "\n")
+      cat(paste(color(txt), collapse = sep), if (newline) "\n")
     }
-    if (newline) cat("\n")
+    if (extraline) cat("\n")
   }
 
   invisible(list(call = caller,
@@ -89,7 +94,8 @@ msg0 <- function(...,
                  date = TRUE,
                  call.depth = 1,
                  caller.id = 1,
-                 newline = FALSE,
+                 newline = TRUE,
+                 extraline = FALSE,
                  newline.pre = FALSE,
                  as.message = FALSE,
                  color = NULL) {
@@ -98,6 +104,7 @@ msg0 <- function(...,
       call.depth = call.depth,
       caller.id = caller.id + 1,
       newline = newline,
+      extraline = extraline,
       newline.pre = newline.pre,
       as.message = as.message,
       color = color,
