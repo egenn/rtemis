@@ -386,8 +386,8 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
         ncols <- format(.ncol, big.mark = ",")
         if (verbose) {
             cat(
-                "There", 
-                ngettext(.nrow, "is", "are"),
+                # "There", 
+                # ngettext(.nrow, "is", "are"),
                 nrows, 
                 ngettext(.nrow, "row", "rows"),
                 "and", ncols,
@@ -401,8 +401,8 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
         nels <- format(.nels, big.mark = ",")
         if (verbose) {
             cat(
-                "There", 
-                ngettext(.nels, "is", "are"),
+                # "There", 
+                # ngettext(.nels, "is", "are"),
                 nels, 
                 ngettext(.nels, "element.", "elements."),
                 if (newline) "\n"
