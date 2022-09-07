@@ -8,8 +8,13 @@
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
 #' @param datadir Character: path to directory where \code{filename} is located
-#' @param make_unique Logical: If TRUE, keep unique rows only
+#' @param make.unique Logical: If TRUE, keep unique rows only
+#' @param character2factor Logical: If TRUE, convert character variables to 
+#' factors
+#' @param clean.colnames Logical: If TRUE, clean columns names using 
+#' \link{clean_colnames}
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param timed Logical: If TRUE, time the process and print to console
 #' @param ... Additional parameters to pass to \code{data.table::fread}
 #'
 #' @author E.D. Gennatas
@@ -22,10 +27,15 @@
 
 get_data <- function(filename,
                      datadir = NULL,
-                     make_unique = TRUE,
-                     verbose = TRUE, ...) {
+                     make.unique = TRUE,
+                     character2factor = TRUE,
+                     clean.colnames = TRUE,
+                     verbose = TRUE,
+                     timed = verbose, ...) {
 
     dependency_check("data.table")
+    if (timed) start.time <- intro(verbose = FALSE)
+
     .dat <- data.table::fread(file.path(datadir, filename), ...)
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
@@ -37,7 +47,7 @@ get_data <- function(filename,
             rtHighlight$bold(format(.ncol, big.mark = ",")), "columns."
         )
     }
-    if (make_unique) {
+    if (make.unique) {
         .dat <- unique(.dat)
         .nrowp <- nrow(.dat)
         .dup <- .nrow - .nrowp
@@ -57,6 +67,16 @@ get_data <- function(filename,
             )
         }
     }
+    
+    if (clean.colnames) {
+        setnames(.dat, names(.dat), clean_colnames(.dat))
+    }
+    
+    if (character2factor) {
+        .dat <- preprocess(.dat, character2factor = TRUE)
+    }
+
+    if (timed) outro(start.time)
     .dat
 
 } # rtemis::get_data

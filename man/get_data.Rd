@@ -4,16 +4,35 @@
 \alias{get_data}
 \title{Read data from file}
 \usage{
-get_data(filename, datadir = NULL, make_unique = TRUE, verbose = TRUE)
+get_data(
+  filename,
+  datadir = NULL,
+  make.unique = TRUE,
+  character2factor = TRUE,
+  clean.colnames = TRUE,
+  verbose = TRUE,
+  timed = verbose,
+  ...
+)
 }
 \arguments{
 \item{filename}{Character: filename or full path if \code{datadir = NULL}}
 
 \item{datadir}{Character: path to directory where \code{filename} is located}
 
-\item{make_unique}{Logical: If TRUE, keep unique rows only}
+\item{make.unique}{Logical: If TRUE, keep unique rows only}
+
+\item{character2factor}{Logical: If TRUE, convert character variables to 
+factors}
+
+\item{clean.colnames}{Logical: If TRUE, clean columns names using 
+\link{clean_colnames}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{timed}{Logical: If TRUE, time the process and print to console}
+
+\item{...}{Additional parameters to pass to \code{data.table::fread}}
 }
 \description{
 Convenience function to read data into a data.table
