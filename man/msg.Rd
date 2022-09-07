@@ -11,7 +11,8 @@ msg(
   caller = NULL,
   call.depth = 1,
   caller.id = 1,
-  newline = FALSE,
+  newline = TRUE,
+  extraline = FALSE,
   newline.pre = FALSE,
   as.message = FALSE,
   color = NULL,
@@ -23,7 +24,8 @@ msg0(
   date = TRUE,
   call.depth = 1,
   caller.id = 1,
-  newline = FALSE,
+  newline = TRUE,
+  extraline = FALSE,
   newline.pre = FALSE,
   as.message = FALSE,
   color = NULL
@@ -61,6 +63,11 @@ call stack
 If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
   the call stack.
 \code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
+}
+\examples{
+\dontrun{
+msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
+}
 }
 \author{
 E.D. Gennatas
