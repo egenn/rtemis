@@ -19,6 +19,9 @@ vector of NROW, NCOL invisibly
 \description{
 Get \code{NCOL(x)} and \code{NROW{x}}
 }
+\examples{
+catsize(iris)
+}
 \author{
 E.D. Gennatas
 }

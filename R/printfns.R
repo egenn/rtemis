@@ -373,20 +373,45 @@ twocol2html <- function(x,
 #' @return vector of NROW, NCOL invisibly
 #' @author E.D. Gennatas
 #' @export
+#' 
+#' @examples
+#' catsize(iris)
 
 catsize <- function(x, verbose = TRUE, newline = TRUE) {
-    .nrow <- NROW(x)
-    .ncol <- NCOL(x)
-    if (verbose) {
-        if (inherits(x, c("matrix", "data.frame"))) {
-            cat("There are", .nrow, "rows and", .ncol, "columns")
-        } else if (inherits(x, "list")) {
-            cat("There are", length(x), "elements")
+
+    if (inherits(x, c("matrix", "data.frame"))) {
+        .nrow <- NROW(x)
+        .ncol <- NCOL(x)
+        nrows <- format(.nrow, big.mark = ",")
+        ncols <- format(.ncol, big.mark = ",")
+        if (verbose) {
+            cat(
+                "There", 
+                ngettext(.nrow, "is", "are"),
+                nrows, 
+                ngettext(.nrow, "row", "rows"),
+                "and", ncols,
+                ngettext(.ncol, "column.", "columns."),
+                if (newline) "\n"
+            )
         }
-        if (newline) cat("\n")
+        invisible(c(.nrow, .ncol))
+    } else {
+        .nels <- length(x)
+        nels <- format(.nels, big.mark = ",")
+        if (verbose) {
+            cat(
+                "There", 
+                ngettext(.nels, "is", "are"),
+                nels, 
+                ngettext(.nels, "element.", "elements."),
+                if (newline) "\n"
+            )
+        }
+        invisible(.nels)
     }
-    invisible(c(.nrow, .ncol))
-}
+    
+} # rtemis::catsize
 
 
 #' Print single line of object info
