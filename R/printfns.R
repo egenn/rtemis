@@ -390,7 +390,7 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
                 # ngettext(.nrow, "is", "are"),
                 nrows, 
                 ngettext(.nrow, "row", "rows"),
-                "and", ncols,
+                "by", ncols,
                 ngettext(.ncol, "column.", "columns."),
                 if (newline) "\n"
             )
