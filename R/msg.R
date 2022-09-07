@@ -24,7 +24,7 @@
 #' @param as.message Logical: if TRUE, print using \code{message()}
 #' @param color Crayon color for message e.g. \code{crayon::red}
 #' @param sep Character: Use to separate objects in \code{...}
-#' 
+#'
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
 #' @export
@@ -32,7 +32,7 @@
 #' \dontrun{
 #' msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
 #' }
-
+#'
 msg <- function(...,
                 date = TRUE,
                 caller = NULL,
@@ -44,97 +44,158 @@ msg <- function(...,
                 as.message = FALSE,
                 color = NULL,
                 sep = " ") {
-
-  if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- ">"
-    } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
-      caller <- paste(lapply(rev(seq(call.depth)[-seq(caller.id)]),
-                            function(i) rev(callStack.list)[[i]][[1]]), collapse = ">>")
+    if (is.null(caller)) {
+        callStack.list <- as.list(sys.calls())
+        stack.length <- length(callStack.list)
+        if (stack.length < 2) {
+            caller <- ">"
+        } else {
+            call.depth <- call.depth + caller.id
+            if (call.depth > stack.length) call.depth <- stack.length
+            caller <- paste(lapply(
+                rev(seq(call.depth)[-seq(caller.id)]),
+                function(i) rev(callStack.list)[[i]][[1]]
+            ), collapse = ">>")
+        }
+        # do.call and similar will change the call stack, it will contain the full function definition instead of
+        # the name alone
+        if (is.function(caller)) caller <- NULL
+        if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+        if (!is.null(caller)) caller <- paste0(" ", caller)
     }
-    # do.call and similar will change the call stack, it will contain the full function definition instead of
-    # the name alone
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
-    if (!is.null(caller)) caller <- paste0(" ", caller)
-  }
 
-  txt <- Filter(Negate(is.null), list(...))
-  .dt <- if (date) paste0(as.character(Sys.time())) else NULL
+    txt <- Filter(Negate(is.null), list(...))
+    .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
-  if (as.message) {
-    message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
-  } else {
-    if (newline.pre) cat("\n")
-    if (is.null(color)) {
-      cat(silver(paste0("[", .dt, bold(caller), "] ")))
-      cat(paste(txt, collapse = sep), if (newline) "\n")
+    if (as.message) {
+        message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
     } else {
-      cat(silver(paste0("[", .dt, bold(caller), "] ")))
-      cat(paste(color(txt), collapse = sep), if (newline) "\n")
+        if (newline.pre) cat("\n")
+        if (is.null(color)) {
+            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(paste(txt, collapse = sep), if (newline) "\n")
+        } else {
+            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(paste(color(txt), collapse = sep), if (newline) "\n")
+        }
+        if (extraline) cat("\n")
     }
-    if (extraline) cat("\n")
-  }
 
-  invisible(list(call = caller,
-                 txt = txt,
-                 dt = .dt))
+    invisible(list(
+        call = caller,
+        txt = txt,
+        dt = .dt
+    ))
 } # rtemis::msg
 
 
+# The only issue this way is msg0 will not print (interactive) when used interactively,
+# but who cares. edit: I do
+# msg0 <- function(...,
+#                  date = TRUE,
+#                  call.depth = 1,
+#                  caller.id = 1,
+#                  newline = TRUE,
+#                  extraline = FALSE,
+#                  newline.pre = FALSE,
+#                  as.message = FALSE,
+#                  color = NULL) {
+
+#   msg(..., date = date,
+#       call.depth = call.depth,
+#       caller.id = caller.id + 1,
+#       newline = newline,
+#       extraline = extraline,
+#       newline.pre = newline.pre,
+#       as.message = as.message,
+#       color = color,
+#       sep = "")
+
+# } # rtemis::msg0
+
+# Create copy of msg with different default sep
+# to avoid issue with call.depth after calling msg from msg0
+# yes, there are other workarounds
 #' @rdname msg
 #' @export
-# The only issue this way is msg0 will not print (interactive) when used interactively,
-# but who cares
 msg0 <- function(...,
                  date = TRUE,
+                 caller = NULL,
                  call.depth = 1,
                  caller.id = 1,
                  newline = TRUE,
                  extraline = FALSE,
                  newline.pre = FALSE,
                  as.message = FALSE,
-                 color = NULL) {
+                 color = NULL,
+                 sep = "") {
+    if (is.null(caller)) {
+        callStack.list <- as.list(sys.calls())
+        stack.length <- length(callStack.list)
+        if (stack.length < 2) {
+            caller <- ">"
+        } else {
+            call.depth <- call.depth + caller.id
+            if (call.depth > stack.length) call.depth <- stack.length
+            caller <- paste(lapply(
+                rev(seq(call.depth)[-seq(caller.id)]),
+                function(i) rev(callStack.list)[[i]][[1]]
+            ), collapse = ">>")
+        }
+        # do.call and similar will change the call stack, it will contain the full function definition instead of
+        # the name alone
+        if (is.function(caller)) caller <- NULL
+        if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+        if (!is.null(caller)) caller <- paste0(" ", caller)
+    }
 
-  msg(..., date = date,
-      call.depth = call.depth,
-      caller.id = caller.id + 1,
-      newline = newline,
-      extraline = extraline,
-      newline.pre = newline.pre,
-      as.message = as.message,
-      color = color,
-      sep = "")
+    txt <- Filter(Negate(is.null), list(...))
+    .dt <- if (date) paste0(as.character(Sys.time())) else NULL
 
+    if (as.message) {
+        message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
+    } else {
+        if (newline.pre) cat("\n")
+        if (is.null(color)) {
+            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(paste(txt, collapse = sep), if (newline) "\n")
+        } else {
+            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(paste(color(txt), collapse = sep), if (newline) "\n")
+        }
+        if (extraline) cat("\n")
+    }
+
+    invisible(list(
+        call = caller,
+        txt = txt,
+        dt = .dt
+    ))
 } # rtemis::msg0
 
 stopQuietly <- function() {
-  opt <- options(show.error.messages = FALSE)
-  on.exit(options(opt))
-  stop()
+    opt <- options(show.error.messages = FALSE)
+    on.exit(options(opt))
+    stop()
 }
 
 rtStop <- function(...) {
-  message <- paste(...)
-  cat(magenta("[Error]", message))
-  stopQuietly()
+    message <- paste(...)
+    cat(magenta("[Error]", message))
+    stopQuietly()
 }
 
 rtWarning <- function(...) {
-  message <- paste(...)
-  cat(rtOrange("[Warning]", message))
+    message <- paste(...)
+    cat(rtOrange("[Warning]", message))
 }
 
 rtOut <- function(...) {
-  message <- paste(...)
-  cat(silver$bold("["), green("+++", green$bold(message)), silver$bold("]"), sep = "")
+    message <- paste(...)
+    cat(silver$bold("["), green("+++", green$bold(message)), silver$bold("]"), sep = "")
 }
 
 info <- function(..., color = crayon::cyan$bold) {
-  msg(..., color = color)
-  # cat(crayon::cyan$bold(paste(...)))
+    msg(..., color = color)
+    # cat(crayon::cyan$bold(paste(...)))
 }

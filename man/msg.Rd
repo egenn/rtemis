@@ -22,13 +22,15 @@ msg(
 msg0(
   ...,
   date = TRUE,
+  caller = NULL,
   call.depth = 1,
   caller.id = 1,
   newline = TRUE,
   extraline = FALSE,
   newline.pre = FALSE,
   as.message = FALSE,
-  color = NULL
+  color = NULL,
+  sep = ""
 )
 }
 \arguments{
@@ -68,6 +70,7 @@ If \code{msg} is called directly from the console, it will print \code{[interact
 \dontrun{
 msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
 }
+
 }
 \author{
 E.D. Gennatas
