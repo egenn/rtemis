@@ -219,7 +219,8 @@ gridSearchLearn_future <- function(x, y, mod,
 
     nres <- NROW(param.grid)
     grid_run <- future.apply::future_lapply(
-        seq_len(nres), learner1,
+        seq_len(nres),
+        learner1,
         learner,
         x, y,
         res,

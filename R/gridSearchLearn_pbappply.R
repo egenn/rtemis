@@ -185,7 +185,9 @@ gridSearchLearn <- function(x, y, mod,
     } else {
         pbapply::pboptions(type = "none")
     }
-    grid_run <- pbapply::pblapply(seq(NROW(param.grid)), learner1,
+    grid_run <- pbapply::pblapply(
+        seq(NROW(param.grid)),
+        learner1,
         learner,
         x, y, res,
         param.grid,
