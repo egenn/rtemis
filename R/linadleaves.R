@@ -253,8 +253,8 @@ linadleaves <- function(x, y,
     # '- Gradient ----
     if (.class) {
         firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
-    } else if (.surv) {
-        firstDer <- surv.resid(y, Fval)
+    # } else if (.surv) {
+    #     firstDer <- surv.resid(y, Fval)
     } else {
         firstDer <- -(y - Fval)
     }
@@ -650,14 +650,14 @@ splitlineRC <- function(g,
 
     # '- Node ----
     .class <- type == "Classification"
-    .surv <- type == "Survival"
+    # .surv <- type == "Survival"
     node <- g$tree[[paste(node.index)]]
     if (.class) {
         firstDer <- -2 * g$y / (1 + exp(2 * g$y * node$Fval)) # n
         resid1 <- -firstDer
-    } else if (.surv) {
-        firstDer <- surv.resid(g$y, node$Fval)
-        resid1 <- -firstDer
+    # } else if (.surv) {
+    #     firstDer <- surv.resid(g$y, node$Fval)
+    #     resid1 <- -firstDer
     } else {
         resid1 <- g$y - node$Fval
     }
@@ -889,9 +889,9 @@ splitlineRC <- function(g,
         if (.class) {
             firstDer <- -2 * g$y / (1 + exp(2 * g$y * Fval)) # n
             resid2 <- -firstDer
-        } else if (.surv) {
-            firstDer <- surv.resid(g$y, Fval)
-            resid2 <- -firstDer
+        # } else if (.surv) {
+        #     firstDer <- surv.resid(g$y, Fval)
+        #     resid2 <- -firstDer
         } else {
             resid2 <- g$y - Fval
         }
