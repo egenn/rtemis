@@ -38,21 +38,21 @@
 #' @author E.D. Gennatas
 #' @keywords internal
 
-gridSearchLearn <- function(x, y, mod,
-                             grid.params,
-                             fixed.params = NULL,
-                             search.type = c("exhaustive", "randomized"),
-                             resample.rtset = rtset.resample(),
-                             randomized.p = .05,
-                             weights = NULL,
-                             error.aggregate.fn = mean,
-                             metric = NULL,
-                             maximize = NULL,
-                             save.mod = FALSE,
-                             verbose = TRUE,
-                             call.depth = 1,
-                             grid.verbose = FALSE,
-                             n.cores = rtCores) {
+gridSearchLearn_pbapply <- function(x, y, mod,
+                                    grid.params,
+                                    fixed.params = NULL,
+                                    search.type = c("exhaustive", "randomized"),
+                                    resample.rtset = rtset.resample(),
+                                    randomized.p = .05,
+                                    weights = NULL,
+                                    error.aggregate.fn = mean,
+                                    metric = NULL,
+                                    maximize = NULL,
+                                    save.mod = FALSE,
+                                    verbose = TRUE,
+                                    call.depth = 1,
+                                    grid.verbose = FALSE,
+                                    n.cores = rtCores) {
 
     # Intro ----
     start.time <- intro(
