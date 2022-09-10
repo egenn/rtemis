@@ -388,9 +388,10 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
             cat(
                 # "There", 
                 # ngettext(.nrow, "is", "are"),
-                nrows, 
+                rtHighlight$bold(nrows),
                 ngettext(.nrow, "row", "rows"),
-                "by", ncols,
+                "by", 
+                rtHighlight$bold(ncols),
                 ngettext(.ncol, "column.", "columns."),
                 if (newline) "\n"
             )
