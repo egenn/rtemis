@@ -35,7 +35,7 @@ get_data <- function(filename,
 
     dependency_check("data.table")
     if (timed) start.time <- intro(verbose = FALSE)
-
+    if (verbose) msgread(filename)
     .dat <- data.table::fread(file.path(datadir, filename), ...)
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
@@ -80,3 +80,5 @@ get_data <- function(filename,
     .dat
 
 } # rtemis::get_data
+
+msgread <- function(x) msg0("Reading ", rtHighlight(x), "...", caller = "")
