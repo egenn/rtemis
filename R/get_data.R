@@ -82,4 +82,6 @@ get_data <- function(filename,
 
 } # rtemis::get_data
 
-msgread <- function(x) msg0("Reading ", rtHighlight$bold(x), "...", caller = "")
+msgread <- function(x, caller = "") {
+    msg0("Reading ", rtHighlight$bold(x), "...", caller = caller)
+}
