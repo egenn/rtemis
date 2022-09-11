@@ -35,7 +35,8 @@ get_data <- function(filename,
 
     dependency_check("data.table")
     if (timed) start.time <- intro(verbose = FALSE)
-    if (verbose) msgread(filename)
+    orange <- crayon::make_style(orange = "orange")
+    if (verbose) msgread(filename, caller = "get_data")
     .dat <- data.table::fread(file.path(datadir, filename), ...)
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
@@ -54,7 +55,7 @@ get_data <- function(filename,
         if (verbose && .dup > 0) {
             msg(
                 "Removed",
-                rtOrange$bold(format(.dup, big.mark = ",")),
+                orange$bold(format(.dup, big.mark = ",")),
                 "duplicate",
                 paste0(ngettext(.dup, "row", "rows"), ".")
             )
@@ -81,4 +82,4 @@ get_data <- function(filename,
 
 } # rtemis::get_data
 
-msgread <- function(x) msg0("Reading ", rtHighlight(x), "...", caller = "")
+msgread <- function(x) msg0("Reading ", rtHighlight$bold(x), "...", caller = "")
