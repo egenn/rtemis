@@ -19,7 +19,7 @@ gridSearchLearn_future(
   maximize = NULL,
   save.mod = FALSE,
   verbose = TRUE,
-  trace = 1,
+  trace = 0,
   call.depth = 1,
   grid.verbose = FALSE,
   n.cores = rtCores
