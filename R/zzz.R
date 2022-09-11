@@ -71,7 +71,8 @@ rtemis.version <- packageVersion("rtemis")
 
     try(
         if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
-            col <- sample(unlist(rtCol1), 1)
+            # col <- sample(unlist(rtCol1), 1)
+            col <- "#16A0AC"
             n <- 20
             polyshadow(n, n, .8,
                 text = paste0("  .:", pkgname, " ", 
@@ -81,6 +82,7 @@ rtemis.version <- packageVersion("rtemis")
                 text.adj = c(0, 0),
                 text.col = col,
                 text.cex = 1,
+                font.family = "sans",
                 shadow = seq(.9, .96, length = n^2),
                 col_lo = "#00000040",
                 col_hi = col,
