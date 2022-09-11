@@ -62,6 +62,8 @@ msg <- function(...,
         if (is.function(caller)) caller <- NULL
         if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
         if (!is.null(caller)) caller <- paste0(" ", caller)
+    } else {
+        caller <- paste0(" ", caller)
     }
 
     txt <- Filter(Negate(is.null), list(...))
@@ -147,6 +149,8 @@ msg0 <- function(...,
         if (is.function(caller)) caller <- NULL
         if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
         if (!is.null(caller)) caller <- paste0(" ", caller)
+    } else {
+        caller <- paste0(" ", caller)
     }
 
     txt <- Filter(Negate(is.null), list(...))
