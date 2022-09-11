@@ -205,13 +205,15 @@ checkData <- function(x,
 
       if (n.constant > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Remove the constant", ngettext(n.constant, "feature", "features"))),
+                     paste(orange$bold("  * Remove the constant", 
+                           ngettext(n.constant, "feature", "features"))),
                      sep = "\n")
       }
 
       if (n.dups > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Remove the duplicated", ngettext(n.dups, "case", "cases"))),
+                     paste(orange$bold("  * Remove the duplicated", 
+                           ngettext(n.dups, "case", "cases"))),
                      sep = "\n")
       }
 
