@@ -148,6 +148,8 @@ dplot3_box <- function(
             palette = rtPalette,
             boxpoints = "outliers",
             quartilemethod = "linear",
+            xlim = NULL,
+            ylim = NULL,
             # width = 0,
             violin.box = TRUE,
             orientation = "v",
@@ -808,7 +810,8 @@ dplot3_box <- function(
                 tickcolor = if (horizontal) NA else tick.col,
                 tickfont = tickfont,
                 zeroline = FALSE,
-                automargin = automargin.y
+                automargin = automargin.y,
+                range = ylim
             ),
             xaxis = list(
                 title = if (horizontal) ylab else xlab,
@@ -819,7 +822,8 @@ dplot3_box <- function(
                 gridwidth = theme$grid.lwd,
                 tickcolor = if (horizontal) tick.col else NA,
                 tickfont = tickfont,
-                automargin = automargin.x
+                automargin = automargin.x,
+                range = xlim
             ),
             title = list(
                 text = main,
