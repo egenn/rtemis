@@ -382,10 +382,10 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     # unlist will coerce Dates to numeric, also don't want padding
-    if (is.null(xlim) & !inherits(x[[1]], "Date")) {
+    if (is.null(xlim) && !inherits(x[[1]], "Date")) {
         xlim <- getlim(unlist(x), "r", .06)
     }
-    if (is.null(ylim) & !inherits(y[[1]], "Date")) {
+    if (is.null(ylim) && !inherits(y[[1]], "Date")) {
         ylim <- getlim(unlist(y), "r", .06)
     }
 
