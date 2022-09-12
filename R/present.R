@@ -19,11 +19,14 @@
 #' @export 
 
 present <- function(...,
+                    mod.names = NULL,
                     which.repeat = 1,
                     metric = NULL,
                     plot.train = TRUE,
                     plot.test = TRUE,
+                    boxpoints = "all",
                     main = NULL,
+                    ylim = NULL,
                     htest = "wilcox.test",
                     htest.annotate.y = NULL,
                     margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)) {
@@ -52,7 +55,9 @@ present <- function(...,
     }
 
     # Get error ----
-    mod.names <- sapply(mods, \(m) m$mod.name)
+    if (is.null(mod.names)) {
+        mod.names <- sapply(mods, \(m) m$mod.name)
+    }
     train.error <- lapply(mods, \(m) m$error.train.res[[which.repeat]][[metric]])
     test.error <- lapply(mods, \(m) m$error.test.res[[which.repeat]][[metric]])
     names(train.error) <- names(test.error) <- mod.names
@@ -63,6 +68,8 @@ present <- function(...,
             train.error,
             main = main,
             ylab = paste("Training", metric),
+            boxpoints = boxpoints,
+            ylim = ylim,
             htest = htest,
             htest.annotate = htest.annotate.y,
             margin = margin
@@ -73,13 +80,15 @@ present <- function(...,
         plot_test <- dplot3_box(
             test.error,
             ylab = paste("Testing", metric),
+            boxpoints = boxpoints,
+            ylim = ylim,
             htest = htest,
             htest.annotate.y = htest.annotate.y,
             margin = margin
         )
     }
     
-    if (plot.train & plot.test) {
+    if (plot.train && plot.test) {
         plotly::subplot(
             plot_train, plot_test,
             nrows = 2,
