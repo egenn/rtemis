@@ -185,7 +185,7 @@ elevate <- function(x, y = NULL,
     # Arguments ----
     # Allow elevate(df, "mod")
     # i.e single df with features and outcome followed by mod name
-    if (is.character(y) & length(y) == 1) {
+    if (is.character(y) && length(y) == 1) {
         mod <- y
         y <- NULL
     }
@@ -219,7 +219,7 @@ elevate <- function(x, y = NULL,
         outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
-    if (save.rt & is.null(outdir)) outdir <- paste0("./elevate.", mod)
+    if (save.rt && is.null(outdir)) outdir <- paste0("./elevate.", mod)
 
     # Data ----
     dt <- dataPrepare(x, y, NULL, NULL)
@@ -266,7 +266,7 @@ elevate <- function(x, y = NULL,
     #     index = res.index
     # )
     if (outer.n.workers > 1) print.res.plot <- FALSE
-    if (!is.null(logFile) & trace < 2) sink() # pause writing to file
+    if (!is.null(logFile) && trace < 2) sink() # pause writing to file
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
@@ -305,7 +305,7 @@ elevate <- function(x, y = NULL,
     resampler <- attr(res.run[[1]]$res, "type")
 
     # nres <- length(res)
-    if (!is.null(logFile) & trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
+    if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
     names(mods) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
 
     # Res fitted  ----
@@ -407,7 +407,7 @@ elevate <- function(x, y = NULL,
     names(error.test.res.aggr) <- paste0("elevate.", mod.name, ".repeat", seq(mods))
 
     # Mean repeats error ----
-    if (resampler == "loocv" | resampler == "kfold") {
+    if (resampler == "loocv" || resampler == "kfold") {
         error.train.repeats <- plyr::ldply(error.train.res.aggr, .id = NULL)
         error.test.repeats <- plyr::ldply(error.test.res.aggr, .id = NULL)
     } else {
@@ -443,7 +443,7 @@ elevate <- function(x, y = NULL,
 
         # If you LOOCV or KFOLD, report error of aggregate left-out sets,
         # otherwise mean error across test sets
-        if (resampler == "loocv" | resampler == "kfold") {
+        if (resampler == "loocv" || resampler == "kfold") {
             if (type == "Regression") {
                 cat("MSE of ", n.resamples, " aggregated test sets in each repeat = ",
                     rtHighlight$bold(paste(ddSci(plyr::laply(
