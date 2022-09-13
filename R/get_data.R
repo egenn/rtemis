@@ -14,8 +14,9 @@
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using 
 #' \link{clean_colnames}
-#' @param reader Character: "fread" or "read_delim_arrow", to use data.table
-#' or arrow to read \code{filename}
+#' @param reader Character: "data.table" or "arrow", to use 
+#' \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
+#' to read \code{filename}
 #' @param sep Single character: field separator. If \code{reader = "fread"}
 #' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
 #' @param verbose Logical: If TRUE, print messages to console
@@ -35,21 +36,28 @@ get_data <- function(filename,
                      make.unique = TRUE,
                      character2factor = TRUE,
                      clean.colnames = TRUE,
-                     reader = c("fread", "read_delim_arrow"),
+                     reader = c("data.table", "arrow"),
                      sep = NULL,
                      verbose = TRUE,
                      timed = verbose, ...) {
 
     dependency_check("data.table")
+    reader <- match.arg(reader)
     if (timed) start.time <- intro(verbose = FALSE)
     orange <- crayon::make_style(orange = "orange")
     if (verbose) msgread(filename, caller = "get_data")
-    if (reader == "fread") {
+    if (reader == "data.table") {
         if (is.null(sep)) sep <- "auto"
-        .dat <- data.table::fread(file.path(datadir, filename), ...)
+        .dat <- data.table::fread(
+            file.path(datadir, filename),
+            sep = sep, ...
+        )
     } else {
+        dependency_check("arrow")
         if (is.null(sep)) sep <- ","
-        .dat <- arrow::read_delim_arrow(file.path(datadir, filename), ...) |>
+        .dat <- arrow::read_delim_arrow(
+            file.path(datadir, filename),
+            delim = sep, ...) |>
             data.table::setDT()
     }
     

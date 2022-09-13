@@ -10,7 +10,7 @@ get_data(
   make.unique = TRUE,
   character2factor = TRUE,
   clean.colnames = TRUE,
-  reader = c("fread", "read_delim_arrow"),
+  reader = c("data.table", "arrow"),
   sep = NULL,
   verbose = TRUE,
   timed = verbose,
@@ -30,8 +30,9 @@ factors}
 \item{clean.colnames}{Logical: If TRUE, clean columns names using 
 \link{clean_colnames}}
 
-\item{reader}{Character: "fread" or "read_delim_arrow", to use data.table
-or arrow to read \code{filename}}
+\item{reader}{Character: "data.table" or "arrow", to use 
+\code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
+to read \code{filename}}
 
 \item{sep}{Single character: field separator. If \code{reader = "fread"}
 and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
