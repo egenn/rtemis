@@ -6,11 +6,14 @@
 \usage{
 present(
   ...,
+  mod.names = NULL,
   which.repeat = 1,
   metric = NULL,
   plot.train = TRUE,
   plot.test = TRUE,
+  boxpoints = "all",
   main = NULL,
+  ylim = NULL,
   htest = "wilcox.test",
   htest.annotate.y = NULL,
   margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)
