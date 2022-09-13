@@ -10,6 +10,8 @@ get_data(
   make.unique = TRUE,
   character2factor = TRUE,
   clean.colnames = TRUE,
+  reader = c("fread", "read_delim_arrow"),
+  sep = NULL,
   verbose = TRUE,
   timed = verbose,
   ...
@@ -28,6 +30,12 @@ factors}
 \item{clean.colnames}{Logical: If TRUE, clean columns names using 
 \link{clean_colnames}}
 
+\item{reader}{Character: "fread" or "read_delim_arrow", to use data.table
+or arrow to read \code{filename}}
+
+\item{sep}{Single character: field separator. If \code{reader = "fread"}
+and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
+
 \item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{timed}{Logical: If TRUE, time the process and print to console}
@@ -35,7 +43,8 @@ factors}
 \item{...}{Additional parameters to pass to \code{data.table::fread}}
 }
 \description{
-Convenience function to read data into a data.table
+Convenience function to read data into a data.table using either
+\code{data.table:fread()} or \code{arrow:read_delim_arrow()}
 }
 \examples{
 \dontrun{

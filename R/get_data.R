@@ -4,7 +4,8 @@
 
 #' Read data from file
 #'
-#' Convenience function to read data into a data.table
+#' Convenience function to read data into a data.table using either
+#' \code{data.table:fread()} or \code{arrow:read_delim_arrow()}
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
 #' @param datadir Character: path to directory where \code{filename} is located
@@ -13,6 +14,10 @@
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using 
 #' \link{clean_colnames}
+#' @param reader Character: "fread" or "read_delim_arrow", to use data.table
+#' or arrow to read \code{filename}
+#' @param sep Single character: field separator. If \code{reader = "fread"}
+#' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param timed Logical: If TRUE, time the process and print to console
 #' @param ... Additional parameters to pass to \code{data.table::fread}
@@ -30,6 +35,8 @@ get_data <- function(filename,
                      make.unique = TRUE,
                      character2factor = TRUE,
                      clean.colnames = TRUE,
+                     reader = c("fread", "read_delim_arrow"),
+                     sep = NULL,
                      verbose = TRUE,
                      timed = verbose, ...) {
 
@@ -37,7 +44,15 @@ get_data <- function(filename,
     if (timed) start.time <- intro(verbose = FALSE)
     orange <- crayon::make_style(orange = "orange")
     if (verbose) msgread(filename, caller = "get_data")
-    .dat <- data.table::fread(file.path(datadir, filename), ...)
+    if (reader == "fread") {
+        if (is.null(sep)) sep <- "auto"
+        .dat <- data.table::fread(file.path(datadir, filename), ...)
+    } else {
+        if (is.null(sep)) sep <- ","
+        .dat <- arrow::read_delim_arrow(file.path(datadir, filename), ...) |>
+            data.table::setDT()
+    }
+    
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
     if (verbose) {
