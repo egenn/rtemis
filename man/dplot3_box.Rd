@@ -22,6 +22,8 @@ dplot3_box(
   palette = rtPalette,
   boxpoints = "outliers",
   quartilemethod = "linear",
+  xlim = NULL,
+  ylim = NULL,
   violin.box = TRUE,
   orientation = "v",
   annotate_n = FALSE,
