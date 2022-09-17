@@ -33,7 +33,7 @@ present <- function(...,
 
     mods <- list(...)
     if (is.null(htest.annotate.y)) {
-        htest.annotate.y <- if ((plot.train & plot.test)) {
+        htest.annotate.y <- if ((plot.train && plot.test)) {
             -.105
         } else {
             -.05
