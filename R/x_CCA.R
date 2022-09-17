@@ -94,9 +94,9 @@ x_CCA <- function(x, z,
   }
 
   # Data ----
-  if (is.null(colnames(x))) colnames(x) <- paste0('xFeature_', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("xFeature_", seq(NCOL(x)))
   xnames <- colnames(x)
-  if (is.null(colnames(z))) colnames(z) <- paste0('zFeature_', seq(NCOL(z)))
+  if (is.null(colnames(z))) colnames(z) <- paste0("zFeature_", seq(NCOL(z)))
   znames <- colnames(z)
 
   # CCA permute ----
@@ -349,11 +349,11 @@ x_CCA.permute.both <- function(x, z,
     z <- scale(z, TRUE, TRUE)
   }
   v <- CheckVs(v, x, z, 1)
-  ccperms = nnonzerous.perms = nnonzerovs.perms = matrix(NA,
+  ccperms <- nnonzerous.perms <- nnonzerovs.perms <- matrix(NA,
                                                          length(penaltyxs),
                                                          nperms)
   ccperms1 <- rep(NA, length(penaltyxs))
-  ccs = nnonzerous = nnonzerovs = numeric(length(penaltyxs))
+  ccs <- nnonzerous <- nnonzerovs <- numeric(length(penaltyxs))
 
   # Cluster ----
   pbapply.type <- if (verbose) "timer" else "none"
@@ -392,8 +392,7 @@ x_CCA.permute.both <- function(x, z,
         if (mean(out$u == 0) != 1 && mean(out$v == 0) !=
             1) {
           ccs[j] <- cor(x %*% out$u, z %*% out$v)
-        }
-        else {
+        } else {
           ccs[j] <- 0
         }
       }
@@ -409,8 +408,7 @@ x_CCA.permute.both <- function(x, z,
           1) {
         ccperms1[j] <- cor(x[sampx, ] %*% out$u, z[sampz,
                                                    ] %*% out$v)
-      }
-      else {
+      } else {
         ccperms1[j] <- 0
       }
     }
@@ -421,8 +419,8 @@ x_CCA.permute.both <- function(x, z,
   ccperms <- sapply(mango, function(i) c(i$ccperms1))
   cc.norm <- ftrans(ccs)
   ccperm.norm <- ftrans(ccperms)
-  zstats <- (cc.norm - rowMeans(ccperm.norm))/(apply(ccperm.norm, 1, sd) + 0.05)
-  if (trace) cat(fill = T)
+  zstats <- (cc.norm - rowMeans(ccperm.norm)) / (apply(ccperm.norm, 1, sd) + 0.05)
+  if (trace) cat(fill = TRUE)
   pvals <- apply(sweep(ccperms, 1, ccs, "-") >= 0, 1, mean)
   results <- list(zstats = zstats,
                   penaltyxs = penaltyxs,
