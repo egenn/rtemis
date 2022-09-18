@@ -456,3 +456,7 @@ list2html <- function(x, sep = ": ",
         paste0(collapse = "") |>
         htmltools::HTML()
 }
+
+hilitebig <- function(x) {
+    rtHighlight$bold(format(x, scientific = FALSE, big.mark = ","))
+}
