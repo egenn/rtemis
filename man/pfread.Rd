@@ -4,7 +4,16 @@
 \alias{pfread}
 \title{fread delimited file in parts}
 \usage{
-pfread(x, nrows, header = TRUE, verbose = TRUE, stringsAsFactors = TRUE, ...)
+pfread(
+  x,
+  part_nrows,
+  nrows = NULL,
+  header = TRUE,
+  sep = "auto",
+  verbose = TRUE,
+  stringsAsFactors = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{Character: Path to delimited file}
