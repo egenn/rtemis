@@ -10,9 +10,10 @@ get_data(
   make.unique = TRUE,
   character2factor = TRUE,
   clean.colnames = TRUE,
-  reader = c("data.table", "arrow"),
+  reader = c("data.table", "arrow", "vroom"),
   sep = NULL,
   verbose = TRUE,
+  fread_verbose = FALSE,
   timed = verbose,
   ...
 )
@@ -39,9 +40,12 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
+\item{fread_verbose}{Logical: Passed to \code{data.table::fread}}
+
 \item{timed}{Logical: If TRUE, time the process and print to console}
 
-\item{...}{Additional parameters to pass to \code{data.table::fread}}
+\item{...}{Additional parameters to pass to \code{data.table::fread}, 
+\code{arrow::read_delim_arrow()} or \code{vroom::vroom()}}
 }
 \description{
 Convenience function to read data into a data.table using either

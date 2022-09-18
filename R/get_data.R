@@ -8,7 +8,8 @@
 #' \code{data.table:fread()} or \code{arrow:read_delim_arrow()}
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
-#' @param datadir Character: path to directory where \code{filename} is located
+#' @param datadir Character: Optional path to directory where \code{filename} 
+#' is located. If not specified, \code{filename} must be the full path.
 #' @param make.unique Logical: If TRUE, keep unique rows only
 #' @param character2factor Logical: If TRUE, convert character variables to 
 #' factors
@@ -20,8 +21,10 @@
 #' @param sep Single character: field separator. If \code{reader = "fread"}
 #' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param fread_verbose Logical: Passed to \code{data.table::fread}
 #' @param timed Logical: If TRUE, time the process and print to console
-#' @param ... Additional parameters to pass to \code{data.table::fread}
+#' @param ... Additional parameters to pass to \code{data.table::fread}, 
+#' \code{arrow::read_delim_arrow()} or \code{vroom::vroom()}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -36,28 +39,42 @@ get_data <- function(filename,
                      make.unique = TRUE,
                      character2factor = TRUE,
                      clean.colnames = TRUE,
-                     reader = c("data.table", "arrow"),
+                     reader = c("data.table", "arrow", "vroom"),
                      sep = NULL,
                      verbose = TRUE,
+                     fread_verbose = FALSE,
                      timed = verbose, ...) {
 
     dependency_check("data.table")
     reader <- match.arg(reader)
     if (timed) start.time <- intro(verbose = FALSE)
     orange <- crayon::make_style(orange = "orange")
-    if (verbose) msgread(filename, caller = "get_data")
+    path <- if (is.null(datadir)) {
+        filename
+    } else {
+        file.path(datadir, filename)
+    }
+    if (verbose) msgread(path, caller = "get_data")
     if (reader == "data.table") {
         if (is.null(sep)) sep <- "auto"
         .dat <- data.table::fread(
-            file.path(datadir, filename),
-            sep = sep, ...
+            path,
+            sep = sep,
+            verbose = fread_verbose, ...
         )
-    } else {
+    } else if (reader == "arrow") {
         dependency_check("arrow")
         if (is.null(sep)) sep <- ","
         .dat <- arrow::read_delim_arrow(
-            file.path(datadir, filename),
+            path,
             delim = sep, ...) |>
+            data.table::setDT()
+    } else {
+        dependency_check("vroom")
+        .dat <- vroom::vroom(
+            path,
+            delim = sep, ...
+        ) |>
             data.table::setDT()
     }
     
@@ -65,10 +82,9 @@ get_data <- function(filename,
     .ncol <- ncol(.dat)
     if (verbose) {
         msg(
-            "Read in",
-            rtHighlight$bold(format(.nrow, big.mark = ",")), 
-            "rows by", 
-            rtHighlight$bold(format(.ncol, big.mark = ",")), "columns."
+            "Read in", hilitebig(.nrow),
+            "rows by", hilitebig(.ncol),
+            "columns."
         )
     }
     if (make.unique) {
@@ -83,10 +99,8 @@ get_data <- function(filename,
                 paste0(ngettext(.dup, "row", "rows"), ".")
             )
             msg(
-                "New dimensions:",
-                rtHighlight$bold(format(.nrowp, big.mark = ",")),
-                "by",
-                rtHighlight$bold(format(.ncol, big.mark = ",")),
+                "New dimensions:", hilitebig(.nrowp),
+                "by", hilitebig(.ncol),
                 "columns."
             )
         }
