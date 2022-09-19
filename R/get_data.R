@@ -73,7 +73,8 @@ get_data <- function(filename,
         dependency_check("vroom")
         .dat <- vroom::vroom(
             path,
-            delim = sep, ...
+            delim = sep,
+            progress = verbose, ...
         ) |>
             data.table::setDT()
     }
