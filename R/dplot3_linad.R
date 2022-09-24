@@ -11,32 +11,47 @@
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
 #' "text", "diamond". Default = "box"
 #' @param nodelabels Logical: If TRUE, inlcude node labels. Default = TRUE
-#' @param ncases.inlabels Logical: If TRUE, include number of cases with the node labels. Default = TRUE
-#' @param rules.on.edges Logical: If TRUE, display rules on edges instead of nodes. Default = FALSE
+#' @param ncases.inlabels Logical: If TRUE, include number of cases with the 
+#' node labels. Default = TRUE
+#' @param rules.on.edges Logical: If TRUE, display rules on edges instead of 
+#' nodes. Default = FALSE
 #' @param node.col Color for nodes. Default = #7F7F7F" (some gray)
 #' @param leaf.col Color for leaf nodes. Default = "#18A3AC" (teal)
 #' @param edge.col Color for edges. Default = "#848484" (another gray)
-#' @param col.highlight Color for surrounding edges when node is selected. Default = "#F48024" (orange)
-#' @param node.font.col Color for node labels. Default varies by \code{shape}, black or white depending if
+#' @param col.highlight Color for surrounding edges when node is selected. 
+#' Default = "#F48024" (orange)
+#' @param node.font.col Color for node labels. Default varies by \code{shape}, 
+#' black or white depending if
 #' \code{visNetwork} draws labels on node or underneath
 #' @param edge.font.col Color for edge labels. Default = "#000000" (black)
 #' @param sort.coefs Logical: If TRUE, sort each coefs table. Default = FALSE
 #' @param height Float: Height for \code{visNetwork}. Default = NULL, i.e. auto
 #' @param width Float: Width for \code{visNetwork}. Default = NULL, i.e. auto
-#' @param levelSeparation Float: N of pixels to separate tree levels. Default = 100
+#' @param levelSeparation Float: N of pixels to separate tree levels. 
+#' Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
-#' @param edgethickness.by.ncases. Logical: If TRUE, scale edge thickness by number of cases with weight = 1
-#' @param font.family Character: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
-#' number of external viewers, but feel free to play around, esp. within RStudio
-#' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
-#' a custom html table creation function was made to replace some impossibly slow alternatives.
-#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50
-#' @param table.font.size Character: Font size for html coefficient on-hover tables. Default = "14px"
-#' @param table.dat.padding Ignore, has no visible effect. Otherwise, Character: html table padding. Default = "0px"
-#' @param table.lo.col Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)
-#' @param table.hi.col Color for highest coefficient values (positive). Default = "#FFBE00" (light orange)
-#' @param trace Integer: If > 0, print info to console (not particularly informative). Default = 0
+#' @param edgethickness.by.ncases. Logical: If TRUE, scale edge thickness by 
+#' number of cases with weight = 1
+#' @param font.family Character: Font to use throughout. 
+#' Default = 'Helvetica Neue', because otherwise it may fail on a
+#' number of external viewers.
+#' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover 
+#' over nodes. This was placed here before a custom html table creation 
+#' function was made to replace some impossibly slow alternatives.
+#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before 
+#' showing tooltip. Default = 50
+#' @param table.font.size Character: Font size for html coefficient on-hover 
+#' tables. Default = "14px"
+#' @param table.dat.padding Ignore, has no visible effect. Otherwise, 
+#' Character: html table padding. Default = "0px"
+#' @param table.lo.col Color for lowest coefficient values (negative). 
+#' Default = "#80FFFF" (light blue)
+#' @param table.hi.col Color for highest coefficient values (positive). 
+#' Default = "#FFBE00" (light orange)
+#' @param trace Integer: If > 0, print info to console (not particularly 
+#' informative). Default = 0
 #'
+#' @author E.D. Gennatas
 #' @export
 
 dplot3_linad <- function(x,
@@ -248,7 +263,7 @@ dplot3_linad <- function(x,
                            middle = list(
                              enabled = arrow.middle,
                              scaleFactor = arrow.scale)),
-                         arrowStrikethrough = F,
+                         arrowStrikethrough = FALSE,
                          hoverWidth = 0) |>
     visNetwork::visInteraction(hover = TRUE,
                                dragNodes = dragNodes,

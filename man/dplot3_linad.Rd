@@ -58,9 +58,11 @@ dplot3_linad(
 
 \item{nodelabels}{Logical: If TRUE, inlcude node labels. Default = TRUE}
 
-\item{ncases.inlabels}{Logical: If TRUE, include number of cases with the node labels. Default = TRUE}
+\item{ncases.inlabels}{Logical: If TRUE, include number of cases with the 
+node labels. Default = TRUE}
 
-\item{rules.on.edges}{Logical: If TRUE, display rules on edges instead of nodes. Default = FALSE}
+\item{rules.on.edges}{Logical: If TRUE, display rules on edges instead of 
+nodes. Default = FALSE}
 
 \item{node.col}{Color for nodes. Default = #7F7F7F" (some gray)}
 
@@ -68,9 +70,11 @@ dplot3_linad(
 
 \item{edge.col}{Color for edges. Default = "#848484" (another gray)}
 
-\item{col.highlight}{Color for surrounding edges when node is selected. Default = "#F48024" (orange)}
+\item{col.highlight}{Color for surrounding edges when node is selected. 
+Default = "#F48024" (orange)}
 
-\item{node.font.col}{Color for node labels. Default varies by \code{shape}, black or white depending if
+\item{node.font.col}{Color for node labels. Default varies by \code{shape}, 
+black or white depending if
 \code{visNetwork} draws labels on node or underneath}
 
 \item{edge.font.col}{Color for edge labels. Default = "#000000" (black)}
@@ -81,33 +85,46 @@ dplot3_linad(
 
 \item{width}{Float: Width for \code{visNetwork}. Default = NULL, i.e. auto}
 
-\item{levelSeparation}{Float: N of pixels to separate tree levels. Default = 100}
+\item{levelSeparation}{Float: N of pixels to separate tree levels. 
+Default = 100}
 
 \item{tree.font.size}{Integer: Font size for tree labels. Default = 22}
 
-\item{font.family}{Character: Font to use throughout. Default = 'Helvetica Neue', because otherwise it will fail on a
-number of external viewers, but feel free to play around, esp. within RStudio}
+\item{font.family}{Character: Font to use throughout. 
+Default = 'Helvetica Neue', because otherwise it may fail on a
+number of external viewers.}
 
-\item{tooltip.coefs}{Logical: If TRUE, show html coefficient tables on hover over nodes. This was placed here before
-a custom html table creation function was made to replace some impossibly slow alternatives.}
+\item{tooltip.coefs}{Logical: If TRUE, show html coefficient tables on hover 
+over nodes. This was placed here before a custom html table creation 
+function was made to replace some impossibly slow alternatives.}
 
-\item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before showing tooltip. Default = 50}
+\item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before 
+showing tooltip. Default = 50}
 
-\item{table.font.size}{Character: Font size for html coefficient on-hover tables. Default = "14px"}
+\item{table.font.size}{Character: Font size for html coefficient on-hover 
+tables. Default = "14px"}
 
-\item{table.dat.padding}{Ignore, has no visible effect. Otherwise, Character: html table padding. Default = "0px"}
+\item{table.dat.padding}{Ignore, has no visible effect. Otherwise, 
+Character: html table padding. Default = "0px"}
 
-\item{table.lo.col}{Color for lowest coefficient values (negative). Default = "#80FFFF" (light blue)}
+\item{table.lo.col}{Color for lowest coefficient values (negative). 
+Default = "#80FFFF" (light blue)}
 
-\item{table.hi.col}{Color for highest coefficient values (positive). Default = "#FFBE00" (light orange)}
+\item{table.hi.col}{Color for highest coefficient values (positive). 
+Default = "#FFBE00" (light orange)}
 
-\item{trace}{Integer: If > 0, print info to console (not particularly informative). Default = 0}
+\item{trace}{Integer: If > 0, print info to console (not particularly 
+informative). Default = 0}
 
 \item{tree}{\code{s_LINAD} tree}
 
-\item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by number of cases with weight = 1}
+\item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by 
+number of cases with weight = 1}
 }
 \description{
 Plot a Linear Additive Tree trained by \code{s_LINAD} using 
 \strong{visNetwork}
+}
+\author{
+E.D. Gennatas
 }

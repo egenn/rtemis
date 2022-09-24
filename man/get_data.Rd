@@ -21,7 +21,8 @@ get_data(
 \arguments{
 \item{filename}{Character: filename or full path if \code{datadir = NULL}}
 
-\item{datadir}{Character: path to directory where \code{filename} is located}
+\item{datadir}{Character: Optional path to directory where \code{filename} 
+is located. If not specified, \code{filename} must be the full path.}
 
 \item{make.unique}{Logical: If TRUE, keep unique rows only}
 
