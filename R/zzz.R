@@ -58,40 +58,6 @@ rtemis.version <- packageVersion("rtemis")
         "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`",
         "\n"
     ))
-
-    # packageStartupMessage(
-    #   "                                         d8,           ",
-    #   "\n             d8P                        `8P           |",
-    #   "\n          d888888P                                    |",
-    #   "\n   88bd88b  ?88'   d8888b  88bd8b,d88b   8 8b .d888b, |",
-    #   "\n   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,     |",
-    #   "\n  d88       88b   88b     d88  d88  88P d88    `?8b   |",
-    #   "\n d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'   |",
-    # )
-
-    try(
-        if (interactive() && try(rstudioapi::isAvailable(), silent = TRUE)) {
-            # col <- sample(unlist(rtCol1), 1)
-            col <- "#16A0AC"
-            n <- 20
-            polyshadow(n, n, .8,
-                text = paste0("  .:", pkgname, " ", 
-                              rtemis.version, " ", sessionInfo()[[2]]),
-                text.x = 2,
-                text.y = 2,
-                text.adj = c(0, 0),
-                text.col = col,
-                text.cex = 1,
-                font.family = "sans",
-                shadow = seq(.9, .96, length = n^2),
-                col_lo = "#00000040",
-                col_hi = col,
-                color.progression = "prod"
-            )
-        },
-        silent = TRUE
-    )
-
 }
 
 
