@@ -37,7 +37,7 @@ rsd <- function(x,
     }
   }
 
-  cov <- sd(x, na.rm = na.rm)/mean(x, na.rm = na.rm)
+  cov <- sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
   if (as.percentage) cov <- cov * 100
   cov
 
