@@ -161,6 +161,7 @@ dplot3_protein <- function(x,
             site <- dat$Annotations$site
             region <- dat$Annotations$region
             ptm <- dat$Annotations$ptm
+            disease.variants <- dat$Annotations$site[["Disease Associated Variant"]]
         } else {
             dat <- uniprot_get(x, verbose = verbose)
             x <- dat[["Sequence"]]
