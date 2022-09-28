@@ -11,6 +11,7 @@
 #' cannot get split to file and console, so we keep in console only
 #' 
 #' @keywords internal
+
 intro <- function(message = NULL,
                   verbose = TRUE,
                   as.message = FALSE,
@@ -21,12 +22,14 @@ intro <- function(message = NULL,
     if (!is.null(logFile)) {
         logFile <- normalizePath(logFile, mustWork = FALSE)
         outdir <- dirname(logFile)
-        if (!dir.exists(outdir)) dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+        if (!dir.exists(outdir)) {
+            dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+        }
         if (file.exists(logFile)) logFile <- paste0(logFile, "_1")
         sink(logFile, split = verbose)
     }
     start.time <- proc.time()
-    if (verbose | !is.null(logFile)) {
+    if (verbose || !is.null(logFile)) {
         if (newline.pre) cat("\n")
         if (is.null(message)) {
             msg("Hello,", Sys.getenv("USER"),
@@ -66,12 +69,14 @@ outro <- function(start.time,
                   color = silver,
                   newline.pre = FALSE) {
 
-    # sinkOff must be FALSE by default since there is no logging by default, would result in warning
+    # sinkOff must be FALSE by default since there is no logging by default, 
+    # would result in warning
     elapsed <- as.numeric(proc.time() - start.time)
-    if (verbose | sinkOff) {
+    if (verbose || sinkOff) {
         if (newline.pre) cat("\n")
         msg("Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
-            "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]), "; System: ", ddSci(elapsed[2]), ")",
+            "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]), 
+            "; System: ", ddSci(elapsed[2]), ")",
             sep = "", as.message = as.message, caller.id = 2, color = color
         )
     }
