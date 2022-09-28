@@ -23,6 +23,7 @@
 #' @param layout Character: "1curve", "grid": type of layout to use
 #' @param show.markers Logical: If TRUE, show amino acid markers
 #' @param show.labels Logical: If TRUE, annotate amino acids with elements
+#' @param modebar.bg Color for modebar background
 #' from input \code{x}
 #' @param ... Additional arguments to pass to the theme function
 #'
@@ -139,6 +140,7 @@ dplot3_protein <- function(x,
                             displayModeBar = TRUE,
                             modeBar.file.format = "svg",
                             scrollZoom = TRUE,
+                            modebar.bg = "transparent",
                             # file out
                             filename = NULL,
                             file.width = 1320,
@@ -612,8 +614,7 @@ dplot3_protein <- function(x,
         bgcolor = plotly::toRGB(legend.bg),
         bordercolor = plotly::toRGB(legend.border.col),
         borderwidth = legend.borderwidth,
-        tracegroupgap = legend.group.gap,
-        modebar = list(bgcolor = "transparent")
+        tracegroupgap = legend.group.gap
     )
 
     plt <- plotly::layout(plt,
@@ -655,7 +656,10 @@ dplot3_protein <- function(x,
         plot_bgcolor = theme$plot.bg,
         margin = margin,
         legend = .legend,
-        hoverlabel = list(align = "hoverlabel.align")
+        hoverlabel = list(
+            align = "hoverlabel.align"
+        ),
+        modebar = list(bgcolor = modebar.bg)
     )
 
     # Config

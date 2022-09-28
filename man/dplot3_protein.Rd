@@ -65,7 +65,7 @@ dplot3_protein(
   ptm.col = 2:10,
   ptm.symbol = "circle",
   ptm.offset = 0.12,
-  ptm.pad = 0.3,
+  ptm.pad = 0.35,
   ptm.marker.size = marker.size/4.5,
   annotate.position.every = 10,
   annotate.position.alpha = 0.5,
@@ -93,9 +93,10 @@ dplot3_protein(
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
   scrollZoom = TRUE,
+  modebar.bg = "transparent",
   filename = NULL,
-  file.width = 500,
-  file.height = 500,
+  file.width = 1320,
+  file.height = 990,
   file.scale = 1,
   width = NULL,
   height = NULL,
@@ -139,7 +140,9 @@ middle}
 
 \item{show.markers}{Logical: If TRUE, show amino acid markers}
 
-\item{show.labels}{Logical: If TRUE, annotate amino acids with elements
+\item{show.labels}{Logical: If TRUE, annotate amino acids with elements}
+
+\item{modebar.bg}{Color for modebar background
 from input \code{x}}
 
 \item{...}{Additional arguments to pass to the theme function}
