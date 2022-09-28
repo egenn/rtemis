@@ -565,7 +565,7 @@ predict.rtMod <- function(object,
       #   estimated <- predict(object$mod, data.frame(newdata))
       # }
 
-    } else if (object$mod.name == "GBM" | object$mod.name == "GBM3") {
+    } else if (object$mod.name == "GBM" || object$mod.name == "GBM3") {
       if (is.null(extraArgs$n.trees)) {
         n.trees <- object$mod$n.trees
       } else {
@@ -576,7 +576,7 @@ predict.rtMod <- function(object,
       type <- object$type
       distribution <- object$mod$distribution
       y <- object$y.train
-      if (type == "Regression" | type == "Survival") {
+      if (type == "Regression" || type == "Survival") {
         if (distribution == "poisson") {
           if (trace > 0) msg("Using predict for Poisson Regression with type = response")
           estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
@@ -659,7 +659,7 @@ predict.rtMod <- function(object,
     }
   }
 
-  if (!is.null(object$type) && (object$type == "Regression" | object$type == "Survival")) {
+  if (!is.null(object$type) && (object$type == "Regression" || object$type == "Survival")) {
     estimated <- as.numeric(estimated)
   }
 
@@ -2197,13 +2197,18 @@ NULL
 #' 
 #' @rdname rtMeta-methods
 #' @export
-predict.rtMeta <- function(object, newdata, fn = median, ...) {
+predict.rtMeta <- function(object, 
+                           newdata, 
+                           fn = median, ...) {
 
   if (missing(newdata)) {
     predicted <- object$predicted
   } else {
-    base.predicted <- as.data.frame(sapply(object$base.mods, function(mod)
-      predict(mod, newdata = newdata, ...)))
+    base.predicted <- as.data.frame(
+      sapply(object$base.mods, function(mod) {
+        predict(mod, newdata = newdata, ...)
+      })
+    )
     predicted <- predict(object$meta.mod, newdata = base.predicted)
   }
 
@@ -2340,7 +2345,7 @@ predict.rtModLite <- function(object, newdata, ...) {
     }
   }
 
-  if (object$type == "Regression" | object$type == "Survival") {
+  if (object$type == "Regression" || object$type == "Survival") {
     estimated <- as.numeric(estimated)
   }
 
@@ -2390,8 +2395,8 @@ rtMod.out <- function(rt,
     filename.train <- filename.test <- NULL
   }
 
-  if (print.plot | !is.null(outdir)) {
-    if (plot.fitted | !is.null(outdir)) {
+  if (print.plot || !is.null(outdir)) {
+    if (plot.fitted || !is.null(outdir)) {
       plot(rt,
         estimate = "fitted",
         print.plot = plot.fitted,
@@ -2399,7 +2404,7 @@ rtMod.out <- function(rt,
         theme = theme, ...
       )
     }
-    if (!is.null(y.test) & (plot.predicted | !is.null(outdir))) {
+    if (!is.null(y.test) && (plot.predicted || !is.null(outdir))) {
       plot(rt,
         estimate = "predicted",
         print.plot = plot.predicted,
