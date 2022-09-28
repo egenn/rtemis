@@ -65,7 +65,7 @@ dplot3_protein(
   ptm.col = 2:10,
   ptm.symbol = "circle",
   ptm.offset = 0.12,
-  ptm.pad = 0.12,
+  ptm.pad = 0.3,
   ptm.marker.size = marker.size/4.5,
   annotate.position.every = 10,
   annotate.position.alpha = 0.5,
