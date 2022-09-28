@@ -34,7 +34,7 @@ colorOp <- function(col,
         inverted <- apply(col.rgb, 2, \(i) 255 - i)
         # maintain alpha
         inverted[4, ] <- col.rgb[4, ]
-        invertedl <- lapply(1:NCOL(inverted), \(i) {
+        invertedl <- lapply(seq_len(NCOL(inverted)), \(i) {
             rgb(inverted[1, i],
                 inverted[2, i],
                 inverted[3, i],
@@ -133,11 +133,11 @@ color_separate <- function(x, start_with = 1) {
     dist <- outer(x, x, Vectorize(color_sqdist))
     colnames(dist) <- seq_along(x)
     out <- c(out, as.numeric(colnames(dist)[which.max(dist[out, ])]))
-    dist <- dist[, -out, drop = F]
+    dist <- dist[, -out, drop = FALSE]
     while (length(out) < length(x)) {
         id <- which.max(colSums(dist[out, , drop = FALSE]))
         out <- c(out, as.numeric(colnames(dist)[id]))
-        dist <- dist[, -id, drop = F]
+        dist <- dist[, -id, drop = FALSE]
     }
     x[out]
 }
