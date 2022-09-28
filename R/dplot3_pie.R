@@ -72,7 +72,7 @@ dplot3_pie <-  function(
     if (!is.null(.rownames)) {
       .cat.names <- .rownames
     } else {
-      .cat.names <- LETTERS[seq(NROW(x))]
+      .cat.names <- LETTERS[seq_len(NROW(x))]
     }
   }
 
@@ -90,7 +90,7 @@ dplot3_pie <-  function(
   if (is.character(palette)) palette <- rtpalette(palette)
   p <- NROW(x)
   if (is.null(col)) col <- palette[seq_len(p)]
-  if (length(col) < p) col <- rep(col, p/length(col))
+  if (length(col) < p) col <- rep(col, p / length(col))
 
   # Theme ----
   extraargs <- list(...)
@@ -115,9 +115,9 @@ dplot3_pie <-  function(
   # plotly ----
   plt <- plotly::plot_ly(labels = .cat.names,
                          values = x[, 1],
-                         type = 'pie',
+                         type = "pie",
                          textinfo = textinfo,
-                         insidetextfont = list(color = '#FFFFFF'),
+                         insidetextfont = list(color = "#FFFFFF"),
                          outsidetextfont = list(color = labs.col),
                          marker = list(colors = unlist(col),
                                        line = list(color = sep.col, width = 1)))
