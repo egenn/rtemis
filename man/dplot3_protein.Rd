@@ -22,7 +22,7 @@ dplot3_protein(
   layout = c("simple", "grid", "1curve", "2curve"),
   show.markers = TRUE,
   show.labels = TRUE,
-  font.size = 20,
+  font.size = 18,
   label.col = NULL,
   scatter.mode = "markers+lines",
   marker.size = 28,
@@ -141,6 +141,8 @@ middle}
 
 \item{show.labels}{Logical: If TRUE, annotate amino acids with elements
 from input \code{x}}
+
+\item{...}{Additional arguments to pass to the theme function}
 }
 \description{
 Plot the primary amino acid sequence of a protein
