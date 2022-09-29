@@ -99,9 +99,9 @@ dplot3_protein <- function(x,
                             site.border.width = 1.5,
                             site.palette = rtPalette,
                             # Variants
-                            variant.col = c("#FA6E1E"),
+                            variant.col = "#FA6E1E",
                             # Text groups
-                            disease.variant.col = "#ff0000",
+                            disease.variant.col = "#E266AE", # "#c982d7"
                             # PTMs
                             showlegend.ptm = TRUE,
                             ptm.col = 2:10,
