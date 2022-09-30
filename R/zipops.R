@@ -11,10 +11,13 @@
 #' @param zipdt data.table with "zip", "lng", and "lat" columns
 
 zip2longlat <- function(x, zipdt) {
-  data.table::setorder(
-    merge(data.table(ID = seq_along(x), zip = x, key = "ID"),
-          zipdt[zip %in% x], by = "zip", all.x = TRUE),
-    "ID")[, -"ID"]
+    data.table::setorder(
+        merge(data.table(ID = seq_along(x), zip = x, key = "ID"),
+            zipdt[zip %in% x],
+            by = "zip", all.x = TRUE
+        ),
+        "ID"
+    )[, -"ID"]
 }
 
 #' Get distance between pairs of zip codes
@@ -30,11 +33,12 @@ zip2longlat <- function(x, zipdt) {
 
 zipdist <- function(x, y, zipdt) {
 
-  # Dependencies ----
-  dependency_check("geosphere")
+    # Dependencies ----
+    dependency_check("geosphere")
 
-  # distHaversine ----
-  geosphere::distHaversine(zip2longlat(x, zipdt)[, -1],
-                           zip2longlat(y, zipdt)[, -1])
-
+    # distHaversine ----
+    geosphere::distHaversine(
+        zip2longlat(x, zipdt)[, -1],
+        zip2longlat(y, zipdt)[, -1]
+    )
 } # rtemis::zipdist
