@@ -39,6 +39,7 @@
 #' # or directly using the UniProt accession number:
 #' dplot3_protein("P10636")
 #' }
+
 dplot3_protein <- function(x,
                             site = NULL,
                             region = NULL,
@@ -160,10 +161,12 @@ dplot3_protein <- function(x,
                 simplifyMatrix = FALSE
             )
             x <- dat$Sequence
+            disease.variants <- dat$Annotations$site[["Disease Associated Variant"]]
+            dat$Annotations$site[["Disease Associated Variant"]] <- NULL
             site <- dat$Annotations$site
             region <- dat$Annotations$region
             ptm <- dat$Annotations$ptm
-            disease.variants <- dat$Annotations$site[["Disease Associated Variant"]]
+            
         } else {
             dat <- uniprot_get(x, verbose = verbose)
             x <- dat[["Sequence"]]
