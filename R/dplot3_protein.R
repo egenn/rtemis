@@ -301,6 +301,15 @@ dplot3_protein <- function(x,
     )
 
     # AA markers and lines ----
+    aaname <- if (is.null(disease.variants)) {
+        "1&#176; structure"
+    } else {
+        paste0(
+            "1&#176; structure (",
+            "<span style='color:", disease.variant.col,
+            "'>Disease variants</span>)"
+        )
+    }
     if (show.markers) {
         plt <- plt |> plotly::add_trace(
             x = xs,
@@ -317,7 +326,7 @@ dplot3_protein <- function(x,
                 width = line.width
             ),
             text = paste0(position, ": ", xnames),
-            name = " ",
+            name = aaname,
             hoverinfo = marker.hoverinfo
         )
     }
