@@ -115,10 +115,10 @@ modSelect <- function(mod,
 
   # check:
   # These are for print. functions iirc
-  if (strtrim(mod, 6) == "Bagged" & desc) {
+  if (strtrim(mod, 6) == "Bagged" && desc) {
     return(paste("Bagged", modSelect(substr(mod, 7, 100), desc = TRUE)))
   }
-  if (strtrim(mod, 7) == "Boosted" & desc) {
+  if (strtrim(mod, 7) == "Boosted" && desc) {
     return(paste("Boosted", modSelect(substr(mod, 8, 100), desc = TRUE)))
   }
 
