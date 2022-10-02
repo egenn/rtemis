@@ -26,23 +26,38 @@ labelify <- function(x,
                      toTitleCase = TRUE,
                      capitalize.strings = c("id"),
                      stringsToSpaces = c("\\$", "`")) {
-
-  if (is.null(x)) return(NULL)
-  xf <- x
-  for (i in stringsToSpaces) {
-    xf <- gsub(i, " ", xf)
-  }
-  for (i in capitalize.strings) {
-    xf <- gsub(paste0("^", i, "$"), toupper(i), xf)
-  }
-  if (underscoresToSpaces) xf <- gsub("_", " ", xf)
-  if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
-  if (toLower) xf <- tolower(xf)
-  if (toTitleCase) xf <- tools::toTitleCase(xf)
-  xf <- gsub(" {2,}", " ", xf)
-  gsub(" $", "", xf)
-
+    if (is.null(x)) {
+        return(NULL)
+    }
+    xf <- x
+    for (i in stringsToSpaces) {
+        xf <- gsub(i, " ", xf)
+    }
+    for (i in capitalize.strings) {
+        xf <- gsub(paste0("^", i, "$"), toupper(i), xf)
+    }
+    if (underscoresToSpaces) xf <- gsub("_", " ", xf)
+    if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
+    if (toLower) xf <- tolower(xf)
+    if (toTitleCase) xf <- tools::toTitleCase(xf)
+    xf <- gsub(" {2,}", " ", xf)
+    gsub(" $", "", xf)
 } # rtemis::labelify
+
+#' Clean names
+#'
+#' Replace all symbols and combinations of symbols in a character vector
+#' with underscores
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' clean_names(colnames(iris))
+
+clean_names <- function(x) {
+    out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
+    gsub("_$", "", out)
+}
 
 #' Clean column names
 #'
@@ -52,11 +67,29 @@ labelify <- function(x,
 #'
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' clean_colnames(iris)
 
 clean_colnames <- function(x) {
-  if (!inherits(x, "character")) {
-    x <- if (inherits(x, "matrix")) colnames(x) else names(x)
-  }
-  out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
-  gsub("_$", "", out)
+    if (!inherits(x, "character")) {
+        x <- if (inherits(x, "matrix")) colnames(x) else names(x)
+    }
+    clean_names(x)
+}
+
+
+#' Clean factor levels of data.frame
+#' 
+#' Finds all factors in a data.frame and cleans factor levels to include
+#' only underscore symbols
+#' 
+#' @param x data.frame
+#' 
+#' @author E.D. Gennatas
+#' @export
+clean_factor_levels <- function(x) {
+    idi <- which(sapply(x, is.factor))
+    for (i in idi) {
+        levels(idi[, i]) <- clean_names(levels(idi[, i]))
+    }
 }
