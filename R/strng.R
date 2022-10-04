@@ -6,7 +6,7 @@
 #' 
 #' @rdname strng
 bold <- function(...) {
-    paste0("\033[1m", paste(...), "\033m")
+    paste0("\033[1m", paste(...), "\033[0m")
 }
 
 #' @rdname strng

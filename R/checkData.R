@@ -220,7 +220,7 @@ checkData <- function(x,
 
       if (n.constant > 0) {
         out <- paste(out,
-                     bold(orange(paste("  * Remove the constant", 
+                     bold(red(paste("  * Remove the constant", 
                            ngettext(n.constant, "feature", "features")
                            ))),
                      sep = "\n")
@@ -228,7 +228,7 @@ checkData <- function(x,
 
       if (n.dups > 0) {
         out <- paste(out,
-                     bold(orange(paste("  * Remove the duplicated", 
+                     bold(red(paste("  * Remove the duplicated", 
                            ngettext(n.dups, "case", "cases")
                            ))),
                      sep = "\n")
@@ -242,14 +242,14 @@ checkData <- function(x,
                      sep = "\n")
       }
 
-      if (n.gt2levels.nonordered > 0) {
-        out <- paste(out,
-                     paste0("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
-                            "unordered categorical",
-                            ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
-                            " with more than 2 levels and consider\n    if ordering would make sense"),
-                     sep = "\n")
-      }
+      # if (n.gt2levels.nonordered > 0) {
+      #   out <- paste(out,
+      #                paste0("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
+      #                       "unordered categorical",
+      #                       ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
+      #                       " with more than 2 levels \nand consider if ordering would make sense"),
+      #                sep = "\n")
+      # }
       if (n.integer > 0) {
         out <- paste(out,
                      paste0("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
