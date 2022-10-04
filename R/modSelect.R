@@ -107,7 +107,7 @@ modSelect <- function(mod,
 
   # if (missing(mod) & !listAliases) {
   if (missing(mod)) {
-    cat(rtHighlight$bold("\n  rtemis supports the following algorithms for training learners:\n\n"))
+    cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
     # Exclude first so many
     print(rtMods[-seq(6), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtMods))

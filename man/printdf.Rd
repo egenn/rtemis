@@ -13,8 +13,8 @@ printdf(
   justify = "right",
   colnames = TRUE,
   rownames = TRUE,
-  column.col = rtHighlight$bold,
-  row.col = silver,
+  column.col = hilite,
+  row.col = gray,
   newline.pre = FALSE,
   newline = FALSE
 )
@@ -37,9 +37,9 @@ formatting}
 
 \item{rownames}{Logical: If TRUE, print row names. Default = TRUE}
 
-\item{column.col}{\code{crayon} color for printing column names. Default = \pkg{rtemis} default highlight}
+\item{column.col}{Color fn for printing column names.}
 
-\item{row.col}{\code{crayon} color for printing row names. Default = silver}
+\item{row.col}{Color fn for printing row names.}
 
 \item{newline.pre}{Logical: If TRUE, print a new line before printing data frame. Default = FALSE}
 

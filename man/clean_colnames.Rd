@@ -12,6 +12,9 @@ clean_colnames(x)
 \description{
 Clean column names by replacing all spaces and punctuation with a single underscore
 }
+\examples{
+clean_colnames(iris)
+}
 \author{
 E.D. Gennatas
 }

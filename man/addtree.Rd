@@ -33,8 +33,8 @@ addtree(
 
 \item{depthLimit}{Integer: Maximum depth of tree to grow}
 
-\item{learning.rate}{learning rate for the Newton Raphson step that updates the
-function values of the node for \code{update = "exponential"}}
+\item{learning.rate}{learning rate for the Newton Raphson step that updates 
+the function values of the node for \code{update = "exponential"}}
 
 \item{gamma}{Float (0, 1): Acceleration factor}
 
@@ -46,7 +46,8 @@ function values of the node for \code{update = "exponential"}}
 Trains a binary decision tree classifier using the Additive Tree
 }
 \details{
-Outcome must be factor with two levels, the first level is the 'positive' class
+Outcome must be factor with two levels, the first level is the 'positive' 
+class
 
 lambda = gamma/(1 - gamma)
 }

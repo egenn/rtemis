@@ -21,10 +21,10 @@ rtSave <- function(rtmod,
   rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
   try(saveRDS(rtmod, rdsPath))
   if (file.exists(rdsPath)) {
-    if (verbose) cat(green$bold("Done"))
+    if (verbose) cat(green("Done", TRUE))
     # if (verbose) rtOut("Saved", rdsPath)
   } else {
-    if (verbose) cat(red$bold("Failed"))
+    if (verbose) cat(red("Failed", TRUE))
     warning("Could not save data to ", outdir)
   }
   

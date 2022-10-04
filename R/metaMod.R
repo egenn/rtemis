@@ -141,10 +141,10 @@ metaMod <- function(x, y = NULL,
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
   nbases <- length(base.mod.names)
   if (verbose) cat("\n  I will train ", nbases, " base learners: ",
-                   rtHighlight$bold(paste(base.mod.names, collapse = ", ")), sep = "")
+                   hilite(paste(base.mod.names, collapse = ", ")), sep = "")
   if (verbose) cat("  using ", base.resample.rtset$n.resamples, " internal resamples (",
                    base.resample.rtset$resampler, "),", sep = "")
-  if (verbose) cat("  and build a", rtHighlight$bold(toupper(meta.mod)), "meta model")
+  if (verbose) cat("  and build a", hilite(toupper(meta.mod)), "meta model")
   if (verbose) cat("  Training ", nbases, " base learners",
                    " on ", length(res.part), " training set resamples (",
                    nrow(grid), " models total)...\n", sep = "")

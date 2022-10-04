@@ -1578,7 +1578,7 @@ rtPalettes <- list(
 
 rtpalette <- function(palette = NULL) {
     if (is.null(palette)) {
-        msg(crayon::cyan("The following palettes are available:"))
+        msg(hilite("The following palettes are available:"))
         print(names(rtPalettes))
     } else {
         palette <- match.arg(
@@ -1589,13 +1589,6 @@ rtpalette <- function(palette = NULL) {
     }
 } # rtemis::rtPalette
 
-# Custom crayon styles ----
-teal <- crayon::make_style(teal = "#18A3AC")
-rtBlue <- crayon::make_style(rtBlue = "#005581")
-rtOrange <- crayon::make_style(rtOrange = "orange")
-rtHighlight.color <- getOption("rt.highlight.color", "#18A3AC")
-rtHighlight <- crayon::make_style(rtHighlight = rtHighlight.color)
-rtemisblue <- crayon::make_style(rtemisblue = "#80ffff")
 
 #' Access rtemis palette colors
 #'
@@ -1661,7 +1654,7 @@ penn.heat <- function(n = 11, space = "Lab",
         plot(rep(1, n),
             col = grad, pch = 19, cex = 6,
             xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-            ann = F, axes = FALSE
+            ann = FALSE, axes = FALSE
         )
         text(
             x = 0.25, y = 1.05,
@@ -1680,7 +1673,7 @@ penn.heat <- function(n = 11, space = "Lab",
             rep(1, n), 1:n,
             col = grad, pch = 19, cex = 6,
             xlim = c(0.5, 1.5), ylim = c(.5, n + .5),
-            ann = F, axes = FALSE
+            ann = FALSE, axes = FALSE
         )
         # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
         axis(

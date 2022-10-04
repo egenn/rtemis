@@ -50,7 +50,7 @@ msg0(
 
 \item{as.message}{Logical: if TRUE, print using \code{message()}}
 
-\item{color}{Crayon color for message e.g. \code{crayon::red}}
+\item{color}{Color fn}
 
 \item{sep}{Character: Use to separate objects in \code{...}}
 }

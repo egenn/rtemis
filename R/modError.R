@@ -357,5 +357,5 @@ print.regError <- function(x, ...) {
     if (!is.null(obj$rho)) {
         cat("    rho = ", ddSci(obj$rho), " (p = ", ddSci(obj$rho.p), ")\n", sep = "")
     }
-    cat("   R sq = ", rtHighlight$bold(ddSci(obj$Rsq)), "\n", sep = "")
+    cat("   R sq = ", hilite(ddSci(obj$Rsq)), "\n", sep = "")
 } # rtemis::print.regError

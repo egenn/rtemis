@@ -15,7 +15,7 @@
 intro <- function(message = NULL,
                   verbose = TRUE,
                   as.message = FALSE,
-                  color = silver,
+                  color = gray,
                   logFile = NULL,
                   call.depth = 1,
                   newline.pre = FALSE) {
@@ -66,7 +66,7 @@ outro <- function(start.time,
                   verbose = TRUE,
                   as.message = FALSE,
                   sinkOff = FALSE,
-                  color = silver,
+                  color = gray,
                   newline.pre = FALSE) {
 
     # sinkOff must be FALSE by default since there is no logging by default, 
@@ -254,17 +254,17 @@ rtemis_init <- function(n.cores = 1,
     #     future::plan(rtPlan)
     #     # rtenv$plan_set <- 1
     #     if (verbose) {
-    #         msg(context, "Future plan set to", crayon::bold(rtPlan),
-    #             color = crayon::magenta,
-    #             "with", crayon::bold(n.cores), "workers"
+    #         msg(context, "Future plan set to", bold(rtPlan),
+    #             color = magenta,
+    #             "with", bold(n.cores), "workers"
     #         )
     #     }
     # } else {
     #     future::plan("sequential")
     #     if (verbose) {
     #         msg(context, "Future plan set to", 
-    #             crayon::bold("sequential"),
-    #             color = crayon::magenta
+    #             bold("sequential"),
+    #             color = magenta
     #         )
     #     }
     # }
@@ -277,8 +277,8 @@ rtemis_init <- function(n.cores = 1,
         rtenv$handlers_set <- 1
         if (verbose) {
             msg("Progress handler set to",
-                crayon::bold(rtHandler),
-                color = crayon::magenta
+                bold(rtHandler),
+                color = magenta
             )
         }
     }

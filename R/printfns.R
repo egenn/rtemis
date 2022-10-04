@@ -11,7 +11,7 @@
 #' @param prefix Character: Optional prefix for names
 #' @param pad Integer: Pad output with this many spaces. Default = 2
 #' @param center.title Logical: If TRUE, autopad title for centering, if present. Default TRUE
-#' @param color \code{crayon} color to be applied when printing values. Default = NULL (do not use \code{crayon})
+#' @param color Color fn
 #' @author E.D. Gennatas
 #' @export
 
@@ -55,7 +55,7 @@ printls <- function(x,
                 newline.pre = FALSE
             )
         }
-        for (i in seq(x)) {
+        for (i in seq_along(x)) {
             if (is.list(x[[i]])) {
                 if (length(x[[i]]) == 0) {
                     if (is.null(color)) {
@@ -122,7 +122,7 @@ printdf1 <- function(x, pad = 2) {
     xnames <- colnames(x)
     lhs <- max(nchar(xnames)) + pad
 
-    for (i in seq(ncol(x))) {
+    for (i in seq_len(ncol(x))) {
         cat(paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]), "\n")
     }
 } # rtemis::printdf1
@@ -158,8 +158,8 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param justify Character: "right", "left". Default = "right"
 #' @param colnames Logical: If TRUE, print column names. Default = TRUE
 #' @param rownames Logical: If TRUE, print row names. Default = TRUE
-#' @param column.col \code{crayon} color for printing column names. Default = \pkg{rtemis} default highlight
-#' @param row.col \code{crayon} color for printing row names. Default = silver
+#' @param column.col Color fn for printing column names.
+#' @param row.col Color fn for printing row names.
 #' @param newline.pre Logical: If TRUE, print a new line before printing data frame. Default = FALSE
 #' @param newlin Logical: If TRUE, print a new line after printing data frame. Default = FALSE
 #' @author E.D. Gennatas
@@ -173,8 +173,8 @@ printdf <- function(x,
                     justify = "right",
                     colnames = TRUE,
                     rownames = TRUE,
-                    column.col = rtHighlight$bold,
-                    row.col = silver,
+                    column.col = hilite,
+                    row.col = gray,
                     newline.pre = FALSE,
                     newline = FALSE) {
 
@@ -188,7 +188,7 @@ printdf <- function(x,
         x <- xf
     }
 
-    col.char <- sapply(seq(xnames), \(i) {
+    col.char <- sapply(seq_along(xnames), \(i) {
         max(nchar(as.character(x[, i])), nchar(xnames[i]))
     })
 
@@ -198,7 +198,7 @@ printdf <- function(x,
     if (colnames) {
         cat(paste0(rep(" ", xrownames.spacing), collapse = ""))
         if (justify == "left") cat(spacer)
-        for (i in seq(NCOL(x))) {
+        for (i in seq_len(NCOL(x))) {
             cat(column.col(format(xnames[i],
                 width = col.char[i] + spacing,
                 justify = justify
@@ -207,15 +207,15 @@ printdf <- function(x,
         cat("\n")
     }
 
-    # cat(silver$bold(" ]]\n"))
+    # cat(gray(" ]]\n"))
     if (rownames) {
-        for (i in seq(NROW(x))) {
+        for (i in seq_len(NROW(x))) {
             # cat(row.col(cpad(xrownames[i], xrownames.spacing)))
             cat(row.col(format(xrownames[i],
                 width = xrownames.spacing,
                 justify = "right"
             )))
-            for (j in seq(NCOL(x))) {
+            for (j in seq_len(NCOL(x))) {
                 cat(spacer,
                     paste(format(x[i, j], width = col.char[j], 
                     justify = justify)),
@@ -225,8 +225,8 @@ printdf <- function(x,
             cat("\n")
         }
     } else {
-        for (i in seq(NROW(x))) {
-            for (j in seq(NCOL(x))) {
+        for (i in seq_len(NROW(x))) {
+            for (j in seq_len(NCOL(x))) {
                 cat(spacer,
                     paste(format(x[i, j], width = col.char[j], 
                     justify = justify)),
@@ -247,7 +247,7 @@ printtable <- function(x, spacing = 2, pad = 2) {
     colnames(mat) <- colnames(x)
     rownames(mat) <- rownames(x)
     # Column width without spacing
-    col.width <- sapply(seq(class.names), \(i) {
+    col.width <- sapply(seq_along(class.names), \(i) {
         max(nchar(as.character(x[, i])), nchar(class.names[i]))
     })
     lhspad <- max(nchar(class.names), nchar(dimnames[1])) + spacing + pad
@@ -259,8 +259,8 @@ printtable <- function(x, spacing = 2, pad = 2) {
     # Left dimname
     cat(bold(format(dimnames[1], width = lhspad - spacing, justify = "right")))
     cat(paste0(rep(" ", spacing), collapse = ""))
-    for (i in seq(n.classes)) {
-        cat(rtHighlight$bold(format(class.names[i],
+    for (i in seq_len(n.classes)) {
+        cat(hilite(format(class.names[i],
             width = col.width[i] + spacing, justify = "left"
         )))
     }
@@ -268,7 +268,7 @@ printtable <- function(x, spacing = 2, pad = 2) {
     printdf(mat,
         pad = lhspad - max(nchar(class.names)) - spacing,
         colnames = FALSE,
-        row.col = rtHighlight$bold, newline.pre = TRUE,
+        row.col = hilite, newline.pre = TRUE,
         spacing = spacing
     )
 } # rtemis::printtable
@@ -342,7 +342,7 @@ twocol2html <- function(x,
 
     # 3. Data rows ----
     tab <- vector("character", NROW(x))
-    for (i in seq(tab)) {
+    for (i in seq_along(tab)) {
         # first column: variable name; second column: coefficient
         tab[i] <- paste0(
             "<tr><td>", x[i, 1],
@@ -388,10 +388,10 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
             cat(
                 # "There", 
                 # ngettext(.nrow, "is", "are"),
-                rtHighlight$bold(nrows),
+                hilite(nrows),
                 ngettext(.nrow, "row", "rows"),
                 "by", 
-                rtHighlight$bold(ncols),
+                hilite(ncols),
                 ngettext(.ncol, "column.", "columns."),
                 if (newline) "\n"
             )
@@ -458,5 +458,5 @@ list2html <- function(x, sep = ": ",
 }
 
 hilitebig <- function(x) {
-    rtHighlight$bold(format(x, scientific = FALSE, big.mark = ","))
+    hilite(format(x, scientific = FALSE, big.mark = ","))
 }

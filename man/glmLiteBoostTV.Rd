@@ -55,8 +55,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{resid}{Float, vector, length = length(y): Residuals to work on. Do 
-not change unless you know what you're doing. Default = NULL, for regular 
+\item{resid}{Float, vector, length = length(y): Residuals to work on. Do
+not change unless you know what you're doing. Default = NULL, for regular
 boosting}
 
 \item{boost.obj}{[Internal use]}

@@ -157,7 +157,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                }
                                .metric <- length(unique(metric)) == 1
                                printls(lst,
-                                       color = rtHighlight$bold,
+                                       color = hilite,
                                        title = if (.metric) metric[1] else NULL,
                                        title.newline = FALSE, newline.pre = FALSE)
                                invisible(lst)
@@ -276,7 +276,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                barplot(tbl[, seq(n.cols)],
                                        # names.arg = c,
                                        ylab = ylab,
-                                       xpd = T,
+                                       xpd = TRUE,
                                        space = c(0, .33),
                                        border = NA,
                                        beside = TRUE,

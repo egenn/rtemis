@@ -11,6 +11,7 @@
 #' Output: trained learners
 #' This is used internally by \link{elevate} and for bagging, when the \code{bag.resampler}
 #' argument is set in a learner.
+#' 
 #' @param x features - training set
 #' @param y outcome - training set
 #' @param mod Character: \pkg{rtemis} model. See \code{modSelect} gives available models
@@ -20,7 +21,8 @@
 #' @param res.verbose Logical: Will be passed to each \code{mod}'s \code{verbose} argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with \link{elevate} when training a large number of resamples. Default = TRUE
-#' @param outdir Character: Path to save output. Default = NULL
+#' @param outdir Character: Path to save output.
+#' 
 #' @author E.D. Gennatas
 #' @export
 

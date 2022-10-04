@@ -138,7 +138,7 @@ rtMod <- R6::R6Class("rtMod",
                        print = function() {
                          "show / print method for rtMod"
                          objcat("Supervised Model")
-                         cat(rtHighlight$bold(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
+                         cat(hilite(self$mod.name), " (", modSelect(self$mod.name, desc = TRUE),
                              ")\n", sep = "")
                          boxcat("Training Error")
                          print(self$error.train)
@@ -1158,7 +1158,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           print = function() {
                             "show / print method for rtModBag"
                             objcat("Bagged Supervised Model")
-                            cat(rtHighlight$bold(self$mod.name), " (",
+                            cat(hilite(self$mod.name), " (",
                                 modSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
                             .resamples <- switch(self$bag.resample.rtset$resampler,
@@ -1450,7 +1450,7 @@ rtModCV <- R6::R6Class("rtModCV",
                          print = function() {
                            "R6 show / print method for rtModCV"
                            objcat(paste("Cross-Validated", self$type, "Model"))
-                           cat(rtHighlight$bold(self$mod.name), " (",
+                           cat(hilite(self$mod.name), " (",
                                modSelect(self$mod.name, desc = TRUE),
                                ")\n", sep = "")
                           #  cat(
@@ -2166,9 +2166,9 @@ rtMeta <- R6::R6Class("rtMeta",
                         print = function() {
                           "R6 show / print method for rtMeta"
                           objcat("Meta Model")
-                          cat("   Base: ", rtHighlight$bold(paste(self$base.mod.names,
+                          cat("   Base: ", hilite(paste(self$base.mod.names,
                                                                   collapse = ", ")), "\n")
-                          cat("   Meta: ", rtHighlight$bold(self$meta.mod.name), "\n")
+                          cat("   Meta: ", hilite(self$meta.mod.name), "\n")
                           boxcat("Training Error")
                           print(self$error.train)
                           if (length(self$error.test) > 0) {

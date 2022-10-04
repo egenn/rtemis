@@ -19,7 +19,7 @@ gamselx <- function(x, y,
   xnames <- colnames(x)
 
   # 1. GAMSEL ----
-  if (verbose) msg("1: Training first stage GAMSEL", color = rtOrange)
+  if (verbose) msg("1: Training first stage GAMSEL", color = orange)
   .gamsel.params1 <- c(list(x = x, y = y,
                             print.plot = FALSE,
                             verbose = trace > 1),
@@ -35,27 +35,33 @@ gamselx <- function(x, y,
   # table(index)
 
   # 2. Pairwise interactions ----
-  if (verbose) msg("2: Looking for pairwise interactions...", color = rtOrange)
+  if (verbose) msg("2: Looking for pairwise interactions...", color = orange)
   pairs <- outer(seq_len(n.features), seq_len(n.features), FUN = paste)
   pairs <- pairs[lower.tri(pairs)]
   pairs <- t(sapply(strsplit(pairs, " "), as.numeric))[, c(2, 1)]
   n.pairs <- NROW(pairs)
   if (trace > 0) msg("Running", n.pairs, "pairwise GLMs")
   pairy <- if (pairs.on.resid) y - mod1$fitted else y
-  lapply(seq_len(n.pairs), function(i) {
+  pairwise.glm.pvals.adj <- lapply(seq_len(n.pairs), function(i) {
     if (trace > 0) cat(i, "..")
     fit <- glm(pairy ~ c(x[, pairs[i, 1]] * x[, pairs[i, 2]]))
     summary(fit)$coefficients[2, 4]
-  }) |> p.adjust(method = p.adjust.method) -> pairwise.glm.pvals.adj
+  }) |> p.adjust(method = p.adjust.method)
   if (trace > 0) msg("Done")
   pairs.index <- which(pairwise.glm.pvals.adj < alpha)
-  if (verbose) msg("Found", length(pairs.index), "significant interactions")
+  if (verbose) {
+    msg("Found", length(pairs.index), "significant interactions")
+  }
 
   # 3. GAMSELs ----
-  if (verbose) msg("3: Training second stage GAMSEL...", color = rtOrange)
+  if (verbose) {
+    msg("3: Training second stage GAMSEL...", color = orange)
+  }
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
-    if (verbose) msg("Found", NROW(.pairs), "pairwise interactions", color = rtOrange)
+    if (verbose) {
+      msg("Found", NROW(.pairs), "pairwise interactions", color = orange)
+    }
     extnames <- sapply(seq_along(pairs.index), function(i) {
       paste(xnames[.pairs[i, 1]], xnames[.pairs[i, 2]], sep = "x")
     })
@@ -135,7 +141,7 @@ print.gamselx <- function(x, ...) {
 
   # cat(".: A GAMSELX model with", summary[1], "linear, ", summary[2], "nonlinear, and",
   #     NROW(x$pairs), "interaction terms")
-  cat(".: A", rtOrange$bold("GAMSELX"), "model with", summary[1], "linear,", summary[2],
+  cat(".: A", orange("GAMSELX", TRUE), "model with", summary[1], "linear,", summary[2],
       "nonlinear, and", NROW(x$pairs), "interaction terms")
 
 }

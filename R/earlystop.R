@@ -55,7 +55,7 @@ earlystop <- function(x,
           cat(sprintf("%4.4f", x[nsteps - window]), " => ", sep = "")
           cat("[", nsteps, "] ", sep = "")
           cat(sprintf("%4.4f", x[nsteps]), ": ", sep = "")
-          cat(rtHighlight$bold(sprintf("%4.4f", window_decrease*100), "%\n", sep = ""))
+          cat(hilite(sprintf("%4.4f", window_decrease*100), "%\n", sep = ""))
         }
         return(TRUE)
       } else {

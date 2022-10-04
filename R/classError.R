@@ -33,8 +33,8 @@ classError <- function(true,
   Positive.class <- if (n.classes == 2) true.levels[1] else NA
   if (trace > 0) {
     if (n.classes == 2) {
-      msg("There are two outcome classes:", rtHighlight$bold(paste(true.levels, collapse = ", ")))
-      msg("        The positive class is:", rtHighlight$bold(Positive.class))
+      msg("There are two outcome classes:", hilite(paste(true.levels, collapse = ", ")))
+      msg("        The positive class is:", hilite(Positive.class))
     } else {
       msg("There are", n.classes, "classes:", true.levels)
     }
@@ -50,19 +50,19 @@ classError <- function(true,
   Total <- sum(tbl)
   Class$Hits <- diag(tbl)
   Class$Misses <- Class$Totals - Class$Hits
-  Class$Sensitivity <- Class$Hits/Class$Totals
+  Class$Sensitivity <- Class$Hits / Class$Totals
   # attr(Class$Sensitivity, "Formula") <- "Class$Hits/Class$Totals"
   Class$Condition.negative <- Total - Class$Totals
   Class$True.negative <- Total - Class$Predicted.totals - (Class$Totals - Class$Hits)
   Class$Specificity <- Class$True.negative / Class$Condition.negative
   # attr(Class$Specificity, "Formula") <- "Class$True.negative / Class$Condition.negative"
-  Class$`Balanced Accuracy` <- .5*(Class$Sensitivity + Class$Specificity)
+  Class$`Balanced Accuracy` <- .5 * (Class$Sensitivity + Class$Specificity)
   # attr(Class$`Balanced Accuracy`, "Formula") <- ".5*(Class$Sensitivity + Class$Specificity)"
   # PPV = true positive / predicted condition positive
-  Class$PPV <- Class$Hits/Class$Predicted.totals
+  Class$PPV <- Class$Hits / Class$Predicted.totals
   # attr(Class$PPV, "Formula") <- "Class$Hits/Class$Predicted.totals"
   # NPV  = true negative / predicted condition negative
-  Class$NPV <- Class$True.negative/(Total - Class$Predicted.totals)
+  Class$NPV <- Class$True.negative / (Total - Class$Predicted.totals)
   # attr(Class$NPV, "Formula") <- "Class$True.negative/(Total - Class$Predicted.totals)"
   Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
   # attr(Class$F1, "Formula") <- "2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)"
@@ -83,11 +83,11 @@ classError <- function(true,
     Overall$`F1 Mean` <- mean(Class$`F1`)
     # attr(Overall$`F1 Mean`, "Formula") <- "mean(Class$F1)"
   }
-  Overall$Accuracy <- sum(Class$Hits)/Total
+  Overall$Accuracy <- sum(Class$Hits) / Total
   # attr(Overall$Accuracy, "Formula") <- "sum(Class$Hits)/Total"
   
   # Prob-based ----
-  if (!is.null(estimated.prob) & n.classes == 2) {
+  if (!is.null(estimated.prob) && n.classes == 2) {
     Overall$AUC <- auc(estimated.prob, true)
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
@@ -140,7 +140,7 @@ print.classError <- function(x, decimal.places = 4, ...) {
             spacing = 2,
             row.col = reset)
   } else {
-    cat("  Positive Class: ", rtHighlight$bold(x$Positive.class), "\n")
+    cat("  Positive Class: ", hilite(x$Positive.class), "\n")
   }
   
 } # rtemis::print.classError

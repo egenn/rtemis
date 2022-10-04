@@ -72,15 +72,15 @@ mergelongtreatment <- function(x,
     setkeyv(dat, c(.key, time_varname))
     setkeyv(x[[i]], c(.key, time_varname))
     if (verbose) {
-      msg0("Merge ", rtOrange(i), " of ", rtOrange(n_sets), ": Using keys ",
-           paste0(crayon::cyan$bold(.key),", ", crayon::cyan$bold(time_varname)))
+      msg0("Merge ", orange(i), " of ", orange(n_sets), ": Using keys ",
+           paste0(hilite(.key), ", ", hilite(time_varname)))
     }
     # if (try({
     dat <- x[[i]][dat, roll = TRUE]
     # })) msg0("Successfully merged ", .names[i], ":")
     if (verbose) {
-      msg("Merged dataset now contains", crayon::cyan$bold(NROW(dat)), "rows and",
-          crayon::cyan$bold(NCOL(dat)), "columns")
+      msg("Merged dataset now contains", hilite(NROW(dat)), "rows and",
+          hilite(NCOL(dat)), "columns")
     }
   }
 

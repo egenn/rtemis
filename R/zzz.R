@@ -114,7 +114,6 @@ rtemis.version <- packageVersion("rtemis")
 #'
 #' @docType package
 #' @name rtemis-package
-#' @import graphics grDevices methods stats utils data.table R6 future htmltools crayon
-#' @importFrom crayon "%+%"
+#' @import graphics grDevices methods stats utils data.table R6 future htmltools
 
 NULL

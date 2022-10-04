@@ -9,7 +9,7 @@ boxcat(x, col = NULL, newline.pre = TRUE, newline = FALSE, pad = 0)
 \arguments{
 \item{x}{Character: Text to be output to console}
 
-\item{col}{Color: Any color support by \pkg{crayon}}
+\item{col}{Color: Any color fn}
 
 \item{newline.pre}{Logical: If TRUE, start with a new line. Default = TRUE}
 

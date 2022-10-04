@@ -111,14 +111,14 @@ htest <- function(y, group = NULL,
             chisq.test = "Chi-square Test",
             fisher.test = "Fisher's Exact Test"
         )
-        cat(silver("   Test:"), cyan$bold(testname), "\n")
-        cat(silver("Formula: "))
+        cat(gray("   Test:"), cyan(testname, TRUE), "\n")
+        cat(gray("Formula: "))
         if (test %in% c("pearson", "kendall", "spearman")) {
-            cat(cyan$bold(xname, "~", yname), "\n")
+            cat(cyan(paste(xname, "~", yname), TRUE), "\n")
         } else if (test == "ks") {
-            cat(cyan$bold(xname, "and", yname), "\n")
+            cat(cyan(paste(xname, "and", yname), TRUE), "\n")
         } else {
-            cat(cyan$bold(yname, "~", groupname), "\n")
+            cat(cyan(paste(yname, "~", groupname), TRUE), "\n")
         }
     }
 
@@ -165,8 +165,8 @@ htest <- function(y, group = NULL,
     }
 
     if (verbose) {
-        cat(silver("p-value: "))
-        cat(cyan$bold(ddSci(p.value, 4)), "\n")
+        cat(gray("p-value: "))
+        cat(cyan(ddSci(p.value, 4), TRUE), "\n")
     }
 
     out <- list(

@@ -8,7 +8,7 @@
 #'
 #' @param x Character: Text to be output to console
 #' @param style  Integer: {1, 2}: 1: vintage style, 2: modern style. Default = 2
-#' @param col Color: Any color support by \pkg{crayon}
+#' @param col Color: Any color fn
 #' @param newline.pre Logical: If TRUE, start with a new line. Default = TRUE
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
@@ -25,10 +25,9 @@ boxcat <- function(x,
     x <- as.character(x)
     if (newline.pre) cat("\n")
     cat(rep(" ", pad), sep = "")
-    cat(crayon::blurred(".:"))
+    cat(gray(".:"))
     if (!is.null(col)) {
-        col <- getFromNamespace(col, "crayon")
-        cat(col$bold(x))
+        cat(col(x, TRUE))
     } else {
         cat(bold(x))
     }
@@ -52,5 +51,5 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 
 objcat <- function(x) {
-    cat(bold(".:rtemis"), rtOrange$bold(x), "\n")
+    cat(bold(".:rtemis"), orange(x, TRUE), "\n")
 } # rtemis::boxcat

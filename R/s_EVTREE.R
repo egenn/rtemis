@@ -56,7 +56,7 @@ s_EVTREE <- function(x, y = NULL,
   dependency_check("evtree")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_EVTREE))
     stop("y is missing")
   }
@@ -65,7 +65,7 @@ s_EVTREE <- function(x, y = NULL,
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -84,7 +84,7 @@ s_EVTREE <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  if (is.null(weights) & ipw) weights <- dt$weights
+  if (is.null(weights) && ipw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -107,7 +107,7 @@ s_EVTREE <- function(x, y = NULL,
                         na.action = na.action, ...)
 
   # Fitted ----
-  if (type == "Regression" | type == "Survival") {
+  if (type == "Regression" || type == "Survival") {
     fitted <- predict(mod, x, type = "response")
     fitted.prob <- NULL
   } else if (type == "Classification") {
@@ -121,7 +121,7 @@ s_EVTREE <- function(x, y = NULL,
 
   # Predicted ----
   if (!is.null(x.test)) {
-    if (type == "Regression" | type == "Survival") {
+    if (type == "Regression" || type == "Survival") {
       predicted <- predict(mod, x.test, type = "response")
       predicted.prob <- NULL
     } else if (type == "Classification") {

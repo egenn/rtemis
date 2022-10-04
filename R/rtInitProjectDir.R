@@ -27,19 +27,19 @@ rtInitProjectDir <- function(verbose = TRUE) {
   # ./R ./Data ./Results ----
   dirs <- c("R", "Data", "Results")
   for (i in dirs) {
-    if (verbose) cat("  > Creating ", crayon::bold(i), " folder...", sep = "")
+    if (verbose) cat("  > Creating ", bold(i), " folder...", sep = "")
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
-        if (verbose) cat(rtHighlight$bold(" Done\n"))
+        if (verbose) cat(hilite(" Done\n"))
       } else {
-        if (verbose) cat(crayon::red$bold(" Failed"))
+        if (verbose) cat(red(" Failed", TRUE))
       }
     } else {
-      if (verbose) cat(rtOrange$bold(" Already present\n"))
+      if (verbose) cat(orange(" Already present\n", TRUE))
     }
   }
 
-  if (verbose) cat(rtHighlight$bold("  All done\n"))
+  if (verbose) cat(hilite("  All done\n"))
 
 } # rtemis::rtInitProjectDir

@@ -912,7 +912,7 @@ shyoptree.select.leaves <- function(object,
   valid.error <- if (smooth) valid.error.smooth else valid.error
 
   if (print.plot) {
-    if (verbose) msg("Are we plotting or what?", color = crayon::red)
+    if (verbose) msg("Are we plotting or what?", color = red)
     mplot3_xy(seq(n.leaves), list(Training = train.error,
                                   Validation = valid.error,
                                   `Smoothed Valid.` = valid.error.smooth),

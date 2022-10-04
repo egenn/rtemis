@@ -40,7 +40,7 @@ resLearn_pbapply(
 \item{save.mods}{Logical: If TRUE, save all models, otherwise discard after training.
 Use with \link{elevate} when training a large number of resamples. Default = TRUE}
 
-\item{outdir}{Character: Path to save output. Default = NULL}
+\item{outdir}{Character: Path to save output.}
 }
 \description{
 Train an \pkg{rtemis} learner on a set of resamples

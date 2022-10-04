@@ -22,7 +22,7 @@
 #' @param newline Logical: If TRUE end with a new line. Default = FALSE
 #' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
 #' @param as.message Logical: if TRUE, print using \code{message()}
-#' @param color Crayon color for message e.g. \code{crayon::red}
+#' @param color Color fn
 #' @param sep Character: Use to separate objects in \code{...}
 #'
 #' @return Invisibly: List with call, message, and date
@@ -74,10 +74,10 @@ msg <- function(...,
     } else {
         if (newline.pre) cat("\n")
         if (is.null(color)) {
-            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), "] ")))
             cat(paste(txt, collapse = sep), if (newline) "\n")
         } else {
-            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), "] ")))
             cat(paste(color(txt), collapse = sep), if (newline) "\n")
         }
         if (extraline) cat("\n")
@@ -161,10 +161,10 @@ msg0 <- function(...,
     } else {
         if (newline.pre) cat("\n")
         if (is.null(color)) {
-            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), "] ")))
             cat(paste(txt, collapse = sep), if (newline) "\n")
         } else {
-            cat(silver(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), "] ")))
             cat(paste(color(txt), collapse = sep), if (newline) "\n")
         }
         if (extraline) cat("\n")
@@ -191,15 +191,17 @@ rtStop <- function(...) {
 
 rtWarning <- function(...) {
     message <- paste(...)
-    cat(rtOrange("[Warning]", message))
+    cat(bold(orange(paste("[Warning]", message, "\n"))))
 }
 
 rtOut <- function(...) {
     message <- paste(...)
-    cat(silver$bold("["), green("+++", green$bold(message)), silver$bold("]"), sep = "")
+    cat(bold(gray("[")), green("+++", bold(green(message))),
+        bold(gray("]")),
+        sep = ""
+    )
 }
 
-info <- function(..., color = crayon::cyan$bold) {
+info <- function(..., color = hilite) {
     msg(..., color = color)
-    # cat(crayon::cyan$bold(paste(...)))
 }

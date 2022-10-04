@@ -10,7 +10,7 @@ outro(
   verbose = TRUE,
   as.message = FALSE,
   sinkOff = FALSE,
-  color = silver,
+  color = gray,
   newline.pre = FALSE
 )
 }

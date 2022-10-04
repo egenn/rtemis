@@ -424,29 +424,38 @@ elevate <- function(x, y = NULL,
     # mod.res used for bagging
     fitted.bag <- error.bag <- NULL
     if (bag.fitted) {
-        fitted.bag <- lapply(mods, function(i) sapply(i, function(j) as.numeric(predict(j$mod1, x))))
+        fitted.bag <- lapply(mods, function(i) {
+            sapply(i, function(j) as.numeric(predict(j$mod1, x)))
+        })
         if (type == "Classification") {
-            fitted.bag <- lapply(fitted.bag, function(i) apply(i, 1, function(j) round(bag.fn(j))))
-            fitted.bag <- lapply(fitted.bag, function(i) levels(y)[i])
+            fitted.bag <- lapply(fitted.bag, function(i) {
+                apply(i, 1, function(j) round(bag.fn(j)))
+            })
+            fitted.bag <- lapply(fitted.bag, function(i) {
+                levels(y)[i]
+            })
         } else {
-            fitted.bag <- lapply(fitted.bag, function(i) apply(i, 1, bag.fn))
+            fitted.bag <- lapply(fitted.bag, function(i) {
+                apply(i, 1, bag.fn)
+            })
         }
         error.bag <- lapply(fitted.bag, function(i) modError(y, i))
     }
 
     # Summary ----
     if (verbose) {
-        boxcat("elevate " %+% rtHighlight$bold(mod.name), pad = 0)
-        cat("N repeats = " %+% rtHighlight$bold(n.repeats), "\n")
-        cat("N resamples = " %+% rtHighlight$bold(n.resamples), "\n")
-        cat("Resampler = " %+% rtHighlight$bold(resampler), "\n")
+        boxcat(paste("elevate", hilite(mod.name)), newline.pre = FALSE, pad = 0)
+        cat("N repeats =", hilite(n.repeats), "\n")
+        cat("N resamples =", hilite(n.resamples), "\n")
+        cat("Resampler =", hilite(resampler), "\n")
 
         # If you LOOCV or KFOLD, report error of aggregate left-out sets,
         # otherwise mean error across test sets
         if (resampler == "loocv" || resampler == "kfold") {
             if (type == "Regression") {
-                cat("MSE of ", n.resamples, " aggregated test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                cat("MSE of ", n.resamples, 
+                    " aggregated test sets in each repeat = ",
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE
                     )),
@@ -456,7 +465,7 @@ elevate <- function(x, y = NULL,
                 )
                 cat(
                     "MSE reduction in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE.RED
                     ) * 100),
@@ -464,8 +473,9 @@ elevate <- function(x, y = NULL,
                     ), "%\n", sep = "")
                 )
             } else {
-                cat("Balanced Accuracy of ", n.resamples, " aggregated test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                cat("Balanced Accuracy of ", n.resamples, 
+                    " aggregated test sets in each repeat = ",
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$`Balanced Accuracy`
                     )),
@@ -477,8 +487,9 @@ elevate <- function(x, y = NULL,
         } else {
             # strat.sub, strat.boot, bootstrap
             if (type == "Regression") {
-                cat("Mean MSE of ", n.resamples, " resamples in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                cat("Mean MSE of ", n.resamples, 
+                    " resamples in each repeat = ",
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE
                     )),
@@ -488,7 +499,7 @@ elevate <- function(x, y = NULL,
                 )
                 cat(
                     "Mean MSE reduction in each repeat =",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE.RED * 100
                     )),
@@ -496,8 +507,9 @@ elevate <- function(x, y = NULL,
                     ), "%\n", sep = "")
                 )
             } else {
-                cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                cat("Mean Balanced Accuracy of ", n.resamples, 
+                    " test sets in each repeat = ",
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$`Balanced.Accuracy`
                     )),
@@ -513,20 +525,20 @@ elevate <- function(x, y = NULL,
             if (type == "Regression") {
                 cat(
                     "Mean MSE across", n.repeats, "repeats =",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$MSE)
                     ), "\n"
                 )
                 cat(
                     "MSE was reduced on average by",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$MSE.RED)
                     ), "\n"
                 )
             } else if (type == "Classification") {
                 cat(
                     "Mean Balanced Accuracy across", n.repeats, "repeats =",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$`Balanced.Accuracy`)
                     ), "\n"
                 )
@@ -554,10 +566,14 @@ elevate <- function(x, y = NULL,
         }
 
         fitted.prob.aggr <- plyr::llply(mods, function(i) {
-            unlist(plyr::llply(i, function(j) j$mod1$fitted.prob), use.names = FALSE)
+            unlist(plyr::llply(i, function(j) {
+                j$mod1$fitted.prob
+            }), use.names = FALSE)
         })
         predicted.prob.aggr <- plyr::llply(mods, function(i) {
-            unlist(plyr::llply(i, function(j) j$mod1$predicted.prob), use.names = FALSE)
+            unlist(plyr::llply(i, function(j) {
+                j$mod1$predicted.prob
+            }), use.names = FALSE)
         })
         names(y.train.res.aggr) <- names(y.test.res.aggr) <-
             names(predicted.res.aggr) <- names(fitted.res.aggr) <-
@@ -700,7 +716,9 @@ elevate <- function(x, y = NULL,
     }
 
     if (!save.mod) rt$mod <- NA
-    if (save.rt) rtSave(rt, outdir, file.prefix = "elevate.", verbose = verbose)
+    if (save.rt) {
+        rtSave(rt, outdir, file.prefix = "elevate.", verbose = verbose)
+    }
     if (print.plot) {
         if (plot.fitted) rt$plotFitted()
         if (plot.predicted) rt$plotPredicted()

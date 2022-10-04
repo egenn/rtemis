@@ -168,10 +168,13 @@ preprocess <- function(x, y = NULL,
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
       # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-      na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
+      na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) {
+        sum(is.na(i)) / length(i)
+      })]
       removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
       if (length(removeCases.thres.index) > 0) {
-        if (verbose) msg("Removing", length(removeCases.thres.index), "cases with >=",
+        if (verbose) msg("Removing", length(removeCases.thres.index), 
+                         "cases with >=",
                          removeCases.thres, "missing data...")
         xt <- xt[-removeCases.thres.index, ]
       }
@@ -183,10 +186,13 @@ preprocess <- function(x, y = NULL,
   if (!is.null(removeFeatures.thres)) {
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
-      na.fraction.byfeat <- xt[, lapply(.SD, function(i) sum(is.na(i))/length(i))]
+      na.fraction.byfeat <- xt[, lapply(.SD, function(i) {
+        sum(is.na(i)) / length(i)
+      })]
       removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
       if (length(removeFeat.thres.index) > 0) {
-        if (verbose) msg("Removing", length(removeFeat.thres.index), "features with >=",
+        if (verbose) msg("Removing", length(removeFeat.thres.index), 
+                         "features with >=",
                          removeFeatures.thres, "missing data...")
         x <- x[, -removeFeat.thres.index]
       }
@@ -257,7 +263,7 @@ preprocess <- function(x, y = NULL,
   if (nonzeroFactors) {
     if (verbose) msg("Shifting factor levels to exclude 0...")
     if (any(sapply(x, is.factor))) {
-      for (i in seq(NCOL(x))) {
+      for (i in seq_len(NCOL(x))) {
         if (is.factor(x[, i])) {
           while (any(x[, i] == 0)) {
             x[, i] <- factor(as.numeric(as.character(x[, i])) + 1)
@@ -330,7 +336,7 @@ preprocess <- function(x, y = NULL,
   }
 
   # Scale +/- center ----
-  if (scale | center) {
+  if (scale || center) {
     # Get index of numeric features
     numeric_index <- which(sapply(x, is.numeric))
     sc <- if (scale) "Scaling" else NULL

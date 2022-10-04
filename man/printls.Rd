@@ -24,7 +24,7 @@ printls(
 
 \item{center.title}{Logical: If TRUE, autopad title for centering, if present. Default TRUE}
 
-\item{color}{\code{crayon} color to be applied when printing values. Default = NULL (do not use \code{crayon})}
+\item{color}{Color fn}
 }
 \description{
 Pretty print a list (or data frame) recursively

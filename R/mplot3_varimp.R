@@ -144,7 +144,7 @@ mplot3_varimp <- function(x,
     mar2 <- textwidth(.names)
     mar3 <- if (is.null(main)) .5 else 2
     mar <- c(mar1, mar2, mar3, .8)
-    if (trace > 0) cat(crayon::silver("mar set to"), mar)
+    if (trace > 0) cat(gray("mar set to"), mar)
   }
 
   # Plot ----

@@ -83,16 +83,16 @@ resLearn_future <- function(x, y, mod,
         future::plan(list("sequential", rtPlan), workers = n.workers)
         if (verbose) {
             msg("Outer resampling plan set to",
-                crayon::bold("sequential"),
-                color = crayon::magenta
+                bold("sequential"),
+                color = magenta
             )
         }
     } else {
         future::plan(list(rtPlan, "sequential"), workers = n.workers)
         if (verbose) {
-            msg("Outer resampling: Future plan set to", crayon::bold(rtPlan),
-                "with", crayon::bold(n.workers), "workers",
-                color = crayon::magenta
+            msg("Outer resampling: Future plan set to", bold(rtPlan),
+                "with", bold(n.workers), "workers",
+                color = magenta
             )
         }
     }

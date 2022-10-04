@@ -57,18 +57,18 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{mod}{Character: Algorithm to train base learners, for options, see 
+\item{mod}{Character: Algorithm to train base learners, for options, see
 \link{modSelect}. Default = "cart"}
 
-\item{resid}{Float, vector, length = length(y): Residuals to work on. Do 
-not change unless you know what you're doing. Default = NULL, for regular 
+\item{resid}{Float, vector, length = length(y): Residuals to work on. Do
+not change unless you know what you're doing. Default = NULL, for regular
 boosting}
 
 \item{boost.obj}{[Internal use]}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 
-\item{case.p}{Float (0, 1]: Train each iteration using this perceent of 
+\item{case.p}{Float (0, 1]: Train each iteration using this perceent of
 cases. Default = 1, i.e. use all cases}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -85,10 +85,10 @@ requires \code{x.valid}}
 
 \item{tolerance}{Float: If training error <= this value, training stops}
 
-\item{tolerance.valid}{Float: If validation error <= this value, training 
+\item{tolerance.valid}{Float: If validation error <= this value, training
 stops}
 
-\item{max.iter}{Integer: Maximum number of iterations (additive steps) to 
+\item{max.iter}{Integer: Maximum number of iterations (additive steps) to
 perform. Default = 10}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
@@ -107,9 +107,9 @@ perform. Default = 10}
 
 \item{print.progress.every}{Integer: Print progress over this many iterations}
 
-\item{print.error.plot}{String or Integer: "final" plots a training and 
-validation (if available) error curve at the end of training. If integer, 
-plot training and validation error curve every this many iterations during 
+\item{print.error.plot}{String or Integer: "final" plots a training and
+validation (if available) error curve at the end of training. If integer,
+plot training and validation error curve every this many iterations during
 training. "none" for no plot.}
 
 \item{prefix}{Internal}
@@ -124,7 +124,7 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
-\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base 
+\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base
 learner, i.e. if TRUE, print error plot for each base learner}
 
 \item{plot.type}{Character: "l" or "p". Plot using lines or points.}

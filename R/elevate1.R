@@ -459,17 +459,17 @@ elevate1 <- function(x, y = NULL,
 
     # Summary ----
     if (verbose) {
-        boxcat("elevate " %+% rtHighlight$bold(mod.name), pad = 0)
-        cat("N repeats = " %+% rtHighlight$bold(n.repeats), "\n")
-        cat("N resamples = " %+% rtHighlight$bold(n.resamples), "\n")
-        cat("Resampler = " %+% rtHighlight$bold(resampler), "\n")
+        boxcat("elevate " %+% hilite(mod.name), pad = 0)
+        cat("N repeats = " %+% hilite(n.repeats), "\n")
+        cat("N resamples = " %+% hilite(n.resamples), "\n")
+        cat("Resampler = " %+% hilite(resampler), "\n")
 
         # If you LOOCV or KFOLD, report error of aggregate left-out sets,
         # otherwise mean error across test sets
         if (resampler == "loocv" | resampler == "kfold") {
             if (type == "Regression") {
                 cat("MSE of ", n.resamples, " aggregated test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE
                     )),
@@ -479,7 +479,7 @@ elevate1 <- function(x, y = NULL,
                 )
                 cat(
                     "MSE reduction in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE.RED
                     ) * 100),
@@ -488,7 +488,7 @@ elevate1 <- function(x, y = NULL,
                 )
             } else {
                 cat("Balanced Accuracy of ", n.resamples, " aggregated test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$`Balanced Accuracy`
                     )),
@@ -501,7 +501,7 @@ elevate1 <- function(x, y = NULL,
             # strat.sub, strat.boot, bootstrap
             if (type == "Regression") {
                 cat("Mean MSE of ", n.resamples, " resamples in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE
                     )),
@@ -511,7 +511,7 @@ elevate1 <- function(x, y = NULL,
                 )
                 cat(
                     "Mean MSE reduction in each repeat =",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE.RED * 100
                     )),
@@ -520,7 +520,7 @@ elevate1 <- function(x, y = NULL,
                 )
             } else {
                 cat("Mean Balanced Accuracy of ", n.resamples, " test sets in each repeat = ",
-                    rtHighlight$bold(paste(ddSci(plyr::laply(
+                    hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$`Balanced.Accuracy`
                     )),
@@ -536,20 +536,20 @@ elevate1 <- function(x, y = NULL,
             if (type == "Regression") {
                 cat(
                     "Mean MSE across", n.repeats, "repeats =",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$MSE)
                     ), "\n"
                 )
                 cat(
                     "MSE was reduced on average by",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$MSE.RED)
                     ), "\n"
                 )
             } else if (type == "Classification") {
                 cat(
                     "Mean Balanced Accuracy across", n.repeats, "repeats =",
-                    rtHighlight$bold(
+                    hilite(
                         ddSci(error.test.repeats.mean$`Balanced.Accuracy`)
                     ), "\n"
                 )

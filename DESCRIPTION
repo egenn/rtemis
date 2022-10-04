@@ -1,5 +1,5 @@
 Package: rtemis
-Version: 0.92.1
+Version: 0.93.0
 Title: Machine Learning and Visualization
 Date: 2022-08-16
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
@@ -10,7 +10,7 @@ URL: https://rtemis.lambdamd.org
 ByteCompile: yes
 Depends: R (>= 4.1.0)
 Imports: grDevices, graphics, stats, methods, utils, data.table, R6,
-  future, crayon, htmltools
+  future, htmltools
 Suggests: 
     ada,
     arm,

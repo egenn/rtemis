@@ -43,7 +43,7 @@ print.survError <- function(x, decimal.places = 4, ...) {
   cat("              N =", ddSci(x$N), "\n")
   cat("            var =", ddSci(x$Var), "\n")
   cat("           cvar =", ddSci(x$Cvar), "\n")
-  cat("   Concordance : ", rtHighlight$bold(x$Concordance), "\n")
+  cat("   Concordance : ", hilite(x$Concordance), "\n")
 
 } # rtemis::print.survError
 

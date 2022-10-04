@@ -39,15 +39,13 @@ checkData <- function(x,
   if (is.null(name)) name <- deparse(substitute(x))
   n.rows <- NROW(x)
   n.cols <- NCOL(x)
-  out <- paste0(" ", rtHighlight$bold(name),
+  out <- paste0(" ", hilite(name),
                 paste(": A", class(x)[1], "with",
-                      rtHighlight$bold(n.rows), ngettext(n.rows, "row", "rows"),
-                      "and", rtHighlight$bold(n.cols), ngettext(n.cols, "feature", "features")))
+                      hilite(n.rows), ngettext(n.rows, "row", "rows"),
+                      "and", hilite(n.cols), ngettext(n.cols, "feature", "features")))
 
   x <- as.data.frame(x)
-  # This way avoids running line before all terminal colors are available
-  orange <- crayon::make_style(orange = "orange")
-
+  
   # Data Types ----
 
   ## Integers ----
@@ -93,9 +91,9 @@ checkData <- function(x,
   ## Characters ----
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
-  .col <- if (n.character > 0) orange$bold else bold
+  nchar <- if (n.character > 0) orange(n.character, TRUE) else bold(n.character)
   out <- paste(out,
-               paste("  *", .col(n.character), "character", ngettext(n.character, "feature", "features")),
+               paste("  *", nchar, "character", ngettext(n.character, "feature", "features")),
                sep = "\n")
 
   ## Dates ----
@@ -109,21 +107,21 @@ checkData <- function(x,
 
   ## Constants ----
   out <- paste(out,
-               paste0(bold("\n  Issues") ,"____________________"),
+               paste0(bold("\n  Issues"), "____________________"),
                sep = "\n")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
-  .col <- if (n.constant > 0) red$bold else bold
+  nconstant <- ifelse(n.constant > 0, bold(n.constant), red(n.constant, TRUE))
   out <- paste(out,
-               paste("  *", .col(n.constant), "constant", ngettext(n.constant, "feature", "features")),
+               paste("  *", nconstant, "constant", ngettext(n.constant, "feature", "features")),
                sep = "\n")
 
   ## Duplicates ----
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
-  .col <- if (n.dups > 0) red$bold else bold
+  ndups <- ifelse(n.dups > 0, bold(n.dups), red(n.dups, TRUE))
   out <- paste(out,
-               paste("  *", .col(n.dups), "duplicated", ngettext(n.dups, "case", "cases")),
+               paste("  *", ndups, "duplicated", ngettext(n.dups, "case", "cases")),
                sep = "\n")
 
   ## NAs ----
@@ -134,38 +132,51 @@ checkData <- function(x,
 
   ## Get percent of NA values per feature and per case
   if (n.cols.anyna > 0) {
-    na.feature.pct <- data.frame(Feature = names(cols.anyna),
-                                 Pct.NA = sapply(seq_len(n.cols.anyna), function(i)
-                                   sum(is.na(x[, cols.anyna[i]])) / length(x[, cols.anyna[i]])))
+    na.feature.pct <- data.frame(
+      Feature = names(cols.anyna),
+      Pct.NA = sapply(seq_len(n.cols.anyna), function(i) {
+        sum(is.na(x[, cols.anyna[i]])) / length(x[, cols.anyna[i]])
+      })
+    )
 
     index.incomplete <- which(!complete.cases(x))
     n.incomplete <- length(index.incomplete)
-    na.case.pct <- data.frame(Case = index.incomplete,
-                              Pct.NA = sapply(seq_len(n.incomplete), function(i)
-                                sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])))
+    na.case.pct <- data.frame(
+      Case = index.incomplete,
+      Pct.NA = sapply(seq_len(n.incomplete), function(i) {
+        sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])
+      })
+    )
 
   } else {
     na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
-  .col <- if (n.cols.anyna > 0) orange$bold else bold
+  ncolsanyna <- if (n.cols.anyna > 0) orange(n.cols.anyna, TRUE) else bold(n.cols.anyna)
   out <- paste(out,
-               paste0("  * ", .col(n.cols.anyna), ngettext(n.cols.anyna, " feature includes", " features include"), " 'NA' values",
-                      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", ngettext(n.na, "value", "values"), "total"), "")),
+               paste0("  * ", ncolsanyna, 
+                      ngettext(n.cols.anyna, " feature includes", 
+                               " features include"), " 'NA' values",
+                      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", 
+                             ngettext(n.na, "value", "values"), "total"), "")),
                sep = "\n")
   if (n.cols.anyna > 0) {
     if (!is.null(reportFeatures.thres)) {
       features.na.over.thres <- na.feature.pct[na.feature.pct$Pct.NA >= reportFeatures.thres, ]
       if (NROW(features.na.over.thres) > 0) {
         out <- paste(out,
-                     paste0("     - ", .col(NROW(features.na.over.thres)), " features missing in >= ",
-                            reportFeatures.thres*100, "% of cases:\n      *** ",
-                            paste0(features.na.over.thres$Feature, ": ", ddSci(features.na.over.thres$Pct.NA),
+                     paste0("     - ", .col(NROW(features.na.over.thres)), 
+                            " features missing in >= ",
+                            reportFeatures.thres * 100, "% of cases:\n      *** ",
+                            paste0(features.na.over.thres$Feature, ": ", 
+                                   ddSci(features.na.over.thres$Pct.NA),
                                    collapse = "\n      *** ")), sep = "\n")
       }
     } else {
       max.na.feature.name <- names(cols.anyna)[which.max(na.feature.pct$Pct.NA)]
       out <- paste(out,
-                   paste0("     - Max percent missing in a feature is ", .col(ddSci(max(na.feature.pct$Pct.NA)*100)), .col("%"), " (",
+                   paste0("     - Max percent missing in a feature is ", 
+                          .col(ddSci(max(na.feature.pct$Pct.NA) * 100)), 
+                          .col("%"), " (",
                           bold(max.na.feature.name), ")"),
                    sep = "\n")
     }
@@ -173,18 +184,20 @@ checkData <- function(x,
     if (!is.null(reportCases.thres)) {
       cases.na.over.thres <- na.case.pct[na.case.pct$Pct.NA >= reportCases.thres, ]
       n.cases.na.over.thres <- NROW(cases.na.over.thres)
-      if (n.cases.na.over.thres > 0 ) {
+      if (n.cases.na.over.thres > 0) {
         out <- paste(out,
-                     paste0("     - ", .col(n.cases.na.over.thres), ngettext(n.cases.na.over.thres, " case", " cases"),
-                            " missing >= ", reportCases.thres*100, "% of features:\n      *** ",
-                            paste0("#", cases.na.over.thres$Case, ": ", ddSci(cases.na.over.thres$Pct.NA),
+                     paste0("     - ", .col(n.cases.na.over.thres), 
+                            ngettext(n.cases.na.over.thres, " case", " cases"),
+                            " missing >= ", reportCases.thres * 100, "% of features:\n      *** ",
+                            paste0("#", cases.na.over.thres$Case, ": ", 
+                                   ddSci(cases.na.over.thres$Pct.NA),
                                    collapse = "\n      *** ")),
                      sep = "\n")
       }
     } else {
       max.na.case.number <- index.incomplete[which.max(na.case.pct$Pct.NA)]
       out <- paste(out,
-                   paste0("     - Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA)*100)), .col("%"), " (case #",
+                   paste0("     - Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA) * 100)), .col("%"), " (case #",
                           bold(max.na.case.number), ")"), sep = "\n")
     }
 
@@ -193,33 +206,39 @@ checkData <- function(x,
   # Recommendations ----
   if (recommend) {
     out <- paste(out,
-                 paste0(bold("\n  Recommendations") ,"___________"), sep = "\n")
+                 paste0(bold("\n  Recommendations"), "___________"), sep = "\n")
     if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
       if (n.character > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Convert the character",
-                                  ngettext(n.character, "feature", "features"), "to" ,
-                                  ngettext(n.character, "a factor", "factors"))),
+                     bold(orange(paste("  * Convert the character",
+                                  ngettext(n.character, "feature", "features"), 
+                                  "to",
+                                  ngettext(n.character, "a factor", "factors")
+                                  ))),
                      sep = "\n")
       }
 
       if (n.constant > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Remove the constant", 
-                           ngettext(n.constant, "feature", "features"))),
+                     bold(orange(paste("  * Remove the constant", 
+                           ngettext(n.constant, "feature", "features")
+                           ))),
                      sep = "\n")
       }
 
       if (n.dups > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Remove the duplicated", 
-                           ngettext(n.dups, "case", "cases"))),
+                     bold(orange(paste("  * Remove the duplicated", 
+                           ngettext(n.dups, "case", "cases")
+                           ))),
                      sep = "\n")
       }
 
       if (n.cols.anyna > 0) {
         out <- paste(out,
-                     paste(orange$bold("  * Consider imputing missing values or use complete cases only")),
+                     bold(orange(paste(
+                      "  * Consider imputing missing values or use complete cases only")
+                      )),
                      sep = "\n")
       }
 
@@ -255,7 +274,7 @@ checkData <- function(x,
   if (verbose) cat(out)
 
   # str() ----
-  if (str & verbose) {
+  if (str && verbose) {
     cat(bold("\n\n  Feature structure", "_________\n"))
     str(x)
     cat("\n")

@@ -6,15 +6,16 @@
 #'
 #' Trains a binary decision tree classifier using the Additive Tree
 #'
-#' Outcome must be factor with two levels, the first level is the 'positive' class
+#' Outcome must be factor with two levels, the first level is the 'positive' 
+#' class
 #'
 #' lambda = gamma/(1 - gamma)
 #' @param x Matrix / Data frame of features
 #' @param y Integer {-1, 1}: Vector of binary outcomes
 #' @param catPredictors Optional: Logical vector indicating categorical features
 #' @param depthLimit Integer: Maximum depth of tree to grow
-#' @param learning.rate learning rate for the Newton Raphson step that updates the
-#' function values of the node for \code{update = "exponential"}
+#' @param learning.rate learning rate for the Newton Raphson step that updates 
+#' the function values of the node for \code{update = "exponential"}
 #' @param gamma Float (0, 1): Acceleration factor
 #' @param update Character: "Exponential" or "Polynomial"
 #' @param verbose Logical: If TRUE, print messages to output
@@ -97,7 +98,7 @@ addtree <- function(x, y,
         catPredictors,
         obsValues,
         nodeValue,
-        colIdx = seq(NCOL(x)),
+        colIdx = seq_len(NCOL(x)),
         depth = 0,
         depthLimit,
         learning.rate,
@@ -220,11 +221,11 @@ likelihoodMediboostSplitNode <- function(x, y,
             "min.mem.counter is", min.mem.counter
         )
     }
-    if ((sign(node$value) != sign(y %*% node$weights) |
-        depth < depthLimit) &
-        !is.infinite(node$value) &
-        hessian >= min.hessian &
-        sum(membership) >= min.membership &
+    if ((sign(node$value) != sign(y %*% node$weights) ||
+        depth < depthLimit) &&
+        !is.infinite(node$value) &&
+        hessian >= min.hessian &&
+        sum(membership) >= min.membership &&
         min.mem.counter <= steps.past.min.membership) {
 
         # if (verbose) msg("sign(node$value) is", sign(node$value), "sign(y %*% node$weights) is",
@@ -252,7 +253,7 @@ likelihoodMediboostSplitNode <- function(x, y,
         }
         node$membership <- membership
         # cutCategory contains all levels of categorical var that should go Left
-        if (length(node$cutPoint) > 0 && !is.na(node$cutPoint) |
+        if (length(node$cutPoint) > 0 && !is.na(node$cutPoint) ||
             length(node$cutCategory) > 0 && !is.na(node$cutCategory)) {
             # The node is not terminal
             node$terminal <- FALSE
@@ -409,7 +410,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                 catPredictors,
                 obsValues = newObservValue,
                 nodeValue = nodeValueRight,
-                colIdx = seq(NCOL(x)),
+                colIdx = seq_len(NCOL(x)),
                 depth = depth + 1,
                 depthLimit,
                 learning.rate,
@@ -430,7 +431,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                 catPredictors,
                 obsValues = newObservValue,
                 nodeValue = nodeValueLeft,
-                colIdx = seq(NCOL(x)),
+                colIdx = seq_len(NCOL(x)),
                 depth = depth + 1,
                 depthLimit,
                 learning.rate,
@@ -741,15 +742,21 @@ print.addtree <- function(x, ...) {
     if (!inherits(x, "addtree")) stop("Please supply addtree model")
 
     frame <- x$frame
-    frame$prefix <- sapply(frame$Depth, function(d) paste(rep("  ", d), collapse = ""))
+    frame$prefix <- sapply(frame$Depth, function(d) {
+        paste(rep("  ", d), collapse = "")
+    })
     n.nodes <- NROW(frame)
     n.leaves <- sum(frame$SplitVar == "<leaf>")
     depth <- max(frame$Depth)
-    boxcat(paste("AddTree with", n.nodes, "nodes total,", n.leaves, "leaves, and max depth of", depth))
+    boxcat(paste(
+        "AddTree with", n.nodes, "nodes total,",
+        n.leaves, "leaves, and max depth of", depth
+    ))
     cat("Index [Condition] N| Value| Estimate| Depth (* leaf node)\n\n")
-    for (i in 1:nrow(frame)) {
+    for (i in seq_len(nrow(frame))) {
         cat(paste(c(
-            sprintf("%3s", frame$n[i]), " ", frame$prefix[i], "[", frame$Condition[i], "] ",
+            sprintf("%3s", frame$n[i]), " ", 
+            frame$prefix[i], "[", frame$Condition[i], "] ",
             frame$N[i], "| ",
             ddSci(frame$Value[i]), "| ",
             frame$Estimate[i], "| ",

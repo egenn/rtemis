@@ -58,7 +58,7 @@ hytreenow <- function(x, y,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
-  if (trace > 0) msg("hytreenow Fval is", head(Fval), color = crayon::red)
+  if (trace > 0) msg("hytreenow Fval is", head(Fval), color = red)
 
   # [ Run hyt ] ----
   root <- list(x = x,
@@ -155,8 +155,8 @@ hyt <- function(node = list(x = NULL,
   # if (trace > 1) msg("y is", y)
   # if (trace > 1) msg("Fval is", head(Fval))
   resid <- y - Fval
-  if (trace > 0) msg("hyt Fval   is", head(Fval), color = crayon::red)
-  if (trace > 0) msg("hyt resid   is", head(resid), color = crayon::red)
+  if (trace > 0) msg("hyt Fval   is", head(Fval), color = red)
+  if (trace > 0) msg("hyt resid   is", head(resid), color = red)
   nobsinnode <- length(node$index)
 
   # [ Add partlin to node ] ----

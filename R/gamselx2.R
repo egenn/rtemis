@@ -24,41 +24,41 @@ gamselx2 <- function(x, y,
   # Get categorical variables ----
   index.cat <- which(sapply(x, is.factor))
   n.cat <- length(index.cat)
-  if (verbose) msg("Found", n.cat, "categorical variables", color = rtOrange)
+  if (verbose) msg("Found", n.cat, "categorical variables", color = orange)
 
   # Init ----
   if (is.null(init)) init <- mean(y)
-  F <- init # maybe make vector length n
+  Fval <- init # maybe make vector length n
 
   # 1. CART on categorical ----
   # todo: consider auto-depth based on f(n of possible combinations)
   if (n.cat > 0) {
-    cart.args <- c(list(x = x[, index.cat, drop = FALSE], y = y - F),
+    cart.args <- c(list(x = x[, index.cat, drop = FALSE], y = y - Fval),
                    cart.params,
                    verbose = trace > 1,
                    print.plot = FALSE)
-    if (verbose) msg("Training CART on", n.cat, "categorical variables...", color = rtOrange)
+    if (verbose) msg("Training CART on", n.cat, "categorical variables...", color = orange)
     mod1 <- do.call("s_CART", cart.args)
   } else {
     mod1 <- list()
     class(mod1) <- "nullmod"
   }
 
-  F <- F + predict(mod1)
+  Fval <- Fval + predict(mod1)
 
   # 2. GAMSEL I on continuous ----
   x.cont <- if (n.cat > 0) x[, -index.cat, drop = FALSE] else x
-  if (verbose) msg("Training first stage GAMSEL...", color = rtOrange)
-  gamsel.args1 <- c(list(x = x.cont, y = y - F,
+  if (verbose) msg("Training first stage GAMSEL...", color = orange)
+  gamsel.args1 <- c(list(x = x.cont, y = y - Fval,
                          print.plot = FALSE,
                          verbose = trace > 1),
                     gamsel.params1)
   mod2 <- do.call("s_GAMSEL", gamsel.args1)
 
-  F <- F + predict(mod2)
+  Fval <- Fval + predict(mod2)
 
   # 3. Pairwise interactions ----
-  if (verbose) msg("Looking for pairwise interactions...", color = rtOrange)
+  if (verbose) msg("Looking for pairwise interactions...", color = orange)
   n.continuous <- NCOL(x.cont)
   if (n.continuous > 1) {
     xnames.cont <- colnames(x.cont)
@@ -68,12 +68,12 @@ gamselx2 <- function(x, y,
     pairs <- matrix(t(sapply(strsplit(pairs, " "), as.numeric))[, c(2, 1)], n.pairs)
 
     if (trace > 0) msg("Running", n.pairs, "pairwise", ifelse(n.pairs == 1, "GLM", "GLMs"))
-    resid <- y - F
-    lapply(seq_len(n.pairs), function(i) {
+    resid <- y - Fval
+    pairwise.glm.pvals.adj <- lapply(seq_len(n.pairs), function(i) {
       if (trace > 0) cat(i, "..")
       fit <- glm(resid ~ c(x.cont[, pairs[i, 1]] * x.cont[, pairs[i, 2]]))
       summary(fit)$coefficients[2, 4]
-    }) |> p.adjust(method = p.adjust.method) -> pairwise.glm.pvals.adj
+    }) |> p.adjust(method = p.adjust.method)
     if (trace > 0) msg("Done")
     pairs.index <- which(pairwise.glm.pvals.adj < alpha)
     if (verbose) msg("Found", length(pairs.index), "significant",
@@ -83,12 +83,12 @@ gamselx2 <- function(x, y,
   }
 
   # 4. GAMSEL II on interactions ----
-  if (verbose) msg("Training second stage GAMSEL...", color = rtOrange)
+  if (verbose) msg("Training second stage GAMSEL...", color = orange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
     if (verbose) msg("Found", NROW(.pairs), "pairwise",
                      ifelse(NROW(.pairs) == 1, "interaction", "interactions"),
-                     color = rtOrange)
+                     color = orange)
     extnames <- sapply(seq_along(pairs.index), function(i) {
       paste(xnames.cont[.pairs[i, 1]], xnames.cont[.pairs[i, 2]], sep = "x")
     })
@@ -109,7 +109,7 @@ gamselx2 <- function(x, y,
     class(mod3) <- "nullmod"
   }
 
-  F <- F + predict(mod3)
+  Fval <- Fval + predict(mod3)
 
   # mod ----
   mod <- list(init = init,
@@ -121,7 +121,7 @@ gamselx2 <- function(x, y,
               mod3 = mod3, # GAMSEL on interactions
               xnames = xnames,
               extnames = extnames,
-              fitted = F)
+              fitted = Fval)
 
   class(mod) <- c("gamselx2", "list")
   mod
@@ -186,7 +186,7 @@ print.gamselx2 <- function(x, ...) {
 
   # cat(".: A GAMSELX2 model with", summary[1], "linear, ", summary[2], "nonlinear, and",
   #     NROW(x$pairs), "interaction terms")
-  cat(".: A", rtOrange$bold("GAMSELX2"), "model with\n    ",
+  cat(".: A", bold(orange("GAMSELX2")), "model with\n    ",
       n.cat, "categorical features,\n    ",
       summary[1], "linear,\n    ", summary[2],
       "nonlinear, \n     and", NROW(x$pairs), "continuous interaction terms\n")

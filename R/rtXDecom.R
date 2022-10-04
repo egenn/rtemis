@@ -76,7 +76,7 @@ rtXDecom <- R6::R6Class("rtXDecom",
                           print = function() {
                             "show / print method for rtXDecom"
                             objcat("Cross-Decomposition object")
-                            cat(rtHighlight$bold(self$xdecom.name),
+                            cat(hilite(self$xdecom.name),
                                 " (", xdecomSelect(self$xdecom.name, desc = TRUE),
                                 ")\n", sep = "")
                             if (length(self$parameters) > 0) printls(self$parameters,

@@ -86,10 +86,10 @@ bias_variance <- function(x, y, mod,
 print.rtBiasVariance <- function(x, ...) {
     cat(".:rtBiasVariance\n")
       cat("Mean squared bias: ")
-    cat(rtHighlight$bold(ddSci(x$mean_bias_squared)))
+    cat(hilite(ddSci(x$mean_bias_squared)))
     cat(" (", ddSci(x$sd_bias_squared), ")\n", sep = "")
     cat("    Mean variance: ")
-    cat(rtHighlight$bold(ddSci(x$mean_variance)))
+    cat(hilite(ddSci(x$mean_variance)))
     cat(" (", ddSci(x$sd_variance), ")\n", sep = "")
     cat("\n")
 }

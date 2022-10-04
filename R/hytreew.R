@@ -66,13 +66,13 @@ hytreew <- function(x, y,
 
   # [ lin1 ] ----
   if (verbose) msg("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
-  if (trace > 0) msg("Training lin1...", color = crayon::red)
+  if (trace > 0) msg("Training lin1...", color = red)
   coef.c <- lincoef(x, y, method = lin.type,
                     alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1] # n
-  if (trace > 0) msg("hytreew Fval is", head(Fval), color = crayon::red)
+  if (trace > 0) msg("hytreew Fval is", head(Fval), color = red)
 
   # [ Run hytw ] ----
   root <- list(x = x,
@@ -175,13 +175,13 @@ hytw <- function(node = list(x = NULL,
   depth <- node$depth
   Fval <- node$Fval            # n
   resid <- y - Fval            # n
-  if (trace > 0) msg("hytw Fval   is", head(Fval), color = crayon::red)
-  if (trace > 0) msg("hytw resid   is", head(resid), color = crayon::red)
+  if (trace > 0) msg("hytw Fval   is", head(Fval), color = red)
+  if (trace > 0) msg("hytw resid   is", head(resid), color = red)
   nobsinnode <- length(node$index)
 
   # [ Add partlin to node ] ----
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
-    # if (trace > 0) msg("y1 (resid) is", resid, color = crayon::red)
+    # if (trace > 0) msg("y1 (resid) is", resid, color = red)
     node$partlin <- partLmw(x1 = x, y1 = resid,  # remove x
                             weights = node$weights,
                             .env = .env,

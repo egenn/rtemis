@@ -31,12 +31,12 @@ table1 <- function(x,
 
   if (is.null(dim(x))) stop("Please provide a matrix or data frame")
   .dim <- dim(x)
-  if (verbose) msg("Input:", rtHighlight$bold(.dim[1]), "cases with", rtHighlight$bold(.dim[2]), "features")
+  if (verbose) msg("Input:", hilite(.dim[1]), "cases with", hilite(.dim[2]), "features")
 
   .names <- colnames(x)
   if (is.null(.names)) {
     warning("No column names found, please check input. Generic names will be used.")
-    .names <- paste("Feature", seq(NCOL(x)))
+    .names <- paste("Feature", seq_len(NCOL(x)))
   } else {
     if (labelify) .names <- labelify(.names)
   }
@@ -52,11 +52,13 @@ table1 <- function(x,
   ## '- Continuous Features ----
   if (length(index.cont) > 0) {
     # .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn1)
-    .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i)
-      do.call(summaryFn1, c(list(i), summaryFn1.extraArgs)))
+    .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i) {
+      do.call(summaryFn1, c(list(i), summaryFn1.extraArgs))
+    })
     # .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn2)
-    .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i)
-      do.call(summaryFn2, c(list(i), summaryFn2.extraArgs)))
+    .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i) {
+      do.call(summaryFn2, c(list(i), summaryFn2.extraArgs))
+    })
     .summary_cont <- paste0(ddSci(.summary1_cont), " (", ddSci(.summary2_cont), ")")
   } else {
     .summary_cont <- NULL
@@ -78,7 +80,7 @@ table1 <- function(x,
   if (verbose) {
     .table1.f <- .table1
     colnames(.table1.f) <- NULL
-    cat(crayon::bold("Table 1."), "Subject Characteristics\n")
+    cat(bold("Table 1."), "Subject Characteristics\n")
     print(.table1.f, row.names = FALSE)
     cat("\nAll values are displayed as ", deparse(substitute(summaryFn1)), " (",
         deparse(substitute(summaryFn2)), ") or Count per group\n",

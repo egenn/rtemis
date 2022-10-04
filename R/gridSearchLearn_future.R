@@ -91,17 +91,17 @@ gridSearchLearn_future <- function(x, y, mod,
     if (inherits(future::plan(), "sequential")) {
         future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
         if (trace > 1) {
-            msg("Inner resampling: Future plan set to", crayon::bold(rtPlan),
-                "with", crayon::bold(n.cores), "workers",
-                color = crayon::magenta
+            msg("Inner resampling: Future plan set to", bold(rtPlan),
+                "with", bold(n.cores), "workers",
+                color = magenta
             )
         }
     } else {
         future::plan(rtPlan, workers = n.cores)
         if (trace > 1) {
-            msg("Inner resampling plan set to", crayon::bold(rtPlan),
-                "with", crayon::bold(n.cores), "workers",
-                color = crayon::magenta
+            msg("Inner resampling plan set to", bold(rtPlan),
+                "with", bold(n.cores), "workers",
+                color = magenta
             )
         }
     }

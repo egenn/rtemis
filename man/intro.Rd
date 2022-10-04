@@ -8,7 +8,7 @@ intro(
   message = NULL,
   verbose = TRUE,
   as.message = FALSE,
-  color = silver,
+  color = gray,
   logFile = NULL,
   call.depth = 1,
   newline.pre = FALSE
