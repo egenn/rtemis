@@ -91,7 +91,7 @@ checkData <- function(x,
   ## Characters ----
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
-  nchar <- if (n.character > 0) orange(n.character, TRUE) else bold(n.character)
+  nchar <- if (n.character > 0) orange(n.character, bold = TRUE) else bold(n.character)
   out <- paste(out,
                paste("  *", nchar, "character", ngettext(n.character, "feature", "features")),
                sep = "\n")
@@ -111,7 +111,7 @@ checkData <- function(x,
                sep = "\n")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
-  nconstant <- ifelse(n.constant > 0, bold(n.constant), red(n.constant, TRUE))
+  nconstant <- ifelse(n.constant > 0, red(n.constant, bold = TRUE), bold(n.constant))
   out <- paste(out,
                paste("  *", nconstant, "constant", ngettext(n.constant, "feature", "features")),
                sep = "\n")
@@ -119,7 +119,7 @@ checkData <- function(x,
   ## Duplicates ----
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
-  ndups <- ifelse(n.dups > 0, bold(n.dups), red(n.dups, TRUE))
+  ndups <- ifelse(n.dups > 0, red(n.dups, bold = TRUE), bold(n.dups))
   out <- paste(out,
                paste("  *", ndups, "duplicated", ngettext(n.dups, "case", "cases")),
                sep = "\n")
@@ -151,7 +151,7 @@ checkData <- function(x,
   } else {
     na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
-  ncolsanyna <- if (n.cols.anyna > 0) orange(n.cols.anyna, TRUE) else bold(n.cols.anyna)
+  ncolsanyna <- if (n.cols.anyna > 0) orange(n.cols.anyna, bold = TRUE) else bold(n.cols.anyna)
   out <- paste(out,
                paste0("  * ", ncolsanyna, 
                       ngettext(n.cols.anyna, " feature includes", 
@@ -260,7 +260,7 @@ checkData <- function(x,
       }
     } else {
       out <- paste(out,
-                   green("  * Everything looks good"),
+                   green("  * Everything looks good", bold = TRUE),
                    sep = "\n")
     }
 
