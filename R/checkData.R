@@ -42,7 +42,7 @@ checkData <- function(x,
   out <- paste0(" ", hilite(name),
                 paste(": A", class(x)[1], "with",
                       hilite(n.rows), ngettext(n.rows, "row", "rows"),
-                      "and", hilite(n.cols), ngettext(n.cols, "feature", "features")))
+                      "and", hilite(n.cols), ngettext(n.cols, "columns", "columns")))
 
   x <- as.data.frame(x)
   
