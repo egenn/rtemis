@@ -45,7 +45,7 @@ resLearn_pbapply <- function(x, y, mod,
 
   # Arguments ----
   n.workers <- as.numeric(n.workers)[1]
-  if (missing(x) | missing(y)) {
+  if (missing(x) || missing(y)) {
     print(args(resLearn))
     stop("Input missing")
   }
@@ -77,7 +77,7 @@ resLearn_pbapply <- function(x, y, mod,
     if (verbose) msg("Running resample #", index, sep = "")
     res1 <- res[[index]]
     if (is.null(mtry)) {
-      feat.index <- seq(NCOL(x))
+      feat.index <- seq_len(NCOL(x))
     } else {
       feat.index <- sample(seq(NCOL), mtry, replace = FALSE)
     }
@@ -93,7 +93,7 @@ resLearn_pbapply <- function(x, y, mod,
       x.test1 <- do.call(preprocess, preproc.params)
     }
     if (!is.null(weights)) weights <- weights[res1]
-    if (!is.null(outdir) & parallel.type != "psock") {
+    if (!is.null(outdir) && parallel.type != "psock") {
       outdir1 <- paste0(outdir, "/", mod.name, ".resLearn.", index)
     } else {
       outdir1 <- NULL
