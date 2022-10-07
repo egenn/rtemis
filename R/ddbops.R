@@ -18,8 +18,8 @@
 #' @param make_unique Logical: If TRUE, keep only unique rows
 #' @param select_columns Character vector: Column names to select
 #' @param filter_column Character: Name of column to filter on, e.g. "ID"
-#' @param filter_vals Character vector: Values in \code{filter_column} to keep.
-#' Currently works with numeric values
+#' @param filter_vals Numeric or Character vector: Values in 
+#' \code{filter_column} to keep.
 #' @param character2factor Logical: If TRUE, convert character columns to 
 #' factors
 #' @param collectall Logical: If TRUE, collect data and return structure class
@@ -54,11 +54,13 @@ ddb_data <- function(filename,
                      collectall = TRUE,
                      progress = TRUE,
                      returnobj = c("data.frame", "data.table"),
+                     data.table.key = NULL,
                      clean_colnames = TRUE,
                      verbose = TRUE) {
     # Intro ----
     dependency_check("DBI", "duckdb")
     returnobj <- match.arg(returnobj)
+    if (!is.null(data.table.key)) returnobj <- "data.table"
     path <- if (is.null(datadir)) {
         normalizePath(filename)
     } else {
@@ -90,10 +92,14 @@ ddb_data <- function(filename,
     )
 
     sql <- if (!is.null(filter_column)) {
+        vals <- if (is.numeric(filter_vals)) {
+            paste0(filter_vals, collapse = ", ")
+        } else {
+            paste0("'", paste0(filter_vals, collapse = "', '"), "'")
+        }
         paste(
             sql,
-            "WHERE", filter_column, "in (", 
-            paste0(filter_vals, collapse = ", "), ");"
+            "WHERE", filter_column, "in (", vals, ");"
         )
     } else {
         paste0(sql, ";")
@@ -108,7 +114,12 @@ ddb_data <- function(filename,
         if (clean_colnames) {
             names(out) <- clean_colnames(out)
         }
-        if (returnobj == "data.table") data.table::setDT(out)
+        if (returnobj == "data.table") {
+            data.table::setDT(out)
+            if (!is.null(data.table.key)) {
+                data.table::setkeyv(out, data.table.key)
+            }
+        }
         if (character2factor) {
             out <- preprocess(out, character2factor = TRUE)
         }

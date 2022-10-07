@@ -19,6 +19,7 @@ ddb_data(
   collectall = TRUE,
   progress = TRUE,
   returnobj = c("data.frame", "data.table"),
+  data.table.key = NULL,
   clean_colnames = TRUE,
   verbose = TRUE
 )
@@ -41,8 +42,8 @@ if \code{datadir} is also provided}
 
 \item{filter_column}{Character: Name of column to filter on, e.g. "ID"}
 
-\item{filter_vals}{Character vector: Values in \code{filter_column} to keep.
-Currently works with numeric values}
+\item{filter_vals}{Numeric or Character vector: Values in 
+\code{filter_column} to keep.}
 
 \item{character2factor}{Logical: If TRUE, convert character columns to 
 factors}
