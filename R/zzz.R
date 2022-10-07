@@ -45,18 +45,18 @@ rtemis.version <- packageVersion("rtemis")
         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
         # "\n  Welcome, ", Sys.getenv("USER"),
         "\n  Defaults",
-        "\n  |   Theme: ", rtTheme,
-        "\n  |    Font: ", rtFont,
-        "\n  | Palette: ", rtPalette,
-        "\n  |    Plan: ", rtPlan,
-        "\n  |   Cores: ", rtCores, "/", .availableCores, " available",
+        "\n  │   Theme: ", rtTheme,
+        "\n  │    Font: ", rtFont,
+        "\n  │ Palette: ", rtPalette,
+        "\n  │    Plan: ", rtPlan,
+        "\n  └   Cores: ", rtCores, "/", .availableCores, " available",
         "\n  Resources",
-        "\n  | Documentation: https://rtemis.lambdamd.org",
-        "\n  |       Learn R: https://class.lambdamd.org/pdsr",
-        "\n  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes",
-        '\n  |          Cite: `citation("rtemis")`',
+        "\n  │    Docs: https://rtemis.lambdamd.org",
+        "\n  │ Learn R: https://class.lambdamd.org/pdsr",
+        "\n  │  Themes: https://egenn.lambdamd.org/software/#rtemis_themes",
+        '\n  └    Cite: `citation("rtemis")`',
         "\n  Setup",
-        "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`"
+        "\n  └ Enable progress reporting: `progressr::handlers(global = TRUE)`"
     ))
 }
 
