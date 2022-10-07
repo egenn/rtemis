@@ -10,6 +10,16 @@ bold <- function(...) {
 }
 
 #' @rdname strng
+italic <- function(...) {
+    paste0("\033[3m", paste(...), "\033[0m")
+}
+
+#' @rdname strng
+underline <- function(...) {
+    paste0("\033[4m", paste(...), "\033[0m")
+}
+
+#' @rdname strng
 hilite <- function(..., bold = TRUE) {
     paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;117m", paste(...), "\033[0m")
 }
