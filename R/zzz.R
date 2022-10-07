@@ -41,6 +41,7 @@ rtemis.version <- packageVersion("rtemis")
 .onAttach <- function(libname, pkgname) {
     
     packageStartupMessage(paste0(
+        rtasciitxt(),
         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
         # "\n  Welcome, ", Sys.getenv("USER"),
         "\n  Defaults",
@@ -55,8 +56,7 @@ rtemis.version <- packageVersion("rtemis")
         "\n  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes",
         '\n  |          Cite: `citation("rtemis")`',
         "\n  Setup",
-        "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`",
-        "\n"
+        "\n  | Enable progress reporting: `progressr::handlers(global = TRUE)`"
     ))
 }
 
