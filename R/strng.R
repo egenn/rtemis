@@ -1,6 +1,6 @@
 # strng.R
 # ::rtemis::
-# 2022 E. D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 #' String formatting utilities
 #' 
@@ -47,4 +47,26 @@ gray <- function(..., bold = FALSE) {
 #' @rdname strng
 reset <- function(...) {
     paste0("\033[0m", paste(...))
+}
+
+col256 <- function(x, col = 183) {
+    paste0("\033[38;5;", col, "m", x, "\033[0m")
+}
+
+rtascii <- function() {
+    cat(col256("▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·\n", 92))
+    cat(col256("▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.\n", 128))
+    cat(col256("▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄\n", 196))
+    cat(col256("▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█\n", 208))
+    cat(col256(".▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀\n", 27))
+}
+
+rtasciitxt <- function() {
+    paste0(
+        paste0(col256("▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·\n", 92)),
+        paste0(col256("▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.\n", 128)),
+        paste0(col256("▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄\n", 196)),
+        paste0(col256("▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█\n", 208)),
+        paste0(col256(".▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀\n", 27))
+    )
 }
