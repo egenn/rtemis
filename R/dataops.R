@@ -107,3 +107,33 @@ getnamesandtypes <- function(x) {
   attr(xnames, "type") <- sapply(x, class)
   xnames
 } # rtemis::namesandtypes
+
+
+#' Check file(s) exist
+#' 
+#' @param paths Character vector of paths
+#' @param verbose Logical: If TRUE, print messages to console
+#' @param pad Integer: Number of spaces to pad to the left
+#' 
+#' @author E.D. Gennatas
+#' @export
+
+check_files <- function(paths,
+                        verbose = TRUE,
+                        pad = 0) {
+    if (verbose) msg("Checking files:")
+    
+    for (f in paths) {
+      if (file.exists(f)) {
+        if (verbose) {
+            yay(f, pad = pad)
+        }
+      } else {
+          if (verbose) {
+            nay(paste(f, red(" not found!")), pad = pad)
+          }
+          stop("File not found")
+        }
+      }
+  } # rtemis::check_files
+  
