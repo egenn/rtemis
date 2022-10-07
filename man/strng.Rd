@@ -2,6 +2,8 @@
 % Please edit documentation in R/strng.R
 \name{bold}
 \alias{bold}
+\alias{italic}
+\alias{underline}
 \alias{hilite}
 \alias{red}
 \alias{green}
@@ -13,6 +15,10 @@
 \title{String formatting utilities}
 \usage{
 bold(...)
+
+italic(...)
+
+underline(...)
 
 hilite(..., bold = TRUE)
 
