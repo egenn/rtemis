@@ -38,25 +38,46 @@ rtemis.version <- packageVersion("rtemis")
     assign("gridSearchLearn", gridSearchLearn, envir = parent.env(environment()))
 }
 
-.onAttach <- function(libname, pkgname) {
+# .onAttach <- function(libname, pkgname) {
     
+#     packageStartupMessage(paste0(
+#         rtasciitxt(),
+#         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
+#         # "\n  Welcome, ", Sys.getenv("USER"),
+#         bold("\n  Defaults"),
+#         "\n  │   Theme: ", rtTheme,
+#         "\n  │    Font: ", rtFont,
+#         "\n  │ Palette: ", rtPalette,
+#         "\n  │    Plan: ", rtPlan,
+#         "\n  └   Cores: ", rtCores, "/", .availableCores, " available",
+#         bold("\n  Resources"),
+#         "\n  │    Docs: https://rtemis.lambdamd.org",
+#         "\n  │ Learn R: https://class.lambdamd.org/pdsr",
+#         "\n  │  Themes: https://egenn.lambdamd.org/software/#rtemis_themes",
+#         '\n  └    Cite: `citation("rtemis")`',
+#         bold("\n  Setup"),
+#         "\n  └ Enable progress reporting: `progressr::handlers(global = TRUE)`"
+#     ))
+# }
+
+.onAttach <- function(libname, pkgname) {
     packageStartupMessage(paste0(
         rtasciitxt(),
         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
         # "\n  Welcome, ", Sys.getenv("USER"),
-        "\n  Defaults",
-        "\n  │   Theme: ", rtTheme,
-        "\n  │    Font: ", rtFont,
-        "\n  │ Palette: ", rtPalette,
-        "\n  │    Plan: ", rtPlan,
-        "\n  └   Cores: ", rtCores, "/", .availableCores, " available",
-        "\n  Resources",
-        "\n  │    Docs: https://rtemis.lambdamd.org",
-        "\n  │ Learn R: https://class.lambdamd.org/pdsr",
-        "\n  │  Themes: https://egenn.lambdamd.org/software/#rtemis_themes",
-        '\n  └    Cite: `citation("rtemis")`',
-        "\n  Setup",
-        "\n  └ Enable progress reporting: `progressr::handlers(global = TRUE)`"
+        bold("\n  Defaults"),
+        "\n  │   ", italic(gray("Theme: ")), rtTheme,
+        "\n  │    ", italic(gray("Font: ")), rtFont,
+        "\n  │ ", italic(gray("Palette: ")), rtPalette,
+        "\n  │    ", italic(gray("Plan: ")), rtPlan,
+        "\n  └   ", italic(gray("Cores: ")), rtCores, "/", .availableCores, " available",
+        bold("\n  Resources"),
+        "\n  │    ", italic(gray("Docs:")), " https://rtemis.lambdamd.org",
+        "\n  │ ", italic(gray("Learn R:")), " https://class.lambdamd.org/pdsr",
+        "\n  │  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/software/#rtemis_themes",
+        "\n  └    ", italic(gray("Cite:")), ' `citation("rtemis")`',
+        bold("\n  Setup"),
+        "\n  └ ", italic(gray("Enable progress reporting:")), " `progressr::handlers(global = TRUE)`"
     ))
 }
 
