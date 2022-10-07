@@ -120,5 +120,5 @@ get_data <- function(filename,
 } # rtemis::get_data
 
 msgread <- function(x, caller = "") {
-    msg0("Reading ", hilite(x), "...", caller = caller)
+    msg0(bold(orange("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
 }
