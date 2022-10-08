@@ -91,9 +91,9 @@ checkData <- function(x,
   ## Characters ----
   index.character <- which(sapply(x, is.character))
   n.character <- length(index.character)
-  nchar <- if (n.character > 0) orange(n.character, bold = TRUE) else bold(n.character)
+  # nchar <- if (n.character > 0) orange(n.character, bold = TRUE) else bold(n.character)
   out <- paste(out,
-               paste("  *", nchar, "character", ngettext(n.character, "feature", "features")),
+               paste("  *", bold(n.character), "character", ngettext(n.character, "feature", "features")),
                sep = "\n")
 
   ## Dates ----
@@ -120,6 +120,7 @@ checkData <- function(x,
   cindex.dups <- which(duplicated(x))
   n.dups <- length(cindex.dups)
   ndups <- ifelse(n.dups > 0, red(n.dups, bold = TRUE), bold(n.dups))
+  
   out <- paste(out,
                paste("  *", ndups, "duplicated", ngettext(n.dups, "case", "cases")),
                sep = "\n")
@@ -151,12 +152,12 @@ checkData <- function(x,
   } else {
     na.feature.pct <- na.case.pct <- rep(0, n.cols)
   }
-  ncolsanyna <- if (n.cols.anyna > 0) orange(n.cols.anyna, bold = TRUE) else bold(n.cols.anyna)
+  .col <- if (n.cols.anyna > 0) orange else I
   out <- paste(out,
-               paste0("  * ", ncolsanyna, 
+               paste0("  * ", bold(.col(n.cols.anyna)), 
                       ngettext(n.cols.anyna, " feature includes", 
                                " features include"), " 'NA' values",
-                      ifelse(n.cols.anyna > 0, paste(";", .col(n.na), "'NA'", 
+                      ifelse(n.cols.anyna > 0, paste(";", bold(.col(n.na)), "'NA'", 
                              ngettext(n.na, "value", "values"), "total"), "")),
                sep = "\n")
   if (n.cols.anyna > 0) {
@@ -164,7 +165,7 @@ checkData <- function(x,
       features.na.over.thres <- na.feature.pct[na.feature.pct$Pct.NA >= reportFeatures.thres, ]
       if (NROW(features.na.over.thres) > 0) {
         out <- paste(out,
-                     paste0("     - ", .col(NROW(features.na.over.thres)), 
+                     paste0("     - ", bold(.col(NROW(features.na.over.thres))), 
                             " features missing in >= ",
                             reportFeatures.thres * 100, "% of cases:\n      *** ",
                             paste0(features.na.over.thres$Feature, ": ", 
@@ -175,8 +176,8 @@ checkData <- function(x,
       max.na.feature.name <- names(cols.anyna)[which.max(na.feature.pct$Pct.NA)]
       out <- paste(out,
                    paste0("     - Max percent missing in a feature is ", 
-                          .col(ddSci(max(na.feature.pct$Pct.NA) * 100)), 
-                          .col("%"), " (",
+                          bold(.col(ddSci(max(na.feature.pct$Pct.NA) * 100))), 
+                          bold(.col("%")), " (",
                           bold(max.na.feature.name), ")"),
                    sep = "\n")
     }
@@ -186,7 +187,7 @@ checkData <- function(x,
       n.cases.na.over.thres <- NROW(cases.na.over.thres)
       if (n.cases.na.over.thres > 0) {
         out <- paste(out,
-                     paste0("     - ", .col(n.cases.na.over.thres), 
+                     paste0("     - ", bold(.col(n.cases.na.over.thres)), 
                             ngettext(n.cases.na.over.thres, " case", " cases"),
                             " missing >= ", reportCases.thres * 100, "% of features:\n      *** ",
                             paste0("#", cases.na.over.thres$Case, ": ", 
@@ -197,7 +198,9 @@ checkData <- function(x,
     } else {
       max.na.case.number <- index.incomplete[which.max(na.case.pct$Pct.NA)]
       out <- paste(out,
-                   paste0("     - Max percent missing in a case is ", .col(ddSci(max(na.case.pct$Pct.NA) * 100)), .col("%"), " (case #",
+                   paste0("     - Max percent missing in a case is ", 
+                   bold(.col(ddSci(max(na.case.pct$Pct.NA) * 100))), 
+                   bold(.col("%")), " (case #",
                           bold(max.na.case.number), ")"), sep = "\n")
     }
 
