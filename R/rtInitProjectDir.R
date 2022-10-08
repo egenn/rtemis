@@ -16,7 +16,7 @@ rtInitProjectDir <- function(verbose = TRUE) {
   if (verbose) cat("  Working in ", wd, "...\n", sep = "")
 
   # rtInit.log ----
-  # if (verbose) cat(rtHighlight("  Writing 'rtInit.log' file..."))
+  # if (verbose) cat(hilite("  Writing 'rtInit.log' file..."))
   sink("rtInit.log", append = TRUE)
   cat(".:rtemis Project Directory\n")
   cat(date(), "\n")

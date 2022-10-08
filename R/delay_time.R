@@ -56,7 +56,7 @@ delay_time <- function(bpm = 120,
         "1/32T" = t / 8 * 2 / 3
     )
     if (verbose) {
-        cat(rtHighlight(delayt), "\n")
+        cat(hilite(delayt), "\n")
     }
     invisible(delayt)
 } # rtemis::delay_time

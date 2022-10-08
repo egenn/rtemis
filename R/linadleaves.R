@@ -563,7 +563,7 @@ linadleaves <- function(x, y,
     class(.mod) <- c("linadleaves", "list")
 
     if (lookback) {
-        if (trace > 1) msg("Starting lookback...", color = rtHighlight)
+        if (trace > 1) msg("Starting lookback...", color = hilite)
         opt.leaves <- selectleaves(
             .mod,
             x = x, y = y,
@@ -575,7 +575,7 @@ linadleaves <- function(x, y,
         )
         .mod$n.leaves <- opt.leaves$n.leaves
         .mod$lookback <- opt.leaves
-        if (trace > 1) msg("Lookback complete", color = rtHighlight)
+        if (trace > 1) msg("Lookback complete", color = hilite)
     }
 
     .mod
@@ -1384,7 +1384,7 @@ selectleaves <- function(object,
     n.leaves <- max(1, which.min(valid.error))
     if (verbose) {
         msg("Selected", n.leaves, "leaves of", length(valid.error), "total",
-            color = rtHighlight
+            color = hilite
         )
     }
 

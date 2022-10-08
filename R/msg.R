@@ -74,10 +74,10 @@ msg <- function(...,
     } else {
         if (newline.pre) cat("\n")
         if (is.null(color)) {
-            cat(gray(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
             cat(paste(txt, collapse = sep), if (newline) "\n")
         } else {
-            cat(gray(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
             cat(paste(color(txt), collapse = sep), if (newline) "\n")
         }
         if (extraline) cat("\n")
@@ -161,10 +161,10 @@ msg0 <- function(...,
     } else {
         if (newline.pre) cat("\n")
         if (is.null(color)) {
-            cat(gray(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
             cat(paste(txt, collapse = sep), if (newline) "\n")
         } else {
-            cat(gray(paste0("[", .dt, bold(caller), "] ")))
+            cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
             cat(paste(color(txt), collapse = sep), if (newline) "\n")
         }
         if (extraline) cat("\n")

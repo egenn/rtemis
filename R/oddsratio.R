@@ -28,7 +28,7 @@ oddsratio <- function(x, verbose = TRUE) {
 
   if (verbose) {
     print(out)
-    cat("Odds Ratio:", rtHighlight(ddSci(or)), "\n")
+    cat("Odds Ratio:", hilite(ddSci(or)), "\n")
   }
 
   out

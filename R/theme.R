@@ -1306,7 +1306,7 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
 #' 
 #' @export
 themes <- function() {
-     cat(rtHighlight("  Available themes:\n"))
+     cat(hilite("  Available themes:\n"))
      cat('    "white", "whitegrid", "whiteigrid,\n')
      cat('    "black", "blackgrid", "blackigrid",\n')
      cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
