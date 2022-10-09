@@ -47,7 +47,7 @@ keyval_reshape <- function(x,
         msg("Reshaping", xname, "to wide format...")
     }
     # Reshape to wide, filling all absent with negative value
-    x_wide <- dcast(
+    x <- dcast(
         x,
         .formula,
         fun.aggregate = length,
@@ -58,8 +58,8 @@ keyval_reshape <- function(x,
 
     if (verbose) {
         msg(xname, "wide format dimensions:", newline = FALSE)
-        catsize(x_wide)
+        catsize(x)
     }
 
-    invisible(x_wide)
+    invisible(x)
 } # rtemis::keyval_reshape
