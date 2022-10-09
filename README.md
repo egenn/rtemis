@@ -18,14 +18,17 @@ R version 4.1 or higher
 
 ## Installation
 
-See [here](https://rtemis.lambdamd.org/setup.html) for more setup and installation instructions.
+See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and 
+installation instructions.
 
 ```r
 install.packages("remotes")
 remotes::install_github("egenn/rtemis")
 ```
 
-**Note:** *Make sure to keep your installation updated by running* `remotes::install_github("egenn/rtemis")` *regularly: it will only proceed if there are updates available*
+**Note:** Make sure to keep your installation updated by running
+`remotes::install_github("egenn/rtemis")` regularly: it will only proceed if
+there are updates available.
 
 ## 30-second intro to **rtemis**
 
