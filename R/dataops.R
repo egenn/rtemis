@@ -13,7 +13,9 @@
 #' @export
 
 getnames <- function(x,
-                     pattern = NULL, starts_with = NULL, ends_with = NULL,
+                     pattern = NULL, 
+                     starts_with = NULL, 
+                     ends_with = NULL,
                      ignore.case = TRUE) {
 
   .names <- if (is.character(x)) {
