@@ -4,22 +4,23 @@
 
 #' Check Data
 #'
-#' Runs a series of simple checks on a dataset that may be important to perform ahead of
-#' data analysis. This function makes no changes to data, but reports potential course of action
-#' that can be taken using \link{preprocess}
+#' Runs a series of simple checks on a dataset that may be important to perform 
+#' ahead of data analysis. This function makes no changes to data, but reports 
+#' potential course of action that can be taken using \link{preprocess}
 #'
 #' @param x Input dataset: will be converted to data.frame
-#' @param name String (optional): Name of dataset. (This is helpful when applying \code{preprocess}
-#' on a list of items by vectorization, e.g. using *ply commands, where the names of the list
-#' elements will not be displayed correctly)
-#' @param str Logical: If TRUE, show output of \code{str}. Default = FALSE
-#' @param recommend Logical: If TRUE, print recommendations based on check. Default = TRUE
-#' @param reportCases.thres Float (0, 1]: Report, by number, all cases missing greater or equal to
-#' this fraction of features. Default = NULL
-#' @param reportFeatures.thres Float (0, 1]: Report, by name, all features missing in greater or
-#' equal to this fraction of cases. Default = NULL
-#' @param toHTML Logical: If TRUE, convert output to HTML using the \code{fansi} package.
-#' Default = FALSE
+#' @param name String (optional): Name of dataset. (This is helpful when 
+#' applying \code{preprocess} on a list of items by vectorization, e.g. using 
+#' *ply commands, where the names of the list elements will not be displayed 
+#' correctly)
+#' @param str Logical: If TRUE, show output of \code{str}.
+#' @param recommend Logical: If TRUE, print recommendations based on check.
+#' @param reportCases.thres Float (0, 1]: Report, by number, all cases missing 
+#' greater or equal to this fraction of features.
+#' @param reportFeatures.thres Float (0, 1]: Report, by name, all features 
+#' missing in greater or equal to this fraction of cases.
+#' @param toHTML Logical: If TRUE, convert output to HTML using the 
+#' \code{fansi} package.
 #' @param verbose Logical: If TRUE, print messages to console
 #' 
 #' @author E.D. Gennatas
@@ -39,10 +40,15 @@ checkData <- function(x,
   if (is.null(name)) name <- deparse(substitute(x))
   n.rows <- NROW(x)
   n.cols <- NCOL(x)
-  out <- paste0(" ", hilite(name),
-                paste(": A", class(x)[1], "with",
-                      hilite(n.rows), ngettext(n.rows, "row", "rows"),
-                      "and", hilite(n.cols), ngettext(n.cols, "columns", "columns")))
+  out <- paste0(
+    " ", hilite(name),
+    paste(
+      ": A", class(x)[1], "with",
+      hilite(n.rows), ngettext(n.rows, "row", "rows"),
+      "and", hilite(n.cols),
+      ngettext(n.cols, "columns", "columns")
+    )
+  )
 
   x <- as.data.frame(x)
   
@@ -64,8 +70,10 @@ checkData <- function(x,
 
   out <- paste(out,
                paste0(bold("\n  Data types"), "________________"),
-               paste("  *", bold(n.continuous), "continuous", ngettext(n.continuous, "feature", "features")),
-               paste("  *", bold(n.integer), "integer", ngettext(n.integer, "feature", "features")),
+               paste("  *", bold(n.continuous), "continuous", 
+               ngettext(n.continuous, "feature", "features")),
+               paste("  *", bold(n.integer), "integer", 
+               ngettext(n.integer, "feature", "features")),
                sep = "\n")
   isOrdered <- if (n.factor == 1) {
     paste(", which", ngettext(n.ordered, "is", "is not"), "ordered")
@@ -75,10 +83,11 @@ checkData <- function(x,
     ""
   }
   out <- paste(out,
-               paste0("  * ", bold(n.factor), " categorical", ngettext(n.factor, " feature", " features"),
+               paste0("  * ", bold(n.factor), " categorical", 
+               ngettext(n.factor, " feature", " features"),
                       isOrdered),
                sep = "\n")
-  index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], function(x) length(levels(x))) > 2)
+  index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], \(x) length(levels(x))) > 2)
   n.gt2levels.nonordered <- length(index.gt2levels.nonordered)
   if (n.gt2levels.nonordered > 0) {
     out <- paste(out,
@@ -93,14 +102,16 @@ checkData <- function(x,
   n.character <- length(index.character)
   # nchar <- if (n.character > 0) orange(n.character, bold = TRUE) else bold(n.character)
   out <- paste(out,
-               paste("  *", bold(n.character), "character", ngettext(n.character, "feature", "features")),
+               paste("  *", bold(n.character), "character", 
+               ngettext(n.character, "feature", "features")),
                sep = "\n")
 
   ## Dates ----
-  index.date <- which(sapply(x, function(col) inherits(col, "Date")))
+  index.date <- which(sapply(x, \(col) inherits(col, "Date")))
   n.date <- length(index.date)
   out <- paste(out,
-               paste("  *", n.date, "date", ngettext(n.date, "feature", "features")),
+               paste("  *", n.date, "date", 
+               ngettext(n.date, "feature", "features")),
                sep = "\n")
 
   # Issues ----
@@ -111,9 +122,13 @@ checkData <- function(x,
                sep = "\n")
   index.constant <- which(sapply(x, is.constant))
   n.constant <- length(index.constant)
-  nconstant <- ifelse(n.constant > 0, red(n.constant, bold = TRUE), bold(n.constant))
+  nconstant <- ifelse(n.constant > 0, 
+    red(n.constant, bold = TRUE),
+    bold(n.constant)
+  )
   out <- paste(out,
-               paste("  *", nconstant, "constant", ngettext(n.constant, "feature", "features")),
+               paste("  *", nconstant, "constant", 
+               ngettext(n.constant, "feature", "features")),
                sep = "\n")
 
   ## Duplicates ----
@@ -122,7 +137,8 @@ checkData <- function(x,
   ndups <- ifelse(n.dups > 0, red(n.dups, bold = TRUE), bold(n.dups))
   
   out <- paste(out,
-               paste("  *", ndups, "duplicated", ngettext(n.dups, "case", "cases")),
+               paste("  *", ndups, "duplicated", 
+               ngettext(n.dups, "case", "cases")),
                sep = "\n")
 
   ## NAs ----
@@ -255,9 +271,12 @@ checkData <- function(x,
       # }
       if (n.integer > 0) {
         out <- paste(out,
-                     paste0("  * Check the", ifelse(n.integer > 1, paste("", n.integer, ""), " "),
-                            "integer", ngettext(n.integer, " feature", " features"),
-                            " and consider if", ngettext(n.integer, " it", " they"), " should be converted to ",
+                     paste0("  * Check the", 
+                            ifelse(n.integer > 1, paste("", n.integer, ""), " "),
+                            "integer", 
+                            ngettext(n.integer, " feature", " features"),
+                            " and consider if", 
+                            ngettext(n.integer, " it", " they"), " should be converted to ",
                             ngettext(n.integer, "factor", "factors")),
                      sep = "\n")
       }
