@@ -294,7 +294,7 @@ rtCoresInit <- function() {
     getOption("rt.cores", .availableCores)
 }
 rtPaletteInit <- function() {
-    getOption("rt.palette", "rtCol1")
+    getOption("rt.palette", "rtCol3")
 }
 rtThemeInit <- function() {
     getOption("rt.theme", "darkgraygrid")

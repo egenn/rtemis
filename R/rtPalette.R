@@ -1464,6 +1464,28 @@ rtCol1n <- desaturate(c(
     pennCol$purple
 ), .3)
 
+rtCol2 <- c(
+    ucsfCol$C3_Teal,
+    ucsfCol$M3_Orange,
+    ucsfCol$H2,
+    ucsfCol$A2,
+    ucsfCol$C4,
+    ucsfCol$L3_Yellow,
+    ucsfCol$H3_Magenta,
+    ucsfCol$A3_CTA_Blue
+)
+
+rtCol3 <- c(
+    ucsfCol$C3_Teal,
+    ucsfCol$M3_Orange,
+    pennCol$lighterRed,
+    pennCol$lighterBlue,
+    ucsfCol$C4,
+    ucsfCol$L3_Yellow,
+    ucsfCol$H3_Magenta,
+    ucsfCol$A3_CTA_Blue
+) |> desaturate()
+
 rtcoldev <- list(
     rtemisblue = "#80ffff",
     rtemisbluetoo = "#00D6FF",
@@ -1556,11 +1578,12 @@ rtPalettes <- list(
     googleCol = googleCol,
     amazonCol = amazonCol,
     microsoftCol = microsoftCol,
-    rtCol1 = rtCol1,
     pantoneBalancingAct = pantoneBalancingAct,
     pantoneWellspring = pantoneWellspring,
     pantoneAmusements = pantoneAmusements,
-    grays = grays
+    grays = grays,
+    rtCol1 = rtCol1,
+    rtCol3 = rtCol3
 )
 
 #' \pkg{rtemis} Color Palettes
