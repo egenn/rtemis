@@ -56,6 +56,8 @@ dplot3_xy(
   spikecolor = NULL,
   spikethickness = 1,
   margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  main.y = 1,
+  main.yanchor = "bottom",
   automargin.x = TRUE,
   automargin.y = TRUE,
   xlim = NULL,
