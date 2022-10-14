@@ -77,9 +77,9 @@ dplot3_heatmap <- function(x,
                            plot_method = "plotly",
                            theme = rtTheme,
                         #    palette = rtPalette,
-                           row_side_colors, # x[["row_side_colors"]],
+                           row_side_colors = NULL, # x[["row_side_colors"]],
                            row_side_palette = NULL,
-                           col_side_colors, # x[["col_side_colors"]],
+                           col_side_colors = NULL, # x[["col_side_colors"]],
                            col_side_palette = NULL,
                            font.size = NULL,
                            padding = 0,
@@ -94,8 +94,8 @@ dplot3_heatmap <- function(x,
     dependency_check("heatmaply")
 
     # Colnames ----
-    if (is.null(colnames(x))) colnames(x) <- 1:NCOL(x) # rtLetters(NCOL(x))
-    if (is.null(rownames(x))) rownames(x) <- 1:NROW(x) # rtLetters(NCOL(x), caps = TRUE)
+    if (is.null(colnames(x))) colnames(x) <- seq_len(NCOL(x)) # rtLetters(NCOL(x))
+    if (is.null(rownames(x))) rownames(x) <- seq_len(NROW(x)) # rtLetters(NCOL(x), caps = TRUE)
 
     # Margins ----
     # By default, allow 7 px per character
@@ -118,7 +118,7 @@ dplot3_heatmap <- function(x,
     # Limits ----
     if (is.null(limits)) {
         maxabs <- max(abs(x), na.rm = TRUE)
-        if (.2 < maxabs & maxabs < 1) maxabs <- 1
+        if (.2 < maxabs && maxabs < 1) maxabs <- 1
         limits <- c(-maxabs, maxabs)
     }
 
