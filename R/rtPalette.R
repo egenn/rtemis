@@ -754,8 +754,6 @@ jhuCol <- list(
 #' \code{nyuCol}: NYU color palette
 #' (https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
 #' @name rtPalettes
-
-
 nyuCol <- list(
     brightPurple = "#8900e1",
     nyuPurple = "#57068c",
@@ -776,6 +774,33 @@ nyuCol <- list(
     yellow = "#ffc107"
 )
 
+# WashU ----
+#' Washington University St Louis Colors
+#' 
+#' \code{washuCol}: WashU color palette
+#' (https://marcomm.wustl.edu/resources/branding-logo-toolkit/color-palettes/)
+#' @name rtPalettes
+washuCol <- list(
+    red = "#a51417",
+    gray = "#6c7373",
+    lightGray = "#c8c8c8",
+    darkGray = "#3d3d3d",
+    extraLightGRAY = "#eeeeee",
+    green = "#007360",
+    darkGreen = "#173e3a",
+    lightGreen = "#789b4a",
+    tan = "#e1c4ac",
+    darkBlue = "#172752",
+    blue = "#005f85",
+    pearl = "#d8d2c5",
+    yellow = "#ffcc00",
+    orange = "#d15f27",
+    darkOrange = "#b85323",
+    purple = "#622466",
+    lightTurqoise = "#67c8c7",
+    turqoise = "#2b8282"
+)
+
 
 # Chicago ----
 #' U Chicago Colors
@@ -783,8 +808,6 @@ nyuCol <- list(
 #' \code{chicagoCol}: University of Chicago color palette
 #' (https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
 #' @name rtPalettes
-
-
 chicagoCol <- list(
     maroon = "#800000",
     darkGray = "#767676",
@@ -821,7 +844,6 @@ chicagoCol <- list(
 #' (https://brand.psu.edu/design-essentials.html#color)
 #' @name rtPalettes
 
-
 pennstateCol <- list(
     nittanyNavy = "#001E44",
     beaverBlue = "#1E407C",
@@ -852,8 +874,6 @@ pennstateCol <- list(
 #' \code{sfsuCol}: SF State color palette
 #' (https://logo.sfsu.edu/color-system)
 #' @name rtPalettes
-
-
 sfsuCol <- list(
     `2755C` = "#231161",
     `2755C_85pc` = "#463077",
@@ -872,8 +892,6 @@ sfsuCol <- list(
 #' \code{illinoisCol}: University of Illinois color palette
 #' (https://www.uillinois.edu/OUR/brand/color_palettes)
 #' @name rtPalettes
-
-
 illinoisCol <- list(
     uofiblue = "#13294b",
     urbanaOrange = "#E84A27",
@@ -898,8 +916,6 @@ illinoisCol <- list(
 #' \code{umdCol}: University of Maryland color palette
 #' (https://osc.umd.edu/licensing-trademarks/brand-standards/logos/#color)
 #' @name rtPalettes
-
-
 umdCol <- list(
     umdRed = "#E21833",
     umdYellow = "#ffd200",
@@ -912,7 +928,6 @@ umdCol <- list(
 #' \code{msuCol}: MSU color palette
 #' (https://brand.msu.edu/visual/color-palette)
 #' @name rtPalettes
-
 msuCol <- list(
     SpartanGreen = "#18453B",
     White = "#FFFFFF",
@@ -924,11 +939,10 @@ msuCol <- list(
 
 # Michigan ----
 #' University of Michigan Colors
-#' 
+#'
 #' \code{michiganCol}: Michigan color palette
 #' (https://brand.umich.edu/design-resources/colors/)
 #' @name rtPalettes
-
 michiganCol <- list(
     Maize = "#FFCB05",
     Blue = "#00274C",
@@ -947,14 +961,30 @@ michiganCol <- list(
     PumaBlack = "#131516"
 )
 
+# Iowa ----
+#' Univeristy of Iowa Colors
+#' 
+#' \code{iowaCol}: University of Iowa color palette
+#' (https://brand.uiowa.edu/color)
+#' @name rtPalettes
+iowaCol <- list(
+    Gold = "#FFCD00",
+    Gray = "#BBBCBC",
+    Blue = "#00A9E0",
+    Green = "#00AF66",
+    Orange = "#FF8200",
+    DarkGray = "#63666A",
+    DarkBlue = "#00558C",
+    DarkGreen = "#00664F",
+    DarkOrange = "#BD472A"
+)
+
 # U Texas ----
 #' U Texas Colors
 #'
 #' \code{texasCol}: University of Texas color palette
 #' (https://brand.utexas.edu/identity/color/)
 #' @name rtPalettes
-
-
 texasCol <- list(
     burntOrange = "#bf5700",
     gray = "#333f48",
@@ -975,8 +1005,6 @@ texasCol <- list(
 #' \code{emoryCol}: Emory color palette
 #' (https://brand.emory.edu/color.html)
 #' @name rtPalettes
-
-
 emoryCol <- list(
     emoryBlue = "#012169",
     darkBlue = "#0c2340",
@@ -1599,10 +1627,12 @@ rtPalettes <- list(
     uwCol = uwCol,
     jhuCol = jhuCol,
     nyuCol = nyuCol,
+    washuCol = washuCol,
     chicagoCol = chicagoCol,
     pennstateCol = pennstateCol,
     msuCol = msuCol,
     michiganCol = michiganCol,
+    iowaCol = iowaCol,
     texasCol = texasCol,
     techCol = techCol,
     jeffersonCol = jeffersonCol,
