@@ -906,6 +906,47 @@ umdCol <- list(
     umdBrown = "#AD7C59"
 )
 
+# MSU ----
+#' Michigan State University Colors
+#' 
+#' \code{msuCol}: MSU color palette
+#' (https://brand.msu.edu/visual/color-palette)
+#' @name rtPalettes
+
+msuCol <- list(
+    SpartanGreen = "#18453B",
+    White = "#FFFFFF",
+    Black = "#000000",
+    KellyGreen = "#008208",
+    LimeGreen = "#7BBD00",
+    ExcellenceGreen = "#0B9A6D"
+)
+
+# Michigan ----
+#' University of Michigan Colors
+#' 
+#' \code{michiganCol}: Michigan color palette
+#' (https://brand.umich.edu/design-resources/colors/)
+#' @name rtPalettes
+
+michiganCol <- list(
+    Maize = "#FFCB05",
+    Blue = "#00274C",
+    TappanRed = "#9A3324",
+    RossOrange = "#D86018",
+    RackhamGreen = "#75988d",
+    WaveFieldGreen = "#A5A508",
+    TaubmanTeal = "#00B2A9",
+    ArboretumBlue = "#2F65A7",
+    A2Amethyst = "#702082",
+    MatthaeiViolet = "#575294",
+    UMMATan = "#CFC096",
+    BurtonTowerBeige = "#9B9A6D",
+    AngelHallAsh = "#989C97",
+    LawQuadStone = "#655A52",
+    PumaBlack = "#131516"
+)
+
 # U Texas ----
 #' U Texas Colors
 #'
@@ -1560,6 +1601,8 @@ rtPalettes <- list(
     nyuCol = nyuCol,
     chicagoCol = chicagoCol,
     pennstateCol = pennstateCol,
+    msuCol = msuCol,
+    michiganCol = michiganCol,
     texasCol = texasCol,
     techCol = techCol,
     jeffersonCol = jeffersonCol,
