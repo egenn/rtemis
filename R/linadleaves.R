@@ -185,7 +185,7 @@ linadleaves <- function(x, y,
         coef <- lincoef(
             x = g$xm[!index, -1, drop = FALSE],
             y = yraw[!index],
-            learning.rate = 1,
+            learning.rate = first.lin.learning.rate, # should this be fixed to 1?
             type = type,
             weights = weights[!index],
             method = first.lin.type,
@@ -1074,21 +1074,21 @@ splitlineRC <- function(g,
 #' @export
 
 predict.linadleaves <- function(object, newdata,
-                                     type = c("response", "probability", 
-                                              "all", "step"),
-                                     n.leaves = NULL,
-                                     fixed.cxr = NULL,
-                                     cxr.newdata = NULL,
-                                     cxr = FALSE,
-                                     cxrcoef = FALSE,
-                                     verbose = FALSE, ...) {
+                                type = c("response", "probability", 
+                                        "all", "step"),
+                                n.leaves = NULL,
+                                fixed.cxr = NULL,
+                                cxr.newdata = NULL,
+                                cxr = FALSE,
+                                cxrcoef = FALSE,
+                                verbose = FALSE, ...) {
     init <- object$init
     type <- match.arg(type)
     .class <- object$type == "Classification"
 
     # Newdata ----
     if (is.null(colnames(newdata))) {
-        colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
+        colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
     }
 
     # Add column of ones for intercept and convert factors to dummies
