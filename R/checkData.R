@@ -46,7 +46,7 @@ checkData <- function(x,
       ": A", class(x)[1], "with",
       hilite(n.rows), ngettext(n.rows, "row", "rows"),
       "and", hilite(n.cols),
-      ngettext(n.cols, "columns", "columns")
+      ngettext(n.cols, "column", "columns")
     )
   )
 
