@@ -40,6 +40,7 @@ dplot3_xy <- function(x, y = NULL,
             fit = NULL,
             se.fit = FALSE,
             se.times = 1.96,
+            include.fit.name = TRUE,
             cluster = NULL,
             cluster.params = list(k = 2),
             group = NULL,
@@ -124,7 +125,7 @@ dplot3_xy <- function(x, y = NULL,
     dependency_check("plotly")
 
     # Arguments ----
-    if (is.null(y) & NCOL(x) > 1) {
+    if (is.null(y) && NCOL(x) > 1) {
         if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
         if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
         y <- x[, 2]
@@ -150,7 +151,7 @@ dplot3_xy <- function(x, y = NULL,
 
     # order.on.x ----
     if (is.null(order.on.x)) {
-        order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
+        order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
     }
 
     # Cluster ----
@@ -174,7 +175,7 @@ dplot3_xy <- function(x, y = NULL,
     if (is.null(xlab)) {
         if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
     }
-    if (!is.null(y) & is.null(ylab)) {
+    if (!is.null(y) && is.null(ylab)) {
         if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
     }
 
@@ -189,32 +190,36 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     # Try to get names from list or data frame inputs
-    if (is.list(y) | NCOL(y) > 1) {
-        if (is.null(.names) & !is.null(names(y))) .names <- names(y)
+    if (is.list(y) || NCOL(y) > 1) {
+        if (is.null(.names) && !is.null(names(y))) .names <- names(y)
     }
-    if (is.list(x) | NCOL(x) > 1) {
-        if (is.null(.names) & !is.null(names(x))) .names <- names(x)
+    if (is.list(x) || NCOL(x) > 1) {
+        if (is.null(.names) && !is.null(names(x))) .names <- names(x)
     }
 
     # Convert to lists ----
     x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
-    y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
-    hovertext <- if (!is.null(hovertext) & !is.list(hovertext)) as.list(as.data.frame(hovertext)) else hovertext
-    if (length(x) == 1 & length(y) > 1) {
+    y <- if (!is.null(y) && !is.list(y)) as.list(as.data.frame(y)) else y
+    hovertext <- if (!is.null(hovertext) && !is.list(hovertext)) {
+        as.list(as.data.frame(hovertext))
+    } else {
+        hovertext
+    }
+    if (length(x) == 1 && length(y) > 1) {
         x <- rep(x, length(y))
         .names <- names(y)
     }
-    if (length(y) == 1 & length(x) > 1) {
+    if (length(y) == 1 && length(x) > 1) {
         y <- rep(y, length(x))
         .names <- names(x)
     }
-    if (!is.null(hovertext) && length(hovertext) == 1 & length(x) > 1) {
+    if (!is.null(hovertext) && length(hovertext) == 1 && length(x) > 1) {
         hovertext <- rep(hovertext, length(x))
     }
     n.groups <- length(x)
 
     if (is.null(legend)) {
-        legend <- if (n.groups == 1 & is.null(fit)) FALSE else TRUE
+        legend <- if (n.groups == 1 && is.null(fit)) FALSE else TRUE
     }
 
     if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
@@ -275,14 +280,18 @@ dplot3_xy <- function(x, y = NULL,
 
     # marker.col, se.col ===
     if (is.null(marker.col)) {
-        marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
+        marker.col <- if (!is.null(fit) && n.groups == 1) {
+            as.list(rep(theme$fg, n.groups))
+        } else {
+            col
+        }
     }
 
     if (!is.null(fit)) {
         if (is.null(fit.col)) fit.col <- col
     }
 
-    if (se.fit & is.null(se.col)) {
+    if (se.fit && is.null(se.col)) {
         se.col <- col
     }
 
@@ -319,11 +328,15 @@ dplot3_xy <- function(x, y = NULL,
             mod <- do.call(learner, learner.args)
             fitted[[i]] <- fitted(mod)
             if (se.fit) se[[i]] <- se(mod)
-            fitted.text[i] <- switch(fit,
-                NLS = mod$extra$model,
-                NLA = mod$mod$formula,
-                fit
-            )
+            if (include.fit.name) {
+                fitted.text[i] <- switch(fit,
+                    NLS = mod$extra$model,
+                    NLA = mod$mod$formula,
+                    fit
+                )
+            } else {
+                fitted.text[i] <- ""
+            }
             if (rsq) {
                 fitted.text[i] <- paste0(
                     fitted.text[i],
@@ -351,21 +364,21 @@ dplot3_xy <- function(x, y = NULL,
         }
         if (is.null(ylim)) {
             ylim <- getlim(unlist(y), "r", .06)
-            if (is.list(fitted) & !is.list(se)) {
+            if (is.list(fitted) && !is.list(se)) {
                 ylim.hi <- max(unlist(fitted))
                 ylim.lo <- min(unlist(fitted))
                 ylim <- range(ylim.lo, ylim.hi, y)
             }
             if (is.list(se)) {
                 ylim.hi <- max(unlist(lapply(
-                    seq(length(fitted)),
+                    seq_along(fitted),
                     function(i) {
                         as.data.frame(fitted[[i]]) +
                             se.times * as.data.frame(se[[i]])
                     }
                 )))
                 ylim.lo <- min(unlist(lapply(
-                    seq(length(fitted)),
+                    seq_along(fitted),
                     function(i) {
                         as.data.frame(fitted[[i]]) -
                             se.times * as.data.frame(se[[i]])
@@ -392,7 +405,10 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     # plotly ----
-    if (!is.null(fit)) .names <- paste0(.names, " (", fitted.text, ")")
+    if (!is.null(fit) && rsq) {
+        if (!include.fit.name) fitted.text <- gsub("^ ", "", fitted.text)
+        .names <- paste0(.names, " (", fitted.text, ")")
+    }
 
     plt <- plotly::plot_ly(
         width = width,
@@ -582,7 +598,7 @@ dplot3_xy <- function(x, y = NULL,
         margin = margin,
         showlegend = legend,
         legend = .legend
-    )
+    ) #/layout
 
     ## vline ----
     if (!is.null(vline)) {
