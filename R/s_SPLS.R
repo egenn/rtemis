@@ -7,15 +7,17 @@
 #'
 #' Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda} (Classification)
 #'
-#' [gS] denotes argument can be passed as a vector of values, which will trigger a grid search using \link{gridSearchLearn}
-#' \code{np::npreg} allows inputs with mixed data types.
+#' [gS] denotes argument can be passed as a vector of values, which will trigger 
+#' a grid search using \link{gridSearchLearn} 
+#' \code{np::npreg} allows inputs 
+#' with mixed data types.
 #'
 #' @inheritParams s_CART
-#' @param k [gS] Integer: Number of components to estimate. Default = 2
-#' @param eta [gS] Float [0, 1): Thresholding parameter. Default = .5
+#' @param k [gS] Integer: Number of components to estimate.
+#' @param eta [gS] Float [0, 1): Thresholding parameter.
 #' @param kappa [gS] Float [0, .5]: Only relevant for multivariate responses: 
 #' controls effect of concavity of objective
-#'   function. Default = .5
+#'   function.
 #' @param select [gS] Character: "pls2", "simpls". PLS algorithm for variable 
 #' selection. Default = "pls2"
 #' @param fit [gS] Character: "kernelpls", "widekernelpls", "simpls", 
@@ -25,9 +27,9 @@
 #' @param scale.y Logical: if TRUE, scale outcomes by dividing each column by 
 #' its sample standard deviation
 #' @param maxstep [gS] Integer: Maximum number of iteration when fitting 
-#' direction vectors. Default = 100
+#' direction vectors.
 #' @param classifier Character: Classifier used by \code{spls::splsda} "lda" 
-#' or "logistic": Default = "lda"
+#' or "logistic":
 #' @param n.cores Integer: Number of cores to be used by 
 #' \link{gridSearchLearn_future}
 #' @param trace If > 0 print diagnostic messages
