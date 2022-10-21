@@ -1,31 +1,32 @@
 # dplot3_varimp.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
-# TODO: Forgot this existed, not have to add theme support
 
 #' Interactive Variable Importance Plot
 #'
 #' Plot variable importance using \code{plotly}
 #'
-#' A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, which can be used
-#' to visualize variable importance, model coefficients, etc.
+#' A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, 
+#' which can be used to visualize variable importance, model coefficients, etc.
 #' @inheritParams mplot3_varimp
 #' @param names Vector, string: Names of features
 #' @param main Character: main title
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
-#' @param col Vector, colors: Single value, or multiple values to define bar (feature) color(s)
+#' @param col Vector, colors: Single value, or multiple values to define bar 
+#' (feature) color(s)
 #' @param alpha Numeric: Transparency
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
-#' Default = "rtCol1". Only used if \code{col = NULL}
 #' @param mar Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 #' Default = c(50, 110, 50, 50)
-#' @param pad Integer: Pad plot by this many pixels. Default = 10
-#' @param font.family Character: Font to use. Default = "Open Sans"
-#' @param font.size Integer: Overall font size to use (essentially for the title at this point).
+#' @param pad Integer: Pad plot by this many pixels.
+#' @param font.family Character: Font to use.
+#' @param font.size Integer: Overall font size to use (essentially for the 
+#' title at this point).
 #' Default = 14
 #' @param axis.font.size Integer: Font size to use for axis labels and tick labels
-#' (Seems not to be in same scale as \code{font.size} for some reason. Experiment!)
+#' (Seems not to be in same scale as \code{font.size} for some reason. 
+#' Experiment!)
 #' @param theme Output of an rtemis theme function (list of parameters) or theme
 #' name. Use \code{themes()} to print available themes.
 #' @param font.color Color for all text
@@ -92,12 +93,18 @@ dplot3_varimp <- function(x,
                    color = theme$tick.labels.col)
 
   # Data ----
-  if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
+  if (NCOL(x) > 1 && NROW(x) > 1) {
+    stop("x must be a vector or single row or column")
+  }
 
   # '- Names ----
   if (is.null(names)) {
     if (is.null(names(x))) {
-      .names <- if (NCOL(x) == 1) labelify(rownames(x)) else labelify(colnames(x))
+      .names <- if (NCOL(x) == 1) {
+        labelify(rownames(x))
+      } else {
+        labelify(colnames(x))
+      }
     } else {
       .names <- labelify(names(x))
     }
@@ -107,7 +114,7 @@ dplot3_varimp <- function(x,
 
   x <- as.numeric(x)
   if (length(.names) == 0) {
-    .names <- paste("Feature", 1:length(x))
+    .names <- paste("Feature", seq_along(x))
   }
 
   # '- Index ----
@@ -134,8 +141,8 @@ dplot3_varimp <- function(x,
 
   # plotly ----
   plt <- plotly::plot_ly(x = x, y = y,
-                         type = 'bar',
-                         orientation = 'h',
+                         type = "bar",
+                         orientation = "h",
                          marker = list(color = col),
                          showlegend = FALSE)
 
@@ -170,7 +177,7 @@ dplot3_varimp <- function(x,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col),
-                                     xref = 'paper',
+                                     xref = "paper",
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg)
