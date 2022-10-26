@@ -6,17 +6,17 @@
 #' 
 #' @rdname strng
 bold <- function(...) {
-    paste0("\033[1m", paste(...), "\033[0m")
+    paste0("\033[1m", paste(...), "\033[22m")
 }
 
 #' @rdname strng
 italic <- function(...) {
-    paste0("\033[3m", paste(...), "\033[0m")
+    paste0("\033[3m", paste(...), "\033[23m")
 }
 
 #' @rdname strng
 underline <- function(...) {
-    paste0("\033[4m", paste(...), "\033[0m")
+    paste0("\033[4m", paste(...), "\033[24m")
 }
 
 #' @rdname strng

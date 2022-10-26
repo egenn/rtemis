@@ -120,7 +120,7 @@ s_CART <- function(x, y = NULL,
     dependency_check("rpart")
 
     # Arguments ----
-    if (is.null(y) & NCOL(x) < 2) {
+    if (is.null(y) && NCOL(x) < 2) {
         print(args(s_CART))
         stop("y is missing")
     }
@@ -128,7 +128,7 @@ s_CART <- function(x, y = NULL,
     if (is.null(y.name)) y.name <- getName(y, "y")
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
-    if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
+    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     
     grid.search.type <- match.arg(grid.search.type)
@@ -148,10 +148,10 @@ s_CART <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
+    .weights <- if (is.null(weights) && ipw) dt$weights else weights
     # x0, y0 are passed to gridSearchLearn
-    x0 <- if (upsample | downsample) dt$x0 else x 
-    y0 <- if (upsample | downsample) dt$y0 else y
+    x0 <- if (upsample || downsample) dt$x0 else x 
+    y0 <- if (upsample || downsample) dt$y0 else y
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (type != "Survival") df.train <- data.frame(y = y, x)
     if (method == "auto") {
@@ -193,7 +193,8 @@ s_CART <- function(x, y = NULL,
 
     # Grid Search ----
     if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
-        gs <- gridSearchLearn(x0, y0,
+        gs <- gridSearchLearn(
+            x0, y0,
             mod = mod.name,
             resample.rtset = grid.resample.rtset,
             grid.params = list(
@@ -290,7 +291,7 @@ s_CART <- function(x, y = NULL,
 
     # Fitted ----
     fitted.prob <- NULL
-    if (type == "Regression" | type == "Survival") {
+    if (type == "Regression" || type == "Survival") {
         fitted <- predict(mod, x, type = "vector")
     } else if (type == "Classification") {
         if (n.classes == 2) {
@@ -308,7 +309,7 @@ s_CART <- function(x, y = NULL,
     # Predicted ----
     predicted.prob <- predicted <- error.test <- NULL
     if (!is.null(x.test)) {
-        if (type == "Regression" | type == "Survival") {
+        if (type == "Regression" || type == "Survival") {
             predicted <- predict(mod, x.test, type = "vector")
             predicted.prob <- NULL
         } else if (type == "Classification") {
@@ -340,7 +341,7 @@ s_CART <- function(x, y = NULL,
             depth = max(tree.depth(as.numeric(rownames(mod$frame))))
         )
     )
-    if (!is.null(prune.cp) & return.unpruned) extra$mod.unpruned <- mod.unpruned
+    if (!is.null(prune.cp) && return.unpruned) extra$mod.unpruned <- mod.unpruned
     rt <- rtModSet(
         rtclass = "rtMod",
         mod = mod,
