@@ -70,11 +70,10 @@
 #' numeric
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
 #' factors
-#' @param len2factor Integer (>=2): Convert all numeric variables with less 
+#' @param len2factor Integer (>=2): Convert all variables with less 
 #' than or equal to this number of unique values to factors. Default = NULL. 
 #' For example, if binary variables are encoded with 1, 2, you could use 
-#' `len2factor = 2` to convert them to factors. If race is encoded with 6 
-#' integers, you can use 6.
+#' `len2factor = 2` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to 
 #' factors
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of 
@@ -240,9 +239,8 @@ preprocess <- function(x, y = NULL,
 
   # len2factor ----
   if (len2factor > 1) {
-    index.numeric <- which(sapply(x, is.numeric))
-    index.numeric.len <- which(sapply(x[, index.numeric, drop = FALSE], function(i) length(unique(na.exclude(i))) <= len2factor))
-    for (i in index.numeric.len) x[, index.numeric][, i] <- factor(x[, index.numeric][, i])
+    index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
+    for (i in index.len) x[, i] <- factor(x[, i])
   }
 
   # Character to factor ----
