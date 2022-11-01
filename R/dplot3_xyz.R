@@ -277,7 +277,9 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     marker <- if (grepl("markers", .mode[i])) {
       list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
            size = marker.size)
-    } else NULL
+    } else {
+      NULL
+    }
     plt <- plotly::add_trace(plt,
                              x = x[[i]],
                              y = y[[i]],
@@ -323,18 +325,20 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     if (!is.null(fit)) {
       # '- { Fitted mesh } ----
       plt <- plotly::add_trace(plt,
-                               x = x[[i]],
-                               y = y[[i]],
-                               z = fitted[[i]],
-                               type = "mesh3d",
-                               opacity = fit.alpha,
-                               name = fitted.text[i],
-                               # legendgroup = .names[i],
-                               # showlegend = if (legend & n.groups == 1) TRUE else FALSE,
-                               inherit = FALSE,
-                               showscale = FALSE,
-                               intensity =  1,
-                               colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]]))))
+        x = x[[i]],
+        y = y[[i]],
+        z = fitted[[i]],
+        type = "mesh3d",
+        opacity = fit.alpha,
+        name = fitted.text[i],
+        # legendgroup = .names[i],
+        # showlegend = if (legend & n.groups == 1) TRUE else FALSE,
+        inherit = FALSE,
+        showscale = FALSE,
+        intensity = 1,
+        # colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]])))
+        color = fit.col[[i]]
+      )
     }
   }
 
