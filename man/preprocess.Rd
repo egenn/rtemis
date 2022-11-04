@@ -93,11 +93,10 @@ numeric}
 \item{numeric2factor}{Logical: If TRUE, convert all numeric variables to
 factors}
 
-\item{len2factor}{Integer (>=2): Convert all numeric variables with less
+\item{len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors. Default = NULL.
 For example, if binary variables are encoded with 1, 2, you could use
-\code{len2factor = 2} to convert them to factors. If race is encoded with 6
-integers, you can use 6.}
+\code{len2factor = 2} to convert them to factors.}
 
 \item{character2factor}{Logical: If TRUE, convert all character variables to
 factors}

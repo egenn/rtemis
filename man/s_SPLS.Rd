@@ -65,13 +65,13 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{k}{[gS] Integer: Number of components to estimate. Default = 2}
+\item{k}{[gS] Integer: Number of components to estimate.}
 
-\item{eta}{[gS] Float [0, 1): Thresholding parameter. Default = .5}
+\item{eta}{[gS] Float [0, 1): Thresholding parameter.}
 
 \item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: 
 controls effect of concavity of objective
-  function. Default = .5}
+  function.}
 
 \item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable 
 selection. Default = "pls2"}
@@ -86,10 +86,10 @@ its sample standard deviation}
 its sample standard deviation}
 
 \item{maxstep}{[gS] Integer: Maximum number of iteration when fitting 
-direction vectors. Default = 100}
+direction vectors.}
 
 \item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" 
-or "logistic": Default = "lda"}
+or "logistic":}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
 \link{gridSearchLearn} parameters.}
@@ -147,8 +147,10 @@ Object of class \pkg{rtemis}
 Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda} (Classification)
 }
 \details{
-[gS] denotes argument can be passed as a vector of values, which will trigger a grid search using \link{gridSearchLearn}
-\code{np::npreg} allows inputs with mixed data types.
+[gS] denotes argument can be passed as a vector of values, which will trigger 
+a grid search using \link{gridSearchLearn} 
+\code{np::npreg} allows inputs 
+with mixed data types.
 }
 \examples{
 \dontrun{

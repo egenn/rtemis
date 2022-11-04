@@ -36,11 +36,15 @@
 \alias{uwCol}
 \alias{jhuCol}
 \alias{nyuCol}
+\alias{washuCol}
 \alias{chicagoCol}
 \alias{pennstateCol}
 \alias{sfsuCol}
 \alias{illinoisCol}
 \alias{umdCol}
+\alias{msuCol}
+\alias{michiganCol}
+\alias{iowaCol}
 \alias{texasCol}
 \alias{emoryCol}
 \alias{techCol}
@@ -131,6 +135,8 @@ An object of class \code{list} of length 21.
 
 An object of class \code{list} of length 17.
 
+An object of class \code{list} of length 18.
+
 An object of class \code{list} of length 25.
 
 An object of class \code{list} of length 20.
@@ -140,6 +146,12 @@ An object of class \code{list} of length 9.
 An object of class \code{list} of length 15.
 
 An object of class \code{list} of length 3.
+
+An object of class \code{list} of length 6.
+
+An object of class \code{list} of length 15.
+
+An object of class \code{list} of length 9.
 
 An object of class \code{list} of length 10.
 
@@ -252,6 +264,8 @@ jhuCol
 
 nyuCol
 
+washuCol
+
 chicagoCol
 
 pennstateCol
@@ -261,6 +275,12 @@ sfsuCol
 illinoisCol
 
 umdCol
+
+msuCol
+
+michiganCol
+
+iowaCol
 
 texasCol
 
@@ -393,6 +413,9 @@ Color conversions performed using https://www.pantone.com/color-finder/
 \code{nyuCol}: NYU color palette
 (https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
 
+\code{washuCol}: WashU color palette
+(https://marcomm.wustl.edu/resources/branding-logo-toolkit/color-palettes/)
+
 \code{chicagoCol}: University of Chicago color palette
 (https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
 
@@ -407,6 +430,15 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{umdCol}: University of Maryland color palette
 (https://osc.umd.edu/licensing-trademarks/brand-standards/logos/#color)
+
+\code{msuCol}: MSU color palette
+(https://brand.msu.edu/visual/color-palette)
+
+\code{michiganCol}: Michigan color palette
+(https://brand.umich.edu/design-resources/colors/)
+
+\code{iowaCol}: University of Iowa color palette
+(https://brand.uiowa.edu/color)
 
 \code{texasCol}: University of Texas color palette
 (https://brand.utexas.edu/identity/color/)

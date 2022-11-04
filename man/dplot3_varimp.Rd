@@ -40,21 +40,23 @@ highest values}
 
 \item{labelify}{Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE}
 
-\item{col}{Vector, colors: Single value, or multiple values to define bar (feature) color(s)}
+\item{col}{Vector, colors: Single value, or multiple values to define bar 
+(feature) color(s)}
 
 \item{alpha}{Numeric: Transparency}
 
-\item{palette}{Character: Name of \pkg{rtemis} palette to use.
-Default = "rtCol1". Only used if \code{col = NULL}}
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.}
 
 \item{mar}{Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 Default = c(50, 110, 50, 50)}
 
-\item{font.size}{Integer: Overall font size to use (essentially for the title at this point).
+\item{font.size}{Integer: Overall font size to use (essentially for the 
+title at this point).
 Default = 14}
 
 \item{axis.font.size}{Integer: Font size to use for axis labels and tick labels
-(Seems not to be in same scale as \code{font.size} for some reason. Experiment!)}
+(Seems not to be in same scale as \code{font.size} for some reason. 
+Experiment!)}
 
 \item{theme}{Output of an rtemis theme function (list of parameters) or theme
 name. Use \code{themes()} to print available themes.}
@@ -63,9 +65,9 @@ name. Use \code{themes()} to print available themes.}
 
 \item{...}{Additional arguments passed to theme}
 
-\item{pad}{Integer: Pad plot by this many pixels. Default = 10}
+\item{pad}{Integer: Pad plot by this many pixels.}
 
-\item{font.family}{Character: Font to use. Default = "Open Sans"}
+\item{font.family}{Character: Font to use.}
 
 \item{font.color}{Color for all text}
 }
@@ -73,8 +75,8 @@ name. Use \code{themes()} to print available themes.}
 Plot variable importance using \code{plotly}
 }
 \details{
-A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, which can be used
-to visualize variable importance, model coefficients, etc.
+A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, 
+which can be used to visualize variable importance, model coefficients, etc.
 }
 \examples{
 # made-up data

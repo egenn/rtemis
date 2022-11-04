@@ -10,6 +10,7 @@ dplot3_xy(
   fit = NULL,
   se.fit = FALSE,
   se.times = 1.96,
+  include.fit.name = TRUE,
   cluster = NULL,
   cluster.params = list(k = 2),
   group = NULL,

@@ -67,10 +67,9 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 A minimal function to perform total least squares regression
 }
 \details{
-The main differences between a linear model and TLS is that the latter assumes error in the features as well as
-the outcome. The solution is essentially the projection on the first principal axis.
-Because there is no model, \code{predict} and other methods are not currently working with \code{s_TLS}
-These features may be added in the future
+The main differences between a linear model and TLS is that the latter assumes
+error in the features as well as the outcome. The solution is essentially the
+projection on the first principal axis.
 }
 \author{
 E.D. Gennatas
