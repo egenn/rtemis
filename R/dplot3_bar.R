@@ -140,7 +140,7 @@ dplot3_bar <-  function(x,
   if (!is.null(main)) main <- paste0("<b>", main, "</b>")
   
   dat <- as.data.frame(x)
-  if (NROW(dat) == 1 & barmode != "stack") dat <- as.data.frame(t(dat))
+  if (NROW(dat) == 1 && barmode != "stack") dat <- as.data.frame(t(dat))
   
   # Order by val ----
   if (order.by.val) {
@@ -173,7 +173,7 @@ dplot3_bar <-  function(x,
     if (!is.null(colnames(dat))) {
       .feature.names <- labelify(colnames(dat))
     } else {
-      .feature.names <- paste0("Feature", seq(NCOL(dat)))
+      .feature.names <- paste0("Feature", seq_len(NCOL(dat)))
     }
   }
   
@@ -208,7 +208,7 @@ dplot3_bar <-  function(x,
   
   if (!is.null(hovernames)) {
     hovernames <- matrix(hovernames)
-    if (NCOL(hovernames) == 1 & p > 1) {
+    if (NCOL(hovernames) == 1 && p > 1) {
       hovernames <- matrix(rep(hovernames, p), ncol = p)
     }
   }
@@ -236,26 +236,26 @@ dplot3_bar <-  function(x,
       warning('Set barmode to "stack" to allow annotation')
     } else {
       if (horizontal) {
-        for (i in seq(ncol(dat))) {
-          plt |> plotly::add_annotations(xref = 'x', yref = 'y',
+        for (i in seq_len(ncol(dat))) {
+          plt <- plt |> plotly::add_annotations(xref = 'x', yref = 'y',
                                          x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
-                                         y = seq(nrow(dat)) - 1,
+                                         y = seq_len(nrow(dat)) - 1,
                                          text = paste(dat[, i]),
                                          font = list(family = theme$font.family,
                                                      size = font.size,
                                                      color = annotate.col),
-                                         showarrow = FALSE) -> plt
+                                         showarrow = FALSE)
         }
       } else {
-        for (i in seq(ncol(dat))) {
-          plt |> plotly::add_annotations(xref = 'x', yref = 'y',
-                                         x = seq(nrow(dat)) - 1,
+        for (i in seq_len(ncol(dat))) {
+          plt <- plt |> plotly::add_annotations(xref = 'x', yref = 'y',
+                                         x = seq_len(nrow(dat)) - 1,
                                          y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
                                          text = paste(signif(dat[, i], 2)),
                                          font = list(family = theme$font.family,
                                                      size = font.size,
                                                      color = annotate.col),
-                                         showarrow = FALSE) -> plt
+                                         showarrow = FALSE)
         }
       }
     }
@@ -333,7 +333,7 @@ dplot3_bar <-  function(x,
     
     # Annotate horizontal lines on the right border of the plot
     if (!is.null(hline.annotate)) {
-      plt |> plotly::add_annotations(xref = "paper", 
+      plt <- plt |> plotly::add_annotations(xref = "paper", 
                                      yref = "y",
                                      xanchor = "right",
                                      yanchor = "bottom",
@@ -343,7 +343,7 @@ dplot3_bar <-  function(x,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = annotate.col),
-                                     showarrow = FALSE) -> plt
+                                     showarrow = FALSE)
     }
   }
   
