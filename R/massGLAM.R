@@ -118,7 +118,6 @@ massGLAM <- function(x, y,
 
     mod1_gam <- function(index, dat, type) {
         if (type == "massx") {
-            # .formula <- as.formula(paste(ynames, "~", xnames[index]))
             .formula <- gam_formula(
                 xnames[index], ynames,
                 spline.index = spline.index, k = gam.k
@@ -126,7 +125,6 @@ massGLAM <- function(x, y,
             .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
             glm(.formula, family = .family, data = dat)
         } else {
-            # .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
             .formula <- gam_formula(
                 xnames, ynames[index],
                 spline.index = spline.index, k = gam.k
@@ -386,7 +384,7 @@ print_fn <- function(x) {
 
 gam_formula <- function(xnames, yname, spline.index, k = 6) {
     # if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
-    lin.index <- which(!(seq_len(NCOL(x)) %in% spline.index))
+    lin.index <- which(!(seq_along(xnames) %in% spline.index))
 
     spline.features <- paste0(
         "s(", xnames[spline.index], ", k = ", k, ")",
@@ -406,4 +404,5 @@ gam_formula <- function(xnames, yname, spline.index, k = 6) {
     }
 
     as.formula(paste(yname, "~", features))
+
 } # rtemis::gam_formula
