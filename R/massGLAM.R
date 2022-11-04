@@ -306,7 +306,7 @@ plot.massGAM <- function(x,
             }
             dplot3_bar(
                 p.transform(.pvals)[group_order],
-                group.names = x$ynames,
+                group.names = x$ynames[group_order],
                 main = main,
                 ylim = ylim,
                 legend = FALSE,
