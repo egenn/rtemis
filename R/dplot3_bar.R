@@ -217,7 +217,7 @@ dplot3_bar <-  function(x,
   .group.names <- factor(.group.names, levels = .group.names)
   plt <- plotly::plot_ly(x = if (horizontal) dat[[1]] else .group.names,
                          y = if (horizontal) .group.names else dat[[1]],
-                         type = 'bar',
+                         type = "bar",
                          name = .feature.names[1],
                          text = hovernames[, 1],
                          marker = list(color = plotly::toRGB(if (p > 1) col[1] else col, alpha)),
@@ -233,11 +233,11 @@ dplot3_bar <-  function(x,
   
   if (annotate) {
     if (barmode != "stack") {
-      warning('Set barmode to "stack" to allow annotation')
+      warning("Set barmode to 'stack' to allow annotation")
     } else {
       if (horizontal) {
         for (i in seq_len(ncol(dat))) {
-          plt <- plt |> plotly::add_annotations(xref = 'x', yref = 'y',
+          plt <- plt |> plotly::add_annotations(xref = "x", yref = "y",
                                          x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
                                          y = seq_len(nrow(dat)) - 1,
                                          text = paste(dat[, i]),
@@ -248,7 +248,7 @@ dplot3_bar <-  function(x,
         }
       } else {
         for (i in seq_len(ncol(dat))) {
-          plt <- plt |> plotly::add_annotations(xref = 'x', yref = 'y',
+          plt <- plt |> plotly::add_annotations(xref = "x", yref = "y",
                                          x = seq_len(nrow(dat)) - 1,
                                          y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i]/2,
                                          text = paste(signif(dat[, i], 2)),
@@ -296,7 +296,7 @@ dplot3_bar <-  function(x,
                                      # showline = axes.visible,
                                      # mirror = axes.mirrored,
                                      titlefont = f,
-                                     showgrid = theme$grid,
+                                     showgrid = FALSE,
                                      gridcolor = grid.col,
                                      gridwidth = theme$grid.lwd,
                                      tickcolor = tick.col,
@@ -307,7 +307,7 @@ dplot3_bar <-  function(x,
                                      font = list(family = theme$font.family,
                                                  size = font.size,
                                                  color = main.col),
-                                     xref = 'paper',
+                                     xref = "paper",
                                      x = theme$main.adj),
                         paper_bgcolor = bg,
                         plot_bgcolor = plot.bg,
