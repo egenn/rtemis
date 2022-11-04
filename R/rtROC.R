@@ -38,7 +38,6 @@ rtROC <- function(true.labels, predicted.probabilities,
   }
 
   if (n.classes == 2) {
-
     predicted.labels <- lapply(thresholds, function(i) {
       # pred <- factor(as.integer(predicted.probabilities >= i), levels = c(1, 0))
       pred <- factor(ifelse(predicted.probabilities >= i, 1, 0), levels = c(1, 0))

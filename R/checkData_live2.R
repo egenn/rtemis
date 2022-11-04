@@ -298,6 +298,7 @@ checkData_live2 <- function(x,
         na_feature_pct = na_feature_pct,
         na_case_pct = na_case_pct
     ))
+    
 } # rtemis::checkData_live
 
 html_highlight <- function(..., bold = TRUE) {

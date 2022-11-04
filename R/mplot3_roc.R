@@ -1,6 +1,6 @@
-# mplot3_roc
+# mplot3_roc.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 EDG www.lambdamd.org
 
 #' \code{mplot3} ROC curves
 #'
@@ -23,6 +23,7 @@
 #' @param diagonal.lty Integer: Line type for diagonal. Default = 1
 #' @param group.legend Logical
 #' @param ... Additional parameters to pass to \link{mplot3_xy}
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -52,155 +53,172 @@ mplot3_roc <- function(prob, labels,
                        filename = NULL,
                        pdf.width = 5,
                        pdf.height = 5, ...) {
-
-  # [ Arguments ] ----
-  # Output directory
-  if (!is.null(filename))
-    if (!dir.exists(dirname(filename)))
-      dir.create(dirname(filename), recursive = TRUE)
-  method <- match.arg(method)
-  # Compatibility with rtlayout()
-  if (exists("rtpar")) par.reset <- FALSE
-
-  # [ Theme ] ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    # Arguments ----
+    # Output directory
+    if (!is.null(filename)) {
+        if (!dir.exists(dirname(filename))) {
+            dir.create(dirname(filename), recursive = TRUE)
+        }
     }
-  }
-  theme$zerolines <- FALSE
+    method <- match.arg(method)
+    # Compatibility with rtlayout()
+    if (exists("rtpar")) par.reset <- FALSE
 
-  # [ ROC ] ----
-  probl <- if (!is.list(prob)) list(prob) else prob
-  labelsl <- if (!is.list(labels)) list(labels) else labels
-  # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
-  if (length(labelsl) < length(probl)) {
-    if (verbose) msg("Assuming same labels for each set of probabilities")
-    labelsl <- rep(labelsl, length(probl) / length(labelsl))
-  }
-
-  if (method == "rt") {
-    # '- method rt ----
-    .roc <- lapply(seq(probl), function(l) rtROC(labelsl[[l]], probl[[l]], verbose = FALSE))
-    TPR <- Sensitivity <- lapply(seq(probl), function(l) .roc[[l]]$Sensitivity)
-    Specificity <- lapply(seq(probl), function(l) .roc[[l]]$Specificity)
-    FPR <- lapply(seq(probl), function(l) 1 - Specificity[[l]])
-    AUC <- lapply(seq(probl), function(l) .roc[[l]]$AUC)
-    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
-  } else if (method == "pROC") {
-    # '- method pROC ----
-    for (i in seq(labelsl)) {
-      levels(labelsl[[i]]) <- c(1, 0)
+    # Theme ----
+    extraargs <- list(...)
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), extraargs)
+    } else {
+        for (i in seq(extraargs)) {
+            theme[[names(extraargs)[i]]] <- extraargs[[i]]
+        }
     }
-    dependency_check("pROC")
-    .roc <- lapply(seq(probl), function(l) pROC::roc(labelsl[[l]], probl[[l]],
-                                                     levels = c(0, 1), direction = "<"))
-    TPR <- Sensitivity <- lapply(seq(probl), function(l) rev(.roc[[l]]$sensitivities))
-    Specificity <- lapply(seq(probl), function(l) rev(.roc[[l]]$specificities))
-    FPR <- lapply(seq(probl), function(l) 1 - Specificity[[l]])
-    AUC <- lapply(seq(probl), function(l) .roc[[l]]$auc)
-    names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
-  }
+    theme$zerolines <- FALSE
 
-  if (balanced.accuracy) {
-    BA <- lapply(seq(probl), function(l) (Sensitivity[[l]] + Specificity[[l]]) / 2)
-    BA.max.index <- lapply(seq(probl), function(l) which.max(BA[[l]]))
-  }
+    # ROC ----
+    probl <- if (!is.list(prob)) list(prob) else prob
+    labelsl <- if (!is.list(labels)) list(labels) else labels
+    # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
+    if (length(labelsl) < length(probl)) {
+        if (verbose) msg("Assuming same labels for each set of probabilities")
+        labelsl <- rep(labelsl, length(probl) / length(labelsl))
+    }
 
-  # Colors ----
-  if (is.null(col)) col <- rtpalette(palette)
-
-  # [ PLOT ] ----
-  if (!is.null(rtenv$rtpar)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  if (type == "Sens.Spec") {
-    mplot3_xy(Specificity, Sensitivity,
-              main = main,
-              xlab = "Specificity", ylab = "Sensitivity",
-              line.alpha = 1, line.col = col, group.legend = group.legend,
-              diagonal.inv = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
-              pty = pty,
-              xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l",
-              order.on.x = FALSE,
-              lwd = lwd, theme = theme,
-              zerolines = FALSE,
-              mar = mar,
-              xpd = TRUE, par.reset = FALSE)
+    if (method == "rt") {
+        # '- method rt ----
+        .roc <- lapply(seq(probl), \(l) rtROC(labelsl[[l]], probl[[l]], verbose = FALSE))
+        TPR <- Sensitivity <- lapply(seq(probl), \(l) .roc[[l]]$Sensitivity)
+        Specificity <- lapply(seq(probl), \(l) .roc[[l]]$Specificity)
+        FPR <- lapply(seq(probl), \(l) 1 - Specificity[[l]])
+        AUC <- lapply(seq(probl), \(l) .roc[[l]]$AUC)
+        names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
+    } else if (method == "pROC") {
+        # '- method pROC ----
+        for (i in seq(labelsl)) {
+            levels(labelsl[[i]]) <- c(1, 0)
+        }
+        dependency_check("pROC")
+        .roc <- lapply(seq(probl), \(l) {
+            pROC::roc(labelsl[[l]], probl[[l]],
+                levels = c(0, 1), direction = "<"
+            )
+        })
+        TPR <- Sensitivity <- lapply(seq(probl), \(l) rev(.roc[[l]]$sensitivities))
+        Specificity <- lapply(seq(probl), \(l) rev(.roc[[l]]$specificities))
+        FPR <- lapply(seq(probl), \(l) 1 - Specificity[[l]])
+        AUC <- lapply(seq(probl), \(l) .roc[[l]]$auc)
+        names(Sensitivity) <- names(Specificity) <- names(TPR) <- names(FPR) <- names(AUC) <- names(probl)
+    }
 
     if (balanced.accuracy) {
-      for (i in seq(probl)) {
-        points(x = Specificity[[i]][BA.max.index[[i]]],
-               y = Sensitivity[[i]][BA.max.index[[i]]],
-               col = col[[i]])
-        text(
-          x = Specificity[[i]][BA.max.index[[i]]] - .05,
-          y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
-          labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
-                          ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"),
-          col = col[[i]],
-          pos = 4,
-          family = theme$font.family)
-      }
+        BA <- lapply(seq(probl), \(l) (Sensitivity[[l]] + Specificity[[l]]) / 2)
+        BA.max.index <- lapply(seq(probl), \(l) which.max(BA[[l]]))
     }
-  } else {
-    mplot3_xy(FPR, TPR,
-              main = main,
-              xlab = "False Positive Rate", ylab = "True Positive Rate",
-              line.alpha = 1, line.col = col, group.legend = group.legend,
-              diagonal = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
-              xlim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
-              type = "l",
-              pty = pty,
-              order.on.x = FALSE,
-              lwd = lwd,
-              theme = theme,
-              zerolines = FALSE,
-              mar = mar,
-              xpd = TRUE, par.reset = FALSE)
-    if (balanced.accuracy) {
-      for (i in seq(probl)) {
-        points(x = 1 - Specificity[[i]][BA.max.index[[i]]],
-               y = Sensitivity[[i]][BA.max.index[[i]]],
-               col = col[[i]])
-        text(x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05,
-             y = Sensitivity[[i]][BA.max.index[[i]]],
-             labels = paste0("max BA = ", ddSci(max(BA[[i]])), "\n(thresh = ",
-                             ddSci(.roc[[i]]$Thresholds[BA.max.index[[i]]]), ")"),
-             col = col[[i]],
-             pos = 4,
-             family = theme$font.family)
-      }
+
+    # Colors ----
+    if (is.null(col)) col <- rtpalette(palette)
+
+    # Plot ----
+    if (!is.null(rtenv$rtpar)) par.reset <- FALSE
+    par.orig <- par(no.readonly = TRUE)
+    if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+    if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+    if (type == "Sens.Spec") {
+        mplot3_xy(Specificity, Sensitivity,
+            main = main,
+            xlab = "Specificity", ylab = "Sensitivity",
+            line.alpha = 1, line.col = col, group.legend = group.legend,
+            diagonal.inv = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
+            pty = pty,
+            xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
+            type = "l",
+            order.on.x = FALSE,
+            lwd = lwd, theme = theme,
+            zerolines = FALSE,
+            mar = mar,
+            xpd = TRUE, par.reset = FALSE
+        )
+
+        if (balanced.accuracy) {
+            for (i in seq(probl)) {
+                points(
+                    x = Specificity[[i]][BA.max.index[[i]]],
+                    y = Sensitivity[[i]][BA.max.index[[i]]],
+                    col = col[[i]]
+                )
+                text(
+                    x = Specificity[[i]][BA.max.index[[i]]] - .05,
+                    y = Sensitivity[[i]][BA.max.index[[i]]] - .05,
+                    labels = paste0(
+                        "max BA = ", ddSci(max(BA[[i]])), "\n(p = ",
+                        ddSci(.roc[[i]]$thresholds[BA.max.index[[i]]]), ")"
+                    ),
+                    col = col[[i]],
+                    pos = 4,
+                    family = theme$font.family
+                )
+            }
+        }
+    } else {
+        mplot3_xy(FPR, TPR,
+            main = main,
+            xlab = "False Positive Rate", ylab = "True Positive Rate",
+            line.alpha = 1, line.col = col, group.legend = group.legend,
+            diagonal = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
+            xlim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
+            type = "l",
+            pty = pty,
+            order.on.x = FALSE,
+            lwd = lwd,
+            theme = theme,
+            zerolines = FALSE,
+            mar = mar,
+            xpd = TRUE, par.reset = FALSE
+        )
+        if (balanced.accuracy) {
+            for (i in seq(probl)) {
+                points(
+                    x = 1 - Specificity[[i]][BA.max.index[[i]]],
+                    y = Sensitivity[[i]][BA.max.index[[i]]],
+                    col = col[[i]]
+                )
+                text(
+                    x = 1 - Specificity[[i]][BA.max.index[[i]]] + .05,
+                    y = Sensitivity[[i]][BA.max.index[[i]]],
+                    labels = paste0(
+                        "max BA = ", ddSci(max(BA[[i]])), "\n(thresh = ",
+                        ddSci(.roc[[i]]$Thresholds[BA.max.index[[i]]]), ")"
+                    ),
+                    col = col[[i]],
+                    pos = 4,
+                    family = theme$font.family
+                )
+            }
+        }
     }
-  }
 
+    # AUC annotation ----
+    if (annotation) {
+        auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
+        if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
+        mtext(c("AUC   ", auc),
+            font = annot.font,
+            side = 1,
+            line = annot.line,
+            adj = annot.adj,
+            cex = cex,
+            col = c("gray50", unlist(col)[seq_along(probl)]),
+            family = theme$font.family
+        )
+    }
 
-  # [ AUC ANNOTATION ] ----
-  if (annotation) {
-    auc <- paste(names(probl), ddSci(unlist(AUC)), "  ")
-    if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
-    mtext(c("AUC   ", auc),
-          font = annot.font,
-          side = 1,
-          line = annot.line,
-          adj = annot.adj,
-          cex = cex,
-          col = c("gray50", unlist(col)[seq_along(probl)]),
-          family = theme$font.family)
-  }
+    # Outro ----
+    if (!is.null(filename)) dev.off()
 
-  # [ Outro ] ----
-  if (!is.null(filename)) dev.off()
-
-  if (type == "Sens.Spec") {
-    invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
-  } else {
-    invisible(list(FPR = FPR, TPR = TPR))
-  }
+    if (type == "Sens.Spec") {
+        invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
+    } else {
+        invisible(list(FPR = FPR, TPR = TPR))
+    }
 
 } # rtemis::mplot3_roc
