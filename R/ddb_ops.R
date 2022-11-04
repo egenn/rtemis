@@ -1,6 +1,6 @@
 # ddbops.R
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 EDG lambdamd.org
 
 #' Read CSV using DuckDB
 #' 
