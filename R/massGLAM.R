@@ -177,8 +177,8 @@ massGLAM <- function(x, y,
 
 #' \code{print}\link{massGAM} object
 #'
-#' @method print massGLAM
-#' @param x \link{massGLAM} object
+#' @method print massGAM
+#' @param x \link{massGAM} object
 #' @author E.D. Gennatas
 #' @export
 
@@ -196,7 +196,7 @@ print.massGAM <- function(x, ...) {
 
 #' \code{massGAM} object summary
 #'
-#' @param object An object created by \link{massGLAM}
+#' @param object A \code{massGAM} object created by \link{massGLAM}
 #' @param ... Not used
 #'
 #' @author E.D. Gennatas
@@ -373,7 +373,7 @@ plot.massGAM <- function(x,
     } else {
         cat('"massx" support not yet implemented')
     }
-} # rtemis::plot.massGLAM
+} # rtemis::plot.massGAM
 
 # print_transform <- function(x) gsub("[x()]", "", x)
 print_fn <- function(x) {

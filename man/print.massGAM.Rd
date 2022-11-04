@@ -4,10 +4,10 @@
 \alias{print.massGAM}
 \title{\code{print}\link{massGAM} object}
 \usage{
-\method{print}{massGLAM}(x, ...)
+\method{print}{massGAM}(x, ...)
 }
 \arguments{
-\item{x}{\link{massGLAM} object}
+\item{x}{\link{massGAM} object}
 }
 \description{
 \code{print}\link{massGAM} object

@@ -7,7 +7,7 @@
 \method{summary}{massGAM}(object, ...)
 }
 \arguments{
-\item{object}{An object created by \link{massGLAM}}
+\item{object}{A \code{massGAM} object created by \link{massGLAM}}
 
 \item{...}{Not used}
 }
