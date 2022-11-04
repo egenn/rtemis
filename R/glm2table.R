@@ -6,11 +6,10 @@
 #'
 #' @param x list of \link{glm} models
 #' @param xnames Character, vector: names of models
-#' @param include_anova_pvals Logical: If TRUE, also output ANOVA p-values
+#' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'
 #' @return \code{data.table} with glm summaries
 #' @author E.D. Gennatas
-#' @export
 
 glm2table <- function(x,
                       xnames = NULL,
@@ -30,8 +29,8 @@ glm2table <- function(x,
         Variable = xnames,
         do.call(
             rbind,
-            c(lapply(x, function(y) {
-                out <- t(coef(summary(y))[-1, , drop = FALSE])
+            c(lapply(x, function(l) {
+                out <- t(coef(summary(l))[-1, , drop = FALSE])
                 varnames <- gsub(".*\\$", "", colnames(out))
                 parnames <- c("Coefficient", "SE", "t_value", "p_value")
                 out <- c(out)
@@ -61,3 +60,49 @@ glm2table <- function(x,
 
     out
 } # rtemis::glm2table
+
+
+#' Collect summary table (p-values) from list of massGAMs with same predictors, 
+#' different outcome ("massy")
+#'
+#' @param x list of \link{gam} models
+#' @param xnames Character, vector: names of models
+#' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
+#'
+#' @return \code{data.table} with glm summaries
+#' @author E.D. Gennatas
+
+gam2table <- function(mods,
+                      modnames = NULL) {
+    if (is.null(modnames)) {
+        modnames <- if (!is.null(names(mods))) {
+            names(mods)
+        } else {
+            paste0("Model_", seq_along(mods))
+        }
+    }
+
+    out <- data.table(
+        Variable = modnames,
+        do.call(
+            rbind,
+            c(lapply(mods, get_gam_pvals))
+        )
+    )
+    setnames(out, names(out)[-1], paste("p_value", names(out)[-1]))
+    out
+}
+
+#' Get GAM model's p-values for parametric and spline terms
+#' 
+get_gam_pvals <- function(m) {
+
+    ms <- summary(m)
+    cbind(
+        # s terms
+        as.data.frame(t(ms$s.table[, 4])), 
+        # p terms
+        as.data.frame(t(ms$p.table[, 4]))[-1]
+    )
+
+}
