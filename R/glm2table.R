@@ -95,14 +95,21 @@ gam2table <- function(mods,
 
 #' Get GAM model's p-values for parametric and spline terms
 #' 
-get_gam_pvals <- function(m) {
+get_gam_pvals <- function(m, warn = FALSE) {
 
+    eps <- .Machine$double.eps
     ms <- summary(m)
-    cbind(
+    pvals <- cbind(
         # s terms
-        as.data.frame(t(ms$s.table[, 4])), 
+        as.data.frame(t(ms$s.table[, 4])),
         # p terms
         as.data.frame(t(ms$p.table[, 4]))[-1]
     )
+    lteps <- pvals < eps
+    if (length(lteps) > 0) {
+        if (warn) warning("Values < machine double eps converted to double eps")
+        pvals[lteps] <- eps
+    }
+    pvals
 
-}
+} # rtemis::get_gam_pvals
