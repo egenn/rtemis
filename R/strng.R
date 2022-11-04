@@ -80,3 +80,12 @@ rtasciitxt <- function() {
         paste0(col256("  .▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀\n", 27))
     )
 }
+
+
+yay <- function(..., sep = " ", end = "\n", pad = 0) {
+    cat(rep(" ", pad), bold(green("\u2713 ")), paste(..., sep = sep), end, sep = "")
+}
+
+nay <- function(..., sep = " ", end = "\n", pad = 0) {
+    cat(rep(" ", pad), bold(red("\u2715")), paste(..., sep = sep), end, sep = "")
+}
