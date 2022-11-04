@@ -221,7 +221,6 @@ plot.massGAM <- function(x,
                          main = NULL,
                          # what = c("coefs", "pvals", "volcano"),
                          what = "pvals",
-                         # which_pvals = c("glm", "anova2", "anova3"),
                          p.adjust.method = "none",
                          p.transform = \(x) -log10(x),
                          show = c("all", "signif"),
@@ -233,7 +232,8 @@ plot.massGAM <- function(x,
                          xlab = NULL,
                          ylab = NULL,
                          group = NULL,
-                         grouped_nonsig_alpha = .333,
+                         grouped.nonsig.alpha = .5,
+                         order.by.group = TRUE,
                          palette = rtPalette,
                          col.sig = "#43A4AC",
                         #  col.neg = "#43A4AC",
@@ -289,7 +289,7 @@ plot.massGAM <- function(x,
                 .cols <- col
                 .cols[.pvals >= .05] <- adjustcolor(
                     .cols[.pvals >= .05],
-                    alpha.f = grouped_nonsig_alpha
+                    alpha.f = grouped.nonsig.alpha
                     )
             }
             
@@ -300,14 +300,19 @@ plot.massGAM <- function(x,
                     what, .name, "p-value"
                 )
             }
-            dplot3_bar(p.transform(.pvals),
-                group.names = if (x$type == "massy") x$ynames else x$xnames,
+            if (!is.null(group) && order.by.group) {
+                group_order <- order(group)
+            } else {
+                group_order <- seq_along(.pvals)
+            }
+            dplot3_bar(
+                p.transform(.pvals)[group_order],
+                group.names = x$ynames,
                 main = main,
-                # ylim = c(0, 1),
                 ylim = ylim,
                 legend = FALSE,
                 ylab = ylab,
-                col = .cols,
+                col = .cols[group_order],
                 hline = p.transform(pval.hline),
                 hline.col = hline.col,
                 hline.dash = hline.dash,
