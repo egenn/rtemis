@@ -241,12 +241,12 @@ plot.massGAM <- function(x,
                          col.ns = "#7f7f7f",
                          theme = rtTheme,
                          alpha = NULL,
-                         volcano.annotate = TRUE,
-                         volcano.annotate.n = 7,
-                         volcano.hline = NULL,
-                         volcano.hline.dash = "dot",
-                         volcano.hline.annotate = NULL,
-                         volcano.p.transform = \(x) -log10(x),
+                        #  volcano.annotate = TRUE,
+                        #  volcano.annotate.n = 7,
+                        #  volcano.hline = NULL,
+                        #  volcano.hline.dash = "dot",
+                        #  volcano.hline.annotate = NULL,
+                        #  volcano.p.transform = \(x) -log10(x),
                          margin = NULL,
                          displayModeBar = FALSE,
                          trace = 0,
@@ -281,7 +281,6 @@ plot.massGAM <- function(x,
             # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
             .name <- gsub("p_value ", "", pval_name)
             .pvals <- p.adjust(x$summary[[pval_name]], method = p.adjust.method)
-            # .coefname <- getnames(x$summary, paste("Coefficient", .name))
             if (is.null(group)) {
                 .cols <- rep(col.ns, length(.pvals))
                 .cols[.pvals < .05] <- col.sig
