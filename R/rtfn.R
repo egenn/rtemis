@@ -1,6 +1,27 @@
 # rtfn.R
 # ::rtemis::
-# 2017- E.D. Gennatas www.lambdamd.org
+# 2016-2022 EDG lambdamd.org
+
+#' \pkg{rtemis} internal: Get Variable Name from Arguments
+#'
+#' Get the name of the variable passed as argument, limit number of characters in case of failure
+#'
+#' One way to test is to use \link{learn} with x.name = NULL, y.name = NULL
+#'
+#' @param x Variable whose name you want to extract
+#' @param alt Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
+#' @param max.nchar Integer: Maximum N of characters to allow for name
+#'
+#' @author E.D. Gennatas
+#' @keywords internal
+
+getName <- function(x, alt = "x", max.nchar = 20) {
+  name <- deparse(substitute(x))
+
+  if (nchar(name) > max.nchar) name <- alt
+
+  name
+} # rtemis::getName
 
 
 #' Get the mode of a factor or integer
@@ -315,11 +336,9 @@ rnormmat <- function(nrow = 10, ncol = 10,
                      return.df = FALSE,
                      seed = NULL) {
 
-  # Arguments ----
   if (length(mean) < ncol) mean <- rep(mean, ncol/length(mean))
   if (length(sd) < ncol) sd <- rep(sd, ncol/length(sd))
 
-  # rnorm ----
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
   if (return.df) mat <- as.data.frame(mat)
@@ -346,11 +365,9 @@ runifmat <- function(nrow = 10, ncol = 10,
                      return.df = FALSE,
                      seed = NULL) {
 
-  # Arguments ----
   if (length(min) < ncol) min <- rep(min, ncol/length(min))
   if (length(max) < ncol) max <- rep(max, ncol/length(max))
 
-  # rnorm ----
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
   if (return.df) mat <- as.data.frame(mat)
@@ -462,3 +479,85 @@ rtversion <- function() {
 popvar <- function(x) {
   mean((x - mean(x))^2)
 }
+
+#' Write \pkg{rtemis} model to RDS file
+#'
+#' @param rtmod \pkg{rtemis} model
+#' @param outdir Path to output directory
+#' @param file.prefix Character: Prefix for filename
+#' @param verbose Logical: If TRUE, print messages to output
+#' @author E.D. Gennatas
+#' @export
+
+rtSave <- function(rtmod,
+                   outdir,
+                   file.prefix = "s.",
+                   verbose = TRUE) {
+  if (verbose) cat("Writing data to", outdir, "...")
+  if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+  rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
+  try(saveRDS(rtmod, rdsPath))
+  if (file.exists(rdsPath)) {
+    if (verbose) cat(green("Done", TRUE))
+    # if (verbose) rtOut("Saved", rdsPath)
+  } else {
+    if (verbose) cat(red("Failed", TRUE))
+    warning("Could not save data to ", outdir)
+  }
+} # rtemis::rtSave
+
+
+#' Random \pkg{rtemis} art
+#'
+#' Draw random shapes and colors
+#'
+#' @param pch Point character to use
+#' @param col Colors to use
+#' @param text Text to print
+#' @param text.col Color for text
+#' @author E.D. Gennatas
+#' @export
+
+rtrandom <- function(pch = sample(15:18, 1),
+                     col = rtCol3,
+                     text = "rtemis",
+                     text.col = "gray50",
+                     text.as.legend = FALSE,
+                     legend.bg = NULL,
+                     legend.alpha = 1,
+                     random.bg = TRUE) {
+
+  x <- runif(100, 1, 50)
+  y <- runif(100, 1, 50)
+  alpha <- runif(100, .1, 1)
+  color.alpha <- sapply(seq_along(col), function(x) adjustcolor(col[[x]], alpha[[x]]))
+  bg <- col
+  alpha <- runif(length(bg), .1, 1)
+  bg.alpha <- sapply(seq_along(bg), function(x) adjustcolor(bg[[x]], alpha[[x]]))
+  cex <- runif(length(col), 1, 10)
+  par.orig <- par(no.readonly = TRUE)
+  on.exit(suppressWarnings(par(par.orig)))
+  par(mar = c(0, 0, 0, 0))
+  plot(x, y,
+    pch = pch,
+    col = color.alpha,
+    bg = bg.alpha,
+    cex = cex, ann = F, axes = F, lwd = 3
+  )
+
+  if (!text.as.legend) {
+    text(
+      x = sample(10:40, 1), y = sample(10:40, 1),
+      labels = text, cex = 3, col = text.col
+    )
+  } else {
+    legend(
+      x = sample(10:40, 1), y = sample(10:40, 1),
+      text,
+      text.col = sample(col, 1),
+      box.lty = 0,
+      bg = adjustcolor(legend.bg, legend.alpha),
+      cex = 2
+    )
+  }
+} # rtemis::rtrandom
