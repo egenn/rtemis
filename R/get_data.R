@@ -37,7 +37,7 @@
 get_data <- function(filename,
                      datadir = NULL,
                      make.unique = TRUE,
-                     character2factor = TRUE,
+                     character2factor = FALSE,
                      clean.colnames = TRUE,
                      reader = c("data.table", "arrow", "vroom"),
                      sep = NULL,
@@ -119,6 +119,7 @@ get_data <- function(filename,
 
 } # rtemis::get_data
 
-msgread <- function(x, caller = "") {
-    msg0(bold(orange("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
+msgread <- function(x, caller = "", use_basename = TRUE) {
+    if (use_basename) x <- basename(x)
+    msg0(bold(green("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
 }

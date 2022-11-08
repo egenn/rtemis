@@ -8,7 +8,7 @@ get_data(
   filename,
   datadir = NULL,
   make.unique = TRUE,
-  character2factor = TRUE,
+  character2factor = FALSE,
   clean.colnames = TRUE,
   reader = c("data.table", "arrow", "vroom"),
   sep = NULL,
