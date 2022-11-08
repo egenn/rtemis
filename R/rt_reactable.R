@@ -3,14 +3,15 @@
 # 2022 EDG lambdamd.org
 
 #' View table using reactable
-#' 
+#'
 #' @param x data.frame, data.table or similar
 #' @param lightsout Logical: If TRUE, use dark theme
-#' 
+#'
 #' @author E D Gennatas
 #' @export
 
 rt_reactable <- function(x,
+                         datatypes = NULL,
                          lightsout = TRUE,
                          bg = "#121212",
                          pagination = TRUE,
@@ -51,19 +52,26 @@ rt_reactable <- function(x,
         )
     }
 
-    options(reactable.theme = reactable::reactableTheme(
-        # color = "hsl(233, 9%, 87%)",
-        backgroundColor = "hsl(233, 9%, 19%)",
-        # borderColor = "hsl(233, 9%, 22%)",
-        # stripedColor = "hsl(233, 12%, 22%)",
-        # highlightColor = "hsl(233, 12%, 24%)",
-        # inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-        # selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-        # pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-        # pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
-    ))
-    
-    reactable::reactable(x,
+    header <- if (is.null(datatypes)) {
+        function(value) {
+            value <- gsub("_", " ", value, fixed = TRUE)
+            div(title = value, value)
+        }
+    } else {
+        function(value) {
+            type <- datatypes[[value]]
+            value <- gsub("_", " ", value, fixed = TRUE)
+            div(
+                title = value, value,
+                div(type,
+                    style = "font-weight: 300; color: rgb(24, 163, 172);"
+                )
+            )
+        }
+    }
+
+    reactable::reactable(
+        x,
         searchable = searchable,
         pagination = pagination,
         bordered = bordered,
@@ -71,10 +79,9 @@ rt_reactable <- function(x,
         striped = TRUE,
         showSortable = TRUE,
         defaultColDef = reactable::colDef(
-            header = function(value) gsub("_", " ", value, fixed = TRUE),
+            header = header,
             cell = function(value) format(value, digits = 2, nsmall = 2),
-            align = "right",
-            headerStyle = list(background = "#707070", color = "#fff")
+            align = "right"
         ),
         theme = theme, ...
     )

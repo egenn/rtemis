@@ -113,7 +113,6 @@ Other Supervised Learning:
 \code{\link{s_GAMSELX2}()},
 \code{\link{s_GAMSEL}()},
 \code{\link{s_GAM}()},
-\code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},

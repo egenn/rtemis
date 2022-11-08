@@ -135,7 +135,7 @@ s_GBM <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (n.trees > max.trees) {
     if (verbose) msg("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
@@ -157,9 +157,9 @@ s_GBM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
-  x0 <- if (upsample | downsample) dt$x0 else x
-  y0 <- if (upsample | downsample) dt$y0 else y
+  .weights <- if (is.null(weights) && ipw) dt$weights else weights
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   n.classes <- length(levels(y0))
   if (type == "Classificationn" && n.classes != 2) stop("GBM only supports binary classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -216,7 +216,7 @@ s_GBM <- function(x, y = NULL,
 
   # .final <- FALSE
   gc <- gridCheck(interaction.depth, shrinkage, bag.fraction, n.minobsinnode)
-  if (!.gs && (gc | is.null(force.n.trees))) {
+  if (!.gs && (gc || is.null(force.n.trees))) {
     gs <- gridSearchLearn(x = x0, y = y0,
                           mod = mod.name,
                           resample.rtset = grid.resample.rtset,
@@ -357,13 +357,13 @@ s_GBM <- function(x, y = NULL,
                                    list(Training = mod$train.error,
                                         Validation = mod$valid.error,
                                         `Smoothed Validation` = valid.error.smooth),
-                                   type = 'l', group.adj = .95,
+                                   type = "l", group.adj = .95,
                                    line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
                                    vline = c(which.min(mod$valid.error), which.min(valid.error.smooth)),
                                    vline.col = c(ucsfCol$red, ucsfCol$purple),
                                    xlab = "N trees", ylab = "Loss")
     if (trace > 0) msg("### n.trees is", n.trees)
-    while (n.trees >= (mod$n.trees - n.tree.window) & mod$n.trees < max.trees) {
+    while (n.trees >= (mod$n.trees - n.tree.window) && mod$n.trees < max.trees) {
       n.new.trees <- min(n.new.trees, max.trees - mod$n.trees)
       if (verbose) msg("Adding", n.new.trees, "more trees to trained GBM model...",
                        "\n    * current mod$n.trees =", mod$n.trees,
@@ -384,18 +384,18 @@ s_GBM <- function(x, y = NULL,
                                      list(Training = mod$train.error,
                                           Validation = mod$valid.error,
                                           `Smoothed Validation` = valid.error.smooth),
-                                     type = 'l', group.adj = .95,
+                                     type = "l", group.adj = .95,
                                      line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
                                      vline = c(which.min(mod$valid.error), which.min(valid.error.smooth)),
                                      vline.col = c(ucsfCol$red, ucsfCol$purple),
                                      xlab = "N trees", ylab = "Loss")
     }
-    if (n.trees == max.trees & verbose) msg("Reached max.trees =", max.trees)
+    if (n.trees == max.trees && verbose) msg("Reached max.trees =", max.trees)
   }
 
   # Fitted ----
   fitted.prob <- NULL
-  if (type == "Regression" | type == "Survival") {
+  if (type == "Regression" || type == "Survival") {
     if (distribution == "poisson") {
       fitted <- predict(mod, .x, n.trees = n.trees, type = "response")
     } else {
@@ -453,7 +453,7 @@ s_GBM <- function(x, y = NULL,
   # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(.x.test)) {
-    if (type == "Regression" | type == "Survival") {
+    if (type == "Regression" || type == "Survival") {
       if (distribution == "poisson") {
         if (trace > 0) msg("Using predict for Poisson Regression with type = response")
         predicted <- predict(mod, x.test, n.trees = n.trees, type = "response")
@@ -563,7 +563,7 @@ gbm.select.trees <- function(object,
   if (plot) mplot3_xy(seq(n.trees), list(Training = object$train.error,
                                          Validation = object$valid.error,
                                          `Smoothed Validation` = valid.error.smooth),
-                      type = 'l', group.adj = .95,
+                      type = "l", group.adj = .95,
                       line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
                       vline = c(which.min(object$valid.error), which.min(valid.error.smooth)),
                       vline.col = c(ucsfCol$red, ucsfCol$purple),

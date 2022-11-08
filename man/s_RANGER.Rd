@@ -242,7 +242,6 @@ Other Supervised Learning:
 \code{\link{s_GAMSELX}()},
 \code{\link{s_GAMSEL}()},
 \code{\link{s_GAM}()},
-\code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
@@ -288,7 +287,6 @@ Other Tree-based methods:
 \code{\link{s_CTREE}()},
 \code{\link{s_ET}()},
 \code{\link{s_EVTREE}()},
-\code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMTREE}()},
@@ -305,7 +303,6 @@ Other Tree-based methods:
 
 Other Ensembles: 
 \code{\link{s_ADABOOST}()},
-\code{\link{s_GBM0}()},
 \code{\link{s_GBM3.R}()},
 \code{\link{s_GBM}()},
 \code{\link{s_RF}()}
