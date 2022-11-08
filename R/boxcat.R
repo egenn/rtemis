@@ -51,5 +51,5 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 
 objcat <- function(x) {
-    cat(bold(".:rtemis"), orange(x, TRUE), "\n")
+    cat(".:rtemis", orange(x, bold = TRUE), "\n")
 } # rtemis::boxcat
