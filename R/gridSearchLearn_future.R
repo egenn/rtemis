@@ -72,7 +72,7 @@ gridSearchLearn_future <- function(x, y, mod,
     # rtemis_init(n.cores, context = "Inner resampling")
 
     # Arguments ----
-    if (missing(x) | missing(y)) {
+    if (missing(x) || missing(y)) {
         print(args(gridSearchLearn))
         stop("Input missing")
     }
@@ -179,7 +179,7 @@ gridSearchLearn_future <- function(x, y, mod,
             out1$est.n.trees <-
                 mod1$mod@model$model_summary$number_of_trees
         }
-        if (learner == "s_GBM" | learner == "s_GBM3") {
+        if (learner == "s_GBM" || learner == "s_GBM3") {
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
         }
