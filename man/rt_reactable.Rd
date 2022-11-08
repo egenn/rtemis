@@ -6,6 +6,7 @@
 \usage{
 rt_reactable(
   x,
+  datatypes = NULL,
   lightsout = TRUE,
   bg = "#121212",
   pagination = TRUE,

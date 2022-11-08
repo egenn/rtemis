@@ -53,7 +53,15 @@ dt_describe <- function(x) {
             Pct_missing = sapply(x[, ..index_nm], \(col) sum(is.na(col)) / nrows)
         )
     } else {
-        NULL
+        data.table(
+            Variable = character(),
+            Min = numeric(),
+            Max = numeric(),
+            Median = numeric(),
+            Mean = numeric(),
+            SD = numeric(),
+            Pct_missing = numeric()
+        )
     }
     
     # Characters & factors ----
@@ -64,7 +72,16 @@ dt_describe <- function(x) {
             Variable = x[, ..index_cf] |> names(),
             N_unique = sapply(x[, ..index_cf], \(col) length(unique(col))),
             Mode = sapply(x[, ..index_cf], getMode),
+            Counts = sapply(x[, ..index_cf], fct_describe),
             Pct_missing = sapply(x[, ..index_cf], \(col) sum(is.na(col)) / nrows)
+        )
+    } else {
+        data.table(
+            Variable = numeric(),
+            N_unique = integer(),
+            Mode = character(),
+            Counts = character(),
+            Pct_missing = numeric()
         )
     }
 
@@ -83,8 +100,79 @@ dt_describe <- function(x) {
             Mean = do.call(c, lapply(x[, ..index_dt], mean, na.rm = TRUE)),
             Pct_missing = sapply(x[, ..index_dt], \(col) sum(is.na(col)) / nrows)
         )
+    } else {
+        data.table(
+            Variable = character(),
+            Min = numeric(),
+            Max = numeric(),
+            Median = numeric(),
+            Mean = numeric(),
+            Pct_missing = numeric()
+        )
     }
 
     invisible(list(Numeric = nm_summary, Categorical = cf_summary, Date = dt_summary))
 
 } # rtemis::dt_describe
+
+#' Decribe factor
+#'
+#' Outputs a single character with names and counts of each level of the input factor
+#'
+#' @param x factor
+#' @param max_n Integer: Return counts for up to this many levels
+#' @param return_ordered Logical: If TRUE, return levels ordered by count, otherwise 
+#' return in level order
+#' 
+#' @return Character with level counts
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' # Small number of levels
+#' fct_describe(iris$Species)
+#'
+#' # Large number of levels: show top n by count
+#' x <- factor(sample(letters, 1000, TRUE))
+#' fct_describe(x)
+#' fct_describe(x, 3)
+#' }
+# fct_describe <- function(x) {
+#     x_levels <- levels(x)
+#     n_unique <- length(x_levels)
+#     x_freqs <- as.integer(table(x))
+#     paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
+# }
+#'
+fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
+    x <- factor(x)
+    x_levels <- levels(x)
+    n_unique <- length(x_levels)
+    x_freqs <- as.integer(table(x))
+    if (return_ordered) {
+        idi <- order(x_freqs, decreasing = TRUE)
+    }
+
+    if (n_unique <= max_n) {
+        if (return_ordered) {
+            paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
+        } else {
+            paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
+        }
+    } else {
+        idi <- order(x_freqs, decreasing = TRUE)
+        if (return_ordered) {
+            idi <- idi[seq_len(max_n)]
+            paste0(
+                "(Top ", max_n, " of ", n_unique, ") ",
+                paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
+            )
+        } else {
+            paste0(
+                "(First ", max_n, " of ", n_unique, ") ",
+                paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
+            )
+        }
+    }
+} # rtemis::fct_describe
