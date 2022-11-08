@@ -72,7 +72,7 @@ dots with underscores:
 * Themes: New darkgray theme now always on whether you like it or not - jk:
 it's the new default but you can always set your own default using
 e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
-* New option to set default plotting font: e.g. `options(rt.font = "Fira Sans")`
+* New option to set default plotting font: e.g. `options(rt.font = "Inter")`
 * Many improvements / additions to `dplot3*` functions.
 * Plenty more I haven't had a chance to document here
 
@@ -132,6 +132,6 @@ and will be made publicly available once funding is secured for a hosting server
 
 Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark).
 
-Recommended font is Fira Code with its beautiful ligatures.
+Recommended font is Fira Code with its pretty ligatures.
 
 [&copy;2022 E.D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
