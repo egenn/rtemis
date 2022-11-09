@@ -1,4 +1,4 @@
-# **_rtemis_** Machine Learning and Visualization [![Build Status](https://travis-ci.com/egenn/rtemis.svg?branch=master)](https://travis-ci.com/egenn/rtemis)
+# **_rtemis_** Machine Learning and Visualization
 
 A platform for advanced Machine Learning research and applications.  
 The goal of **rtemis** is to make data science efficient and accessible with no compromise on flexibility.
