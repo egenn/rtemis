@@ -935,7 +935,7 @@ mplot3_xy <- function(x, y = NULL,
     mtext(rev(annot.rsq),
           side = rsq.side,
           adj = .98,
-          padj = seq(-2.2, -2.2 - 1.5 * length(rsqpl), -1.5 ),
+          padj = seq(-2.2, -2.2 - 1.5 * length(rsqpl), -1.5),
           cex = theme$cex,
           col = unlist(rev(rsq.col)),
           family = theme$font.family)
