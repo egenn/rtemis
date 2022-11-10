@@ -12,7 +12,7 @@ s_NBAYES(
   laplace = 0,
   x.name = NULL,
   y.name = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

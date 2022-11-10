@@ -24,7 +24,7 @@ s_POLYMARS(
  }), nrow(x)/4, 100)),
   classify = NULL,
   n.cores = rtCores,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

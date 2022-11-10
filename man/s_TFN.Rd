@@ -43,7 +43,7 @@ s_TFN(
   scale = TRUE,
   x.name = NULL,
   y.name = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   print.error.plot = NULL,
   rtlayout.mat = c(2, 1),
   plot.fitted = NULL,

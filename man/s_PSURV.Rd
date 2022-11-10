@@ -14,7 +14,7 @@ s_PSURV(
   weights = NULL,
   dist = "weibull",
   control = survival::survreg.control(),
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

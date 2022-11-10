@@ -17,7 +17,7 @@ s_LDA(
   resample.seed = NULL,
   x.name = NULL,
   y.name = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

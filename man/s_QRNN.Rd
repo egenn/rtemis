@@ -23,7 +23,7 @@ s_QRNN(
   Th.prime = qrnn::sigmoid.prime,
   penalty = 0,
   trace = T,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

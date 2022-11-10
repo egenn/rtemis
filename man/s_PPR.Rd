@@ -26,7 +26,7 @@ s_PPR(
   metric = "MSE",
   maximize = FALSE,
   n.cores = rtCores,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

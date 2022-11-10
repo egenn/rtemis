@@ -21,7 +21,7 @@ s_MLRF(
   x.name = NULL,
   y.name = NULL,
   spark.master = "local",
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

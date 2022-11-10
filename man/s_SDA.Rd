@@ -25,7 +25,7 @@ s_SDA(
   grid.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

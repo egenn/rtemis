@@ -26,7 +26,7 @@ s_RFSRC(
   nodedepth = NULL,
   na.action = "na.impute",
   trace = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

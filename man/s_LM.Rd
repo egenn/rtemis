@@ -23,7 +23,7 @@ s_LM(
   polynomial = FALSE,
   poly.d = 3,
   poly.raw = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

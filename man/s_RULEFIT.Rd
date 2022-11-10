@@ -21,7 +21,7 @@ s_RULEFIT(
   n.cores = rtCores,
   which.gbm = c("gbm", "gbm3"),
   question = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

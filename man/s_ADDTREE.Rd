@@ -31,7 +31,7 @@ s_ADDTREE(
   maximize = TRUE,
   rpart.params = NULL,
   match.rules = TRUE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

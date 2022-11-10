@@ -23,7 +23,7 @@ s_GAMSELX2(
   gamsel.params2 = gamsel.params1,
   verbose = TRUE,
   trace = 0,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

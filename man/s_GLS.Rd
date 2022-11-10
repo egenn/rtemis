@@ -16,7 +16,7 @@ s_GLS(
   covariate = NULL,
   weights = NULL,
   intercept = TRUE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

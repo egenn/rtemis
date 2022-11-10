@@ -20,7 +20,7 @@ s_NLS(
   x.name = NULL,
   y.name = NULL,
   save.func = TRUE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

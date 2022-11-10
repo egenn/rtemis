@@ -21,7 +21,7 @@ s_BART(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

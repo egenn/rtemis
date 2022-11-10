@@ -39,7 +39,7 @@ s_RF(
   imetrics = FALSE,
   n.cores = rtCores,
   print.tune.plot = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

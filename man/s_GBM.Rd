@@ -56,7 +56,7 @@ s_GBM(
   plot.predicted = NULL,
   plotRelInf = FALSE,
   plotVarImp = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.theme = rtTheme,
   x.name = NULL,
   y.name = NULL,

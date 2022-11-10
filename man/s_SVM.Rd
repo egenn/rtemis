@@ -30,7 +30,7 @@ s_SVM(
   maximize = NULL,
   plot.fitted = NULL,
   plot.predicted = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.theme = rtTheme,
   n.cores = rtCores,
   question = NULL,

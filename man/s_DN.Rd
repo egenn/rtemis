@@ -39,7 +39,7 @@ s_DN(
   y.name = NULL,
   question = NULL,
   outdir = NULL,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

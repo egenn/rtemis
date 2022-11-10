@@ -35,7 +35,7 @@ s_GLMNET(
   .gs = FALSE,
   save.gs.mod = FALSE,
   n.cores = rtCores,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

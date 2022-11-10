@@ -33,7 +33,7 @@ s_GLMTREE(
   metric = NULL,
   maximize = NULL,
   n.cores = rtCores,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

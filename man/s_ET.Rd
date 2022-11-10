@@ -21,7 +21,7 @@ s_ET(
   downsample = FALSE,
   resample.seed = resample.seed,
   n.cores = future::availableCores(),
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

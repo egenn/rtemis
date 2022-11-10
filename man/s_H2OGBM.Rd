@@ -42,7 +42,7 @@ s_H2OGBM(
   n.cores = rtCores,
   imetrics = FALSE,
   .gs = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

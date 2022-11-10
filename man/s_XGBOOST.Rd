@@ -62,7 +62,7 @@ s_XGBOOST(
   metric = NULL,
   maximize = NULL,
   importance = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

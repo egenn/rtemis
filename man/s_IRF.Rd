@@ -34,7 +34,7 @@ s_IRF(
   sampsize = NULL,
   tune.do.trace = FALSE,
   print.tune.plot = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

@@ -28,7 +28,7 @@ s_H2ORF(
   resample.seed = NULL,
   na.action = na.fail,
   n.cores = rtCores,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

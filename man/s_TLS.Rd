@@ -11,7 +11,7 @@ s_TLS(
   y.test = NULL,
   x.name = "x",
   y.name = "y",
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

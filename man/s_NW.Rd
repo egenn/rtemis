@@ -13,7 +13,7 @@ s_NW(
   y.name = NULL,
   bw = NULL,
   plot.bw = FALSE,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

@@ -13,7 +13,7 @@ s_KNN(
   y.name = NULL,
   k = 3,
   algorithm = "kd_tree",
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,

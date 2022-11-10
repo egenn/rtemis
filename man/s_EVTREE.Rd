@@ -19,7 +19,7 @@ s_EVTREE(
   resample.seed = NULL,
   control = evtree::evtree.control(),
   na.action = na.exclude,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,
