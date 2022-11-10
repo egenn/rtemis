@@ -72,7 +72,7 @@ s_ADABOOST <- function(x,
     # prefix <- paste0(y.name, "~", x.name)
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
-    if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
     # Data ----
@@ -88,7 +88,7 @@ s_ADABOOST <- function(x,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    if (type != "Classification" | length(levels(y)) > 2) stop("ADABOOST is for binary classification only")
+    if (type != "Classification" || length(levels(y)) > 2) stop("ADABOOST is for binary classification only")
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

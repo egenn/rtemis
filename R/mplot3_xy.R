@@ -285,7 +285,7 @@ mplot3_xy <- function(x, y = NULL,
                       filename = NULL, ...) {
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) > 1) {
+  if (is.null(y) && NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
     y <- x[, 2]
@@ -351,7 +351,7 @@ mplot3_xy <- function(x, y = NULL,
   if (is.null(xlab)) {
     if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   }
-  if (!is.null(y) & is.null(ylab)) {
+  if (!is.null(y) && is.null(ylab)) {
     if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
 
@@ -410,20 +410,20 @@ mplot3_xy <- function(x, y = NULL,
   }
 
   # Try to get group names from list or data frame inputs
-  if (is.list(y) | NCOL(y) > 1) {
-    if (is.null(group.names) & !is.null(names(y))) group.names <- names(y)
+  if (is.list(y) || NCOL(y) > 1) {
+    if (is.null(group.names) && !is.null(names(y))) group.names <- names(y)
   }
-  if (is.list(x) | NCOL(x) > 1) {
-    if (is.null(group.names) & !is.null(names(x))) group.names <- names(x)
+  if (is.list(x) || NCOL(x) > 1) {
+    if (is.null(group.names) && !is.null(names(x))) group.names <- names(x)
   }
 
   # Convert everything to lists
   xl <- if (!is.list(x)) as.list(as.data.frame(x)) else x
-  yl <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
+  yl <- if (!is.null(y) && !is.list(y)) as.list(as.data.frame(y)) else y
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
-  if (Nxgroups == 1 & Nygroups > 1) xl <- rep(xl, Nygroups)
-  if (!is.null(y)) if (Nygroups == 1 & Nxgroups > 1) yl <- rep(yl, Nxgroups)
+  if (Nxgroups == 1 && Nygroups > 1) xl <- rep(xl, Nygroups)
+  if (!is.null(y)) if (Nygroups == 1 && Nxgroups > 1) yl <- rep(yl, Nxgroups)
   Nxgroups <- length(xl)
   Nygroups <- length(yl)
 
@@ -451,7 +451,7 @@ mplot3_xy <- function(x, y = NULL,
     if (!is.null(names(xl))) {
       group.names <- c(group.title, names(xl))
     } else {
-      group.names <- c(group.title, paste(" ", toupper(letters[seq(Nxgroups)])) )
+      group.names <- c(group.title, paste(" ", toupper(letters[seq(Nxgroups)])))
     }
   }
   if (length(lty) < Nygroups) lty <- as.list(rep(lty, Nygroups / length(lty)))
@@ -476,7 +476,7 @@ mplot3_xy <- function(x, y = NULL,
   # if (is.null(point.inches)) point.inches <- cex * 1/20
 
   if (is.null(marker.alpha)) {
-    marker.alpha = autoalpha(max(lengths(xl)))
+    marker.alpha <- autoalpha(max(lengths(xl)))
   }
 
   # Colors ----
@@ -489,7 +489,7 @@ mplot3_xy <- function(x, y = NULL,
         marker.col <- if (is.null(fit)) palette[1] else theme$fg
       } else if (length(marker.col) > 1) {
         if (length(marker.col) < length(xl[[1]])) {
-          marker.col <- rep(marker.col, length(xl[[1]]/length(marker.col)))
+          marker.col <- rep(marker.col, length(xl[[1]] / length(marker.col)))
         }
         # Proper ordering if marker.col is a vector
         marker.col <- marker.col[index[[1]]]
@@ -607,17 +607,17 @@ mplot3_xy <- function(x, y = NULL,
   }
   if (is.null(ylim)) {
     ylim <- range(yl)
-    if (is.list(fitted) & !is.list(sel)) {
+    if (is.list(fitted) && !is.list(sel)) {
       ylim.hi <- max(unlist(fitted))
       ylim.lo <- min(unlist(fitted))
       ylim <- range(ylim.lo, ylim.hi, yl)
     }
     if (is.list(sel)) {
-      ylim.hi <- max(unlist(lapply(seq(length(fitted)),
-                                   function(i) as.data.frame(fitted[[i]]) +
+      ylim.hi <- max(unlist(lapply(seq_along(fitted),
+                                   \(i) as.data.frame(fitted[[i]]) +
                                      se.times * as.data.frame(sel[[i]]))))
-      ylim.lo <- min(unlist(lapply(seq(length(fitted)),
-                                   function(i) as.data.frame(fitted[[i]]) -
+      ylim.lo <- min(unlist(lapply(seq_along(fitted),
+                                   \(i) as.data.frame(fitted[[i]]) -
                                      se.times * as.data.frame(sel[[i]]))))
       ylim <- range(ylim.lo, ylim.hi, yl)
     }
@@ -733,11 +733,11 @@ mplot3_xy <- function(x, y = NULL,
   # Zero Lines ----
   if (theme$zerolines) {
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-    if (ylim[1] <= 0 & 0 <= ylim[2]) {
+    if (ylim[1] <= 0 && 0 <= ylim[2]) {
       lines(c(xlim[1], xlim[2]), c(0, 0), lwd = theme$zerolines.lwd,
             col = zerocol, lty = theme$zerolines.lty, xpd = TRUE)
     }
-    if (xlim[1] <= 0 & 0 <= xlim[2]) {
+    if (xlim[1] <= 0 && 0 <= xlim[2]) {
       lines(c(0, 0), c(ylim[1], ylim[2]), lwd = theme$zerolines.lwd,
             col = zerocol, lty = theme$zerolines.lty, xpd = TRUE)
     }
@@ -779,7 +779,7 @@ mplot3_xy <- function(x, y = NULL,
     }
 
     if (length(marker.alpha) < length(marker.col)) {
-      marker.alpha <- rep(marker.alpha, ceiling(length(marker.col)/length(marker.alpha)))
+      marker.alpha <- rep(marker.alpha, ceiling(length(marker.col) / length(marker.alpha)))
     }
     marker.col.alpha <- lapply(seq_along(marker.col),
                                function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
@@ -811,7 +811,7 @@ mplot3_xy <- function(x, y = NULL,
   }
 
   # S.E. Shading ----
-  if (se.fit & is.list(sel)) {
+  if (se.fit && is.list(sel)) {
     for (i in seq_len(Nxgroups)) {
       if (se.lty == "poly") {
         try(polygon(c(xl[[i]], rev(xl[[i]])),
@@ -851,7 +851,7 @@ mplot3_xy <- function(x, y = NULL,
     mtext(fit.text, col = fit.legend.col,
           side = fit.legend.side, adj = fit.legend.adj,
           at = fit.legend.at, cex = theme$cex,
-          padj = fit.legend.padj, family = theme$font.family,)
+          padj = fit.legend.padj, family = theme$font.family)
     fit.legend.n <- 1
   }
 
@@ -867,7 +867,7 @@ mplot3_xy <- function(x, y = NULL,
           side = group.side, adj = group.adj,
           at = group.at, cex = theme$cex,
           xpd = xpd,
-          padj = seq(group.padj,group.padj + 1.5 * (length(group.names) - 1), 1.5),
+          padj = seq(group.padj, group.padj + 1.5 * (length(group.names) - 1), 1.5),
           family = theme$font.family)
   }
 
@@ -898,7 +898,7 @@ mplot3_xy <- function(x, y = NULL,
             padj = fit.error.padj, cex = theme$cex,
             col = theme$fg, family = theme$font.family)
     } else {
-      error.annot <- sapply(seq(Nxgroups), function(i) paste0(ddSci(myerror[[i]]$MSE),
+      error.annot <- sapply(seq(Nxgroups), \(i) paste0(ddSci(myerror[[i]]$MSE),
                                                               " (", ddSci(myerror[[i]]$Rsq), ")"))
       mtext(
         c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),

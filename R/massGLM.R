@@ -70,10 +70,10 @@ massGLM <- function(x, y,
     if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
     if (trace > 0) msg0('massGLM type is "', type, '"')
     if (type == "massx") {
-        if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+        if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
         nmods <- NCOL(x)
     } else {
-        if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq(NCOL(y)))
+        if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
         nmods <- NCOL(y)
     }
 
