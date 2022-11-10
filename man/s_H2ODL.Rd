@@ -206,9 +206,7 @@ Other Supervised Learning:
 \code{\link{s_SPLS}()},
 \code{\link{s_SVM}()},
 \code{\link{s_TFN}()},
-\code{\link{s_XGBLIN}()},
-\code{\link{s_XGBOOST}()},
-\code{\link{s_XGB}()}
+\code{\link{s_XGBOOST}()}
 
 Other Deep Learning: 
 \code{\link{d_H2OAE}()},
