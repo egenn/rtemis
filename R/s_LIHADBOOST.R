@@ -217,8 +217,8 @@ s_LIHADBOOST <- function(x, y = NULL,
                                 learning.rate,
                                 newline.pre = TRUE)
                                 # mod.params)
-  if (trace > 0) msg("Initial MSE =", mse(y, init))
-  if (verbose) msg("Training LIHADBOOST...", newline.pre = TRUE)
+  if (trace > 0) msg2("Initial MSE =", mse(y, init))
+  if (verbose) msg2("Training LIHADBOOST...", newline.pre = TRUE)
   if (.gs) {
     .xval <- x.test # this is the validation set carved out of the training set during gridSearch
     .yval <- y.test
@@ -269,7 +269,7 @@ s_LIHADBOOST <- function(x, y = NULL,
   if (.gs && lookback) {
     sni <- selectiter(mod$error.valid, mod$error, plot = print.tune.plot)
     n.iter <- sni$best.nsteps
-    if (verbose) msg("Selected", n.iter, "iterations based on smoothed",
+    if (verbose) msg2("Selected", n.iter, "iterations based on smoothed",
                      ifelse(is.null(mod$error.valid), "training", "validation"), "loss curve")
     mod$selected.n.steps <- sni$best.nsteps
   } else {
@@ -291,7 +291,7 @@ s_LIHADBOOST <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (verbose) cat("\n"); msg("Getting predicted values...")
+    if (verbose) cat("\n"); msg2("Getting predicted values...")
     predicted <- predict(mod, x.test, n.iter = n.iter)
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted)

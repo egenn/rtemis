@@ -182,7 +182,7 @@ metaMod <- function(x, y = NULL,
   names(base.res.error) <- base.mod.names
 
   # Meta Learner ----
-  if (verbose) msg("Training", toupper(meta.mod), "meta learner...")
+  if (verbose) msg2("Training", toupper(meta.mod), "meta learner...")
   meta.mod <- do.call(modSelect(meta.mod.name),
                       c(list(x = base.res.predicted,
                              y = base.res.y.test,
@@ -191,10 +191,10 @@ metaMod <- function(x, y = NULL,
 
   # Full Training Base mods ----
   if (meta.input == "bag") {
-    if (verbose) msg("Bagging base resamples to get final base outputs...")
+    if (verbose) msg2("Bagging base resamples to get final base outputs...")
     base.mods.fitted <- sapply()
   } else {
-    if (verbose) msg("Training", nbases, "base learners on full training set...")
+    if (verbose) msg2("Training", nbases, "base learners on full training set...")
     base.mods <- pbapply::pblapply(seq(base.mod.names),
                                    function(mod) {
                                      do.call(modSelect(base.mod.names[mod]),

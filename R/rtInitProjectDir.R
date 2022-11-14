@@ -12,7 +12,7 @@
 rtInitProjectDir <- function(verbose = TRUE) {
 
   wd <- getwd()
-  if (verbose) msg("Initializing project directory...")
+  if (verbose) msg2("Initializing project directory...")
   if (verbose) cat("  Working in ", wd, "...\n", sep = "")
 
   # rtInit.log ----

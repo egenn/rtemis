@@ -44,7 +44,7 @@ distillTreeRules <- function(mod, x, y = NULL,
   
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature", seq(NCOL(x)))
   
-  if (verbose) msg("Working on", mod.name, "model; looking at", n.trees, "trees")
+  if (verbose) msg2("Working on", mod.name, "model; looking at", n.trees, "trees")
   
   # Get Rules ----
   if (mod.name == "RF") {
@@ -52,21 +52,21 @@ distillTreeRules <- function(mod, x, y = NULL,
   } else {
     trees <- inTrees::GBM2List(mod, X = x)
   }
-  if (verbose) msg("Extracting rules from model...")
+  if (verbose) msg2("Extracting rules from model...")
   rules <- inTrees::extractRules(treeList = trees, X = x,
                                  ntree = n.trees, maxdepth = maxdepth,
                                  random = FALSE)
   rules <- unique(rules)
-  if (verbose) msg("Extracting rule metrics...")
+  if (verbose) msg2("Extracting rule metrics...")
   ruleMetrics <- inTrees::getRuleMetric(ruleExec = rules, X = x, target = y)
-  if (verbose) msg("Pruning rules...")
+  if (verbose) msg2("Pruning rules...")
   rules.pruned <- inTrees::pruneRule(rules = ruleMetrics, X = x, target = y,
                                      maxDecay = maxDecay, typeDecay = typeDecay)
-  if (verbose) msg("Adding variable names to rules...")
+  if (verbose) msg2("Adding variable names to rules...")
   rules.names <- inTrees::presentRules(rules = rules.pruned, colN = colnames(x))
-  if (verbose) msg("Building simplified learner...")
+  if (verbose) msg2("Building simplified learner...")
   rules.distilled <- inTrees::buildLearner(ruleMetric = rules.pruned, X = x, target = y)
-  if (verbose) msg("Adding variable names to simplified rules")
+  if (verbose) msg2("Adding variable names to simplified rules")
   rules.distilled.names <- inTrees::presentRules(rules = rules.distilled, colN = colnames(x))
   
   list(trees = trees,

@@ -266,7 +266,7 @@ s_LINOA <- function(x, y = NULL,
     }
   } else {
     x.valid <- y.valid <- NULL
-    msg("Training LINOA on full training set...", newline = TRUE)
+    msg2("Training LINOA on full training set...", newline = TRUE)
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"

@@ -42,7 +42,7 @@ c_HARDCL <- function(x,
     }
 
     # CCLUST ----
-    if (verbose) msg0("Running Hard Competitive Learning with k = ", k, "...")
+    if (verbose) msg20("Running Hard Competitive Learning with k = ", k, "...")
     clust <- flexclust::cclust(x,
         k = k,
         dist = dist,

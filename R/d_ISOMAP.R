@@ -55,8 +55,8 @@ d_ISOMAP <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
@@ -72,7 +72,7 @@ d_ISOMAP <- function(x,
   }
 
   # ISOMAP ----
-  if (verbose) msg("Running Isomap...")
+  if (verbose) msg2("Running Isomap...")
   dist <- vegan::vegdist(x = x, method = dist.method)
   decom <- vegan::isomap(dist, ndim = k, k = nsd, path = path, ...)
 

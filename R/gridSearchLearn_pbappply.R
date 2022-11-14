@@ -104,7 +104,7 @@ gridSearchLearn_pbapply <- function(x, y, mod,
                          verbose,
                          save.mod) {
         if (verbose) {
-            msg("Running grid line #", index, " of ",
+            msg2("Running grid line #", index, " of ",
                 NROW(param.grid), "...",
                 sep = ""
             )
@@ -167,13 +167,13 @@ gridSearchLearn_pbapply <- function(x, y, mod,
         )
     }
     if (verbose) {
-        msg(
+        msg2(
             "Tuning", modSelect(mod, desc = TRUE), "by",
             search.type, "grid search:"
         )
     }
     if (verbose) {
-        msg(n.resamples, " resamples; ", NROW(param.grid), 
+        msg2(n.resamples, " resamples; ", NROW(param.grid), 
             " models total; running on ",
             n.cores, " ", ifelse(n.cores > 1, "cores", "core"),
             " (", Sys.getenv("R_PLATFORM"), ")\n",

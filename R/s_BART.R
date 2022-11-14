@@ -106,7 +106,7 @@ s_BART <- function(x, y = NULL,
   java.mem <- paste0("-Xmx", java.mem.size, "g")
   options(java.parameters = java.mem)
   bartMachine::set_bart_machine_num_cores(n.cores)
-  if (verbose) msg("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
+  if (verbose) msg2("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
   mod <- bartMachine::bartMachineCV(x, y.train,
                                     num_tree_cvs = n.trees,
                                     k_cvs = k_cvs,

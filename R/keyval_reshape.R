@@ -42,9 +42,9 @@ keyval_reshape <- function(x,
         paste(id_name, "~", key_name)
     )
     if (verbose) {
-        msg(xname, "long format dimensions: ", newline = FALSE)
+        msg2(xname, "long format dimensions: ", newline = FALSE)
         catsize(x)
-        msg("Reshaping", xname, "to wide format...")
+        msg2("Reshaping", xname, "to wide format...")
     }
     # Reshape to wide, filling all absent with negative value
     x <- dcast(
@@ -57,7 +57,7 @@ keyval_reshape <- function(x,
     )
 
     if (verbose) {
-        msg(xname, "wide format dimensions:", newline = FALSE)
+        msg2(xname, "wide format dimensions:", newline = FALSE)
         catsize(x)
     }
 

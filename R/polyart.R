@@ -356,7 +356,7 @@ polyshadow <- function(k_h = 50, k_v = 50,
     dev.off()
     if (verbose) {
       if (file.exists(filename)) {
-        msg("Saved", filename)
+        msg2("Saved", filename)
       } else {
         rtWarning("Failed to save", filename)
       }

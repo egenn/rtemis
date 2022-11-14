@@ -139,7 +139,7 @@ cartLinBoostTV <- function(x, y = NULL,
                                 learning.rate,
                                 weights.p,
                                 weights.0)
-  if (trace > 0) msg("Initial MSE =", mse(y, init))
+  if (trace > 0) msg2("Initial MSE =", mse(y, init))
 
   # '- New series ----
   # init learning.rate vector
@@ -158,7 +158,7 @@ cartLinBoostTV <- function(x, y = NULL,
       error.valid <- predicted.valid <- Fvalid <- NULL
     }
     i <- 1
-    if (verbose) msg("[ Boosting ", learner.name, "... ]", sep = "")
+    if (verbose) msg2("[ Boosting ", learner.name, "... ]", sep = "")
   } else {
     .learning.rate <- boost.obj$mod$learning.rate
     # '- Expand series ----
@@ -173,8 +173,8 @@ cartLinBoostTV <- function(x, y = NULL,
     }
     max.iter <- max.iter + length(mods)
     i <- length(mods) + 1
-    if (trace > 0) msg("i =", i)
-    if (verbose) msg("[ Expanding boosted ", learner.name, "... ]", sep = "")
+    if (trace > 0) msg2("i =", i)
+    if (verbose) msg2("[ Expanding boosted ", learner.name, "... ]", sep = "")
   } # / Expand
 
   if (is.null(resid)) resid <- y - Fval
@@ -204,8 +204,8 @@ cartLinBoostTV <- function(x, y = NULL,
   if (!is.null(seed)) set.seed(seed)
   while (i <= max.iter) {
     .learning.rate[i] <- learning.rate
-    if (trace > 0) msg("learning.rate is", .learning.rate[i])
-    if (trace > 0) msg("i =", i)
+    if (trace > 0) msg2("learning.rate is", .learning.rate[i])
+    if (trace > 0) msg2("i =", i)
     if (weights.p < 1) {
       holdout.index <- sample(train.ncases, (1 - weights.p) * train.ncases)
       weights1[holdout.index] <- weights.0
@@ -236,13 +236,13 @@ cartLinBoostTV <- function(x, y = NULL,
       predicted.valid <- fitted[valid.index]
       Fvalid <- Fval[valid.index]
       error.valid[[i]] <- mse(y.valid, Fvalid)
-      if (verbose && i %in% print.progress.index) if (verbose) msg("Iteration #", i, ": Training MSE = ",
+      if (verbose && i %in% print.progress.index) if (verbose) msg2("Iteration #", i, ": Training MSE = ",
                                                                    ddSci(error[[i]]),
                                                                    "; Validation MSE = ", ddSci(error.valid[[i]]),
                                                                    sep = "")
     } else {
       if (verbose && i %in% print.progress.index) {
-        msg("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
+        msg2("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
       }
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
@@ -263,7 +263,7 @@ cartLinBoostTV <- function(x, y = NULL,
     }
     i <- i + 1
   }
-  if (verbose && i > max.iter) msg("Reached max iterations")
+  if (verbose && i > max.iter) msg2("Reached max iterations")
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
@@ -397,9 +397,9 @@ predict.cartLinBoostTV <- function(object,
 
   if (inherits(object, "rtMod") && inherits(object$mod, "cartLinBoostTV")) {
     object <- object$mod
-    if (verbose) msg("Found rtemis cartLinBoostTV object")
+    if (verbose) msg2("Found rtemis cartLinBoostTV object")
   } else if (inherits(object, "cartLinBoostTV")) {
-    if (verbose) msg("Found cartLinBoostTV object")
+    if (verbose) msg2("Found cartLinBoostTV object")
   } else {
     stop("Please provide cartLinBoostTV object")
   }
@@ -628,7 +628,7 @@ update.cartLinBoostTV <- function(object,
   if (trace > 0) {
     mse.orig <- mse(object$y.train, fitted.orig)
     mse.new <- mse(object$y.train, fitted)
-    msg0("old MSE = ", mse.orig, "; new MSE = ", mse.new)
+    msg20("old MSE = ", mse.orig, "; new MSE = ", mse.new)
     # if (mse.new > mse.orig) warning("Whatever you did, it didn't really help:\nnew MSE is higher than original")
   }
 

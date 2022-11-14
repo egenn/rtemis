@@ -229,7 +229,7 @@ elevate1 <- function(x, y = NULL,
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
         "XGB", "XGBOOST", "XGBLIN", "LGB"
     )) {
-        if (verbose) msg("Using", mod, "- outer.n.workers set to 1")
+        if (verbose) msg2("Using", mod, "- outer.n.workers set to 1")
         outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
@@ -284,14 +284,14 @@ elevate1 <- function(x, y = NULL,
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
-    if (trace > 1) msg("Starting resLearn")
+    if (trace > 1) msg2("Starting resLearn")
     resLearn <- if (backend == "future") resLearn_future else resLearn
 
     if (verbose) {
         if (backend == "future") {
-            msg("Using future framework")
+            msg2("Using future framework")
         } else {
-            msg("Using pbapply")
+            msg2("Using pbapply")
         }
     }
 

@@ -139,7 +139,7 @@ s_LIHAD <- function(x, y = NULL,
   # Check lincoef method
   if (NCOL(x) == 1) {
     if (!lincoef.params$method %in% c("glm", "sgd", "solve")) {
-      if (verbose) msg("Cannot use lincoef method", lincoef.params$method, "with a single feature;",
+      if (verbose) msg2("Cannot use lincoef method", lincoef.params$method, "with a single feature;",
               "switching to 'glm'")
       lincoef.params$method <- "glm"
     }
@@ -174,7 +174,7 @@ s_LIHAD <- function(x, y = NULL,
   }
 
   # lin1 ----
-  if (verbose) msg0("Training Hybrid Additive Tree (max depth = ", max.depth, ")...",
+  if (verbose) msg20("Training Hybrid Additive Tree (max depth = ", max.depth, ")...",
                     newline.pre = TRUE)
 
   lincoef.params$alpha <- alpha
@@ -338,14 +338,14 @@ lihad <- function(node = list(x = NULL,
   y <- node$y
   depth <- node$depth
   Fval <- node$Fval
-  if (trace > 1) msg("y is", y)
-  if (trace > 1) msg("Fval is", Fval)
+  if (trace > 1) msg2("y is", y)
+  if (trace > 1) msg2("Fval is", Fval)
   resid <- y - Fval
   nobsinnode <- length(node$index)
 
   # Add partlin to node ----
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
-    if (trace > 1) msg("y1 (resid) is", resid)
+    if (trace > 1) msg2("y1 (resid) is", resid)
     node$partlin <- partLin(x1 = x, y1 = resid,
                             lincoef.params = lincoef.params,
                             part.minsplit = part.minsplit,
@@ -357,20 +357,20 @@ lihad <- function(node = list(x = NULL,
                             trace = trace)
     # Fval <- Fval + learning.rate * (node$partlin$part.val + node$partlin$lin.val)
     # resid <- y - Fval
-    if (trace > 1) msg("Fval is", Fval)
+    if (trace > 1) msg2("Fval is", Fval)
 
     # '- If node split ----
     if (!node$partlin$terminal) {
       node$type <- "split"
       left.index <- node$partlin$left.index
       right.index <- node$partlin$right.index
-      if (trace > 1) msg("Depth:", depth, "left.index:", node$partlin$left.index)
+      if (trace > 1) msg2("Depth:", depth, "left.index:", node$partlin$left.index)
       x.left <- x[left.index, , drop = FALSE]
       x.right <- x[right.index, , drop = FALSE]
       y.left <- y[left.index]
       y.right <- y[right.index]
-      if (trace > 1) msg("y.left is", y.left)
-      if (trace > 1) msg("y.right is", y.right)
+      if (trace > 1) msg2("y.left is", y.left)
+      if (trace > 1) msg2("y.right is", y.right)
       Fval.left <- Fval[left.index] + learning.rate * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
       Fval.right <- Fval[right.index] + learning.rate * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
@@ -380,7 +380,7 @@ lihad <- function(node = list(x = NULL,
                                      node$partlin$lin.coef.left[-1])
       coef.c.right <- coef.c.right + c(node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
                                        node$partlin$lin.coef.right[-1])
-      if (trace > 1) msg("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
+      if (trace > 1) msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
 
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
@@ -424,7 +424,7 @@ lihad <- function(node = list(x = NULL,
 
       # Run Left and Right nodes
       # LEFT ----
-      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
+      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
       node$left <- lihad(node$left,
                           coef.c = coef.c.left,
                           max.depth = max.depth,
@@ -442,7 +442,7 @@ lihad <- function(node = list(x = NULL,
                           verbose = verbose,
                           trace = trace)
       # RIGHT ----
-      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
+      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
       node$right <- lihad(node$right,
                            coef.c = coef.c.right,
                            max.depth = max.depth,
@@ -466,7 +466,7 @@ lihad <- function(node = list(x = NULL,
       .env$leaf.rule <- c(.env$leaf.rule, node$rule)
       .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
       node$type <- "nosplit"
-      if (trace > 0) msg("STOP: nosplit")
+      if (trace > 0) msg2("STOP: nosplit")
       if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     } # !node$terminal
 
@@ -476,10 +476,10 @@ lihad <- function(node = list(x = NULL,
     .env$leaf.rule <- c(.env$leaf.rule, node$rule)
     .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
     if (node$depth == max.depth) {
-      if (trace > 0) msg("STOP: max.depth")
+      if (trace > 0) msg2("STOP: max.depth")
       node$type <- "max.depth"
     } else if (nobsinnode < minobsinnode) {
-      if (trace > 0) msg("STOP: minobsinnode")
+      if (trace > 0) msg2("STOP: minobsinnode")
       node$type <- "minobsinnode"
     }
     if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
@@ -515,7 +515,7 @@ partLin <- function(x1, y1,
   part.val <- predict(part)
 
   if (is.null(part$splits)) {
-    if (trace > 0) msg("Note: rpart did not split")
+    if (trace > 0) msg2("Note: rpart did not split")
     terminal <- TRUE
     cutFeat.name <- cutFeat.point <- cutFeat.category <- NULL
     split.rule <- NULL
@@ -540,7 +540,7 @@ partLin <- function(x1, y1,
       cutFeat.index <- which(names(x1) == cutFeat.name)
       if (is.numeric(x1[[cutFeat.name]])) {
         cutFeat.point <- part$splits[1, "index"]
-        if (trace > 0) msg("Split Feature is \"", cutFeat.name,
+        if (trace > 0) msg2("Split Feature is \"", cutFeat.name,
                            "\"; Cut Point = ", cutFeat.point,
                            sep = "")
         split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
@@ -548,7 +548,7 @@ partLin <- function(x1, y1,
         # split.rule.i <- paste0("X[, ", cutFeat.index,"]", " < ", cutFeat.point)
       } else {
         cutFeat.category <- levels(x1[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
-        if (trace > 0) msg("Split Feature is \"", cutFeat.name,
+        if (trace > 0) msg2("Split Feature is \"", cutFeat.name,
                            "\"; Cut Category is \"", cutFeat.category,
                            "\"", sep = "")
         split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
@@ -575,7 +575,7 @@ partLin <- function(x1, y1,
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
     if (is.constant(resid.left) | length(resid.left) < minobsinnode.lin) {
-      if (trace > 0) msg("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
+      if (trace > 0) msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
     } else {
@@ -585,7 +585,7 @@ partLin <- function(x1, y1,
     } # if (is.constant(resid.left))
 
     if (is.constant(resid.right) | length(resid.right) < minobsinnode.lin) {
-      if (trace > 0) msg("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
+      if (trace > 0) msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {
@@ -636,14 +636,14 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
   # EXIT ----
   if (node$terminal) return(node)
 
-  if (trace > 1) msg("Evaluating rule at depth", node$depth)
+  if (trace > 1) msg2("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
     # LEFT ----
-    if (trace > 1) msg("      <--- Left")
+    if (trace > 1) msg2("      <--- Left")
     node <- preorderMatch.lihad(node$left, x, trace = trace)
   } else {
     # RIGHT ----
-    if (trace > 1) msg("           Right --->")
+    if (trace > 1) msg2("           Right --->")
     node <- preorderMatch.lihad(node$right, x, trace = trace)
   }
 
@@ -672,12 +672,12 @@ predict.lihad <- function(object, newdata = NULL,
                            cxrcoef = FALSE, ...) {
 
   if (inherits(object, "rtMod")) {
-    if (verbose) msg("Found rtMod object")
+    if (verbose) msg2("Found rtMod object")
     tree <- object$mod
     learning.rate <- object$mod$learning.rate
     if (is.null(n.feat)) n.feat <- length(object$xnames)
   } else if (inherits(object, "lihad")) {
-    if (verbose) msg("Found lihad object")
+    if (verbose) msg2("Found lihad object")
     tree <- object
     learning.rate <- object$learning.rate
     # if (is.null(learning.rate)) stop("Please provide learning rate")
@@ -757,14 +757,14 @@ preorder.lihad <- function(node, x, trace = 0) {
   # EXIT ----
   if (node$terminal) return(node)
 
-  if (trace > 1) msg("Evaluating rule at depth", node$depth)
+  if (trace > 1) msg2("Evaluating rule at depth", node$depth)
   if (with(x, eval(parse(text = node$split.rule)))) {
     # LEFT ----
-    if (trace > 1) msg("      <--- Left")
+    if (trace > 1) msg2("      <--- Left")
     node <- preorder.lihad(node$left, x, trace = trace)
   } else {
     # RIGHT ----
-    if (trace > 1) msg("           Right --->")
+    if (trace > 1) msg2("           Right --->")
     node <- preorder.lihad(node$right, x, trace = trace)
   }
 

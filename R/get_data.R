@@ -81,7 +81,7 @@ get_data <- function(filename,
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
     if (verbose) {
-        msg(
+        msg2(
             "Read in", hilitebig(.nrow),
             "rows by", hilitebig(.ncol),
             "columns."
@@ -92,13 +92,13 @@ get_data <- function(filename,
         .nrowp <- nrow(.dat)
         .dup <- .nrow - .nrowp
         if (verbose && .dup > 0) {
-            msg(
+            msg2(
                 "Removed",
-                orange(format(.dup, big.mark = ","), TRUE),
+                orange(format(.dup, big.mark = ","), bold = TRUE),
                 "duplicate",
                 paste0(ngettext(.dup, "row", "rows"), ".")
             )
-            msg(
+            msg2(
                 "New dimensions:", hilitebig(.nrowp),
                 "by", hilitebig(.ncol),
                 "columns."
@@ -121,5 +121,5 @@ get_data <- function(filename,
 
 msgread <- function(x, caller = "", use_basename = TRUE) {
     if (use_basename) x <- basename(x)
-    msg0(bold(green("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
+    msg20(bold(green("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
 }

@@ -239,7 +239,7 @@ s_GLMNET <- function(x, y = NULL,
             penalty.factor = penalty.factor, ...
         )
     } else {
-        if (verbose) msg("Training elastic net model...", newline.pre = TRUE)
+        if (verbose) msg2("Training elastic net model...", newline.pre = TRUE)
         mod <- glmnet::glmnet(x,
             if (family == "binomial") reverseLevels(y) else y,
             family = family,

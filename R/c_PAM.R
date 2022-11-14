@@ -44,7 +44,7 @@ c_PAM <- function(x,
   }
 
   # CLUST ----
-  if (verbose) msg("Partitioning Around Medoids with k = ", k, "...", sep = "")
+  if (verbose) msg2("Partitioning Around Medoids with k = ", k, "...", sep = "")
   clust <- cluster::pam(x,
                         k = k,
                         diss = diss,

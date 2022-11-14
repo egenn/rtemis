@@ -55,7 +55,7 @@ c_DBSCAN <- function(x, x.test = NULL,
     xnames <- colnames(x) <- .colnames
 
     # DBSCAN ----
-    if (verbose) msg("Performing DBSCAN Clustering...")
+    if (verbose) msg2("Performing DBSCAN Clustering...")
     clust <- dbscan::dbscan(x,
         eps = eps,
         minPts = minPts,

@@ -88,7 +88,7 @@ oneHot.data.frame <- function(x,
   one.hot <- as.list(x)
   if (verbose) .names <- colnames(x)
   for (i in factor.index) {
-    if (verbose) msg0("One hot encoding ", .names[i], "...")
+    if (verbose) msg20("One hot encoding ", .names[i], "...")
     .levels <- levels(x[, i])
     index <- as.numeric(x[, i])
     oh <- matrix(0, ncases, length(.levels))
@@ -96,7 +96,7 @@ oneHot.data.frame <- function(x,
     for (j in seq(ncases)) oh[j, index[j]] <- 1
     one.hot[[i]] <- oh
   }
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   as.data.frame(one.hot)
 } # rtemis::oneHot
 
@@ -128,7 +128,7 @@ oneHot.data.table <- function(x,
   }
   # remove original factor(s)
   x[, paste(.names[factor.index]) := NULL]
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   invisible(x)
 
 } # rtemis::oneHot.data.table
@@ -161,7 +161,7 @@ oneHot_ <- function(x,
   }
   # remove original factor(s)
   x[, paste(.names[factor.index]) := NULL]
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   invisible(x)
 
 } # rtemis::oneHot.data.table

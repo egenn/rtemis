@@ -50,7 +50,7 @@ modError <- function(true,
         )
     }
     if (NROW(x) < 2) {
-        # if (verbose) msg("Vector of length 1; no error estimated for LOOCV; estimate aggregate error")
+        # if (verbose) msg2("Vector of length 1; no error estimated for LOOCV; estimate aggregate error")
         if (verbose) warning("Vector of length 1; no per resample test error can be estimated for LOOCV; estimate aggregate error")
         return(NULL)
     }
@@ -320,14 +320,14 @@ factorHarmonize <- function(reference, x,
     if (!is.factor(x) | !is.factor(reference)) stop("Inputs must be factors")
     if (!all(levels(x) == levels(reference))) {
         if (!all(levels(x) %in% levels(reference))) {
-            if (verbose) msg("Levels of x:")
+            if (verbose) msg2("Levels of x:")
             levels(x)
-            if (verbose) msg("levels of reference:")
+            if (verbose) msg2("levels of reference:")
             levels(reference)
             stop("Levels of two inputs do not match")
         }
         if (verbose) {
-            msg("Input factor levels are not in the same order, correcting")
+            msg2("Input factor levels are not in the same order, correcting")
         }
         x <- factor(x, levels = levels(reference))
     }

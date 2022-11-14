@@ -106,7 +106,7 @@ hytboostnow <- function(x, y,
                                   # tolerance = tolerance,
                                   # tolerance.valid = tolerance.valid
                                   title = "hytboostnow Parameters")
-  if (trace > 0) msg("Initial MSE =", mse(y, init))
+  if (trace > 0) msg2("Initial MSE =", mse(y, init))
 
   # '- New series ----
   # init learning.rate vector
@@ -125,7 +125,7 @@ hytboostnow <- function(x, y,
       error.valid <- predicted.valid <- Fvalid <- NULL
     }
     i <- 1
-    if (verbose) msg("[ Boosting Hybrid Tree... ]", sep = "")
+    if (verbose) msg2("[ Boosting Hybrid Tree... ]", sep = "")
   } else {
     # '- Expand series ----
     .learning.rate <- boost.obj$learning.rate
@@ -140,8 +140,8 @@ hytboostnow <- function(x, y,
     }
     max.iter <- max.iter + length(mods)
     i <- length(mods) + 1
-    if (trace > 0) msg("i =", i)
-    if (verbose) msg("[ Expanding boosted Hybrid Tree... ]", sep = "")
+    if (trace > 0) msg2("i =", i)
+    if (verbose) msg2("[ Expanding boosted Hybrid Tree... ]", sep = "")
   }
 
   if (is.null(resid)) resid <- y - Fval
@@ -169,8 +169,8 @@ hytboostnow <- function(x, y,
   # '- Iterate learner ----
   while (i <= max.iter) {
     .learning.rate[i] <- learning.rate
-    if (trace > 0) msg("learning.rate is", .learning.rate[i])
-    if (trace > 0) msg("i =", i)
+    if (trace > 0) msg2("learning.rate is", .learning.rate[i])
+    if (trace > 0) msg2("i =", i)
     if (case.p < 1) {
       n.cases <- NROW(x)
       index <- sample(n.cases, case.p * n.cases)
@@ -187,7 +187,7 @@ hytboostnow <- function(x, y,
                   mod.params)
     mods[[i]] <- do.call(hytreenow, args = mod.args)
     if (cxrcoef) {
-      if (trace > 0) msg("Updating cxrcoef")
+      if (trace > 0) msg2("Updating cxrcoef")
       fitted0 <- predict.hytreenow(mods[[i]], x, cxr = TRUE, cxrcoef = TRUE)
       fitted <- fitted0$yhat
       mods[[i]]$cxr <- fitted0$cxr
@@ -207,7 +207,7 @@ hytboostnow <- function(x, y,
       Fvalid <- Fvalid + .learning.rate[i] * predicted.valid
       error.valid[i] <- mse(y.valid, Fvalid)
       if (verbose && i %in% print.progress.index) {
-        msg("Iteration #", i, ": Training MSE = ", ddSci(error[i]),
+        msg2("Iteration #", i, ": Training MSE = ", ddSci(error[i]),
             "; Validation MSE = ", ddSci(error.valid[i]), sep = "")
       }
       # if (!is.null(earlystop.params)) {
@@ -216,7 +216,7 @@ hytboostnow <- function(x, y,
       # }
     } else {
       if (verbose && i %in% print.progress.index) {
-        msg("Iteration #", i, ": Training MSE = ", ddSci(error[i]), sep = "")
+        msg2("Iteration #", i, ": Training MSE = ", ddSci(error[i]), sep = "")
       }
       # if (!is.null(earlystop)) {
       #   es <- do.call(earlystop, c(list(x = error), earlystop.params))
@@ -248,13 +248,13 @@ hytboostnow <- function(x, y,
       }
       if (es) {
         break
-        msg("Breaking out of iteration", i)
+        msg2("Breaking out of iteration", i)
       }
     }
 
     i <- i + 1
   } # /Iterate learner
-  if (trace > 0) msg("Reached max iterations")
+  if (trace > 0) msg2("Reached max iterations")
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
@@ -388,7 +388,7 @@ expand.hytboostnow <- function(object,
 
   if (is.null(mod.params)) mod.params <- object$mod.params
   if (is.null(learning.rate)) learning.rate <- rev(object$learning.rate)[1]
-  if (trace > 0) msg("learning.rate =", learning.rate)
+  if (trace > 0) msg2("learning.rate =", learning.rate)
 
   hytboostnow(x = x, y = y,
               x.valid = x.valid, y.valid = y.valid,
@@ -470,10 +470,10 @@ update.hytboostnow <- function(object, x, y = NULL,
   if (trace > 0 && !is.null(y)) {
     mse.orig <- mse(y, fitted.orig)
     new.mse <- mse(y, fitted)
-    msg("old mse = ", mse.orig, "; new mse = ", new.mse, sep = "")
+    msg2("old mse = ", mse.orig, "; new mse = ", new.mse, sep = "")
   }
   object$fitted <- fitted
-  if (trace > 0) msg("Object updated")
+  if (trace > 0) msg2("Object updated")
   object
 
 } # rtemis::update.hytboostnow

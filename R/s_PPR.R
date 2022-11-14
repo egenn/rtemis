@@ -137,7 +137,7 @@ s_PPR <- function(x, y = NULL,
                                 newline.pre = TRUE)
 
   # ppr ----
-  if (verbose) msg("Running Projection Pursuit Regression...", newline.pre = TRUE)
+  if (verbose) msg2("Running Projection Pursuit Regression...", newline.pre = TRUE)
   mod <- ppr(x, y,
              weights = weights,
              nterms = nterms,

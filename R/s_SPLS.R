@@ -179,7 +179,7 @@ s_SPLS <- function(x, y = NULL,
   }
 
   # spls::splsda/spls ----
-  if (verbose) msg0("Training Sparse Partial Least Squares ", type , "...",
+  if (verbose) msg20("Training Sparse Partial Least Squares ", type , "...",
                     newline.pre = TRUE)
   if (type == "Classification") {
     # Cannot include select, scale.y, or trace options; see source

@@ -51,7 +51,7 @@ seglabels2itksnap <- function(x,
                 quote = T, row.names = FALSE, col.names = FALSE)
     if (verbose) {
       if (file.exists(filename)) {
-        msg("Wrote", filename)
+        msg2("Wrote", filename)
       } else {
         warning("Failed to write", filename)
       }

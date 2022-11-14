@@ -58,7 +58,7 @@ c_SPEC <- function(x,
   }
 
   # Spectral clust ----
-  if (verbose) msg("Performing Spectral Clustering with k = ", k, "...", sep = "")
+  if (verbose) msg2("Performing Spectral Clustering with k = ", k, "...", sep = "")
   clust <- kernlab::specc(data.matrix(x),
                           centers = k,
                           kernel = kernel,

@@ -115,9 +115,9 @@ s_H2ORF <- function(x, y = NULL,
   }
 
   # h2o Frames
-  if (verbose) msg("Connecting to H2O server...", newline.pre = TRUE)
+  if (verbose) msg2("Connecting to H2O server...", newline.pre = TRUE)
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   if (is.null(weights)) weights <- rep(1, NROW(y))
   df.train <- h2o::as.h2o(data.frame(x, y = y, weights = weights), "df_train")
   if (!is.null(x.valid) & !is.null(y.valid)) {
@@ -134,7 +134,7 @@ s_H2ORF <- function(x, y = NULL,
   }
 
   # H2ORF ----
-  if (verbose) msg("Training H2O Random Forest model...", newline.pre = TRUE)
+  if (verbose) msg2("Training H2O Random Forest model...", newline.pre = TRUE)
   mod <- h2o::h2o.randomForest(y = "y",
                                training_frame = df.train,
                                validation_frame = df.valid,
@@ -149,7 +149,7 @@ s_H2ORF <- function(x, y = NULL,
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
-  if (verbose) msg("Getting fitted values...")
+  if (verbose) msg2("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
     fitted <- as.factor(fitted)
@@ -161,7 +161,7 @@ s_H2ORF <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (verbose) msg("Getting predicted values...")
+    if (verbose) msg2("Getting predicted values...")
     predicted <- as.data.frame(predict(mod, df.test))[, 1]
     if (type == "Classification") {
       predicted <- as.factor(predicted)
@@ -209,7 +209,7 @@ s_H2ORF <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  if (verbose) msg0("Access H2O Flow at http://", ip, ":", port, " in your browser")
+  if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

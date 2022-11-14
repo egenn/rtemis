@@ -47,7 +47,7 @@ winsorize <- function(x,
   } else {
     min(x)
   }
-  if (verbose) msg("Lo cut set to", lo.cut)
+  if (verbose) msg2("Lo cut set to", lo.cut)
 
   hi.cut <- if (!is.null(hi)) {
     hi
@@ -56,7 +56,7 @@ winsorize <- function(x,
   } else {
     max(x)
   }
-  if (verbose) msg("Hi cut set to", hi.cut)
+  if (verbose) msg2("Hi cut set to", hi.cut)
 
   xw <- ifelse(x < lo.cut, lo.cut, x)
   xw <- ifelse(xw > hi.cut, hi.cut, xw)

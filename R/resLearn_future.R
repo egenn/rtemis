@@ -82,7 +82,7 @@ resLearn_future <- function(x, y, mod,
     if (n.workers == 1) {
         future::plan(list("sequential", rtPlan), workers = n.workers)
         if (verbose) {
-            msg("Outer resampling plan set to",
+            msg2("Outer resampling plan set to",
                 bold("sequential"),
                 color = magenta
             )
@@ -90,7 +90,7 @@ resLearn_future <- function(x, y, mod,
     } else {
         future::plan(list(rtPlan, "sequential"), workers = n.workers)
         if (verbose) {
-            msg("Outer resampling: Future plan set to", bold(rtPlan),
+            msg2("Outer resampling: Future plan set to", bold(rtPlan),
                 "with", bold(n.workers), "workers",
                 color = magenta
             )
@@ -110,7 +110,7 @@ resLearn_future <- function(x, y, mod,
                          outdir,
                          save.mods,
                          nres) {
-        if (verbose) msg("Running resample #", index, sep = "")
+        if (verbose) msg2("Running resample #", index, sep = "")
         res1 <- res[[index]]
         if (is.null(mtry)) {
             feat.index <- seq(NCOL(x))
@@ -178,7 +178,7 @@ resLearn_future <- function(x, y, mod,
     )
 
     if (verbose) {
-        msg0("Training ", modSelect(mod, desc = TRUE), " on ",
+        msg20("Training ", modSelect(mod, desc = TRUE), " on ",
             length(res), " ", desc, "...",
             newline.pre = FALSE
         )

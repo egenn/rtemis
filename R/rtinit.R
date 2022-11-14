@@ -14,7 +14,7 @@
 
 intro <- function(message = NULL,
                   verbose = TRUE,
-                  as.message = FALSE,
+                #   as.message = FALSE,
                   color = gray,
                   logFile = NULL,
                   call.depth = 1,
@@ -32,15 +32,15 @@ intro <- function(message = NULL,
     if (verbose || !is.null(logFile)) {
         if (newline.pre) cat("\n")
         if (is.null(message)) {
-            msg("Hello,", Sys.getenv("USER"),
-                as.message = as.message,
+            msg2("Hello,", Sys.getenv("USER"),
+                # as.message = as.message,
                 call.depth = call.depth,
                 caller.id = 2,
                 color = color
             )
         } else {
-            msg(message,
-                as.message = as.message,
+            msg2(message,
+                # as.message = as.message,
                 call.depth = call.depth,
                 sep = "",
                 caller.id = 2,
@@ -64,7 +64,7 @@ intro <- function(message = NULL,
 outro <- function(start.time,
                   message = NULL,
                   verbose = TRUE,
-                  as.message = FALSE,
+                #   as.message = FALSE,
                   sinkOff = FALSE,
                   color = gray,
                   newline.pre = FALSE) {
@@ -74,10 +74,12 @@ outro <- function(start.time,
     elapsed <- as.numeric(proc.time() - start.time)
     if (verbose || sinkOff) {
         if (newline.pre) cat("\n")
-        msg("Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
+        msg2("Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
             "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]), 
             "; System: ", ddSci(elapsed[2]), ")",
-            sep = "", as.message = as.message, caller.id = 2, color = color
+            sep = "",
+            # as.message = as.message,
+            caller.id = 2, color = color
         )
     }
 
@@ -254,7 +256,7 @@ rtemis_init <- function(n.cores = 1,
     #     future::plan(rtPlan)
     #     # rtenv$plan_set <- 1
     #     if (verbose) {
-    #         msg(context, "Future plan set to", bold(rtPlan),
+    #         msg2(context, "Future plan set to", bold(rtPlan),
     #             color = magenta,
     #             "with", bold(n.cores), "workers"
     #         )
@@ -262,7 +264,7 @@ rtemis_init <- function(n.cores = 1,
     # } else {
     #     future::plan("sequential")
     #     if (verbose) {
-    #         msg(context, "Future plan set to", 
+    #         msg2(context, "Future plan set to", 
     #             bold("sequential"),
     #             color = magenta
     #         )
@@ -276,7 +278,7 @@ rtemis_init <- function(n.cores = 1,
         progressr::handlers(rtHandler)
         rtenv$handlers_set <- 1
         if (verbose) {
-            msg("Progress handler set to",
+            msg2("Progress handler set to",
                 bold(rtHandler),
                 color = magenta
             )

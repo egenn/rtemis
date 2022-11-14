@@ -69,8 +69,8 @@ d_LLE <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
 
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
@@ -78,7 +78,7 @@ d_LLE <- function(x,
 
   # LLE ----
   if (nn == 0) {
-    if (verbose) msg("Estimating optimal number of neighbors...")
+    if (verbose) msg2("Estimating optimal number of neighbors...")
     nn <- rt_lle_calc_k(x, m = k,
                         kmin = nn.min,
                         kmax = nn.max,
@@ -87,7 +87,7 @@ d_LLE <- function(x,
                         verbose = verbose)
     nn <- nn$k[which.min(nn$rho)]
   }
-  if (verbose) msg("Performing Locally Linear Embedding...")
+  if (verbose) msg2("Performing Locally Linear Embedding...")
   decom <- suppressWarnings(lle::lle(X = x,
                                      m = k,
                                      k = nn,

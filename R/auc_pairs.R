@@ -33,8 +33,8 @@ auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
     stop("Multiclass AUC does not have a unique definition and is not yet implemented")
   }
   if (verbose) {
-    msg("Positive class:", true.levels[1])
-    msg("AUC =", .auc)
+    msg2("Positive class:", true.levels[1])
+    msg2("AUC =", .auc)
   }
   invisible(.auc)
 

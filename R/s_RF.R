@@ -234,14 +234,14 @@ s_RF <- function(x, y = NULL,
     # Get frequency of minority class
     freq.minority <- min(table(y))
     sampsize <- c(freq.minority, freq.minority * sampsize.ratio)
-    if (verbose) msg("sampsize set to", sampsize)
+    if (verbose) msg2("sampsize set to", sampsize)
   }
 
   # tuneRF  ----
   # This is an alternative to doing our own gridsearch for mtry, use randomForest's own tuning
   # function for mtry
   if (autotune) {
-    if (verbose) msg("Tuning for mtry...")
+    if (verbose) msg2("Tuning for mtry...")
     tuner <- randomForest::tuneRF(x = x, y = y,
                                   mtryStart = mtryStart,
                                   ntreeTry = n.trees.try,
@@ -252,11 +252,11 @@ s_RF <- function(x, y = NULL,
                                   do.trace = tune.do.trace,
                                   classwt = .classwt)
     mtry <- tuner[which.min(tuner[, 2]), 1]
-    if (verbose) msg("Best mtry :", mtry)
+    if (verbose) msg2("Best mtry :", mtry)
   }
 
   # RF  ----
-  if (verbose) msg("Training Random Forest", type, "with", n.trees, "trees...",
+  if (verbose) msg2("Training Random Forest", type, "with", n.trees, "trees...",
                    newline.pre = TRUE)
   mod <- randomForest::randomForest(x = x, y = y,
                                     ntree = n.trees,

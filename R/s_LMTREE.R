@@ -126,7 +126,7 @@ s_LMTREE <- function(x, y = NULL,
     .formula <- as.formula(paste0(y.name, " ~ ", features))
 
     # lmtree ----
-    if (verbose) msg("Training LMTREE...", newline.pre = TRUE)
+    if (verbose) msg2("Training LMTREE...", newline.pre = TRUE)
     mod <- partykit::lmtree(
         formula = .formula,
         data = df.train,

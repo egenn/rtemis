@@ -127,7 +127,7 @@ s_RFSRC <- function(x, y = NULL,
   }
 
   # randomForestSRC::rfsrc ----
-  if (verbose) msg("Training Random Forest SRC", type, "with", n.trees, "trees...",
+  if (verbose) msg2("Training Random Forest SRC", type, "with", n.trees, "trees...",
                    newline.pre = TRUE)
   mod <- randomForestSRC::rfsrc(.formula, data = df.train,
                                 ntree = n.trees,

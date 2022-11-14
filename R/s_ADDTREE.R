@@ -179,7 +179,7 @@ s_ADDTREE <- function(x, y = NULL,
                      resample.seed = resample.seed)
 
   # addtree ----
-  if (verbose) msg("Training ADDTREE...", newline.pre = TRUE)
+  if (verbose) msg2("Training ADDTREE...", newline.pre = TRUE)
   mod <- addtree(x, y,
                  catPredictors = NULL,
                  depthLimit = max.depth,
@@ -235,17 +235,17 @@ s_ADDTREE <- function(x, y = NULL,
                  question = question)
 
   # data.tree ----
-  if (verbose) msg("Traversing tree by preorder...")
+  if (verbose) msg2("Traversing tree by preorder...")
   rt$mod$frame <- preorderTree.addtree(rt, x)
-  if (verbose) msg("Converting paths to rules...")
+  if (verbose) msg2("Converting paths to rules...")
   rt$mod$frame$Rule <- addtree_path_to_rules(rt$mod$frame$Path)
-  if (verbose) msg("Converting to data.tree object...")
+  if (verbose) msg2("Converting to data.tree object...")
   rt$mod$addtree <- data.tree::as.Node(rt$mod$frame, pathName = "Path")
 
   # Prune ----
   prune <- prune.empty.leaves <- remove.bad.parents <- TRUE
   if (prune) {
-    if (verbose) msg("Pruning tree...")
+    if (verbose) msg2("Pruning tree...")
     rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
                                            prune.empty.leaves = prune.empty.leaves,
                                            remove.bad.parents = remove.bad.parents,

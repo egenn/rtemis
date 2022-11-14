@@ -68,7 +68,7 @@ massGLM <- function(x, y,
 
     # Data ----
     if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
-    if (trace > 0) msg0('massGLM type is "', type, '"')
+    if (trace > 0) msg20('massGLM type is "', type, '"')
     if (type == "massx") {
         if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
         nmods <- NCOL(x)
@@ -84,11 +84,11 @@ massGLM <- function(x, y,
             colnames(x)
         }
     }
-    if (trace > 0) msg("Feature names:", paste(xnames, collapse = ", "))
+    if (trace > 0) msg2("Feature names:", paste(xnames, collapse = ", "))
     if (is.null(ynames)) {
         ynames <- if (is.null(colnames(y))) deparse(substitute(y)) else colnames(y)
     }
-    if (trace > 0) msg("Outcome names:", paste(ynames, collapse = ", "))
+    if (trace > 0) msg2("Outcome names:", paste(ynames, collapse = ", "))
 
     if (scale.x) x <- scale(x)
     if (scale.y) y <- scale(y)
@@ -109,7 +109,7 @@ massGLM <- function(x, y,
     }
 
     # Models ----
-    if (verbose) msg("Training", nmods, "mass-GLM models...")
+    if (verbose) msg2("Training", nmods, "mass-GLM models...")
     if (verbose) {
         pbapply::pboptions(type = "timer")
     } else {

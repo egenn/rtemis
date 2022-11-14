@@ -20,7 +20,7 @@ lotri2edgeList <- function(A, filename = NULL, verbose = TRUE) {
   # [ MAIN ] ----
   # Check A is a square matrix
   dim.A <- dim(A)
-  if (verbose) msg("Input dimensions are", dim.A)
+  if (verbose) msg2("Input dimensions are", dim.A)
   if (dim.A[1] != dim.A[2]) stop("Error: Input matrix is not square.")
   n <- dim.A[1]
   l <- list()

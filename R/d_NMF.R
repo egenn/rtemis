@@ -53,15 +53,15 @@ d_NMF <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
   # NMF ----
-  if (verbose) msg("Running Non-negative Matrix Factorization...")
+  if (verbose) msg2("Running Non-negative Matrix Factorization...")
   decom <- NMF::nmf(t(x), rank = k, method = method, ...)
   basis <- NMF::basis(decom)
   coef <- NMF::coef(decom)

@@ -25,7 +25,7 @@ rules2medmod <- function(rules, x,
     nrules <- length(rules)
     rules.f <- vector("character", nrules)
     frmt <- if (.ddSci) ddSci else I
-    if (verbose) msg("Converting rules...")
+    if (verbose) msg2("Converting rules...")
     for (i in seq(rules)) {
         if (trace > 0) cat("#", i, "/", nrules, "...\n", sep = "")
         dat <- x[cxr[, i] == 1, ]
@@ -50,6 +50,6 @@ rules2medmod <- function(rules, x,
         rules.f[i] <- paste(unique(rule), collapse = " & ")
     } # /loop through rules
 
-    if (verbose) msg("Done")
+    if (verbose) msg2("Done")
     rules.f
 } # rtemis::rules2medmod

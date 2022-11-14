@@ -62,7 +62,7 @@ mplot3_pr <- function(prob, labels,
   probl <- if (!is.list(prob)) list(prob) else prob
   labelsl <- if (!is.list(labels)) list(labels) else labels
   if (length(labelsl) < length(probl)) {
-    if (verbose) msg("Assuming same labels for each set of probabilities")
+    if (verbose) msg2("Assuming same labels for each set of probabilities")
     labelsl <- rep(labelsl, length(probl) / length(labelsl))
   }
 

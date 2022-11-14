@@ -34,7 +34,7 @@ prune.addtree <- function(addtree,
   # Prune empty leaves ----
   if (prune.empty.leaves) {
     k <- data.tree::Prune(addtree, pruneFun = function(node) !(node$N == 0))
-    if (verbose & k > 0) msg("Pruned", k, "empty", ifelse(k == 1, "leaf", "leaves"))
+    if (verbose & k > 0) msg2("Pruned", k, "empty", ifelse(k == 1, "leaf", "leaves"))
   }
 
   # Prune leaf siblings ----
@@ -43,12 +43,12 @@ prune.addtree <- function(addtree,
                                                              && length(node$siblings) == 1
                                                              && node$siblings[[1]]$isLeaf
                                                              && node$Estimate == node$siblings[[1]]$Estimate))
-  if (verbose & i > 0) msg("Pruned", i, "siblings with same estimate")
+  if (verbose & i > 0) msg2("Pruned", i, "siblings with same estimate")
 
   # Prune solo leaves ----
   j <- data.tree::Prune(addtree, pruneFun = function(node) !(node$isLeaf
                                                              && length(node$siblings) == 0))
-  if (verbose & j > 0) msg("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
+  if (verbose & j > 0) msg2("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
 
   # Loop ----
   while (i + j > 0) {
@@ -56,11 +56,11 @@ prune.addtree <- function(addtree,
                                                                && length(node$siblings) == 1
                                                                && node$siblings[[1]]$isLeaf
                                                                && node$Estimate == node$siblings[[1]]$Estimate))
-    if (verbose & i > 0)  msg("Pruned", i, "siblings with same estimate")
+    if (verbose & i > 0)  msg2("Pruned", i, "siblings with same estimate")
     j <- data.tree::Prune(addtree, pruneFun = function(node)
       !(node$isLeaf
         && length(node$siblings) == 0))
-    if (verbose & j > 0) msg("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
+    if (verbose & j > 0) msg2("Pruned", j, "solo", ifelse(j == 1, "leaf", "leaves"))
   }
 
   # Prune empty leaves ----
@@ -68,7 +68,7 @@ prune.addtree <- function(addtree,
     k <- 1
     while (k > 0) {
       k <- data.tree::Prune(addtree, pruneFun = function(node) !(node$N == 0))
-      if (verbose & k > 0) msg("Pruned", k, ifelse(k == 1, "leaf", "leaves"))
+      if (verbose & k > 0) msg2("Pruned", k, ifelse(k == 1, "leaf", "leaves"))
     }
   }
 
@@ -88,7 +88,7 @@ prune.addtree <- function(addtree,
           bad.parents[[1]]$children[[2]]$Depth <- bad.parents[[1]]$children[[2]]$Depth - 1
         }
         bad.parents[[1]]$parent$children <- bad.parents[[1]]$children
-        if (verbose) msg(i, "- Removed 1 bad parent")
+        if (verbose) msg2(i, "- Removed 1 bad parent")
       })
       bad.parents <- data.tree::Traverse(addtree,
                                          filterFun = function(node) length(node$siblings) == 0 &&
@@ -96,7 +96,7 @@ prune.addtree <- function(addtree,
     }
   }
 
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   addtree
 
 } # rtemis::prune.addtree

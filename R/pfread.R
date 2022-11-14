@@ -31,7 +31,7 @@ pfread <- function(x, part_nrows,
 
     nparts <- ceiling(nrows / part_nrows)
     if (verbose) {
-        msg("Reading part 1...")
+        msg2("Reading part 1...")
         i <- 1
     }
     dat1 <- fread(x,
@@ -59,7 +59,7 @@ pfread <- function(x, part_nrows,
     })
 
     dat <- rbindlist(c(list(dat1), parts))
-    if (verbose) msg("Read", hilitebig(nrow(dat)), "rows")
+    if (verbose) msg2("Read", hilitebig(nrow(dat)), "rows")
 
     invisible(dat)
 } # rtemis::pfread
@@ -82,7 +82,7 @@ pfread1 <- function(x, part_nrows,
     
     nparts <- ceiling(nrows / part_nrows)
     if (verbose) {
-        msg("Reading part 1...")
+        msg2("Reading part 1...")
         i <- 1
     }
     dat <- fread(x,
@@ -95,13 +95,13 @@ pfread1 <- function(x, part_nrows,
         return(dat)
     }
     ndone <- part_nrows
-    if (verbose) msg("Total read =", hilitebig(ndone))
+    if (verbose) msg2("Total read =", hilitebig(ndone))
     col_classes <- sapply(dat, \(i) class(i)[1])
     .col.names <- names(col_classes)
     .colClasses <- unname(col_classes)
     for (i in seq_len(nparts)[-1]) {
         if (verbose) {
-            msg0("Reading part ", i, "...")
+            msg20("Reading part ", i, "...")
             i <- i + 1
         }
 
@@ -117,7 +117,7 @@ pfread1 <- function(x, part_nrows,
             )
         )
         ndone <- nrow(dat)
-        if (verbose) msg("Total read =", hilitebig(ndone))
+        if (verbose) msg2("Total read =", hilitebig(ndone))
     }
 
     invisible(dat)

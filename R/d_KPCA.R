@@ -62,8 +62,8 @@ d_KPCA <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
@@ -80,7 +80,7 @@ d_KPCA <- function(x,
   }
 
   # KPCA ----
-  if (verbose) msg("Running Kernel Principal Components Analysis...")
+  if (verbose) msg2("Running Kernel Principal Components Analysis...")
   decom <- kernlab::kpca(x, features = k, th = th,
                          kernel = kernel, kpar = kpar, ...)
   vectors <- decom@pcv

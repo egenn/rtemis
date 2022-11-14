@@ -86,7 +86,7 @@ s_KNN <- function(x, y = NULL,
                                 newline.pre = TRUE)
 
   # FNN::knn/knn.reg ----
-  if (verbose) msg("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
+  if (verbose) msg2("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
   .x.test <- if (is.null(x.test)) x else x.test
   if (type == "Classification") {
     mod <- FNN::knn(train = x, test = .x.test, cl = y,

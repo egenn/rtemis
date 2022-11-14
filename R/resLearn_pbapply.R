@@ -76,7 +76,7 @@ resLearn_pbapply <- function(x, y, mod,
                        verbose,
                        outdir,
                        save.mods) {
-    if (verbose) msg("Running resample #", index, sep = "")
+    if (verbose) msg2("Running resample #", index, sep = "")
     res1 <- res[[index]]
     if (is.null(mtry)) {
       feat.index <- seq_len(NCOL(x))
@@ -124,18 +124,18 @@ resLearn_pbapply <- function(x, y, mod,
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
 
-  if (verbose) msg0("Training ", modSelect(mod, desc = TRUE), " on ",
+  if (verbose) msg20("Training ", modSelect(mod, desc = TRUE), " on ",
                     length(res), " ", desc, "...", newline.pre = TRUE)
   pbapply.type <- if (verbose) "timer" else "none"
   pbapply::pboptions(type = pbapply.type)
   if (n.workers > 1) {
     if (parallel.type == "psock") {
-      if (verbose) msg("Starting PSOCK cluster on", n.workers, "cores...")
+      if (verbose) msg2("Starting PSOCK cluster on", n.workers, "cores...")
       cl <- makePSOCKcluster(n.workers)
       on.exit(stopCluster(cl))
       clusterEvalQ(cl, library("rtemis"))
     } else {
-      if (verbose) msg("Parallelizing by forking on", n.workers, "cores...")
+      if (verbose) msg2("Parallelizing by forking on", n.workers, "cores...")
       cl <- n.workers
     }
   } else {

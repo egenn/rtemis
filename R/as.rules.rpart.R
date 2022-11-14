@@ -21,10 +21,10 @@ as.rules.rpart <- function(object, verbose = FALSE) {
     # Object ----
     if (inherits(object, "rpart")) {
         # frame <- object$frame
-        if (verbose) msg("Working on rpart object")
+        if (verbose) msg2("Working on rpart object")
     } else if (inherits(object, "rtMod") && inherits(object$mod, "rpart")) {
         object <- object$mod
-        if (verbose) msg("Working on rtemis CART object")
+        if (verbose) msg2("Working on rtemis CART object")
     } else {
         stop("Input must be rpart object or rtemis CART model")
     }

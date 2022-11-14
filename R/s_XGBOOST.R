@@ -152,7 +152,7 @@ s_XGBOOST <- function(x, y = NULL,
     if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     #   if (n.trees > max.trees) {
-    #     if (verbose) msg("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
+    #     if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
     #     n.trees <- max.trees
     #   }
     booster <- match.arg(booster)
@@ -221,7 +221,7 @@ s_XGBOOST <- function(x, y = NULL,
         )
     }
 
-    if (verbose) msg("Running XGBoost...", newline.pre = TRUE)
+    if (verbose) msg2("Running XGBoost...", newline.pre = TRUE)
 
     # Grid Search ----
     if (is.null(metric)) {
@@ -347,7 +347,7 @@ s_XGBOOST <- function(x, y = NULL,
     #   }
 
     # XGBoost ----
-    if (verbose) msg("Training XGBoost with", nrounds, "rounds...")
+    if (verbose) msg2("Training XGBoost with", nrounds, "rounds...")
     watchlist <- if (.gs) {
         list(train = xg.dat.train, valid = xg.dat.test)
     } else {
@@ -414,7 +414,7 @@ s_XGBOOST <- function(x, y = NULL,
     varimp <- NULL
     # This may take a while
     if (importance) {
-        if (verbose) msg("Estimating variable importance...")
+        if (verbose) msg2("Estimating variable importance...")
         .xgbvarimp <- xgboost::xgb.importance(
             model = mod,
             feature_names = colnames(x)

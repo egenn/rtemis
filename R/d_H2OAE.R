@@ -100,9 +100,9 @@ d_H2OAE <- function(x,
   }
 
   # h2o Frames
-  if (verbose) msg("Connecting to H2O server...")
+  if (verbose) msg2("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   df.train <- h2o::as.h2o(x, "df_train")
   if (!is.null(x.test)) {
     df.test <- h2o::as.h2o(x.test, "df_test")
@@ -111,7 +111,7 @@ d_H2OAE <- function(x,
   }
 
   # H2OAE ----
-  if (verbose) msg("Training H2O Autoencoder...")
+  if (verbose) msg2("Training H2O Autoencoder...")
   params <- list(x = 1:ncol(x), training_frame = df.train,
                  model_id = paste0("rtemis.H2OAE.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
                  validation_frame = df.test,
@@ -133,7 +133,7 @@ d_H2OAE <- function(x,
   if (verbose) print(summary(mod))
 
   # Projections ----
-  if (verbose) msg("Extracting Deep Features...")
+  if (verbose) msg2("Extracting Deep Features...")
   projections.train <- as.data.frame(h2o::h2o.deepfeatures(mod, df.train, layer = extract.layer))
   if (!is.null(x.test)) {
     projections.test <- as.data.frame(h2o::h2o.deepfeatures(mod, df.test, layer = extract.layer))
@@ -164,7 +164,7 @@ d_H2OAE <- function(x,
                                       scale = scale,
                                       center = center),
                     extra = extra)
-  if (verbose) msg("Access H2O Flow at ", ip, ":", port, " in your browser", sep = "")
+  if (verbose) msg2("Access H2O Flow at ", ip, ":", port, " in your browser", sep = "")
   outro(start.time, verbose = verbose)
   rt
 

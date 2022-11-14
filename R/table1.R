@@ -31,7 +31,7 @@ table1 <- function(x,
 
   if (is.null(dim(x))) stop("Please provide a matrix or data frame")
   .dim <- dim(x)
-  if (verbose) msg("Input:", hilite(.dim[1]), "cases with", hilite(.dim[2]), "features")
+  if (verbose) msg2("Input:", hilite(.dim[1]), "cases with", hilite(.dim[2]), "features")
 
   .names <- colnames(x)
   if (is.null(.names)) {

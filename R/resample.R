@@ -82,10 +82,10 @@ resample <- function(y,
     # Input ----
     if (NCOL(y) > 1) {
       if (survival::is.Surv(y)) {
-        if (verbose) msg("Survival object will be stratified on time")
+        if (verbose) msg2("Survival object will be stratified on time")
         y <- y[, 1]
       } else {
-        if (verbose) msg("Input contains more than one columns; will stratify on last")
+        if (verbose) msg2("Input contains more than one columns; will stratify on last")
         y <- y[[NCOL(y)]]
       }
 
@@ -184,7 +184,7 @@ resample <- function(y,
                  loocv = "independent folds (LOOCV)",
                  "custom resamples")
 
-  if (verbose) msg("Created", n.resamples, desc)
+  if (verbose) msg2("Created", n.resamples, desc)
 
   # Attributes ----
   class(res.part) <- c("resample", "list")
@@ -312,7 +312,7 @@ kfold <- function(x, k = 10,
   # ->> update
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
-    if (verbose) msg("Using max n bins possible =", max.bins)
+    if (verbose) msg2("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
 
@@ -363,7 +363,7 @@ strat.sub <- function(x,
   stratify.var <- as.numeric(stratify.var)
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
-    if (verbose) msg("Using max n bins possible =", max.bins)
+    if (verbose) msg2("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
   ids <- seq_along(x)

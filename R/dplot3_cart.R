@@ -69,7 +69,7 @@ dplot3_cart <- function(
       .tree <- as.data.tree.rpart(object$mod)
       method <- object$mod$method
       y <- object$mod$model$y
-      if (verbose) msg("Object is rtemis rpart model")
+      if (verbose) msg2("Object is rtemis rpart model")
     } else {
       stop("Input must be of type rpart")
     }
@@ -78,7 +78,7 @@ dplot3_cart <- function(
       .tree <- as.data.tree.rpart(object)
       method <- object$method
       y <- object$model$y
-      if (verbose) msg("Object is rpart model")
+      if (verbose) msg2("Object is rpart model")
     }
   }
   type <- "rpart"

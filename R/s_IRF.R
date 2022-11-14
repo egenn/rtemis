@@ -120,7 +120,7 @@ s_IRF <- function(x, y = NULL,
 
   # iRF::tuneRF/iRF ----
   if (autotune) {
-    if (verbose) msg("Tuning for mtry...")
+    if (verbose) msg2("Tuning for mtry...")
     tuner <- iRF::tuneRF(x = x, y = y,
                          mtryStart = mtryStart,
                          ntreeTry = n.trees.try,
@@ -131,9 +131,9 @@ s_IRF <- function(x, y = NULL,
                          do.trace = tune.do.trace,
                          classwt = classwt)
     mtry <- tuner[which.min(tuner[, 2]), 1]
-    if (verbose) msg("Best mtry :", mtry)
+    if (verbose) msg2("Best mtry :", mtry)
   }
-  if (verbose) msg("Running Iterative Random Forest (iRF)", type, "with", n.trees, "trees...", newline.pre = TRUE)
+  if (verbose) msg2("Running Iterative Random Forest (iRF)", type, "with", n.trees, "trees...", newline.pre = TRUE)
   mod <- iRF::iRF(x = data.matrix(x), y = y,
                   n.iter = n.iter,
                   ntree = n.trees,

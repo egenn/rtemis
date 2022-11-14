@@ -227,7 +227,7 @@ dplot3_linad <- function(x,
   if (edgethickness.by.ncases) {
     edges$value <- Ncases[-1]
   }
-  if (trace > 0) msg("Drawing graph with visNetwork...")
+  if (trace > 0) msg2("Drawing graph with visNetwork...")
   # '- visNetwork ----
   visNetwork::visNetwork(nodes, edges,
                          width = width,

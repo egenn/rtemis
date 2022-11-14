@@ -90,7 +90,7 @@ x_CCA <- function(x, z,
   # Arguments ----
   if (is.null(n.cores)) {
     n.cores <- future::availableCores()
-    if (verbose) msg("n.cores set to", n.cores)
+    if (verbose) msg2("n.cores set to", n.cores)
   }
 
   # Data ----
@@ -102,7 +102,7 @@ x_CCA <- function(x, z,
   # CCA permute ----
   if (is.null(penaltyx)) {
     # Run permutations to find optimal penaltyx and penaltyz
-    if (verbose) msg("Running CCA.permute to estimate best penalty for x and z...")
+    if (verbose) msg2("Running CCA.permute to estimate best penalty for x and z...")
     CCA.perm <- x_CCA.permute(x, z,
                               typex = typex,
                               typez = typez,
@@ -121,7 +121,7 @@ x_CCA <- function(x, z,
   }
 
   # CCA ----
-  if (verbose) msg("\nRunning CCA...\n")
+  if (verbose) msg2("\nRunning CCA...\n")
   xnames <- colnames(x)
   znames <- colnames(z)
   xdecom <- PMA::CCA(x, z,
@@ -360,12 +360,12 @@ x_CCA.permute.both <- function(x, z,
   pbapply::pboptions(type = pbapply.type)
   if (n.cores > 1) {
     if (parallel.type == "psock") {
-      if (verbose) msg("Starting PSOCK cluster on", n.cores, "cores...")
+      if (verbose) msg2("Starting PSOCK cluster on", n.cores, "cores...")
       cl <- makePSOCKcluster(n.cores)
       on.exit(stopCluster(cl))
       clusterEvalQ(cl, library("rtemis"))
     } else {
-      if (verbose) msg("Parallelizing by forking on", n.cores, "cores...")
+      if (verbose) msg2("Parallelizing by forking on", n.cores, "cores...")
       cl <- n.cores
     }
   } else {

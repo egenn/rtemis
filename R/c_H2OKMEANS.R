@@ -63,9 +63,9 @@ c_H2OKMEANS <- function(x, x.test = NULL,
 
   # Data ----
   # h2o Frames
-  if (verbose) msg("Connecting to H2O server...")
+  if (verbose) msg2("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   df.train <- h2o::as.h2o(data.frame(x), "df_train")
   if (!is.null(x.test)) {
     df.test <- h2o::as.h2o(data.frame(x.test), "df_test")
@@ -74,7 +74,7 @@ c_H2OKMEANS <- function(x, x.test = NULL,
   }
 
   # H2OKMEANS ----
-  if (verbose) msg("Performing K-Means Clustering using H2O with k = ", k, "...", sep = "")
+  if (verbose) msg2("Performing K-Means Clustering using H2O with k = ", k, "...", sep = "")
   clust <- h2o::h2o.kmeans(training_frame = df.train,
                            model_id = paste0("rtemis.H2OKMEANS.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
                            k = k,

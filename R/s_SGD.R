@@ -117,7 +117,7 @@ s_SGD <- function(x, y = NULL,
   }
 
   # sgd::sgd ----
-  if (verbose) msg("Training SGD model...", newline.pre = TRUE)
+  if (verbose) msg2("Training SGD model...", newline.pre = TRUE)
   mod <- sgd::sgd(x = x, y = y,
                   model = model,
                   model.control = model.control,

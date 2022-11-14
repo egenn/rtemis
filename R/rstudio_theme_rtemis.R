@@ -29,13 +29,13 @@ rstudio_theme_rtemis <- function(theme = "dark") {
   }
 
   # '- Add theme ----
-  msg("Adding rtemis theme...")
+  msg2("Adding rtemis theme...")
   .theme <- rstudioapi::addTheme(
     system.file(fs::path("resources", paste0(.theme, ".rstheme")), package = "rtemis")
   )
 
   # '- Activate theme ----
   rstudioapi::applyTheme(.theme)
-  msg("You may need to restart RStudio for theme changes to take effect in the Options menu")
+  msg2("You may need to restart RStudio for theme changes to take effect in the Options menu")
 
 } # rtemis::rstudio_theme_rtemis

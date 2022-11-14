@@ -9,7 +9,7 @@
 #'
 #' If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
 #'   the call stack.
-#' \code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
+#' \code{msg0}, similar to \code{paste0}, is \code{msg2(..., sep = "")}
 #'
 # Add following to each function using \code{msg}:
 # \code{current <- as.list(sys.call())[[1]]}
@@ -30,7 +30,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
+#' msg2("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
 #' }
 #'
 msg <- function(...,
@@ -103,7 +103,7 @@ msg <- function(...,
 #                  as.message = FALSE,
 #                  color = NULL) {
 
-#   msg(..., date = date,
+#   msg2(..., date = date,
 #       call.depth = call.depth,
 #       caller.id = caller.id + 1,
 #       newline = newline,
@@ -203,7 +203,7 @@ rtOut <- function(...) {
 }
 
 info <- function(..., color = hilite) {
-    msg(..., color = color)
+    msg2(..., color = color)
 }
 
 msg2 <- function(...,
@@ -234,7 +234,6 @@ msg2 <- function(...,
         # function definition instead of the name alone
         if (is.function(caller)) caller <- NULL
         if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
-        if (!is.null(caller)) caller <- paste0(" ", caller)
     }
 
     txt <- Filter(Negate(is.null), list(...))
@@ -252,3 +251,50 @@ msg2 <- function(...,
     }
     
 } # rtemis::msg2
+
+
+msg20 <- function(...,
+                #  date = TRUE,
+                 caller = NULL,
+                 call.depth = 1,
+                 caller.id = 1,
+                #  newline = TRUE,
+                #  extraline = FALSE,
+                 newline.pre = FALSE,
+                #  as.message = FALSE,
+                 color = NULL,
+                 sep = "") {
+    if (is.null(caller)) {
+        callStack.list <- as.list(sys.calls())
+        stack.length <- length(callStack.list)
+        if (stack.length < 2) {
+            caller <- ">"
+        } else {
+            call.depth <- call.depth + caller.id
+            if (call.depth > stack.length) call.depth <- stack.length
+            caller <- paste(lapply(
+                rev(seq(call.depth)[-seq(caller.id)]),
+                function(i) rev(callStack.list)[[i]][[1]]
+            ), collapse = ">>")
+        }
+        # do.call and similar will change the call stack, it will contain the full
+        # function definition instead of the name alone
+        if (is.function(caller)) caller <- NULL
+        if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    }
+
+    txt <- Filter(Negate(is.null), list(...))
+    # .dt <- if (date) paste0(as.character(Sys.time())) else NULL
+    .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
+    if (newline.pre) cat("\n")
+    if (is.null(color)) {
+        cat(gray(paste0(.dt, gray(" "))))
+        cat(paste(txt, collapse = sep))
+        cat(" [", bold(caller), "]\n", sep = "")
+    } else {
+        cat(gray(paste0(.dt, gray(" "))))
+        cat(paste(color(txt), collapse = sep))
+        cat(" [", bold(caller), "]\n", sep = "")
+    }
+    
+} # rtemis::msg20

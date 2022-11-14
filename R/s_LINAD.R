@@ -317,7 +317,7 @@ s_LINAD <- function(x, y = NULL,
     }
   } else {
     x.valid <- y.valid <- NULL
-    msg("Training LINAD on full training set...", newline = TRUE)
+    msg2("Training LINAD on full training set...", newline = TRUE)
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
@@ -418,7 +418,7 @@ s_LINAD <- function(x, y = NULL,
                      plot.tuning = plot.tuning)
 
   # Fitted  ----
-  if (trace > 1) msg("Getting fitted values...")
+  if (trace > 1) msg2("Getting fitted values...")
   if (type == "Classification") {
     .fitted <- predict(mod, x, type = "all")
     fitted <- .fitted$estimate
@@ -433,7 +433,7 @@ s_LINAD <- function(x, y = NULL,
   # Predicted  ----
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (trace > 1) msg("Getting predicted values...")
+    if (trace > 1) msg2("Getting predicted values...")
     if (type == "Classification") {
       .predicted <- predict(mod, x.test,
                             type = "all",
@@ -486,7 +486,7 @@ s_LINAD <- function(x, y = NULL,
                  question = question)
 
   if (cluster) {
-    if (verbose) msg("Getting clusters...")
+    if (verbose) msg2("Getting clusters...")
     mod$extra$clusters.train <- indexCasesByRules(x, mod$leaves$rules$rule)
     if (!is.null(x.test)) {
       mod$extra$clusters.test <- indexCasesByRules(x.test, mod$leaves$rules$rule)

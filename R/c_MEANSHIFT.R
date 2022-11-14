@@ -76,7 +76,7 @@ c_MEANSHIFT <- function(x,
   kernelType <- match.arg(kernelType)
 
   # Mean Shift ----
-  if (verbose) msg("Performing Mean Shift Clustering...", sep = "")
+  if (verbose) msg2("Performing Mean Shift Clustering...", sep = "")
   clust <- meanShiftR::meanShift(
                 queryData = x,
                 trainData = x,

@@ -52,7 +52,7 @@ mergelongtreatment <- function(x,
 
   # Print input summary
   if (verbose) {
-    msg("There are", n_sets, "input datasets:")
+    msg2("There are", n_sets, "input datasets:")
     .summary <- t(data.frame(sapply(x, function(i) paste(NROW(i), "x", NCOL(i)))))
     printdf1(.summary, pad = 4)
   }
@@ -72,14 +72,14 @@ mergelongtreatment <- function(x,
     setkeyv(dat, c(.key, time_varname))
     setkeyv(x[[i]], c(.key, time_varname))
     if (verbose) {
-      msg0("Merge ", orange(i), " of ", orange(n_sets), ": Using keys ",
+      msg20("Merge ", orange(i), " of ", orange(n_sets), ": Using keys ",
            paste0(hilite(.key), ", ", hilite(time_varname)))
     }
     # if (try({
     dat <- x[[i]][dat, roll = TRUE]
-    # })) msg0("Successfully merged ", .names[i], ":")
+    # })) msg20("Successfully merged ", .names[i], ":")
     if (verbose) {
-      msg("Merged dataset now contains", hilite(NROW(dat)), "rows and",
+      msg2("Merged dataset now contains", hilite(NROW(dat)), "rows and",
           hilite(NCOL(dat)), "columns")
     }
   }

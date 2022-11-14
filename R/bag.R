@@ -140,7 +140,7 @@ bag <- function(x, y = NULL,
   if (verbose) parameterSummary(mod, mod.params)
 
   # resLearn ----
-  if (verbose) msg0("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
+  if (verbose) msg20("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
   rl <- resLearn_future(x = x, y = y,
                  mod = mod,
                  resample.rtset = .resample,

@@ -168,7 +168,7 @@ s_SDA <- function(x, y = NULL,
         trace = trace,
         tol = tol
     )
-    if (verbose) msg("Running Sparse Linear Discriminant Analysis...", newline.pre = TRUE)
+    if (verbose) msg2("Running Sparse Linear Discriminant Analysis...", newline.pre = TRUE)
     mod <- do.call(sparseLDA::sda, args = params)
 
     # Fitted ----

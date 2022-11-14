@@ -143,7 +143,7 @@ s_GAM.default <- function(x, y = NULL,
                 # Set levels present in testing and missing in training to NA
                 which.missing <- sapply(index.missing, all)
                 if (any(!which.missing)) {
-                    if (verbose) msg("Levels present in testing and not in training replaced with NA")
+                    if (verbose) msg2("Levels present in testing and not in training replaced with NA")
                     for (i in which(!which.missing)) {
                         missing.level <- levels.testing[[i]][!index.missing[[i]]]
                         index.extralevel <- x.test[, index.factor][, i] == missing.level
@@ -177,7 +177,7 @@ s_GAM.default <- function(x, y = NULL,
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
     # GAM ----
-    if (verbose) msg("Training GAM...", newline.pre = TRUE)
+    if (verbose) msg2("Training GAM...", newline.pre = TRUE)
     args <- c(
         list(
             formula = .formula,

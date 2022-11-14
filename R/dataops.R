@@ -123,7 +123,7 @@ getnamesandtypes <- function(x) {
 check_files <- function(paths,
                         verbose = TRUE,
                         pad = 0) {
-    if (verbose) msg("Checking files:")
+    if (verbose) msg2("Checking files:")
     
     for (f in paths) {
       if (file.exists(f)) {

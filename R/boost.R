@@ -147,7 +147,7 @@ boost <- function(x, y = NULL,
             tolerance.valid
         )
     }
-    if (trace > 0) msg("Initial MSE =", mse(y, init))
+    if (trace > 0) msg2("Initial MSE =", mse(y, init))
 
     # '- New series ----
     # init learning.rate vector
@@ -166,7 +166,7 @@ boost <- function(x, y = NULL,
             error.valid <- predicted.valid <- Fvalid <- NULL
         }
         i <- 1
-        if (verbose) msg("[ Boosting ", learner.name, "... ]", sep = "")
+        if (verbose) msg2("[ Boosting ", learner.name, "... ]", sep = "")
     } else {
         .learning.rate <- boost.obj$mod$learning.rate
         # '- Expand series ----
@@ -181,8 +181,8 @@ boost <- function(x, y = NULL,
         }
         max.iter <- max.iter + length(mods)
         i <- length(mods) + 1
-        if (trace > 0) msg("i =", i)
-        if (verbose) msg("[ Expanding boosted ", learner.name, "... ]", sep = "")
+        if (trace > 0) msg2("i =", i)
+        if (verbose) msg2("[ Expanding boosted ", learner.name, "... ]", sep = "")
     }
 
     if (is.null(resid)) resid <- y - Fval
@@ -210,8 +210,8 @@ boost <- function(x, y = NULL,
     # '- Iterate learner ----
     while (i <= max.iter) {
         .learning.rate[i] <- learning.rate
-        if (trace > 0) msg("learning.rate is", .learning.rate[i])
-        if (trace > 0) msg("i =", i)
+        if (trace > 0) msg2("learning.rate is", .learning.rate[i])
+        if (trace > 0) msg2("i =", i)
         if (case.p < 1) {
             n.cases <- NROW(x)
             index <- sample(n.cases, case.p * n.cases)
@@ -257,7 +257,7 @@ boost <- function(x, y = NULL,
             error.valid[[i]] <- mse(y.valid, Fvalid)
             if (verbose && i %in% print.progress.index) {
                 if (verbose) {
-                    msg("Iteration #", i, ": Training MSE = ",
+                    msg2("Iteration #", i, ": Training MSE = ",
                         ddSci(error[[i]]),
                         "; Validation MSE = ", ddSci(error.valid[[i]]),
                         sep = ""
@@ -266,7 +266,7 @@ boost <- function(x, y = NULL,
             }
         } else {
             if (verbose && i %in% print.progress.index) {
-                msg("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
+                msg2("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
             }
         }
         if (print.error.plot == "iter" && i %in% print.error.plot.index) {
@@ -287,11 +287,11 @@ boost <- function(x, y = NULL,
             }
         }
         if (error[[i]] <= tolerance) {
-            if (verbose) msg("Reached training error tolerance = ", tolerance, "; breaking", sep = "")
+            if (verbose) msg2("Reached training error tolerance = ", tolerance, "; breaking", sep = "")
             break
         }
         if (!is.null(x.valid) && error.valid[[i]] <= tolerance.valid) {
-            if (verbose) msg("Reached validationn error tolerance, breaking")
+            if (verbose) msg2("Reached validationn error tolerance, breaking")
             break
         }
 
@@ -304,13 +304,13 @@ boost <- function(x, y = NULL,
             }
             if (es) {
                 break
-                if (verbose) msg("Breaking out of iteration", i)
+                if (verbose) msg2("Breaking out of iteration", i)
             }
         }
 
         i <- i + 1
     }
-    if (verbose && i > max.iter) msg("Reached max iterations")
+    if (verbose && i > max.iter) msg2("Reached max iterations")
 
     if (print.error.plot == "final") {
         if (is.null(x.valid)) {
@@ -453,9 +453,9 @@ predict.boost <- function(object,
                           n.cores = rtCores, ...) {
     if (inherits(object, "rtMod") && inherits(object$mod, "boost")) {
         object <- object$mod
-        if (verbose) msg("Found rtemis boost object")
+        if (verbose) msg2("Found rtemis boost object")
     } else if (inherits(object, "boost")) {
-        msg("Found boost object")
+        msg2("Found boost object")
     } else {
         stop("Please provide boost object")
     }
@@ -700,7 +700,7 @@ update.rtMod.boost <- function(object, x = NULL,
     if (trace > 0) {
         mse.orig <- mse(object$y.train, fitted.orig)
         mse.new <- mse(object$y.train, fitted)
-        msg0("old MSE = ", ddSci(mse.orig), "; new MSE = ", ddSci(mse.new))
+        msg20("old MSE = ", ddSci(mse.orig), "; new MSE = ", ddSci(mse.new))
         # if (mse.new > mse.orig) warning("Whatever you did, it didn't really help:\nnew MSE is higher than original")
     }
 } # rtemis::update.rtMod.boost

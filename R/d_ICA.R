@@ -70,8 +70,8 @@ d_ICA <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
@@ -82,7 +82,7 @@ d_ICA <- function(x,
   }
 
   # ICA ----
-  if (verbose) msg("Running Independent Component Analysis...")
+  if (verbose) msg2("Running Independent Component Analysis...")
   if (package == "fastICA") {
     decom <- fastICA::fastICA(x,
                               n.comp = k,

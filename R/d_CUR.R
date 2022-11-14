@@ -57,8 +57,8 @@ d_CUR <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
@@ -67,7 +67,7 @@ d_CUR <- function(x,
   }
 
   # CUR ----
-  if (verbose) msg("Running CUR Decomposition...")
+  if (verbose) msg2("Running CUR Decomposition...")
   decom <- rCUR::CUR(x, c = c, r = r, k = k,
                      sv = sv,
                      method = method,

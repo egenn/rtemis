@@ -1674,7 +1674,7 @@ rtPalettes <- list(
 
 rtpalette <- function(palette = NULL) {
     if (is.null(palette)) {
-        msg(hilite("The following palettes are available:"))
+        msg2(hilite("The following palettes are available:"))
         print(names(rtPalettes))
     } else {
         palette <- match.arg(

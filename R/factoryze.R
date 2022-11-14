@@ -77,7 +77,7 @@ factoryze <- function(x,
 
   # Parallel Analysis - Estimate Number of Factors ----
   if (do.pa) {
-    if (verbose) msg("Running Parallel Analysis...")
+    if (verbose) msg2("Running Parallel Analysis...")
     parallel.analysis <- psych::fa.parallel(x, fm = method,
                                             main = "Parallel Analysis Scree Plot")
     if (is.null(n.factors)) {
@@ -88,18 +88,18 @@ factoryze <- function(x,
       }
     } else {
       if (n.factors != parallel.analysis$nfact) {
-        msg(n.factors, "requested; Parallel analysis suggests", parallel.analysis$nfact, "factors.")
-        msg("Check scree plot")
+        msg2(n.factors, "requested; Parallel analysis suggests", parallel.analysis$nfact, "factors.")
+        msg2("Check scree plot")
       }
     }
   } else {
     parallel.analysis <- NULL
   }
-  if (verbose) msg("Using", n.factors, "factors")
+  if (verbose) msg2("Using", n.factors, "factors")
 
   # Factor Analysis ----
   if (do.fa) {
-    if (verbose) msg("Running Exploratory Factor Analysis...")
+    if (verbose) msg2("Running Exploratory Factor Analysis...")
     x.fa <- psych::fa(x, nfactors = n.factors,
                       fm = method,
                       rotate = rotation,
@@ -116,7 +116,7 @@ factoryze <- function(x,
 
   # Bifactor Analysis ----
   if (do.bifactor) {
-    if (verbose) msg("Running Bifactor Analysis...")
+    if (verbose) msg2("Running Bifactor Analysis...")
     x.omega <- psych::omegaSem(x, nfactors = n.factors,
                                fm = omega.method,
                                n.iter = omega.n.iter,
@@ -130,7 +130,7 @@ factoryze <- function(x,
 
   # Hierarchical Cluster Analysis ----
   if (do.hclust) {
-    if (verbose) msg("Performing hierarchical cluster analysis...")
+    if (verbose) msg2("Performing hierarchical cluster analysis...")
     x.pvclust <- pvclust::pvclust(x)
     if (print.plot) plot(x.pvclust)
   } else {

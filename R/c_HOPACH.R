@@ -48,7 +48,7 @@ c_HOPACH <- function(x,
   dependency_check("hopach")
 
   # HOPACH ----
-  if (verbose) msg("Running HOPACH clustering...")
+  if (verbose) msg2("Running HOPACH clustering...")
   clust <- hopach::hopach(x,
                           dmat = dmat,
                           d = metric,
@@ -56,7 +56,7 @@ c_HOPACH <- function(x,
                           kmax = kmax,
                           khigh = khigh,
                           verbose = trace > 0, ...)
-  if (verbose) msg("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
+  if (verbose) msg2("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
       paste(clust$clustering$sizes, collapse = ", "), ")", sep = "")
 
   # Clusters ----

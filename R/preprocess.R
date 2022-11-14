@@ -138,7 +138,7 @@ preprocess <- function(x, y = NULL,
   
   # Complete cases ----
   if (completeCases) {
-    if (verbose) msg("Filtering complete cases...")
+    if (verbose) msg2("Filtering complete cases...")
     x <- x[complete.cases(x), ]
   }
 
@@ -155,7 +155,7 @@ preprocess <- function(x, y = NULL,
     duplicate.index <- which(duplicated(x))
     Ndups <- length(duplicate.index)
     if (Ndups > 0) {
-      if (verbose) msg0("Removing ", singorplu(Ndups, "duplicated case"), "...")
+      if (verbose) msg20("Removing ", singorplu(Ndups, "duplicated case"), "...")
       x <- unique(x)
     }
   } else {
@@ -172,7 +172,7 @@ preprocess <- function(x, y = NULL,
       })]
       removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
       if (length(removeCases.thres.index) > 0) {
-        if (verbose) msg("Removing", length(removeCases.thres.index), 
+        if (verbose) msg2("Removing", length(removeCases.thres.index), 
                          "cases with >=",
                          removeCases.thres, "missing data...")
         xt <- xt[-removeCases.thres.index, ]
@@ -190,7 +190,7 @@ preprocess <- function(x, y = NULL,
       })]
       removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
       if (length(removeFeat.thres.index) > 0) {
-        if (verbose) msg("Removing", length(removeFeat.thres.index), 
+        if (verbose) msg2("Removing", length(removeFeat.thres.index), 
                          "features with >=",
                          removeFeatures.thres, "missing data...")
         x <- x[, -removeFeat.thres.index]
@@ -201,35 +201,35 @@ preprocess <- function(x, y = NULL,
   # Integer to factor ----
   if (integer2factor) {
     index.integer <- which(sapply(x, is.integer))
-    if (verbose) msg("Converting integers to factors...")
+    if (verbose) msg2("Converting integers to factors...")
     for (i in index.integer) x[, i] <- as.factor(x[, i])
   }
 
   # Integer to numeric ----
   if (integer2numeric) {
     index.integer <- which(sapply(x, is.integer))
-    if (verbose) msg("Converting integers to numeric...")
+    if (verbose) msg2("Converting integers to numeric...")
     for (i in index.integer) x[, i] <- as.numeric(x[, i])
   }
 
   # Logical to factor ----
   if (logical2factor) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to factors...")
+    if (verbose) msg2("Converting logicals to factors...")
     for (i in index.logical) x[, i] <- as.factor(x[, i])
   }
 
   # Logical to numeric ----
   if (logical2numeric) {
     index.logical <- which(sapply(x, is.logical))
-    if (verbose) msg("Converting logicals to numeric...")
+    if (verbose) msg2("Converting logicals to numeric...")
     for (i in index.logical) x[, i] <- as.numeric(x[, i])
   }
 
   # Numeric to factor ----
   if (numeric2factor) {
     index.numeric <- which(sapply(x, is.numeric))
-    if (verbose) msg("Converting numeric to factors...")
+    if (verbose) msg2("Converting numeric to factors...")
     if (is.null(numeric2factor.levels)) {
       for (i in index.numeric) x[, i] <- as.factor(x[, i])
     } else {
@@ -246,20 +246,20 @@ preprocess <- function(x, y = NULL,
   # Character to factor ----
   if (character2factor) {
     index.char <- which(sapply(x, is.character))
-    if (verbose) msg("Converting characters to factors...")
+    if (verbose) msg2("Converting characters to factors...")
     for (i in index.char) x[, i] <- as.factor(x[, i])
   }
 
   # factor NA to level ----
   if (factorNA2missing) {
     index.factor <- which(sapply(x, is.factor))
-    if (verbose) msg0('Converting NA in factors to level "', factorNA2missing.level, '"...')
+    if (verbose) msg20('Converting NA in factors to level "', factorNA2missing.level, '"...')
     for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
   }
 
   # Nonzero factors ----
   if (nonzeroFactors) {
-    if (verbose) msg("Shifting factor levels to exclude 0...")
+    if (verbose) msg2("Shifting factor levels to exclude 0...")
     if (any(sapply(x, is.factor))) {
       for (i in seq_len(NCOL(x))) {
         if (is.factor(x[, i])) {
@@ -277,7 +277,7 @@ preprocess <- function(x, y = NULL,
     .colnames <- colnames(x)
     for (i in cols.with.na) {
       x[, paste0(.colnames[i], "_missing")] <- factor(as.numeric(is.na(x[, i])))
-      if (verbose) msg0("Created missingness indicator for ", .colnames[i], "...")
+      if (verbose) msg20("Created missingness indicator for ", .colnames[i], "...")
     }
   }
 
@@ -288,20 +288,20 @@ preprocess <- function(x, y = NULL,
       dependency_check("missRanger")
       if (verbose) {
         if (impute.missRanger.params$pmm.k > 0) {
-          msg("Imputing missing values using predictive mean matching with missRanger...")
+          msg2("Imputing missing values using predictive mean matching with missRanger...")
         } else {
-          msg("Imputing missing values using missRanger...")
+          msg2("Imputing missing values using missRanger...")
         }
       }
       x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
                                   verbose = ifelse(verbose, 1, 0))
     } else if (impute.type == "micePMM") {
       dependency_check("mice")
-      if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
+      if (verbose) msg2("Imputing missing values by predictive mean matching using mice...")
       x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
     } else {
       # '- mean/mode ----
-      if (verbose) msg0("Imputing missing values using ", deparse(substitute(impute.numeric)),
+      if (verbose) msg20("Imputing missing values using ", deparse(substitute(impute.numeric)),
                         " and ", deparse(substitute(impute.discrete)), "...")
 
       discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
@@ -340,7 +340,7 @@ preprocess <- function(x, y = NULL,
     sc <- if (scale) "Scaling" else NULL
     ce <- if (center) "Centering" else NULL
     if (length(numeric_index) > 0) {
-      if (verbose) msg(paste(c(sc, ce), collapse = " and "),
+      if (verbose) msg2(paste(c(sc, ce), collapse = " and "),
                        length(numeric_index), "numeric features...")
       x_num_scaled <- as.data.frame(scale(x[, numeric_index], scale = scale, center = center))
       # insert into original dataset
@@ -350,7 +350,7 @@ preprocess <- function(x, y = NULL,
         x[, i] <- x_num_scaled[, j]
       }
     } else {
-      msg(paste(c(sc, ce), collapse = " and "),
+      msg2(paste(c(sc, ce), collapse = " and "),
           "was requested \n                                but no numeric features were found: Please check data.")
     }
   }
@@ -359,7 +359,7 @@ preprocess <- function(x, y = NULL,
   if (removeConstants) {
     constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
     if (length(constant) > 0) {
-      if (verbose) msg("Removing constant features...")
+      if (verbose) msg2("Removing constant features...")
       x <- x[, -constant]
     }
   }
@@ -386,7 +386,7 @@ preprocess <- function(x, y = NULL,
   } # /add back excluded
   
   if (isdatatable) data.table::setDT(x)
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   x
 
 } # rtemis::preprocess

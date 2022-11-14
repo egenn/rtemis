@@ -63,7 +63,7 @@ c_PAMK <- function(x,
   }
 
   # PAMK ----
-  if (verbose) msg("Partitioning Around Medoids...")
+  if (verbose) msg2("Partitioning Around Medoids...")
   clust <- fpc::pamk(x,
                      krange = krange,
                      criterion = criterion,
@@ -73,7 +73,7 @@ c_PAMK <- function(x,
                      metric = metric,
                      do.swap = do.swap,
                      trace.lev = trace, ...)
-  if (verbose) msg("Estimated optimal number of clusters:", clust$nc)
+  if (verbose) msg2("Estimated optimal number of clusters:", clust$nc)
 
   # Clusters ----
   clusters.train <- clust$pamobject$clustering

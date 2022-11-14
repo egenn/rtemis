@@ -113,22 +113,22 @@ s_MLRF <- function(x, y = NULL,
   # Spark cluster ----
   sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
   if (is(sc, "spark_connection")) {
-    if (verbose) msg("[@] Connected to Spark cluster")
+    if (verbose) msg2("[@] Connected to Spark cluster")
   } else {
     stop("[X] Failed to connect to Spark cluster. Please check cluster is available")
   }
 
   # Copy dataframe to Spark cluster
-  if (verbose) msg("Copying training set to cluster...")
+  if (verbose) msg2("Copying training set to cluster...")
   tbl <- sparklyr::sdf_copy_to(sc, df, overwrite = TRUE)
   if (is(tbl, "tbl_spark")) {
-    if (verbose) msg("...Success")
+    if (verbose) msg2("...Success")
   } else {
     stop("Failed to copy dataframe to Spark cluster. Check cluster")
   }
 
   # sparklyr::ml_random_forest ----
-  if (verbose) msg("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
+  if (verbose) msg2("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
   args <- c(list(x = tbl,
                  formula = .formula,
                  type = ifelse(type == "Classification",
@@ -157,10 +157,10 @@ s_MLRF <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (verbose) msg("Copying testing set to cluster")
+    if (verbose) msg2("Copying testing set to cluster")
     tbl.test <- sparklyr::sdf_copy_to(sc, df.test, overwrite = TRUE)
     if (is(tbl.test, "tbl_spark")) {
-      if (verbose) msg("...Success")
+      if (verbose) msg2("...Success")
     } else {
       stop("Failed to copy testing set dataframe to Spark cluster. Check cluster")
     }

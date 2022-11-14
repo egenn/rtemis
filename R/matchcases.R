@@ -113,7 +113,7 @@ matchcases <- function(target, pool,
   # then order pool by distance.
   mc <- data.frame(targetID = targetID, match = matrix(NA, ntarget, n.matches))
   for (i in seq(ntarget)) {
-    if (verbose) msg("Working on case", i, "of", ntarget)
+    if (verbose) msg2("Working on case", i, "of", ntarget)
     if (is.null(exactmatch.cols)) {
       subpool <- pool_s
     } else {

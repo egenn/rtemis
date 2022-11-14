@@ -146,9 +146,9 @@ s_H2ODL <- function(x, y = NULL,
   }
 
   # h2o Frames
-  if (verbose) msg("Connecting to H2O server...")
+  if (verbose) msg2("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   df.train <- h2o::as.h2o(data.frame(x, y = y), "df_train")
   if (!is.null(x.test)) {
     df.test <- h2o::as.h2o(data.frame(x.test, y = y.test), "df_test")
@@ -192,12 +192,12 @@ s_H2ODL <- function(x, y = NULL,
                    stopping_rounds = stopping.rounds,
                    stopping_metric = stopping.metric, ...)
   if (!is.null(hidden.dropout.ratios)) net.args$hidden_dropout_ratios <- hidden.dropout.ratios
-  if (verbose) msg("Training H2O Deep Net...", newline.pre = TRUE)
+  if (verbose) msg2("Training H2O Deep Net...", newline.pre = TRUE)
   mod <- do.call(h2o::h2o.deeplearning, net.args)
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
-  if (verbose) msg("Getting fitted values...")
+  if (verbose) msg2("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
     fitted <- factor(fitted, levels = levels(y))
@@ -208,7 +208,7 @@ s_H2ODL <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (verbose) msg("Getting predicted values...")
+    if (verbose) msg2("Getting predicted values...")
     predicted <- as.data.frame(predict(mod, df.test))[, 1]
     if (type == "Classification") {
       predicted <- factor(predicted, levels = levels(y))
@@ -257,7 +257,7 @@ s_H2ODL <- function(x, y = NULL,
             verbose,
             plot.theme)
 
-  if (verbose) msg0("Access H2O Flow by pointing your browser to ", ip, ":", port)
+  if (verbose) msg20("Access H2O Flow by pointing your browser to ", ip, ":", port)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

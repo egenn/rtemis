@@ -35,7 +35,7 @@ labels2nii <- function(label.vals,
   if (!file.exists(labeledNifti)) stop("Error: Labeled nifti file not found")
   outdir <- dirname(prefix)
   if (!dir.exists(outdir)) {
-    if (verbose) msg("Creating", outdir)
+    if (verbose) msg2("Creating", outdir)
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
   }
 
@@ -51,7 +51,7 @@ labels2nii <- function(label.vals,
     stop("Supplied 'label.vals' is length", k, "but 'labeledNifti' contains", kl - 1,
          "labels (plus background")
   }
-  if (verbose) msg("Working on ", k, " labels...", sep = "")
+  if (verbose) msg2("Working on ", k, " labels...", sep = "")
 
   # replace labels with cluster numbers using factor levels
   # create factor with levels = the labels
@@ -69,6 +69,6 @@ labels2nii <- function(label.vals,
   fnim.array <- array(fnim, dim = c(dim[1], dim[2], dim[3]))
   outname <- paste0(prefix, "_label.vals", k, ".nii.gz")
   RNifti::writeNifti(fnim.array, outname, template = labelednim, datatype = datatype)
-  if (verbose) msg("Wrote labeled nifti", outname)
+  if (verbose) msg2("Wrote labeled nifti", outname)
 
 } # rtemis::labels2nii

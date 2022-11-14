@@ -19,7 +19,7 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
   x$ID <- seq(n.cases)
   # rules <- gsub("&&", "&", rules)
   cxr <- matrix(0, n.cases, n.rules)
-  if (verbose) msg("Matching", n.rules, "rules to", n.cases, "cases...")
+  if (verbose) msg2("Matching", n.rules, "rules to", n.cases, "cases...")
   for (i in seq(rules)) {
     match <- x[eval(parse(text = rules[i]))]$ID
     cxr[match, i] <- 1

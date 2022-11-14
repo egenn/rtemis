@@ -105,7 +105,7 @@ mplot3_harmonograph <- function(steps = seq(1,  500,  by  =  .01),
 #' @export
 
 chill <- function(sleep = .5, text = NULL, max = 1000) {
-  msg("Ctrl-C to exit")
+  msg2("Ctrl-C to exit")
   for (i in seq(max)) {
     Sys.sleep(sleep); mplot3_harmonograph(col = sample(2:8, 1),
                                           text = text)

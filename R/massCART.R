@@ -72,16 +72,16 @@ massCART <- function(x, y = NULL,
   nclasses <- length(levels(y))
 
   # CART ----
-  if (verbose) msg("Running massCART analysis...")
+  if (verbose) msg2("Running massCART analysis...")
   if (verbose) pbapply::pboptions(type = "timer") else pbapply::pboptions(type = "none")
   if (n.cores > 1) {
     if (parallel.type == "psock") {
-      if (verbose) msg("Starting PSOCK cluster on", n.cores, "cores...")
+      if (verbose) msg2("Starting PSOCK cluster on", n.cores, "cores...")
       cl <- makePSOCKcluster(n.cores)
       on.exit(stopCluster(cl))
       clusterEvalQ(cl, library("rtemis"))
     } else {
-      if (verbose) msg("Parallelizing by forking on", n.cores, "cores...")
+      if (verbose) msg2("Parallelizing by forking on", n.cores, "cores...")
       cl <- n.cores
     }
   } else {

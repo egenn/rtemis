@@ -89,7 +89,7 @@ s_GAM.formula <- function(formula,
   if (is.null(weights)) weights <- rep(1, NROW(data))
 
   # GAM ]
-  if (verbose) msg("Training GAM...")
+  if (verbose) msg2("Training GAM...")
   args <- c(list(formula = .formula,
                  family = family,
                  data = df.train,

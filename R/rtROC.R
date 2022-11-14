@@ -69,8 +69,8 @@ rtROC <- function(true.labels, predicted.probabilities,
               Thresholds = thresholds)
   class(out) <- "rtROC"
   if (verbose) {
-    msg("Positive class:", true.levels[1])
-    msg("AUC =", .auc)
+    msg2("Positive class:", true.levels[1])
+    msg2("AUC =", .auc)
   }
   invisible(out)
 

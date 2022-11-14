@@ -578,22 +578,22 @@ predict.rtMod <- function(object,
       y <- object$y.train
       if (type == "Regression" || type == "Survival") {
         if (distribution == "poisson") {
-          if (trace > 0) msg("Using predict for Poisson Regression with type = response")
+          if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
           estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
         } else {
-          if (verbose) msg("Using predict for", type, "with type = link")
+          if (verbose) msg2("Using predict for", type, "with type = link")
           estimated <- predict(mod, newdata, n.trees = n.trees)
         }
       } else {
         if (distribution == "multinomial") {
-          if (trace > 0) msg("Using predict for multinomial classification with type = response")
+          if (trace > 0) msg2("Using predict for multinomial classification with type = response")
           # Get probabilities per class
           estimated.prob <- estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
           # Now get the predicted classes
           estimated <- apply(estimated, 1, function(x) levels(newdata)[which.max(x)])
         } else {
           # Bernoulli: convert {0, 1} back to factor
-          if (trace > 0) msg("Using predict for classification with type = response")
+          if (trace > 0) msg2("Using predict for classification with type = response")
           estimated.prob <- predict(mod, newdata, n.trees = n.trees, type = "response")
           estimated <- factor(levels(y)[as.numeric(estimated.prob >= .5) + 1])
         }
@@ -841,7 +841,7 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
   if (!is.null(object$varimp)) {
     object$varimp
   } else {
-    if (verbose) msg("Variable importance not available for model of type", object$mod.name)
+    if (verbose) msg2("Variable importance not available for model of type", object$mod.name)
   }
 
 } # rtemis::coef.rtMod
@@ -965,7 +965,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                        theme = theme,
                                                        filename = filename, ...)
                                           } else {
-                                            msg("Estimated probabilities are not available")
+                                            msg2("Estimated probabilities are not available")
                                           }
                                         },
                                         #' @description
@@ -984,7 +984,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                        theme = theme,
                                                        filename = filename, ...)
                                           } else {
-                                            msg("Estimated probabilities are not available")
+                                            msg2("Estimated probabilities are not available")
                                           }
                                         },
                                         #' @description
@@ -1021,7 +1021,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                       theme = theme,
                                                       filename = filename, ...)
                                           } else {
-                                            msg("Estimated probabilities are not available")
+                                            msg2("Estimated probabilities are not available")
                                           }
                                         },
                                         #' @description
@@ -1040,7 +1040,7 @@ rtModClass <- R6::R6Class("rtModClass",
                                                       theme = theme,
                                                       filename = filename, ...)
                                           } else {
-                                            msg("Estimated probabilities are not available")
+                                            msg2("Estimated probabilities are not available")
                                           }
                                         })
 )
@@ -1205,7 +1205,7 @@ predict.rtModBag <- function(object,
                              verbose = FALSE, ...) {
 
   if (verbose) {
-    msg(
+    msg2(
       "Calculating estimated values of",
       length(object$mod), "bag resamples"
     )
@@ -1532,7 +1532,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                         filename = filename,
                                         mar = mar, ...)
                            } else {
-                             msg("Plotting for survival not currently supported")
+                             msg2("Plotting for survival not currently supported")
                            }
                          },
                          # Plot fitted rtModCV ----
@@ -1574,7 +1574,7 @@ rtModCV <- R6::R6Class("rtModCV",
                                         filename = filename,
                                         mar = mar, ...)
                            } else {
-                             msg("Plotting for survival not currently supported")
+                             msg2("Plotting for survival not currently supported")
                            }
                          },
                          # Plot varimp rtModCV ----
@@ -1967,7 +1967,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                          self$y.train.res.aggr[[which.repeat]],
                                                          main = main, ...)
                                             } else {
-                                              msg("Estimated probabilities are not available")
+                                              msg2("Estimated probabilities are not available")
                                             }
                                           },
                                           # Plot predicted ROC ----
@@ -1983,7 +1983,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                          self$y.test.res.aggr[[which.repeat]],
                                                          main = main, ...)
                                             } else {
-                                              msg("Estimated probabilities are not available")
+                                              msg2("Estimated probabilities are not available")
                                             }
                                           },
                                           # Plot Precision-Recall curve ----
@@ -2009,7 +2009,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                         self$y.train.res.aggr[[which.repeat]],
                                                         main = main, ...)
                                             } else {
-                                              msg("Estimated probabilities are not available")
+                                              msg2("Estimated probabilities are not available")
                                             }
                                           },
                                           # Plot predicted Precision-Recall curve ----
@@ -2026,7 +2026,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                                         self$y.test.res.aggr[[which.repeat]],
                                                         main = main, ...)
                                             } else {
-                                              msg("Estimated probabilities are not available")
+                                              msg2("Estimated probabilities are not available")
                                             }
                                           })
 )

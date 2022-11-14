@@ -148,7 +148,7 @@ s_GAMSEL <- function(x, y = NULL,
 
   # gamsel2::gamsel ----
   # bases <- gamsel2::pseudo.bases(x, degrees, dfs, parallel = parallel, ...)
-  if (verbose) msg("Training GAMSEL...", newline.pre = TRUE)
+  if (verbose) msg2("Training GAMSEL...", newline.pre = TRUE)
   args <- list(x = x,
                y = y,
                num_lambda = num.lambda,

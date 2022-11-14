@@ -93,12 +93,12 @@ s_NW <- function(x, y = NULL,
   # suppressMessages(require(np, quietly = TRUE, warn.conflicts = FALSE))
   # requireNamespace("np", quietly = TRUE)
   if (is.null(bw)) {
-    if (verbose) msg("Computing bandwidth...")
+    if (verbose) msg2("Computing bandwidth...")
     bw <- np::npregbw(xdat = x, ydat = y)
     if (plot.bw) plot(bw, plot.errors.method = "asymptotic")
   }
 
-  if (verbose) msg("Training Kernel Regression model...", newline.pre = TRUE)
+  if (verbose) msg2("Training Kernel Regression model...", newline.pre = TRUE)
   mod <- np::npreg(bw, txdat = x, tydat = y)
   if (trace > 0) summary(mod)
 

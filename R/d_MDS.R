@@ -58,8 +58,8 @@ d_MDS <- function(x,
     n <- NROW(x)
     p <- NCOL(x)
     if (verbose) {
-        msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-        msg("    interpreted as", n, "cases with", p, "features.")
+        msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+        msg2("    interpreted as", n, "cases with", p, "features.")
     }
     if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
     xnames <- colnames(x)
@@ -68,7 +68,7 @@ d_MDS <- function(x,
     }
 
     # MDS ----
-    if (verbose) msg("Running Multidimensional Scaling...")
+    if (verbose) msg2("Running Multidimensional Scaling...")
     .dist <- dist(x, method = dist.method)
     decom <- cmdscale(
         .dist,

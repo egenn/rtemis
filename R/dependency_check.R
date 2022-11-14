@@ -25,6 +25,6 @@ dependency_check <- function(..., verbose = FALSE) {
             pastels(ns[err], bullet = "    -")
         )
     } else {
-        if (verbose) msg("Dependency check passed", as.message = FALSE)
+        if (verbose) msg2("Dependency check passed", as.message = FALSE)
     }
 } # rtemis::dependency_check

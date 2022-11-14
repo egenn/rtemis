@@ -205,15 +205,15 @@ s_GLM <- function(x, y = NULL,
   .formula <- as.formula(.formula)
 
   # glm, nnet ----
-  if (trace > 0) msg("Using formula:", .formula)
+  if (trace > 0) msg2("Using formula:", .formula)
   if (mod.name != "MULTINOM") {
-      if (verbose) msg("Training GLM...", newline.pre = TRUE)
+      if (verbose) msg2("Training GLM...", newline.pre = TRUE)
       mod <- glm(.formula, family = family, data = df.train,
                  weights = .weights, na.action = na.action, ...)
   } else {
     dependency_check("nnet")
     if (verbose) {
-      msg("Training multinomial logistic regression model...",
+      msg2("Training multinomial logistic regression model...",
         newline.pre = TRUE
       )
     }
@@ -258,7 +258,7 @@ s_GLM <- function(x, y = NULL,
         train.missing <- sapply(index.missing, any)
         if (any(train.missing)) {
           featnames <- names(index.factor)[train.missing]
-          if (verbose) msg("Levels present in testing and not in training will be replaced with NA")
+          if (verbose) msg2("Levels present in testing and not in training will be replaced with NA")
           for (i in which(train.missing)) {
             missing.level <- levels.testing[[i]][index.missing[[i]]]
             index.extralevel <- which(x.test[[featnames[i]]] == missing.level)

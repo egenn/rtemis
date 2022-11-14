@@ -42,8 +42,8 @@ d_PCA <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
@@ -55,7 +55,7 @@ d_PCA <- function(x,
   # -> (x :matrix, x.test :matrix)
 
   # PCA ----
-  if (verbose) msg("Performing Principal Component Analysis...")
+  if (verbose) msg2("Performing Principal Component Analysis...")
   decom <- prcomp(x, scale = FALSE, center = FALSE, ...)
   # decom <- prcomp(~ ., data = x, scale = FALSE, center = FALSE, ...)
   rotation <- decom$rotation

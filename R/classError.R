@@ -33,10 +33,10 @@ classError <- function(true,
   Positive.class <- if (n.classes == 2) true.levels[1] else NA
   if (trace > 0) {
     if (n.classes == 2) {
-      msg("There are two outcome classes:", hilite(paste(true.levels, collapse = ", ")))
-      msg("        The positive class is:", hilite(Positive.class))
+      msg2("There are two outcome classes:", hilite(paste(true.levels, collapse = ", ")))
+      msg2("        The positive class is:", hilite(Positive.class))
     } else {
-      msg("There are", n.classes, "classes:", true.levels)
+      msg2("There are", n.classes, "classes:", true.levels)
     }
   }
   tbl <- table(estimated, true)

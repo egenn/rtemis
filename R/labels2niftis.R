@@ -39,16 +39,16 @@ labels2niftis <- function(datamat,
     nim <- oro.nifti::nifti(fnim.array)
     outname <- paste0(prefix, "_", index, '_Clusters', k)
     oro.nifti::writeNIfTI(nim, outname)
-    if (verbose) msg("+ + + Wrote nifti", outname)
+    if (verbose) msg2("+ + + Wrote nifti", outname)
   }
 
   # Main ----
   scriptVersion <- 0.2
-  if (verbose) msg(date(), "\nlabels2niftis version ", scriptVersion, "\nHello, ",
+  if (verbose) msg2(date(), "\nlabels2niftis version ", scriptVersion, "\nHello, ",
                    Sys.getenv('USER'), ".\n", sep = "")
   labelednim <- oro.nifti::readNIfTI(labeledNifti)
   dim <- dim(labelednim)
-  if (verbose) msg("Working on", NCOL(datamat), "files")
+  if (verbose) msg2("Working on", NCOL(datamat), "files")
   nim <- labelednim
   # replace labels with cluster numbers using factor levels ----
   # create factor with levels = the labels
@@ -60,14 +60,14 @@ labels2niftis <- function(datamat,
   # and assuming your results are saved in that order,
   # then by using the assignment levels(factor) <- results
   # replaces each occurence of label with its corresponding result
-  if (verbose) msg("Starting cluster...")
+  if (verbose) msg2("Starting cluster...")
   cluster <- makeCluster(n.cores)
   on.exit(if (!is.null(cluster)) { stopCluster(cluster) })
   datamat <- rbind(seq(NCOL(datamat)), datamat)
   parApply(cl = cluster, datamat, 2, s.datacol2nii.g1,
            fnim = fnim, prefix = prefix, verbose = verbose)
   cluster <- NULL
-  if (verbose) msg("labels2niftis cluster stopped.\n")
-  if (verbose) msg(date(), "::: labels2niftis", scriptVersion, "completed.\n")
+  if (verbose) msg2("labels2niftis cluster stopped.\n")
+  if (verbose) msg2(date(), "::: labels2niftis", scriptVersion, "completed.\n")
 
 } # rtemis::labels2niftis

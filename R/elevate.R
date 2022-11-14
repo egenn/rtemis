@@ -130,7 +130,7 @@ elevate <- function(x, y = NULL,
                     bag.fitted = FALSE,
                     # parallelize outer (testing) resamples
                     outer.n.workers = 1,
-                    print.plot = TRUE,
+                    print.plot = FALSE,
                     plot.fitted = FALSE,
                     plot.predicted = TRUE,
                     plot.theme = rtTheme,
@@ -215,7 +215,7 @@ elevate <- function(x, y = NULL,
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
         "XGB", "XGBOOST", "XGBLIN", "LGB"
     )) {
-        if (verbose) msg("Using", mod, "- outer.n.workers set to 1")
+        if (verbose) msg2("Using", mod, "- outer.n.workers set to 1")
         outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
@@ -270,7 +270,7 @@ elevate <- function(x, y = NULL,
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
-    if (trace > 1) msg("Starting resLearn")
+    if (trace > 1) msg2("Starting resLearn")
 
     # Loop through repeats (this is often set to one)
     for (i in seq(n.repeats)) {
@@ -445,16 +445,26 @@ elevate <- function(x, y = NULL,
     # Summary ----
     if (verbose) {
         boxcat(paste("elevate", hilite(mod.name)), newline.pre = FALSE, pad = 0)
-        cat("N repeats =", hilite(n.repeats), "\n")
-        cat("N resamples =", hilite(n.resamples), "\n")
-        cat("Resampler =", hilite(resampler), "\n")
+        # cat("N repeats =", hilite(n.repeats), "\n")
+        # cat("N resamples =", hilite(n.resamples), "\n")
+        # cat("Resampler =", hilite(resampler), "\n")
+        desc <- switch(resampler,
+            kfold = "independent folds",
+            strat.sub = "stratified subsamples",
+            strat.boot = "stratified bootstraps",
+            bootstrap = "bootstrap resamples",
+            loocv = "independent folds (LOOCV)",
+            "custom resamples"
+        )
 
-        # If you LOOCV or KFOLD, report error of aggregate left-out sets,
+        # If using LOOCV or KFOLD, report error of aggregate left-out sets,
         # otherwise mean error across test sets
         if (resampler == "loocv" || resampler == "kfold") {
             if (type == "Regression") {
                 cat("MSE of ", n.resamples, 
-                    " aggregated test sets in each repeat = ",
+                    " aggregated test sets",
+                    if (n.repeats > 1) " in each repeat ", 
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE
@@ -464,7 +474,9 @@ elevate <- function(x, y = NULL,
                     sep = ""
                 )
                 cat(
-                    "MSE reduction in each repeat = ",
+                    "MSE reduction",
+                    if (n.repeats > 1) " in each repeat",
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$MSE.RED
@@ -473,8 +485,10 @@ elevate <- function(x, y = NULL,
                     ), "%\n", sep = "")
                 )
             } else {
-                cat("Balanced Accuracy of ", n.resamples, 
-                    " aggregated test sets in each repeat = ",
+                cat("Balanced Accuracy of ", n.resamples,
+                    " aggregated test sets",
+                    if (n.repeats > 1) " in each repeat",
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.aggr,
                         function(x) x$`Balanced Accuracy`
@@ -487,8 +501,9 @@ elevate <- function(x, y = NULL,
         } else {
             # strat.sub, strat.boot, bootstrap
             if (type == "Regression") {
-                cat("Mean MSE of ", n.resamples, 
-                    " resamples in each repeat = ",
+                cat("Mean MSE of ", n.resamples, " ", desc,
+                    if (n.repeats > 1) " in each repeat",
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE
@@ -498,17 +513,21 @@ elevate <- function(x, y = NULL,
                     sep = ""
                 )
                 cat(
-                    "Mean MSE reduction in each repeat =",
+                    "Mean MSE reduction",
+                    if (n.repeats > 1) " in each repeat",
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$MSE.RED * 100
                     )),
                     collapse = "%, "
-                    ), "%\n", sep = "")
+                    ), "%\n", sep = ""),
+                    sep = ""
                 )
             } else {
-                cat("Mean Balanced Accuracy of ", n.resamples, 
-                    " test sets in each repeat = ",
+                cat("Mean Balanced Accuracy of ", n.resamples, " ", desc,
+                    if (n.repeats > 1) " in each repeat ", 
+                    ": ",
                     hilite(paste(ddSci(plyr::laply(
                         error.test.res.mean,
                         function(x) x$`Balanced.Accuracy`

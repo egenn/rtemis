@@ -26,7 +26,7 @@ uniprot_get <- function(accession = "Q9UMX9",
     Annotation <- attr(dat[[1]], "Annot")
     Identifier <- gsub(" .*", "", Annotation)
     if (verbose) {
-        msg("Got:", hilite(Annotation))
+        msg2("Got:", hilite(Annotation))
     }
     
     list(

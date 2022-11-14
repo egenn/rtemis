@@ -33,7 +33,7 @@ graph_node_metrics <- function(x,
 
   if (any(.edgeweights < 0)) {
     if (verbose) {
-      msg("Negative weights found: Betweenness and Closeness will be NA")
+      msg2("Negative weights found: Betweenness and Closeness will be NA")
     }
     .betweenness <- .closeness <- NA
   } else {

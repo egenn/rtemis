@@ -32,11 +32,11 @@ varSelect <- function(x, y,
 
   # Model ----
   if (method == "RANGER") {
-    if (verbose) msg("Running Variable Selection using Random Forest...")
+    if (verbose) msg2("Running Variable Selection using Random Forest...")
     mod <- s_RANGER(x, y)
     importance <- mod$varimp
   } else {
-    if (verbose) msg("Running Variable Selection using XGboost with linear booster...")
+    if (verbose) msg2("Running Variable Selection using XGboost with linear booster...")
     mod <- do.call(s_XGBLIN, args = c(list(x = x, y = y), xgb.params))
     importance <- xgboost::xgb.importance(feature_names = mod$xnames, model = mod$mod)$Weight
   }
@@ -45,7 +45,7 @@ varSelect <- function(x, y,
   if (print.plot) mplot3_x(importance)
   importance.rank <- order(abs(importance), decreasing = TRUE)
   top.rank <- importance.rank[1:(p * n)]
-  if (verbose) msg(length(top.rank), " variables selected based on ", method, "-estimated importance", sep = "")
+  if (verbose) msg2(length(top.rank), " variables selected based on ", method, "-estimated importance", sep = "")
   outro(start.time, verbose = verbose)
   return(sort(top.rank))
 

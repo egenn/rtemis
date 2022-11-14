@@ -47,9 +47,9 @@ c_EMC <- function(x, x.test = NULL,
   }
 
   # EMC ----
-  if (verbose) msg("Initializing EM Clustering...")
+  if (verbose) msg2("Initializing EM Clustering...")
   emobj <- EMCluster::simple.init(x, nclass = k)
-  if (verbose) msg("Performing EM Clustering...")
+  if (verbose) msg2("Performing EM Clustering...")
   clust <- EMCluster::emcluster(x,
                                 emobj = emobj,
                                 EMC = EMC,

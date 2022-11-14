@@ -118,7 +118,7 @@ s_GAMSELX2 <- function(x, y = NULL,
     n.unique.perfeat <- apply(x, 2, function(i) length(unique(i)))
     tofactor <- which(n.unique.perfeat < min.unique.perfeat)
     if (length(tofactor) > 0) {
-      if (verbose) msg("Autopreprocessing: Converting features", tofactor, "to factor")
+      if (verbose) msg2("Autopreprocessing: Converting features", tofactor, "to factor")
       for (i in tofactor) x[, i] <- factor(x[, i])
     }
   } else {
@@ -126,7 +126,7 @@ s_GAMSELX2 <- function(x, y = NULL,
   }
 
   # [ GAMSELX2 ] ----
-  if (verbose) msg("Training GAMSELX2...", newline.pre = TRUE)
+  if (verbose) msg2("Training GAMSELX2...", newline.pre = TRUE)
   mod <- gamselx2(x, y,
                   gamsel.params1 = gamsel.params1,
                   pairs.on.resid = pairs.on.resid,

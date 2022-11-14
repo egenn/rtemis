@@ -51,14 +51,14 @@ hytreenow <- function(x, y,
   .env <- environment()
 
   # [ lin1 ] ----
-  if (verbose) msg("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
+  if (verbose) msg2("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
 
   coef.c <- lincoef(x, y, method = lin.type,
                     alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
                     cv.glmnet.nfolds = cv.glmnet.nfolds,
                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
   Fval <- init + shrinkage * (data.matrix(cbind(1, x)) %*% coef.c)[, 1]
-  if (trace > 0) msg("hytreenow Fval is", head(Fval), color = red)
+  if (trace > 0) msg2("hytreenow Fval is", head(Fval), color = red)
 
   # [ Run hyt ] ----
   root <- list(x = x,
@@ -152,16 +152,16 @@ hyt <- function(node = list(x = NULL,
   y <- node$y
   depth <- node$depth
   Fval <- node$Fval
-  # if (trace > 1) msg("y is", y)
-  # if (trace > 1) msg("Fval is", head(Fval))
+  # if (trace > 1) msg2("y is", y)
+  # if (trace > 1) msg2("Fval is", head(Fval))
   resid <- y - Fval
-  if (trace > 0) msg("hyt Fval   is", head(Fval), color = red)
-  if (trace > 0) msg("hyt resid   is", head(resid), color = red)
+  if (trace > 0) msg2("hyt Fval   is", head(Fval), color = red)
+  if (trace > 0) msg2("hyt resid   is", head(resid), color = red)
   nobsinnode <- length(node$index)
 
   # [ Add partlin to node ] ----
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
-    if (trace > 1) msg("y1 (resid) is", resid)
+    if (trace > 1) msg2("y1 (resid) is", resid)
     node$partlin <- partLm(x1 = x, y1 = resid,
                            lambda = lambda,
                            lambda.seq = lambda.seq,
@@ -176,20 +176,20 @@ hyt <- function(node = list(x = NULL,
                            verbose = verbose,
                            trace = trace)
 
-    if (trace > 1) msg("Fval is", head(Fval))
+    if (trace > 1) msg2("Fval is", head(Fval))
 
     # '- If node split ----
     if (!node$partlin$terminal) {
       node$type <- "split"
       left.index <- node$partlin$left.index
       right.index <- node$partlin$right.index
-      if (trace > 1) msg("Depth:", depth, "left.index:", node$partlin$left.index)
+      if (trace > 1) msg2("Depth:", depth, "left.index:", node$partlin$left.index)
       x.left <- x[left.index, , drop = FALSE]
       x.right <- x[right.index, , drop = FALSE]
       y.left <- y[left.index]
       y.right <- y[right.index]
-      if (trace > 1) msg("y.left is", y.left)
-      if (trace > 1) msg("y.right is", y.right)
+      if (trace > 1) msg2("y.left is", y.left)
+      if (trace > 1) msg2("y.right is", y.right)
       Fval.left <- Fval[left.index] + shrinkage * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
       Fval.right <- Fval[right.index] + shrinkage * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
@@ -199,7 +199,7 @@ hyt <- function(node = list(x = NULL,
                                      node$partlin$lin.coef.left[-1])
       coef.c.right <- coef.c.right + c(node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
                                        node$partlin$lin.coef.right[-1])
-      if (trace > 1) msg("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
+      if (trace > 1) msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
         rule.right <- gsub("<", ">=", node$partlin$split.rule)
@@ -242,7 +242,7 @@ hyt <- function(node = list(x = NULL,
 
       # Run Left and Right nodes
       # [ LEFT ] ----
-      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Left node...", sep = "")
+      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
       node$left <- hyt(node$left,
                        coef.c = coef.c.left,
                        max.depth = max.depth,
@@ -264,7 +264,7 @@ hyt <- function(node = list(x = NULL,
                        verbose = verbose,
                        trace = trace)
       # [ RIGHT ] ----
-      if (trace > 0) msg("Depth = ", depth + 1, "; Working on Right node...", sep = "")
+      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
       node$right <- hyt(node$right,
                         coef.c = coef.c.right,
                         max.depth = max.depth,
@@ -292,7 +292,7 @@ hyt <- function(node = list(x = NULL,
       .env$leaf.rule <- c(.env$leaf.rule, node$rule)
       .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
       node$type <- "nosplit"
-      if (trace > 0) msg("STOP: nosplit")
+      if (trace > 0) msg2("STOP: nosplit")
       if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     } # !node$terminal
 
@@ -302,10 +302,10 @@ hyt <- function(node = list(x = NULL,
     .env$leaf.rule <- c(.env$leaf.rule, node$rule)
     .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
     if (node$depth == max.depth) {
-      if (trace > 0) msg("STOP: max.depth")
+      if (trace > 0) msg2("STOP: max.depth")
       node$type <- "max.depth"
     } else if (nobsinnode < minobsinnode) {
-      if (trace > 0) msg("STOP: minobsinnode")
+      if (trace > 0) msg2("STOP: minobsinnode")
       node$type <- "minobsinnode"
     }
     if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
@@ -348,7 +348,7 @@ partLm <- function(x1, y1,
   part.val <- predict(part)
 
   if (is.null(part$splits)) {
-    if (trace > 0) msg("Note: rpart did not split")
+    if (trace > 0) msg2("Note: rpart did not split")
     terminal <- TRUE
     cutFeat.name <- cutFeat.point <- cutFeat.category <- NULL
     split.rule <- NULL
@@ -373,14 +373,14 @@ partLm <- function(x1, y1,
       cutFeat.index <- which(names(x1) == cutFeat.name)
       if (is.numeric(x1[[cutFeat.name]])) {
         cutFeat.point <- part$splits[1, "index"]
-        if (trace > 0) msg("Split Feature is \"", cutFeat.name,
+        if (trace > 0) msg2("Split Feature is \"", cutFeat.name,
                            "\"; Cut Point = ", cutFeat.point,
                            sep = "")
         split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
         split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
       } else {
         cutFeat.category <- levels(x1[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
-        if (trace > 0) msg("Split Feature is \"", cutFeat.name,
+        if (trace > 0) msg2("Split Feature is \"", cutFeat.name,
                            "\"; Cut Category is \"", cutFeat.category,
                            "\"", sep = "")
         split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
@@ -404,7 +404,7 @@ partLm <- function(x1, y1,
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
     if (is.constant(resid.left) | all(sapply(x1[left.index, , drop = FALSE], is.constant)) | length(resid.left) < minobsinnode.lin) {
-      if (trace > 0) msg("Not fitting any more lines here")
+      if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
     } else {
@@ -417,7 +417,7 @@ partLm <- function(x1, y1,
     } # if (is.constant(resid.left))
 
     if (is.constant(resid.right) | all(sapply(x1[right.index, , drop = FALSE], is.constant)) | length(resid.right) < minobsinnode.lin) {
-      if (trace > 0) msg("Not fitting any more lines here")
+      if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {

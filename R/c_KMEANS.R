@@ -42,7 +42,7 @@ c_KMEANS <- function(x,
     xnames <- colnames(x) <- .colnames
 
     # KMEANS ----
-    if (verbose) msg("Performing K-means Clustering with k = ", k, "...", sep = "")
+    if (verbose) msg2("Performing K-means Clustering with k = ", k, "...", sep = "")
     clust <- flexclust::cclust(x,
         k = k,
         dist = dist,

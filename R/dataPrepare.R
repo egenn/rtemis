@@ -180,7 +180,7 @@ dataPrepare <- function(x, y = NULL,
     if (filter.y.na) {
         if (anyNA(y)) {
             if (verbose) {
-                msg("Filtering out cases with missing values in training outcome")
+                msg2("Filtering out cases with missing values in training outcome")
             }
             exclude <- is.na(y)
             x <- x[!exclude, , drop = FALSE]
@@ -202,8 +202,8 @@ dataPrepare <- function(x, y = NULL,
         freq <- as.data.frame(table(y))
         maxfreq.i <- which.max(freq$Freq)
         if (verbose) {
-            msg("Upsampling to create balanced set...", newline.pre = TRUE)
-            msg(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
+            msg2("Upsampling to create balanced set...", newline.pre = TRUE)
+            msg2(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
         }
         y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
         to.upsample <- setdiff(seq_along(levels(y)), maxfreq.i)
@@ -235,8 +235,8 @@ dataPrepare <- function(x, y = NULL,
         freq <- as.data.frame(table(y))
         minfreq.i <- which.min(freq$Freq)
         if (verbose) {
-            msg("Downsampling to balance outcome classes...", newline.pre = TRUE)
-            msg(levels(y)[minfreq.i], "is the minority outcome with", min(freq$Freq), "cases")
+            msg2("Downsampling to balance outcome classes...", newline.pre = TRUE)
+            msg2(levels(y)[minfreq.i], "is the minority outcome with", min(freq$Freq), "cases")
         }
         y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
         to.downsample <- setdiff(seq_along(levels(y)), minfreq.i)
@@ -268,7 +268,7 @@ dataPrepare <- function(x, y = NULL,
             } else if (ipw.type == 2) {
                 weights <- class.weights / min(class.weights)
             }
-            if (verbose) msg("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
+            if (verbose) msg2("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
             weights <- weights[as.integer(y)]
         }
     }

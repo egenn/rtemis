@@ -40,7 +40,7 @@ massUni <- function(x, y, mod = "gam",
   }
 
   # Mods ----
-  if (verbose) msg("Training mass-univariate models")
+  if (verbose) msg2("Training mass-univariate models")
   if (verbose) {
     pbapply::pboptions(type = "timer")
   } else {
@@ -51,7 +51,7 @@ massUni <- function(x, y, mod = "gam",
                             cl = n.cores)
 
   # Errors ----
-  if (verbose) msg("Collecting model errors")
+  if (verbose) msg2("Collecting model errors")
   errors <- t(sapply(mods, function(m) as.data.frame(m$error.train)))
   rownames(errors) <- ynames
   # errors <- plyr::ldply(mods, function(m) as.data.frame(m$error.train), .progress = "text")

@@ -57,7 +57,7 @@ sge_submit <- function(expr,
   if (!dir.exists(temp_dir)) {
     dir.create(temp_dir, recursive = TRUE)
     stopifnot(dir.exists(temp_dir))
-    if (trace > 0) msg("Created temp_dir", temp_dir)
+    if (trace > 0) msg2("Created temp_dir", temp_dir)
   }
 
   # Save obj_names to temp ----
@@ -66,28 +66,28 @@ sge_submit <- function(expr,
     do.call(save, list(list = obj_names,
                        file = .temp))
     if (trace > 0) {
-      msg("Temp file set to", .temp)
-      msg("Objects written to temp file:", paste(obj_names, collapse = ", "))
+      msg2("Temp file set to", .temp)
+      msg2("Objects written to temp file:", paste(obj_names, collapse = ", "))
     }
   }
 
   # sge_out and sge_error ----
   if (!dir.exists(sge_out)) {
     dir.create(sge_out, recursive = TRUE)
-    if (trace > 0) msg("Created sge_out", sge_out)
+    if (trace > 0) msg2("Created sge_out", sge_out)
   }
   if (!dir.exists(sge_error)) {
     dir.create(sge_error, recursive = TRUE)
-    if (trace > 0) msg("Created sge_error", sge_error)
+    if (trace > 0) msg2("Created sge_error", sge_error)
   }
   if (trace > 0) {
-    msg("sge_out set to:", sge_out)
-    msg("sge_error set to:", sge_error)
+    msg2("sge_out set to:", sge_out)
+    msg2("sge_error set to:", sge_error)
   }
 
   # Write {.R file} to temp_dir ----
   Rfilepath <- tempfile(pattern = "Rsub", tmpdir = temp_dir)
-  if (trace > 0) msg("Rfilepath set to", Rfilepath)
+  if (trace > 0) msg2("Rfilepath set to", Rfilepath)
 
   ## init file ----
   cat("# rtemis sge_submit", date(), "\n", file = Rfilepath)
@@ -104,7 +104,7 @@ sge_submit <- function(expr,
   }
 
   ## Diag ----
-  cat("rtemis::msg('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
+  cat("rtemis::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
       "\n", file = Rfilepath, append = TRUE)
 
   ## Load data ----
@@ -118,7 +118,7 @@ sge_submit <- function(expr,
 
   # Write {.sh file} to temp_dir ----
   shfilepath <- tempfile(pattern = "SHsub", tmpdir = temp_dir)
-  if (trace > 0) msg("shfile set to:", shfilepath)
+  if (trace > 0) msg2("shfile set to:", shfilepath)
 
   cat(sge_env, "\n", file = shfilepath)
   cat(sge_opts, "\n", file = shfilepath, append = TRUE)

@@ -42,7 +42,7 @@ d_TSNE <- function(x,
 
   # Intro ----
   start.time <- intro(verbose = verbose)
-  if (verbose) msg("Running t-distributed Stochastic Neighbot Embedding")
+  if (verbose) msg2("Running t-distributed Stochastic Neighbot Embedding")
   decom.name <- "TSNE"
 
   # Dependencies ----
@@ -59,8 +59,8 @@ d_TSNE <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
   xnames <- colnames(x)
@@ -69,7 +69,7 @@ d_TSNE <- function(x,
   # if (!is.null(x.test)) x.test <- scale(x.test, scale = scale, center = center)
 
   # t-SNE ----
-  if (verbose) msg("Running t-SNE...")
+  if (verbose) msg2("Running t-SNE...")
   decom <- Rtsne::Rtsne(X = x,
                         dims = k,
                         initial_dims = initial.dims,

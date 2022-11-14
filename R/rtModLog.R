@@ -112,7 +112,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                                                parameters = mod$parameters,
                                                                error.train = mod$error.train,
                                                                error.test = mod$error.test)
-                               if (verbose) msg("Added 1 model to logger;", length(self$mods), "total")
+                               if (verbose) msg2("Added 1 model to logger;", length(self$mods), "total")
                              },
                              # Summarize rtModLogger ----
                              #' @description

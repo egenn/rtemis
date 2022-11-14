@@ -80,7 +80,7 @@ splitline <- function(x, y,
          cutoff = minloss_perfeat[1, featindex],
          loss = minloss_perfeat[2, featindex])
   } else {
-    if (trace > 1) msg("Node has fewer caseweights equal to 1 than minobsinnode threshold of",
+    if (trace > 1) msg2("Node has fewer caseweights equal to 1 than minobsinnode threshold of",
                        minobsinnode)
     list(featindex = NA,
          cutoff = NA,
@@ -115,7 +115,7 @@ cutnsplit <- function(x, y,
                         names = FALSE)[-c(1, n.quantiles + 1)]
 
   loss <- sapply(seq(cutpoints), function(i) {
-    if (trace > 1) msg0("Testing cutpoint ", i, "...")
+    if (trace > 1) msg20("Testing cutpoint ", i, "...")
     indexLeft <- x[, index] < cutpoints[i]
 
     # Check minbucket
@@ -127,7 +127,7 @@ cutnsplit <- function(x, y,
     # Check either y is constant
     .constant <- is.constant(y) | is.constant(y * weightsLeft) | is.constant(y * weightsRight)
     if (.constant) {
-      if (trace > 1) msg("y is constant, abort split", color = magenta)
+      if (trace > 1) msg2("y is constant, abort split", color = magenta)
       return(Inf)
     }
 

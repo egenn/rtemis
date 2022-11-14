@@ -107,18 +107,18 @@ s_RULEFIT <- function(x, y = NULL,
                        print.plot = FALSE,
                        n.cores = n.cores),
                   gbm.params)
-    if (verbose) msg("Running Gradient Boosting...")
+    if (verbose) msg2("Running Gradient Boosting...")
     mod.gbm <- do.call(.gbm, gbm.args)
 
     # Get Rules ----
-    if (verbose) msg("Collecting Gradient Boosting Rules (Trees)...")
+    if (verbose) msg2("Collecting Gradient Boosting Rules (Trees)...")
     gbm.list <- rt.GBM2List(mod.gbm$mod, X = x, which.gbm = which.gbm)
     gbm.rules <- inTrees::extractRules(gbm.list, X = x, ntree = n.trees,
                                        maxdepth = gbm.params$interaction.depth)
-    if (verbose) msg("Extracted", length(gbm.rules), "rules...")
+    if (verbose) msg2("Extracted", length(gbm.rules), "rules...")
     gbm.rules <- unique(gbm.rules)
     n.rules.total <- length(gbm.rules)
-    if (verbose) msg("...and kept", n.rules.total, "unique rules")
+    if (verbose) msg2("...and kept", n.rules.total, "unique rules")
     gbm.rules.names <- inTrees::presentRules(gbm.rules, colN = names(x))
     colnames(gbm.rules.names) <- "Rule"
 
@@ -129,7 +129,7 @@ s_RULEFIT <- function(x, y = NULL,
   }
 
   # Meta: Select Rules ----
-  if (verbose) msg("Running LASSO on GBM rules...")
+  if (verbose) msg2("Running LASSO on GBM rules...")
   glmnet.select.args <- c(list(x = cases.by.rules, y = y,
                                alpha = meta.alpha,
                                lambda = meta.lambda,
@@ -152,7 +152,7 @@ s_RULEFIT <- function(x, y = NULL,
     rules.selected.file <- paste0(outdir, "rules.selected.csv")
     write.csv(rules.selected, rules.selected.file, row.names = TRUE)
     if (file.exists(rules.selected.file)) {
-      if (verbose) msg("Selected rules written to", rules.selected.file)
+      if (verbose) msg2("Selected rules written to", rules.selected.file)
     }
   }
 
@@ -287,7 +287,7 @@ predict.rulefit <- function(object,
   # Match ----
   # Match newdata to rules: create features for predict
   if (!is.null(newdata)) {
-    if (verbose) msg("Matching newdata to rules...")
+    if (verbose) msg2("Matching newdata to rules...")
     cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
   } else {
     cases.by.rules <- object$cases.by.rules.selected

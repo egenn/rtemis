@@ -35,7 +35,7 @@ earlystop <- function(x,
     if (!is.null(total_decrease_pct_max)) {
       total_decrease_pct <- (x[1] - x[nsteps])/x[1]
       if (total_decrease_pct >= total_decrease_pct_max) {
-        verbose && msg0("Total decrease pct max threshold (",
+        verbose && msg20("Total decrease pct max threshold (",
                         total_decrease_pct_max, ") reached in ",
                         nsteps, " steps: ", total_decrease_pct)
         return(TRUE)
@@ -47,7 +47,7 @@ earlystop <- function(x,
       window_decrease <- (x[nsteps - window] - x[nsteps])/x[1]
       if (window_decrease < window_decrease_pct_min) {
         if (verbose) {
-          msg0(window, "-step decrease % threshold (",
+          msg20(window, "-step decrease % threshold (",
                window_decrease_pct_min*100, "%) reached at ",
                nsteps, " steps: ")
           cat("                                ")

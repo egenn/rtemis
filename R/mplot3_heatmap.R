@@ -361,7 +361,7 @@ mplot3_heatmap <- function(x,
        cex.axis = cexCol, col.axis = col.axis)
   if (!is.null(xlab)) {
     if (is.null(xlab.line)) xlab.line <- margins[1L] - 1.25
-    if (trace > 0) msg("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
+    if (trace > 0) msg2("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
     mtext(xlab, side = 1, line = xlab.line)
   }
 

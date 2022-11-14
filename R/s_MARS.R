@@ -174,7 +174,7 @@ s_MARS <- function(x, y = NULL,
   }
 
   # earth::earth ----
-  if (verbose) msg("Training MARS model...", newline.pre = TRUE)
+  if (verbose) msg2("Training MARS model...", newline.pre = TRUE)
   if (verbose) parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk,
                    newline.pre = TRUE)
   # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by

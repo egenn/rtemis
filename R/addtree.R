@@ -190,7 +190,7 @@ likelihoodMediboostSplitNode <- function(x, y,
                                          verbose = TRUE) {
 
     # Intro ----
-    if (verbose) msg("Depth =", depth)
+    if (verbose) msg2("Depth =", depth)
 
     # Initialize node
     node <- list(
@@ -212,7 +212,7 @@ likelihoodMediboostSplitNode <- function(x, y,
         min.mem.counter <- min.mem.counter + 1
     }
     if (verbose) {
-        msg(
+        msg2(
             "sign(node$value) is", sign(node$value),
             "sign(y %*% node$weights) is", sign(y %*% node$weights),
             "node$value is", node$value,
@@ -228,7 +228,7 @@ likelihoodMediboostSplitNode <- function(x, y,
         sum(membership) >= min.membership &&
         min.mem.counter <= steps.past.min.membership) {
 
-        # if (verbose) msg("sign(node$value) is", sign(node$value), "sign(y %*% node$weights) is",
+        # if (verbose) msg2("sign(node$value) is", sign(node$value), "sign(y %*% node$weights) is",
         #                  sign(y %*% node$weights), "node$value is", node$value,
         #                  "and Depth is", depth)
         # Indicating that the structure is not a leaf
@@ -338,15 +338,15 @@ likelihoodMediboostSplitNode <- function(x, y,
             }
 
             if (verbose) {
-                msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
+                msg2("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
                     weightedFirstDerRight,
                     sep = ""
                 )
-                msg("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
+                msg2("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
                     weightedSecDerRight,
                     sep = ""
                 )
-                msg("nodeValueLeft = ", nodeValueLeft, "; nodeValueRight = ", nodeValueRight, sep = "")
+                msg2("nodeValueLeft = ", nodeValueLeft, "; nodeValueRight = ", nodeValueRight, sep = "")
             }
 
             # Using exp(log(a)-log(b)) = a/b to avoid singularity errors in
@@ -452,17 +452,17 @@ likelihoodMediboostSplitNode <- function(x, y,
         }
     } else {
         if (verbose) {
-            if (depth == depthLimit) msg("Reached max depth")
-            msg("Total members = ", sum(membership))
+            if (depth == depthLimit) msg2("Reached max depth")
+            msg2("Total members = ", sum(membership))
             if (is.infinite(node$value)) {
-                msg("Node value is", ifelse(sign(node$value) == 1, "positive", "negative"), "infinity")
+                msg2("Node value is", ifelse(sign(node$value) == 1, "positive", "negative"), "infinity")
             }
             if (hessian < min.hessian) {
-                msg("hessian = ", hessian, " (min.hessian = ", min.hessian, ")",
+                msg2("hessian = ", hessian, " (min.hessian = ", min.hessian, ")",
                     sep = ""
                 )
             }
-            if (min.mem.counter > steps.past.min.membership) msg("Reached max steps past min.membership")
+            if (min.mem.counter > steps.past.min.membership) msg2("Reached max steps past min.membership")
         }
         return(node)
     }
@@ -545,14 +545,14 @@ likelihoodMediboostChooseFeat <- function(x, y,
         if (is.numeric(x[[cutFeatName]])) {
             cutPoint <- tree$splits[1, "index"]
             if (verbose) {
-                msg("Split Feature is \"", cutFeatName, "\"; Cut Point = ", cutPoint,
+                msg2("Split Feature is \"", cutFeatName, "\"; Cut Point = ", cutPoint,
                     sep = ""
                 )
             }
         } else {
             cutCategory <- levels(x[[cutFeatName]])[which(tree$csplit[1, ] == 1)]
             if (verbose) {
-                msg("Split Feature is \"", cutFeatName, "\"; Cut Category is \"", cutCategory,
+                msg2("Split Feature is \"", cutFeatName, "\"; Cut Category is \"", cutCategory,
                     "\"",
                     sep = ""
                 )
@@ -610,7 +610,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
     n.samples <- NROW(newdata)
     yPred <- rep(NA, n.samples)
 
-    if (verbose) msg("tree$fIdx is", tree$fIdx)
+    if (verbose) msg2("tree$fIdx is", tree$fIdx)
 
     for (i in seq_len(n.samples)) {
         # Start at root
@@ -620,27 +620,27 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
             if (!is.null(node$cutPoint)) {
                 if (x_i[node$fIdx] < node$cutPoint && !is.null(node$left)) {
                     node <- node$left
-                    if (verbose) msg("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is left")
+                    if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is left")
                 } else if (!is.null(node$right) && !is.null(node$right)) {
                     node <- node$right
-                    if (verbose) msg("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is right")
+                    if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is right")
                 } else {
                     break
                 }
             } else {
                 if (is.element(x_i[, node$fIdx], node$cutCategory) && !is.null(node$left)) {
                     node <- node$left
-                    if (verbose) msg("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is left")
+                    if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is left")
                 } else if (!is.null(node$right)) {
                     node <- node$right
-                    if (verbose) msg("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is right")
+                    if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is right")
                 } else {
                     break
                 }
             }
         }
         # Calculate the prediction
-        if (verbose) msg("node$value is", node$value)
+        if (verbose) msg2("node$value is", node$value)
         yPred[i] <- sign(node$value)
         if (yPred[i] == 0) yPred[i] <- c(1, -1)[which.max(object$yfreq)]
     }

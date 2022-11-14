@@ -114,7 +114,7 @@ s_GAMSELX <- function(x, y = NULL,
 
 
   # [ GAMSELX ] ----
-  if (verbose) msg("Training GAMSELX...", newline.pre = TRUE)
+  if (verbose) msg2("Training GAMSELX...", newline.pre = TRUE)
   mod <- gamselx(x, y,
                  gamsel.params1 = gamsel.params1,
                  pairs.on.resid = pairs.on.resid,

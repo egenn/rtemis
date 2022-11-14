@@ -533,7 +533,7 @@ dplot3_protein <- function(x,
 
     # PTMs ----
     if (!is.null(ptm)) {
-        if (trace > 0) msg("Adding PTM markers...")
+        if (trace > 0) msg2("Adding PTM markers...")
         ptm.symbol <- recycle(ptm.symbol, ptm)
         ptm.names <- names(ptm)
         for (i in seq_along(ptm)) {

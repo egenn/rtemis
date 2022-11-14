@@ -139,10 +139,10 @@ preprocess_ <- function(x, y = NULL,
   #     if (verbose) {
   #       nrows <- NROW(x)
   #       removed <- paste0(nrows_start - nrows, "/", nrows_start)
-  #       msg("Removed", orange(removed), "rows.")
+  #       msg2("Removed", orange(removed), "rows.")
   #     }
   #   } else {
-  #     if (verbose) msg(orange("No missing values"), "in dataset")
+  #     if (verbose) msg2(orange("No missing values"), "in dataset")
   #   }
   # }
 
@@ -157,7 +157,7 @@ preprocess_ <- function(x, y = NULL,
   # if (removeDuplicates) {
   #   Ndups <- sum(duplicated(x))
   #   if (Ndups > 0) {
-  #     if (verbose) msg0("Removing ", orange(singorplu(Ndups, "duplicated case")), "...")
+  #     if (verbose) msg20("Removing ", orange(singorplu(Ndups, "duplicated case")), "...")
   #     x <- unique(x)
   #   }
   # }
@@ -171,7 +171,7 @@ preprocess_ <- function(x, y = NULL,
   #     na.fraction.bycase <- x[, sum(is.na(.SD))/ncols, by = 1:NROW(x)]
   #     removeCases.thres.index <- which(na.fraction.bycase[, 2] >= removeCases.thres)
   #     if (length(removeCases.thres.index) > 0) {
-  #       if (verbose) msg("Removing", orange(length(removeCases.thres.index)), "cases with >=",
+  #       if (verbose) msg2("Removing", orange(length(removeCases.thres.index)), "cases with >=",
   #                        removeCases.thres, "missing data...")
   #       x <- x[-removeCases.thres.index, ]
 
@@ -186,7 +186,7 @@ preprocess_ <- function(x, y = NULL,
       na.fraction.byfeat <- x[, lapply(.SD, function(i) sum(is.na(i)) / nrows)]
       removeFeat.index <- which(na.fraction.byfeat >= removeFeatures.thres)
       if (length(removeFeat.index) > 0) {
-        if (verbose) msg("Removing", bold(orange(length(removeFeat.index))), "features with >=",
+        if (verbose) msg2("Removing", bold(orange(length(removeFeat.index))), "features with >=",
                          removeFeatures.thres, "missing data...")
         x[, (removeFeat.index) := NULL]
       }
@@ -201,13 +201,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.integer) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nintegers <- length(index.integer)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           singorplu(nintegers, "integer"),
           "to", ngettext(nintegers, "a factor", "factors")
         )))
       }
     } else {
-      if (verbose) msg("No integers found")
+      if (verbose) msg2("No integers found")
     }
   }
 
@@ -219,13 +219,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.integer) set(x, i = NULL, j, as.numeric(x[[j]]))
       if (verbose) {
         nintegers <- length(index.integer)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           singorplu(nintegers, "integer"),
           "to numeric"
         )))
       }
     } else {
-      if (verbose) msg("No integers found")
+      if (verbose) msg2("No integers found")
     }
   }
 
@@ -237,13 +237,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.logical) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nlogical <- length(index.logical)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nlogical, ngettext(nlogical, "column", "columns"),
           "to", ngettext(nlogical, "a factor", "factors")
         )))
       }
     } else {
-      if (verbose) msg("No logical columns found")
+      if (verbose) msg2("No logical columns found")
     }
   }
 
@@ -255,13 +255,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.logical) set(x, i = NULL, j, as.numeric(x[[j]]))
       if (verbose) {
         nlogical <- length(index.logical)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nlogical, ngettext(nlogical, "column", "columns"),
           "to numeric"
         )))
       }
     } else {
-      if (verbose) msg("No logical columns found")
+      if (verbose) msg2("No logical columns found")
     }
   }
 
@@ -273,13 +273,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.numeric) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nnumeric <- length(index.numeric)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nnumeric, ngettext(nnumeric, "column", "columns"),
           "to", ngettext(nnumeric, "a factor", "factors")
         )))
       }
     } else {
-      if (verbose) msg("No numeric columns found")
+      if (verbose) msg2("No numeric columns found")
     }
   }
 
@@ -291,7 +291,7 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.numeric.len) set(x, i = NULL, j, as.factor(x[[j]]))
       if (verbose) {
         nnumlen <- length(index.numeric.len)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nnumlen, ngettext(nnumlen, "column", "columns"),
           "to", ngettext(nnumlen, "a factor", "factors")
         )))
@@ -307,13 +307,13 @@ preprocess_ <- function(x, y = NULL,
       for (j in index.char) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nchar <- length(index.char)
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nchar, ngettext(nchar, "column", "columns"),
           "to", ngettext(nchar, "a factor", "factors")
         )))
       }
     } else {
-      if (verbose) msg("No character columns found")
+      if (verbose) msg2("No character columns found")
     }
   }
 
@@ -327,13 +327,13 @@ preprocess_ <- function(x, y = NULL,
       if (verbose) info(paste0('Converting NA in factors to level "', factorNA2missing.level, '"...'))
       for (j in index.factorna) set(x, i = NULL, j, factor_NA2missing(x[[j]], factorNA2missing.level))
       if (verbose) {
-        msg("Converted", bold(orange(
+        msg2("Converted", bold(orange(
           nfactorna, ngettext(nfactorna, "factor's", "factors'"),
           "NA level to", paste0('"', factorNA2missing.level, '"')
         )))
       }
     } else {
-      if (verbose) msg("No factors with NA values found")
+      if (verbose) msg2("No factors with NA values found")
     }
   }
 
@@ -349,7 +349,7 @@ preprocess_ <- function(x, y = NULL,
         x[, (paste0(.colnames[i], "_missing")) := factor(as.numeric(is.na(x[[i]])))]
       }
       if (verbose) {
-        msg(
+        msg2(
           "Created missingness indicator for",
           bold(orange(ncolsna), ngettext(ncolsna, "column", "columns"))
         )
@@ -364,16 +364,16 @@ preprocess_ <- function(x, y = NULL,
   #     dependency_check("missRanger")
   #     if (verbose) {
   #       if (impute.missRanger.params$pmm.k > 0) {
-  #         msg("Imputing missing values using predictive mean matching with missRanger...")
+  #         msg2("Imputing missing values using predictive mean matching with missRanger...")
   #       } else {
-  #         msg("Imputing missing values using missRanger...")
+  #         msg2("Imputing missing values using missRanger...")
   #       }
   #     }
   #     x <- missRanger::missRanger(x, pmm.k = impute.missRanger.params$pmm.k,
   #                                 verbose = ifelse(verbose, 1, 0))
   #   } else if (impute.type == "micePMM") {
   #     dependency_check("mice")
-  #     if (verbose) msg("Imputing missing values by predictive mean matching using mice...")
+  #     if (verbose) msg2("Imputing missing values by predictive mean matching using mice...")
   #     x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
   #     setDT(x)
   #   } else {
@@ -410,7 +410,7 @@ preprocess_ <- function(x, y = NULL,
       }
       for (j in numeric_index) set(x, i = NULL, j, scale(x[[j]], scale = scale, center = center))
     } else {
-      if (verbose) msg("No numeric columns present")
+      if (verbose) msg2("No numeric columns present")
     }
   }
 
@@ -434,7 +434,7 @@ preprocess_ <- function(x, y = NULL,
     x[, (excluded.names) := excluded]
   }
 
-  if (verbose) msg("Done")
+  if (verbose) msg2("Done")
   invisible(x)
 
 } # rtemis::preprocess

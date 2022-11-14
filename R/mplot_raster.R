@@ -38,7 +38,7 @@ mplot_raster <- function(x,
 
   if (dim(x)[3] > 3) {
     .dim <- dim(x)
-    if (verbose) msg0("Input has dimensions ", .dim[1], "x", .dim[2], "x", .dim[3],
+    if (verbose) msg20("Input has dimensions ", .dim[1], "x", .dim[2], "x", .dim[3],
                       "; Using first 3")
     x <- x[, , seq(3)]
   }

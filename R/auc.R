@@ -47,7 +47,7 @@ auc <- function(prob, labels,
     .auc <- ROCR::performance(.pred, "auc")@y.values[[1]]
   }
 
-  if (verbose) msg("AUC is", .auc)
+  if (verbose) msg2("AUC is", .auc)
   .auc
 
 } # rtemis::auc

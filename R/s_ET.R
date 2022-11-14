@@ -103,7 +103,7 @@ s_ET <- function(x, y = NULL,
   }
 
   # ET ----
-  if (verbose) msg("Training extraTrees model...", newline.pre = TRUE)
+  if (verbose) msg2("Training extraTrees model...", newline.pre = TRUE)
   mod <- extraTrees::extraTrees(x = x, y = y,
                                 ntree = n.trees,
                                 mtry = mtry,

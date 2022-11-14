@@ -162,7 +162,7 @@ s_BAYESGLM <- function(x, y = NULL,
                        maxit = maxit), extra.args)
 
   # BAYESGLM ----
-  if (verbose) msg("Training Bayesian GLM...", newline.pre = TRUE)
+  if (verbose) msg2("Training Bayesian GLM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  data = df.train,
                  family = family,

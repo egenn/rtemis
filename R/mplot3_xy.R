@@ -996,7 +996,7 @@ mplot3_fit <- function(x, y,
   if (type == "Classification") {
     mplot3_conf(table(y, x), ...)
   } else if (type == "Survival") {
-    msg("Not currently supported")
+    msg2("Not currently supported")
   } else {
     mplot3_xy(x, y,
               fit = fit, se.fit = se.fit, fit.error = fit.error,

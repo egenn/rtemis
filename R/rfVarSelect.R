@@ -21,13 +21,13 @@ rfVarSelect <- function(x, y,
   n <- NCOL(x)
   if (n < 2) stop("You need 2 or more variables to select from")
   start.time <- intro(verbose = verbose)
-  if (verbose) msg("Running Variable Selection using Random Forest...")
+  if (verbose) msg2("Running Variable Selection using Random Forest...")
   mod <- s_RF(x, y, importance = TRUE)
   importance <- mod$mod$importance[, 1]
   if (print.plot) mplot3_x(mod$mod$importance, group.title = "")
   importance.rank <- order(importance, decreasing = TRUE)
   top.index <- importance.rank[1:(p * n)]
-  if (verbose) msg(length(top.index), "variables selected based on RF-estimated importance")
+  if (verbose) msg2(length(top.index), "variables selected based on RF-estimated importance")
   outro(start.time, verbose = verbose)
   return(top.index)
 

@@ -148,7 +148,7 @@ s_GBM3.R <- function(x, y = NULL,
   #   if (!dir.exists(plot.res.outdir)) dir.create(plot.res.outdir)
   # }
   if (n.trees > max.trees) {
-    if (verbose) msg("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
+    if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
     n.trees <- max.trees
   }
   grid.search.type <- match.arg(grid.search.type)
@@ -208,7 +208,7 @@ s_GBM3.R <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
+  if (verbose) msg2("Running Gradient Boosting", type, "with a", loss[[1]], "loss function...", newline.pre = TRUE)
 
   # Grid Search ----
   if (is.null(metric)) {
@@ -309,7 +309,7 @@ s_GBM3.R <- function(x, y = NULL,
     # incl. hack to check model is good: add single validation case to see if valid.error gets estimated
     .x.train <- rbind(.x, .x[1, , drop = FALSE])
     .y.train <- c(.y, .y[1])
-    if (verbose) msg("Training GBM3 on full training set...", newline.pre = TRUE)
+    if (verbose) msg2("Training GBM3 on full training set...", newline.pre = TRUE)
   }
   mod <- gbm3::gbm.fit(x = .x.train, y = .y.train,
                        offset = offset,
@@ -331,7 +331,7 @@ s_GBM3.R <- function(x, y = NULL,
   if (!is.null(logFile)) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
 
   while (all(is.na(mod$valid.error))) {
-    msg("###   Caught gbm.fit error; retrying...   ###")
+    msg2("###   Caught gbm.fit error; retrying...   ###")
     if (save.error.diagnostics) {
       saveRDS(list(mod = mod,
                    x = .x.train, y = .y.train,
@@ -394,10 +394,10 @@ s_GBM3.R <- function(x, y = NULL,
                                    vline = c(which.min(mod$valid.error), which.min(valid.error.smooth)),
                                    vline.col = c(ucsfCol$red, ucsfCol$purple),
                                    xlab = "N trees", ylab = "Loss")
-    if (trace > 0) msg("### n.trees is", n.trees)
+    if (trace > 0) msg2("### n.trees is", n.trees)
     while (n.trees >= (mod$params$num_trees - n.tree.window) & mod$params$num_trees < max.trees) {
       n.new.trees <- min(n.new.trees, max.trees - mod$params$num_trees)
-      if (verbose) msg("Adding", n.new.trees, "more trees to trained GBM model...",
+      if (verbose) msg2("Adding", n.new.trees, "more trees to trained GBM model...",
                        "\n    * current mod$params$num_trees =", mod$params$num_trees,
                        "\n    * best n.trees = ", n.trees,
                        "\n    * max.trees =", max.trees)
@@ -420,7 +420,7 @@ s_GBM3.R <- function(x, y = NULL,
                                      vline.col = c(ucsfCol$red, ucsfCol$purple),
                                      xlab = "N trees", ylab = "Loss")
     }
-    if (n.trees == max.trees & verbose) msg("Reached max.trees =", max.trees)
+    if (n.trees == max.trees & verbose) msg2("Reached max.trees =", max.trees)
   }
 
   # Fitted ----
@@ -452,7 +452,7 @@ s_GBM3.R <- function(x, y = NULL,
   # Do not estimate unless you need them.
   mod.summary.rel <- NULL
   if (relInf) {
-    if (verbose) msg("Calculating relative influence of variables...")
+    if (verbose) msg2("Calculating relative influence of variables...")
     mod.summary.rel <- summary(mod, plot_it = plotRelInf,
                                order = FALSE, method = gbm3::relative_influence)
     if (plotRelInf) mtext(paste0(y.name, " ~ ", x.name, " GBM relative influence"), padj = -2)
@@ -460,7 +460,7 @@ s_GBM3.R <- function(x, y = NULL,
 
   mod.summary.perm <- NULL
   if (varImp) {
-    if (verbose) msg("Calculating variable importance by permutation testing...")
+    if (verbose) msg2("Calculating variable importance by permutation testing...")
     # similar to random forests (stated as experimental)
     mod.summary.perm <- summary(mod, plotit = plotVarImp,
                                 order = FALSE, method = gbm3::permutation_relative_influence)
@@ -473,15 +473,15 @@ s_GBM3.R <- function(x, y = NULL,
   if (!is.null(.x.test)) {
     if (type == "Regression" | type == "Survival") {
       if (distribution == "poisson") {
-        if (trace > 0) msg("Using predict for Poisson Regression with type = response")
+        if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
         predicted <- predict(mod, x.test, n.trees = n.trees, type = "response")
       } else {
-        if (verbose) msg("Using predict for", type, "with type = link")
+        if (verbose) msg2("Using predict for", type, "with type = link")
         predicted <- predict(mod, x.test, n.trees = n.trees)
       }
     } else {
       if (distribution == "multinomial") {
-        if (trace > 0) msg("Using predict for multinomial classification with type = response")
+        if (trace > 0) msg2("Using predict for multinomial classification with type = response")
         # Get probabilities per class
         predicted.prob <- predicted <- predict(mod, x.test, n.trees = n.trees, type = "response")
         # Now get the predicted classes

@@ -132,26 +132,26 @@ checkpoint_earlystop <- function(x,
   }
 
   if (verbose) {
-    # msg0("Last value = ", ddSci(last.value), "(thresh = ", absolute.threshold, ") | ",
+    # msg20("Last value = ", ddSci(last.value), "(thresh = ", absolute.threshold, ") | ",
     #      "Pct change = ", ddSci(relative.change * 100), "(thresh = ", relative.threshold * 100, ") | ",
     #      "Relative variance over last ", n.steps, " steps = ", ddSci(relativeVariance),
     #      "(thresh = ", relativeVariance.threshold, ")")
 
-    # msg0("Last: ", ddSci(last.value), " (", absolute.threshold, ") | ",
+    # msg20("Last: ", ddSci(last.value), " (", absolute.threshold, ") | ",
     #      "Pct: ", ddSci(relative.change * 100), " (", relative.threshold * 100, ") | ",
     #      "Rvar", n.steps, ": ", ddSci(relativeVariance),
     #      " (", relativeVariance.threshold, ")")
-    # msg("--")
+    # msg2("--")
     # .msg <- list(`Last value` = paste0(ddSci(last.value), " (", absolute.threshold, ")"),
     #              `Relative change` = paste0(ddSci(relative.change * 100), " (", relative.threshold * 100, ")"),
     #              `Relative variance` = paste0(ddSci(relativeVariance), " (", relativeVariance.threshold, ")"),
     #              Minimize = minimize,
     #              Stop = .stop)
     # printls(.msg)
-    msg0("Last: ", ddSci(last.value), "; RelDelta: ", ddSci(relative.change * 100),
+    msg20("Last: ", ddSci(last.value), "; RelDelta: ", ddSci(relative.change * 100),
          "; RelVar: ", ddSci(relativeVariance), "; Min:", minimize, "; Stop: ", .stop)
     #
-    # msg0("Last: ", ddSci(last.value), " (", absolute.threshold, ")\n",
+    # msg20("Last: ", ddSci(last.value), " (", absolute.threshold, ")\n",
     #      "Pct: ", ddSci(relative.change * 100), " (", relative.threshold * 100, ")\n",
     #      "Rvar", n.steps, ": ", ddSci(relativeVariance),
     #      " (", relativeVariance.threshold, ")")

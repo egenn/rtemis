@@ -140,10 +140,10 @@ s_H2OGBM <- function(x, y = NULL,
 
   # h2o Frames
   if (h2o.init) {
-    if (verbose) msg("Connecting to H2O server...")
+    if (verbose) msg2("Connecting to H2O server...")
     h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
   }
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   df.train <- h2o::as.h2o(data.frame(x, y = y, weights = .weights), "df_train")
   # if we are in gs, create df.valid, otherwise df.test
   if (.gs) {
@@ -230,9 +230,9 @@ s_H2OGBM <- function(x, y = NULL,
   if (.final) {
     # Use estimated n.trees from grid search. These will be at most n.trees defined originally
     n.stopping.rounds <- 0
-    if (verbose) msg("Training final H2O GBM model...", newline.pre = TRUE)
+    if (verbose) msg2("Training final H2O GBM model...", newline.pre = TRUE)
   } else {
-    if (verbose) msg("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
+    if (verbose) msg2("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
   }
 
   mod <- h2o::h2o.gbm(y = "y",
@@ -254,7 +254,7 @@ s_H2OGBM <- function(x, y = NULL,
   if (trace > 0) print(mod)
 
   # Fitted ----
-  if (verbose) msg("Getting fitted values...")
+  if (verbose) msg2("Getting fitted values...")
   fitted <- as.data.frame(predict(mod, df.train))[, 1]
   if (type == "Classification") {
     fitted <- factor(fitted, levels = levels(y))
@@ -265,7 +265,7 @@ s_H2OGBM <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    if (verbose) msg("Getting predicted values...")
+    if (verbose) msg2("Getting predicted values...")
     predicted <- if (.gs) {
       as.data.frame(predict(mod, df.valid))[, 1]
     } else {
@@ -320,7 +320,7 @@ s_H2OGBM <- function(x, y = NULL,
             plot.theme)
 
   if (.final) if (h2o.shutdown.at.end) h2o::h2o.shutdown(prompt = FALSE)
-  if (verbose) msg0("Access H2O Flow at http://", ip, ":", port, " in your browser")
+  if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

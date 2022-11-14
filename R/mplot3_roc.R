@@ -80,7 +80,7 @@ mplot3_roc <- function(prob, labels,
     labelsl <- if (!is.list(labels)) list(labels) else labels
     # if (length(probl) != length(labels)) stop("Input prob and labels do not contain same number of sets")
     if (length(labelsl) < length(probl)) {
-        if (verbose) msg("Assuming same labels for each set of probabilities")
+        if (verbose) msg2("Assuming same labels for each set of probabilities")
         labelsl <- rep(labelsl, length(probl) / length(labelsl))
     }
 

@@ -257,7 +257,7 @@ s_RANGER <- function(x, y = NULL,
     # tuneRF ----
     if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
     if (autotune) {
-        if (verbose) msg("Tuning for mtry...")
+        if (verbose) msg2("Tuning for mtry...")
         tuner <- try(randomForest::tuneRF(
             x = x, y = y,
             mtryStart = mtryStart,
@@ -271,9 +271,9 @@ s_RANGER <- function(x, y = NULL,
         ))
         if (!inherits(tuner, "try-error")) {
             mtry <- tuner[which.min(tuner[, 2]), 1]
-            if (verbose) msg("Best mtry :", mtry)
+            if (verbose) msg2("Best mtry :", mtry)
         } else {
-            msg("tuneRF failed; reverting to mtry =", mtry)
+            msg2("tuneRF failed; reverting to mtry =", mtry)
         }
     }
     parameters <- list(
@@ -291,7 +291,7 @@ s_RANGER <- function(x, y = NULL,
         inbag.resample <- rtset.resample("strat.boot", n.trees)
     }
     if (!is.null(inbag.resample)) {
-        if (verbose) msg("Creating custom subsamples...")
+        if (verbose) msg2("Creating custom subsamples...")
         # Get integer index of inbag cases
         inbag.res <- resample(df.train$y,
             rtset = inbag.resample,
@@ -311,7 +311,7 @@ s_RANGER <- function(x, y = NULL,
         inbag <- NULL
     }
     if (verbose) {
-        msg("Training Random Forest (ranger)",
+        msg2("Training Random Forest (ranger)",
             type, "with",
             n.trees, "trees...",
             newline.pre = TRUE

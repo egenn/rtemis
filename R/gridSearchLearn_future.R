@@ -91,7 +91,7 @@ gridSearchLearn_future <- function(x, y, mod,
     if (inherits(future::plan(), "sequential")) {
         future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
         if (trace > 1) {
-            msg("Inner resampling: Future plan set to", bold(rtPlan),
+            msg2("Inner resampling: Future plan set to", bold(rtPlan),
                 "with", bold(n.cores), "workers",
                 color = magenta
             )
@@ -99,7 +99,7 @@ gridSearchLearn_future <- function(x, y, mod,
     } else {
         future::plan(rtPlan, workers = n.cores)
         if (trace > 1) {
-            msg("Inner resampling plan set to", bold(rtPlan),
+            msg2("Inner resampling plan set to", bold(rtPlan),
                 "with", bold(n.cores), "workers",
                 color = magenta
             )
@@ -140,7 +140,7 @@ gridSearchLearn_future <- function(x, y, mod,
                          save.mod,
                          nres) {
         if (verbose) {
-            msg("Running grid line #", index, " of ",
+            msg2("Running grid line #", index, " of ",
                 NROW(param.grid), "...",
                 sep = ""
             )
@@ -205,11 +205,11 @@ gridSearchLearn_future <- function(x, y, mod,
     # Grid run ----
     if (verbose) {
         parameterSummary(grid.params, fixed.params, title = "Search parameters")
-        msg(
+        msg2(
             "Tuning", modSelect(mod, desc = TRUE), "by",
             search.type, "grid search:"
         )
-        msg(n.resamples, " resamples; ", NROW(param.grid),
+        msg2(n.resamples, " resamples; ", NROW(param.grid),
             " models total; running on ",
             singorplu(n.cores, "worker"),
             " (", Sys.getenv("R_PLATFORM"), ")\n",

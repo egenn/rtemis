@@ -266,7 +266,7 @@ s_CART <- function(x, y = NULL,
     )
 
     # rpart ----
-    if (verbose) msg("Training CART...", newline.pre = TRUE)
+    if (verbose) msg2("Training CART...", newline.pre = TRUE)
     mod <- rpart::rpart(
         formula = .formula,
         data = df.train,

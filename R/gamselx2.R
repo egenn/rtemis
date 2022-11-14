@@ -24,7 +24,7 @@ gamselx2 <- function(x, y,
   # Get categorical variables ----
   index.cat <- which(sapply(x, is.factor))
   n.cat <- length(index.cat)
-  if (verbose) msg("Found", n.cat, "categorical variables", color = orange)
+  if (verbose) msg2("Found", n.cat, "categorical variables", color = orange)
 
   # Init ----
   if (is.null(init)) init <- mean(y)
@@ -37,7 +37,7 @@ gamselx2 <- function(x, y,
                    cart.params,
                    verbose = trace > 1,
                    print.plot = FALSE)
-    if (verbose) msg("Training CART on", n.cat, "categorical variables...", color = orange)
+    if (verbose) msg2("Training CART on", n.cat, "categorical variables...", color = orange)
     mod1 <- do.call("s_CART", cart.args)
   } else {
     mod1 <- list()
@@ -48,7 +48,7 @@ gamselx2 <- function(x, y,
 
   # 2. GAMSEL I on continuous ----
   x.cont <- if (n.cat > 0) x[, -index.cat, drop = FALSE] else x
-  if (verbose) msg("Training first stage GAMSEL...", color = orange)
+  if (verbose) msg2("Training first stage GAMSEL...", color = orange)
   gamsel.args1 <- c(list(x = x.cont, y = y - Fval,
                          print.plot = FALSE,
                          verbose = trace > 1),
@@ -58,7 +58,7 @@ gamselx2 <- function(x, y,
   Fval <- Fval + predict(mod2)
 
   # 3. Pairwise interactions ----
-  if (verbose) msg("Looking for pairwise interactions...", color = orange)
+  if (verbose) msg2("Looking for pairwise interactions...", color = orange)
   n.continuous <- NCOL(x.cont)
   if (n.continuous > 1) {
     xnames.cont <- colnames(x.cont)
@@ -67,26 +67,26 @@ gamselx2 <- function(x, y,
     n.pairs <- length(pairs)
     pairs <- matrix(t(sapply(strsplit(pairs, " "), as.numeric))[, c(2, 1)], n.pairs)
 
-    if (trace > 0) msg("Running", n.pairs, "pairwise", ifelse(n.pairs == 1, "GLM", "GLMs"))
+    if (trace > 0) msg2("Running", n.pairs, "pairwise", ifelse(n.pairs == 1, "GLM", "GLMs"))
     resid <- y - Fval
     pairwise.glm.pvals.adj <- lapply(seq_len(n.pairs), function(i) {
       if (trace > 0) cat(i, "..")
       fit <- glm(resid ~ c(x.cont[, pairs[i, 1]] * x.cont[, pairs[i, 2]]))
       summary(fit)$coefficients[2, 4]
     }) |> p.adjust(method = p.adjust.method)
-    if (trace > 0) msg("Done")
+    if (trace > 0) msg2("Done")
     pairs.index <- which(pairwise.glm.pvals.adj < alpha)
-    if (verbose) msg("Found", length(pairs.index), "significant",
+    if (verbose) msg2("Found", length(pairs.index), "significant",
                      ifelse(length(pairs.index) == 1, "interaction", "interactions"))
   } else {
     pairs <- pairwise.glm.pvals.adj <- NULL
   }
 
   # 4. GAMSEL II on interactions ----
-  if (verbose) msg("Training second stage GAMSEL...", color = orange)
+  if (verbose) msg2("Training second stage GAMSEL...", color = orange)
   if (length(pairs.index) > 0) {
     .pairs <- pairs[pairs.index, , drop = FALSE]
-    if (verbose) msg("Found", NROW(.pairs), "pairwise",
+    if (verbose) msg2("Found", NROW(.pairs), "pairwise",
                      ifelse(NROW(.pairs) == 1, "interaction", "interactions"),
                      color = orange)
     extnames <- sapply(seq_along(pairs.index), function(i) {

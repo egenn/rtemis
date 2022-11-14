@@ -17,7 +17,7 @@ timeProc <- function(..., verbose = TRUE) {
   start <- proc.time()
   eval(expr)
   total <- proc.time() - start
-  if (verbose) msg("Completed in", as.numeric(total[3]), "seconds")
+  if (verbose) msg2("Completed in", as.numeric(total[3]), "seconds")
   return(total)
 
 } # rtemis::timeProc

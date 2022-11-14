@@ -205,7 +205,7 @@ s_GLMTREE <- function(x, y = NULL,
     )
 
     # glmtree ----
-    if (verbose) msg("Training GLMTREE...", newline.pre = TRUE)
+    if (verbose) msg2("Training GLMTREE...", newline.pre = TRUE)
     mod <- partykit::glmtree(
         formula = .formula,
         data = df.train,

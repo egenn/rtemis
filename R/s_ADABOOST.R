@@ -98,7 +98,7 @@ s_ADABOOST <- function(x,
     }
 
     # ADABOOST ----
-    if (verbose) msg("Training ADABOOST Classifier...", newline.pre = TRUE)
+    if (verbose) msg2("Training ADABOOST Classifier...", newline.pre = TRUE)
     mod <- ada::ada(x, y,
         loss = loss,
         type = .type,

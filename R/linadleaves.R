@@ -128,7 +128,7 @@ linadleaves <- function(x, y,
             warning("Forcing lin.type to glm because x has a single column")
         }
     }
-    if (trace > 1) msg0("Using lin.type '", lin.type, "'")
+    if (trace > 1) msg20("Using lin.type '", lin.type, "'")
 
     # Global  ----
     g <- new.env()
@@ -262,8 +262,8 @@ linadleaves <- function(x, y,
     resid <- -firstDer # n
 
     # '- Lin1 ----
-    if (verbose) msg0("Training Linear Additive Tree ", type, " (max leaves = ", max.leaves, ")...")
-    if (trace > 0) msg("Training first Linear Model...")
+    if (verbose) msg20("Training Linear Additive Tree ", type, " (max leaves = ", max.leaves, ")...")
+    if (trace > 0) msg2("Training first Linear Model...")
     if (is.constant(resid)) stop("First gradient is constant")
 
     index <- is.na(resid)
@@ -338,17 +338,17 @@ linadleaves <- function(x, y,
     stepid <- 1
     while (g$n.leaves < max.leaves && length(g$open) > 0) {
         if (trace > 1) {
-            msg("g$closed is", g$closed)
-            msg("g$open is", g$open)
-            msg("g$include is", g$include)
-            msg("g$terminal is", g$terminal)
-            msg("g$n.leaves is", g$n.leaves)
+            msg2("g$closed is", g$closed)
+            msg2("g$open is", g$open)
+            msg2("g$include is", g$include)
+            msg2("g$terminal is", g$terminal)
+            msg2("g$n.leaves is", g$n.leaves)
         }
 
         # Work on all candidate splits (open nodes)
         for (i in g$open) {
             if (is.null(g$tree[[paste(i)]]$split.rule)) {
-                if (trace > 0) msg0("Working on node id #", i, "...")
+                if (trace > 0) msg20("Working on node id #", i, "...")
                 splitlineRC(
                     g = g,
                     type = type,
@@ -370,14 +370,14 @@ linadleaves <- function(x, y,
                     verbose = verbose,
                     trace = trace
                 )
-                if (trace > 1) msg0("Node #", i, ": split.rule: ", g$tree[[paste(i)]]$split.rule)
+                if (trace > 1) msg20("Node #", i, ": split.rule: ", g$tree[[paste(i)]]$split.rule)
             } else {
-                if (trace > 2) msg("Node #", i, " already processed", sep = "")
+                if (trace > 2) msg2("Node #", i, " already processed", sep = "")
             }
         } # /for (i in g$open) splitline
 
         if (length(g$tree) == 3) {
-            if (trace > 1) msg("Tree length is", length(g$tree))
+            if (trace > 1) msg2("Tree length is", length(g$tree))
             g$open <- c(2, 3)
             g$include <- c(1, 2, 3)
             g$closed <- 1
@@ -388,8 +388,8 @@ linadleaves <- function(x, y,
             # g$steprules <- c(g$steprules, getStepRules(g, 2:3))
         } else {
             # Nodes that did not split are removed from open by splitline
-            if (trace > 1) msg("+++ g$open is", g$open)
-            if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
+            if (trace > 1) msg2("+++ g$open is", g$open)
+            if (trace > 1) msg2("+++ g$nosplit is", g$nosplit)
 
             if (length(g$open) > 0) {
                 # '- Loss ----
@@ -411,20 +411,20 @@ linadleaves <- function(x, y,
                     for (i in toclose) {
                         g$open <- setdiff(g$open, i)
                         g$closed <- c(g$closed, i)
-                        if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+                        if (trace > 1) msg20("Node id #", i, " had NA loss.red and was closed")
                     }
                 }
 
                 if ((selected.red)) {
-                    if (trace > 1) msg0(">>> Selected node #", selected)
-                    if (trace > 1) msg("g$terminal is", g$terminal)
+                    if (trace > 1) msg20(">>> Selected node #", selected)
+                    if (trace > 1) msg2("g$terminal is", g$terminal)
                     # +tree: Remove selected from terminal
-                    if (trace > 1) msg("Removing selected from terminal nodes")
+                    if (trace > 1) msg2("Removing selected from terminal nodes")
                     g$terminal <- setdiff(g$terminal, selected)
                     # +tree: Add selected's childrens to terminal
-                    if (trace > 1) msg("Adding selected's children to terminal nodes")
+                    if (trace > 1) msg2("Adding selected's children to terminal nodes")
                     g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
-                    if (trace > 1) msg("g$terminal is now", g$terminal)
+                    if (trace > 1) msg2("g$terminal is now", g$terminal)
                     # +tree: Add selected to closed
                     # Add selected to closed
                     g$closed <- c(g$closed, selected)
@@ -437,19 +437,19 @@ linadleaves <- function(x, y,
 
                     # +tree: Add selected's children to open
                     g$open <- c(g$open, selected * 2, selected * 2 + 1)
-                    if (trace > 1) msg("g$open is now", g$open)
+                    if (trace > 1) msg2("g$open is now", g$open)
 
                     # Nodes in tree are all closed nodes plus the terminals
                     g$include <- union(union(g$closed, g$terminal), g$open)
                     # -1 subtracts the root from the count
                     g$n.nodes <- length(g$include) - 1
-                    if (trace > 1) msg("g$n.nodes is", g$n.nodes)
+                    if (trace > 1) msg2("g$n.nodes is", g$n.nodes)
                     g$n.leaves <- length(g$terminal)
                 } else {
                     g$closed <- c(g$closed, selected)
                     g$open <- setdiff(g$open, selected)
                     if (trace > 1) {
-                        msg0("Node id #", selected, "
+                        msg20("Node id #", selected, "
                              did not reduce loss and was closed")
                     }
                 }
@@ -457,7 +457,7 @@ linadleaves <- function(x, y,
         } # /if (length(g$tree) == 3)
 
         # Update stepindex
-        if (trace > 1) msg("Updating steprules...")
+        if (trace > 1) msg2("Updating steprules...")
         stepid <- stepid + 1
         g$stepindex[[stepid]] <- g$terminal
     } # /while (g$n.nodes <= max.nodes)
@@ -465,15 +465,15 @@ linadleaves <- function(x, y,
     # Add open and nosplit nodes to included
 
     # Purge  ----
-    # if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
-    if (verbose) msg0("Reached ", g$n.leaves, " leaves.")
+    # if (verbose) msg20("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
+    if (verbose) msg20("Reached ", g$n.leaves, " leaves.")
     if (g$n.nodes == 2) {
         g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
         g$closed <- c(1, 2, 3)
         g$terminal <- c(2, 3)
         included <- c(1, 2, 3)
     } else {
-        if (trace > 1) msg("Purging excluded nodes...")
+        if (trace > 1) msg2("Purging excluded nodes...")
         # old:
         # for (k in c(g$open, g$nosplit)) g$tree[[paste(k)]] <- NULL
         # new: remove !g$included
@@ -491,9 +491,9 @@ linadleaves <- function(x, y,
     leaf.coefs <- plyr::ldply(g$terminal, function(j) g$tree[[paste(j)]]$coef)
     rownames(leaf.coefs) <- leaf.rules$id
 
-    if (trace > 1) msg("Getting all.step.leaves...")
+    if (trace > 1) msg2("Getting all.step.leaves...")
     all.step.leaves <- sort(unique(unlist(g$stepindex)))
-    if (trace > 1) msg("Getting all.step.rules...")
+    if (trace > 1) msg2("Getting all.step.rules...")
     all.step.rules <- data.frame(
         id = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$id),
         rule = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$rule),
@@ -503,7 +503,7 @@ linadleaves <- function(x, y,
         stringsAsFactors = FALSE
     )
     if (trace > 1) print(all.step.leaves)
-    if (trace > 1) msg("Getting all.step.coefs...")
+    if (trace > 1) msg2("Getting all.step.coefs...")
     all.step.coefs <- plyr::ldply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)
     # use following for no plyr
     # all.step.coefs <- data.frame(do.call(
@@ -563,7 +563,7 @@ linadleaves <- function(x, y,
     class(.mod) <- c("linadleaves", "list")
 
     if (lookback) {
-        if (trace > 1) msg("Starting lookback...", color = hilite)
+        if (trace > 1) msg2("Starting lookback...", color = hilite)
         opt.leaves <- selectleaves(
             .mod,
             x = x, y = y,
@@ -575,7 +575,7 @@ linadleaves <- function(x, y,
         )
         .mod$n.leaves <- opt.leaves$n.leaves
         .mod$lookback <- opt.leaves
-        if (trace > 1) msg("Lookback complete", color = hilite)
+        if (trace > 1) msg2("Lookback complete", color = hilite)
     }
 
     .mod
@@ -666,7 +666,7 @@ splitlineRC <- function(g,
     if (trace > 2) table(weights)
 
     # '- Split  ----
-    # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
+    # if (trace > 0) msg2("splitLining node ", node.index, "...", sep = "")
     dat <- data.frame(g$x, resid1)
     part <- rpart::rpart(resid1 ~ ., dat,
         weights = weights,
@@ -681,11 +681,11 @@ splitlineRC <- function(g,
 
     if (is.null(part$splits)) {
         # '-- Node did not split ----
-        if (trace > 1) msg0("Node #", node.index, " did not split")
+        if (trace > 1) msg20("Node #", node.index, " did not split")
         # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
         g$tree[[paste(node.index)]]$type <- "nosplit"
         g$nosplit <- c(g$nosplit, node.index)
-        if (trace > 1) msg("Moving nosplit nodes from open to closed list...")
+        if (trace > 1) msg2("Moving nosplit nodes from open to closed list...")
         # +tree: Remove nosplit node from open
         g$open <- setdiff(g$open, g$nosplit)
         # +tree: Add nosplit node to closed
@@ -725,7 +725,7 @@ splitlineRC <- function(g,
                 # Split was on a continuous feature
                 cutFeat.point <- part$splits[1, "index"]
                 if (trace > 1) {
-                    msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+                    msg2("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                         "\"; Cut Point = ", ddSci(cutFeat.point),
                         sep = ""
                     )
@@ -736,7 +736,7 @@ splitlineRC <- function(g,
                 # Split was on a categorical feature
                 cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
                 if (trace > 1) {
-                    msg("Node #", node.index, ": Split Feature is \"", cutFeat.name,
+                    msg2("Node #", node.index, ": Split Feature is \"", cutFeat.name,
                         "\"; Cut Category is \"", cutFeat.category,
                         "\"",
                         sep = ""
@@ -798,10 +798,10 @@ splitlineRC <- function(g,
         coef.left <- node$coef
         if (.class) {
             if (weightedFirstDerLeft == 0) {
-                if (trace > 1) msg("weightedFirstDerLeft is 0")
+                if (trace > 1) msg2("weightedFirstDerLeft is 0")
                 nodeVal.left <- 0 # do nothing
             } else if (weightedSecDerLeft == 0) {
-                if (trace > 1) msg("weightedSecDerLeft is 0")
+                if (trace > 1) msg2("weightedSecDerLeft is 0")
                 nodeVal.left <- -sign(weightedFirstDerLeft) * Inf
             } else {
                 if (g$.rho) {
@@ -839,10 +839,10 @@ splitlineRC <- function(g,
         coef.right <- node$coef
         if (.class) {
             if (weightedFirstDerRight == 0) {
-                if (trace > 1) msg("weightedFirstDerRight is 0")
+                if (trace > 1) msg2("weightedFirstDerRight is 0")
                 nodeVal.right <- 0
             } else if (weightedSecDerRight == 0) {
-                if (trace > 1) msg("weightedSecDerRight is 0")
+                if (trace > 1) msg2("weightedSecDerRight is 0")
                 nodeVal.right <- -sign(weightedFirstDerRight) * Inf
             } else {
                 if (g$.rho) {
@@ -870,11 +870,11 @@ splitlineRC <- function(g,
         Fval[right.index] <- Fval[right.index] + nodeVal.right
 
         if (.class && trace > 1) {
-            msg("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
+            msg2("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
                 weightedFirstDerRight,
                 sep = ""
             )
-            msg("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
+            msg2("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
                 weightedSecDerRight,
                 sep = ""
             )
@@ -902,7 +902,7 @@ splitlineRC <- function(g,
             if (length(left.index) < minobsinnode.lin | is.constant(.resid2wleft)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
-                    msg("Looking at Node #", node.index * 2,
+                    msg2("Looking at Node #", node.index * 2,
                         ": ", length(left.index),
                         " cases belong to this node: Not fitting any more lines here",
                         sep = ""
@@ -952,7 +952,7 @@ splitlineRC <- function(g,
             if (length(right.index) < minobsinnode.lin | is.constant(.resid2wright)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
-                    msg("Looking at Node #", node.index * 2 + 1,
+                    msg2("Looking at Node #", node.index * 2 + 1,
                         ": ", length(right.index),
                         " cases belong to this node: Not fitting any more lines here",
                         sep = ""
@@ -1215,7 +1215,7 @@ predict.linadleaves <- function(object, newdata,
         } else {
             # '-- step & n.leaves > 1 ----
             if (verbose) {
-                msg(
+                msg2(
                     "Getting estimated values for each of",
                     max.leaves, "steps..."
                 )
@@ -1317,7 +1317,7 @@ selectleaves <- function(object,
                          print.plot = TRUE,
                          verbose = TRUE,
                          trace = 0) {
-    if (trace > 1) msg("Running selectleaves")
+    if (trace > 1) msg2("Running selectleaves")
     n.leaves <- object$n.leaves
     .class <- object$type == "Classification"
     # .surv <- object$type == "Survival"
@@ -1383,7 +1383,7 @@ selectleaves <- function(object,
 
     n.leaves <- max(1, which.min(valid.error))
     if (verbose) {
-        msg("Selected", n.leaves, "leaves of", length(valid.error), "total",
+        msg2("Selected", n.leaves, "leaves of", length(valid.error), "total",
             color = hilite
         )
     }

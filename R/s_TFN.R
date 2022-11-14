@@ -302,7 +302,7 @@ s_TFN <- function(x, y = NULL,
                          newline.pre = TRUE)
 
     # TF ----
-    if (verbose) msg0("Training Neural Network ", type, " with ",
+    if (verbose) msg20("Training Neural Network ", type, " with ",
                       n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
                       "...\n", newline.pre = TRUE)
 
@@ -313,7 +313,7 @@ s_TFN <- function(x, y = NULL,
       metrics = metric
     )
   } else {
-    if (verbose) msg("Training pre-built Network for", type, "...")
+    if (verbose) msg2("Training pre-built Network for", type, "...")
   }
 
   # '- Fit ----

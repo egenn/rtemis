@@ -86,17 +86,17 @@ d_H2OGLRM <- function(x,
   n <- NROW(x)
   p <- NCOL(x)
   if (verbose) {
-    msg("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-    msg("    interpreted as", n, "cases with", p, "features.")
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
   }
   if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
   # h2o Frames
-  if (verbose) msg("Connecting to H2O server...")
+  if (verbose) msg2("Connecting to H2O server...")
   h2o::h2o.init(ip = ip, port = port, nthreads = n.cores)
-  if (verbose) msg("Creating H2O frames...")
+  if (verbose) msg2("Creating H2O frames...")
   df.train <- h2o::as.h2o(data.frame(x), "df_train")
   if (!is.null(x.valid)) {
     df.valid <- h2o::as.h2o(data.frame(x.valid), "df_valid")
@@ -105,7 +105,7 @@ d_H2OGLRM <- function(x,
   }
 
   # GLRM ----
-  if (verbose) msg("Performing Generalized Low Rank Decomposition...")
+  if (verbose) msg2("Performing Generalized Low Rank Decomposition...")
   decom <- h2o::h2o.glrm(training_frame = df.train,
                          model_id = paste0("rtemis.H2OGLRM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
                          validation_frame = df.valid,

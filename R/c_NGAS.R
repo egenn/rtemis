@@ -42,7 +42,7 @@ c_NGAS <- function(x,
   }
 
   # NGAS ----
-  if (verbose) msg("Performing Neural Gas clustering with k = ", k, "...", sep = "")
+  if (verbose) msg2("Performing Neural Gas clustering with k = ", k, "...", sep = "")
   clust <- flexclust::cclust(x,
                              k = k,
                              dist = dist,

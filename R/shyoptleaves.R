@@ -95,7 +95,7 @@ shyoptleaves <- function(x, y,
 
   # [ Arguments ] ----
   if (NCOL(x) == 1) lin.type <- "glm"
-  if (trace > 1) msg0("Using lin.type '", lin.type, "'")
+  if (trace > 1) msg20("Using lin.type '", lin.type, "'")
 
   # [ GLOBAL ] ----
   g <- new.env()
@@ -154,9 +154,9 @@ shyoptleaves <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ----
-  if (verbose) msg("Training Stepwise Hybrid Tree ", type,
+  if (verbose) msg2("Training Stepwise Hybrid Tree ", type,
                    " (max leaves = ", max.leaves, ")...", sep = "")
-  if (trace > 0) msg("Training first Linear Model...")
+  if (trace > 0) msg2("Training first Linear Model...")
 
   coef <- lincoef(x = g$xm[, -1, drop = FALSE], y = resid,
                   weights = weights,
@@ -230,16 +230,16 @@ shyoptleaves <- function(x, y,
   # { Loop } ----
   stepid <- 1
   while (g$n.leaves < max.leaves && length(g$open) > 0) {
-    if (trace > 1) msg("g$closed is", g$closed)
-    if (trace > 1) msg("g$open is", g$open)
-    if (trace > 1) msg("g$include is", g$include)
-    if (trace > 1) msg("g$terminal is", g$terminal)
-    if (trace > 1) msg("g$n.leaves is", g$n.leaves)
+    if (trace > 1) msg2("g$closed is", g$closed)
+    if (trace > 1) msg2("g$open is", g$open)
+    if (trace > 1) msg2("g$include is", g$include)
+    if (trace > 1) msg2("g$terminal is", g$terminal)
+    if (trace > 1) msg2("g$n.leaves is", g$n.leaves)
     # Work on all candidate splits (open nodes)
     for (i in g$open) {
       if (is.null(g$tree[[paste(i)]]$split.rule)) {
-        if (trace > 0) msg0("Working on node id #", i, "...")
-        # if (trace > 1) msg0("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
+        if (trace > 0) msg20("Working on node id #", i, "...")
+        # if (trace > 1) msg20("Node #", i, ": split.rule = ", g$tree[[paste(i)]]$split.rule)
         splitlin_(g = g,
                   type = type,
                   node.index = i,
@@ -260,12 +260,12 @@ shyoptleaves <- function(x, y,
                   n.cores = n.cores,
                   trace = trace)
       } else {
-        if (trace > 1) msg("Node #", i, " already processed", sep = "")
+        if (trace > 1) msg2("Node #", i, " already processed", sep = "")
       }
     } # /for (i in g$open) splitLine
 
     if (length(g$tree) == 3) {
-      if (trace > 1) msg("Tree length is", length(g$tree))
+      if (trace > 1) msg2("Tree length is", length(g$tree))
       g$open <- c(2, 3)
       g$include <- c(1, 2, 3)
       g$closed <- 1
@@ -276,8 +276,8 @@ shyoptleaves <- function(x, y,
       # g$steprules <- c(g$steprules, getStepRules(g, 2:3))
     } else {
       # Nodes that did not split are removed from open by splitLine
-      if (trace > 1) msg("+++ g$open is", g$open)
-      if (trace > 1) msg("+++ g$nosplit is", g$nosplit)
+      if (trace > 1) msg2("+++ g$open is", g$open)
+      if (trace > 1) msg2("+++ g$nosplit is", g$nosplit)
 
       # '- Loss ----
       # Find split with max loss reduction
@@ -297,20 +297,20 @@ shyoptleaves <- function(x, y,
         for (i in toclose) {
           g$open <- setdiff(g$open, i)
           g$closed <- c(g$closed, i)
-          if (trace > 1) msg0("Node id #", i, " had NA loss.red and was closed")
+          if (trace > 1) msg20("Node id #", i, " had NA loss.red and was closed")
         }
       }
 
       if ((selected.red)) {
-        if (trace > 1) msg(">>> Selected node #", selected, sep = "")
-        if (trace > 1) msg("g$terminal is", g$terminal)
+        if (trace > 1) msg2(">>> Selected node #", selected, sep = "")
+        if (trace > 1) msg2("g$terminal is", g$terminal)
         # +tree: Remove selected from terminal
-        if (trace > 1) msg("Removing selected from terminal nodes")
+        if (trace > 1) msg2("Removing selected from terminal nodes")
         g$terminal <- setdiff(g$terminal, selected)
         # +tree: Add selected's childrens to terminal
-        if (trace > 1) msg("Adding selected's children to terminal nodes")
+        if (trace > 1) msg2("Adding selected's children to terminal nodes")
         g$terminal <- c(g$terminal, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$terminal is now", g$terminal)
+        if (trace > 1) msg2("g$terminal is now", g$terminal)
         # +tree: Add selected to closed
         # Add selected to closed
         g$closed <- c(g$closed, selected)
@@ -325,23 +325,23 @@ shyoptleaves <- function(x, y,
         # +tree: Add selected's children to open
         # Add selected's children to open
         g$open <- c(g$open, selected * 2, selected * 2 + 1)
-        if (trace > 1) msg("g$open is now", g$open)
+        if (trace > 1) msg2("g$open is now", g$open)
 
         # Nodes in tree are all closed nodes plus the terminals
         g$include <- union(union(g$closed, g$terminal), g$open)
         # -1 subtracts the root from the count
         g$n.nodes <- length(g$include) - 1
-        if (trace > 1) msg("g$n.nodes is", g$n.nodes)
+        if (trace > 1) msg2("g$n.nodes is", g$n.nodes)
         g$n.leaves <- length(g$terminal)
       } else {
         g$closed <- c(g$closed, selected)
         g$open <- setdiff(g$open, selected)
-        if (trace > 1) msg0("Node id #", selected, " did not reduce loss and was closed")
+        if (trace > 1) msg20("Node id #", selected, " did not reduce loss and was closed")
       }
     } # /if (length(g$tree) == 3)
 
     # Update stepindex
-    if (trace > 1) msg("Updating steprules...")
+    if (trace > 1) msg2("Updating steprules...")
     stepid <- stepid + 1
     g$stepindex[[stepid]] <- g$terminal
 
@@ -354,14 +354,14 @@ shyoptleaves <- function(x, y,
   # Add open and nosplit nodes to included
 
   # [ Purge ] ----
-  if (verbose) msg0("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
+  if (verbose) msg20("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
   if (g$n.nodes == 2) {
     g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
     g$closed <- c(1, 2, 3)
     g$terminal <- c(2, 3)
     included <- c(1, 2, 3)
   } else {
-    if (trace > 1) msg("Purging excluded nodes...")
+    if (trace > 1) msg2("Purging excluded nodes...")
     # old:
     # for (k in c(g$open, g$nosplit)) g$tree[[paste(k)]] <- NULL
     # new: remove !g$included
@@ -388,9 +388,9 @@ shyoptleaves <- function(x, y,
   leaf.coefs <- plyr::ldply(g$terminal, function(j) g$tree[[paste(j)]]$coef)
   rownames(leaf.coefs) <- leaf.rules$id
 
-  if (trace > 1) msg("Getting all.step.leaves...")
+  if (trace > 1) msg2("Getting all.step.leaves...")
   all.step.leaves <- sort(unique(unlist(g$stepindex)))
-  if (trace > 1) msg("Getting all.step.rules...")
+  if (trace > 1) msg2("Getting all.step.rules...")
   all.step.rules <- data.frame(id = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$id),
                                rule = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$rule),
                                N = plyr::laply(all.step.leaves, function(j) length(g$tree[[paste(j)]]$index)),
@@ -398,7 +398,7 @@ shyoptleaves <- function(x, y,
                                # Label = Label,
                                stringsAsFactors = FALSE)
   if (trace > 1) print(all.step.leaves)
-  if (trace > 1) msg("Getting all.step.coefs...")
+  if (trace > 1) msg2("Getting all.step.coefs...")
   all.step.coefs <- plyr::ldply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)
   rownames(all.step.coefs) <- all.step.rules$id
 
@@ -519,9 +519,9 @@ splitlin_ <- function(g,
   weights <- node$weights
 
   # '- [ Split with splitline ] ----
-  # if (trace > 0) msg("splitLining node ", node.index, "...", sep = "")
+  # if (trace > 0) msg2("splitLining node ", node.index, "...", sep = "")
   # dat <- data.frame(g$x, resid1)
-  if (trace > 0) msg("Running splitline...", color = rtOrange)
+  if (trace > 0) msg2("Running splitline...", color = rtOrange)
   part <- splitline(g$xm[, -1, drop = FALSE], resid1,
                     caseweights = weights,
                     gamma = gamma,
@@ -544,11 +544,11 @@ splitlin_ <- function(g,
   if (is.na(part$featindex)) {
     # '-- Node did not split ----
     # TODO: work on g and exit
-    if (trace > 1) msg0("Node #", node.index, " did not split")
+    if (trace > 1) msg20("Node #", node.index, " did not split")
     # g$tree[[paste(node.index)]]$terminal <- TRUE # now true by setNodeClass
     g$tree[[paste(node.index)]]$type <- "nosplit"
     g$nosplit <- c(g$nosplit, node.index)
-    if (trace > 1) msg("Moving nosplit nodes from open to closed list...")
+    if (trace > 1) msg2("Moving nosplit nodes from open to closed list...")
     # +tree: Remove nosplit node from open
     g$open <- setdiff(g$open, g$nosplit)
     # +tree: Add nosplit node to closed
@@ -799,7 +799,7 @@ predict.shyoptleaves <- function(object, newdata,
     if (max.leaves == 1) {
       yhat.l <- list(c(init + newdata %*% t(object$leaves$coefs)))
     } else {
-      if (verbose) msg("Getting estimated values for each of", max.leaves, "steps...")
+      if (verbose) msg2("Getting estimated values for each of", max.leaves, "steps...")
 
       rules.l <- plyr::llply(seq(max.leaves), function(j)
         paste(sapply(object$stepindex[[paste(j)]], function(k)
@@ -912,7 +912,7 @@ shyoptree.select.leaves <- function(object,
   valid.error <- if (smooth) valid.error.smooth else valid.error
 
   if (print.plot) {
-    if (verbose) msg("Are we plotting or what?", color = red)
+    if (verbose) msg2("Are we plotting or what?", color = red)
     mplot3_xy(seq(n.leaves), list(Training = train.error,
                                   Validation = valid.error,
                                   `Smoothed Valid.` = valid.error.smooth),
