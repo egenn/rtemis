@@ -22,7 +22,7 @@ elevate(
   save.tune = TRUE,
   bag.fitted = FALSE,
   outer.n.workers = 1,
-  print.plot = TRUE,
+  print.plot = FALSE,
   plot.fitted = FALSE,
   plot.predicted = TRUE,
   plot.theme = rtTheme,

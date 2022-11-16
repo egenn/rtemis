@@ -64,11 +64,11 @@ call stack
 \details{
 If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
   the call stack.
-\code{msg0}, similar to \code{paste0}, is \code{msg(..., sep = "")}
+\code{msg0}, similar to \code{paste0}, is \code{msg2(..., sep = "")}
 }
 \examples{
 \dontrun{
-msg("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
+msg2("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
 }
 
 }

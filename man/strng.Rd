@@ -32,7 +32,7 @@ cyan(..., bold = FALSE)
 
 magenta(..., bold = FALSE)
 
-gray(..., bold = FALSE)
+gray(..., bold = FALSE, sep = " ")
 
 reset(...)
 }
