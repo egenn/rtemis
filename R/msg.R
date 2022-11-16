@@ -215,7 +215,7 @@ msg2 <- function(...,
                 #  extraline = FALSE,
                  newline.pre = FALSE,
                 #  as.message = FALSE,
-                 color = NULL,
+                #  color = NULL,
                  sep = " ") {
     if (is.null(caller)) {
         callStack.list <- as.list(sys.calls())
@@ -240,15 +240,9 @@ msg2 <- function(...,
     # .dt <- if (date) paste0(as.character(Sys.time())) else NULL
     .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
     if (newline.pre) cat("\n")
-    if (is.null(color)) {
-        cat(gray(paste0(.dt, gray(" "))))
-        cat(paste(txt, collapse = sep))
-        cat(" [", bold(caller), "]\n", sep = "")
-    } else {
-        cat(gray(paste0(.dt, gray(" "))))
-        cat(paste(color(txt), collapse = sep))
-        cat(" [", bold(caller), "]\n", sep = "")
-    }
+    cat(gray(paste0(.dt, gray(" "))))
+    cat(paste(txt, collapse = sep))
+    cat(gray(" [", bold(caller), "]\n", sep = ""), sep = "")
     
 } # rtemis::msg2
 
@@ -262,7 +256,7 @@ msg20 <- function(...,
                 #  extraline = FALSE,
                  newline.pre = FALSE,
                 #  as.message = FALSE,
-                 color = NULL,
+                #  color = NULL,
                  sep = "") {
     if (is.null(caller)) {
         callStack.list <- as.list(sys.calls())
@@ -287,14 +281,8 @@ msg20 <- function(...,
     # .dt <- if (date) paste0(as.character(Sys.time())) else NULL
     .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
     if (newline.pre) cat("\n")
-    if (is.null(color)) {
-        cat(gray(paste0(.dt, gray(" "))))
-        cat(paste(txt, collapse = sep))
-        cat(" [", bold(caller), "]\n", sep = "")
-    } else {
-        cat(gray(paste0(.dt, gray(" "))))
-        cat(paste(color(txt), collapse = sep))
-        cat(" [", bold(caller), "]\n", sep = "")
-    }
+    cat(gray(paste0(.dt, gray(" "))))
+    cat(paste(txt, collapse = sep))
+    cat(gray(" [", bold(caller), "]\n"), sep = "")
     
 } # rtemis::msg20

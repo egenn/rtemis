@@ -54,7 +54,7 @@ resLearn_future <- function(x, y, mod,
     # rtemis_init(n.workers, context = "Outer resampling")
 
     # Arguments ----
-    if (missing(x) | missing(y)) {
+    if (missing(x) || missing(y)) {
         print(args(resLearn))
         stop("Input missing")
     }
@@ -82,17 +82,15 @@ resLearn_future <- function(x, y, mod,
     if (n.workers == 1) {
         future::plan(list("sequential", rtPlan), workers = n.workers)
         if (verbose) {
-            msg2("Outer resampling plan set to",
-                bold("sequential"),
-                color = magenta
+            msg2(magenta("Outer resampling plan set to",
+                bold("sequential"))
             )
         }
     } else {
         future::plan(list(rtPlan, "sequential"), workers = n.workers)
         if (verbose) {
-            msg2("Outer resampling: Future plan set to", bold(rtPlan),
-                "with", bold(n.workers), "workers",
-                color = magenta
+            msg2(magenta("Outer resampling: Future plan set to", bold(rtPlan),
+                "with", bold(n.workers), "workers")
             )
         }
     }
@@ -113,7 +111,7 @@ resLearn_future <- function(x, y, mod,
         if (verbose) msg2("Running resample #", index, sep = "")
         res1 <- res[[index]]
         if (is.null(mtry)) {
-            feat.index <- seq(NCOL(x))
+            feat.index <- seq_len(NCOL(x))
         } else {
             feat.index <- sample(seq(NCOL), mtry, replace = FALSE)
         }

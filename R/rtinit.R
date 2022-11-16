@@ -15,7 +15,7 @@
 intro <- function(message = NULL,
                   verbose = TRUE,
                 #   as.message = FALSE,
-                  color = gray,
+                #   color = gray,
                   logFile = NULL,
                   call.depth = 1,
                   newline.pre = FALSE) {
@@ -35,8 +35,7 @@ intro <- function(message = NULL,
             msg2("Hello,", Sys.getenv("USER"),
                 # as.message = as.message,
                 call.depth = call.depth,
-                caller.id = 2,
-                color = color
+                caller.id = 2
             )
         } else {
             msg2(message,
@@ -66,20 +65,19 @@ outro <- function(start.time,
                   verbose = TRUE,
                 #   as.message = FALSE,
                   sinkOff = FALSE,
-                  color = gray,
+                #   color = gray,
                   newline.pre = FALSE) {
 
-    # sinkOff must be FALSE by default since there is no logging by default, 
-    # would result in warning
     elapsed <- as.numeric(proc.time() - start.time)
     if (verbose || sinkOff) {
         if (newline.pre) cat("\n")
-        msg2("Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
-            "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]), 
-            "; System: ", ddSci(elapsed[2]), ")",
-            sep = "",
+        msg2(
+            "Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
+                "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
+                "; System: ", ddSci(elapsed[2]), ")",
+                sep = "",
             # as.message = as.message,
-            caller.id = 2, color = color
+            caller.id = 2
         )
     }
 

@@ -50,8 +50,8 @@ magenta <- function(..., bold = FALSE) {
 }
 
 #' @rdname strng
-gray <- function(..., bold = FALSE) {
-    paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(...), "\033[0m")
+gray <- function(..., bold = FALSE, sep = " ") {
+    paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(..., sep = sep), "\033[0m")
 }
 
 #' @rdname strng
