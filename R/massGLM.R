@@ -192,6 +192,7 @@ plot.massGLM <- function(x,
                          p.adjust.method = "none",
                          p.transform = \(x) -log10(x),
                          show = c("all", "signif"),
+                         xnames = NULL,
                          pval.hline = c(.05, .001),
                          hline.col = "#ffffff",
                          hline.dash = "dash",
@@ -254,9 +255,12 @@ plot.massGLM <- function(x,
                     what, .name, "p-value"
                 )
             }
+            if (is.null(xnames)) {
+                xnames <- if (x$type == "massy") x$ynames else x$xnames
+            }
             dplot3_bar(
                 p.transform(.pvals),
-                group.names = if (x$type == "massy") x$ynames else x$xnames,
+                group.names = xnames,
                 main = main,
                 # ylim = c(0, 1),
                 ylim = ylim,
@@ -282,11 +286,11 @@ plot.massGLM <- function(x,
             .cols <- rep(col.ns, length(x$summary[[.coefname]]))
             .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
             .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
-
+            if (is.null(xnames)) xnames <- x$ynames
             dplot3_bar(
                 x$summary[[coef_idi]],
                 # group.names = if (x$type == "massy") x$ynames else x$xnames,
-                group.names = x$ynames,
+                group.names = xnames,
                 main = main,
                 legend = FALSE,
                 ylab = paste(.name, "Coefficients"),
@@ -300,6 +304,7 @@ plot.massGLM <- function(x,
             # Volcano ----
             if (is.null(xlab)) xlab <- paste(predictor, "Coefficient")
             coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
+            if (is.null(xnames)) xnames <- x$ynames
             dplot3_volcano(
                 x = x$summary[[coef_idi]],
                 pvals = x$summary[[pval_idi]],
@@ -307,7 +312,7 @@ plot.massGLM <- function(x,
                 x.thresh = 0,
                 label.lo = "Neg",
                 label.hi = "Pos",
-                xnames = x$ynames,
+                xnames = xnames,
                 xlab = xlab,
                 main = main,
                 p.adjust.method = p.adjust.method,

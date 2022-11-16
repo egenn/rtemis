@@ -12,6 +12,7 @@
   p.adjust.method = "none",
   p.transform = function(x) -log10(x),
   show = c("all", "signif"),
+  xnames = NULL,
   pval.hline = c(0.05, 0.001),
   hline.col = "#ffffff",
   hline.dash = "dash",
