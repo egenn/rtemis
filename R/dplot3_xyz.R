@@ -336,8 +336,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
         inherit = FALSE,
         showscale = FALSE,
         intensity = 1,
-        # colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]])))
-        color = fit.col[[i]]
+        colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]])))
       )
     }
   }

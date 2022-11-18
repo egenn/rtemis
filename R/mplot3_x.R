@@ -63,7 +63,7 @@
 #' mplot3_x(iris)
 #' mplot3_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 #' }
-
+#'
 mplot3_x <- function(x,
                      type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
                      group = NULL,
@@ -151,459 +151,535 @@ mplot3_x <- function(x,
                      yaxs = "r",
                      autolabel = letters,
                      new = FALSE,
-                     alpha.off = FALSE,  # Turn off all alpha if it's not supported by the device
+                     alpha.off = FALSE, # Turn off all alpha if it's not supported by the device
                      na.rm = TRUE,
                      par.reset = TRUE,
                      filename = NULL,
                      pdf.width = 6,
                      pdf.height = 6,
                      ...) {
-
-  # Arguments ----
-  type <- match.arg(type)
-  if (type == "ts") {
-    type <- "index"
-    index.type <- "l"
-  }
-  if (type == "lhist") {
-    type <- "histogram"
-    hist.type <- "lines"
-  }
-  index.type <- match.arg(index.type)
-  hist.type <- match.arg(hist.type)
-  density.avg.fn <- match.arg(density.avg.fn)
-  if (is.null(mar)) mar <- c(2.5, 3, 2, 1)
-
-  # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    # Arguments ----
+    type <- match.arg(type)
+    if (type == "ts") {
+        type <- "index"
+        index.type <- "l"
     }
-  }
+    if (type == "lhist") {
+        type <- "histogram"
+        hist.type <- "lines"
+    }
+    index.type <- match.arg(index.type)
+    hist.type <- match.arg(hist.type)
+    density.avg.fn <- match.arg(density.avg.fn)
+    if (is.null(mar)) mar <- c(2.5, 3, 2, 1)
 
-  # xlab & ylab ----
-  if (is.list(x) && type == "density" && is.null(xlab)) xlab <- ""
-  xname <- deparse(substitute(x))
-
-  # data
-  if (!is.null(data)) {
-    x <- data[[xname]]
-    if (!is.null(group)) group <- data[[deparse(substitute(group))]]
-  }
-
-  if (alpha.off) alpha <- 1
-
-  if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename),
-                                                                         recursive = TRUE)
-  if (is.character(palette)) palette <- rtpalette(palette)
-
-  # Data ----
-  if (!is.null(group)) {
-    group <- as.factor(group)
-    x <- split(x, group)
-    if (is.null(group.names)) group.names <- labelify(levels(group))
-    names(x) <- group.names
-  }
-
-  # Convert data to lists
-  xl <- if (!is.list(x)) list(x) else x
-
-  # Remove non-numeric vectors
-  which.nonnum <- which(sapply(xl, function(i) !is.numeric(i)))
-  if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
-
-  if (type == "index") yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
-  # if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
-
-  # Group names
-  if (!is.null(group.names)) group.names <- c(group.title, group.names)
-  if (is.null(group.names)) {
-    if (!is.null(names(xl))) {
-      group.names <- c(group.title, labelify(names(xl)))
+    # Theme ----
+    extraargs <- list(...)
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), extraargs)
     } else {
-      group.names <- c(group.title, paste(" ", toupper(letters[seq_along(xl)])) )
+        for (i in seq(extraargs)) {
+            theme[[names(extraargs)[i]]] <- extraargs[[i]]
+        }
     }
-  }
-  if (length(lty) != length(xl)) lty <- as.list(rep(lty, length(xl)/length(lty)))
 
-  # If not defined, group legend defaults to T, if more than one group
-  if (is.null(group.legend)) group.legend <- ifelse(length(xl) > 1, TRUE, FALSE)
+    # xlab & ylab ----
+    if (is.list(x) && type == "density" && is.null(xlab)) xlab <- ""
+    xname <- deparse(substitute(x))
 
-  # Colors ----
-  if (is.null(col)) {
-    if (type == "qqline" & length(xl) < 2) {
-      col <- theme$fg
-    } else {
-      col <- palette
+    # data
+    if (!is.null(data)) {
+        x <- data[[xname]]
+        if (!is.null(group)) group <- data[[deparse(substitute(group))]]
     }
-  }
-  col.alpha <- lapply(col, function(cl) adjustcolor(cl, alpha.f = alpha))
 
-  .out <- NULL
+    if (alpha.off) alpha <- 1
 
-  # Data: QQ-line ----
-  if (type == "qqline") {
-    qyl <- qxl <- xl
-    for (i in seq_along(xl)) {
-      .out <- x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
-      qxl[[i]] <- x.qqnorm$x
-      qyl[[i]] <- x.qqnorm$y
-      xlab <- "Theoretical Quantiles"
-      ylab <- "Sample Quantiles"
-      if (is.null(main)) main <- "Q-Q Plot"
+    if (!is.null(filename)) {
+        if (!dir.exists(dirname(filename))) {
+            dir.create(dirname(filename),
+                recursive = TRUE
+            )
+        }
     }
-  }
+    if (is.character(palette)) palette <- rtpalette(palette)
 
-  # Data: density ----
-  if (type == "density") {
-    if (is.null(ylab)) ylab <- "Density"
-    density.params$bw <- density.bw
-    density.params$kernel <- density.kernel
-    .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
-    densityl <- lapply(.out, function(d) data.frame(x = d$x, y = d$y))
-    if (is.null(xlab)) xlab <- labelify(xname)
-  }
-
-  # Data: histogram ----
-  if (type == "histogram") {
-    .out <- histl <- lapply(xl, function(x) hist(x, breaks = hist.breaks,
-                                                 # probability = hist.probability,
-                                                 plot = FALSE))
-    if (is.null(xlab)) xlab <- labelify(xname)
-  }
-
-  # Data: DH ----
-  if (type %in% c("hd", "density")) {
-    histl = lapply(xl, function(x) hist(x, breaks = hist.breaks,
-                                        # probability = hist.probability,
-                                        plot = FALSE))
-    .out <- list(densityl = lapply(xl, function(j) do.call(density, c(list(x = j), density.params))),
-                 histl = histl)
-    densityl = lapply(.out$densityl, function(d) data.frame(x = d$x, y = d$y))
-  }
-
-  # Axes limits ----
-  if (type == "histogram") {
-    if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
-    if (is.null(ylim)) ylim <- c(0, max(unlist(sapply(histl, function(x) c(x$counts)))))
-  } else if (type == "density") {
-    if (is.null(xlim)) xlim <- range(sapply(densityl, function(d) range(d$x)))
-    if (is.null(ylim)) ylim <- c(0, max(sapply(densityl, function(d) max(d$y))))
-  } else if (type == "hd") {
-    if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
-    if (is.null(ylim)) ylim <- c(0, max(max(sapply(densityl, function(d) max(d$y))),
-                                        unlist(sapply(histl, function(x) c(x$density)))))
-  } else if (type == "qqline") {
-    if (is.null(xlim)) xlim <- range(qxl, na.rm = na.rm)
-    if (is.null(ylim)) ylim <- range(qyl, na.rm = na.rm)
-  } else if (type == "index") {
-    if (is.null(xlim)) xlim <- c(1, max(sapply(xl, length), na.rm = na.rm))
-    if (is.null(ylim)) ylim <- range(unlist(xl), na.rm = na.rm)
-    ypadding <-  index.ypad * diff(ylim)
-    # xpadding <- xpad * diff(xlim)
-    ylim <- c(ylim[1] - ypadding, ylim[2] + ypadding)
-  }
-
-  # Plot ----
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
-                              title = "rtemis Graphics")
-  par.orig <- par(no.readonly = TRUE)
-  par(family = theme$font.family)
-  if (!is.null(rtenv$rtpar)) {
-    par.reset <- FALSE
-    par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
-  } else {
-    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
-  }
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-
-  if (!axes.swap) {
-    plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
-  } else {
-    plot(NULL, NULL, xlim = ylim, ylim = xlim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
-  }
-
-  # Plot bg ----
-  if (theme$plot.bg != "transparent") {
-    x1 <- if (xaxs == "r") min(xlim) - .04 * diff(range(xlim)) else min(xlim)
-    y1 <- if (yaxs == "r") min(ylim) - .04 * diff(range(ylim)) else min(ylim)
-    x2 <- if (xaxs == "r") max(xlim) + .04 * diff(range(xlim)) else max(xlim)
-    y2 <- if (yaxs == "r") max(ylim) + .04 * diff(range(ylim)) else max(ylim)
-    if (!axes.swap) {
-      rect(x1, y1, x2, y2, border = NA, col = theme$plot.bg)
-    } else {
-      rect(y1, x1, y2, x2, border = NA, col = theme$plot.bg)
+    # Data ----
+    if (!is.null(group)) {
+        group <- as.factor(group)
+        x <- split(x, group)
+        if (is.null(group.names)) group.names <- labelify(levels(group))
+        names(x) <- group.names
     }
-  }
 
-  # Grid ----
-  if (theme$grid) {
-    grid(nx = theme$grid.nx,
-         ny = theme$grid.ny,
-         col = colorAdjust(theme$grid.col, theme$grid.alpha),
-         lty = theme$grid.lty,
-         lwd = theme$grid.lwd)
-  }
+    # Convert data to lists
+    xl <- if (!is.list(x)) list(x) else x
 
-  # Axes ----
-  if (theme$axes.visible) {
-    if (type == "index") {
-      if (!axes.swap) {
-        if (is.null(ylab)) ylab <- labelify(xname)
-        if (is.null(xlab)) xlab <- "Index"
-      } else {
+    # Remove non-numeric vectors
+    which.nonnum <- which(sapply(xl, function(i) !is.numeric(i)))
+    if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
+
+    if (type == "index") yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
+    # if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
+
+    # Group names
+    if (!is.null(group.names)) group.names <- c(group.title, group.names)
+    if (is.null(group.names)) {
+        if (!is.null(names(xl))) {
+            group.names <- c(group.title, labelify(names(xl)))
+        } else {
+            group.names <- c(group.title, paste(" ", toupper(letters[seq_along(xl)])))
+        }
+    }
+    if (length(lty) != length(xl)) lty <- as.list(rep(lty, length(xl) / length(lty)))
+
+    # If not defined, group legend defaults to T, if more than one group
+    if (is.null(group.legend)) group.legend <- ifelse(length(xl) > 1, TRUE, FALSE)
+
+    # Colors ----
+    if (is.null(col)) {
+        if (type == "qqline" && length(xl) < 2) {
+            col <- theme$fg
+        } else {
+            col <- palette
+        }
+    }
+    col.alpha <- lapply(col, function(cl) adjustcolor(cl, alpha.f = alpha))
+
+    .out <- NULL
+
+    # Data: QQ-line ----
+    if (type == "qqline") {
+        qyl <- qxl <- xl
+        for (i in seq_along(xl)) {
+            .out <- x.qqnorm <- qqnorm(xl[[i]], plot.it = FALSE)
+            qxl[[i]] <- x.qqnorm$x
+            qyl[[i]] <- x.qqnorm$y
+            xlab <- "Theoretical Quantiles"
+            ylab <- "Sample Quantiles"
+            if (is.null(main)) main <- "Q-Q Plot"
+        }
+    }
+
+    # Data: density ----
+    if (type == "density") {
+        if (is.null(ylab)) ylab <- "Density"
+        density.params$bw <- density.bw
+        density.params$kernel <- density.kernel
+        .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
+        densityl <- lapply(.out, function(d) data.frame(x = d$x, y = d$y))
         if (is.null(xlab)) xlab <- labelify(xname)
-        if (is.null(ylab)) ylab <- "Index"
-      }
     }
 
-    axis(side = theme$x.axis.side,
-         line = theme$x.axis.line,
-         las = theme$x.axis.las,
-         padj = theme$x.axis.padj,
-         hadj = theme$x.axis.hadj,
-         col = theme$axes.col,
-         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
-         tck = theme$tck,
-         tcl = theme$tcl,
-         cex = theme$cex)
-    axis(side = theme$y.axis.side,
-         line = theme$y.axis.line,
-         las = theme$y.axis.las,
-         padj = theme$y.axis.padj,
-         hadj = theme$y.axis.hadj,
-         col = theme$axes.col,
-         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
-         tck = theme$tck,
-         tcl = theme$tcl,
-         cex = theme$cex)
-    mtext(xlab, side = 1,
-          line = theme$xlab.line,
-          cex = theme$cex,
-          col = theme$labs.col)
-    mtext(ylab, side = 2,
-          line = theme$ylab.line,
-          cex = theme$cex,
-          col = theme$labs.col)
-  }
-
-  # Zero lines ----
-  if (type == "index" && theme$zerolines) {
-    zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-    if (ylim[1] <= 0 & 0 <= ylim[2]) abline(h = 0, lwd = theme$zerolines.lwd,
-                                            col = zerocol, lty = theme$zerolines.lty)
-    if (xlim[1] <= 0 & 0 <= xlim[2]) abline(v = 0, lwd = theme$zerolines.lwd,
-                                            col = zerocol, lty = theme$zerolines.lty)
-  }
-
-  if (theme$bty != "n") {
-    box(col = adjustcolor(theme$box.col, theme$box.alpha),
-        lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty)
-  }
-
-  # Plot: index ----
-  if (type == "index") {
-    if (length(index.type) < length(xl)) index.type <- rep(index.type,
-                                                           length(xl)/length(index.type))
-    for (i in seq_along(xl)) {
-      if (!axes.swap) {
-        points(yl[[i]], xl[[i]],
-               type = index.type[[i]],
-               col = col[[i]],
-               bg = point.bg.col,
-               lwd = lwd,
-               pch = pch,
-               cex = point.cex)
-      } else {
-        points(xl[[i]], yl[[i]],
-               type = index.type[[i]],
-               col = col[[i]],
-               bg = point.bg.col,
-               lwd = lwd,
-               pch = pch,
-               cex = point.cex)
-      }
+    # Data: histogram ----
+    if (type == "histogram") {
+        .out <- histl <- lapply(xl, function(x) {
+            hist(x,
+                breaks = hist.breaks,
+                # probability = hist.probability,
+                plot = FALSE
+            )
+        })
+        if (is.null(xlab)) xlab <- labelify(xname)
     }
 
-  }
+    # Data: DH ----
+    if (type %in% c("hd", "density")) {
+        histl <- lapply(xl, function(x) {
+            hist(x,
+                breaks = hist.breaks,
+                # probability = hist.probability,
+                plot = FALSE
+            )
+        })
+        .out <- list(
+            densityl = lapply(xl, function(j) do.call(density, c(list(x = j), density.params))),
+            histl = histl
+        )
+        densityl <- lapply(.out$densityl, function(d) data.frame(x = d$x, y = d$y))
+    }
 
-  # Plot: density ----
-  if (type == "density") {
+    # Axes limits ----
+    if (type == "histogram") {
+        if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
+        if (is.null(ylim)) ylim <- c(0, max(unlist(sapply(histl, function(x) c(x$counts)))))
+    } else if (type == "density") {
+        if (is.null(xlim)) xlim <- range(sapply(densityl, function(d) range(d$x)))
+        if (is.null(ylim)) ylim <- c(0, max(sapply(densityl, function(d) max(d$y))))
+    } else if (type == "hd") {
+        if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
+        if (is.null(ylim)) {
+            ylim <- c(0, max(
+                max(sapply(densityl, function(d) max(d$y))),
+                unlist(sapply(histl, function(x) c(x$density)))
+            ))
+        }
+    } else if (type == "qqline") {
+        if (is.null(xlim)) xlim <- range(qxl, na.rm = na.rm)
+        if (is.null(ylim)) ylim <- range(qyl, na.rm = na.rm)
+    } else if (type == "index") {
+        if (is.null(xlim)) xlim <- c(1, max(sapply(xl, length), na.rm = na.rm))
+        if (is.null(ylim)) ylim <- range(unlist(xl), na.rm = na.rm)
+        ypadding <- index.ypad * diff(ylim)
+        # xpadding <- xpad * diff(xlim)
+        ylim <- c(ylim[1] - ypadding, ylim[2] + ypadding)
+    }
+
+    # Plot ----
+    if (!is.null(filename)) {
+        pdf(filename,
+            width = pdf.width, height = pdf.height,
+            title = "rtemis Graphics"
+        )
+    }
+    par.orig <- par(no.readonly = TRUE)
+    par(family = theme$font.family)
+    if (!is.null(rtenv$rtpar)) {
+        par.reset <- FALSE
+        par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+    } else {
+        par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+    }
+    if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+
     if (!axes.swap) {
-      for (i in seq_along(xl)) {
-        if (density.shade) {
-          polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(densityl[[i]]$y,
-                                                              rep(0, length(densityl[[i]]$y))),
-                  col = col.alpha[[i]], border = NA)
+        plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
+    } else {
+        plot(NULL, NULL, xlim = ylim, ylim = xlim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
+    }
+
+    # Plot bg ----
+    if (theme$plot.bg != "transparent") {
+        x1 <- if (xaxs == "r") min(xlim) - .04 * diff(range(xlim)) else min(xlim)
+        y1 <- if (yaxs == "r") min(ylim) - .04 * diff(range(ylim)) else min(ylim)
+        x2 <- if (xaxs == "r") max(xlim) + .04 * diff(range(xlim)) else max(xlim)
+        y2 <- if (yaxs == "r") max(ylim) + .04 * diff(range(ylim)) else max(ylim)
+        if (!axes.swap) {
+            rect(x1, y1, x2, y2, border = NA, col = theme$plot.bg)
+        } else {
+            rect(y1, x1, y2, x2, border = NA, col = theme$plot.bg)
         }
-        if (density.line) {
-          lines(densityl[[i]]$x, densityl[[i]]$y, xlim = xlim, ylim = ylim, ann = FALSE,
+    }
+
+    # Grid ----
+    if (theme$grid) {
+        grid(
+            nx = theme$grid.nx,
+            ny = theme$grid.ny,
+            col = colorAdjust(theme$grid.col, theme$grid.alpha),
+            lty = theme$grid.lty,
+            lwd = theme$grid.lwd
+        )
+    }
+
+    # Axes ----
+    if (theme$axes.visible) {
+        if (type == "index") {
+            if (!axes.swap) {
+                if (is.null(ylab)) ylab <- labelify(xname)
+                if (is.null(xlab)) xlab <- "Index"
+            } else {
+                if (is.null(xlab)) xlab <- labelify(xname)
+                if (is.null(ylab)) ylab <- "Index"
+            }
+        }
+
+        axis(
+            side = theme$x.axis.side,
+            line = theme$x.axis.line,
+            las = theme$x.axis.las,
+            padj = theme$x.axis.padj,
+            hadj = theme$x.axis.hadj,
+            col = theme$axes.col,
+            col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+            col.axis = theme$tick.labels.col,
+            tck = theme$tck,
+            tcl = theme$tcl,
+            cex = theme$cex
+        )
+        axis(
+            side = theme$y.axis.side,
+            line = theme$y.axis.line,
+            las = theme$y.axis.las,
+            padj = theme$y.axis.padj,
+            hadj = theme$y.axis.hadj,
+            col = theme$axes.col,
+            col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+            col.axis = theme$tick.labels.col,
+            tck = theme$tck,
+            tcl = theme$tcl,
+            cex = theme$cex
+        )
+        mtext(
+            xlab,
+            side = 1,
+            line = theme$xlab.line,
+            cex = theme$cex,
+            col = theme$labs.col
+        )
+        mtext(
+            ylab,
+            side = 2,
+            line = theme$ylab.line,
+            cex = theme$cex,
+            col = theme$labs.col
+        )
+    }
+
+    # Zero lines ----
+    if (type == "index" && theme$zerolines) {
+        zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
+        if (ylim[1] <= 0 && 0 <= ylim[2]) {
+            abline(
+                h = 0, lwd = theme$zerolines.lwd,
+                col = zerocol, lty = theme$zerolines.lty
+            )
+        }
+        if (xlim[1] <= 0 && 0 <= xlim[2]) {
+            abline(
+                v = 0, lwd = theme$zerolines.lwd,
+                col = zerocol, lty = theme$zerolines.lty
+            )
+        }
+    }
+
+    if (theme$bty != "n") {
+        box(
+            col = adjustcolor(theme$box.col, theme$box.alpha),
+            lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty
+        )
+    }
+
+    # Plot: index ----
+    if (type == "index") {
+        if (length(index.type) < length(xl)) {
+            index.type <- rep(
+                index.type,
+                length(xl) / length(index.type)
+            )
+        }
+        for (i in seq_along(xl)) {
+            if (!axes.swap) {
+                points(yl[[i]], xl[[i]],
+                    type = index.type[[i]],
+                    col = col[[i]],
+                    bg = point.bg.col,
+                    lwd = lwd,
+                    pch = pch,
+                    cex = point.cex
+                )
+            } else {
+                points(xl[[i]], yl[[i]],
+                    type = index.type[[i]],
+                    col = col[[i]],
+                    bg = point.bg.col,
+                    lwd = lwd,
+                    pch = pch,
+                    cex = point.cex
+                )
+            }
+        }
+    }
+
+    # Plot: density ----
+    if (type == "density") {
+        if (!axes.swap) {
+            for (i in seq_along(xl)) {
+                if (density.shade) {
+                    polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(
+                        densityl[[i]]$y,
+                        rep(0, length(densityl[[i]]$y))
+                    ),
+                    col = col.alpha[[i]], border = NA
+                    )
+                }
+                if (density.line) {
+                    lines(densityl[[i]]$x, densityl[[i]]$y,
+                        xlim = xlim, ylim = ylim, ann = FALSE,
+                        col = col.alpha[[i]],
+                        lwd = density.lwd, type = "l", lty = lty[[i]]
+                    )
+                }
+            }
+            if (is.null(xlab)) xlab <- labelify(xname)
+            ylab <- "Density"
+        } else {
+            for (i in seq_along(xl)) {
+                if (density.shade) {
+                    polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(
+                        densityl[[i]]$x,
+                        rep(0, length(densityl[[i]]$x))
+                    ),
+                    col = col.alpha[[i]], border = NA
+                    )
+                }
+                if (density.line) {
+                    lines(densityl[[i]]$y, densityl[[i]]$x,
+                        xlim = ylim, ylim = xlim, ann = FALSE,
+                        col = col.alpha[[i]],
+                        lwd = density.lwd, type = "l", lty = lty[[i]]
+                    )
+                }
+            }
+            xlab <- "Density"
+        }
+    } # type == "density"
+
+    # Plot: histogram ----
+    if (type %in% c("histogram", "hd")) {
+        if (length(xl) > 1) {
+            breaks <- hist(unlist(xl),
+                breaks = hist.breaks,
+                # probability = hist.probability,
+                plot = FALSE
+            )$breaks
+            dist <- diff(breaks)[1] # mean(diff(breaks))
+            breaksl <- lapply(seq_along(xl), function(i) {
+                c(breaks - ((i - 1) / length(xl) * dist), max(breaks) - ((i - 1) / length(xl) * dist) + dist)
+            })
+        } else {
+            breaksl <- list(histl[[1]]$breaks)
+        }
+    }
+
+    if (type == "hd") {
+        hist.type <- "bars"
+        hist.probability <- TRUE
+    }
+
+    if (type %in% c("histogram", "hd")) {
+        if (hist.type == "bars") {
+            for (i in seq_along(xl)) {
+                hist(xl[[i]],
+                    breaks = hist.breaks,
+                    col = col.alpha[[i]], add = TRUE,
+                    probability = hist.probability,
+                    border = theme$bg, xlim = xlim
+                )
+            }
+        } else {
+            for (i in seq_along(xl)) {
+                mhist(xl[[i]],
+                    measure = "count", breaks = breaksl[[i]],
+                    col = col.alpha[[i]], add = TRUE,
+                    lwd = hist.lwd,
+                    xlim = xlim, ylim = ylim, plot.axes = FALSE,
+                    xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = ""
+                )
+            }
+        }
+    }
+
+    # Plot: DH lines ----
+    if (type == "hd") {
+        for (i in seq_along(xl)) {
+            lines(densityl[[i]]$x, densityl[[i]]$y,
+                col = col[[i]], lwd = lwd
+            )
+        }
+    }
+
+    # Title ----
+    if (!is.null(rtenv$autolabel)) {
+        autolab <- autolabel[rtenv$autolabel]
+        main <- paste(autolab, main)
+        rtenv$autolabel <- rtenv$autolabel + 1
+    }
+
+    if (length(main) > 0) {
+        mtext(main,
+            line = theme$main.line,
+            font = theme$main.font, adj = theme$main.adj,
+            cex = theme$cex, col = theme$main.col
+        )
+    }
+
+    # Group legend ----
+    if (group.legend) {
+        mtext(group.names,
+            col = c(theme$fg, unlist(col[seq_along(xl)])),
+            side = group.side,
+            adj = group.adj,
+            at = group.at,
+            cex = theme$cex,
+            padj = seq(2, 2 + 1.5 * length(xl), 1.5)
+        )
+    }
+
+    # Annotation ----
+    if (!is.null(annotation)) {
+        if (is.null(annot.col)) annot.col <- col[[1]]
+        mtext(annotation, 1, -1.5,
+            adj = .97,
+            cex = theme$cex, col = annot.col,
+            family = theme$family
+        )
+    }
+
+    # QQ line ----
+    if (is.null(qqline.col)) {
+        if (length(xl) == 1) {
+            qqline.col <- palette[1]
+        } else {
+            qqline.col <- palette
+        }
+    }
+    qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
+    qqline.col <- recycle(qqline.col, xl)
+    # if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
+    #                                                        length(xl) / length(qqline.col))
+
+    if (type == "qqline") {
+        for (i in seq_along(xl)) {
+            points(qxl[[i]], qyl[[i]],
+                type = "p",
                 col = col.alpha[[i]],
-                lwd = density.lwd, type = "l", lty = lty[[i]])
+                bg = point.bg.col,
+                lwd = lwd,
+                pch = pch,
+                cex = point.cex
+            )
         }
-      }
-      if (is.null(xlab)) xlab <- labelify(xname)
-      ylab <- "Density"
-    } else {
-      for (i in seq_along(xl)) {
-        if (density.shade) {
-          polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(densityl[[i]]$x,
-                                                              rep(0, length(densityl[[i]]$x))),
-                  col = col.alpha[[i]], border = NA)
+
+        for (i in seq_along(xl)) {
+            qqline(xl[[i]], col = qqline.col[[i]], lwd = qqline.lwd)
         }
-        if (density.line) {
-          lines(densityl[[i]]$y, densityl[[i]]$x, xlim = ylim, ylim = xlim, ann = FALSE,
-                col = col.alpha[[i]],
-                lwd = density.lwd, type = "l", lty = lty[[i]])
+    }
+
+    # Density plot means ----
+    if (type == "density" && density.avg) {
+        avgl <- lapply(xl, density.avg.fn, na.rm = TRUE)
+        sdl <- lapply(xl, sd, na.rm = TRUE)
+        density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
+        mtext(
+            c(density.legend.text, lapply(
+                seq(xl),
+                function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")")
+            )),
+            col = c(theme$fg, unlist(col[seq_along(xl)])),
+            side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
+            padj = seq(2, 2 + 1.5 * length(xl), 1.5)
+        )
+        if (density.avg.line) {
+            abline(
+                v = unlist(avgl), col = unlist(col[seq_along(xl)]),
+                lwd = density.avg.lwd, lty = density.avg.lty
+            )
         }
-      }
-      xlab <- "Density"
     }
 
-  } # type == "density"
-
-  # Plot: histogram ----
-  if (type %in% c("histogram", "hd")) {
-    if (length(xl) > 1) {
-      breaks <- hist(unlist(xl), breaks = hist.breaks,
-                     # probability = hist.probability,
-                     plot = FALSE)$breaks
-      dist <- diff(breaks)[1] # mean(diff(breaks))
-      breaksl <- lapply(seq_along(xl), function(i) {
-        c(breaks - ((i - 1)/length(xl) * dist), max(breaks) - ((i - 1)/length(xl) * dist) + dist)
-      })
-    } else {
-      breaksl <- list(histl[[1]]$breaks)
-    }
-  }
-
-  if (type == "hd") {
-    hist.type <- "bars"
-    hist.probability <- TRUE
-  }
-
-  if (type %in% c("histogram", "hd")) {
-    if (hist.type == "bars") {
-      for (i in seq_along(xl)) {
-        hist(xl[[i]], breaks = hist.breaks,
-             col = col.alpha[[i]], add = TRUE,
-             probability = hist.probability,
-             border = theme$bg, xlim = xlim)
-      }
-    } else {
-      for (i in seq_along(xl)) {
-        mhist(xl[[i]], measure = "count", breaks = breaksl[[i]],
-              col = col.alpha[[i]], add = TRUE,
-              lwd = hist.lwd,
-              xlim = xlim, ylim = ylim, plot.axes = FALSE,
-              xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = "")
-      }
-    }
-  }
-
-  # Plot: DH lines ----
-  if (type == "hd") {
-    for (i in seq_along(xl)) {
-      lines(densityl[[i]]$x, densityl[[i]]$y,
-            col = col[[i]], lwd = lwd)
-    }
-  }
-
-  # Title ----
-  if (!is.null(rtenv$autolabel)) {
-    autolab <- autolabel[rtenv$autolabel]
-    main <- paste(autolab, main)
-    rtenv$autolabel <- rtenv$autolabel + 1
-  }
-
-  if (length(main) > 0) {
-    mtext(main, line = theme$main.line,
-          font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col)
-  }
-
-  # Group legend ----
-  if (group.legend) {
-    mtext(group.names,
-          col = c(theme$fg, unlist(col[seq_along(xl)])),
-          side = group.side,
-          adj = group.adj,
-          at = group.at,
-          cex = theme$cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
-  }
-
-  # Annotation ----
-  if (!is.null(annotation)) {
-    if (is.null(annot.col)) annot.col = col[[1]]
-    mtext(annotation, 1, -1.5, adj = .97,
-          cex = theme$cex, col = annot.col,
-          family = theme$family)
-  }
-
-  # QQ line ----
-  if (is.null(qqline.col)) {
-    if (length(xl) == 1) {
-      qqline.col <- palette[1]
-    } else {
-      qqline.col <- palette
-    }
-  }
-  qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
-  qqline.col <- recycle(qqline.col, xl)
-  # if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
-  #                                                        length(xl) / length(qqline.col))
-
-  if (type == "qqline") {
-    for (i in seq_along(xl)) {
-      points(qxl[[i]], qyl[[i]],
-             type = "p",
-             col = col.alpha[[i]],
-             bg = point.bg.col,
-             lwd = lwd,
-             pch = pch,
-             cex = point.cex)
+    # Misc legends ----
+    if (!is.null(text.xy)) {
+        if (is.null(text.x)) text.x <- mean(xlim)
+        if (is.null(text.y)) text.y <- mean(ylim)
+        text(x = text.x, y = text.y, labels = text.xy, cex = text.xy.cex, col = text.xy.col)
     }
 
-    for (i in seq_along(xl)) {
-      qqline(xl[[i]], col = qqline.col[[i]], lwd = qqline.lwd)
-    }
-  }
+    # H-line & V-line ----
+    if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
+    if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
-  # Density plot means ----
-  if (type == "density" & density.avg) {
-    avgl <- lapply(xl, density.avg.fn, na.rm = TRUE)
-    sdl <- lapply(xl, sd, na.rm = TRUE)
-    density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
-    mtext(c(density.legend.text, lapply(seq(xl),
-                                function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")"))),
-          col = c(theme$fg, unlist(col[seq_along(xl)])),
-          side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
-          padj = seq(2, 2 + 1.5 * length(xl), 1.5))
-    if (density.avg.line) {
-      abline(v = unlist(avgl), col = unlist(col[seq_along(xl)]),
-             lwd = density.avg.lwd, lty = density.avg.lty)
-    }
-  }
-
-  # Misc legends ----
-  if (!is.null(text.xy)) {
-    if (is.null(text.x)) text.x <- mean(xlim)
-    if (is.null(text.y)) text.y <- mean(ylim)
-    text(x = text.x, y = text.y, labels = text.xy, cex = text.xy.cex, col = text.xy.col)
-  }
-
-  # H-line & V-line ----
-  if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
-  if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
-
-  # Outro ----
-  if (!is.null(filename)) grDevices::dev.off()
-  invisible(.out)
-
+    # Outro ----
+    if (!is.null(filename)) grDevices::dev.off()
+    invisible(.out)
 } # rtemis::mplot3_x

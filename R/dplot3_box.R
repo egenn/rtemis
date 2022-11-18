@@ -214,7 +214,7 @@ dplot3_box <- function(
         } else {
             # x is data.frame or matrix
             .names <- colnames(x)
-            x <- lapply(seq(NCOL(x)), function(i) x[, i])
+            x <- lapply(seq_len(NCOL(x)), function(i) x[, i])
             names(x) <- .names
         }
     }
@@ -359,7 +359,7 @@ dplot3_box <- function(
                     function(i) i > 0,
                     sapply(x, function(j) length(na.exclude(j)))
                 )
-                plt |>
+                plt <- plt |>
                     plotly::add_annotations(
                         xref = "paper", yref = "paper",
                         xanchor = "right",
@@ -386,7 +386,7 @@ dplot3_box <- function(
                             color = annotate.col
                         ),
                         showarrow = FALSE
-                    ) -> plt
+                    )
             } # /annotate_n
             
             # '-htest ----
@@ -396,7 +396,7 @@ dplot3_box <- function(
                         do.call(htest, list(x = x[[1]], y = v))$p.value
                     )
                 })
-                plt |> plotly::add_annotations(
+                plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
                     yref = if (horizontal) "x" else "paper",
                     yanchor = if (horizontal) "auto" else "top",
@@ -410,14 +410,14 @@ dplot3_box <- function(
                         color = annotate.col
                     ),
                     showarrow = FALSE
-                ) -> plt
+                )
             
                 if (htest.annotate) {
                     test <- switch(htest,
                     `wilcox.test` = "Wilcoxon",
                     `t.test` = "T-test",
                     htest)
-                    plt |> plotly::add_annotations(
+                    plt <- plt |> plotly::add_annotations(
                         xref = "paper",
                         yref = "paper",
                         yanchor = "top",
@@ -431,7 +431,7 @@ dplot3_box <- function(
                             color = annotate.col
                         ),
                         showarrow = FALSE
-                    ) -> plt
+                    )
                 }
             } # / htest!="none"
         } else {
@@ -515,7 +515,7 @@ dplot3_box <- function(
                     for (j in seq_along(dts)) {
                         # loop groups
                         boxindex <- boxindex + 1
-                        plt |> plotly::add_trace(
+                        plt <- plt |> plotly::add_trace(
                             x = if (horizontal) dts[[j]][[i]] else xval[boxindex],
                             y = if (horizontal) xval[boxindex] else dts[[j]][[i]],
                             name = groupnames[j],
@@ -526,7 +526,7 @@ dplot3_box <- function(
                             showlegend = legend & (i == nvars),
                             hoverinfo = "all",
                             legendgroup = groupnames[j]
-                        ) -> plt
+                        )
                     }
                 }
 
@@ -539,10 +539,10 @@ dplot3_box <- function(
                     automargin = TRUE
                 )
 
-                plt |> plotly::layout(
+                plt <- plt |> plotly::layout(
                     xaxis = if (horizontal) NULL else cataxis,
                     yaxis = if (horizontal) cataxis else NULL
-                ) -> plt
+                )
 
                 # '- Group lines ----
                 if (nvars > 1 & group.lines) {
@@ -557,15 +557,15 @@ dplot3_box <- function(
                         by = ngroups
                     )
                     if (horizontal) {
-                        plt |>
+                        plt <- plt |>
                             plotly::layout(
                                 shapes = plotly_hline(at, color = group.lines.col)
-                            ) -> plt
+                            )
                     } else {
-                        plt |>
+                        plt <- plt |>
                             plotly::layout(
                                 shapes = plotly_vline(at, color = group.lines.col)
-                            ) -> plt
+                            )
                     }
                 }
                     
@@ -577,7 +577,7 @@ dplot3_box <- function(
                             sapply(i, function(j) length(na.exclude(j)))
                         })))
                     )
-                    plt |>
+                    plt <- plt |>
                         plotly::add_annotations(
                             xref = "paper", yref = "paper",
                             xanchor = "right",
@@ -603,14 +603,14 @@ dplot3_box <- function(
                                 color = annotate.col
                             ),
                             showarrow = FALSE
-                        ) -> plt
+                        )
                 } # /annotate_n
                 
                 # '- htest ----
                 if (htest != "none") {
                 # dts list elements are groups; columns are variables
                 # pvals is N groups -1 x N vars
-                pvals <- sapply(1:NCOL(dts[[1]]), \(cid) {
+                pvals <- sapply(seq_len(NCOL(dts[[1]])), \(cid) {
                     sapply(2:length(dts), \(gid) {
                         suppressWarnings(
                             do.call(htest, list(
@@ -635,7 +635,7 @@ dplot3_box <- function(
                 # })
                 # pvals <- c(cbind(1, pvals))
 
-                plt |> plotly::add_annotations(
+                plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
                     yref = if (horizontal) "x" else "paper",
                     yanchor = if (horizontal) "auto" else "top",
@@ -649,7 +649,7 @@ dplot3_box <- function(
                         color = annotate.col
                     ),
                     showarrow = FALSE
-                ) -> plt
+                )
                 if (htest.annotate) {
                     test <- switch(htest,
                         `wilcox.test` = "Wilcoxon",
