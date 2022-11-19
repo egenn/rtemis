@@ -261,6 +261,7 @@ and space apart the breaks for each group
 mplot3_x(iris)
 mplot3_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 }
+
 }
 \seealso{
 \link{mplot3_xy}, \link{mplot3_xym}, \link{mplot3_heatmap}
