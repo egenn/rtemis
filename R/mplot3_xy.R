@@ -884,7 +884,8 @@ mplot3_xy <- function(x, y = NULL,
     if (Nxgroups == 1) {
       annot.n <- paste0("n = ", length(x))
       annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE))
-      annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
+      annot.Rsq <- paste("R\U00B2", ddSci(myerror[[1]]$Rsq))
+      # annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
       mtext(annot.n, fit.error.side,
             line = -3.3, adj = .98,
             padj = fit.error.padj, cex = theme$cex,
@@ -901,7 +902,8 @@ mplot3_xy <- function(x, y = NULL,
       error.annot <- sapply(seq(Nxgroups), \(i) paste0(ddSci(myerror[[i]]$MSE),
                                                               " (", ddSci(myerror[[i]]$Rsq), ")"))
       mtext(
-        c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),
+        # c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),
+        c("MSE (R\U00B2)", error.annot),
         fit.error.side,
         adj = .98, cex = theme$cex,
         col = c(theme$fg, unlist(fit.col[seq(Nxgroups)])),
