@@ -42,8 +42,8 @@ intro <- function(message = NULL,
                 # as.message = as.message,
                 call.depth = call.depth,
                 sep = "",
-                caller.id = 2,
-                color = color
+                caller.id = 2
+                # color = color
             )
         }
     }
