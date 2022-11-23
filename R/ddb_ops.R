@@ -67,10 +67,10 @@ ddb_data <- function(filename,
         file.path(normalizePath(datadir), filename)
     }
     check_files(path, verbose = FALSE)
-    out <- paste(bold(orange("\u25B6")), "Loading", hilite(basename(path)))
+    out <- paste(bold(green("\u25B6")), "Loading", hilite(basename(path)))
     if (!is.null(filter_column)) {
         out <- paste(
-            out, bold(orange("\u29e8")),
+            out, bold(green("\u29e8")),
             "filtering on", bold(filter_column)
         )
     }
