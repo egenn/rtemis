@@ -16,7 +16,7 @@ ddb_data(
   filter_column = NULL,
   filter_vals = NULL,
   character2factor = FALSE,
-  collectall = TRUE,
+  collect = TRUE,
   progress = TRUE,
   returnobj = c("data.frame", "data.table"),
   data.table.key = NULL,
@@ -42,28 +42,28 @@ if \code{datadir} is also provided}
 
 \item{filter_column}{Character: Name of column to filter on, e.g. "ID"}
 
-\item{filter_vals}{Numeric or Character vector: Values in 
+\item{filter_vals}{Numeric or Character vector: Values in
 \code{filter_column} to keep.}
 
-\item{character2factor}{Logical: If TRUE, convert character columns to 
+\item{character2factor}{Logical: If TRUE, convert character columns to
 factors}
 
-\item{collectall}{Logical: If TRUE, collect data and return structure class
+\item{collect}{Logical: If TRUE, collect data and return structure class
 as defined by \code{returnobj}}
 
 \item{progress}{Logical: If TRUE, print progress (no indication this works)}
 
-\item{returnobj}{Character: "data.frame" or "data.table" object class to 
-return. If "data.table", data.frame object returned from 
+\item{returnobj}{Character: "data.frame" or "data.table" object class to
+return. If "data.table", data.frame object returned from
 \code{DBI::dbGetQuery} is passed to \code{data.table::setDT}; will add to
 execution time if very large, but then that's when you need a data.table}
 
-\item{clean_colnames}{Logical: If TRUE, clean colnames with 
+\item{clean_colnames}{Logical: If TRUE, clean colnames with
 \link{clean_colnames}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{ignore_error}{Logical: If TRUE, ignore parsing errors (sometimes it's 
+\item{ignore_error}{Logical: If TRUE, ignore parsing errors (sometimes it's
 either this or no data, so)}
 }
 \description{
@@ -72,9 +72,10 @@ clean column names, convert character to factor, and collect.
 }
 \examples{
 \dontrun{
-ir <- ddb_data("/Data/massive_dataset.csv", 
-               filter_column = "ID",
-               filter_vals = 8001:9999)
+ir <- ddb_data("/Data/massive_dataset.csv",
+    filter_column = "ID",
+    filter_vals = 8001:9999
+)
 }
 }
 \author{
