@@ -125,7 +125,7 @@ cutnsplit <- function(x, y,
     weightsRight[indexLeft] <- weightsRight[indexLeft] * gamma
 
     # Check either y is constant
-    .constant <- is.constant(y) | is.constant(y * weightsLeft) | is.constant(y * weightsRight)
+    .constant <- is_constant(y) | is_constant(y * weightsLeft) | is_constant(y * weightsRight)
     if (.constant) {
       if (trace > 1) msg2("y is constant, abort split", color = magenta)
       return(Inf)

@@ -36,7 +36,7 @@ hytreenow <- function(x, y,
                       trace = 0) {
 
   # [ Check y is not constant ] ----
-  if (is.constant(y)) {
+  if (is_constant(y)) {
     coefs <- list(rep(0, NCOL(x) + 1))
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(init = init,
@@ -403,7 +403,7 @@ partLm <- function(x1, y1,
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
-    if (is.constant(resid.left) | all(sapply(x1[left.index, , drop = FALSE], is.constant)) | length(resid.left) < minobsinnode.lin) {
+    if (is_constant(resid.left) | all(sapply(x1[left.index, , drop = FALSE], is_constant)) | length(resid.left) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
@@ -414,9 +414,9 @@ partLm <- function(x1, y1,
                                     cv.glmnet.nfolds = cv.glmnet.nfolds,
                                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*% lin.coef.left)[, 1]
-    } # if (is.constant(resid.left))
+    } # if (is_constant(resid.left))
 
-    if (is.constant(resid.right) | all(sapply(x1[right.index, , drop = FALSE], is.constant)) | length(resid.right) < minobsinnode.lin) {
+    if (is_constant(resid.right) | all(sapply(x1[right.index, , drop = FALSE], is_constant)) | length(resid.right) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
@@ -427,7 +427,7 @@ partLm <- function(x1, y1,
                                cv.glmnet.nfolds = cv.glmnet.nfolds,
                                which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*% lin.coef.right)[, 1]
-    } # if (is.constant(resid.right))
+    } # if (is_constant(resid.right))
 
   } # if (!is.null(cutFeat.name))
 

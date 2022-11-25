@@ -180,7 +180,7 @@ x_CCA <- function(x, z,
                                        upos = upos,
                                        vpos = vpos),
                      extra = extra)
-  if (save.mod) rtSave(rt, outdir, file.prefix = "x.", verbose = verbose)
+  if (save.mod) rt_save(rt, outdir, file.prefix = "x.", verbose = verbose)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

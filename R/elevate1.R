@@ -728,7 +728,7 @@ elevate1 <- function(x, y = NULL,
     }
 
     if (!save.mod) rt$mod <- NA
-    if (save.rt) rtSave(rt, outdir, file.prefix = "elevate.", verbose = verbose)
+    if (save.rt) rt_save(rt, outdir, file.prefix = "elevate.", verbose = verbose)
     if (print.plot) {
         if (plot.fitted) rt$plotFitted()
         if (plot.predicted) rt$plotPredicted()

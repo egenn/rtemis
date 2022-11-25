@@ -14,7 +14,7 @@ preprocess(
   impute = FALSE,
   impute.type = c("missRanger", "micePMM", "meanMode"),
   impute.missRanger.params = list(pmm.k = 3, maxiter = 10, num.trees = 500),
-  impute.discrete = getMode,
+  impute.discrete = get_mode,
   impute.numeric = mean,
   integer2factor = FALSE,
   integer2numeric = FALSE,
@@ -73,7 +73,7 @@ to \code{missForest::missForest}}
 
 \item{impute.discrete}{Function that returns single value: How to impute
 discrete variables for \code{impute.type = "meanMode"}.
-Default = \link{getMode}}
+Default = \link{get_mode}}
 
 \item{impute.numeric}{Function that returns single value: How to impute
 continuous variables for \code{impute.type = "meanMode"}.

@@ -11,7 +11,7 @@ rtset.preprocess(
   impute = FALSE,
   impute.type = "missRanger",
   impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
-  impute.discrete = getMode,
+  impute.discrete = get_mode,
   impute.numeric = mean,
   integer2factor = FALSE,
   integer2numeric = FALSE,

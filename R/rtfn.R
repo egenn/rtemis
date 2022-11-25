@@ -38,15 +38,15 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #' @export
 #' @examples
 #' x <- c(9, 3, 4, 4, 0, 2, 2, NA)
-#' getMode(x)
+#' get_mode(x)
 #' x <- c(9, 3, 2, 2, 0, 4, 4, NA)
-#' getMode(x)
-#' getMode(x, getlast = FALSE)
+#' get_mode(x)
+#' get_mode(x, getlast = FALSE)
 #'
-getMode <- function(x,
-                    na.exclude = TRUE,
-                    getlast = TRUE,
-                    retain.class = TRUE) {
+get_mode <- function(x,
+                     na.exclude = TRUE,
+                     getlast = TRUE,
+                     retain.class = TRUE) {
     if (retain.class) .class <- class(x)
     if (na.exclude) x <- na.exclude(x)
     freq <- table(x)
@@ -70,7 +70,7 @@ getMode <- function(x,
         }
     }
     out
-} # rtemis::getMode
+} # rtemis::get_mode
 
 
 #' Check for constant columns
@@ -81,12 +81,12 @@ getMode <- function(x,
 #' @author E.D. Gennatas
 #' @export
 
-anyConstant <- function(x) {
+any_constant <- function(x) {
     # var0 <- which(apply(x, 2, var) == 0)
     # if (length(var0) > 0) TRUE else FALSE
     constant.index <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
     if (length(constant.index) > 0) TRUE else FALSE
-} # rtemis::anyConstant
+} # rtemis::any_constant
 
 
 #' Check if vector is constant
@@ -95,15 +95,15 @@ anyConstant <- function(x) {
 #' @author E.D. Gennatas
 #' @export
 
-# is.constant <- function(x) {
+# is_constant <- function(x) {
 #
 #   all(duplicated(x)[-1])
 #
-# } # rtemis::is.constant
+# } # rtemis::is_constant
 
-is.constant <- function(x) {
+is_constant <- function(x) {
     all(duplicated(x)[-1L])
-} # rtemis::is.constant
+} # rtemis::is_constant
 
 
 #' Check if variable is discrete (factor or integer)
@@ -458,10 +458,10 @@ popvar <- function(x) {
 #' @author E.D. Gennatas
 #' @export
 
-rtSave <- function(rtmod,
-                   outdir,
-                   file.prefix = "s.",
-                   verbose = TRUE) {
+rt_save <- function(rtmod,
+                    outdir,
+                    file.prefix = "s.",
+                    verbose = TRUE) {
     if (verbose) cat("Writing data to", outdir, "...")
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
     rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
@@ -473,7 +473,7 @@ rtSave <- function(rtmod,
         if (verbose) cat(red("Failed", TRUE))
         warning("Could not save data to ", outdir)
     }
-} # rtemis::rtSave
+} # rtemis::rt_save
 
 
 #' Random \pkg{rtemis} art

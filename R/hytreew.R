@@ -45,7 +45,7 @@ hytreew <- function(x, y,
                     n.cores = rtCores) {
 
   # [ Check y is not constant ] ===
-  if (is.constant(y)) {
+  if (is_constant(y)) {
     coefs <- list(rep(0, NCOL(x) + 1))
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(init = init,
@@ -458,7 +458,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
   # resid.left <- resid[left.index]
   # resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
-    if (is.constant(resid) | length(resid) < minobsinnode.lin) {
+    if (is_constant(resid) | length(resid) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.left <- rep(0, length(y1))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
@@ -472,9 +472,9 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
                                cv.glmnet.nfolds = cv.glmnet.nfolds,
                                which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.left <- (cbind(1, .env$dm) %*% lin.coef.left)[, 1]
-    } # if (is.constant(resid.left))
+    } # if (is_constant(resid.left))
 
-    if (is.constant(resid) | length(resid) < minobsinnode.lin) {
+    if (is_constant(resid) | length(resid) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.right <- rep(0, length(y1))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
@@ -486,7 +486,7 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
                                 cv.glmnet.nfolds = cv.glmnet.nfolds,
                                 which.cv.glmnet.lambda = which.cv.glmnet.lambda)
       lin.val.right <- (cbind(1, .env$dm) %*% lin.coef.right)[, 1]
-    } # if (is.constant(resid.right))
+    } # if (is_constant(resid.right))
 
   } # if (!is.null(cutFeat.name))
 

@@ -71,7 +71,7 @@ dt_describe <- function(x) {
         data.table(
             Variable = x[, ..index_cf] |> names(),
             N_unique = sapply(x[, ..index_cf], \(col) length(unique(col))),
-            Mode = sapply(x[, ..index_cf], getMode),
+            Mode = sapply(x[, ..index_cf], get_mode),
             Counts = sapply(x[, ..index_cf], fct_describe),
             Pct_missing = sapply(x[, ..index_cf], \(col) sum(is.na(col)) / nrows)
         )

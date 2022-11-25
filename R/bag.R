@@ -246,7 +246,7 @@ bag <- function(x, y = NULL,
                                                 print.plot = plot.predicted, filename = filename.test)
                                                 # main = paste0(mod.name, "Bagging (k = ", k, ") Testing"))
   }
-  if (!is.null(outdir)) rtSave(rt, outdir, verbose = verbose)
+  if (!is.null(outdir)) rt_save(rt, outdir, verbose = verbose)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 

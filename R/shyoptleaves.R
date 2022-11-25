@@ -72,7 +72,7 @@ shyoptleaves <- function(x, y,
   }
 
   # [ Check y is not constant ] ----
-  if (is.constant(y)) {
+  if (is_constant(y)) {
     coefs <- rep(0, NCOL(x) + 1)
     names(coefs) <- c("(Intercept)", colnames(x))
     .mod <- list(type = type,

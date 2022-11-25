@@ -120,7 +120,7 @@ check_data <- function(x,
   out <- paste(out,
                paste0(bold("\n  Issues"), "____________________"),
                sep = "\n")
-  index.constant <- which(sapply(x, is.constant))
+  index.constant <- which(sapply(x, is_constant))
   n.constant <- length(index.constant)
   nconstant <- ifelse(n.constant > 0, 
     red(n.constant, bold = TRUE),

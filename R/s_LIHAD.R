@@ -574,7 +574,7 @@ partLin <- function(x1, y1,
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
-    if (is.constant(resid.left) | length(resid.left) < minobsinnode.lin) {
+    if (is_constant(resid.left) | length(resid.left) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
@@ -582,16 +582,16 @@ partLin <- function(x1, y1,
       dat <- data.frame(x1[left.index, , drop = FALSE], resid.left)
       lin.coef.left <- do.call(lincoef, c(list(x = x1[left.index, , drop = FALSE], y  = resid.left), lincoef.params))
       lin.val.left <- (data.matrix(cbind(1, x1[left.index, , drop = FALSE])) %*% lin.coef.left)
-    } # if (is.constant(resid.left))
+    } # if (is_constant(resid.left))
 
-    if (is.constant(resid.right) | length(resid.right) < minobsinnode.lin) {
+    if (is_constant(resid.right) | length(resid.right) < minobsinnode.lin) {
       if (trace > 0) msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {
       lin.coef.right <- do.call(lincoef, c(list(x = x1[right.index, , drop = FALSE], y  = resid.right), lincoef.params))
       lin.val.right <- (data.matrix(cbind(1, x1[right.index, , drop = FALSE])) %*% lin.coef.right)
-    } # if (is.constant(resid.right))
+    } # if (is_constant(resid.right))
 
   } # if (!is.null(cutFeat.name))
 

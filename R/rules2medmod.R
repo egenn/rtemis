@@ -36,7 +36,7 @@ rules2medmod <- function(rules, x,
             if (categorical) {
                 var <- gsub("\\s", "", strsplit(sub[j], "%in%")[[1]][1])
                 vals <- dat[[var]]
-                value <- paste0(getMode(vals), " (", paste(levels(droplevels(vals)), collapse = ", "), ")")
+                value <- paste0(get_mode(vals), " (", paste(levels(droplevels(vals)), collapse = ", "), ")")
                 rule[j] <- paste0(var, " = ", value)
             } else {
                 sub[j] <- gsub(">|>=|<|<=", "@", sub[j])

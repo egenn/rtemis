@@ -95,7 +95,7 @@ linadleaves <- function(x, y,
 
     # Check y is not constant ----
     # Todo: init for .class
-    if (is.constant(y)) {
+    if (is_constant(y)) {
         # No training
         coefs <- rep(0, NCOL(x) + 1)
         names(coefs) <- c("(Intercept)", colnames(x))
@@ -264,7 +264,7 @@ linadleaves <- function(x, y,
     # '- Lin1 ----
     if (verbose) msg20("Training Linear Additive Tree ", type, " (max leaves = ", max.leaves, ")...")
     if (trace > 0) msg2("Training first Linear Model...")
-    if (is.constant(resid)) stop("First gradient is constant")
+    if (is_constant(resid)) stop("First gradient is constant")
 
     index <- is.na(resid)
     coef <- lincoef(
@@ -899,7 +899,7 @@ splitlineRC <- function(g,
         if (!is.null(cutFeat.name)) {
             # Node split
             .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[left.index]
-            if (length(left.index) < minobsinnode.lin | is.constant(.resid2wleft)) {
+            if (length(left.index) < minobsinnode.lin | is_constant(.resid2wleft)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
                     msg2("Looking at Node #", node.index * 2,
@@ -949,7 +949,7 @@ splitlineRC <- function(g,
             } # /if (length(left.index) < minobsinnode.lin)
 
             .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[right.index]
-            if (length(right.index) < minobsinnode.lin | is.constant(.resid2wright)) {
+            if (length(right.index) < minobsinnode.lin | is_constant(.resid2wright)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
                     msg2("Looking at Node #", node.index * 2 + 1,

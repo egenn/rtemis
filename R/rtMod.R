@@ -2413,7 +2413,7 @@ rtMod.out <- function(rt,
       )
     }
   }
-  if (save.mod) rtSave(rt, outdir, verbose = verbose)
+  if (save.mod) rt_save(rt, outdir, verbose = verbose)
 } # rtemis::rtMod.out
 
 # cat("                                        
