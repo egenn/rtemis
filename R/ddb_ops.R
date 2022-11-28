@@ -158,7 +158,7 @@ ls2sel <- function(x) {
 #' @author E.D. Gennatas
 #' @export
 #' @examples 
-#' \dontrrun{
+#' \dontrun{
 #' sql <- ddb_data("/Data/iris.csv", collect = FALSE)
 #' ir <- ddb_ollect(sql)
 #' }

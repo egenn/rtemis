@@ -18,7 +18,7 @@ ddb_collect(sql, progress = TRUE, returnobj = c("data.frame", "data.table"))
 Collect a table read with \code{ddb_data(x, collect = FALSE)}
 }
 \examples{
-\dontrrun{
+\dontrun{
 sql <- ddb_data("/Data/iris.csv", collect = FALSE)
 ir <- ddb_ollect(sql)
 }
