@@ -90,8 +90,12 @@ massGLM <- function(x, y,
     }
     if (trace > 0) msg2("Outcome names:", paste(ynames, collapse = ", "))
 
-    if (scale.x) x <- scale(x)
-    if (scale.y) y <- scale(y)
+    if (scale.x) {
+        x <- preprocess(x, scale = TRUE)
+    }
+    if (scale.y) {
+        y <- preprocess(y, scale = TRUE)
+    }
     dat <- data.frame(x, y)
     colnames(dat) <- c(xnames, ynames)
 
