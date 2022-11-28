@@ -92,17 +92,23 @@ any_constant <- function(x) {
 #' Check if vector is constant
 #'
 #' @param x Vector: Input
+#' @param skip_missing Logical: If TRUE, skip NA values before testing
+#'
 #' @author E.D. Gennatas
 #' @export
-
-# is_constant <- function(x) {
-#
-#   all(duplicated(x)[-1])
-#
-# } # rtemis::is_constant
-
-is_constant <- function(x) {
-    all(duplicated(x)[-1L])
+#' @examples
+#' \dontrun{
+#' x <- rep(9, 1000000)
+#' is_constant(x)
+#' x[10] <- NA
+#' is_constant(x)
+#' is_constant(x, skip_missing = TRUE)
+#' }
+#'
+is_constant <- function(x, skip_missing = FALSE) {
+    # all(duplicated(x)[-1L])
+    if (skip_missing) x <- na.exclude(x)
+    isTRUE(all(x == x[1]))
 } # rtemis::is_constant
 
 
