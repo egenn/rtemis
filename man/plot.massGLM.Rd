@@ -33,7 +33,7 @@
   volcano.hline.annotate = NULL,
   volcano.p.transform = function(x) -log10(x),
   margin = NULL,
-  displayModeBar = FALSE,
+  displayModeBar = TRUE,
   trace = 0,
   filename = NULL,
   ...

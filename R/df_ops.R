@@ -109,33 +109,62 @@ getnamesandtypes <- function(x) {
   attr(xnames, "type") <- sapply(x, class)
   xnames
 } # rtemis::namesandtypes
+  
+
+  #' Unique values per feature
+  #'
+  #' Get number of unique values per features
+  #'
+  #' @param x matrix or data frame input
+  #' @return Vector, integer of length \code{NCOL(x)} with number of unique values per column/feature
+  #' @export
+  #' @author E.D. Gennatas
+  #' @examples
+  #' \dontrun{
+  #' uniquevalsperfeat(iris)
+  #' }
+
+  uniquevalsperfeat <- function(x, excludeNA = FALSE) {
+    if (excludeNA) {
+      apply(x, 2, function(i) length(unique(na.exclude(i))))
+    } else {
+      apply(x, 2, function(i) length(unique(i)))
+    }
+  } # rtemis::uniquevalsperfeat
 
 
-#' Check file(s) exist
-#' 
-#' @param paths Character vector of paths
-#' @param verbose Logical: If TRUE, print messages to console
-#' @param pad Integer: Number of spaces to pad to the left
-#' 
+# df_movecolumn.R
+# ::rtemis::
+# 2020 E.D. Gennatas rtemis.lambdamd.org
+
+#' Move data frame column
+#'
+#' @param x data.frame
+#' @param from String or Integer: Define which column holds the vector you want to move
+#' @param to Integer: Define which column number you want the vector to be moved to.
+#' Default = \code{ncol(x)} i.e. the last column.
 #' @author E.D. Gennatas
 #' @export
+#' @examples
+#' mtcars_hp <- df_movecolumn(mtcars, "hp")
+#'
+df_movecolumn <- function(x, from, to = ncol(x)) {
+  if (!is.data.frame(x)) stop("Input must be data frame")
 
-check_files <- function(paths,
-                        verbose = TRUE,
-                        pad = 0) {
-    if (verbose) msg2("Checking files:")
-    
-    for (f in paths) {
-      if (file.exists(f)) {
-        if (verbose) {
-            yay(f, pad = pad)
-        }
-      } else {
-          if (verbose) {
-            nay(paste(f, red(" not found!")), pad = pad)
-          }
-          stop("File not found")
-        }
-      }
-  } # rtemis::check_files
-  
+  if (is.character(from)) {
+    from_name <- from
+    from <- grep(from, colnames(x))
+    if (length(from) == 0) stop("Did not find \"", from, "\" in input")
+  } else {
+    from_name <- colnames(x)[from]
+  }
+
+  v <- x[, from, drop = FALSE]
+  x[, from] <- NULL
+
+  if (to == ncol(x)) {
+    cbind(x, v)
+  } else {
+    cbind(x[, 1:(to - 1), drop = FALSE], v, x[, (to + 1):ncol(x), drop = FALSE])
+  }
+} # rtemis::df_movecolumn

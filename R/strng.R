@@ -89,3 +89,112 @@ yay <- function(..., sep = " ", end = "\n", pad = 0) {
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
     cat(rep(" ", pad), bold(red("\u2715")), paste(..., sep = sep), end, sep = "")
 }
+
+
+# labelify.R
+# ::rtemis::
+# 2017 E.D. Gennatas www.lambdamd.org
+
+#' Format text for label printing
+#'
+#' @param x Character: Input
+#' @param underscoresToSpaces Logical: If TRUE, convert underscores to spaces. Default = TRUE
+#' @param dotsToSpaces Logical: If TRUE, convert dots to spaces. Default = TRUE
+#' @param toLower Logical: If TRUE, convert to lowercase (precedes \code{toTitleCase}).
+#' Default = FALSE (Good for getting all-caps words converted to title case, bad for abbreviations
+#' you want to keep all-caps)
+#' @param toTitleCase Logical: If TRUE, convert to Title Case. Default = TRUE (This does not change
+#' all-caps words, set \code{toLower} to TRUE if desired)
+#' @param capitalize.strings Character, vector: Always capitalize these strings, if present. Default = "id"
+#' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
+#' Default = "\\$", which formats common input of the type \code{data.frame$variable}
+#'
+#' @author E.D. Gennatas
+#' @export
+
+labelify <- function(x,
+                     underscoresToSpaces = TRUE,
+                     dotsToSpaces = TRUE,
+                     toLower = FALSE,
+                     toTitleCase = TRUE,
+                     capitalize.strings = c("id"),
+                     stringsToSpaces = c("\\$", "`")) {
+    if (is.null(x)) {
+        return(NULL)
+    }
+    xf <- x
+    for (i in stringsToSpaces) {
+        xf <- gsub(i, " ", xf)
+    }
+    for (i in capitalize.strings) {
+        xf <- gsub(paste0("^", i, "$"), toupper(i), xf)
+    }
+    if (underscoresToSpaces) xf <- gsub("_", " ", xf)
+    if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
+    if (toLower) xf <- tolower(xf)
+    if (toTitleCase) xf <- tools::toTitleCase(xf)
+    xf <- gsub(" {2,}", " ", xf)
+    gsub(" $", "", xf)
+} # rtemis::labelify
+
+
+#' Clean names
+#'
+#' Clean character vector by replacing all symbols and sequences of symbols with single
+#' underscores, ensuring no name begins or ends with a symbol
+#'
+#' @param x Character vector
+#' @param prefix_digits Character: prefix to add to names beginning with a digit. Se to
+#' NA to skip adding a prefix
+#' 
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' clean_names(colnames(iris))
+
+clean_names <- function(x, prefix_digits = "V_") {
+    out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
+    out <- gsub("^_", "", out)
+    # Add prefix_digits in front of names starting with number
+    if (!is.na(predix_digits)) {
+        sn_idi <- grep("^[0-9]", out)
+        out[sn_idi] <- paste0(prefix_digits, out[sn_idi])
+    }
+    gsub("_$", "", out)
+}
+
+#' Clean column names
+#'
+#' Clean column names by replacing all spaces and punctuation with a single underscore
+#'
+#' @param x Character, vector
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' clean_colnames(iris)
+
+clean_colnames <- function(x) {
+    if (!inherits(x, "character")) {
+        x <- if (inherits(x, "matrix")) colnames(x) else names(x)
+    }
+    clean_names(x)
+}
+
+
+#' Clean factor levels of data.frame
+#'
+#' Finds all factors in a data.frame and cleans factor levels to include
+#' only underscore symbols
+#'
+#' @param x data.frame
+#'
+#' @author E.D. Gennatas
+#' @export
+
+clean_factor_levels <- function(x) {
+    idi <- which(sapply(x, is.factor))
+    for (i in idi) {
+        levels(idi[, i]) <- clean_names(levels(idi[, i]))
+    }
+}

@@ -104,7 +104,7 @@ any_constant <- function(x) {
 #' is_constant(x)
 #' is_constant(x, skip_missing = TRUE)
 #' }
-#'
+
 is_constant <- function(x, skip_missing = FALSE) {
     # all(duplicated(x)[-1L])
     if (skip_missing) x <- na.exclude(x)
@@ -118,9 +118,9 @@ is_constant <- function(x, skip_missing = FALSE) {
 #' @author E.D. Gennatas
 #' @export
 
-is.discrete <- function(x) {
+is_discrete <- function(x) {
     is.factor(x) || is.integer(x) || is.logical(x) || is.character(x)
-} # rtemis::is.discrete
+} # rtemis::is_discrete
 
 
 #' Logit transform
@@ -454,32 +454,6 @@ rtversion <- function() {
 popvar <- function(x) {
     mean((x - mean(x))^2)
 }
-
-#' Write \pkg{rtemis} model to RDS file
-#'
-#' @param rtmod \pkg{rtemis} model
-#' @param outdir Path to output directory
-#' @param file.prefix Character: Prefix for filename
-#' @param verbose Logical: If TRUE, print messages to output
-#' @author E.D. Gennatas
-#' @export
-
-rt_save <- function(rtmod,
-                    outdir,
-                    file.prefix = "s.",
-                    verbose = TRUE) {
-    if (verbose) cat("Writing data to", outdir, "...")
-    if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
-    rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
-    try(saveRDS(rtmod, rdsPath))
-    if (file.exists(rdsPath)) {
-        if (verbose) cat(green("Done", TRUE))
-        # if (verbose) rtOut("Saved", rdsPath)
-    } else {
-        if (verbose) cat(red("Failed", TRUE))
-        warning("Could not save data to ", outdir)
-    }
-} # rtemis::rt_save
 
 
 #' Random \pkg{rtemis} art

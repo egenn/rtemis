@@ -381,7 +381,7 @@ preprocess_ <- function(x, y = NULL,
   #     if (verbose) info(paste0("Imputing missing values using ", deparse(substitute(impute.numeric)),
   #                       " and ", deparse(substitute(impute.discrete)), "..."))
 
-  #     discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
+  #     discrete.index <- which(sapply(x, function(i) is_discrete(i) && anyNA(i)))
   #     if (length(discrete.index) > 0) {
   #       for (j in discrete.index) {
   #         x[is.na(x[[j]]), (names(x)[j]) := impute.discrete(x[[j]])]

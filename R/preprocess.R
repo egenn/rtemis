@@ -304,7 +304,7 @@ preprocess <- function(x, y = NULL,
       if (verbose) msg20("Imputing missing values using ", deparse(substitute(impute.numeric)),
                         " and ", deparse(substitute(impute.discrete)), "...")
 
-      discrete.index <- which(sapply(x, function(i) is.discrete(i) && anyNA(i)))
+      discrete.index <- which(sapply(x, function(i) is_discrete(i) && anyNA(i)))
       if (length(discrete.index) > 0) {
         for (i in discrete.index) {
           index <- which(is.na(x[, i]))
