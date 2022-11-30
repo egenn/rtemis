@@ -13,7 +13,8 @@
 
 glm2table <- function(x,
                       xnames = NULL,
-                      include_anova_pvals = NA) {
+                      include_anova_pvals = NA,
+                      warn = TRUE) {
 
     if (is.null(xnames)) {
         xnames <- if (!is.null(names(x))) {
@@ -39,6 +40,17 @@ glm2table <- function(x,
             }))
         )
     )
+
+    # Convert p-vals equal to 0 to machine double eps
+    eps <- .Machine$double.eps
+    pvals_idi <- getnames(out, ends_with = "p_value")
+    for (i in pvals_idi) {
+        lteps <- out[, ..i] < eps
+        if (length(lteps) > 0) {
+            if (warn) warning("Values < machine double eps converted to double eps")
+            out[, ..i][lteps] <- eps
+        }
+    }
 
     if (1 %in% include_anova_pvals) {
         pvals2 <- t(sapply(x, \(i) car::Anova(i, type = 2)[, 3]))
@@ -95,7 +107,7 @@ gam2table <- function(mods,
 
 #' Get GAM model's p-values for parametric and spline terms
 #' 
-get_gam_pvals <- function(m, warn = FALSE) {
+get_gam_pvals <- function(m, warn = TRUE) {
 
     eps <- .Machine$double.eps
     ms <- summary(m)
