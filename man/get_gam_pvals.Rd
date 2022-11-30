@@ -4,7 +4,7 @@
 \alias{get_gam_pvals}
 \title{Get GAM model's p-values for parametric and spline terms}
 \usage{
-get_gam_pvals(m, warn = FALSE)
+get_gam_pvals(m, warn = TRUE)
 }
 \description{
 Get GAM model's p-values for parametric and spline terms
