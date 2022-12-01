@@ -1662,20 +1662,22 @@ rtPalettes <- list(
 #' \pkg{rtemis} Color Palettes
 #'
 #' \code{rtPalette} prints names of available color palettes
-#' Each palette is a named list of hexadecimal color definitions which can be used with any
-#' graphics function.
-#' @param palette Character: Name of palette to return. Default = NULL: available palette names
-#' are printed and no palette is returned
+#' Each palette is a named list of hexadecimal color definitions which can be used with 
+#' any graphics function.
+#' @param palette Character: Name of palette to return. Default = NULL: available palette 
+#' names are printed and no palette is returned
 #' @return
 #' A list of available palettes, invisibly
 #' @examples
 #' rtpalette("imperial")
 #' @export
 
-rtpalette <- function(palette = NULL) {
+rtpalette <- function(palette = NULL, verbose = TRUE) {
     if (is.null(palette)) {
-        msg2(hilite("The following palettes are available:"))
-        print(names(rtPalettes))
+        if (verbose) {
+            msg2(hilite("The following palettes are available:"))
+            print(names(rtPalettes))
+        }
     } else {
         palette <- match.arg(
             palette,
