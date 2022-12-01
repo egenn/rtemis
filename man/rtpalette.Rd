@@ -4,7 +4,7 @@
 \alias{rtpalette}
 \title{\pkg{rtemis} Color Palettes}
 \usage{
-rtpalette(palette = NULL)
+rtpalette(palette = NULL, verbose = TRUE)
 }
 \arguments{
 \item{palette}{Character: Name of palette to return. Default = NULL: available palette names
