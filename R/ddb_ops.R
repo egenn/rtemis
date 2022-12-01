@@ -54,7 +54,7 @@ ddb_data <- function(filename,
                      character2factor = FALSE,
                      collect = TRUE,
                      progress = TRUE,
-                     returnobj = c("data.frame", "data.table"),
+                     returnobj = c("data.table", "data.frame"),
                      data.table.key = NULL,
                      clean_colnames = TRUE,
                      verbose = TRUE) {
