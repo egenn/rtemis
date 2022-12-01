@@ -58,8 +58,9 @@ gplot3_map <- function(dat,
                        file.height = 5, ...) {
     # Dependencies ----
     dependency_check("ggplot2", "usmap", "scales")
+    if (labels) dependency_check("usmapdata")
 
-    regions_ <- match.arg(regions)
+    regions <- match.arg(regions)
     colnames(dat)[1] <- "fips"
     if (is.null(legend.title)) legend.title <- colnames(dat)[2]
     if (is.na(col.mid)) colorscale.midpoint <- NULL
@@ -104,7 +105,7 @@ gplot3_map <- function(dat,
             "character", "character", "character"
         )
 
-        if (regions_ == "county" || regions_ == "counties") {
+        if (regions == "county" || regions == "counties") {
             centroidLabelsColClasses <- c(
                 centroidLabelsColClasses,
                 "character"
@@ -113,8 +114,8 @@ gplot3_map <- function(dat,
 
         centroid_labels <- read.csv(
             system.file("extdata",
-                paste0("us_", regions_, "_centroids.csv"),
-                package = "usmap"
+                paste0("us_", regions, "_centroids.csv"),
+                package = "usmapdata"
             ),
             colClasses = centroidLabelsColClasses, stringsAsFactors = FALSE
         )
@@ -134,7 +135,7 @@ gplot3_map <- function(dat,
             ) %in% exclude), ]
         }
 
-        if (regions_ == "county" || regions_ == "counties") {
+        if (regions == "county" || regions == "counties") {
             label_layer <- ggplot2::geom_text(
                 data = centroid_labels,
                 ggplot2::aes(
