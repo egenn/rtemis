@@ -48,7 +48,8 @@ or \code{ica::icafast}}
 \link{rtDecom} object
 }
 \description{
-Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or \code{ica::fastica}
+Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or 
+\code{ica::fastica}
 }
 \details{
 Project scaled variables to ICA components.
@@ -56,7 +57,8 @@ Input must be n by p,
 where n represents number of cases,
 and p represents number of features.
 fastICA will be applied to the transpose of the n x p matrix.
-fastICA will fail if there are any NA values or constant features: remove them using \link{preprocess}
+fastICA will fail if there are any NA values or constant features: remove them using 
+\link{preprocess}
 }
 \seealso{
 Other Decomposition: 
