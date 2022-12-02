@@ -121,17 +121,14 @@ dplot3_volcano <- function(x, pvals,
     if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
     if (is.null(legend)) legend <- !is.null(group)
 
-    # p_transformed <- if (p.transform == "none") pvals else -log10(pvals)
-    p_transformed <- p.transform(pvals)
+    p_adjusted <- p.adjust(pvals, method = p.adjust.method)
+    index_ltpthresh <- p_adjusted < p.thresh
+    p_transformed <- p.transform(p_adjusted)
     if (is.null(xlab)) xlab <- labelify(xname)
 
     if (is.null(ylab)) {
-        # ylab <- if (p.transform == "none") "p-value" else "-log<sub>10</sub> p-value"
         ylab <- paste(print_fn(p.transform), "p-value")
     }
-
-    p_adjusted <- p.adjust(pvals, method = p.adjust.method)
-    index_ltpthresh <- p_adjusted < p.thresh
 
     # Default to lo - ns - hi groups
     if (is.null(group)) {
@@ -139,7 +136,7 @@ dplot3_volcano <- function(x, pvals,
         group[index_ltpthresh & x < x.thresh] <- label.lo
         group[index_ltpthresh & x > x.thresh] <- label.hi
         group <- factor(group, levels = c(label.lo, "NS", label.hi))
-        if (is.null (palette)) {
+        if (is.null(palette)) {
             palette <- list("#18A3AC", "#7f7f7f", "#F48024")
         }
     }
@@ -202,7 +199,7 @@ dplot3_volcano <- function(x, pvals,
     if (autolegend.x.lo) legend.x.lo <- x.thresh - legxdiff / 2
     if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
 
-    if (group.counts[1] > 0 & !is.null(legend.lo)) {
+    if (group.counts[1] > 0 && !is.null(legend.lo)) {
         plt |> plotly::add_annotations(
             x = legend.x.lo,
             y = legend.y,
@@ -218,7 +215,7 @@ dplot3_volcano <- function(x, pvals,
         ) -> plt
     }
 
-    if (group.counts[3] > 0 & !is.null(legend.hi)) {
+    if (group.counts[3] > 0 && !is.null(legend.hi)) {
         plt |> plotly::add_annotations(
             x = legend.x.hi,
             y = legend.y,
@@ -258,9 +255,7 @@ dplot3_volcano <- function(x, pvals,
                 }
             }
             if (is.null(ax.lo)) ax.lo <- 5 + 5 * annotate.n_lo
-            # browser()
-            # return(ay.lo)
-            plt |> plotly::add_annotations(
+            plt <- plt |> plotly::add_annotations(
                 x = lo_x,
                 y = lo_pval,
                 text = lo_name,
@@ -276,7 +271,7 @@ dplot3_volcano <- function(x, pvals,
                     family = theme$font.family,
                     color = adjustcolor(theme$fg, annotate.alpha)
                 )
-            ) -> plt
+            )
         }
 
 
@@ -288,13 +283,10 @@ dplot3_volcano <- function(x, pvals,
             hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
 
             if (is.null(ay.hi)) {
-                # ay.hi <- seq((max(hi_pval, na.rm = TRUE) - yrange[2]) * 4 - 10, 10,
-                #     length = annotate.n_hi
-                # )
                 ay.hi <- drange(order(hi_pval), 50, -50)
             }
-            if (is.null(ax.hi)) ax.hi <- -5 -5 * annotate.n_hi
-            plt |> plotly::add_annotations(
+            if (is.null(ax.hi)) ax.hi <- -5 - 5 * annotate.n_hi
+            plt <- plt |> plotly::add_annotations(
                 x = hi_x,
                 y = hi_pval,
                 text = hi_name,
@@ -310,7 +302,7 @@ dplot3_volcano <- function(x, pvals,
                     family = theme$font.family,
                     color = adjustcolor(theme$fg, annotate.alpha)
                 )
-            ) -> plt
+            )
         }
     }
 
