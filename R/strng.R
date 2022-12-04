@@ -156,7 +156,7 @@ clean_names <- function(x, prefix_digits = "V_") {
     out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
     out <- gsub("^_", "", out)
     # Add prefix_digits in front of names starting with number
-    if (!is.na(predix_digits)) {
+    if (!is.na(prefix_digits)) {
         sn_idi <- grep("^[0-9]", out)
         out[sn_idi] <- paste0(prefix_digits, out[sn_idi])
     }
