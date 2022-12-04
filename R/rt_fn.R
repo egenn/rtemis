@@ -509,3 +509,13 @@ rtrandom <- function(pch = sample(15:18, 1),
         )
     }
 } # rtemis::rtrandom
+
+
+#' Filter order
+#' 
+filter_order <- function(x, idl, decreasing = FALSE) {
+    idi <- which(idl)
+    flt_ord <- order(x[idi], decreasing = decreasing)
+    idi[flt_ord]
+}
+
