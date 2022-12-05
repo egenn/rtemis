@@ -242,7 +242,7 @@ msg2 <- function(...,
     if (newline.pre) cat("\n")
     cat(gray(paste0(.dt, gray(" "))))
     cat(paste(txt, collapse = sep))
-    if (!is.na(caller)) {
+    if (!is.null(caller) && !is.na(caller)) {
         cat(gray(" [", bold(caller), "]\n", sep = ""), sep = "")
     }
     
