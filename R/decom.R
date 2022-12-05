@@ -9,8 +9,8 @@
 #' \code{decom} returns an R6 class object \code{rtDecom}
 #'
 #' @param x Numeric matrix / data frame: Input data
-#' @param decom Character: Decomposer name. See ]link{decomSelect}. Default = "ICA"
-#' @param verbose Logical: if TRUE, print messages to screen
+#' @param decom Character: Decomposer name. See ]link{decomSelect}.
+#' @param verbose Logical: if TRUE, print messages to console
 #' @param ... Additional arguments to be passed to \code{decom}
 #' 
 #' @return \link{rtDecom} object
@@ -18,7 +18,7 @@
 #' @export
 
 decom <- function(x,
-                  decom = "ICA",
+                  decom = "PCA",
                   verbose = TRUE, ...) {
 
     if (missing(x)) {
