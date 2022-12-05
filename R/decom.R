@@ -10,16 +10,15 @@
 #'
 #' @param x Numeric matrix / data frame: Input data
 #' @param decom Character: Decomposer name. See ]link{decomSelect}. Default = "ICA"
-#' @param x.test Numeric matrix / data frame: Testing set data if supported by \code{decom}
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to \code{decom}
+#' 
 #' @return \link{rtDecom} object
 #' @author E.D. Gennatas
 #' @export
 
 decom <- function(x,
                   decom = "ICA",
-                #   x.test = NULL,
                   verbose = TRUE, ...) {
 
     if (missing(x)) {
@@ -30,16 +29,13 @@ decom <- function(x,
     args <- c(
         list(
             x = x,
-            # x.test = x.test,
             verbose = verbose
         ),
         list(...)
     )
-    # decom <- R.utils::doCall(
-    #     decomSelect(decom, fn = TRUE),
-    #     args = args
-    # )
+    
     decom <- do.call(decomSelect(decom, fn = TRUE), args)
 
     decom
+
 } # rtemis::decom

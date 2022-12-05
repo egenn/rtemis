@@ -4,14 +4,12 @@
 \alias{decom}
 \title{Matrix Decomposition with \pkg{rtemis}}
 \usage{
-decom(x, decom = "ICA", x.test = NULL, verbose = TRUE, ...)
+decom(x, decom = "ICA", verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Numeric matrix / data frame: Input data}
 
 \item{decom}{Character: Decomposer name. See ]link{decomSelect}. Default = "ICA"}
-
-\item{x.test}{Numeric matrix / data frame: Testing set data if supported by \code{decom}}
 
 \item{verbose}{Logical: if TRUE, print messages to screen}
 
