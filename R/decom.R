@@ -19,23 +19,27 @@
 
 decom <- function(x,
                   decom = "ICA",
-                  x.test = NULL,
+                #   x.test = NULL,
                   verbose = TRUE, ...) {
 
-  if (missing(x)) {
-    cat('Usage:\n  decom(x, "nmf", ...)\n\n')
-    return(decomSelect())
-  }
+    if (missing(x)) {
+        cat('Usage:\n  decom(x, "nmf", ...)\n\n')
+        return(decomSelect())
+    }
 
-  # [ DECOMPOSER ] ----
-  args <- c(list(x = x,
-                 x.test = x.test,
-                 verbose = verbose),
-            list(...))
-  decom <- R.utils::doCall(decomSelect(decom, fn = TRUE),
-                           args = args)
+    args <- c(
+        list(
+            x = x,
+            # x.test = x.test,
+            verbose = verbose
+        ),
+        list(...)
+    )
+    # decom <- R.utils::doCall(
+    #     decomSelect(decom, fn = TRUE),
+    #     args = args
+    # )
+    decom <- do.call(decomSelect(decom, fn = TRUE), args)
 
-  # [ Outro ] ----
-  decom
-
+    decom
 } # rtemis::decom
