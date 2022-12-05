@@ -244,6 +244,8 @@ msg2 <- function(...,
     cat(paste(txt, collapse = sep))
     if (!is.null(caller) && !is.na(caller)) {
         cat(gray(" [", bold(caller), "]\n", sep = ""), sep = "")
+    } else {
+        cat("\n")
     }
     
 } # rtemis::msg2
