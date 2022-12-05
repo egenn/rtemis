@@ -130,8 +130,6 @@ on differents resamples under subdirectories of \code{outdir}}
 \item{...}{Additional mod.params to be passed to learner (Will be 
 concatenated with \code{mod.params}, so that you can use
 either way to pass learner arguments)}
-
-\item{parallel.type}{Character: "psock" (Default), "fork"}
 }
 \value{
 Object of class \code{rtModCV} (Regression) or 

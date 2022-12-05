@@ -7,8 +7,8 @@
 ddb_collect(sql, progress = TRUE, returnobj = c("data.frame", "data.table"))
 }
 \arguments{
-\item{sql}{Character: DuckDB SQL query, usually output of 
-\link{ddb_data(x, collect = FALSE)}}
+\item{sql}{Character: DuckDB SQL query, usually output of
+\link{ddb_data} with \code{collect = FALSE}}
 
 \item{progress}{Logical: If TRUE, show progress bar}
 

@@ -38,7 +38,6 @@
 #' testing resamples. You are likely parallelizing either in the inner
 #' (tuning) or the learner itself is parallelized. Don't parallelize the 
 #' parallelization
-#' @param parallel.type Character: "psock" (Default), "fork"
 #' @param print.res.plot Logical: Print model performance plot for each 
 #' resample.
 # @param yhat.plots Logical: Print aggregate plots for fitted vs. true and predicted vs. true
@@ -286,8 +285,7 @@ elevate <- function(x, y = NULL,
             trace = trace,
             save.mods = save.mods,
             outdir = res.outdir,
-            n.workers = outer.n.workers,
-            parallel.type = parallel.type
+            n.workers = outer.n.workers
         )
         mods[[i]] <- res.run[[i]]$mods
         res[[i]] <- res.run[[i]]$res

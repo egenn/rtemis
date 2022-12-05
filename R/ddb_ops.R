@@ -147,11 +147,11 @@ ls2sel <- function(x) {
 
 
 #' Collect a lazy-read duckdb table
-#' 
+#'
 #' Collect a table read with \code{ddb_data(x, collect = FALSE)}
-#' 
-#' @param sql Character: DuckDB SQL query, usually output of 
-#' \link{ddb_data(x, collect = FALSE)}
+#'
+#' @param sql Character: DuckDB SQL query, usually output of
+#' \link{ddb_data} with \code{collect = FALSE}
 #' @param progress Logical: If TRUE, show progress bar
 #' @param returnobj Character: data.frame or data.table: class of object to return
 #' 
