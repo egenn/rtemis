@@ -442,7 +442,7 @@ dplot3_box <- function(
                 # split(var, group) => A1
                 if (is.null(legend)) legend <- TRUE
                 dt <- cbind(data.table::as.data.table(x), group = group)
-                dtlong <- data.table::melt(dt[, ID := seq(nrow(dt))],
+                dtlong <- data.table::melt(dt[, ID := seq_len(nrow(dt))],
                     id.vars = c("ID", "group")
                 )
                 if (is.null(ylab)) ylab <- ""
@@ -545,7 +545,7 @@ dplot3_box <- function(
                 )
 
                 # '- Group lines ----
-                if (nvars > 1 & group.lines) {
+                if (nvars > 1 && group.lines) {
                     if (is.null(group.lines.col)) {
                         group.lines.col <- theme$fg
                     }
@@ -736,12 +736,12 @@ dplot3_box <- function(
         if (type == "violin") .args$box <- list(visible = violin.box)
 
         plt <- do.call(plotly::plot_ly, .args)
-        if (!is.null(group) | nvars > 1) {
+        if (!is.null(group) || nvars > 1) {
             plt |> plotly::layout(boxmode = "group") -> plt
         }
 
         # '-Annotate N ----
-        if (is.null(group) & annotate_n) {
+        if (is.null(group) && annotate_n) {
             Nperbox <- Npertimeperiod[[2]] # include zeros
             plt |>
                 plotly::add_annotations(
