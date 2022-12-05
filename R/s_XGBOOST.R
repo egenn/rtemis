@@ -57,7 +57,7 @@ s_XGBOOST <- function(x, y = NULL,
                       x.name = NULL, y.name = NULL,
                       booster = c("gbtree", "gblinear", "dart"),
                       missing = NA,
-                      nrounds = 500L,
+                      nrounds = 1000L,
                       force.nrounds = NULL,
                       weights = NULL,
                       ipw = TRUE,
@@ -70,9 +70,9 @@ s_XGBOOST <- function(x, y = NULL,
                       xgb.verbose = NULL,
                       print_every_n = 100L,
                       early_stopping_rounds = 50L,
-                      eta = .1,
+                      eta = .01,
                       gamma = 0,
-                      max_depth = 3,
+                      max_depth = 2,
                       min_child_weight = 5,
                       max_delta_step = 0,
                       subsample = .75,
@@ -108,7 +108,7 @@ s_XGBOOST <- function(x, y = NULL,
                       grid.search.type = "exhaustive",
                       metric = NULL,
                       maximize = NULL,
-                      importance = FALSE,
+                      importance = TRUE,
                       print.plot = FALSE,
                       plot.fitted = NULL,
                       plot.predicted = NULL,
@@ -121,7 +121,7 @@ s_XGBOOST <- function(x, y = NULL,
                       trace = 0,
                       save.gridrun = FALSE,
                       n.cores = 1,
-                      nthread = NULL,
+                      nthread = rtCores,
                       parallel.type = c("psock", "fork"),
                       outdir = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
@@ -149,7 +149,7 @@ s_XGBOOST <- function(x, y = NULL,
     if (is.null(y.name)) y.name <- getName(y, "y")
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
-    if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     #   if (n.trees > max.trees) {
     #     if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
@@ -173,13 +173,13 @@ s_XGBOOST <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
+    .weights <- if (is.null(weights) && ipw) dt$weights else weights
     if (any(sapply(x, is.factor))) {
         x <- preprocess(x, oneHot = TRUE)
         if (!is.null(x.test)) x.test <- preprocess(x.test, oneHot = TRUE)
     }
-    x0 <- if (upsample | downsample) dt$x0 else x
-    y0 <- if (upsample | downsample) dt$y0 else y
+    x0 <- if (upsample || downsample) dt$x0 else x
+    y0 <- if (upsample || downsample) dt$y0 else y
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -242,7 +242,7 @@ s_XGBOOST <- function(x, y = NULL,
         eta, gamma, max_depth, subsample,
         colsample_bytree, colsample_bylevel, lambda
     )
-    if (!.gs && (gc | is.null(force.nrounds))) {
+    if (!.gs && (gc || is.null(force.nrounds))) {
         grid.params <- list(
             eta = eta,
             gamma = gamma,
@@ -362,7 +362,8 @@ s_XGBOOST <- function(x, y = NULL,
         feval = feval,
         verbose = verbose,
         print_every_n = print_every_n,
-        early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
+        early_stopping_rounds = if (.gs) early_stopping_rounds else NULL,
+        nthread = nthread, ...
     )
 
     # Fitted ----
