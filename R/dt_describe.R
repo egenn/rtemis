@@ -88,7 +88,7 @@ dt_describe <- function(x) {
     # Dates ----
     index_dt <- which(sapply(
         x,
-        \(col) any(class(col) %in% c("Date", "POSIXct", "POSIXt"))
+        \(col) any(class(col) %in% c("Date", "IDate", "POSIXct", "POSIXt"))
     ))
 
     dt_summary <- if (length(index_dt) > 0) {
