@@ -185,14 +185,14 @@ s_XRF <- function(x, y = NULL,
     if (type == "Regression") {
         if (is.null(base_score)) base_score <- mean(y)
         xg.dat.train <- xgboost::xgb.DMatrix(
-            data = as.numeric(as.matrix(x)),
+            data = as.matrix(x),
             label = y,
             missing = missing
         )
     } else {
         if (is.null(base_score)) base_score <- mean(as.numeric(y.num))
         xg.dat.train <- xgboost::xgb.DMatrix(
-            data = as.numeric(as.matrix(x)),
+            data = as.matrix(x),
             label = y.num,
             weight = .weights,
             missing = missing
@@ -206,8 +206,6 @@ s_XRF <- function(x, y = NULL,
             missing = missing
         )
     }
-
-    if (verbose) msg2("Train Random Forest with XGBoost...", newline.pre = TRUE)
 
     # Grid Search ----
     if (is.null(metric)) {
