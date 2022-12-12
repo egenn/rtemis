@@ -329,7 +329,7 @@ s_XRF <- function(x, y = NULL,
     #   }
 
     # XGBoost ----
-    if (verbose) msg2("Training XGBoost with", nrounds, "rounds...")
+    if (verbose) msg2("Training XGBoost Random Forest with", num_parallel_tree, "trees...")
     watchlist <- if (.gs) {
         list(train = xg.dat.train, valid = xg.dat.test)
     } else {
