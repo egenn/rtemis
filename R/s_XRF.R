@@ -157,8 +157,12 @@ s_XRF <- function(x, y = NULL,
     type <- dt$type
     .weights <- if (is.null(weights) && ipw) dt$weights else weights
     if (any(sapply(x, is.factor))) {
+        if (verbose) msg2("Preprocessing training data...")
         x <- preprocess(x, oneHot = TRUE)
-        if (!is.null(x.test)) x.test <- preprocess(x.test, oneHot = TRUE)
+        if (!is.null(x.test)) {
+            if (verbose) msg2("Preprocessing testing data...")
+            x.test <- preprocess(x.test, oneHot = TRUE)
+        }
     }
     x0 <- if (upsample || downsample) dt$x0 else x
     y0 <- if (upsample || downsample) dt$y0 else y
@@ -178,17 +182,18 @@ s_XRF <- function(x, y = NULL,
             objective <- ifelse(nclass == 2, "binary:logistic", "multi:softmax")
         }
     }
+    return(x)
     if (type == "Regression") {
         if (is.null(base_score)) base_score <- mean(y)
         xg.dat.train <- xgboost::xgb.DMatrix(
-            data = as.matrix(x),
+            data = as.numeric(as.matrix(x)),
             label = y,
             missing = missing
         )
     } else {
         if (is.null(base_score)) base_score <- mean(as.numeric(y.num))
         xg.dat.train <- xgboost::xgb.DMatrix(
-            data = as.matrix(x),
+            data = as.numeric(as.matrix(x)),
             label = y.num,
             weight = .weights,
             missing = missing
