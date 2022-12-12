@@ -190,7 +190,8 @@ Other Supervised Learning:
 \code{\link{s_SPLS}()},
 \code{\link{s_SVM}()},
 \code{\link{s_TFN}()},
-\code{\link{s_XGBOOST}()}
+\code{\link{s_XGBOOST}()},
+\code{\link{s_XRF}()}
 
 Other Tree-based methods: 
 \code{\link{s_ADABOOST}()},
@@ -212,7 +213,8 @@ Other Tree-based methods:
 \code{\link{s_RANGER}()},
 \code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
-\code{\link{s_XGBOOST}()}
+\code{\link{s_XGBOOST}()},
+\code{\link{s_XRF}()}
 }
 \author{
 E.D. Gennatas

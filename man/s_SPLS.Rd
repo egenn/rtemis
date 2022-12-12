@@ -210,7 +210,8 @@ Other Supervised Learning:
 \code{\link{s_SGD}()},
 \code{\link{s_SVM}()},
 \code{\link{s_TFN}()},
-\code{\link{s_XGBOOST}()}
+\code{\link{s_XGBOOST}()},
+\code{\link{s_XRF}()}
 }
 \author{
 E.D. Gennatas
