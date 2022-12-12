@@ -95,7 +95,10 @@ getcharacternames <- function(x) names(x)[sapply(x, is.character)]
 
 #' @rdname getnames
 #' @export
-getdatenames <- function(x) names(x)[sapply(x, function(v) inherits(v, "Date"))]
+getdatenames <- function(x) {
+  date_id <- sapply(x, \(v) class(v)[1] %in% c("Date", "IDate", "POSIXct", "POSIXlt"))
+  names(x)[date_id]
+}
 
 #' Get data.frame names and types
 #'
