@@ -182,7 +182,6 @@ s_XRF <- function(x, y = NULL,
             objective <- ifelse(nclass == 2, "binary:logistic", "multi:softmax")
         }
     }
-    return(x)
     if (type == "Regression") {
         if (is.null(base_score)) base_score <- mean(y)
         xg.dat.train <- xgboost::xgb.DMatrix(
