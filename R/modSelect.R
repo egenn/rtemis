@@ -102,7 +102,7 @@ modSelect <- function(mod,
     c("XGB", "XGBoost", TRUE, TRUE, FALSE),
     c("XGBOOST", "XGBoost", TRUE, TRUE, FALSE),
     c("XGBLIN", "XGBoost with Linear Models", FALSE, TRUE, FALSE),
-    c("XRF", "XGBoost Random Forest", TRUE, TRUE, FALSE),
+    c("XRF", "XGBoost Random Forest", TRUE, TRUE, FALSE)
   ))
   colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 
