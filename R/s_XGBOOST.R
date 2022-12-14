@@ -12,9 +12,9 @@
 #' http://xgboost.readthedocs.io/en/latest/parameter.html
 #' 
 #' @inheritParams s_GLM
-#' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
-#' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number as early stopping
-#'   will limit nrounds by monitoring inner CV error
+#' @param booster Character: "gbtree", "gblinear": Booster to use.
+#' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number 
+#' as early stopping will limit nrounds by monitoring inner CV error
 #' @param force.nrounds Integer: Number of rounds to run if not estimating optimal number by CV
 #' @param lambda [gS] L2 regularization on weights
 # @param lambda_bias [gS] for *linear* booster: L2 regularization on bias
@@ -31,8 +31,8 @@
 #'  (Default = 1; i.e. regular boosting)
 #' @param base_score Numeric: The mean outcome response (Defaults to mean)
 #' @param objective (Default = NULL)
-#' @param sample_type Character. Default = "uniform"
-#' @param normalize_type Character. Default = "forest"
+#' @param sample_type Character. 
+#' @param normalize_type Character.
 #' @param obj Function: Custom objective function. See \code{?xgboost::xgboost}
 #' @param feval Function: Custom evaluation function. See \code{?xgboost::xgboost}
 #' @param xgb.verbose Integer: Verbose level for XGB learners used for tuning.
@@ -41,9 +41,9 @@
 #'   does not improve for this many rounds
 #' @param missing String or Numeric: Which values to consider as missing. Default = NA
 #' @param nthread Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
-#' using \code{n.cores} or the xgboost execution using this setting. At the moment of writing, parallelization via this
-#' parameter causes a linear booster to fail most of the times. Therefore, default is rtCores
-#' for 'gbtree', 1 for 'gblinear'
+#' using \code{n.cores} or the xgboost execution using this setting. At the moment of 
+#' writing, parallelization via this parameter causes a linear booster to fail most of 
+#' the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'
 #'
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas
@@ -108,7 +108,7 @@ s_XGBOOST <- function(x, y = NULL,
                       grid.search.type = "exhaustive",
                       metric = NULL,
                       maximize = NULL,
-                      importance = TRUE,
+                      importance = NULL,
                       print.plot = FALSE,
                       plot.fitted = NULL,
                       plot.predicted = NULL,
@@ -156,6 +156,9 @@ s_XGBOOST <- function(x, y = NULL,
     #     n.trees <- max.trees
     #   }
     booster <- match.arg(booster)
+    if (is.null(importance)) {
+        importance <- booster != "gblinear"
+    }
 
     # Data ----
     dt <- dataPrepare(x, y,
@@ -221,7 +224,7 @@ s_XGBOOST <- function(x, y = NULL,
         )
     }
 
-    if (verbose) msg2("Running XGBoost...", newline.pre = TRUE)
+    if (verbose) msg20("Training XGBoost (", booster, " booster)...", newline.pre = TRUE)
 
     # Grid Search ----
     if (is.null(metric)) {
@@ -238,23 +241,35 @@ s_XGBOOST <- function(x, y = NULL,
         maximize <- if (type == "Classification") TRUE else FALSE
     }
 
-    gc <- gridCheck(
-        eta, gamma, max_depth, subsample,
-        colsample_bytree, colsample_bylevel, lambda
-    )
-    if (!.gs && (gc || is.null(force.nrounds))) {
-        grid.params <- list(
-            eta = eta,
-            gamma = gamma,
-            max_depth = max_depth,
-            min_child_weight = min_child_weight,
-            max_delta_step = max_delta_step,
-            subsample = subsample,
-            colsample_bytree = colsample_bytree,
-            colsample_bylevel = colsample_bylevel,
-            lambda = lambda,
-            alpha = alpha
+    if (booster != "gblinear") {
+        gc <- gridCheck(
+            eta, gamma, max_depth, subsample,
+            colsample_bytree, colsample_bylevel, lambda
         )
+    } else {
+        gc <- gridCheck(eta, lambda)
+    }
+    
+    if (!.gs && (gc || is.null(force.nrounds))) {
+        grid.params <- if (booster == "gblinear") {
+            list(
+                eta = eta,
+                lambda = lambda
+            )
+        } else {
+            list(
+                eta = eta,
+                gamma = gamma,
+                max_depth = max_depth,
+                min_child_weight = min_child_weight,
+                max_delta_step = max_delta_step,
+                subsample = subsample,
+                colsample_bytree = colsample_bytree,
+                colsample_bylevel = colsample_bylevel,
+                lambda = lambda,
+                alpha = alpha
+            )
+        }
         if (booster == "dart") {
             grid.params <- c(
                 grid.params,
@@ -292,15 +307,19 @@ s_XGBOOST <- function(x, y = NULL,
 
         nrounds <- gs$best.tune$nrounds
         eta <- gs$best.tune$eta
-        gamma <- gs$best.tune$gamma
-        max_depth <- gs$best.tune$max_depth
-        min_child_weight <- gs$best.tune$min_child_weight
-        max_delta_step <- gs$best.tune$max_delta_step
-        subsample <- gs$best.tune$subsample
-        colsample_bytree <- gs$best.tune$colsample_bytree
-        colsample_bylevel <- gs$best.tune$colsample_bylevel
         lambda <- gs$best.tune$lambda
-        alpha <- gs$best.tune$alpha
+
+        if (booster %in% c("gbtree", "dart")) {
+            gamma <- gs$best.tune$gamma
+            max_depth <- gs$best.tune$max_depth
+            min_child_weight <- gs$best.tune$min_child_weight
+            max_delta_step <- gs$best.tune$max_delta_step
+            subsample <- gs$best.tune$subsample
+            colsample_bytree <- gs$best.tune$colsample_bytree
+            colsample_bylevel <- gs$best.tune$colsample_bylevel
+            alpha <- gs$best.tune$alpha
+        }
+
         if (booster == "dart") {
             rate_drop <- gs$best.tune$rate_drop
             one_drop <- gs$best.tune$one_drop
