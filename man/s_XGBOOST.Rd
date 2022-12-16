@@ -61,7 +61,7 @@ s_XGBOOST(
   grid.search.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
-  importance = TRUE,
+  importance = NULL,
   print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
@@ -95,12 +95,12 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{booster}{Character: Booster to use. Options: "gbtree", "gblinear"}
+\item{booster}{Character: "gbtree", "gblinear": Booster to use.}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
 
-\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number as early stopping
-will limit nrounds by monitoring inner CV error}
+\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number 
+as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{force.nrounds}{Integer: Number of rounds to run if not estimating optimal number by CV}
 
@@ -163,9 +163,9 @@ does not improve for this many rounds}
 
 \item{objective}{(Default = NULL)}
 
-\item{sample_type}{Character. Default = "uniform"}
+\item{sample_type}{Character.}
 
-\item{normalize_type}{Character. Default = "forest"}
+\item{normalize_type}{Character.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
@@ -186,9 +186,9 @@ Requires \code{x.test} and \code{y.test}}
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
 \item{nthread}{Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
-using \code{n.cores} or the xgboost execution using this setting. At the moment of writing, parallelization via this
-parameter causes a linear booster to fail most of the times. Therefore, default is rtCores
-for 'gbtree', 1 for 'gblinear'}
+using \code{n.cores} or the xgboost execution using this setting. At the moment of 
+writing, parallelization via this parameter causes a linear booster to fail most of 
+the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

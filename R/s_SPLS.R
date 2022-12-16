@@ -19,7 +19,7 @@
 #' controls effect of concavity of objective
 #'   function.
 #' @param select [gS] Character: "pls2", "simpls". PLS algorithm for variable 
-#' selection. Default = "pls2"
+#' selection.
 #' @param fit [gS] Character: "kernelpls", "widekernelpls", "simpls", 
 #' "oscorespls". Algorithm for model fitting.
 #' @param scale.x Logical: if TRUE, scale features by dividing each column by 
@@ -31,7 +31,7 @@
 #' @param classifier Character: Classifier used by \code{spls::splsda} "lda" 
 #' or "logistic":
 #' @param n.cores Integer: Number of cores to be used by 
-#' \link{gridSearchLearn_future}
+#' \link{gridSearchLearn}
 #' @param trace If > 0 print diagnostic messages
 #' @param ... Additional parameters to be passed to \code{npreg}
 #' 

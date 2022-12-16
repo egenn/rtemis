@@ -512,7 +512,13 @@ rtrandom <- function(pch = sample(15:18, 1),
 
 
 #' Filter order
-#' 
+#'
+#' @author E.D. Gennatas
+#' @keywords internal
+#' @examples
+#' x <- rnorm(10)
+#' x
+#' x[filter_order(x, x < 0)]
 filter_order <- function(x, idl, decreasing = FALSE) {
     idi <- which(idl)
     flt_ord <- order(x[idi], decreasing = decreasing)

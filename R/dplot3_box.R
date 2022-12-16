@@ -32,7 +32,7 @@
 #' @param main Character: Plot title.
 #' @param xlab Character: x-axis label.
 #' @param ylab  Character: y-axis label.
-#' @param col Color, vector: Color for boxes. Default NULL, which will draw 
+#' @param col Color, vector: Color for boxes. If NULL, which will draw 
 #' colors from \code{palette}
 #' @param alpha Float (0, 1]: Transparency for box colors.
 #' @param bg Color: Background color. Default = "white"
@@ -41,6 +41,8 @@
 #' @param palette Character: Name of \pkg{rtemis} palette to use. 
 #' Default = "rtCol1". Only used if \code{col = NULL}
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
+#' @param xlim Numeric vector: x-axis limits
+#' @param ylim Numeric vector: y-axis limits
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
 #' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
 #' @param xnames Character, vector, length = NROW(x): x-axis names. Default = NULL, which
@@ -51,7 +53,8 @@
 #' @param group.lines.alpha Numeric: transparency for \code{group.lines.col}
 #' @param order.by.fn Function: If defined, order boxes by increasing value of 
 #' this function (e.g. median).
-#' @param font.size  Float: Font size for all labels. Default = 16
+#' @param font.size  Float: Font size for all labels.
+#' @param ylab.standoff Numeric: Standoff for y-axis label
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
 #' @param legend.col Color: Legend text color. Default = NULL, determined by 
 #' the theme
@@ -83,6 +86,7 @@
 #' If p-value of test is less than \code{htest.thresh}, add asterisk above/
 #' to the side of each box
 #' @param htest.thresh Numeric: Significance threshold for \code{htest}
+#' @param htest.y Numeric: y coordinate for \code{htest} annotation
 #' @param htest.annotate Logical: if TRUE, include htest annotation 
 #' e.g. "*pval < 0.05"
 #' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation

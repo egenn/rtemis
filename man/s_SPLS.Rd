@@ -74,7 +74,7 @@ controls effect of concavity of objective
   function.}
 
 \item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable 
-selection. Default = "pls2"}
+selection.}
 
 \item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", 
 "oscorespls". Algorithm for model fitting.}
@@ -136,7 +136,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{n.cores}{Integer: Number of cores to be used by 
-\link{gridSearchLearn_future}}
+\link{gridSearchLearn}}
 
 \item{...}{Additional parameters to be passed to \code{npreg}}
 }

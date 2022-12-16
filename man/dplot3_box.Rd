@@ -89,7 +89,7 @@ comparable}
 
 \item{ylab}{Character: y-axis label.}
 
-\item{col}{Color, vector: Color for boxes. Default NULL, which will draw 
+\item{col}{Color, vector: Color for boxes. If NULL, which will draw 
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for box colors.}
@@ -107,6 +107,10 @@ Default = "rtCol1". Only used if \code{col = NULL}}
 See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}}
 
 \item{quartilemethod}{Character: "linear", "exclusive", "inclusive"}
+
+\item{xlim}{Numeric vector: x-axis limits}
+
+\item{ylim}{Numeric vector: y-axis limits}
 
 \item{violin.box}{Logical: If TRUE and type is "violin" show box within 
 violin plot}
@@ -134,7 +138,9 @@ boxplots}
 \item{order.by.fn}{Function: If defined, order boxes by increasing value of 
 this function (e.g. median).}
 
-\item{font.size}{Float: Font size for all labels. Default = 16}
+\item{font.size}{Float: Font size for all labels.}
+
+\item{ylab.standoff}{Numeric: Standoff for y-axis label}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
 
@@ -174,6 +180,8 @@ If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
 \item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
+
+\item{htest.y}{Numeric: y coordinate for \code{htest} annotation}
 
 \item{htest.annotate}{Logical: if TRUE, include htest annotation 
 e.g. "*pval < 0.05"}
