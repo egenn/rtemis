@@ -36,6 +36,9 @@ if \code{datadir} is also provided}
 
 \item{quotechar}{Character: Quote character}
 
+\item{ignore_errors}{Logical: If TRUE, ignore parsing errors (sometimes it's
+either this or no data, so)}
+
 \item{make_unique}{Logical: If TRUE, keep only unique rows}
 
 \item{select_columns}{Character vector: Column names to select}
@@ -58,13 +61,13 @@ return. If "data.table", data.frame object returned from
 \code{DBI::dbGetQuery} is passed to \code{data.table::setDT}; will add to
 execution time if very large, but then that's when you need a data.table}
 
+\item{data.table.key}{Character: If set, this correspond to a column name in the 
+dataset. This column will be set as key in the data.table output}
+
 \item{clean_colnames}{Logical: If TRUE, clean colnames with
 \link{clean_colnames}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
-
-\item{ignore_error}{Logical: If TRUE, ignore parsing errors (sometimes it's
-either this or no data, so)}
 }
 \description{
 Lazy-read a CSV file, optionally filter rows, remove duplicates,
