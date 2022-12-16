@@ -1,4 +1,4 @@
-# gridSearchLearn_future.R
+# gridSearchLearn.R
 # ::rtemis::
 # 2016-8 E.D. Gennatas www.lambdamd.org
 # new version using future
@@ -20,47 +20,47 @@
 #' @param mod Character: \pkg{rtemis} model. See \code{modSelect()} gives available models
 #' @param grid.params List of named elements, each is a vector of values
 #' @param fixed.params List of named elements, each is a single value
-#' @param search.type Character: "exhaustive" (Default), "randomized". Type of 
-#' grid search to use. Exhaustive search will try all combinations of 
-#' parameters. Randomized will try a random sample of size 
+#' @param search.type Character: "exhaustive" (Default), "randomized". Type of
+#' grid search to use. Exhaustive search will try all combinations of
+#' parameters. Randomized will try a random sample of size
 #' \code{randomize.p} * \code{N of total combinations}
 #' @param resample.rtset List: Output of \code{rtset.grid.resample()}
-#' @param randomized.p Float (0, 1): For \code{search.type == "exhaustive"}, 
+#' @param randomized.p Float (0, 1): For \code{search.type == "exhaustive"},
 #' sample this portion of combination. Default = .05
 #' @param weights Float, vector: Case weights
-#' @param error.aggregate.fn Function: Use this when aggregating error metrics. 
+#' @param error.aggregate.fn Function: Use this when aggregating error metrics.
 #' Default = mean
 #' @param metric Character: Metric to minimize or maximize
 #' @param maximize Logical: If TRUE, maximize \code{metric}
 #' @param save.mod Logical: If TRUE, save all trained models. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param call.depth Integer: passed to \link{msg}. Default = 2
-#' @param grid.verbose Logical: Passed to \code{learner}'s \code{verbose} 
+#' @param grid.verbose Logical: Passed to \code{learner}'s \code{verbose}
 #' argument
 #' @param n.cores Integer: Number of cores to use
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
 
-gridSearchLearn_future <- function(x, y, mod,
-                                   grid.params,
-                                   fixed.params = NULL,
-                                   search.type = c("exhaustive", "randomized"),
-                                   resample.rtset = rtset.resample(),
-                                   randomized.p = .05,
-                                   weights = NULL,
-                                   error.aggregate.fn = mean,
-                                   metric = NULL,
-                                   maximize = NULL,
-                                   save.mod = FALSE,
-                                   verbose = TRUE,
-                                   trace = 0,
-                                   call.depth = 1,
-                                   grid.verbose = FALSE,
-                                   n.cores = rtCores) {
+gridSearchLearn <- function(x, y, mod,
+                            grid.params,
+                            fixed.params = NULL,
+                            search.type = c("exhaustive", "randomized"),
+                            resample.rtset = rtset.resample(),
+                            randomized.p = .05,
+                            weights = NULL,
+                            error.aggregate.fn = mean,
+                            metric = NULL,
+                            maximize = NULL,
+                            save.mod = FALSE,
+                            verbose = TRUE,
+                            trace = 0,
+                            call.depth = 1,
+                            grid.verbose = FALSE,
+                            n.cores = rtCores) {
     # Dependencies ----
     dependency_check(c("future", "future.apply"))
-    
+
     # Intro ----
     start.time <- intro(
         verbose = verbose,
@@ -91,16 +91,18 @@ gridSearchLearn_future <- function(x, y, mod,
     if (inherits(future::plan(), "sequential")) {
         future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
         if (trace > 1) {
-            msg2(magenta("Inner resampling: Future plan set to", bold(rtPlan),
-                "with", bold(n.cores), "workers")
-            )
+            msg2(magenta(
+                "Inner resampling: Future plan set to", bold(rtPlan),
+                "with", bold(n.cores), "workers"
+            ))
         }
     } else {
         future::plan(rtPlan, workers = n.cores)
         if (trace > 1) {
-            msg2(magenta("Inner resampling plan set to", bold(rtPlan),
-                "with", bold(n.cores), "workers")
-            )
+            msg2(magenta(
+                "Inner resampling plan set to", bold(rtPlan),
+                "with", bold(n.cores), "workers"
+            ))
         }
     }
 
@@ -162,7 +164,7 @@ gridSearchLearn_future <- function(x, y, mod,
         )
 
         mod1 <- do.call(learner, args)
-        
+
         out1 <- list(
             id = index,
             res.id = param.grid[index, 1],
@@ -273,7 +275,7 @@ gridSearchLearn_future <- function(x, y, mod,
     )[, -1]
     tune.results <- cbind(expand.grid(grid.params), error.test.mean.by.param.id)
 
-    # N of iterations is the one hyperparameter that may be determined 
+    # N of iterations is the one hyperparameter that may be determined
     # automatically, we therefore need to extract it and average it
 
     # '- GBM, H2OGBM ----
@@ -370,9 +372,9 @@ gridSearchLearn_future <- function(x, y, mod,
     }
 
     # Consider explicitly ordering hyperparam values in increasing order,
-    # so that in case of tie, lowest value is chosen - 
+    # so that in case of tie, lowest value is chosen -
     # if that makes sense, e.g. n.leaves, etc.
-    best.tune <- tune.results[select.fn(tune.results[[metric]]), 
+    best.tune <- tune.results[select.fn(tune.results[[metric]]),
         seq_len(n.params),
         drop = FALSE
     ]
@@ -405,17 +407,17 @@ gridSearchLearn_future <- function(x, y, mod,
 
     class(gs) <- c("gridSearch", "list")
     gs
-} # rtemis::gridSearchLearn_future
+} # rtemis::gridSearchLearn
 
 #' \pkg{rtemis} internal: Grid check
 #'
 #' Checks if grid search needs to be performed.
-#' All tunable parameters should be passed to this function, individually or as 
-#' a list. If any argument has more than one assigned values, the function 
-#' returns TRUE, otherwise FALSE. This can be used to check whether 
+#' All tunable parameters should be passed to this function, individually or as
+#' a list. If any argument has more than one assigned values, the function
+#' returns TRUE, otherwise FALSE. This can be used to check whether
 #' \link{gridSearchLearn} must be run.
 #'
-#' The idea is that if you know which parameter values you want to use, you 
+#' The idea is that if you know which parameter values you want to use, you
 #' define them directly
 #'   e.g. \code{alpha = 0, lambda = .2}.
 #' If you don't know, you enter the set of values to be tested,

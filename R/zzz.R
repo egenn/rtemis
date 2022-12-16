@@ -16,7 +16,7 @@ rtemis.version <- packageVersion("rtemis")
 # # rtProgress <- getOption("rt.progress", "global")
 # # if (rtProgress == "global") progressr::handlers(global = TRUE)
 # # rtGSL <- getOption("rt.gsl", "future")
-# # if (rtGSL == "future") gridSearchLearn <- gridSearchLearn_future
+# # if (rtGSL == "future") gridSearchLearn <- gridSearchLearn
 
 .onLoad <- function(libname, pkgname) {
     # Defaults ----
@@ -31,7 +31,7 @@ rtemis.version <- packageVersion("rtemis")
     rtPalette <- rtPaletteInit()
     assign("rtPalette", rtPalette, envir = parent.env(environment()))
     gridSearchLearn <- if (rtGridSearchLearnInit() == "future") {
-        gridSearchLearn_future
+        gridSearchLearn
     } else {
         gridSearchLearn_pbapply
     }
