@@ -150,17 +150,18 @@ labelify <- function(x,
 #' @author E.D. Gennatas
 #' @export
 #' @examples
-#' clean_names(colnames(iris))
+#' x <- c("Patient ID", "_Date-of-Birth", "SBP (mmHg)")
+#' x
+#' clean_names(x)
 
 clean_names <- function(x, prefix_digits = "V_") {
-    out <- gsub("[[:space:]|[:punct:]]{1,}", "_", x)
-    out <- gsub("^_", "", out)
-    # Add prefix_digits in front of names starting with number
+    xc <- gsub("[^[:alnum:]]{1,}", "_", x)
+    xc <- gsub("^_|_$", "", xc)
     if (!is.na(prefix_digits)) {
-        sn_idi <- grep("^[0-9]", out)
-        out[sn_idi] <- paste0(prefix_digits, out[sn_idi])
+        sn_idi <- grep("^[0-9]", xc)
+        xc[sn_idi] <- paste0(prefix_digits, xc[sn_idi])
     }
-    gsub("_$", "", out)
+    xc
 }
 
 #' Clean column names
