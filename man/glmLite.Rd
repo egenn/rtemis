@@ -77,6 +77,8 @@ subsets to examine.}
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
 
 \item{save.fitted}{Logical: If TRUE, save fitted values in output. Default = FALSE}
+
+\item{...}{Additional arguments to pass to \link{lincoef}}
 }
 \description{
 A super-stripped down decision tree for when space and performance are critical

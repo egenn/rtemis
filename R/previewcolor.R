@@ -21,7 +21,7 @@
 #' @param asp Float: Plot aspect ratio. Default = 1
 #' @param labels.y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
 #' @param label.cex Float: Character expansion for labels. Default = NULL, and is calculated automatically based on
-#' @param par.rest Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
+#' @param par.reset Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
 #' length of \code{x} in order to look reasonable in your RStudio plot panel.
 #'
 #' @return Nothing, prints plot

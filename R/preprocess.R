@@ -70,6 +70,10 @@
 #' numeric
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
 #' factors
+#' @param numeric2factor.levels Character vector: Optional - will be passed to 
+#' \code{levels} arg of \code{factor()} if \code{numeric2factor = TRUE} (For advanced/
+#' specific use cases; need to know unique values of numeric vector(s) and given all
+#' numeric vars have same unique values)
 #' @param len2factor Integer (>=2): Convert all variables with less 
 #' than or equal to this number of unique values to factors. Default = NULL. 
 #' For example, if binary variables are encoded with 1, 2, you could use 
@@ -96,7 +100,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-preprocess <- function(x, y = NULL,
+preprocess <- function(x,
                        completeCases = FALSE,
                        removeCases.thres = NULL,
                        removeFeatures.thres = NULL,
@@ -127,8 +131,7 @@ preprocess <- function(x, y = NULL,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
                        exclude = NULL,
-                       verbose = TRUE,
-                       parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
+                       verbose = TRUE) {
 
   # Arguments ----
   impute.type <- match.arg(impute.type)

@@ -433,6 +433,9 @@ gridCheck <- function(...) {
 #' \code{print} method for \code{gridSearch} object
 #'
 #' @method print gridSearch
+#' @param x Object of class \code{gridSearch} created by \link{gridSearchLearn}
+#' @param ... Unused
+#' 
 #' @export
 #' @author E.D. Gennatas
 

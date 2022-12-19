@@ -2,12 +2,15 @@
 # ::rtemis::
 # 2021 E.D. Gennatas www.lambdamd.org
 
-#' Collect summary table from list of massGLMs with same predictors, different outcome ("massy")
+#' Collect summary table from list of massGLMs with same predictors, different outcome 
+#' ("massy")
 #'
 #' @param x list of \link{glm} models
 #' @param xnames Character, vector: names of models
 #' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
-#'
+#' @param warn Logical: If TRUE, warn when values < than machine eps are replaced by 
+#' machine eps
+#' 
 #' @return \code{data.table} with glm summaries
 #' @author E.D. Gennatas
 

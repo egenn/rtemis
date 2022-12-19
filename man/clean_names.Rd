@@ -17,7 +17,9 @@ Clean character vector by replacing all symbols and sequences of symbols with si
 underscores, ensuring no name begins or ends with a symbol
 }
 \examples{
-clean_names(colnames(iris))
+x <- c("Patient ID", "_Date-of-Birth", "SBP (mmHg)")
+x
+clean_names(x)
 }
 \author{
 E.D. Gennatas

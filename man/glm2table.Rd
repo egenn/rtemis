@@ -2,7 +2,8 @@
 % Please edit documentation in R/glm2table.R
 \name{glm2table}
 \alias{glm2table}
-\title{Collect summary table from list of massGLMs with same predictors, different outcome ("massy")}
+\title{Collect summary table from list of massGLMs with same predictors, different outcome 
+("massy")}
 \usage{
 glm2table(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE)
 }
@@ -12,12 +13,16 @@ glm2table(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE)
 \item{xnames}{Character, vector: names of models}
 
 \item{include_anova_pvals}{Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not}
+
+\item{warn}{Logical: If TRUE, warn when values < than machine eps are replaced by 
+machine eps}
 }
 \value{
 \code{data.table} with glm summaries
 }
 \description{
-Collect summary table from list of massGLMs with same predictors, different outcome ("massy")
+Collect summary table from list of massGLMs with same predictors, different outcome 
+("massy")
 }
 \author{
 E.D. Gennatas

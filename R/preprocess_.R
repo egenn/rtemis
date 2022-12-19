@@ -91,7 +91,7 @@
 #' preprocess_(x)
 #' }
 
-preprocess_ <- function(x, y = NULL,
+preprocess_ <- function(x,
                       #  completeCases = FALSE,
                       #  removeCases.thres = NULL,
                        removeFeatures.thres = NULL,

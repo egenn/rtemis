@@ -9,3 +9,12 @@ filter_order(x, idl, decreasing = FALSE)
 \description{
 Filter order
 }
+\examples{
+x <- rnorm(10)
+x
+x[filter_order(x, x < 0)]
+}
+\author{
+E.D. Gennatas
+}
+\keyword{internal}
