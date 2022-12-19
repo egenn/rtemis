@@ -6,7 +6,6 @@
 \usage{
 preprocess_(
   x,
-  y = NULL,
   removeFeatures.thres = NULL,
   missingness = FALSE,
   integer2factor = FALSE,

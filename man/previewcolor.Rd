@@ -57,7 +57,7 @@ previewcolor(
 
 \item{label.cex}{Float: Character expansion for labels. Default = NULL, and is calculated automatically based on}
 
-\item{par.rest}{Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
 length of \code{x} in order to look reasonable in your RStudio plot panel.}
 }
 \value{

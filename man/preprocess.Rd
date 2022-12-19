@@ -6,7 +6,6 @@
 \usage{
 preprocess(
   x,
-  y = NULL,
   completeCases = FALSE,
   removeCases.thres = NULL,
   removeFeatures.thres = NULL,
@@ -33,8 +32,7 @@ preprocess(
   removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
-  verbose = TRUE,
-  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+  verbose = TRUE
 )
 }
 \arguments{
@@ -92,6 +90,11 @@ numeric}
 
 \item{numeric2factor}{Logical: If TRUE, convert all numeric variables to
 factors}
+
+\item{numeric2factor.levels}{Character vector: Optional - will be passed to
+\code{levels} arg of \code{factor()} if \code{numeric2factor = TRUE} (For advanced/
+specific use cases; need to know unique values of numeric vector(s) and given all
+numeric vars have same unique values)}
 
 \item{len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors. Default = NULL.

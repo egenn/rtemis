@@ -6,6 +6,11 @@
 \usage{
 \method{print}{gridSearch}(x, ...)
 }
+\arguments{
+\item{x}{Object of class \code{gridSearch} created by \link{gridSearchLearn}}
+
+\item{...}{Unused}
+}
 \description{
 \code{print} method for \code{gridSearch} object
 }
