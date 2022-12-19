@@ -93,10 +93,10 @@ massGLM <- function(x, y,
         y <- sapply(y, as.numeric)
     }
     if (scale.x) {
-        x <- preprocess(x, scale = TRUE)
+        x <- preprocess(x, scale = TRUE, verbose = verbose)
     }
     if (scale.y) {
-        y <- preprocess(y, scale = TRUE)
+        y <- preprocess(y, scale = TRUE, verbose = verbose)
     }
     dat <- data.frame(x, y)
     colnames(dat) <- c(xnames, ynames)
