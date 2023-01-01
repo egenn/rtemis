@@ -1,311 +1,385 @@
 # check_data.R
 # ::rtemis::
-# 2017-21 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas www.lambdamd.org
 
 #' Check Data
 #'
-#' Runs a series of simple checks on a dataset that may be important to perform
-#' ahead of data analysis. This function makes no changes to data, but reports
-#' potential course of action that can be taken using \link{preprocess}
-#'
-#' @param x Input dataset: will be converted to data.frame
-#' @param name String (optional): Name of dataset. (This is helpful when
-#' applying \code{preprocess} on a list of items by vectorization, e.g. using
-#' *ply commands, where the names of the list elements will not be displayed
-#' correctly)
-#' @param str Logical: If TRUE, show output of \code{str}.
-#' @param recommend Logical: If TRUE, print recommendations based on check.
-#' @param reportCases.thres Float (0, 1]: Report, by number, all cases missing
-#' greater or equal to this fraction of features.
-#' @param reportFeatures.thres Float (0, 1]: Report, by name, all features
-#' missing in greater or equal to this fraction of cases.
-#' @param toHTML Logical: If TRUE, convert output to HTML using the
-#' \code{fansi} package.
-#' @param verbose Logical: If TRUE, print messages to console
+#' @param x data.frame, data.table or similar structure
+#' @param verbose Logical: If TRUE, print output in HTML viewer.
 #'
 #' @author E.D. Gennatas
+#'
 #' @examples
-#' check_data(iris)
-#' @export
-
+#' \dontrun{
+#' n <- 1000
+#' x <- rnormmat(n, 50, return.df = TRUE)
+#' x$char1 <- sample(letters, n, TRUE)
+#' x$char2 <- sample(letters, n, TRUE)
+#' x$fct <- factor(sample(letters, n, TRUE))
+#' x <- rbind(x, x[1, ])
+#' x$const <- 99L
+#' x[sample(nrow(x), 20), 3] <- NA
+#' x[sample(nrow(x), 20), 10] <- NA
+#' x$fct[30:35] <- NA
+#' check_data(x)
+#' }
+#'
 check_data <- function(x,
                        name = NULL,
-                       str = FALSE,
-                       recommend = TRUE,
-                       reportCases.thres = NULL,
-                       reportFeatures.thres = NULL,
-                       toHTML = FALSE,
-                       verbose = TRUE) {
+                       get_na_case_pct = FALSE,
+                       get_na_feature_pct = FALSE) {
     if (is.null(name)) name <- deparse(substitute(x))
-    n.rows <- NROW(x)
-    n.cols <- NCOL(x)
-    out <- paste0(
-        " ", hilite(name),
-        paste(
-            ": A", class(x)[1], "with",
-            hilite(n.rows), ngettext(n.rows, "row", "rows"),
-            "and", hilite(n.cols),
-            ngettext(n.cols, "column", "columns")
-        )
-    )
-
-    x <- as.data.frame(x)
+    x <- as.data.table(x)
+    n_rows <- NROW(x)
+    n_cols <- NCOL(x)
 
     # Data Types ----
+    classes <- sapply(x, \(v) class(v)[1])
+    counts <- table(classes)
+
+    ## Continuous ----
+    # index_continuous <- which(sapply(x, \(i) is.double(i)))
+    # n_continuous <- length(index_continuous)
+    n_continuous <- max0(counts["numeric"])
 
     ## Integers ----
-    index.integer <- which(sapply(x, is.integer))
-    n.integer <- length(index.integer)
-
-    ## Floats ----
-    index.continuous <- which(sapply(x, function(i) is.double(i)))
-    n.continuous <- length(index.continuous)
-
-    ## Factors ----
-    index.factor <- which(sapply(x, is.factor))
-    n.factor <- length(index.factor)
-    index.ordered <- which(sapply(x, is.ordered))
-    n.ordered <- length(index.ordered)
-
-    out <- paste(out,
-        paste0(bold("\n  Data types"), "________________"),
-        paste(
-            "  *", bold(n.continuous), "continuous",
-            ngettext(n.continuous, "feature", "features")
-        ),
-        paste(
-            "  *", bold(n.integer), "integer",
-            ngettext(n.integer, "feature", "features")
-        ),
-        sep = "\n"
-    )
-    isOrdered <- if (n.factor == 1) {
-        paste(", which", ngettext(n.ordered, "is", "is not"), "ordered")
-    } else if (n.factor > 1) {
-        paste(", of which", bold(n.ordered), ngettext(n.ordered, "is", "are"), "ordered")
-    } else {
-        ""
-    }
-    out <- paste(out,
-        paste0(
-            "  * ", bold(n.factor), " categorical",
-            ngettext(n.factor, " feature", " features"),
-            isOrdered
-        ),
-        sep = "\n"
-    )
-    index.gt2levels.nonordered <- which(sapply(x[, setdiff(index.factor, index.ordered), drop = FALSE], \(x) length(levels(x))) > 2)
-    n.gt2levels.nonordered <- length(index.gt2levels.nonordered)
-    if (n.gt2levels.nonordered > 0) {
-        out <- paste(out,
-            paste(
-                "     -", bold(n.gt2levels.nonordered), "unordered categorical",
-                ngettext(n.gt2levels.nonordered, "feature has", "features have"),
-                "more than 2 levels"
-            ),
-            sep = "\n"
-        )
-    }
+    # index_integer <- which(sapply(x, is.integer))
+    # n_integer <- length(index_integer)
+    n_integer <- max0(counts["integer"])
 
     ## Characters ----
-    index.character <- which(sapply(x, is.character))
-    n.character <- length(index.character)
-    # nchar <- if (n.character > 0) orange(n.character, bold = TRUE) else bold(n.character)
-    out <- paste(out,
-        paste(
-            "  *", bold(n.character), "character",
-            ngettext(n.character, "feature", "features")
-        ),
-        sep = "\n"
-    )
+    # index_character <- which(sapply(x, is.character))
+    # n_character <- length(index_character)
+    n_character <- max0(counts["character"])
+
+    ## Factors ----
+    index_factor <- which(sapply(x, is.factor))
+    n_factor <- length(index_factor)
+    index_ordered <- which(sapply(x, is.ordered))
+    n_ordered <- length(index_ordered)
+    # index_gt2levels_nonordered <- which(
+    #     sapply(
+    #         x[, setdiff(index_factor, index_ordered), drop = FALSE],
+    #         \(x) length(levels(x))
+    #     ) > 2
+    # )
+    # n_gt2levels_nonordered <- length(index_gt2levels_nonordered)
 
     ## Dates ----
-    index.date <- which(sapply(x, \(col) inherits(col, "Date")))
-    n.date <- length(index.date)
-    out <- paste(out,
-        paste(
-            "  *", n.date, "date",
-            ngettext(n.date, "feature", "features")
-        ),
-        sep = "\n"
+    # index_date <- which(
+    #     sapply(x, \(col) inherits(col, "Date"))
+    # )
+    # n_date <- length(index_date)
+    n_date <- sum(
+        max0(counts["Date"]),
+        max0(counts["IDate"]),
+        max0(counts["POSIXct"]),
+        max0(counts["POSIXlt"])
     )
 
     # Issues ----
 
     ## Constants ----
-    out <- paste(out,
-        paste0(bold("\n  Issues"), "____________________"),
-        sep = "\n"
-    )
-    index.constant <- which(sapply(x, is_constant))
-    n.constant <- length(index.constant)
-    nconstant <- ifelse(n.constant > 0,
-        red(n.constant, bold = TRUE),
-        bold(n.constant)
-    )
-    out <- paste(out,
-        paste(
-            "  *", nconstant, "constant",
-            ngettext(n.constant, "feature", "features")
-        ),
-        sep = "\n"
-    )
+    index_constant <- which(sapply(x, is_constant))
+    n_constant <- length(index_constant)
 
     ## Duplicates ----
-    cindex.dups <- which(duplicated(x))
-    n.dups <- length(cindex.dups)
-    ndups <- ifelse(n.dups > 0, red(n.dups, bold = TRUE), bold(n.dups))
-
-    out <- paste(out,
-        paste(
-            "  *", ndups, "duplicated",
-            ngettext(n.dups, "case", "cases")
-        ),
-        sep = "\n"
-    )
+    # cindex_dups <- which(duplicated(x))
+    # n_dups <- length(cindex_dups)
+    n_dups <- n_rows - uniqueN(x)
 
     ## NAs ----
-    cols.anyna <- which(sapply(x, anyNA))
-    n.cols.anyna <- length(cols.anyna)
-    index.na <- which(is.na(x))
-    n.na <- length(index.na)
+    cols_anyna <- which(sapply(x, anyNA))
+    n_cols_anyna <- length(cols_anyna)
+    index_na <- which(is.na(x))
+    n_na <- length(index_na)
 
     ## Get percent of NA values per feature and per case
-    if (n.cols.anyna > 0) {
-        na.feature.pct <- data.frame(
-            Feature = names(cols.anyna),
-            Pct.NA = sapply(seq_len(n.cols.anyna), function(i) {
-                sum(is.na(x[, cols.anyna[i]])) / length(x[, cols.anyna[i]])
-            })
-        )
+    if (n_cols_anyna > 0) {
+        na_feature_pct <- if (get_na_feature_pct) {
+            data.frame(
+                Feature = names(cols_anyna),
+                Pct_NA = sapply(seq_len(n_cols_anyna), \(i) {
+                    sum(is.na(x[[cols_anyna[1]]])) / n_cols
+                })
+            )
+        } else {
+            NULL
+        }
 
-        index.incomplete <- which(!complete.cases(x))
-        n.incomplete <- length(index.incomplete)
-        na.case.pct <- data.frame(
-            Case = index.incomplete,
-            Pct.NA = sapply(seq_len(n.incomplete), function(i) {
-                sum(is.na(x[index.incomplete[i], ])) / length(x[index.incomplete[i], ])
-            })
-        )
+        index_incomplete <- which(!complete.cases(x))
+        n_incomplete <- length(index_incomplete)
+        
+        na_case_pct <- if (get_na_case_pct) {
+            data.frame(
+                Case = index_incomplete,
+                Pct_NA = sapply(seq_len(n_incomplete), \(i) {
+                    sum(is.na(x[index_incomplete[i], ])) / n_rows
+                })
+            )
+        } else {
+            NULL
+        }
+
+        # Get types of features with NA
+        classes_na <- table(classes[cols_anyna])
     } else {
-        na.feature.pct <- na.case.pct <- rep(0, n.cols)
+        na_feature_pct <- na_case_pct <- rep(0, n_cols)
     }
-    .col <- if (n.cols.anyna > 0) orange else I
-    out <- paste(out,
-        paste0(
-            "  * ", bold(.col(n.cols.anyna)),
-            ngettext(
-                n.cols.anyna, " feature includes",
-                " features include"
-            ), " 'NA' values",
-            ifelse(n.cols.anyna > 0, paste(
-                ";", bold(.col(n.na)), "'NA'",
-                ngettext(n.na, "value", "values"), "total"
-            ), "")
-        ),
-        sep = "\n"
+
+    # Output ----
+    cd <- list(
+        class = class(x)[1],
+        name = name,
+        n_rows = n_rows,
+        n_cols = n_cols,
+        n_continuous = n_continuous,
+        n_integer = n_integer,
+        n_character = n_character,
+        n_factor = n_factor,
+        n_ordered = n_ordered,
+        n_date = n_date,
+        n_constant = n_constant,
+        n_dups = n_dups,
+        n_cols_anyna = n_cols_anyna,
+        n_na = n_na,
+        classes_na = classes_na,
+        na_feature_pct = na_feature_pct,
+        na_case_pct = na_case_pct
     )
-    if (n.cols.anyna > 0) {
-        if (!is.null(reportFeatures.thres)) {
-            features.na.over.thres <- na.feature.pct[na.feature.pct$Pct.NA >= reportFeatures.thres, ]
-            if (NROW(features.na.over.thres) > 0) {
-                out <- paste(out,
-                    paste0(
-                        "     - ", bold(.col(NROW(features.na.over.thres))),
-                        " features missing in >= ",
-                        reportFeatures.thres * 100, "% of cases:\n      *** ",
-                        paste0(features.na.over.thres$Feature, ": ",
-                            ddSci(features.na.over.thres$Pct.NA),
-                            collapse = "\n      *** "
-                        )
-                    ),
-                    sep = "\n"
-                )
-            }
-        } else {
-            max.na.feature.name <- names(cols.anyna)[which.max(na.feature.pct$Pct.NA)]
-            out <- paste(out,
-                paste0(
-                    "     - Max percent missing in a feature is ",
-                    bold(.col(ddSci(max(na.feature.pct$Pct.NA) * 100))),
-                    bold(.col("%")), " (",
-                    bold(max.na.feature.name), ")"
-                ),
-                sep = "\n"
-            )
-        }
+    class(cd) <- c("CheckData", "list")
+    cd
+} # rtemis::check_data2
 
-        if (!is.null(reportCases.thres)) {
-            cases.na.over.thres <- na.case.pct[na.case.pct$Pct.NA >= reportCases.thres, ]
-            n.cases.na.over.thres <- NROW(cases.na.over.thres)
-            if (n.cases.na.over.thres > 0) {
-                out <- paste(out,
-                    paste0(
-                        "     - ", bold(.col(n.cases.na.over.thres)),
-                        ngettext(n.cases.na.over.thres, " case", " cases"),
-                        " missing >= ", reportCases.thres * 100, "% of features:\n      *** ",
-                        paste0("#", cases.na.over.thres$Case, ": ",
-                            ddSci(cases.na.over.thres$Pct.NA),
-                            collapse = "\n      *** "
-                        )
-                    ),
-                    sep = "\n"
-                )
-            }
-        } else {
-            max.na.case.number <- index.incomplete[which.max(na.case.pct$Pct.NA)]
-            out <- paste(out,
-                paste0(
-                    "     - Max percent missing in a case is ",
-                    bold(.col(ddSci(max(na.case.pct$Pct.NA) * 100))),
-                    bold(.col("%")), " (case #",
-                    bold(max.na.case.number), ")"
-                ),
-                sep = "\n"
-            )
-        }
+html_highlight <- function(..., bold = TRUE) {
+    if (bold) {
+        span(..., style = "color: #16A0AC; font-weight: 700;")
+    } else {
+        span(..., style = "color: #16A0AC;")
     }
+}
 
-    # Recommendations ----
-    if (recommend) {
+html_orange <- function(..., bold = TRUE) {
+    if (bold) {
+        span(..., style = "color: #FA6E1E; font-weight: 700;")
+    } else {
+        span(..., style = "color: #FA6E1E;")
+    }
+}
+
+html_red <- function(..., bold = TRUE) {
+    if (bold) {
+        span(..., style = "color: #E61048; font-weight: 700;")
+    } else {
+        span(..., style = "color: #E61048;")
+    }
+}
+
+html_success <- function(..., bold = TRUE) {
+    if (bold) {
+        span(..., style = "color: #32A03E; font-weight: 700;")
+    } else {
+        span(..., style = "color: #32A03E;")
+    }
+}
+
+
+# chck <- function(x) {
+#     setDT(x)
+#     cat("Input has", NROW(x), "rows\n")
+# }
+# x <- iris
+# class(x)
+# chck(x)
+# class(x)
+
+# x <- data.frame(
+#     ID = c(101L, 102L, 103L),
+#     V1 = rnorm(3),
+#     V3 = c(3L, 5L, 7L)
+# )
+# sapply(x, is.double)
+
+max0 <- function(x) max(x, 0, na.rm = TRUE)
+
+desc <- function(x, ...) {
+    UseMethod("desc")
+}
+
+desc.CheckData <- function(x, type = c("plaintext", "html")) {
+    type <- match.arg(type)
+}
+
+print.CheckData <- function(x, 
+                            type = c("plaintext", "html"),
+                            name = NULL,
+                            check_integers = FALSE,
+                            css = list(font.family = "Helvetica",
+                                       color = "#fff",
+                                       background.color = "#242424"),
+                            ...) {
+
+    if (is.null(name)) {
+        name <- x$name
+        if (is.null(name)) name <- deparse(substitute(x))
+    }
+    type <- match.arg(type)
+
+    n_rows <- x$n_rows
+    n_cols <- x$n_cols
+    n_continuous <- x$n_continuous
+    n_integer <- x$n_integer
+    n_character <- x$n_character
+    n_factor <- x$n_factor
+    n_ordered <- x$n_ordered
+    n_date <- x$n_date
+    n_constant <- x$n_constant
+    n_dups <- x$n_dups
+    n_cols_anyna <- x$n_cols_anyna
+    n_na <- x$n_na
+    classes_na <- x$classes_na
+    na_feature_pct <- x$na_feature_pct
+    na_case_pct <- x$na_case_pct
+
+    if (type == "plaintext") {
+        # plaintext out ----
+        out <- paste0(
+            "  ", hilite(name),
+            paste(
+                ": A", x$class, "with",
+                hilite(n_rows), ngettext(n_rows, "row", "rows"),
+                "and", hilite(n_cols),
+                ngettext(n_cols, "column", "columns")
+            )
+        )
+        ## Data Types ----
         out <- paste(out,
-            paste0(bold("\n  Recommendations"), "___________"),
+            bold("\n  Data types"),
+            paste(
+                "  *", bold(n_continuous), "continuous",
+                ngettext(n_continuous, "feature", "features")
+            ),
+            paste(
+                "  *", bold(n_integer), "integer",
+                ngettext(n_integer, "feature", "features")
+            ),
             sep = "\n"
         )
-        if (sum(n.character, n.constant, n.dups, n.cols.anyna, n.gt2levels.nonordered) > 0) {
-            if (n.character > 0) {
-                out <- paste(out,
-                    bold(orange(paste(
-                        "  * Convert the character",
-                        ngettext(n.character, "feature", "features"),
-                        "to",
-                        ngettext(n.character, "a factor", "factors")
-                    ))),
-                    sep = "\n"
+        isOrdered <- if (n_factor == 1) {
+            paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
+        } else if (n_factor > 1) {
+            paste(", of which", bold(n_ordered), ngettext(n_ordered, "is", "are"), "ordered")
+        } else {
+            ""
+        }
+        out <- paste(out,
+            paste0(
+                "  * ", bold(n_factor), " categorical",
+                ngettext(n_factor, " feature", " features"),
+                isOrdered
+            ),
+            sep = "\n"
+        )
+        out <- paste(out,
+            paste(
+                "  *", bold(n_character), "character",
+                ngettext(n_character, "feature", "features")
+            ),
+            sep = "\n"
+        )
+        out <- paste(out,
+            paste(
+                "  *", bold(n_date), "date",
+                ngettext(n_date, "feature", "features")
+            ),
+            sep = "\n"
+        )
+        ## Issues ----
+        out <- paste(out,
+            bold("\n  Issues"),
+            sep = "\n"
+        )
+        out <- paste(out,
+            paste(
+                "  *", bold(red(n_constant)), "constant",
+                ngettext(n_constant, "feature", "features")
+            ),
+            sep = "\n"
+        )
+        out <- paste(out,
+            paste(
+                "  *", bold(orange(n_dups)), "duplicate",
+                ngettext(n_dups, "case", "cases")
+            ),
+            sep = "\n"
+        )
+        nas <- if (n_cols_anyna > 0) {
+            .col <- if (n_cols_anyna > 0) orange else I
+            paste(
+                bold(.col(n_cols_anyna)),
+                ngettext(n_cols_anyna, "feature includes", "features include"),
+                "'NA' values;",
+                bold(.col(n_na)), "'NA'",
+                ngettext(n_na, "value", "values"),
+                "total\n    *",
+                paste0(
+                    sapply(seq_along(classes_na), \(i) {
+                        paste(
+                            bold(.col(classes_na[i])),
+                            tolower(names(classes_na)[i])
+                        )
+                    }),
+                    collapse = "\n    * "
                 )
-            }
+            )
+        } else {
+            paste(bold("0"), "missing values")
+        }
+        # .col <- if (n_cols_anyna > 0) orange else I
+        # out <- paste(out,
+        #     paste0(
+        #         "  * ", bold(.col(n_cols_anyna)),
+        #         ngettext(
+        #             n_cols_anyna, " feature includes",
+        #             " features include"
+        #         ), " 'NA' values",
+        #         ifelse(n_cols_anyna > 0, paste(
+        #             ";", bold(.col(n_na)), "'NA'",
+        #             ngettext(n_na, "value", "values"), "total"
+        #         ), "")
+        #     ),
+        #     sep = "\n"
+        # )
+        out <- paste0(out, "\n  * ", nas)
 
-            if (n.constant > 0) {
+        ## Recs ----
+        out <- paste(out,
+            bold("\n  Recommendations"),
+            sep = "\n"
+        )
+        if (sum(n_character, n_constant, n_dups, n_cols_anyna) > 0) {
+
+            if (n_constant > 0) {
                 out <- paste(out,
                     bold(red(paste(
                         "  * Remove the constant",
-                        ngettext(n.constant, "feature", "features")
+                        ngettext(n_constant, "feature", "features")
                     ))),
                     sep = "\n"
                 )
             }
 
-            if (n.dups > 0) {
+            if (n_dups > 0) {
                 out <- paste(out,
-                    bold(red(paste(
-                        "  * Remove the duplicated",
-                        ngettext(n.dups, "case", "cases")
+                    bold(orange(paste(
+                        "  * Consider removing the duplicate",
+                        ngettext(n_dups, "case", "cases")
                     ))),
                     sep = "\n"
                 )
             }
 
-            if (n.cols.anyna > 0) {
+            if (n_cols_anyna > 0) {
                 out <- paste(out,
                     bold(orange(paste(
                         "  * Consider imputing missing values or use complete cases only"
@@ -313,25 +387,16 @@ check_data <- function(x,
                     sep = "\n"
                 )
             }
-
-            # if (n.gt2levels.nonordered > 0) {
-            #   out <- paste(out,
-            #                paste0("  * Check the", ifelse(n.gt2levels.nonordered > 1, paste("", n.gt2levels.nonordered, ""), " "),
-            #                       "unordered categorical",
-            #                       ifelse(n.gt2levels.nonordered > 1, " features", " feature"),
-            #                       " with more than 2 levels \nand consider if ordering would make sense"),
-            #                sep = "\n")
-            # }
-            if (n.integer > 0) {
+            if (check_integers && n_integer > 0) {
                 out <- paste(out,
                     paste0(
                         "  * Check the",
-                        ifelse(n.integer > 1, paste("", n.integer, ""), " "),
+                        ifelse(n_integer > 1, paste("", n_integer, ""), " "),
                         "integer",
-                        ngettext(n.integer, " feature", " features"),
+                        ngettext(n_integer, " feature", " features"),
                         " and consider if",
-                        ngettext(n.integer, " it", " they"), " should be converted to ",
-                        ngettext(n.integer, "factor", "factors")
+                        ngettext(n_integer, " it", " they"), " should be converted to ",
+                        ngettext(n_integer, "factor", "factors")
                     ),
                     sep = "\n"
                 )
@@ -342,34 +407,174 @@ check_data <- function(x,
                 sep = "\n"
             )
         }
-    }
-
-    if (toHTML) {
-        out <- gsub("\n", "<br>", out) |> fansi::sgr_to_html()
+        cat(out, "\n")
     } else {
-        out <- paste0(out, "\n")
-    }
-    if (verbose) cat(out)
+        # HTML out ----
 
-    # str() ----
-    if (str && verbose) {
-        cat(bold("\n\n  Feature structure", "_________\n"))
-        str(x)
-        cat("\n")
-    }
+        ## Data Types ----
+        continuous <- HTML(paste(
+            strong(n_continuous), "continuous",
+            ngettext(n_continuous, "feature", "features")
+        ))
+        integer <- HTML(paste(
+            strong(n_integer), "integer",
+            ngettext(n_integer, "feature", "features")
+        ))
+        categorical <- HTML(paste0(
+            strong(n_factor), " categorical",
+            ngettext(n_factor, " feature", " features"),
+            if (n_factor == 1) {
+                paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
+            } else if (n_factor > 1) {
+                paste(
+                    ", of which", strong(n_ordered),
+                    ngettext(n_ordered, "is", "are"), "ordered"
+                )
+            }
+        ))
+        # .col <- if (n_character > 0) html_orange else strong
+        .col <- strong
+        characters <- HTML(paste(
+            .col(n_character), "character",
+            ngettext(n_character, "feature", "features")
+        ))
+        dates <- HTML(paste(
+            strong(n_date), "date",
+            ngettext(n_date, "feature", "features")
+        ))
 
-    invisible(list(
-        out = out,
-        n.rows = n.rows,
-        n.cols = n.cols,
-        n.continuous = n.continuous,
-        n.integer = n.integer,
-        n.factor = n.factor,
-        n.ordered = n.ordered,
-        n.constant = n.constant,
-        n.cols.anyna = n.cols.anyna,
-        n.na = n.na,
-        na.feature.pct = na.feature.pct,
-        na.case.pct = na.case.pct
-    ))
-} # rtemis::check_data
+        ## Issues ----
+        .col <- if (n_constant > 0) html_red else strong
+        constants <- HTML(paste(
+            .col(n_constant), "constant",
+            ngettext(n_constant, "feature", "features")
+        ))
+        .col <- if (n_dups > 0) html_orange else strong
+        duplicates <- HTML(paste(
+            .col(n_dups), "duplicate",
+            ngettext(n_dups, "case", "cases")
+        ))
+
+        .col <- if (n_cols_anyna > 0) html_orange else strong
+        nas <- if (n_cols_anyna > 0) {
+            HTML(paste(
+                .col(n_cols_anyna),
+                ngettext(n_cols_anyna, "feature includes", "features include"),
+                "'NA' values; ",
+                .col(n_na), "'NA'",
+                ngettext(n_na, "value", "values"),
+                "total", 
+                tags$ul(
+                    lapply(seq_along(classes_na), \(i) {
+                        tags$li(HTML(paste(
+                            .col(classes_na[i]),
+                            tolower(names(classes_na)[i])
+                            # ngettext(classes_na[i], "feature", "features")
+                        )))
+                    })
+                )
+            ))
+        } else {
+            HTML(paste(strong("0"), "missing values"))
+        }
+
+        ## Recs ----
+        rec_char <- NULL
+        rec_constant <- if (n_constant > 0) {
+            tags$li(HTML(paste(html_orange(
+                "Remove the constant",
+                ngettext(n_constant, "feature", "features")
+            ))))
+        } else {
+            NULL
+        }
+
+        rec_dups <- if (n_dups > 0) {
+            tags$li(HTML(paste(html_orange(
+                "Consider removing the duplicate",
+                ngettext(n_dups, "case", "cases")
+            ))))
+        } else {
+            NULL
+        }
+
+        # rec_na <- if (n_cols_anyna > 0) {
+        #     tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
+        # } else {
+        #     NULL
+        # }
+
+        rec_na <- if (n_cols_anyna > 0) {
+            list(
+                if (isTRUE(classes_na["factor"] > 0)) {
+                    tags$li(HTML(paste(html_orange(
+                        "Consider assigning factor 'NA' values to new 'missing' level"
+                    ))))
+                },
+                tags$li(HTML(paste(html_orange(
+                    "Consider imputing missing values or using complete cases only"
+                ))))
+            )
+        } else {
+            NULL
+        }
+
+        recs <- if (sum(n_constant, n_dups, n_cols_anyna) == 0) {
+            tags$li(html_success("Everything looks good"))
+        } else {
+            list(
+                rec_constant,
+                rec_dups,
+                rec_na
+            )
+        }
+        ## out ----
+        out <- div(
+            p(
+                div(
+                    html_highlight(name),
+                    ": A", x$class, "with",
+                    html_highlight(n_rows),
+                    ngettext(n_rows, "row", "rows"),
+                    "and", html_highlight(n_cols),
+                    ngettext(n_cols, "feature", "features"),
+                    class = "checkdata-header"
+                )
+            ),
+            p(
+                span(strong("Data types"), class = "sidelined"),
+                tags$ul(
+                    tags$li(continuous),
+                    tags$li(integer),
+                    tags$li(categorical),
+                    tags$li(characters),
+                    tags$li(dates)
+                )
+            ), # p Data Types
+            p(
+                span(strong("Issues"), class = "sidelined"),
+                tags$ul(
+                    tags$li(constants),
+                    tags$li(duplicates),
+                    tags$li(nas)
+                )
+            ), # p Issues
+            p(
+                span(strong("Recommendations"), class = "sidelined"),
+                tags$ul(
+                    recs
+                )
+            ), # p Recommendations
+            class = "checkData",
+            style = paste0(
+                "font-family:'", css$font.family,
+                "'; color:", css$color,
+                "; background-color:", css$background.color, ";"
+            )
+        )
+        htmltools::html_print(
+            out,
+            background = css$background.color
+        )
+    }
+} # print.CheckData

@@ -4,47 +4,31 @@
 \alias{check_data}
 \title{Check Data}
 \usage{
-check_data(
-  x,
-  name = NULL,
-  str = FALSE,
-  recommend = TRUE,
-  reportCases.thres = NULL,
-  reportFeatures.thres = NULL,
-  toHTML = FALSE,
-  verbose = TRUE
-)
+check_data(x, name = NULL, get_na_case_pct = FALSE, get_na_feature_pct = FALSE)
 }
 \arguments{
-\item{x}{Input dataset: will be converted to data.frame}
+\item{x}{data.frame, data.table or similar structure}
 
-\item{name}{String (optional): Name of dataset. (This is helpful when
-applying \code{preprocess} on a list of items by vectorization, e.g. using
-*ply commands, where the names of the list elements will not be displayed
-correctly)}
-
-\item{str}{Logical: If TRUE, show output of \code{str}.}
-
-\item{recommend}{Logical: If TRUE, print recommendations based on check.}
-
-\item{reportCases.thres}{Float (0, 1]: Report, by number, all cases missing
-greater or equal to this fraction of features.}
-
-\item{reportFeatures.thres}{Float (0, 1]: Report, by name, all features
-missing in greater or equal to this fraction of cases.}
-
-\item{toHTML}{Logical: If TRUE, convert output to HTML using the
-\code{fansi} package.}
-
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbose}{Logical: If TRUE, print output in HTML viewer.}
 }
 \description{
-Runs a series of simple checks on a dataset that may be important to perform
-ahead of data analysis. This function makes no changes to data, but reports
-potential course of action that can be taken using \link{preprocess}
+Check Data
 }
 \examples{
-check_data(iris)
+\dontrun{
+n <- 1000
+x <- rnormmat(n, 50, return.df = TRUE)
+x$char1 <- sample(letters, n, TRUE)
+x$char2 <- sample(letters, n, TRUE)
+x$fct <- factor(sample(letters, n, TRUE))
+x <- rbind(x, x[1, ])
+x$const <- 99L
+x[sample(nrow(x), 20), 3] <- NA
+x[sample(nrow(x), 20), 10] <- NA
+x$fct[30:35] <- NA
+check_data(x)
+}
+
 }
 \author{
 E.D. Gennatas
