@@ -125,6 +125,7 @@ check_data <- function(x,
         # Get types of features with NA
         classes_na <- table(classes[cols_anyna])
     } else {
+        classes_na <- NULL
         na_feature_pct <- na_case_pct <- rep(0, n_cols)
     }
 
@@ -218,8 +219,10 @@ max0 <- function(x) max(x, 0, na.rm = TRUE)
 #     type <- match.arg(type)
 # }
 
+
 #' Print \code{CheckData} object
-#' 
+#'
+#' @method print CheckData
 #' @param x \code{CheckData} object
 #' 
 #' @author E.D. Gennatas
@@ -251,7 +254,6 @@ print.CheckData <- function(x,
     n_dups <- x$n_dups
     n_cols_anyna <- x$n_cols_anyna
     n_na <- x$n_na
-    classes_na <- x$classes_na
     na_feature_pct <- x$na_feature_pct
     na_case_pct <- x$na_case_pct
 
@@ -328,6 +330,7 @@ print.CheckData <- function(x,
             sep = "\n"
         )
         nas <- if (n_cols_anyna > 0) {
+            classes_na <- x$classes_na
             .col <- if (n_cols_anyna > 0) orange else I
             paste(
                 bold(.col(n_cols_anyna)),
