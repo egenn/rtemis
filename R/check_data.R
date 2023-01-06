@@ -8,6 +8,7 @@
 #' @param verbose Logical: If TRUE, print output in HTML viewer.
 #'
 #' @author E.D. Gennatas
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -149,7 +150,7 @@ check_data <- function(x,
     )
     class(cd) <- c("CheckData", "list")
     cd
-} # rtemis::check_data2
+} # rtemis::check_data
 
 html_highlight <- function(..., bold = TRUE) {
     if (bold) {
@@ -202,14 +203,27 @@ html_success <- function(..., bold = TRUE) {
 
 max0 <- function(x) max(x, 0, na.rm = TRUE)
 
-desc <- function(x, ...) {
-    UseMethod("desc")
-}
+#' Describe generic
+#' 
+# #' @export
+# desc <- function(x, ...) {
+#     UseMethod("desc")
+# }
 
-desc.CheckData <- function(x, type = c("plaintext", "html")) {
-    type <- match.arg(type)
-}
 
+#' Describe \code{CheckData} object
+#' 
+# #' @export
+# desc.CheckData <- function(x, type = c("plaintext", "html")) {
+#     type <- match.arg(type)
+# }
+
+#' Print \code{CheckData} object
+#' 
+#' @param x \code{CheckData} object
+#' 
+#' @author E.D. Gennatas
+#' @export
 print.CheckData <- function(x, 
                             type = c("plaintext", "html"),
                             name = NULL,
