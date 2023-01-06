@@ -6,6 +6,7 @@
 #'
 #' @param true Vector, numeric: True survival times
 #' @param estimated Vector, numeric: Estimated survival times
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -28,6 +29,7 @@ survError <- function(true, estimated) {
 #' @param x Object of type \link{survError}
 #' @param decimal.place Integer: Number of decimal places to print. Default = 4
 #' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

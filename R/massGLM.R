@@ -151,6 +151,7 @@ massGLM <- function(x, y,
 #'
 #' @method print massGLM
 #' @param x \link{massGLM} object
+#' 
 #' @author E.D. Gennatas
 #' @export
 
