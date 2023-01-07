@@ -290,8 +290,8 @@ print.CheckData <- function(x,
         }
         out <- paste(out,
             paste0(
-                "  * ", bold(n_factor), " categorical",
-                ngettext(n_factor, " feature", " features"),
+                "  * ", bold(n_factor),
+                ngettext(n_factor, " factor", " factors"),
                 isOrdered
             ),
             sep = "\n"
@@ -438,8 +438,8 @@ print.CheckData <- function(x,
             ngettext(n_integer, "feature", "features")
         ))
         categorical <- HTML(paste0(
-            strong(n_factor), " categorical",
-            ngettext(n_factor, " feature", " features"),
+            strong(n_factor),
+            ngettext(n_factor, " factor", " factors"),
             if (n_factor == 1) {
                 paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
             } else if (n_factor > 1) {
