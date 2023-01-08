@@ -18,15 +18,15 @@ kfold(
 
 \item{k}{Integer: Number of folds. Default = 10}
 
-\item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
+\item{stratify.var}{Numeric vector (optional): Variable used for stratification.}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
-\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
-See \code{?base::set.seed}}
+\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
+output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 K-fold Resampling

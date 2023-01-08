@@ -20,20 +20,21 @@ strat.boot(
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
-\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for
+\code{resampler = "strat.sub"}}
 
-\item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
+\item{stratify.var}{Numeric vector (optional): Variable used for stratification.}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
-\item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
-Default = \code{length(y)}}
+\item{target.length}{Integer: Number of cases for training set for
+\code{resampler = "strat.boot"}.}
 
-\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
-See \code{?base::set.seed}}
+\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
+output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Stratified Bootstrap Resampling

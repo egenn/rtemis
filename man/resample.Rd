@@ -14,42 +14,49 @@ resample(
   train.p = 0.75,
   strat.n.bins = 4,
   target.length = NROW(y),
+  id.colname = NULL,
   rtset = NULL,
   seed = NULL,
   verbose = TRUE
 )
 }
 \arguments{
-\item{y}{Numeric vector. Usually the outcome; \code{length(y)} defines sample size}
+\item{y}{Vector or data.frame: Usually the outcome; \code{NROW(y)} defines sample size}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold",
+"strat.boot", "strat.sub".}
 
-\item{index}{List where each element is a vector of training set indices. Use this for manual or precalculated
-train/test splits}
+\item{index}{List where each element is a vector of training set indices. Use this for
+manual/pre-defined train/test splits}
 
-\item{group}{Integer, vector, length = \code{length(y)}: Integer vector, where numbers define fold membership.
-e.g. for 10-fold on a dataset with 1000 cases, you could use \code{group = rep(1:10, each = 100)}}
+\item{group}{Integer, vector, length = \code{length(y)}: Integer vector, where numbers
+define fold membership. e.g. for 10-fold on a dataset with 1000 cases, you could use
+\code{group = rep(1:10, each = 100)}}
 
-\item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
+\item{stratify.var}{Numeric vector (optional): Variable used for stratification.}
 
-\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for
+\code{resampler = "strat.sub"}}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
-\item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
-Default = \code{length(y)}}
+\item{target.length}{Integer: Number of cases for training set for
+\code{resampler = "strat.boot"}.}
+
+\item{id.colname}{Character: Name of column with IDs which may be replicated, but
+resampling should force replicates of each ID only appear in the training or testing 
+set. Requires \code{y}}
 
 \item{rtset}{List: Output of an \link{rtset.resample} (or named list with same structure).
 NOTE: Overrides all other arguments. Default = NULL}
 
-\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
-See \code{?base::set.seed}}
+\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
+output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to screen}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Create resamples of your data, e.g. for model building or validation.
@@ -72,6 +79,7 @@ res <- resample(y, 10, "kfold")
 res <- resample(y, 25, "strat.sub")
 # 100 stratified bootstraps
 res <- resample(y, 100, "strat.boot")
+
 }
 \seealso{
 \link{elevate}

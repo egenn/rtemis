@@ -15,23 +15,24 @@ rtset.resample(
 )
 }
 \arguments{
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold",
+"strat.boot", "strat.sub".}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
-\item{stratify.var}{Numeric vector (optional): Variable used for stratification. Defaults to \code{y}}
+\item{stratify.var}{Numeric vector (optional): Variable used for stratification.}
 
-\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for
+\code{resampler = "strat.sub"}}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
-\item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
-Default = \code{length(y)}}
+\item{target.length}{Integer: Number of cases for training set for
+\code{resampler = "strat.boot"}.}
 
-\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
-See \code{?base::set.seed}}
+\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
+output reproducible. See \code{?base::set.seed}}
 }
 \description{
 \code{rtset.resample}: Set \link{resample} settings

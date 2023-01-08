@@ -74,8 +74,8 @@ NOTE: If set, this takes precedence over setting the individual resampling argum
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold", "strat.boot", "strat.sub".
-Default = "strat.boot" for \code{length(y) < 200}, otherwise "strat.sub"}
+\item{resampler}{Character: Type of resampling to perform: "bootstrap", "kfold",
+"strat.boot", "strat.sub".}
 
 \item{n.resamples}{Integer: Number of training/testing sets required}
 
@@ -86,16 +86,17 @@ many resamples, e.g. 25 stratified subsamples,}
 \item{stratify.var}{Numeric vector: Used to stratify external sampling (if applicable)
 Defaults to outcome \code{y}}
 
-\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for \code{resampler = "strat.sub"}}
+\item{train.p}{Float (0, 1): Fraction of cases to assign to traininig set for
+\code{resampler = "strat.sub"}}
 
 \item{strat.n.bins}{Integer: Number of groups to use for stratification for
 \code{resampler = "strat.sub" / "strat.boot"}}
 
-\item{target.length}{Integer: Number of cases for training set for \code{resampler = "strat.boot"}.
-Default = \code{length(y)}}
+\item{target.length}{Integer: Number of cases for training set for
+\code{resampler = "strat.boot"}.}
 
-\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make output reproducible.
-See \code{?base::set.seed}}
+\item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
+output reproducible. See \code{?base::set.seed}}
 
 \item{res.index}{List where each element is a vector of training set indices. Use this for manual or
 precalculated train/test splits}
