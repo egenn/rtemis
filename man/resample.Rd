@@ -14,7 +14,7 @@ resample(
   train.p = 0.75,
   strat.n.bins = 4,
   target.length = NROW(y),
-  id.colname = NULL,
+  id.strat = NULL,
   rtset = NULL,
   seed = NULL,
   verbose = TRUE
@@ -46,12 +46,11 @@ define fold membership. e.g. for 10-fold on a dataset with 1000 cases, you could
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
 
-\item{id.colname}{Character: Name of column with IDs which may be replicated, but
-resampling should force replicates of each ID only appear in the training or testing 
-set. Requires \code{y}}
+\item{id.strat}{Vector of IDs which may be replicated: resampling should force
+replicates of each ID only appear in the training or testing.}
 
-\item{rtset}{List: Output of an \link{rtset.resample} (or named list with same structure).
-NOTE: Overrides all other arguments. Default = NULL}
+\item{rtset}{List: Output of an \link{rtset.resample} (or named list with same
+structure). NOTE: Overrides all other arguments. Default = NULL}
 
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}
@@ -60,16 +59,18 @@ output reproducible. See \code{?base::set.seed}}
 }
 \description{
 Create resamples of your data, e.g. for model building or validation.
-"bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \link{bootstrap},
-"strat.sub" creates stratified subsamples using \link{strat.sub}, while "strat.boot"
-uses \link{strat.boot} which runs \link{strat.sub} and then randomly duplicates some of the training cases to reach original
-length of input (default) or length defined by \code{target.length}.
+"bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using
+\link{bootstrap}, "strat.sub" creates stratified subsamples using \link{strat.sub},
+while "strat.boot" uses \link{strat.boot} which runs \link{strat.sub} and then
+randomly duplicates some of the training cases to reach original length of input
+(default) or length defined by \code{target.length}.
 }
 \details{
 \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
-\link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples of slightly
-  different length for y of small length, so avoid all operations which rely on equal-length vectors.
-  For example, you can't place resamples in a data.frame, but must use a list instead.
+\link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples
+of slightly different length for y of small length, so avoid all operations which rely
+on equal-length vectors. For example, you can't place resamples in a data.frame, but
+must use a list instead.
 }
 \examples{
 y <- rnorm(200)

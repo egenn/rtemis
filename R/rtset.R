@@ -24,6 +24,7 @@ rtset.resample <- function(resampler = "strat.sub",
                            train.p = .75,
                            strat.n.bins = 4,
                            target.length = NULL,
+                           id.strat = NULL,
                            seed = NULL) {
 
 
@@ -33,6 +34,7 @@ rtset.resample <- function(resampler = "strat.sub",
        train.p = train.p,
        strat.n.bins = strat.n.bins,
        target.length = target.length,
+       id.strat = id.strat,
        seed = seed)
 
 } # rtemis::rtset.resample
@@ -98,9 +100,14 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 #'
 #' @inheritParams resample
 #' @export
-rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
-                              stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-                              target.length = NULL, verbose = TRUE) {
+rtset.cv.resample <- function(resampler = "kfold",
+                              n.resamples = 10,
+                              stratify.var = NULL,
+                              train.p = .75,
+                              strat.n.bins = 4,
+                              target.length = NULL,
+                              id.strat = NULL,
+                              verbose = TRUE) {
 
   list(resampler = resampler,
        n.resamples = n.resamples,
@@ -108,6 +115,7 @@ rtset.cv.resample <- function(resampler = "kfold", n.resamples = 10,
        train.p = train.p,
        strat.n.bins = strat.n.bins,
        target.length = target.length,
+       id.strat = id.strat,
        verbose = verbose)
 
 } # rtemis::rtset.cv.resample

@@ -5,15 +5,17 @@
 #' Resampling methods
 #'
 #' Create resamples of your data, e.g. for model building or validation.
-#' "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using \link{bootstrap},
-#' "strat.sub" creates stratified subsamples using \link{strat.sub}, while "strat.boot"
-#' uses \link{strat.boot} which runs \link{strat.sub} and then randomly duplicates some of the training cases to reach original
-#' length of input (default) or length defined by \code{target.length}.
+#' "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using
+#' \link{bootstrap}, "strat.sub" creates stratified subsamples using \link{strat.sub},
+#' while "strat.boot" uses \link{strat.boot} which runs \link{strat.sub} and then
+#' randomly duplicates some of the training cases to reach original length of input
+#' (default) or length defined by \code{target.length}.
 #'
 #' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
-#' \link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples of slightly
-#'   different length for y of small length, so avoid all operations which rely on equal-length vectors.
-#'   For example, you can't place resamples in a data.frame, but must use a list instead.
+#' \link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples
+#' of slightly different length for y of small length, so avoid all operations which rely
+#' on equal-length vectors. For example, you can't place resamples in a data.frame, but
+#' must use a list instead.
 #'
 #' @param y Vector or data.frame: Usually the outcome; \code{NROW(y)} defines sample size
 #' @param n.resamples Integer: Number of training/testing sets required
@@ -31,11 +33,10 @@
 #'   \code{resampler = "strat.sub" / "strat.boot"}
 #' @param target.length Integer: Number of cases for training set for
 #' \code{resampler = "strat.boot"}.
-#' @param id.colname Character: Name of column with IDs which may be replicated, but
-#' resampling should force replicates of each ID only appear in the training or testing 
-#' set. Requires \code{y}
-#' @param rtset List: Output of an \link{rtset.resample} (or named list with same structure).
-#' NOTE: Overrides all other arguments. Default = NULL
+#' @param id.strat Vector of IDs which may be replicated: resampling should force
+#' replicates of each ID only appear in the training or testing.
+#' @param rtset List: Output of an \link{rtset.resample} (or named list with same
+#' structure). NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make
 #' output reproducible. See \code{?base::set.seed}
 #' @param verbose Logical: If TRUE, print messages to console
@@ -61,7 +62,7 @@ resample <- function(y,
                      train.p = .75,
                      strat.n.bins = 4,
                      target.length = NROW(y),
-                     id.colname = NULL,
+                     id.strat = NULL,
                      rtset = NULL,
                      seed = NULL,
                      verbose = TRUE) {
@@ -91,9 +92,8 @@ resample <- function(y,
                 if (verbose) msg2("Survival object will be stratified on time")
                 y <- y[, 1]
             } else {
-                if (!is.null(id.colname)) {
-                    id <- y[[id.colname]]
-                    idl <- !duplicated(id)
+                if (!is.null(id.strat)) {
+                    idl <- !duplicated(id.strat)
                     y <- y[idl, NCOL(y)]
                 } else {
                     if (verbose) msg2("Input contains more than one columns; will stratify on last")
@@ -123,12 +123,12 @@ resample <- function(y,
         # Print parameters ----
         if (verbose) {
             if (resampler == "strat.sub") {
-                parameterSummary(n.resamples, resampler, stratify.var, 
+                parameterSummary(n.resamples, resampler, stratify.var,
                     train.p, strat.n.bins,
                     title = "Resampling Parameters"
                 )
             } else if (resampler == "strat.boot") {
-                parameterSummary(n.resamples, resampler, stratify.var, train.p, 
+                parameterSummary(n.resamples, resampler, stratify.var, train.p,
                     strat.n.bins, target.length,
                     title = "Resampling Parameters"
                 )
@@ -186,11 +186,11 @@ resample <- function(y,
                 verbose = verbose
             )
         }
-        if (!is.null(id.colname)) {
+        if (!is.null(id.strat)) {
             ### Get ID by resample ----
-            id_by_res <- lapply(res.part, \(x) id[idl][x])
+            id_by_res <- lapply(res.part, \(x) id.strat[idl][x])
             ### Get resamples on og data with replicates ----
-            res.part <- lapply(id_by_res, \(x) which(id %in% x))
+            res.part <- lapply(id_by_res, \(x) which(id.strat %in% x))
         }
     } else if (type == ".group") {
         # type = "group" ----
@@ -235,6 +235,9 @@ resample <- function(y,
         attr(res.part, "strat.n.bins") <- strat.n.bins
     }
     if (resampler == "strat.boot") attr(res.part, "target.length") <- target.length
+    if (!is.null(id.strat)) {
+        attr(res.part, "id.strat") <- id.strat
+    }
     res.part
 } # rtemis::resample
 

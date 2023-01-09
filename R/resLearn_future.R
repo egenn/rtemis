@@ -74,9 +74,7 @@ resLearn_future <- function(x, y, mod,
     learner <- modSelect(mod)
     res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
     resampler <- attr(res, "type") # for res.group and res.index
-    if (n.workers > resample.rtset$n.resamples) {
-        n.workers <- resample.rtset$n.resamples
-    }
+    n.workers <- min(n.workers, resample.rtset$n.resamples)
 
     # Parallel ----
     if (n.workers == 1) {
@@ -153,6 +151,10 @@ resLearn_future <- function(x, y, mod,
             verbose = res.verbose,
             outdir = outdir1
         )
+        ## Get id.strat for resample
+        if (!is.null(attr(res, "id.strat")) && !is.null(params$grid.resample.rtset)) {
+            params$grid.resample.rtset$id.strat <- attr(res, "id.strat")[res1]
+        }
         args <- c(args, params)
 
         mod1 <- do.call(learner, args = args)

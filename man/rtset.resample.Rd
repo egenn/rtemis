@@ -11,6 +11,7 @@ rtset.resample(
   train.p = 0.75,
   strat.n.bins = 4,
   target.length = NULL,
+  id.strat = NULL,
   seed = NULL
 )
 }
@@ -30,6 +31,9 @@ rtset.resample(
 
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
+
+\item{id.strat}{Vector of IDs which may be replicated: resampling should force
+replicates of each ID only appear in the training or testing.}
 
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}

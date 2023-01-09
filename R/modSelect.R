@@ -99,7 +99,6 @@ modSelect <- function(mod,
     c("SVM", "Support Vector Machine", TRUE, TRUE, FALSE),
     c("TFN", "TensorFlow Neural Network", TRUE, TRUE, FALSE),
     c("TLS", "Total Least Squares", FALSE, TRUE, FALSE),
-    c("XGB", "XGBoost", TRUE, TRUE, FALSE),
     c("XGBOOST", "XGBoost", TRUE, TRUE, FALSE),
     c("XGBLIN", "XGBoost with Linear Models", FALSE, TRUE, FALSE),
     c("XRF", "XGBoost Random Forest", TRUE, TRUE, FALSE)

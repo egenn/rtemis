@@ -128,9 +128,9 @@ gridSearchLearn <- function(x, y, mod,
     learner <- modSelect(mod, fn = FALSE)
     res <- resample(y = y, rtset = resample.rtset, verbose = verbose)
 
-    # if (!is.null(resample.rtset$id.colname)) {
-    #     x <- x[, -(names(x) == resample.rtset$id.colname)]
-    # }
+    if (!is.null(resample.rtset$id.colname)) {
+        x <- x[, -(names(x) == resample.rtset$id.colname)]
+    }
 
     # learner1 ----
     p <- progressr::progressor(steps = NROW(param.grid))

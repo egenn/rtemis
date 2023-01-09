@@ -203,7 +203,7 @@ elevate <- function(x, y = NULL,
     
     if (mod %in% c("ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", 
     "GLMTREE", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", 
-    "RANGER", "RF", "SPLS", "SVM", "XGBOOST")) {
+    "RANGER", "RF", "SPLS", "SVM", "XGBOOST", "XRF")) {
         mod.params <- c(
             mod.params,
             list(grid.resample.rtset = inner.resampling)
