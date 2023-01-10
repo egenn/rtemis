@@ -21,6 +21,10 @@ preprocess(
   logical2numeric = FALSE,
   numeric2factor = FALSE,
   numeric2factor.levels = NULL,
+  numeric.cut.n = 0,
+  numeric.cut.labels = FALSE,
+  numeric.quant.n = 0,
+  numeric.quant.NAonly = FALSE,
   len2factor = 0,
   character2factor = FALSE,
   factorNA2missing = FALSE,
@@ -29,6 +33,7 @@ preprocess(
   scale = FALSE,
   center = scale,
   removeConstants = FALSE,
+  removeConstants.skipMissing = TRUE,
   removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
@@ -96,6 +101,15 @@ factors}
 specific use cases; need to know unique values of numeric vector(s) and given all
 numeric vars have same unique values)}
 
+\item{numeric.cut.n}{Integer: If > 0, convert all numeric variables to factors by
+binning using \link{base::cut} with \code{breaks} equal to this number}
+
+\item{numeric.cut.labels}{Logical: The \code{labels} argument of \link{base::cut}}
+
+\item{numeric.quant.n}{Integer: If > 0, convert all numeric variables to factors by
+binning using \link{base::cut} with \code{breaks} equal to this number of quantiles
+produced using \link{stats::quantile}}
+
 \item{len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors. Default = NULL.
 For example, if binary variables are encoded with 1, 2, you could use
@@ -123,6 +137,9 @@ default it is the same as \code{scale}}
 
 \item{removeConstants}{Logical: If TRUE, remove constant columns.}
 
+\item{removeConstants.skipMissing}{Logical: If TRUE, skip missing values, before
+checking if feature is constant}
+
 \item{removeDuplicates}{Logical: If TRUE, remove duplicated cases.}
 
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
@@ -146,6 +163,8 @@ Order of operations (reflected by order of arguments in usage):
 \item logical to factor
 \item logical to numeric
 \item numeric to factor
+\item cut numeric to n bins
+\item cut numeric to n quantiles
 \item numeric with less than N unique values to factor
 \item character to factor
 \item factor NA to named level
