@@ -155,6 +155,7 @@ Prepare data for analysis and visualization
 Order of operations (reflected by order of arguments in usage):
 \itemize{
 \item keep complete cases only
+\item remove constants
 \item remove duplicates
 \item remove cases by missingness threshold
 \item remove features by missingness threshold
@@ -171,7 +172,6 @@ Order of operations (reflected by order of arguments in usage):
 \item add missingness column
 \item impute
 \item scale and/or center
-\item remove constants
 \item one-hot encoding
 }
 }
