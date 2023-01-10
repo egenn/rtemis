@@ -13,7 +13,7 @@
 #'
 #' @inheritParams s_GLM
 #' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
-#' @param nrounds Integer: Number of trees to grow
+#' @param num_parallel_tree Integer: Number of trees to grow
 #' @param base_score Numeric: The mean outcome response (Defaults to mean)
 #' @param objective (Default = NULL)
 #' @param sample_type Character. Default = "uniform"
@@ -40,9 +40,9 @@
 s_XRF <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
+                  num_parallel_tree = 1000,
                   booster = c("gbtree", "gblinear", "dart"),
                   missing = NA,
-                  num_parallel_tree = 1000,
                   nrounds = 1,
                   weights = NULL,
                   ipw = TRUE,

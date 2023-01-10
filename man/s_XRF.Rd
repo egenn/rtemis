@@ -11,9 +11,9 @@ s_XRF(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
+  num_parallel_tree = 1000,
   booster = c("gbtree", "gblinear", "dart"),
   missing = NA,
-  num_parallel_tree = 1000,
   nrounds = 1,
   weights = NULL,
   ipw = TRUE,
@@ -94,11 +94,11 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
+\item{num_parallel_tree}{Integer: Number of trees to grow}
+
 \item{booster}{Character: Booster to use. Options: "gbtree", "gblinear"}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
-
-\item{nrounds}{Integer: Number of trees to grow}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
