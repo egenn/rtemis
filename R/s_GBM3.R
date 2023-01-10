@@ -38,6 +38,7 @@
 #' @param varImp         Logical: If TRUE, estimate variable importance by permutation (as in random forests;
 #'   noted as experimental in gbm). Takes longer than (default) relative influence.
 #'   The two measures are highly correlated.
+#' 
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
@@ -45,7 +46,7 @@
 #' @family Ensembles
 #' @export
 
-s_GBM3.R <- function(x, y = NULL,
+s_GBM3 <- function(x, y = NULL,
                    x.test = NULL, y.test = NULL,
                    weights = NULL,
                    ipw = TRUE,
