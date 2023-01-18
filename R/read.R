@@ -41,6 +41,7 @@ read <- function(filename,
                  clean.colnames = TRUE,
                  reader = c("data.table", "arrow", "vroom"),
                  sep = NULL,
+                 quote = "",
                  attr = NULL,
                  value = NULL,
                  verbose = TRUE,
@@ -60,6 +61,7 @@ read <- function(filename,
         .dat <- data.table::fread(
             path,
             sep = sep,
+            quote = quote,
             verbose = fread_verbose, ...
         )
     } else if (reader == "arrow") {
@@ -67,7 +69,8 @@ read <- function(filename,
         if (is.null(sep)) sep <- ","
         .dat <- arrow::read_delim_arrow(
             path,
-            delim = sep, ...
+            delim = sep,
+            quote = quote, ...
         ) |>
             data.table::setDT()
     } else {
@@ -75,6 +78,7 @@ read <- function(filename,
         .dat <- vroom::vroom(
             path,
             delim = sep,
+            quote = quote,
             progress = verbose, ...
         ) |>
             data.table::setDT()
@@ -85,8 +89,7 @@ read <- function(filename,
     if (verbose) {
         msg2(
             "Read in", hilitebig(.nrow),
-            "rows by", hilitebig(.ncol),
-            "columns."
+            "x", hilitebig(.ncol)
         )
     }
     if (make.unique) {
@@ -102,8 +105,7 @@ read <- function(filename,
             )
             msg2(
                 "New dimensions:", hilitebig(.nrowp),
-                "by", hilitebig(.ncol),
-                "columns."
+                "x", hilitebig(.ncol)
             )
         }
     }
