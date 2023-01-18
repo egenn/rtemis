@@ -87,7 +87,7 @@ yay <- function(..., sep = " ", end = "\n", pad = 0) {
 }
 
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
-    cat(rep(" ", pad), bold(red("\u2715")), paste(..., sep = sep), end, sep = "")
+    cat(rep(" ", pad), bold(red("\u2715 ")), paste(..., sep = sep), end, sep = "")
 }
 
 
