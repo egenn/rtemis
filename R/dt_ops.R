@@ -36,10 +36,10 @@ dt_merge <- function(left,
                      on = NULL,
                      left_on = NULL,
                      right_on = NULL,
-                     how = "inner",
+                     how = "left",
                      left_suffix = NULL,
                      right_suffix = NULL,
-                     verbose = TRUE) {
+                     verbose = TRUE, ...) {
     leftname <- deparse(substitute(left))
     rightname <- deparse(substitute(right))
     if (is.null(left_on)) left_on <- on
@@ -78,7 +78,7 @@ dt_merge <- function(left,
     }
     dat <- merge(left, right,
         by.x = left_on, by.y = right_on,
-        all.x = all.x, all.y = all.y
+        all.x = all.x, all.y = all.y, ...
     )
     if (verbose) {
         catsize(dat, "Merged")
