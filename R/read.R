@@ -1,21 +1,22 @@
-# get_data.R
+# read.R
 # ::rtemis::
 # 2022 E.D. Gennatas www.lambdamd.org
 
 #' Read delimited file into a data.table
 #'
-#' Convenience function to read data into a data.table using either
-#' \code{data.table:fread()} or \code{arrow:read_delim_arrow()}
+#' Convenience function to read data into a data.table using
+#' \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
+#' or \code{vroom::vroom()}
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
-#' @param datadir Character: Optional path to directory where \code{filename} 
+#' @param datadir Character: Optional path to directory where \code{filename}
 #' is located. If not specified, \code{filename} must be the full path.
 #' @param make.unique Logical: If TRUE, keep unique rows only
-#' @param character2factor Logical: If TRUE, convert character variables to 
+#' @param character2factor Logical: If TRUE, convert character variables to
 #' factors
-#' @param clean.colnames Logical: If TRUE, clean columns names using 
+#' @param clean.colnames Logical: If TRUE, clean columns names using
 #' \link{clean_colnames}
-#' @param reader Character: "data.table" or "arrow", to use 
+#' @param reader Character: "data.table" or "arrow", to use
 #' \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
 #' to read \code{filename}
 #' @param sep Single character: field separator. If \code{reader = "fread"}
@@ -23,7 +24,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param fread_verbose Logical: Passed to \code{data.table::fread}
 #' @param timed Logical: If TRUE, time the process and print to console
-#' @param ... Additional parameters to pass to \code{data.table::fread}, 
+#' @param ... Additional parameters to pass to \code{data.table::fread},
 #' \code{arrow::read_delim_arrow()} or \code{vroom::vroom()}
 #'
 #' @author E.D. Gennatas
@@ -31,22 +32,20 @@
 #' @examples
 #' \dontrun{
 #' datadir <- "~/icloud/Data"
-#' dat <- get_data("iris.csv", datadir)
+#' dat <- read("iris.csv", datadir)
 #' }
-
-get_data <- function(filename,
-                     datadir = NULL,
-                     make.unique = TRUE,
-                     character2factor = FALSE,
-                     clean.colnames = TRUE,
-                     reader = c("data.table", "arrow", "vroom"),
-                     sep = NULL,
-                     attr = NULL,
-                     value = NULL,
-                     verbose = TRUE,
-                     fread_verbose = FALSE,
-                     timed = verbose, ...) {
-
+read <- function(filename,
+                 datadir = NULL,
+                 make.unique = TRUE,
+                 character2factor = FALSE,
+                 clean.colnames = TRUE,
+                 reader = c("data.table", "arrow", "vroom"),
+                 sep = NULL,
+                 attr = NULL,
+                 value = NULL,
+                 verbose = TRUE,
+                 fread_verbose = FALSE,
+                 timed = verbose, ...) {
     dependency_check("data.table")
     reader <- match.arg(reader)
     if (timed) start.time <- intro(verbose = FALSE)
@@ -68,7 +67,8 @@ get_data <- function(filename,
         if (is.null(sep)) sep <- ","
         .dat <- arrow::read_delim_arrow(
             path,
-            delim = sep, ...) |>
+            delim = sep, ...
+        ) |>
             data.table::setDT()
     } else {
         dependency_check("vroom")
@@ -79,7 +79,7 @@ get_data <- function(filename,
         ) |>
             data.table::setDT()
     }
-    
+
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
     if (verbose) {
@@ -107,11 +107,11 @@ get_data <- function(filename,
             )
         }
     }
-    
+
     if (clean.colnames) {
         setnames(.dat, names(.dat), clean_colnames(.dat))
     }
-    
+
     if (character2factor) {
         .dat <- preprocess(.dat, character2factor = TRUE)
     }
@@ -122,8 +122,7 @@ get_data <- function(filename,
 
     if (timed) outro(start.time)
     .dat
-
-} # rtemis::get_data
+} # rtemis::read
 
 msgread <- function(x, caller = "", use_basename = TRUE) {
     if (use_basename) x <- basename(x)
