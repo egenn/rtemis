@@ -387,17 +387,10 @@ catsize <- function(x, name = NULL, verbose = TRUE, newline = TRUE) {
         nrows <- format(.nrow, big.mark = ",")
         ncols <- format(.ncol, big.mark = ",")
         if (verbose) {
-            cat(
-                # "There", 
-                # ngettext(.nrow, "is", "are"),
+            pcat(
                 name,
-                hilite(nrows),
-                # ngettext(.nrow, "row", "rows"),
-                # "by", 
-                "x",
-                hilite(ncols),
-                # ngettext(.ncol, "column", "columns"),
-                if (newline) "\n"
+                paste(hilite(nrows), "x", hilite(ncols)),
+                newline = newline
             )
         }
         invisible(c(.nrow, .ncol))
