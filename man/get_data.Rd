@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_data.R
 \name{get_data}
 \alias{get_data}
-\title{Read data from file}
+\title{Read delimited file into a data.table}
 \usage{
 get_data(
   filename,
@@ -12,6 +12,8 @@ get_data(
   clean.colnames = TRUE,
   reader = c("data.table", "arrow", "vroom"),
   sep = NULL,
+  attr = NULL,
+  value = NULL,
   verbose = TRUE,
   fread_verbose = FALSE,
   timed = verbose,

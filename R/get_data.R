@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2022 E.D. Gennatas www.lambdamd.org
 
-#' Read data from file
+#' Read delimited file into a data.table
 #'
 #' Convenience function to read data into a data.table using either
 #' \code{data.table:fread()} or \code{arrow:read_delim_arrow()}
@@ -41,6 +41,8 @@ get_data <- function(filename,
                      clean.colnames = TRUE,
                      reader = c("data.table", "arrow", "vroom"),
                      sep = NULL,
+                     attr = NULL,
+                     value = NULL,
                      verbose = TRUE,
                      fread_verbose = FALSE,
                      timed = verbose, ...) {
@@ -112,6 +114,10 @@ get_data <- function(filename,
     
     if (character2factor) {
         .dat <- preprocess(.dat, character2factor = TRUE)
+    }
+
+    if (!is.null(attr) && !is.null(value)) {
+        for (i in seq_len(ncol(.dat))) setattr(.dat[[i]], attr, value)
     }
 
     if (timed) outro(start.time)
