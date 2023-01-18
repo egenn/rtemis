@@ -377,7 +377,9 @@ twocol2html <- function(x,
 #' @examples
 #' catsize(iris)
 
-catsize <- function(x, verbose = TRUE, newline = TRUE) {
+catsize <- function(x, name = NULL, verbose = TRUE, newline = TRUE) {
+
+    if (verbose && !is.null(name)) name <- paste0(name, ":")
 
     if (inherits(x, c("matrix", "data.frame"))) {
         .nrow <- NROW(x)
@@ -388,11 +390,13 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
             cat(
                 # "There", 
                 # ngettext(.nrow, "is", "are"),
+                name,
                 hilite(nrows),
-                ngettext(.nrow, "row", "rows"),
-                "by", 
+                # ngettext(.nrow, "row", "rows"),
+                # "by", 
+                "x",
                 hilite(ncols),
-                ngettext(.ncol, "column.", "columns."),
+                # ngettext(.ncol, "column", "columns"),
                 if (newline) "\n"
             )
         }
@@ -404,8 +408,9 @@ catsize <- function(x, verbose = TRUE, newline = TRUE) {
             cat(
                 # "There", 
                 # ngettext(.nels, "is", "are"),
-                nels, 
-                ngettext(.nels, "element.", "elements."),
+                name,
+                hilite(nels), 
+                # ngettext(.nels, "element", "elements"),
                 if (newline) "\n"
             )
         }

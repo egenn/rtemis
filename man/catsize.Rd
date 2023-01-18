@@ -4,7 +4,7 @@
 \alias{catsize}
 \title{Print Size}
 \usage{
-catsize(x, verbose = TRUE, newline = TRUE)
+catsize(x, name = NULL, verbose = TRUE, newline = TRUE)
 }
 \arguments{
 \item{x}{R object (usually that inherits from matrix or data.frame)}
