@@ -290,3 +290,28 @@ msg20 <- function(...,
     cat(gray(" [", bold(caller), "]\n", sep = ""), sep = "")
     
 } # rtemis::msg20
+
+
+#' Pad-cat
+#' 
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' {
+#'    msg2("Hello")
+#'    pcat("super", "wow")
+#'    pcat(NULL, "oooo")
+#' }
+#' }
+pcat <- function(left, right, pad = 17, newline = TRUE) {
+    lpad <- max(0, pad - 1 - max(0, nchar(left)))
+    cat(pad(left), right)
+    if (newline) cat("\n")
+}
+
+pad <- function(x, target = 17, char = " ") {
+    lpad <- max(0, target - max(0, nchar(x)))
+    paste0(
+        paste(rep(char, lpad), collapse = ""), x
+    )
+}
