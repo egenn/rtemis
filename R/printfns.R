@@ -379,8 +379,6 @@ twocol2html <- function(x,
 
 catsize <- function(x, name = NULL, verbose = TRUE, newline = TRUE) {
 
-    if (verbose && !is.null(name)) name <- paste0(name, ":")
-
     if (inherits(x, c("matrix", "data.frame"))) {
         .nrow <- NROW(x)
         .ncol <- NCOL(x)
