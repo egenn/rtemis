@@ -14,6 +14,75 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
     sapply(x, \(i) uniqueN(i, na.rm = excludeNA))
 } # rtemis::dt_Nuniqueperfeat
 
+
+#' Long to wide key-value reshaping
+#'
+#' Reshape a long format \code{data.table} using key-value pairs with
+#' \code{data.table::dcast}
+#'
+#' @param x A \code{data.table} object
+#' @param id_name Character: Name of column in \code{x} that defines the IDs
+#' identifying individual rows
+#' @param key_name Character: Name of column in \code{x} that holds the key
+#' @param value_name Character: Name of column in \code{x} thatholds the values
+#' that correspond to the key
+#' @param positive Numeric or Character: Used to fill id ~ key combination
+#' present in the long format input \code{x}
+#' @param negative Numeric or Character: Used to fill id ~ key combination
+#' NOT present in the long format input \code{x}
+#' @param verbose Logical: If TRUE, print messages to the console
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- data.table(
+#'     ID = rep(1:3, each = 2),
+#'     Dx = c("A", "C", "B", "C", "D", "A")
+#' )
+#' dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
+#' }
+
+dt_keybin_reshape <- function(x,
+                              id_name,
+                              key_name,
+                              positive = 1,
+                              negative = 0,
+                              xname = NULL,
+                              verbose = TRUE) {
+    if (is.null(xname)) {
+        xname <- deparse(substitute(x))
+    }
+    stopifnot(inherits(x, "data.table"))
+    x <- copy(x)
+
+    # Assign positive value to all in long form
+    value_name <- "Bin__"
+    x[, (value_name) := positive]
+
+    .formula <- as.formula(paste(
+        paste(id_name, collapse = " + "), 
+        "~", key_name
+    ))
+    if (verbose) {
+        msg2("Reshaping", hilite(xname), "to wide format...")
+        catsize(x, "Input size")
+    }
+    # Reshape to wide, filling all absent with negative value
+    x <- dcast(
+        x,
+        .formula,
+        fun.aggregate = length,
+        value.var = value_name,
+        drop = FALSE,
+        fill = negative
+    )
+
+    if (verbose) catsize(x, "Output size")
+    x
+} # rtemis::dt_keybin_reshape
+
+
 #' Merge data.tables
 #'
 #' @param left data.table
@@ -22,7 +91,7 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
 #' @param left_on Character: Name of column on left table
 #' @param right_on Character: Name of column on right table
 #' @param how Character: Type of join: "inner", "left", "right", "outer".
-#' @param left_suffix Character: If provided, add this suffix to all left column names, 
+#' @param left_suffix Character: If provided, add this suffix to all left column names,
 #' excluding on/left_on
 #' @param right_suffix Character: If provided, add this suffix to all right column names,
 #' excluding on/right_on
@@ -37,11 +106,13 @@ dt_merge <- function(left,
                      left_on = NULL,
                      right_on = NULL,
                      how = "left",
+                     left_name = NULL,
+                     right_name = NULL,
                      left_suffix = NULL,
                      right_suffix = NULL,
                      verbose = TRUE, ...) {
-    leftname <- deparse(substitute(left))
-    rightname <- deparse(substitute(right))
+    if (is.null(left_name)) left_name <- deparse(substitute(left))
+    if (is.null(right_name)) right_name <- deparse(substitute(right))
     if (is.null(left_on)) left_on <- on
     if (is.null(right_on)) right_on <- on
     if (verbose) {
@@ -51,9 +122,20 @@ dt_merge <- function(left,
             right = "\u27D6",
             "\u27D7"
         )
-        msg20(bold(green(icon)), " Merging ", hilite(leftname), " & ", hilite(rightname), "...")
-        catsize(left, leftname)
-        catsize(right, rightname)
+        if (left_on == right_on) {
+            msg20(
+                bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
+                " on ", hilite(left_on), "..."
+            )
+        } else {
+            msg20(
+                bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
+                " on ", hilite(left_on), " & ", hilite(right_on), "..."
+            )
+        }
+        
+        catsize(left, left_name)
+        catsize(right, right_name)
     }
 
     if (how == "left") {
@@ -84,5 +166,4 @@ dt_merge <- function(left,
         catsize(dat, "Merged")
     }
     dat
-
 } # rtemis::dt_merge
