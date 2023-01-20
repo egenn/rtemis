@@ -12,6 +12,7 @@ read(
   clean.colnames = TRUE,
   reader = c("data.table", "arrow", "vroom"),
   sep = NULL,
+  quote = "\\"",
   attr = NULL,
   value = NULL,
   verbose = TRUE,

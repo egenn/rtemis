@@ -10,10 +10,13 @@ dt_merge(
   on = NULL,
   left_on = NULL,
   right_on = NULL,
-  how = "inner",
+  how = "left",
+  left_name = NULL,
+  right_name = NULL,
   left_suffix = NULL,
   right_suffix = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -29,7 +32,7 @@ dt_merge(
 
 \item{how}{Character: Type of join: "inner", "left", "right", "outer".}
 
-\item{left_suffix}{Character: If provided, add this suffix to all left column names, 
+\item{left_suffix}{Character: If provided, add this suffix to all left column names,
 excluding on/left_on}
 
 \item{right_suffix}{Character: If provided, add this suffix to all right column names,
