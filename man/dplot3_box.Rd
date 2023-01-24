@@ -58,7 +58,7 @@ dplot3_box(
   htest.annotate = TRUE,
   htest.annotate.x = 0,
   htest.annotate.y = -0.05,
-  htest.annotate.col = theme$labs.col,
+  htest.star.col = theme$labs.col,
   use.plotly.group = FALSE,
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
