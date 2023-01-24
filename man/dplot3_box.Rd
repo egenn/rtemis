@@ -50,12 +50,15 @@ dplot3_box(
   boxgroupgap = NULL,
   hovertext = NULL,
   show_n = FALSE,
+  pvals = NULL,
   htest = "none",
+  htest.compare = 0,
   htest.thresh = 0.05,
   htest.y = 1,
   htest.annotate = TRUE,
   htest.annotate.x = 0,
   htest.annotate.y = -0.05,
+  htest.annotate.col = theme$labs.col,
   use.plotly.group = FALSE,
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
@@ -89,7 +92,7 @@ comparable}
 
 \item{ylab}{Character: y-axis label.}
 
-\item{col}{Color, vector: Color for boxes. If NULL, which will draw 
+\item{col}{Color, vector: Color for boxes. If NULL, which will draw
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for box colors.}
@@ -100,7 +103,7 @@ colors from \code{palette}}
 
 \item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
 
-\item{palette}{Character: Name of \pkg{rtemis} palette to use. 
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
 Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{boxpoints}{Character or FALSE: "all", "suspectedoutliers", "outliers"
@@ -112,7 +115,7 @@ See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-qu
 
 \item{ylim}{Numeric vector: y-axis limits}
 
-\item{violin.box}{Logical: If TRUE and type is "violin" show box within 
+\item{violin.box}{Logical: If TRUE and type is "violin" show box within
 violin plot}
 
 \item{orientation}{Character: "v" or "h" for vertical, horizontal}
@@ -135,7 +138,7 @@ boxplots}
 
 \item{labelify}{Logical: If TRUE, \link{labelify} x names}
 
-\item{order.by.fn}{Function: If defined, order boxes by increasing value of 
+\item{order.by.fn}{Function: If defined, order boxes by increasing value of
 this function (e.g. median).}
 
 \item{font.size}{Float: Font size for all labels.}
@@ -144,7 +147,7 @@ this function (e.g. median).}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = TRUE}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by
 the theme}
 
 \item{legend.xy}{Float, vector, length 2: Relative x, y position for legend.}
@@ -157,17 +160,17 @@ the theme}
 \item{legend.yanchor}{Character: Legend's y anchor: "top", "middle",
 "bottom", "auto"}
 
-\item{xaxis.type}{Character: "linear", "log", "date", "category", 
+\item{xaxis.type}{Character: "linear", "log", "date", "category",
 "multicategory"}
 
-\item{margin}{Named list: plot margins. 
+\item{margin}{Named list: plot margins.
 Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
 
 \item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
 
 \item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
 
-\item{boxgroupgap}{Numeric: Sets the gap (in plot fraction) between boxes 
+\item{boxgroupgap}{Numeric: Sets the gap (in plot fraction) between boxes
 of the same location coordinate}
 
 \item{hovertext}{Character vector: Text to show on hover for each data point}
@@ -179,18 +182,20 @@ the *first* box. If grouped, compare within each group to the first box.
 If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
+\item{htest.compare}{Integer: 0: Compare all distributions against the first one}
+
 \item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
 
 \item{htest.y}{Numeric: y coordinate for \code{htest} annotation}
 
-\item{htest.annotate}{Logical: if TRUE, include htest annotation 
+\item{htest.annotate}{Logical: if TRUE, include htest annotation
 e.g. "*pval < 0.05"}
 
 \item{htest.annotate.x}{Numeric: x-axis paper coordinate for htest annotation}
 
 \item{htest.annotate.y}{Numeric: y-axis paper coordinate for htest annotation}
 
-\item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group 
+\item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group
 boxes.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
@@ -222,7 +227,7 @@ appear below boxplots
 - `x=dat[, columnindex], group = factor` for grouping multiple variables:
 group names appear in legend
 
-If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa.
+If \code{orientation == "h"}, \code{xlab} is applied to y-axis and vice versa.
 Similarly, \code{x.axist.type} applies to y-axis - this defaults to
 "category" and would not normally need changing.
 }

@@ -15,7 +15,7 @@
 #' - `x=dat[, columnindex], group = factor` for grouping multiple variables:
 #' group names appear in legend
 #'
-#' If \code{orientation = "h"}, \code{xlab} is applied to y-axis and vice versa.
+#' If \code{orientation == "h"}, \code{xlab} is applied to y-axis and vice versa.
 #' Similarly, \code{x.axist.type} applies to y-axis - this defaults to
 #' "category" and would not normally need changing.
 #'
@@ -32,13 +32,13 @@
 #' @param main Character: Plot title.
 #' @param xlab Character: x-axis label.
 #' @param ylab  Character: y-axis label.
-#' @param col Color, vector: Color for boxes. If NULL, which will draw 
+#' @param col Color, vector: Color for boxes. If NULL, which will draw
 #' colors from \code{palette}
 #' @param alpha Float (0, 1]: Transparency for box colors.
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area.
 #' @param theme Character: Theme to use: Run \code{themes()} for available themes
-#' @param palette Character: Name of \pkg{rtemis} palette to use. 
+#' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' Default = "rtCol1". Only used if \code{col = NULL}
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
 #' @param xlim Numeric vector: x-axis limits
@@ -51,19 +51,19 @@
 #' boxplots
 #' @param group.lines.col Color for \code{group.lines}
 #' @param group.lines.alpha Numeric: transparency for \code{group.lines.col}
-#' @param order.by.fn Function: If defined, order boxes by increasing value of 
+#' @param order.by.fn Function: If defined, order boxes by increasing value of
 #' this function (e.g. median).
 #' @param font.size  Float: Font size for all labels.
 #' @param ylab.standoff Numeric: Standoff for y-axis label
 #' @param legend Logical: If TRUE, draw legend. Default = TRUE
-#' @param legend.col Color: Legend text color. Default = NULL, determined by 
+#' @param legend.col Color: Legend text color. Default = NULL, determined by
 #' the theme
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend.
-#' @param xaxis.type Character: "linear", "log", "date", "category", 
+#' @param xaxis.type Character: "linear", "log", "date", "category",
 #' "multicategory"
-#' @param margin Named list: plot margins. 
+#' @param margin Named list: plot margins.
 #' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
-#' @param violin.box Logical: If TRUE and type is "violin" show box within 
+#' @param violin.box Logical: If TRUE and type is "violin" show box within
 #' violin plot
 #' @param orientation Character: "v" or "h" for vertical, horizontal
 #' @param annotate_n Logical: If TRUE, annotate with N in each box
@@ -77,21 +77,24 @@
 #' "bottom", "auto"
 #' @param automargin.x Logical: If TRUE, automatically set x-axis amrgins
 #' @param automargin.y Logical: If TRUE, automatically set y-axis amrgins
-#' @param boxgroupgap Numeric: Sets the gap (in plot fraction) between boxes 
+#' @param boxgroupgap Numeric: Sets the gap (in plot fraction) between boxes
 #' of the same location coordinate
 #' @param hovertext Character vector: Text to show on hover for each data point
 #' @param show_n Logical: If TRUE, show N in each box
+#' @param pvals Numeric vector: Precomputed p-values. Should correspond to each box.
+#' Bypasses \code{htest} and \code{htest.compare}.
 #' @param htest Character: e.g. "t.test", "wilcox.test" to compare each box to
 #' the *first* box. If grouped, compare within each group to the first box.
 #' If p-value of test is less than \code{htest.thresh}, add asterisk above/
 #' to the side of each box
+#' @param htest.compare Integer: 0: Compare all distributions against the first one
 #' @param htest.thresh Numeric: Significance threshold for \code{htest}
 #' @param htest.y Numeric: y coordinate for \code{htest} annotation
-#' @param htest.annotate Logical: if TRUE, include htest annotation 
+#' @param htest.annotate Logical: if TRUE, include htest annotation
 #' e.g. "*pval < 0.05"
 #' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation
 #' @param htest.annotate.y Numeric: y-axis paper coordinate for htest annotation
-#' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group 
+#' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 #' @param filename Character: Path to file to save static plot.
@@ -133,74 +136,74 @@
 #' # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 #' }
 #'
-
-dplot3_box <- function(
-            x,
-            time = NULL,
-            time.bin = c("year", "quarter", "month", "day"),
-            type = c("box", "violin"),
-            group = NULL,
-            x.transform = c("none", "scale", "minmax"),
-            main = NULL,
-            xlab = "",
-            ylab = NULL,
-            col = NULL,
-            alpha = .6,
-            bg = NULL,
-            plot.bg = NULL,
-            theme = rtTheme,
-            palette = rtPalette,
-            boxpoints = "outliers",
-            quartilemethod = "linear",
-            xlim = NULL,
-            ylim = NULL,
-            # width = 0,
-            violin.box = TRUE,
-            orientation = "v",
-            annotate_n = FALSE,
-            annotate_n_y = 1,
-            annotate.col = theme$labs.col,
-            xnames = NULL,
-            group.lines = TRUE,
-            group.lines.col = NULL,
-            group.lines.alpha = .5,
-            labelify = TRUE,
-            order.by.fn = NULL,
-            font.size = 16,
-            # Axes
-            ylab.standoff = 18,
-            legend = NULL,
-            legend.col = NULL,
-            legend.xy = NULL,
-            legend.orientation = "v",
-            legend.xanchor = "auto",
-            legend.yanchor = "auto",
-            xaxis.type = "category",
-            # margin = list(t = 35, pad = 0),
-            margin = list(b = 65, l = 65, t = 50, r = 12, pad = 0),
-            automargin.x = TRUE,
-            automargin.y = TRUE,
-            # boxgap = 0, #1/nvars, #.12,
-            boxgroupgap = NULL,
-            hovertext = NULL,
-            show_n = FALSE,
-            # boxmode = NULL,
-            htest = "none",
-            htest.thresh = .05,
-            htest.y = 1,
-            htest.annotate = TRUE,
-            htest.annotate.x = 0,
-            htest.annotate.y = -.05,
-            use.plotly.group = FALSE,
-            displayModeBar = TRUE,
-            modeBar.file.format = "svg",
-            filename = NULL,
-            file.width = 500,
-            file.height = 500,
-            file.scale = 1,
-            # print.plot = TRUE,
-            ...) {
-
+dplot3_box <- function(x,
+                       time = NULL,
+                       time.bin = c("year", "quarter", "month", "day"),
+                       type = c("box", "violin"),
+                       group = NULL,
+                       x.transform = c("none", "scale", "minmax"),
+                       main = NULL,
+                       xlab = "",
+                       ylab = NULL,
+                       col = NULL,
+                       alpha = .6,
+                       bg = NULL,
+                       plot.bg = NULL,
+                       theme = rtTheme,
+                       palette = rtPalette,
+                       boxpoints = "outliers",
+                       quartilemethod = "linear",
+                       xlim = NULL,
+                       ylim = NULL,
+                       # width = 0,
+                       violin.box = TRUE,
+                       orientation = "v",
+                       annotate_n = FALSE,
+                       annotate_n_y = 1,
+                       annotate.col = theme$labs.col,
+                       xnames = NULL,
+                       group.lines = TRUE,
+                       group.lines.col = NULL,
+                       group.lines.alpha = .5,
+                       labelify = TRUE,
+                       order.by.fn = NULL,
+                       font.size = 16,
+                       # Axes
+                       ylab.standoff = 18,
+                       legend = NULL,
+                       legend.col = NULL,
+                       legend.xy = NULL,
+                       legend.orientation = "v",
+                       legend.xanchor = "auto",
+                       legend.yanchor = "auto",
+                       xaxis.type = "category",
+                       # margin = list(t = 35, pad = 0),
+                       margin = list(b = 65, l = 65, t = 50, r = 12, pad = 0),
+                       automargin.x = TRUE,
+                       automargin.y = TRUE,
+                       # boxgap = 0, #1/nvars, #.12,
+                       boxgroupgap = NULL,
+                       hovertext = NULL,
+                       show_n = FALSE,
+                       # boxmode = NULL,
+                       pvals = NULL,
+                       htest = "none",
+                       htest.compare = 0,
+                       htest.thresh = .05,
+                       htest.y = 1,
+                       htest.annotate = TRUE,
+                       htest.annotate.x = 0,
+                       htest.annotate.y = -.05,
+                       htest.annotate.col = theme$labs.col,
+                       use.plotly.group = FALSE,
+                       displayModeBar = TRUE,
+                       modeBar.file.format = "svg",
+                       filename = NULL,
+                       file.width = 500,
+                       file.height = 500,
+                       file.scale = 1,
+                       # print.plot = TRUE,
+                       ...) {
     # Dependencies ----
     dependency_check("plotly")
 
@@ -208,7 +211,7 @@ dplot3_box <- function(
     type <- match.arg(type)
     x.transform <- match.arg(x.transform)
 
-    # Convert vector or matrix to list
+    # Convert vector or data.frame/data.table/matrix to list
     if (!is.list(x)) {
         # x is vector
         if (is.numeric(x)) {
@@ -392,14 +395,16 @@ dplot3_box <- function(
                         showarrow = FALSE
                     )
             } # /annotate_n
-            
+
             # '-htest ----
             if (htest != "none") {
-                pvals <- sapply(x[-1], \(v) {
-                    suppressWarnings(
-                        do.call(htest, list(x = x[[1]], y = v))$p.value
-                    )
-                })
+                if (htest.compate == 0) {
+                    pvals <- sapply(x[-1], \(v) {
+                        suppressWarnings(
+                            do.call(htest, list(x = x[[1]], y = v))$p.value
+                        )
+                    })
+                }
                 plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
                     yref = if (horizontal) "x" else "paper",
@@ -415,18 +420,19 @@ dplot3_box <- function(
                     ),
                     showarrow = FALSE
                 )
-            
+
                 if (htest.annotate) {
                     test <- switch(htest,
-                    `wilcox.test` = "Wilcoxon",
-                    `t.test` = "T-test",
-                    htest)
+                        `wilcox.test` = "Wilcoxon",
+                        `t.test` = "T-test",
+                        htest
+                    )
                     plt <- plt |> plotly::add_annotations(
                         xref = "paper",
                         yref = "paper",
                         yanchor = "top",
                         xanchor = "left",
-                        x = htest.annotate.x, 
+                        x = htest.annotate.x,
                         y = htest.annotate.y,
                         text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
                         font = list(
@@ -442,7 +448,7 @@ dplot3_box <- function(
             if (use.plotly.group) {
                 # A.2.a. Grouped boxplots with [group] ----
                 # Best to use this for multiple variables x group.
-                # For single variables x group, preferred way it to use 
+                # For single variables x group, preferred way it to use
                 # split(var, group) => A1
                 if (is.null(legend)) legend <- TRUE
                 dt <- cbind(data.table::as.data.table(x), group = group)
@@ -572,7 +578,7 @@ dplot3_box <- function(
                             )
                     }
                 }
-                    
+
                 # '-Annotate N ----
                 if (annotate_n) {
                     Nperbox <- Filter(
@@ -609,73 +615,75 @@ dplot3_box <- function(
                             showarrow = FALSE
                         )
                 } # /annotate_n
-                
+
                 # '- htest ----
-                if (htest != "none") {
-                # dts list elements are groups; columns are variables
-                # pvals is N groups -1 x N vars
-                pvals <- sapply(seq_len(NCOL(dts[[1]])), \(cid) {
-                    sapply(2:length(dts), \(gid) {
-                        suppressWarnings(
-                            do.call(htest, list(
-                                x = dts[[1]][[cid]],
-                                y = dts[[gid]][[cid]]
-                            ))$p.value
-                        )
-                    })
-                })
-                pvals <- c(rbind(1, pvals))
-                # htest_text <- ifelse(pvals < htest.thresh, "*", "")
-
-                # pvals is N vars x N groups -1;
-                # comparing to first group for each var
-                # pvals <- sapply(2:length(dts), \(gid) {
-                #     sapply(1:NCOL(dts[[1]]), \(cid) {
-                #         do.call(htest, list(
-                #             x = dts[[1]][[cid]],
-                #             y = dts[[gid]][[cid]]
-                #         ))$p.value
-                #     })
-                # })
-                # pvals <- c(cbind(1, pvals))
-
-                plt <- plt |> plotly::add_annotations(
-                    xref = if (horizontal) "paper" else "x",
-                    yref = if (horizontal) "x" else "paper",
-                    yanchor = if (horizontal) "auto" else "top",
-                    xanchor = if (horizontal) "center" else "auto",
-                    x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
-                    y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
-                    text = unname(ifelse(pvals < htest.thresh, "*", "")),
-                    font = list(
-                        family = theme$font.family,
-                        size = font.size,
-                        color = annotate.col
-                    ),
-                    showarrow = FALSE
-                )
-                if (htest.annotate) {
-                    test <- switch(htest,
-                        `wilcox.test` = "Wilcoxon",
-                        `t.test` = "T-test",
-                        htest
-                    )
-                    plt |> plotly::add_annotations(
-                        xref = "paper",
-                        yref = "paper",
-                        yanchor = "top",
-                        xanchor = "left",
-                        x = htest.annotate.x,
-                        y = htest.annotate.y,
-                        text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                if (htest != "none" || !is.null(pvals)) {
+                    # dts list elements are groups; columns are variables
+                    # pvals is N groups -1 x N vars
+                    if (is.null(pvals)) {
+                        if (htest.compare == 0) {
+                            pvals <- sapply(seq_len(nvars), \(cid) {
+                                sapply(2:ngroups, \(gid) {
+                                    suppressWarnings(
+                                        do.call(htest, list(
+                                            x = dts[[1]][[cid]],
+                                            y = dts[[gid]][[cid]]
+                                        ))$p.value
+                                    )
+                                })
+                            })
+                            pvals <- c(rbind(1, pvals))
+                        } else if (htest.compare == 2) {
+                            pvals <- rep(1, nvars * ngroups)
+                            pvals[seq(2, ngroups * nvars, 2)] <- lapply(seq_len(nvars), \(cid) {
+                                lapply(seq(htest.compare, ngroups, htest.compare), \(gid) {
+                                    suppressWarnings(
+                                        do.call(htest, list(
+                                            x = dts[[gid - 1]][[cid]],
+                                            y = dts[[gid]][[cid]]
+                                        ))$p.value
+                                    )
+                                })
+                            }) |> unlist()
+                        }
+                    }
+                    plt <- plt |> plotly::add_annotations(
+                        xref = if (horizontal) "paper" else "x",
+                        yref = if (horizontal) "x" else "paper",
+                        yanchor = if (horizontal) "auto" else "top",
+                        xanchor = if (horizontal) "center" else "auto",
+                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
+                        y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
+                        text = unname(ifelse(pvals < htest.thresh, "*", "")),
                         font = list(
                             family = theme$font.family,
                             size = font.size,
-                            color = annotate.col
+                            color = htest.annotate.col
                         ),
                         showarrow = FALSE
-                    ) -> plt
-                }
+                    )
+                    if (htest.annotate) {
+                        test <- switch(htest,
+                            `wilcox.test` = "Wilcoxon",
+                            `t.test` = "T-test",
+                            htest
+                        )
+                        plt <- plt |> plotly::add_annotations(
+                            xref = "paper",
+                            yref = "paper",
+                            yanchor = "top",
+                            xanchor = "left",
+                            x = htest.annotate.x,
+                            y = htest.annotate.y,
+                            text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                            font = list(
+                                family = theme$font.family,
+                                size = font.size,
+                                color = annotate.col
+                            ),
+                            showarrow = FALSE
+                        )
+                    }
                 } # /htest grouped
             }
         }
@@ -693,10 +701,11 @@ dplot3_box <- function(
         dt[, timeperiod := date2factor(time, time.bin)] |>
             setkey(timeperiod)
 
-        Npertimeperiod <- dt[levels(timeperiod)][, 
+        Npertimeperiod <- dt[levels(timeperiod)][,
             lapply(.SD, \(i) length(na.exclude(i))),
-            by = timeperiod] |>
-                setorder()
+            by = timeperiod
+        ] |>
+            setorder()
 
         ## Long data
         dtlong <- data.table::melt(dt[, ID := .I],
@@ -741,13 +750,13 @@ dplot3_box <- function(
 
         plt <- do.call(plotly::plot_ly, .args)
         if (!is.null(group) || nvars > 1) {
-            plt |> plotly::layout(boxmode = "group") -> plt
+            plt <- plt |> plotly::layout(boxmode = "group")
         }
 
         # '-Annotate N ----
         if (is.null(group) && annotate_n) {
             Nperbox <- Npertimeperiod[[2]] # include zeros
-            plt |>
+            plt <- plt |>
                 plotly::add_annotations(
                     xref = "paper", yref = "paper",
                     xanchor = "right",
@@ -773,7 +782,7 @@ dplot3_box <- function(
                         color = annotate.col
                     ),
                     showarrow = FALSE
-                ) -> plt
+                )
         }
     } # /time-binned boxplots
 
@@ -803,49 +812,49 @@ dplot3_box <- function(
     )
 
     yaxis.title <- if (horizontal) xlab else ylab
-        plt <- plotly::layout(plt,
-            yaxis = list(
-                title = list(text = yaxis.title, standoff = ylab.standoff),
-                type = if (horizontal) xaxis.type else NULL,
-                titlefont = f,
-                showgrid = if (horizontal) FALSE else theme$grid,
-                gridcolor = grid.col,
-                gridwidth = theme$grid.lwd,
-                tickcolor = if (horizontal) NA else tick.col,
-                tickfont = tickfont,
-                zeroline = FALSE,
-                automargin = automargin.y,
-                range = ylim
+    plt <- plotly::layout(plt,
+        yaxis = list(
+            title = list(text = yaxis.title, standoff = ylab.standoff),
+            type = if (horizontal) xaxis.type else NULL,
+            titlefont = f,
+            showgrid = if (horizontal) FALSE else theme$grid,
+            gridcolor = grid.col,
+            gridwidth = theme$grid.lwd,
+            tickcolor = if (horizontal) NA else tick.col,
+            tickfont = tickfont,
+            zeroline = FALSE,
+            automargin = automargin.y,
+            range = ylim
+        ),
+        xaxis = list(
+            title = if (horizontal) ylab else xlab,
+            type = if (horizontal) NULL else xaxis.type,
+            titlefont = f,
+            showgrid = if (horizontal) theme$grid else FALSE,
+            gridcolor = grid.col,
+            gridwidth = theme$grid.lwd,
+            tickcolor = if (horizontal) tick.col else NA,
+            tickfont = tickfont,
+            automargin = automargin.x,
+            range = xlim
+        ),
+        title = list(
+            text = main,
+            font = list(
+                family = theme$font.family,
+                size = font.size,
+                color = main.col
             ),
-            xaxis = list(
-                title = if (horizontal) ylab else xlab,
-                type = if (horizontal) NULL else xaxis.type,
-                titlefont = f,
-                showgrid = if (horizontal) theme$grid else FALSE,
-                gridcolor = grid.col,
-                gridwidth = theme$grid.lwd,
-                tickcolor = if (horizontal) tick.col else NA,
-                tickfont = tickfont,
-                automargin = automargin.x,
-                range = xlim
-            ),
-            title = list(
-                text = main,
-                font = list(
-                    family = theme$font.family,
-                    size = font.size,
-                    color = main.col
-                ),
-                xref = "paper",
-                x = theme$main.adj
-            ),
-            paper_bgcolor = bg,
-            plot_bgcolor = plot.bg,
-            margin = margin,
-            legend = .legend,
-            # boxgap = boxgap,
-            boxgroupgap = boxgroupgap
-        )
+            xref = "paper",
+            x = theme$main.adj
+        ),
+        paper_bgcolor = bg,
+        plot_bgcolor = plot.bg,
+        margin = margin,
+        legend = .legend,
+        # boxgap = boxgap,
+        boxgroupgap = boxgroupgap
+    )
 
     # Config ----
     plt <- plotly::config(plt,
@@ -863,12 +872,13 @@ dplot3_box <- function(
         plotly::save_image(
             plt,
             file = file.path(filename),
-            width = file.width, 
+            width = file.width,
             height = file.height,
             scale = file.scale
         )
     }
 
     plt
-
 } # rtemis::dplot3_box.R
+
+# todo: htest.compare = n
