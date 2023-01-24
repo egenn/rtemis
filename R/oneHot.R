@@ -139,11 +139,11 @@ oneHot.data.table <- function(x,
 #' @export
 #' @examples
 #' ir <- data.table::as.data.table(iris)
-#' # oneHot_ operates in-place; therefore no assignment is used:
-#' oneHot_(ir)
+#' # dt_set_oneHot operates in-place; therefore no assignment is used:
+#' dt_set_oneHot(ir)
 #' ir
 
-oneHot_ <- function(x,
+dt_set_oneHot <- function(x,
                     xname = NULL,
                     verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
@@ -164,4 +164,4 @@ oneHot_ <- function(x,
   if (verbose) msg2("Done")
   invisible(x)
 
-} # rtemis::oneHot.data.table
+} # rtemis::dt_set_oneHot
