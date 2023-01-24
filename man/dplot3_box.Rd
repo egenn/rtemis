@@ -177,12 +177,16 @@ of the same location coordinate}
 
 \item{show_n}{Logical: If TRUE, show N in each box}
 
+\item{pvals}{Numeric vector: Precomputed p-values. Should correspond to each box.
+Bypasses \code{htest} and \code{htest.compare}. Requires \code{group} to be set}
+
 \item{htest}{Character: e.g. "t.test", "wilcox.test" to compare each box to
 the *first* box. If grouped, compare within each group to the first box.
 If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
-\item{htest.compare}{Integer: 0: Compare all distributions against the first one}
+\item{htest.compare}{Integer: 0: Compare all distributions against the first one;
+2: Compare every second box to the one before it. Requires \code{group} to be set}
 
 \item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
 

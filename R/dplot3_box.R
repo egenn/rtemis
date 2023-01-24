@@ -82,12 +82,13 @@
 #' @param hovertext Character vector: Text to show on hover for each data point
 #' @param show_n Logical: If TRUE, show N in each box
 #' @param pvals Numeric vector: Precomputed p-values. Should correspond to each box.
-#' Bypasses \code{htest} and \code{htest.compare}.
+#' Bypasses \code{htest} and \code{htest.compare}. Requires \code{group} to be set
 #' @param htest Character: e.g. "t.test", "wilcox.test" to compare each box to
 #' the *first* box. If grouped, compare within each group to the first box.
 #' If p-value of test is less than \code{htest.thresh}, add asterisk above/
 #' to the side of each box
-#' @param htest.compare Integer: 0: Compare all distributions against the first one
+#' @param htest.compare Integer: 0: Compare all distributions against the first one;
+#' 2: Compare every second box to the one before it. Requires \code{group} to be set
 #' @param htest.thresh Numeric: Significance threshold for \code{htest}
 #' @param htest.y Numeric: y coordinate for \code{htest} annotation
 #' @param htest.annotate Logical: if TRUE, include htest annotation
@@ -194,7 +195,7 @@ dplot3_box <- function(x,
                        htest.annotate = TRUE,
                        htest.annotate.x = 0,
                        htest.annotate.y = -.05,
-                       htest.annotate.col = theme$labs.col,
+                       htest.star.col = theme$labs.col,
                        use.plotly.group = FALSE,
                        displayModeBar = TRUE,
                        modeBar.file.format = "svg",
@@ -398,7 +399,7 @@ dplot3_box <- function(x,
 
             # '-htest ----
             if (htest != "none") {
-                if (htest.compate == 0) {
+                if (htest.compare == 0) {
                     pvals <- sapply(x[-1], \(v) {
                         suppressWarnings(
                             do.call(htest, list(x = x[[1]], y = v))$p.value
@@ -434,7 +435,12 @@ dplot3_box <- function(x,
                         xanchor = "left",
                         x = htest.annotate.x,
                         y = htest.annotate.y,
-                        text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                        # text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                        # text = paste0("* ", test, " p-val < ", htest.thresh),
+                        text = paste0(
+                            '<span style="color:',
+                            htest.star.col, '">* </span>', 
+                            test, " p-val < ", htest.thresh),
                         font = list(
                             family = theme$font.family,
                             size = font.size,
@@ -658,7 +664,7 @@ dplot3_box <- function(x,
                         font = list(
                             family = theme$font.family,
                             size = font.size,
-                            color = htest.annotate.col
+                            color = htest.star.col
                         ),
                         showarrow = FALSE
                     )
@@ -675,7 +681,12 @@ dplot3_box <- function(x,
                             xanchor = "left",
                             x = htest.annotate.x,
                             y = htest.annotate.y,
-                            text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                            # text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
+                            # text = paste0("* ", test, " p-val < ", htest.thresh),
+                            text = paste0(
+                                '<span style="color:',
+                                htest.star.col, '">* </span>', 
+                                test, " p-val < ", htest.thresh),
                             font = list(
                                 family = theme$font.family,
                                 size = font.size,
