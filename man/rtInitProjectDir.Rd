@@ -6,6 +6,9 @@
 \usage{
 rtInitProjectDir(verbose = TRUE)
 }
+\arguments{
+\item{verbose}{Logical, If TRUE, print messages to console}
+}
 \description{
 Initializes Directory Structure: "R", "Data", "Results"
 }

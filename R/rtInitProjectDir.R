@@ -5,6 +5,8 @@
 #' Initialize Project Directory
 #'
 #' Initializes Directory Structure: "R", "Data", "Results"
+#' 
+#' @param verbose Logical, If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -33,10 +35,10 @@ rtInitProjectDir <- function(verbose = TRUE) {
       if (dir.exists(i)) {
         if (verbose) cat(hilite(" Done\n"))
       } else {
-        if (verbose) cat(red(" Failed", TRUE))
+        if (verbose) cat(red(" Failed", bold = TRUE))
       }
     } else {
-      if (verbose) cat(orange(" Already present\n", TRUE))
+      if (verbose) cat(orange(" Already present\n", bold = TRUE))
     }
   }
 
