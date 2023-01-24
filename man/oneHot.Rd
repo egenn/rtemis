@@ -5,7 +5,7 @@
 \alias{oneHot.default}
 \alias{oneHot.data.frame}
 \alias{oneHot.data.table}
-\alias{oneHot_}
+\alias{dt_set_oneHot}
 \title{One hot encoding}
 \usage{
 oneHot(x, xname = NULL, verbose = FALSE)
@@ -16,7 +16,7 @@ oneHot(x, xname = NULL, verbose = FALSE)
 
 \method{oneHot}{data.table}(x, xname = NULL, verbose = TRUE)
 
-oneHot_(x, xname = NULL, verbose = TRUE)
+dt_set_oneHot(x, xname = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{Vector or data.frame}
@@ -51,8 +51,8 @@ ir <- data.table::as.data.table(iris)
 ir_oh <- oneHot(ir)
 ir_oh
 ir <- data.table::as.data.table(iris)
-# oneHot_ operates in-place; therefore no assignment is used:
-oneHot_(ir)
+# dt_set_oneHot operates in-place; therefore no assignment is used:
+dt_set_oneHot(ir)
 ir
 }
 \author{
