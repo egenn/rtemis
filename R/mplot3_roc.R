@@ -7,21 +7,24 @@
 #' Plot ROC curve for a binary classifier
 #'
 #' @inheritParams mplot3_x
-#' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
-#' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
-#' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
-#' to get points of the ROC. Default = "rt"
-#' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
-#' False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"
-#' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE
-#' @param main Character: Plot title. Default = ""
+#' @param prob Numeric vector or list of numeric vectors [0, 1]: Predicted probabilities 
+#' (e.g. c(.1, .8, .2, .9))
+#' @param labels Integer vector or list of integer vectors {0, 1}: True labels 
+#' (e.g. c(0, 1, 0, 1))
+#' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} 
+#' respectively to get points of the ROC.
+#' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. 
+#' True positive rate vs. False positive rate and Sensitivity vs. Specificity.
+#' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced 
+#' Accuracy.
+#' @param main Character: Plot title.
 #' @param col Color, vector: Colors to use for ROC curve(s)
-#' @param cex Float: Character expansion factor. Default = 1.2
-#' @param lwd Float: Line width. Default = 2.5
-#' @param diagonal Logical: If TRUE, draw diagonal. Default = TRUE
-#' @param diagonal.lwd Float: Line width for diagonal. Default = 2.5
-#' @param diagonal.lty Integer: Line type for diagonal. Default = 1
-#' @param group.legend Logical
+#' @param cex Float: Character expansion factor.
+#' @param lwd Float: Line width.
+#' @param diagonal Logical: If TRUE, draw diagonal.
+#' @param diagonal.lwd Float: Line width for diagonal.
+#' @param diagonal.lty Integer: Line type for diagonal.
+#' @param group.legend Logical: If TRUE, print group legend
 #' @param ... Additional parameters to pass to \link{mplot3_xy}
 #' 
 #' @author E.D. Gennatas

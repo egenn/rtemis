@@ -36,33 +36,36 @@ mplot3_roc(
 )
 }
 \arguments{
-\item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}
+\item{prob}{Numeric vector or list of numeric vectors [0, 1]: Predicted probabilities 
+(e.g. c(.1, .8, .2, .9))}
 
-\item{labels}{Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))}
+\item{labels}{Integer vector or list of integer vectors {0, 1}: True labels 
+(e.g. c(0, 1, 0, 1))}
 
-\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} respectively
-to get points of the ROC. Default = "rt"}
+\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} 
+respectively to get points of the ROC.}
 
-\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. True positive rate vs.
-False positive rate and Sensitivity vs. Specificity. Default = "TPR.FPR"}
+\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. 
+True positive rate vs. False positive rate and Sensitivity vs. Specificity.}
 
-\item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced Accuracy. Default = FALSE}
+\item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced 
+Accuracy.}
 
-\item{main}{Character: Plot title. Default = ""}
+\item{main}{Character: Plot title.}
 
 \item{col}{Color, vector: Colors to use for ROC curve(s)}
 
-\item{cex}{Float: Character expansion factor. Default = 1.2}
+\item{cex}{Float: Character expansion factor.}
 
-\item{lwd}{Float: Line width. Default = 2.5}
+\item{lwd}{Float: Line width.}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal. Default = TRUE}
+\item{diagonal}{Logical: If TRUE, draw diagonal.}
 
-\item{diagonal.lwd}{Float: Line width for diagonal. Default = 2.5}
+\item{diagonal.lwd}{Float: Line width for diagonal.}
 
-\item{diagonal.lty}{Integer: Line type for diagonal. Default = 1}
+\item{diagonal.lty}{Integer: Line type for diagonal.}
 
-\item{group.legend}{Logical}
+\item{group.legend}{Logical: If TRUE, print group legend}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
