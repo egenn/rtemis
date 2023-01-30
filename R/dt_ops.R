@@ -167,3 +167,28 @@ dt_merge <- function(left,
     }
     dat
 } # rtemis::dt_merge
+
+
+#' Clean factor levels of data.table in-place
+#'
+#' Finds all factors in a data.table and cleans factor levels to include
+#' only underscore symbols
+#'
+#' @param x data.table
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- as.data.table(iris)
+#' levels(x$Species) <- c("setosa:iris", "versicolor$iris", "virginica iris")
+#' dt_set_cleanfactorlevels(x)
+#' x
+#' }
+dt_set_cleanfactorlevels <- function(x) {
+    stopifnot(inherits(x, "data.table"))
+    idi <- names(x)[sapply(x, is.factor)]
+    for (i in idi) {
+        x[, (i) := factor(x[[i]], labels = clean_names(levels(x[[i]])))]
+    }
+} # rtemis::dt_set_cleanfactorlevels

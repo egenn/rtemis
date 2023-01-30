@@ -181,21 +181,3 @@ clean_colnames <- function(x) {
     }
     clean_names(x)
 }
-
-
-#' Clean factor levels of data.frame
-#'
-#' Finds all factors in a data.frame and cleans factor levels to include
-#' only underscore symbols
-#'
-#' @param x data.frame
-#'
-#' @author E.D. Gennatas
-#' @export
-
-clean_factor_levels <- function(x) {
-    idi <- which(sapply(x, is.factor))
-    for (i in idi) {
-        levels(idi[, i]) <- clean_names(levels(idi[, i]))
-    }
-}
