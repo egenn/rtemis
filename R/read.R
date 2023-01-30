@@ -4,7 +4,7 @@
 
 #' Read delimited file into a data.table
 #'
-#' Convenience function to read data into a data.table using
+#' Convenience function to read data using
 #' \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 #' or \code{vroom::vroom()}
 #'
@@ -21,6 +21,10 @@
 #' to read \code{filename}
 #' @param sep Single character: field separator. If \code{reader = "fread"}
 #' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
+#' @param quote Single character: quote character
+#' @param na.strings Character vector: Strings to be interpreted as NA values
+#' @param output Character: "default" or "data.table", If default, return the reader's
+#' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param fread_verbose Logical: Passed to \code{data.table::fread}
 #' @param timed Logical: If TRUE, time the process and print to console
@@ -42,6 +46,8 @@ read <- function(filename,
                  reader = c("data.table", "arrow", "vroom"),
                  sep = NULL,
                  quote = "\"",
+                 na.strings = c("NA", ""),
+                 output = c("default", "data.table"),
                  attr = NULL,
                  value = NULL,
                  verbose = TRUE,
@@ -49,6 +55,7 @@ read <- function(filename,
                  timed = verbose, ...) {
     dependency_check("data.table")
     reader <- match.arg(reader)
+    output <- match.arg(output)
     if (timed) start.time <- intro(verbose = FALSE)
     path <- if (is.null(datadir)) {
         filename
@@ -62,6 +69,7 @@ read <- function(filename,
             path,
             sep = sep,
             quote = quote,
+            na.strings = na.strings,
             verbose = fread_verbose, ...
         )
     } else if (reader == "arrow") {
@@ -70,18 +78,20 @@ read <- function(filename,
         .dat <- arrow::read_delim_arrow(
             path,
             delim = sep,
-            quote = quote, ...
-        ) |>
-            data.table::setDT()
+            quote = quote,
+            na = na.strings, ...
+        )
+        if (output == "data.table") setDT(.dat)
     } else {
         dependency_check("vroom")
         .dat <- vroom::vroom(
             path,
             delim = sep,
             quote = quote,
+            na = na.strings,
             progress = verbose, ...
-        ) |>
-            data.table::setDT()
+        )
+        if (output == "data.table") setDT(.dat)
     }
 
     .nrow <- nrow(.dat)
