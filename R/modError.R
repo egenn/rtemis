@@ -287,7 +287,8 @@ bacc <- function(true, predicted,
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated labels
 #' @param harmonize Logical: If TRUE, run \link{factorHarmonize} first
-#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @param verbose Logical: If TRUE, print messages to output.
+#' 
 #' @export
 
 precision <- function(true, estimated,
@@ -300,7 +301,7 @@ precision <- function(true, estimated,
     predicted.totals <- rowSums(tbl)[1]
     hits <- diag(tbl)[1]
 
-    if (hits == 0 & predicted.totals == 0) {
+    if (hits == 0 && predicted.totals == 0) {
         1
     } else {
         hits / predicted.totals
