@@ -6,8 +6,8 @@
 #'
 #' Calculates Classification Metrics
 #'
-#' @param true Factor vector: True values
-#' @param estimated Factor vector: Estimated values
+#' @param true Factor: True labels
+#' @param estimated Factor: Estimated values
 #' @param estimated.prob Numeric vector: Estimated probabilities
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' 
@@ -49,7 +49,7 @@ classError <- function(true,
   Class$Predicted.totals <- rowSums(tbl)
   Total <- sum(tbl)
   Class$Hits <- diag(tbl)
-  Class$Misses <- Class$Totals - Class$Hits
+  # Class$Misses <- Class$Totals - Class$Hits
   Class$Sensitivity <- Class$Hits / Class$Totals
   # attr(Class$Sensitivity, "Formula") <- "Class$Hits/Class$Totals"
   Class$Condition.negative <- Total - Class$Totals
