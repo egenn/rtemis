@@ -40,7 +40,8 @@ plotly_hline1 <- function(y,
     list(
         type = "line",
         x0 = 0, x1 = 1,
-        y0 = y, y1 = y, xref = "paper",
+        y0 = y, y1 = y,
+        xref = "paper",
         line = list(
             color = color,
             width = width,
