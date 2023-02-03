@@ -124,7 +124,7 @@ s_GLM <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_GLM))
     stop("y is missing")
   }
@@ -132,7 +132,7 @@ s_GLM <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (trace > 0) verbose <- TRUE
 
@@ -158,7 +158,7 @@ s_GLM <- function(x, y = NULL,
     type <- "Classification"
   }
 
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) && ipw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
@@ -168,7 +168,7 @@ s_GLM <- function(x, y = NULL,
   } else {
     if (is.null(class.method)) {
       mod.name <- if (length(levels(y)) > 2) "MULTINOM" else "LOGISTIC"
-      if (is.null(family) & mod.name == "LOGISTIC") family <- binomial()
+      if (is.null(family) && mod.name == "LOGISTIC") family <- binomial()
     } else {
       mod.name <- toupper(class.method)
     }
