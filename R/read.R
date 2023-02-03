@@ -1,6 +1,6 @@
 # read.R
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022-3 E.D. Gennatas www.lambdamd.org
 
 #' Read delimited file into a data.table
 #'
@@ -16,20 +16,22 @@
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using
 #' \link{clean_colnames}
-#' @param reader Character: "data.table" or "arrow", to use
+#' @param csv.reader Character: "data.table" or "arrow", to use
 #' \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
 #' to read \code{filename}
-#' @param sep Single character: field separator. If \code{reader = "fread"}
+#' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
+#' @param sep Single character: field separator. If \code{csv.reader = "fread"}
 #' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
 #' @param na.strings Character vector: Strings to be interpreted as NA values
-#' @param output Character: "default" or "data.table", If default, return the reader's
+#' @param output Character: "default" or "data.table", If default, return the csv.reader's
 #' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param fread_verbose Logical: Passed to \code{data.table::fread}
 #' @param timed Logical: If TRUE, time the process and print to console
 #' @param ... Additional parameters to pass to \code{data.table::fread},
-#' \code{arrow::read_delim_arrow()} or \code{vroom::vroom()}
+#' \code{arrow::read_delim_arrow()}, \code{vroom::vroom()}, 
+#' or \code{openxlsx::read.xlsx()}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -43,57 +45,66 @@ read <- function(filename,
                  make.unique = TRUE,
                  character2factor = FALSE,
                  clean.colnames = TRUE,
-                 reader = c("data.table", "arrow", "vroom"),
+                 csv.reader = c("data.table", "arrow", "vroom"),
+                 xlsx.sheet = 1,
                  sep = NULL,
                  quote = "\"",
                  na.strings = c("NA", ""),
-                 output = c("default", "data.table"),
+                 output = c("data.table", "default"),
                  attr = NULL,
                  value = NULL,
                  verbose = TRUE,
                  fread_verbose = FALSE,
                  timed = verbose, ...) {
+
     dependency_check("data.table")
-    reader <- match.arg(reader)
-    output <- match.arg(output)
     if (timed) start.time <- intro(verbose = FALSE)
+    csv.reader <- match.arg(csv.reader)
+    output <- match.arg(output)
+    ext <- tools::file_ext(filename)
     path <- if (is.null(datadir)) {
         filename
     } else {
         file.path(datadir, filename)
     }
     if (verbose) msgread(path, caller = "get_data")
-    if (reader == "data.table") {
-        if (is.null(sep)) sep <- "auto"
-        .dat <- data.table::fread(
-            path,
-            sep = sep,
-            quote = quote,
-            na.strings = na.strings,
-            verbose = fread_verbose, ...
-        )
-    } else if (reader == "arrow") {
-        dependency_check("arrow")
-        if (is.null(sep)) sep <- ","
-        .dat <- arrow::read_delim_arrow(
-            path,
-            delim = sep,
-            quote = quote,
-            na = na.strings, ...
-        )
-        if (output == "data.table") setDT(.dat)
-    } else {
-        dependency_check("vroom")
-        .dat <- vroom::vroom(
-            path,
-            delim = sep,
-            quote = quote,
-            na = na.strings,
-            progress = verbose, ...
-        )
-        if (output == "data.table") setDT(.dat)
-    }
 
+    if (ext == "xlsx") {
+       .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
+       if (output == "data.table") setDT(.dat)
+    } else {
+        if (csv.reader == "data.table") {
+            if (is.null(sep)) sep <- "auto"
+            .dat <- data.table::fread(
+                path,
+                sep = sep,
+                quote = quote,
+                na.strings = na.strings,
+                verbose = fread_verbose, ...
+            )
+        } else if (csv.reader == "arrow") {
+            dependency_check("arrow")
+            if (is.null(sep)) sep <- ","
+            .dat <- arrow::read_delim_arrow(
+                path,
+                delim = sep,
+                quote = quote,
+                na = na.strings, ...
+            )
+            if (output == "data.table") setDT(.dat)
+        } else {
+            dependency_check("vroom")
+            .dat <- vroom::vroom(
+                path,
+                delim = sep,
+                quote = quote,
+                na = na.strings,
+                progress = verbose, ...
+            )
+            if (output == "data.table") setDT(.dat)
+        }
+    } 
+    
     .nrow <- nrow(.dat)
     .ncol <- ncol(.dat)
     if (verbose) {
