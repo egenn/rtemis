@@ -80,7 +80,7 @@ rtMod <- R6::R6Class("rtMod",
         #' @param type Character: Type of model (Regression, Classification, Survival)
         #' @param gridsearch Grid search output
         #' @param parameters List of training parameters
-        #' @param fitted Fitted values (training set predictions)
+        #' @param fitted Fitted values (Training set predictions)
         #' @param se.fit Standard error of fitted values
         #' @param error.train Training set error
         #' @param predicted Predicted values (Testing set predictions)
@@ -334,6 +334,7 @@ rtMod <- R6::R6Class("rtMod",
         #' @param plot.top Integer: Plot this many top features
         #' @param type Character: "barplot" or "lollipop"
         #' @param theme Theme to be passed on to plotting function
+        #' @param xlab Character: x-axis label
         #' @param ... Not used
         plotVarImp = function(plot.top = 12,
                               type = c("barplot", "lollipop"),
@@ -930,7 +931,7 @@ rtModClass <- R6::R6Class("rtModClass",
         #' @param error.train Training set error
         #' @param predicted Predicted values (Testing set predictions)
         #' @param predicted.prob Testing set probability estimates
-        #' @param se.prediction
+        #' @param se.prediction Testting set standard error
         #' @param error.test Testing set error
         #' @param varimp Variable importance
         #' @param question Question the model is trying to answer
@@ -1683,6 +1684,7 @@ rtModCV <- R6::R6Class("rtModCV",
         #' @param type Character: "barplot" or "lollipop"
         #' @param plot.top Integer: Plotting this many top features
         #' @param theme rtemis theme to use
+        #' @param xlab Character: x-axis label
         #' @param ... Additional arguments passed to plotting function
         plotVarImp = function(plot.top = 12,
                               type = c("barplot", "lollipop"),

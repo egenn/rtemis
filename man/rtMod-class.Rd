@@ -140,7 +140,7 @@ Initialize \code{rtMod} object
 
 \item{\code{parameters}}{List of training parameters}
 
-\item{\code{fitted}}{Fitted values (training set predictions)}
+\item{\code{fitted}}{Fitted values (Training set predictions)}
 
 \item{\code{se.fit}}{Standard error of fitted values}
 
@@ -295,6 +295,7 @@ Plot variable importance
 \if{html}{\out{<div class="r">}}\preformatted{rtMod$plotVarImp(
   plot.top = 12,
   type = c("barplot", "lollipop"),
+  xlab = NULL,
   theme = rtTheme,
   ...
 )}\if{html}{\out{</div>}}
@@ -306,6 +307,8 @@ Plot variable importance
 \item{\code{plot.top}}{Integer: Plot this many top features}
 
 \item{\code{type}}{Character: "barplot" or "lollipop"}
+
+\item{\code{xlab}}{Character: x-axis label}
 
 \item{\code{theme}}{Theme to be passed on to plotting function}
 
@@ -353,7 +356,7 @@ fit plot}
 \item{\code{se.fit}}{Logical: If TRUE, include standard error
 band in fit plot}
 
-\item{\code{single.fig}}{Logical: If TRUE, combine in 
+\item{\code{single.fig}}{Logical: If TRUE, combine in
 single plot}
 
 \item{\code{theme}}{Theme to pass to plotting functions}

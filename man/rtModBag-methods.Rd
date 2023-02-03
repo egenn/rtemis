@@ -12,7 +12,7 @@
 
 \item{newdata}{Testing set features}
 
-\item{aggr.fn}{Character: Function to aggregate models' prediction. 
+\item{aggr.fn}{Character: Function to aggregate models' prediction.
 If NULL, defaults to "median"}
 
 \item{n.cores}{Integer: Number of cores to use}

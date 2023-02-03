@@ -336,9 +336,10 @@ Plot fitted values
 Plot variable importance
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModCV$plotVarImp(
-  which.repeat = 1,
-  type = c("barplot", "lollipop"),
   plot.top = 12,
+  type = c("barplot", "lollipop"),
+  which.repeat = 1,
+  xlab = NULL,
   theme = rtTheme,
   ...
 )}\if{html}{\out{</div>}}
@@ -347,11 +348,13 @@ Plot variable importance
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{which.repeat}}{Integer: which repeat to plot}
+\item{\code{plot.top}}{Integer: Plotting this many top features}
 
 \item{\code{type}}{Character: "barplot" or "lollipop"}
 
-\item{\code{plot.top}}{Integer: Plotting this many top features}
+\item{\code{which.repeat}}{Integer: which repeat to plot}
+
+\item{\code{xlab}}{Character: x-axis label}
 
 \item{\code{theme}}{rtemis theme to use}
 

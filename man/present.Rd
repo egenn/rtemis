@@ -14,7 +14,7 @@ present(
   boxpoints = "all",
   main = NULL,
   ylim = NULL,
-  htest = "wilcox.test",
+  htest = "none",
   htest.annotate.y = NULL,
   margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)
 )

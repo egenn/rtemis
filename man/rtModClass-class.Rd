@@ -118,7 +118,7 @@ Initialize \code{rtModClass} object
 
 \item{\code{predicted.prob}}{Testing set probability estimates}
 
-\item{\code{se.prediction}}{}
+\item{\code{se.prediction}}{Testting set standard error}
 
 \item{\code{error.test}}{Testing set error}
 
@@ -215,7 +215,7 @@ plot testing set ROC
 \if{html}{\out{<a id="method-rtModClass-plotPR"></a>}}
 \if{latex}{\out{\hypertarget{method-rtModClass-plotPR}{}}}
 \subsection{Method \code{plotPR()}}{
-plot Precision-Recall curve. Uses testing set 
+plot Precision-Recall curve. Uses testing set
 if available, otherwise training
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rtModClass$plotPR(theme = rtTheme, filename = NULL, ...)}\if{html}{\out{</div>}}

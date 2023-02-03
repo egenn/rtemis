@@ -123,7 +123,7 @@ Initialize \code{rtMeta} object
 \item{\code{grid}}{Data frame with combinations of algorithm
 names and resample IDs}
 
-\item{\code{base.resample.rtset}}{List with resampling 
+\item{\code{base.resample.rtset}}{List with resampling
 parameters for base learners}
 
 \item{\code{base.mod.names}}{Base learner algorithm names}
