@@ -219,6 +219,190 @@ max0 <- function(x) max(x, 0, na.rm = TRUE)
 #     type <- match.arg(type)
 # }
 
+tohtml <- function(x,
+                   name = NULL,
+                   check_integers = FALSE,
+                   css = list(
+                       font.family = "Helvetica",
+                       color = "#fff",
+                       background.color = "#242424")) {
+    n_rows <- x$n_rows
+    n_cols <- x$n_cols
+    n_continuous <- x$n_continuous
+    n_integer <- x$n_integer
+    n_character <- x$n_character
+    n_factor <- x$n_factor
+    n_ordered <- x$n_ordered
+    n_date <- x$n_date
+    n_constant <- x$n_constant
+    n_dups <- x$n_dups
+    n_cols_anyna <- x$n_cols_anyna
+    n_na <- x$n_na
+    na_feature_pct <- x$na_feature_pct
+    na_case_pct <- x$na_case_pct
+
+    ## Data Types ----
+    continuous <- HTML(paste(
+        strong(n_continuous), "continuous",
+        ngettext(n_continuous, "feature", "features")
+    ))
+    integer <- HTML(paste(
+        strong(n_integer), "integer",
+        ngettext(n_integer, "feature", "features")
+    ))
+    categorical <- HTML(paste0(
+        strong(n_factor),
+        ngettext(n_factor, " factor", " factors"),
+        if (n_factor == 1) {
+            paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
+        } else if (n_factor > 1) {
+            paste(
+                ", of which", strong(n_ordered),
+                ngettext(n_ordered, "is", "are"), "ordered"
+            )
+        }
+    ))
+    # .col <- if (n_character > 0) html_orange else strong
+    .col <- strong
+    characters <- HTML(paste(
+        .col(n_character), "character",
+        ngettext(n_character, "feature", "features")
+    ))
+    dates <- HTML(paste(
+        strong(n_date), "date",
+        ngettext(n_date, "feature", "features")
+    ))
+
+    ## Issues ----
+    .col <- if (n_constant > 0) html_red else strong
+    constants <- HTML(paste(
+        .col(n_constant), "constant",
+        ngettext(n_constant, "feature", "features")
+    ))
+    .col <- if (n_dups > 0) html_orange else strong
+    duplicates <- HTML(paste(
+        .col(n_dups), "duplicate",
+        ngettext(n_dups, "case", "cases")
+    ))
+
+    .col <- if (n_cols_anyna > 0) html_orange else strong
+    nas <- if (n_cols_anyna > 0) {
+        HTML(paste(
+            .col(n_cols_anyna),
+            ngettext(n_cols_anyna, "feature includes", "features include"),
+            "'NA' values; ",
+            .col(n_na), "'NA'",
+            ngettext(n_na, "value", "values"),
+            "total",
+            tags$ul(
+                lapply(seq_along(classes_na), \(i) {
+                    tags$li(HTML(paste(
+                        .col(classes_na[i]),
+                        tolower(names(classes_na)[i])
+                        # ngettext(classes_na[i], "feature", "features")
+                    )))
+                })
+            )
+        ))
+    } else {
+        HTML(paste(strong("0"), "missing values"))
+    }
+
+    ## Recs ----
+    rec_char <- NULL
+    rec_constant <- if (n_constant > 0) {
+        tags$li(HTML(paste(html_orange(
+            "Remove the constant",
+            ngettext(n_constant, "feature", "features")
+        ))))
+    } else {
+        NULL
+    }
+
+    rec_dups <- if (n_dups > 0) {
+        tags$li(HTML(paste(html_orange(
+            "Consider removing the duplicate",
+            ngettext(n_dups, "case", "cases")
+        ))))
+    } else {
+        NULL
+    }
+
+    # rec_na <- if (n_cols_anyna > 0) {
+    #     tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
+    # } else {
+    #     NULL
+    # }
+
+    rec_na <- if (n_cols_anyna > 0) {
+        list(
+            if (isTRUE(classes_na["factor"] > 0)) {
+                tags$li(HTML(paste(html_orange(
+                    "Consider assigning factor 'NA' values to new 'missing' level"
+                ))))
+            },
+            tags$li(HTML(paste(html_orange(
+                "Consider imputing missing values or using complete cases only"
+            ))))
+        )
+    } else {
+        NULL
+    }
+
+    recs <- if (sum(n_constant, n_dups, n_cols_anyna) == 0) {
+        tags$li(html_success("Everything looks good"))
+    } else {
+        list(
+            rec_constant,
+            rec_dups,
+            rec_na
+        )
+    }
+    ## out ----
+    div(
+        p(
+            div(
+                html_highlight(name),
+                ": A", x$class, "with",
+                html_highlight(n_rows),
+                ngettext(n_rows, "row", "rows"),
+                "and", html_highlight(n_cols),
+                ngettext(n_cols, "feature", "features"),
+                class = "checkdata-header"
+            )
+        ),
+        p(
+            span(strong("Data types"), class = "sidelined"),
+            tags$ul(
+                tags$li(continuous),
+                tags$li(integer),
+                tags$li(categorical),
+                tags$li(characters),
+                tags$li(dates)
+            )
+        ), # p Data Types
+        p(
+            span(strong("Issues"), class = "sidelined"),
+            tags$ul(
+                tags$li(constants),
+                tags$li(duplicates),
+                tags$li(nas)
+            )
+        ), # p Issues
+        p(
+            span(strong("Recommendations"), class = "sidelined"),
+            tags$ul(
+                recs
+            )
+        ), # p Recommendations
+        class = "checkData",
+        style = paste0(
+            "font-family:", css$font.family,
+            "; color:", css$color,
+            "; background-color:", css$background.color, ";"
+        )
+    )
+}
 
 #' Print \code{CheckData} object
 #'
@@ -426,171 +610,9 @@ print.CheckData <- function(x,
         }
         cat(out, "\n")
     } else {
-        # HTML out ----
-
-        ## Data Types ----
-        continuous <- HTML(paste(
-            strong(n_continuous), "continuous",
-            ngettext(n_continuous, "feature", "features")
-        ))
-        integer <- HTML(paste(
-            strong(n_integer), "integer",
-            ngettext(n_integer, "feature", "features")
-        ))
-        categorical <- HTML(paste0(
-            strong(n_factor),
-            ngettext(n_factor, " factor", " factors"),
-            if (n_factor == 1) {
-                paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
-            } else if (n_factor > 1) {
-                paste(
-                    ", of which", strong(n_ordered),
-                    ngettext(n_ordered, "is", "are"), "ordered"
-                )
-            }
-        ))
-        # .col <- if (n_character > 0) html_orange else strong
-        .col <- strong
-        characters <- HTML(paste(
-            .col(n_character), "character",
-            ngettext(n_character, "feature", "features")
-        ))
-        dates <- HTML(paste(
-            strong(n_date), "date",
-            ngettext(n_date, "feature", "features")
-        ))
-
-        ## Issues ----
-        .col <- if (n_constant > 0) html_red else strong
-        constants <- HTML(paste(
-            .col(n_constant), "constant",
-            ngettext(n_constant, "feature", "features")
-        ))
-        .col <- if (n_dups > 0) html_orange else strong
-        duplicates <- HTML(paste(
-            .col(n_dups), "duplicate",
-            ngettext(n_dups, "case", "cases")
-        ))
-
-        .col <- if (n_cols_anyna > 0) html_orange else strong
-        nas <- if (n_cols_anyna > 0) {
-            HTML(paste(
-                .col(n_cols_anyna),
-                ngettext(n_cols_anyna, "feature includes", "features include"),
-                "'NA' values; ",
-                .col(n_na), "'NA'",
-                ngettext(n_na, "value", "values"),
-                "total", 
-                tags$ul(
-                    lapply(seq_along(classes_na), \(i) {
-                        tags$li(HTML(paste(
-                            .col(classes_na[i]),
-                            tolower(names(classes_na)[i])
-                            # ngettext(classes_na[i], "feature", "features")
-                        )))
-                    })
-                )
-            ))
-        } else {
-            HTML(paste(strong("0"), "missing values"))
-        }
-
-        ## Recs ----
-        rec_char <- NULL
-        rec_constant <- if (n_constant > 0) {
-            tags$li(HTML(paste(html_orange(
-                "Remove the constant",
-                ngettext(n_constant, "feature", "features")
-            ))))
-        } else {
-            NULL
-        }
-
-        rec_dups <- if (n_dups > 0) {
-            tags$li(HTML(paste(html_orange(
-                "Consider removing the duplicate",
-                ngettext(n_dups, "case", "cases")
-            ))))
-        } else {
-            NULL
-        }
-
-        # rec_na <- if (n_cols_anyna > 0) {
-        #     tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
-        # } else {
-        #     NULL
-        # }
-
-        rec_na <- if (n_cols_anyna > 0) {
-            list(
-                if (isTRUE(classes_na["factor"] > 0)) {
-                    tags$li(HTML(paste(html_orange(
-                        "Consider assigning factor 'NA' values to new 'missing' level"
-                    ))))
-                },
-                tags$li(HTML(paste(html_orange(
-                    "Consider imputing missing values or using complete cases only"
-                ))))
-            )
-        } else {
-            NULL
-        }
-
-        recs <- if (sum(n_constant, n_dups, n_cols_anyna) == 0) {
-            tags$li(html_success("Everything looks good"))
-        } else {
-            list(
-                rec_constant,
-                rec_dups,
-                rec_na
-            )
-        }
-        ## out ----
-        out <- div(
-            p(
-                div(
-                    html_highlight(name),
-                    ": A", x$class, "with",
-                    html_highlight(n_rows),
-                    ngettext(n_rows, "row", "rows"),
-                    "and", html_highlight(n_cols),
-                    ngettext(n_cols, "feature", "features"),
-                    class = "checkdata-header"
-                )
-            ),
-            p(
-                span(strong("Data types"), class = "sidelined"),
-                tags$ul(
-                    tags$li(continuous),
-                    tags$li(integer),
-                    tags$li(categorical),
-                    tags$li(characters),
-                    tags$li(dates)
-                )
-            ), # p Data Types
-            p(
-                span(strong("Issues"), class = "sidelined"),
-                tags$ul(
-                    tags$li(constants),
-                    tags$li(duplicates),
-                    tags$li(nas)
-                )
-            ), # p Issues
-            p(
-                span(strong("Recommendations"), class = "sidelined"),
-                tags$ul(
-                    recs
-                )
-            ), # p Recommendations
-            class = "checkData",
-            style = paste0(
-                "font-family:'", css$font.family,
-                "'; color:", css$color,
-                "; background-color:", css$background.color, ";"
-            )
-        )
+        # HTML ----
         htmltools::html_print(
-            out,
+            tohtml(x),
             background = css$background.color
         )
     }
