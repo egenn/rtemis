@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_data.R
 \name{print.CheckData}
 \alias{print.CheckData}
-\title{Describe generic}
+\title{Print \code{CheckData} object}
 \usage{
 \method{print}{CheckData}(
   x,
@@ -17,9 +17,6 @@
 \item{x}{\code{CheckData} object}
 }
 \description{
-Describe \code{CheckData} object
-}
-\details{
 Print \code{CheckData} object
 }
 \author{

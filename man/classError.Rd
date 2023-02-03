@@ -7,9 +7,9 @@
 classError(true, estimated, estimated.prob = NULL, trace = 0)
 }
 \arguments{
-\item{true}{Factor vector: True values}
+\item{true}{Factor: True labels}
 
-\item{estimated}{Factor vector: Estimated values}
+\item{estimated}{Factor: Estimated values}
 
 \item{estimated.prob}{Numeric vector: Estimated probabilities}
 

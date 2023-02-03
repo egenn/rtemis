@@ -192,3 +192,91 @@ dt_set_cleanfactorlevels <- function(x) {
         x[, (i) := factor(x[[i]], labels = clean_names(levels(x[[i]])))]
     }
 } # rtemis::dt_set_cleanfactorlevels
+
+#' Check if all levels in a column are unique
+#' 
+#' @param x data.frame or data.table
+#' @param on Integer or character: column to check
+#' 
+#' @author E.D. Gennatas
+#' @export
+dt_check_unique <- function(x, on) {
+    length(unique(x[[on]])) == NROW(x)
+}
+
+#' Get index of duplicate values
+#'
+#' @param x data.frame or data.table
+#' @param on Integer or character: column to check
+#'
+#' @author E.D. Gennatas
+#' @export
+dt_get_duplicates <- function(x, on) {
+    x[x[[on]] %in% x[[on]][duplicated(x[[on]])], ..on][[1]]
+}
+
+
+#' Index columns by attribute name & value
+#' 
+#' @param x data.frame or compatible
+#' @param name Character: Name of attribute
+#' @param name Character: Value of attribute
+#' 
+#' @author E.D. Gennatas
+#' @export
+dt_index_attr <- function(x, name, value) {
+    colattr <- unlist(sapply(x, \(i) attr(i, name)))
+    which(colattr == value)
+}
+
+#' Get N and percent match of values between two columns of two data.tables
+#' 
+#' @param x data.table
+#' @param y data.table
+#' @param on Integer or character: column to read in \code{x} and \code{y}, if it is the
+#' same
+#' @param left_on Integer or character: column to read in \code{x}
+#' @param right_on Integer or character: column to read in \code{y}
+#' @param verbose Logical: If TRUE, print messages to console
+#' 
+#' @author E.D. Gennatas
+#' @export 
+dt_pctmatch <- function(x, y,
+    on = NULL, 
+    left_on = NULL, 
+    right_on = NULL, verbose = TRUE) {
+
+    if (is.null(left_on)) left_on <- on
+    if (is.null(right_on)) right_on <- on
+    xv <- unique(x[[left_on]])
+    n <- length(xv)
+    yv <- unique(y[[right_on]])
+    nmatch <- sum(xv %in% yv)
+    matchpct <- nmatch / n * 100
+    if (verbose) {
+        by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
+        msg20(
+            "Matched ", hilite(nmatch), "/", hilite(n), " on ", bold(by_final),
+            " (", hilite(ddSci(matchpct)), "%)"
+        )
+    }
+    invisible(list(nmatch = nmatch, matchpct = matchpct))
+    
+}
+
+#' Get percent of missing values from every column
+#' 
+#' @param x data.frame or data.table
+#' @param verbose Logical: If TRUE, print messages to console
+#' 
+#' @author E.D. Gennatas
+#' @export 
+dt_pctmissing <- function(x, verbose = TRUE) {
+    nmissing <- sapply(x, \(i) length(is.na(i)))
+    pctmissing <- nmissing / NROW(x)
+    if (verbose) {
+        cat("Percet missing per column:\n")
+        printls(nmissing)
+    }
+    invisible(list(nmissing = nmissing, pctmissing = pctmissing))
+}

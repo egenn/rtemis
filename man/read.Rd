@@ -10,9 +10,12 @@ read(
   make.unique = TRUE,
   character2factor = FALSE,
   clean.colnames = TRUE,
-  reader = c("data.table", "arrow", "vroom"),
+  csv.reader = c("data.table", "arrow", "vroom"),
+  xlsx.sheet = 1,
   sep = NULL,
   quote = "\\"",
+  na.strings = c("NA", ""),
+  output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
   verbose = TRUE,
@@ -35,12 +38,21 @@ factors}
 \item{clean.colnames}{Logical: If TRUE, clean columns names using
 \link{clean_colnames}}
 
-\item{reader}{Character: "data.table" or "arrow", to use
+\item{csv.reader}{Character: "data.table" or "arrow", to use
 \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
 to read \code{filename}}
 
-\item{sep}{Single character: field separator. If \code{reader = "fread"}
+\item{xlsx.sheet}{Integer or character: Name or number of XLSX sheet to read}
+
+\item{sep}{Single character: field separator. If \code{csv.reader = "fread"}
 and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
+
+\item{quote}{Single character: quote character}
+
+\item{na.strings}{Character vector: Strings to be interpreted as NA values}
+
+\item{output}{Character: "default" or "data.table", If default, return the csv.reader's
+default data structure, otherwise convert to data.table}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
@@ -49,10 +61,11 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 \item{timed}{Logical: If TRUE, time the process and print to console}
 
 \item{...}{Additional parameters to pass to \code{data.table::fread},
-\code{arrow::read_delim_arrow()} or \code{vroom::vroom()}}
+\code{arrow::read_delim_arrow()}, \code{vroom::vroom()}, 
+or \code{openxlsx::read.xlsx()}}
 }
 \description{
-Convenience function to read data into a data.table using
+Convenience function to read data using
 \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 or \code{vroom::vroom()}
 }

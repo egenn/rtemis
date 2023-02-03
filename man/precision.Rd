@@ -13,7 +13,7 @@ precision(true, estimated, harmonize = FALSE, verbose = TRUE)
 
 \item{harmonize}{Logical: If TRUE, run \link{factorHarmonize} first}
 
-\item{verbose}{Logical: If TRUE, print messages to output. Default = TRUE}
+\item{verbose}{Logical: If TRUE, print messages to output.}
 }
 \description{
 The first factor level is considered the positive case.
