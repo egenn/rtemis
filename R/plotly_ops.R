@@ -1,4 +1,4 @@
-# plotly_utils
+# plotly_ops
 # ::rtemis::
 # 2021 E.D. Gennatas www.lambdamd.org
 
@@ -61,4 +61,10 @@ plotly_hline <- function(y,
         color = color, width = width, dash = dash,
         SIMPLIFY = FALSE
     )
+}
+
+# bracket y values for boxplot htest
+bracket_y <- function(x, pad = c(.04, .05)) {
+    l <- max(x) + (diff(range(x)) * pad)
+    c(l, rev(l))
 }
