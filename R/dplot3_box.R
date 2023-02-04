@@ -96,7 +96,6 @@
 #' @param htest.thresh Numeric: Significance threshold for \code{htest}
 #' @param htest.y Numeric: y coordinate for \code{htest} annotation
 #' @param htest.annotate Logical: if TRUE, include htest annotation
-#' e.g. "*pval < 0.05"
 #' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation
 #' @param htest.annotate.y Numeric: y-axis paper coordinate for htest annotation
 #' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group
@@ -194,8 +193,8 @@ dplot3_box <- function(x,
                        pvals = NULL,
                        htest = "none",
                        htest.compare = 0,
-                       htest.thresh = .05,
-                       htest.y = 1,
+                    #    htest.thresh = .05,
+                       htest.y = .98,
                        htest.annotate = TRUE,
                        htest.annotate.x = 0,
                        htest.annotate.y = -.05,
@@ -419,7 +418,8 @@ dplot3_box <- function(x,
                     xanchor = if (horizontal) "center" else "auto",
                     x = if (horizontal) htest.y else seq_along(pvals), # exclude first
                     y = if (horizontal) seq_along(pvals) else htest.y,
-                    text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                    # text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                    text = pval_stars(pvals),
                     font = list(
                         family = theme$font.family,
                         size = font.size,
@@ -443,10 +443,18 @@ dplot3_box <- function(x,
                         y = htest.annotate.y,
                         # text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
                         # text = paste0("* ", test, " p-val < ", htest.thresh),
+                        # text = paste0(
+                        #     '<span style="color:',
+                        #     htest.star.col, '">* </span>', 
+                        #     test, " p-val < ", htest.thresh),
                         text = paste0(
+                            test, " p-val:",
                             '<span style="color:',
-                            htest.star.col, '">* </span>', 
-                            test, " p-val < ", htest.thresh),
+                            htest.star.col, '"> * </span>', "< .05",
+                            '<span style="color:', 
+                            htest.star.col, '"> ** </span>', "< .01",
+                            '<span style="color:',
+                            htest.star.col, '"> *** </span>', "< .001"),
                         font = list(
                             family = theme$font.family,
                             size = font.size,
@@ -659,14 +667,18 @@ dplot3_box <- function(x,
                             }) |> unlist()
                         }
                     }
+                    # if brackets are drawn, center stars above them, otherwise
+                    # center stars above boxes
+                    axshift <- if (htest.compare == 2) 1.5 else 1
                     plt <- plt |> plotly::add_annotations(
                         xref = if (horizontal) "paper" else "x",
                         yref = if (horizontal) "x" else "paper",
                         yanchor = if (horizontal) "auto" else "top",
                         xanchor = if (horizontal) "center" else "auto",
-                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1.5,
-                        y = if (horizontal) seq_len(nvars * ngroups) - 1.5 else htest.y,
-                        text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - axshift,
+                        y = if (horizontal) seq_len(nvars * ngroups) - axshift else htest.y,
+                        # text = unname(ifelse(pvals < htest.thresh, "*", "")),
+                        text = pval_stars(pvals),
                         font = list(
                             family = theme$font.family,
                             size = font.size,
@@ -689,11 +701,19 @@ dplot3_box <- function(x,
                             y = htest.annotate.y,
                             # text = paste0("<sup>*</sup>", test, " p-val < ", htest.thresh),
                             # text = paste0("* ", test, " p-val < ", htest.thresh),
+                            # text = paste0(
+                            #     '<span style="color:',
+                            #     htest.star.col, '">* </span>',
+                            #     test, " p-val < ", htest.thresh
+                            # ),
                             text = paste0(
+                                test, " p-val:",
                                 '<span style="color:',
-                                htest.star.col, '">* </span>',
-                                test, " p-val < ", htest.thresh
-                            ),
+                                htest.star.col, '"> * </span>', "< .05",
+                                '<span style="color:', 
+                                htest.star.col, '"> ** </span>', "< .01",
+                                '<span style="color:',
+                                htest.star.col, '"> *** </span>', "< .001"),
                             font = list(
                                 family = theme$font.family,
                                 size = font.size,
@@ -706,9 +726,9 @@ dplot3_box <- function(x,
                     # '- htest brackets for htest.compare == 2 ----
                     if (htest.compare == 2) {
                         for (i in seq(2, ngroups * nvars, 2)) {
-                            if (pvals[i] < htest.thresh) {
+                            if (pvals[i] < .05) {
                                 y_bracket <- bracket_y(unlist(x))
-                                plt <- plt |> add_trace(
+                                plt <- plt |> plotly::add_trace(
                                     x = c(rep(xval[i - 1], 2), rep(xval[i], 2)),
                                     y = y_bracket,
                                     type = "scatter", mode = "lines",
