@@ -53,8 +53,7 @@ dplot3_box(
   pvals = NULL,
   htest = "none",
   htest.compare = 0,
-  htest.thresh = 0.05,
-  htest.y = 1,
+  htest.y = 0.98,
   htest.annotate = TRUE,
   htest.annotate.x = 0,
   htest.annotate.y = -0.05,
@@ -189,12 +188,9 @@ to the side of each box}
 \item{htest.compare}{Integer: 0: Compare all distributions against the first one;
 2: Compare every second box to the one before it. Requires \code{group} to be set}
 
-\item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
-
 \item{htest.y}{Numeric: y coordinate for \code{htest} annotation}
 
-\item{htest.annotate}{Logical: if TRUE, include htest annotation
-e.g. "*pval < 0.05"}
+\item{htest.annotate}{Logical: if TRUE, include htest annotation}
 
 \item{htest.annotate.x}{Numeric: x-axis paper coordinate for htest annotation}
 
@@ -218,6 +214,8 @@ is set.}
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{...}{Additional arguments passed to theme}
+
+\item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}
