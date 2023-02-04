@@ -733,7 +733,7 @@ dplot3_box <- function(x,
                                     y = y_bracket,
                                     type = "scatter", mode = "lines",
                                     inherit = FALSE,
-                                    line = list(color = htest.bracket.col, width = 2),
+                                    line = list(color = htest.bracket.col, width = 1),
                                     showlegend = FALSE
                                 )
                             }
