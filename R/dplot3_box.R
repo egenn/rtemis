@@ -2,6 +2,10 @@
 # ::rtemis::
 # 201?-22 E.D. Gennatas www.lambdamd.org
 
+# => add bracket-drawing function, annotate with *, p-value, Cohen's D
+# => T1 QA methods
+# pval annotation with * <.05 ** <.01 *** <.001
+
 #' Interactive Boxplots & Violin plots
 #'
 #' Draw interactive boxplots or violin plots using \pkg{plotly}
@@ -163,7 +167,7 @@ dplot3_box <- function(x,
                        annotate_n_y = 1,
                        annotate.col = theme$labs.col,
                        xnames = NULL,
-                       group.lines = TRUE,
+                       group.lines = FALSE,
                        group.lines.col = NULL,
                        group.lines.alpha = .5,
                        labelify = TRUE,
@@ -196,6 +200,7 @@ dplot3_box <- function(x,
                        htest.annotate.x = 0,
                        htest.annotate.y = -.05,
                        htest.star.col = theme$labs.col,
+                       htest.bracket.col = theme$labs.col,
                        use.plotly.group = FALSE,
                        displayModeBar = TRUE,
                        modeBar.file.format = "svg",
@@ -303,6 +308,7 @@ dplot3_box <- function(x,
     # Derived
     if (is.null(legend.col)) legend.col <- labs.col
 
+    # Plot ----
     if (is.null(time)) {
         if (is.null(group)) {
             # A.1 Single and multiple boxplots ----
@@ -452,7 +458,7 @@ dplot3_box <- function(x,
             } # / htest!="none"
         } else {
             if (use.plotly.group) {
-                # A.2.a. Grouped boxplots with [group] ----
+                # A.2.a Grouped boxplots with [group] ----
                 # Best to use this for multiple variables x group.
                 # For single variables x group, preferred way it to use
                 # split(var, group) => A1
@@ -658,8 +664,8 @@ dplot3_box <- function(x,
                         yref = if (horizontal) "x" else "paper",
                         yanchor = if (horizontal) "auto" else "top",
                         xanchor = if (horizontal) "center" else "auto",
-                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1,
-                        y = if (horizontal) seq_len(nvars * ngroups) - 1 else htest.y,
+                        x = if (horizontal) htest.y else seq_len(nvars * ngroups) - 1.5,
+                        y = if (horizontal) seq_len(nvars * ngroups) - 1.5 else htest.y,
                         text = unname(ifelse(pvals < htest.thresh, "*", "")),
                         font = list(
                             family = theme$font.family,
@@ -685,8 +691,9 @@ dplot3_box <- function(x,
                             # text = paste0("* ", test, " p-val < ", htest.thresh),
                             text = paste0(
                                 '<span style="color:',
-                                htest.star.col, '">* </span>', 
-                                test, " p-val < ", htest.thresh),
+                                htest.star.col, '">* </span>',
+                                test, " p-val < ", htest.thresh
+                            ),
                             font = list(
                                 family = theme$font.family,
                                 size = font.size,
@@ -694,6 +701,23 @@ dplot3_box <- function(x,
                             ),
                             showarrow = FALSE
                         )
+                    } # /htest.annotate
+                    
+                    # '- htest brackets for htest.compare == 2 ----
+                    if (htest.compare == 2) {
+                        for (i in seq(2, ngroups * nvars, 2)) {
+                            if (pvals[i] < htest.thresh) {
+                                y_bracket <- bracket_y(unlist(x))
+                                plt <- plt |> add_trace(
+                                    x = c(rep(xval[i - 1], 2), rep(xval[i], 2)),
+                                    y = y_bracket,
+                                    type = "scatter", mode = "lines",
+                                    inherit = FALSE,
+                                    line = list(color = htest.bracket.col, width = 2),
+                                    showlegend = FALSE
+                                )
+                            }
+                        }
                     }
                 } # /htest grouped
             }
