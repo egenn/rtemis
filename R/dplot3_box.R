@@ -194,7 +194,7 @@ dplot3_box <- function(x,
                        htest = "none",
                        htest.compare = 0,
                     #    htest.thresh = .05,
-                       htest.y = .98,
+                       htest.y = NULL,
                        htest.annotate = TRUE,
                        htest.annotate.x = 0,
                        htest.annotate.y = -.05,
@@ -411,6 +411,8 @@ dplot3_box <- function(x,
                         )
                     })
                 }
+                y_sb <- starbracket_y(unlist(x))
+                if (is.null(htest.y)) htest.y <- y_sb$star
                 plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
                     yref = if (horizontal) "x" else "paper",
@@ -670,9 +672,12 @@ dplot3_box <- function(x,
                     # if brackets are drawn, center stars above them, otherwise
                     # center stars above boxes
                     axshift <- if (htest.compare == 2) 1.5 else 1
+                    y_sb <- starbracket_y(unlist(x))
+                    if (is.null(htest.y)) htest.y <- y_sb$star                   
                     plt <- plt |> plotly::add_annotations(
                         xref = if (horizontal) "paper" else "x",
-                        yref = if (horizontal) "x" else "paper",
+                        # yref = if (horizontal) "x" else "paper",
+                        yref = "x",
                         yanchor = if (horizontal) "auto" else "top",
                         xanchor = if (horizontal) "center" else "auto",
                         x = if (horizontal) htest.y else seq_len(nvars * ngroups) - axshift,
@@ -727,10 +732,10 @@ dplot3_box <- function(x,
                     if (htest.compare == 2) {
                         for (i in seq(2, ngroups * nvars, 2)) {
                             if (pvals[i] < .05) {
-                                y_bracket <- bracket_y(unlist(x))
+                                # y_bracket <- bracket_y(unlist(x))
                                 plt <- plt |> plotly::add_trace(
                                     x = c(rep(xval[i - 1], 2), rep(xval[i], 2)),
-                                    y = y_bracket,
+                                    y = y_sb$bracket,
                                     type = "scatter", mode = "lines",
                                     inherit = FALSE,
                                     line = list(color = htest.bracket.col, width = 1),

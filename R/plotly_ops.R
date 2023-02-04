@@ -68,3 +68,8 @@ bracket_y <- function(x, pad = c(.04, .05)) {
     l <- max(x) + (diff(range(x)) * pad)
     c(l, rev(l))
 }
+
+starbracket_y <- function(x, pad = c(.04, .05, .075)) {
+    l <- max(x) + (diff(range(x)) * pad)
+    list(star = l[3], bracket = c(l[1:2], rev(l[1:2])))
+}
