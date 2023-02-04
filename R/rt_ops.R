@@ -1,6 +1,6 @@
-# rtfn.R
+# rt_ops.R
 # ::rtemis::
-# 2016-2022 EDG lambdamd.org
+# 2016-2023 EDG lambdamd.org
 
 #' \pkg{rtemis} internal: Get Variable Name from Arguments
 #'
@@ -470,3 +470,6 @@ filter_order <- function(x, idl, decreasing = FALSE) {
     idi[flt_ord]
 }
 
+pval_stars <- function(x) {
+    cut(x, breaks = c(0, .001, .01, .05, 1), labels = c("***", "**", "*", ""))
+}
