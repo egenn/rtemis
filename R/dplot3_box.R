@@ -200,6 +200,7 @@ dplot3_box <- function(x,
                        htest.annotate.y = -.05,
                        htest.star.col = theme$labs.col,
                        htest.bracket.col = theme$labs.col,
+                       starbracket.pad = c(.04, .05, .075),
                        use.plotly.group = FALSE,
                        displayModeBar = TRUE,
                        modeBar.file.format = "svg",
@@ -411,12 +412,12 @@ dplot3_box <- function(x,
                         )
                     })
                 }
-                y_sb <- starbracket_y(unlist(x))
+                y_sb <- starbracket_y(unlist(x), pad = starbracket.pad)
                 if (is.null(htest.y)) htest.y <- y_sb$star
                 plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
                     # yref = if (horizontal) "x" else "paper",
-                    yref = "x",
+                    yref = if (horizontal) "x" else "y",
                     yanchor = if (horizontal) "auto" else "top",
                     xanchor = if (horizontal) "center" else "auto",
                     x = if (horizontal) htest.y else seq_along(pvals), # exclude first
@@ -673,12 +674,12 @@ dplot3_box <- function(x,
                     # if brackets are drawn, center stars above them, otherwise
                     # center stars above boxes
                     axshift <- if (htest.compare == 2) 1.5 else 1
-                    y_sb <- starbracket_y(unlist(x))
+                    y_sb <- starbracket_y(unlist(x), pad = starbracket.pad)
                     if (is.null(htest.y)) htest.y <- y_sb$star                   
                     plt <- plt |> plotly::add_annotations(
                         xref = if (horizontal) "paper" else "x",
                         # yref = if (horizontal) "x" else "paper",
-                        yref = "x",
+                        yref = if (horizontal) "x" else "y",
                         yanchor = if (horizontal) "auto" else "top",
                         xanchor = if (horizontal) "center" else "auto",
                         x = if (horizontal) htest.y else seq_len(nvars * ngroups) - axshift,
