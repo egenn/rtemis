@@ -415,7 +415,8 @@ dplot3_box <- function(x,
                 if (is.null(htest.y)) htest.y <- y_sb$star
                 plt <- plt |> plotly::add_annotations(
                     xref = if (horizontal) "paper" else "x",
-                    yref = if (horizontal) "x" else "paper",
+                    # yref = if (horizontal) "x" else "paper",
+                    yref = "x",
                     yanchor = if (horizontal) "auto" else "top",
                     xanchor = if (horizontal) "center" else "auto",
                     x = if (horizontal) htest.y else seq_along(pvals), # exclude first
