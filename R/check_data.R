@@ -5,7 +5,9 @@
 #' Check Data
 #'
 #' @param x data.frame, data.table or similar structure
-#' @param verbose Logical: If TRUE, print output in HTML viewer.
+#' @param name Character: Name of dataset
+#' @param get_na_case_pct Logical: If TRUE, calculate percent of NA values per case
+#' @param get_na_feature_pct Logical: If TRUE, calculate percent of NA values per feature
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -204,24 +206,16 @@ html_success <- function(..., bold = TRUE) {
 
 max0 <- function(x) max(x, 0, na.rm = TRUE)
 
-#' Describe generic
+#' Generate \code{CheckData} object description in HTML
 #' 
-# #' @export
-# desc <- function(x, ...) {
-#     UseMethod("desc")
-# }
-
-
-#' Describe \code{CheckData} object
+#' @param x \code{CheckData} object
+#' @param name Character: Name of the data set
+#' @param css List: CSS styles
 #' 
-# #' @export
-# desc.CheckData <- function(x, type = c("plaintext", "html")) {
-#     type <- match.arg(type)
-# }
-
+#' @author E.D. Gennatas
+#' @export
 tohtml <- function(x,
                    name = NULL,
-                   check_integers = FALSE,
                    css = list(
                        font.family = "Helvetica",
                        color = "#fff",
@@ -238,6 +232,7 @@ tohtml <- function(x,
     n_dups <- x$n_dups
     n_cols_anyna <- x$n_cols_anyna
     n_na <- x$n_na
+    classes_na <- x$classes_na
     na_feature_pct <- x$na_feature_pct
     na_case_pct <- x$na_case_pct
 

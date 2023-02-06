@@ -9,7 +9,11 @@ check_data(x, name = NULL, get_na_case_pct = FALSE, get_na_feature_pct = FALSE)
 \arguments{
 \item{x}{data.frame, data.table or similar structure}
 
-\item{verbose}{Logical: If TRUE, print output in HTML viewer.}
+\item{name}{Character: Name of dataset}
+
+\item{get_na_case_pct}{Logical: If TRUE, calculate percent of NA values per case}
+
+\item{get_na_feature_pct}{Logical: If TRUE, calculate percent of NA values per feature}
 }
 \description{
 Check Data
