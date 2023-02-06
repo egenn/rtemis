@@ -2,15 +2,24 @@
 % Please edit documentation in R/check_data.R
 \name{tohtml}
 \alias{tohtml}
-\title{Describe generic}
+\title{Generate \code{CheckData} object description in HTML}
 \usage{
 tohtml(
   x,
   name = NULL,
-  check_integers = FALSE,
   css = list(font.family = "Helvetica", color = "#fff", background.color = "#242424")
 )
 }
+\arguments{
+\item{x}{\code{CheckData} object}
+
+\item{name}{Character: Name of the data set}
+
+\item{css}{List: CSS styles}
+}
 \description{
-Describe \code{CheckData} object
+Generate \code{CheckData} object description in HTML
+}
+\author{
+E.D. Gennatas
 }

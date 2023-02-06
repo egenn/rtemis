@@ -56,7 +56,7 @@ dplot3_box(
   htest.y = NULL,
   htest.annotate = TRUE,
   htest.annotate.x = 0,
-  htest.annotate.y = -0.05,
+  htest.annotate.y = -0.065,
   htest.star.col = theme$labs.col,
   htest.bracket.col = theme$labs.col,
   starbracket.pad = c(0.04, 0.05, 0.09),
