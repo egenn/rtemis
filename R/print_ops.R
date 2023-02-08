@@ -1,6 +1,6 @@
-# printls.R
+# print_ops.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016-23 E.D. Gennatas www.lambdamd.org
 
 #' Pretty print list
 #'
@@ -453,6 +453,11 @@ list2html <- function(x, sep = ": ",
         htmltools::HTML()
 }
 
-hilitebig <- function(x) {
-    hilite(format(x, scientific = FALSE, big.mark = ","))
+printchar <- function(x, left_pad = 2) {
+    target_length <- left_pad + max(nchar(x))
+    for (i in x) {
+        cat(
+            hilite(leftpad(i, target_length)), "\n"
+        )
+    }
 }
