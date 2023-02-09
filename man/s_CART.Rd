@@ -118,7 +118,7 @@ See \code{rpart::rpart("cost")}}
 
 \item{model}{Logical: If TRUE, keep a copy of the model.}
 
-\item{prune.cp}{[gS] Float: Complexity for cost-complexity pruning after 
+\item{prune.cp}{[gS] Numeric: Complexity for cost-complexity pruning after 
 tree is built}
 
 \item{use.prune.rpart.rt}{[Testing only, do not change]}
@@ -210,6 +210,7 @@ Other Supervised Learning:
 \code{\link{s_H2ODL}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
+\code{\link{s_HAL}()},
 \code{\link{s_IRF}()},
 \code{\link{s_KNN}()},
 \code{\link{s_LDA}()},

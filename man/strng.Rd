@@ -5,6 +5,7 @@
 \alias{italic}
 \alias{underline}
 \alias{hilite}
+\alias{hilitebig}
 \alias{red}
 \alias{green}
 \alias{orange}
@@ -21,6 +22,8 @@ italic(...)
 underline(...)
 
 hilite(..., bold = TRUE)
+
+hilitebig(x)
 
 red(..., bold = FALSE)
 

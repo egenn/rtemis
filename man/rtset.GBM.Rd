@@ -20,14 +20,14 @@ rtset.GBM(
 )
 }
 \arguments{
-\item{interaction.depth}{[gS] Integer: Interaction depth. Default = 2}
+\item{interaction.depth}{[gS] Integer: Interaction depth.}
 
-\item{shrinkage}{[gS] Float: Shrinkage (learning rate). Default = .01}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate).}
 
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
-Helps avoid overfitting. Default = .75}
+Helps avoid overfitting.}
 
-\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node. Default = 5}
+\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
 Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}

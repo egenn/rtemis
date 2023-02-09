@@ -1,7 +1,6 @@
 # s_GLMNET.R
 # ::rtemis::
 # 2016-7 E.D. Gennatas www.lambdamd.org
-# [=>?] Consider fixing foldid
 
 #' GLM with Elastic Net Regularization [C, R, S]
 #'
@@ -23,6 +22,7 @@
 #' compute its own lambda sequence
 #' @param intercept Logical: If TRUE, include intercept in the model.
 #' @param res.summary.fn Function: Used to average resample runs.
+#' 
 #' @author E.D. Gennatas
 #' @seealso \link{elevate} for external cross-validation
 #' @family Supervised Learning
@@ -93,7 +93,7 @@ s_GLMNET <- function(x, y = NULL,
         print(args(s_GLMNET))
         stop("x is missing")
     }
-    if (is.null(y) & NCOL(x) < 2) {
+    if (is.null(y) && NCOL(x) < 2) {
         print(args(s_GLMNET))
         stop("y is missing")
     }
@@ -101,7 +101,7 @@ s_GLMNET <- function(x, y = NULL,
     if (is.null(y.name)) y.name <- getName(y, "y")
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
-    if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
     if (!is.null(outdir)) {
         outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
     }
@@ -124,7 +124,7 @@ s_GLMNET <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
+    .weights <- if (is.null(weights) && ipw) dt$weights else weights
     if (is.null(.weights)) .weights <- rep(1, NROW(y))
     if (is.null(family)) {
         if (type == "Regression") {
@@ -253,7 +253,7 @@ s_GLMNET <- function(x, y = NULL,
     }
 
     # Fitted ----
-    if (type == "Regression" | type == "Survival") {
+    if (type == "Regression" || type == "Survival") {
         fitted <- as.numeric(predict(mod, newx = x))
         fitted.prob <- NULL
     } else {
@@ -275,7 +275,7 @@ s_GLMNET <- function(x, y = NULL,
     # Predicted ----
     predicted <- predicted.prob <- error.test <- NULL
     if (!is.null(x.test)) {
-        if (type == "Regression" | type == "Survival") {
+        if (type == "Regression" || type == "Survival") {
             predicted <- as.numeric(predict(mod, newx = x.test))
             predicted.prob <- NULL
         } else {

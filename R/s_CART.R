@@ -24,7 +24,7 @@
 #' node before considering a split.
 #' @param minbucket [gS] Integer: Minimum number of cases allowed in a child 
 #' node.
-#' @param prune.cp [gS] Float: Complexity for cost-complexity pruning after 
+#' @param prune.cp [gS] Numeric: Complexity for cost-complexity pruning after 
 #' tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
 #' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return 

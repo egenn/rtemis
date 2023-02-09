@@ -25,8 +25,7 @@
 #'
 #' @param x Vector or List of vectors: Input
 #' @param time Date or date-time vector
-#' @param time.bin Character: "year", "quarter", "month", or "day". What to bin
-#' by
+#' @param time.bin Character: "year", "quarter", "month", or "day". Period to bin by
 #' @param type Character: "box" or "violin"
 #' @param group Factor to group by
 #' @param x.transform Character: "none", "scale", or "minmax" to use raw values,

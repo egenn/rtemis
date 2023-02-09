@@ -171,11 +171,6 @@ tunable <- function(mod) {
     printls(mod_params[[toupper(mod)]])
 }
 
-mod_params <- list(
-    GBM = gbm_params, CART = cart_params,
-    RANGER = ranger_params, GLMNET = glmnet_params
-)
-
 gbm_params <- list(
     interaction.depth = "Integer: Interaction depth.",
     shrinkage = "Float: Shrinkage (learning rate).",
@@ -227,3 +222,7 @@ svm_params <- list(
     max_iter = "Integer: Hard limit on iterations within solver, or -1 for no limit."
 )
 
+mod_params <- list(
+    GBM = gbm_params, CART = cart_params,
+    RANGER = ranger_params, GLMNET = glmnet_params
+)

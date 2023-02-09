@@ -75,8 +75,7 @@ dplot3_box(
 
 \item{time}{Date or date-time vector}
 
-\item{time.bin}{Character: "year", "quarter", "month", or "day". What to bin
-by}
+\item{time.bin}{Character: "year", "quarter", "month", or "day". Period to bin by}
 
 \item{type}{Character: "box" or "violin"}
 
