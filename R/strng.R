@@ -25,6 +25,11 @@ hilite <- function(..., bold = TRUE) {
 }
 
 #' @rdname strng
+hilitebig <- function(x) {
+    hilite(format(x, scientific = FALSE, big.mark = ","))
+}
+
+#' @rdname strng
 red <- function(..., bold = FALSE) {
     paste0("\033[", ifelse(bold, "1;", ""), "91m", paste(...), "\033[0m")
 }
@@ -180,4 +185,14 @@ clean_colnames <- function(x) {
         x <- if (inherits(x, "matrix")) colnames(x) else names(x)
     }
     clean_names(x)
+}
+
+
+leftpad <- function(x, target_length, pad_char = " ") {
+    lpad <- target_length - nchar(x)
+    if (lpad > 0) {
+        paste0(paste0(rep(pad_char, lpad), collapse = ""), x)
+    } else {
+        x
+    }
 }
