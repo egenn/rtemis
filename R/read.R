@@ -2,11 +2,12 @@
 # ::rtemis::
 # 2022-3 E.D. Gennatas www.lambdamd.org
 
-#' Read delimited file into a data.table
+#' Read delimited file or XLSX into a data.table
 #'
-#' Convenience function to read data using
+#' Convenience function to read delimited data using
 #' \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-#' or \code{vroom::vroom()}
+#' \code{vroom::vroom()}, or \code{duckdb::duckdb_read_csv()}.
+#' Read XLSX files using \code{readxl::read_excel()}.
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
 #' @param datadir Character: Optional path to directory where \code{filename}
@@ -16,15 +17,15 @@
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using
 #' \link{clean_colnames}
-#' @param csv.reader Character: "data.table" or "arrow", to use
+#' @param delim.reader Character: "data.table" or "arrow", to use
 #' \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
 #' to read \code{filename}
 #' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
-#' @param sep Single character: field separator. If \code{csv.reader = "fread"}
+#' @param sep Single character: field separator. If \code{delim.reader = "fread"}
 #' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
 #' @param na.strings Character vector: Strings to be interpreted as NA values
-#' @param output Character: "default" or "data.table", If default, return the csv.reader's
+#' @param output Character: "default" or "data.table", If default, return the delim.reader's
 #' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param fread_verbose Logical: Passed to \code{data.table::fread}
@@ -45,11 +46,11 @@ read <- function(filename,
                  make.unique = TRUE,
                  character2factor = FALSE,
                  clean.colnames = TRUE,
-                 csv.reader = c("data.table", "arrow", "vroom"),
+                 delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
                  xlsx.sheet = 1,
                  sep = NULL,
                  quote = "\"",
-                 na.strings = c("NA", ""),
+                 na.strings = c("", "NA"),
                  output = c("data.table", "default"),
                  attr = NULL,
                  value = NULL,
@@ -59,7 +60,7 @@ read <- function(filename,
 
     dependency_check("data.table")
     if (timed) start.time <- intro(verbose = FALSE)
-    csv.reader <- match.arg(csv.reader)
+    delim.reader <- match.arg(delim.reader)
     output <- match.arg(output)
     ext <- tools::file_ext(filename)
     path <- if (is.null(datadir)) {
@@ -73,7 +74,7 @@ read <- function(filename,
        .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
        if (output == "data.table") setDT(.dat)
     } else {
-        if (csv.reader == "data.table") {
+        if (delim.reader == "data.table") {
             if (is.null(sep)) sep <- "auto"
             .dat <- data.table::fread(
                 path,
@@ -82,7 +83,32 @@ read <- function(filename,
                 na.strings = na.strings,
                 verbose = fread_verbose, ...
             )
-        } else if (csv.reader == "arrow") {
+        } else if (delim.reader == "duckdb") {
+            dependency_check("duckdb")
+            if (is.null(sep)) sep <- ","
+            if (length(na.strings) > 1) {
+                msg2("Note: 'na.strings' must be a single string for duckdb; setting to '", na.strings[1], "'")
+                na.strings <- na.strings[1]
+            }
+            con <- dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+            .db <- duckdb::duckdb_read_csv(
+                con,
+                "data",
+                path,
+                header = TRUE,
+                na.strings = na.strings,
+                nrow.check = 500,
+                delim = sep,
+                quote = quote,
+                ...
+            )
+            .dat <- dbReadTable(con, "data")
+            # .dat <- ddb_data(path,
+            #     sep = sep, quote = quote, ...
+            # )
+            if (output == "data.table") setDT(.dat)
+
+        } else if (delim.reader == "arrow") {
             dependency_check("arrow")
             if (is.null(sep)) sep <- ","
             .dat <- arrow::read_delim_arrow(
