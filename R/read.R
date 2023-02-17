@@ -1,6 +1,8 @@
 # read.R
 # ::rtemis::
 # 2022-3 E.D. Gennatas www.lambdamd.org
+# need a way to ignore errors with duckdb::duckdb_read_csv()
+# rpolars nullstring is buggy, only recognizes NULL
 
 #' Read delimited file or XLSX into a data.table
 #'
@@ -57,6 +59,7 @@ read <- function(filename,
                  na.strings = c(""),
                  rpolars_ignore_errors = TRUE,
                  rpolars_infer_schema_length = 100,
+                 rpolars_encoding = "utf8-lossy",
                  rpolars_parse_dates = TRUE,
                  output = c("data.table", "default"),
                  attr = NULL,
@@ -76,7 +79,13 @@ read <- function(filename,
         file.path(datadir, filename)
     }
     path <- path.expand(path)
-    if (verbose) msgread(path, caller = "get_data")
+    # if (verbose) msgread(path, caller = "read")
+    if (verbose) {
+        msg20(bold(green("\u25B6")), " Reading ",
+            hilite(basename(path)), " using ", 
+            if (ext == "xlsx") "openxlsx" else delim.reader, "..."
+        )
+    }
 
     if (ext == "xlsx") {
        .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
@@ -136,6 +145,7 @@ read <- function(filename,
                 quote_char = quote,
                 # null_values = na.strings
                 infer_schema_length = rpolars_infer_schema_length,
+                encoding = rpolars_encoding,
                 parse_dates = rpolars_parse_dates, ...
             )$as_data_frame()
             if (output == "data.table") setDT(.dat)

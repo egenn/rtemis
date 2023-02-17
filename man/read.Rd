@@ -17,6 +17,7 @@ read(
   na.strings = c(""),
   rpolars_ignore_errors = TRUE,
   rpolars_infer_schema_length = 100,
+  rpolars_encoding = "utf8-lossy",
   rpolars_parse_dates = TRUE,
   output = c("data.table", "default"),
   attr = NULL,
