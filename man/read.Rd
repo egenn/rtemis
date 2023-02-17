@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read}
 \alias{read}
-\title{Read delimited file into a data.table}
+\title{Read delimited file or XLSX into a data.table}
 \usage{
 read(
   filename,
@@ -10,11 +10,11 @@ read(
   make.unique = TRUE,
   character2factor = FALSE,
   clean.colnames = TRUE,
-  csv.reader = c("data.table", "arrow", "vroom"),
+  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
   xlsx.sheet = 1,
   sep = NULL,
   quote = "\\"",
-  na.strings = c("NA", ""),
+  na.strings = c("", "NA"),
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
@@ -38,20 +38,20 @@ factors}
 \item{clean.colnames}{Logical: If TRUE, clean columns names using
 \link{clean_colnames}}
 
-\item{csv.reader}{Character: "data.table" or "arrow", to use
+\item{delim.reader}{Character: "data.table" or "arrow", to use
 \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
 to read \code{filename}}
 
 \item{xlsx.sheet}{Integer or character: Name or number of XLSX sheet to read}
 
-\item{sep}{Single character: field separator. If \code{csv.reader = "fread"}
+\item{sep}{Single character: field separator. If \code{delim.reader = "fread"}
 and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{quote}{Single character: quote character}
 
 \item{na.strings}{Character vector: Strings to be interpreted as NA values}
 
-\item{output}{Character: "default" or "data.table", If default, return the csv.reader's
+\item{output}{Character: "default" or "data.table", If default, return the delim.reader's
 default data structure, otherwise convert to data.table}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
@@ -65,9 +65,10 @@ default data structure, otherwise convert to data.table}
 or \code{openxlsx::read.xlsx()}}
 }
 \description{
-Convenience function to read data using
+Convenience function to read delimited data using
 \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-or \code{vroom::vroom()}
+\code{vroom::vroom()}, or \code{duckdb::duckdb_read_csv()}.
+Read XLSX files using \code{readxl::read_excel()}.
 }
 \examples{
 \dontrun{
