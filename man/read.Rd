@@ -10,11 +10,14 @@ read(
   make.unique = TRUE,
   character2factor = FALSE,
   clean.colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
+  delim.reader = c("data.table", "vroom", "duckdb", "arrow", "rpolars"),
   xlsx.sheet = 1,
   sep = NULL,
   quote = "\\"",
-  na.strings = c("", "NA"),
+  na.strings = c(""),
+  rpolars_ignore_errors = TRUE,
+  rpolars_infer_schema_length = 100,
+  rpolars_parse_dates = TRUE,
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
@@ -49,7 +52,11 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{quote}{Single character: quote character}
 
-\item{na.strings}{Character vector: Strings to be interpreted as NA values}
+\item{na.strings}{Character vector: Strings to be interpreted as NA values.
+For \code{delim.reader = "duckdb"}, this must be a single string.
+For \code{delim.reader = "rpolars"}, this must be a single string, otherwise, if an
+unnamed character vector, it maps each string to each column. If named, the names 
+should match columns. See \code{?rpolars::csv_reader} for more details.}
 
 \item{output}{Character: "default" or "data.table", If default, return the delim.reader's
 default data structure, otherwise convert to data.table}
