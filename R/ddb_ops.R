@@ -1,6 +1,6 @@
-# ddbops.R
+# ddb_ops.R
 # ::rtemis::
-# 2022 EDG lambdamd.org
+# 2022-3 EDG lambdamd.org
 
 #' Read CSV using DuckDB
 #'
@@ -116,6 +116,9 @@ ddb_data <- function(filename,
     if (collect) {
         conn <- DBI::dbConnect(duckdb::duckdb())
         on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
+        # on.exit(
+        #     tryCatch(DBI::dbRollback(conn), error = function(e) {
+        # }))
         if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
         out <- DBI::dbGetQuery(conn, sql)
         if (clean_colnames) {
