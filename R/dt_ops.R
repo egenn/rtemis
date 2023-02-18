@@ -333,15 +333,16 @@ dt_set_logical2factor <- function(x, cols = NULL, labels = c("False", "True")) {
 dt_icd10_comorbidities <- function(
     x,
     score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc")) {
+        dependency_check("icd")
     coml <- lapply(score, \(s) {
         out <- switch(s,
-            ahrq = icd10_comorbid_ahrq(x, return_df = TRUE),
-            elix = icd10_comorbid_elix(x, return_df = TRUE),
-            quan_elix = icd10_comorbid_quan_elix(x, return_df = TRUE),
-            quan_deyo = icd10_comorbid_quan_deyo(x, return_df = TRUE),
-            charlson = icd10_comorbid_charlson(x, return_df = TRUE),
-            ccs = icd10_comorbid_ccs(x, return_df = TRUE),
-            pccc = icd10_comorbid_pccc_dx(x, return_df = TRUE)
+            ahrq = icd::icd10_comorbid_ahrq(x, return_df = TRUE),
+            elix = icd::icd10_comorbid_elix(x, return_df = TRUE),
+            quan_elix = icd::icd10_comorbid_quan_elix(x, return_df = TRUE),
+            quan_deyo = icd::icd10_comorbid_quan_deyo(x, return_df = TRUE),
+            charlson = icd::icd10_comorbid_charlson(x, return_df = TRUE),
+            ccs = icd::icd10_comorbid_ccs(x, return_df = TRUE),
+            pccc = icd::icd10_comorbid_pccc_dx(x, return_df = TRUE)
         ) |> setDT()
         setnames(out, names(out)[-1], paste0(s, "_", names(out)[-1]))
     })
