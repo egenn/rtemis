@@ -329,14 +329,16 @@ dt_set_logical2factor <- function(x, cols = NULL, labels = c("False", "True")) {
 #' uranium_comorb <- dt_icd10_comorbidities(uranium_pathology)
 #' uranium_comorb
 #' }
+# https://github.com/jackwasey/icd
 dt_icd10_comorbidities <- function(
     x,
-    score = c("ahrq", "elix", "quan_elix", "charlson", "ccs", "pccc")) {
+    score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc")) {
     coml <- lapply(score, \(s) {
         out <- switch(s,
             ahrq = icd10_comorbid_ahrq(x, return_df = TRUE),
             elix = icd10_comorbid_elix(x, return_df = TRUE),
             quan_elix = icd10_comorbid_quan_elix(x, return_df = TRUE),
+            quan_deyo = icd10_comorbid_quan_deyo(x, return_df = TRUE),
             charlson = icd10_comorbid_charlson(x, return_df = TRUE),
             ccs = icd10_comorbid_ccs(x, return_df = TRUE),
             pccc = icd10_comorbid_pccc_dx(x, return_df = TRUE)

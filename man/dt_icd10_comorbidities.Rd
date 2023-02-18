@@ -6,7 +6,7 @@
 \usage{
 dt_icd10_comorbidities(
   x,
-  score = c("ahrq", "elix", "quan_elix", "charlson", "ccs", "pccc")
+  score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc")
 )
 }
 \arguments{
