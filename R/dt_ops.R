@@ -42,7 +42,6 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
 #' )
 #' dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
 #' }
-
 dt_keybin_reshape <- function(x,
                               id_name,
                               key_name,
@@ -61,7 +60,7 @@ dt_keybin_reshape <- function(x,
     x[, (value_name) := positive]
 
     .formula <- as.formula(paste(
-        paste(id_name, collapse = " + "), 
+        paste(id_name, collapse = " + "),
         "~", key_name
     ))
     if (verbose) {
@@ -133,7 +132,7 @@ dt_merge <- function(left,
                 " on ", hilite(left_on), " & ", hilite(right_on), "..."
             )
         }
-        
+
         catsize(left, left_name)
         catsize(right, right_name)
     }
@@ -194,10 +193,10 @@ dt_set_cleanfactorlevels <- function(x) {
 } # rtemis::dt_set_cleanfactorlevels
 
 #' Check if all levels in a column are unique
-#' 
+#'
 #' @param x data.frame or data.table
 #' @param on Integer or character: column to check
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_check_unique <- function(x, on) {
@@ -217,11 +216,11 @@ dt_get_duplicates <- function(x, on) {
 
 
 #' Index columns by attribute name & value
-#' 
+#'
 #' @param x data.frame or compatible
 #' @param name Character: Name of attribute
 #' @param name Character: Value of attribute
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_index_attr <- function(x, name, value) {
@@ -230,7 +229,7 @@ dt_index_attr <- function(x, name, value) {
 }
 
 #' Get N and percent match of values between two columns of two data.tables
-#' 
+#'
 #' @param x data.table
 #' @param y data.table
 #' @param on Integer or character: column to read in \code{x} and \code{y}, if it is the
@@ -238,14 +237,14 @@ dt_index_attr <- function(x, name, value) {
 #' @param left_on Integer or character: column to read in \code{x}
 #' @param right_on Integer or character: column to read in \code{y}
 #' @param verbose Logical: If TRUE, print messages to console
-#' 
+#'
 #' @author E.D. Gennatas
-#' @export 
-dt_pctmatch <- function(x, y,
-    on = NULL, 
-    left_on = NULL, 
+#' @export
+dt_pctmatch <- function(
+    x, y,
+    on = NULL,
+    left_on = NULL,
     right_on = NULL, verbose = TRUE) {
-
     if (is.null(left_on)) left_on <- on
     if (is.null(right_on)) right_on <- on
     xv <- unique(x[[left_on]])
@@ -261,16 +260,15 @@ dt_pctmatch <- function(x, y,
         )
     }
     invisible(list(nmatch = nmatch, matchpct = matchpct))
-    
 }
 
 #' Get percent of missing values from every column
-#' 
+#'
 #' @param x data.frame or data.table
 #' @param verbose Logical: If TRUE, print messages to console
-#' 
+#'
 #' @author E.D. Gennatas
-#' @export 
+#' @export
 dt_pctmissing <- function(x, verbose = TRUE) {
     nmissing <- sapply(x, \(i) length(is.na(i)))
     pctmissing <- nmissing / NROW(x)
@@ -280,3 +278,70 @@ dt_pctmissing <- function(x, verbose = TRUE) {
     }
     invisible(list(nmissing = nmissing, pctmissing = pctmissing))
 }
+
+
+#' Convert data.table logical columns to factor with custom labels in-place
+#'
+#' @param x data.table
+#' @param cols Integer or character: columns to convert, if NULL, operates on all
+#' logical columns
+#' @param labels Character: labels for factor levels
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' library(data.table)
+#' x <- data.table(a = 1:5, b = c(T, F, F, F, T))
+#' x
+#' dt_set_logical2factor(x)
+#' x
+#' z <- data.table(alpha = 1:5, beta = c(T, F, T, F, T))
+#' z
+#' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
+#' z
+#' w <- data.table(mango = 1:5, banana = c(F, F, T, T, F))
+#' dt_set_logical2factor(w, cols = 2, labels = c("Ugh", "Huh"))
+#' }
+dt_set_logical2factor <- function(x, cols = NULL, labels = c("False", "True")) {
+    if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
+    for (i in cols) {
+        x[, (i) := factor(x[[i]], labels = labels)]
+    }
+    invisible(x)
+}
+
+#' Calculate ICD10 comorbidities using \code{icd10} package
+#'
+#' Calculates multiple comorbidity scores using the \code{icd10} package and merges
+#' into a \code{data.table}.
+#'
+#' @param x data.frame-compatible input with first column being IDs and second column
+#' ICD10 codes
+#' @param score Character: Comorbidity scores to calculate.
+#'
+#' @return data.table with IDs & columns for each score
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' library(icd10)
+#' uranium_comorb <- dt_icd10_comorbidities(uranium_pathology)
+#' uranium_comorb
+#' }
+dt_icd10_comorbidities <- function(
+    x,
+    score = c("ahrq", "elix", "quan_elix", "charlson", "ccs", "pccc")) {
+    coml <- lapply(score, \(s) {
+        out <- switch(s,
+            ahrq = icd10_comorbid_ahrq(x, return_df = TRUE),
+            elix = icd10_comorbid_elix(x, return_df = TRUE),
+            quan_elix = icd10_comorbid_quan_elix(x, return_df = TRUE),
+            charlson = icd10_comorbid_charlson(x, return_df = TRUE),
+            ccs = icd10_comorbid_ccs(x, return_df = TRUE),
+            pccc = icd10_comorbid_pccc_dx(x, return_df = TRUE)
+        ) |> setDT()
+        setnames(out, names(out)[-1], paste0(s, "_", names(out)[-1]))
+    })
+    Reduce(function(...) merge(..., by = names(x)[1], all.x = TRUE), coml) |> setDT()
+} # rtemis::dt_icd10_comorbidities
