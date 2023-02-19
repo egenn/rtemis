@@ -6,7 +6,8 @@
 \usage{
 dt_icd10_comorbidities(
   x,
-  score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc")
+  score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc"),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -24,7 +25,7 @@ into a \code{data.table}.
 }
 \examples{
 \dontrun{
-library(icd10)
+data(uranium_pathology, package = "icd")
 uranium_comorb <- dt_icd10_comorbidities(uranium_pathology)
 uranium_comorb
 }
