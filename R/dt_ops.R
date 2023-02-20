@@ -355,3 +355,18 @@ dt_icd10_comorbidities <- function(
         outro(start.time, verbose = verbose)
         out
 } # rtemis::dt_icd10_comorbidities
+
+
+#' Tabulate column attributes
+#' 
+#' @param x data.table
+#' @param attr Character: Attribute to get
+#' 
+#' @author E.D. Gennatas
+#' @export
+dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
+    attrs <- sapply(x, \(i) {
+        if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else attr(i, attr, exact = TRUE)
+    })
+    table(attrs, useNA = useNA)
+}
