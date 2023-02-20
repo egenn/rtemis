@@ -39,7 +39,7 @@ rt_save <- function(rtmod,
 check_files <- function(paths,
                         verbose = TRUE,
                         pad = 0) {
-    if (verbose) msg2("Checking files:")
+    if (verbose) msg20("Checking ", singorplu(length(paths), "file"), ":")
 
     for (f in paths) {
         if (file.exists(f)) {
