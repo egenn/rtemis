@@ -296,17 +296,28 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' x
 #' dt_set_logical2factor(x)
 #' x
-#' z <- data.table(alpha = 1:5, beta = c(T, F, T, F, T))
+#' z <- data.table(alpha = 1:5, beta = c(T, F, T, NA, T), gamma = c(F, F, T, F, NA))
 #' z
-#' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
+#' # You can usee fillNA to fill NA values with a constant
+#' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"), fillNA = "No")
 #' z
 #' w <- data.table(mango = 1:5, banana = c(F, F, T, T, F))
+#' w
 #' dt_set_logical2factor(w, cols = 2, labels = c("Ugh", "Huh"))
+#' w
 #' }
-dt_set_logical2factor <- function(x, cols = NULL, labels = c("False", "True")) {
+dt_set_logical2factor <- function(x, 
+    cols = NULL, 
+    labels = c("False", "True"), 
+    fillNA = NULL) {
     if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
     for (i in cols) {
         x[, (i) := factor(x[[i]], labels = labels)]
+    }
+    if (!is.null(fillNA)) {
+        for (i in cols) {
+            x[is.na(x[[i]]), (i) := fillNA]
+        }
     }
     invisible(x)
 }
