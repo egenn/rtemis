@@ -4,7 +4,12 @@
 \alias{dt_set_logical2factor}
 \title{Convert data.table logical columns to factor with custom labels in-place}
 \usage{
-dt_set_logical2factor(x, cols = NULL, labels = c("False", "True"))
+dt_set_logical2factor(
+  x,
+  cols = NULL,
+  labels = c("False", "True"),
+  fillNA = NULL
+)
 }
 \arguments{
 \item{x}{data.table}
@@ -24,12 +29,15 @@ x <- data.table(a = 1:5, b = c(T, F, F, F, T))
 x
 dt_set_logical2factor(x)
 x
-z <- data.table(alpha = 1:5, beta = c(T, F, T, F, T))
+z <- data.table(alpha = 1:5, beta = c(T, F, T, NA, T), gamma = c(F, F, T, F, NA))
 z
-dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
+# You can usee fillNA to fill NA values with a constant
+dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"), fillNA = "No")
 z
 w <- data.table(mango = 1:5, banana = c(F, F, T, T, F))
+w
 dt_set_logical2factor(w, cols = 2, labels = c("Ugh", "Huh"))
+w
 }
 }
 \author{

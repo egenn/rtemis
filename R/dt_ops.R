@@ -312,7 +312,7 @@ dt_set_logical2factor <- function(x,
     fillNA = NULL) {
     if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
     for (i in cols) {
-        x[, (i) := factor(x[[i]], labels = labels)]
+        x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
     }
     if (!is.null(fillNA)) {
         for (i in cols) {
