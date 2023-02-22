@@ -286,6 +286,8 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' @param cols Integer or character: columns to convert, if NULL, operates on all
 #' logical columns
 #' @param labels Character: labels for factor levels
+#' @param maintain_attributes Logical: If TRUE, maintain column attributes
+#' @param fillNA Character: If not NULL, fill NA values with this constant
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -305,18 +307,26 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' w
 #' dt_set_logical2factor(w, cols = 2, labels = c("Ugh", "Huh"))
 #' w
+#' # Column attributes are maintained by default:
+#' z <- data.table(alpha = 1:5, beta = c(T, F, T, NA, T), gamma = c(F, F, T, F, NA))
+#' for (i in seq_along(z)) setattr(z[[i]], "source", "Guava")
+#' str(z)
+#' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
+#' str(z)
 #' }
+
 dt_set_logical2factor <- function(x, 
     cols = NULL, 
     labels = c("False", "True"), 
+    maintain_attributes = TRUE,
     fillNA = NULL) {
     if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
     for (i in cols) {
+        if (maintain_attributes) .attr <- attributes(x[[i]])
         x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
-    }
-    if (!is.null(fillNA)) {
-        for (i in cols) {
-            x[is.na(x[[i]]), (i) := fillNA]
+        if (!is.null(fillNA)) x[is.na(x[[i]]), (i) := fillNA]
+        if (maintain_attributes) {
+            for (j in seq_along(.attr)) setattr(x[[i]], names(.attr)[j], .attr[[j]])
         }
     }
     invisible(x)
