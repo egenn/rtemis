@@ -321,6 +321,9 @@ preprocess <- function(x,
 
     # len2factor ----
     if (len2factor > 1) {
+        if (verbose) {
+            msg2("Converting features with <=", len2factor, "levels to factors...")
+        }
         index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
         for (i in index.len) x[, i] <- factor(x[, i])
     }
