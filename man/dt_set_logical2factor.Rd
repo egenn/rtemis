@@ -8,6 +8,7 @@ dt_set_logical2factor(
   x,
   cols = NULL,
   labels = c("False", "True"),
+  maintain_attributes = TRUE,
   fillNA = NULL
 )
 }
@@ -18,6 +19,10 @@ dt_set_logical2factor(
 logical columns}
 
 \item{labels}{Character: labels for factor levels}
+
+\item{maintain_attributes}{Logical: If TRUE, maintain column attributes}
+
+\item{fillNA}{Character: If not NULL, fill NA values with this constant}
 }
 \description{
 Convert data.table logical columns to factor with custom labels in-place
@@ -38,6 +43,12 @@ w <- data.table(mango = 1:5, banana = c(F, F, T, T, F))
 w
 dt_set_logical2factor(w, cols = 2, labels = c("Ugh", "Huh"))
 w
+# Column attributes are maintained by default:
+z <- data.table(alpha = 1:5, beta = c(T, F, T, NA, T), gamma = c(F, F, T, F, NA))
+for (i in seq_along(z)) setattr(z[[i]], "source", "Guava")
+str(z)
+dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
+str(z)
 }
 }
 \author{
