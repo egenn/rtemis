@@ -29,7 +29,6 @@ preprocess(
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing.level = "missing",
-  nonzeroFactors = FALSE,
   scale = FALSE,
   center = scale,
   removeConstants = FALSE,
@@ -127,8 +126,6 @@ data in categorical variables and impute numeric variables in the same
 
 \item{factorNA2missing.level}{Character: Name of level if
 \code{factorNA2missing = TRUE}. Default = "missing"}
-
-\item{nonzeroFactors}{Logical: Shift factor values to exclude zeros.}
 
 \item{scale}{Logical: If TRUE, scale columns of \code{x}}
 

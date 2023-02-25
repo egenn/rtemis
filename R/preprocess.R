@@ -63,9 +63,11 @@
 #' @param impute.numeric Function that returns single value: How to impute
 #' continuous variables for \code{impute.type = "meanMode"}.
 #' Default = \code{mean}
-#' @param integer2factor Logical: If TRUE, convert all integers to factors
+#' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
+#' \code{bit64::integer64} columns
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric
-#' (will only work if \code{integer2factor = FALSE})
+#' (will only work if \code{integer2factor = FALSE}) This includes
+#' \code{bit64::integer64} columns
 #' @param logical2factor Logical: If TRUE, convert all logical variables to
 #' factors
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to
@@ -242,7 +244,10 @@ preprocess <- function(x,
 
     # Integer to factor ----
     if (integer2factor) {
-        index.integer <- which(sapply(x, is.integer))
+        index.integer <- c(
+            which(sapply(x, is.integer)),
+            which(sapply(x, base64::is.integer64))
+        )
         if (verbose) {
             if (length(index.integer) > 0) {
                 msg2("Converting", singorplu(length(index.integer), "integer"), "to factor...")
@@ -255,7 +260,12 @@ preprocess <- function(x,
 
     # Integer to numeric ----
     if (integer2numeric) {
-        index.integer <- which(sapply(x, is.integer))
+        if (is.null(index.integer)) {
+            index.integer <- c(
+                which(sapply(x, is.integer)),
+                which(sapply(x, base64::is.integer64))
+            )
+        }
         if (verbose) {
             if (length(index.integer) > 0) {
                 msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
