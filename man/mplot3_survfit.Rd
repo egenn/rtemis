@@ -48,6 +48,9 @@ mplot3_survfit(
   mar = c(2.5, 3, 2, 1),
   oma = NULL,
   par.reset = TRUE,
+  pdf.width = 6,
+  pdf.height = 6,
+  filename = NULL,
   ...
 )
 }

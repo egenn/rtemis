@@ -114,7 +114,10 @@ mplot3_survfit <- function(x,
                            legend.x = NULL,   # for group.legend.type "legend"
                            mar = c(2.5, 3, 2, 1),
                            oma = NULL,
-                           par.reset = TRUE, ...) {
+                           par.reset = TRUE,
+                           pdf.width = 6,
+                           pdf.height = 6,
+                           filename = NULL, ...) {
 
   group.legend.type <- match.arg(group.legend.type)
   
@@ -164,7 +167,18 @@ mplot3_survfit <- function(x,
     }
   }
 
+  # Output directory
+  if (!is.null(filename) && !dir.exists(dirname(filename))) {
+    dir.create(dirname(filename), recursive = TRUE)
+  }
+
   # Plot ----
+  if (!is.null(filename)) {
+    pdf(filename,
+      width = pdf.width, height = pdf.height,
+      title = "rtemis Graphics"
+    )
+  }
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
@@ -406,6 +420,7 @@ mplot3_survfit <- function(x,
 
   }
 
+  if (!is.null(filename)) dev.off()
   invisible(list(group.names = group.names))
 
 } # rtemis::mplot3_surv
