@@ -4,10 +4,13 @@
 \alias{dt_set_cleanfactorlevels}
 \title{Clean factor levels of data.table in-place}
 \usage{
-dt_set_cleanfactorlevels(x)
+dt_set_cleanfactorlevels(x, prefix_digits = NA)
 }
 \arguments{
 \item{x}{data.table}
+
+\item{prefix_digits}{Character: If not NA, add this prefix to all factor levels that 
+are numbers}
 }
 \description{
 Finds all factors in a data.table and cleans factor levels to include
