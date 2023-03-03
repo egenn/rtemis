@@ -174,6 +174,8 @@ dt_merge <- function(left,
 #' only underscore symbols
 #'
 #' @param x data.table
+#' @param prefix_digits Character: If not NA, add this prefix to all factor levels that 
+#' are numbers
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -184,11 +186,13 @@ dt_merge <- function(left,
 #' dt_set_cleanfactorlevels(x)
 #' x
 #' }
-dt_set_cleanfactorlevels <- function(x) {
+dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
     stopifnot(inherits(x, "data.table"))
     idi <- names(x)[sapply(x, is.factor)]
     for (i in idi) {
-        x[, (i) := factor(x[[i]], labels = clean_names(levels(x[[i]])))]
+        x[, (i) := factor(x[[i]],
+            labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+        )]
     }
 } # rtemis::dt_set_cleanfactorlevels
 
@@ -391,3 +395,7 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
     })
     table(attrs, useNA = useNA)
 }
+
+# dt_missing_by_class <- function(x) {
+
+# }
