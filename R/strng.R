@@ -132,7 +132,7 @@ labelify <- function(x,
         xf <- gsub(i, " ", xf)
     }
     for (i in capitalize.strings) {
-        xf <- gsub(paste0("^", i, "$"), toupper(i), xf)
+        xf <- gsub(paste0("^", i, "$"), toupper(i), xf, ignore.case = TRUE)
     }
     if (underscoresToSpaces) xf <- gsub("_", " ", xf)
     if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
