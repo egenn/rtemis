@@ -103,7 +103,7 @@
 #' @param line.col Color for lines
 #' @param line.alpha Float [0, 1]: Transparency for lines
 #' @param lty Integer: Line type. See \code{par("lty")}
-#' @param lwd Float: Linew width
+#' @param lwd Float: Line width
 #' @param marker.col Color for marker
 #' @param marker.alpha Float [0, 1]: Transparency for markers
 #' @param error.x.col Color for x-axis error bars
@@ -223,6 +223,7 @@ mplot3_xy <- function(x, y = NULL,
                       pch = ifelse(is.null(point.bg.col), 16, 21),
                       line.col = NULL,
                       line.alpha = .66,
+                      lwd = 1,
                       lty = 1,
                       marker.col = NULL,
                       marker.alpha = NULL,
@@ -499,6 +500,9 @@ mplot3_xy <- function(x, y = NULL,
     } else {
       # MULTIPLE XY PAIRS
       if (is.null(marker.col)) marker.col <- palette
+      if (length(marker.col) < Nxgroups) {
+        marker.col <- as.list(rep(marker.col, Nxgroups / length(marker.col)))
+      }
       # marker.col <- lapply(point.col, function(x) adjustcolor(x, point.alpha))
       if (!is.null(point.bg.col)) {
         if (length(point.bg.col) == sum(sapply(xl, length))) {
@@ -522,7 +526,10 @@ mplot3_xy <- function(x, y = NULL,
     } else {
       # MULTIPLE LINES
       if (is.null(line.col)) line.col <- palette[seql(palette, seq(Nxgroups))]
-      marker.col <- lapply(line.col, function(x) adjustcolor(x, line.alpha))
+      line.alpha <- recycle(line.alpha, line.col)
+      lwd <- recycle(lwd, line.col)
+      marker.col <- mapply(adjustcolor, line.col, line.alpha)
+      # marker.col <- lapply(line.col, function(x) adjustcolor(x, line.alpha))
     }
   } else {
     # MIXED POINTS AND LINE TYPES
@@ -781,14 +788,18 @@ mplot3_xy <- function(x, y = NULL,
     if (length(marker.alpha) < length(marker.col)) {
       marker.alpha <- rep(marker.alpha, ceiling(length(marker.col) / length(marker.alpha)))
     }
-    marker.col.alpha <- lapply(seq_along(marker.col),
-                               function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
+    marker.col.alpha <- lapply(
+      seq_along(marker.col),
+      function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]])
+    )
+    marker.col.alpha <- recycle(marker.col.alpha, xl)
     for (i in 1:Nxgroups) {
       points(xl[[i]], yl[[i]],
              type = type[[i]],
              col = marker.col.alpha[[i]],
              bg = point.bg.col[[i]],
-             lwd = theme$lwd,
+             # lwd = theme$lwd,
+             lwd = lwd[[i]],
              pch = pch[[i]],
              cex = point.cex,
              lty = lty[[i]], xpd = xpd) # delta
