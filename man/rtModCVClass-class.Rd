@@ -24,6 +24,8 @@ E.D. Gennatas
 \describe{
 \item{\code{fitted.prob.aggr}}{Aggregated training set probability estimates}
 
+\item{\code{predicted.prob.res}}{Testing set probability estimates for each resample}
+
 \item{\code{predicted.prob.aggr}}{Aggregated testing set probability estimates}
 }
 \if{html}{\out{</div>}}
@@ -35,6 +37,7 @@ E.D. Gennatas
 \item \href{#method-rtModCVClass-plotROC}{\code{rtModCVClass$plotROC()}}
 \item \href{#method-rtModCVClass-plotROCfitted}{\code{rtModCVClass$plotROCfitted()}}
 \item \href{#method-rtModCVClass-plotROCpredicted}{\code{rtModCVClass$plotROCpredicted()}}
+\item \href{#method-rtModCVClass-plotROCpredictedCV}{\code{rtModCVClass$plotROCpredictedCV()}}
 \item \href{#method-rtModCVClass-plotPR}{\code{rtModCVClass$plotPR()}}
 \item \href{#method-rtModCVClass-plotPRfitted}{\code{rtModCVClass$plotPRfitted()}}
 \item \href{#method-rtModCVClass-plotPRpredicted}{\code{rtModCVClass$plotPRpredicted()}}
@@ -86,6 +89,7 @@ Initialize \code{rtModCVClass} object
   y.test.res.aggr = NULL,
   predicted.res = NULL,
   predicted.res.aggr = NULL,
+  predicted.prob.res = NULL,
   predicted.prob.aggr = NULL,
   error.test.res = NULL,
   error.test.res.mean = NULL,
@@ -156,6 +160,8 @@ Initialize \code{rtModCVClass} object
 \item{\code{predicted.res}}{Resamples' predicted values}
 
 \item{\code{predicted.res.aggr}}{Aggregated predicted values}
+
+\item{\code{predicted.prob.res}}{Testing set probability estimates for each resample}
 
 \item{\code{predicted.prob.aggr}}{Aggregated testing set probability estimates}
 
@@ -246,6 +252,37 @@ Plot ROC plot for predicted values
 \item{\code{which.repeat}}{Integer: Which repeat to plot}
 
 \item{\code{main}}{Character: Main title}
+
+\item{\code{...}}{Additional arguments passed to plotting function}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rtModCVClass-plotROCpredictedCV"></a>}}
+\if{latex}{\out{\hypertarget{method-rtModCVClass-plotROCpredictedCV}{}}}
+\subsection{Method \code{plotROCpredictedCV()}}{
+Plot ROC plot for predicted values for each resample
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVClass$plotROCpredictedCV(
+  which.repeat = 1,
+  main = "ROC Testing",
+  col = "#16A0AC",
+  alpha = 0.5,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{which.repeat}}{Integer: Which repeat to plot}
+
+\item{\code{main}}{Character: Main title}
+
+\item{\code{col}}{Color for lines}
+
+\item{\code{alpha}}{Transparency for lines (passed to \code{mplot3_xy marker.alpha})}
 
 \item{\code{...}}{Additional arguments passed to plotting function}
 }
