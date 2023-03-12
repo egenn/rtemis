@@ -4,7 +4,13 @@
 \alias{check_data}
 \title{Check Data}
 \usage{
-check_data(x, name = NULL, get_na_case_pct = FALSE, get_na_feature_pct = FALSE)
+check_data(
+  x,
+  name = NULL,
+  get_duplicates = TRUE,
+  get_na_case_pct = FALSE,
+  get_na_feature_pct = FALSE
+)
 }
 \arguments{
 \item{x}{data.frame, data.table or similar structure}
