@@ -81,10 +81,12 @@ Default = \link{get_mode}}
 continuous variables for \code{impute.type = "meanMode"}.
 Default = \code{mean}}
 
-\item{integer2factor}{Logical: If TRUE, convert all integers to factors}
+\item{integer2factor}{Logical: If TRUE, convert all integers to factors. This includes
+\code{bit64::integer64} columns}
 
 \item{integer2numeric}{Logical: If TRUE, convert all integers to numeric
-(will only work if \code{integer2factor = FALSE})}
+(will only work if \code{integer2factor = FALSE}) This includes
+\code{bit64::integer64} columns}
 
 \item{logical2factor}{Logical: If TRUE, convert all logical variables to
 factors}

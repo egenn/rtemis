@@ -1,6 +1,6 @@
 # preprocess.R
 # ::rtemis::
-# 2017-22 E.D. Gennatas www.lambdamd.org
+# 2017-23 E.D. Gennatas www.lambdamd.org
 # todo: merge with preprocess_ as single data.table-based preprocess
 
 #' Data preprocessing
@@ -98,7 +98,6 @@
 #' \code{preprocess} call.
 #' @param factorNA2missing.level Character: Name of level if
 #' \code{factorNA2missing = TRUE}. Default = "missing"
-# @param nonzeroFactors Logical: Shift factor values to exclude zeros.
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}. Note that by
 #' default it is the same as \code{scale}
@@ -152,6 +151,7 @@ preprocess <- function(x,
                        removeConstants.skipMissing = TRUE,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
+                    #    cleanfactorlevels = FALSE,
                        exclude = NULL,
                        verbose = TRUE) {
     # Arguments ----
@@ -243,10 +243,11 @@ preprocess <- function(x,
     }
 
     # Integer to factor ----
+    index.integer <- NULL
     if (integer2factor) {
         index.integer <- c(
             which(sapply(x, is.integer)),
-            which(sapply(x, base64::is.integer64))
+            which(sapply(x, bit64::is.integer64))
         )
         if (verbose) {
             if (length(index.integer) > 0) {
@@ -256,24 +257,6 @@ preprocess <- function(x,
             }
         }
         for (i in index.integer) x[, i] <- as.factor(x[, i])
-    }
-
-    # Integer to numeric ----
-    if (integer2numeric) {
-        if (is.null(index.integer)) {
-            index.integer <- c(
-                which(sapply(x, is.integer)),
-                which(sapply(x, base64::is.integer64))
-            )
-        }
-        if (verbose) {
-            if (length(index.integer) > 0) {
-                msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
-            } else {
-                msg2("No integers to convert to numeric...")
-            }
-        }
-        for (i in index.integer) x[, i] <- as.numeric(x[, i])
     }
 
     # Logical to factor ----
@@ -292,13 +275,6 @@ preprocess <- function(x,
         for (i in index.logical) x[, i] <- as.factor(x[, i])
     }
 
-    # Logical to numeric ----
-    if (logical2numeric) {
-        index.logical <- which(sapply(x, is.logical))
-        if (verbose) msg2("Converting logicals to numeric...")
-        for (i in index.logical) x[, i] <- as.numeric(x[, i])
-    }
-
     # Numeric to factor ----
     if (numeric2factor) {
         index_numeric <- which(sapply(x, is.numeric))
@@ -308,6 +284,57 @@ preprocess <- function(x,
         } else {
             for (i in index_numeric) x[, i] <- factor(x[, i], levels = numeric2factor.levels)
         }
+    }
+
+    # Character to factor ----
+    if (character2factor) {
+        index.char <- which(sapply(x, is.character))
+        if (verbose) {
+            if (length(index.char) > 0) {
+                msg2("Converting", singorplu(length(index.char), "character feature"), "to factors...")
+            } else {
+                msg2("No character features to convert to factors found.")
+            }
+        }
+        for (i in index.char) x[, i] <- as.factor(x[, i])
+    }
+
+    # len2factor ----
+    if (len2factor > 1) {
+        index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
+        if (verbose) {
+            if (length(index.len) > 0) {
+                msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
+            } else {
+                msg2("No features with <=", len2factor, "unique values found.")
+            }
+        }
+        for (i in index.len) x[, i] <- factor(x[, i])
+    }
+
+    # Integer to numeric ----
+    if (integer2numeric) {
+        if (is.null(index.integer)) {
+            index.integer <- c(
+                which(sapply(x, is.integer)),
+                which(sapply(x, bit64::is.integer64))
+            )
+        }
+        if (verbose) {
+            if (length(index.integer) > 0) {
+                msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
+            } else {
+                msg2("No integers to convert to numeric...")
+            }
+        }
+        for (i in index.integer) x[, i] <- as.numeric(x[, i])
+    }
+
+    # Logical to numeric ----
+    if (logical2numeric) {
+        index.logical <- which(sapply(x, is.logical))
+        if (verbose) msg2("Converting logicals to numeric...")
+        for (i in index.logical) x[, i] <- as.numeric(x[, i])
     }
 
     # Numeric cut ----
@@ -352,58 +379,22 @@ preprocess <- function(x,
         }
     }
 
-    # len2factor ----
-    if (len2factor > 1) {
-        index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
-        if (verbose) {
-            if (length(index.len) > 0) {
-                msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
-            } else {
-                msg2("No features with <=", len2factor, "unique values found.")
-            }
-        }
-        for (i in index.len) x[, i] <- factor(x[, i])
-    }
-
-    # Character to factor ----
-    if (character2factor) {
-        index.char <- which(sapply(x, is.character))
-        if (verbose) {
-            if (length(index.char) > 0) {
-                msg2("Converting", singorplu(length(index.char), "character feature"), "to factors...")
-            } else {
-                msg2("No character features to convert to factors found.")
-            }
-        }
-        for (i in index.char) x[, i] <- as.factor(x[, i])
-    }
-
     # factor NA to level ----
     if (factorNA2missing) {
         index.factor <- which(sapply(x, is.factor))
         if (verbose) {
             if (length(index.factor) > 0) {
-                msg2("Converting", singorplu(length(index.factor), "factor"), "NA to level", factorNA2missing.level, "...")
+                msg20(
+                    "Converting ", length(index.factor),
+                    ngettext(length(index.factor), " factor's", " factors'"),
+                    " NA values to level '", factorNA2missing.level, "'..."
+                )
             } else {
                 msg2("No factors found.")
             }
         }
         for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
     }
-
-    # Nonzero factors ----
-    # if (nonzeroFactors) {
-    #     if (verbose) msg2("Shifting factor levels to exclude 0...")
-    #     if (any(sapply(x, is.factor))) {
-    #         for (i in seq_len(NCOL(x))) {
-    #             if (is.factor(x[, i])) {
-    #                 while (any(x[, i] == 0)) {
-    #                     x[, i] <- factor(as.numeric(as.character(x[, i])) + 1)
-    #                 }
-    #             }
-    #         }
-    #     }
-    # }
 
     # Missingness ----
     if (missingness) {
