@@ -587,6 +587,11 @@ elevate <- function(x, y = NULL,
                 j$mod1$fitted.prob
             }), use.names = FALSE)
         })
+        predicted.prob.res <- plyr::llply(mods, function(i) {
+            plyr::llply(i, function(j) {
+                j$mod1$predicted.prob
+            })
+        })
         predicted.prob.aggr <- plyr::llply(mods, function(i) {
             unlist(plyr::llply(i, function(j) {
                 j$mod1$predicted.prob
@@ -674,6 +679,7 @@ elevate <- function(x, y = NULL,
             y.test.res.aggr = y.test.res.aggr,
             predicted.res = predicted.res,
             predicted.res.aggr = predicted.res.aggr,
+            predicted.prob.res = predicted.prob.res,
             predicted.prob.aggr = predicted.prob.aggr,
             error.test.res = error.test.res,
             error.test.res.mean = error.test.res.mean,
