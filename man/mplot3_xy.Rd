@@ -57,6 +57,7 @@ mplot3_xy(
   pch = ifelse(is.null(point.bg.col), 16, 21),
   line.col = NULL,
   line.alpha = 0.66,
+  lwd = 1,
   lty = 1,
   marker.col = NULL,
   marker.alpha = NULL,
@@ -246,6 +247,8 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{line.alpha}{Float [0, 1]: Transparency for lines}
 
+\item{lwd}{Float: Line width}
+
 \item{lty}{Integer: Line type. See \code{par("lty")}}
 
 \item{marker.col}{Color for marker}
@@ -378,8 +381,6 @@ fit functions, if used. Default = 0}
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
 \item{...}{Additional arguments to be passed to theme function}
-
-\item{lwd}{Float: Linew width}
 }
 \description{
 Plot points and lines with optional fits and standard error bands
