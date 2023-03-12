@@ -206,6 +206,11 @@ info <- function(..., color = hilite) {
     msg2(..., color = color)
 }
 
+#' msg2
+#' 
+#' @inheritParams msg
+#' 
+#' @export
 msg2 <- function(...,
                 #  date = TRUE,
                  caller = NULL,
