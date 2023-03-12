@@ -1924,6 +1924,7 @@ predict.rtModCV <- function(object, newdata,
 #' @name rtModCVClass-class
 #'
 #' @field fitted.prob.aggr Aggregated training set probability estimates
+#' @field predicted.prob.res Testing set probability estimates for each resample
 #' @field predicted.prob.aggr Aggregated testing set probability estimates
 #'
 #' @author E.D. Gennatas
@@ -1932,6 +1933,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     inherit = rtModCV,
     public = list(
         fitted.prob.aggr = NULL,
+        predicted.prob.res = NULL,
         predicted.prob.aggr = NULL,
         # Initialize ----
         #' @description
@@ -1970,6 +1972,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param error.test.res Resamples' testing error
         #' @param error.test.res.mean Resamples' mean testing error
         #' @param error.test.res.aggr Error of aggregated predicted values
+        #' @param predicted.prob.res Testing set probability estimates for each resample
         #' @param predicted.prob.aggr Aggregated testing set probability estimates
         #' @param error.test.repeats Mean testing error for each repeat
         #' @param error.test.repeats.mean Mean testing error across all repeats
@@ -2006,6 +2009,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                               y.test.res.aggr = NULL,
                               predicted.res = NULL,
                               predicted.res.aggr = NULL,
+                              predicted.prob.res = NULL,
                               predicted.prob.aggr = NULL,
                               error.test.res = NULL,
                               error.test.res.mean = NULL,
@@ -2057,6 +2061,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                 question
             )
             self$fitted.prob.aggr <- fitted.prob.aggr
+            self$predicted.prob.res <- predicted.prob.res
             self$predicted.prob.aggr <- predicted.prob.aggr
         },
         # Methods
@@ -2097,6 +2102,27 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                 mplot3_roc(self$predicted.prob.aggr[[which.repeat]],
                     self$y.test.res.aggr[[which.repeat]],
                     main = main, ...
+                )
+            } else {
+                msg2("Estimated probabilities are not available")
+            }
+        },
+        # Plot predicted ROC CV ----
+        #' @description
+        #' Plot ROC plot for predicted values for each resample 
+        #' @param which.repeat Integer: Which repeat to plot
+        #' @param main Character: Main title
+        #' @param col Color for lines
+        #' @param alpha Transparency for lines (passed to \code{mplot3_xy marker.alpha})
+        #' @param ... Additional arguments passed to plotting function
+        plotROCpredictedCV = function(which.repeat = 1,
+                                      main = "ROC Testing",
+                                      col = "#16A0AC",
+                                      alpha = .5, ...) {
+            if (!is.null(self$predicted.prob.res[[which.repeat]])) {
+                mplot3_roc(self$predicted.prob.res[[which.repeat]],
+                    self$y.test.res[[which.repeat]],
+                    main = main, col = col, alpha = alpha, ...
                 )
             } else {
                 msg2("Estimated probabilities are not available")
