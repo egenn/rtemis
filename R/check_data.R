@@ -29,6 +29,7 @@
 #'
 check_data <- function(x,
                        name = NULL,
+                       get_duplicates = TRUE,
                        get_na_case_pct = FALSE,
                        get_na_feature_pct = FALSE) {
     if (is.null(name)) name <- deparse(substitute(x))
@@ -89,7 +90,11 @@ check_data <- function(x,
     ## Duplicates ----
     # cindex_dups <- which(duplicated(x))
     # n_dups <- length(cindex_dups)
-    n_dups <- n_rows - uniqueN(x)
+    n_dups <- if (get_duplicates) {
+        n_rows - uniqueN(x)
+    } else {
+        NA
+    }
 
     ## NAs ----
     cols_anyna <- which(sapply(x, anyNA))
