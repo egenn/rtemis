@@ -383,10 +383,10 @@ dt_icd10_comorbidities <- function(
 
 
 #' Tabulate column attributes
-#' 
+#'
 #' @param x data.table
 #' @param attr Character: Attribute to get
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
@@ -399,3 +399,82 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 # dt_missing_by_class <- function(x) {
 
 # }
+
+# All data can be represented as a character string. A numeric variable may be read as
+# a character variable if there are non-numeric characters in the data.
+# It is important to be able to automatically detect such variables and convert them,
+# which would mean introducing NA values.
+
+#' Inspect character vector
+#'
+#' Checks character vector to determine whether it might be best to convert to numeric.
+#'
+#' @param x Character vector
+#'
+#' @author E.D. Gennatas
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- c("3", "5", "undefined", "21", "4", NA)
+#' type_inspect(x)
+#' z <- c("mango", "banana", "tangerine", NA)
+#' type_inspect(z)
+#' }
+type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
+    if (is.null(xname)) xname <- deparse(substitute(x))
+    xclass <- class(x)[1]
+    xlen <- length(x)
+    raw_na <- sum(is.na(x))
+    n_non_na <- xlen - raw_na
+    # char_na <- sum(is.na(as.character(x)))
+    suppressWarnings({
+        num_na <- sum(is.na(as.numeric(x)))
+    })
+    if (raw_na == xlen) {
+        "NA"
+    } else if (xclass == "character" && (num_na / n_non_na) < thresh) {
+        if (verbose) {
+            msg20(
+                "Possible type error: Class of '", xname,
+                "' is character, but perhaps should be numeric"
+            )
+        }
+        "numeric"
+    } else {
+        xclass
+    }
+}
+
+#' Inspect column types
+#' 
+#' Will attempt to identify columns that should be numeric but have been read in as 
+#' character by running \link{type_inspect} on each column.
+#' 
+#' @param x data.table
+#' 
+#' @author E.D. Gennatas
+#' @export
+dt_type_inspect <- function(x) {
+    xnames <- names(x)
+    sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i]))
+}
+
+
+#' Set column types automatically
+#' 
+#' This function inspects a data.table and attempts to identify columns that should be
+#' numeric but have been read in as character, because one or more fields contain 
+#' non-numeric characters
+#' 
+#' @param x data.table
+#' @param cols Character vector: columns to work on. If not defined, will work on all
+#' columns
+#' @author E.D. Gennatas
+#' @export
+dt_set_autotypes <- function(x, cols = NULL) {
+    if (is.null(cols)) cols <- names(x)
+    for (i in cols) {
+        if (type_inspect(x[[i]]) == "numeric") x[, (i) := as.numeric(x[[i]])]
+    }
+    invisible(x)
+}
