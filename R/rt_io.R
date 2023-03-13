@@ -15,7 +15,7 @@ rt_save <- function(rtmod,
                     outdir,
                     file.prefix = "s.",
                     verbose = TRUE) {
-    if (verbose) cat("Writing data to ", outdir, "... ", sep = "")
+    if (verbose) msg2("Writing data to ", outdir, "... ", sep = "")
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
     rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
     try(saveRDS(rtmod, rdsPath))
