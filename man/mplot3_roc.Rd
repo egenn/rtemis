@@ -12,6 +12,7 @@ mplot3_roc(
   balanced.accuracy = FALSE,
   main = "",
   col = NULL,
+  alpha = 1,
   cex = 1.2,
   lwd = 2.5,
   diagonal = TRUE,
@@ -88,7 +89,7 @@ is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}
 
-\item{...}{Additional parameters to pass to \link{mplot3_xy}}
+\item{...}{Additional theme parameters}
 }
 \description{
 Plot ROC curve for a binary classifier

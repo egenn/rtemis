@@ -25,7 +25,7 @@
 #' @param diagonal.lwd Float: Line width for diagonal.
 #' @param diagonal.lty Integer: Line type for diagonal.
 #' @param group.legend Logical: If TRUE, print group legend
-#' @param ... Additional parameters to pass to \link{mplot3_xy}
+#' @param ... Additional theme parameters
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -36,6 +36,7 @@ mplot3_roc <- function(prob, labels,
                        balanced.accuracy = FALSE,
                        main = "",
                        col = NULL,
+                       alpha = 1,
                        cex = 1.2,
                        lwd = 2.5,
                        diagonal = TRUE,
@@ -130,13 +131,18 @@ mplot3_roc <- function(prob, labels,
         mplot3_xy(Specificity, Sensitivity,
             main = main,
             xlab = "Specificity", ylab = "Sensitivity",
-            line.alpha = 1, line.col = col, group.legend = group.legend,
-            diagonal.inv = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
+            line.col = col,
+            line.alpha = alpha,
+            group.legend = group.legend,
+            diagonal.inv = diagonal, 
+            diagonal.lty = diagonal.lty, 
+            diagonal.lwd = diagonal.lwd,
             pty = pty,
             xlim = c(1, 0), xaxs = "i", yaxs = "i", cex = cex,
             type = "l",
             order.on.x = FALSE,
-            lwd = lwd, theme = theme,
+            lwd = lwd, 
+            theme = theme,
             zerolines = FALSE,
             mar = mar,
             xpd = TRUE, par.reset = FALSE
@@ -166,9 +172,14 @@ mplot3_roc <- function(prob, labels,
         mplot3_xy(FPR, TPR,
             main = main,
             xlab = "False Positive Rate", ylab = "True Positive Rate",
-            line.alpha = 1, line.col = col, group.legend = group.legend,
-            diagonal = diagonal, diagonal.lty = diagonal.lty, diagonal.lwd = diagonal.lwd,
-            xlim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
+            line.col = col,
+            line.alpha = alpha,
+            group.legend = group.legend,
+            diagonal = diagonal,
+            diagonal.lty = diagonal.lty,
+            diagonal.lwd = diagonal.lwd,
+            xlim = c(0, 1), xaxs = "i",
+            yaxs = "i", cex = cex,
             type = "l",
             pty = pty,
             order.on.x = FALSE,
@@ -218,10 +229,11 @@ mplot3_roc <- function(prob, labels,
     # Outro ----
     if (!is.null(filename)) dev.off()
 
-    if (type == "Sens.Spec") {
-        invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
-    } else {
-        invisible(list(FPR = FPR, TPR = TPR))
-    }
+    # if (type == "Sens.Spec") {
+    #     invisible(list(Sensitivity = Sensitivity, Specificity = Specificity))
+    # } else {
+    #     invisible(list(FPR = FPR, TPR = TPR))
+    # }
+    invisible(list(ROC = .roc, par.orig = par.orig))
 
 } # rtemis::mplot3_roc
