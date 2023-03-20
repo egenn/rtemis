@@ -98,6 +98,8 @@
 #' \code{preprocess} call.
 #' @param factorNA2missing.level Character: Name of level if
 #' \code{factorNA2missing = TRUE}. Default = "missing"
+#' @param factor2integer Logical: If TRUE, convert all factors to integers
+#' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0
 #' @param scale Logical: If TRUE, scale columns of \code{x}
 #' @param center Logical: If TRUE, center columns of \code{x}. Note that by
 #' default it is the same as \code{scale}
@@ -145,6 +147,8 @@ preprocess <- function(x,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
                     #    nonzeroFactors = FALSE,
+                       factor2integer = FALSE,
+                       factor2integer_startat0 = TRUE,
                        scale = FALSE,
                        center = scale,
                        removeConstants = FALSE,
@@ -251,7 +255,10 @@ preprocess <- function(x,
         )
         if (verbose) {
             if (length(index.integer) > 0) {
-                msg2("Converting", singorplu(length(index.integer), "integer"), "to factor...")
+                msg2(
+                    "Converting", singorplu(length(index.integer), "integer"),
+                    "to factor..."
+                )
             } else {
                 msg2("No integers to convert to factor...")
             }
@@ -394,6 +401,29 @@ preprocess <- function(x,
             }
         }
         for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
+    }
+
+    # Factor to integer ----
+    # e.g. for algorithms that do not support factors directly, but can handle integers
+    # as categorical (e.g. LightGBM)
+    if (factor2integer) {
+        index.factor <- which(sapply(x, is.factor))
+        if (verbose) {
+            if (length(index.factor) > 0) {
+                msg2(
+                    "Converting", singorplu(length(index.factor), "factor"),
+                    "to integer..."
+                )
+            } else {
+                msg2("No factors found to convert to integer...")
+            }
+        }
+        if (factor2integer_startat0) {
+            for (i in index.factor) x[, i] <- as.integer(x[, i]) - 1
+        } else {
+            for (i in index.factor) x[, i] <- as.integer(x[, i])
+        }
+        
     }
 
     # Missingness ----
