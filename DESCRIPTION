@@ -1,9 +1,9 @@
 Package: rtemis
-Version: 0.93.3
+Version: 0.94.0
 Title: Machine Learning and Visualization
-Date: 2023-02-17
+Date: 2023-03-20
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
-Maintainer: Efstathios D. Gennatas <gennatas@lambdamd.org>
+Maintainer: E.D. Gennatas <gennatas@lambdamd.org>
 Description: Advanced Machine Learning and Visualization. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression), Cross-Decomposition, Bagging, Boosting, Meta-models. Static and interactive graphics.
 License: GPL (>=3)
 URL: https://rtemis.lambdamd.org
@@ -70,6 +70,7 @@ Suggests:
     lavaan,
     leaflet,
     leaps,
+    lightgbm,
     lle,
     matrixStats,
     MASS,
