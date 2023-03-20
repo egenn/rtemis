@@ -4,18 +4,24 @@
 \alias{auc}
 \title{Area under the ROC Curve}
 \usage{
-auc(prob, labels, method = c("auc_pairs", "pROC", "ROCR"), verbose = FALSE)
+auc(
+  preds,
+  labels,
+  method = c("ROCR", "pROC", "Lpp_auc", "auc_pairs"),
+  verbose = FALSE,
+  trace = 0
+)
 }
 \arguments{
-\item{prob}{Numeric, Vector: Probabilities or model scores 
+\item{preds}{Numeric, Vector: Probabilities or model scores
 (e.g. c(.32, .75, .63), etc)}
 
 \item{labels}{True labels of outcomes (e.g. c(0, 1, 1))}
 
-\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use. 
+\item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use.
 Will use \code{pROC::roc},
 \link{auc_pairs},
-\code{ROCR::performance}, respectively. They should all give the same result, 
+\code{ROCR::performance}, respectively. They should all give the same result,
 they are included for testing.}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
@@ -26,12 +32,22 @@ Get the Area under the ROC curve to assess classifier performance using \code{pR
 \details{
 Consider looking at Balanced Accuracy and F1 as well
 
-Important Note: We assume that true labels are a factor where the first level 
-is the "positive" case, a.k.a. the event. All methods used here, "pROC", 
-"auc_pairs", "ROCR", have been setup to expect this. This goes against the 
-default sertting for both "pROC" and "ROCR", which will not give an AUC less 
+Important Note: We assume that true labels are a factor where the first level
+is the "positive" case, a.k.a. the event. All methods used here, "pROC",
+"auc_pairs", "ROCR", have been setup to expect this. This goes against the
+default sertting for both "pROC" and "ROCR", which will not give an AUC less
 than .5 because they will reorder levels. We don't want this because you
-can have a classifier perform worse than .5 and tt can be very confusing if 
+can have a classifier perform worse than .5 and tt can be very confusing if
 levels are reordered automatically and different functions give you different
 AUC.
+}
+\examples{
+\dontrun{
+preds <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+auc(preds, labels)
+auc(preds, labels, method = "pROC")
+auc(preds, labels, method = "ROCR")
+auc(preds, labels, method = "Lpp_auc")
+}
 }

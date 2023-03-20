@@ -82,6 +82,7 @@ Other Supervised Learning:
 \code{\link{s_HAL}()},
 \code{\link{s_IRF}()},
 \code{\link{s_LDA}()},
+\code{\link{s_LIGHTGBM}()},
 \code{\link{s_LMTREE}()},
 \code{\link{s_LM}()},
 \code{\link{s_MARS}()},

@@ -22,7 +22,9 @@ The first level of \code{true.labels} must be the positive class, and high numbe
 \code{estimated.score} should correspond to the positive class.
 }
 \examples{
+\dontrun{
 true.labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
 estimated.score <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
 auc_pairs(estimated.score, true.labels, verbose = TRUE)
+}
 }

@@ -4,7 +4,7 @@
 \alias{dt_set_autotypes}
 \title{Set column types automatically}
 \usage{
-dt_set_autotypes(x, cols = NULL)
+dt_set_autotypes(x, cols = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{data.table}
