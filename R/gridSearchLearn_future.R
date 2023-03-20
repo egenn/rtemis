@@ -90,7 +90,7 @@ gridSearchLearn <- function(x, y, mod,
     # if outer is sequential, tweak inner
     if (inherits(future::plan(), "sequential")) {
         future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
-        if (trace > 1) {
+        if (trace > 0) {
             msg2(magenta(
                 "Inner resampling: Future plan set to", bold(rtPlan),
                 "with", bold(n.cores), "workers"
@@ -98,7 +98,7 @@ gridSearchLearn <- function(x, y, mod,
         }
     } else {
         future::plan(rtPlan, workers = n.cores)
-        if (trace > 1) {
+        if (trace > 0) {
             msg2(magenta(
                 "Inner resampling plan set to", bold(rtPlan),
                 "with", bold(n.cores), "workers"
@@ -111,7 +111,8 @@ gridSearchLearn <- function(x, y, mod,
 
     # Grid ----
     # Filter out any grid.params with "NULL" value: expand.grid will fail otherwise.
-    # Since these will not be present in best.tune, assignment to the non-existent named elements will result in NULL,
+    # Since these will not be present in best.tune, assignment to the non-existent named 
+    # elements will result in NULL,
     # as required. This is needed for functions with parameters that can take NULL value
     grid.params <- Filter(Negate(is.null), grid.params)
     param.grid <- expand.grid(c(list(res.id = seq(n.resamples)), grid.params),
@@ -128,9 +129,9 @@ gridSearchLearn <- function(x, y, mod,
     learner <- modSelect(mod, fn = FALSE)
     res <- resample(y = y, rtset = resample.rtset, verbose = verbose)
 
-    # if (!is.null(resample.rtset$id.colname)) {
-    #     x <- x[, -(names(x) == resample.rtset$id.colname)]
-    # }
+    if (!is.null(resample.rtset$id.colname)) {
+        x <- x[, -(names(x) == resample.rtset$id.colname)]
+    }
 
     # learner1 ----
     p <- progressr::progressor(steps = NROW(param.grid))
@@ -186,6 +187,10 @@ gridSearchLearn <- function(x, y, mod,
         if (learner == "s_GBM" || learner == "s_GBM3") {
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
+        }
+        if (learner == "s_LIGHTGBM") {
+            out1$best_iter <- mod1$mod$best_iter
+            out1$best_score <- mod1$mod$best_score
         }
         if (learner == "s_XGBOOST") {
             out1$best_iteration <- mod1$mod$best_iteration
@@ -300,11 +305,36 @@ gridSearchLearn <- function(x, y, mod,
         n.params <- n.params + 1
     }
 
+    # '- LightGBM ----
+    if (learner == "s_LIGHTGBM") {
+        if (verbose) {
+            msg2(hilite("Extracting best N of iterations from LightGBM models..."))
+        }
+        est.nrounds.all <- data.frame(
+            nrounds = plyr::laply(grid_run, \(m) m$best_iter)
+        )
+        est.nrounds.all$param.id <- rep(seq_len(n.param.combs),
+            each = n.resamples
+        )
+        est.nrounds.by.param.id <- aggregate(
+            nrounds ~ param.id, est.nrounds.all,
+            error.aggregate.fn
+        )
+        tune.results <- cbind(
+            nrounds = round(est.nrounds.by.param.id$nrounds),
+            tune.results
+        )
+        n.params <- n.params + 1
+    }
+
     # '- XGBoost ----
     if (learner == "s_XGBOOST") {
+        if (verbose) {
+            msg2(hilite("Extracting best N of iterations from XGBoost models..."))
+        }
         est.nrounds.all <- data.frame(nrounds = plyr::laply(
             grid_run,
-            function(m) m$best_iteration
+            \(m) m$best_iteration
         ))
         est.nrounds.all$param.id <- rep(seq_len(n.param.combs),
             each = n.resamples
@@ -322,9 +352,12 @@ gridSearchLearn <- function(x, y, mod,
 
     # '- GLMNET ----
     if (learner == "s_GLMNET") {
+        if (verbose) {
+            msg2(hilite("Extracting best lambda from GLMNET models..."))
+        }
         if (is.null(grid.params$lambda)) {
             # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-            lambda.all <- data.frame(lambda = plyr::laply(grid_run, function(x) x[[fixed.params$which.cv.lambda]]))
+            lambda.all <- data.frame(lambda = plyr::laply(grid_run, \(x) x[[fixed.params$which.cv.lambda]]))
             lambda.all$param.id <- rep(1:n.param.combs, each = n.resamples)
             lambda.by.param.id <- aggregate(
                 lambda ~ param.id, lambda.all,
@@ -337,9 +370,12 @@ gridSearchLearn <- function(x, y, mod,
 
     # '- LINAD ----
     if (learner %in% c("s_LINAD", "s_LINOA")) {
+        if (verbose) {
+            msg2(hilite("Extracting best N leaves from LINAD models..."))
+        }
         est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
             grid_run,
-            function(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
+            \(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
         ))
         est.n.leaves.all$param.id <- rep(seq_len(n.param.combs),
             each = n.resamples
@@ -357,6 +393,9 @@ gridSearchLearn <- function(x, y, mod,
 
     # '- LIHADBOOST ----
     if (learner == "s_LIHADBOOST") {
+        if (verbose) {
+            msg2(hilite("Extracting best N steps from LIHADBOOST models..."))
+        }
         est.n.steps.all <- data.frame(n.steps = plyr::laply(
             grid_run,
             \(x) x$sel.n.steps
