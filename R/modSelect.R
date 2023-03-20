@@ -66,7 +66,7 @@ modSelect <- function(mod,
         c("LIHAD", "Linear Hard Additive Tree", FALSE, TRUE, FALSE),
         c("KNN", "k-Nearest Neighbor", TRUE, TRUE, FALSE),
         c("LDA", "Linear Discriminant Analysis", TRUE, FALSE, FALSE),
-        c("LGB", "Light GBM", TRUE, TRUE, FALSE),
+        c("LIGHTGBM", "Light GBM", TRUE, TRUE, FALSE),
         c("LM", "Ordinary Least Squares Regression", FALSE, TRUE, FALSE),
         c("LOESS", "Local Polynomial Regression", FALSE, TRUE, FALSE),
         c("LOGISTIC", "Logistic Regression", TRUE, FALSE, FALSE),
@@ -146,10 +146,11 @@ modSelect <- function(mod,
     learner
 } # rtemis::modSelect
 
+# wip
 gsc <- c(
     "ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", "GLMTREE",
     "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", "RANGER",
-    "RF", "SPLS", "SVM", "XGBOOST"
+    "RF", "SPLS", "SVM", "XGBOOST", "LIGHTGBM"
 )
 
 
