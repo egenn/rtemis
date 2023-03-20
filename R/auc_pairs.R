@@ -15,9 +15,11 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #'
 #' @examples
+#' \dontrun{
 #' true.labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
 #' estimated.score <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
 #' auc_pairs(estimated.score, true.labels, verbose = TRUE)
+#' }
 #' @export
 
 
@@ -28,7 +30,8 @@ auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
     if (n.levels == 2) {
         outer.diff <- outer(
             estimated.score[true.labels == true.levels[1]],
-            estimated.score[true.labels == true.levels[2]], "-"
+            estimated.score[true.labels == true.levels[2]],
+            "-"
         )
         .auc <- mean((outer.diff > 0) + .5 * (outer.diff == 0))
     } else {
