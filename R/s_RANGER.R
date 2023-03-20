@@ -135,7 +135,7 @@ s_RANGER <- function(x, y = NULL,
     dependency_check("ranger")
 
     # Arguments ----
-    if (is.null(y) & NCOL(x) < 2) {
+    if (is.null(y) && NCOL(x) < 2) {
         print(args(s_RANGER))
         stop("y is missing")
     }
@@ -143,7 +143,7 @@ s_RANGER <- function(x, y = NULL,
     if (is.null(y.name)) y.name <- getName(y, "y")
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
-    if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
     grid.search.type <- match.arg(grid.search.type)
 
     # Data ----
@@ -164,10 +164,10 @@ s_RANGER <- function(x, y = NULL,
     type <- dt$type
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
-    .class.weights <- if (is.null(classwt) & ipw) dt$class.weights else classwt
-    x0 <- if (upsample | downsample) dt$x0 else x
-    y0 <- if (upsample | downsample) dt$y0 else y
+    .weights <- if (is.null(weights) && ipw) dt$weights else weights
+    .class.weights <- if (is.null(classwt) && ipw) dt$class.weights else classwt
+    x0 <- if (upsample || downsample) dt$x0 else x
+    y0 <- if (upsample || downsample) dt$y0 else y
     if (print.plot) {
         if (is.null(plot.fitted)) {
             plot.fitted <- if (is.null(y.test)) TRUE else FALSE
