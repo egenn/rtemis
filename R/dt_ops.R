@@ -456,7 +456,7 @@ type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
 #' @export
 dt_type_inspect <- function(x) {
     xnames <- names(x)
-    sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i]))
+    invisible(sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i])))
 }
 
 
@@ -480,4 +480,27 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
         }
     }
     invisible(x)
+}
+
+#' List column names by attribute
+#'
+#' @param x data.table
+#' @param which Character: name of attribute
+#' @param exact Logical: If TRUE, use exact matching
+#' @param sorted Logical: If TRUE, sort the output
+#'
+#' @author E.D. Gennatas
+#' @export
+dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
+    attrs <- unlist(lapply(x, \(i) attr(i, which)))
+    attrs <- sapply(x, \(i) {
+        .attr <- attr(i, which, exact = exact)
+        if (is.null(.attr)) "NA" else .attr
+    })
+    vals <- unique(attrs)
+    if (sorted) {
+        sapply(vals, \(i) sort(names(x)[attrs == i]))
+    } else {
+        sapply(vals, \(i) names(x)[attrs == i])
+    }
 }
