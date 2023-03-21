@@ -218,7 +218,7 @@ gridSearchLearn <- function(x, y, mod,
             "Tuning", modSelect(mod, desc = TRUE), "by",
             search.type, "grid search:"
         )
-        msg2(n.resamples, " resamples; ", NROW(param.grid),
+        msg2(n.resamples, " inner resamples; ", NROW(param.grid),
             " models total; running on ",
             singorplu(n.cores, "worker"),
             " (", Sys.getenv("R_PLATFORM"), ")\n",
