@@ -23,9 +23,14 @@ s_LIGHTGBM(
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   nrounds_default = 100L,
-  max_depth = 3L,
+  num_leaves = 31L,
+  max_depth = -1L,
   learning_rate = 0.01,
   bagging_fraction = 0.8,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  linear_tree = FALSE,
+  tree_learner = "serial",
   data_sample_strategy = "bagging",
   resampler = "strat.sub",
   n.resamples = 10,
@@ -51,7 +56,7 @@ s_LIGHTGBM(
   save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,
-  lightgbm_verbose = 0,
+  lightgbm_verbose = -1,
   trace = 0,
   save.gridrun = FALSE,
   n.cores = 1,
@@ -101,13 +106,29 @@ Default = NULL (random seed)}
 
 \item{objective}{(Default = NULL)}
 
-\item{max_nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number 
+\item{max_nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
 as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{force_nrounds}{Integer: Number of rounds to run if not estimating optimal number by CV}
 
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
+
+\item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
+
+\item{max_depth}{Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.}
+
+\item{learning_rate}{Numeric: [gS] Boosting learning rate}
+
+\item{bagging_fraction}{Numeric: [gS] Subsample ratio of the training instance}
+
+\item{lambda_l1}{Numeric: [gS] L1 regularization term}
+
+\item{lambda_l2}{Numeric: [gS] L2 regularization term}
+
+\item{linear_tree}{Logical: [gS] If \code{TRUE}, use linear trees}
+
+\item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
@@ -139,7 +160,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{booster}{Character: "gbtree", "gblinear": Booster to use.}
 
-\item{nthread}{Integer: Number of threads for lightgbm using OpenMP. Only parallelize 
+\item{nthread}{Integer: Number of threads for lightgbm using OpenMP. Only parallelize
 resamples using \code{n.cores} or the lightgbm execution using this setting.}
 }
 \value{
@@ -150,7 +171,7 @@ Tune hyperparameters using grid search and resampling,
 train a final model, and validate it
 }
 \details{
-[gS]: indicates parameter will be autotuned by grid search if multiple 
+[gS]: indicates parameter will be autotuned by grid search if multiple
 values are passed.
 For categorical variables, convert to integer and indicate to lgb they are categorical,
 so that they are not treated as numeric.
