@@ -346,9 +346,9 @@ rtMod <- R6::R6Class("rtMod",
                 type <- match.arg(type)
                 if (is.null(xlab)) {
                     xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
-                        "Coefficients"
+                        paste(self$mod.name, "Coefficients")
                     } else {
-                        "Variable importance"
+                        paste(self$mod.name, "Variable importance")
                     }
                 }
                 if (type == "lollipop") {
