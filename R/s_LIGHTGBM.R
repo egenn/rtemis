@@ -208,7 +208,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     }
 
     gc <- gridCheck(
-        max_depth, learning_rate, bagging_fraction
+        num_leaves, max_depth, learning_rate, bagging_fraction, lambda_l1, lambda_l2
     )
 
     tuned <- FALSE
@@ -257,6 +257,7 @@ s_LIGHTGBM <- function(x, y = NULL,
             )
             nrounds <- nrounds_default
         }
+        num_leaves <- gs$best.tune$num_leaves
         max_depth <- gs$best.tune$max_depth
         learning_rate <- gs$best.tune$learning_rate
         bagging_fraction <- gs$best.tune$bagging_fraction
