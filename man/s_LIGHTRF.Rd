@@ -31,7 +31,7 @@ s_LIGHTRF(
   lambda_l1 = 0,
   lambda_l2 = 0,
   linear_tree = FALSE,
-  tree_learner = "serial",
+  tree_learner = "data_parallel",
   data_sample_strategy = "bagging",
   resampler = "strat.sub",
   n.resamples = 10,
