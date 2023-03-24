@@ -215,14 +215,17 @@ gridSearchLearn <- function(x, y, mod,
     if (verbose) {
         parameterSummary(grid.params, fixed.params, title = "Search parameters")
         msg2(
-            "Tuning", modSelect(mod, desc = TRUE), "by",
-            search.type, "grid search:"
+            hilite(
+                "Tuning", modSelect(mod, desc = TRUE), "by",
+                search.type, "grid search:"
+            )
         )
-        msg2(n.resamples, " inner resamples; ", NROW(param.grid),
+        msg20(
+            n.resamples, " inner resamples; ", 
+            NROW(param.grid),
             " models total; running on ",
             singorplu(n.cores, "worker"),
-            " (", Sys.getenv("R_PLATFORM"), ")\n",
-            sep = ""
+            " (", Sys.getenv("R_PLATFORM"), ")\n"
         )
     }
 
