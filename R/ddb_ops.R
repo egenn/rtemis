@@ -62,6 +62,7 @@ ddb_data <- function(filename,
                      verbose = TRUE) {
     # Intro ----
     dependency_check("DBI", "duckdb")
+    startTime <- intro(out, verbose = verbose)
     returnobj <- match.arg(returnobj)
     if (!is.null(data.table.key)) returnobj <- "data.table"
     path <- if (is.null(datadir)) {
@@ -70,6 +71,8 @@ ddb_data <- function(filename,
         file.path(normalizePath(datadir), filename)
     }
     check_files(path, verbose = FALSE)
+    fileext <- tools::file_ext(path)
+    
     out <- paste(
         bold(green("\u25B6")),
         ifelse(collect, "Reading", "Lazy-reading"),
@@ -81,22 +84,29 @@ ddb_data <- function(filename,
             "filtering on", bold(filter_column)
         )
     }
-    startTime <- intro(out, verbose = verbose)
     distinct <- ifelse(make_unique, "DISTINCT ", NULL)
     select <- if (!is.null(select_columns)) {
         ls2sel(select_columns)
     } else {
         "*"
     }
+
     # SQL ----
-    sql <- paste0(
-        "SELECT ",
-        paste0(distinct, select),
-        " FROM
-        read_csv_auto('", path, "',
-        sep='", sep, "', quote='", quotechar, "',
-        header=", header, ", ignore_errors=", ignore_errors, ")"
-    )
+    sql <- if (fileext == "parquet") {
+        paste0(
+            "SELECT ",
+            paste0(distinct, select),
+            " FROM read_parquet('", path, "')"
+        )
+    } else {
+        paste0(
+            "SELECT ",
+            paste0(distinct, select),
+            " FROM read_csv_auto('", path, "',
+            sep='", sep, "', quote='", quotechar, "',
+            header=", header, ", ignore_errors=", ignore_errors, ")"
+        )
+    }
 
     sql <- if (!is.null(filter_column)) {
         vals <- if (is.numeric(filter_vals)) {
