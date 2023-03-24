@@ -27,6 +27,7 @@ s_LIGHTGBM(
   max_depth = -1L,
   learning_rate = 0.01,
   bagging_fraction = 0.8,
+  bagging_freq = 0L,
   lambda_l1 = 0,
   lambda_l2 = 0,
   linear_tree = FALSE,
