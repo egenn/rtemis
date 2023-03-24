@@ -81,24 +81,35 @@ read <- function(filename,
         file.path(datadir, filename)
     }
     path <- path.expand(path)
-    # if (verbose) msgread(path, caller = "read")
-    if (verbose) {
-        msg20(
-            bold(green("\u25B6")), " Reading ",
-            hilite(basename(path)), " using ",
-            if (ext == "xlsx") "openxlsx" else delim.reader, "..."
-        )
-    }
     
     if (ext == "parquet") {
         dependency_check("arrow")
+        if (verbose) {
+            msg20(
+                bold(green("\u25B6")), " Reading ",
+                hilite(basename(path)), " using arrow::read_parquet()..."
+            )
+        }
         .dat <- arrow::read_parquet(path, ...)
         if (output == "data.table") setDT(.dat)
     } else if (ext == "xlsx") {
         dependency_check("openxlsx")
+        if (verbose) {
+            msg20(
+                bold(green("\u25B6")), " Reading ",
+                hilite(basename(path)), " using openxlsx::read.xlsx()..."
+            )
+        }
        .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
        if (output == "data.table") setDT(.dat)
     } else {
+        if (verbose) {
+            msg20(
+                bold(green("\u25B6")), " Reading ",
+                hilite(basename(path)), " using ",
+                delim.reader, "..."
+            )
+        }
         if (delim.reader == "data.table") {
             if (is.null(sep)) sep <- "auto"
             .dat <- data.table::fread(
