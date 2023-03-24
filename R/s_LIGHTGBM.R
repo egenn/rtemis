@@ -113,7 +113,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "LIGHTGBM"
+    mod.name <- if (boosting == "rf") "LIGHTRF" else "LIGHTGBM"
 
     # Dependencies ----
     dependency_check("lightgbm")
@@ -229,11 +229,12 @@ s_LIGHTGBM <- function(x, y = NULL,
             resample.rtset = grid.resample.rtset,
             grid.params = grid.params,
             fixed.params = list(
+                boosting = boosting,
                 max_nrounds = max_nrounds,
                 early_stopping_rounds = early_stopping_rounds,
                 objective = objective,
                 tree_learner = tree_learner,
-                boosting = boosting,
+                data_sample_strategy = data_sample_strategy,
                 linear_tree = linear_tree,
                 bagging_freq = bagging_freq,
                 ipw = ipw,
@@ -275,6 +276,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     }
     if (!is.null(force_nrounds)) nrounds <- force_nrounds
     parameters <- list(
+        boosting = boosting,
         objective = objective,
         num_leaves = num_leaves,
         max_depth = max_depth,
@@ -286,7 +288,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         force_col_wise = force_col_wise,
         force_row_wise = force_row_wise,
         tree_learner = tree_learner,
-        boosting = boosting,
+        data_sample_strategy = data_sample_strategy,
         linear_tree = linear_tree,
         bagging_freq = bagging_freq
     )
@@ -437,7 +439,7 @@ s_LIGHTRF <- function(x, y = NULL,
                        lambda_l1 = 0,
                        lambda_l2 = 0,
                        linear_tree = FALSE,
-                       tree_learner = "serial",
+                       tree_learner = "data_parallel",
                        data_sample_strategy = "bagging",
                        resampler = "strat.sub",
                        n.resamples = 10,
