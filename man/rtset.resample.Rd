@@ -6,9 +6,9 @@
 \usage{
 rtset.resample(
   resampler = "strat.sub",
-  n.resamples = 10,
+  n.resamples = 5,
   stratify.var = NULL,
-  train.p = 0.75,
+  train.p = 0.8,
   strat.n.bins = 4,
   target.length = NULL,
   id.strat = NULL,

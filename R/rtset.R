@@ -19,9 +19,9 @@ NULL
 #' @inheritParams resample
 #' @export
 rtset.resample <- function(resampler = "strat.sub",
-                           n.resamples = 10,
+                           n.resamples = 5,
                            stratify.var = NULL,
-                           train.p = .75,
+                           train.p = .8,
                            strat.n.bins = 4,
                            target.length = NULL,
                            id.strat = NULL,
