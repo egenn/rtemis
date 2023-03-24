@@ -482,6 +482,24 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
     invisible(x)
 }
 
+#' List column names by class
+#'
+#' @param x data.table
+#' @param sorted Logical: If TRUE, sort the output
+#'
+#' @author E.D. Gennatas
+#' @export
+dt_names_by_class <- function(x, sorted = TRUE, item.format = hilite, maxlength = 24) {
+    classes <- sapply(x, class)
+    vals <- unique(classes)
+    out <- if (sorted) {
+        sapply(vals, \(i) sort(names(x)[classes == i]))
+    } else {
+        sapply(vals, \(i) names(x)[classes == i])
+    }
+    printls(out, item.format = item.format, maxlength = maxlength)
+}
+
 #' List column names by attribute
 #'
 #' @param x data.table
