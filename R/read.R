@@ -4,12 +4,14 @@
 # need a way to ignore errors with duckdb::duckdb_read_csv()
 # rpolars nullstring is buggy, only recognizes NULL
 
-#' Read delimited file or XLSX into a data.table
+#' Read data from Parquet, XLSX, or delimited file
 #'
-#' Convenience function to read delimited data using
-#' \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-#' \code{vroom::vroom()}, or \code{duckdb::duckdb_read_csv()}.
-#' Read XLSX files using \code{readxl::read_excel()}.
+#' Convenience function to read:
+#' Parquet files using \code{arrow::read_parquet()},
+#' XLSX files using \code{readxl::read_excel()},
+#' delimited files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
+#' \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or 
+#' \code{rpolars::csv_reader()}
 #'
 #' @param filename Character: filename or full path if \code{datadir = NULL}
 #' @param datadir Character: Optional path to directory where \code{filename}
@@ -81,13 +83,19 @@ read <- function(filename,
     path <- path.expand(path)
     # if (verbose) msgread(path, caller = "read")
     if (verbose) {
-        msg20(bold(green("\u25B6")), " Reading ",
-            hilite(basename(path)), " using ", 
+        msg20(
+            bold(green("\u25B6")), " Reading ",
+            hilite(basename(path)), " using ",
             if (ext == "xlsx") "openxlsx" else delim.reader, "..."
         )
     }
-
-    if (ext == "xlsx") {
+    
+    if (ext == "parquet") {
+        dependency_check("arrow")
+        .dat <- arrow::read_parquet(path, ...)
+        if (output == "data.table") setDT(.dat)
+    } else if (ext == "xlsx") {
+        dependency_check("openxlsx")
        .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
        if (output == "data.table") setDT(.dat)
     } else {
