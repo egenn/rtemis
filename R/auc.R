@@ -33,13 +33,12 @@
 #' labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
 #' auc(preds, labels)
 #' auc(preds, labels, method = "pROC")
-#' auc(preds, labels, method = "ROCR")
-#' auc(preds, labels, method = "Lpp_auc")
+#' auc(preds, labels, method = "auc_pairs")
 #' }
 #' @export
 
 auc <- function(preds, labels,
-                method = c("ROCR", "pROC", "Lpp_auc", "auc_pairs"),
+                method = c("ROCR", "pROC", "auc_pairs"),
                 verbose = FALSE,
                 trace = 0) {
     method <- match.arg(method)
@@ -48,7 +47,6 @@ auc <- function(preds, labels,
         .auc <- auc_pairs(preds, labels, verbose = trace > 0)
     } else if (method == "pROC") {
         dependency_check("pROC")
-        # maybe define cases and controls here as well
         .auc <- as.numeric(pROC::roc(
             labels, preds,
             levels = rev(levels(labels)),
@@ -58,30 +56,8 @@ auc <- function(preds, labels,
         dependency_check("ROCR")
         .pred <- ROCR::prediction(preds, labels, label.ordering = rev(levels(labels)))
         .auc <- ROCR::performance(.pred, "auc")@y.values[[1]]
-    } else if (method == "Lpp_auc") {
-        idi <- order(preds, decreasing = TRUE)
-        .auc <- Lpp_ROC(preds[idi], 2 - as.integer(labels[idi]))
     }
 
     if (verbose) msg2("AUC =", .auc)
     .auc
 } # rtemis::auc
-
-
-# from: https://github.com/Laurae2/R_benchmarking#area-under-the-curve-roc-benchmarks
-# different results with small N than other methods
-Rcpp::cppFunction("double Lpp_ROC(NumericVector preds, NumericVector labels) {
-  double LabelSize = labels.size();
-  NumericVector ranked(LabelSize);
-  NumericVector positives = preds[labels == 1];
-  double n1 = positives.size();
-  Range positives_seq = seq(0, n1 - 1);
-  ranked[seq(0, n1 - 1)] = positives;
-  double n2 = LabelSize - n1;
-  NumericVector negatives = preds[labels == 0];
-  NumericVector x2(n2);
-  ranked[seq(n1, n1 + n2)] = negatives;
-  ranked = match(ranked, clone(ranked).sort());
-  double AUC = (sum(ranked[positives_seq]) - n1 * (n1 + 1)/2)/(n1 * n2);
-  return AUC;
-}")
