@@ -269,7 +269,35 @@ elevate <- function(x, y = NULL,
     res.outdir <- if (save.res) outdir else NULL
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
-    if (trace > 1) msg2("Starting resLearn")
+
+    if (verbose) {
+        # ntotal <- n.repeats * outer.resampling$n.resamples
+        # msg2(
+        #     hilite(
+        #         paste(
+        #             "Training ", mod.name, " on ", n.repeats, "x",
+        #             outer.resampling$n.resamples, outer.resampling$resampler, "..."
+        #         )
+        #     )
+        # )
+        desc <- switch(outer.resampling$resampler,
+            kfold = "independent folds",
+            strat.sub = "stratified subsamples",
+            strat.boot = "stratified bootstraps",
+            bootstrap = "bootstrap resamples",
+            loocv = "independent folds (LOOCV)",
+            "custom resamples"
+        )
+        msg2(
+            hilite(
+                paste0(
+                    "Training ", modSelect(mod.name, desc = TRUE), " on ",
+                    outer.resampling$n.resamples, " ", desc, "..."
+                )
+            ),
+            newline.pre = FALSE
+        )
+    }
 
     # Loop through repeats (this is often set to one)
     for (i in seq(n.repeats)) {

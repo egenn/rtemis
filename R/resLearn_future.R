@@ -168,16 +168,15 @@ resLearn_future <- function(x, y, mod,
     }
 
     # Res run ----
-    desc <- switch(resampler,
-        kfold = "independent folds",
-        strat.sub = "stratified subsamples",
-        strat.boot = "stratified bootstraps",
-        bootstrap = "bootstrap resamples",
-        loocv = "independent folds (LOOCV)",
-        "custom resamples"
-    )
-
-    if (verbose) {
+    if (trace > 0) {
+        desc <- switch(resampler,
+            kfold = "independent folds",
+            strat.sub = "stratified subsamples",
+            strat.boot = "stratified bootstraps",
+            bootstrap = "bootstrap resamples",
+            loocv = "independent folds (LOOCV)",
+            "custom resamples"
+        )
         msg20("Training ", modSelect(mod, desc = TRUE), " on ",
             length(res), " ", desc, "...",
             newline.pre = FALSE
