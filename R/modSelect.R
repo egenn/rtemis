@@ -67,6 +67,7 @@ modSelect <- function(mod,
         c("KNN", "k-Nearest Neighbor", TRUE, TRUE, FALSE),
         c("LDA", "Linear Discriminant Analysis", TRUE, FALSE, FALSE),
         c("LIGHTGBM", "Light GBM", TRUE, TRUE, FALSE),
+        c("LIGHTRF", "Light GBM", TRUE, TRUE, FALSE),
         c("LM", "Ordinary Least Squares Regression", FALSE, TRUE, FALSE),
         c("LOESS", "Local Polynomial Regression", FALSE, TRUE, FALSE),
         c("LOGISTIC", "Logistic Regression", TRUE, FALSE, FALSE),
@@ -150,7 +151,7 @@ modSelect <- function(mod,
 gsc <- c(
     "ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", "GLMTREE",
     "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", "RANGER",
-    "RF", "SPLS", "SVM", "XGBOOST", "LIGHTGBM"
+    "RF", "SPLS", "SVM", "XGBOOST", "LIGHTGBM", "LIGHTRF"
 )
 
 
