@@ -18,6 +18,7 @@
 printls <- function(x,
                     prefix = "",
                     pad = 3,
+                    item.format = bold,
                     center.title = TRUE,
                     title = NULL,
                     title.newline = FALSE,
@@ -60,38 +61,40 @@ printls <- function(x,
                 if (length(x[[i]]) == 0) {
                     if (is.null(color)) {
                         cat(paste0(
-                            format(paste0(
+                            item.format(format(paste0(
                                 prefix, xnames[i]
-                            ), width = lhs, justify = "right"),
+                            ), width = lhs, justify = "right")),
                             ": (empty list)"
                         ), "\n")
                     } else {
                         cat(paste0(
-                            format(paste0(prefix, xnames[i]),
+                            item.format(format(paste0(prefix, xnames[i]),
                                 width = lhs, justify = "right"
-                            ), ": ",
+                            )), ": ",
                             color("(empty list)"), "\n"
                         ))
                     }
                 } else {
-                    cat(paste0(format(paste0(prefix, xnames[i]),
-                        width = lhs, justify = "right"
-                    ), ": "), "\n")
+                    cat(paste0(
+                        item.format(format(paste0(prefix, xnames[i]),
+                            width = lhs, justify = "right"
+                        )), ": "
+                    ), "\n")
                     printls(x[[i]], pad = lhs + 2)
                 }
             } else {
                 if (is.null(color)) {
                     cat(paste0(
-                        format(paste0(prefix, xnames[i]),
+                        item.format(format(paste0(prefix, xnames[i]),
                             width = lhs, justify = "right"
-                        ), ": ",
+                        )), ": ",
                         headdot(x[[i]])
                     ), "\n")
                 } else {
                     cat(paste0(
-                        format(paste0(prefix, xnames[i]),
+                        item.format(format(paste0(prefix, xnames[i]),
                             width = lhs, justify = "right"
-                        ), ": ",
+                        )), ": ",
                         color(headdot(x[[i]])), "\n"
                     ))
                 }
@@ -99,7 +102,6 @@ printls <- function(x,
         }
     }
 } # rtemis::printls
-
 
 # printdf1
 # ::rtemis::
