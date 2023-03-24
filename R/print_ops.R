@@ -279,7 +279,7 @@ pastels <- function(x, bullet = "  -") {
 }
 
 
-headdot <- function(x, maxlength = 9) {
+headdot <- function(x, maxlength = 6) {
     if (length(x) < maxlength) {
         paste(x, collapse = ", ")
     } else {
