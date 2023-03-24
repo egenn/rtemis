@@ -1,7 +1,6 @@
 # dataPrepare.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
-# consider: check missing y.test with present x.test
 
 #' \code{rtemis-internals}: \code{dataPrepare}
 #'
@@ -43,7 +42,7 @@ dataPrepare <- function(x, y = NULL,
                         removeDots = FALSE,
                         .preprocess = NULL,
                         verbose = FALSE) {
-    if (upsample & downsample) stop("Please choose to upsample OR downsample")
+    if (upsample && downsample) stop("Please choose to upsample OR downsample")
 
     if (class(x)[1] != "list") {
         # x <- if (.data.table) data.table::setDT(x) else as.data.frame(x)
@@ -75,18 +74,18 @@ dataPrepare <- function(x, y = NULL,
 
     # '- (x = x.train_y) or (x = x.train_y, x.test = x.test_y) ----
     # If no y is specified, assume it is the last column of x
-    if (is.null(y) & ncol.x > 1) {
+    if (is.null(y) && ncol.x > 1) {
         y <- x[, ncol.x]
         x <- x[, -ncol.x, drop = FALSE]
     }
 
     # '- (x = x.train_y, x.test = x.test_y) ----
-    if (!is.null(x.test) & is.null(y.test) & NCOL(x.test) == ncol.x) {
+    if (!is.null(x.test) && is.null(y.test) && NCOL(x.test) == ncol.x) {
         y.test <- x.test[, ncol.x]
         x.test <- x.test[, seq(ncol.x - 1)]
     }
 
-    if (!is.null(x.valid) & is.null(y.valid) & NCOL(x.valid) == ncol.x) {
+    if (!is.null(x.valid) && is.null(y.valid) && NCOL(x.valid) == ncol.x) {
         y.valid <- x.valid[, ncol.x]
         x.valid <- x.valid[, seq(ncol.x - 1)]
     }
@@ -197,7 +196,7 @@ dataPrepare <- function(x, y = NULL,
     )
 
     # UPSAMPLE: balance outcome class ----
-    if (type == "Classification" & upsample) {
+    if (type == "Classification" && upsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
         maxfreq.i <- which.max(freq$Freq)
@@ -230,7 +229,7 @@ dataPrepare <- function(x, y = NULL,
     }
 
     # DOWNSAMPLE: balance outcome class ----
-    if (type == "Classification" & downsample) {
+    if (type == "Classification" && downsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
         minfreq.i <- which.min(freq$Freq)
@@ -256,7 +255,7 @@ dataPrepare <- function(x, y = NULL,
 
     # IPW: Inverse Probability Weighting for Classification ----
     class.weights <- weights <- NULL
-    if (type == "Classification" & ipw) {
+    if (type == "Classification" && ipw) {
         freq <- as.data.frame(table(y))[, 2]
         class.weights <- rev(freq / sum(freq)) # add to 1
         names(class.weights) <- levels(y)
