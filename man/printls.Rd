@@ -8,6 +8,8 @@ printls(
   x,
   prefix = "",
   pad = 3,
+  item.format = bold,
+  maxlength = 6,
   center.title = TRUE,
   title = NULL,
   title.newline = FALSE,

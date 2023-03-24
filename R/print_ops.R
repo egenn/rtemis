@@ -19,6 +19,7 @@ printls <- function(x,
                     prefix = "",
                     pad = 3,
                     item.format = bold,
+                    maxlength = 6,
                     center.title = TRUE,
                     title = NULL,
                     title.newline = FALSE,
@@ -88,14 +89,14 @@ printls <- function(x,
                         item.format(format(paste0(prefix, xnames[i]),
                             width = lhs, justify = "right"
                         )), ": ",
-                        headdot(x[[i]])
+                        headdot(x[[i]], maxlength = maxlength)
                     ), "\n")
                 } else {
                     cat(paste0(
                         item.format(format(paste0(prefix, xnames[i]),
                             width = lhs, justify = "right"
                         )), ": ",
-                        color(headdot(x[[i]])), "\n"
+                        color(headdot(x[[i]], maxlength = maxlength)), "\n"
                     ))
                 }
             }
