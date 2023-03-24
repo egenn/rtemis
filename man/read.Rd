@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read}
 \alias{read}
-\title{Read delimited file or XLSX into a data.table}
+\title{Read data from Parquet, XLSX, or delimited file}
 \usage{
 read(
   filename,
@@ -73,10 +73,12 @@ default data structure, otherwise convert to data.table}
 or \code{openxlsx::read.xlsx()}}
 }
 \description{
-Convenience function to read delimited data using
-\code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-\code{vroom::vroom()}, or \code{duckdb::duckdb_read_csv()}.
-Read XLSX files using \code{readxl::read_excel()}.
+Convenience function to read:
+Parquet files using \code{arrow::read_parquet()},
+XLSX files using \code{readxl::read_excel()},
+delimited files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
+\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or 
+\code{rpolars::csv_reader()}
 }
 \examples{
 \dontrun{

@@ -173,6 +173,7 @@ train a final model, and validate it
 \details{
 [gS]: indicates parameter will be autotuned by grid search if multiple
 values are passed.
+LightGBM trains trees leaf-wise (best-first) rather than depth-wise.
 For categorical variables, convert to integer and indicate to lgb they are categorical,
 so that they are not treated as numeric.
 }
