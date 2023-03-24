@@ -133,6 +133,24 @@ gridSearchLearn <- function(x, y, mod,
         x <- x[, -(names(x) == resample.rtset$id.colname)]
     }
 
+    # Grid run ----
+    if (verbose) {
+        parameterSummary(grid.params, fixed.params, title = "Search parameters")
+        msg2(
+            hilite(
+                "Tuning", modSelect(mod, desc = TRUE), "by",
+                search.type, "grid search:"
+            )
+        )
+        msg20(
+            n.resamples, " inner resamples; ",
+            NROW(param.grid),
+            " models total; running on ",
+            singorplu(n.cores, "worker"),
+            " (", Sys.getenv("R_PLATFORM"), ")\n"
+        )
+    }
+    
     # learner1 ----
     p <- progressr::progressor(steps = NROW(param.grid))
     learner1 <- function(index, learner,
@@ -209,25 +227,7 @@ gridSearchLearn <- function(x, y, mod,
         if (save.mod) out1$mod1 <- mod1
         p(sprintf("Inner resample: %i/%i...", index, nres))
         out1
-    }
-
-    # Grid run ----
-    if (verbose) {
-        parameterSummary(grid.params, fixed.params, title = "Search parameters")
-        msg2(
-            hilite(
-                "Tuning", modSelect(mod, desc = TRUE), "by",
-                search.type, "grid search:"
-            )
-        )
-        msg20(
-            n.resamples, " inner resamples; ", 
-            NROW(param.grid),
-            " models total; running on ",
-            singorplu(n.cores, "worker"),
-            " (", Sys.getenv("R_PLATFORM"), ")\n"
-        )
-    }
+    } # /learner1
 
     nres <- NROW(param.grid)
     grid_run <- future.apply::future_lapply(
