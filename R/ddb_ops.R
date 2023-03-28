@@ -62,7 +62,6 @@ ddb_data <- function(filename,
                      verbose = TRUE) {
     # Intro ----
     dependency_check("DBI", "duckdb")
-    startTime <- intro(out, verbose = verbose)
     returnobj <- match.arg(returnobj)
     if (!is.null(data.table.key)) returnobj <- "data.table"
     path <- if (is.null(datadir)) {
@@ -84,6 +83,7 @@ ddb_data <- function(filename,
             "filtering on", bold(filter_column)
         )
     }
+    startTime <- intro(out, verbose = verbose)
     distinct <- ifelse(make_unique, "DISTINCT ", NULL)
     select <- if (!is.null(select_columns)) {
         ls2sel(select_columns)
