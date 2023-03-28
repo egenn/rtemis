@@ -556,6 +556,6 @@ preprocess <- function(x,
     } # /add back excluded
 
     if (isdatatable) data.table::setDT(x)
-    outro(start.time, verbose = verbose)
+    outro(start_time, verbose = verbose)
     x
 } # rtemis::preprocess
