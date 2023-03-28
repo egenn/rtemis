@@ -158,6 +158,9 @@ preprocess <- function(x,
                     #    cleanfactorlevels = FALSE,
                        exclude = NULL,
                        verbose = TRUE) {
+    # Intro ----
+    start_time <- intro(verbose = verbose)
+
     # Arguments ----
     impute.type <- match.arg(impute.type)
 
@@ -553,6 +556,6 @@ preprocess <- function(x,
     } # /add back excluded
 
     if (isdatatable) data.table::setDT(x)
-    if (verbose) msg2("Done")
+    outro(start.time, verbose = verbose)
     x
 } # rtemis::preprocess
