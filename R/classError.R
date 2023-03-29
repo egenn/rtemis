@@ -12,7 +12,7 @@
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' 
 #' @author E.D. Gennatas
-#' @return S3 object of type  "classError"
+#' @return S3 object of type "classError"
 #' @export
 
 classError <- function(true, 

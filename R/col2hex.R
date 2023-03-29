@@ -3,6 +3,7 @@
 #' Convert a color that R understands into the corresponding hexadecimal code
 #'
 #' @param color Color(s) that R understands
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @examples

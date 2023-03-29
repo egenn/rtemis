@@ -6,3 +6,4 @@
 spark-warehouse
 [.]code-workspace$
 ^dev$
+.vscode

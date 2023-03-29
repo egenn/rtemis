@@ -17,9 +17,13 @@ check_data(
 
 \item{name}{Character: Name of dataset}
 
-\item{get_na_case_pct}{Logical: If TRUE, calculate percent of NA values per case}
+\item{get_duplicates}{Logical: If TRUE, check for duplicate cases}
 
-\item{get_na_feature_pct}{Logical: If TRUE, calculate percent of NA values per feature}
+\item{get_na_case_pct}{Logical: If TRUE, calculate percent of NA values per 
+case}
+
+\item{get_na_feature_pct}{Logical: If TRUE, calculate percent of NA values 
+per feature}
 }
 \description{
 Check Data

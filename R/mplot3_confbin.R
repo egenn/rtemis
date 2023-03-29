@@ -35,6 +35,7 @@
 #' @param pdf.width Float: PDF width, if \code{filename} is set
 #' @param pdf.height Float: PDF height, if \code{filename} is set
 #' @param ... Not used
+#' 
 #' @param filename Character: If specified, save plot to this path. Default = NULL
 #' @return List of metrics, invisibly
 #' @author E.D. Gennatas
@@ -151,7 +152,11 @@ mplot3_confbin <- function(object,
   # Par ----
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename)) {
+       grDevices::pdf(filename,
+            width = pdf.width, height = pdf.height, title = "rtemis Graphics"
+       )
+  }
 
   # Plot ----
   par(mar = c(0, 0, 0, 0))
@@ -165,10 +170,16 @@ mplot3_confbin <- function(object,
   text(0, 0, paste("Total\n", total), srt = 45, font = 1, cex = cex.lab2)
   # 3
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Predicted condition\npositive", predicted.condition.positive), srt = 90, cex = cex.lab2)
+  text(0, 0, paste(
+       "Predicted condition\npositive",
+       predicted.condition.positive
+  ), srt = 90, cex = cex.lab2)
   # 4
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
-  text(0, 0, paste("Predicted condition\nnegative", predicted.condition.negative), srt = 90, cex = cex.lab2)
+  text(0, 0, paste(
+       "Predicted condition\nnegative",
+       predicted.condition.negative
+  ), srt = 90, cex = cex.lab2)
   # 5
   plot(NULL, NULL, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE)
   text(0, 0, paste("True condition"), font = 2, cex = cex.lab)

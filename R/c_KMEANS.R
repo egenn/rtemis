@@ -37,7 +37,7 @@ c_KMEANS <- function(x,
     }
 
     # Data ----
-    .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq(NCOL(x))) else (colnames(x))
+    .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq_len(NCOL(x))) else (colnames(x))
     x <- as.data.frame(x)
     xnames <- colnames(x) <- .colnames
 

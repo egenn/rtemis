@@ -57,7 +57,7 @@ c_MEANSHIFT <- function(x,
 
   # Data ----
   .colnames <- if (is.null(colnames(x))) {
-    paste0("Feature_", seq(NCOL(x)))
+    paste0("Feature_", seq_len(NCOL(x)))
   } else {
     colnames(x)
   }

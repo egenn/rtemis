@@ -18,62 +18,72 @@
 #' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters to pass to \code{cluster::hopach}
-#' 
+#'
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 
 c_HOPACH <- function(x,
                      dmat = NULL,
-                     metric = c("cosangle", "abscosangle", "euclid", "abseuclid", "cor", "abscor"),
+                     metric = c(
+                         "cosangle", "abscosangle", "euclid",
+                         "abseuclid", "cor", "abscor"
+                     ),
                      k = 15,
                      kmax = 9,
                      khigh = 9,
                      trace = 0,
                      verbose = TRUE, ...) {
+    # Intro ----
+    start.time <- intro(verbose = FALSE)
+    clust.name <- "HOPACH"
 
-  # Intro ----
-  start.time <- intro(verbose = FALSE)
-  clust.name <- "HOPACH"
+    # Arguments ----
+    metric <- match.arg(metric)
 
-  # Arguments ----
-  metric <- match.arg(metric)
+    # Data ----
+    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
+    x <- as.data.frame(x)
+    xnames <- colnames(x)
 
-  # Data ----
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
-  x <- as.data.frame(x)
-  xnames <- colnames(x)
+    # Dependencies ----
+    dependency_check("hopach")
 
-  # Dependencies ----
-  dependency_check("hopach")
+    # HOPACH ----
+    if (verbose) msg2("Running HOPACH clustering...")
+    clust <- hopach::hopach(x,
+        dmat = dmat,
+        d = metric,
+        K = k,
+        kmax = kmax,
+        khigh = khigh,
+        verbose = trace > 0, ...
+    )
+    if (verbose) {
+        msg2("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
+            paste(clust$clustering$sizes, collapse = ", "), ")",
+            sep = ""
+        )
+    }
 
-  # HOPACH ----
-  if (verbose) msg2("Running HOPACH clustering...")
-  clust <- hopach::hopach(x,
-                          dmat = dmat,
-                          d = metric,
-                          K = k,
-                          kmax = kmax,
-                          khigh = khigh,
-                          verbose = trace > 0, ...)
-  if (verbose) msg2("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
-      paste(clust$clustering$sizes, collapse = ", "), ")", sep = "")
+    # Clusters ----
+    clusters.train <- clust$clustering$labels
 
-  # Clusters ----
-  clusters.train <- clust$clustering$labels
-
-  # Outro ----
-  cl <- rtClust$new(clust.name = clust.name,
-                    k = length(unique(clusters.train)),
-                    xnames = xnames,
-                    clust = clust,
-                    clusters.train = clusters.train,
-                    clusters.test = NULL,
-                    parameters = list(k = k,
-                                      kmax = kmax,
-                                      khigh = khigh),
-                    extra = list())
-  outro(start.time, verbose = verbose)
-  cl
-
+    # Outro ----
+    cl <- rtClust$new(
+        clust.name = clust.name,
+        k = length(unique(clusters.train)),
+        xnames = xnames,
+        clust = clust,
+        clusters.train = clusters.train,
+        clusters.test = NULL,
+        parameters = list(
+            k = k,
+            kmax = kmax,
+            khigh = khigh
+        ),
+        extra = list()
+    )
+    outro(start.time, verbose = verbose)
+    cl
 } # rtemis::c_HOPACH

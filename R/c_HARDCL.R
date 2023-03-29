@@ -28,7 +28,7 @@ c_HARDCL <- function(x,
     clust.name <- "HARDCL"
 
     # Data ----
-    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
     x <- as.data.frame(x)
     xnames <- colnames(x)
 

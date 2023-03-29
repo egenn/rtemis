@@ -6,8 +6,11 @@
 #'
 #' @param x data.frame, data.table or similar structure
 #' @param name Character: Name of dataset
-#' @param get_na_case_pct Logical: If TRUE, calculate percent of NA values per case
-#' @param get_na_feature_pct Logical: If TRUE, calculate percent of NA values per feature
+#' @param get_duplicates Logical: If TRUE, check for duplicate cases
+#' @param get_na_case_pct Logical: If TRUE, calculate percent of NA values per 
+#' case
+#' @param get_na_feature_pct Logical: If TRUE, calculate percent of NA values 
+#' per feature
 #'
 #' @author E.D. Gennatas
 #' @export

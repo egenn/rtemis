@@ -9,9 +9,11 @@ clust(x, clust = "kmeans", x.test = NULL, verbose = TRUE, ...)
 \arguments{
 \item{x}{Numeric matrix / data frame: Input data}
 
-\item{clust}{Character: Decomposition algorithm name, e.g. "nmf" (case-insensitive)}
+\item{clust}{Character: Decomposition algorithm name, e.g. "nmf" 
+(case-insensitive)}
 
-\item{x.test}{Numeric matrix / Data frame: Testing set data if supported by \code{clust}}
+\item{x.test}{Numeric matrix / Data frame: Testing set data if supported by 
+\code{clust}}
 
 \item{verbose}{Logical: if TRUE, print messages to screen}
 

@@ -16,7 +16,7 @@ classError(true, estimated, estimated.prob = NULL, trace = 0)
 \item{trace}{Integer: If > 0, print  diagnostic messages. Default = 0}
 }
 \value{
-S3 object of type  "classError"
+S3 object of type "classError"
 }
 \description{
 Calculates Classification Metrics
