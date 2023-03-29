@@ -115,7 +115,7 @@
 #' @export
 
 elevate <- function(x, y = NULL,
-                    mod = "ranger",
+                    mod = "lightrf",
                     mod.params = list(),
                     .preprocess = NULL,
                     .decompose = NULL,
