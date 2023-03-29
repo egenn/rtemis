@@ -72,7 +72,7 @@ outro <- function(start.time,
     if (verbose || sinkOff) {
         if (newline.pre) cat("\n")
         msg2(
-            "Run completed in ", ddSci(elapsed[3] / 60), " minutes (",
+            "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
                 "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
                 "; System: ", ddSci(elapsed[2]), ")",
                 sep = "",

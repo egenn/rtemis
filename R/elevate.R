@@ -184,7 +184,7 @@ elevate <- function(x, y = NULL,
     } else {
         NULL
     }
-    start.time <- intro(verbose = verbose, logFile = logFile)
+    start_time <- intro(verbose = verbose, logFile = logFile)
 
     # Dependencies ----
     dependency_check(c("future", "plyr"))
@@ -201,8 +201,12 @@ elevate <- function(x, y = NULL,
     if (is.null(y.name)) y.name <- getName(y, "y")
     # learner <- modSelect(mod, fn = FALSE)
     mod <- toupper(mod)
-    if (headless) print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
-    if (!is.null(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+    if (headless) {
+        print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
+    }
+    if (!is.null(outdir)) {
+        dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+    }
     # If learner is multicore, run CV in series
     # Note: for mod "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
@@ -299,11 +303,11 @@ elevate <- function(x, y = NULL,
         msg2(
             hilite(
                 paste0(
-                    "Training ", modSelect(mod.name, desc = TRUE), " on ",
+                    "Training ", bold(modSelect(mod.name, desc = TRUE)), " on ",
                     outer.resampling$n.resamples, " ", desc, "..."
-                )
+                ), bold = FALSE
             ),
-            newline.pre = FALSE
+            newline.pre = TRUE
         )
     }
 
@@ -478,7 +482,7 @@ elevate <- function(x, y = NULL,
 
     # Summary ----
     if (verbose) {
-        boxcat(paste("elevate", hilite(mod.name)), newline.pre = FALSE, pad = 0)
+        boxcat(paste("elevate", hilite(mod.name)), newline.pre = TRUE, pad = 0)
         # cat("N repeats =", hilite(n.repeats), "\n")
         # cat("N resamples =", hilite(n.resamples), "\n")
         # cat("Resampler =", hilite(resampler), "\n")
@@ -792,7 +796,7 @@ elevate <- function(x, y = NULL,
             "elevate.", mod.name, "_predicted.pdf"
         ))
     }
-    outro(start.time,
+    outro(start_time,
         verbose = verbose,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )

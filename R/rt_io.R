@@ -15,15 +15,35 @@ rt_save <- function(rtmod,
                     outdir,
                     file.prefix = "s.",
                     verbose = TRUE) {
-    if (verbose) msg2("Writing data to ", outdir, "... ", sep = "")
+    if (verbose) {
+        start_time <- Sys.time()
+        msg2("Writing data to ", outdir, "... ",
+            sep = "",
+            caller = NA, newline = FALSE
+        )
+    }
+    # if (verbose) {
+    #     cli::cli_progress_step(paste0("Writing data to ", outdir, "... "))
+    # }
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
     rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
     try(saveRDS(rtmod, rdsPath))
+    if (verbose) elapsed <- Sys.time() - start_time
     if (file.exists(rdsPath)) {
-        if (verbose) yay()
+        if (verbose) {
+            yay("[", format(elapsed, digits = 2), "]",
+                gray(" [rt_save]"), sep = ""
+            )
+        }
+        # if (verbose) cli::cli_process_done()
     } else {
-        if (verbose) nay()
+        if (verbose) {
+            nay("[Failed after ", format(elapsed, digits = 2), "]",
+                gray(" [rt_save]"), sep = ""
+            )
+        }
         warning("Could not save data to ", outdir)
+        # if (verbose) cli::cli_process_failed()
     }
 } # rtemis::rt_save
 

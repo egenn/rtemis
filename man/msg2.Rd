@@ -10,6 +10,7 @@ msg2(
   call.depth = 1,
   caller.id = 1,
   newline.pre = FALSE,
+  newline = TRUE,
   sep = " "
 )
 }
@@ -23,6 +24,8 @@ msg2(
 \item{caller.id}{Integer: Which function in the call stack to print}
 
 \item{newline.pre}{Logical: If TRUE begin with a new line. Default = FALSE}
+
+\item{newline}{Logical: If TRUE end with a new line. Default = FALSE}
 
 \item{sep}{Character: Use to separate objects in \code{...}}
 }

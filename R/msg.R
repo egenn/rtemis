@@ -219,6 +219,7 @@ msg2 <- function(...,
                 #  newline = TRUE,
                 #  extraline = FALSE,
                  newline.pre = FALSE,
+                 newline = TRUE,
                 #  as.message = FALSE,
                 #  color = NULL,
                  sep = " ") {
@@ -249,7 +250,7 @@ msg2 <- function(...,
     cat(paste(txt, collapse = sep))
     if (!is.null(caller) && !is.na(caller)) {
         cat(gray(" [", caller, "]\n", sep = ""), sep = "")
-    } else {
+    } else if (newline) {
         cat("\n")
     }
     
