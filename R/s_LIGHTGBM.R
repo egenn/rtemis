@@ -175,8 +175,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         if (type == "Regression") {
             objective <- "regression"
         } else {
-            # objective <- ifelse(nclass == 2, "binary:logistic", "multi:softmax")
-            objective <- "softmax"
+            objective <- ifelse(nclass == 2, "binary", "multiclass")
         }
     }
     dat.train <- lightgbm::lgb.Dataset(
@@ -292,6 +291,10 @@ s_LIGHTGBM <- function(x, y = NULL,
         bagging_freq = bagging_freq
     )
 
+    if (type == "Classification" && nclass > 2) {
+        parameters$num_class <- nclass
+    }
+
     # LightGBM ----
     if (verbose) {
         if (tuned) {
@@ -311,7 +314,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     )
 
     # Fitted ----
-    fitted <- predict(mod, as.matrix(x))
+    fitted <- predict(mod, as.matrix(x), reshape = TRUE)
     fitted.prob <- NULL
     if (type == "Classification") {
         if (nclass == 2) {
@@ -321,8 +324,9 @@ s_LIGHTGBM <- function(x, y = NULL,
                 labels = levels(y)
             )
         } else {
-            fitted <- factor(fitted,
-                levels = seq(nclass) - 1,
+            fitted.prob <- fitted
+            fitted <- factor(max.col(fitted),
+                levels = seq(nclass),
                 labels = levels(y)
             )
         }
@@ -334,7 +338,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     # Predicted ----
     predicted.prob <- predicted <- error.test <- NULL
     if (!is.null(x.test)) {
-        predicted <- predict(mod, as.matrix(x.test))
+        predicted <- predict(mod, as.matrix(x.test), reshape = TRUE)
         if (type == "Classification") {
             if (nclass == 2) {
                 predicted.prob <- 1 - predicted
@@ -343,8 +347,8 @@ s_LIGHTGBM <- function(x, y = NULL,
                     labels = levels(y)
                 )
             } else {
-                predicted <- factor(predicted,
-                    levels = seq(nclass) - 1,
+                predicted <- factor(max.col(predicted),
+                    levels = seq(nclass),
                     labels = levels(y)
                 )
             }
@@ -434,7 +438,7 @@ s_LIGHTRF <- function(x, y = NULL,
                        resample.seed = NULL,
                        boosting = "rf",
                        objective = NULL,
-                       max_nrounds = 1000L,
+                       max_nrounds = 500L,
                        force_nrounds = NULL,
                        early_stopping_rounds = 10L,
                        nrounds_default = 100L,
