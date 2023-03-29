@@ -82,6 +82,8 @@ mplot3_box(
 
 \item{xnames}{Character vector: Names for individual boxes}
 
+\item{xnames.at}{Numeric: Position of xnames}
+
 \item{order.by.fn}{Character: "mean", "median" or any function that outputs a single number: E
 stimate function on each vector and order boxes (when input is data.frame or list) by ascending
 order. Default = NULL, i.e. no reordering}

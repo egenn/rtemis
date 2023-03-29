@@ -23,7 +23,7 @@
 #' @param horizontal Logical: If TRUE, draw horizontal boxplot(s).
 #' @param groupnames Character vector: Group names
 #' @param xnames Character vector: Names for individual boxes
-#' @param xnames.at
+#' @param xnames.at Numeric: Position of xnames
 #' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
 #' Default = TRUE
 #' @param order.by.fn Character: "mean", "median" or any function that outputs a single number: E
@@ -199,7 +199,7 @@ mplot3_box <- function(x,
 
   if (is.null(xlim)) {
     xlim <- if (.grouped) {
-      c(.5, ngroups*nvars + (ngroups - 1) * group.spacing + .5)
+      c(.5, ngroups * nvars + (ngroups - 1) * group.spacing + .5)
     } else {
       c(.5, length(x) + .5)
     }
@@ -282,7 +282,7 @@ mplot3_box <- function(x,
                          ylim = ylim,
                          axes = FALSE,
                          add = TRUE,
-                         at = (i - 1) * group.spacing + ((i - 1)*nvars + seq_len(nvars)),
+                         at = (i - 1) * group.spacing + ((i - 1) * nvars + seq_len(nvars)),
                          xlab = NULL)
     }
   } else {
