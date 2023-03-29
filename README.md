@@ -18,13 +18,27 @@ R version 4.1 or higher
 
 ## Installation
 
-See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and 
-installation instructions.
+Install `rtemis` usikg `pak`, `remotes`, or `devtools`:
 
 ```r
-install.packages("remotes")
+pak::pkg_install("egenn/rtemis")
+```
+
+_or_
+
+```r
 remotes::install_github("egenn/rtemis")
 ```
+
+_or_
+
+
+```r
+devtools::install_github("egenn/rtemis")
+```
+
+See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and
+installation instructions.
 
 **Note:** Make sure to keep your installation updated by running
 `remotes::install_github("egenn/rtemis")` regularly: it will only proceed if
@@ -54,6 +68,7 @@ mod <- elevate(iris)
 Switched the main parallelizable functions (resLearn for outer resamples;
 gridSearchlearn for inner resamples) to use [`future`](https://github.com/HenrikBengtsson/future) for parallelization
 and [`progressr`](https://github.com/HenrikBengtsson/progressr) for progress reporting.
+
 ### **0.90**
 
 Multiple additions and updates.  
