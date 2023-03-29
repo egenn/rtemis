@@ -19,7 +19,7 @@ s_LIGHTRF(
   resample.seed = NULL,
   boosting = "rf",
   objective = NULL,
-  max_nrounds = 1000L,
+  max_nrounds = 500L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   nrounds_default = 100L,
