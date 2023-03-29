@@ -185,6 +185,9 @@ so that they are not treated as numeric.
 }
 \examples{
 \dontrun{
+x <- rnormmat(500, 10)
+y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
+dat <- data.frame(x, y)
 mod <- s_LIGHTGBM(dat)
 }
 }

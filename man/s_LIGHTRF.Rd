@@ -172,6 +172,14 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \description{
 Random Forest with LightGBM
 }
+\examples{
+\dontrun{
+x <- rnormmat(500, 10)
+y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
+dat <- data.frame(x, y)
+mod <- s_LIGHTRF(dat)
+}
+}
 \author{
 ED Gennatas
 }

@@ -302,9 +302,9 @@ rtThemeInit <- function() {
 rtFontInit <- function() {
     getOption("rt.font", "Helvetica")
 }
-rtGridSearchLearnInit <- function() {
-    getOption("rt.gridSearchLearn", "future")
-}
+# rtGridSearchLearnInit <- function() {
+#     getOption("rt.gridSearchLearn", "future")
+# }
 # rtWarnInit <- function() {
 #     getOption("rt.warn", 1)
 # }

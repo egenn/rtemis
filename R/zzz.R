@@ -30,12 +30,12 @@ rtemis.version <- packageVersion("rtemis")
     assign("rtFont", rtFont, envir = parent.env(environment()))
     rtPalette <- rtPaletteInit()
     assign("rtPalette", rtPalette, envir = parent.env(environment()))
-    gridSearchLearn <- if (rtGridSearchLearnInit() == "future") {
-        gridSearchLearn
-    } else {
-        gridSearchLearn_pbapply
-    }
-    assign("gridSearchLearn", gridSearchLearn, envir = parent.env(environment()))
+    # gridSearchLearn <- if (rtGridSearchLearnInit() == "future") {
+    #     gridSearchLearn
+    # } else {
+    #     gridSearchLearn_pbapply
+    # }
+    # assign("gridSearchLearn", gridSearchLearn, envir = parent.env(environment()))
 }
 
 # .onAttach <- function(libname, pkgname) {
