@@ -24,12 +24,11 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
 #' @param id_name Character: Name of column in \code{x} that defines the IDs
 #' identifying individual rows
 #' @param key_name Character: Name of column in \code{x} that holds the key
-#' @param value_name Character: Name of column in \code{x} thatholds the values
-#' that correspond to the key
 #' @param positive Numeric or Character: Used to fill id ~ key combination
 #' present in the long format input \code{x}
 #' @param negative Numeric or Character: Used to fill id ~ key combination
 #' NOT present in the long format input \code{x}
+#' @param xname Character: Name of \code{x} to be used in messages
 #' @param verbose Logical: If TRUE, print messages to the console
 #'
 #' @author E.D. Gennatas
@@ -90,6 +89,8 @@ dt_keybin_reshape <- function(x,
 #' @param left_on Character: Name of column on left table
 #' @param right_on Character: Name of column on right table
 #' @param how Character: Type of join: "inner", "left", "right", "outer".
+#' @param left_name Character: Name of left table
+#' @param right_name Character: Name of right table
 #' @param left_suffix Character: If provided, add this suffix to all left column names,
 #' excluding on/left_on
 #' @param right_suffix Character: If provided, add this suffix to all right column names,
@@ -223,7 +224,7 @@ dt_get_duplicates <- function(x, on) {
 #'
 #' @param x data.frame or compatible
 #' @param name Character: Name of attribute
-#' @param name Character: Value of attribute
+#' @param value Character: Value of attribute
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -344,6 +345,7 @@ dt_set_logical2factor <- function(x,
 #' @param x data.frame-compatible input with first column being IDs and second column
 #' ICD10 codes
 #' @param score Character: Comorbidity scores to calculate.
+#' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @return data.table with IDs & columns for each score
 #' @author E.D. Gennatas
@@ -386,6 +388,7 @@ dt_icd10_comorbidities <- function(
 #'
 #' @param x data.table
 #' @param attr Character: Attribute to get
+#' @param useNA Character: Passed to \code{table}
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -407,9 +410,13 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 
 #' Inspect character vector
 #'
-#' Checks character vector to determine whether it might be best to convert to numeric.
+#' Checks character vector to determine whether it might be best to convert to 
+#' numeric.
 #'
 #' @param x Character vector
+#' @param xname Character: Name of input vector
+#' @param verbose Logical: If TRUE, print messages to console
+#' @param thresh Numeric: Threshold for determining whether to convert to numeric
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -469,6 +476,8 @@ dt_type_inspect <- function(x) {
 #' @param x data.table
 #' @param cols Character vector: columns to work on. If not defined, will work on all
 #' columns
+#' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @author E.D. Gennatas
 #' @export
 dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
@@ -486,10 +495,13 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
 #'
 #' @param x data.table
 #' @param sorted Logical: If TRUE, sort the output
+#' @param item.format Function: Function to format each item
+#' @param maxlength Integer: Maximum number of items to print
 #'
 #' @author E.D. Gennatas
 #' @export
-dt_names_by_class <- function(x, sorted = TRUE, item.format = hilite, maxlength = 24) {
+dt_names_by_class <- function(x, sorted = TRUE, 
+                              item.format = hilite, maxlength = 24) {
     classes <- sapply(x, class)
     vals <- unique(classes)
     out <- if (sorted) {

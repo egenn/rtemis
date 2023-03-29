@@ -22,9 +22,15 @@ table1(
 
 \item{summaryFn2}{Function: Summary function 2. Default = \code{sd}. See Details}
 
+\item{summaryFn1.extraArgs}{List: Extra arguments for \code{summaryFn1}.}
+
+\item{summaryFn2.extraArgs}{List: Extra arguments for \code{summaryFn2}.}
+
 \item{labelify}{Logical: If TRUE, apply \link{labelify} to column names of  \code{x}}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
+
+\item{filename}{Character: Path to output CSV file to save table.}
 }
 \value{
 A data.frame, invisibly, with two columns: "Feature", "Value mean (sd) | N"

@@ -8,9 +8,12 @@ uniquevalsperfeat(x, excludeNA = FALSE)
 }
 \arguments{
 \item{x}{matrix or data frame input}
+
+\item{excludeNA}{Logical: If TRUE, exclude NA values from unique count.}
 }
 \value{
-Vector, integer of length \code{NCOL(x)} with number of unique values per column/feature
+Vector, integer of length \code{NCOL(x)} with number of unique 
+values per column/feature
 }
 \description{
 Get number of unique values per features

@@ -9,7 +9,9 @@ dt_index_attr(x, name, value)
 \arguments{
 \item{x}{data.frame or compatible}
 
-\item{name}{Character: Value of attribute}
+\item{name}{Character: Name of attribute}
+
+\item{value}{Character: Value of attribute}
 }
 \description{
 Index columns by attribute name & value

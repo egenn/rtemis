@@ -11,7 +11,6 @@ dplot3_protein(
   ptm = NULL,
   variant = NULL,
   disease.variants = NULL,
-  label.group = NULL,
   n.per.row = NULL,
   main = NULL,
   main.xy = c(0.055, 0.975),
@@ -118,6 +117,8 @@ highlighted by coloring the markers and lines of regions using the
 \item{ptm}{List of post-translational modifications}
 
 \item{variant}{List of variant information}
+
+\item{disease.variants}{List of disease variant information}
 
 \item{n.per.row}{Integer: Number of amino acids to show per row}
 

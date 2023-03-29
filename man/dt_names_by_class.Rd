@@ -10,6 +10,10 @@ dt_names_by_class(x, sorted = TRUE, item.format = hilite, maxlength = 24)
 \item{x}{data.table}
 
 \item{sorted}{Logical: If TRUE, sort the output}
+
+\item{item.format}{Function: Function to format each item}
+
+\item{maxlength}{Integer: Maximum number of items to print}
 }
 \description{
 List column names by class

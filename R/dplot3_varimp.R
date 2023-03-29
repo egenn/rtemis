@@ -19,8 +19,6 @@
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' @param mar Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 #' Default = c(50, 110, 50, 50)
-#' @param pad Integer: Pad plot by this many pixels.
-#' @param font.family Character: Font to use.
 #' @param font.size Integer: Overall font size to use (essentially for the 
 #' title at this point).
 #' Default = 14
@@ -29,7 +27,6 @@
 #' Experiment!)
 #' @param theme Output of an rtemis theme function (list of parameters) or theme
 #' name. Use \code{themes()} to print available themes.
-#' @param font.color Color for all text
 #' @param showlegend Logical: If TRUE, show legend
 #' @param ... Additional arguments passed to theme
 #'

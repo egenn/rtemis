@@ -370,6 +370,7 @@ twocol2html <- function(x,
 #' Get \code{NCOL(x)} and \code{NROW{x}}
 #'
 #' @param x R object (usually that inherits from matrix or data.frame)
+#' @param name Character: Name of input object
 #' @param verbose Logical: If TRUE, print NROW and NCOL to console.
 #' @param newline Logical: If TRUE, end with new line character.
 #'

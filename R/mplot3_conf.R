@@ -15,18 +15,19 @@
 #' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE
 #' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
 #' \code{object$mod.name}. 
-#' @param oma Float, vector, length 4: Outer margins. 
-#' @param dim.main Float: Height for title.
-#' @param dim.lab Float: Height for labels.
-#' @param dim.in Float: Height/Width for confusion matrix cells. Default = 4
-#' @param dim.out Float: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
+#' @param oma Numeric, vector, length 4: Outer margins. 
+#' @param dim.main Numeric: Height for title.
+#' @param dim.lab Numeric: Height for labels.
+#' @param dim.in Numeric: Height/Width for confusion matrix cells. Default = 4
+#' @param dim.out Numeric: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
 #' @param font.in Integer: The \code{font} parameter for confusion matrix cells. Default = 2
 #' @param font.out Integer: The \code{font} parameter for metrics cells.
-#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells.
-#' @param cex.lab Float: The \code{cex} parameter for first line of label cells.
-#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells.
-#' @param cex.lab3 Float: The \code{cex} parameter for classification metrics.
-#' @param cex.out Float: The \code{cex} parameter for metrics cells.
+#' @param cex.main Numeric: The \code{cex} parameter for the main title.
+#' @param cex.in Numeric: The \code{cex} parameter for confusion matrix cells.
+#' @param cex.lab Numeric: The \code{cex} parameter for first line of label cells.
+#' @param cex.lab2 Numeric: The \code{cex} parameter for second line of label cells.
+#' @param cex.lab3 Numeric: The \code{cex} parameter for classification metrics.
+#' @param cex.out Numeric: The \code{cex} parameter for metrics cells.
 #' @param col.main Color for title. Default = "auto", determined by \code{theme}
 #' @param col.lab Color for labels. Default = "auto", determined by \code{theme}
 #' @param col.text.out Color for metrics cells' text. Default = "auto", 
@@ -49,9 +50,10 @@
 #' @param hi.color.pos Color: The hi color for correct classification. 
 #' @param hi.color.neg Color: The hi color for missclassification.
 #' @param par.reset Logical: If TRUE, reset par before exit.
-#' @param pdf.width Float: PDF width, if \code{filename} is set
-#' @param pdf.height Float: PDF height, if \code{filename} is set
+#' @param pdf.width Numeric: PDF width, if \code{filename} is set
+#' @param pdf.height Numeric: PDF height, if \code{filename} is set
 #' @param filename Character: If specified, save plot to this path.
+#' @param ... Additional arguments passed to theme
 #'
 #' @return List of metrics, invisibly
 #' @author E.D. Gennatas

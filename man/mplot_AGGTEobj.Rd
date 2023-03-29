@@ -29,7 +29,7 @@ mplot_AGGTEobj(
 
 \item{main}{Character: Plot title}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these 
+\item{group.names}{(Optional) If multiple groups are plotted, use these
 names if \code{group.title = TRUE}}
 
 \item{xlab}{Character: x-axis label}

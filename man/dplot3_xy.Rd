@@ -23,8 +23,6 @@ dplot3_xy(
   ylab = NULL,
   col = NULL,
   alpha = NULL,
-  bg = NULL,
-  plot.bg = NULL,
   theme = rtTheme,
   palette = rtPalette,
   axes.square = FALSE,
@@ -96,28 +94,30 @@ dplot3_xy(
 
 \item{y}{Numeric, vector/data.frame/list: y-axis data}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. 
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
 Options: see \code{modSelect}
-Can also be Logical, which will give a GAM fit if TRUE. If you specify 
+Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
-\item{se.times}{Draw polygon or lines at +/- \code{se.times} * standard 
+\item{se.times}{Draw polygon or lines at +/- \code{se.times} * standard
 error of fit. Defaults to 1.96, which corresponds to 95\% confidence interval}
 
-\item{cluster}{Character: Clusterer name. Will cluster 
-\code{data.frame(x, y)} and pass result to \code{group}. 
+\item{include.fit.name}{Logical: If TRUE, include fit name in legend.}
+
+\item{cluster}{Character: Clusterer name. Will cluster
+\code{data.frame(x, y)} and pass result to \code{group}.
 Run \link{clustSelect} for options}
 
-\item{cluster.params}{List: Names list of parameters to pass to the 
+\item{cluster.params}{List: Names list of parameters to pass to the
 \code{cluster} function}
 
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. 
-If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a 
+\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}.
+If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a
 power curve. Note: \code{nls} is powerful but is prone to errors
 and warnings. Use single letters for parameter names, no numbers.}
 
@@ -156,6 +156,10 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{marker.col}{Color for marker}
 
+\item{marker.size}{Numeric: Marker size.}
+
+\item{symbol}{Character: Marker symbol.}
+
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{fit.alpha}{Float [0, 1]: Transparency for fit line}
@@ -165,6 +169,8 @@ Default = NULL, which uses \code{rownames(x)}}
 \item{se.col}{Color for \code{se.fit}}
 
 \item{se.alpha}{Alpha for \code{se.fit}}
+
+\item{scatter.type}{Character: "scatter", "scattergl", "scatter3d", "scatterternary", "scatterpolar", "scattermapbox",}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
 groups, or \code{fit} is set}
@@ -200,7 +206,7 @@ theme}
 
 \item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
 
-\item{fit.params}{List: Arguments for learner defined by \code{fit}. 
+\item{fit.params}{List: Arguments for learner defined by \code{fit}.
 Default = NULL, i.e. use default learner parameters}
 
 \item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}

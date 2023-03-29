@@ -15,6 +15,8 @@ dt_icd10_comorbidities(
 ICD10 codes}
 
 \item{score}{Character: Comorbidity scores to calculate.}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \value{
 data.table with IDs & columns for each score

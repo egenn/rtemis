@@ -29,9 +29,11 @@ mplot3_fret(
 
 \item{inlays.col}{Color for inlays}
 
-\item{inlays.cex}{Float: Character expansion factor for inlays. Default = 2}
+\item{inlays.cex}{Numeric: Character expansion factor for inlays. Default = 2}
 
 \item{par.reset}{Logical: If TRUE, reset par before exit}
+
+\item{...}{Additional arguments to theme}
 }
 \description{
 Draw color-coded notes on a guitar fretboard for standard E-A-D-G-B-e tuning

@@ -5,6 +5,7 @@
 
 #' Volcano Plot
 #'
+#' @inheritParams dplot3_xy
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
 #' @param xnames Character vector: \code{x} names
 #' @param group Factor: Used to color code points. If NULL, significant points

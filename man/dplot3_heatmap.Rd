@@ -95,7 +95,7 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{limits}{Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0}
 
-\item{margins}{Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)}
+\item{margins}{Float, length 4: Heatmap margins.}
 
 \item{main}{Character: Plot title}
 
@@ -103,14 +103,43 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{ylab}{Character: y-axis label}
 
-\item{key.title}{Character: Title for the color key. Default = NULL (no title)}
+\item{key.title}{Character: Title for the color key.}
+
+\item{showticklabels}{Logical: If TRUE, show tick labels.}
+
+\item{colorbar_len}{Numeric: Length of the colorbar.}
 
 \item{plot_method}{Character: Update February 2021: "ggplot" causes R session to hand
 on MacOS but plotly" seems to work}
 
 \item{theme}{Character: "light", "dark"}
 
+\item{row_side_colors}{Data frame: Column names will be label names, cells 
+should be label colors. See \code{heatmaply::heatmaply("row_side_colors")}}
+
+\item{row_side_palette}{Color palette function: 
+See \code{heatmaply::heatmaply("row_side_palette")}}
+
+\item{col_side_colors}{Data frame: Column names will be label names, cells}
+
+\item{col_side_palette}{Color palette function: 
+See \code{heatmaply::heatmaply("col_side_palette")}}
+
+\item{font.size}{Numeric: Font size}
+
+\item{padding}{Numeric: Padding between cells}
+
+\item{displayModeBar}{Logical: If TRUE, display the plotly mode bar}
+
+\item{modeBar.file.format}{Character: File format for image exports from the mode bar}
+
 \item{filename}{String (Optional: Path to file to save colorbar}
+
+\item{file.width}{Numeric: Width of exported image}
+
+\item{file.height}{Numeric: Height of exported image}
+
+\item{file.scale}{Numeric: Scale of exported image}
 
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}}
 }

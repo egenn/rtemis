@@ -79,11 +79,11 @@
 #' specific use cases; need to know unique values of numeric vector(s) and given all
 #' numeric vars have same unique values)
 #' @param numeric.cut.n Integer: If > 0, convert all numeric variables to factors by
-#' binning using \link{base::cut} with \code{breaks} equal to this number
+#' binning using \code{base::cut} with \code{breaks} equal to this number
 #' @param numeric.cut.labels Logical: The \code{labels} argument of \link{base::cut}
 #' @param numeric.quant.n Integer: If > 0, convert all numeric variables to factors by
-#' binning using \link{base::cut} with \code{breaks} equal to this number of quantiles
-#' produced using \link{stats::quantile}
+#' binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
+#' produced using \code{stats::quantile}
 #' @param len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors. Default = NULL.
 #' For example, if binary variables are encoded with 1, 2, you could use

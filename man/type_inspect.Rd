@@ -8,9 +8,16 @@ type_inspect(x, xname = NULL, verbose = TRUE, thresh = 0.5)
 }
 \arguments{
 \item{x}{Character vector}
+
+\item{xname}{Character: Name of input vector}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{thresh}{Numeric: Threshold for determining whether to convert to numeric}
 }
 \description{
-Checks character vector to determine whether it might be best to convert to numeric.
+Checks character vector to determine whether it might be best to convert to 
+numeric.
 }
 \examples{
 \dontrun{

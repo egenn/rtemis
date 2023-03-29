@@ -16,6 +16,7 @@
 #' criterion
 #' @param .preprocess List of preprocessing parameters. Scaling and centering
 #' is enabled by default, because it is crucial for algorithm to learn.
+#' @param trace Integer: passed to \code{sparseLDA::sda}
 #' 
 #' @return \link{rtMod} object
 #' @author E.D. Gennatas

@@ -9,6 +9,8 @@ catsize(x, name = NULL, verbose = TRUE, newline = TRUE)
 \arguments{
 \item{x}{R object (usually that inherits from matrix or data.frame)}
 
+\item{name}{Character: Name of input object}
+
 \item{verbose}{Logical: If TRUE, print NROW and NCOL to console.}
 
 \item{newline}{Logical: If TRUE, end with new line character.}

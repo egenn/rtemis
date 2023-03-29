@@ -25,6 +25,8 @@ Will use \code{pROC::roc},
 they are included for testing.}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
+
+\item{trace}{Integer: If > 0, print more messages to output}
 }
 \description{
 Get the Area under the ROC curve to assess classifier performance using \code{pROC}

@@ -11,6 +11,8 @@ dt_set_autotypes(x, cols = NULL, verbose = TRUE)
 
 \item{cols}{Character vector: columns to work on. If not defined, will work on all
 columns}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 This function inspects a data.table and attempts to identify columns that should be

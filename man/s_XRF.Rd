@@ -100,6 +100,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
 
+\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number 
+as early stopping will limit nrounds by monitoring inner CV error}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
@@ -131,6 +134,26 @@ Default = NULL (random seed)}
 
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
+
+\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
+
+\item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
+
+\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
+
+\item{subsample}{[gS] Numeric: subsample ratio of the training instance}
+
+\item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
+
+\item{colsample_bylevel}{[gS] Numeric}
+
+\item{lambda}{[gS] L2 regularization on weights}
+
+\item{alpha}{[gS] L1 regularization on weights}
+
+\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
+
+\item{sketch_eps}{[gS] Numeric (0, 1):}
 
 \item{base_score}{Numeric: The mean outcome response (Defaults to mean)}
 

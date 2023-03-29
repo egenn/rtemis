@@ -16,7 +16,6 @@ mplot3_fit(
   marker.col = NULL,
   fit.col = NULL,
   pty = "s",
-  zerolines = FALSE,
   fit.legend = FALSE,
   mar = NULL,
   ...
@@ -27,9 +26,9 @@ mplot3_fit(
 
 \item{y}{Vector, numeric / factor / survival for regression, classification, survival: Predicted values}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. 
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
 Options: see \code{modSelect}
-Can also be Logical, which will give a GAM fit if TRUE. If you specify 
+Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}

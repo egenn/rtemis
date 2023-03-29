@@ -94,11 +94,19 @@ whether spikelines are stuck to the cursor or to the closest datapoints.}
 
 \item{displayModeBar}{Logical: If TRUE, display plotly's modebar}
 
+\item{modeBar.file.format}{Character: modeBar image export file format}
+
 \item{theme}{Character: theme name or list of theme parameters}
 
 \item{palette}{Character: palette name, or list of colors}
 
 \item{filename}{Character: Path to filename to save plot}
+
+\item{file.width}{Numeric: image export width}
+
+\item{file.height}{Numeric: image export height}
+
+\item{file.scale}{Numeric: image export scale}
 
 \item{...}{Additional arguments to be passed to \link{dplot3_xy}}
 }

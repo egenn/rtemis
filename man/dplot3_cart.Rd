@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3_cart.R
 \name{dplot3_cart}
 \alias{dplot3_cart}
-\title{\code{dplot3}: \code{data.tree}  trees}
+\title{Plot \code{rpart} decision trees}
 \usage{
 dplot3_cart(
   object,
@@ -37,28 +37,43 @@ dplot3_cart(
 )
 }
 \arguments{
+\item{object}{Either \code{rpart} object or \code{rtMod} object trained with
+\link{s_CART}}
+
 \item{col.positive}{Color for outcome positive.}
 
 \item{col.negative}{Color for negative outcome.}
 
+\item{col.lo}{Low color for estimated outcome}
+
+\item{col.mid}{Middle color for estimated outcome}
+
+\item{col.hi}{High color for estimated outcome}
+
 \item{node.col}{Color for non-terminal leaves.}
 
-\item{node.cond}{Logical: If TRUE, print the splitting condition inside each node. Default = TRUE}
+\item{node.shape}{Shape of node. Default = "none"}
 
-\item{node.prob}{Logical: If TRUE, print the probability estimate for the first class of the outcome
-inside each node. Default = TRUE}
+\item{node.labels}{Logical: If TRUE, print the node labels.}
 
-\item{node.estimate}{Logical: If TRUE, print the estimated outcome level inside each node.
-Default = FALSE}
+\item{node.cond}{Logical: If TRUE, print the splitting condition inside each 
+node.}
 
-\item{node.n}{Logical: If TRUE, print the number of cases (from training data) that matched this condition}
+\item{node.prob}{Logical: If TRUE, print the probability estimate for the 
+first class of the outcome inside each node.}
+
+\item{node.estimate}{Logical: If TRUE, print the estimated outcome level 
+inside each node.}
+
+\item{node.n}{Logical: If TRUE, print the number of cases (from training
+data) that matched this condition}
 
 \item{edge.col}{Color for edges.}
 
 \item{bg.color}{Background color.}
 }
 \description{
-Plot \code{data.tree} trees using \code{data.tree::plot.Node}
+Plot \code{rpart} decision trees using \code{data.tree::plot.Node}
 }
 \details{
 If you want to show split conditions as edge labels (\code{edge.labels = TRUE}),

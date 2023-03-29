@@ -63,6 +63,17 @@ e.g. \code{decom = rtset.decompose("ica", 12)}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
+\item{n.repeats}{Integer: Number of times to repeat the outer resampling.
+This was added for completeness, but in practice we use either k-fold 
+crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of 
+stratified subsamples, e.g. 25, for smaller samples}
+
+\item{outer.resampling}{List: Output of \link{rtset.resample} to define outer
+resampling scheme}
+
+\item{inner.resampling}{List: Output of \link{rtset.resample} to define inner
+resampling scheme}
+
 \item{bag.fn}{Function to use to average prediction if 
 \code{bag.fitted = TRUE}. Default = \code{median}}
 

@@ -49,7 +49,7 @@ shyoptleaves <- function(x, y,
                          verbose = TRUE,
                          plot.tuning = TRUE,
                          trace = 0,
-                         n.cores = parallelly::availableCores()) {
+                         n.cores = future::availableCores()) {
 
   # [ Arguments ] ----
   type <- if (is.factor(y))  "Classification" else "Regression"

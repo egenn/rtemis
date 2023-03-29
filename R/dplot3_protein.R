@@ -10,6 +10,7 @@
 #' \code{palette} colors
 #' @param ptm List of post-translational modifications
 #' @param variant List of variant information
+#' @param disease.variants List of disease variant information
 #' @param n.per.row Integer: Number of amino acids to show per row
 #' @param main Character: Main title
 #' @param main.xy Numeric vector, length 2: x and y coordinates for title.
@@ -46,7 +47,7 @@ dplot3_protein <- function(x,
                             ptm = NULL,
                             variant = NULL,
                             disease.variants = NULL,
-                            label.group = NULL,
+                            # label.group = NULL,
                             n.per.row = NULL,
                             main = NULL,
                             main.xy = c(0.055, .975),

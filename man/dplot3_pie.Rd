@@ -49,6 +49,10 @@ colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
+\item{bg}{Background color}
+
+\item{plot.bg}{Plot background color}
+
 \item{theme}{Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
@@ -60,6 +64,8 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 \item{textinfo}{Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
+
+\item{labs.col}{Color of labels}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be 
 turned on if there is more than one feature present}

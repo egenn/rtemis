@@ -12,6 +12,7 @@
 #' http://xgboost.readthedocs.io/en/latest/parameter.html
 #'
 #' @inheritParams s_GLM
+#' @inheritParams s_XGBOOST
 #' @param booster Character: Booster to use. Options: "gbtree", "gblinear"
 #' @param num_parallel_tree Integer: Number of trees to grow
 #' @param base_score Numeric: The mean outcome response (Defaults to mean)

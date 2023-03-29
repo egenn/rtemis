@@ -32,6 +32,10 @@ dt_merge(
 
 \item{how}{Character: Type of join: "inner", "left", "right", "outer".}
 
+\item{left_name}{Character: Name of left table}
+
+\item{right_name}{Character: Name of right table}
+
 \item{left_suffix}{Character: If provided, add this suffix to all left column names,
 excluding on/left_on}
 

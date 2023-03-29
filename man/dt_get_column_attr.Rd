@@ -10,6 +10,8 @@ dt_get_column_attr(x, attr = "source", useNA = "always")
 \item{x}{data.table}
 
 \item{attr}{Character: Attribute to get}
+
+\item{useNA}{Character: Passed to \code{table}}
 }
 \description{
 Tabulate column attributes

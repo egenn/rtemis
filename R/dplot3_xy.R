@@ -26,6 +26,10 @@
 #' @param hovertext List of character vectors with hovertext to include for each group of markers
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space
+#' @param include.fit.name Logical: If TRUE, include fit name in legend.
+#' @param marker.size Numeric: Marker size.
+#' @param symbol Character: Marker symbol.
+#' @param scatter.type Character: "scatter", "scattergl", "scatter3d", "scatterternary", "scatterpolar", "scattermapbox",
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -54,8 +58,8 @@ dplot3_xy <- function(x, y = NULL,
             ylab = NULL,
             col = NULL,
             alpha = NULL,
-            bg = NULL,
-            plot.bg = NULL,
+            # bg = NULL,
+            # plot.bg = NULL,
             theme = rtTheme,
             palette = rtPalette,
             axes.square = FALSE,

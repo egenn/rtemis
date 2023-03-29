@@ -19,8 +19,6 @@ mplot3_box(
   staplewex = 0.5,
   horizontal = FALSE,
   main = NULL,
-  names.arg = NULL,
-  axisnames = FALSE,
   groupnames = NULL,
   xnames = NULL,
   xnames.at = NULL,
@@ -56,9 +54,13 @@ mplot3_box(
 
 \item{col}{Vector of colors to use}
 
-\item{alpha}{Float: Alpha to be applied to \code{col}}
+\item{alpha}{Numeric: \code{col} transparency}
 
 \item{border}{Color for lines around boxes}
+
+\item{border.alpha}{Numeric: \code{border} transparency}
+
+\item{group.spacing}{Numeric: Spacing between groups of boxes (when input is data.frame or list)}
 
 \item{xlim}{Float vector, length 2: x-axis limits}
 
@@ -68,13 +70,17 @@ mplot3_box(
 
 \item{ylab}{Character: y-axis label}
 
-\item{boxwex}{Float: Scale factor for box width. Default = .5}
+\item{boxwex}{Numeric: Scale factor for box width. Default = .5}
 
-\item{staplewex}{Float: max and min line ("staple") width proportional to box. Default = .5}
+\item{staplewex}{Numeric: max and min line ("staple") width proportional to box. Default = .5}
 
-\item{horizontal}{Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR}
+\item{horizontal}{Logical: If TRUE, draw horizontal boxplot(s).}
 
 \item{main}{Character: Plot title}
+
+\item{groupnames}{Character vector: Group names}
+
+\item{xnames}{Character vector: Names for individual boxes}
 
 \item{order.by.fn}{Character: "mean", "median" or any function that outputs a single number: E
 stimate function on each vector and order boxes (when input is data.frame or list) by ascending
@@ -84,23 +90,23 @@ order. Default = NULL, i.e. no reordering}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{autolabel}{Vector to be used to generate autolabels when using 
+\item{autolabel}{Vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{na.rm}{Logical: If TRUE, remove NA values, otherwise function will give error.
 Default = TRUE}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}

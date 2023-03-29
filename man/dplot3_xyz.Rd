@@ -70,23 +70,23 @@ dplot3_xyz(
 
 \item{z}{Numeric, vector/data.frame/list: z-axis data}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit. 
+\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
 Options: see \code{modSelect}
-Can also be Logical, which will give a GAM fit if TRUE. If you specify 
+Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
-\item{cluster}{Character: Clusterer name. Will cluster 
-\code{data.frame(x, y)} and pass result to \code{group}. 
+\item{cluster}{Character: Clusterer name. Will cluster
+\code{data.frame(x, y)} and pass result to \code{group}.
 Run \link{clustSelect} for options}
 
-\item{cluster.params}{List: Names list of parameters to pass to the 
+\item{cluster.params}{List: Names list of parameters to pass to the
 \code{cluster} function}
 
 \item{group}{Vector: will be converted to factor.
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}. 
-If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a 
+\item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}.
+If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a
 power curve. Note: \code{nls} is powerful but is prone to errors
 and warnings. Use single letters for parameter names, no numbers.}
 
@@ -127,6 +127,8 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{marker.col}{Color for marker}
 
+\item{marker.size}{Numeric: Marker size.}
+
 \item{fit.col}{Color: Color of the fit line.}
 
 \item{fit.alpha}{Float [0, 1]: Transparency for fit line}
@@ -152,7 +154,7 @@ theme}
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
 Default = \code{list(t = 30, b = 0, l = 0, r = 0}}
 
-\item{fit.params}{List: Arguments for learner defined by \code{fit}. 
+\item{fit.params}{List: Arguments for learner defined by \code{fit}.
 Default = NULL, i.e. use default learner parameters}
 
 \item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}

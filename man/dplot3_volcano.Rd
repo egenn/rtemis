@@ -91,6 +91,8 @@ Default = "holm". Use "none" for raw p-values.}
 
 \item{label.hi}{Character: label for high values}
 
+\item{main}{Character: Plot title. Default = NULL}
+
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
@@ -121,6 +123,28 @@ or "longdashdot"}
 as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{annotate.col}{Color for annotations}
+
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+themes}
+
+\item{font.size}{Float: Font size for all labels. Default = 16}
+
+\item{palette}{Character: Name of \pkg{rtemis} palette to use.
+Default = "rtCol1". Only used if \code{col = NULL}}
+
+\item{hovertext}{List of character vectors with hovertext to include for each group of markers}
+
+\item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
+
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+set.}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename} 
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{...}{Additional parameters passed to \link{dplot3_xy}}
 }

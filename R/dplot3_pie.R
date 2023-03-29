@@ -16,6 +16,9 @@
 #' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
 #' @param theme Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}
 #' @param sep.col Separator color
+#' @param bg Background color
+#' @param plot.bg Plot background color
+#' @param labs.col Color of labels
 #' 
 #' @author E.D. Gennatas
 #' @export

@@ -63,8 +63,10 @@ mplot3_graph <- function(net,
                          edge.alpha = .2,
                          edge.curved = .35,
                          edge.width = 2,
-                         layout = c("fr", "dh", "drl", "gem", "graphopt",
-                                    "kk", "lgl", "mds", "sugiyama"),
+                         layout = c(
+                             "fr", "dh", "drl", "gem", "graphopt",
+                             "kk", "lgl", "mds", "sugiyama"
+                         ),
                          coords = NULL,
                          layout_params = list(),
                          cluster = NULL,
@@ -82,104 +84,114 @@ mplot3_graph <- function(net,
                          mar = rep(0, 4),
                          par.reset = TRUE,
                          filename = NULL,
+                         pdf.width = 6,
+                         pdf.height = 6,
                          verbose = TRUE, ...) {
+    # Dependencies ----
+    dependency_check("igraph")
 
-  # Dependencies ----
-  dependency_check("igraph")
-
-  # Theme ----
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), theme_extra_args)
-  }
-
-  # Palette ----
-  if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
-
-  # Vertex names ----
-  # by default use names in input net.
-  if (!is.null(vertex.label)) {
-    igraph::igraph.options(net, vertex.label = vertex.label)
-  }
-
-  # Plot ----
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
-                                         title = "rtemis Graphics")
-  par(bg = theme$bg, mar = mar)
-
-  # Layout ----
-  layout <- match.arg(layout)
-  if (is.null(coords) & !is.null(layout)) {
-    coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
-                      c(list(net), layout_params))
-    if (layout == "sugiyama") coords <- coords$layout
-  }
-
-  # Cluster ----
-  if (is.null(groups) & !is.null(cluster)) {
-    groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
-                      c(list(net), cluster_params))
-  }
-
-  mark.groups <- if (!is.null(groups) & cluster_mark_groups) {
-    groups
-  } else {
-    list()
-  }
-
-
-  if (!is.null(groups) & cluster_mark_groups) {
-    if (is.null(mark.col)) {
-      mark.col <- adjustcolor(palette, mark.alpha)
+    # Theme ----
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), theme_extra_args)
     }
-    if (is.null(mark.border)) {
-      mark.border <- adjustcolor(palette, mark.border.alpha)
-    }
-  }
 
-  if (is.null(vertex.col)) {
-    vertex.col <- if (!is.null(groups) && cluster_color_vertices) {
-      adjustcolor(
-        recycle(palette, length(unique(groups$membership)))[groups$membership],
-        vertex.alpha)
+    # Palette ----
+    if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
+
+    # Vertex names ----
+    # by default use names in input net.
+    if (!is.null(vertex.label)) {
+        igraph::igraph.options(net, vertex.label = vertex.label)
+    }
+
+    # Plot ----
+    if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+    par.orig <- par(no.readonly = TRUE)
+    if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+    if (!is.null(filename)) {
+        grDevices::pdf(filename,
+            width = pdf.width, height = pdf.height,
+            title = "rtemis Graphics"
+        )
+    }
+    par(bg = theme$bg, mar = mar)
+
+    # Layout ----
+    layout <- match.arg(layout)
+    if (is.null(coords) & !is.null(layout)) {
+        coords <- do.call(
+            getFromNamespace(paste0("layout_with_", layout), "igraph"),
+            c(list(net), layout_params)
+        )
+        if (layout == "sugiyama") coords <- coords$layout
+    }
+
+    # Cluster ----
+    if (is.null(groups) & !is.null(cluster)) {
+        groups <- do.call(
+            getFromNamespace(paste0("cluster_", cluster), "igraph"),
+            c(list(net), cluster_params)
+        )
+    }
+
+    mark.groups <- if (!is.null(groups) & cluster_mark_groups) {
+        groups
     } else {
-      adjustcolor(theme$fg, alpha.f = vertex.alpha)
+        list()
     }
-  }
 
-  if (is.null(vertex.label.col)) {
-    vertex.label.col <- theme$fg
-  }
-  vertex.label.col <- adjustcolor(vertex.label.col, vertex.label.alpha)
 
-  if (is.null(edge.col)) {
-    if (is.null(groups)) {
-      edge.col <- adjustcolor("#18A3AC", edge.alpha)
+    if (!is.null(groups) & cluster_mark_groups) {
+        if (is.null(mark.col)) {
+            mark.col <- adjustcolor(palette, mark.alpha)
+        }
+        if (is.null(mark.border)) {
+            mark.border <- adjustcolor(palette, mark.border.alpha)
+        }
+    }
+
+    if (is.null(vertex.col)) {
+        vertex.col <- if (!is.null(groups) && cluster_color_vertices) {
+            adjustcolor(
+                recycle(palette, length(unique(groups$membership)))[groups$membership],
+                vertex.alpha
+            )
+        } else {
+            adjustcolor(theme$fg, alpha.f = vertex.alpha)
+        }
+    }
+
+    if (is.null(vertex.label.col)) {
+        vertex.label.col <- theme$fg
+    }
+    vertex.label.col <- adjustcolor(vertex.label.col, vertex.label.alpha)
+
+    if (is.null(edge.col)) {
+        if (is.null(groups)) {
+            edge.col <- adjustcolor("#18A3AC", edge.alpha)
+        } else {
+            edge.col <- adjustcolor(theme$fg, edge.alpha)
+        }
     } else {
-      edge.col <- adjustcolor(theme$fg, edge.alpha)
+        edge.col <- adjustcolor(edge.col, edge.alpha)
     }
-  } else {
-    edge.col <- adjustcolor(edge.col, edge.alpha)
-  }
 
-  igraph::plot.igraph(net,
-       layout = coords,
-       vertex.shape = vertex.shape,
-       vertex.size = vertex.size,
-       vertex.color = vertex.col,
-       vertex.label.color = vertex.label.col,
-       vertex.frame.color = vertex.frame.col,
-       edge.color = edge.col,
-       edge.width = edge.width,
-       edge.curved = edge.curved,
-       mark.groups = mark.groups,
-       mark.col = mark.col,
-       mark.border = mark.border,
-       vertex.label.family = theme$font.family,
-       verbose = verbose, ...)
+    igraph::plot.igraph(net,
+        layout = coords,
+        vertex.shape = vertex.shape,
+        vertex.size = vertex.size,
+        vertex.color = vertex.col,
+        vertex.label.color = vertex.label.col,
+        vertex.frame.color = vertex.frame.col,
+        edge.color = edge.col,
+        edge.width = edge.width,
+        edge.curved = edge.curved,
+        mark.groups = mark.groups,
+        mark.col = mark.col,
+        mark.border = mark.border,
+        vertex.label.family = theme$font.family,
+        verbose = verbose, ...
+    )
 
-  if (!is.null(filename)) grDevices::dev.off()
-
+    if (!is.null(filename)) grDevices::dev.off()
 } # rtemis::mplot3_graph

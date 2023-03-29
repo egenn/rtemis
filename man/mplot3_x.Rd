@@ -161,7 +161,7 @@ Default = TRUE}
 
 \item{group.title}{Character: Title above group names}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these 
+\item{group.names}{(Optional) If multiple groups are plotted, use these
 names if \code{group.title = TRUE}}
 
 \item{group.side}{Integer: Side to show group legend}
@@ -206,22 +206,22 @@ for \code{type = "density"}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; 
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
 
-\item{autolabel}{Vector to be used to generate autolabels when using 
+\item{autolabel}{Vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
@@ -233,7 +233,7 @@ input containing NA values will result in error, depending on the \code{type}}
 
 \item{filename}{Path to file: If supplied, plot will be printed to file}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}

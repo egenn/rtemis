@@ -83,25 +83,25 @@ otherwise bars across groups will be given the same sequence of colors. Default 
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these 
+\item{group.names}{(Optional) If multiple groups are plotted, use these
 names if \code{group.title = TRUE}}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
-\item{autolabel}{Vector to be used to generate autolabels when using 
+\item{autolabel}{Vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}

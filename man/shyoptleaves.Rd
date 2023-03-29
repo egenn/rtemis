@@ -32,7 +32,7 @@ shyoptleaves(
   verbose = TRUE,
   plot.tuning = TRUE,
   trace = 0,
-  n.cores = parallelly::availableCores()
+  n.cores = future::availableCores()
 )
 }
 \arguments{

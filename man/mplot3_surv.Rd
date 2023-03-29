@@ -52,16 +52,16 @@ when survival estimates are not provided in original time scale. Default = FALSE
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
-\item{group.title}{Character: Group title, shown above group names. e.g. 
-if group names are c("San Francisco", "Philadelphia"), \code{group.title} 
+\item{group.title}{Character: Group title, shown above group names. e.g.
+if group names are c("San Francisco", "Philadelphia"), \code{group.title}
 can be "City"}
 
-\item{group.names}{(Optional) If multiple groups are plotted, use these 
+\item{group.names}{(Optional) If multiple groups are plotted, use these
 names if \code{group.title = TRUE}}
 
 \item{group.side}{Integer: Side to show group legend}

@@ -32,11 +32,28 @@
 #' Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")}
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
-#' @param margins Float, length 4: Heatmap margins. Default = c(30, 30, 30, 30)
-#' @param key.title Character: Title for the color key. Default = NULL (no title)
+#' @param margins Float, length 4: Heatmap margins.
+#' @param key.title Character: Title for the color key.
+#' @param showticklabels Logical: If TRUE, show tick labels.
+#' @param colorbar_len Numeric: Length of the colorbar.
+#' @param row_side_colors Data frame: Column names will be label names, cells 
+#' should be label colors. See \code{heatmaply::heatmaply("row_side_colors")}
+#' @param col_side_colors Data frame: Column names will be label names, cells
+#' @param row_side_palette Color palette function: 
+#' See \code{heatmaply::heatmaply("row_side_palette")}
+#' @param col_side_palette Color palette function: 
+#' See \code{heatmaply::heatmaply("col_side_palette")}
+#' @param font.size Numeric: Font size 
+#' @param padding Numeric: Padding between cells
+#' @param displayModeBar Logical: If TRUE, display the plotly mode bar
+#' @param modeBar.file.format Character: File format for image exports from the mode bar
+#' @param file.width Numeric: Width of exported image
+#' @param file.height Numeric: Height of exported image
+#' @param file.scale Numeric: Scale of exported image
 #' @param plot_method Character: Update February 2021: "ggplot" causes R session to hand
 #' on MacOS but plotly" seems to work
 #' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{

@@ -21,7 +21,6 @@ mplot3_adsr(
   Decay.col = "#F4A362",
   Sustain.col = "#3574A7",
   Release.col = "#C23A70",
-  Decay.nl = FALSE,
   draw.poly = FALSE,
   poly.alpha = 0.15,
   draw.verticals = TRUE,
@@ -37,9 +36,6 @@ mplot3_adsr(
   theme = "darkgray",
   labs.col = "gray70",
   tick.col = "gray70",
-  on.lty = 2,
-  on.lwd = 7,
-  on.alpha = 0.4,
   on.col = "gray70",
   off.col = "gray70",
   pty = "m",
@@ -51,21 +47,71 @@ mplot3_adsr(
 )
 }
 \arguments{
-\item{Attack}{Float: Attack time (in milliseconds)}
+\item{Attack}{Numeric: Attack time (in milliseconds)}
 
-\item{Decay}{Float: Decay time (in milliseconds)}
+\item{Decay}{Numeric: Decay time (in milliseconds)}
 
-\item{Sustain}{Float: Sustain Level (percent)}
+\item{Sustain}{Numeric: Sustain Level (percent)}
 
-\item{Release}{Float: Release time (in milliseconds)}
+\item{Release}{Numeric: Release time (in milliseconds)}
 
-\item{Value}{Float: Value (percent)}
+\item{Value}{Numeric: Value (percent)}
 
-\item{I}{Float: Note on time (in milliseconds)}
+\item{I}{Numeric: Note on time (in milliseconds)}
 
-\item{O}{Float: Note off time (in milliseconds)}
+\item{O}{Numeric: Note off time (in milliseconds)}
+
+\item{lty}{Integer: Line type}
+
+\item{lwd}{Numeric: Line width}
+
+\item{main}{Character: Main title}
+
+\item{main.line}{Numeric: Main title line height}
+
+\item{main.col}{Main title color}
+
+\item{Attack.col}{Attack color}
+
+\item{Decay.col}{Decay color}
+
+\item{Sustain.col}{Sustain color}
+
+\item{Release.col}{Release color}
+
+\item{draw.poly}{Logical: If TRUE, draw polygons for each segment}
+
+\item{poly.alpha}{Numeric: Polygon alpha}
+
+\item{draw.verticals}{Logical: If TRUE, draw vertical lines}
+
+\item{v.lty}{Integer: Vertical line type}
+
+\item{v.lwd}{Numeric: Vertical line width}
+
+\item{arrow.code}{Integer: Arrow code}
+
+\item{arrow.length}{Numeric: Arrow length}
+
+\item{grid}{Logical: If TRUE, draw grid}
+
+\item{grid.lty}{Integer: Grid line type}
+
+\item{grid.lwd}{Numeric: Grid line width}
+
+\item{grid.col}{Grid line color}
+
+\item{zerolines.col}{Color for zero lines}
 
 \item{theme}{Character: "light" or "dark" (Default)}
+
+\item{labs.col}{Color for axis labels}
+
+\item{tick.col}{Color for axis ticks}
+
+\item{on.col}{Color for "on" line}
+
+\item{off.col}{Color for "off" line}
 
 \item{...}{Additional arguments to pass to \link{mplot3_xy}}
 }

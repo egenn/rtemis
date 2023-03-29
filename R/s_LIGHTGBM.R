@@ -2,8 +2,11 @@
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
 # https://lightgbm.readthedocs.io/en/latest/R/index.html
+# LightGBM parameters:
 # https://lightgbm.readthedocs.io/en/latest/Parameters.html
 # https://lightgbm.readthedocs.io/en/latest/R/articles/basic_walkthrough.html
+# For custom loss functions, e.g. focal loss:
+# https://maxhalford.github.io/blog/lightgbm-focal-loss/
 
 #' LightGBM Classification and Regression [C, R]
 #'
@@ -16,13 +19,15 @@
 #' For categorical variables, convert to integer and indicate to lgb they are categorical,
 #' so that they are not treated as numeric.
 #'
-#' @inheritParams s_GLM
-#' @param booster Character: "gbtree", "gblinear": Booster to use.
+#' @inheritParams s_CART
+#' @param boosting Character: [gS] "gbdt", "rf", "dart", "goss"
 #' @param max_nrounds Integer: Maximum number of rounds to run. Can be set to a high number
 #' as early stopping will limit nrounds by monitoring inner CV error
 #' @param force_nrounds Integer: Number of rounds to run if not estimating optimal number by CV
 #' @param early_stopping_rounds Integer: Training on resamples of \code{x} (tuning) will
 #' stop if performance does not improve for this many rounds
+#' @param nrounds_default Integer: Default number of rounds to run if 
+#' cross-validation fails - likely will never be used
 #' @param num_leaves Integer: [gS] Maximum tree leaves for base learners.
 #' @param max_depth Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.
 #' @param learning_rate Numeric: [gS] Boosting learning rate
@@ -32,7 +37,7 @@
 #' @param linear_tree Logical: [gS] If \code{TRUE}, use linear trees
 #' @param tree_learner Character: [gS] "serial", "feature", "data", "voting"
 #' @param objective (Default = NULL)
-#' @param nthread Integer: Number of threads for lightgbm using OpenMP. Only parallelize
+#' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only parallelize
 #' resamples using \code{n.cores} or the lightgbm execution using this setting.
 #'
 #' @return \link{rtMod} object
@@ -41,6 +46,13 @@
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(500, 10)
+#' y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
+#' dat <- data.frame(x, y)
+#' mod <- s_LIGHTGBM(dat)
+#' }
 
 s_LIGHTGBM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
@@ -66,15 +78,6 @@ s_LIGHTGBM <- function(x, y = NULL,
                        lambda_l2 = 0,
                        linear_tree = FALSE,
                        tree_learner = "serial",
-                       resampler = "strat.sub",
-                       n.resamples = 10,
-                       train.p = 0.75,
-                       strat.n.bins = 4,
-                       stratify.var = NULL,
-                       target.length = NULL,
-                       seed = NULL,
-                       plot.res = TRUE,
-                       save.res = FALSE,
                        .gs = FALSE,
                        grid.resample.rtset = rtset.resample("kfold", 5),
                        grid.search.type = "exhaustive",
@@ -119,7 +122,6 @@ s_LIGHTGBM <- function(x, y = NULL,
 
     # Arguments ----
     nrounds <- max_nrounds
-    #   if (save.res.mod) save.res <- TRUE
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
     if (!verbose) print.plot <- FALSE
@@ -174,7 +176,7 @@ s_LIGHTGBM <- function(x, y = NULL,
             objective <- "regression"
         } else {
             # objective <- ifelse(nclass == 2, "binary:logistic", "multi:softmax")
-            objective <- "xentropy"
+            objective <- "softmax"
         }
     }
     dat.train <- lightgbm::lgb.Dataset(
@@ -413,6 +415,14 @@ s_LIGHTGBM <- function(x, y = NULL,
 #' 
 #' @author ED Gennatas
 #' @export
+#' @examples
+#' \dontrun{
+#' x <- rnormmat(500, 10)
+#' y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
+#' dat <- data.frame(x, y)
+#' mod <- s_LIGHTRF(dat)
+#' }
+
 s_LIGHTRF <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
@@ -437,15 +447,6 @@ s_LIGHTRF <- function(x, y = NULL,
                        lambda_l2 = 0,
                        linear_tree = FALSE,
                        tree_learner = "data_parallel",
-                       resampler = "strat.sub",
-                       n.resamples = 10,
-                       train.p = 0.75,
-                       strat.n.bins = 4,
-                       stratify.var = NULL,
-                       target.length = NULL,
-                       seed = NULL,
-                       plot.res = TRUE,
-                       save.res = FALSE,
                        .gs = FALSE,
                        grid.resample.rtset = rtset.resample("kfold", 5),
                        grid.search.type = "exhaustive",
@@ -496,15 +497,6 @@ s_LIGHTRF <- function(x, y = NULL,
                lambda_l2 = lambda_l2,
                linear_tree = linear_tree,
                tree_learner = tree_learner,
-               resampler = resampler,
-               n.resamples = n.resamples,
-               train.p = train.p,
-               strat.n.bins = strat.n.bins,
-               stratify.var = stratify.var,
-               target.length = target.length,
-               seed = seed,
-               plot.res = plot.res,
-               save.res = save.res,
                .gs = .gs,
                grid.resample.rtset = grid.resample.rtset,
                grid.search.type = grid.search.type,

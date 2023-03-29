@@ -70,21 +70,21 @@ Accuracy.}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
 \item{filename}{Path to file: If supplied, plot will be printed to file}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}

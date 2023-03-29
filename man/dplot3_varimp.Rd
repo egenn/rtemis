@@ -64,12 +64,6 @@ name. Use \code{themes()} to print available themes.}
 \item{showlegend}{Logical: If TRUE, show legend}
 
 \item{...}{Additional arguments passed to theme}
-
-\item{pad}{Integer: Pad plot by this many pixels.}
-
-\item{font.family}{Character: Font to use.}
-
-\item{font.color}{Color for all text}
 }
 \description{
 Plot variable importance using \code{plotly}

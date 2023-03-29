@@ -458,12 +458,18 @@ popvar <- function(x) {
 
 #' Filter order
 #'
+#' @param x Input vector
+#' @param idl Logical vector: Index of elements to filter
+#' @param decreasing Logical: If TRUE, sort in descending order
+#' 
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @examples
+#' \dontrun{
 #' x <- rnorm(10)
 #' x
 #' x[filter_order(x, x < 0)]
+#' }
 filter_order <- function(x, idl, decreasing = FALSE) {
     idi <- which(idl)
     flt_ord <- order(x[idi], decreasing = decreasing)

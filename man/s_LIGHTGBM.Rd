@@ -32,15 +32,6 @@ s_LIGHTGBM(
   lambda_l2 = 0,
   linear_tree = FALSE,
   tree_learner = "serial",
-  resampler = "strat.sub",
-  n.resamples = 10,
-  train.p = 0.75,
-  strat.n.bins = 4,
-  stratify.var = NULL,
-  target.length = NULL,
-  seed = NULL,
-  plot.res = TRUE,
-  save.res = FALSE,
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   grid.search.type = "exhaustive",
@@ -104,6 +95,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{boosting}{Character: [gS] "gbdt", "rf", "dart", "goss"}
+
 \item{objective}{(Default = NULL)}
 
 \item{max_nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
@@ -113,6 +106,9 @@ as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
+
+\item{nrounds_default}{Integer: Default number of rounds to run if 
+cross-validation fails - likely will never be used}
 
 \item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
 
@@ -130,6 +126,20 @@ stop if performance does not improve for this many rounds}
 
 \item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\link{gridSearchLearn} parameters.}
+
+\item{grid.search.type}{Character: Type of grid search to perform: 
+"exhaustive" or "randomized".}
+
+\item{metric}{Character: Metric to minimize, or maximize if 
+\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+search is run.}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
 
@@ -142,11 +152,14 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+
+\item{n.cores}{Integer: Number of cores to use.}
+
+\item{n_threads}{Integer: Number of threads for lightgbm using OpenMP. Only parallelize
+resamples using \code{n.cores} or the lightgbm execution using this setting.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
@@ -155,13 +168,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
-
-\item{...}{Additional arguments}
-
-\item{booster}{Character: "gbtree", "gblinear": Booster to use.}
-
-\item{nthread}{Integer: Number of threads for lightgbm using OpenMP. Only parallelize
-resamples using \code{n.cores} or the lightgbm execution using this setting.}
 }
 \value{
 \link{rtMod} object
@@ -176,6 +182,11 @@ values are passed.
 LightGBM trains trees leaf-wise (best-first) rather than depth-wise.
 For categorical variables, convert to integer and indicate to lgb they are categorical,
 so that they are not treated as numeric.
+}
+\examples{
+\dontrun{
+mod <- s_LIGHTGBM(dat)
+}
 }
 \seealso{
 \link{elevate} for external cross-validation

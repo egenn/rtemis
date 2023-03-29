@@ -10,20 +10,27 @@
 #' Note that argument `xnames` refers to the x-axis labels below each box. If not specified, these
 #' are inferred from the input when possible. Argument `xlab` is a single label for the x-axis as
 #' per usual and often omitted if `xnames` suffice.
+#' 
 #' @inheritParams mplot3_xy
 #' @param x Vector, data.frame or list: Each data.frame column or list element will be drawn as a box
 #' @param col Vector of colors to use
-#' @param alpha Float: Alpha to be applied to \code{col}
+#' @param alpha Numeric: \code{col} transparency
 #' @param border Color for lines around boxes
-#' @param boxwex Float: Scale factor for box width. Default = .5
-#' @param staplewex Float: max and min line ("staple") width proportional to box. Default = .5
-#' @param horizontal Logical: If TRUE, draw horizontal boxplot(s). Default = FALSR
+#' @param border.alpha Numeric: \code{border} transparency
+#' @param group.spacing Numeric: Spacing between groups of boxes (when input is data.frame or list)
+#' @param boxwex Numeric: Scale factor for box width. Default = .5
+#' @param staplewex Numeric: max and min line ("staple") width proportional to box. Default = .5
+#' @param horizontal Logical: If TRUE, draw horizontal boxplot(s).
+#' @param groupnames Character vector: Group names
+#' @param xnames Character vector: Names for individual boxes
+#' @param xnames.at
 #' @param na.rm Logical: If TRUE, remove NA values, otherwise function will give error.
 #' Default = TRUE
 #' @param order.by.fn Character: "mean", "median" or any function that outputs a single number: E
 #' stimate function on each vector and order boxes (when input is data.frame or list) by ascending
 #' order. Default = NULL, i.e. no reordering
 #' @param ... Additional arguments to \code{graphics::boxplot}
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
@@ -62,8 +69,6 @@ mplot3_box <- function(x,
                        staplewex = .5,
                        horizontal = FALSE,
                        main = NULL,
-                       names.arg = NULL,
-                       axisnames = FALSE,
                        groupnames = NULL,
                        xnames = NULL,
                        xnames.at = NULL,
@@ -117,17 +122,17 @@ mplot3_box <- function(x,
     # if (is.null(dim(x))) xnames <- deparse(substitute(x))
   }
   if (labelify) xnames <- labelify(xnames)
-  if (is.null(ylab) & !horizontal & !.grouped) ylab <- deparse(substitute(x))
-  if (is.null(xlab) & horizontal) xlab <- deparse(substitute(x))
+  if (is.null(ylab) && !horizontal && !.grouped) ylab <- deparse(substitute(x))
+  if (is.null(xlab) && horizontal) xlab <- deparse(substitute(x))
   if (!is.list(x)) x <- list(x)
   # xnames on x-axis only for not grouped, otherwise as legend
-  if (!is.null(xnames) & !.grouped) {
+  if (!is.null(xnames) && !.grouped) {
     if (is.null(xnames.at)) {
       xnames.at <- seq_along(xnames)
     }
   }
 
-  if (!is.null(xnames) & !.grouped) {
+  if (!is.null(xnames) && !.grouped) {
     if (is.null(xnames.srt)) {
       if (horizontal) {
         xnames.srt <- 0
@@ -246,7 +251,7 @@ mplot3_box <- function(x,
   }
 
   # Order by fn ----
-  if (!.grouped & !is.null(order.by.fn) && order.by.fn != "none") {
+  if (!.grouped && !is.null(order.by.fn) && order.by.fn != "none") {
     if (is.list(x)) {
       .order <- order(sapply(x, order.by.fn, na.rm = TRUE))
       if (is.data.frame(x)) {
@@ -258,7 +263,7 @@ mplot3_box <- function(x,
     if (!is.null(xnames)) xnames <- xnames[.order]
   }
 
-  if (.grouped & !is.null(order.by.fn) && order.by.fn != "none") {
+  if (.grouped && !is.null(order.by.fn) && order.by.fn != "none") {
     groupmeans <- sapply(x, function(y) do.call(order.by.fn, list(x = unlist(y), na.rm = TRUE)))
     .order <- order(groupmeans)
     x <- x[.order]
@@ -322,7 +327,7 @@ mplot3_box <- function(x,
   }
 
   # xnames ----
-  if (length(xnames) > 0 & !.grouped) {
+  if (length(xnames) > 0 && !.grouped) {
     if (horizontal) {
       # .x <- xlim[1] - .04 * diff(xlim)
       text(x = xleft(.04),

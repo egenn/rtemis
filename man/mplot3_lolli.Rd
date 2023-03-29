@@ -70,27 +70,27 @@ points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{palette}{Vector of colors, or Character defining a builtin palette - 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
-\item{autolabel}{Vector to be used to generate autolabels when using 
+\item{autolabel}{Vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{pch}{Integer: Point character.}
 
-\item{x.axis.at}{Float, vector: x coordinates to place tick marks. 
+\item{x.axis.at}{Float, vector: x coordinates to place tick marks.
 Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{y.axis.at}{As \code{x.axis.at} for y-axis}
@@ -99,7 +99,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{ylab}{Character: y-axis label}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; 
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}

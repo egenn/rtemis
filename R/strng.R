@@ -4,6 +4,8 @@
 
 #' String formatting utilities
 #' 
+#' @param ... Character objects to format
+#' 
 #' @rdname strng
 bold <- function(...) {
     paste0("\033[1m", paste(...), "\033[22m")
@@ -30,6 +32,7 @@ hilitebig <- function(x) {
 }
 
 #' @rdname strng
+#' @param bold Logical: If TRUE, use bold font
 red <- function(..., bold = FALSE) {
     paste0("\033[", ifelse(bold, "1;", ""), "91m", paste(...), "\033[0m")
 }
@@ -55,6 +58,7 @@ magenta <- function(..., bold = FALSE) {
 }
 
 #' @rdname strng
+#' @param sep Character: Separator
 gray <- function(..., bold = FALSE, sep = " ") {
     paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(..., sep = sep), "\033[0m")
 }

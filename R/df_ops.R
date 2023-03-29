@@ -119,7 +119,10 @@ getnamesandtypes <- function(x) {
   #' Get number of unique values per features
   #'
   #' @param x matrix or data frame input
-  #' @return Vector, integer of length \code{NCOL(x)} with number of unique values per column/feature
+  #' @param excludeNA Logical: If TRUE, exclude NA values from unique count.
+  #' 
+  #' @return Vector, integer of length \code{NCOL(x)} with number of unique 
+  #' values per column/feature
   #' @export
   #' @author E.D. Gennatas
   #' @examples

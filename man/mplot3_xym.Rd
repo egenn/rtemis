@@ -69,12 +69,12 @@ mplot3_xym(
 
 \item{axes.density}{Logical: If TRUE, plot margin plot axes for density (debugging only)}
 
-\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end; 
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
@@ -85,7 +85,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
-\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename} 
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}

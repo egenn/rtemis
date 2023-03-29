@@ -109,6 +109,8 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
+\item{trace}{Integer: passed to \code{sparseLDA::sda}}
+
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}

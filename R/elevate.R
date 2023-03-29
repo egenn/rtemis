@@ -30,6 +30,14 @@
 #' @param .decompose Optional named list of parameters to be used for 
 #' decomposition / dimensionality reduction. Set using \link{rtset.decompose}, 
 #' e.g. \code{decom = rtset.decompose("ica", 12)}
+#' @param n.repeats Integer: Number of times to repeat the outer resampling.
+#' This was added for completeness, but in practice we use either k-fold 
+#' crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of 
+#' stratified subsamples, e.g. 25, for smaller samples
+#' @param outer.resampling List: Output of \link{rtset.resample} to define outer
+#' resampling scheme
+#' @param inner.resampling List: Output of \link{rtset.resample} to define inner
+#' resampling scheme
 #' @param x.name Character: Name of predictor dataset
 #' @param y.name Character: Name of outcome
 # #' @param save.data Logical: Save train, test, fitted, and predicted data for 

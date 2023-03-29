@@ -28,10 +28,9 @@ present in the long format input \code{x}}
 \item{negative}{Numeric or Character: Used to fill id ~ key combination
 NOT present in the long format input \code{x}}
 
-\item{verbose}{Logical: If TRUE, print messages to the console}
+\item{xname}{Character: Name of \code{x} to be used in messages}
 
-\item{value_name}{Character: Name of column in \code{x} thatholds the values
-that correspond to the key}
+\item{verbose}{Logical: If TRUE, print messages to the console}
 }
 \description{
 Reshape a long format \code{data.table} using key-value pairs with

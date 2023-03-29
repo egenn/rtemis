@@ -25,7 +25,8 @@
 #'
 #' @param x Vector or List of vectors: Input
 #' @param time Date or date-time vector
-#' @param time.bin Character: "year", "quarter", "month", or "day". Period to bin by
+#' @param time.bin Character: "year", "quarter", "month", or "day". Period to 
+#' bin by
 #' @param type Character: "box" or "violin"
 #' @param group Factor to group by
 #' @param x.transform Character: "none", "scale", or "minmax" to use raw values,
@@ -91,12 +92,15 @@
 #' If p-value of test is less than \code{htest.thresh}, add asterisk above/
 #' to the side of each box
 #' @param htest.compare Integer: 0: Compare all distributions against the first one;
-#' 2: Compare every second box to the one before it. Requires \code{group} to be set
-#' @param htest.thresh Numeric: Significance threshold for \code{htest}
+#' 2: Compare every second box to the one before it. Requires \code{group} to 
+#' be set
 #' @param htest.y Numeric: y coordinate for \code{htest} annotation
 #' @param htest.annotate Logical: if TRUE, include htest annotation
 #' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation
 #' @param htest.annotate.y Numeric: y-axis paper coordinate for htest annotation
+#' @param htest.star.col Color for htest annotation stars
+#' @param htest.bracket.col Color for htest annotation brackets
+#' @param starbracket.pad Numeric: Padding for htest annotation brackets
 #' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar

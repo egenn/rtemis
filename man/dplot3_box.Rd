@@ -75,7 +75,8 @@ dplot3_box(
 
 \item{time}{Date or date-time vector}
 
-\item{time.bin}{Character: "year", "quarter", "month", or "day". Period to bin by}
+\item{time.bin}{Character: "year", "quarter", "month", or "day". Period to 
+bin by}
 
 \item{type}{Character: "box" or "violin"}
 
@@ -186,7 +187,8 @@ If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
 \item{htest.compare}{Integer: 0: Compare all distributions against the first one;
-2: Compare every second box to the one before it. Requires \code{group} to be set}
+2: Compare every second box to the one before it. Requires \code{group} to 
+be set}
 
 \item{htest.y}{Numeric: y coordinate for \code{htest} annotation}
 
@@ -195,6 +197,12 @@ to the side of each box}
 \item{htest.annotate.x}{Numeric: x-axis paper coordinate for htest annotation}
 
 \item{htest.annotate.y}{Numeric: y-axis paper coordinate for htest annotation}
+
+\item{htest.star.col}{Color for htest annotation stars}
+
+\item{htest.bracket.col}{Color for htest annotation brackets}
+
+\item{starbracket.pad}{Numeric: Padding for htest annotation brackets}
 
 \item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group
 boxes.}
@@ -214,8 +222,6 @@ is set.}
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{...}{Additional arguments passed to theme}
-
-\item{htest.thresh}{Numeric: Significance threshold for \code{htest}}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}

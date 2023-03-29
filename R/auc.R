@@ -26,6 +26,7 @@
 #' \code{ROCR::performance}, respectively. They should all give the same result,
 #' they are included for testing.
 #' @param verbose Logical: If TRUE, print messages to output
+#' @param trace Integer: If > 0, print more messages to output
 #'
 #' @examples
 #' \dontrun{

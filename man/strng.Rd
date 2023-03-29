@@ -39,6 +39,13 @@ gray(..., bold = FALSE, sep = " ")
 
 reset(...)
 }
+\arguments{
+\item{...}{Character objects to format}
+
+\item{bold}{Logical: If TRUE, use bold font}
+
+\item{sep}{Character: Separator}
+}
 \description{
 String formatting utilities
 }

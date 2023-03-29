@@ -78,7 +78,10 @@ rtemis.version <- packageVersion("rtemis")
             "\n  │  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/software/#rtemis_themes",
             "\n  └    ", italic(gray("Cite:")), ' `citation("rtemis")`',
             bold("\n  Setup"),
-            "\n  └ ", italic(gray("Enable progress reporting:")), " `progressr::handlers(global = TRUE)`"
+            # "\n  └ ", italic(gray("Enable progress reporting:")), " `progressr::handlers(global = TRUE)`",
+            # "\n                               `options(progressr.handlers = progressr::handler_cli)`"
+            "\n  └ ", italic(gray("Enable progress reporting:")), 
+            " `progressr::handlers(global = TRUE); options(progressr.handlers = progressr::handler_cli)`"
         ))
     } else {
         packageStartupMessage(

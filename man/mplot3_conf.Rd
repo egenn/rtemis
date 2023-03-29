@@ -58,29 +58,31 @@ mplot3_conf(
 \item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL, will look for
 \code{object$mod.name}.}
 
-\item{oma}{Float, vector, length 4: Outer margins.}
+\item{oma}{Numeric, vector, length 4: Outer margins.}
 
-\item{dim.main}{Float: Height for title.}
+\item{dim.main}{Numeric: Height for title.}
 
-\item{dim.lab}{Float: Height for labels.}
+\item{dim.lab}{Numeric: Height for labels.}
 
-\item{dim.in}{Float: Height/Width for confusion matrix cells. Default = 4}
+\item{dim.in}{Numeric: Height/Width for confusion matrix cells. Default = 4}
 
-\item{dim.out}{Float: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes}
+\item{dim.out}{Numeric: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes}
 
 \item{font.in}{Integer: The \code{font} parameter for confusion matrix cells. Default = 2}
 
 \item{font.out}{Integer: The \code{font} parameter for metrics cells.}
 
-\item{cex.in}{Float: The \code{cex} parameter for confusion matrix cells.}
+\item{cex.main}{Numeric: The \code{cex} parameter for the main title.}
 
-\item{cex.lab}{Float: The \code{cex} parameter for first line of label cells.}
+\item{cex.in}{Numeric: The \code{cex} parameter for confusion matrix cells.}
 
-\item{cex.lab2}{Float: The \code{cex} parameter for second line of label cells.}
+\item{cex.lab}{Numeric: The \code{cex} parameter for first line of label cells.}
 
-\item{cex.lab3}{Float: The \code{cex} parameter for classification metrics.}
+\item{cex.lab2}{Numeric: The \code{cex} parameter for second line of label cells.}
 
-\item{cex.out}{Float: The \code{cex} parameter for metrics cells.}
+\item{cex.lab3}{Numeric: The \code{cex} parameter for classification metrics.}
+
+\item{cex.out}{Numeric: The \code{cex} parameter for metrics cells.}
 
 \item{col.main}{Color for title. Default = "auto", determined by \code{theme}}
 
@@ -118,11 +120,13 @@ Default = "auto", determined by \code{theme}}
 
 \item{par.reset}{Logical: If TRUE, reset par before exit.}
 
-\item{pdf.width}{Float: PDF width, if \code{filename} is set}
+\item{pdf.width}{Numeric: PDF width, if \code{filename} is set}
 
-\item{pdf.height}{Float: PDF height, if \code{filename} is set}
+\item{pdf.height}{Numeric: PDF height, if \code{filename} is set}
 
 \item{filename}{Character: If specified, save plot to this path.}
+
+\item{...}{Additional arguments passed to theme}
 }
 \value{
 List of metrics, invisibly

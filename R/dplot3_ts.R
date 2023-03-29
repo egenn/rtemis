@@ -42,6 +42,10 @@
 #' whether spikelines are stuck to the cursor or to the closest datapoints.
 #' @param spikecolor Color for spike lines
 #' @param spikethickness Numeric: spike line thickness
+#' @param modeBar.file.format Character: modeBar image export file format
+#' @param file.width Numeric: image export width
+#' @param file.height Numeric: image export height
+#' @param file.scale Numeric: image export scale
 #' @param ... Additional arguments to be passed to \link{dplot3_xy}
 #'
 #' @author E.D. Gennatas

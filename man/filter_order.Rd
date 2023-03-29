@@ -6,13 +6,22 @@
 \usage{
 filter_order(x, idl, decreasing = FALSE)
 }
+\arguments{
+\item{x}{Input vector}
+
+\item{idl}{Logical vector: Index of elements to filter}
+
+\item{decreasing}{Logical: If TRUE, sort in descending order}
+}
 \description{
 Filter order
 }
 \examples{
+\dontrun{
 x <- rnorm(10)
 x
 x[filter_order(x, x < 0)]
+}
 }
 \author{
 E.D. Gennatas

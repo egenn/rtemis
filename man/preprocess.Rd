@@ -105,13 +105,13 @@ specific use cases; need to know unique values of numeric vector(s) and given al
 numeric vars have same unique values)}
 
 \item{numeric.cut.n}{Integer: If > 0, convert all numeric variables to factors by
-binning using \link{base::cut} with \code{breaks} equal to this number}
+binning using \code{base::cut} with \code{breaks} equal to this number}
 
 \item{numeric.cut.labels}{Logical: The \code{labels} argument of \link{base::cut}}
 
 \item{numeric.quant.n}{Integer: If > 0, convert all numeric variables to factors by
-binning using \link{base::cut} with \code{breaks} equal to this number of quantiles
-produced using \link{stats::quantile}}
+binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
+produced using \code{stats::quantile}}
 
 \item{len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors. Default = NULL.

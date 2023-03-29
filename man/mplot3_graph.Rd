@@ -36,6 +36,8 @@ mplot3_graph(
   mar = rep(0, 4),
   par.reset = TRUE,
   filename = NULL,
+  pdf.width = 6,
+  pdf.height = 6,
   verbose = TRUE,
   ...
 )

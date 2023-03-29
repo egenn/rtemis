@@ -11,8 +11,12 @@
 #' @param x data.frame or matrix: Input data, cases by features
 #' @param summaryFn1 Function: Summary function 1. Default = \code{mean}. See Details
 #' @param summaryFn2 Function: Summary function 2. Default = \code{sd}. See Details
+#' @param summaryFn1.extraArgs List: Extra arguments for \code{summaryFn1}.
+#' @param summaryFn2.extraArgs List: Extra arguments for \code{summaryFn2}.
 #' @param labelify Logical: If TRUE, apply \link{labelify} to column names of  \code{x}
-#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
+#' @param verbose Logical: If TRUE, print messages to console.
+#' @param filename Character: Path to output CSV file to save table.
+#' 
 #' @return
 #' A data.frame, invisibly, with two columns: "Feature", "Value mean (sd) | N"
 #' @examples
