@@ -180,20 +180,6 @@ mod <- elevate(x, y)
 
 data(Sonar, package = "mlbench")
 mod <- elevate(Sonar)
-
-# Example usage of debug in elevate
-
-# Train on a resample which has no cases for one level
-ir <- iris[1:100, ]
-
-# ranger works, but read those warnings!
-mod <- elevate(ir)
-
-# rpart fails but you can't tell what's going on
-mod <- elevate(ir, mod = "cart")
-
-# Enabling debug helps you find out what's going on where
-mod <- elevate(ir, mod = "cart", debug = TRUE)
 }
 }
 \author{

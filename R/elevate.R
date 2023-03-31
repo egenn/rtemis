@@ -97,20 +97,6 @@
 #'
 #' data(Sonar, package = "mlbench")
 #' mod <- elevate(Sonar)
-#'
-#' # Example usage of debug in elevate
-#'
-#' # Train on a resample which has no cases for one level
-#' ir <- iris[1:100, ]
-#'
-#' # ranger works, but read those warnings!
-#' mod <- elevate(ir)
-#'
-#' # rpart fails but you can't tell what's going on
-#' mod <- elevate(ir, mod = "cart")
-#'
-#' # Enabling debug helps you find out what's going on where
-#' mod <- elevate(ir, mod = "cart", debug = TRUE)
 #' }
 #' @export
 
@@ -167,9 +153,9 @@ elevate <- function(x, y = NULL,
     if (debug) {
         outer.n.workers <- 1
         mod.params$n.cores <- 1
-        error.orig <- getOption("error")
+        error_orig <- getOption("error")
         options(error = recover)
-        on.exit(options(error = error.orig))
+        on.exit(options(error = error_orig))
     }
     if (!is.null(outdir)) {
         outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -224,7 +210,7 @@ elevate <- function(x, y = NULL,
 
     if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
-        "XGB", "XGBOOST", "XGBLIN", "LGB"
+        "XRF", "XGBOOST", "XGBLIN", "LIGHTGBM", "LIGHTRF"
     )) {
         if (verbose) msg2("Using", mod, "- outer.n.workers set to 1")
         outer.n.workers <- 1
