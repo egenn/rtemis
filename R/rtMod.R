@@ -1018,7 +1018,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                  theme = rtTheme,
                                  filename = NULL, ...) {
             if (length(self$fitted.prob) > 0) {
-                mplot3_roc(self$fitted.prob, self$y.train,
+                mplot3_roc(
+                    self$fitted.prob, self$y.train,
                     main = main,
                     theme = theme,
                     filename = filename, ...
@@ -1038,7 +1039,8 @@ rtModClass <- R6::R6Class("rtModClass",
                                     theme = rtTheme,
                                     filename = NULL, ...) {
             if (length(self$predicted.prob) > 0) {
-                mplot3_roc(self$predicted.prob, self$y.test,
+                mplot3_roc(
+                    self$predicted.prob, self$y.test,
                     main = main,
                     theme = theme,
                     filename = filename, ...
@@ -2082,7 +2084,8 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         plotROCfitted = function(which.repeat = 1,
                                  main = "ROC Training", ...) {
             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
-                mplot3_roc(self$fitted.prob.aggr[[which.repeat]],
+                mplot3_roc(
+                    self$fitted.prob.aggr[[which.repeat]],
                     self$y.train.res.aggr[[which.repeat]],
                     main = main, ...
                 )
@@ -2099,7 +2102,8 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         plotROCpredicted = function(which.repeat = 1,
                                     main = "ROC Testing", ...) {
             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
-                mplot3_roc(self$predicted.prob.aggr[[which.repeat]],
+                mplot3_roc(
+                    self$predicted.prob.aggr[[which.repeat]],
                     self$y.test.res.aggr[[which.repeat]],
                     main = main, ...
                 )
@@ -2120,7 +2124,8 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                                       col = "#16A0AC",
                                       alpha = .5, ...) {
             if (!is.null(self$predicted.prob.res[[which.repeat]])) {
-                mplot3_roc(self$predicted.prob.res[[which.repeat]],
+                mplot3_roc(
+                    self$predicted.prob.res[[which.repeat]],
                     self$y.test.res[[which.repeat]],
                     main = main, col = col, alpha = alpha,
                     annotation = FALSE, par.reset = FALSE, ...
