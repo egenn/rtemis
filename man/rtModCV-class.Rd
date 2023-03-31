@@ -39,7 +39,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 
 \item{\code{resamples}}{Resamples produced by \link{resample}}
 
-\item{\code{y.train.res}}{Resamples' fitted values}
+\item{\code{y.train.res}}{Resamples' true training values}
 
 \item{\code{y.train.res.aggr}}{Aggregated training set outcomes}
 
@@ -59,7 +59,7 @@ R6 Class for \pkg{rtemis} Cross-Validated Supervised Models
 
 \item{\code{error.train.repeats.sd}}{Standard deviation of training error across all repeats}
 
-\item{\code{y.test.res}}{Resamples' predicted values}
+\item{\code{y.test.res}}{Resamples' true test values}
 
 \item{\code{y.test.res.aggr}}{Aggregated testing set outcomes}
 
