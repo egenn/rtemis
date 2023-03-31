@@ -1329,7 +1329,7 @@ predict.rtModBag <- function(object,
 #' \code{resampler} this many times.
 #' @field resampler.params List of resampling parameters
 #' @field resamples Resamples produced by \link{resample}
-#' @field y.train.res Resamples' fitted values
+#' @field y.train.res Resamples' true training values
 #' @field y.train.res.aggr Aggregated training set outcomes
 #' @field fitted.res Resamples' fitted values
 #' @field fitted.res.aggr Aggregated fitted values
@@ -1339,7 +1339,7 @@ predict.rtModBag <- function(object,
 #' @field error.train.repeats Mean training error for each repeat
 #' @field error.train.repeats.mean Mean training error across all repeats
 #' @field error.train.repeats.sd Standard deviation of training error across all repeats
-#' @field y.test.res Resamples' predicted values
+#' @field y.test.res Resamples' true test values
 #' @field y.test.res.aggr Aggregated testing set outcomes
 #' @field predicted.res Resamples' predicted values
 #' @field predicted.res.aggr Aggregated predicted values
@@ -2122,8 +2122,16 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
             if (!is.null(self$predicted.prob.res[[which.repeat]])) {
                 mplot3_roc(self$predicted.prob.res[[which.repeat]],
                     self$y.test.res[[which.repeat]],
-                    main = main, col = col, alpha = alpha, ...
+                    main = main, col = col, alpha = alpha,
+                    annotation = FALSE, par.reset = FALSE, ...
                 )
+                mtext("AUC mean (sd)", side = 1, adj = 1, line = -2, font = 1)
+                mtext(paste0(
+                    ddSci(mean(self$error.test.res[[which.repeat]]$AUC)),
+                    " (",
+                    ddSci(sd(self$error.test.res[[which.repeat]]$AUC)),
+                    ")"
+                ), side = 1, adj = 1, line = -1, col = col)
             } else {
                 msg2("Estimated probabilities are not available")
             }
