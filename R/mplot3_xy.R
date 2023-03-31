@@ -532,7 +532,6 @@ mplot3_xy <- function(x, y = NULL,
             # MULTIPLE LINES
             if (is.null(line.col)) line.col <- palette[seql(palette, seq(Nxgroups))]
             line.alpha <- recycle(line.alpha, line.col)
-            lwd <- recycle(lwd, line.col)
             marker.col <- mapply(adjustcolor, line.col, line.alpha)
             # marker.col <- lapply(line.col, function(x) adjustcolor(x, line.alpha))
         }
@@ -853,6 +852,7 @@ mplot3_xy <- function(x, y = NULL,
             function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]])
         )
         marker.col.alpha <- recycle(marker.col.alpha, xl)
+        lwd <- recycle(lwd, xl)
         for (i in 1:Nxgroups) {
             points(xl[[i]], yl[[i]],
                 type = type[[i]],
