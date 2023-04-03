@@ -486,7 +486,7 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
     if (is.null(cols)) cols <- names(x)
     for (i in cols) {
         if (type_inspect(x[[i]], i, verbose = FALSE) == "numeric") {
-            if (verbose) msg2("Converting", hilite(i), "to numeric")
+            if (verbose) msg2("Converting", hilite(i), "to",  bold("numeric"))
             x[, (i) := as.numeric(x[[i]])]
         }
     }
