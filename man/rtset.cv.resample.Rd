@@ -5,10 +5,10 @@
 \title{\code{rtset.cv.resample}: \link{resample} defaults for cross-validation}
 \usage{
 rtset.cv.resample(
-  resampler = "kfold",
+  resampler = "strat.sub",
   n.resamples = 10,
   stratify.var = NULL,
-  train.p = 0.75,
+  train.p = 0.8,
   strat.n.bins = 4,
   target.length = NULL,
   id.strat = NULL,
@@ -32,8 +32,8 @@ rtset.cv.resample(
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
 
-\item{id.strat}{Vector of IDs which may be replicated: resampling should force
-replicates of each ID only appear in the training or testing.}
+\item{id.strat}{Vector of IDs which may be replicated: resampling should 
+force replicates of each ID to only appear in the training or testing.}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
