@@ -442,8 +442,10 @@ type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
     } else if (xclass == "character" && (num_na / n_non_na) < thresh) {
         if (verbose) {
             msg20(
-                "Possible type error: Class of '", xname,
-                "' is character, but perhaps should be numeric"
+                "Possible type error: Class of ", hilite(xname),
+                " is ", bold("character"), 
+                ", but perhaps should be ",
+                bold("numeric"), "."
             )
         }
         "numeric"
