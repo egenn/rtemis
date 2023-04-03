@@ -2118,12 +2118,26 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param main Character: Main title
         #' @param col Color for lines
         #' @param alpha Transparency for lines (passed to \code{mplot3_xy marker.alpha})
-        #' @param ... Additional arguments passed to plotting function
+        #' @param filename Character: Filename to save plot to
+        #' @param pdf.width Width of PDF output in inches
+        #' @param pdf.height Height of PDF output in inches
+        #' @param ... Additional arguments passed to \link{mplot3_roc}
         plotROCpredictedCV = function(which.repeat = 1,
                                       main = "ROC Testing",
                                       col = "#16A0AC",
-                                      alpha = .5, ...) {
+                                      alpha = .5,
+                                      filename = NULL,
+                                      pdf.width = 6,
+                                      pdf.height = 6, ...) {
             if (!is.null(self$predicted.prob.res[[which.repeat]])) {
+                par_orig <- par(no.readonly = TRUE)
+                on.exit(suppressWarnings(par(par_orig)))
+                if (!is.null(filename)) {
+                    pdf(filename,
+                        width = pdf.width, height = pdf.height,
+                        title = "rtemis Graphics"
+                    )
+                }
                 mplot3_roc(
                     self$predicted.prob.res[[which.repeat]],
                     self$y.test.res[[which.repeat]],
@@ -2137,6 +2151,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                     ddSci(sd(self$error.test.res[[which.repeat]]$AUC)),
                     ")"
                 ), side = 1, adj = 1, line = -1, col = col)
+                if (!is.null(filename)) dev.off()
             } else {
                 msg2("Estimated probabilities are not available")
             }
