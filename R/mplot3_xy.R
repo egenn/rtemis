@@ -665,12 +665,14 @@ mplot3_xy <- function(x, y = NULL,
     if (!is.null(rtenv$rtpar)) {
         par.reset <- FALSE
         par(
-            mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new,
+            mar = mar, bg = theme$bg, fg = theme$fg,
+            pty = pty, cex = theme$cex, new = new,
             family = theme$font.family
         )
     } else {
         par(
-            mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex,
+            mar = mar, oma = oma, bg = theme$bg, fg = theme$fg,
+            pty = pty, cex = theme$cex,
             new = new, family = theme$font.family
         )
     }
