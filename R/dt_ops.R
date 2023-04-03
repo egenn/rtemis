@@ -275,7 +275,7 @@ dt_pctmatch <- function(
 #' @author E.D. Gennatas
 #' @export
 dt_pctmissing <- function(x, verbose = TRUE) {
-    nmissing <- sapply(x, \(i) length(is.na(i)))
+    nmissing <- sapply(x, \(i) sum(is.na(i)))
     pctmissing <- nmissing / NROW(x)
     if (verbose) {
         cat("Percet missing per column:\n")
