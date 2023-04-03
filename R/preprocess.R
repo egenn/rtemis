@@ -109,6 +109,7 @@
 #' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
+#' @param xname Character: Name of \code{x} for messages
 #' @param verbose Logical: If TRUE, write messages to console.
 #' 
 #' @author E.D. Gennatas
@@ -157,9 +158,14 @@ preprocess <- function(x,
                        oneHot = FALSE,
                     #    cleanfactorlevels = FALSE,
                        exclude = NULL,
+                       xname = NULL,
                        verbose = TRUE) {
     # Intro ----
-    start_time <- intro(verbose = verbose)
+    xname <- deparse(substitute(x))
+    start_time <- intro(
+        paste0("Preprocessing ", hilite(xname), "..."),
+        verbose = verbose
+    )
 
     # Arguments ----
     impute.type <- match.arg(impute.type)
