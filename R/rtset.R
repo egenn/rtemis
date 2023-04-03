@@ -100,10 +100,10 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 #'
 #' @inheritParams resample
 #' @export
-rtset.cv.resample <- function(resampler = "kfold",
+rtset.cv.resample <- function(resampler = "strat.sub",
                               n.resamples = 10,
                               stratify.var = NULL,
-                              train.p = .75,
+                              train.p = .8,
                               strat.n.bins = 4,
                               target.length = NULL,
                               id.strat = NULL,
