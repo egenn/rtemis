@@ -506,7 +506,8 @@ elevate <- function(x, y = NULL,
                         function(x) x$MSE.RED
                     ) * 100),
                     collapse = "%, "
-                    ), "%\n", sep = "")
+                    ), "%\n", sep = ""),
+                    sep = ""
                 )
             } else {
                 cat("Balanced Accuracy of ", n.resamples,
