@@ -93,14 +93,13 @@ resample <- function(y,
                 if (verbose) msg2("Survival object will be stratified on time")
                 y <- y[, 1]
             } else {
-                if (!is.null(id.strat)) {
-                    idl <- !duplicated(id.strat)
-                    y <- y[idl, NCOL(y)]
-                } else {
-                    if (verbose) msg2("Input contains more than one columns; will stratify on last")
-                    y <- y[[NCOL(y)]]
-                }
+                if (verbose) msg2("Input contains more than one columns; will stratify on last")
+                y <- y[[NCOL(y)]]
             }
+        }
+        if (!is.null(id.strat)) {
+            idl <- !duplicated(id.strat)
+            y <- y[idl]
         }
         if (is.null(target.length)) target.length <- NROW(y) # TODO: move
         if (resampler == "strat.sub" || resampler == "strat.boot") {
