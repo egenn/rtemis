@@ -33,8 +33,8 @@
 #'   \code{resampler = "strat.sub" / "strat.boot"}
 #' @param target.length Integer: Number of cases for training set for
 #' \code{resampler = "strat.boot"}.
-#' @param id.strat Vector of IDs which may be replicated: resampling should force
-#' replicates of each ID only appear in the training or testing.
+#' @param id.strat Vector of IDs which may be replicated: resampling should 
+#' force replicates of each ID to only appear in the training or testing.
 #' @param rtset List: Output of an \link{rtset.resample} (or named list with same
 #' structure). NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make
@@ -75,6 +75,7 @@ resample <- function(y,
         train.p <- rtset$train.p
         strat.n.bins <- rtset$strat.n.bins
         target.length <- rtset$target.length
+        id.strat <- rtset$id.strat
         seed <- rtset$seed
         index <- rtset$index
         group <- rtset$group
@@ -310,7 +311,7 @@ bootstrap <- function(x, n.resamples = 10,
                       seed = NULL) {
     if (!is.null(seed)) set.seed(seed)
 
-    ids <- seq(length(x))
+    ids <- seq_along(x)
     .length <- length(x)
     if (!is.null(seed)) set.seed(seed)
 
