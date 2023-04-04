@@ -269,6 +269,9 @@ Plot ROC plot for predicted values for each resample
   main = "ROC Testing",
   col = "#16A0AC",
   alpha = 0.5,
+  filename = NULL,
+  pdf.width = 6,
+  pdf.height = 6,
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -284,7 +287,13 @@ Plot ROC plot for predicted values for each resample
 
 \item{\code{alpha}}{Transparency for lines (passed to \code{mplot3_xy marker.alpha})}
 
-\item{\code{...}}{Additional arguments passed to plotting function}
+\item{\code{filename}}{Character: Filename to save plot to}
+
+\item{\code{pdf.width}}{Width of PDF output in inches}
+
+\item{\code{pdf.height}}{Height of PDF output in inches}
+
+\item{\code{...}}{Additional arguments passed to \link{mplot3_roc}}
 }
 \if{html}{\out{</div>}}
 }

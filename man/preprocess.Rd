@@ -38,6 +38,7 @@ preprocess(
   removeDuplicates = FALSE,
   oneHot = FALSE,
   exclude = NULL,
+  xname = NULL,
   verbose = TRUE
 )
 }
@@ -150,6 +151,8 @@ checking if feature is constant}
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 
 \item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
+
+\item{xname}{Character: Name of \code{x} for messages}
 
 \item{verbose}{Logical: If TRUE, write messages to console.}
 }

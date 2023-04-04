@@ -26,7 +26,7 @@ mplot3_roc(
   annot.font = 1,
   pty = "s",
   mar = c(2.5, 3, 2, 1),
-  theme = getOption("rt.theme", "whitegrid"),
+  theme = rtTheme,
   palette = rtPalette,
   verbose = TRUE,
   par.reset = TRUE,

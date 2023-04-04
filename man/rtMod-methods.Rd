@@ -83,6 +83,8 @@ Options: \code{modSelect()}}
 \description{
 S3 methods for \code{rtMod} class.
 Excludes functions \code{print} and \code{plot} defined within the \link{rtMod} class itself.
+
+Get coefficients or relative variable importance for \code{rtMod} object
 }
 \author{
 E.D. Gennatas
