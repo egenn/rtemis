@@ -21,11 +21,10 @@ s_LIGHTRF(
   objective = NULL,
   max_nrounds = 500L,
   force_nrounds = NULL,
-  early_stopping_rounds = 10L,
-  nrounds_default = 100L,
-  num_leaves = 31L,
+  early_stopping_rounds = -1L,
+  num_leaves = 131072L,
   max_depth = -1L,
-  learning_rate = 0.01,
+  learning_rate = 1,
   bagging_fraction = 0.623,
   bagging_freq = 1L,
   lambda_l1 = 0,
@@ -106,9 +105,6 @@ as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
-
-\item{nrounds_default}{Integer: Default number of rounds to run if 
-cross-validation fails - likely will never be used}
 
 \item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
 
