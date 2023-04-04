@@ -882,8 +882,11 @@ summary.rtMod <- function(object,
 
 #' \code{coef.rtMod}: \code{coef} method for \code{rtMod} object
 #'
+#' Get coefficients or relative variable importance for \code{rtMod} object
+#' 
 #' @param object Trained model of class \code{rtMod}
 #' @param verbose Logical: If TRUE, output messages to console
+#' @param ... Not used
 #'
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
@@ -892,7 +895,12 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
     if (!is.null(object$varimp)) {
         object$varimp
     } else {
-        if (verbose) msg2("Variable importance not available for model of type", object$mod.name)
+        if (verbose) {
+            msg2(
+                "Variable importance not available for model of type",
+                object$mod.name
+            )
+        }
     }
 } # rtemis::coef.rtMod
 
@@ -1694,10 +1702,10 @@ rtModCV <- R6::R6Class("rtModCV",
                               xlab = NULL,
                               theme = rtTheme, ...) {
             if (is.null(xlab)) {
-                xlab <- if (self$mod.name %in% c("GLM", "GLMNET")) {
-                    "Coefficients"
+                xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
+                    paste(self$mod.name, "Coefficients")
                 } else {
-                    "Variable importance"
+                    paste(self$mod.name, "Variable importance")
                 }
             }
             varimp <- colMeans(self$varimp[[which.repeat]])
