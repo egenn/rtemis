@@ -29,7 +29,11 @@ present <- function(...,
                     ylim = NULL,
                     htest = "none",
                     htest.annotate.y = NULL,
-                    margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)) {
+                    margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
+                    filename = NULL,
+                    file.width = 500,
+                    file.height = 500,
+                    file.scale = 1) {
 
     mods <- list(...)
     if (is.null(htest.annotate.y)) {
@@ -89,17 +93,29 @@ present <- function(...,
     }
     
     if (plot.train && plot.test) {
-        plotly::subplot(
+        plt <- plotly::subplot(
             plot_train, plot_test,
             nrows = 2,
             shareX = TRUE,
             titleY = TRUE
         )
     } else if (plot.test) {
-        plot_test
+        plt <- plot_test
     } else {
-        plot_train
+        plt <- plot_train
     }
-    
+
+    # Write to file ----
+    if (!is.null(filename)) {
+        plotly::save_image(
+            plt,
+            file = file.path(filename),
+            width = file.width,
+            height = file.height,
+            scale = file.scale
+        )
+    } else {
+        plt
+    }
     
 } # rtemis::present

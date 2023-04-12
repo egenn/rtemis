@@ -16,7 +16,11 @@ present(
   ylim = NULL,
   htest = "none",
   htest.annotate.y = NULL,
-  margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0)
+  margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1
 )
 }
 \arguments{
