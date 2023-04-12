@@ -55,7 +55,7 @@ checkpoint_earlystop <- function(x,
 
   na.response <- match.arg(na.response)
   last.value <- x[length(x)]
-  if (is.na(last.value) & na.response == "stop") {
+  if (is.na(last.value) && na.response == "stop") {
     return(list(absolute.threshold = absolute.threshold,
                 minimize = minimize,
                 last.value = last.value,
@@ -110,7 +110,7 @@ checkpoint_earlystop <- function(x,
 
   # Check relative variance ----
   min.steps <- max(n.steps, min.steps)
-  if (!is.na(relativeVariance.threshold) & length(x) >= min.steps) {
+  if (!is.na(relativeVariance.threshold) && length(x) >= min.steps) {
     last.n.steps <- rev(x)[seq(n.steps)]
     relativeVariance <- var(last.n.steps, na.rm = TRUE)/mean(last.n.steps)
     if (is.na(relativeVariance)) {
