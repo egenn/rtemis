@@ -7,10 +7,10 @@
 #' Build a NLS model
 #'
 #' @inheritParams s_GLM
-#' @param ... Additional arguments to be passed to \code{nls}
+#' @param ... Additional arguments to be passed to `nls`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -185,7 +185,7 @@ s_NLS <- function(x, y = NULL,
 
 #' Get terms of a formula
 #'
-#' @param formula formula with more than x & y, e.g. \code{y ~ b * m ^ x}
+#' @param formula formula with more than x & y, e.g. `y ~ b * m ^ x`
 
 getTerms <- function(formula) {
 

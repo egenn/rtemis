@@ -12,7 +12,7 @@ uniquevalsperfeat(x, excludeNA = FALSE)
 \item{excludeNA}{Logical: If TRUE, exclude NA values from unique count.}
 }
 \value{
-Vector, integer of length \code{NCOL(x)} with number of unique 
+Vector, integer of length \code{NCOL(x)} with number of unique
 values per column/feature
 }
 \description{

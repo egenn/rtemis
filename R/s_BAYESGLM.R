@@ -4,7 +4,7 @@
 
 #' Bayesian GLM
 #'
-#' Train a bayesian GLM using \code{arm::bayesglm}
+#' Train a bayesian GLM using `arm::bayesglm`
 #'
 #' @inheritParams s_GLM
 #' @param prior.mean Float, vector: Prior mean for the coefficients. If scalar,
@@ -21,15 +21,15 @@
 #' @param prior.df.for.intercept Float: Default = 1
 #' @param min.prior.scale Float: Minimum prior scale for the coefficients. Default = 1e-12
 #' @param scaled Logical: If TRUE, the scale for the prior distributions are:
-#' For feature with single value, use \code{prior.scale}, for predictor with two values,
-#' use \code{prior.scale/range(x)}, for more than two values, use \code{prior.scale/(2*sd(x))}.
-#' If response is gaussian, \code{prior.scale} is multiplied by \code{2 * sd(y)}.
+#' For feature with single value, use `prior.scale`, for predictor with two values,
+#' use `prior.scale/range(x)`, for more than two values, use `prior.scale/(2*sd(x))`.
+#' If response is gaussian, `prior.scale` is multiplied by `2 * sd(y)`.
 #' Default = TRUE
 #' @param keep.order Logical: If TRUE, the feature positions are maintained, otherwise they are
 #' reordered: main effects, interactions, second-order, third-order, etc. Default = TRUE
 #' @param drop.baseline Logical: If TRUE, drop the base level of factor features. Default = TRUE
 #' @param maxit Integer: Maximum number of iterations
-#' @param ... Additional parameters to pass to \code{arm::bayesglm}
+#' @param ... Additional parameters to pass to `arm::bayesglm`
 #' 
 #' @family Bayesian
 #' @family Supervised Learning

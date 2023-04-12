@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_RANGER.R
 \name{s_RANGER}
 \alias{s_RANGER}
-\title{Random Forest Classification and Regression [C, R]}
+\title{Random Forest Classification and Regression (C, R)}
 \usage{
 s_RANGER(
   x,
@@ -112,8 +112,8 @@ For classification only; need not add up to 1}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split.
- Defaults to square root of n of
+\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split.
+Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
@@ -127,22 +127,22 @@ use stratified bootstraps for each tree.
 This can help improve test set performance in imbalanced datasets.
 Default = FALSE. Note: Cannot be used with \code{ipw.case.weights}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{probability}{Logical: If TRUE, grow a probability forest.
@@ -158,7 +158,7 @@ Only applicable if
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training.}
 
-\item{min.node.size}{[gS] Integer: Minimum node size}
+\item{min.node.size}{\link{gS} Integer: Minimum node size}
 
 \item{splitrule}{Character: For classification: "gini" (Default) or
 "extratrees";
@@ -171,10 +171,10 @@ For survival "logrank" (Default), "extratrees", "C" or "maxstat".}
 can be a vector of the same length, in which case, corresponding values determine how many cases are drawn from
 the strata.}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning,
 when \code{autotune = TRUE}}
 
-\item{imetrics}{Logical: If TRUE, calculate interpretability metrics 
+\item{imetrics}{Logical: If TRUE, calculate interpretability metrics
 (N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -216,8 +216,8 @@ You should cconsider, or try, setting mtry to NCOL(x), especially for small numb
 By default mtry is set to NCOL(x) for NCOL(x) <= 20.
 For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
-  value.
-[gS]: indicated parameter will be tuned by grid search if more than one value is passed
+value.
+\link{gS}: indicated parameter will be tuned by grid search if more than one value is passed
 
 See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
 balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.

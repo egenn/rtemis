@@ -4,14 +4,14 @@
 
 #' Linear Discriminant Analysis
 #'
-#' Train an LDA Classifier using \code{MASS::lda}
+#' Train an LDA Classifier using `MASS::lda`
 #'
 #' Note: LDA requires all predictors to be numeric.
 #' The variable importance output ("varimp") is the vector of coefficients for LD1
 #' @inheritParams s_GLM
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

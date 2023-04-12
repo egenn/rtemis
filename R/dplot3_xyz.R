@@ -4,14 +4,14 @@
 
 #' Interactive 3D Plots
 #'
-#' Draw interactive 3D plots using \code{plotly}
+#' Draw interactive 3D plots using `plotly`
 #'
-#' Note that \code{dplot3_xyz} uses the theme's \code{plot.bg} as \code{grid.col}
+#' Note that `dplot3_xyz` uses the theme's `plot.bg` as `grid.col`
 #' @inheritParams dplot3_xy
 #' @param z Numeric, vector/data.frame/list: z-axis data
 #' @param zlab Character: z-axis label
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
-#' Default = \code{list(t = 30, b = 0, l = 0, r = 0}
+#' Default = `list(t = 30, b = 0, l = 0, r = 0`
 #' 
 #' @author E.D. Gennatas
 #' @export

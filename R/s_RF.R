@@ -2,21 +2,21 @@
 # ::rtemis::
 # 2016-8 E.D. Gennatas www.lambdamd.org
 
-#' Random Forest Classification and Regression [C, R]
+#' Random Forest Classification and Regression (C, R)
 #'
-#' Train a Random Forest for regression or classification using \code{randomForest}
+#' Train a Random Forest for regression or classification using `randomForest`
 #'
-#' If \code{autotue = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
+#' If `autotue = TRUE`, `randomForest::tuneRF` will be run to determine best `mtry`
 #'   value.
 #'
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param n.trees Integer: Number of trees to grow. Default = 1000
-#' @param autotune Logical: If TRUE, use \code{randomForest::tuneRF} to determine \code{mtry}
-#' @param n.trees.try Integer: Number of trees to train for tuning, if \code{autotune = TRUE}
-#' @param stepFactor Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
+#' @param autotune Logical: If TRUE, use `randomForest::tuneRF` to determine `mtry`
+#' @param n.trees.try Integer: Number of trees to train for tuning, if `autotune = TRUE`
+#' @param stepFactor Float: If `autotune = TRUE`, at each tuning iteration, `mtry` is multiplied or
 #' divided by this value. Default = 1.5
-#' @param mtryStart Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}
+#' @param mtryStart Integer: If `autotune = TRUE`, start at this value for `mtry`
 #' @param mtry [gS] Integer: Number of features sampled randomly at each split
 #' @param nodesize [gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
 #' 1 (Classification)
@@ -28,33 +28,33 @@
 #' group
 #' @param strata Vector, Factor: Will be used for stratified sampling
 #' @param outdir String, Optional: Path to directory to save output
-#' @param sampsize Integer: Size of sample to draw. In Classification, if \code{strata} is defined, this
+#' @param sampsize Integer: Size of sample to draw. In Classification, if `strata` is defined, this
 #' can be a vector of the same length, in which case, corresponding values determine how many cases are drawn from
 #' the strata.
 #' @param sampsize.ratio Float (0, 1): Heuristic of sorts to increase sensitivity in unbalanced
 #' cases. Sample with replacement from minority case to create bootstraps of length N cases.
-#' Select \code{(sampsize.ratio * N minority cases)} cases from majority class.
+#' Select `(sampsize.ratio * N minority cases)` cases from majority class.
 #' @param importance Logical: If TRUE, estimate variable relative importance.
 #' @param proximity Logical: If TRUE, calculate proximity measure among cases.
-#' @param do.trace Logical or integer: If TRUE, \code{randomForest} will outpout information while it is running.
-#' If an integer, \code{randomForest} will report progress every this many trees. Default = \code{n.trees/10} if
-#' \code{verbose = TRUE}
-#' @param tune.do.trace Same as \code{do.trace} but for tuning, 
-#' when \code{autotune = TRUE}
+#' @param do.trace Logical or integer: If TRUE, `randomForest` will outpout information while it is running.
+#' If an integer, `randomForest` will report progress every this many trees. Default = `n.trees/10` if
+#' `verbose = TRUE`
+#' @param tune.do.trace Same as `do.trace` but for tuning, 
+#' when `autotune = TRUE`
 #' @param imetrics Logical: If TRUE, calculate interpretability metrics 
-#' (N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}
-#' @param print.tune.plot Logical: passed to \code{randomForest::tuneRF}.
+#' (N of trees and N of nodes) and save under the `extra` field of [rtMod]
+#' @param print.tune.plot Logical: passed to `randomForest::tuneRF`.
 #' @param proximity.tsne Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
-#' \link{rtMod}. Default = FALSE
-#' @param discard.forest Logical: If TRUE, remove forest from \link{rtMod} object to save space.
+#' [rtMod]. Default = FALSE
+#' @param discard.forest Logical: If TRUE, remove forest from [rtMod] object to save space.
 #' Default = FALSE
-#' @param tsne.perplexity Numeric: Perplexity parameter for \code{Rtsne::Rtsne}
+#' @param tsne.perplexity Numeric: Perplexity parameter for `Rtsne::Rtsne`
 #' @param plot.tsne.train Logical: If TRUE, plot training set tSNE projections
 #' @param plot.tsne.test Logical: If TRUE, plot testing set tSNE projections
-#' @param ... Additional arguments to be passed to \code{randomForest::randomForest}
-#' @return \link{rtMod} object
+#' @param ... Additional arguments to be passed to `randomForest::randomForest`
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Ensembles

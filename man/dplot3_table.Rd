@@ -32,7 +32,7 @@ dplot3_table(
 
 \item{main.col}{Color: Title color. Default = "black"}
 
-\item{main.x}{Float [0, 1]: Align title: 0: left, .5: center, 1: right. Default = 0}
+\item{main.x}{Float \link{0, 1}: Align title: 0: left, .5: center, 1: right. Default = 0}
 
 \item{main.xanchor}{Character: "auto", "left", "right": plotly's layout xanchor for title. Default = "auto"}
 

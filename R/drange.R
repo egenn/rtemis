@@ -4,13 +4,13 @@
 
 #' Set Dynamic Range
 #'
-#' \code{rtemis preproc}: Adjusts the dynamic range of a vector or matrix input.
+#' `rtemis preproc`: Adjusts the dynamic range of a vector or matrix input.
 #'   By default normalizes to 0-1 range.
 #'
 #' @param x Numeric vector or matrix / data frame: Input
 #' @param lo Target range minimum. Defaults to 0
 #' @param hi Target range maximum. Defaults to 1
-#' @param byCol Logical: If TRUE: if \code{x} is matrix, \code{drange} each 
+#' @param byCol Logical: If TRUE: if `x` is matrix, `drange` each 
 #' column separately
 #' 
 #' @author E.D. Gennatas

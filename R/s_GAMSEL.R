@@ -4,15 +4,15 @@
 # TODO: Update to use cv.gamsel similar to s_GLMNET
 # TODO: Add special case in rtMod predict
 
-#' Regularized Generalized Additive Model (GAMSEL) [C, R]
+#' Regularized Generalized Additive Model (GAMSEL) (C, R)
 #'
-#' Trains a GAMSEL model using \code{gamsel2::gamsel}.
+#' Trains a GAMSEL model using `gamsel2::gamsel`.
 #'
 #' @inheritParams s_GLM
 #' @inheritParams gamsel2::gamsel
-#' @return \link{rtMod}
+#' @return [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

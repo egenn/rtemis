@@ -55,7 +55,7 @@ mplot3_harmonograph(
 \item{par.reset}{Logical. If TRUE, reset par before exit}
 }
 \description{
-Plot a [harmonograph](https://en.wikipedia.org/wiki/Harmonograph)
+Plot a \href{https://en.wikipedia.org/wiki/Harmonograph}{harmonograph}
 }
 \details{
 Unless you define a seed, each graph will be random. Try different seeds if you want to reproduce your graphs.

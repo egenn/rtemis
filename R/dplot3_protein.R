@@ -7,15 +7,15 @@
 #' highlighted by coloring the border of markers
 #' @param region Named list of lists with indices of regions. These will be
 #' highlighted by coloring the markers and lines of regions using the
-#' \code{palette} colors
+#' `palette` colors
 #' @param ptm List of post-translational modifications
 #' @param variant List of variant information
 #' @param disease.variants List of disease variant information
 #' @param n.per.row Integer: Number of amino acids to show per row
 #' @param main Character: Main title
 #' @param main.xy Numeric vector, length 2: x and y coordinates for title.
-#' e.g. if \code{main.xref} and \code{main.yref} are \code{"paper"}:
-#' \code{c(0.055, .975)} is top left, \code{c(.5, .975)} is top and
+#' e.g. if `main.xref` and `main.yref` are `"paper"`:
+#' `c(0.055, .975)` is top left, `c(.5, .975)` is top and
 #' middle
 #' @param main.xref Character: xref for title
 #' @param main.yref Character: yref for title
@@ -25,7 +25,7 @@
 #' @param show.markers Logical: If TRUE, show amino acid markers
 #' @param show.labels Logical: If TRUE, annotate amino acids with elements
 #' @param modebar.bg Color for modebar background
-#' from input \code{x}
+#' from input `x`
 #' @param ... Additional arguments to pass to the theme function
 #'
 #' @author E.D. Gennatas

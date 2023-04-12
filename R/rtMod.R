@@ -14,7 +14,7 @@
 #' calculate error metrics (rtMod$error.test).
 #' This reflects generalizability of the model and is the error we care the most about.
 #' The validation set is used during model tuning. Within rtemis, validation sets are
-#' created automatically by \link{resample} when appropriate, they are not generally
+#' created automatically by [resample] when appropriate, they are not generally
 #' input by the user, with few exceptions, as documented in individual functions.
 #' @docType class
 #' @name rtMod-class
@@ -39,7 +39,7 @@
 #' different approaches
 #' @field question Question the model is hoping to answer
 #' @field extra Algorithm-specific output
-#' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained
+#' @field sessionInfo The output of `sessionInfo()` at the time the model was trained
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -68,7 +68,7 @@ rtMod <- R6::R6Class("rtMod",
         sessionInfo = NULL,
         # Initialize rtMod ----
         #' @description
-        #' Initialize \code{rtMod} object
+        #' Initialize `rtMod` object
         #'
         #' @param mod.name Character: Algorithm name
         #' @param y.train Training set output
@@ -134,7 +134,7 @@ rtMod <- R6::R6Class("rtMod",
         ### Methods
         # Print rtMod ----
         #' @description
-        #' code{print} method for \code{rtMod} object
+        #' code{print} method for `rtMod` object
         print = function() {
             "show / print method for rtMod"
             objcat("Supervised Model")
@@ -151,7 +151,7 @@ rtMod <- R6::R6Class("rtMod",
         },
         # Plot rtMod ----
         #' @description
-        #' \code{rtMod} plot method
+        #' `rtMod` plot method
         #' @param estimate Character: "fitted" or "predicted"
         #' @param theme Theme to pass to plotting function
         #' @param filename Character: Path to file to save plot
@@ -286,7 +286,7 @@ rtMod <- R6::R6Class("rtMod",
         #' @param print.plot Logical: If TRUE show plot
         #' @param theme Theme to be passed on to plotting function
         #' @param filename Character: path to file to save plot
-        #' @param ... Additional arguments passed to \code{mplot3_conf}
+        #' @param ... Additional arguments passed to `mplot3_conf`
         plotFittedPredicted = function(print.plot = TRUE,
                                        theme = rtTheme,
                                        filename = NULL, ...) {
@@ -368,7 +368,7 @@ rtMod <- R6::R6Class("rtMod",
         },
         # Summary rtMod ----
         #' @description
-        #' Summary method for \code{rtMod} object
+        #' Summary method for `rtMod` object
         #' @param plots Logical: If TRUE show plots
         #' @param cex Numeric: Character expansion factor
         #' @param fit.true.line Character: algorithm to use to fit
@@ -520,19 +520,19 @@ rtMod <- R6::R6Class("rtMod",
 ) # /rtMod
 
 # rtMod S3 methods ----
-#' \code{rtMod} S3 methods
+#' `rtMod` S3 methods
 #'
-#' S3 methods for \code{rtMod} class.
-#' Excludes functions \code{print} and \code{plot} defined within the \link{rtMod} class itself.
+#' S3 methods for `rtMod` class.
+#' Excludes functions `print` and `plot` defined within the [rtMod] class itself.
 #'
 #' @name rtMod-methods
 NULL
 
 
-#' \code{print.rtMod}: \code{print} method for \code{rtMod} object
+#' `print.rtMod`: `print` method for `rtMod` object
 #'
 #' @method print rtMod
-#' @param x \code{rtMod} object
+#' @param x `rtMod` object
 #' @param ... Not use
 #' @rdname rtMod-methods
 #' @export
@@ -541,10 +541,10 @@ print.rtMod <- function(x, ...) {
 } # rtemis::print.rtMod
 
 
-#' \code{fitted.rtMod}: \code{fitted} method for \code{rtMod} object
+#' `fitted.rtMod`: `fitted` method for `rtMod` object
 #'
 #' @method fitted rtMod
-#' @param object \code{rtMod} object
+#' @param object `rtMod` object
 #' @param ... Not used
 #' @rdname rtMod-methods
 #' @export
@@ -553,13 +553,13 @@ fitted.rtMod <- function(object, ...) {
 } # rtemis::fitted.rtMod
 
 
-#' \code{predict.rtMod}: \code{predict} method for \code{rtMod} object
+#' `predict.rtMod`: `predict` method for `rtMod` object
 #'
 #' @method predict rtMod
 #' @param newdata Features to use for prediction
 #' @param trace Integer: Set trace level
 #' @param verbose Logical: If TRUE, output messages to console
-#' @param ... Extra arguments to pass to trained model's \code{predict} method
+#' @param ... Extra arguments to pass to trained model's `predict` method
 #' @rdname rtMod-methods
 #' @export
 predict.rtMod <- function(object,
@@ -711,10 +711,10 @@ predict.rtMod <- function(object,
 } # rtemis::predict.rtMod
 
 
-#' \code{residuals.rtMod}: \code{residuals} method for \code{rtMod} object
+#' `residuals.rtMod`: `residuals` method for `rtMod` object
 #'
 #' @method residuals rtMod
-#' @param object \code{rtMod} object
+#' @param object `rtMod` object
 #' @param ... Not used
 #' @rdname rtMod-methods
 #' @export
@@ -723,10 +723,10 @@ residuals.rtMod <- function(object, ...) {
 }
 
 
-#' \code{plot.rtMod}: \code{plot} method for \code{rtMod} object
+#' `plot.rtMod`: `plot` method for `rtMod` object
 #'
 #' @method plot rtMod
-#' @param x \code{rtMod} object
+#' @param x `rtMod` object
 #' @param estimate Character: "fitted" or "predicted"
 #' @param filename Character: Path to file to save plot
 #' @rdname rtMod-methods
@@ -742,23 +742,23 @@ plot.rtMod <- function(x, estimate = NULL,
 } # rtemis::plot.rtemisRC
 
 
-#' \code{summary.rtMod}: \code{summary} method for \code{rtMod} object
+#' `summary.rtMod`: `summary` method for `rtMod` object
 #'
 #' @method summary rtMod
-#' @param object \code{rtMod} object
+#' @param object `rtMod` object
 #' @param plots Logical: If TRUE, print plots. Default = TRUE
 #' @param cex Float: Character expansion factor
 #' @param fit.true.line \pkg{rtemis} algorithm to use for fitted vs. true line
-#'   Options: \code{modSelect()}
+#'   Options: `modSelect()`
 #' @param resid.fit.line \pkg{rtemis} algorithm to use for residuals vs. fitted line.
-#'   Options: \code{modSelect()}
+#'   Options: `modSelect()`
 #' @param fit.legend Logical: If TRUE, print fit legend. Default  = TRUE
 #' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
 #' @param single.fig Logical: If TRUE, draw all plots in a single figure. Default = TRUE
 #' @param summary Logical: If TRUE, print summary. Default = TRUE
 #' @param theme Character: theme to use. Options: "box", "darkbox", "light", "dark"
 #' @param title.col Color for main title
-#' @param ... Additional arguments to be passed to \link{mplot3_xy}
+#' @param ... Additional arguments to be passed to [mplot3_xy]
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
@@ -880,11 +880,11 @@ summary.rtMod <- function(object,
 } # rtemis::summary.rtMod
 
 
-#' \code{coef.rtMod}: \code{coef} method for \code{rtMod} object
+#' `coef.rtMod`: `coef` method for `rtMod` object
 #'
-#' Get coefficients or relative variable importance for \code{rtMod} object
+#' Get coefficients or relative variable importance for `rtMod` object
 #' 
-#' @param object Trained model of class \code{rtMod}
+#' @param object Trained model of class `rtMod`
 #' @param verbose Logical: If TRUE, output messages to console
 #' @param ... Not used
 #'
@@ -922,7 +922,7 @@ rtModClass <- R6::R6Class("rtModClass",
         predicted.prob = NULL,
         # Initialize rtModClass ----
         #' @description
-        #' Initialize \code{rtModClass} object
+        #' Initialize `rtModClass` object
         #' @param mod.name Character: Algorithm name
         #' @param y.train Training set output
         #' @param y.test Testing set output
@@ -1132,8 +1132,8 @@ rtModClass <- R6::R6Class("rtModClass",
 #' @docType class
 #' @name rtModBag-class
 #'
-#' @field bag.resample.rtset List of settings for \link{resample}.
-#' Set using \link{rtset.bag.resample}
+#' @field bag.resample.rtset List of settings for [resample].
+#' Set using [rtset.bag.resample]
 #' @field fitted.bag Base learners' fitted values
 #' @field se.fit.bag Base learners' fitted values' standard error
 #' @field predicted.bag Base learners' predicted values
@@ -1152,7 +1152,7 @@ rtModBag <- R6::R6Class("rtModBag",
         aggr.fn = NULL,
         # Initialize rtModBar ----
         #' @description
-        #' Initialize \code{rtModBag} object
+        #' Initialize `rtModBag` object
         #'
         #' @param mod.name Model (algorithm) name
         #' @param y.train Training y data
@@ -1160,8 +1160,8 @@ rtModBag <- R6::R6Class("rtModBag",
         #' @param x.name Name of x data
         #' @param y.name Name of y data
         #' @param xnames Character vector: Column names of x
-        #' @param bag.resample.rtset List of settings for \link{resample}.
-        #' Set using \link{rtset.bag.resample}
+        #' @param bag.resample.rtset List of settings for [resample].
+        #' Set using [rtset.bag.resample]
         #' @param mod Trained model
         #' @param type Character: Type of model (Regression, Classification, Survival)
         #' @param parameters List of training parameters
@@ -1232,7 +1232,7 @@ rtModBag <- R6::R6Class("rtModBag",
         ### Methods
         # Print rtModBag ----
         #' @description
-        #' \code{print} method for \code{rtModBag} object
+        #' `print` method for `rtModBag` object
         print = function() {
             "show / print method for rtModBag"
             objcat("Bagged Supervised Model")
@@ -1265,16 +1265,16 @@ rtModBag <- R6::R6Class("rtModBag",
 # rtModBag S3 methods ####
 #' rtModBag S3 methods
 #'
-#' S3 methods for \code{rtModBag} class that differ from those of the \code{rtMod} superclass
+#' S3 methods for `rtModBag` class that differ from those of the `rtMod` superclass
 #'
 #'
 #' @name rtModBag-methods
 NULL
 
-#' \code{predict.rtModBag}: \code{predict} method for \code{rtModBag} object
+#' `predict.rtModBag`: `predict` method for `rtModBag` object
 #'
 #' @method predict rtModBag
-#' @param object \code{rtModBag} object
+#' @param object `rtModBag` object
 #' @param newdata Testing set features
 #' @param aggr.fn Character: Function to aggregate models' prediction.
 #' If NULL, defaults to "median"
@@ -1327,7 +1327,7 @@ predict.rtModBag <- function(object,
 #' @docType class
 #' @name rtModCV-class
 #'
-#' @field mod \code{rtModCV} object
+#' @field mod `rtModCV` object
 #' @field mod.name Model (algorithm) name
 #' @field type "Classification", "Regression", or "Survival"
 #' @field y.train Training set y data
@@ -1336,9 +1336,9 @@ predict.rtModBag <- function(object,
 #' @field xnames Character vector: Column names of x
 #' @field parameters List of algorithm hyperparameters
 #' @field n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
-#' \code{resampler} this many times.
+#' `resampler` this many times.
 #' @field resampler.params List of resampling parameters
-#' @field resamples Resamples produced by \link{resample}
+#' @field resamples Resamples produced by [resample]
 #' @field y.train.res Resamples' true training values
 #' @field y.train.res.aggr Aggregated training set outcomes
 #' @field fitted.res Resamples' fitted values
@@ -1409,9 +1409,9 @@ rtModCV <- R6::R6Class("rtModCV",
         sessionInfo = NULL,
         # Initialize rtModCV ----
         #' @description
-        #' Initialize \code{rtModCV} object
+        #' Initialize `rtModCV` object
         #'
-        #' @param mod \code{rtModCV} object
+        #' @param mod `rtModCV` object
         #' @param mod.name Model (algorithm) name
         #' @param type "Classification", "Regression", or "Survival"
         #' @param y.train Training set y data
@@ -1420,12 +1420,12 @@ rtModCV <- R6::R6Class("rtModCV",
         #' @param y.name Name of y data
         #' @param xnames Character vector: Column names of x
         #' @param parameters List of algorithm hyperparameters
-        #' @param resampler List of settings for \link{resample}.
-        #' Set using \link{rtset.cv.resample}
+        #' @param resampler List of settings for [resample].
+        #' Set using [rtset.cv.resample]
         #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
-        #' \code{resampler} this many times.
+        #' `resampler` this many times.
         #' @param resampler.params List of resampling parameters
-        #' @param resamples Resamples produced by \link{resample}
+        #' @param resamples Resamples produced by [resample]
         #' @param y.train.res Resamples' fitted values
         #' @param y.train.res.aggr Aggregated training set outcomes
         #' @param fitted.res Resamples' fitted values
@@ -1529,7 +1529,7 @@ rtModCV <- R6::R6Class("rtModCV",
         # Methods
         # Print rtModCV ----
         #' @description
-        #' \code{print} method for \code{rtModCV} object
+        #' `print` method for `rtModCV` object
         print = function() {
             "R6 show / print method for rtModCV"
             objcat(paste("Cross-Validated", self$type, "Model"))
@@ -1576,7 +1576,7 @@ rtModCV <- R6::R6Class("rtModCV",
         },
         # Plot rtModCV ----
         #' @description
-        #' \code{plot} method for \code{rtModCV} object
+        #' `plot` method for `rtModCV` object
         #' @param which.repeat Integer: which repeat to plot
         #' @param ... Additional arguments passed to plotting function
         plot = function(which.repeat = 1, ...) {
@@ -1730,7 +1730,7 @@ rtModCV <- R6::R6Class("rtModCV",
         },
         # Describe rtModCV ----
         #' @description
-        #' Describe \code{rtModCV}
+        #' Describe `rtModCV`
         describe = function() {
             type <- self$type
             algorithm <- modSelect(self$mod.name, desc = TRUE)
@@ -1860,17 +1860,17 @@ rtModCV <- R6::R6Class("rtModCV",
 )
 
 # rtModCV S3 methods ####
-#' S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} superclass
+#' S3 methods for `rtModCV` class that differ from those of the `rtMod` superclass
 #'
 #' @name rtModCV-methods
 NULL
 
 
-#' \code{plot.rtModCV}: \code{plot} method for \code{rtModCV} object
+#' `plot.rtModCV`: `plot` method for `rtModCV` object
 #'
 #' @method plot rtModCV
 #'
-#' @param x \code{rtModCV} object
+#' @param x `rtModCV` object
 #' @param ... Additional arguments to pass to plotting function
 #'
 #' @rdname rtModCV-methods
@@ -1880,11 +1880,11 @@ plot.rtModCV <- function(x, ...) {
 } # rtemis::plot.rtModCV
 
 
-#' \code{summary.rtModCV}: \code{summary} method for \code{rtModCV} object
+#' `summary.rtModCV`: `summary` method for `rtModCV` object
 #'
 #' @method summary rtModCV
 #'
-#' @param object \code{rtModCV} object
+#' @param object `rtModCV` object
 #' @param ... Not used
 #'
 #' @rdname rtModCV-methods
@@ -1894,10 +1894,10 @@ summary.rtModCV <- function(object, ...) {
 } # rtemis::summary.rtModCV
 
 
-#' \code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
+#' `predict.rtModCV`: `predict` method for `rtModCV` object
 #'
 #' @method predict rtModCV
-#' @param object \code{rtModCV} object
+#' @param object `rtModCV` object
 #' @param newdata Set of predictors to use
 #' @param which.repeat Integer: Which repeat to use for prediction
 #' @param bag.fn Function to use to average predictions of different models
@@ -1947,9 +1947,9 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         predicted.prob.aggr = NULL,
         # Initialize ----
         #' @description
-        #' Initialize \code{rtModCVClass} object
+        #' Initialize `rtModCVClass` object
         #'
-        #' @param mod \code{rtModCV} object
+        #' @param mod `rtModCV` object
         #' @param mod.name Model (algorithm) name
         #' @param type "Classification", "Regression", or "Survival"
         #' @param y.train Training set y data
@@ -1958,12 +1958,12 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param y.name Name of y data
         #' @param xnames Character vector: Column names of x
         #' @param parameters List of algorithm hyperparameters
-        #' @param resampler List of settings for \link{resample}.
-        #' Set using \link{rtset.cv.resample}
+        #' @param resampler List of settings for [resample].
+        #' Set using [rtset.cv.resample]
         #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
-        #' \code{resampler} this many times.
+        #' `resampler` this many times.
         #' @param resampler.params List of resampling parameters
-        #' @param resamples Resamples produced by \link{resample}
+        #' @param resamples Resamples produced by [resample]
         #' @param y.train.res Resamples' fitted values
         #' @param y.train.res.aggr Aggregated training set outcomes
         #' @param fitted.res Resamples' fitted values
@@ -2125,11 +2125,11 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param which.repeat Integer: Which repeat to plot
         #' @param main Character: Main title
         #' @param col Color for lines
-        #' @param alpha Transparency for lines (passed to \code{mplot3_xy marker.alpha})
+        #' @param alpha Transparency for lines (passed to `mplot3_xy marker.alpha`)
         #' @param filename Character: Filename to save plot to
         #' @param pdf.width Width of PDF output in inches
         #' @param pdf.height Height of PDF output in inches
-        #' @param ... Additional arguments passed to \link{mplot3_roc}
+        #' @param ... Additional arguments passed to [mplot3_roc]
         plotROCpredictedCV = function(which.repeat = 1,
                                       main = "ROC Testing",
                                       col = "#16A0AC",
@@ -2169,7 +2169,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' Plot Precision-Recall curve
         #' @param which.repeat Integer: Which repeat to use
         #' @param ... Additional arguments passed to
-        #' \code{plotPRpredicted} method
+        #' `plotPRpredicted` method
         plotPR = function(which.repeat = 1, ...) {
             self$plotPRpredicted(which.repeat = which.repeat, ...)
         },
@@ -2179,7 +2179,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param which.repeat Integer: Which repeat to use
         #' @param main Character: main title
         #' @param ... Additional arguments passed to
-        #' \code{mplot3_pr}
+        #' `mplot3_pr`
         plotPRfitted = function(which.repeat = 1,
                                 main = "P-R Training", ...) {
             if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
@@ -2197,7 +2197,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param which.repeat Integer: Which repeat to use
         #' @param main Character: main title
         #' @param ... Additional arguments passed to
-        #' \code{mplot3_pr}
+        #' `mplot3_pr`
         plotPRpredicted = function(which.repeat = 1,
                                    main = "P-R Testing", ...) {
             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
@@ -2251,7 +2251,7 @@ rtMeta <- R6::R6Class("rtMeta",
         sessionInfo = NULL,
         # Initialize rtMeta ----
         #' @description
-        #' Initialize \code{rtMeta} object
+        #' Initialize `rtMeta` object
         #' @param mod.name Character: Algorithm name
         #' @param y.train Training set output
         #' @param y.test Testing set output
@@ -2343,7 +2343,7 @@ rtMeta <- R6::R6Class("rtMeta",
         ### Methods
         # Print rtMeta ----
         #' @description
-        #' Plot method for \code{rtMeta} objects
+        #' Plot method for `rtMeta` objects
         print = function() {
             "R6 show / print method for rtMeta"
             objcat("Meta Model")
@@ -2364,17 +2364,17 @@ rtMeta <- R6::R6Class("rtMeta",
 # rtMeta S3 methods ####
 #' rtMeta S3 methods
 #'
-#' S3 methods for \code{rtMeta} class that differ from those of the \code{rtMod} superclass
+#' S3 methods for `rtMeta` class that differ from those of the `rtMod` superclass
 #'
 #'
 #' @name rtMeta-methods
 NULL
 
-#' \code{predict} method for \code{rtMeta} object
+#' `predict` method for `rtMeta` object
 #'
 #' @method predict rtMeta
 #'
-#' @param object \code{rtMeta} object
+#' @param object `rtMeta` object
 #' @param newdata Testing set features
 #' @param fn Function to average predictions
 #'
@@ -2414,9 +2414,9 @@ predict.rtMeta <- function(object,
 #' b. estimate error metrics.
 #' This reflects generalizability of the model and is the error we care the most about.
 #' It is saved in rtemis models
-#' as \code{error.test}.
+#' as `error.test`.
 #' The validation set is used during model tuning. Within rtemis, validation sets are created and
-#' used automatically by \link{resample} when appropriate, they are not generally input by the user
+#' used automatically by [resample] when appropriate, they are not generally input by the user
 #' (with few exceptions).
 #' @docType class
 #' @name rtModLite-class
@@ -2434,7 +2434,7 @@ rtModLite <- R6::R6Class("rtModLite",
         fitted = NULL,
         # Initialize rtModLite ----
         #' @description
-        #' Initialize \code{rtModLite} object
+        #' Initialize `rtModLite` object
         #' @param mod Trained model
         #' @param mod.name Algorithm name
         #' @param fitted Vector of fitted values
@@ -2448,7 +2448,7 @@ rtModLite <- R6::R6Class("rtModLite",
         ### Methods
         # Print rtModLite ----
         #' @description
-        #' Plot method for \code{rtModLite} object
+        #' Plot method for `rtModLite` object
         print = function() {
             "show / print method for rtModLite"
             objcat("Lite Supervised Model")
@@ -2463,17 +2463,17 @@ rtModLite <- R6::R6Class("rtModLite",
 # rtModLite S3 methods ----
 #' rtModLite S3 methods
 #'
-#' S3 methods for \code{rtModLite} class.
+#' S3 methods for `rtModLite` class.
 #'
 #' @name rtModLite-methods
 NULL
 
 
-#' \code{print.rtModLite}: \code{print} method for \code{rtModLite} object
+#' `print.rtModLite`: `print` method for `rtModLite` object
 #'
 #' @method print rtModLite
 #'
-#' @param x \code{rtModLite} object
+#' @param x `rtModLite` object
 #' @param ... Not used
 #'
 #' @rdname rtModLite-methods
@@ -2483,13 +2483,13 @@ print.rtModLite <- function(x, ...) {
 } # rtemis::print.rtModLite
 
 
-#' \code{predict.rtModLite}: \code{predict} method for \code{rtModLite} object
+#' `predict.rtModLite`: `predict` method for `rtModLite` object
 #'
 #' @method predict rtModLite
 #'
-#' @param object \code{rtModLite} object
+#' @param object `rtModLite` object
 #' @param newdata Testing set features
-#' @param ... Additional argument passed to \code{predict(object)}
+#' @param ... Additional argument passed to `predict(object)`
 #'
 #' @rdname rtMod-methods
 #' @export
@@ -2548,11 +2548,11 @@ predict.rtModLite <- function(object, newdata, ...) {
 #' @param y.test Test set predictions
 #' @param mod.name Character: name of algorithm used to train model
 #' @param outdir Character: Path to directory to save model
-#' @param save.mod Logical: if TRUE, save trained model to \code{outdir},
+#' @param save.mod Logical: if TRUE, save trained model to `outdir`,
 #' otherwise save only log, summary, and plots
 #' @param verbose Logical: If TRUE, print messages in console
 #' @param theme rtemis theme to use
-#' @param ... Additional arguments passed to \code{plot(rt)}
+#' @param ... Additional arguments passed to `plot(rt)`
 #'
 #' @author E.D. Gennatas
 #' @keywords internal

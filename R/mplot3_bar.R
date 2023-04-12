@@ -3,7 +3,7 @@
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: groups support (set xlim for besides = T)
 
-#' \code{mplot3}: Barplot
+#' `mplot3`: Barplot
 #'
 #' Draw barplots
 #'
@@ -12,17 +12,17 @@
 #' If Matrix, each column is a vector, so multiple columns signify a different group.
 #' e.g. Columns could be months and rows could be N days sunshine, N days rainfall, N days snow, etc.
 #' @param col Vector of colors to use
-#' @param alpha Float: Alpha to be applied to \code{col}
+#' @param alpha Float: Alpha to be applied to `col`
 #' @param border Color if you wish to draw border around bars, NA for no borders (Default)
 #' @param space Float: Space left free on either side of the bars, as a fraction of bar width. A single number or a
-#' vector, one value per bar. If \code{x} is a matrix, space can be length 2 vector, signifying space between bars
-#' within group and between groups. Default = c(0, 1) if x is matrix and \code{beside = TRUE}, otherwise Default = .2
+#' vector, one value per bar. If `x` is a matrix, space can be length 2 vector, signifying space between bars
+#' within group and between groups. Default = c(0, 1) if x is matrix and `beside = TRUE`, otherwise Default = .2
 #' @param color.bygroup Logical: If TRUE, and input is a matrix, each group's bars will be given the same color,
 #' otherwise bars across groups will be given the same sequence of colors. Default = FALSE
 #' @param legend Logical: If TRUE, and input is matrix, draw legend for each case. Note: you may need to adjust
-#' \code{mar} and \code{legend.inset} if you want to place the legend outside the plot
-#' (can use e.g.\code{legend.inset = c(-.5, 0)})
-#' @param ... Additional arguments to \code{graphics::barplot}
+#' `mar` and `legend.inset` if you want to place the legend outside the plot
+#' (can use e.g.`legend.inset = c(-.5, 0)`)
+#' @param ... Additional arguments to `graphics::barplot`
 #' @author E.D. Gennatas
 #' @export
 

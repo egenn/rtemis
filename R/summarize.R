@@ -5,15 +5,15 @@
 #' Summarize numeric variables
 #'
 #' @param x data.frame or data.table (will be coerced to data.table)
-#' @param varname Character, vector: Variable name(s) to summarize. Must be column names in \code{x}
+#' @param varname Character, vector: Variable name(s) to summarize. Must be column names in `x`
 #' of type numeric.
 #' @param group_by Character, vector: Variable name(s) of factors to group by. Must be column names
-#' in \code{x}. Default = NULL
+#' in `x`. Default = NULL
 #' @param type Character: "all", "median-range" or "mean-sd". Default = "all",
 #' which returns Mean, SD, Median, Range, NA (number of NA values)
-#' @param na.rm Logical: Passed to \code{median} and \code{mean}. Default = TRUE
+#' @param na.rm Logical: Passed to `median` and `mean`. Default = TRUE
 #'
-#' @return \code{data.table} with summary
+#' @return `data.table` with summary
 #'
 #' @author E.D. Gennatas
 #' @export

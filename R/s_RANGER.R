@@ -5,18 +5,18 @@
 # TODO: Add Survival support
 # TODO: Use inbag and resample for stratified bootstraps
 
-#' Random Forest Classification and Regression [C, R]
+#' Random Forest Classification and Regression (C, R)
 #'
-#' Train a Random Forest for regression or classification using \code{ranger}
+#' Train a Random Forest for regression or classification using `ranger`
 #'
 #' You should cconsider, or try, setting mtry to NCOL(x), especially for small number of features.
 #' By default mtry is set to NCOL(x) for NCOL(x) <= 20.
 #' For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
-#' If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
+#' If `autotune = TRUE`, `randomForest::tuneRF` will be run to determine best `mtry`
 #'   value.
 #' [gS]: indicated parameter will be tuned by grid search if more than one value is passed
 #'
-#' See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
+#' See [Tech Report](https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf) comparing
 #' balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
 #'
 #' @inheritParams s_RF
@@ -31,33 +31,33 @@
 #' For regression: "variance" (Default), "extratrees" or "maxstat".
 #' For survival "logrank" (Default), "extratrees", "C" or "maxstat".
 #' @param ipw.case.weights Logical: If TRUE, define ranger's
-#' \code{case.weights} using IPW. Default = TRUE
-#' Note: Cannot use case.weights together with \code{stratify.on.y} or
-#' \code{inbag.resample}
+#' `case.weights` using IPW. Default = TRUE
+#' Note: Cannot use case.weights together with `stratify.on.y` or
+#' `inbag.resample`
 #' @param ipw.class.weights Logical: If TRUE, define ranger's
-#' \code{class.weights} using IPW. Default = FALSE
+#' `class.weights` using IPW. Default = FALSE
 #' @param probability Logical: If TRUE, grow a probability forest.
-#' See \code{ranger::ranger}. Default = FALSE
+#' See `ranger::ranger`. Default = FALSE
 #' @param importance Character: "none", "impurity", "impurity_corrected", or
 #' "permutation"
 #' Default = "impurity"
 #' @param local.importance Logical: If TRUE, return local importance values.
 #' Only applicable if
-#' \code{importance} is set to "permutation".
+#' `importance` is set to "permutation".
 #' @param classwt Vector, Float: Priors of the classes for
-#' \code{randomForest::tuneRF} if \code{autotune = TRUE}.
+#' `randomForest::tuneRF` if `autotune = TRUE`.
 #' For classification only; need not add up to 1
-#' @param inbag.resample List, length \code{n.tree}: Output of
-#' \link{rtset.resample} to define resamples used for each
+#' @param inbag.resample List, length `n.tree`: Output of
+#' [rtset.resample] to define resamples used for each
 #' tree. Default = NULL
-#' @param stratify.on.y Logical: If TRUE, overrides \code{inbag.resample} to
+#' @param stratify.on.y Logical: If TRUE, overrides `inbag.resample` to
 #' use stratified bootstraps for each tree.
 #' This can help improve test set performance in imbalanced datasets.
-#' Default = FALSE. Note: Cannot be used with \code{ipw.case.weights}
-#' @param ... Additional arguments to be passed to \code{ranger::ranger}
-#' @return \link{rtMod} object
+#' Default = FALSE. Note: Cannot be used with `ipw.case.weights`
+#' @param ... Additional arguments to be passed to `ranger::ranger`
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Ensembles

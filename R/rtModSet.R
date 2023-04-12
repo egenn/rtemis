@@ -5,7 +5,7 @@
 #' \pkg{rtemis} model
 #'
 #' Creates an \pkg{rtemis} object of your choice of class. All available class systems are supported,
-#' but at this point \code{R6} is the default and most widely tested.
+#' but at this point `R6` is the default and most widely tested.
 #'
 #' @param rtclass Character: Object class
 #' @param mod Trained model

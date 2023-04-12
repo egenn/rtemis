@@ -4,9 +4,9 @@
 
 #' Interactive Variable Importance Plot
 #'
-#' Plot variable importance using \code{plotly}
+#' Plot variable importance using `plotly`
 #'
-#' A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, 
+#' A simple `plotly` wrapper to plot horizontal barplots, sorted by value, 
 #' which can be used to visualize variable importance, model coefficients, etc.
 #' @inheritParams mplot3_varimp
 #' @param names Vector, string: Names of features
@@ -23,10 +23,10 @@
 #' title at this point).
 #' Default = 14
 #' @param axis.font.size Integer: Font size to use for axis labels and tick labels
-#' (Seems not to be in same scale as \code{font.size} for some reason. 
+#' (Seems not to be in same scale as `font.size` for some reason. 
 #' Experiment!)
 #' @param theme Output of an rtemis theme function (list of parameters) or theme
-#' name. Use \code{themes()} to print available themes.
+#' name. Use `themes()` to print available themes.
 #' @param showlegend Logical: If TRUE, show legend
 #' @param ... Additional arguments passed to theme
 #'

@@ -128,14 +128,14 @@ Create a gradient of colors and optionally a colorbar
 It is best to provide an odd number, so that there is always an equal number of colors on either side
 of the midpoint.
 For example, if you want a gradient from -1 to 1 or equivalent, an n = 11, will give 5 colors on either
-side of 0, each representing a 20\% change from the next.
+side of 0, each representing a 20\\% change from the next.
 
 \code{colors} can be defined as a sequence of 3-letter color abbreviations of 2, 3, 4, or 5 colors
-  which will correspond to values: \{"lo","hi"\}; \{"lo", "mid", "hi"\}; \{"lo", "mid", "midhi", "hi"\}, and
-  \{"lo", "lomid", "mid", "midhi", "hi"\}, respectively.
-  For example, try \code{colorGrad(21, "blugrnblkredyel", colorbar = TRUE)}
-  3-letter color abbreviations:
-   wht: white; blk: black; red; grn: green; blu: blue; yel: yellow; rng: orange; prl: purple
+which will correspond to values: \{"lo","hi"\}; \{"lo", "mid", "hi"\}; \{"lo", "mid", "midhi", "hi"\}, and
+\{"lo", "lomid", "mid", "midhi", "hi"\}, respectively.
+For example, try \code{colorGrad(21, "blugrnblkredyel", colorbar = TRUE)}
+3-letter color abbreviations:
+wht: white; blk: black; red; grn: green; blu: blue; yel: yellow; rng: orange; prl: purple
 }
 \author{
 E.D. Gennatas

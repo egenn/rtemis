@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_HAL.R
 \name{s_HAL}
 \alias{s_HAL}
-\title{Highly Adaptive LASSO [C, R, S]}
+\title{Highly Adaptive LASSO \link{C, R, S}}
 \usage{
 s_HAL(
   x,
@@ -54,13 +54,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
@@ -73,12 +73,12 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -113,7 +113,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a HAL model
 }
 \details{
-\code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided,
+\verb{[gS]} Indicates tunable hyperparameters: If more than a single value is provided,
 grid search will be automatically performed
 }
 \seealso{

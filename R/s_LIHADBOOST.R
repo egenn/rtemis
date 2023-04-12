@@ -16,11 +16,11 @@
 #' @param init Float: Initial value for prediction. Default = mean(y)
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
+#' @param base.verbose Logical: `verbose` argument passed to learner
 #' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
 #' end of training. If integer, plot training and validation error curve every this many iterations
 #' during training
-#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
+#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
 #' @author E.D. Gennatas

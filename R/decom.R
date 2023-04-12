@@ -6,14 +6,14 @@
 #'
 #' Convenience function to perform any \pkg{rtemis} decomposition
 #'
-#' \code{decom} returns an R6 class object \code{rtDecom}
+#' `decom` returns an R6 class object `rtDecom`
 #'
 #' @param x Numeric matrix / data frame: Input data
 #' @param decom Character: Decomposer name. See ]link{decomSelect}.
 #' @param verbose Logical: if TRUE, print messages to console
-#' @param ... Additional arguments to be passed to \code{decom}
+#' @param ... Additional arguments to be passed to `decom`
 #' 
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @export
 

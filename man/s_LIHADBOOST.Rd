@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LIHADBOOST.R
 \name{s_LIHADBOOST}
 \alias{s_LIHADBOOST}
-\title{Boosting of Linear Hard Additive Trees [R]}
+\title{Boosting of Linear Hard Additive Trees \link{R}}
 \usage{
 s_LIHADBOOST(
   x,
@@ -81,7 +81,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
 
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
+\item{cxrcoef}{Logical: If TRUE, pass \verb{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
 
 \item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
 end of training. If integer, plot training and validation error curve every this many iterations

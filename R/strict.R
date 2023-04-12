@@ -6,7 +6,7 @@
 #'
 #' Allow assignment only if input is of correct class and/or type
 #'
-#' @param x Value to be assigned if \code{type} matches
+#' @param x Value to be assigned if `type` matches
 #' @param accept.class Required class of value
 #' @param accept.type Required type of value
 #' @author E.D. Gennatas

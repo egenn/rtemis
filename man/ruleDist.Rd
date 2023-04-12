@@ -30,7 +30,7 @@ ruleDist(
 
 \item{heat.lo}{Color: Heatmap low color. Default = "black"}
 
-\item{heat.mid}{Color: Heatmap mid color. Default = NA (i.e. create gradient from `heat.lo` to `heat.hi`)}
+\item{heat.mid}{Color: Heatmap mid color. Default = NA (i.e. create gradient from \code{heat.lo} to \code{heat.hi})}
 
 \item{heat.hi}{Colo: Heatmap hi colo. Default = "#F48024" (orange)}
 

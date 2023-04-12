@@ -48,7 +48,7 @@ matrix. Default = 0, i.e. no penalty. May need to increase with collinear featur
 }
 \description{
 Perform sparse and/or non-negative PCA or cumulative PCA decomposition
-  using \code{nsprcomp::nsprcomp} or \code{nsprcomp::nscumcomp} respectively
+using \code{nsprcomp::nsprcomp} or \code{nsprcomp::nscumcomp} respectively
 }
 \details{
 Project scaled variables to sparse and/or non-negative PCA components.

@@ -2,17 +2,17 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' \code{rtemis internal}: Low-level Hybrid Tree procedure
+#' `rtemis internal`: Low-level Hybrid Tree procedure
 #'
 #' Train a Hybrid Tree for Regression
 #'
-#' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
+#' Note that lambda is treated differently by `glmnet::glmnet` and `MASS::lm.ridge`
 #' 
 #' @inheritParams s_LIHAD
 #' @param x data.frame
-#' @param lin.type Character: "glmnet", "cv.glmnet" use the equivalent \code{glmnet} functions.
-#' "lm.ridge" uses the MASS function of that name, "glm" uses \code{lm.fit},
-#' "forward.stagewise" and "stepwise" use \code{lars::lars} with \code{type} defined accordingly
+#' @param lin.type Character: "glmnet", "cv.glmnet" use the equivalent `glmnet` functions.
+#' "lm.ridge" uses the MASS function of that name, "glm" uses `lm.fit`,
+#' "forward.stagewise" and "stepwise" use `lars::lars` with `type` defined accordingly
 #' 
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -512,15 +512,15 @@ partLmw <- function(x1, y1,    # remove x, use .env$x
 } # rtemis::partLmw
 
 
-#' Predict method for \code{hytreew} object
+#' Predict method for `hytreew` object
 #'
 #' @method predict hytreew
-#' @param object \code{hytreew}
+#' @param object `hytreew`
 #' @param newdata Data frame of predictors
-#' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
+#' @param n.feat [Internal use] Integer: Use first `n.feat` columns of newdata to predict.
 #' Defaults to all
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' \code{newdata}
+#' `newdata`
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values

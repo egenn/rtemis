@@ -4,7 +4,7 @@
 
 #' Classification and Regression Trees [C, R, S]
 #'
-#' Train a CART for regression or classification using \code{rpart}
+#' Train a CART for regression or classification using `rpart`
 #'
 #' [gS] indicates grid search will be performed automatically if more than one 
 #' value is passed
@@ -15,11 +15,11 @@
 #' @param maxdepth [gS] Integer: Maximum depth of tree.
 #' @param maxcompete Integer: The number of competitor splits saved in the 
 #' output
-#' @param usesurrogate See \code{rpart::rpart.control}
+#' @param usesurrogate See `rpart::rpart.control`
 #' @param xval Integer: Number of cross-validations
-#' @param surrogatestyle See \code{rpart::rpart.control}
+#' @param surrogatestyle See `rpart::rpart.control`
 #' @param maxsurrogate Integer: The number of surrogate splits retained in the 
-#' output (See \code{rpart::rpart.control}).
+#' output (See `rpart::rpart.control`).
 #' @param minsplit [gS] Integer: Minimum number of cases that must belong in a 
 #' node before considering a split.
 #' @param minbucket [gS] Integer: Minimum number of cases allowed in a child 
@@ -27,32 +27,32 @@
 #' @param prune.cp [gS] Numeric: Complexity for cost-complexity pruning after 
 #' tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
-#' @param return.unpruned Logical: If TRUE and \code{prune.cp} is set, return 
-#' unpruned tree under \code{extra} in \link{rtMod}.
-#' @param grid.resample.rtset List: Output of \link{rtset.resample} defining 
-#' \link{gridSearchLearn} parameters. 
+#' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return 
+#' unpruned tree under `extra` in [rtMod].
+#' @param grid.resample.rtset List: Output of [rtset.resample] defining 
+#' [gridSearchLearn] parameters. 
 #' @param grid.search.type Character: Type of grid search to perform: 
 #' "exhaustive" or "randomized".
 #' @param grid.randomized.p Float (0, 1): If 
-#' \code{grid.search.type = "randomized"}, randomly test this proportion of
+#' `grid.search.type = "randomized"`, randomly test this proportion of
 #' combinations.
 #' @param metric Character: Metric to minimize, or maximize if 
-#' \code{maximize = TRUE} during grid search. Default = NULL, which results in 
+#' `maximize = TRUE` during grid search. Default = NULL, which results in 
 #' "Balanced Accuracy" for Classification,
 #' "MSE" for Regression, and "Coherence" for Survival Analysis.
-#' @param maximize Logical: If TRUE, \code{metric} will be maximized if grid 
+#' @param maximize Logical: If TRUE, `metric` will be maximized if grid 
 #' search is run.
 #' @param parms List of additional parameters for the splitting function.
-#' See \code{rpart::rpart("parms")}
+#' See `rpart::rpart("parms")`
 #' @param cost Vector, Float (> 0): One for each variable in the model.
-#' See \code{rpart::rpart("cost")}
+#' See `rpart::rpart("cost")`
 #' @param model Logical: If TRUE, keep a copy of the model.
-#' @param grid.verbose Logical: Passed to \link{gridSearchLearn}
+#' @param grid.verbose Logical: Passed to [gridSearchLearn]
 #' @param n.cores Integer: Number of cores to use.
 #' 
-#' @return Object of class \link{rtMod}
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models

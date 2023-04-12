@@ -4,7 +4,7 @@
 
 #' Fuzzy C-means Clustering
 #'
-#' Perform fuzzy C-means clustering using \code{e1071::cmeans}
+#' Perform fuzzy C-means clustering using `e1071::cmeans`
 #'
 #' @param x Input data
 #' @param k Integer: Number of clusters to get. Default = 2
@@ -14,12 +14,12 @@
 #' @param m Float (>1): Degree of fuzzification. Default = 2
 #' @param rate.par Float (0, 1): Learning rate for the online variant. (Default = .3)
 #' @param weights Float (>0): Case weights
-#' @param control List of control parameters. See \code{e1071::cmeans}
+#' @param control List of control parameters. See `e1071::cmeans`
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param ... Additional parameters to be passed to \code{e1071::cmeans}
+#' @param ... Additional parameters to be passed to `e1071::cmeans`
 #'
 #' @author E.D. Gennatas
-#' @return \link{rtClust} object
+#' @return [rtClust] object
 #' @family Clustering
 #' @export
 

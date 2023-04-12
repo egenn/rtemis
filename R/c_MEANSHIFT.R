@@ -4,7 +4,7 @@
 
 #' Mean Shift Clustering
 #'
-#' Perform Mean Shift clustering using \code{meanShiftR::meanShift}
+#' Perform Mean Shift clustering using `meanShiftR::meanShift`
 #'
 #' @param x Input matrix
 #' @param nNeighbors Integer: Number of neighbors to consider for kernel 
@@ -32,7 +32,7 @@
 #' store in a leaf node and the maximum value for the quadratic form in the 
 #' normal kernel, ignoring the constant value -0.5.
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' @param ... Additional parameters to be passed to `flexclust::cclust`
 #' 
 #' @author E.D. Gennatas
 #' @family Clustering

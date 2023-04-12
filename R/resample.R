@@ -6,43 +6,43 @@
 #'
 #' Create resamples of your data, e.g. for model building or validation.
 #' "bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using
-#' \link{bootstrap}, "strat.sub" creates stratified subsamples using \link{strat.sub},
-#' while "strat.boot" uses \link{strat.boot} which runs \link{strat.sub} and then
+#' [bootstrap], "strat.sub" creates stratified subsamples using [strat.sub],
+#' while "strat.boot" uses [strat.boot] which runs [strat.sub] and then
 #' randomly duplicates some of the training cases to reach original length of input
-#' (default) or length defined by \code{target.length}.
+#' (default) or length defined by `target.length`.
 #'
-#' \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
-#' \link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples
+#' `resample` is used by multiple \pkg{rtemis} learners, [gridSearchLearn], and
+#' [elevate]. Note that option 'kfold', which uses [kfold] results in resamples
 #' of slightly different length for y of small length, so avoid all operations which rely
 #' on equal-length vectors. For example, you can't place resamples in a data.frame, but
 #' must use a list instead.
 #'
-#' @param y Vector or data.frame: Usually the outcome; \code{NROW(y)} defines sample size
+#' @param y Vector or data.frame: Usually the outcome; `NROW(y)` defines sample size
 #' @param n.resamples Integer: Number of training/testing sets required
 #' @param resampler Character: Type of resampling to perform: "bootstrap", "kfold",
 #' "strat.boot", "strat.sub".
 #' @param index List where each element is a vector of training set indices. Use this for
 #' manual/pre-defined train/test splits
-#' @param group Integer, vector, length = \code{length(y)}: Integer vector, where numbers
+#' @param group Integer, vector, length = `length(y)`: Integer vector, where numbers
 #' define fold membership. e.g. for 10-fold on a dataset with 1000 cases, you could use
-#' \code{group = rep(1:10, each = 100)}
+#' `group = rep(1:10, each = 100)`
 #' @param stratify.var Numeric vector (optional): Variable used for stratification.
 #' @param train.p Float (0, 1): Fraction of cases to assign to traininig set for
-#' \code{resampler = "strat.sub"}
+#' `resampler = "strat.sub"`
 #' @param strat.n.bins Integer: Number of groups to use for stratification for
-#'   \code{resampler = "strat.sub" / "strat.boot"}
+#'   `resampler = "strat.sub" / "strat.boot"`
 #' @param target.length Integer: Number of cases for training set for
-#' \code{resampler = "strat.boot"}.
+#' `resampler = "strat.boot"`.
 #' @param id.strat Vector of IDs which may be replicated: resampling should 
 #' force replicates of each ID to only appear in the training or testing.
-#' @param rtset List: Output of an \link{rtset.resample} (or named list with same
+#' @param rtset List: Output of an [rtset.resample] (or named list with same
 #' structure). NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make
-#' output reproducible. See \code{?base::set.seed}
+#' output reproducible. See `?base::set.seed`
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
-#' @seealso \link{elevate}
+#' @seealso [elevate]
 #' @export
 #' @examples
 #' y <- rnorm(200)
@@ -242,14 +242,14 @@ resample <- function(y,
 } # rtemis::resample
 
 
-#' \code{plot} method for \code{resample} object
+#' `plot` method for `resample` object
 #'
-#' Run \link{mplot3_res} on a \link{resample} object
+#' Run [mplot3_res] on a [resample] object
 #'
 #' @method plot resample
 #' @param x Vector; numeric or factor: Outcome used for resampling
 #' @param col Vector, color
-#' @param ... Additional arguments passed to \link{mplot3_res}
+#' @param ... Additional arguments passed to [mplot3_res]
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -259,12 +259,12 @@ plot.resample <- function(x, col = NULL, ...) {
 } # rtemis::plot.resample
 
 
-#' \code{print} method for \link{resample} object
+#' `print` method for [resample] object
 #'
 #' Print resample information
 #'
 #' @method print resample
-#' @param x \link{resample} object
+#' @param x [resample] object
 #' @author E.D. Gennatas
 #' @export
 

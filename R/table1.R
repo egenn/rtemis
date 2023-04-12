@@ -9,11 +9,11 @@
 #' The output will look like "summaryFn1 (summaryFn2)".
 #' Using defaults this will be "mean (sd)"
 #' @param x data.frame or matrix: Input data, cases by features
-#' @param summaryFn1 Function: Summary function 1. Default = \code{mean}. See Details
-#' @param summaryFn2 Function: Summary function 2. Default = \code{sd}. See Details
-#' @param summaryFn1.extraArgs List: Extra arguments for \code{summaryFn1}.
-#' @param summaryFn2.extraArgs List: Extra arguments for \code{summaryFn2}.
-#' @param labelify Logical: If TRUE, apply \link{labelify} to column names of  \code{x}
+#' @param summaryFn1 Function: Summary function 1. Default = `mean`. See Details
+#' @param summaryFn2 Function: Summary function 2. Default = `sd`. See Details
+#' @param summaryFn1.extraArgs List: Extra arguments for `summaryFn1`.
+#' @param summaryFn2.extraArgs List: Extra arguments for `summaryFn2`.
+#' @param labelify Logical: If TRUE, apply [labelify] to column names of  `x`
 #' @param verbose Logical: If TRUE, print messages to console.
 #' @param filename Character: Path to output CSV file to save table.
 #' 

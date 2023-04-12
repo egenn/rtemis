@@ -21,7 +21,7 @@ xlsx2list(
 \item{sheet}{Integer, vector: Sheet(s) to read. If NULL, will read all
 sheets in \code{x}}
 
-\item{startRow}{Integer, vector: First row to start reading. Will be 
+\item{startRow}{Integer, vector: First row to start reading. Will be
 recycled as needed for all sheets}
 
 \item{colNames}{Logical: If TRUE, use the first row of data}

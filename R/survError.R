@@ -24,9 +24,9 @@ survError <- function(true, estimated) {
 } # rtemis::survError
 
 
-#' Print \link{survError}
+#' Print [survError]
 #'
-#' @param x Object of type \link{survError}
+#' @param x Object of type [survError]
 #' @param decimal.place Integer: Number of decimal places to print. Default = 4
 #' @param ... Not used
 #' 
@@ -53,12 +53,12 @@ print.survError <- function(x, decimal.places = 4, ...) {
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Print \code{survError} object
+#' Print `survError` object
 #'
-#' \code{print} \code{survError} object
+#' `print` `survError` object
 #'
 #' @method print survError
-#' @param x \code{survError} object
+#' @param x `survError` object
 #' @author E.D. Gennatas
 
 # print.survError <- function(x, ...) {

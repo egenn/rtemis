@@ -4,25 +4,25 @@
 
 #' Interactive Scatter Plots
 #'
-#' Draw interactive scatter plots using \code{plotly}
+#' Draw interactive scatter plots using `plotly`
 #'
 #' use theme$tick.labels.col for both tick color and tick label color - this may change
 #' @inheritParams dplot3_bar
 #' @inheritParams mplot3_xy
-#' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
-#' \code{x} and \code{y}, respectively
+#' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and `NCOL(x) > 1`, first two columns used as
+#' `x` and `y`, respectively
 #' @param y Numeric, vector/data.frame/list: y-axis data
 #' @param col Color for markers. Default=NULL, which will draw colors from palette
-#' @param rsq Logical: If TRUE, print R-squared values in legend if \code{fit} is set
+#' @param rsq Logical: If TRUE, print R-squared values in legend if `fit` is set
 #' @param mode Character, vector: "markers", "lines", "markers+lines". Default = "markers"
-#' @param order.on.x Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
-#' \code{TRUE} if \code{mode} includes lines.
+#' @param order.on.x Logical: If TRUE, order `x` and `y` on `x`. Default = NULL, which becomes
+#' `TRUE` if `mode` includes lines.
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic device.
 #' Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
 #' to draw the largest square available. This means that resizing the device window will not automatically resize the
 #' plot.
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
-#' groups, or \code{fit} is set
+#' groups, or `fit` is set
 #' @param hovertext List of character vectors with hovertext to include for each group of markers
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill available space

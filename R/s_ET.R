@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' ExtraTrees [C, R]
+#' ExtraTrees (C, R)
 #'
 #' Train an ExtraTrees model and validate
 #'
@@ -10,7 +10,7 @@
 #' @inheritParams s_RF
 #' @param n.cores Integer. N of cores to use
 #' @param verbose Logical. Print summary to screen
-#' @param ... Additional parameters to be passed to \code{extraTrees}
+#' @param ... Additional parameters to be passed to `extraTrees`
 #' 
 #' @return Object of class \pkg{rtemis}
 #' @examples
@@ -19,7 +19,7 @@
 #' y <- .6 * x + 12 + rnorm(100)
 #' mod <- s_ET(x, y)}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

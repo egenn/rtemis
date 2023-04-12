@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_NW.R
 \name{s_NW}
 \alias{s_NW}
-\title{Nadaraya-Watson kernel regression [R]}
+\title{Nadaraya-Watson kernel regression \link{R}}
 \usage{
 s_NW(
   x,

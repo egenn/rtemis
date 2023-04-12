@@ -6,7 +6,7 @@
 #'
 #' Train a Hard Hybrid Tree (no weights) for Regression
 #'
-#' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
+#' Note that lambda is treated differently by `glmnet::glmnet` and `MASS::lm.ridge`
 #' @inheritParams s_LIHAD
 #' @param x data.frame
 #' 
@@ -453,15 +453,15 @@ partLm <- function(x1, y1,
 } # rtemis::partLm
 
 
-#' Predict method for \code{hytreeLite} object
+#' Predict method for `hytreeLite` object
 #'
 #' @method predict hytreenow
-#' @param object \code{hytreenow}
+#' @param object `hytreenow`
 #' @param newdata Data frame of predictors
-#' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
+#' @param n.feat [Internal use] Integer: Use first `n.feat` columns of newdata to predict.
 #' Defaults to all
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' \code{newdata}
+#' `newdata`
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values

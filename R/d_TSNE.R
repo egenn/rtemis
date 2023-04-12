@@ -4,7 +4,7 @@
 
 #' t-distributed Stochastic Neighbor Embedding
 #'
-#' Perform t-SNE decomposition using \code{Rtsne::Rtsne}
+#' Perform t-SNE decomposition using `Rtsne::Rtsne`
 #'
 #' @param x Input matrix
 #' @param k Integer. Number of t-SNE components required
@@ -14,14 +14,14 @@
 #' @param check.duplicates Logical: If TRUE, Checks whether duplicates are present. Best to set test manually
 #' @param pca Logical: If TRUE, perform initial PCA step. Default = TRUE
 #' @param max.iter Integer: Maximum number of iterations. Default = 1000
-#' @param scale Logical: If TRUE, scale before running t-SNE using \code{base::scale}. Default = FALSE
-#' @param center Logical: If TRUE, and \code{scale = TRUE}, also center. Default = FALSE
-#' @param is.distance Logical: If TRUE, \code{x} should be a distance matrix. Default = FALSE
+#' @param scale Logical: If TRUE, scale before running t-SNE using `base::scale`. Default = FALSE
+#' @param center Logical: If TRUE, and `scale = TRUE`, also center. Default = FALSE
+#' @param is.distance Logical: If TRUE, `x` should be a distance matrix. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to output
-#' @param ... Options for \code{Rtsne::Rtsne}
+#' @param ... Options for `Rtsne::Rtsne`
 #' @param outdir Path to output directory
 #' 
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

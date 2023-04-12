@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas MBBS PhD www.lambdamd.org
 
-#' Bare bones decision tree derived from \code{rpart}
+#' Bare bones decision tree derived from `rpart`
 #'
 #' A super-stripped down decision tree for when space and performance are critical
 #'
@@ -64,9 +64,9 @@ cartLite <- function(x, y,
 } # rtemis::cartLite
 
 
-#' Predict method for \code{cartLite} object
+#' Predict method for `cartLite` object
 #'
-#' @param object \link{cartLite} object
+#' @param object [cartLite] object
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @method predict cartLite

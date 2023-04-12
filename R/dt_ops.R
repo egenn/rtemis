@@ -17,18 +17,18 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
 
 #' Long to wide key-value reshaping
 #'
-#' Reshape a long format \code{data.table} using key-value pairs with
-#' \code{data.table::dcast}
+#' Reshape a long format `data.table` using key-value pairs with
+#' `data.table::dcast`
 #'
-#' @param x A \code{data.table} object
-#' @param id_name Character: Name of column in \code{x} that defines the IDs
+#' @param x A `data.table` object
+#' @param id_name Character: Name of column in `x` that defines the IDs
 #' identifying individual rows
-#' @param key_name Character: Name of column in \code{x} that holds the key
+#' @param key_name Character: Name of column in `x` that holds the key
 #' @param positive Numeric or Character: Used to fill id ~ key combination
-#' present in the long format input \code{x}
+#' present in the long format input `x`
 #' @param negative Numeric or Character: Used to fill id ~ key combination
-#' NOT present in the long format input \code{x}
-#' @param xname Character: Name of \code{x} to be used in messages
+#' NOT present in the long format input `x`
+#' @param xname Character: Name of `x` to be used in messages
 #' @param verbose Logical: If TRUE, print messages to the console
 #'
 #' @author E.D. Gennatas
@@ -237,10 +237,10 @@ dt_index_attr <- function(x, name, value) {
 #'
 #' @param x data.table
 #' @param y data.table
-#' @param on Integer or character: column to read in \code{x} and \code{y}, if it is the
+#' @param on Integer or character: column to read in `x` and `y`, if it is the
 #' same
-#' @param left_on Integer or character: column to read in \code{x}
-#' @param right_on Integer or character: column to read in \code{y}
+#' @param left_on Integer or character: column to read in `x`
+#' @param right_on Integer or character: column to read in `y`
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
@@ -337,10 +337,10 @@ dt_set_logical2factor <- function(x,
     invisible(x)
 }
 
-#' Calculate ICD10 comorbidities using \code{icd10} package
+#' Calculate ICD10 comorbidities using `icd10` package
 #'
-#' Calculates multiple comorbidity scores using the \code{icd10} package and merges
-#' into a \code{data.table}.
+#' Calculates multiple comorbidity scores using the `icd10` package and merges
+#' into a `data.table`.
 #'
 #' @param x data.frame-compatible input with first column being IDs and second column
 #' ICD10 codes
@@ -388,7 +388,7 @@ dt_icd10_comorbidities <- function(
 #'
 #' @param x data.table
 #' @param attr Character: Attribute to get
-#' @param useNA Character: Passed to \code{table}
+#' @param useNA Character: Passed to `table`
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -457,7 +457,7 @@ type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
 #' Inspect column types
 #' 
 #' Will attempt to identify columns that should be numeric but have been read in as 
-#' character by running \link{type_inspect} on each column.
+#' character by running [type_inspect] on each column.
 #' 
 #' @param x data.table
 #' 

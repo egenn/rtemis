@@ -2,9 +2,9 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' \pkg{rtemis} internal: predict for an object of class \code{nullmod}
+#' \pkg{rtemis} internal: predict for an object of class `nullmod`
 #'
-#' @param object Object of class \code{nullmod}
+#' @param object Object of class `nullmod`
 #' @param newdata Not used
 #' @param ... Not used
 #' 

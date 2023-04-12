@@ -7,20 +7,20 @@
 #' Draw a bitmap from a matrix of values.
 #'
 #' This is also a good way to plot a large heatmap.
-#' This function calls \code{image} which is a lot faster than drawing heatmaps
+#' This function calls `image` which is a lot faster than drawing heatmaps
 #'
 #' @param z Input matrix
 #' @param as.mat Logical: If FALSE, rows and columns of z correspond to x and y coordinates accoridngly.
-#'   This is the \code{image} default.
+#'   This is the `image` default.
 #'   If TRUE (default), resulting image's cells will be in the same order as values appear when
-#'   you print z in the console. This is \code{t(apply(z, 2, rev))}. In this case, you can think of z
+#'   you print z in the console. This is `t(apply(z, 2, rev))`. In this case, you can think of z
 #'   as a table of values you want to pictures with colors. For example, you can convert a correlation table
-#'   to a figure. In this case, you might want to add \code{cell.labs} with the values. Consider first using
-#'   \link{ddSci}.
-#' @param col Colors to use. Defaults to \code{colorGrad(100)}
+#'   to a figure. In this case, you might want to add `cell.labs` with the values. Consider first using
+#'   [ddSci].
+#' @param col Colors to use. Defaults to `colorGrad(100)`
 #' @param revR Logical: If TRUE, reverse rows. Defaults to TRUE for a top-left to bottom-right diagonal
 #' @param cell.labs Matrix of same dimensions as z (Optional): Will be printed as strings over cells
-#' @param cell.labs.col Color for \code{cell.labs}. If NULL, the upper and lower quartiles will be
+#' @param cell.labs.col Color for `cell.labs`. If NULL, the upper and lower quartiles will be
 #' set to "white", the rest "black".
 #' @param bg Background color
 #' @param filename String (Optional): Path to file where image should be saved. R-supported extensions:
@@ -28,7 +28,7 @@
 #' @param file.width Output Width in inches
 #' @param file.height Output height in inches
 #' @param par.reset Logical: If TRUE, par will be reset to original settings before exit. Default = TRUE
-#' @param ... Additional arguments to be passed to \code{graphics::image}
+#' @param ... Additional arguments to be passed to `graphics::image`
 #' 
 #' @author E.D. Gennatas
 #' @export

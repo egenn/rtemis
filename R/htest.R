@@ -18,7 +18,7 @@
 #' }
 #' @param print.plot Logical: If TRUE, print plot. Default = TRUE
 #' @param plot.args List of arguments to pass to plotting function
-#' @param theme Character: Run \code{themes()} for available themes
+#' @param theme Character: Run `themes()` for available themes
 # @param plot.engine Character: "mplot3" or "dplot3" for static and interactive plots, respectively
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param ... Additional arguments to pass to test call
@@ -190,12 +190,12 @@ htest <- function(y, group = NULL,
     invisible(out)
 } # rtemis::h.test
 
-#' Plot \code{rtTest} object
+#' Plot `rtTest` object
 #'
-#' @param x \code{rtTest} object
+#' @param x `rtTest` object
 #' @param main Character: Main title
 # @param plot.engine Character: "mplot3" or "dplot3" for static and interactive plots, respectively
-#' @param theme Character: Run \code{themes()} for available themes
+#' @param theme Character: Run `themes()` for available themes
 #' @author E.D. Gennatas
 #' @export
 

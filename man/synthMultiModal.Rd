@@ -40,23 +40,23 @@ Default = \code{c(50, 100, 200, 300)}}
 \item{contrib.p}{Float (0, 1]: Ratio of features contributing to outcome per group. Default = .33, i.e.
 a third of the features in each group will be used to produce the outcome y}
 
-\item{linear.p}{Float [0, 1]: Ratio of contributing features to be included linearly. Default = .1, i.e. .1 of .33 of
+\item{linear.p}{Float \link{0, 1}: Ratio of contributing features to be included linearly. Default = .1, i.e. .1 of .33 of
 features in each group will be included}
 
-\item{square.p}{Float [0, 1]: Ratio of contributing features to be squared. Default = .1, i.e. .1 of .33 of features
+\item{square.p}{Float \link{0, 1}: Ratio of contributing features to be squared. Default = .1, i.e. .1 of .33 of features
 in each group will be squared}
 
-\item{atan.p}{Float [0, 1]: Ratio of contributing features whose \code{atan} will be used. These will be selected
+\item{atan.p}{Float \link{0, 1}: Ratio of contributing features whose \code{atan} will be used. These will be selected
 from the features that were NOT sampled for squaring. Default = .1,
 i.e. .1 of .33 of features in each group will be transformed using \code{atan}, but given these features were not
 already picked to be squared (see \code{square.p})}
 
-\item{pair.multiply.p}{Float [0, 1] Ratio of features will be divided into pairs and multiplied. Default = .05}
+\item{pair.multiply.p}{Float \link{0, 1} Ratio of features will be divided into pairs and multiplied. Default = .05}
 
-\item{pair.square.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and squared.
+\item{pair.square.p}{Float \link{0, 1} Ratio of features which will be divided into pairs, multiplied and squared.
 Default = .05}
 
-\item{pair.atan.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
+\item{pair.atan.p}{Float \link{0, 1} Ratio of features which will be divided into pairs, multiplied and transformed using
 \code{atan}. Default = .05}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}

@@ -6,9 +6,9 @@
 #'
 #' @param fips Character vector of FIPS codes. (If numeric, it will be
 #' appropriately zero-padded)
-#' @param values Values to map to \code{fips}
+#' @param values Values to map to `fips`
 #' @param names Character vector: Optional county names to appear on hover
-#' along \code{values}
+#' along `values`
 #' @param fillOpacity Float: Opacity for fill colors. Default = 1
 #' @param palette Character: Color palette to use
 #' @param color.mapping Character: "Numeric" or "Bin"
@@ -18,7 +18,7 @@
 #' @param col.highlight Hover border color. Default = "#FE8A4F" (orange)
 #' @param col.interpolate Character: "linear" or "spline"
 #' @param col.bins Integer: Number of color bins to create if
-#' \code{color.mapping = "Bin"}.
+#' `color.mapping = "Bin"`.
 #' Default = 21
 #' @param domain Limits for mapping colors to values.
 #' Default = NULL and set to range
@@ -26,15 +26,15 @@
 #' @param color Color of county border lines. Default = "black"
 #' @param alpha Float: Overaly transparency. Default = 1
 #' @param bg.tile.provider Background tile (below overlay colors), one of
-#' \code{leaflet::providers}
+#' `leaflet::providers`
 #' @param bg.tile.alpha Float: Background tile transparency. Default = .67
 #' @param fg.tile.provider Foreground tile (above overlay colors), one of
-#' \code{leaflet::providers}
+#' `leaflet::providers`
 #' @param legend.position Character: One of: "topright", "bottomright",
 #' "bottomleft", "topleft".
 #' Default = "topright"
 #' @param legend.alpha Float: Legend box transparency. Default = .8
-#' @param legend.title Character: Defaults to name of \code{values} variable.
+#' @param legend.title Character: Defaults to name of `values` variable.
 #' @param init.lng Float: Center map around this longitude (in decimal form).
 #' Default = -98.54180833333334 (US geographic center)
 #' @param init.lat Float: Center map around this latitude (in decimal form).

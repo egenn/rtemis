@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' \code{rtemis-internals}: \code{dataPrepare}
+#' `rtemis-internals`: `dataPrepare`
 #'
 #' Prepare data for \pkg{rtemis} supervised learning
 #'
@@ -15,16 +15,16 @@
 #' @param x.valid Matrix / Data frame: Validation set features
 #' @param y.valid Vector: Validation outcome
 #' @param filter.y.na Logical: If TRUE, filter out cases with missing values
-#' in \code{y}
+#' in `y`
 #' @param ipw Logical: If TRUE, return class weights for inverse probability weighting
 #' (for Classification)
 #' @param ipw.type {1, 2}: 1:
 #' @param upsample Logical: If TRUE, downsample majority class to match size of minority class
 #' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
-#' @param resample.seed Integer: If set, use \code{set.seed} for reproducibility. Default = NULL
+#' @param resample.seed Integer: If set, use `set.seed` for reproducibility. Default = NULL
 #' @param removeDots Logical: If TRUE, replace dots in variable names with underscores.
 #' Some algorithms do not work with variable names containing dots (SparkML)
-#' @param .preprocess List: Preprocessing parameters to be passed to \link{preprocess}. Set with \link{rtset.preprocess}
+#' @param .preprocess List: Preprocessing parameters to be passed to [preprocess]. Set with [rtset.preprocess]
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas

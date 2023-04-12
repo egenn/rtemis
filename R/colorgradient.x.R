@@ -6,7 +6,7 @@
 #'
 #' @param x Float, vector
 #' @param symmetric Logical: If TRUE, make symmetric gradient between
-#' \code{-max(abs(x))} and \code{max(abs(x))}
+#' `-max(abs(x))` and `max(abs(x))`
 #' @param lo.col Low color
 #' @param mid.col Middle color
 #' @param hi.col High color

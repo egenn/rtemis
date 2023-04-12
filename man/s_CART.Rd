@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_CART.R
 \name{s_CART}
 \alias{s_CART}
-\title{Classification and Regression Trees [C, R, S]}
+\title{Classification and Regression Trees \link{C, R, S}}
 \usage{
 s_CART(
   x,
@@ -91,20 +91,20 @@ Default = NULL (random seed)}
 \item{parms}{List of additional parameters for the splitting function.
 See \code{rpart::rpart("parms")}}
 
-\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
 node.}
 
-\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
+\item{cp}{\link{gS} Float: Complexity threshold for allowing a split.}
 
-\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
+\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the 
+\item{maxcompete}{Integer: The number of competitor splits saved in the
 output}
 
-\item{maxsurrogate}{Integer: The number of surrogate splits retained in the 
+\item{maxsurrogate}{Integer: The number of surrogate splits retained in the
 output (See \code{rpart::rpart.control}).}
 
 \item{usesurrogate}{See \code{rpart::rpart.control}}
@@ -118,30 +118,30 @@ See \code{rpart::rpart("cost")}}
 
 \item{model}{Logical: If TRUE, keep a copy of the model.}
 
-\item{prune.cp}{[gS] Numeric: Complexity for cost-complexity pruning after 
+\item{prune.cp}{\link{gS} Numeric: Complexity for cost-complexity pruning after
 tree is built}
 
-\item{use.prune.rpart.rt}{[Testing only, do not change]}
+\item{use.prune.rpart.rt}{\link{Testing only, do not change}}
 
-\item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return 
+\item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return
 unpruned tree under \code{extra} in \link{rtMod}.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
@@ -179,7 +179,7 @@ Object of class \link{rtMod}
 Train a CART for regression or classification using \code{rpart}
 }
 \details{
-[gS] indicates grid search will be performed automatically if more than one 
+\link{gS} indicates grid search will be performed automatically if more than one
 value is passed
 }
 \seealso{

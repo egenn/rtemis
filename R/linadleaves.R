@@ -8,19 +8,19 @@
 #'
 #' Train a Linear Additive Tree for Classification & Regression
 #'
-#' With \code{max.nodes = 0}, the output is a linear model trained according to 
-#' \code{lin.type}.
-#' Note that lambda is treated differently by \code{glmnet::glmnet} and 
-#' \code{MASS::lm.ridge}
+#' With `max.nodes = 0`, the output is a linear model trained according to 
+#' `lin.type`.
+#' Note that lambda is treated differently by `glmnet::glmnet` and 
+#' `MASS::lm.ridge`
 #' @inheritParams s_LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach.
 #' 1 is a special case where no split is performed and a linear model is 
 #' trained. Otherwise, this should be an even number as each split introduces 
 #' two children nodes.
-#' @param loss.fn Function with arguments \code{y, Fval }
-#' Allows you to define a custom loss function. Defaults to \code{class.loss()} 
-#' for classification and \code{mse()} for regression
+#' @param loss.fn Function with arguments `y, Fval `
+#' Allows you to define a custom loss function. Defaults to `class.loss()` 
+#' for classification and `mse()` for regression
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -1054,16 +1054,16 @@ splitlineRC <- function(g,
 
 
 # [[---4. predict---]] ----
-#' Predict method for \code{linadleaves} object
+#' Predict method for `linadleaves` object
 #'
 #' @method predict linadleaves
-#' @param object \code{shytreeRaw}
+#' @param object `shytreeRaw`
 #' @param newdata Data frame of predictors
 #' @param type Character: "response", "probability", "all", "step"
-#' @param n.leaves Integer: Use the first \code{n.leaves} of the tree for
+#' @param n.leaves Integer: Use the first `n.leaves` of the tree for
 #' prediction
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' \code{newdata}
+#' `newdata`
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
@@ -1265,10 +1265,10 @@ predict.linadleaves <- function(object, newdata,
 } # rtemis:: predict.linadleaves
 
 # [[---5. print---]] ----
-#' Print method for \code{linadleaves} object
+#' Print method for `linadleaves` object
 #'
 #' @method print linadleaves
-#' @param x \code{linadleaves} object
+#' @param x `linadleaves` object
 #' @param ... Not used
 #'
 #' @author E.D. Gennatas
@@ -1282,9 +1282,9 @@ print.linadleaves <- function(x, ...) {
     }
 }
 
-#' Convert \link{linadleaves} to \code{data.tree} object
+#' Convert [linadleaves] to `data.tree` object
 #'
-#' @param object \link{linadleaves} object
+#' @param object [linadleaves] object
 
 as.data.tree.linadleaves <- function(object) {
     as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")

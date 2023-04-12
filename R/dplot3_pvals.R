@@ -2,18 +2,18 @@
 # ::rtemis::
 # 2021 E.D. Gennatas www.lambdamd.org
 
-#' Barplot p-values using \link{dplot3_bar}
+#' Barplot p-values using [dplot3_bar]
 #'
 #' Plot 1 - p-values as a barplot
 #'
 #' @param x Float, vector: p-values
 #' @param xnames Character, vector: feature names
 #' @param yname Character: outcome name
-#' @param p.adjust.method Character: method for \link{p.adjust}. Default = "none"
+#' @param p.adjust.method Character: method for [p.adjust]. Default = "none"
 #' @param pval.hline Float: Significance level at which to plot horizontal line. Default = .05
-#' @param hline.col Color for \code{pval.hline}. Default = "#FE4AA3"
+#' @param hline.col Color for `pval.hline`. Default = "#FE4AA3"
 #' @param hline.dash Character: type of line to draw. Default = "dash"
-#' @param ... Additional arguments passed to \link{dplot3_bar}
+#' @param ... Additional arguments passed to [dplot3_bar]
 #'
 #' @author E.D. Gennatas
 #' @export

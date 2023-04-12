@@ -9,7 +9,7 @@
 #' 
 #' @param x rtMod or rtModCV objects
 #' @param rtModCV.repeat Integer: Which repeat to use, when x is rtModCV object
-#' @param ... Additional arguments to pass to \code{knitr::kable} used to print
+#' @param ... Additional arguments to pass to `knitr::kable` used to print
 #' the best tune table
 #' 
 #' @author E.D. Gennatas

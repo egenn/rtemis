@@ -4,7 +4,7 @@
 
 #' Sparse Linear Discriminant Analysis
 #'
-#' Train an SDA Classifier using \code{sparseLDA::sda}
+#' Train an SDA Classifier using `sparseLDA::sda`
 #'
 #' @inheritParams s_CART
 #'
@@ -16,11 +16,11 @@
 #' criterion
 #' @param .preprocess List of preprocessing parameters. Scaling and centering
 #' is enabled by default, because it is crucial for algorithm to learn.
-#' @param trace Integer: passed to \code{sparseLDA::sda}
+#' @param trace Integer: passed to `sparseLDA::sda`
 #' 
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 #' @examples

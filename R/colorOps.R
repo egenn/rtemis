@@ -118,7 +118,7 @@ color_order <- function(x, start_with = 1, order_by = c("similarity", "dissimila
 #'
 #' Separate colors by RGB distance
 #'
-#' Starting with the first color defined by \code{start_with}, the next color
+#' Starting with the first color defined by `start_with`, the next color
 #' is chosen to be max distance from all preceding colors
 #'
 #' @param x Vector of colors
@@ -181,7 +181,7 @@ col2grayscale <- function(x,
 #' @param grayscale_hicut Numeric: exclude colors whose grayscale equivalent
 #' is greater than this value
 #' @param start_with Integer or color: For integer, start with this color out
-#' of \code{x}, otherwise find color \code{x} closer to this color and place it
+#' of `x`, otherwise find color `x` closer to this color and place it
 #' first
 #' @param order_by Character: "similarity" or "dissimilarity"
 #'
@@ -291,7 +291,7 @@ color_mean <- function(x,
 #' @param x Color source
 #' @param to Target color
 #' @param pct Numeric (0, 1) fraction of the distance in RGBA space between
-#' \code{x} and \code{to} to move. e.g. .5 gets the mean RGBA value of the two
+#' `x` and `to` to move. e.g. .5 gets the mean RGBA value of the two
 #'
 #' @returns Color in hex notation
 #' @author E.D. Gennatas

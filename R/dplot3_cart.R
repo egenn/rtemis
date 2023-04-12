@@ -6,18 +6,18 @@
 # TODO: Fails sometimes for regression: must track down through DiagrammeR to graphviz
 # Rewrite using visNetwork
 
-#' Plot \code{rpart} decision trees
+#' Plot `rpart` decision trees
 #'
-#' Plot \code{rpart} decision trees using \code{data.tree::plot.Node}
+#' Plot `rpart` decision trees using `data.tree::plot.Node`
 #'
-#' If you want to show split conditions as edge labels (\code{edge.labels = TRUE}),
-#' it is recommened to set \code{rankdir = "LR"} and \code{node.cond = FALSE}.
+#' If you want to show split conditions as edge labels (`edge.labels = TRUE`),
+#' it is recommened to set `rankdir = "LR"` and `node.cond = FALSE`.
 #' Edge labels in graphviz are shown to the right of
-#' the edge when \code{rankdir = "TB"} and above when \code{rankdir = "LR"}.
+#' the edge when `rankdir = "TB"` and above when `rankdir = "LR"`.
 #'
 #' @inheritParams dplot3_addtree
-#' @param object Either \code{rpart} object or \code{rtMod} object trained with
-#' \link{s_CART}
+#' @param object Either `rpart` object or `rtMod` object trained with
+#' [s_CART]
 #' @param col.lo Low color for estimated outcome
 #' @param col.mid Middle color for estimated outcome
 #' @param col.hi High color for estimated outcome

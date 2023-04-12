@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_NBAYES.R
 \name{s_NBAYES}
 \alias{s_NBAYES}
-\title{Naive Bayes Classifier [C]}
+\title{Naive Bayes Classifier \link{C}}
 \usage{
 s_NBAYES(
   x,

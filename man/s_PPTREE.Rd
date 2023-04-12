@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_PPTREE.R
 \name{s_PPTREE}
 \alias{s_PPTREE}
-\title{Projection Pursuit Tree Classification [C]}
+\title{Projection Pursuit Tree Classification \link{C}}
 \usage{
 s_PPTREE(
   x,

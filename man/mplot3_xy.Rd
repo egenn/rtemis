@@ -160,7 +160,7 @@ Run \link{clustSelect} for options}
 
 \item{type}{Character: "p" for points, "l" for lines, "s" for steps.
 Default = "p". If \code{x} and/or \code{y} contains multiple
-  vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will
+vectors, \code{type} can be a vector, e.g. \code{c("p", "l", "l")} will
 give a set of points and two sets of lines. Otherwise, \code{type} is
 recycled to length of x}
 
@@ -180,7 +180,7 @@ If \code{data} is provided, name of variable, unquoted.}
 \item{xpd}{Logical or NA: FALSE: plotting clipped to plot region; TRUE:
 plotting clipped to figure region; NA: plotting clipped to device region.}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
@@ -190,10 +190,10 @@ plotting clipped to figure region; NA: plotting clipped to device region.}
 \item{rsq.pval}{Logical: If TRUE, add legend with R-squared and its p-value,
 if fit is not NULL}
 
-\item{rsq.side}{Integer: [1:4] Where to place the \code{rsq} annotation.
+\item{rsq.side}{Integer: \link{1:4} Where to place the \code{rsq} annotation.
 Default = 1 (i.e. bottom)}
 
-\item{rsq.adj}{Float: Adjust \code{rsq} annotation. See \code{mtext "adj"}}
+\item{rsq.adj}{Float: Adjust \code{rsq} annotation. See \verb{mtext "adj"}}
 
 \item{rsq.col}{Color: Color for \code{rsq} annotation. Default = NULL, which
 results in \code{fit.col}}
@@ -201,7 +201,7 @@ results in \code{fit.col}}
 \item{fit.error}{Logical: If TRUE: draw fit error annotation.
 Default = NULL, which results in TRUE, if fit is set}
 
-\item{fit.error.side}{Integer [1:4]: Which side to draw \code{fit.error} on.}
+\item{fit.error.side}{Integer \link{1:4}: Which side to draw \code{fit.error} on.}
 
 \item{fit.error.padj}{Float: See \code{mtext:padg} Default = NA}
 
@@ -245,7 +245,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{line.col}{Color for lines}
 
-\item{line.alpha}{Float [0, 1]: Transparency for lines}
+\item{line.alpha}{Float \link{0, 1}: Transparency for lines}
 
 \item{lwd}{Float: Line width}
 
@@ -253,7 +253,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{marker.col}{Color for marker}
 
-\item{marker.alpha}{Float [0, 1]: Transparency for markers}
+\item{marker.alpha}{Float \link{0, 1}: Transparency for markers}
 
 \item{error.x.col}{Color for x-axis error bars}
 
@@ -274,7 +274,7 @@ See \code{arrows("code")}}
 
 \item{fit.lwd}{Float: Fit line width}
 
-\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
+\item{fit.alpha}{Float \link{0, 1}: Transparency for fit line}
 
 \item{fit.legend}{Logical: If TRUE, show fit legend}
 
@@ -289,7 +289,7 @@ be drawn}
 \item{se.alpha}{Alpha for \code{se.fit}}
 
 \item{se.times}{Draw polygon or lines at +/- \code{se.times} * standard
-error of fit. Defaults to 1.96, which corresponds to 95\% confidence interval}
+error of fit. Defaults to 1.96, which corresponds to 95 percent confidence interval}
 
 \item{se.border}{Define border of polygon for \code{se.fit}.
 See \code{border} in \code{graphics::polygon}}

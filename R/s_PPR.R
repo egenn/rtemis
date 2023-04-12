@@ -12,20 +12,20 @@
 #'
 #' @inheritParams s_CART
 #' @param nterms [gS] Integer: number of terms to include in the final model
-#' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}
+#' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in `stats::ppr`
 #' @param sm.method [gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
 #' Default = "spline"
-#' @param bass [gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values result in greater smoother
-#'   (Default = 5). See \code{stats::ppr}
-#' @param span [gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
-#'   local crossvalidation. See \code{stats::ppr}
-#' @param df [gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}
-#' @param gcvpen [gs] Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV selection for each
-#'   degree of freedom used. Higher values result in greater smoothing. See \code{stats::ppr} Default = 5
-#' @param ... Additional arguments to be passed to \code{ppr}
+#' @param bass [gS] Numeric [0, 10]: for `sm.method = "supsmu"`: larger values result in greater smoother
+#'   (Default = 5). See `stats::ppr`
+#' @param span [gS] Numeric [0, 1]: for `sm.method = "supsmu"`: 0 (Default) results in automatic span selection by
+#'   local crossvalidation. See `stats::ppr`
+#' @param df [gS] Numeric: for `sm.method = "spline"`: Specify smoothness of each ridge term. See `stats::ppr`
+#' @param gcvpen [gs] Numeric: for `sm.method = "gcvspline"`: Penalty used in the GCV selection for each
+#'   degree of freedom used. Higher values result in greater smoothing. See `stats::ppr` Default = 5
+#' @param ... Additional arguments to be passed to `ppr`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

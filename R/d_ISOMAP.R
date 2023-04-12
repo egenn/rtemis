@@ -4,7 +4,7 @@
 
 #' Isomap
 #'
-#' Perform ISOMAP decomposition using \code{vegan::isomap}
+#' Perform ISOMAP decomposition using `vegan::isomap`
 #'
 #' Project scaled variables to ISOMAP components
 #' Input must be n by p,
@@ -14,15 +14,15 @@
 #'
 #' @param x Input data
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param dist.method Character: Distance calculation method. See \code{vegan::vegdist}
+#' @param dist.method Character: Distance calculation method. See `vegan::vegdist`
 #' @param nsd Integer: Number of shortest dissimilarities retained
-#' @param path Character: The \code{path} argument of \code{vegan::isomap}
+#' @param path Character: The `path` argument of `vegan::isomap`
 #' @param center Logical: If TRUE, center data prior to decomposition. Default = TRUE
 #' @param scale Logical: If TRUE, scale data prior to decomposition. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Additional parameters to be passed to \code{vegan::isomap}
-#' @return \link{rtDecom} object
+#' @param ... Additional parameters to be passed to `vegan::isomap`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

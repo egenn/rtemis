@@ -32,7 +32,7 @@ rtset.cv.resample(
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
 
-\item{id.strat}{Vector of IDs which may be replicated: resampling should 
+\item{id.strat}{Vector of IDs which may be replicated: resampling should
 force replicates of each ID to only appear in the training or testing.}
 
 \item{verbose}{Logical: If TRUE, print messages to console}

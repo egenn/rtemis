@@ -5,18 +5,18 @@
 
 #' Parametric Survival Regression [S]
 #'
-#' Fit a parametric survival regression model using \code{survival::survreg}
+#' Fit a parametric survival regression model using `survival::survreg`
 #'
 #' @param x Numeric vector or matrix of features, i.e. independent variables
-#' @param y Object of class "Surv" created using \code{survival::Surv}
+#' @param y Object of class "Surv" created using `survival::Surv`
 #' @param x.test (Optional) Numeric vector or matrix of testing set features
-#'   must have set of columns as \code{x}
-#' @param y.test (Optional) Object of class "Surv" created using \code{survival::Surv}
+#'   must have set of columns as `x`
+#' @param y.test (Optional) Object of class "Surv" created using `survival::Surv`
 #' @param weights Float: Vector of case weights
-#' @param ... Additional parameters to pass to \code{survival::survreg}
-#' @return Object of class \link{rtMod}
+#' @param ... Additional parameters to pass to `survival::survreg`
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Survival Regression
 #' @export
 

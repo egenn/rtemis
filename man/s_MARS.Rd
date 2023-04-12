@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_MARS.R
 \name{s_MARS}
 \alias{s_MARS}
-\title{Multivariate adaptive regression splines (MARS) [C, R]}
+\title{Multivariate adaptive regression splines (MARS) (C, R)}
 \usage{
 s_MARS(
   x,
@@ -61,18 +61,18 @@ must have set of columns as \code{x}}
 
 \item{y.test}{(Optional) Numeric vector of validation set outcomes}
 
-\item{degree}{[gS] Integer: Maximum degree of interaction. Default = 2}
+\item{degree}{\link{gS} Integer: Maximum degree of interaction. Default = 2}
 
-\item{penalty}{[gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
+\item{penalty}{\link{gS} Float: GCV penalty per knot. 0 penalizes only terms, not knots.
 -1 means no penalty. Default = 3}
 
-\item{nk}{[gS] Integer: Maximum number of terms created by the forward pass.
+\item{nk}{\link{gS} Integer: Maximum number of terms created by the forward pass.
 See \code{earth::earth}}
 
-\item{pmethod}{[gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
+\item{pmethod}{\link{gS} Character: Pruning method: "backward", "none", "exhaustive", "forward",
 "seqrep", "cv". Default = "forward"}
 
-\item{nprune}{[gS] Integer: Max N of terms (incl. intercept) in the pruned model}
+\item{nprune}{\link{gS} Integer: Max N of terms (incl. intercept) in the pruned model}
 
 \item{...}{Additional parameters to pass to \code{earth::earth}}
 }
@@ -81,7 +81,7 @@ Object of class \link{rtMod}
 }
 \description{
 Trains a MARS model using \code{earth::earth}.
-[gS] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
+\link{gS} in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
 For more info on algorithm hyperparameters, see \code{?earth::earth}
 }
 \seealso{

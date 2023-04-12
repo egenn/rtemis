@@ -10,17 +10,17 @@
 #' @param target data.frame you are matching against
 #' @param pool data.frame you are looking for matches from
 #' @param n.matches Integer: Number of matches to return
-#' @param target.id Character: Column name in \code{target} that holds unique 
+#' @param target.id Character: Column name in `target` that holds unique 
 #' cases IDs. Default = NULL, in which case integer case numbers will be used
-#' @param pool.id Character: Same as \code{target.id} for \code{pool}
+#' @param pool.id Character: Same as `target.id` for `pool`
 #' @param exactmatch.factors Logical: If TRUE, selected cases will have to 
 #' exactly match factors
-#' available in \code{target}
+#' available in `target`
 #' @param exactmatch.cols Character: Names of columns that should be matched 
 #' exactly
 #' @param distmatch.cols Character: Names of columns that should be 
 #' distance-matched
-#' @param norepeats Logical: If TRUE, cases in \code{pool} can only be chosen 
+#' @param norepeats Logical: If TRUE, cases in `pool` can only be chosen 
 #' once. 
 #' @param ignore.na Logical: If TRUE, ignore NA values during exact matching.
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE

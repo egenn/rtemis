@@ -3,13 +3,13 @@
 # 2016-8 E.D. Gennatas www.lambdamd.org
 # TODO: Add spgls option for Classification
 
-#' Sparse Partial Least Squares Regression [C, R]
+#' Sparse Partial Least Squares Regression (C, R)
 #'
-#' Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda} (Classification)
+#' Train an SPLS model using `spls::spls` (Regression) and `spls::splsda` (Classification)
 #'
 #' [gS] denotes argument can be passed as a vector of values, which will trigger 
-#' a grid search using \link{gridSearchLearn} 
-#' \code{np::npreg} allows inputs 
+#' a grid search using [gridSearchLearn] 
+#' `np::npreg` allows inputs 
 #' with mixed data types.
 #'
 #' @inheritParams s_CART
@@ -28,16 +28,16 @@
 #' its sample standard deviation
 #' @param maxstep [gS] Integer: Maximum number of iteration when fitting 
 #' direction vectors.
-#' @param classifier Character: Classifier used by \code{spls::splsda} "lda" 
+#' @param classifier Character: Classifier used by `spls::splsda` "lda" 
 #' or "logistic":
 #' @param n.cores Integer: Number of cores to be used by 
-#' \link{gridSearchLearn}
+#' [gridSearchLearn]
 #' @param trace If > 0 print diagnostic messages
-#' @param ... Additional parameters to be passed to \code{npreg}
+#' @param ... Additional parameters to be passed to `npreg`
 #' 
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' \dontrun{

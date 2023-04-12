@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_MLRF.R
 \name{s_MLRF}
 \alias{s_MLRF}
-\title{Spark MLlib Random Forest [C, R]}
+\title{Spark MLlib Random Forest (C, R)}
 \usage{
 s_MLRF(
   x,

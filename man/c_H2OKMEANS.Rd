@@ -59,7 +59,7 @@ Default = "AUTO"}
 }
 \description{
 K-Means clustering using \code{h2o::h2o.kmeans}
-Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
+Check out the H2O Flow at \verb{[ip]:[port]}, Default IP:port is "localhost:54321"
 e.g. if running on localhost, point your web browser to \code{localhost:54321}
 }
 \details{

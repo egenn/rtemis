@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLM.R
 \name{s_GLM}
 \alias{s_GLM}
-\title{Generalized Linear Model [C, R]}
+\title{Generalized Linear Model (C, R)}
 \usage{
 s_GLM(
   x,

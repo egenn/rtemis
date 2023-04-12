@@ -2,32 +2,32 @@
 # ::rtemis::
 # 2017-8 E.D. Gennatas www.lambdamd.org
 
-#' Gradient Boosting Machine on H2O [C, R]
+#' Gradient Boosting Machine on H2O (C, R)
 #'
 #' Trains a Gradient Boosting Machine using H2O (http://www.h2o.ai)
 #'
 #' [gS] denotes tunable hyperparameters
-#' Warning: If you get an HTTP 500 error at random, use \code{h2o.shutdown()} to shutdown the server.
-#' It will be restarted when \code{s_H2OGBM} is called
+#' Warning: If you get an HTTP 500 error at random, use `h2o.shutdown()` to shutdown the server.
+#' It will be restarted when `s_H2OGBM` is called
 #' @inheritParams s_GLM
 #' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
-#' @param n.trees Integer: Number of trees to grow. Maximum number of trees if \code{n.stopping.rounds > 0}
+#' @param n.trees Integer: Number of trees to grow. Maximum number of trees if `n.stopping.rounds > 0`
 #' @param max.depth [gS] Integer: Depth of trees to grow
 #' @param learning.rate [gS]
 #' @param learning.rate.annealing [gS]
 #' @param p.col.sample [gS]
 #' @param p.row.sample [gS]
 #' @param minobsinnode [gS]
-#' @param n.stopping.rounds Integer: If > 0, stop training if \code{stopping.metric} does not improve for this
+#' @param n.stopping.rounds Integer: If > 0, stop training if `stopping.metric` does not improve for this
 #' many rounds
 #' @param stopping.metric Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 #' "AUC", "lift_top_group", "misclassification", "mean_per_class_error"
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

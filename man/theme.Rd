@@ -580,7 +580,7 @@ theme_mediumgraygrid(
 
 \item{plot.bg}{Color: Plot region background}
 
-\item{fg}{Color: Foreground color used as default for multiple elements like 
+\item{fg}{Color: Foreground color used as default for multiple elements like
 axes and labels, which can be defined separately}
 
 \item{pch}{Integer: Point character.}
@@ -589,7 +589,7 @@ axes and labels, which can be defined separately}
 
 \item{lwd}{Float: Line width.}
 
-\item{bty}{Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
+\item{bty}{Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n".
 Default = "n" (no box)}
 
 \item{box.col}{Box color if \code{bty != "n"}}
@@ -638,7 +638,7 @@ Default = "n" (no box)}
 
 \item{x.axis.las}{Numeric: \code{graphics::axis}'s \code{las} argument for the x-axis}
 
-\item{x.axis.padj}{Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
+\item{x.axis.padj}{Numeric: x-axis' \code{padj}: Adjustment for the x-axis
 tick labels' position}
 
 \item{x.axis.hadj}{Numeric: x-axis' \code{hadj}}
@@ -655,7 +655,7 @@ tick labels' position}
 
 \item{ylab.line}{Numeric: Line to place \code{ylab}}
 
-\item{zerolines}{Logical: If TRUE, draw lines on x = 0, y = 0, if within 
+\item{zerolines}{Logical: If TRUE, draw lines on x = 0, y = 0, if within
 plot limits}
 
 \item{zerolines.col}{Zerolines color}
@@ -666,7 +666,7 @@ plot limits}
 
 \item{zerolines.lwd}{Float: Zerolines line width}
 
-\item{main.line}{Float: How many lines away from the plot region to draw 
+\item{main.line}{Float: How many lines away from the plot region to draw
 title.}
 
 \item{main.adj}{Float: How to align title. Default = 0 (left-align)}

@@ -6,13 +6,13 @@
 
 #' Interactive Timeseries Plots
 #'
-#' Draw interactive timeseries plots using \code{plotly}
+#' Draw interactive timeseries plots using `plotly`
 #'
 #' @param x Numeric vector of values to plot or list of vectors
-#' @param time Numeric or Date vector of time corresponding to values of \code{x}
-#' @param window Integer: apply \code{roll.fn} over this many units of time
+#' @param time Numeric or Date vector of time corresponding to values of `x`
+#' @param window Integer: apply `roll.fn` over this many units of time
 #' @param group Factor defining groups
-#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of \code{x}
+#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of `x`
 #' @param roll.col Color for rolling line
 #' @param roll.alpha Numeric: transparency for rolling line
 #' @param roll.lwd Numeric: width of rolling line
@@ -46,7 +46,7 @@
 #' @param file.width Numeric: image export width
 #' @param file.height Numeric: image export height
 #' @param file.scale Numeric: image export scale
-#' @param ... Additional arguments to be passed to \link{dplot3_xy}
+#' @param ... Additional arguments to be passed to [dplot3_xy]
 #'
 #' @author E.D. Gennatas
 #' @export

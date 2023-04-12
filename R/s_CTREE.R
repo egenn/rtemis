@@ -8,10 +8,10 @@
 #'
 #' @inheritParams s_GLM
 #' @param control List of parameters for the CTREE algorithms. Set using
-#' \code{partykit::ctree_control}
-#' @return \link{rtMod} object
+#' `partykit::ctree_control`
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate}
+#' @seealso [elevate]
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

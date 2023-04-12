@@ -7,10 +7,10 @@
 #' Trains a BRUTO model and validates it
 #'
 #' @inheritParams s_GLM
-#' @param ... Additional arguments to be passed to \code{mda::bruto}
+#' @param ... Additional arguments to be passed to `mda::bruto`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

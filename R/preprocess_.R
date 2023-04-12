@@ -8,7 +8,7 @@
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
 #' preprocessed data.table silently (e.g. for piping).
-#' Note that imputation is not currently supported - use \link{preprocess}
+#' Note that imputation is not currently supported - use [preprocess]
 #' for imputation.
 #'
 #' Order of operations is the same as the order of arguments in usage:
@@ -42,7 +42,7 @@
 #' feature with missing values, indicating which cases were missing data.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric 
-#' (will only work if \code{integer2factor = FALSE})
+#' (will only work if `integer2factor = FALSE`)
 #' @param logical2factor Logical: If TRUE, convert all logical variables to 
 #' factors
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to 
@@ -57,15 +57,15 @@
 #' @param character2factor Logical: If TRUE, convert all character variables 
 #' to factors
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of 
-#' level \code{factorNA2missing.level}. In many cases this is the preferred way 
+#' level `factorNA2missing.level`. In many cases this is the preferred way 
 #' to handle missing data in categorical variables. Note that since this step 
 #' is performed before imputation, you can use this option to handle missing 
 #' data in categorical variables and impute numeric variables in the same
-#' \code{preprocess} call.
+#' `preprocess` call.
 #' @param factorNA2missing.level Character: Name of level if 
-#' \code{factorNA2missing = TRUE}. 
-#' @param scale Logical: If TRUE, scale columns of \code{x}
-#' @param center Logical: If TRUE, center columns of \code{x}
+#' `factorNA2missing = TRUE`. 
+#' @param scale Logical: If TRUE, scale columns of `x`
+#' @param center Logical: If TRUE, center columns of `x`
 #' @param removeConstants Logical: If TRUE, remove constant columns.
 # @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding

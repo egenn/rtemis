@@ -8,7 +8,7 @@
 # UCSF ----
 #' UCSF Colors
 #'
-#' \code{ucsfCol}: UCSF color palette (https://identity.ucsf.edu/brand-guide/color)
+#' `ucsfCol`: UCSF color palette (https://identity.ucsf.edu/brand-guide/color)
 #'
 #' @name rtPalettes
 
@@ -73,7 +73,7 @@ ucsfCol <- list(
 
 #' UCSF Color Palette
 #'
-#' \code{ucsfPalette}: Subset of \code{ucsfCol}
+#' `ucsfPalette`: Subset of `ucsfCol`
 #'
 #' @name rtPalettes
 
@@ -86,7 +86,7 @@ ucsfPalette <- ucsfCol[c(
 # UC Davis ----
 #' UC Davis Colors
 #'
-#' \code{ucdCol}: UC Davis color palette
+#' `ucdCol`: UC Davis color palette
 #' (https://marketingtoolbox.ucdavis.edu/visual-identity/color.html)
 #' @name rtPalettes
 
@@ -115,7 +115,7 @@ ucdCol <- list(
 # Berkeley ----
 #' Berkeley Colors
 #'
-#' \code{berkeleyCol}: Berkeley color palette
+#' `berkeleyCol`: Berkeley color palette
 #' (https://brand.berkeley.edu/colors/)
 #'
 #' @name rtPalettes
@@ -145,7 +145,7 @@ berkeleyCol <- list(
 # UC Santa Cruz ----
 #' UC Santa Cruz Colors
 #'
-#' \code{ucscCol}: UC Santa Cruz color palette
+#' `ucscCol`: UC Santa Cruz color palette
 #' (https://communications.ucsc.edu/visual-design/color/)
 #'
 #' @name rtPalettes
@@ -166,7 +166,7 @@ ucscCol <- list(
 # UC Merced ----
 #' UC Merced Colors
 #'
-#' \code{ucmercedCol}: UC Merced color palette
+#' `ucmercedCol`: UC Merced color palette
 #' (https://publicrelations.ucmerced.edu/color-guidelines)
 #'
 #' @name rtPalettes
@@ -185,7 +185,7 @@ ucmercedCol <- list(
 # UC Santa Barbara ----
 #' UC Santa Barbara Colors
 #'
-#' \code{ucsbCol}: UC Santa Barbara color palette
+#' `ucsbCol`: UC Santa Barbara color palette
 #' (https://www.ucsb.edu/visual-identity/color)
 #' @name rtPalettes
 
@@ -206,7 +206,7 @@ ucsbCol <- list(
 # UCLA ----
 #' UCLA Colors
 #'
-#' \code{uclaCol}: UCLA color palette (http://brand.ucla.edu/identity/colors)
+#' `uclaCol`: UCLA color palette (http://brand.ucla.edu/identity/colors)
 #' @name rtPalettes
 
 uclaCol <- list(
@@ -229,7 +229,7 @@ uclaCol <- list(
 # UC Riverside ----
 #' UC Riverside Colors
 #'
-#' \code{ucrCol}: UC Riverside color palette (https://brand.ucr.edu/ucr-colors)
+#' `ucrCol`: UC Riverside color palette (https://brand.ucr.edu/ucr-colors)
 #' @name rtPalettes
 
 ucrColor <- list(
@@ -242,7 +242,7 @@ ucrColor <- list(
 # UCI ----
 #' UCI Colors
 #'
-#' \code{uciCol}: UCI color palette (https://communications.uci.edu/campus-resources/graphic-standards/colors.php)
+#' `uciCol`: UCI color palette (https://communications.uci.edu/campus-resources/graphic-standards/colors.php)
 #' @name rtPalettes
 
 uciCol <- list(
@@ -260,7 +260,7 @@ uciCol <- list(
 # UC San Diego ----
 #' UC San Diego Colors
 #'
-#' \code{ucsdCol}: UC San Diego color palette
+#' `ucsdCol`: UC San Diego color palette
 #' (https://ucpa.ucsd.edu/brand/elements/color-palette/)
 #' @name rtPalettes
 
@@ -282,7 +282,7 @@ ucsdCol <- list(
 # University of California ----
 #' University of California Colors
 #'
-#' \code{californiaCol}: University of California color palette
+#' `californiaCol`: University of California color palette
 #' (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 #' @name rtPalettes
 
@@ -309,7 +309,7 @@ californiaCol <- list(
 # Stanford ----
 #' Stanford Colors
 #'
-#' \code{stanfordCol}: Stanford color palette
+#' `stanfordCol`: Stanford color palette
 #' (https://identity.stanford.edu/color.html#digital-color)
 #'
 #' @name rtPalettes
@@ -347,7 +347,7 @@ stanfordCol <- list(
 # California State University ----
 #' California State University Colors
 #'
-#' \code{csuCol}: California State University color palette
+#' `csuCol`: California State University color palette
 #' (https://www2.calstate.edu/csu-system/csu-branding-standards/Documents/CSU-Brand-Guidelines-8-2018.pdf)
 #' @name rtPalettes
 
@@ -361,7 +361,7 @@ csuCol <- list(
 # California Polytechnic State University ----
 #' California Polytechnic State University Colors
 #'
-#' \code{calpolyCol}: Cal Poly color palette
+#' `calpolyCol`: Cal Poly color palette
 #' (https://universitymarketing.calpoly.edu/brand-guidelines/colors/)
 #' @name rtPalettes
 
@@ -389,7 +389,7 @@ calpolyCol <- list(
 # Caltech ----
 #' Caltech Colors
 #'
-#' \code{caltechCol}: Caltech color palette (http://identity.caltech.edu/colors)
+#' `caltechCol`: Caltech color palette (http://identity.caltech.edu/colors)
 #' @name rtPalettes
 
 caltechCol <- list(
@@ -417,7 +417,7 @@ caltechCol <- list(
 # Scripps Research ----
 #' Scripps Research Colors
 #'
-#' \code{scrippsCol}: Scripps Research color palette
+#' `scrippsCol`: Scripps Research color palette
 #' @name rtPalettes
 
 scrippsCol <- list(
@@ -432,7 +432,7 @@ scrippsCol <- list(
 # Penn ----
 #' rtemis Color Palettes
 #'
-#' \code{pennCol}: Penn color palette
+#' `pennCol`: Penn color palette
 #' (http://www.upenn.edu/about/styleguide-color-type)
 #' @name rtPalettes
 
@@ -470,7 +470,7 @@ pennCol <- list(
 )
 
 
-#' \code{pennPalette}: Subset of \code{pennCol}.
+#' `pennPalette`: Subset of `pennCol`.
 #'
 #' @name rtPalettes
 pennPalette <- pennCol[c(
@@ -479,7 +479,7 @@ pennPalette <- pennCol[c(
     "lighterOrange"
 )]
 
-#' \code{pennLightPalette}: Subset of \code{pennCol}. This is the lighter Penn palette for use with
+#' `pennLightPalette`: Subset of `pennCol`. This is the lighter Penn palette for use with
 #' the dark themes
 #' @name rtPalettes
 pennLightPalette <- pennCol[c(
@@ -491,7 +491,7 @@ pennLightPalette <- pennCol[c(
 # CMU ----
 #' CMU Colors
 #'
-#' \code{cmuCol}: Carnegie Mellon color palette
+#' `cmuCol`: Carnegie Mellon color palette
 #' (https://www.cmu.edu/marcom/brand-standards/web-standards.html#colors)
 #' @name rtPalettes
 
@@ -510,7 +510,7 @@ cmuCol <- list(
 # MIT ----
 #' MIT Colors
 #'
-#' \code{mitCol}: MIT color palette
+#' `mitCol`: MIT color palette
 #' (http://web.mit.edu/graphicidentity/colors.html)
 #' @name rtPalettes
 
@@ -525,7 +525,7 @@ mitCol <- list(
 # Princeton ----
 #' Princeton Colors
 #'
-#' \code{princetonCol}: Princeton color palette
+#' `princetonCol`: Princeton color palette
 #' (https://communications.princeton.edu/guides-tools/logo-graphic-identity)
 #' @name rtPalettes
 
@@ -539,7 +539,7 @@ princetonCol <- list(
 # Columbia ----
 #' Columbia Colors
 #'
-#' \code{columbiaCol}: Columbia color palette
+#' `columbiaCol`: Columbia color palette
 #' (https://visualidentity.columbia.edu/content/web-0)
 #' @name rtPalettes
 
@@ -570,7 +570,7 @@ columbiaCol <- list(
 # Brown ----
 #' Brown Colors
 #'
-#' \code{brownCol}: Brown color palette
+#' `brownCol`: Brown color palette
 #' (https://www.brown.edu/university-identity/sites/university-identity/files/Brown_Visual_Identity_Policy_2016-07-22.pdf)
 #' @name rtPalettes
 
@@ -590,7 +590,7 @@ brownCol <- list(
 # Yale ----
 #' Yale Colors
 #'
-#' \code{yaleCol}: Yale color palette (https://yaleidentity.yale.edu/web)
+#' `yaleCol`: Yale color palette (https://yaleidentity.yale.edu/web)
 #' @name rtPalettes
 
 
@@ -611,7 +611,7 @@ yaleCol <- list(
 # Cornell ----
 #' Cornell Colors
 #'
-#' \code{cornellCol}: Yale color palette
+#' `cornellCol`: Yale color palette
 #' (https://brand.cornell.edu/design-center/colors/
 #' @name rtPalettes
 
@@ -636,7 +636,7 @@ cornellCol <- list(
 # Harvard Medical School ----
 #' HMS Colors
 #'
-#' \code{hmsCol}: Harvard Medical School color palette
+#' `hmsCol`: Harvard Medical School color palette
 #' (https://identityguide.hms.harvard.edu/color)
 #' @name rtPalettes
 
@@ -662,7 +662,7 @@ hmsCol <- list(
 # Dartmouth ----
 #' Dartmouth Colors
 #'
-#' \code{dartmouthCol}: Dartmouth color palette
+#' `dartmouthCol`: Dartmouth color palette
 #' (https://communications.dartmouth.edu/visual-identity/design-elements/color-palette#web%20palette)
 #' @name rtPalettes
 
@@ -687,7 +687,7 @@ dartmouthCol <- list(
 # USF ----
 #' USF Colors
 #'
-#' \code{usfCol}: USF color palette
+#' `usfCol`: USF color palette
 #' (https://myusf.usfca.edu/marketing-communications/resources/graphics-resources/brand-standards/color-palette)
 #' Color conversions performed using https://www.pantone.com/color-finder/
 #' @name rtPalettes
@@ -703,7 +703,7 @@ usfCol <- list(
 # Washington ----
 #' University of Washington Colors
 #'
-#' \code{uwCol}: University of Washington color palette
+#' `uwCol`: University of Washington color palette
 #' (http://www.washington.edu/brand/graphic-elements/primary-color-palette/)
 #' @name rtPalettes
 
@@ -718,7 +718,7 @@ uwCol <- list(
 # Johns Hopkins ----
 #' Johns Hopkins University Colors
 #'
-#' \code{jhuCol}: Johns Hopkins University color palette
+#' `jhuCol`: Johns Hopkins University color palette
 #' (https://brand.jhu.edu/color/)
 #' @name rtPalettes
 
@@ -751,7 +751,7 @@ jhuCol <- list(
 # NYU ----
 #' NYU Colors
 #'
-#' \code{nyuCol}: NYU color palette
+#' `nyuCol`: NYU color palette
 #' (https://www.nyu.edu/employees/resources-and-services/media-and-communications/styleguide/website/graphic-visual-design.html)
 #' @name rtPalettes
 nyuCol <- list(
@@ -777,7 +777,7 @@ nyuCol <- list(
 # WashU ----
 #' Washington University St Louis Colors
 #' 
-#' \code{washuCol}: WashU color palette
+#' `washuCol`: WashU color palette
 #' (https://marcomm.wustl.edu/resources/branding-logo-toolkit/color-palettes/)
 #' @name rtPalettes
 washuCol <- list(
@@ -805,7 +805,7 @@ washuCol <- list(
 # Chicago ----
 #' U Chicago Colors
 #'
-#' \code{chicagoCol}: University of Chicago color palette
+#' `chicagoCol`: University of Chicago color palette
 #' (https://news.uchicago.edu/sites/default/files/attachments/_uchicago.identity.guidelines.pdf)
 #' @name rtPalettes
 chicagoCol <- list(
@@ -840,7 +840,7 @@ chicagoCol <- list(
 # Penn State ----
 #' Penn State Colors
 #'
-#' \code{texasCol}: Penn State color palette
+#' `texasCol`: Penn State color palette
 #' (https://brand.psu.edu/design-essentials.html#color)
 #' @name rtPalettes
 
@@ -871,7 +871,7 @@ pennstateCol <- list(
 # SFSU ----
 #' SF State
 #'
-#' \code{sfsuCol}: SF State color palette
+#' `sfsuCol`: SF State color palette
 #' (https://logo.sfsu.edu/color-system)
 #' @name rtPalettes
 sfsuCol <- list(
@@ -889,7 +889,7 @@ sfsuCol <- list(
 # U Illinois ----
 #' University of Illinois Colors
 #'
-#' \code{illinoisCol}: University of Illinois color palette
+#' `illinoisCol`: University of Illinois color palette
 #' (https://www.uillinois.edu/OUR/brand/color_palettes)
 #' @name rtPalettes
 illinoisCol <- list(
@@ -913,7 +913,7 @@ illinoisCol <- list(
 # U Maryland ----
 #' University of Maryland Colors
 #'
-#' \code{umdCol}: University of Maryland color palette
+#' `umdCol`: University of Maryland color palette
 #' (https://osc.umd.edu/licensing-trademarks/brand-standards/logos/#color)
 #' @name rtPalettes
 umdCol <- list(
@@ -925,7 +925,7 @@ umdCol <- list(
 # MSU ----
 #' Michigan State University Colors
 #' 
-#' \code{msuCol}: MSU color palette
+#' `msuCol`: MSU color palette
 #' (https://brand.msu.edu/visual/color-palette)
 #' @name rtPalettes
 msuCol <- list(
@@ -940,7 +940,7 @@ msuCol <- list(
 # Michigan ----
 #' University of Michigan Colors
 #'
-#' \code{michiganCol}: Michigan color palette
+#' `michiganCol`: Michigan color palette
 #' (https://brand.umich.edu/design-resources/colors/)
 #' @name rtPalettes
 michiganCol <- list(
@@ -964,7 +964,7 @@ michiganCol <- list(
 # Iowa ----
 #' Univeristy of Iowa Colors
 #' 
-#' \code{iowaCol}: University of Iowa color palette
+#' `iowaCol`: University of Iowa color palette
 #' (https://brand.uiowa.edu/color)
 #' @name rtPalettes
 iowaCol <- list(
@@ -982,7 +982,7 @@ iowaCol <- list(
 # U Texas ----
 #' U Texas Colors
 #'
-#' \code{texasCol}: University of Texas color palette
+#' `texasCol`: University of Texas color palette
 #' (https://brand.utexas.edu/identity/color/)
 #' @name rtPalettes
 texasCol <- list(
@@ -1002,7 +1002,7 @@ texasCol <- list(
 # Emory ----
 #' Emory Colors
 #'
-#' \code{emoryCol}: Emory color palette
+#' `emoryCol`: Emory color palette
 #' (https://brand.emory.edu/color.html)
 #' @name rtPalettes
 emoryCol <- list(
@@ -1033,7 +1033,7 @@ emoryCol <- list(
 # Georgia Tech ----
 #' Georgia Tech Colors
 #'
-#' \code{techCol}: Georgia Tech color palette
+#' `techCol`: Georgia Tech color palette
 #' (http://www.licensing.gatech.edu/super-block/239)
 #' @name rtPalettes
 
@@ -1048,7 +1048,7 @@ techCol <- list(
 # Vanderbilt ----
 #' Vanderbilt Color
 #'
-#' \code{vanderbiltCol}: Vanderbilt color palette
+#' `vanderbiltCol`: Vanderbilt color palette
 #' (https://www.vanderbilt.edu/communications/brand/color.php)
 #' @name rtPalettes
 
@@ -1068,7 +1068,7 @@ vanderbiltCol <- list(
 # Jefferson ----
 #' Jefferson University Colors
 #'
-#' \code{jeffersonCol}: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
+#' `jeffersonCol`: Jefferson color palette (http://creative.jefferson.edu/downloads/Jefferson-Brand-Guidelines.pdf)
 #' @name rtPalettes
 
 jeffersonCol <- list(
@@ -1085,7 +1085,7 @@ jeffersonCol <- list(
 # Hawaii ----
 #' University of Hawaii Colors
 #'
-#' \code{hawaiiCol}: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
+#' `hawaiiCol`: University of Hawaii color palette (https://www.hawaii.edu/offices/eaur/graphicsstandards.pdf)
 #' @name rtPalettes
 
 hawaiiCol <- list(
@@ -1105,7 +1105,7 @@ hawaiiCol <- list(
 # NIH ----
 #' NIH Colors
 #'
-#' \code{nihCol}: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
+#' `nihCol`: NIH color palette (https://www.nlm.nih.gov/about/nlm_logo_guidelines_030414_508.pdf)
 #' @name rtPalettes
 
 nihCol <- list(
@@ -1116,7 +1116,7 @@ nihCol <- list(
 # Imperial ----
 #' Imperial Colours
 #'
-#' \code{imperialCol}: Imperial College London colour palette
+#' `imperialCol`: Imperial College London colour palette
 #' (https://www.imperial.ac.uk/brand-style-guide/visual-identity/brand-colours/)
 #'
 #' @name rtPalettes
@@ -1153,7 +1153,7 @@ imperialCol <- list(
 # UCL ----
 #' UCL Colours
 #'
-#' \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
+#' `uclCol`: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
 #' @name rtPalettes
 
 uclCol <- list(
@@ -1185,7 +1185,7 @@ uclCol <- list(
 # Oxford ----
 #' Oxford Colours
 #'
-#' \code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
+#' `oxfordCol`: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
 #' @name rtPalettes
 
 
@@ -1220,7 +1220,7 @@ oxfordCol <- list(
 # NHS ----
 #' NHS Colours
 #'
-#' \code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
+#' `nhsCol`: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
 #' @name rtPalettes
 
 
@@ -1251,7 +1251,7 @@ nhsCol <- list(
 # UBC ----
 #' UBC Colors
 #'
-#' \code{ubcCol}: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
+#' `ubcCol`: UBC color palette (http://assets.brand.ubc.ca/downloads/ubc_colour_guide.pdf)
 #' @name rtPalettes
 
 ubcCol <- list(
@@ -1266,7 +1266,7 @@ ubcCol <- list(
 # U Toronto ----
 #' U Toronto Colors
 #'
-#' \code{torontoCol}: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
+#' `torontoCol`: U Toronto color palette (https://trademarks.utoronto.ca/colors-fonts/)
 #' @name rtPalettes
 
 
@@ -1278,7 +1278,7 @@ torontoCol <- list(
 # McGill ----
 #' McGill Colors
 #'
-#' \code{mcgillCol}: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
+#' `mcgillCol`: McGill color palette (https://www.mcgill.ca/visual-identity/visual-identity-guide)
 #' @name rtPalettes
 
 mcgillCol <- list(
@@ -1314,7 +1314,7 @@ mcgillCol <- list(
 # ETH ----
 #' ETH Colours
 #'
-#' \code{ethCol}: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
+#' `ethCol`: ETH color palette (https://ethz.ch/services/en/service/communication/corporate-design/colour.html)
 #' @name rtPalettes
 
 
@@ -1334,7 +1334,7 @@ ethCol <- list(
 # RWTH Aachen ----
 #' RWTH Aachen Colours
 #'
-#' \code{rwthCol}: RWTH Aachen color palette (http://www9.rwth-aachen.de/global/show_document.asp?id=aaaaaaaaaadpbhq)
+#' `rwthCol`: RWTH Aachen color palette (http://www9.rwth-aachen.de/global/show_document.asp?id=aaaaaaaaaadpbhq)
 #' @name rtPalettes
 
 rwthCol <- list(
@@ -1403,7 +1403,7 @@ rwthCol <- list(
 # Mozilla ----
 #' Mozilla Colors
 #'
-#' \code{mozillaCol}: Mozilla design colors
+#' `mozillaCol`: Mozilla design colors
 #' (https://mozilla.design/mozilla/color/)
 #' @name rtPalettes
 
@@ -1421,7 +1421,7 @@ mozillaCol <- list(
 # Firefox ----
 #' Firefox Colors
 #'
-#' \code{firefoxCol}: Firefox design colors
+#' `firefoxCol`: Firefox design colors
 #' (https://mozilla.design/firefox/color/)
 #' @name rtPalettes
 
@@ -1440,7 +1440,7 @@ firefoxCol <- list(
 # Apple ----
 #' Apple Colors
 #'
-#' \code{appleCol}: Apple Human Interface Guidelines color palette
+#' `appleCol`: Apple Human Interface Guidelines color palette
 #' (https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/)
 #' @name rtPalettes
 
@@ -1460,7 +1460,7 @@ appleCol <- list(
 # Google ----
 #' Google Colors
 #'
-#' \code{googleCol}: Google brand palette (https://brandpalettes.com/google-colors/)
+#' `googleCol`: Google brand palette (https://brandpalettes.com/google-colors/)
 #' @name rtPalettes
 
 
@@ -1474,7 +1474,7 @@ googleCol <- list(
 # Amazon ----
 #' Amazon Colors
 #'
-#' \code{amazonCol}: Amazon brand palette
+#' `amazonCol`: Amazon brand palette
 #' (https://images-na.ssl-images-amazon.com/images/G/01/AdvertisingSite/pdfs/AmazonBrandUsageGuidelines.pdf)
 #' @name rtPalettes
 
@@ -1486,7 +1486,7 @@ amazonCol <- list(
 # Microsoft ----
 #' Microsoft Colors
 #'
-#' \code{microsoftCol}: Microsoft brand palette
+#' `microsoftCol`: Microsoft brand palette
 #' (https://brandcolors.net/b/microsoft)
 #' @name rtPalettes
 
@@ -1661,7 +1661,7 @@ rtPalettes <- list(
 
 #' \pkg{rtemis} Color Palettes
 #'
-#' \code{rtPalette} prints names of available color palettes
+#' `rtPalette` prints names of available color palettes
 #' Each palette is a named list of hexadecimal color definitions which can be used with 
 #' any graphics function.
 #' @param palette Character: Name of palette to return. Default = NULL: available palette 
@@ -1693,8 +1693,8 @@ rtpalette <- function(palette = NULL, verbose = TRUE) {
 #' Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
 #'
 #' @param n Integer: Number of colors to output
-#' @param palette Character: Palette to use. See available options with \code{rtpalette()}.
-#' Default = \code{rtPalette}
+#' @param palette Character: Palette to use. See available options with `rtpalette()`.
+#' Default = `rtPalette`
 #' @export
 #' @author E.D. Gennatas
 #' @examples

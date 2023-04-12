@@ -11,7 +11,7 @@
 #' @param xdecom Character: Cross-decomposition name; case insensitive
 #' @param fn Logical: If TRUE, return function, otherwise return name of function. Default = FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm. Default = FALSE
-#' @return Function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})
+#' @return Function or name of function (see param `fn`) or full name of algorithm (`desc`)
 #' @author E.D. Gennatas
 #' @family Cross-Decomposition
 #' @export

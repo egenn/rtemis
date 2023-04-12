@@ -19,7 +19,7 @@ Calculate number of combinations
 }
 \details{
 In plain language:
-  You have \code{n} items. How many different cobinations of \code{r} items can you make?
+You have \code{n} items. How many different cobinations of \code{r} items can you make?
 }
 \author{
 E.D. Gennatas

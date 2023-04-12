@@ -9,11 +9,11 @@
 #' @param x Matrix / Data Frame of Predictors
 #' @param y Outcome vector
 #' @param method Character: "RANGER", "XGBLIN": Learner to use for estimating variable importance. Default = "RANGER"
-#' @param xgb.params List of parameters for \code{method = "XGBLIN"}
-#' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
+#' @param xgb.params List of parameters for `method = "XGBLIN"`
+#' @param p Float (0, 1): Fraction of variables in x to select. `p * ncol(x)`. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 #'   positives which can be dealt by an appropriate learning algorithm. (Default = .2)
-#' @param print.plot Logical: If TRUE, print index plot of variable importance using \link{mplot3_x}
+#' @param print.plot Logical: If TRUE, print index plot of variable importance using [mplot3_x]
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @author E.D. Gennatas
 #' @export

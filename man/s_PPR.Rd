@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_PPR.R
 \name{s_PPR}
 \alias{s_PPR}
-\title{Projection Pursuit Regression (PPR) [R]}
+\title{Projection Pursuit Regression (PPR) \link{R}}
 \usage{
 s_PPR(
   x,
@@ -53,40 +53,40 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{nterms}{[gS] Integer: number of terms to include in the final model}
+\item{nterms}{\link{gS} Integer: number of terms to include in the final model}
 
-\item{optlevel}{[gS] Integer [0, 3]: optimization level (Default = 3). See Details in \code{stats::ppr}}
+\item{optlevel}{\link{gS} Integer \link{0, 3}: optimization level (Default = 3). See Details in \code{stats::ppr}}
 
-\item{sm.method}{[gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
+\item{sm.method}{\link{gS} Character: "supsmu", "spline", or "gcvspline". Smoothing method.
 Default = "spline"}
 
-\item{bass}{[gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values result in greater smoother
+\item{bass}{\link{gS} Numeric \link{0, 10}: for \code{sm.method = "supsmu"}: larger values result in greater smoother
 (Default = 5). See \code{stats::ppr}}
 
-\item{span}{[gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
+\item{span}{\link{gS} Numeric \link{0, 1}: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
 local crossvalidation. See \code{stats::ppr}}
 
-\item{df}{[gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}}
+\item{df}{\link{gS} Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}}
 
-\item{gcvpen}{[gs] Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV selection for each
+\item{gcvpen}{\link{gs} Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV selection for each
 degree of freedom used. Higher values result in greater smoothing. See \code{stats::ppr} Default = 5}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -122,9 +122,9 @@ Object of class \pkg{rtemis}
 Train a Projection Pursuit Regression model
 }
 \details{
-[gS]: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the
-  training set prior to training model on full training set
-  Interactions: PPR automatically models interactions, no need to specify them
+\link{gS}: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the
+training set prior to training model on full training set
+Interactions: PPR automatically models interactions, no need to specify them
 }
 \seealso{
 \link{elevate} for external cross-validation

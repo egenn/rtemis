@@ -4,43 +4,49 @@
 # need a way to ignore errors with duckdb::duckdb_read_csv()
 # rpolars nullstring is buggy, only recognizes NULL
 
-#' Read data from Parquet, XLSX, or delimited file
+#' Read tabular data from a variety of formats
+#' 
+#' Read data and optionally clean column names, keep unique rows, and convert
+#' characters to factors
 #'
-#' Convenience function to read:
-#' Parquet files using \code{arrow::read_parquet()},
-#' XLSX files using \code{readxl::read_excel()},
-#' delimited files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-#' \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or 
-#' \code{rpolars::csv_reader()}
+#' @details
+#' `read` is a convenience function to read:
+#' 
+#' - **RDS** files using `readRDS()`
+#' - **Parquet** files using `arrow::read_parquet()`
+#' - **XLSX** files using `readxl::read_excel()`
+#' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
+#'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`, or 
+#'   `rpolars::csv_reader()`
 #'
-#' @param filename Character: filename or full path if \code{datadir = NULL}
-#' @param datadir Character: Optional path to directory where \code{filename}
-#' is located. If not specified, \code{filename} must be the full path.
+#' @param filename Character: filename or full path if `datadir = NULL`
+#' @param datadir Character: Optional path to directory where `filename`
+#' is located. If not specified, `filename` must be the full path.
 #' @param make.unique Logical: If TRUE, keep unique rows only
 #' @param character2factor Logical: If TRUE, convert character variables to
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using
-#' \link{clean_colnames}
+#' [clean_colnames]
 #' @param delim.reader Character: "data.table" or "arrow", to use
-#' \code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
-#' to read \code{filename}
+#' `data.table::fread()` or `arrow::read_delim_arrow()`, respectively,
+#' to read `filename`
 #' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
-#' @param sep Single character: field separator. If \code{delim.reader = "fread"}
-#' and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","
+#' @param sep Single character: field separator. If `delim.reader = "fread"`
+#' and `sep = NULL`, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
 #' @param na.strings Character vector: Strings to be interpreted as NA values.
-#' For \code{delim.reader = "duckdb"}, this must be a single string.
-#' For \code{delim.reader = "rpolars"}, this must be a single string, otherwise, if an
+#' For `delim.reader = "duckdb"`, this must be a single string.
+#' For `delim.reader = "rpolars"`, this must be a single string, otherwise, if an
 #' unnamed character vector, it maps each string to each column. If named, the names 
-#' should match columns. See \code{?rpolars::csv_reader} for more details.
+#' should match columns. See `?rpolars::csv_reader` for more details.
 #' @param output Character: "default" or "data.table", If default, return the delim.reader's
 #' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param fread_verbose Logical: Passed to \code{data.table::fread}
+#' @param fread_verbose Logical: Passed to `data.table::fread`
 #' @param timed Logical: If TRUE, time the process and print to console
-#' @param ... Additional parameters to pass to \code{data.table::fread},
-#' \code{arrow::read_delim_arrow()}, \code{vroom::vroom()}, 
-#' or \code{openxlsx::read.xlsx()}
+#' @param ... Additional parameters to pass to `data.table::fread`,
+#' `arrow::read_delim_arrow()`, `vroom::vroom()`, 
+#' or `openxlsx::read.xlsx()`
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -92,6 +98,14 @@ read <- function(filename,
         }
         .dat <- arrow::read_parquet(path, ...)
         if (output == "data.table") setDT(.dat)
+    } else if (ext == "rds") {
+        if (verbose) {
+            msg20(
+                bold(green("\u25B6")), " Reading ",
+                hilite(basename(path)), "..."
+            )
+        }
+        .dat <- readRDS(path)
     } else if (ext == "xlsx") {
         dependency_check("openxlsx")
         if (verbose) {

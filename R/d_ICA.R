@@ -5,8 +5,8 @@
 
 #' Independent Component Analysis
 #'
-#' Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or 
-#' \code{ica::fastica}
+#' Perform ICA decomposition using the fastICA algorithm in `fastICA::fastICA` or 
+#' `ica::fastica`
 #'
 #' Project scaled variables to ICA components.
 #' Input must be n by p,
@@ -14,27 +14,27 @@
 #' and p represents number of features.
 #' fastICA will be applied to the transpose of the n x p matrix.
 #' fastICA will fail if there are any NA values or constant features: remove them using 
-#' \link{preprocess}
+#' [preprocess]
 #'
 #' @inheritParams d_SVD
 #' @param x Input data
 # @param x.test Optional test set. Will be projected on to ICA basis
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
 #' @param package Character: Which package to use for ICA. "fastICA" will 
-#' use \code{fastICA::fastICA},
-#' "ica" will use \code{ica::fastica}. Default = "fastICA".
-#' Note: only \code{fastICA} works with \code{k = 1}
-#' @param alg.type Character: For \code{package = "fastICA"}, "parallel" or 
+#' use `fastICA::fastICA`,
+#' "ica" will use `ica::fastica`. Default = "fastICA".
+#' Note: only `fastICA` works with `k = 1`
+#' @param alg.type Character: For `package = "fastICA"`, "parallel" or 
 #' "deflation".
 #' @param maxit Integer: Maximum N of iterations
 #' @param scale Logical: If TRUE, scale input data before decomposition. 
-#' @param center Logical: If TRUE, also center input data if \code{scale} 
-#' is \code{TRUE}.
+#' @param center Logical: If TRUE, also center input data if `scale` 
+#' is `TRUE`.
 #' @param trace Integer: If > 0, print messages during ICA run. Default = 0
-#' @param ... Additional parameters to be passed to \code{fastICA::fastICA} 
-#' or \code{ica::icafast}
+#' @param ... Additional parameters to be passed to `fastICA::fastICA` 
+#' or `ica::icafast`
 #' 
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

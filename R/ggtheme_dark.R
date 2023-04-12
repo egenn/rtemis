@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas
 
-#' \pkg{rtemis} \code{ggplot2} dark theme
+#' \pkg{rtemis} `ggplot2` dark theme
 #'
 #' @inheritParams ggtheme_light
 #' @param strip.background.fill Color: Fill color from facet labels. Default = "gray25"

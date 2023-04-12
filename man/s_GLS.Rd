@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLS.R
 \name{s_GLS}
 \alias{s_GLS}
-\title{Generalized Least Squares [R]}
+\title{Generalized Least Squares \link{R}}
 \usage{
 s_GLS(
   x,

@@ -50,7 +50,7 @@ dplot3_bar(
 )
 }
 \arguments{
-\item{x}{vector (possibly named), matrix, or data.frame: If matrix or 
+\item{x}{vector (possibly named), matrix, or data.frame: If matrix or
 data.frame, rows are groups (can be 1 row), columns are features}
 
 \item{main}{Character: Plot title. Default = NULL}
@@ -59,25 +59,25 @@ data.frame, rows are groups (can be 1 row), columns are features}
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
 \item{horizontal}{Logical: If TRUE, plot bars horizontally}
 
-\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
 Default = "rtCol1". Only used if \code{col = NULL}}
 
-\item{barmode}{Character: Type of bar plot to make: "group", "relative", 
+\item{barmode}{Character: Type of bar plot to make: "group", "relative",
 "stack", "overlay". Default = "group". Use
-"relative" for stacked bars, wich handles negative values correctly, 
+"relative" for stacked bars, wich handles negative values correctly,
 unlike "stack", as of writing.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. 
+\item{group.names}{Character, vector, length = NROW(x): Group names.
 Default = NULL, which uses \code{rownames(x)}}
 
 \item{order.by.val}{Logical: If TRUE, order bars by increasing value.
@@ -85,10 +85,10 @@ Only use for single group data. Default = NULL}
 
 \item{ylim}{Float, vector, length 2: y-axis limits.}
 
-\item{hovernames}{Character, vector: Optional character vector to show on 
+\item{hovernames}{Character, vector: Optional character vector to show on
 hover over each bar.}
 
-\item{feature.names}{Character, vector, length = NCOL(x): Feature names. 
+\item{feature.names}{Character, vector, length = NCOL(x): Feature names.
 Default = NULL, which uses \code{colnames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
@@ -97,20 +97,20 @@ Default = NULL, which uses \code{colnames(x)}}
 
 \item{annotate.col}{Color for annotations}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be 
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be
 turned on if there is more than one feature present}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
 
 \item{legend.xy}{Numeric, vector, length 2: x and y for plotly's legend}
 
 \item{legend.orientation}{"v" or "h" for vertical or horizontal}
 
-\item{legend.xanchor}{Character: Legend's x anchor: "left", "center", 
+\item{legend.xanchor}{Character: Legend's x anchor: "left", "center",
 "right", "auto"}
 
-\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle", 
+\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle",
 "bottom", "auto"}
 
 \item{hline}{Float: If defined, draw a horizontal line at this y value.}
@@ -119,7 +119,7 @@ theme}
 
 \item{hline.width}{Float: Width for \code{hline}. Default = 1}
 
-\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", 
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
 "longdash", "dashdot",
 or "longdashdot"}
 
@@ -139,20 +139,20 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any
 output file type supported by plotly and your system}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} 
+\item{file.height}{Integer: File height in pixels for when \code{filename}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{trace}{Integer: The height the number the more diagnostic info is 
+\item{trace}{Integer: The height the number the more diagnostic info is
 printed to the console}
 
 \item{...}{Additional arguments passed to theme}

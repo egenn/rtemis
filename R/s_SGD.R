@@ -2,20 +2,20 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' Stochastic Gradient Descent (SGD) [C, R]
+#' Stochastic Gradient Descent (SGD) (C, R)
 #'
-#' Train a model by Stochastic Gradient Descent using \code{sgd::sgd}
+#' Train a model by Stochastic Gradient Descent using `sgd::sgd`
 #'
-#' From \code{sgd::sgd}:
+#' From `sgd::sgd`:
 #' "Models: The Cox model assumes that the survival data is ordered when passed in, i.e.,
 #' such that the risk set of an observation i is all data points after it."
 #'
 #' @inheritParams s_GLM
 #' @inheritParams sgd::sgd
-#' @param ... Additional arguments to be passed to \code{sgd.control}
+#' @param ... Additional arguments to be passed to `sgd.control`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

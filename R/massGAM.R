@@ -16,7 +16,7 @@
 #' @param x.name Character: Name of the predictor
 #' @param y.name Character, vector: Names of the outcomes
 #' @param k Integer: Basis dimension for smoothing spline
-#' @param family \code{family} argument for \code{mgcv::gam}
+#' @param family `family` argument for `mgcv::gam`
 #' @param weights Vector, numeric: Weights for GAM
 #' @param method Estimation method for GAM
 #' @param n.cores Integer. Number of cores to use

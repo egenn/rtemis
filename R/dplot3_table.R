@@ -4,10 +4,10 @@
 
 #' Simple HTML table
 #'
-#' Draw an html table using \code{plotly}
+#' Draw an html table using `plotly`
 #'
 #' @param x data.frame: Table to draw
-#' @param .ddSci Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE
+#' @param .ddSci Logical: If TRUE, apply [ddSci] to numeric columns. Default = TRUE
 #' @param main Character: Table tile. Default = NULL
 #' @param main.col Color: Title color. Default = "black"
 #' @param main.x Float [0, 1]: Align title: 0: left, .5: center, 1: right. Default = 0
@@ -22,7 +22,7 @@
 #' @param table.font.col Color: Table font color. Default = "gray20"
 #' @param font.size Integer: Font size. Default = 14
 #' @param font.family Character: Font family. Default = "Helvetica Neue"
-#' @param margin List: plotly's margins. Default = \code{list(l = 0, r = 5, t = 30, b = 0, pad = 0)}
+#' @param margin List: plotly's margins. Default = `list(l = 0, r = 5, t = 30, b = 0, pad = 0)`
 #' @author E.D. Gennatas
 #' @export
 

@@ -3,23 +3,23 @@
 # 2018-9 E.D. Gennatas www.lambdamd.org
 # check fitted.prob and predicted.prob; varimp
 
-#' Bag an \pkg{rtemis} learner for regression or classification [C, R]
+#' Bag an \pkg{rtemis} learner for regression or classification (C, R)
 #'
 #' Train a bagged ensemble using any learner
 #'
 #' @inheritParams s_GLM
-#' @param mod Character: Algorithm to bag, for options, see \link{modSelect}
+#' @param mod Character: Algorithm to bag, for options, see [modSelect]
 #' @param k Integer: Number of base learners to train
 #' @param mtry Integer: Number of features to randomly sample for each base learner.
-#' @param mod.params Named list of arguments for \code{mod}
+#' @param mod.params Named list of arguments for `mod`
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
-#' resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
-#' Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}
+#' resampling. It will use stratified bootstrap by default. Use [rtset.resample] for convenience.
+#' Default = `rtset.resample(resampler = "strat.boot", n.resamples = k)`
 #' @param aggr.fn Function: used to average base learners' predictions. Default = mean for Classification, median for
 #' Regression
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
-#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
+#' @param base.verbose Logical: `verbose` argument passed to learner
+#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param n.workers Integer: Number of cores to use
 #' @param parallel.type Character: "fork" or "psock". Type of parallelization. Default = "fork" for macOS and Linux, "psock" for Windows

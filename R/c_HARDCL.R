@@ -4,14 +4,14 @@
 
 #' Clustering by Hard Competitive Learning
 #'
-#' Perform clustering by Hard Competitive Learning using \code{flexclust::cclust}
+#' Perform clustering by Hard Competitive Learning using `flexclust::cclust`
 #'
 #' @param x Input matrix / data.frame
 #' @param x.test Optional test set data
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' @param ... Additional parameters to be passed to `flexclust::cclust`
 #'
 #' @author E.D. Gennatas
 #' @family Clustering

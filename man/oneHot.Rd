@@ -26,7 +26,7 @@ dt_set_oneHot(x, xname = NULL, verbose = TRUE)
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \value{
-For vector input, a one-hot-encoded matrix, for data.frame frame 
+For vector input, a one-hot-encoded matrix, for data.frame frame
 input, an expanded data.frame where all factors are one-hot encoded
 }
 \description{
@@ -34,7 +34,7 @@ One hot encode a vector or factors in a data.frame
 }
 \details{
 A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
-only column of type factor will be one-hot encoded. 
+only column of type factor will be one-hot encoded.
 This function is used by \link{preprocess}.
 \code{oneHot.data.table} operates on a copy of its input.
 \code{oneHot_} performs one-hot encoding in-place.

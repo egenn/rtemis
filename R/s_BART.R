@@ -2,20 +2,20 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Bayesian Additive Regression Trees [C, R]
+#' Bayesian Additive Regression Trees (C, R)
 #'
-#' Trains a Bayesian Additive Regression Tree (BART) model using package \code{bartMachine}
+#' Trains a Bayesian Additive Regression Tree (BART) model using package `bartMachine`
 #'
 #' Be warned this can take a very long time to train.
 #' If you are having trouble with rJava in Rstudio on macOS, see:
 #' https://support.rstudio.com/hc/en-us/community/posts/203663956/comments/249073727
-#' \code{bartMachine} does not support case weights
+#' `bartMachine` does not support case weights
 #' @inheritParams s_GLM
-#' @param save.mod Logical: if TRUE, sets \code{bartMachine}'s \code{serialize} to TRUE and saves model to \code{outdir}
-#' @param ... Additional arguments to be passed to \code{bartMachine::bartMachine}
+#' @param save.mod Logical: if TRUE, sets `bartMachine`'s `serialize` to TRUE and saves model to `outdir`
+#' @param ... Additional arguments to be passed to `bartMachine::bartMachine`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

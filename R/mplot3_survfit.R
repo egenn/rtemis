@@ -2,58 +2,58 @@
 # ::rtemis::
 # 2021 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Plot \code{survfit} objects
+#' `mplot3`: Plot `survfit` objects
 #'
-#' Plots survival step functions using \link{mplot3_xy}
+#' Plots survival step functions using [mplot3_xy]
 #'
-#' @param x survfit object (output of \code{survival::survfit})
-#' @param lty Integer: Line type. Default = 1. See \code{par("lty")}
-#' @param lwd Float: Line width. Default = 2
-#' @param alpha Float: Alpha for lines. Default = 1
+#' @param x survfit object (output of `survival::survfit`)
+#' @param lty Integer: Line type. See `par("lty")`
+#' @param lwd Float: Line width.
+#' @param alpha Float: Alpha for lines.
 #' @param col Color, vector: Color(s) to use for survival curves and annotations. If NULL,
-#' taken from \code{palette}
-#' @param plot.median Logical: If TRUE, draw lines at 50"\%" median survival. Default = FALSE,
+#' taken from `palette`
+#' @param plot.median Logical: If TRUE, draw lines at 50 percent median survival.
 #' @param group.median Logical: If TRUE, include median survival times with group legend
 #' @param median.lty Integer: Median survival line type
-#' @param median.lwd Float: Median line width. Default = 2
+#' @param median.lwd Float: Median line width.
 #' @param median.col Color for median survival lines
-#' @param median.alpha Float, (0, 1): Transparency for median survival lines. Default = .5
-#' @param censor.mark Logical: If TRUE, mark each censored case. Default = TRUE
-#' @param censor.col Color to mark censored cases if \code{censor.mark = TRUE}
-#' @param censor.alpha Transparency for \code{censor.col}. Default = .4
-#' @param censor.pch Character: Point character for censored marks. Default = "I"
-#' @param censor.cex Float: Character expansion factor for censor marks. Default = .8
-#' @param mark.censored Logical: This is an alternative to \code{censor.mark} which whill mark
+#' @param median.alpha Float, (0, 1): Transparency for median survival lines.
+#' @param censor.mark Logical: If TRUE, mark each censored case.
+#' @param censor.col Color to mark censored cases if `censor.mark = TRUE`
+#' @param censor.alpha Transparency for `censor.col`.
+#' @param censor.pch Character: Point character for censored marks.
+#' @param censor.cex Float: Character expansion factor for censor marks.
+#' @param mark.censored Logical: This is an alternative to `censor.mark` which whill mark
 #' censored cases using the same color as the survival curve. It can be harder to distinguish the
 #' censoring marks from the curve itself, therefore not preferred.
-#' @param nrisk.table Logical: If TRUE, print Number at risk table. Default = FALSE
-#' @param nrisk.pos Character: "above" or "below": where to place \code{nrisk.table}
-#' @param nrisk.spacing Float: Determines spacing between \code{nrisk.table} rows. Default = .9
-#' @param table.font Integer: 1: regular font, 2: bold. Default = 1
+#' @param nrisk.table Logical: If TRUE, print Number at risk table.
+#' @param nrisk.pos Character: "above" or "below": where to place `nrisk.table`
+#' @param nrisk.spacing Float: Determines spacing between `nrisk.table` rows.
+#' @param table.font Integer: 1: regular font, 2: bold.
 #' @param time.at Float, vector: x-axis positions to place tickmarks and labels as well as n at risk
-#' values if \code{nrisk.table = TRUE}
+#' values if `nrisk.table = TRUE`
 #' @param time.by Float: Divide time by this amount to determine placing of tickmarks
 #' @param xlim Float, vector, length 2: x-axis limits
 #' @param ylim Float, vector, length 2: y-axis limits
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param main Character: main title
-#' @param theme Character: Run \code{themes()} for available themes
+#' @param theme Character: Run `themes()` for available themes
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtpalette()}
+#' `rtpalette()`
 # @param error.lty
 # @param error.alpha
-#' @param autonames Logical: If TRUE, extract grouping variable names and level labels from \code{x}
+#' @param autonames Logical: If TRUE, extract grouping variable names and level labels from `x`
 #' and use for legend. It is best to give informative level labels, like female, male instead of
-#' 0, 1 when using this. Default = TRUE
+#' 0, 1 when using this.
 #' @param group.legend Logical: If TRUE, include group legend
-#' @param group.names Character, vector: Group names to use. If NULL, extracted from \code{x}
+#' @param group.names Character, vector: Group names to use. If NULL, extracted from `x`
 #' @param group.title Character: Group legend title
-#' @param group.line Float, vector: Lines to print group legend using \code{mtext}
+#' @param group.line Float, vector: Lines to print group legend using `mtext`
 #' @param group.side Integer: Side to print group legend. Default is determined by survival curves,
 #' to avoid overlap of legend with curves.
-#' @param mar Float, vector, length 4: Margins. See \code{par("mar")}
-#' @param oma Float, vector, length 4: Outer margins. See \code{par("oma")}
+#' @param mar Float, vector, length 4: Margins. See `par("mar")`
+#' @param oma Float, vector, length 4: Outer margins. See `par("oma")`
 #' @param par.reset Logical: If TRUE, reset par to initial values before exit
 #' @param ... Additional arguments to pass to theme
 #' 

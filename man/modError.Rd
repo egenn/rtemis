@@ -20,12 +20,12 @@ modError(
 
 \item{estimated}{Vector: Estimated values}
 
-\item{estimated.prob}{Vector: Estimated probabilities for Classification, 
+\item{estimated.prob}{Vector: Estimated probabilities for Classification,
 if available.}
 
 \item{verbose}{Logical: If TRUE, print output to screen}
 
-\item{type}{Character: "Regression", "Classification", or "Survival". 
+\item{type}{Character: "Regression", "Classification", or "Survival".
 If not provided, will be set to Regression if y is numeric.}
 
 \item{rho}{Logical: If TRUE, calculate Spearman's rho.}

@@ -46,7 +46,7 @@ define fold membership. e.g. for 10-fold on a dataset with 1000 cases, you could
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
 
-\item{id.strat}{Vector of IDs which may be replicated: resampling should 
+\item{id.strat}{Vector of IDs which may be replicated: resampling should
 force replicates of each ID to only appear in the training or testing.}
 
 \item{rtset}{List: Output of an \link{rtset.resample} (or named list with same

@@ -7,7 +7,7 @@
 #' Keep top x% of values of a vector
 #'
 #' @param x Input vector
-#' @param sparseness Percent of values of \code{x} to keep. The rest will be set to zero.
+#' @param sparseness Percent of values of `x` to keep. The rest will be set to zero.
 #' @author E.D. Gennatas
 
 sparsify <- function(x, sparseness) {

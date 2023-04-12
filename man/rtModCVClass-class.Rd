@@ -285,7 +285,7 @@ Plot ROC plot for predicted values for each resample
 
 \item{\code{col}}{Color for lines}
 
-\item{\code{alpha}}{Transparency for lines (passed to \code{mplot3_xy marker.alpha})}
+\item{\code{alpha}}{Transparency for lines (passed to \verb{mplot3_xy marker.alpha})}
 
 \item{\code{filename}}{Character: Filename to save plot to}
 

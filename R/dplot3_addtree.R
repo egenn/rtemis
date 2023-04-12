@@ -4,16 +4,16 @@
 
 #' Plot ADDTREE trees
 #'
-#' Plot ADDTREE trees trained with \link{s_ADDTREE} using \code{data.tree::plot.Node}
+#' Plot ADDTREE trees trained with [s_ADDTREE] using `data.tree::plot.Node`
 #'
-#' Edge info and styles have been removed because of problems with \code{DiagrammeR}
+#' Edge info and styles have been removed because of problems with `DiagrammeR`
 #' @param col.positive Color for outcome positive.
 #' @param col.negative Color for negative outcome.
 #' @param node.col Color for non-terminal leaves.
 #' @param edge.col Color for edges.
 #' @param bg.color Background color.
 #' @param filename Character: Path to filename to save PDF
-#' Requires packages \code{DiagrammeRsvg} and \code{rsvg}. Default = NULL
+#' Requires packages `DiagrammeRsvg` and `rsvg`. Default = NULL
 #' @author E.D. Gennatas
 #' @export
 

@@ -109,14 +109,14 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #' @param x Character: Input
 #' @param underscoresToSpaces Logical: If TRUE, convert underscores to spaces. Default = TRUE
 #' @param dotsToSpaces Logical: If TRUE, convert dots to spaces. Default = TRUE
-#' @param toLower Logical: If TRUE, convert to lowercase (precedes \code{toTitleCase}).
+#' @param toLower Logical: If TRUE, convert to lowercase (precedes `toTitleCase`).
 #' Default = FALSE (Good for getting all-caps words converted to title case, bad for abbreviations
 #' you want to keep all-caps)
 #' @param toTitleCase Logical: If TRUE, convert to Title Case. Default = TRUE (This does not change
-#' all-caps words, set \code{toLower} to TRUE if desired)
+#' all-caps words, set `toLower` to TRUE if desired)
 #' @param capitalize.strings Character, vector: Always capitalize these strings, if present. Default = "id"
-#' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
-#' Default = "\\$", which formats common input of the type \code{data.frame$variable}
+#' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for `gsub`.
+#' Default = "\\$", which formats common input of the type `data.frame$variable`
 #'
 #' @author E.D. Gennatas
 #' @export

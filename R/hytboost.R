@@ -10,23 +10,23 @@
 #' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
-#' @param mod Algorithm to boost, for options, see \link{modSelect}
-#' @param mod.params Named list of arguments for \code{mod}
+#' @param mod Algorithm to boost, for options, see [modSelect]
+#' @param mod.params Named list of arguments for `mod`
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}
+#' @param cxrcoef Logical: If TRUE, pass `cxr = TRUE, cxrcoef = TRUE` to [predict.hytreew]
 #' @param tolerance Float: If training error <= this value, training stops
 #' @param tolerance.valid Float: If validation error <= this value, training stops
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
+#' @param base.verbose Logical: `verbose` argument passed to learner
 #' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
 #' end of training. If integer, plot training and validation error curve every this many iterations
 #' during training
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
 #' 
-#' @return \code{hytboost} object
+#' @return `hytboost` object
 #' @author E.D. Gennatas
 #' 
 #' @keywords internal
@@ -294,7 +294,7 @@ hytboost <- function(x, y,
 } # rtemis::hytboost
 
 
-#' Print method for \link{boost} object
+#' Print method for [boost] object
 #'
 #' @method print hytboost
 #' @author E.D. Gennatas
@@ -310,14 +310,14 @@ print.hytboost <- function(x, ...) {
 } # rtemis::print.hytboost
 
 
-#' Predict method for \code{hytboost} object
+#' Predict method for `hytboost` object
 #'
-#' @param object \link{hytboost} object
+#' @param object [hytboost] object
 #' @param newdata data.frame of predictors
 #  @param n.feat Integer: Use the first so many features
 #' @param n.iter Integer: Use the first so many trees for prediction
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' \code{newdata}
+#' `newdata`
 #' @param as.matrix Logical: If TRUE, output 
 #' @param n.cores Integer: Number of cores to use
 #' @param verbose Logical: If TRUE, print messages to console
@@ -376,10 +376,10 @@ predict.hytboost <- function(object,
 
 #' Expand boosting series
 #'
-#' Add iterations to a \link{boost} object
+#' Add iterations to a [boost] object
 #'
 #' @inheritParams hytboost
-#' @param object \link{boost} object
+#' @param object [boost] object
 #' 
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -421,7 +421,7 @@ expand.hytboost <- function(object,
 } # rtemis::expand.hytboost
 
 
-#' \code{as.hytboost} Place model in \link{hytboost} structure
+#' `as.hytboost` Place model in [hytboost] structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -457,21 +457,21 @@ as.hytboost <- function(object,
 } # rtemis::as.hytboost
 
 
-#' Update \link{boost} object's fitted values
+#' Update [boost] object's fitted values
 #'
-#' Calculate new fitted values for a \link{boost}.
+#' Calculate new fitted values for a [boost].
 #' Advanced use only: run after updating learning.rate
 #'
 #' All this will eventually be automated using an R6 object, maybe
 #'
 #' @method update hytboost
-#' @param object \link{hytboost} object
+#' @param object [hytboost] object
 #' @param x Features
 #' @param y Outcome
 #' @param trace Integer: If > 0, print diagnostic messages
 #' @param ... Not used
 #' 
-#' @return \link{hytboost} object
+#' @return [hytboost] object
 #' @author E.D. Gennatas
 #' @keywords internal
 # TODO: save penultimate fitted, add last
@@ -496,7 +496,7 @@ update.hytboost <- function(object, x, y = NULL,
 } # rtemis::update.hytboost
 
 
-#' \code{as.hytboost} Place model in \link{hytboost} structure
+#' `as.hytboost` Place model in [hytboost] structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal

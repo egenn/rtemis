@@ -4,19 +4,19 @@
 
 #' Singular Value Decomposition
 #'
-#' Perform SVD decomposition using \code{base::svd}
+#' Perform SVD decomposition using `base::svd`
 #'
-#' Same solution as \link{d_PCA}
+#' Same solution as [d_PCA]
 #'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to SVD bases
-#' @param k Integer: Number of right singular vectors to compute (\code{svd}'s \code{nv})
+#' @param k Integer: Number of right singular vectors to compute (`svd`'s `nv`)
 #' @param nu Integer: Number of left singular vectors to compute
 #' @param scale Logical: If TRUE, scale input data before doing SVD. Default = TRUE
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = TRUE
+#' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
-#' @param ... Additional parameters to be passed to \code{svd}
-#' @return \link{rtDecom} object
+#' @param ... Additional parameters to be passed to `svd`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

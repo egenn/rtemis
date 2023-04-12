@@ -11,7 +11,7 @@ colorOp(col, fn = c("invert", "mean"), space = c("HSV", "RGB"))
 
 \item{fn}{Character: "invert", "mean": Function to perform}
 
-\item{space}{Character: "HSV", "RGB": Colorspace to operate in - for 
+\item{space}{Character: "HSV", "RGB": Colorspace to operate in - for
 averaging only}
 }
 \value{

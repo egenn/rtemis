@@ -4,7 +4,7 @@
 
 #' Interactive Barplots
 #'
-#' Draw interactive barplots using \code{plotly}
+#' Draw interactive barplots using `plotly`
 #'
 #' @param x vector (possibly named), matrix, or data.frame: If matrix or 
 #' data.frame, rows are groups (can be 1 row), columns are features
@@ -12,46 +12,46 @@
 #' @param xlab Character: x-axis label. Default = NULL
 #' @param ylab  Character: y-axis label. Default = NULL
 #' @param col Color, vector: Color for bars. Default NULL, which will draw 
-#' colors from \code{palette}
+#' colors from `palette`
 #' @param alpha Float (0, 1]: Transparency for bar colors. Default = .8
-#' @param theme Character: Theme to use: Use \code{themes()} to get available 
+#' @param theme Character: Theme to use: Use `themes()` to get available 
 #' themes
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
-#'  Default = "rtCol1". Only used if \code{col = NULL}
+#'  Default = "rtCol1". Only used if `col = NULL`
 #' @param barmode Character: Type of bar plot to make: "group", "relative", 
 #' "stack", "overlay". Default = "group". Use
 #' "relative" for stacked bars, wich handles negative values correctly, 
 #' unlike "stack", as of writing.
 #' @param group.names Character, vector, length = NROW(x): Group names. 
-#' Default = NULL, which uses \code{rownames(x)}
+#' Default = NULL, which uses `rownames(x)`
 #' @param order.by.val Logical: If TRUE, order bars by increasing value.
 #' Only use for single group data. Default = NULL
 #' @param ylim Float, vector, length 2: y-axis limits.
 #' @param hovernames Character, vector: Optional character vector to show on 
 #' hover over each bar.
 #' @param feature.names Character, vector, length = NCOL(x): Feature names. 
-#' Default = NULL, which uses \code{colnames(x)}
+#' Default = NULL, which uses `colnames(x)`
 #' @param font.size  Float: Font size for all labels. Default = 16
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, and will be 
 #' turned on if there is more than one feature present
 #' @param legend.col Color: Legend text color. Default = NULL, determined by 
 #' theme
 #' @param hline Float: If defined, draw a horizontal line at this y value. 
-#' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
-#' @param hline.width Float: Width for \code{hline}. Default = 1
+#' @param hline.col Color for `hline`. Default = "#ff0000" (red)
+#' @param hline.width Float: Width for `hline`. Default = 1
 #' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash", 
 #' "longdash", "dashdot",
 #' or "longdashdot"
 #' @param hline.annotate Character: Text of horizontal line annotation if
-#' \code{hline} is set
+#' `hline` is set
 #' @param hline.annotation.x Numeric: x position to place annotation with paper
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param margin Named list: plot margins.
 #' @param padding Integer: N pixels to pad plot. Default = 0
 #' @param filename Character: Path to file to save static plot. Default = NULL
-#' @param file.width Integer: File width in pixels for when \code{filename} is 
+#' @param file.width Integer: File width in pixels for when `filename` is 
 #' set.
-#' @param file.height Integer: File height in pixels for when \code{filename} 
+#' @param file.height Integer: File height in pixels for when `filename` 
 #' is set.
 #' @param file.scale Numeric: If saving to file, scale plot by this number
 #' @param horizontal Logical: If TRUE, plot bars horizontally

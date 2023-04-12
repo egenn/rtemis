@@ -121,17 +121,17 @@ or \code{MASS::lm.gls} if \code{gls = TRUE}}
 }
 \description{
 Fit a linear model and validate it. Options include base \code{lm()}, robust linear model using
-  \code{MASS:rlm()}, generalized least squares using \code{nlme::gls}, or polynomial regression
-  using \code{stats::poly} to transform features
+\code{MASS:rlm()}, generalized least squares using \code{nlme::gls}, or polynomial regression
+using \code{stats::poly} to transform features
 }
 \details{
 GLS can be useful in place of a standard linear model, when there is correlation among
-  the residuals and/or they have unequal variances.
-  Warning: \code{nlme}'s implementation is buggy, and \code{predict} will not work
-  because of environment problems, which means it fails to get predicted values if
-  \code{x.test} is provided.
-  \code{robut = TRUE} trains a robust linear model using \code{MASS::rlm}.
-  \code{gls = TRUE} trains a generalized least squares model using \code{nlme::gls}.
+the residuals and/or they have unequal variances.
+Warning: \code{nlme}'s implementation is buggy, and \code{predict} will not work
+because of environment problems, which means it fails to get predicted values if
+\code{x.test} is provided.
+\code{robut = TRUE} trains a robust linear model using \code{MASS::rlm}.
+\code{gls = TRUE} trains a generalized least squares model using \code{nlme::gls}.
 }
 \examples{
 x <- rnorm(100)

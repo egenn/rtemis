@@ -3,7 +3,7 @@
 # 2017-8 E.D. Gennatas www.lambdamd.org
 # TODO: Add option to include raw features as well as rules
 
-#' Rulefit [C, R]
+#' Rulefit (C, R)
 #'
 #' Train a gradient boosting model, extract rules,
 #' and fit using LASSO
@@ -13,18 +13,18 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
 #' @inheritParams s_GBM
-#' @param gbm.params Named list: Parameters for \link{s_GBM}
-#' @param meta.alpha Float [0, 1]: \code{alpha} for \link{s_GLMNET}, Default = 1
-#' @param meta.lambda Float: \code{lambda} for \link{s_GLMNET}. Default = NULL (will be determined automatically
+#' @param gbm.params Named list: Parameters for [s_GBM]
+#' @param meta.alpha Float [0, 1]: `alpha` for [s_GLMNET], Default = 1
+#' @param meta.lambda Float: `lambda` for [s_GLMNET]. Default = NULL (will be determined automatically
 #' by crossvalidation)
-#' @param meta.extra.params Named list: Parameters for \link{s_GLMNET} for the feature
+#' @param meta.extra.params Named list: Parameters for [s_GLMNET] for the feature
 #' selection step
 #' @param cases.by.rules Matrix of cases by rules from a previoue rulefit run. If provided,
 #' the GBM step is skipped. Default = NULL
 #' @param n.cores Integer: Number of cores to use
 #' @param which.gbm Character: "gbm" or "gbm3"
 #' 
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @references Friedman JH, Popescu BE, "Predictive Learning via Rule Ensembles",
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
@@ -267,10 +267,10 @@ s_RULEFIT <- function(x, y = NULL,
 # predict.rulefit
 # ::rtemis::
 
-#' \code{predict} method for \code{rulefit} object
+#' `predict` method for `rulefit` object
 #'
-#' @param object \code{rulefit} object
-#' @param newdata Feature matrix / data.frame: will be converted to \code{data.table}
+#' @param object `rulefit` object
+#' @param newdata Feature matrix / data.frame: will be converted to `data.table`
 #' @param verbose Logical: If TRUE, print messages during execution. Default = TRUE
 #' @param ... Ignored
 #' @return Vector of estimated values

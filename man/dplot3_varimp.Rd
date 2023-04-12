@@ -35,12 +35,12 @@ dplot3_varimp(
 \item{ylab}{Character: y-axis label}
 
 \item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
-i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+i.e.: \code{plot.top = .2} will print the top 20\% highest values, and \code{plot.top = 20} will plot the top 20
 highest values}
 
 \item{labelify}{Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE}
 
-\item{col}{Vector, colors: Single value, or multiple values to define bar 
+\item{col}{Vector, colors: Single value, or multiple values to define bar
 (feature) color(s)}
 
 \item{alpha}{Numeric: Transparency}
@@ -50,12 +50,12 @@ highest values}
 \item{mar}{Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 Default = c(50, 110, 50, 50)}
 
-\item{font.size}{Integer: Overall font size to use (essentially for the 
+\item{font.size}{Integer: Overall font size to use (essentially for the
 title at this point).
 Default = 14}
 
 \item{axis.font.size}{Integer: Font size to use for axis labels and tick labels
-(Seems not to be in same scale as \code{font.size} for some reason. 
+(Seems not to be in same scale as \code{font.size} for some reason.
 Experiment!)}
 
 \item{theme}{Output of an rtemis theme function (list of parameters) or theme
@@ -69,7 +69,7 @@ name. Use \code{themes()} to print available themes.}
 Plot variable importance using \code{plotly}
 }
 \details{
-A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value, 
+A simple \code{plotly} wrapper to plot horizontal barplots, sorted by value,
 which can be used to visualize variable importance, model coefficients, etc.
 }
 \examples{

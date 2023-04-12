@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Heatmap with \code{plotly}
+#' Heatmap with `plotly`
 #'
-#' Draw a heatmap using \code{plotly}
+#' Draw a heatmap using `plotly`
 #'
 #' @param z Input matrix
 #' @param x,y Vectors for x, y axes

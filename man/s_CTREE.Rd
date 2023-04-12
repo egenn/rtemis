@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_CTREE.R
 \name{s_CTREE}
 \alias{s_CTREE}
-\title{Conditional Inference Trees [C, R, S]}
+\title{Conditional Inference Trees \link{C, R, S}}
 \usage{
 s_CTREE(
   x,

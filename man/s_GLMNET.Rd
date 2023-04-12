@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLMNET.R
 \name{s_GLMNET}
 \alias{s_GLMNET}
-\title{GLM with Elastic Net Regularization [C, R, S]}
+\title{GLM with Elastic Net Regularization \link{C, R, S}}
 \usage{
 s_GLMNET(
   x,
@@ -61,13 +61,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
@@ -75,10 +75,10 @@ combinations.}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
+\item{alpha}{\link{gS} Float \link{0, 1}: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
-\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will 
+\item{lambda}{\link{gS} Float vector: Best left to NULL, \code{cv.glmnet} will
 compute its own lambda sequence}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -104,12 +104,12 @@ Default = NULL (random seed)}
 
 \item{res.summary.fn}{Function: Used to average resample runs.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -149,7 +149,7 @@ Train an elastic net model
 Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 alpha and resample combination
 
-\code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+\verb{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
 automatically performed
 }
 \seealso{

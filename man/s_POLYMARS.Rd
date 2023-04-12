@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_POLYMARS.R
 \name{s_POLYMARS}
 \alias{s_POLYMARS}
-\title{Multivariate adaptive polynomial spline regression (POLYMARS) [C, R]}
+\title{Multivariate adaptive polynomial spline regression (POLYMARS) (C, R)}
 \usage{
 s_POLYMARS(
   x,
@@ -50,7 +50,7 @@ must have set of columns as \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence

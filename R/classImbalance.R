@@ -9,7 +9,7 @@
 #' where \eqn{K} is the number of classes, and \eqn{n_i} is the number of 
 #' instances of class \eqn{i}
 #'
-#' @param x Vector, factor: Labels of outcome. If \code{x} has more than 1 
+#' @param x Vector, factor: Labels of outcome. If `x` has more than 1 
 #' column, the last one will be used
 #' @author E.D. Gennatas
 #' @export

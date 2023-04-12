@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2015 E.D. Gennatas www.lambdamd.org
 
-#' \code{rtemis-internals} Project Variables to First Eigenvector
+#' `rtemis-internals` Project Variables to First Eigenvector
 #'
 #' Convenience function for SVD k = 1
 #'

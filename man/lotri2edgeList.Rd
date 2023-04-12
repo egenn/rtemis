@@ -15,8 +15,8 @@ lotri2edgeList(A, filename = NULL, verbose = TRUE)
 }
 \description{
 Turn the lower triangle of a connectivity matrix (e.g. correlation matrix or similar)
- to an edge list of the form:
-      Source, Target, Weight
+to an edge list of the form:
+Source, Target, Weight
 }
 \details{
 The output can be read, for example, into gephi

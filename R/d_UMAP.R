@@ -4,13 +4,13 @@
 
 #' Uniform Manifold Approximation and Projection (UMAP)
 #'
-#' Perform UMAP decomposition using \code{uwot::umap}
+#' Perform UMAP decomposition using `uwot::umap`
 #'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to UMAP bases
 #' @param k Integer: Number of projections
 #' @param n.neighbors Integer: Number of keighbors
-#' @param init Character: Initialization type. See \code{uwot::umap "init"}
+#' @param init Character: Initialization type. See `uwot::umap "init"`
 #' @param metric Character: Distance metric to use: "euclidean", "cosine", 
 #' "manhattan", "hamming", "categorical". Default = "euclidean"
 #' @param epochs Integer: Number of epochs
@@ -18,9 +18,9 @@
 #' @param scale Logical: If TRUE, scale input data before doing UMAP. 
 #' Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
-#' @param ... Additional parameters to be passed to \code{uwot::umap}
+#' @param ... Additional parameters to be passed to `uwot::umap`
 #' 
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

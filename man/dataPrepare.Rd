@@ -23,7 +23,7 @@ dataPrepare(
 )
 }
 \arguments{
-\item{x}{Either training set features or combined training features and 
+\item{x}{Either training set features or combined training features and
 outcome in last column}
 
 \item{y}{Either training set outcome or combined testing set features and

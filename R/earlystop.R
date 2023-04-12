@@ -9,8 +9,8 @@
 #'     - or minimum percent decrease (relative to the first value of the vector) over a window of last n steps
 #'
 #' If the first loss value was set to be the loss when yhat = mean(y) (e.g. in boosting), then
-#' \code{total_decrease_pct_max} corresponds to R-squared and \code{window_decrease_pct_min} to percent R-squared
-#' improvement over \code{window} last steps.
+#' `total_decrease_pct_max` corresponds to R-squared and `window_decrease_pct_min` to percent R-squared
+#' improvement over `window` last steps.
 #'
 #' @param x Numeric vector: loss at each iteration
 #' @param window Integer: Number of steps to consider

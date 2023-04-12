@@ -9,11 +9,11 @@
 #'
 #' @param x Matrix / data frame of features
 #' @param y Matrix / data frame of outcomes
-#' @param mod \pkg{rtemis} algorithm to use. Options: run \code{modSelect()}
+#' @param mod \pkg{rtemis} algorithm to use. Options: run `modSelect()`
 #' @param save.mods Logical: If TRUE, save fitted models
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Arguments to be passed to \code{mod}
+#' @param ... Arguments to be passed to `mod`
 #' @author E.D. Gennatas
 #' @export
 

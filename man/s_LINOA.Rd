@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LINOA.R
 \name{s_LINOA}
 \alias{s_LINOA}
-\title{Linear Optimized Additive Tree [C, R]}
+\title{Linear Optimized Additive Tree (C, R)}
 \usage{
 s_LINOA(
   x,
@@ -103,7 +103,7 @@ Default = NULL (random seed)}
 
 \item{lambda}{Float: lambda parameter for \code{MASS::lm.ridge} Default = .01}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+\item{nvmax}{\link{gS} Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded}
 
 \item{init}{Initial value. Default = \code{mean(y)}}

@@ -6,14 +6,14 @@
 #'
 #' Train a HAL model
 #'
-#' \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided,
+#' `[gS]` Indicates tunable hyperparameters: If more than a single value is provided,
 #' grid search will be automatically performed
 #'
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #'
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

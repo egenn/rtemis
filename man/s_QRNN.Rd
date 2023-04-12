@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_QRNN.R
 \name{s_QRNN}
 \alias{s_QRNN}
-\title{Quantile Regression Neural Network [R]}
+\title{Quantile Regression Neural Network \link{R}}
 \usage{
 s_QRNN(
   x,

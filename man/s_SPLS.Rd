@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_SPLS.R
 \name{s_SPLS}
 \alias{s_SPLS}
-\title{Sparse Partial Least Squares Regression [C, R]}
+\title{Sparse Partial Least Squares Regression (C, R)}
 \usage{
 s_SPLS(
   x,
@@ -65,48 +65,48 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{k}{[gS] Integer: Number of components to estimate.}
+\item{k}{\link{gS} Integer: Number of components to estimate.}
 
-\item{eta}{[gS] Float [0, 1): Thresholding parameter.}
+\item{eta}{\link{gS} Float [0, 1): Thresholding parameter.}
 
-\item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses: 
+\item{kappa}{\link{gS} Float \link{0, .5}: Only relevant for multivariate responses:
 controls effect of concavity of objective
-  function.}
+function.}
 
-\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable 
+\item{select}{\link{gS} Character: "pls2", "simpls". PLS algorithm for variable
 selection.}
 
-\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls", 
+\item{fit}{\link{gS} Character: "kernelpls", "widekernelpls", "simpls",
 "oscorespls". Algorithm for model fitting.}
 
-\item{scale.x}{Logical: if TRUE, scale features by dividing each column by 
+\item{scale.x}{Logical: if TRUE, scale features by dividing each column by
 its sample standard deviation}
 
-\item{scale.y}{Logical: if TRUE, scale outcomes by dividing each column by 
+\item{scale.y}{Logical: if TRUE, scale outcomes by dividing each column by
 its sample standard deviation}
 
-\item{maxstep}{[gS] Integer: Maximum number of iteration when fitting 
+\item{maxstep}{\link{gS} Integer: Maximum number of iteration when fitting
 direction vectors.}
 
-\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda" 
+\item{classifier}{Character: Classifier used by \code{spls::splsda} "lda"
 or "logistic":}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -135,7 +135,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{n.cores}{Integer: Number of cores to be used by 
+\item{n.cores}{Integer: Number of cores to be used by
 \link{gridSearchLearn}}
 
 \item{...}{Additional parameters to be passed to \code{npreg}}
@@ -147,9 +147,9 @@ Object of class \pkg{rtemis}
 Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda} (Classification)
 }
 \details{
-[gS] denotes argument can be passed as a vector of values, which will trigger 
-a grid search using \link{gridSearchLearn} 
-\code{np::npreg} allows inputs 
+\link{gS} denotes argument can be passed as a vector of values, which will trigger
+a grid search using \link{gridSearchLearn}
+\code{np::npreg} allows inputs
 with mixed data types.
 }
 \examples{

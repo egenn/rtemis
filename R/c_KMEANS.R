@@ -4,14 +4,14 @@
 
 #' K-means Clustering
 #'
-#' Perform K-means clustering using \code{flexclust::cclust}
+#' Perform K-means clustering using `flexclust::cclust`
 #'
 #' @param x Input matrix / data.frame
 #' @param x.test Testing set matrix / data.frame
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @param ... Additional parameters to pass to \code{flexclust::cclust}
+#' @param ... Additional parameters to pass to `flexclust::cclust`
 #'
 #' @author E.D. Gennatas
 #' @family Clustering

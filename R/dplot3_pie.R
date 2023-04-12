@@ -4,17 +4,17 @@
 
 #' Interactive Pie Chart
 #'
-#' Draw interactive pie charts using \code{plotly}
+#' Draw interactive pie charts using `plotly`
 #'
 #' @inheritParams dplot3_bar
 #' @param x data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
 #' b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
-#' the \code{category.names} argument
+#' the `category.names` argument
 #' @param category.names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
-#' either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
+#' either `rownames(x)`, or the first column of `x` if `ncol(x) = 2`
 #' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"
 #' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
-#' @param theme Character: "light", "dark". Default = \code{getOption("rt.theme", "light")}
+#' @param theme Character: "light", "dark". Default = `getOption("rt.theme", "light")`
 #' @param sep.col Separator color
 #' @param bg Background color
 #' @param plot.bg Plot background color

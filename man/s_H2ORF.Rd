@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_H2ORF.R
 \name{s_H2ORF}
 \alias{s_H2ORF}
-\title{Random Forest on H2O [C, R]}
+\title{Random Forest on H2O (C, R)}
 \usage{
 s_H2ORF(
   x,

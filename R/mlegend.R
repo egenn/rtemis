@@ -1,7 +1,7 @@
-#' Add legend to \code{mplot3} plot
+#' Add legend to `mplot3` plot
 #'
 #' @param lims List with plot limits in the form list(xlim = xlim, ylim = ylim)
-#' e.g. as returned by \link{mplot3_xy}
+#' e.g. as returned by [mplot3_xy]
 #' @param title Character: Legend title
 #' @param group.names Character: group names
 #' @param title.col Title color

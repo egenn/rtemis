@@ -4,27 +4,27 @@
 
 #' Multidimensional Scaling
 #'
-#' Perform MDS decomposition using \code{stats:cmdscale}
+#' Perform MDS decomposition using `stats:cmdscale`
 #'
 #' Project scaled variables to MDS components.
 #' Input must be n by p,
 #' where n represents number of cases,
 #' and p represents number of features.
 #' fastMDS will be applied to the transpose of the n x p matrix.
-#' fastMDS will fail if there are any NA values or constant features: remove them using \link{preprocess}
+#' fastMDS will fail if there are any NA values or constant features: remove them using [preprocess]
 #'
 #' @inheritParams d_SVD
 #' @param x Input data
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param dist.method Character: method to use to calculate distance. See \code{stats::dist("method")}
+#' @param dist.method Character: method to use to calculate distance. See `stats::dist("method")`
 #' @param eig Logical: If TRUE, return eigenvalues. Default = FALSE
-#' @param add Logical: If TRUE, an additive constant \code{c*} will be computed and added to the
+#' @param add Logical: If TRUE, an additive constant `c*` will be computed and added to the
 #' non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE
 #' @param x.ret Logical: If TRUE, return the doubly centered symmetric distance matrix. Default = FALSE
 #' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}.
+#' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`.
 #' Default = TRUE
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

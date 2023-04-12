@@ -2,11 +2,11 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Deep Learning on H2O [C, R]
+#' Deep Learning on H2O (C, R)
 #'
 #' Trains a Deep Neural Net using H2O (http://www.h2o.ai)
-#' Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
-#' e.g. if running on localhost, point your web browser to \code{localhost:54321}
+#' Check out the H2O Flow at `[ip]:[port]`, Default IP:port is "localhost:54321"
+#' e.g. if running on localhost, point your web browser to `localhost:54321`
 #'
 #' x & y form the training set.
 #' x.test & y.test form the testing set used only to test model generalizability.
@@ -35,10 +35,10 @@
 #' @param adaptive.rate Logical: If TRUE, use adaptive learning rate. Default = TRUE
 #' @param rate.annealing Float: Learning rate annealing: rate / (1 + rate_annealing * samples). Default = 1e-6
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Additional parameters to pass to \code{h2o::h2o.deeplearning}
-#' @return \link{rtMod} object
+#' @param ... Additional parameters to pass to `h2o::h2o.deeplearning`
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export

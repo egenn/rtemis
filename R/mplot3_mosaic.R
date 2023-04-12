@@ -4,22 +4,22 @@
 
 #' Mosaic plot
 #'
-#' Plots a mosaic plot using \code{graphics::mosaicplot}
+#' Plots a mosaic plot using `graphics::mosaicplot`
 #'
-#' @param x contingency table, e.g. output of \code{table()}
+#' @param x contingency table, e.g. output of `table()`
 #' @param main Character: Main title
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param border Color vector for cell borders or FALSE to turn off. Default = FALSE
-#' @param theme Character: Run \code{themes()} for available themes
-#' @param theme.args List of arguments to pass to \code{theme}. Optional, same args can be passed
+#' @param theme Character: Run `themes()` for available themes
+#' @param theme.args List of arguments to pass to `theme`. Optional, same args can be passed
 #' to theme function
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtpalette()}
-#' @param new Logical: If TRUE, add plot to existing plot. See \code{par("new")}
+#' `rtpalette()`
+#' @param new Logical: If TRUE, add plot to existing plot. See `par("new")`
 #' @param filename Character: Path to file to save plot. Default = NULL
-#' @param pdf.width Float: Width in inches for PDF output, if \code{filename} is defined
-#' @param pdf.height Float: Height in inches for PDF output, if \code{filename} is defined
+#' @param pdf.width Float: Width in inches for PDF output, if `filename` is defined
+#' @param pdf.height Float: Height in inches for PDF output, if `filename` is defined
 #' @author E.D. Gennatas
 #' @export
 #' @examples

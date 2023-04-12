@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017-2021 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Boxplot
+#' `mplot3`: Boxplot
 #'
 #' Draw boxplots of a vector (single box), data.frame (one box per column) or list
 #' (one box per element - good for variable of different length)
@@ -14,9 +14,9 @@
 #' @inheritParams mplot3_xy
 #' @param x Vector, data.frame or list: Each data.frame column or list element will be drawn as a box
 #' @param col Vector of colors to use
-#' @param alpha Numeric: \code{col} transparency
+#' @param alpha Numeric: `col` transparency
 #' @param border Color for lines around boxes
-#' @param border.alpha Numeric: \code{border} transparency
+#' @param border.alpha Numeric: `border` transparency
 #' @param group.spacing Numeric: Spacing between groups of boxes (when input is data.frame or list)
 #' @param boxwex Numeric: Scale factor for box width. Default = .5
 #' @param staplewex Numeric: max and min line ("staple") width proportional to box. Default = .5
@@ -29,7 +29,7 @@
 #' @param order.by.fn Character: "mean", "median" or any function that outputs a single number: E
 #' stimate function on each vector and order boxes (when input is data.frame or list) by ascending
 #' order. Default = NULL, i.e. no reordering
-#' @param ... Additional arguments to \code{graphics::boxplot}
+#' @param ... Additional arguments to `graphics::boxplot`
 #' 
 #' @author E.D. Gennatas
 #' @examples

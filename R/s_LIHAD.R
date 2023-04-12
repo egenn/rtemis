@@ -44,14 +44,14 @@
 #'
 #' @inheritParams s_GLM
 #' @param max.depth [gS] Integer: Max depth of additive tree. Default = 3
-#' @param alpha [gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha
-#' @param lambda [gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda
-#' @param lincoef.params Named List: Output of \link{rtset.lincoef}
+#' @param alpha [gS] Float: `lincoef` alpha Overrides `lincoef.params` alpha
+#' @param lambda [gS] Float: `lincoef` lambda. Overrides `lincoef.params` lambda
+#' @param lincoef.params Named List: Output of [rtset.lincoef]
 #' @param minobsinnode [gS] Integer: Minimum N observations needed in node, before considering splitting
 #' @param learning.rate [gS] Float (0, 1): Learning rate. Default = 1
-#' @param part.cp [gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0
+#' @param part.cp [gS] Float: Minimum complexity needed to allow split by `rpart`. Default = 0
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
-#' @param cxrcoef Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by coefficients matrix.
+#' @param cxrcoef Logical: Passed to [predict.lihad], if TRUE, returns cases by coefficients matrix.
 #' Default = FALSE
 #' @author E.D. Gennatas
 #' @export
@@ -617,7 +617,7 @@ partLin <- function(x1, y1,
 } # rtemis::partLin
 
 
-#' Print method for \code{lihad} object
+#' Print method for `lihad` object
 #'
 #' @method print lihad
 #' @author E.D. Gennatas
@@ -652,12 +652,12 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
 } # rtemis::preorderMatch.lihad
 
 
-#' Predict method for \code{lihad} object
+#' Predict method for `lihad` object
 #'
 #' @method predict lihad
-#' @param object an \link{rtMod} trained with \link{s_LIHAD} or an \code{lihad} object
+#' @param object an [rtMod] trained with [s_LIHAD] or an `lihad` object
 #' @param newdata data frame of predictor features
-#' @param learning.rate Float: learning rate if \code{object} was \code{lihad}
+#' @param learning.rate Float: learning rate if `object` was `lihad`
 #' @param n.feat Integer: internal use only
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE
@@ -713,7 +713,7 @@ predict.lihad <- function(object, newdata = NULL,
 
 #' Extract coefficients from Additive Tree leaves
 #'
-#' @param object \code{lihad} object
+#' @param object `lihad` object
 #' @param newdata matrix/data.frame of features
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity
@@ -775,7 +775,7 @@ preorder.lihad <- function(node, x, trace = 0) {
 
 #' Extract coefficients from Hybrid Additive Tree leaves
 #'
-#' @param object \code{lihad} object
+#' @param object `lihad` object
 #' @param newdata matrix/data.frame of features
 #' @param verbose Logical: If TRUE, print output to console
 #' @param trace Integer {0:2} Increase verbosity

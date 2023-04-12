@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_BART.R
 \name{s_BART}
 \alias{s_BART}
-\title{Bayesian Additive Regression Trees [C, R]}
+\title{Bayesian Additive Regression Trees (C, R)}
 \usage{
 s_BART(
   x,

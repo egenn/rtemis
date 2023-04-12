@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_RF.R
 \name{s_RF}
 \alias{s_RF}
-\title{Random Forest Classification and Regression [C, R]}
+\title{Random Forest Classification and Regression (C, R)}
 \usage{
 s_RF(
   x,
@@ -80,25 +80,25 @@ Columns must correspond to columns in \code{x}}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
+\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split}
 
-\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+\item{nodesize}{\link{gS}: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
 1 (Classification)}
 
-\item{maxnodes}{[gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
+\item{maxnodes}{\link{gS}: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
 grown to maximum possible}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{classwt}{Vector, Float: Priors of the classes for classification only. Need not add up to 1}
@@ -133,16 +133,16 @@ the strata.}
 
 \item{sampsize.ratio}{Float (0, 1): Heuristic of sorts to increase sensitivity in unbalanced
 cases. Sample with replacement from minority case to create bootstraps of length N cases.
-Select \code{(sampsize.ratio * N minority cases)} cases from majority class.}
+Select \verb{(sampsize.ratio * N minority cases)} cases from majority class.}
 
 \item{do.trace}{Logical or integer: If TRUE, \code{randomForest} will outpout information while it is running.
 If an integer, \code{randomForest} will report progress every this many trees. Default = \code{n.trees/10} if
 \code{verbose = TRUE}}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning,
 when \code{autotune = TRUE}}
 
-\item{imetrics}{Logical: If TRUE, calculate interpretability metrics 
+\item{imetrics}{Logical: If TRUE, calculate interpretability metrics
 (N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -195,7 +195,7 @@ Train a Random Forest for regression or classification using \code{randomForest}
 }
 \details{
 If \code{autotue = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
-  value.
+value.
 }
 \seealso{
 \link{elevate} for external cross-validation

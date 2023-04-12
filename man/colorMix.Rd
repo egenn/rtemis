@@ -7,7 +7,7 @@
 colorMix(color, n = 4)
 }
 \arguments{
-\item{color}{List: List of two or more elements, each containing two colors. 
+\item{color}{List: List of two or more elements, each containing two colors.
 A gradient will be created from the first to the second color of each element}
 
 \item{n}{Integer: Number of steps in each gradient.}

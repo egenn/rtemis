@@ -17,16 +17,16 @@ earlystop(
 
 \item{window}{Integer: Number of steps to consider}
 
-\item{window_decrease_pct_min}{Float: Stop if improvement is less than this percent over last `window` steps}
+\item{window_decrease_pct_min}{Float: Stop if improvement is less than this percent over last \code{window} steps}
 
-\item{total_decrease_pct_max}{Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides `window_decrease_pct_min`}
+\item{total_decrease_pct_max}{Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides \code{window_decrease_pct_min}}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \description{
 Check loss vector for early stopping criteria:
-    - either total percent decrease from starting error (e.g. if predictions started at expectation)
-    - or minimum percent decrease (relative to the first value of the vector) over a window of last n steps
+- either total percent decrease from starting error (e.g. if predictions started at expectation)
+- or minimum percent decrease (relative to the first value of the vector) over a window of last n steps
 }
 \details{
 If the first loss value was set to be the loss when yhat = mean(y) (e.g. in boosting), then

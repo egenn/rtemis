@@ -4,7 +4,7 @@
 
 # Black ----
 
-#' Themes for \code{mplot3} and \code{dplot3} functions
+#' Themes for `mplot3` and `dplot3` functions
 #'
 #' @param bg Color: Figure background
 #' @param plot.bg Color: Plot region background
@@ -15,7 +15,7 @@
 #' @param lwd Float: Line width.
 #' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
 #' Default = "n" (no box)
-#' @param box.col Box color if \code{bty != "n"}
+#' @param box.col Box color if `bty != "n"`
 #' @param box.alpha Float: Box alpha
 #' @param box.lty Integer: Box line type
 #' @param box.lwd Float: Box line width
@@ -31,22 +31,22 @@
 #' @param tick.col Tick color
 #' @param tick.alpha Float: Tick alpha
 #' @param tick.labels.col Tick labels' color
-#' @param tck \code{graphics::parr}'s tck argument: Tick length, can be negative
-#' @param tcl \code{graphics::parr}'s tcl argument
+#' @param tck `graphics::parr`'s tck argument: Tick length, can be negative
+#' @param tcl `graphics::parr`'s tcl argument
 #' @param x.axis.side Integer: Side to place x-axis. Default = 1 (bottom)
 #' @param y.axis.side Integer: Side to place y-axis. Default = 2 (left)
 #' @param labs.col Labels' color
-#' @param x.axis.line Numeric: \code{graphics::axis}'s \code{line} argument for the x-axis
-#' @param x.axis.las Numeric: \code{graphics::axis}'s \code{las} argument for the x-axis
-#' @param x.axis.padj Numeric: x-axis' \code{padj}: Adjustment for the x-axis 
+#' @param x.axis.line Numeric: `graphics::axis`'s `line` argument for the x-axis
+#' @param x.axis.las Numeric: `graphics::axis`'s `las` argument for the x-axis
+#' @param x.axis.padj Numeric: x-axis' `padj`: Adjustment for the x-axis 
 #' tick labels' position
-#' @param x.axis.hadj Numeric: x-axis' \code{hadj}
-#' @param y.axis.line Numeric: \code{graphics::axis}'s \code{line} argument for the y-axis
-#' @param y.axis.las Numeric: \code{graphics::axis}'s \code{las} argument for the y-axis
-#' @param y.axis.padj Numeric: y-axis' \code{padj}
-#' @param y.axis.hadj Numeric: y-axis' \code{hadj}
-#' @param xlab.line Numeric: Line to place \code{xlab}
-#' @param ylab.line Numeric: Line to place \code{ylab}
+#' @param x.axis.hadj Numeric: x-axis' `hadj`
+#' @param y.axis.line Numeric: `graphics::axis`'s `line` argument for the y-axis
+#' @param y.axis.las Numeric: `graphics::axis`'s `las` argument for the y-axis
+#' @param y.axis.padj Numeric: y-axis' `padj`
+#' @param y.axis.hadj Numeric: y-axis' `hadj`
+#' @param xlab.line Numeric: Line to place `xlab`
+#' @param ylab.line Numeric: Line to place `ylab`
 #' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within 
 #' plot limits
 #' @param zerolines.col Zerolines color

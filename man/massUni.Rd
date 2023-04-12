@@ -30,7 +30,7 @@ massUni(
 \item{...}{Arguments to be passed to \code{mod}}
 }
 \description{
-Run a mass-univariate analysis: same features (predictors) 
+Run a mass-univariate analysis: same features (predictors)
 on multiple outcomes
 }
 \author{

@@ -35,7 +35,7 @@ expand.hytboostnow(
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreenow}}
+\item{cxrcoef}{Logical: If TRUE, pass \verb{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreenow}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

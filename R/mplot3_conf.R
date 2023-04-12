@@ -8,50 +8,50 @@
 #'
 #' This function uses its multiple cex args instead of the theme's `cex` parameter
 #'
-#' @param object Either a classification \code{rtMod}, or a table/matrix/data.frame
+#' @param object Either a classification `rtMod`, or a table/matrix/data.frame
 #' @param main Character: Plot title
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE
 #' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
-#' \code{object$mod.name}. 
+#' `object$mod.name`. 
 #' @param oma Numeric, vector, length 4: Outer margins. 
 #' @param dim.main Numeric: Height for title.
 #' @param dim.lab Numeric: Height for labels.
 #' @param dim.in Numeric: Height/Width for confusion matrix cells. Default = 4
 #' @param dim.out Numeric: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes
-#' @param font.in Integer: The \code{font} parameter for confusion matrix cells. Default = 2
-#' @param font.out Integer: The \code{font} parameter for metrics cells.
-#' @param cex.main Numeric: The \code{cex} parameter for the main title.
-#' @param cex.in Numeric: The \code{cex} parameter for confusion matrix cells.
-#' @param cex.lab Numeric: The \code{cex} parameter for first line of label cells.
-#' @param cex.lab2 Numeric: The \code{cex} parameter for second line of label cells.
-#' @param cex.lab3 Numeric: The \code{cex} parameter for classification metrics.
-#' @param cex.out Numeric: The \code{cex} parameter for metrics cells.
-#' @param col.main Color for title. Default = "auto", determined by \code{theme}
-#' @param col.lab Color for labels. Default = "auto", determined by \code{theme}
+#' @param font.in Integer: The `font` parameter for confusion matrix cells. Default = 2
+#' @param font.out Integer: The `font` parameter for metrics cells.
+#' @param cex.main Numeric: The `cex` parameter for the main title.
+#' @param cex.in Numeric: The `cex` parameter for confusion matrix cells.
+#' @param cex.lab Numeric: The `cex` parameter for first line of label cells.
+#' @param cex.lab2 Numeric: The `cex` parameter for second line of label cells.
+#' @param cex.lab3 Numeric: The `cex` parameter for classification metrics.
+#' @param cex.out Numeric: The `cex` parameter for metrics cells.
+#' @param col.main Color for title. Default = "auto", determined by `theme`
+#' @param col.lab Color for labels. Default = "auto", determined by `theme`
 #' @param col.text.out Color for metrics cells' text. Default = "auto", 
-#' determined by \code{theme}
+#' determined by `theme`
 #' @param col.bg Color for background. Default = "auto", determined by 
-#' \code{theme}
+#' `theme`
 #' @param col.bg.out1 Color for metrics cells' background (row1). 
-#' Default = "auto", determined by \code{theme}
+#' Default = "auto", determined by `theme`
 #' @param col.bg.out2 Color for metrics cells' background (row2). 
-#' Default = "auto", determined by \code{theme}
+#' Default = "auto", determined by `theme`
 #' @param col.text.hi Color for high confusion matrix values. Default = "auto", 
-#' determined by \code{theme}
+#' determined by `theme`
 #' @param col.text.lo Color for low confusion matrix values. Default = "auto", 
-#' determined by \code{theme}
+#' determined by `theme`
 #' @param show.ba Logical: If TRUE, show Balanced Accuracy at bottom right corner.
 #' @param theme Character: "light", or "dark". Set to 
-#' \code{options("rt.theme")}, if set, otherwise "light"
+#' `options("rt.theme")`, if set, otherwise "light"
 #' @param mid.col Color: The mid color for the confusion matrix. 
-#' Default = "auto", determined by \code{theme}
+#' Default = "auto", determined by `theme`
 #' @param hi.color.pos Color: The hi color for correct classification. 
 #' @param hi.color.neg Color: The hi color for missclassification.
 #' @param par.reset Logical: If TRUE, reset par before exit.
-#' @param pdf.width Numeric: PDF width, if \code{filename} is set
-#' @param pdf.height Numeric: PDF height, if \code{filename} is set
+#' @param pdf.width Numeric: PDF width, if `filename` is set
+#' @param pdf.height Numeric: PDF height, if `filename` is set
 #' @param filename Character: If specified, save plot to this path.
 #' @param ... Additional arguments passed to theme
 #'

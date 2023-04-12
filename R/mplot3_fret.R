@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Guitar Fretboard
+#' `mplot3`: Guitar Fretboard
 #'
 #' Draw color-coded notes on a guitar fretboard for standard E-A-D-G-B-e tuning
 #'

@@ -5,23 +5,23 @@
 #' NonLinear Activation unit Regression (NLA) [R]
 #'
 #' Train an equivalent of a 1 hidden unit neural network with a defined nonlinear activation function
-#' using \code{optim}
+#' using `optim`
 #'
-#' Since we are using \code{optim}, results will be sensitive to the combination of
-#' optimizer method (See \code{optim::method} for details),
+#' Since we are using `optim`, results will be sensitive to the combination of
+#' optimizer method (See `optim::method` for details),
 #' initialization values, and activation function.
 #' @inheritParams s_GLM
-#' @param activation Function: Activation function to use. Default = \link{softplus}
-#' @param b_o Float, vector (length y): Output bias. Defaults to \code{mean(y)}
+#' @param activation Function: Activation function to use. Default = [softplus]
+#' @param b_o Float, vector (length y): Output bias. Defaults to `mean(y)`
 #' @param W_o Float: Output weight. Defaults to 1
 #' @param b_h Float: Hidden layer bias. Defaults to 0
-#' @param W_h Float, vector (length \code{NCOL(x)}): Hidden layer weights. Defaults to 0
+#' @param W_h Float, vector (length `NCOL(x)`): Hidden layer weights. Defaults to 0
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
-#' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
-#' @param ... Additional arguments to be passed to \code{sigreg}
+#' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
+#' @param ... Additional arguments to be passed to `sigreg`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

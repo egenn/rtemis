@@ -5,7 +5,7 @@
 
 #' Locally Linear Embedding
 #'
-#' Perform LLE decomposition using \code{lle::lle}
+#' Perform LLE decomposition using `lle::lle`
 #'
 #' Project scaled variables to LLE components
 #' Input must be n by p,
@@ -16,23 +16,23 @@
 #' @inheritParams d_SVD
 #' @param x Input data
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param nn Integer: Number of neighbors. If Set to 0 (default), will use \code{lle::calc_k} to
+#' @param nn Integer: Number of neighbors. If Set to 0 (default), will use `lle::calc_k` to
 #'   estimate optimal number
-#' @param nn.min Integer: Minimum n of neighbors to consider in search, used if \code{nn = 0}
-#' @param nn.max Integer: Maximum n of enighbors to consider in search, used if \code{nn = 0}
+#' @param nn.min Integer: Minimum n of neighbors to consider in search, used if `nn = 0`
+#' @param nn.max Integer: Maximum n of enighbors to consider in search, used if `nn = 0`
 #' @param plot.calcnn Logical: If TRUE, print plot after estimation of number of neighbors. Default = FALSE
-#' @param id Logical: If TRUE, calculate \code{k} (the intrinsic dimension)
-#' @param iLLE Logical: If TRUE, use the improved LLE algorithm; see Details in \code{lle::lle}
-#'   Notice: It causes warnings for matrix dimensions (check \code{lle} code)
+#' @param id Logical: If TRUE, calculate `k` (the intrinsic dimension)
+#' @param iLLE Logical: If TRUE, use the improved LLE algorithm; see Details in `lle::lle`
+#'   Notice: It causes warnings for matrix dimensions (check `lle` code)
 #' @param nnk Logical: If TRUE, use k nearest neighbors method; otherwise, epsilon environment neighbourhood
 #'   will be used
-#' @param reg Integer {1, 2, 3}: Regularization methods: See \code{lle::lle("reg")}
+#' @param reg Integer {1, 2, 3}: Regularization methods: See `lle::lle("reg")`
 #' @param v Float: Threshold value for intrinsic dimension estimation. Suggestion for noiseless
 #' data: .99, for noisy data: .9. Default = .9
 #' @param n.cores Integer: Number of cores to use. Default = 1. At some point using more than one cores stopped working.
-#' The \code{lle} package has not been updated since February 2015 - we will switch to a different implementation soon
-#' @param ... Additional parameters to be passed to \code{LLE::LLE}
-#' @return \link{rtDecom} object
+#' The `lle` package has not been updated since February 2015 - we will switch to a different implementation soon
+#' @param ... Additional parameters to be passed to `LLE::LLE`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

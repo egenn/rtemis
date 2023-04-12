@@ -31,9 +31,9 @@ dplot3_graphd3(
 
 \item{node.col}{Color for nodes}
 
-\item{node.alpha}{Float [0, 1]: Node opacity. Default = .5}
+\item{node.alpha}{Float \link{0, 1}: Node opacity. Default = .5}
 
-\item{edge.alpha}{Float [0, 1]: Edge opacity. Default = .33}
+\item{edge.alpha}{Float \link{0, 1}: Edge opacity. Default = .33}
 
 \item{zoom}{Logical: If TRUE, graph is zoomable. Default = TRUE}
 

@@ -25,22 +25,22 @@ matchcases(
 
 \item{n.matches}{Integer: Number of matches to return}
 
-\item{target.id}{Character: Column name in \code{target} that holds unique 
+\item{target.id}{Character: Column name in \code{target} that holds unique
 cases IDs. Default = NULL, in which case integer case numbers will be used}
 
 \item{pool.id}{Character: Same as \code{target.id} for \code{pool}}
 
-\item{exactmatch.factors}{Logical: If TRUE, selected cases will have to 
+\item{exactmatch.factors}{Logical: If TRUE, selected cases will have to
 exactly match factors
 available in \code{target}}
 
-\item{exactmatch.cols}{Character: Names of columns that should be matched 
+\item{exactmatch.cols}{Character: Names of columns that should be matched
 exactly}
 
-\item{distmatch.cols}{Character: Names of columns that should be 
+\item{distmatch.cols}{Character: Names of columns that should be
 distance-matched}
 
-\item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen 
+\item{norepeats}{Logical: If TRUE, cases in \code{pool} can only be chosen
 once.}
 
 \item{ignore.na}{Logical: If TRUE, ignore NA values during exact matching.}
@@ -48,7 +48,7 @@ once.}
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 }
 \description{
-Find one or more cases from a `pool` data.frame that match cases in a target 
+Find one or more cases from a \code{pool} data.frame that match cases in a target
 data.frame. Match exactly and/or by distance (sum of squared distances).
 }
 \examples{

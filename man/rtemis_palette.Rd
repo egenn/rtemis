@@ -13,7 +13,7 @@ rtemis_palette(n, palette = rtPalette)
 Default = \code{rtPalette}}
 }
 \description{
-Allows you to get `n` colors of a defined palette, useful for passing to other functions, like ggplot
+Allows you to get \code{n} colors of a defined palette, useful for passing to other functions, like ggplot
 }
 \examples{
 rtemis_palette(3)

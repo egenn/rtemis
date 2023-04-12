@@ -2,7 +2,7 @@
 % Please edit documentation in R/multigplot.R
 \name{multigplot}
 \alias{multigplot}
-\title{Multipanel **ggplot2** plots}
+\title{Multipanel \strong{ggplot2} plots}
 \usage{
 multigplot(plots = NULL, nrows = NULL, byrow = TRUE)
 }
@@ -16,7 +16,7 @@ to plot 2 plots per row}
 Default = TRUE}
 }
 \description{
-Plot a panel of **gplot2** plots
+Plot a panel of \strong{gplot2} plots
 }
 \author{
 E.D. Gennatas

@@ -17,16 +17,16 @@ winsorize(
 \arguments{
 \item{x}{Numeric vector: Input data}
 
-\item{lo}{Numeric: If not NULL, replace any values in \code{x} lower than 
+\item{lo}{Numeric: If not NULL, replace any values in \code{x} lower than
 this with this. Default = NULL}
 
-\item{hi}{Numeric: If not NULL, replace any values in \code{x} higher than 
+\item{hi}{Numeric: If not NULL, replace any values in \code{x} higher than
 this with this.}
 
-\item{prob.lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample 
+\item{prob.lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample
 quantile that corresponds to this probability and set as \code{lo}.}
 
-\item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
+\item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample
 quantile that corresponds to this probability and set as \code{hi}.}
 
 \item{quantile.type}{Integer: passed to \code{stats::quantile}}

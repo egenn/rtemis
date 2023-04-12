@@ -11,11 +11,11 @@
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param new.x (Optional) Numeric vector or matrix of new set of features
-#'   Must have same set of columns as \code{x}
+#'   Must have same set of columns as `x`
 #' @param print.plot Logical: if TRUE, draw plot when done
 #' @param lwd Line width for plotting
 #' @param cex Character expansion factor for plotting
-#' @param par.reset Logical. Reset \code{par} to its original state
+#' @param par.reset Logical. Reset `par` to its original state
 #' @param ... Additional arguments to be passed to tgp::bgp
 #'
 #' @author E.D. Gennatas

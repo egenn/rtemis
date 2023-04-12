@@ -13,13 +13,13 @@
 NULL
 
 
-#' \code{rtset.resample}: Set \link{resample} settings
+#' `rtset.resample`: Set [resample] settings
 #'
 #'
 #' @inheritParams resample
 #' @export
 rtset.resample <- function(resampler = "strat.sub",
-                           n.resamples = 5,
+                           n.resamples = 10,
                            stratify.var = NULL,
                            train.p = .8,
                            strat.n.bins = 4,
@@ -40,7 +40,7 @@ rtset.resample <- function(resampler = "strat.sub",
 } # rtemis::rtset.resample
 
 
-#' \code{rtset.grid.resample}: \link{resample} defaults for \link{gridSearchLearn}
+#' `rtset.grid.resample`: [resample] defaults for [gridSearchLearn]
 #'
 #' @inheritParams resample
 #' @export
@@ -58,7 +58,7 @@ rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
 } # rtemis::rtset.grid.resample
 
 
-#' \code{rtset.bag.resample}: \link{resample} defaults for \code{rtMod} bagging
+#' `rtset.bag.resample`: [resample] defaults for `rtMod` bagging
 #'
 #' @inheritParams resample
 #' @export
@@ -77,7 +77,7 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 } # rtemis::rtset.bag.resample
 
 
-#' \code{rtset.meta.resampler}: \link{resample} defaults for meta model training
+#' `rtset.meta.resampler`: [resample] defaults for meta model training
 #'
 #' @inheritParams resample
 #' @export
@@ -96,7 +96,7 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 } # rtemis::rtset.meta.resample
 
 
-#' \code{rtset.cv.resample}: \link{resample} defaults for cross-validation
+#' `rtset.cv.resample`: [resample] defaults for cross-validation
 #'
 #' @inheritParams resample
 #' @export
@@ -153,7 +153,7 @@ rtset.cv.resample <- function(resampler = "strat.sub",
 # } # rtemis::rtset.cluster
 
 
-#' \code{rtset.color}: Set parameters for \link{colorGrad}
+#' `rtset.color`: Set parameters for [colorGrad]
 #'
 #' @inheritParams colorGrad
 #' @export
@@ -175,7 +175,7 @@ rtset.color <- function(n = 101, colors = NULL,
 } # rtemis::rtset.color
 
 
-#' \code{rtset.preprocess}: Set \link{preprocess} parameters for \link{elevate}'s \code{.preprocess} argument
+#' `rtset.preprocess`: Set [preprocess] parameters for [elevate]'s `.preprocess` argument
 #'
 #' @param decom Character: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
@@ -231,7 +231,7 @@ rtset.preprocess <- function(completeCases = FALSE,
 } # rtemis::rtset.preprocess
 
 
-#' \code{rtset.decompose}: Set decomposition parameters for \code{elevate}'s \code{.decompose} argument
+#' `rtset.decompose`: Set decomposition parameters for `elevate`'s `.decompose` argument
 #'
 #' @param decom Character: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
@@ -244,7 +244,7 @@ rtset.decompose <- function(decom = "ICA",
 
 } # rtemis::rtset.decompose
 
-#' \code{rtset.earlystop}: Set parameters for \link{earlystop}
+#' `rtset.earlystop`: Set parameters for [earlystop]
 #'
 #' @inheritParams earlystop
 #' @export
@@ -260,7 +260,7 @@ rtset.earlystop <- function(window = 150,
 } # rtemis::rtset.earlystop
 
 
-#' \code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}
+#' `rtset.LIHAD`: Set parameters for [s_LIHAD]
 #'
 #' @inheritParams s_LIHAD
 #' @export
@@ -285,7 +285,7 @@ rtset.LIHAD <- function(max.depth = 2,
 } # rtemis::rtset.ADDT
 
 
-#' \code{rtset.GBM}: Set parameters for \link{s_GBM}
+#' `rtset.GBM`: Set parameters for [s_GBM]
 #'
 #' @inheritParams s_GBM
 #' @export
@@ -318,7 +318,7 @@ rtset.GBM <- function(interaction.depth = 2,
 } # rtemis::rtset.GBM
 
 
-#' \code{rtset.RANGER}: Set parameters for \link{s_RANGER}
+#' `rtset.RANGER`: Set parameters for [s_RANGER]
 #'
 #' @inheritParams s_RANGER
 #' @export
@@ -345,7 +345,7 @@ rtset.RANGER <- function(n.trees = 1000,
 } # rtemis::rtset.RANGER
 
 
-#' \code{rtset.DN}: Set parameters for \link{s_DN}
+#' `rtset.DN`: Set parameters for [s_DN]
 #'
 #' @inheritParams s_DN
 #' @export
@@ -426,7 +426,7 @@ rtset.DN <- function(hidden = 1,
 # } # rtemis::rtset.MXN
 
 
-#' \code{rtset.lincoef}: Set parameters for \link{lincoef}
+#' `rtset.lincoef`: Set parameters for [lincoef]
 #'
 #' @inheritParams lincoef
 #' @export
@@ -467,7 +467,7 @@ rtset.lincoef <- function(method = c("glmnet",
 } # rtemis::rtset.lincoef
 
 
-#' \code{rtset.MARS}: Set parameters for \link{s_MARS}
+#' `rtset.MARS`: Set parameters for [s_MARS]
 #'
 #' @inheritParams s_MARS
 #' @export

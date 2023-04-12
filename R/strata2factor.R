@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2020 E.D. Gennatas www.lambdamd.org
 
-#' Convert \code{survfit} object's strata to a factor
+#' Convert `survfit` object's strata to a factor
 #'
-#' @param x \code{survfit} object
+#' @param x `survfit` object
 #' @return factor
 #' @author E.D. Gennatas
 #' @export

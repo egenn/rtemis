@@ -18,8 +18,8 @@ Function or name of function (see param \code{fn}) or full name of algorithm (\c
 }
 \description{
 Accepts decomposer name (supports abbreviations) and returns \pkg{rtemis} function name or
-  the function itself.
-  If run with no parameters, prints list of available algorithms.
+the function itself.
+If run with no parameters, prints list of available algorithms.
 }
 \author{
 E.D. Gennatas

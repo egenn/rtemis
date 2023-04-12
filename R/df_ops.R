@@ -4,7 +4,7 @@
 
 #' Get names by string matching
 #'
-#' @param x object with \code{names()} method
+#' @param x object with `names()` method
 #' @param pattern Character: pattern to match anywhere in names of x
 #' @param starts_with Character: pattern to match in the beginning of names of x
 #' @param ends_with Character: pattern to match at the end of names of x
@@ -34,7 +34,7 @@ getnames <- function(x,
 
 #' Get names by string matching multiple patterns
 #'
-#' @param x Character vector or object with \code{names()} method
+#' @param x Character vector or object with `names()` method
 #' @param pattern Character vector: pattern(s) to match anywhere in names of x
 #' @param starts_with Character: pattern to match in the beginning of names of x
 #' @param ends_with Character: pattern to match at the end of names of x
@@ -121,7 +121,7 @@ getnamesandtypes <- function(x) {
   #' @param x matrix or data frame input
   #' @param excludeNA Logical: If TRUE, exclude NA values from unique count.
   #' 
-  #' @return Vector, integer of length \code{NCOL(x)} with number of unique 
+  #' @return Vector, integer of length `NCOL(x)` with number of unique 
   #' values per column/feature
   #' @export
   #' @author E.D. Gennatas
@@ -148,7 +148,7 @@ getnamesandtypes <- function(x) {
 #' @param x data.frame
 #' @param from String or Integer: Define which column holds the vector you want to move
 #' @param to Integer: Define which column number you want the vector to be moved to.
-#' Default = \code{ncol(x)} i.e. the last column.
+#' Default = `ncol(x)` i.e. the last column.
 #' @author E.D. Gennatas
 #' @export
 #' @examples

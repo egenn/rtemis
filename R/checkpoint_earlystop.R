@@ -7,36 +7,39 @@
 #' Returns list with relative variance over n.steps, absolute.threshold, last value,
 #' and logical "stop", if conditions are met and training should stop.
 #' The final stop decision is:
-#' \code{check.thresh | (check.rthresh & check.rvar)} if \code{combine.relative.thresholds = "AND"}
+#' `check.thresh | (check.rthresh & check.rvar)` if `combine.relative.thresholds = "AND"`
 #' or
-#' \code{check.thresh | (check.rthresh | check.rvar)} if \code{combine.relative.thresholds = "OR"}
+#' `check.thresh | (check.rthresh | check.rvar)` if `combine.relative.thresholds = "OR"`
 #'
 #' @param x Float, vector: Input - this would normally be the loss at each iteration
-#' @param absolute.threshold Float: If set and the last value of \code{x} is less than or equal to this
-#' (if \code{minimize = TRUE}) or greater than or equal to this (if \code{minimize = FALSE}), then return
-#' \code{stop = TRUE}. See output under Value. Default = NA
-#' @param relative.threshold Float: If set, checks if the relative change from the first to last value of \code{x}
-#' exceeds this number. i.e. if set to .9 and \code{minimize = TRUE}, if there is a 90\% drop from \code{x[1]} to
-#' \code{x[length(x)]}, then the function returns \code{stop = TRUE}. If \code{minimize = FALSE}, then checks if there
-#' is a 90\% increase, accordingly.
-#' @param minimize Logical: See \code{absolute.threshold}. Default = TRUE
-#' @param relativeVariance.threshold Float: If relative variance over last \code{n.steps} is less than or equal to this,
-#' return \code{stop = TRUE}. See output under Value
-#' @param n.steps Integer; > 1: Calculate relative variance over this many last values of \code{x}
-#' @param combine.relative.thresholds Character: "AND" or "OR": How to combine the criteria \code{relative.threshold} and
-#' \code{relativeVariance.threshold}. Default = "AND", which means both must be TRUE to stop. The scenario is you might
+#' @param absolute.threshold Float: If set and the last value of `x` is less than or equal to this
+#' (if `minimize = TRUE`) or greater than or equal to this (if `minimize = FALSE`), then return
+#' `stop = TRUE`. See output under Value. Default = NA
+#' @param relative.threshold Float: If set, checks if the relative change from the first to last value of `x`
+#' exceeds this number. i.e. if set to .9 and `minimize = TRUE`, if there is a 90 percent drop from `x[1]` to
+#' `x[length(x)]`, then the function returns `stop = TRUE`. If `minimize = FALSE`, then checks if there
+#' is a 90 percent increase, accordingly.
+#' @param minimize Logical: See `absolute.threshold`. Default = TRUE
+#' @param relativeVariance.threshold Float: If relative variance over last `n.steps` is less than or equal to this,
+#' return `stop = TRUE`. See output under Value
+#' @param n.steps Integer; > 1: Calculate relative variance over this many last values of `x`
+#' @param combine.relative.thresholds Character: "AND" or "OR": How to combine the criteria `relative.threshold` and
+#' `relativeVariance.threshold`. Default = "AND", which means both must be TRUE to stop. The scenario is you might
 #' want to check relastiveVariance threshold only after a certain amount of learning has taken place, which you
-#' can't predict with \code{min.steps} but would rather quantify with \code{relative.threshold}.
-#' @param min.steps Integer: Do not calculate relativeVariance unless \code{x} is at least this length
-#' @param na.response Character: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}
-#' @param verbose Logical: If TRUE, print messages to output
-#' @return List with the following items:
-#' \item{last.value}{Float: Last value of \code{x}}
-#' \item{relativeVariance}{Float: relative variance of last \code{n.steps}}
-#' \item{check.thresh}{Logical: TRUE, if absolute threshold was reached}
-#' \item{check.rvar}{Logical: TRUE, if relative variance threshold was reached}
-#' \item{stop}{Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold}
+#' can't predict with `min.steps` but would rather quantify with `relative.threshold`.
+#' @param min.steps Integer: Do not calculate relativeVariance unless `x` is at least this length
+#' @param na.response Character: "stop" or "continue": what should happen if the last value of `x` is `NA`
+#' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @author E.D. Gennatas
+#' @return List with the following items:
+#' 
+#' - `last.value` Float: Last value of `x`
+#' - `relativeVariance` Float: relative variance of last `n.steps`
+#' - `check.thresh` Logical: TRUE, if absolute threshold was reached
+#' - `check.rvar `Logical: TRUE, if relative variance threshold was reached
+#' - `stop` Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold
+#' 
 #' @export
 
 checkpoint_earlystop <- function(x,

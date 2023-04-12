@@ -92,7 +92,7 @@ Default = TRUE if \code{outdir} is set, otherwise FALSE}
 Run a sparse Canonical Correlation Analysis using the \code{PMA} package
 }
 \details{
-#' \code{x_CCA} runs \code{PMA::CCA}. If penaltyx is NULL, penaltyx *and* penaltyz will be estimated automatically
+#' \code{x_CCA} runs \code{PMA::CCA}. If penaltyx is NULL, penaltyx \emph{and} penaltyz will be estimated automatically
 using x_CCA.permute (adapted to run in parallel)
 }
 \seealso{

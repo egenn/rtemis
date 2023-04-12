@@ -56,7 +56,7 @@ hytboost(
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
 
-\item{cxrcoef}{Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
+\item{cxrcoef}{Logical: If TRUE, pass \verb{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
 
 \item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
 end of training. If integer, plot training and validation error curve every this many iterations

@@ -2,11 +2,11 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' Format method for \code{call} objects
+#' Format method for `call` objects
 #'
 #' @method format call
 #'
-#' @param x \code{call} object
+#' @param x `call` object
 #' @param as.html Logical: If TRUE, output HTML span element
 # @param font.family Character: font family to use when \code{as.html = TRUE}
 #' @param class Character: CSS class to assign to span containing code

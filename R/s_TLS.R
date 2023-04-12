@@ -149,7 +149,7 @@ s_TLS <- function(x, y = NULL,
 } # rtemis::s_TLS
 
 
-#' \code{predict.rtTLS}: \code{predict} method for \code{rtTLS} object
+#' `predict.rtTLS`: `predict` method for `rtTLS` object
 #'
 #' @method predict rtTLS
 #' @rdname rtTLS-methods
@@ -159,7 +159,7 @@ predict.rtTLS <- function(object, newdata, ...) {
 } # rtemis::predict.rtTLS
 
 
-#' \code{print.rtTLS}: \code{print} method for \code{rtTLS} object
+#' `print.rtTLS`: `print` method for `rtTLS` object
 #'
 #' @method print rtTLS
 #' @rdname rtTLS-methods

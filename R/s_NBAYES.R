@@ -4,14 +4,14 @@
 
 #' Naive Bayes Classifier [C]
 #'
-#' Train a Naive Bayes Classifier using \code{e1071::naiveBayes}
+#' Train a Naive Bayes Classifier using `e1071::naiveBayes`
 #'
-#' The \code{laplace} argument only affects categorical predictors
+#' The `laplace` argument only affects categorical predictors
 #'
 #' @inheritParams s_GLM
 #' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing). This only affects
 #' categorical features
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export

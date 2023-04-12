@@ -8,7 +8,7 @@
 
 #' Interactive Heatmaps
 #'
-#' Draw interactive heatmaps using \code{heatmaply}
+#' Draw interactive heatmaps using `heatmaply`
 #'
 #' @inheritParams colorGrad
 #' @inheritParams mplot3_heatmap
@@ -16,20 +16,20 @@
 #' @param Rowv Logical or dendrogram.
 #'   If Logical: Compute dendrogram and reorder rows. Defaults to FALSE
 #'   If dendrogram: use as is, without reordering
-#'   See more at \code{heatmaply::heatmaply("Rowv")}
+#'   See more at `heatmaply::heatmaply("Rowv")`
 #' @param Colv Logical or dendrogram.
 #'   If Logical: Compute dendrogram and reorder columns. Defaults to FALSE
 #'   If dendrogram: use as is, without reordering
-#'   See more at \code{heatmaply::heatmaply("Colv")}
-#' @param cluster Logical: If TRUE, set \code{Rowv} and \code{Colv} to TRUE
+#'   See more at `heatmaply::heatmaply("Colv")`
+#' @param cluster Logical: If TRUE, set `Rowv` and `Colv` to TRUE
 # @param k Integer: Cut dendogram to this many clusters, displayed by
 # different colors
-#' @param symm Logical: If TRUE, treat \code{x} symmetrically - \code{x} must be a square matrix. Default = FALSE
-#' @param cellnote Matrix with values to be desplayed on hover. Defaults to \code{ddSci(x)}
+#' @param symm Logical: If TRUE, treat `x` symmetrically - `x` must be a square matrix. Default = FALSE
+#' @param cellnote Matrix with values to be desplayed on hover. Defaults to `ddSci(x)`
 #' @param k_row Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
-#' Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_row")}
+#' Default = NA (determined automatically). See `heatmaply::heatmaply("k_row")`
 #' @param k_col Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
-#' Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")}
+#' Default = NA (determined automatically). See `heatmaply::heatmaply("k_col")`
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param margins Float, length 4: Heatmap margins.
@@ -37,12 +37,12 @@
 #' @param showticklabels Logical: If TRUE, show tick labels.
 #' @param colorbar_len Numeric: Length of the colorbar.
 #' @param row_side_colors Data frame: Column names will be label names, cells 
-#' should be label colors. See \code{heatmaply::heatmaply("row_side_colors")}
+#' should be label colors. See `heatmaply::heatmaply("row_side_colors")`
 #' @param col_side_colors Data frame: Column names will be label names, cells
 #' @param row_side_palette Color palette function: 
-#' See \code{heatmaply::heatmaply("row_side_palette")}
+#' See `heatmaply::heatmaply("row_side_palette")`
 #' @param col_side_palette Color palette function: 
-#' See \code{heatmaply::heatmaply("col_side_palette")}
+#' See `heatmaply::heatmaply("col_side_palette")`
 #' @param font.size Numeric: Font size 
 #' @param padding Numeric: Padding between cells
 #' @param displayModeBar Logical: If TRUE, display the plotly mode bar
@@ -52,7 +52,7 @@
 #' @param file.scale Numeric: Scale of exported image
 #' @param plot_method Character: Update February 2021: "ggplot" causes R session to hand
 #' on MacOS but plotly" seems to work
-#' @param ... Additional arguments to be passed to \code{heatmaply::heatmaply}
+#' @param ... Additional arguments to be passed to `heatmaply::heatmaply`
 #' 
 #' @author E.D. Gennatas
 #' @examples

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' Artificial Neural Network [C, R]
+#' Artificial Neural Network (C, R)
 #'
 #' Train a deep net for Regression or Classification using \pkg{deepnet}
 #'

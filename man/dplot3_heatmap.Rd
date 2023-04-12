@@ -114,15 +114,15 @@ on MacOS but plotly" seems to work}
 
 \item{theme}{Character: "light", "dark"}
 
-\item{row_side_colors}{Data frame: Column names will be label names, cells 
+\item{row_side_colors}{Data frame: Column names will be label names, cells
 should be label colors. See \code{heatmaply::heatmaply("row_side_colors")}}
 
-\item{row_side_palette}{Color palette function: 
+\item{row_side_palette}{Color palette function:
 See \code{heatmaply::heatmaply("row_side_palette")}}
 
 \item{col_side_colors}{Data frame: Column names will be label names, cells}
 
-\item{col_side_palette}{Color palette function: 
+\item{col_side_palette}{Color palette function:
 See \code{heatmaply::heatmaply("col_side_palette")}}
 
 \item{font.size}{Numeric: Font size}

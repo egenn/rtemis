@@ -4,10 +4,10 @@
 
 #' Plot CART Decision Tree
 #'
-#' Plot output of a regression or classification tree created using \code{rpart}
-#' A wrapper for \code{rpart.plot::rpart.plot}
+#' Plot output of a regression or classification tree created using `rpart`
+#' A wrapper for `rpart.plot::rpart.plot`
 #'
-#' @param object Output of \link{s_CART}
+#' @param object Output of [s_CART]
 #' @param palette Color vector
 #' @export
 

@@ -43,30 +43,30 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
 node.}
 
-\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
+\item{cp}{\link{gS} Float: Complexity threshold for allowing a split.}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the 
+\item{maxcompete}{Integer: The number of competitor splits saved in the
 output}
 
-\item{maxsurrogate}{Integer: The number of surrogate splits retained in the 
+\item{maxsurrogate}{Integer: The number of surrogate splits retained in the
 output (See \code{rpart::rpart.control}).}
 
 \item{usesurrogate}{See \code{rpart::rpart.control}}
 
 \item{surrogatestyle}{See \code{rpart::rpart.control}}
 
-\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
+\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
 
 \item{xval}{Integer: Number of cross-validations}
 
@@ -85,7 +85,7 @@ Default = NULL (random seed)}
 \item{n.cores}{Integer: Number of cores to use}
 
 \item{parallel.type}{Character: "fork" (does not work in Windows) or "psock"
-(Works in all[?] OSs)}
+(Works in all\link{?} OSs)}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}

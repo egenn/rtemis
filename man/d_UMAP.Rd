@@ -27,16 +27,16 @@ d_UMAP(
 
 \item{n.neighbors}{Integer: Number of keighbors}
 
-\item{init}{Character: Initialization type. See \code{uwot::umap "init"}}
+\item{init}{Character: Initialization type. See \verb{uwot::umap "init"}}
 
-\item{metric}{Character: Distance metric to use: "euclidean", "cosine", 
+\item{metric}{Character: Distance metric to use: "euclidean", "cosine",
 "manhattan", "hamming", "categorical". Default = "euclidean"}
 
 \item{epochs}{Integer: Number of epochs}
 
 \item{learning.rate}{Float: Learning rate. Default = 1}
 
-\item{scale}{Logical: If TRUE, scale input data before doing UMAP. 
+\item{scale}{Logical: If TRUE, scale input data before doing UMAP.
 Default = TRUE}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}

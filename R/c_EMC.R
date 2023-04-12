@@ -4,18 +4,18 @@
 
 #' Expectation Maximization Clustering
 #'
-#' Perform EM Clustering using \code{EMCluster::emcluster}
+#' Perform EM Clustering using `EMCluster::emcluster`
 #'
-#' First, \code{EMCluster::simple.init(x, nclass = k)} is run,
-#' followed by \code{EMCluster::emcluster(x, emobj = emobj, assign.class = TRUE, ...)}
+#' First, `EMCluster::simple.init(x, nclass = k)` is run,
+#' followed by `EMCluster::emcluster(x, emobj = emobj, assign.class = TRUE, ...)`
 #'
 #' This can be very slow.
 #' 
 #' @inheritParams c_KMEANS
-#' @param lab Vector, length \code{NROW(x)}: Labels for semi-supervised clustering
-#' @param EMC List of control parameters for \code{EMCluster::emcluster}. Default = \code{EMCluster::.EMC}
+#' @param lab Vector, length `NROW(x)`: Labels for semi-supervised clustering
+#' @param EMC List of control parameters for `EMCluster::emcluster`. Default = `EMCluster::.EMC`
 # @param maxiter Integer: Maximum number of iterations. Default = 100
-#' @param ... Additional parameters to be passed to \code{EMCluster::emcluster}
+#' @param ... Additional parameters to be passed to `EMCluster::emcluster`
 #' 
 #' @author E.D. Gennatas
 #' @family Clustering

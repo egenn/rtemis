@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LIHAD.R
 \name{s_LIHAD}
 \alias{s_LIHAD}
-\title{The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]}
+\title{The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes \link{R}}
 \usage{
 s_LIHAD(
   x,
@@ -52,21 +52,21 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
+\item{max.depth}{\link{gS} Integer: Max depth of additive tree. Default = 3}
 
-\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
+\item{alpha}{\link{gS} Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
 
-\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
+\item{lambda}{\link{gS} Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
 \item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
 
-\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{\link{gS} Integer: Minimum N observations needed in node, before considering splitting}
 
-\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
+\item{learning.rate}{\link{gS} Float (0, 1): Learning rate. Default = 1}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
+\item{part.cp}{\link{gS} Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.

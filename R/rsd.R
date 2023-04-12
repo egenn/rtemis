@@ -7,14 +7,14 @@
 #' Calculates the coefficient of variation, also known as relative standard deviation, which is given by
 #' \deqn{sd(x)/mean(x)}
 #'
-#' This is not meaningful if mean is close to 0. For such cases, set \code{adjust = TRUE}.
-#' This will add \code{min(x)} to x
+#' This is not meaningful if mean is close to 0. For such cases, set `adjust = TRUE`.
+#' This will add `min(x)` to x
 #' @param x Numeric: Input
 #' @param as.percentage Logical: If TRUE, multiply by 100
 #' @param na.rm Logical: If TRUE, remove missing values before computation
-#' @param adjust Logical: If TRUE, if \code{x} contains values < \code{adjust.lo}, x will be shifted up
+#' @param adjust Logical: If TRUE, if `x` contains values < `adjust.lo`, x will be shifted up
 #'   by adding its minimum
-#' @param adjust.lo Float: Threshold to be used if \code{adjust = TRUE}
+#' @param adjust.lo Float: Threshold to be used if `adjust = TRUE`
 #' @examples
 #' \dontrun{
 #' mplot3_x(sapply(1:100, function(x) cov(rnorm(100))), 'd', xlab = 'rnorm(100) x 100 times')

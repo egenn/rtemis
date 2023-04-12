@@ -11,7 +11,7 @@
 #' 
 #' @param search Character: "quantile" or "exhaustive". Default = "quantile"
 #' @param n.quantiles Integer: Number of quantiles to use if 
-#' \code{search = "quantile"}
+#' `search = "quantile"`
 #' @param minobsinnode Integer: Minimum number of caseweights that must be 
 #' equal to 1 before
 #' attempting split

@@ -5,13 +5,13 @@
 #' Collect summary table from list of massGLMs with same predictors, different outcome 
 #' ("massy")
 #'
-#' @param x list of \link{glm} models
+#' @param x list of [glm] models
 #' @param xnames Character, vector: names of models
 #' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #' @param warn Logical: If TRUE, warn when values < than machine eps are replaced by 
 #' machine eps
 #' 
-#' @return \code{data.table} with glm summaries
+#' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
 
 glm2table <- function(x,
@@ -80,11 +80,11 @@ glm2table <- function(x,
 #' Collect summary table (p-values) from list of massGAMs with same predictors, 
 #' different outcome ("massy")
 #'
-#' @param x list of \link{gam} models
+#' @param x list of [gam] models
 #' @param xnames Character, vector: names of models
 #' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'
-#' @return \code{data.table} with glm summaries
+#' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
 
 gam2table <- function(mods,

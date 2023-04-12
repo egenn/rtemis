@@ -7,7 +7,7 @@
 #' @param x Input vector
 #' @param y Input vector
 #' @param col Line color. Default = "red"
-#' @param ... Extra params to pass to \code{lines}
+#' @param ... Extra params to pass to `lines`
 #' @export
 #' @author E.D. Gennatas
 

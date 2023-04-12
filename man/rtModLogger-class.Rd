@@ -11,8 +11,8 @@
 \pkg{rtemis} model logger
 }
 \details{
-R6 class to save trained models' parameters and performance. 
-Keep your experiment results tidy in one place, with an option to write out 
+R6 class to save trained models' parameters and performance.
+Keep your experiment results tidy in one place, with an option to write out
 to a multi-sheet Excel file.
 }
 \author{
@@ -102,10 +102,10 @@ Summary method for \code{rtModLogger}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{class.metric}}{Character: Metric to use for 
+\item{\code{class.metric}}{Character: Metric to use for
 Classification models}
 
-\item{\code{reg.metric}}{Character: Metric to use for 
+\item{\code{reg.metric}}{Character: Metric to use for
 Regression models}
 
 \item{\code{surv.metric}}{Character: Metric to use for

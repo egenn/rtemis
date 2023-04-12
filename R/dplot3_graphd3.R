@@ -6,8 +6,8 @@
 #'
 #' @param net \pkg{igraph} network
 #' @param groups Vector, length n nodes indicating group/cluster/community membership of nodes in
-#' \code{net}
-#' @param color.scale D3 colorscale (e.g. \code{networkD3::JS("d3.scaleOrdinal(d3.schemeCategory20b);")})
+#' `net`
+#' @param color.scale D3 colorscale (e.g. `networkD3::JS("d3.scaleOrdinal(d3.schemeCategory20b);")`)
 #' @param edge.col Color for edges
 #' @param node.col Color for nodes
 #' @param node.alpha Float [0, 1]: Node opacity. Default = .5
@@ -15,9 +15,9 @@
 #' @param zoom Logical: If TRUE, graph is zoomable. Default = TRUE
 #' @param legend Logical: If TRUE, display legend for groups
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' \code{rtpalette()}
+#' `rtpalette()`
 #' @param theme rtemis theme to use
-#' @param ... Additional arguments to pass to \code{networkD3}
+#' @param ... Additional arguments to pass to `networkD3`
 #' 
 #' @author E.D. Gennatas
 #' @export

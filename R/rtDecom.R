@@ -13,9 +13,9 @@
 #' @field xnames Character vector: Column names of x
 #' @field decom Decomposition model output
 #' @field parameters List of decompotision parameters
-#' @field center Numeric vector of column means if centering was applied using \code{scale()}
+#' @field center Numeric vector of column means if centering was applied using `scale()`
 #' prior to decomposition
-#' @field scale Numeric vector of column scale factor if scaling was applied using \code{scale()}
+#' @field scale Numeric vector of column scale factor if scaling was applied using `scale()`
 #' prior to decomposition
 #' @field projections.train Input data projected on new axes / basis
 #' @field projections.test Input test data projected on new axes / basis
@@ -39,14 +39,14 @@ rtDecom <- R6::R6Class("rtDecom",
                           extra = NULL,
                           ### Initialize
                           #' @description
-                          #' Initialize \code{rtDecom} object
+                          #' Initialize `rtDecom` object
                           #' @param decom.name Character: Decomposition algorithm name
                           #' @param xnames Character vector: feature names
                           #' @param decom Decomposition object
                           #' @param parameters list of decomposition algorithm parameters
-                          #' @param center Numeric vector of column means if centering was applied using \code{scale()}
+                          #' @param center Numeric vector of column means if centering was applied using `scale()`
                           #' prior to decomposition
-                          #' @param scale Numeric vector of column scale factor if scaling was applied using \code{scale()}
+                          #' @param scale Numeric vector of column scale factor if scaling was applied using `scale()`
                           #' prior to decomposition
                           #' @param projections.train Training set projections
                           #' @param projections.test Testing set projections
@@ -74,7 +74,7 @@ rtDecom <- R6::R6Class("rtDecom",
                           },
                           ### Methods
                           #' @description
-                          #' Print method for \code{rtDecom} objects
+                          #' Print method for `rtDecom` objects
                           print = function() {
                             "show / print method for rtDecom"
                             objcat("Decomposition object")

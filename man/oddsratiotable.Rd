@@ -12,7 +12,7 @@ oddsratiotable(x, confint.method = c("default", "profilelikelihood"))
 \item{confint.method}{"default" or "profilelikelihood"}
 }
 \value{
-matrix with 4 columns: OR, 2.5% & 97.5% CI, p_val
+matrix with 4 columns: OR, 2.5\% & 97.5\% CI, p_val
 }
 \description{
 Odds ratio table from logistic regression

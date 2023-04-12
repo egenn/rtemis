@@ -2,28 +2,28 @@
 # ::rtemis::
 # 2016-21 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Univariate plots: index, histogram, density, QQ-line
+#' `mplot3`: Univariate plots: index, histogram, density, QQ-line
 #'
 #' Draw plots of 1-dimensional data: index, histogram, density, and Q-Q plots.
 #'
 #' You can group data either by supplying x as a list where each element contains one vector per
 #' group, or as a data frame where each column represents group,
-#' or by providing a \code{group} variable, which will be converted to factor.
-#' For bivariate plots, see \link{mplot3_xy} and \link{mplot3_xym}. For heatmaps, see
-#' \link{mplot3_heatmap}
-#' To plot histograms of multiple groups, it's best to use \code{hist.type = "lines"}, which will
-#' use \link{mhist}
+#' or by providing a `group` variable, which will be converted to factor.
+#' For bivariate plots, see [mplot3_xy] and [mplot3_xym]. For heatmaps, see
+#' [mplot3_heatmap]
+#' To plot histograms of multiple groups, it's best to use `hist.type = "lines"`, which will
+#' use [mhist]
 #' and space apart the breaks for each group
 #'
 #' @inheritParams mplot3_xy
 #' @param x Numeric vector or list of vectors, one for each group.
-#'   If \code{data} is provided, x is name of variable in \code{data}
+#'   If `data` is provided, x is name of variable in `data`
 #' @param type Character: "density", "histogram", "hd" (histogram bars & density lines),
-#' "lhist" (line histogram like \link{mhist}; same as \code{type = "hist", hist.type = "lines"}),
+#' "lhist" (line histogram like [mhist]; same as `type = "hist", hist.type = "lines"`),
 #' "index", "ts", "qqline"
-#' Case-insensitive and supports partial matching: e.g. \code{mplot3_x(x, "H")} gives histogram
+#' Case-insensitive and supports partial matching: e.g. `mplot3_x(x, "H")` gives histogram
 #' @param group Vector denoting group membership. Will be converted to factor.
-#'   If \code{data} is provided, \code{group} is name of variable if \code{data}
+#'   If `data` is provided, `group` is name of variable if `data`
 #' @param data Optional data frame containing x data
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
@@ -32,30 +32,30 @@
 #' @param index.type Character: "p" for points (Default), "l" for lines (timeseries)
 #' @param labs.col Color for labels
 #' @param filename Path to file: If supplied, plot will be printed to file
-#' @param lwd Integer: Line width. Used for \code{type = "ts" or "density"}
+#' @param lwd Integer: Line width. Used for `type = "ts" or "density"`
 #' @param lab.adj Adjust the axes labels. 0 = left adjust; 1 = right adjust; .5 = center (Default)
-#' @param hist.breaks See \code{histogram("breaks")}
+#' @param hist.breaks See `histogram("breaks")`
 #' @param hist.type Character: "bars" or "lines". Default = "bars"
-#' @param hist.lwd Float: Line width for \code{type = "histogram"}; \code{hist.type = "lines"}
-#' @param density.line Logical: If TRUE, draw line for \code{type = "density"}. Default = FALSE
-#' @param density.shade Logical: If TRUE, draw shaded polygon for \code{type = "density"}.
+#' @param hist.lwd Float: Line width for `type = "histogram"`; `hist.type = "lines"`
+#' @param density.line Logical: If TRUE, draw line for `type = "density"`. Default = FALSE
+#' @param density.shade Logical: If TRUE, draw shaded polygon for `type = "density"`.
 #' Default = TRUE
 #' @param qqline.col Color for Q-Q line
 #' @param qqline.alpha Float: Alpha for Q-Q line
-#' @param density.avg Logical: If TRUE, print mean of \code{x} along plot. Default = TRUE,
-#' for \code{type = "density"}
+#' @param density.avg Logical: If TRUE, print mean of `x` along plot. Default = TRUE,
+#' for `type = "density"`
 #' @param density.avg.fn Character: "median" or "mean". Function to use if
-#' \code{density.avg = TRUE}. Default = "median"
+#' `density.avg = TRUE`. Default = "median"
 #' @param density.avg.line Logical: If TRUE, draw vertical lines at the density average x-value
-#' @param density.avg.lwd Float: Line width for \code{density.avg.line}. Default = 1.5
-#' @param density.avg.lty Integer: Line type for \code{density.avg.line}. Default = 3
+#' @param density.avg.lwd Float: Line width for `density.avg.line`. Default = 1.5
+#' @param density.avg.lty Integer: Line type for `density.avg.line`. Default = 3
 #' @param na.rm Logical: Will be passed to all functions that support it. If set to FALSE,
-#'   input containing NA values will result in error, depending on the \code{type}
+#'   input containing NA values will result in error, depending on the `type`
 #' @param group.legend Logical: If TRUE, include legend with group names
 #' @param group.title Character: Title above group names
 #'
-#' @return Invisibly returns the output of \code{density}, \code{hist}, \code{qqnorm}, or NULL
-#' @seealso \link{mplot3_xy}, \link{mplot3_xym}, \link{mplot3_heatmap}
+#' @return Invisibly returns the output of `density`, `hist`, `qqnorm`, or NULL
+#' @seealso [mplot3_xy], [mplot3_xym], [mplot3_heatmap]
 #' @author E.D. Gennatas
 #' @export
 #' @examples

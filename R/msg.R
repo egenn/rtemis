@@ -7,9 +7,9 @@
 #' Print message to output with a prefix including data and time, and calling function or full
 #' call stack
 #'
-#' If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
+#' If `msg` is called directly from the console, it will print `[interactive>]` in place of
 #'   the call stack.
-#' \code{msg0}, similar to \code{paste0}, is \code{msg2(..., sep = "")}
+#' `msg0`, similar to `paste0`, is `msg2(..., sep = "")`
 #'
 # Add following to each function using \code{msg}:
 # \code{current <- as.list(sys.call())[[1]]}
@@ -21,9 +21,9 @@
 #' @param caller.id Integer: Which function in the call stack to print
 #' @param newline Logical: If TRUE end with a new line. Default = FALSE
 #' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
-#' @param as.message Logical: if TRUE, print using \code{message()}
+#' @param as.message Logical: if TRUE, print using `message()`
 #' @param color Color fn
-#' @param sep Character: Use to separate objects in \code{...}
+#' @param sep Character: Use to separate objects in `...`
 #'
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas

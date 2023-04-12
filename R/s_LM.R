@@ -4,44 +4,44 @@
 
 #' Linear model
 #'
-#' Fit a linear model and validate it. Options include base \code{lm()}, robust linear model using
-#'   \code{MASS:rlm()}, generalized least squares using \code{nlme::gls}, or polynomial regression
-#'   using \code{stats::poly} to transform features
+#' Fit a linear model and validate it. Options include base `lm()`, robust linear model using
+#'   `MASS:rlm()`, generalized least squares using `nlme::gls`, or polynomial regression
+#'   using `stats::poly` to transform features
 #'
 #' GLS can be useful in place of a standard linear model, when there is correlation among
 #'   the residuals and/or they have unequal variances.
-#'   Warning: \code{nlme}'s implementation is buggy, and \code{predict} will not work
+#'   Warning: `nlme`'s implementation is buggy, and `predict` will not work
 #'   because of environment problems, which means it fails to get predicted values if
-#'   \code{x.test} is provided.
-#'   \code{robut = TRUE} trains a robust linear model using \code{MASS::rlm}.
-#'   \code{gls = TRUE} trains a generalized least squares model using \code{nlme::gls}.
+#'   `x.test` is provided.
+#'   `robut = TRUE` trains a robust linear model using `MASS::rlm`.
+#'   `gls = TRUE` trains a generalized least squares model using `nlme::gls`.
 #'
 #' @inheritParams s_GLM
-#' @param robust Logical: if TRUE, use \code{MASS::rlm()} instead of base \code{lm()}
-#' @param gls Logical: if TRUE, use \code{nlme::gls}
-#' @param polynomial Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)
+#' @param robust Logical: if TRUE, use `MASS::rlm()` instead of base `lm()`
+#' @param gls Logical: if TRUE, use `nlme::gls`
+#' @param polynomial Logical: if TRUE, run lm on `poly(x, poly.d)` (creates orthogonal polynomials)
 #' @param poly.d Integer: degree of polynomial
 #' @param poly.raw Logical: if TRUE, use raw polynomials.
 #'   Default, which should not really be changed is FALSE
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
-#'   Requires \code{x.test} and \code{y.test}
+#'   Requires `x.test` and `y.test`
 #' @param plot.theme Character: "zero", "dark", "box", "darkbox"
-#' @param na.action How to handle missing values. See \code{?na.fail}
+#' @param na.action How to handle missing values. See `?na.fail`
 #' @param question Character: the question you are attempting to answer with this model, in plain language.
 #' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,
-#'   as well as full model output, if \code{save.mod} is TRUE
-#' @param save.mod Logical. If TRUE, save all output as RDS file in \code{outdir}
-#'   \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
-#'   is defined, outdir defaults to \code{paste0("./s.", mod.name)}
-#' @param ... Additional arguments to be passed to \code{MASS::rlm} if \code{robust = TRUE}
-#'   or \code{MASS::lm.gls} if \code{gls = TRUE}
-#' @return \link{rtMod}
+#'   as well as full model output, if `save.mod` is TRUE
+#' @param save.mod Logical. If TRUE, save all output as RDS file in `outdir`
+#'   `save.mod` is TRUE by default if an `outdir` is defined. If set to TRUE, and no `outdir`
+#'   is defined, outdir defaults to `paste0("./s.", mod.name)`
+#' @param ... Additional arguments to be passed to `MASS::rlm` if `robust = TRUE`
+#'   or `MASS::lm.gls` if `gls = TRUE`
+#' @return [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' x <- rnorm(100)
@@ -245,10 +245,10 @@ s_LM <- function(x, y = NULL,
 
 #' Robust linear model
 #'
-#' Convenience alias for \code{s_LM(robust = T)}. Uses \code{MASS::rlm}
+#' Convenience alias for `s_LM(robust = T)`. Uses `MASS::rlm`
 #'
 #' @inheritParams s_GLM
-#' @param ... Additional parameters to be passed to \code{MASS::rlm}
+#' @param ... Additional parameters to be passed to `MASS::rlm`
 #' @export
 
 s_RLM <- function(x, y, x.test = NULL, y.test = NULL, ...) {

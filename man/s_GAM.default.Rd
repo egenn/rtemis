@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GAM.default.R
 \name{s_GAM.default}
 \alias{s_GAM.default}
-\title{Generalized Additive Model (GAM) [C, R]}
+\title{Generalized Additive Model (GAM) (C, R)}
 \usage{
 \method{s_GAM}{default}(
   x,

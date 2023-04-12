@@ -9,20 +9,20 @@
 #' @param x Color, vector: One or more colors that R understands
 #' @param bg Background color. Default = "#333333" (dark gray)
 #' @param main Character: Title. Default = NULL, which results in
-#' \code{deparse(substitute(x))}
-#' @param main.x Float: x coordinate for \code{main}. Default = .75
-#' @param main.y Float: y coordinate for \code{main}. Default = 0
-#' @param main.adj Float: \code{adj} argument to mtext for \code{main}.
-#' @param main.cex Float: character expansion factor for \code{main}. Default = .9
-#' @param main.font Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold. Default = 2
+#' `deparse(substitute(x))`
+#' @param main.x Float: x coordinate for `main`. Default = .75
+#' @param main.y Float: y coordinate for `main`. Default = 0
+#' @param main.adj Float: `adj` argument to mtext for `main`.
+#' @param main.cex Float: character expansion factor for `main`. Default = .9
+#' @param main.font Integer, 1 or 2: Weight of `main` 1: regular, 2: bold. Default = 2
 #' @param width Float: Plot width. Default = NULL, i.e. set automatically
 #' @param xlim Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically
-#' @param ylim Vector, length 2: y-axis limits. Default = \code{c(0.7, 2)}
+#' @param ylim Vector, length 2: y-axis limits. Default = `c(0.7, 2)`
 #' @param asp Float: Plot aspect ratio. Default = 1
 #' @param labels.y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
 #' @param label.cex Float: Character expansion for labels. Default = NULL, and is calculated automatically based on
-#' @param par.reset Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
-#' length of \code{x} in order to look reasonable in your RStudio plot panel.
+#' @param par.reset Logical: If TRUE, reset `par` setting on exit. Default = TRUE
+#' length of `x` in order to look reasonable in your RStudio plot panel.
 #'
 #' @return Nothing, prints plot
 #' @export

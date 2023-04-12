@@ -4,9 +4,9 @@
 
 #' Sparse Canonical Correlation Analysis (CCA)
 #'
-#' Run a sparse Canonical Correlation Analysis using the \code{PMA} package
+#' Run a sparse Canonical Correlation Analysis using the `PMA` package
 #'
-#' #' \code{x_CCA} runs \code{PMA::CCA}. If penaltyx is NULL, penaltyx *and* penaltyz will be estimated automatically
+#' #' `x_CCA` runs `PMA::CCA`. If penaltyx is NULL, penaltyx *and* penaltyz will be estimated automatically
 #' using x_CCA.permute (adapted to run in parallel)
 # \link{x.SD2RES} also performs sparse decompositions / CCA using \code{ANTsR}
 #'
@@ -14,16 +14,16 @@
 #' @param z Matrix: Training z dataset
 #' @param x.test Matrix (Optional): Testing x set
 #' @param z.test Matrix (Optional): Testing z set
-#' @param y Outcome vector (Optional): If supplied, linear combinations of \code{x} and \code{z} need to be
+#' @param y Outcome vector (Optional): If supplied, linear combinations of `x` and `z` need to be
 #'   additionaly correlated with this
-#' @param outcome Character: Type of outcome \code{y}: "survival", "multiclass", "quantitative"
+#' @param outcome Character: Type of outcome `y`: "survival", "multiclass", "quantitative"
 #' @param k Integer: Number of components
 #' @param niter Integer: Number of iterations
-#' @param permute.niter Integer: Number of iterations to run for each permutation with \code{CCA.permute}
+#' @param permute.niter Integer: Number of iterations to run for each permutation with `CCA.permute`
 #' @param typex Character: "standard", "ordered". Use "standard" if columns of x are unordered; lasso
 #' penalty is applied to enforce sparsity. Otherwise, use "ordered"; fused lasso penalty is applied,
 #' to enforce both sparsity and smoothness.
-#' @param typez Character: "standard", "ordered". Same as \code{typex} for z dataset
+#' @param typez Character: "standard", "ordered". Same as `typex` for z dataset
 #' @param penaltyx Float: The penalty to be applied to the matrix x, i.e. the penalty that results
 #' in the canonical vector u. If typex is "standard" then the L1 bound on u is
 #' penaltyx*sqrt(ncol(x)). In this case penaltyx must be between 0 and 1 (larger L1 bound
@@ -34,18 +34,18 @@
 #' penaltyz*sqrt(ncol(z)). In this case penaltyz must be between 0 and 1 (larger L1 bound
 #' corresponds to less penalization). If "ordered" then it's the fused lasso penalty lambda, which
 #' must be non-negative (larger lambda corresponds to more penalization).
-#' @param standardize Logical: If TRUE, center and scale columns of \code{x} and \code{z}
-#' @param nperms Integer: Number of permutations to run with \code{CCA.permute}
+#' @param standardize Logical: If TRUE, center and scale columns of `x` and `z`
+#' @param nperms Integer: Number of permutations to run with `CCA.permute`
 #'   The higher, the better.
 #' @param upos Logical: Require elements of u to be positive
 #' @param vpos Logical: Require elements of v to be positive
-#' @param verbose Logical: Print messages, including \code{trace} from \code{x_CCA.permute} and
-#' \code{PMA::CCA}
+#' @param verbose Logical: Print messages, including `trace` from `x_CCA.permute` and
+#' `PMA::CCA`
 #' @param n.cores Integer: Number of cores to use
 #' @param outdir Path to output directory. Default = NULL
-#' @param save.mod Logical: If TRUE, and \code{outdir} is defined, will save trained CCA model to \code{outdir}.
-#' Default = TRUE if \code{outdir} is set, otherwise FALSE
-#' @param ... Additional arguments to be passed to \code{PMA::CCA}
+#' @param save.mod Logical: If TRUE, and `outdir` is defined, will save trained CCA model to `outdir`.
+#' Default = TRUE if `outdir` is set, otherwise FALSE
+#' @param ... Additional arguments to be passed to `PMA::CCA`
 #' @author E.D. Gennatas
 #' @family Cross-Decomposition
 #' @export

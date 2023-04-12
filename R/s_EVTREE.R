@@ -2,17 +2,17 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Evolutionary Learning of Globally Optimal Trees [C, R]
+#' Evolutionary Learning of Globally Optimal Trees (C, R)
 #'
-#' Train a EVTREE for regression or classification using \code{evtree}
+#' Train a EVTREE for regression or classification using `evtree`
 #'
 #' @inheritParams s_GLM
-#' @param control Passed to \code{evtree::evtree}
-#' @param ... Additional arguments to be passed to \code{evtree::evtree}
+#' @param control Passed to `evtree::evtree`
+#' @param ... Additional arguments to be passed to `evtree::evtree`
 #' 
-#' @return Object of class \link{rtMod}
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

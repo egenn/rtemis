@@ -6,7 +6,7 @@
 #' 
 #' @param x Character: path or URL to XLSX file
 #' @param sheet Integer, vector: Sheet(s) to read. If NULL, will read all
-#' sheets in \code{x}
+#' sheets in `x`
 #' @param startRow Integer, vector: First row to start reading. Will be 
 #' recycled as needed for all sheets
 #' @param colNames Logical: If TRUE, use the first row of data 

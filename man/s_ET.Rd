@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_ET.R
 \name{s_ET}
 \alias{s_ET}
-\title{ExtraTrees [C, R]}
+\title{ExtraTrees (C, R)}
 \usage{
 s_ET(
   x,
@@ -50,9 +50,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
+\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split}
 
-\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+\item{nodesize}{\link{gS}: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
 1 (Classification)}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence

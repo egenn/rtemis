@@ -11,7 +11,7 @@ fct_describe(x, max_n = 5, return_ordered = TRUE)
 
 \item{max_n}{Integer: Return counts for up to this many levels}
 
-\item{return_ordered}{Logical: If TRUE, return levels ordered by count, otherwise 
+\item{return_ordered}{Logical: If TRUE, return levels ordered by count, otherwise
 return in level order}
 }
 \value{

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 EDG www.lambdamd.org
 
-#' \code{mplot3} ROC curves
+#' `mplot3` ROC curves
 #'
 #' Plot ROC curve for a binary classifier
 #'
@@ -11,7 +11,7 @@
 #' (e.g. c(.1, .8, .2, .9))
 #' @param labels Integer vector or list of integer vectors {0, 1}: True labels 
 #' (e.g. c(0, 1, 0, 1))
-#' @param method Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} 
+#' @param method Character: "rt" or "pROC" will use [rtROC] and `pROC::roc` 
 #' respectively to get points of the ROC.
 #' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. 
 #' True positive rate vs. False positive rate and Sensitivity vs. Specificity.

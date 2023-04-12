@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_H2ODL.R
 \name{s_H2ODL}
 \alias{s_H2ODL}
-\title{Deep Learning on H2O [C, R]}
+\title{Deep Learning on H2O (C, R)}
 \usage{
 s_H2ODL(
   x,
@@ -146,7 +146,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \description{
 Trains a Deep Neural Net using H2O (http://www.h2o.ai)
-Check out the H2O Flow at \code{[ip]:[port]}, Default IP:port is "localhost:54321"
+Check out the H2O Flow at \verb{[ip]:[port]}, Default IP:port is "localhost:54321"
 e.g. if running on localhost, point your web browser to \code{localhost:54321}
 }
 \details{

@@ -102,7 +102,7 @@ Can also be Logical, which will give a GAM fit if TRUE. If you specify
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
 \item{se.times}{Draw polygon or lines at +/- \code{se.times} * standard
-error of fit. Defaults to 1.96, which corresponds to 95\% confidence interval}
+error of fit. Defaults to 1.96, which corresponds to 95 percent confidence interval}
 
 \item{include.fit.name}{Logical: If TRUE, include fit name in legend.}
 
@@ -138,7 +138,7 @@ and warnings. Use single letters for parameter names, no numbers.}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
@@ -149,7 +149,7 @@ Default = FALSE. Note: If TRUE, the device size at time of call is captured and 
 to draw the largest square available. This means that resizing the device window will not automatically resize the
 plot.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. 
+\item{group.names}{Character, vector, length = NROW(x): Group names.
 Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
@@ -162,7 +162,7 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{fit.col}{Color: Color of the fit line.}
 
-\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
+\item{fit.alpha}{Float \link{0, 1}: Transparency for fit line}
 
 \item{fit.lwd}{Float: Fit line width}
 
@@ -177,15 +177,15 @@ groups, or \code{fit} is set}
 
 \item{legend.xy}{Numeric, vector, length 2: x and y for plotly's legend}
 
-\item{legend.xanchor}{Character: Legend's x anchor: "left", "center", 
+\item{legend.xanchor}{Character: Legend's x anchor: "left", "center",
 "right", "auto"}
 
-\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle", 
+\item{legend.yanchor}{Character: Legend's y anchor: "top", "middle",
 "bottom", "auto"}
 
 \item{legend.orientation}{"v" or "h" for vertical or horizontal}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
 
 \item{margin}{Named list: plot margins.}
@@ -219,7 +219,7 @@ Default = NULL, i.e. use default learner parameters}
 
 \item{hline.width}{Float: Width for \code{hline}. Default = 1}
 
-\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash", 
+\item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
 "longdash", "dashdot",
 or "longdashdot"}
 
@@ -231,20 +231,20 @@ or "longdashdot"}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any
 output file type supported by plotly and your system}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} 
+\item{file.height}{Integer: File height in pixels for when \code{filename}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{trace}{Integer: The height the number the more diagnostic info is 
+\item{trace}{Integer: The height the number the more diagnostic info is
 printed to the console}
 
 \item{...}{Additional arguments passed to theme}

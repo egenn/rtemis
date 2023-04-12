@@ -23,10 +23,10 @@ zip2longlat <- function(x, zipdt) {
 #' Get distance between pairs of zip codes
 #'
 #' @param x Character vector
-#' @param y Character vector, same length as \code{x}
-#' @param zipdt data.table with columns \code{zip}, \code{lng}, \code{lat}
+#' @param y Character vector, same length as `x`
+#' @param zipdt data.table with columns `zip`, `lng`, `lat`
 #'
-#' @returns \code{data.table} with distances in meters
+#' @returns `data.table` with distances in meters
 #'
 #' @author E.D. Gennatas
 #' @export

@@ -2,24 +2,24 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Decision boundaries
+#' `mplot3`: Decision boundaries
 #'
 #' Plot classification decision boundaries of rtemis models
 #'
-#' If data has more than 2 variables, any variable not selected using \code{vars} will be fixed to their mean
-#' Underlying model (e.g. \code{randomForest}, \code{rpart}, etc) must support standard R predict format for classification:
-#' \code{predict(model, newdata, type = "class")}
+#' If data has more than 2 variables, any variable not selected using `vars` will be fixed to their mean
+#' Underlying model (e.g. `randomForest`, `rpart`, etc) must support standard R predict format for classification:
+#' `predict(model, newdata, type = "class")`
 #' @param rtmod rtemics trained model
 #' @param data Matrix / data frame of features; last column is class
-#' @param vars Integer vector, length 2: Index of features (columns of \code{x}) to use to draw decision
+#' @param vars Integer vector, length 2: Index of features (columns of `x`) to use to draw decision
 #' boundaries. Default = c(1, 2)
 #' @param dots.per.axis Integer: Draw a grid with this many dots on each axis. Default = 100
 #' @param bg.cex Float: Point cex for background / decision surface. Default = .5
 #' @param bg.alpha Float: Point alpha for background / decision surface. Default = .2
 #' @param bg.pch Integer vector: pch for background / decision surface. Default = c(3, 4)
-#' @param par.reset Logical: If TRUE, reset \code{par} before exiting. Default = TRUE
-#' @param theme Character: Theme for \link{mplot3_xy}, "light" or "dark". Default = "light'
-#' @param col Color vector for classes. Default = \code{ucsfPalette}
+#' @param par.reset Logical: If TRUE, reset `par` before exiting. Default = TRUE
+#' @param theme Character: Theme for [mplot3_xy], "light" or "dark". Default = "light'
+#' @param col Color vector for classes. Default = `ucsfPalette`
 #' @param contour.col Color for decision boundary. Default = "black"
 #' @param contour.lwd Float: Line width for decision boundary. Default = .3
 #' @param point.pch Integer: pch for data points. Default = c(3, 4)

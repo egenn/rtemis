@@ -2,7 +2,7 @@
 % Please edit documentation in R/cartLinBoostTV.R
 \name{cartLinBoostTV}
 \alias{cartLinBoostTV}
-\title{CART and linear model boosting [R]}
+\title{CART and linear model boosting \link{R}}
 \usage{
 cartLinBoostTV(
   x,
@@ -60,7 +60,7 @@ Columns must correspond to columns in \code{x}}
 not change unless you know what you're doing. Default = NULL, for regular
 boosting}
 
-\item{boost.obj}{[Internal use]}
+\item{boost.obj}{\link{Internal use}}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GAMSELX2.R
 \name{s_GAMSELX2}
 \alias{s_GAMSELX2}
-\title{GAMSEL with Interaction Discovery [R]}
+\title{GAMSEL with Interaction Discovery \link{R}}
 \usage{
 s_GAMSELX2(
   x,

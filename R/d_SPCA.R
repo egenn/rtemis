@@ -5,7 +5,7 @@
 #' Sparse Principal Component Analysis
 #'
 #' Perform sparse and/or non-negative PCA or cumulative PCA decomposition
-#'   using \code{nsprcomp::nsprcomp} or \code{nsprcomp::nscumcomp} respectively
+#'   using `nsprcomp::nsprcomp` or `nsprcomp::nscumcomp` respectively
 #'
 #' Project scaled variables to sparse and/or non-negative PCA components.
 #' Input must be n by p,
@@ -17,16 +17,16 @@
 #' @param x Input matrix
 #' @param x.test Optional test set. Will be projected on to SPCA basis
 #' @param k Integer vector of length 1 or greater. N of components to return
-#'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
-#' @param nz Integer: Upper bound on non-zero loadings. See \code{nsprcomp::nscumcomp("k")}
+#'   If set to 0, `th` determines eigenvalue below which PCs are ignored
+#' @param nz Integer: Upper bound on non-zero loadings. See `nsprcomp::nscumcomp("k")`
 #' @param nneg Logical: If TRUE, calculate non-negative loadings only. Default = FALSE
 #' @param gamma Float (>0): Penalty on the divergence from otrhonormality of the pseudo-rotation
 #' matrix. Default = 0, i.e. no penalty. May need to increase with collinear features.
 #' @param method Character: "cumulative" or "vanilla" sparse PCA. Default = "cumulative"
 #' @param scale Logical: If TRUE, scale input data before projecting. Default = TRUE
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}. Default = FALSE
-#' @param ... Additional parameters to be passed to \code{fastSPCA::fastSPCA}
-#' @return \link{rtDecom} object
+#' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`. Default = FALSE
+#' @param ... Additional parameters to be passed to `fastSPCA::fastSPCA`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

@@ -28,7 +28,7 @@ will be used to create \code{dat.train} and \code{dat.test} output; all resample
 \item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
 }
 \value{
-List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
+List with elements \verb{dat, dat.train, dat.test, resamples, w, seed}
 }
 \description{
 Synthesize Simple Regression Data

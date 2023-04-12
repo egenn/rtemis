@@ -8,7 +8,7 @@
 #'
 #' Numbers will be formatted to 2 decimal places, unless this results in 0.00 (e.g. if input was .0032),
 #' in which case they will be converted to scientific notation with 2 significant figures.
-#' \code{ddSci} will return \code{0.00} if the input is exactly zero.
+#' `ddSci` will return `0.00` if the input is exactly zero.
 #' This function can be used to format numbers in plots, on the console, in logs, etc.
 #'
 #' @param x Vector of numbers
@@ -16,7 +16,7 @@
 #' @param hi Float: Threshold at or above which scientific notation is used. Default = 1e06
 #' @param asNumeric Logical: If TRUE, convert to numeric before returning. Default = FALSE.
 #' This will not force all numbers to print 2 decimal places. For example:
-#' 1.2035 becomes "1.20" if \code{asNumeric = FALSE}, but 1.2 otherwise
+#' 1.2035 becomes "1.20" if `asNumeric = FALSE`, but 1.2 otherwise
 #' This can be helpful if you want to be able to use the output as numbers / not just for printing.
 #' @return Formatted number
 #' @author E.D. Gennatas

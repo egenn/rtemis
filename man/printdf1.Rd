@@ -13,8 +13,8 @@ printdf1(x, pad = 2)
 }
 \description{
 Pretty print a data frame containing 1 row of data with named columns as a vertical list
-  of "       name : value"
-     " other.name : other.value"
+of "       name : value"
+" other.name : other.value"
 }
 \author{
 E.D. Gennatas

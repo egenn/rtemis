@@ -10,7 +10,7 @@ sparsernorm(n, sparseness = 0.1, mean = 0, sd = 1)
 \item{n}{Integer: Length of output vector}
 
 \item{sparseness}{Float (0, 1): Fraction of required nonzero elements, i.e. output will have
-\code{round(sparseness * n) nonzero elements}.
+\verb{round(sparseness * n) nonzero elements}.
 If \code{sparseness = 0}, a vector of zeros length \code{n} is returned,
 if \code{sparseness = 1}, \code{rnorm(n, mean, sd)} is returned.
 Default = 0.1}

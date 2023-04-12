@@ -4,7 +4,7 @@
 
 #' Kernel Principal Component Analysis
 #'
-#' Perform kernel PCA decomposition using \code{kernlab::kpca}
+#' Perform kernel PCA decomposition using `kernlab::kpca`
 #'
 #' Project scaled variables to KPCA components.
 #' Input must be n by p,
@@ -16,14 +16,14 @@
 #' @param x Input data
 #' @param x.test Optional test set. Will be projected on to KPCA basis
 #' @param k Integer vector of length 1 or greater. N of components to return
-#'   If set to 0, \code{th} determines eigenvalue below which PCs are ignored
-#' @param th Threshold for eigenvalue below which PCs are ignored if \code{k} is set to 0
-#' @param kernel Character: Type of kernel to use. See \code{kernlab::kpca}
-#' @param kpar List of hyperparameters: See \code{kernlab::kpca("kpar")}
+#'   If set to 0, `th` determines eigenvalue below which PCs are ignored
+#' @param th Threshold for eigenvalue below which PCs are ignored if `k` is set to 0
+#' @param kernel Character: Type of kernel to use. See `kernlab::kpca`
+#' @param kpar List of hyperparameters: See `kernlab::kpca("kpar")`
 #' @param center Logical: If TRUE, center data prior to decomposition. Default = TRUE
 #' @param scale Logical: If TRUE, scale data prior to decomposition. Default = TRUE
-#' @param ... Additional parameters to be passed to \code{fastKPCA::fastKPCA}
-#' @return \link{rtDecom} object
+#' @param ... Additional parameters to be passed to `fastKPCA::fastKPCA`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

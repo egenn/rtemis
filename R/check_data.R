@@ -214,9 +214,9 @@ html_success <- function(..., bold = TRUE) {
 
 max0 <- function(x) max(x, 0, na.rm = TRUE)
 
-#' Generate \code{CheckData} object description in HTML
+#' Generate `CheckData` object description in HTML
 #' 
-#' @param x \code{CheckData} object
+#' @param x `CheckData` object
 #' @param name Character: Name of the data set
 #' @param css List: CSS styles
 #' 
@@ -407,10 +407,10 @@ tohtml <- function(x,
     )
 }
 
-#' Print \code{CheckData} object
+#' Print `CheckData` object
 #'
 #' @method print CheckData
-#' @param x \code{CheckData} object
+#' @param x `CheckData` object
 #' 
 #' @author E.D. Gennatas
 #' @export

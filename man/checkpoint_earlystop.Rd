@@ -25,9 +25,9 @@ checkpoint_earlystop(
 \code{stop = TRUE}. See output under Value. Default = NA}
 
 \item{relative.threshold}{Float: If set, checks if the relative change from the first to last value of \code{x}
-exceeds this number. i.e. if set to .9 and \code{minimize = TRUE}, if there is a 90\% drop from \code{x[1]} to
+exceeds this number. i.e. if set to .9 and \code{minimize = TRUE}, if there is a 90 percent drop from \code{x[1]} to
 \code{x[length(x)]}, then the function returns \code{stop = TRUE}. If \code{minimize = FALSE}, then checks if there
-is a 90\% increase, accordingly.}
+is a 90 percent increase, accordingly.}
 
 \item{minimize}{Logical: See \code{absolute.threshold}. Default = TRUE}
 
@@ -45,15 +45,17 @@ can't predict with \code{min.steps} but would rather quantify with \code{relativ
 
 \item{na.response}{Character: "stop" or "continue": what should happen if the last value of \code{x} is \code{NA}}
 
-\item{verbose}{Logical: If TRUE, print messages to output}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \value{
 List with the following items:
-\item{last.value}{Float: Last value of \code{x}}
-\item{relativeVariance}{Float: relative variance of last \code{n.steps}}
-\item{check.thresh}{Logical: TRUE, if absolute threshold was reached}
-\item{check.rvar}{Logical: TRUE, if relative variance threshold was reached}
-\item{stop}{Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold}
+\itemize{
+\item \code{last.value} Float: Last value of \code{x}
+\item \code{relativeVariance} Float: relative variance of last \code{n.steps}
+\item \code{check.thresh} Logical: TRUE, if absolute threshold was reached
+\item \code{check.rvar }Logical: TRUE, if relative variance threshold was reached
+\item \code{stop} Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold
+}
 }
 \description{
 Returns list with relative variance over n.steps, absolute.threshold, last value,

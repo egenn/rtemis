@@ -2,14 +2,14 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3} Plot \code{resample}
+#' `mplot3` Plot `resample`
 #'
-#' Visualizes resampling output using \link{mplot3_img}
+#' Visualizes resampling output using [mplot3_img]
 #'
 #' For resampling with no replacement where each case may be selected 0 or 1 time,
 #' 0 is white and 1 is teal For resampling with replacement, 0 is white, 1 is blue, 2 is teal
 #'
-#' @param res rtemis \link{resample} object
+#' @param res rtemis [resample] object
 #' @param col Color vector
 #' @param mar Numeric vector: image margins
 #' @param theme rtemis theme

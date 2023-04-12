@@ -6,8 +6,8 @@
 #'
 #' Returns mod$se.fit
 #'
-#' @param x An \link{rtMod} object
-#' @return Standard error of fitted values of \code{mod}
+#' @param x An [rtMod] object
+#' @return Standard error of fitted values of `mod`
 #' @author E.D. Gennatas
 #' @export
 

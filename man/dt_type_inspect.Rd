@@ -10,7 +10,7 @@ dt_type_inspect(x)
 \item{x}{data.table}
 }
 \description{
-Will attempt to identify columns that should be numeric but have been read in as 
+Will attempt to identify columns that should be numeric but have been read in as
 character by running \link{type_inspect} on each column.
 }
 \author{

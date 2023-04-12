@@ -32,17 +32,17 @@ hytreenow(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
+\item{max.depth}{\link{gS} Integer: Max depth of additive tree. Default = 3}
 
-\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
+\item{alpha}{\link{gS} Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
 
-\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
+\item{lambda}{\link{gS} Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
-\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{\link{gS} Integer: Minimum N observations needed in node, before considering splitting}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
+\item{part.cp}{\link{gS} Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

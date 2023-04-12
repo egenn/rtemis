@@ -7,9 +7,9 @@
 #' Get linear model coefficients
 #'
 #' This function minimizes checks for speed. It doesn't check dimensionality 
-#' of \code{x}.
+#' of `x`.
 #' Only use methods "glm", "sgd", or "solve" if there is only one feature in 
-#' \code{x}.
+#' `x`.
 #'
 #' @param x Feature matrix or data.frame. Will be coerced to data.frame for 
 #' method = "allSubsets", "forwardStepwise", or "backwardStepwise"
@@ -17,38 +17,38 @@
 #' @param weights Float, vector: Case weights
 #' @param method Character: Method to use:
 #' \itemize{
-#'  \item{"glm"}{: uses \code{stats::lm.wfit}}
-#'  \item{"glmnet"}{: uses \code{glmnet::glmnet}}
-#'  \item{"cv.glmnet"}{: uses \code{glmnet:cv.glmnet}}
-#'  \item{"lm.ridge"}{: uses \code{MASS::lm.ridge}}
-#'  \item{"allsubsets"}{: uses \code{leaps::regsubsets} with \code{method = "exhaustive"}}
-#'  \item{"forwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "forward"}}
-#'  \item{"backwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "backward"}}
-#'  \item{"sgd"}{: uses \code{sgd::sgd}}
-#'  \item{"solve"}{: uses \code{base::solve}}
+#'  \item{"glm"}{: uses `stats::lm.wfit`}
+#'  \item{"glmnet"}{: uses `glmnet::glmnet`}
+#'  \item{"cv.glmnet"}{: uses `glmnet:cv.glmnet`}
+#'  \item{"lm.ridge"}{: uses `MASS::lm.ridge`}
+#'  \item{"allsubsets"}{: uses `leaps::regsubsets` with `method = "exhaustive"`}
+#'  \item{"forwardStepwise"}{: uses `leaps::regsubsets` with `method = "forward"`}
+#'  \item{"backwardStepwise"}{: uses `leaps::regsubsets` with `method = "backward"`}
+#'  \item{"sgd"}{: uses `sgd::sgd`}
+#'  \item{"solve"}{: uses `base::solve`}
 #'  \item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
 #' }
 #' @param type Character: "Regression", "Classification", or "Survival"
 #' @param learning.rate Numeric: Coefficients will be multiplied by this number
-#' @param alpha Float: \code{alpha} for method = \code{glmnet} or 
-#' \code{cv.glmnet}.
-#' @param lambda Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, 
-#' \code{lm.ridge}
-#' Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for 
-#' prediction. Training uses \code{lambda.seq}.
-#' @param lambda.seq Float, vector: lambda sequence for \code{glmnet} and 
-#' \code{cv.glmnet}. 
-#' @param cv.glmnet.nfolds Integer: Number of folds for \code{cv.glmnet}
+#' @param alpha Float: `alpha` for method = `glmnet` or 
+#' `cv.glmnet`.
+#' @param lambda Float: The lambda value for `glmnet`, `cv.glmnet`, 
+#' `lm.ridge`
+#' Note: For `glmnet` and `cv.glmnet`, this is the lambda used for 
+#' prediction. Training uses `lambda.seq`.
+#' @param lambda.seq Float, vector: lambda sequence for `glmnet` and 
+#' `cv.glmnet`. 
+#' @param cv.glmnet.nfolds Integer: Number of folds for `cv.glmnet`
 #' @param which.cv.glmnet.lambda Character: Whitch lambda to pick from 
 #' cv.glmnet: "lambda.min": Lambda that gives minimum cross-validated error;
-#' @param nbest Integer: For \code{method = "allSubsets"}, number of subsets of 
+#' @param nbest Integer: For `method = "allSubsets"`, number of subsets of 
 #' each size to record. Default = 1
-#' @param nvmax Integer: For \code{method = "allSubsets"}, maximum number of 
+#' @param nvmax Integer: For `method = "allSubsets"`, maximum number of 
 #' subsets to examine.
-#' @param sgd.model Character: Model to use for \code{method = "sgd"}.
-#' @param sgd.model.control List: \code{model.control} list to pass to 
-#' \code{sgd::sgd}
-#' @param sgd.control List: \code{sgd.control} list to pass to \code{sgd::sgd}
+#' @param sgd.model Character: Model to use for `method = "sgd"`.
+#' @param sgd.model.control List: `model.control` list to pass to 
+#' `sgd::sgd`
+#' @param sgd.control List: `sgd.control` list to pass to `sgd::sgd`
 # #' @param ... Additional parameters to pass to \code{leaps::regsubsets}
 #' "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.
 #' @param trace Integer: If set to zero, all warnings are ignored

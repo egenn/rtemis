@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLMTREE.R
 \name{s_GLMTREE}
 \alias{s_GLMTREE}
-\title{Generalized Linear Model Tree [R]}
+\title{Generalized Linear Model Tree \link{R}}
 \usage{
 s_GLMTREE(
   x,
@@ -63,12 +63,12 @@ Columns must correspond to columns in \code{x}}
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
+\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
 
-\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
 node.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
@@ -90,22 +90,22 @@ Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -142,7 +142,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Object of class \link{rtMod}
 }
 \description{
-Train a GLMTREE for regression or classification using 
+Train a GLMTREE for regression or classification using
 \code{partykit::glmtree}
 }
 \seealso{

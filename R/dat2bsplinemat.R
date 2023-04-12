@@ -7,16 +7,16 @@
 #' Convert a dataset to its b-spline basis set
 #'
 #' @param x data.frame: Input
-#' @param df Integer: Degrees of freedom. See \code{splines::bSpline}
-#' @param knots Float, vector: Internal breakpoints. See \code{splines::bSpline}
-#' @param degree Integer (>0): Degree of the piecewise polynomial. See \code{splines::bSpline}
+#' @param df Integer: Degrees of freedom. See `splines::bSpline`
+#' @param knots Float, vector: Internal breakpoints. See `splines::bSpline`
+#' @param degree Integer (>0): Degree of the piecewise polynomial. See `splines::bSpline`
 #' @param intercept Logical: If TRUE, an intercept is included. Default = FALSE
 #' @param Boundary.knots Float, vector (length = 2): Boundary points to anchor the spline basis.
 #' @param return.deriv Logical: If TRUE, return list containing a data frame with the splines and another
 #' data frame with their derivatives
 #' @param as.data.frame Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
-#' See \code{splines::bSpline}
-#' @return If \code{return.deriv=F}, a data frame where each original feature is replaced with its basis set or a list,
+#' See `splines::bSpline`
+#' @return If `return.deriv=F`, a data frame where each original feature is replaced with its basis set or a list,
 #' otherwise a list containing a data frame with splines and a data frame with their derivatives
 #' @author E.D. Gennatas
 #' @export
@@ -68,7 +68,7 @@ dat2bsplinemat <- function(x,
 } # rtemis::dat2bsplinemat
 
 
-#' Predict S3 method for \code{rtBSplines}
+#' Predict S3 method for `rtBSplines`
 #'
 #' @method predict rtBSplines
 #' @author E.D. Gennatas

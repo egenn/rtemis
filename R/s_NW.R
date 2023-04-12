@@ -4,18 +4,18 @@
 
 #' Nadaraya-Watson kernel regression [R]
 #'
-#' Computes a kernel regression estimate using \code{np::npreg()}
+#' Computes a kernel regression estimate using `np::npreg()`
 #'
-#' \code{np::npreg} allows inputs with mixed data types.
+#' `np::npreg` allows inputs with mixed data types.
 #' NW automatically models interactions, like PPR, but the latter is a lot faster
 #'
 #' @inheritParams s_GLM
-#' @param bw Bandwidth as calculate by \code{np::npregbw}. Default = NULL, in which case \code{np::npregbw} will be run
+#' @param bw Bandwidth as calculate by `np::npregbw`. Default = NULL, in which case `np::npregbw` will be run
 #' @param plot.bw Logical. Plot bandwidth selector results
-#' @param ... Additional parameters to be passed to \code{npreg}
+#' @param ... Additional parameters to be passed to `npreg`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' \dontrun{

@@ -7,7 +7,7 @@
 #' Calculate number of combinations
 #'
 #' In plain language:
-#'   You have \code{n} items. How many different cobinations of \code{r} items can you make?
+#'   You have `n` items. How many different cobinations of `r` items can you make?
 #'
 #' @param n Integer: Total number of items
 #' @param r Integer: Number of items in each combination

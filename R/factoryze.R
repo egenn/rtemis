@@ -7,7 +7,7 @@
 #' Perform parallel analysis, factor analysis, bifactor analysis
 #' and hierarchical clustering
 #'
-#' Consult \code{psych::fa} for more information on the parameters
+#' Consult `psych::fa` for more information on the parameters
 #'
 #' @param x Data. Will be coerced to data frame
 #' @param n.factors Integer: If NULL, will be estimated using parallel analysis
@@ -32,7 +32,7 @@
 #' "mixed": mixed cor for a mixture of tetrachorics, polychorics, Pearsons, biserials, and polyserials,
 #' "Yuleb": Yulebonett, "Yuleq" and "YuleY": Yule coefficients
 #' @param fa.n.iter Integer: Number of iterations for factor analysis. Default = 100
-#' @param omega.method Character: Factor analysis method for the bifactor analysis. Same options as \code{method}
+#' @param omega.method Character: Factor analysis method for the bifactor analysis. Same options as `method`
 #' Default = "minres"
 #' @param omega.rotation Character: Rotation method for bifactor analysis:
 #' "oblimin", "simplimax", "promax", "cluster", "target". Default = "oblimin"
@@ -44,7 +44,7 @@
 #' @param do.bifactor Logical: If TRUE, perform bifactor analysis. Default = TRUE
 #' @param do.hclust Logical: If TRUE, perform hierarchical cluster analysis. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
-#' @param ... Additional arguments to pass to \code{psych::fa}
+#' @param ... Additional arguments to pass to `psych::fa`
 #' 
 #' @author E.D. Gennatas
 #' @export

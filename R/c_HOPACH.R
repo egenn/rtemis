@@ -4,20 +4,20 @@
 
 #' Hierarchical Ordered Partitioning and Collapsing Hybrid
 #'
-#' Perform HOPACH clustering using \code{hopach::hopach}
+#' Perform HOPACH clustering using `hopach::hopach`
 #'
 #' @param x Input matrix / data.frame
-#' @param dmat Matrix (numeric, no missing values) or \code{hdist} object of pairwise distances.
-#' If NULL, it is computed based on \code{metric}
+#' @param dmat Matrix (numeric, no missing values) or `hdist` object of pairwise distances.
+#' If NULL, it is computed based on `metric`
 #' @param metric Character: Dissimilarity metric to be used. Options: "cosangle", "abscosangle", "euclid",
 #' "abseuclid", "cor", "abscor"
 #' @param k Integer, (0:15]: Maximum number of levels
 #' @param kmax Integer, [1:9]: Maximum number of children at each node in the tree
 #' @param khigh Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
-#' the Mean/Median Split Silhouette. Usually same as \code{kmax}
+#' the Mean/Median Split Silhouette. Usually same as `kmax`
 #' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param ... Additional parameters to pass to \code{cluster::hopach}
+#' @param ... Additional parameters to pass to `cluster::hopach`
 #'
 #' @author E.D. Gennatas
 #' @family Clustering

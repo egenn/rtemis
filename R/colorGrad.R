@@ -11,23 +11,23 @@
 #' For example, if you want a gradient from -1 to 1 or equivalent, an n = 11, will give 5 colors on either
 #' side of 0, each representing a 20\% change from the next.
 #'
-#' \code{colors} can be defined as a sequence of 3-letter color abbreviations of 2, 3, 4, or 5 colors
+#' `colors` can be defined as a sequence of 3-letter color abbreviations of 2, 3, 4, or 5 colors
 #'   which will correspond to values: \{"lo","hi"\}; \{"lo", "mid", "hi"\}; \{"lo", "mid", "midhi", "hi"\}, and
 #'   \{"lo", "lomid", "mid", "midhi", "hi"\}, respectively.
-#'   For example, try \code{colorGrad(21, "blugrnblkredyel", colorbar = TRUE)}
+#'   For example, try `colorGrad(21, "blugrnblkredyel", colorbar = TRUE)`
 #'   3-letter color abbreviations:
 #'    wht: white; blk: black; red; grn: green; blu: blue; yel: yellow; rng: orange; prl: purple
 #'
-#' @param n Integer: How many distinct colors you want. If not odd, converted to \code{n + 1}
+#' @param n Integer: How many distinct colors you want. If not odd, converted to `n + 1`
 #'   Defaults to 21
-#' @param colors Character: Acts as a shortcut to defining \code{lo}, \code{mid}, etc for a number of defaults:
+#' @param colors Character: Acts as a shortcut to defining `lo`, `mid`, etc for a number of defaults:
 #'   "french", "penn", "grnblkred",
 #' @param space Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
-#'   Recommendation: If \code{mid} is "white" or "black" (default), use "rgb", otherwise "Lab"
+#'   Recommendation: If `mid` is "white" or "black" (default), use "rgb", otherwise "Lab"
 #' @param lo Color for low end
 #' @param lomid Color for low-mid
-#' @param mid Color for middle of the range or "mean", which will result in \code{colorOp(c(lo, hi), "mean")}.
-#' If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the color gradient.
+#' @param mid Color for middle of the range or "mean", which will result in `colorOp(c(lo, hi), "mean")`.
+#' If `mid = NA`, then only `lo` and `hi` are used to create the color gradient.
 #' @param midhi Color for middle-high
 #' @param hi Color for high end
 #' @param preview Logical: Plot the colors horizontally
@@ -35,12 +35,12 @@
 #' @param cb.n Integer: How many steps you would like in the colorbar
 #' @param cb.mar Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)
 #' @param cb.add Logical: If TRUE, colorbar will be added to existing plot
-#' @param cb.add.mar Vector: Margins for colorbar (See \code{par("mar")})
-#' @param cb.axis.pos Float: Position of axis (See \code{axis("pos")})
+#' @param cb.add.mar Vector: Margins for colorbar (See `par("mar")`)
+#' @param cb.axis.pos Float: Position of axis (See `axis("pos")`)
 #' @param cb.axis.las Integer {0,1,2,3}: Style of axis labels. 0: Always parallel to the axis,
 #' 1: Horizontal, 2: Perpendicular, 3: Vertical. Default = 1
-#' @param cb.axis.hadj Float: Adjustment parallel to the reading direction (See \code{par("adj")})
-#' @param cb.cex FLoat: Character expansion factor for colorbar (See \code{par("cex")})
+#' @param cb.axis.hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
+#' @param cb.cex FLoat: Character expansion factor for colorbar (See `par("cex")`)
 #' @param bar.min Numeric: Lowest value in colorbar
 #' @param bar.mid Numeric: Middle value in colorbar
 #' @param bar.max Numeric: Max value in colorbar
@@ -51,14 +51,14 @@
 #' @param theme Character: "light", "dark"
 #' @param bg Color: Background color
 #' @param col.text Color: Colorbar text color
-#' @param plotlycb Logical: Create colorbar using \code{plotly} (instead of base R graphics)
+#' @param plotlycb Logical: Create colorbar using `plotly` (instead of base R graphics)
 #' @param plotly.width Float: Width for plotly colorbar. Default = 80
 #' @param plotly.height Float: Height for plotly colorbar. Default = 500
-#' @param rtrn.plotly Logical: If TRUE, return \code{plotly} object
+#' @param rtrn.plotly Logical: If TRUE, return `plotly` object
 #' @param margins Vector: Plotly margins. Default = c(0, 0, 0, 0)
-#' @param pad Float: Padding for \code{plotly}. Default = 0
-#' @param par.reset Logical: If TRUE (Default), reset \code{par} settings after running
-#' @return Invisible vector of hexadecimal colors / plotly object if \code{rtrn.plotly = TRUE}
+#' @param pad Float: Padding for `plotly`. Default = 0
+#' @param par.reset Logical: If TRUE (Default), reset `par` settings after running
+#' @return Invisible vector of hexadecimal colors / plotly object if `rtrn.plotly = TRUE`
 #' @author E.D. Gennatas
 #' @export
 

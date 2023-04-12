@@ -16,14 +16,14 @@
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
-#'   must have set of columns as \code{x}
+#'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param x.name Character: Name for predictor set. (What kind of data is it?)
 #' @param y.name Character: Name for outcome
-#' @param base.mods Character vector: Two or more base learners. Options: \link{modSelect}
-#' @param base.params List of length equal to N of \code{base.mods}. Each element should be a list of arguments to pass
+#' @param base.mods Character vector: Two or more base learners. Options: [modSelect]
+#' @param base.params List of length equal to N of `base.mods`. Each element should be a list of arguments to pass
 #'   to the corresponding base mod
-#' @param meta.mod String. Meta learner. Options: \link{modSelect}
+#' @param meta.mod String. Meta learner. Options: [modSelect]
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()

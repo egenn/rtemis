@@ -2,23 +2,23 @@
 # ::rtemis::
 # 2017-9 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Variable Importance
+#' `mplot3`: Variable Importance
 #'
 #' Draw horizontal barplots for variable importance
 #' 
 #' "NA" values in input are set to zero.
 #' @param x Vector, numeric: Input
 #' @param error Vector, numeric; length = length(x): Plot error bars with given error.
-#' @param names Vector, string; optional: Names of variables in \code{x}
+#' @param names Vector, string; optional: Names of variables in `x`
 #' @param plot.top Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
-#' i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+#' i.e.: `plot.top = .2` will print the top 20% highest values, and `plot.top = 20` will plot the top 20
 #' highest values
-#' @param labelify Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE
+#' @param labelify Logical: If TRUE convert `names(x)` using [labelify]. Default = TRUE
 #' @param col Colors: Gradient to use for barplot fill.
-#' @param alpha Float (0, 1): Alpha for \code{col}
+#' @param alpha Float (0, 1): Alpha for `col`
 #' @param error.col Color: For error bars
-#' @param trace Integer: If \code{trace > 0} prints out the automatically set \code{mar} (so you can adjust if needed)
-#' \code{names} provided
+#' @param trace Integer: If `trace > 0` prints out the automatically set `mar` (so you can adjust if needed)
+#' `names` provided
 #' @return Position of bar centers (invisibly)
 #' @author E.D. Gennatas
 #' @export

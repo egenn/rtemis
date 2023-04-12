@@ -8,7 +8,7 @@
 #' @field parameters List of hyperparameters used when building model
 #' @field error.train Training error
 #' @field error.test Testing error
-#' @field sessionInfo The output of \code{sessionInfo()} at the time the model was trained
+#' @field sessionInfo The output of `sessionInfo()` at the time the model was trained
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -23,7 +23,7 @@ rtModLog <- R6::R6Class("rtModLog",
                           sessionInfo = NULL,
                           ### Initialize
                           #' @description
-                          #' Initialize \code{rtModLog} object
+                          #' Initialize `rtModLog` object
                           #' 
                           #' @param mod.name Learner algorithm name
                           #' @param parameters List of hyperparameters used when building model
@@ -41,7 +41,7 @@ rtModLog <- R6::R6Class("rtModLog",
                           },
                           ### Methods
                           #' @description
-                          #' Print method for \code{rtModLog} object
+                          #' Print method for `rtModLog` object
                           print = function() {
                             "show / print method for rtModLog"
                             boxcat(".:rtemis Supervised Model Log", newline.pre = FALSE)
@@ -77,7 +77,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              mods = list(),
                              # Initialize rtModLogger ----
                              #' @description
-                             #' Initialize \code{rtModLogger} object
+                             #' Initialize `rtModLogger` object
                              #' 
                              #' @param mods List of trained models
                              initialize = function(mods = list()) {
@@ -86,7 +86,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              ### Methods
                              # Print rtModLogger ----
                              #' @description
-                             #' Print method for \code{rtModLogger} object
+                             #' Print method for `rtModLogger` object
                              print = function() {
                                "Show / print method for rtModLogger"
                                boxcat(".:rtemis Supervised Model Logger", newline.pre = FALSE)
@@ -116,7 +116,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              },
                              # Summarize rtModLogger ----
                              #' @description
-                             #' Summary method for \code{rtModLogger}
+                             #' Summary method for `rtModLogger`
                              #' 
                              #' @param class.metric Character: Metric to use for 
                              #' Classification models
@@ -164,7 +164,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              },
                              # Summary rtModLogger ----
                              #' @description
-                             #' Summary method for \code{rtModLogger}
+                             #' Summary method for `rtModLogger`
                              #' 
                              #' @param class.metric Character: Metric to use for
                              #' Classification models
@@ -244,7 +244,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                              },
                              # Plot rtModLogger
                              #' @description
-                             #' Plot method for \code{rtModLogger}
+                             #' Plot method for `rtModLogger`
                              #' 
                              #' @param names Character: Model names
                              #' @param col Colors to use

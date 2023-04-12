@@ -4,14 +4,14 @@
 
 #' Projection Pursuit Tree Classification [C]
 #'
-#' Train a PPTREE Classifier using \code{PPtree::PP.Tree}
+#' Train a PPTREE Classifier using `PPtree::PP.Tree`
 #'
-#' Note: \code{PP.Tree} does not support case weights
+#' Note: `PP.Tree` does not support case weights
 #' @inheritParams s_GLM
 #' @param PPmethod Character: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

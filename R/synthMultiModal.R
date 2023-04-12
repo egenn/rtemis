@@ -13,27 +13,27 @@
 #' and random normal variables, respectively.
 #' Default = "runifmat"
 #' @param init.fn.params Named list with arguments "min", "max" for "runifmat" and "mean", "sd" for "rnormmat".
-#' Default = \code{list(min = -10, max = 10)}
+#' Default = `list(min = -10, max = 10)`
 #' @param n.groups Integer: Number of feature groups / modalities to create. Default = 4
-#' @param n.feat.per.group Integer, vector, length \code{n.groups}: Number of features per group to create.
-#' Default = \code{c(50, 100, 200, 300)}
+#' @param n.feat.per.group Integer, vector, length `n.groups`: Number of features per group to create.
+#' Default = `c(50, 100, 200, 300)`
 #' @param contrib.p Float (0, 1]: Ratio of features contributing to outcome per group. Default = .33, i.e.
 #' a third of the features in each group will be used to produce the outcome y
 #' @param linear.p Float [0, 1]: Ratio of contributing features to be included linearly. Default = .1, i.e. .1 of .33 of
 #' features in each group will be included
 #' @param square.p Float [0, 1]: Ratio of contributing features to be squared. Default = .1, i.e. .1 of .33 of features
 #' in each group will be squared
-#' @param atan.p Float [0, 1]: Ratio of contributing features whose \code{atan} will be used. These will be selected
+#' @param atan.p Float [0, 1]: Ratio of contributing features whose `atan` will be used. These will be selected
 #' from the features that were NOT sampled for squaring. Default = .1,
-#' i.e. .1 of .33 of features in each group will be transformed using \code{atan}, but given these features were not
-#' already picked to be squared (see \code{square.p})
+#' i.e. .1 of .33 of features in each group will be transformed using `atan`, but given these features were not
+#' already picked to be squared (see `square.p`)
 #' @param pair.multiply.p Float [0, 1] Ratio of features will be divided into pairs and multiplied. Default = .05
 #' @param pair.square.p Float [0, 1] Ratio of features which will be divided into pairs, multiplied and squared.
 #' Default = .05
 #' @param pair.atan.p Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
-#' \code{atan}. Default = .05
+#' `atan`. Default = .05
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
-#' @param seed Integer: If set, pass to \code{set.seed} for reproducibility
+#' @param seed Integer: If set, pass to `set.seed` for reproducibility
 #' @param filename Character: Path to file to save output. Default = NULL
 #' @author E.D. Gennatas
 #' @export

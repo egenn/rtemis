@@ -15,7 +15,7 @@ present_gridsearch(x, rtModCV.repeat = 1, ...)
 the best tune table}
 }
 \description{
-Present gridsearch results [Work in progress]
+Present gridsearch results \link{Work in progress}
 }
 \examples{
 \dontrun{

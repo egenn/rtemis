@@ -89,7 +89,7 @@ d_H2OGLRM(
 \description{
 Perform GLRM decomposition using \code{h2o::h2o.glrm}
 Given Input matrix \code{A}:
-\code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
+\verb{A(m x n) = X(m x k) \\\%*\\\% Y(k x n)}
 }
 \details{
 Learn more about GLRM from the H2O tutorial

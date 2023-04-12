@@ -2,13 +2,13 @@
 # ::rtemis::
 # E.D. Gennatas MBBS PhD www.lambdamd.org
 
-#' Bare bones decision tree derived from \code{rpart}
+#' Bare bones decision tree derived from `rpart`
 #'
 #' A super-stripped down decision tree for when space and performance are critical
 #'
 #' @inheritParams lincoef
 #' @param save.fitted Logical: If TRUE, save fitted values in output. Default = FALSE
-#' @param ... Additional arguments to pass to \link{lincoef}
+#' @param ... Additional arguments to pass to [lincoef]
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -73,9 +73,9 @@ glmLite <- function(x, y,
 } # rtemis::glmLite
 
 
-#' Predict method for \code{glmLite} object
+#' Predict method for `glmLite` object
 #'
-#' @param object \link{glmLite} object
+#' @param object [glmLite] object
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @method predict glmLite

@@ -155,9 +155,9 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param x data frame
 #' @param pad Integer: Pad output with this many spaces. Default = 2
 #' @param spacing Integer: Number of spaces between columns. Default = 1
-#' @param ddSci.dp Integer: Number of decimal places to print using \link{ddSci}. Default = NULL for no
+#' @param ddSci.dp Integer: Number of decimal places to print using [ddSci]. Default = NULL for no
 #' formatting
-#' @param transpose Logical: If TRUE, transpose \code{x} before printing. Default = FALSE
+#' @param transpose Logical: If TRUE, transpose `x` before printing. Default = FALSE
 #' @param justify Character: "right", "left". Default = "right"
 #' @param colnames Logical: If TRUE, print column names. Default = TRUE
 #' @param rownames Logical: If TRUE, print row names. Default = TRUE
@@ -367,7 +367,7 @@ twocol2html <- function(x,
 
 #' Print Size
 #'
-#' Get \code{NCOL(x)} and \code{NROW{x}}
+#' Get `NCOL(x)` and \code{NROW{x}}
 #'
 #' @param x R object (usually that inherits from matrix or data.frame)
 #' @param name Character: Name of input object

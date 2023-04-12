@@ -4,9 +4,9 @@
 
 #' Time a process
 #'
-#' \code{timeProc} measures how long it takes for a process to run
+#' `timeProc` measures how long it takes for a process to run
 #'
-#' @param ... Command to be timed. (Will be converted using \code{as.expression})
+#' @param ... Command to be timed. (Will be converted using `as.expression`)
 #' @param verbose Logical: If TRUE, print messages to console
 #' @author E.D. Gennatas
 #' @export

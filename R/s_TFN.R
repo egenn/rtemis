@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' Artificial Neural Network with \pkg{tensorflow} [C, R]
+#' Artificial Neural Network with \pkg{tensorflow} (C, R)
 #'
 #' Train an Artificial Neural Network using \pkg{keras} and \pkg{tensorflow}
 #'
@@ -27,27 +27,27 @@
 #' @param activation_l1 Float: l1 penalty on layer output. Default = 0
 #' @param activation_l2 Float: l2 penalty on layer output. Default = 0
 #' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
-#' @param output Character: Activation to use for output layer. Can be any as in \code{activation}.
+#' @param output Character: Activation to use for output layer. Can be any as in `activation`.
 #' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
 #' @param loss Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
 #' classification, "sparse_categorical_crossentropy" for multiclass
 #' @param optimizer Character: Optimization to use: "rmsprop", "adadelta", "adagrad", "adam", "adamax", "nadam", "sgd".
 #' Default = "rmsprop"
-#' @param learning.rate Float: learning rate. Defaults depend on \code{optimizer} used and are:
-#' \code{rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}
+#' @param learning.rate Float: learning rate. Defaults depend on `optimizer` used and are:
+#' `rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1`
 #' @param metric Character: Metric used for evaluation during train. Default = "mse" for regression,
 #'  "accuracy" for classification.
 #' @param epochs Integer: Number of epochs. Default = 100
 #' @param batch.size Integer: Batch size. Default = N of cases
 #' @param validation.split Float (0, 1): proportion of training data to use for validation. Default = .2
 #' @param callback Function to be called by keras during fitting.
-#' Default = \code{keras::callback_early_stopping(patience = 150)} for early stopping.
+#' Default = `keras::callback_early_stopping(patience = 150)` for early stopping.
 #' @param scale Logical: If TRUE, scale featues before training. Default = TRUE
-#' column means and standard deviation will be saved in \code{rtMod$extra} field to allow
+#' column means and standard deviation will be saved in `rtMod$extra` field to allow
 #' scaling ahead of prediction on new data
 #' @param ... Additional parameters
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export

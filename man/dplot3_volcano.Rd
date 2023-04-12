@@ -65,14 +65,14 @@ dplot3_volcano(
 
 \item{group}{Factor: Used to color code points. If NULL, significant points
 below \code{x.thresh}, non-significant points, and significant points
-above \code{x.thresh} will be plotted with the first, second and third 
+above \code{x.thresh} will be plotted with the first, second and third
 color fo \code{palette}}
 
 \item{x.thresh}{Numeric x-axis threshold separating low from high}
 
 \item{p.thresh}{Numeric: p-value threshold of significance. Default = .05}
 
-\item{p.transform}{function. Default = \code{\(x) -log10(x)}}
+\item{p.transform}{function. Default = \verb{\\(x) -log10(x)}}
 
 \item{p.adjust.method}{Character: p-value adjustment method.
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
@@ -97,7 +97,7 @@ Default = "holm". Use "none" for raw p-values.}
 
 \item{ylab}{Character: y-axis label}
 
-\item{margin}{Named list of plot margins. 
+\item{margin}{Named list of plot margins.
 Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
 
 \item{xlim}{Numeric vector, length 2: x-axis limits}
@@ -124,7 +124,7 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{annotate.col}{Color for annotations}
 
-\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
@@ -138,10 +138,10 @@ Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} 
+\item{file.height}{Integer: File height in pixels for when \code{filename}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}

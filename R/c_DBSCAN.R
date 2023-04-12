@@ -6,8 +6,8 @@
 #'
 #' Perform DBSCAN clustering
 #'
-#' See \code{dbscan::dbscan} for info on how to choose \code{eps} and
-#' \code{minPts}
+#' See `dbscan::dbscan` for info on how to choose `eps` and
+#' `minPts`
 #'
 #' @param x Input matrix / data.frame
 #' @param x.test Testing set matrix / data.frame
@@ -21,7 +21,7 @@
 #' @param search Character: "kdtree", "linear" or "dist": nearest neighbor
 #' search strategy
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' @param ... Additional parameters to be passed to `flexclust::cclust`
 #'
 #' @author Efstathios D. Gennatas
 #' @family Clustering

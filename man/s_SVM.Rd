@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_SVM.R
 \name{s_SVM}
 \alias{s_SVM}
-\title{Support Vector Machines [C, R]}
+\title{Support Vector Machines (C, R)}
 \usage{
 s_SVM(
   x,
@@ -56,18 +56,18 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{class.weights}{Float, length = n levels of outcome: Weights for each 
-outcome class.For classification, \code{class.weights} takes precedence over 
+\item{class.weights}{Float, length = n levels of outcome: Weights for each
+outcome class.For classification, \code{class.weights} takes precedence over
 \code{ipw}, therefore set \code{class.weights = NULL} if using \code{ipw}.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
@@ -89,25 +89,25 @@ Default = NULL (random seed)}
 
 \item{kernel}{Character: "linear", "polynomial", "radial", "sigmoid"}
 
-\item{degree}{[gS] Integer: Degree for \code{kernel = "polynomial"}.}
+\item{degree}{\link{gS} Integer: Degree for \code{kernel = "polynomial"}.}
 
-\item{gamma}{[gS] Float: Parameter used in all kernels except \code{linear}}
+\item{gamma}{\link{gS} Float: Parameter used in all kernels except \code{linear}}
 
-\item{coef0}{[gS] Float: Parameter used by kernels \code{polynomial} and 
+\item{coef0}{\link{gS} Float: Parameter used by kernels \code{polynomial} and
 \code{sigmoid}}
 
-\item{cost}{[gS] Float: Cost of constraints violation; the C constant of the 
+\item{cost}{\link{gS} Float: Cost of constraints violation; the C constant of the
 regularization term in the Lagrange
-  formulation.}
+formulation.}
 
 \item{probability}{Logical: If TRUE, model allows probability estimates}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
@@ -144,7 +144,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train an SVM learner using \code{e1071::svm}
 }
 \details{
-[gS] denotes parameters that will be tuned by cross-validation if more than one value is passed.
+\link{gS} denotes parameters that will be tuned by cross-validation if more than one value is passed.
 Regarding SVM tuning, the following guide from the LIBSVM authors can be useful:
 http://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf
 They suggest searching for cost = 2 ^ seq(-5, 15, 2) and

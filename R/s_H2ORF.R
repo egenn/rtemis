@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Random Forest on H2O [C, R]
+#' Random Forest on H2O (C, R)
 #'
 #' Trains a Random Forest model using H2O (http://www.h2o.ai)
 #'
@@ -14,14 +14,14 @@
 #' @param x.valid Validation set features (Used to build model / tune hyperparameters)
 #' @param y.valid Validation set outcome
 #' @param ip Character: IP address of H2O server. Default = "localhost"
-#' @param port Integer: Port to connect to at \code{ip}
+#' @param port Integer: Port to connect to at `ip`
 #' @param n.trees Integer: Number of trees to grow
 #' @param epochs Numeric: How many times to iterate through the dataset. Default = 10
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Additional parameters to pass to \code{h2o::h2o.randomForest}
-#' @return \link{rtMod} object
+#' @param ... Additional parameters to pass to `h2o::h2o.randomForest`
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

@@ -19,13 +19,13 @@ rtset.RANGER(
 \arguments{
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}
 
-\item{min.node.size}{[gS] Integer: Minimum node size}
+\item{min.node.size}{\link{gS} Integer: Minimum node size}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split.
- Defaults to square root of n of
+\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split.
+Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).

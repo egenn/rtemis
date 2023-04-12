@@ -8,9 +8,9 @@
 #'
 #' A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
 #' only column of type factor will be one-hot encoded. 
-#' This function is used by \link{preprocess}.
-#' \code{oneHot.data.table} operates on a copy of its input.
-#' \code{oneHot_} performs one-hot encoding in-place.
+#' This function is used by [preprocess].
+#' `oneHot.data.table` operates on a copy of its input.
+#' `oneHot_` performs one-hot encoding in-place.
 #'
 #' @param x Vector or data.frame
 #' @param xname Character: Variable name

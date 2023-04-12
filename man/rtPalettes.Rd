@@ -398,7 +398,7 @@ microsoftCol
 (https://identityguide.hms.harvard.edu/color)
 
 \code{dartmouthCol}: Dartmouth color palette
-(https://communications.dartmouth.edu/visual-identity/design-elements/color-palette#web%20palette)
+(https://communications.dartmouth.edu/visual-identity/design-elements/color-palette#web\%20palette)
 
 \code{usfCol}: USF color palette
 (https://myusf.usfca.edu/marketing-communications/resources/graphics-resources/brand-standards/color-palette)
@@ -463,7 +463,7 @@ Color conversions performed using https://www.pantone.com/color-finder/
 
 \code{uclCol}: UCL colour palette (https://www.ucl.ac.uk/cam/brand/guidelines/colour)
 
-\code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford%20Blue%20LR.pdf)
+\code{oxfordCol}: Oxford University colour palette (https://www.ox.ac.uk/sites/files/oxford/media_wysiwyg/Oxford\%20Blue\%20LR.pdf)
 
 \code{nhsCol}: NHS colour palette (https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/)
 

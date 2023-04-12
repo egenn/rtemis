@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_QDA.R
 \name{s_QDA}
 \alias{s_QDA}
-\title{Quadratic Discriminant Analysis [C]}
+\title{Quadratic Discriminant Analysis \link{C}}
 \usage{
 s_QDA(
   x,

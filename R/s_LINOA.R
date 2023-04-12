@@ -4,22 +4,22 @@
 # Allow early stopping
 # LINOA -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 
-#' Linear Optimized Additive Tree [C, R]
+#' Linear Optimized Additive Tree (C, R)
 #'
 #' Train a Linear Optimized Additive Tree
 #'
 #' The Linear Optimized Additive Tree grows a tree by finding splits that minimize loss after linear
 #' models are fit on each child.
-#' We specify an upper threshold of leaves using \code{max.leaves} instead of directly defining a number,
+#' We specify an upper threshold of leaves using `max.leaves` instead of directly defining a number,
 #' because depending on the other parameters and the datasets, splitting may stop early.
 #'
 #' @inheritParams s_GLM
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
-#' "backwardStepwise". If values greater than n of features in \code{x} are provided, they will be excluded
+#' "backwardStepwise". If values greater than n of features in `x` are provided, they will be excluded
 #' @param lookback Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE
-#' @param init Initial value. Default = \code{mean(y)}
-#' @param lambda Float: lambda parameter for \code{MASS::lm.ridge} Default = .01
+#' @param init Initial value. Default = `mean(y)`
+#' @param lambda Float: lambda parameter for `MASS::lm.ridge` Default = .01
 #' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only

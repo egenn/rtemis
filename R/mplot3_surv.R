@@ -2,18 +2,18 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: Survival Plots
+#' `mplot3`: Survival Plots
 #'
-#' Plots survival step functions using \link{mplot3_xy}
+#' Plots survival step functions using [mplot3_xy]
 #'
 #' @inheritParams mplot3_xy
-#' @param x Survival object / list of Survival objects created using \code{survival::Surv}
+#' @param x Survival object / list of Survival objects created using `survival::Surv`
 #' @param normalize.time Logical: If TRUE, convert each input's time to 0-1 range. This is useful
 #' when survival estimates are not provided in original time scale. Default = FALSE.
-#' @param lty Integer: Line type. Default = 1. See \code{par("lty")}
+#' @param lty Integer: Line type. Default = 1. See `par("lty")`
 #' @param lwd Float: Line width. Default = 2
 #' @param alpha Float: Alpha for lines. Default = 1
-#' @param ... Additional arguments to pass to \link{mplot3_xy}
+#' @param ... Additional arguments to pass to [mplot3_xy]
 #' 
 #' @author E.D. Gennatas
 #' @export

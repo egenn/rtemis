@@ -7,15 +7,15 @@
 #' Convert Date to time bin factor.
 #'
 #' Order of levels will be chronological (important e.g. for plotting)
-#' Additionally, can output ordered factor with \code{ordered = TRUE}
+#' Additionally, can output ordered factor with `ordered = TRUE`
 #'
 #' @param x Date vector
 #' @param time_bin Character: "year", "quarter", "month", or "day"
 #' @param make_bins Character: "range" or "preseent". If "range" the factor levels will include all
-#' time periods define by \code{time_bin} within \code{bin_range}. This means factor levels can be
+#' time periods define by `time_bin` within `bin_range`. This means factor levels can be
 #' empty. Otherwise, if "present", factor levels only include time periods present in data.
 #' @param bin_range Date, vector, length 2: Range of dates to make levels for. Defaults to range of
-#' input dates \code{x}
+#' input dates `x`
 #' @param ordered Logical: If TRUE, factor output is ordered. Default = FALSE
 #'
 #' @returns factor of time periods

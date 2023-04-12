@@ -7,7 +7,7 @@
 auc_pairs(estimated.score, true.labels, verbose = TRUE)
 }
 \arguments{
-\item{estimated.score}{Float, Vector: Probabilities or model scores 
+\item{estimated.score}{Float, Vector: Probabilities or model scores
 (e.g. c(.32, .75, .63), etc)}
 
 \item{true.labels}{True labels of outcomes (e.g. c(0, 1, 1))}

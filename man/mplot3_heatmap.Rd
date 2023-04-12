@@ -184,10 +184,12 @@ Customized heatmap with optional colorbar
 The main difference from the original \code{stats::heatmap} is the addition of a colorbar on the side.
 This is achieved with \link{colorGrad}.
 Other differences:
-- Dendrograms are not drawn by default. Set \code{Rowv = T} and \code{Colv = T} to get them.
-- Column labels are only drawn perpendicular to the x-axis if any one is
-  longer than two characters.
+\itemize{
+\item Dendrograms are not drawn by default. Set \code{Rowv = T} and \code{Colv = T} to get them.
+\item Column labels are only drawn perpendicular to the x-axis if any one is
+longer than two characters.
 Otherwise, the arguments are the same as in \code{stats::heatmap}
+}
 }
 \examples{
 \dontrun{

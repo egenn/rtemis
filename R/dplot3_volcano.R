@@ -7,45 +7,45 @@
 #'
 #' @inheritParams dplot3_xy
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
-#' @param xnames Character vector: \code{x} names
+#' @param xnames Character vector: `x` names
 #' @param group Factor: Used to color code points. If NULL, significant points
-#' below \code{x.thresh}, non-significant points, and significant points
-#' above \code{x.thresh} will be plotted with the first, second and third 
-#' color fo \code{palette}
+#' below `x.thresh`, non-significant points, and significant points
+#' above `x.thresh` will be plotted with the first, second and third 
+#' color fo `palette`
 #' @param x.thresh Numeric x-axis threshold separating low from high
 #' @param pvals Numeric vector: p-values
 #' @param p.thresh Numeric: p-value threshold of significance. Default = .05
-#' @param p.transform function. Default = \code{\(x) -log10(x)}
+#' @param p.transform function. Default = `\(x) -log10(x)`
 #' @param p.adjust.method Character: p-value adjustment method.
 #' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' Default = "holm". Use "none" for raw p-values.
 #' @param legend Logical: If TRUE, show legend. Will default to FALSE, if
-#' \code{group = NULL}, otherwise to TRUE
+#' `group = NULL`, otherwise to TRUE
 #' @param legend.lo Character: Legend to annotate significant points below the
-#' \code{x.thresh}
+#' `x.thresh`
 #' @param legend.hi Character: Legend to annotate significant points above the
-#' \code{x.thresh}
+#' `x.thresh`
 #' @param label.lo Character: label for low values
 #' @param label.hi Character: label for high values
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param margin Named list of plot margins. 
-#' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
+#' Default = `list(b = 65, l = 65, t = 50, r = 10, pad = 0)`
 #' @param xlim Numeric vector, length 2: x-axis limits
 #' @param ylim Numeric vector, length 2: y-axis limits
 #' @param alpha Numeric: point transparency
 #' @param hline Float: If defined, draw a horizontal line at this y value.
-#' @param hline.col Color for \code{hline}. Default = "#ff0000" (red)
-#' @param hline.width Float: Width for \code{hline}. Default = 1
+#' @param hline.col Color for `hline`. Default = "#ff0000" (red)
+#' @param hline.width Float: Width for `hline`. Default = 1
 #' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash",
 #' "longdash", "dashdot",
 #' or "longdashdot"
 #' @param hline.annotate Character: Text of horizontal line annotation if
-#' \code{hline} is set
+#' `hline` is set
 #' @param hline.annotation.x Numeric: x position to place annotation with paper
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param annotate.col Color for annotations
-#' @param ... Additional parameters passed to \link{dplot3_xy}
+#' @param ... Additional parameters passed to [dplot3_xy]
 #'
 #' @author E.D. Gennatas
 #' @export

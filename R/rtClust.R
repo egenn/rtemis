@@ -60,7 +60,7 @@ rtClust <- R6::R6Class("rtClust",
                           },
                           ### Methods
                           #' @description
-                          #' Print method for \code{rtClust} objects
+                          #' Print method for `rtClust` objects
                           print = function() {
                             "show / print method for rtClust"
                             objcat("Clustering object")
@@ -76,13 +76,13 @@ rtClust <- R6::R6Class("rtClust",
 
 #' rtClust S3 methods
 #'
-#' S3 methods for \code{rtClust} class.
+#' S3 methods for `rtClust` class.
 #'
 #' @name rtClust-methods
 NULL
 
 
-#' \code{print.rtClust}: \code{print} method for \code{rtClust} object
+#' `print.rtClust`: `print` method for `rtClust` object
 #'
 #' @method print rtClust
 #' @rdname rtClust-methods

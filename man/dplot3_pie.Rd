@@ -38,13 +38,13 @@ dplot3_pie(
 b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
 the \code{category.names} argument}
 
-\item{main}{Character: Plot title. Default = NULL, which results in colnames(x)[1],}
+\item{main}{Character: Plot title. Default = NULL, which results in colnames(x)\link{1},}
 
 \item{xlab}{Character: x-axis label. Default = NULL}
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
@@ -67,10 +67,10 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 
 \item{labs.col}{Color of labels}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be 
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, and will be
 turned on if there is more than one feature present}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
 
 \item{sep.col}{Separator color}
@@ -81,15 +81,15 @@ theme}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any
 output file type supported by plotly and your system}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} 
+\item{file.height}{Integer: File height in pixels for when \code{filename}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}

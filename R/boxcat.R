@@ -4,7 +4,7 @@
 
 #' Box cat
 #'
-#' \code{cat} with a box; a boxed cat
+#' `cat` with a box; a boxed cat
 #'
 #' @param x Character: Text to be output to console
 #' @param style  Integer: {1, 2}: 1: vintage style, 2: modern style. Default = 2

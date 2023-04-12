@@ -58,7 +58,7 @@ Columns must correspond to columns in \code{x}}
 not change unless you know what you're doing. Default = NULL, for regular
 boosting}
 
-\item{boost.obj}{[Internal use]}
+\item{boost.obj}{\link{Internal use}}
 
 \item{mod.params}{Named list of arguments for \link{cartLite}}
 

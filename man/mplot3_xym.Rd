@@ -74,7 +74,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
@@ -98,7 +98,7 @@ Draw a scatter plot with fit line and marginal density and/or histogram
 \details{
 At the moment, \code{mplot3_xym} is the only \code{mplot3} function that does not support
 
-To make wide plot, change `widths`: e.g. widths = c(7, 1)
+To make wide plot, change \code{widths}: e.g. widths = c(7, 1)
 }
 \examples{
 \dontrun{

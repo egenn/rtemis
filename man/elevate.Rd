@@ -48,15 +48,15 @@ elevate(
 
 \item{mod}{Character: Learner to use. Options: \link{modSelect}}
 
-\item{mod.params}{Optional named list of parameters to be passed to 
+\item{mod.params}{Optional named list of parameters to be passed to
 \code{mod}. All parameters can be passed as part of \code{...} as well}
 
-\item{.preprocess}{Optional named list of parameters to be passed to 
-\link{preprocess}. Set using \link{rtset.preprocess}, 
+\item{.preprocess}{Optional named list of parameters to be passed to
+\link{preprocess}. Set using \link{rtset.preprocess},
 e.g. \code{decom = rtset.preprocess(impute = TRUE)}}
 
-\item{.decompose}{Optional named list of parameters to be used for 
-decomposition / dimensionality reduction. Set using \link{rtset.decompose}, 
+\item{.decompose}{Optional named list of parameters to be used for
+decomposition / dimensionality reduction. Set using \link{rtset.decompose},
 e.g. \code{decom = rtset.decompose("ica", 12)}}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -64,8 +64,8 @@ over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
 \item{n.repeats}{Integer: Number of times to repeat the outer resampling.
-This was added for completeness, but in practice we use either k-fold 
-crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of 
+This was added for completeness, but in practice we use either k-fold
+crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of
 stratified subsamples, e.g. 25, for smaller samples}
 
 \item{outer.resampling}{List: Output of \link{rtset.resample} to define outer
@@ -74,26 +74,26 @@ resampling scheme}
 \item{inner.resampling}{List: Output of \link{rtset.resample} to define inner
 resampling scheme}
 
-\item{bag.fn}{Function to use to average prediction if 
+\item{bag.fn}{Function to use to average prediction if
 \code{bag.fitted = TRUE}. Default = \code{median}}
 
 \item{x.name}{Character: Name of predictor dataset}
 
 \item{y.name}{Character: Name of outcome}
 
-\item{save.mods}{Logical: If TRUE, retain trained models in object, 
+\item{save.mods}{Logical: If TRUE, retain trained models in object,
 otherwise discard (save space if running many resamples).}
 
-\item{save.tune}{Logical: If TRUE, save the best.tune data frame for each 
+\item{save.tune}{Logical: If TRUE, save the best.tune data frame for each
 resample (output of gridSearchLearn)}
 
-\item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged 
-prediction on the full sample. To get a bagged prediction on new data using 
+\item{bag.fitted}{Logical: If TRUE, use all models to also get a bagged
+prediction on the full sample. To get a bagged prediction on new data using
 the same models, use \link{predict.rtModCV}}
 
-\item{outer.n.workers}{Integer: Number of cores to use for the outer i.e. 
+\item{outer.n.workers}{Integer: Number of cores to use for the outer i.e.
 testing resamples. You are likely parallelizing either in the inner
-(tuning) or the learner itself is parallelized. Don't parallelize the 
+(tuning) or the learner itself is parallelized. Don't parallelize the
 parallelization}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -106,15 +106,15 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{print.res.plot}{Logical: Print model performance plot for each 
+\item{print.res.plot}{Logical: Print model performance plot for each
 resample.
-  from all resamples. Defaults to TRUE}
+from all resamples. Defaults to TRUE}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each 
+\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each
 individual learner's \code{verbose} argument}
 
 \item{trace}{Integer: (Not really used) Print additional information if > 0.}
@@ -125,25 +125,25 @@ individual learner's \code{verbose} argument}
 
 \item{save.plots}{Logical: If TRUE, save plots to outdir}
 
-\item{save.rt}{Logical: If TRUE and \code{outdir} is set, save all models to 
+\item{save.rt}{Logical: If TRUE and \code{outdir} is set, save all models to
 \code{outdir}}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{save.res}{Logical: If TRUE, save the full output of each model trained 
+\item{save.res}{Logical: If TRUE, save the full output of each model trained
 on differents resamples under subdirectories of \code{outdir}}
 
-\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and 
+\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and
 \code{options(error=recover)}}
 
-\item{...}{Additional mod.params to be passed to learner (Will be 
+\item{...}{Additional mod.params to be passed to learner (Will be
 concatenated with \code{mod.params}, so that you can use
 either way to pass learner arguments)}
 }
 \value{
-Object of class \code{rtModCV} (Regression) or 
+Object of class \code{rtModCV} (Regression) or
 \code{rtModCVClass} (Classification)
 \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
 \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
@@ -151,21 +151,22 @@ Object of class \code{rtModCV} (Regression) or
 \item{error.test.res}{the error for each resample, for each repeat}
 }
 \description{
-\code{elevate} is a high-level function to tune, train, and test an 
-\pkg{rtemis} model by nested resampling, with optional preprocessing and 
+\code{elevate} is a high-level function to tune, train, and test an
+\pkg{rtemis} model by nested resampling, with optional preprocessing and
 decomposition of input features
 }
 \details{
-- Note on resampling: You can never use an outer resampling method with 
+\itemize{
+\item Note on resampling: You should never use an outer resampling method with
 replacement if you will also be using an inner resampling (for tuning).
-The duplicated cases from the outer resampling may appear both in the 
-training and testing sets of the inner resamples, leading to underestimated 
+The duplicated cases from the outer resampling may appear both in the
+training and testing sets of the inner resamples, leading to underestimated
 testing error.
-
-- If there is an error while running either the outer or inner resamples in 
-parallel, the error message returned by R will likely be unhelpful. Repeat 
-the command after setting both inner and outer resample run to use a single 
+\item If there is an error while running either the outer or inner resamples in
+parallel, the error message returned by R will likely be unhelpful. Repeat
+the command after setting both inner and outer resample run to use a single
 core, which should provide an informative message.
+}
 }
 \examples{
 \dontrun{

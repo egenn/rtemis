@@ -16,7 +16,7 @@ type_inspect(x, xname = NULL, verbose = TRUE, thresh = 0.5)
 \item{thresh}{Numeric: Threshold for determining whether to convert to numeric}
 }
 \description{
-Checks character vector to determine whether it might be best to convert to 
+Checks character vector to determine whether it might be best to convert to
 numeric.
 }
 \examples{

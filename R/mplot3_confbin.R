@@ -5,25 +5,25 @@
 
 #' Plot extended confusion matrix for binary classification
 #'
-#' Plots an extended confusion matrix using \link{mplot3_img}
+#' Plots an extended confusion matrix using [mplot3_img]
 #'
-#' @param object Either 1. a classification \code{rtMod}, b. a \code{caret::confusionMatrix} object, or c. a matrix /
+#' @param object Either 1. a classification `rtMod`, b. a `caret::confusionMatrix` object, or c. a matrix /
 #' data.frame / table
 #' @param main Character: Plot title
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param mod.name Character: Name of the algorithm used to make predictions. If NULL, will look for
-#' \code{object$mod.name}. Default = NULL
+#' `object$mod.name`. Default = NULL
 #' @param mar Numeric, vector, length 4: Overall margins
 #' @param dim.lab Float: Height for labels
 #' @param dim.in Float: Width and height for confusion matrix cells
 #' @param dim.out Float: Height for metrics cells
-#' @param font.in Integer: The \code{font} parameter for confusion matrix cells
-#' @param font.out Integer: The \code{font} parameter for metrics cells
-#' @param cex.in Float: The \code{cex} parameter for confusion matrix cells
-#' @param cex.lab Float: The \code{cex} parameter for first line of label cells
-#' @param cex.lab2 Float: The \code{cex} parameter for second line of label cells
-#' @param cex.out Float: The \code{cex} parameter for metrics cells
+#' @param font.in Integer: The `font` parameter for confusion matrix cells
+#' @param font.out Integer: The `font` parameter for metrics cells
+#' @param cex.in Float: The `cex` parameter for confusion matrix cells
+#' @param cex.lab Float: The `cex` parameter for first line of label cells
+#' @param cex.lab2 Float: The `cex` parameter for second line of label cells
+#' @param cex.out Float: The `cex` parameter for metrics cells
 #' @param col.text.out Color for metrics cells' text
 #' @param col.bg.out Color for metrics cells' background
 #' @param theme Character: "light", or "dark"
@@ -32,8 +32,8 @@
 #' @param hi.color.pos Color: The hi color for correct classification.
 #' @param hi.color.neg Color: The hi color for missclassification
 #' @param par.reset Logical: If TRUE, reset par before exit. Default = TRUE
-#' @param pdf.width Float: PDF width, if \code{filename} is set
-#' @param pdf.height Float: PDF height, if \code{filename} is set
+#' @param pdf.width Float: PDF width, if `filename` is set
+#' @param pdf.height Float: PDF height, if `filename` is set
 #' @param ... Not used
 #' 
 #' @param filename Character: If specified, save plot to this path. Default = NULL

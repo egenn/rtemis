@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_IRF.R
 \name{s_IRF}
 \alias{s_IRF}
-\title{Iterative Random Forest [C, R]}
+\title{Iterative Random Forest (C, R)}
 \usage{
 s_IRF(
   x,
@@ -83,7 +83,7 @@ Default = NULL (random seed)}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
+\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
@@ -99,7 +99,7 @@ divided by this value. Default = 1.5}
 can be a vector of the same length, in which case, corresponding values determine how many cases are drawn from
 the strata.}
 
-\item{tune.do.trace}{Same as \code{do.trace} but for tuning, 
+\item{tune.do.trace}{Same as \code{do.trace} but for tuning,
 when \code{autotune = TRUE}}
 
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
@@ -136,7 +136,7 @@ Train iterative Random Forests for regression or classification using \code{iRF}
 }
 \details{
 If \code{autotue = TRUE}, \code{iRF::tuneRF} will be run to determine best \code{mtry}
-  value.
+value.
 }
 \seealso{
 \link{elevate} for external cross-validation

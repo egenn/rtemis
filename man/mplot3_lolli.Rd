@@ -48,7 +48,7 @@ mplot3_lolli(
 \item{order.on.x}{Logical: If TRUE, order by value of \code{x}. Default = TRUE}
 
 \item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
-i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+i.e.: \code{plot.top = .2} will print the top 20\% highest values, and \code{plot.top = 20} will plot the top 20
 highest values}
 
 \item{xnames}{Character, vector: Names of \code{x}}
@@ -99,7 +99,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{ylab}{Character: y-axis label}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}

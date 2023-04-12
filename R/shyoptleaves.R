@@ -6,9 +6,9 @@
 #'
 #' Train an Stepwise Hybrid Tree for Classification & Regression
 #'
-#' With \code{max.nodes = 0}, the model is logistic regression trained according to \code{lin.type}
+#' With `max.nodes = 0`, the model is logistic regression trained according to `lin.type`
 #' (i.e. standard or regularized using glmnet, etc.)
-#' Note that lambda is treated differently by \code{glmnet::glmnet} and \code{MASS::lm.ridge}
+#' Note that lambda is treated differently by `glmnet::glmnet` and `MASS::lm.ridge`
 #' @inheritParams s_LINAD
 #' @param x Data frame
 #' @param max.leaves Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
@@ -475,7 +475,7 @@ setNodeRC <- function(g,
 
 
 # [[---F3---]] ----
-#' \code{rtemis} internal: Ridge and Stump
+#' `rtemis` internal: Ridge and Stump
 #'
 #' Edits environment 'g' in-place (no output)
 #'
@@ -682,15 +682,15 @@ splitlin_ <- function(g,
 
 
 # [[---F4---]] ----
-#' Predict method for \code{shyoptleaves} object
+#' Predict method for `shyoptleaves` object
 #'
 #' @method predict shyoptleaves
-#' @param object \code{shytreeRaw}
+#' @param object `shytreeRaw`
 #' @param newdata Data frame of predictors
-#' @param n.feat [Internal use] Integer: Use first \code{n.feat} columns of newdata to predict.
+#' @param n.feat [Internal use] Integer: Use first `n.feat` columns of newdata to predict.
 #' Defaults to all
 #' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' \code{newdata}
+#' `newdata`
 #' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
@@ -839,10 +839,10 @@ predict.shyoptleaves <- function(object, newdata,
 } # rtemis:: predict.shyoptleaves
 
 # [[---F5---]] ----
-#' Print method for \code{shyoptleaves} object
+#' Print method for `shyoptleaves` object
 #'
 #' @method print shyoptleaves
-#' @param x \code{shyoptleaves} object
+#' @param x `shyoptleaves` object
 #' @author E.D. Gennatas
 #' @export
 
@@ -853,9 +853,9 @@ print.shyoptleaves <- function(x, ...) {
 }
 
 
-#' Convert \link{shyoptleaves} to \code{data.tree} object
+#' Convert [shyoptleaves] to `data.tree` object
 #'
-#' @param object \link{shyoptleaves} object
+#' @param object [shyoptleaves] object
 
 as.data.tree.shyoptleaves <- function(object) {
 

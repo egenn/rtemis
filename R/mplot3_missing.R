@@ -7,8 +7,8 @@
 #'
 #' @inheritParams mplot3_x
 #' @param x Data matrix or data.frame
-#' @param feat.names Character: Feature names. Defaults to \code{colnames(x)}
-#' @param case.names Character: Case names. Defaults to \code{rownames(x)}
+#' @param feat.names Character: Feature names. Defaults to `colnames(x)`
+#' @param case.names Character: Case names. Defaults to `rownames(x)`
 #' @param main Character: Main title
 #' @param col.missing Color for missing cases. Default = "#FE4AA3" (magenta)
 #' @param show Character: "percent" or "total". Show percent missing or total missing per column

@@ -26,7 +26,7 @@ d_MDS(
 
 \item{eig}{Logical: If TRUE, return eigenvalues. Default = FALSE}
 
-\item{add}{Logical: If TRUE, an additive constant \code{c*} will be computed and added to the
+\item{add}{Logical: If TRUE, an additive constant \verb{c*} will be computed and added to the
 non-diagonal dissimilarities, which makes the Euclidean. Default = FALSE}
 
 \item{x.ret}{Logical: If TRUE, return the doubly centered symmetric distance matrix. Default = FALSE}

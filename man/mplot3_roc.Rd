@@ -37,19 +37,19 @@ mplot3_roc(
 )
 }
 \arguments{
-\item{prob}{Numeric vector or list of numeric vectors [0, 1]: Predicted probabilities 
+\item{prob}{Numeric vector or list of numeric vectors \link{0, 1}: Predicted probabilities
 (e.g. c(.1, .8, .2, .9))}
 
-\item{labels}{Integer vector or list of integer vectors {0, 1}: True labels 
+\item{labels}{Integer vector or list of integer vectors {0, 1}: True labels
 (e.g. c(0, 1, 0, 1))}
 
-\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc} 
+\item{method}{Character: "rt" or "pROC" will use \link{rtROC} and \code{pROC::roc}
 respectively to get points of the ROC.}
 
-\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels. 
+\item{type}{Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels.
 True positive rate vs. False positive rate and Sensitivity vs. Specificity.}
 
-\item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced 
+\item{balanced.accuracy}{Logical: If TRUE, annotate the point of maximal Balanced
 Accuracy.}
 
 \item{main}{Character: Plot title.}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read}
 \alias{read}
-\title{Read data from Parquet, XLSX, or delimited file}
+\title{Read tabular data from a variety of formats}
 \usage{
 read(
   filename,
@@ -56,7 +56,7 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 \item{na.strings}{Character vector: Strings to be interpreted as NA values.
 For \code{delim.reader = "duckdb"}, this must be a single string.
 For \code{delim.reader = "rpolars"}, this must be a single string, otherwise, if an
-unnamed character vector, it maps each string to each column. If named, the names 
+unnamed character vector, it maps each string to each column. If named, the names
 should match columns. See \code{?rpolars::csv_reader} for more details.}
 
 \item{output}{Character: "default" or "data.table", If default, return the delim.reader's
@@ -69,16 +69,23 @@ default data structure, otherwise convert to data.table}
 \item{timed}{Logical: If TRUE, time the process and print to console}
 
 \item{...}{Additional parameters to pass to \code{data.table::fread},
-\code{arrow::read_delim_arrow()}, \code{vroom::vroom()}, 
+\code{arrow::read_delim_arrow()}, \code{vroom::vroom()},
 or \code{openxlsx::read.xlsx()}}
 }
 \description{
-Convenience function to read:
-Parquet files using \code{arrow::read_parquet()},
-XLSX files using \code{readxl::read_excel()},
-delimited files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or 
+Read data and optionally clean column names, keep unique rows, and convert
+characters to factors
+}
+\details{
+\code{read} is a convenience function to read:
+\itemize{
+\item \strong{RDS} files using \code{readRDS()}
+\item \strong{Parquet} files using \code{arrow::read_parquet()}
+\item \strong{XLSX} files using \code{readxl::read_excel()}
+\item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
+\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or
 \code{rpolars::csv_reader()}
+}
 }
 \examples{
 \dontrun{

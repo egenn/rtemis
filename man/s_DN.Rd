@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_DN.R
 \name{s_DN}
 \alias{s_DN}
-\title{Artificial Neural Network [C, R]}
+\title{Artificial Neural Network (C, R)}
 \usage{
 s_DN(
   x,

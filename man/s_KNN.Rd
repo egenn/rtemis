@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_KNN.R
 \name{s_KNN}
 \alias{s_KNN}
-\title{k-Nearest Neighbors Classification and Regression [C, R]}
+\title{k-Nearest Neighbors Classification and Regression (C, R)}
 \usage{
 s_KNN(
   x,

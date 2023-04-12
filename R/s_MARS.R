@@ -3,16 +3,16 @@
 # 2016 E.D. Gennatas www.lambdamd.org
 # method = "cv" fails to find nk and penalty
 
-#' Multivariate adaptive regression splines (MARS) [C, R]
+#' Multivariate adaptive regression splines (MARS) (C, R)
 #'
-#' Trains a MARS model using \code{earth::earth}.
+#' Trains a MARS model using `earth::earth`.
 #' [gS] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
-#' For more info on algorithm hyperparameters, see \code{?earth::earth}
+#' For more info on algorithm hyperparameters, see `?earth::earth`
 #'
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
-#'   must have set of columns as \code{x}
+#'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param degree [gS] Integer: Maximum degree of interaction. Default = 2
 #' @param penalty [gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
@@ -21,11 +21,11 @@
 #' "seqrep", "cv". Default = "forward"
 #' @param nprune [gS] Integer: Max N of terms (incl. intercept) in the pruned model
 #' @param nk [gS] Integer: Maximum number of terms created by the forward pass.
-#' See \code{earth::earth}
-#' @param ... Additional parameters to pass to \code{earth::earth}
-#' @return Object of class \link{rtMod}
+#' See `earth::earth`
+#' @param ... Additional parameters to pass to `earth::earth`
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

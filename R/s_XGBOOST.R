@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2022 E.D. Gennatas www.lambdamd.org
 
-#' XGBoost Classification and Regression [C, R]
+#' XGBoost Classification and Regression (C, R)
 #'
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
@@ -33,21 +33,21 @@
 #' @param objective (Default = NULL)
 #' @param sample_type Character. 
 #' @param normalize_type Character.
-#' @param obj Function: Custom objective function. See \code{?xgboost::xgboost}
-#' @param feval Function: Custom evaluation function. See \code{?xgboost::xgboost}
+#' @param obj Function: Custom objective function. See `?xgboost::xgboost`
+#' @param feval Function: Custom evaluation function. See `?xgboost::xgboost`
 #' @param xgb.verbose Integer: Verbose level for XGB learners used for tuning.
 #' @param print_every_n Integer: Print evaluation metrics every this many iterations
-#' @param early_stopping_rounds Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
+#' @param early_stopping_rounds Integer: Training on resamples of `x.train` (tuning) will stop if performance
 #'   does not improve for this many rounds
 #' @param missing String or Numeric: Which values to consider as missing. Default = NA
 #' @param nthread Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
-#' using \code{n.cores} or the xgboost execution using this setting. At the moment of 
+#' using `n.cores` or the xgboost execution using this setting. At the moment of 
 #' writing, parallelization via this parameter causes a linear booster to fail most of 
 #' the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'
 #'
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

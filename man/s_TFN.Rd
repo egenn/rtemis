@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_TFN.R
 \name{s_TFN}
 \alias{s_TFN}
-\title{Artificial Neural Network with \pkg{tensorflow} [C, R]}
+\title{Artificial Neural Network with \pkg{tensorflow} (C, R)}
 \usage{
 s_TFN(
   x,
@@ -121,7 +121,7 @@ classification, "sparse_categorical_crossentropy" for multiclass}
 Default = "rmsprop"}
 
 \item{learning.rate}{Float: learning rate. Defaults depend on \code{optimizer} used and are:
-\code{rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
+\verb{rmsprop = .01, adadelta = 1, adagrad = .01, adamax = .002, adam = .001, nadam = .002, sgd = .1}}
 
 \item{metric}{Character: Metric used for evaluation during train. Default = "mse" for regression,
 "accuracy" for classification.}

@@ -75,7 +75,7 @@ dplot3_box(
 
 \item{time}{Date or date-time vector}
 
-\item{time.bin}{Character: "year", "quarter", "month", or "day". Period to 
+\item{time.bin}{Character: "year", "quarter", "month", or "day". Period to
 bin by}
 
 \item{type}{Character: "box" or "violin"}
@@ -182,12 +182,12 @@ of the same location coordinate}
 Bypasses \code{htest} and \code{htest.compare}. Requires \code{group} to be set}
 
 \item{htest}{Character: e.g. "t.test", "wilcox.test" to compare each box to
-the *first* box. If grouped, compare within each group to the first box.
+the \emph{first} box. If grouped, compare within each group to the first box.
 If p-value of test is less than \code{htest.thresh}, add asterisk above/
 to the side of each box}
 
 \item{htest.compare}{Integer: 0: Compare all distributions against the first one;
-2: Compare every second box to the one before it. Requires \code{group} to 
+2: Compare every second box to the one before it. Requires \code{group} to
 be set}
 
 \item{htest.y}{Numeric: y coordinate for \code{htest} annotation}
@@ -228,13 +228,15 @@ Draw interactive boxplots or violin plots using \pkg{plotly}
 }
 \details{
 For multiple box plots, the recommendation is:
-- `x=dat[, columnindex]` for multiple variables of a data.frame
-- `x=list(a=..., b=..., etc.)` for multiple variables of potentially
+\itemize{
+\item \code{x=dat[, columnindex]} for multiple variables of a data.frame
+\item \code{x=list(a=..., b=..., etc.)} for multiple variables of potentially
 different length
-- `x=split(var, group)` for one variable with multiple groups: group names
+\item \code{x=split(var, group)} for one variable with multiple groups: group names
 appear below boxplots
-- `x=dat[, columnindex], group = factor` for grouping multiple variables:
+\item \verb{x=dat[, columnindex], group = factor} for grouping multiple variables:
 group names appear in legend
+}
 
 If \code{orientation == "h"}, \code{xlab} is applied to y-axis and vice versa.
 Similarly, \code{x.axist.type} applies to y-axis - this defaults to

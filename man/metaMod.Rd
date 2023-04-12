@@ -68,9 +68,9 @@ Train a meta model from the output of base learners trained using different lear
 }
 \details{
 \itemize{
-  \item Train a set of base learners on resamples of the training set x
-  \item Train a meta learner to map bases' validation set predictions to outcomes
-  \item Train base learners on full training set x
-  \item Use the meta learner to predict test set outcome y.test from testing set (x.test)
+\item Train a set of base learners on resamples of the training set x
+\item Train a meta learner to map bases' validation set predictions to outcomes
+\item Train base learners on full training set x
+\item Use the meta learner to predict test set outcome y.test from testing set (x.test)
 }
 }

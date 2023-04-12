@@ -62,8 +62,8 @@ Print message to output with a prefix including data and time, and calling funct
 call stack
 }
 \details{
-If \code{msg} is called directly from the console, it will print \code{[interactive>]} in place of
-  the call stack.
+If \code{msg} is called directly from the console, it will print \verb{[interactive>]} in place of
+the call stack.
 \code{msg0}, similar to \code{paste0}, is \code{msg2(..., sep = "")}
 }
 \examples{

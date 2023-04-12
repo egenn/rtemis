@@ -19,8 +19,8 @@
 #' - `x=dat[, columnindex], group = factor` for grouping multiple variables:
 #' group names appear in legend
 #'
-#' If \code{orientation == "h"}, \code{xlab} is applied to y-axis and vice versa.
-#' Similarly, \code{x.axist.type} applies to y-axis - this defaults to
+#' If `orientation == "h"`, `xlab` is applied to y-axis and vice versa.
+#' Similarly, `x.axist.type` applies to y-axis - this defaults to
 #' "category" and would not normally need changing.
 #'
 #' @param x Vector or List of vectors: Input
@@ -37,24 +37,24 @@
 #' @param xlab Character: x-axis label.
 #' @param ylab  Character: y-axis label.
 #' @param col Color, vector: Color for boxes. If NULL, which will draw
-#' colors from \code{palette}
+#' colors from `palette`
 #' @param alpha Float (0, 1]: Transparency for box colors.
 #' @param bg Color: Background color. Default = "white"
 #' @param plot.bg Color: Background color for plot area.
-#' @param theme Character: Theme to use: Run \code{themes()} for available themes
+#' @param theme Character: Theme to use: Run `themes()` for available themes
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
-#' Default = "rtCol1". Only used if \code{col = NULL}
+#' Default = "rtCol1". Only used if `col = NULL`
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
 #' @param xlim Numeric vector: x-axis limits
 #' @param ylim Numeric vector: y-axis limits
 #' @param boxpoints Character or FALSE: "all", "suspectedoutliers", "outliers"
-#' See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}
+#' See <https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles>
 #' @param xnames Character, vector, length = NROW(x): x-axis names. Default = NULL, which
 #' tries to set names appropriately
 #' @param group.lines Logical: If TRUE, add separating lines between groups of
 #' boxplots
-#' @param group.lines.col Color for \code{group.lines}
-#' @param group.lines.alpha Numeric: transparency for \code{group.lines.col}
+#' @param group.lines.col Color for `group.lines`
+#' @param group.lines.alpha Numeric: transparency for `group.lines.col`
 #' @param order.by.fn Function: If defined, order boxes by increasing value of
 #' this function (e.g. median).
 #' @param font.size  Float: Font size for all labels.
@@ -66,14 +66,14 @@
 #' @param xaxis.type Character: "linear", "log", "date", "category",
 #' "multicategory"
 #' @param margin Named list: plot margins.
-#' Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}
+#' Default = `list(b = 65, l = 65, t = 50, r = 10, pad = 0)`
 #' @param violin.box Logical: If TRUE and type is "violin" show box within
 #' violin plot
 #' @param orientation Character: "v" or "h" for vertical, horizontal
 #' @param annotate_n Logical: If TRUE, annotate with N in each box
-#' @param annotate_n_y Numeric: y position for \code{annotate_n}
+#' @param annotate_n_y Numeric: y position for `annotate_n`
 #' @param annotate.col Color for annotations
-#' @param labelify Logical: If TRUE, \link{labelify} x names
+#' @param labelify Logical: If TRUE, [labelify] x names
 #' @param legend.orientation "v" or "h" for vertical, horizontal
 #' @param legend.xanchor Character: Legend's x anchor: "left", "center",
 #' "right", "auto"
@@ -86,29 +86,29 @@
 #' @param hovertext Character vector: Text to show on hover for each data point
 #' @param show_n Logical: If TRUE, show N in each box
 #' @param pvals Numeric vector: Precomputed p-values. Should correspond to each box.
-#' Bypasses \code{htest} and \code{htest.compare}. Requires \code{group} to be set
+#' Bypasses `htest` and `htest.compare`. Requires `group` to be set
 #' @param htest Character: e.g. "t.test", "wilcox.test" to compare each box to
 #' the *first* box. If grouped, compare within each group to the first box.
-#' If p-value of test is less than \code{htest.thresh}, add asterisk above/
+#' If p-value of test is less than `htest.thresh`, add asterisk above/
 #' to the side of each box
 #' @param htest.compare Integer: 0: Compare all distributions against the first one;
-#' 2: Compare every second box to the one before it. Requires \code{group} to 
+#' 2: Compare every second box to the one before it. Requires `group` to 
 #' be set
-#' @param htest.y Numeric: y coordinate for \code{htest} annotation
+#' @param htest.y Numeric: y coordinate for `htest` annotation
 #' @param htest.annotate Logical: if TRUE, include htest annotation
 #' @param htest.annotate.x Numeric: x-axis paper coordinate for htest annotation
 #' @param htest.annotate.y Numeric: y-axis paper coordinate for htest annotation
 #' @param htest.star.col Color for htest annotation stars
 #' @param htest.bracket.col Color for htest annotation brackets
 #' @param starbracket.pad Numeric: Padding for htest annotation brackets
-#' @param use.plotly.group If TRUE, use plotly's \code{group} arg to group
+#' @param use.plotly.group If TRUE, use plotly's `group` arg to group
 #' boxes.
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 #' @param filename Character: Path to file to save static plot.
 #' @param modeBar.file.format Character: "svg", "png", "jpeg", "pdf"
-#' @param file.width Integer: File width in pixels for when \code{filename} is
+#' @param file.width Integer: File width in pixels for when `filename` is
 #' set.
-#' @param file.height Integer: File height in pixels for when \code{filename}
+#' @param file.height Integer: File height in pixels for when `filename`
 #' is set.
 #' @param file.scale Numeric: If saving to file, scale plot by this number
 # @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly

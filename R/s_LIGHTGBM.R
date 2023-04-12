@@ -8,7 +8,7 @@
 # For custom loss functions, e.g. focal loss:
 # https://maxhalford.github.io/blog/lightgbm-focal-loss/
 
-#' LightGBM Classification and Regression [C, R]
+#' LightGBM Classification and Regression (C, R)
 #'
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
@@ -24,7 +24,7 @@
 #' @param max_nrounds Integer: Maximum number of rounds to run. Can be set to a high number
 #' as early stopping will limit nrounds by monitoring inner CV error
 #' @param force_nrounds Integer: Number of rounds to run if not estimating optimal number by CV
-#' @param early_stopping_rounds Integer: Training on resamples of \code{x} (tuning) will
+#' @param early_stopping_rounds Integer: Training on resamples of `x` (tuning) will
 #' stop if performance does not improve for this many rounds
 #' @param nrounds_default Integer: Default number of rounds to run if 
 #' cross-validation fails - likely will never be used
@@ -34,15 +34,15 @@
 #' @param bagging_fraction Numeric: [gS] Subsample ratio of the training instance
 #' @param lambda_l1 Numeric: [gS] L1 regularization term
 #' @param lambda_l2 Numeric: [gS] L2 regularization term
-#' @param linear_tree Logical: [gS] If \code{TRUE}, use linear trees
+#' @param linear_tree Logical: [gS] If `TRUE`, use linear trees
 #' @param tree_learner Character: [gS] "serial", "feature", "data", "voting"
 #' @param objective (Default = NULL)
 #' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only parallelize
-#' resamples using \code{n.cores} or the lightgbm execution using this setting.
+#' resamples using `n.cores` or the lightgbm execution using this setting.
 #'
-#' @return \link{rtMod} object
+#' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

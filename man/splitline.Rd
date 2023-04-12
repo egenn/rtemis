@@ -25,10 +25,10 @@ splitline(
 )
 }
 \arguments{
-\item{n.quantiles}{Integer: Number of quantiles to use if 
+\item{n.quantiles}{Integer: Number of quantiles to use if
 \code{search = "quantile"}}
 
-\item{minobsinnode}{Integer: Minimum number of caseweights that must be 
+\item{minobsinnode}{Integer: Minimum number of caseweights that must be
 equal to 1 before
 attempting split}
 
@@ -40,7 +40,7 @@ attempting split}
 Perform split in a feature of x to minimize sum of group loss in y
 }
 \details{
-This is an R port of splitline.jl from Rtemis.jl. 
+This is an R port of splitline.jl from Rtemis.jl.
 It could be rewritten in a more Rtistic style.
 }
 \examples{

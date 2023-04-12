@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' \pkg{rtemis} internal: \code{lle::calc_k} function adapted to work with \code{pbapply}
+#' \pkg{rtemis} internal: `lle::calc_k` function adapted to work with `pbapply`
 #'
 #' @keywords internal
 

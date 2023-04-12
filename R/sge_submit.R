@@ -27,7 +27,7 @@
 #' @param mem_free Character: Amount of memory to request from the scheduler
 #' @param temp_dir Character: Temporary directory that is accessible to all 
 #' execution nodes.
-#' Default = \code{file.path(getwd(), ".sge_tempdir")}
+#' Default = `file.path(getwd(), ".sge_tempdir")`
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param trace Integer: If > 0 print diagnostic messages to console.
 #'
@@ -154,7 +154,7 @@ sge_submit <- function(expr,
 #'
 #' Run SGE qstat
 #'
-#' alias for \code{system("qstat")}
+#' alias for `system("qstat")`
 #'
 #' @export
 

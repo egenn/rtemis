@@ -2,7 +2,7 @@
 % Please edit documentation in R/gplot3_map.R
 \name{rt_gtheme_map}
 \alias{rt_gtheme_map}
-\title{**ggplot2** map theme}
+\title{\strong{ggplot2} map theme}
 \usage{
 rt_gtheme_map(
   base_size = 9,
@@ -17,7 +17,7 @@ rt_gtheme_map(
 \item{base_family}{Character: Font family. Default = "Lato"}
 }
 \description{
-**ggplot2** map theme for use with \link{gplot3_map}
+\strong{ggplot2} map theme for use with \link{gplot3_map}
 based on \code{usmap:::theme_map()}
 }
 \author{

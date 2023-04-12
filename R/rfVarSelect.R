@@ -8,7 +8,7 @@
 #'
 #' @param x Predictors
 #' @param y outcome
-#' @param p Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
+#' @param p Float (0, 1): Fraction of variables in x to select. `p * ncol(x)`. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 #'   positives which can be dealt by an appropriate learning algorithm.
 #' @author E.D. Gennatas

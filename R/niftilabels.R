@@ -19,10 +19,10 @@ readseglabels <- function(x) {
 
 #' Convert nifti segmentation label file to itksnap-compatible label file
 #'
-#' @param x Character: path to nifti label file (read with \link{readseglabels})
-#' @param visible Integer, vector, length = number of labels in \code{x}: 1: visible; 0: invisible.
+#' @param x Character: path to nifti label file (read with [readseglabels])
+#' @param visible Integer, vector, length = number of labels in `x`: 1: visible; 0: invisible.
 #' Normally, the background label is set to invisible
-#' @param mesh Same as \code{visible} but for mesh renderings
+#' @param mesh Same as `visible` but for mesh renderings
 #' @param filename Character: Path to filename to write to
 #'
 #' @author E.D. Gennatas

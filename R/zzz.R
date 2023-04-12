@@ -99,7 +99,7 @@ rtemis.version <- packageVersion("rtemis")
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' \url{https://rtemis.lambdamd.org}
+#' <https://rtemis.lambdamd.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
@@ -112,26 +112,26 @@ rtemis.version <- packageVersion("rtemis")
 #'     \item{future.plan}{Default plan to use for parallel processing.}
 #' }
 #' @section Visualization:
-#' Static graphics are handled using the \code{mplot3} family.
-#' Dynamic graphics are handled using the \code{dplot3} family.
+#' Static graphics are handled using the `mplot3` family.
+#' Dynamic graphics are handled using the `dplot3` family.
 #' @section Supervised Learning:
-#' Functions for Regression and Classification begin with \code{s_*}.
-#' Run \link{modSelect} to get a list of available algorithms
+#' Functions for Regression and Classification begin with `s_*`.
+#' Run [modSelect] to get a list of available algorithms
 #' The documentation of each supervised learning function indicates in 
 #' brackets, after the title whether the function supports classification, 
-#' regression, and survival analysis \code{[C, R, S]}
+#' regression, and survival analysis `[C, R, S]`
 #' @section Clustering:
-#' Functions for Clustering begin with \code{c_*}.
-#' Run \link{clustSelect} to get a list of available algorithms
+#' Functions for Clustering begin with `c_*`.
+#' Run [clustSelect] to get a list of available algorithms
 #' @section Decomposition:
 #' Functions for Decomposition and Dimensionality reduction begin with 
-#' \code{d_*}.
-#' Run \link{decomSelect} to get a list of available algorithms
+#' `d_*`.
+#' Run [decomSelect] to get a list of available algorithms
 #' @section Cross-Decomposition:
-#' Functions for Cross-Decomposition begin with \code{x_*}.
-#' Run \link{xdecomSelect} to get a list of available algorithms
+#' Functions for Cross-Decomposition begin with `x_*`.
+#' Run [xdecomSelect] to get a list of available algorithms
 #' @section Meta-Modeling:
-#' Meta models are trained using \code{meta*} functions.
+#' Meta models are trained using `meta*` functions.
 #'
 #' @section Notes:
 #' Function documentation includes input type (e.g. "String", "Integer", 

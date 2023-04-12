@@ -27,10 +27,10 @@
 \item{n.leaves}{Integer: Use the first \code{n.leaves} of the tree for
 prediction}
 
-\item{fixed.cxr}{[Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
+\item{fixed.cxr}{\link{Internal use} Matrix: Cases by rules to use instead of matching cases to rules using
 \code{newdata}}
 
-\item{cxr.newdata}{[Internal use] Data frame: Use these values to match cases by rules}
+\item{cxr.newdata}{\link{Internal use} Data frame: Use these values to match cases by rules}
 
 \item{cxr}{Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values}
 

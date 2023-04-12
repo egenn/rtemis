@@ -6,8 +6,8 @@
 #'
 #' Get the Area under the ROC curve to assess classifier performance using pairwise concordance
 #'
-#' The first level of \code{true.labels} must be the positive class, and high numbers in
-#' \code{estimated.score} should correspond to the positive class.
+#' The first level of `true.labels` must be the positive class, and high numbers in
+#' `estimated.score` should correspond to the positive class.
 #'
 #' @param estimated.score Float, Vector: Probabilities or model scores 
 #' (e.g. c(.32, .75, .63), etc)

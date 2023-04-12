@@ -6,10 +6,10 @@
 #'
 #' Get the name of the variable passed as argument, limit number of characters in case of failure
 #'
-#' One way to test is to use \link{learn} with x.name = NULL, y.name = NULL
+#' One way to test is to use [learn] with x.name = NULL, y.name = NULL
 #'
 #' @param x Variable whose name you want to extract
-#' @param alt Character: If name derived from \code{deparse(substitute(x))} exceeds \code{max.nchar} characters, use this name instead
+#' @param alt Character: If name derived from `deparse(substitute(x))` exceeds `max.nchar` characters, use this name instead
 #' @param max.nchar Integer: Maximum N of characters to allow for name
 #'
 #' @author E.D. Gennatas
@@ -33,7 +33,7 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #' @param getlast Logical: If TRUE, get
 #' @param retain.class Logical: If TRUE, output is always same class as input
 #'
-#' @return The mode of \code{x}
+#' @return The mode of `x`
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -219,7 +219,7 @@ cube <- function(x) x^3
 #' Collapse data.frame to vector by getting column max
 #'
 #' @param x Matrix or Data frame input
-#' @param na.rm Logical: passed to \code{max}, If TRUE, ignore NA values,
+#' @param na.rm Logical: passed to `max`, If TRUE, ignore NA values,
 #' otherwise if NA is present in any column, NA will be returned. Default = TRUE
 #' @author E.D. Gennatas
 #' @export
@@ -254,7 +254,7 @@ crules <- function(...) {
 } # rtemis::crules
 
 
-#' Say No to \code{NULL}
+#' Say No to `NULL`
 #'
 #' Returns the input, unless it is NULL, in which case it returns an empty vector / list, etc
 #' of defined type
@@ -262,7 +262,7 @@ crules <- function(...) {
 #' This can be useful when creating S4, RC, or R6 objects
 #'
 #' @param x Input of any type, may be NULL
-#' @param defType If \code{x} is NULL, return empty vector of this type. Options: list, numeric,
+#' @param defType If `x` is NULL, return empty vector of this type. Options: list, numeric,
 #' character, integer
 #' @author E.D. Gennatas
 #' @export
@@ -307,7 +307,7 @@ psd <- function(x) {
 #' @param mean Float: Mean. Default = 0
 #' @param sd Float: Standard deviation. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
-#' @param seed Integer: Set seed for \code{rnorm}. Default = NULL
+#' @param seed Integer: Set seed for `rnorm`. Default = NULL
 #' @author E.D. Gennatas
 #' @export
 
@@ -334,7 +334,7 @@ rnormmat <- function(nrow = 10, ncol = 10,
 #' @param min Float: Min Default = 0
 #' @param max Float: Max. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
-#' @param seed Integer: Set seed for \code{rnorm}. Default = NULL
+#' @param seed Integer: Set seed for `rnorm`. Default = NULL
 #' @author E.D. Gennatas
 #' @export
 
@@ -397,9 +397,9 @@ roundtofrac <- function(x, t = .5) {
 #' Print range of continuous variable
 #'
 #' @param x Numeric vector
-#' @param ddSci Logical: If TRUE, use \link{ddSci} or range. Default = TRUE
-#' @param decimal.places Integer: Number of decimal place to use if \code{ddSci = TRUE}. Default = 1
-#' @param na.rm Logical: passed to \code{base::range}
+#' @param ddSci Logical: If TRUE, use [ddSci] or range. Default = TRUE
+#' @param decimal.places Integer: Number of decimal place to use if `ddSci = TRUE`. Default = 1
+#' @param na.rm Logical: passed to `base::range`
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -421,7 +421,7 @@ catrange <- function(x,
 } # rtemis::catrange
 
 
-#' \code{lsapply}
+#' `lsapply`
 #'
 #' @inheritParams base::lapply
 #' @param outnames Character vector: Optional names to apply to output

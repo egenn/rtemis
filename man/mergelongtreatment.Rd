@@ -36,9 +36,9 @@ days. Default = 14}
 \item{trace}{Integer: If > 0 print additional info to console. Default = 1}
 }
 \value{
-Merged **data.table**
+Merged \strong{data.table}
 }
 \description{
 Merge long format treatment and outcome data from multiple sources with possibly hierarchical
-matching IDs using **data.table**
+matching IDs using \strong{data.table}
 }

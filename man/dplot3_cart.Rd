@@ -56,13 +56,13 @@ dplot3_cart(
 
 \item{node.labels}{Logical: If TRUE, print the node labels.}
 
-\item{node.cond}{Logical: If TRUE, print the splitting condition inside each 
+\item{node.cond}{Logical: If TRUE, print the splitting condition inside each
 node.}
 
-\item{node.prob}{Logical: If TRUE, print the probability estimate for the 
+\item{node.prob}{Logical: If TRUE, print the probability estimate for the
 first class of the outcome inside each node.}
 
-\item{node.estimate}{Logical: If TRUE, print the estimated outcome level 
+\item{node.estimate}{Logical: If TRUE, print the estimated outcome level
 inside each node.}
 
 \item{node.n}{Logical: If TRUE, print the number of cases (from training

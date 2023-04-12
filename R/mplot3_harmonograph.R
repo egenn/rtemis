@@ -14,16 +14,16 @@
 #' @param steps Float, vector
 #' @param seed Integer
 #' @param col Line color. Default = "white"
-#' @param alpha Alpha for line color \code{col}. Default = .2
+#' @param alpha Alpha for line color `col`. Default = .2
 #' @param bg Color for background. Default = "black"
 #' @param lwd Float: Line width
 #' @param text Character: Text you want printed along with the harmonograph. Default = NULL
-#' @param text.side Integer {1, 2, 3, 4}: \code{side} argument for \code{mtext}
-#' @param text.line Float: \code{line} argument for \code{mtext}
-#' @param text.adj Float: \code{adj} argument for \code{mtext}
-#' @param text.padj Float: \code{padj} argument for \code{mtext}
-#' @param text.col Color: Text color. Default is same as \code{col}
-#' @param mar Float vector, length 4: Plot margins. (\code{par}'s \code{mar} argument) Default = c(0, 0, 0, 0)
+#' @param text.side Integer {1, 2, 3, 4}: `side` argument for `mtext`
+#' @param text.line Float: `line` argument for `mtext`
+#' @param text.adj Float: `adj` argument for `mtext`
+#' @param text.padj Float: `padj` argument for `mtext`
+#' @param text.col Color: Text color. Default is same as `col`
+#' @param mar Float vector, length 4: Plot margins. (`par`'s `mar` argument) Default = c(0, 0, 0, 0)
 #' @param par.reset Logical. If TRUE, reset par before exit
 #' @author E.D. Gennatas
 #' @export

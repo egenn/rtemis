@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_XGBOOST.R
 \name{s_XGBOOST}
 \alias{s_XGBOOST}
-\title{XGBoost Classification and Regression [C, R]}
+\title{XGBoost Classification and Regression (C, R)}
 \usage{
 s_XGBOOST(
   x,
@@ -99,7 +99,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
 
-\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number 
+\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
 as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{force.nrounds}{Integer: Number of rounds to run if not estimating optimal number by CV}
@@ -136,25 +136,25 @@ Default = NULL (random seed)}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
 
-\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
+\item{eta}{\link{gS} Numeric (0, 1): Learning rate. Default = .1}
 
-\item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
+\item{gamma}{\link{gS} Numeric: Minimum loss reduction required to make further partition}
 
-\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
+\item{max_depth}{\link{gS} Integer: Maximum tree depth. (Default = 6)}
 
-\item{subsample}{[gS] Numeric: subsample ratio of the training instance}
+\item{subsample}{\link{gS} Numeric: subsample ratio of the training instance}
 
-\item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
+\item{colsample_bytree}{\link{gS} Numeric: subsample ratio of columns when constructing each tree}
 
-\item{colsample_bylevel}{[gS] Numeric}
+\item{colsample_bylevel}{\link{gS} Numeric}
 
-\item{lambda}{[gS] L2 regularization on weights}
+\item{lambda}{\link{gS} L2 regularization on weights}
 
-\item{alpha}{[gS] L1 regularization on weights}
+\item{alpha}{\link{gS} L1 regularization on weights}
 
-\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
+\item{tree_method}{\link{gS} XGBoost tree construction algorithm (Default = "auto")}
 
-\item{sketch_eps}{[gS] Numeric (0, 1):}
+\item{sketch_eps}{\link{gS} Numeric (0, 1):}
 
 \item{num_parallel_tree}{Integer: N of trees to grow in parallel: Results in Random Forest -like algorithm.
 (Default = 1; i.e. regular boosting)}
@@ -186,8 +186,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
 
 \item{nthread}{Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
-using \code{n.cores} or the xgboost execution using this setting. At the moment of 
-writing, parallelization via this parameter causes a linear booster to fail most of 
+using \code{n.cores} or the xgboost execution using this setting. At the moment of
+writing, parallelization via this parameter causes a linear booster to fail most of
 the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'}
 
 \item{outdir}{Path to output directory.
@@ -208,8 +208,8 @@ Tune hyperparameters using grid search and resampling,
 train a final model, and validate it
 }
 \details{
-[gS]: indicates parameter will be autotuned by grid search if multiple 
-values are passed. Learn more about XGBoost's parameters here: 
+\link{gS}: indicates parameter will be autotuned by grid search if multiple
+values are passed. Learn more about XGBoost's parameters here:
 http://xgboost.readthedocs.io/en/latest/parameter.html
 }
 \seealso{

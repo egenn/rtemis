@@ -2,7 +2,7 @@
 % Please edit documentation in R/bag.R
 \name{bag}
 \alias{bag}
-\title{Bag an \pkg{rtemis} learner for regression or classification [C, R]}
+\title{Bag an \pkg{rtemis} learner for regression or classification (C, R)}
 \usage{
 bag(
   x,

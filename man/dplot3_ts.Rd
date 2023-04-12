@@ -58,7 +58,7 @@ dplot3_ts(
 
 \item{roll.name}{Rolling function name (for annotation)}
 
-\item{alpha}{Numeric [0, 1]: Transparency}
+\item{alpha}{Numeric \link{0, 1}: Transparency}
 
 \item{align}{Character: "center", "right", or "left"}
 
@@ -76,16 +76,16 @@ dplot3_ts(
 
 \item{y.showspikes}{Logical: If TRUE, show y-axis spikes on hover}
 
-\item{spikedash}{Character: dash type string ("solid", "dot", "dash", 
-"longdash", "dashdot", or "longdashdot") or a dash length list in px 
+\item{spikedash}{Character: dash type string ("solid", "dot", "dash",
+"longdash", "dashdot", or "longdashdot") or a dash length list in px
 (eg "5px,10px,2px,2px")}
 
-\item{spikemode}{Character: If "toaxis", spike line is drawn from the data 
-point to the axis the series is plotted on. If "across", the line is drawn 
-across the entire plot area, and supercedes "toaxis". If "marker", then a 
+\item{spikemode}{Character: If "toaxis", spike line is drawn from the data
+point to the axis the series is plotted on. If "across", the line is drawn
+across the entire plot area, and supercedes "toaxis". If "marker", then a
 marker dot is drawn on the axis the series is plotted on}
 
-\item{spikesnap}{Character: "data", "cursor", "hovered data". Determines 
+\item{spikesnap}{Character: "data", "cursor", "hovered data". Determines
 whether spikelines are stuck to the cursor or to the closest datapoints.}
 
 \item{spikecolor}{Color for spike lines}

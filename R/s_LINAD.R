@@ -3,13 +3,13 @@
 # 2019-22 E.D. Gennatas www.lambdamd.org
 # varimp: N cases-weighted mean of absolute coefficients
 
-#' Linear Additive Tree [C, R]
+#' Linear Additive Tree (C, R)
 #'
 #' Train a Linear Additive Tree for Regression or Binary Classification
 #'
 #' The Linear Additive Tree trains a tree using a sequence of regularized 
 #' linear models and splits. We specify an upper threshold of leaves using 
-#' \code{max.leaves} instead of directly defining a number, because depending 
+#' `max.leaves` instead of directly defining a number, because depending 
 #' on the other parameters and the datasets, splitting may stop early.
 #'
 #' [gS] indicates tunable hyperparameters that can accept a vector of possible 
@@ -19,30 +19,30 @@
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow. Setting
 #' this to a value > 1, triggers cross-validation to find best number of leaves.
 #' To force a given number of leaves and not cross-validate, set 
-#' \code{force.max.leaves} to any (integer) value.
+#' `force.max.leaves` to any (integer) value.
 #' @param lookback Logical: If TRUE, use validation error to decide best
 #' number of leaves to use.
-#' @param force.max.leaves Integer: If set, \code{max.leaves} is ignored and
+#' @param force.max.leaves Integer: If set, `max.leaves` is ignored and
 #' the tree will attempt to reach this number of leaves, without performing
 #' tuning number of leaves.
 #' @param learning.rate [gS] Numeric: learning rate for steps after initial
 #' linear model
 #' @param nvmax [gS] Integer: Number of max features to use for lin.type 
 #' "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
-#' than n of features in \code{x} are provided, they will be excluded
+#' than n of features in `x` are provided, they will be excluded
 #' @param lin.type Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
 #' "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 #' to not fit linear models
-#' See \link{lincoef} for more
-#' @param first.lin.type Character: same options as \code{lin.type}, the first
+#' See [lincoef] for more
+#' @param first.lin.type Character: same options as `lin.type`, the first
 #' linear model to fit on the root node.
 #' @param first.lin.alpha Numeric: alpha for the first linear model, if
-#' \code{first.lin.type} is "glmnet" or "cv.glmnet"
-#' @param init Initial value. Default = \code{mean(y)}
+#' `first.lin.type` is "glmnet" or "cv.glmnet"
+#' @param init Initial value. Default = `mean(y)`
 #' @param gamma [gS] Numeric: Soft weighting parameter. Weights of cases that 
 #' do not belong to node get multiplied by this amount 
-#' @param lambda [gS] Numeric: lambda value for lin.type \code{glmnet}, 
-#' \code{cv.glmnet}, \code{lm.ridge}
+#' @param lambda [gS] Numeric: lambda value for lin.type `glmnet`, 
+#' `cv.glmnet`, `lm.ridge`
 #' @param part.minsplit [gS] Integer: Minimum number of observations in node to
 #' consider splitting
 #' @param part.minbucket [gS] Integer: Minimum number of observations allowed in

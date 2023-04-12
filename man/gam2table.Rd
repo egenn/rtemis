@@ -2,7 +2,7 @@
 % Please edit documentation in R/glm2table.R
 \name{gam2table}
 \alias{gam2table}
-\title{Collect summary table (p-values) from list of massGAMs with same predictors, 
+\title{Collect summary table (p-values) from list of massGAMs with same predictors,
 different outcome ("massy")}
 \usage{
 gam2table(mods, modnames = NULL)
@@ -18,7 +18,7 @@ gam2table(mods, modnames = NULL)
 \code{data.table} with glm summaries
 }
 \description{
-Collect summary table (p-values) from list of massGAMs with same predictors, 
+Collect summary table (p-values) from list of massGAMs with same predictors,
 different outcome ("massy")
 }
 \author{

@@ -10,7 +10,7 @@
 
 #' Quantile Regression Neural Network [R]
 #'
-#' Train an ensemble of Neural Networks to perform Quantile Regression using \code{qrnn}
+#' Train an ensemble of Neural Networks to perform Quantile Regression using `qrnn`
 #'
 #' @inheritParams s_GLM
 #' @param n.hidden Integer. Number of hidden nodes
@@ -19,9 +19,9 @@
 #' @param iter.max Integer. Max N of iteration of the optimization algorithm
 #' @param n.trials Integer. N of trials. Used to avoid local minima
 #' @param bag Logical. Should bagging be used?
-#' @param ... Additional arguments to be passed to \code{qrnn::qrnn.fit}
+#' @param ... Additional arguments to be passed to `qrnn::qrnn.fit`
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

@@ -6,22 +6,22 @@
 #'
 #' Perform regression by iteratively boosting a CART and a GLM base learner
 #'
-#' If \code{learning.rate} is set to 0, a nullmod will be created
+#' If `learning.rate` is set to 0, a nullmod will be created
 #' 
 #' @inheritParams boost
-#' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1
+#' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to `weights.0`. Default = 1
 #' @param weights.0 Float (0, 1): Set weights of excluded cases to this number. Default = 0, which is equivalent to
 #' excluding them, in which case, these cases can act as a validation set
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param seed Integer: Set seed to allow reproducibility when \code{weights.p} is not 1
+#' @param seed Integer: Set seed to allow reproducibility when `weights.p` is not 1
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
+#' @param base.verbose Logical: `verbose` argument passed to learner
 #' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
 #' end of training. If integer, plot training and validation error curve every this many iterations
 #' during training. "none" for no plot. Default = "final"
-#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
+#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner. Default = FALSE
 #' 
 #' @keywords internal
@@ -362,7 +362,7 @@ cartLinBoostTV <- function(x, y = NULL,
 } # rtemis::cartLinBoostTV
 
 
-#' Print method for \link{boost} object
+#' Print method for [boost] object
 #'
 #' @method print boost
 #' @author E.D. Gennatas
@@ -377,15 +377,15 @@ print.cartLinBoostTV <- function(x, ...) {
 
 } # rtemis::print.cartLinBoostTV
 
-#' Predict method for \code{cartLinBoostTV} object
+#' Predict method for `cartLinBoostTV` object
 #'
-#' @param object \code{cartLinBoostTV} object
+#' @param object `cartLinBoostTV` object
 #' @param newdata Set of predictors
 #' @param n.feat Integer: N of features to use. Default = NCOL(newdata)
 #' @param n.iter Integer: N of iterations to predict from. Default = (all available)
 #' @param as.matrix Logical: If TRUE, return predictions from each iterations. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @param n.cores Integer: Number of cores to use. Default = \code{rtCores}
+#' @param n.cores Integer: Number of cores to use. Default = `rtCores`
 #' @method predict cartLinBoostTV
 #' @author E.D. Gennatas
 #' @export
@@ -444,10 +444,10 @@ predict.cartLinBoostTV <- function(object,
 
 #' Expand boosting series
 #'
-#' Expand a \link{cartLinBoostTV} object by adding more iterations
+#' Expand a [cartLinBoostTV] object by adding more iterations
 #'
 #' @inheritParams boost
-#' @param object \link{cartLinBoostTV} object
+#' @param object [cartLinBoostTV] object
 #' @author E.D. Gennatas
 #' @export
 
@@ -497,13 +497,13 @@ expand.cartLinBoostTV <- function(object,
 } # rtemis::expand.cartLinBoostTV
 
 
-#' Place model in \link{cartLinBoostTV} structure
+#' Place model in [cartLinBoostTV] structure
 #'
 #' @inheritParams as.boost
 #' @param object rtMod model
 #' @param learning.rate Float: Learning rate for new boost object. Default = 1
 #' @param init Float: Initial value for new boost object. Default = 0
-#' @param apply.lr Logical: Only considered is \code{x = NULL}. If TRUE, new boost object's fitted values will
+#' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @author E.D. Gennatas
 #' @export
@@ -582,19 +582,19 @@ as.cartLinBoostTV <- function(object,
 } # rtemis::as.cartLinBoostTV
 
 
-#' \pkg{rtemis} internals: Update \link{cartLinBoostTV} object's fitted values
+#' \pkg{rtemis} internals: Update [cartLinBoostTV] object's fitted values
 #'
-#' Calculate new fitted values for a \link{cartLinBoostTV} object.
-#' Advanced use only: run with new \code{x} or after updating learning.rate in object
+#' Calculate new fitted values for a [cartLinBoostTV] object.
+#' Advanced use only: run with new `x` or after updating learning.rate in object
 #'
 #' @method update cartLinBoostTV
-#' @param object \link{cartLinBoostTV} object
+#' @param object [cartLinBoostTV] object
 #' @param x Data frame: Features
-#' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
-#' using this \code{x}
-#' @return \link{cartLinBoostTV} object
+#' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
+#' using this `x`
+#' @return [cartLinBoostTV] object
 #' @author E.D. Gennatas
-#' @return Nothing; updates \code{object} in-place
+#' @return Nothing; updates `object` in-place
 #' @export
 
 update.cartLinBoostTV <- function(object,

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas
 
-#' \pkg{rtemis} \code{ggplot2} light theme
+#' \pkg{rtemis} `ggplot2` light theme
 #'
 #' @param base_size Float: Base font size. Default = 14
 #' @param base_family Character: Font family. Default = "Helvetica Neue"

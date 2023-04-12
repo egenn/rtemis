@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_EVTREE.R
 \name{s_EVTREE}
 \alias{s_EVTREE}
-\title{Evolutionary Learning of Globally Optimal Trees [C, R]}
+\title{Evolutionary Learning of Globally Optimal Trees (C, R)}
 \usage{
 s_EVTREE(
   x,

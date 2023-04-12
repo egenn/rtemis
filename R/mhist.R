@@ -7,18 +7,18 @@
 #'
 #' Draws a histogram using lines.
 #'
-#' Using \code{horiz = TRUE}, you can draw vertical histograms (as used by \code{mplot3_xym})
+#' Using `horiz = TRUE`, you can draw vertical histograms (as used by `mplot3_xym`)
 #' @param x Input vector
-#' @param breaks See \code{hist("breaks")} Default = "Sturges"
+#' @param breaks See `hist("breaks")` Default = "Sturges"
 #' @param measure Character: "density"(Default), "counts"
 #' @param lwd Float: Line width
 #' @param xlim Vector, length 2: x-axis limits
 #' @param ylim Vector, length 2: y-axis limits
-#' @param plot.axes Logical: If TRUE, draws plot axes. Separate from \code{xaxis} and \code{yaxis}
+#' @param plot.axes Logical: If TRUE, draws plot axes. Separate from `xaxis` and `yaxis`
 #' @param xaxis Logical: If TRUE, draws x-axis
 #' @param yaxis Logical: If TRUE, draws y-axis
-#' @param xaxis.line Float: Number of lines into the margin to position \code{xaxis}. See \code{axis("line")}
-#' @param yaxis.line Float: Number of lines into the margin to position \code{yaxis}. See \code{axis("line")}
+#' @param xaxis.line Float: Number of lines into the margin to position `xaxis`. See `axis("line")`
+#' @param yaxis.line Float: Number of lines into the margin to position `yaxis`. See `axis("line")`
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param xaxs Character: 'r' (Default): Extends x-axis range by 4 percent at each end, 'i': Does not extend x-axis range
@@ -27,10 +27,10 @@
 #' @param grid Logical: If TRUE, draws a grid
 #' @param col Color to use for histogram lines
 #' @param horiz Logical: If TRUE, switches x and y axes. Important: Provide all other arguments as if for a
-#' non-rotated plot - i.e. \code{xlab} will become the y-axis label
+#' non-rotated plot - i.e. `xlab` will become the y-axis label
 #' @param main Character: Main title
 #' @param add Logical: If TRUE, add histogram to existing plot (Caution: make sure the axes line up!)
-#' @param ... Additional arguments to be passed to \code{graphics::plot}
+#' @param ... Additional arguments to be passed to `graphics::plot`
 #' @author E.D. Gennatas
 #' @export
 

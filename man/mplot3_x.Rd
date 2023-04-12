@@ -104,7 +104,7 @@ mplot3_x(
 If \code{data} is provided, x is name of variable in \code{data}}
 
 \item{type}{Character: "density", "histogram", "hd" (histogram bars & density lines),
-"lhist" (line histogram like \link{mhist}; same as \code{type = "hist", hist.type = "lines"}),
+"lhist" (line histogram like \link{mhist}; same as \verb{type = "hist", hist.type = "lines"}),
 "index", "ts", "qqline"
 Case-insensitive and supports partial matching: e.g. \code{mplot3_x(x, "H")} gives histogram}
 
@@ -202,7 +202,7 @@ for \code{type = "density"}}
 
 \item{lty}{Integer: Line type. See \code{par("lty")}}
 
-\item{lwd}{Integer: Line width. Used for \code{type = "ts" or "density"}}
+\item{lwd}{Integer: Line width. Used for \verb{type = "ts" or "density"}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
@@ -216,7 +216,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
-\item{xaxs}{Character: "r": Extend plot x-axis limits by 4% on either end;
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
 "i": Use exact x-axis limits. Default = "r"}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}

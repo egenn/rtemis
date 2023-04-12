@@ -17,9 +17,9 @@
 #' @param rho Logical: If TRUE, calculate Spearman's rho.
 #' @param tau Logical: If TRUE, calculate Kendall's tau.
 #'   This can be slow for long vectors
-#' @param na.rm Logical: Passed to \code{mean} and \code{range} functions. 
+#' @param na.rm Logical: Passed to `mean` and `range` functions. 
 #' 
-#' @return Object of class \code{modError}
+#' @return Object of class `modError`
 #' @author E.D. Gennatas
 #' @export
 
@@ -57,7 +57,7 @@ modError <- function(true,
 
     if (type == "Regression") {
 
-        # [ Regression ] ----
+        # Regression ----
         x <- as.numeric(x)
         y <- as.numeric(y)
         error <- x - y
@@ -127,14 +127,14 @@ modError <- function(true,
         class(s.out) <- c("regError", "data.frame")
     } else if (type == "Classification") {
 
-        # [ Classification ] ----
+        # Classification ----
         if (!is.factor(x)) x <- as.factor(x)
         n.classes <- length(levels(x))
         if (n.classes < 2) stop("Classification requires at least two classes")
         s.out <- classError(x, y, estimated.prob)
     } else {
 
-        # [ Survival ] ----
+        # Survival ----
         s.out <- survError(x, y)
     }
 
@@ -224,7 +224,7 @@ logloss <- function(true, estimated.prob) {
 #'
 #' @param true True labels
 #' @param estimated Estimated labels
-#' @param harmonize Logical: If TRUE, run \link{factorHarmonize} first
+#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @export
 
@@ -245,7 +245,7 @@ sensitivity <- function(true, estimated,
 #'
 #' @param true True labels
 #' @param estimated Estimated labels
-#' @param harmonize Logical: If TRUE, run \link{factorHarmonize} first
+#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @export
 
@@ -268,7 +268,7 @@ specificity <- function(true, estimated,
 #'
 #' @param true True labels
 #' @param predicted Estimated labels
-#' @param harmonize Logical: passed to \link{sensitivity} and \link{specificity}, which use \link{factorHarmonize}.
+#' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factorHarmonize].
 #' Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to output
 #' @export
@@ -286,7 +286,7 @@ bacc <- function(true, predicted,
 #'
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated labels
-#' @param harmonize Logical: If TRUE, run \link{factorHarmonize} first
+#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
 #' @param verbose Logical: If TRUE, print messages to output.
 #' 
 #' @export
@@ -318,7 +318,7 @@ precision <- function(true, estimated,
 
 factorHarmonize <- function(reference, x,
                             verbose = TRUE) {
-    if (!is.factor(x) | !is.factor(reference)) stop("Inputs must be factors")
+    if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
     if (!all(levels(x) == levels(reference))) {
         if (!all(levels(x) %in% levels(reference))) {
             if (verbose) msg2("Levels of x:")
@@ -340,12 +340,12 @@ factorHarmonize <- function(reference, x,
 # ::rtemis::
 # 2016-8 E.D. Gennatas www.lambdamd.org
 
-#' Print \code{regError} object
+#' Print `regError` object
 #'
-#' \code{print} \code{regError} object
+#' `print` `regError` object
 #'
 #' @method print regError
-#' @param x \code{regError} object
+#' @param x `regError` object
 #' @author E.D. Gennatas
 #' @export
 

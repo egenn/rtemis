@@ -6,7 +6,7 @@
 
 #' Interactive Univariate Plots
 #'
-#' Draw interactive univariate plots using \code{plotly}
+#' Draw interactive univariate plots using `plotly`
 #'
 #' If input is data.frame, non-numeric variables will be removed
 #' @inheritParams dplot3_bar
@@ -37,28 +37,28 @@
 #' @param histfunc Character: "count", "sum", "avg", "min", "max". 
 #' @param hist.n.bins Integer: Number of bins to use if type = "histogram".
 #' @param ridge.sharex Logical: If TRUE, draw single x-axis when 
-#' \code{mode = "ridge"}.
+#' `mode = "ridge"`.
 #' @param ridge.y.labs Lofical: If TRUE, show individual y labs when 
-#' \code{mode = "ridge"}.
+#' `mode = "ridge"`.
 #' @param ridge.order.on.mean Logical: If TRUE, order groups by mean value 
-#' when \code{mode = "ridge"}.
+#' when `mode = "ridge"`.
 #' Turn to FALSE, if, for example, groups are ordered by date or similar.
 #' @param vline Float, vector: If defined, draw a vertical line at this x 
 #' value(s). Default = NULL
-#' @param vline.col Color for \code{vline}. Default = theme$fg
-#' @param vline.width Float: Width for \code{vline}. Default = 1
+#' @param vline.col Color for `vline`. Default = theme$fg
+#' @param vline.width Float: Width for `vline`. Default = 1
 #' @param vline.dash Character: Type of line to draw: "solid", "dot", "dash", 
 #' "longdash", "dashdot",
 #' or "longdashdot"
 #' @param text Character: If defined, add this text over the plot
-#' @param text.x Float: x-coordinate for \code{text}
-#' @param text.xref Character: "x": \code{text.x} refers to plot's x-axis; 
-#' "paper": \code{text.x} refers to plotting area from 0-1
+#' @param text.x Float: x-coordinate for `text`
+#' @param text.xref Character: "x": `text.x` refers to plot's x-axis; 
+#' "paper": `text.x` refers to plotting area from 0-1
 #' @param text.xanchor Character: "auto", "left", "center", "right"
 #' @param text.yanchor Character: "auto", "top", "middle", "bottom"
-#' @param text.yref Character: "y": \code{text.y} refers to plot's y-axis; 
-#' "paper": \code{text.y} refers to plotting area from 0-1
-#' @param text.col Color for \code{text}. Default = theme$fg
+#' @param text.yref Character: "y": `text.y` refers to plot's y-axis; 
+#' "paper": `text.y` refers to plotting area from 0-1
+#' @param text.col Color for `text`. Default = theme$fg
 #' @param width Float: Force plot size to this width. Default = NULL, i.e. fill 
 #' available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. 

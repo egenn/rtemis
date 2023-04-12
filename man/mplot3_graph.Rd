@@ -89,11 +89,11 @@ or \code{cluster} defined}
 Note: You won't know the number of groups unless they are
 precomputed. The colors will be recycled as needed.}
 
-\item{mark.alpha}{Float [0, 1]: Transparency for \code{mark.col}. Default = .3}
+\item{mark.alpha}{Float \link{0, 1}: Transparency for \code{mark.col}. Default = .3}
 
 \item{mark.border}{Colors, similar to \code{mark.col} for border}
 
-\item{mark.border.alpha}{Float [0, 1]: Transparency for \code{mark.border}. Default = 1}
+\item{mark.border.alpha}{Float \link{0, 1}: Transparency for \code{mark.border}. Default = 1}
 
 \item{cluster_color_vertices}{Logical: If TRUE, color vertices by cluster membership.
 Default = FALSE}

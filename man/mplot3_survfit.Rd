@@ -57,48 +57,48 @@ mplot3_survfit(
 \arguments{
 \item{x}{survfit object (output of \code{survival::survfit})}
 
-\item{lty}{Integer: Line type. Default = 1. See \code{par("lty")}}
+\item{lty}{Integer: Line type. See \code{par("lty")}}
 
-\item{lwd}{Float: Line width. Default = 2}
+\item{lwd}{Float: Line width.}
 
-\item{alpha}{Float: Alpha for lines. Default = 1}
+\item{alpha}{Float: Alpha for lines.}
 
 \item{col}{Color, vector: Color(s) to use for survival curves and annotations. If NULL,
 taken from \code{palette}}
 
-\item{plot.median}{Logical: If TRUE, draw lines at 50"\%" median survival. Default = FALSE,}
+\item{plot.median}{Logical: If TRUE, draw lines at 50 percent median survival.}
 
 \item{group.median}{Logical: If TRUE, include median survival times with group legend}
 
 \item{median.lty}{Integer: Median survival line type}
 
-\item{median.lwd}{Float: Median line width. Default = 2}
+\item{median.lwd}{Float: Median line width.}
 
 \item{median.col}{Color for median survival lines}
 
-\item{median.alpha}{Float, (0, 1): Transparency for median survival lines. Default = .5}
+\item{median.alpha}{Float, (0, 1): Transparency for median survival lines.}
 
-\item{censor.mark}{Logical: If TRUE, mark each censored case. Default = TRUE}
+\item{censor.mark}{Logical: If TRUE, mark each censored case.}
 
 \item{censor.col}{Color to mark censored cases if \code{censor.mark = TRUE}}
 
-\item{censor.alpha}{Transparency for \code{censor.col}. Default = .4}
+\item{censor.alpha}{Transparency for \code{censor.col}.}
 
-\item{censor.pch}{Character: Point character for censored marks. Default = "I"}
+\item{censor.pch}{Character: Point character for censored marks.}
 
-\item{censor.cex}{Float: Character expansion factor for censor marks. Default = .8}
+\item{censor.cex}{Float: Character expansion factor for censor marks.}
 
 \item{mark.censored}{Logical: This is an alternative to \code{censor.mark} which whill mark
 censored cases using the same color as the survival curve. It can be harder to distinguish the
 censoring marks from the curve itself, therefore not preferred.}
 
-\item{nrisk.table}{Logical: If TRUE, print Number at risk table. Default = FALSE}
+\item{nrisk.table}{Logical: If TRUE, print Number at risk table.}
 
 \item{nrisk.pos}{Character: "above" or "below": where to place \code{nrisk.table}}
 
-\item{nrisk.spacing}{Float: Determines spacing between \code{nrisk.table} rows. Default = .9}
+\item{nrisk.spacing}{Float: Determines spacing between \code{nrisk.table} rows.}
 
-\item{table.font}{Integer: 1: regular font, 2: bold. Default = 1}
+\item{table.font}{Integer: 1: regular font, 2: bold.}
 
 \item{time.at}{Float, vector: x-axis positions to place tickmarks and labels as well as n at risk
 values if \code{nrisk.table = TRUE}}
@@ -122,7 +122,7 @@ values if \code{nrisk.table = TRUE}}
 
 \item{autonames}{Logical: If TRUE, extract grouping variable names and level labels from \code{x}
 and use for legend. It is best to give informative level labels, like female, male instead of
-0, 1 when using this. Default = TRUE}
+0, 1 when using this.}
 
 \item{group.legend}{Logical: If TRUE, include group legend}
 

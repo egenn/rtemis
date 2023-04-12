@@ -9,8 +9,8 @@ dependency_check(..., verbose = FALSE)
 \arguments{
 \item{...}{List or vector of strings defining namespaces to be checked}
 
-\item{verbose}{Logical. If TRUE, print messages to consolde. 
-Note: An error will always printed if dependencies are missing. 
+\item{verbose}{Logical. If TRUE, print messages to consolde.
+Note: An error will always printed if dependencies are missing.
 Setting this to FALSE stops it from printing
 "Dependencies check passed".}
 }

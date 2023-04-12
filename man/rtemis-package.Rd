@@ -17,12 +17,12 @@ Advanced Machine Learning made easy, efficient, reproducible
 There are some options you can define in your .Rprofile (usually found in your home directory),
 so you do not have to define each time you execute a function.
 \describe{
-    \item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
-    \item{rt.palette}{Name of default palette to use in plots. See options by running `rtpalette()`}
-    \item{rt.font}{Font family to use in plots.}
-    \item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
-    future::availableCores(). In shared systems, you should limit this as appropriate.}
-    \item{future.plan}{Default plan to use for parallel processing.}
+\item{rt.theme}{General plotting theme; set to e.g. "whiteigrid" or "darkgraygrid"}
+\item{rt.palette}{Name of default palette to use in plots. See options by running \code{rtpalette()}}
+\item{rt.font}{Font family to use in plots.}
+\item{rt.cores}{Number of cores to use. By default, rtemis will use available cores reported by
+future::availableCores(). In shared systems, you should limit this as appropriate.}
+\item{future.plan}{Default plan to use for parallel processing.}
 }
 }
 
@@ -34,47 +34,47 @@ Dynamic graphics are handled using the \code{dplot3} family.
 
 \section{Supervised Learning}{
 
-Functions for Regression and Classification begin with \code{s_*}.
+Functions for Regression and Classification begin with \verb{s_*}.
 Run \link{modSelect} to get a list of available algorithms
-The documentation of each supervised learning function indicates in 
-brackets, after the title whether the function supports classification, 
-regression, and survival analysis \code{[C, R, S]}
+The documentation of each supervised learning function indicates in
+brackets, after the title whether the function supports classification,
+regression, and survival analysis \verb{[C, R, S]}
 }
 
 \section{Clustering}{
 
-Functions for Clustering begin with \code{c_*}.
+Functions for Clustering begin with \verb{c_*}.
 Run \link{clustSelect} to get a list of available algorithms
 }
 
 \section{Decomposition}{
 
-Functions for Decomposition and Dimensionality reduction begin with 
-\code{d_*}.
+Functions for Decomposition and Dimensionality reduction begin with
+\verb{d_*}.
 Run \link{decomSelect} to get a list of available algorithms
 }
 
 \section{Cross-Decomposition}{
 
-Functions for Cross-Decomposition begin with \code{x_*}.
+Functions for Cross-Decomposition begin with \verb{x_*}.
 Run \link{xdecomSelect} to get a list of available algorithms
 }
 
 \section{Meta-Modeling}{
 
-Meta models are trained using \code{meta*} functions.
+Meta models are trained using \verb{meta*} functions.
 }
 
 \section{Notes}{
 
-Function documentation includes input type (e.g. "String", "Integer", 
+Function documentation includes input type (e.g. "String", "Integer",
 "Float"/"Numeric", etc) and
-range in interval notation where applicable. For example, Float: [0, 1)" 
+range in interval notation where applicable. For example, Float: [0, 1)"
 means floats between 0 and 1 including 0, but excluding 1
 
-For all classification models, the outcome should be provided as a factor, 
-with the first level of the factor being the 'positive' class, if 
-applicable. A character vector supplied as outcome will be converted to 
+For all classification models, the outcome should be provided as a factor,
+with the first level of the factor being the 'positive' class, if
+applicable. A character vector supplied as outcome will be converted to
 factors, where by default the levels are set alphabetically and therefore
 the positive class may not be set correctly.
 }

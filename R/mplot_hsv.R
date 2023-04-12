@@ -5,24 +5,24 @@
 #' Plot HSV color range
 #'
 #' @param h.steps Float, vector: Hue values to plot.
-#' Default = \code{seq(0, 1, .0125)}
+#' Default = `seq(0, 1, .0125)`
 #' @param s.steps Float, vector: Saturation values to plot. Default = same as
-#' \code{h.steps}
+#' `h.steps`
 #' @param v Float: Value.
 #' @param alpha Float: Alpha. 
 #' @param pch Integer: pch plot parameter. Default = 15 (square)
 #' @param bg Color: Background color. Default = "black"
-#' @param axes Logical: for \code{type = "square"}: If TRUE, draw axes.
-#' @param pty Character: for \code{type = "square"}: "s", "r", par's pty
+#' @param axes Logical: for `type = "square"`: If TRUE, draw axes.
+#' @param pty Character: for `type = "square"`: "s", "r", par's pty
 #' argument. Default = "s" (square plot)
-#' @param cex Float: \code{par/plot}'s cex argument.
-#' @param mar Float, vector: for \code{type = "square"}: \code{par}'s mar
+#' @param cex Float: `par/plot`'s cex argument.
+#' @param mar Float, vector: for `type = "square"`: `par`'s mar
 #' argument.
 #' @param lab.col Color: Color for axes and labels. Defaults to inverse of
-#' \code{bg}, i.e. white if bg is black
+#' `bg`, i.e. white if bg is black
 #' @param type Character: "square" for square plot, "radial" for radial plot.
 #' @param show.grid Logical: if TRUE, show grid then type is "radial"
-#' @param par.reset Logical: If TRUE, reset \code{par} before exit
+#' @param par.reset Logical: If TRUE, reset `par` before exit
 #'
 #' @author E.D. Gennatas
 #' @export

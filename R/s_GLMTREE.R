@@ -5,15 +5,15 @@
 #' Generalized Linear Model Tree [R]
 #'
 #' Train a GLMTREE for regression or classification using 
-#' \code{partykit::glmtree}
+#' `partykit::glmtree`
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
-#' @param ... Additional arguments passed to \code{partykit::mob_control}
+#' @param ... Additional arguments passed to `partykit::mob_control`
 #'
-#' @return Object of class \link{rtMod}
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models

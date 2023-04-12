@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_SGD.R
 \name{s_SGD}
 \alias{s_SGD}
-\title{Stochastic Gradient Descent (SGD) [C, R]}
+\title{Stochastic Gradient Descent (SGD) (C, R)}
 \usage{
 s_SGD(
   x,

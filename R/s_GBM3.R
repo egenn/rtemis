@@ -7,16 +7,16 @@
 
 #' Gradient Boosting Machine [C, R, S]
 #'
-#' Train a GBM model using \code{gbm-developers/gbm3}
+#' Train a GBM model using `gbm-developers/gbm3`
 #'
-#' Early stopping is implemented by fitting \code{n.trees} initially, checking the (smoothed) validation
-#' error curve, and adding \code{n.new.trees} if needed, until error does not reduce or \code{max.trees} is
+#' Early stopping is implemented by fitting `n.trees` initially, checking the (smoothed) validation
+#' error curve, and adding `n.new.trees` if needed, until error does not reduce or `max.trees` is
 #' reached.
 #' [gS] in the argument description indicates that multiple values can be passed, in
 #' which case tuning will be performed using grid search. gS is supported for:
 #' interaction.depth, shrinkage, bag.fraction, mFeatures, and n.minobsinnode
-#' This function includes a workaround for when \code{gbm.fit} fails.
-#' If an error is detected, \code{gbm.fit} is rerun until successful and the procedure continues normally
+#' This function includes a workaround for when `gbm.fit` fails.
+#' If an error is detected, `gbm.fit` is rerun until successful and the procedure continues normally
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param n.trees Integer: Initial number of trees to fit. Default = 2000
@@ -40,7 +40,7 @@
 #'   The two measures are highly correlated.
 #' 
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Ensembles

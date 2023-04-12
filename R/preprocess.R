@@ -39,35 +39,35 @@
 #' values in >= to this fraction of cases.
 #' @param missingness Logical: If TRUE, generate new boolean columns for each
 #' feature with missing values, indicating which cases were missing data.
-#' @param impute Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
-#' \code{impute.numeric} for how
+#' @param impute Logical: If TRUE, impute missing cases. See `impute.discrete` and
+#' `impute.numeric` for how
 #' @param impute.type Character: How to impute data: "missRanger" and
 #' "missForest" use the packages of the same name to impute by iterative random
-#' forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its
+#' forest regression. "rfImpute" uses `randomForest::rfImpute` (see its
 #' documentation), "meanMode" will use mean and mode by default or any custom
-#' function defined in \code{impute.discrete} and \code{impute.numeric}.
+#' function defined in `impute.discrete` and `impute.numeric`.
 #' Default = "missRanger" (which is much faster than "missForest").
 #' "missForest" is included for compatibility with older pipelines.
 #' @param impute.missRanger.params Named list with elements "pmm.k" and
-#' "maxiter", which are passed to \code{missRanger::missRanger}. \code{pmm.k}
-#' greater than 0 results in predictive mean matching. Default \code{pmm.k = 3}
-#' \code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
-#' faster imputation especially in large datasets. Set \code{pmm.k = 0} to
+#' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
+#' greater than 0 results in predictive mean matching. Default `pmm.k = 3`
+#' `maxiter = 10` `num.trees = 500`. Reduce `num.trees` for
+#' faster imputation especially in large datasets. Set `pmm.k = 0` to
 #' disable predictive mean matching
 #  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
-#' to \code{missForest::missForest}
+#' to `missForest::missForest`
 # @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute.discrete Function that returns single value: How to impute
-#' discrete variables for \code{impute.type = "meanMode"}.
-#' Default = \link{get_mode}
+#' discrete variables for `impute.type = "meanMode"`.
+#' Default = [get_mode]
 #' @param impute.numeric Function that returns single value: How to impute
-#' continuous variables for \code{impute.type = "meanMode"}.
-#' Default = \code{mean}
+#' continuous variables for `impute.type = "meanMode"`.
+#' Default = `mean`
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
-#' \code{bit64::integer64} columns
+#' `bit64::integer64` columns
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric
-#' (will only work if \code{integer2factor = FALSE}) This includes
-#' \code{bit64::integer64} columns
+#' (will only work if `integer2factor = FALSE`) This includes
+#' `bit64::integer64` columns
 #' @param logical2factor Logical: If TRUE, convert all logical variables to
 #' factors
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to
@@ -75,15 +75,15 @@
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to
 #' factors
 #' @param numeric2factor.levels Character vector: Optional - will be passed to
-#' \code{levels} arg of \code{factor()} if \code{numeric2factor = TRUE} (For advanced/
+#' `levels` arg of `factor()` if `numeric2factor = TRUE` (For advanced/
 #' specific use cases; need to know unique values of numeric vector(s) and given all
 #' numeric vars have same unique values)
 #' @param numeric.cut.n Integer: If > 0, convert all numeric variables to factors by
-#' binning using \code{base::cut} with \code{breaks} equal to this number
-#' @param numeric.cut.labels Logical: The \code{labels} argument of \link{base::cut}
+#' binning using `base::cut` with `breaks` equal to this number
+#' @param numeric.cut.labels Logical: The `labels` argument of \link{base::cut}
 #' @param numeric.quant.n Integer: If > 0, convert all numeric variables to factors by
-#' binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
-#' produced using \code{stats::quantile}
+#' binning using `base::cut` with `breaks` equal to this number of quantiles
+#' produced using `stats::quantile`
 #' @param len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors. Default = NULL.
 #' For example, if binary variables are encoded with 1, 2, you could use
@@ -91,25 +91,25 @@
 #' @param character2factor Logical: If TRUE, convert all character variables to
 #' factors
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
-#' level \code{factorNA2missing.level}. In many cases this is the preferred way
+#' level `factorNA2missing.level`. In many cases this is the preferred way
 #' to handle missing data in categorical variables. Note that since this step
 #' is performed before imputation, you can use this option to handle missing
 #' data in categorical variables and impute numeric variables in the same
-#' \code{preprocess} call.
+#' `preprocess` call.
 #' @param factorNA2missing.level Character: Name of level if
-#' \code{factorNA2missing = TRUE}. Default = "missing"
+#' `factorNA2missing = TRUE`. Default = "missing"
 #' @param factor2integer Logical: If TRUE, convert all factors to integers
 #' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0
-#' @param scale Logical: If TRUE, scale columns of \code{x}
-#' @param center Logical: If TRUE, center columns of \code{x}. Note that by
-#' default it is the same as \code{scale}
+#' @param scale Logical: If TRUE, scale columns of `x`
+#' @param center Logical: If TRUE, center columns of `x`. Note that by
+#' default it is the same as `scale`
 #' @param removeConstants Logical: If TRUE, remove constant columns.
 #' @param removeConstants.skipMissing Logical: If TRUE, skip missing values, before
 #' checking if feature is constant
 #' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
-#' @param xname Character: Name of \code{x} for messages
+#' @param xname Character: Name of `x` for messages
 #' @param verbose Logical: If TRUE, write messages to console.
 #' 
 #' @author E.D. Gennatas

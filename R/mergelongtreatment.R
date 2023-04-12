@@ -7,14 +7,14 @@
 #' Merge long format treatment and outcome data from multiple sources with possibly hierarchical
 #' matching IDs using **data.table**
 #'
-#' @param x Named list: Long form datasets to merge. Will be converted to \code{data.table}
+#' @param x Named list: Long form datasets to merge. Will be converted to `data.table`
 #' @param group_varnames Vector, character: Variable names to merge by, in order. If first is present on
 #' a given pair of datasets, merge on that, otherwise try the next in line.
 #' @param time_varname Character: Name of column that should be present in all datasets containing
 #' time information. Default = "Date"
 #' @param start_date Date or characcter: Start date for final dataset in format "YYYY-MM-DD"
 #' @param end_date Date or character: End dat for final dataset in format "YYYY-MM-DD"
-#' @param interval_days Integer: Starting with \code{start_date} create timepoints every this many
+#' @param interval_days Integer: Starting with `start_date` create timepoints every this many
 #' days. Default = 14
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param trace Integer: If > 0 print additional info to console. Default = 1

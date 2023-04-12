@@ -3,18 +3,18 @@
 # 2016 E.D. Gennatas www.lambdamd.org
 # TODO: Add group support for marginal plots to mhist
 
-#' \code{mplot3} Scatter plot with marginal density and/or histogram
+#' `mplot3` Scatter plot with marginal density and/or histogram
 #'
 #' Draw a scatter plot with fit line and marginal density and/or histogram
 #'
-#' At the moment, \code{mplot3_xym} is the only \code{mplot3} function that does not support
+#' At the moment, `mplot3_xym` is the only `mplot3` function that does not support
 #'
 #' To make wide plot, change `widths`: e.g. widths = c(7, 1)
 #' @inheritParams mplot3_xy
 #' @param x x-data
 #' @param y y-data
 #' @param margin What type of marginal plots to draw. Options: "density", "histogram", or "both"
-#' @param fit What model to use to draw \code{y ~ x}. Options: \code{mode.select()}
+#' @param fit What model to use to draw `y ~ x`. Options: `mode.select()`
 #' @param se.fit Logical: If TRUE: plot +/- 2 * Standard Error of fit
 #' @param col Color for marginal plots
 #' @param density.alpha Alpha for density plots
@@ -24,8 +24,8 @@
 #' @param lwd Float: Line width
 #' @param main Character: Main title
 #' @param axes.density Logical: If TRUE, plot margin plot axes for density (debugging only)
-#' @param par.reset Logical. Resest \code{par} to original settings
-#' @param ... Additional arguments to be passed to \code{mplot3_xy}
+#' @param par.reset Logical. Resest `par` to original settings
+#' @param ... Additional arguments to be passed to `mplot3_xy`
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{

@@ -69,7 +69,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{covariates}{Factors to be included as covariates in model building}
 
-\item{covariates.test}{Factors to be included as covariates in model 
+\item{covariates.test}{Factors to be included as covariates in model
 validation}
 }
 \value{

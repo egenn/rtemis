@@ -9,7 +9,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param stringsAsFactors Logical: If TRUE, characters will be converted to 
 #' factors
-#' @param ... Additional arguments to pass to \code{data.table::fread()}
+#' @param ... Additional arguments to pass to `data.table::fread()`
 #' 
 #' @author E.D. Gennatas
 #' @export

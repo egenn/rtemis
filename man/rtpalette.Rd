@@ -7,7 +7,7 @@
 rtpalette(palette = NULL, verbose = TRUE)
 }
 \arguments{
-\item{palette}{Character: Name of palette to return. Default = NULL: available palette 
+\item{palette}{Character: Name of palette to return. Default = NULL: available palette
 names are printed and no palette is returned}
 }
 \value{
@@ -15,7 +15,7 @@ A list of available palettes, invisibly
 }
 \description{
 \code{rtPalette} prints names of available color palettes
-Each palette is a named list of hexadecimal color definitions which can be used with 
+Each palette is a named list of hexadecimal color definitions which can be used with
 any graphics function.
 }
 \examples{

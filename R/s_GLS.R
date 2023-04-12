@@ -4,11 +4,11 @@
 
 #' Generalized Least Squares [R]
 #'
-#' Train a Generalized Least Squares regression model using \code{nlme::gls}
+#' Train a Generalized Least Squares regression model using `nlme::gls`
 #'
 #' @inheritParams s_GLM
 #' @param ... Additional arguments
-#' @return \link{rtMod}
+#' @return [rtMod]
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export

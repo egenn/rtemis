@@ -23,32 +23,32 @@ c_PAMK(
 
 \item{krange}{Integer vector: Range of k values to try}
 
-\item{criterion}{Character: Criterion to use for selecting k: "asw", 
+\item{criterion}{Character: Criterion to use for selecting k: "asw",
 "multiasw" or "ch". See \code{fpc::pamk}}
 
-\item{usepam}{Logical: If TRUE, use \code{cluster::pam}, otherwise use 
+\item{usepam}{Logical: If TRUE, use \code{cluster::pam}, otherwise use
 \code{cluster::clara}.}
 
-\item{scaling}{Logical or Numeric vector: If TRUE, scale input. If numeric 
-vector of length equal to number of features, the features are divided by 
+\item{scaling}{Logical or Numeric vector: If TRUE, scale input. If numeric
+vector of length equal to number of features, the features are divided by
 the corresponding value.}
 
-\item{diss}{Logical: If TRUE, treat \code{x} as a dissimilarity matrix, 
+\item{diss}{Logical: If TRUE, treat \code{x} as a dissimilarity matrix,
 otherwise as a matrix of
-cases by features. Default = TRUE, if x inherits from class \code{dist}, 
+cases by features. Default = TRUE, if x inherits from class \code{dist},
 FALSE otherwise.}
 
-\item{metric}{Character: Dissimilarity metric to be used. Options: 
+\item{metric}{Character: Dissimilarity metric to be used. Options:
 'euclidean', 'manhattan'}
 
 \item{do.swap}{Logical: If TRUE, perform the swap phase. See \code{fpc::pam}
 for more info}
 
-\item{trace}{Integer [0, 3]: Trace level for \code{fpc::pamk}}
+\item{trace}{Integer \link{0, 3}: Trace level for \code{fpc::pamk}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{...}{Additional parameters to be passed to \code{fpc::pamk} and/or 
+\item{...}{Additional parameters to be passed to \code{fpc::pamk} and/or
 \code{cluster::pam}}
 }
 \value{

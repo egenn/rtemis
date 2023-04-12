@@ -2,10 +2,10 @@
 # ::rtemis::
 # 2020 E.D. Gennatas www.lambdamd.org
 
-#' Plot a Linear Additive Tree trained by \code{s_LINAD} using 
-#' \strong{visNetwork}
+#' Plot a Linear Additive Tree trained by `s_LINAD` using 
+#' **visNetwork**
 #'
-#' @param tree \code{s_LINAD} tree
+#' @param tree `s_LINAD` tree
 #' @param main Character: Title. Default = NULL
 #' @param bg Background color. Default = "#FFFFFF" (white)
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
@@ -20,13 +20,13 @@
 #' @param edge.col Color for edges. Default = "#848484" (another gray)
 #' @param col.highlight Color for surrounding edges when node is selected. 
 #' Default = "#F48024" (orange)
-#' @param node.font.col Color for node labels. Default varies by \code{shape}, 
+#' @param node.font.col Color for node labels. Default varies by `shape`, 
 #' black or white depending if
-#' \code{visNetwork} draws labels on node or underneath
+#' `visNetwork` draws labels on node or underneath
 #' @param edge.font.col Color for edge labels. Default = "#000000" (black)
 #' @param sort.coefs Logical: If TRUE, sort each coefs table. Default = FALSE
-#' @param height Float: Height for \code{visNetwork}. Default = NULL, i.e. auto
-#' @param width Float: Width for \code{visNetwork}. Default = NULL, i.e. auto
+#' @param height Float: Height for `visNetwork`. Default = NULL, i.e. auto
+#' @param width Float: Width for `visNetwork`. Default = NULL, i.e. auto
 #' @param levelSeparation Float: N of pixels to separate tree levels. 
 #' Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22

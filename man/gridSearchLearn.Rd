@@ -39,7 +39,7 @@ gridSearchLearn(
 \item{search.type}{Character: "exhaustive" (Default), "randomized". Type of
 grid search to use. Exhaustive search will try all combinations of
 parameters. Randomized will try a random sample of size
-\code{randomize.p} * \code{N of total combinations}}
+\code{randomize.p} * \verb{N of total combinations}}
 
 \item{resample.rtset}{List: Output of \code{rtset.grid.resample()}}
 

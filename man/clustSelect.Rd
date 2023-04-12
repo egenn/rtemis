@@ -7,7 +7,7 @@
 clustSelect(clust, fn = FALSE, desc = FALSE)
 }
 \arguments{
-\item{clust}{Character: Clustering algorithm name. Case insensitive, supports 
+\item{clust}{Character: Clustering algorithm name. Case insensitive, supports
 partial matching. e.g. "hop" for HOPACH}
 
 \item{fn}{Logical: If TRUE, return function, otherwise name of function.}
@@ -15,11 +15,11 @@ partial matching. e.g. "hop" for HOPACH}
 \item{desc}{Logical: If TRUE, return full name of algorithm \code{clust}}
 }
 \value{
-Name of function (Default) or function (\code{fn=TRUE}) or full name 
+Name of function (Default) or function (\code{fn=TRUE}) or full name
 of algorithm (\code{desc=TRUE})
 }
 \description{
-Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} 
+Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis}
 function name or the function itself.
 If run with no parameters, prints list of available algorithms.
 }

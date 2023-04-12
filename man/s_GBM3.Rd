@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GBM3.R
 \name{s_GBM3}
 \alias{s_GBM3}
-\title{Gradient Boosting Machine [C, R, S]}
+\title{Gradient Boosting Machine \link{C, R, S}}
 \usage{
 s_GBM3(
   x,
@@ -108,38 +108,38 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{interaction.depth}{[gS] Integer: Interaction depth. Default = 3}
+\item{interaction.depth}{\link{gS} Integer: Interaction depth. Default = 3}
 
-\item{shrinkage}{[gS] Float: Shrinkage (learning rate). Default = .01}
+\item{shrinkage}{\link{gS} Float: Shrinkage (learning rate). Default = .01}
 
-\item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
+\item{bag.fraction}{\link{gS} Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting. Default = .9}
 
-\item{mFeatures}{[gS] Integer: Number of features to randomly choose from all available features to train at each
+\item{mFeatures}{\link{gS} Integer: Number of features to randomly choose from all available features to train at each
 step. Default = NULL which results in using all features.}
 
-\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node}
+\item{n.minobsinnode}{\link{gS} Integer: Minimum number of observation allowed in node}
 
 \item{n.trees}{Integer: Initial number of trees to fit. Default = 2000}
 
 \item{max.trees}{Integer: Maximum number of trees to fit. Default = 5000}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform: 
+\item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If 
+\item{grid.randomized.p}{Float (0, 1): If
 \code{grid.search.type = "randomized"}, randomly test this proportion of
 combinations.}
 
-\item{metric}{Character: Metric to minimize, or maximize if 
-\code{maximize = TRUE} during grid search. Default = NULL, which results in 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid 
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -195,7 +195,7 @@ Train a GBM model using \code{gbm-developers/gbm3}
 Early stopping is implemented by fitting \code{n.trees} initially, checking the (smoothed) validation
 error curve, and adding \code{n.new.trees} if needed, until error does not reduce or \code{max.trees} is
 reached.
-[gS] in the argument description indicates that multiple values can be passed, in
+\link{gS} in the argument description indicates that multiple values can be passed, in
 which case tuning will be performed using grid search. gS is supported for:
 interaction.depth, shrinkage, bag.fraction, mFeatures, and n.minobsinnode
 This function includes a workaround for when \code{gbm.fit} fails.

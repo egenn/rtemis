@@ -12,7 +12,7 @@ sparsify(x, sparseness)
 \item{sparseness}{Percent of values of \code{x} to keep. The rest will be set to zero.}
 }
 \description{
-Keep top x% of values of a vector
+Keep top x\% of values of a vector
 }
 \author{
 E.D. Gennatas

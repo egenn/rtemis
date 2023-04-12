@@ -2,7 +2,7 @@
 % Please edit documentation in R/boxcat.R
 \name{objcat}
 \alias{objcat}
-\title{`rtemis-internal`: Object cat}
+\title{\code{rtemis-internal}: Object cat}
 \usage{
 objcat(x)
 }
@@ -10,7 +10,7 @@ objcat(x)
 \item{x}{Character: Object description}
 }
 \description{
-`rtemis-internal`: Object cat
+\code{rtemis-internal}: Object cat
 }
 \author{
 E.D. Gennatas

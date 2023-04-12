@@ -3,22 +3,22 @@
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: Consider replacing knn fn
 
-#' k-Nearest Neighbors Classification and Regression [C, R]
+#' k-Nearest Neighbors Classification and Regression (C, R)
 #'
-#' Train a k-Nearest Neighbors learner for regression or classification using \code{FNN}
+#' Train a k-Nearest Neighbors learner for regression or classification using `FNN`
 #'
 #' Note: FNN's KNN does not have a predict function
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
-#'   must have set of columns as \code{x}
+#'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param k Integer: Number of neighbors considered
 #' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output
-#' @return Object of class \link{rtMod}
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

@@ -63,7 +63,7 @@ dplot3_x(
 )
 }
 \arguments{
-\item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each 
+\item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each
 column of or each element}
 
 \item{type}{Character: "density" or "histogram"}
@@ -72,7 +72,7 @@ column of or each element}
 on the same axes ("overlap"), or on separate plots with the same x-axis
 ("ridge")}
 
-\item{group}{Vector: Will be converted to factor; levels define group 
+\item{group}{Vector: Will be converted to factor; levels define group
 members. Default = NULL}
 
 \item{main}{Character: Main title}
@@ -81,49 +81,49 @@ members. Default = NULL}
 
 \item{ylab}{Character: y-axis label. Default = NULL}
 
-\item{col}{Color, vector: Color for bars. Default NULL, which will draw 
+\item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
-\item{theme}{Character: Theme to use: Use \code{themes()} to get available 
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
 Default = "rtCol1". Only used if \code{col = NULL}}
 
-\item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic 
-device. Default = FALSE. Note: If TRUE, the device size at time of call is 
-captured and height and width are set so as to draw the largest square 
-available. This means that resizing the device window will not automatically 
+\item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic
+device. Default = FALSE. Note: If TRUE, the device size at time of call is
+captured and height and width are set so as to draw the largest square
+available. This means that resizing the device window will not automatically
 resize the plot.}
 
-\item{group.names}{Character, vector, length = NROW(x): Group names. 
+\item{group.names}{Character, vector, length = NROW(x): Group names.
 Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be 
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be
 set to TRUE if x is a list of more than 1 element}
 
-\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend. 
-Default = c(0, 1), which places the legend top left within the plot area. 
+\item{legend.xy}{Float, vector, length 2: Relative x, y position for legend.
+Default = c(0, 1), which places the legend top left within the plot area.
 Set to NULL to place legend top right beside the plot area}
 
-\item{legend.col}{Color: Legend text color. Default = NULL, determined by 
+\item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
 
-\item{bargap}{Float: The gap between adjacent histogram bars in plot 
+\item{bargap}{Float: The gap between adjacent histogram bars in plot
 fraction.}
 
-\item{vline}{Float, vector: If defined, draw a vertical line at this x 
+\item{vline}{Float, vector: If defined, draw a vertical line at this x
 value(s). Default = NULL}
 
 \item{vline.col}{Color for \code{vline}. Default = theme$fg}
 
 \item{vline.width}{Float: Width for \code{vline}. Default = 1}
 
-\item{vline.dash}{Character: Type of line to draw: "solid", "dot", "dash", 
+\item{vline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
 "longdash", "dashdot",
 or "longdashdot"}
 
@@ -131,12 +131,12 @@ or "longdashdot"}
 
 \item{text.x}{Float: x-coordinate for \code{text}}
 
-\item{text.xref}{Character: "x": \code{text.x} refers to plot's x-axis; 
+\item{text.xref}{Character: "x": \code{text.x} refers to plot's x-axis;
 "paper": \code{text.x} refers to plotting area from 0-1}
 
 \item{text.xanchor}{Character: "auto", "left", "center", "right"}
 
-\item{text.yref}{Character: "y": \code{text.y} refers to plot's y-axis; 
+\item{text.yref}{Character: "y": \code{text.y} refers to plot's y-axis;
 "paper": \code{text.y} refers to plotting area from 0-1}
 
 \item{text.yanchor}{Character: "auto", "top", "middle", "bottom"}
@@ -151,45 +151,45 @@ or "longdashdot"}
 
 \item{zerolines}{Logical: If TRUE: draw lines at y = 0.}
 
-\item{histnorm}{Character: NULL, "percent", "probability", "density", 
+\item{histnorm}{Character: NULL, "percent", "probability", "density",
 "probability density"}
 
 \item{histfunc}{Character: "count", "sum", "avg", "min", "max".}
 
 \item{hist.n.bins}{Integer: Number of bins to use if type = "histogram".}
 
-\item{barmode}{Character: Type of bar plot to make: "group", "relative", 
+\item{barmode}{Character: Type of bar plot to make: "group", "relative",
 "stack", "overlay". Default = "group". Use
-"relative" for stacked bars, wich handles negative values correctly, 
+"relative" for stacked bars, wich handles negative values correctly,
 unlike "stack", as of writing.}
 
-\item{ridge.sharex}{Logical: If TRUE, draw single x-axis when 
+\item{ridge.sharex}{Logical: If TRUE, draw single x-axis when
 \code{mode = "ridge"}.}
 
-\item{ridge.y.labs}{Lofical: If TRUE, show individual y labs when 
+\item{ridge.y.labs}{Lofical: If TRUE, show individual y labs when
 \code{mode = "ridge"}.}
 
-\item{ridge.order.on.mean}{Logical: If TRUE, order groups by mean value 
+\item{ridge.order.on.mean}{Logical: If TRUE, order groups by mean value
 when \code{mode = "ridge"}.
 Turn to FALSE, if, for example, groups are ordered by date or similar.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
-\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any 
+\item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any
 output file type supported by plotly and your system}
 
-\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill 
+\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill
 available space}
 
-\item{height}{Float: Force plot size to this height. Default = NULL, i.e. 
+\item{height}{Float: Force plot size to this height. Default = NULL, i.e.
 fill available space}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 
-\item{file.width}{Integer: File width in pixels for when \code{filename} is 
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
 
-\item{file.height}{Integer: File height in pixels for when \code{filename} 
+\item{file.height}{Integer: File height in pixels for when \code{filename}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}

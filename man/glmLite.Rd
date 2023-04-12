@@ -25,7 +25,7 @@ glmLite(
 )
 }
 \arguments{
-\item{x}{Feature matrix or data.frame. Will be coerced to data.frame for 
+\item{x}{Feature matrix or data.frame. Will be coerced to data.frame for
 method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
 
 \item{y}{Outcome}
@@ -34,43 +34,43 @@ method = "allSubsets", "forwardStepwise", or "backwardStepwise"}
 
 \item{method}{Character: Method to use:
 \itemize{
- \item{"glm"}{: uses \code{stats::lm.wfit}}
- \item{"glmnet"}{: uses \code{glmnet::glmnet}}
- \item{"cv.glmnet"}{: uses \code{glmnet:cv.glmnet}}
- \item{"lm.ridge"}{: uses \code{MASS::lm.ridge}}
- \item{"allsubsets"}{: uses \code{leaps::regsubsets} with \code{method = "exhaustive"}}
- \item{"forwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "forward"}}
- \item{"backwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "backward"}}
- \item{"sgd"}{: uses \code{sgd::sgd}}
- \item{"solve"}{: uses \code{base::solve}}
- \item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
+\item{"glm"}{: uses \code{stats::lm.wfit}}
+\item{"glmnet"}{: uses \code{glmnet::glmnet}}
+\item{"cv.glmnet"}{: uses \code{glmnet:cv.glmnet}}
+\item{"lm.ridge"}{: uses \code{MASS::lm.ridge}}
+\item{"allsubsets"}{: uses \code{leaps::regsubsets} with \code{method = "exhaustive"}}
+\item{"forwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "forward"}}
+\item{"backwardStepwise"}{: uses \code{leaps::regsubsets} with \code{method = "backward"}}
+\item{"sgd"}{: uses \code{sgd::sgd}}
+\item{"solve"}{: uses \code{base::solve}}
+\item{"none"}{: fits no model and returns all zeroes, for programming convenience in special cases}
 }}
 
-\item{alpha}{Float: \code{alpha} for method = \code{glmnet} or 
+\item{alpha}{Float: \code{alpha} for method = \code{glmnet} or
 \code{cv.glmnet}.}
 
-\item{lambda}{Float: The lambda value for \code{glmnet}, \code{cv.glmnet}, 
+\item{lambda}{Float: The lambda value for \code{glmnet}, \code{cv.glmnet},
 \code{lm.ridge}
-Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for 
+Note: For \code{glmnet} and \code{cv.glmnet}, this is the lambda used for
 prediction. Training uses \code{lambda.seq}.}
 
-\item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and 
+\item{lambda.seq}{Float, vector: lambda sequence for \code{glmnet} and
 \code{cv.glmnet}.}
 
 \item{cv.glmnet.nfolds}{Integer: Number of folds for \code{cv.glmnet}}
 
-\item{which.cv.glmnet.lambda}{Character: Whitch lambda to pick from 
+\item{which.cv.glmnet.lambda}{Character: Whitch lambda to pick from
 cv.glmnet: "lambda.min": Lambda that gives minimum cross-validated error;}
 
-\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of 
+\item{nbest}{Integer: For \code{method = "allSubsets"}, number of subsets of
 each size to record. Default = 1}
 
-\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of 
+\item{nvmax}{Integer: For \code{method = "allSubsets"}, maximum number of
 subsets to examine.}
 
 \item{sgd.model}{Character: Model to use for \code{method = "sgd"}.}
 
-\item{sgd.model.control}{List: \code{model.control} list to pass to 
+\item{sgd.model.control}{List: \code{model.control} list to pass to
 \code{sgd::sgd}}
 
 \item{sgd.control}{List: \code{sgd.control} list to pass to \code{sgd::sgd}

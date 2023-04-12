@@ -30,22 +30,22 @@ cartLite(
 over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
-\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a 
+\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child 
+\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
 node.}
 
-\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
+\item{cp}{\link{gS} Float: Complexity threshold for allowing a split.}
 
-\item{maxcompete}{Integer: The number of competitor splits saved in the 
+\item{maxcompete}{Integer: The number of competitor splits saved in the
 output}
 
 \item{usesurrogate}{See \code{rpart::rpart.control}}
 
 \item{surrogatestyle}{See \code{rpart::rpart.control}}
 
-\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
+\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
 
 \item{xval}{Integer: Number of cross-validations}
 

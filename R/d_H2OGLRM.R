@@ -4,12 +4,12 @@
 
 #' Generalized Low-Rank Models (GLRM) on H2O
 #'
-#' Perform GLRM decomposition using \code{h2o::h2o.glrm}
-#' Given Input matrix \code{A}:
-#' \code{ A(m x n) = X(m x k) \%*\% Y(k x n) }
+#' Perform GLRM decomposition using `h2o::h2o.glrm`
+#' Given Input matrix `A`:
+#' ` A(m x n) = X(m x k) \%*\% Y(k x n) `
 #'
 #' Learn more about GLRM from the H2O tutorial
-#' \url{https://github.com/h2oai/h2o-tutorials/blob/master/tutorials/glrm/glrm-tutorial.md}
+#' <https://github.com/h2oai/h2o-tutorials/blob/master/tutorials/glrm/glrm-tutorial.md>
 #'
 #' @param x Input data
 #' @param x.test Optional test set. Will be projected on to NMF basis
@@ -27,7 +27,7 @@
 #' @param gamma.x Float: Regularization weight on X matrix. Default = 0
 #' @param gamma.y Float: Regularization weight on Y matrix. Default = 0
 #' @param max_iterations Integer: Maximum number of iterations. Default = 1000
-#' @param max_updates Integer: Maximum number of iterations. Default = 2 * \code{max_iterations}
+#' @param max_updates Integer: Maximum number of iterations. Default = 2 * `max_iterations`
 #' @param init_step_size Float: Initial step size. Default = 1
 #' @param min_step_size Float: Minimum step size. Default = .0001
 #' @param seed Integer: Seed for random number generator. Default = -1 (time-based)
@@ -35,10 +35,10 @@
 #' @param svd.method Character: SVD method for initialization: "GramSVD", "Power", "Randomized". Default = "Randomized"
 #' @param verbose Logical: If TRUE, print console messages
 #' @param print.plot Logical: If TRUE, print objective score against iteration number
-#' @param plot.theme Character: Theme to pass to \link{mplot3_xy} if \code{print.plot = TRUE}
+#' @param plot.theme Character: Theme to pass to [mplot3_xy] if `print.plot = TRUE`
 #' @param n.cores Integer: Number of cores to use
-#' @param ... Additional parameters to be passed to \code{h2o::h2o.glrm}
-#' @return \link{rtDecom} object
+#' @param ... Additional parameters to be passed to `h2o::h2o.glrm`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

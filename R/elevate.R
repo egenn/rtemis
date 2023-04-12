@@ -4,11 +4,11 @@
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
-#' \code{elevate} is a high-level function to tune, train, and test an 
+#' `elevate` is a high-level function to tune, train, and test an 
 #' \pkg{rtemis} model by nested resampling, with optional preprocessing and 
 #' decomposition of input features
 #'
-#' - Note on resampling: You can never use an outer resampling method with 
+#' - Note on resampling: You should never use an outer resampling method with 
 #' replacement if you will also be using an inner resampling (for tuning).
 #' The duplicated cases from the outer resampling may appear both in the 
 #' training and testing sets of the inner resamples, leading to underestimated 
@@ -21,22 +21,22 @@
 #' 
 #' @inheritParams s_GLM
 #' @inheritParams resample
-#' @param mod Character: Learner to use. Options: \link{modSelect}
+#' @param mod Character: Learner to use. Options: [modSelect]
 #' @param mod.params Optional named list of parameters to be passed to 
-#' \code{mod}. All parameters can be passed as part of \code{...} as well
+#' `mod`. All parameters can be passed as part of `...` as well
 #' @param .preprocess Optional named list of parameters to be passed to 
-#' \link{preprocess}. Set using \link{rtset.preprocess}, 
-#' e.g. \code{decom = rtset.preprocess(impute = TRUE)}
+#' [preprocess]. Set using [rtset.preprocess], 
+#' e.g. `decom = rtset.preprocess(impute = TRUE)`
 #' @param .decompose Optional named list of parameters to be used for 
-#' decomposition / dimensionality reduction. Set using \link{rtset.decompose}, 
-#' e.g. \code{decom = rtset.decompose("ica", 12)}
+#' decomposition / dimensionality reduction. Set using [rtset.decompose], 
+#' e.g. `decom = rtset.decompose("ica", 12)`
 #' @param n.repeats Integer: Number of times to repeat the outer resampling.
 #' This was added for completeness, but in practice we use either k-fold 
 #' crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of 
 #' stratified subsamples, e.g. 25, for smaller samples
-#' @param outer.resampling List: Output of \link{rtset.resample} to define outer
+#' @param outer.resampling List: Output of [rtset.resample] to define outer
 #' resampling scheme
-#' @param inner.resampling List: Output of \link{rtset.resample} to define inner
+#' @param inner.resampling List: Output of [rtset.resample] to define inner
 #' resampling scheme
 #' @param x.name Character: Name of predictor dataset
 #' @param y.name Character: Name of outcome
@@ -58,30 +58,30 @@
 #' otherwise discard (save space if running many resamples). 
 #' @param save.tune Logical: If TRUE, save the best.tune data frame for each 
 #' resample (output of gridSearchLearn)
-#' @param save.rt Logical: If TRUE and \code{outdir} is set, save all models to 
-#' \code{outdir}
+#' @param save.rt Logical: If TRUE and `outdir` is set, save all models to 
+#' `outdir`
 #' @param save.plots Logical: If TRUE, save plots to outdir
 #' @param bag.fitted Logical: If TRUE, use all models to also get a bagged 
 #' prediction on the full sample. To get a bagged prediction on new data using 
-#' the same models, use \link{predict.rtModCV}
+#' the same models, use [predict.rtModCV]
 #' @param bag.fn Function to use to average prediction if 
-#' \code{bag.fitted = TRUE}. Default = \code{median}
+#' `bag.fitted = TRUE`. Default = `median`
 #' @param trace Integer: (Not really used) Print additional information if > 0. 
-#' @param res.verbose Logical: Passed to \link{resLearn_future}, passed to each 
-#' individual learner's \code{verbose} argument
+#' @param res.verbose Logical: Passed to [resLearn_future], passed to each 
+#' individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained 
-#' on differents resamples under subdirectories of \code{outdir}
-#' @param debug Logical: If TRUE, sets \code{outer.n.workers} to 1, and 
-#' \code{options(error=recover)}
+#' on differents resamples under subdirectories of `outdir`
+#' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, and 
+#' `options(error=recover)`
 #' @param ... Additional mod.params to be passed to learner (Will be 
-#' concatenated with \code{mod.params}, so that you can use
+#' concatenated with `mod.params`, so that you can use
 #' either way to pass learner arguments)
 #'
-#' @return Object of class \code{rtModCV} (Regression) or 
-#' \code{rtModCVClass} (Classification)
+#' @return Object of class `rtModCV` (Regression) or 
+#' `rtModCVClass` (Classification)
 #' \item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
-#' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
-#' \item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
+#' \item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of `error.test.repeats`}
+#' \item{error.test.repeats.sd}{if `n.repeats` > 1, the standard deviation of `error.test.repeats`}
 #' \item{error.test.res}{the error for each resample, for each repeat}
 #' @author E.D. Gennatas
 #' @examples

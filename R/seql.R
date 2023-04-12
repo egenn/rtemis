@@ -4,8 +4,8 @@
 
 #' Sequence generation with automatic cycling
 #'
-#' @param x R object of some \code{length}
-#' @param target R object of some \code{length}
+#' @param x R object of some `length`
+#' @param target R object of some `length`
 #' @examples
 #' color <- c("red", "blue")
 #' target <- 1:5

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LINAD.R
 \name{s_LINAD}
 \alias{s_LINAD}
-\title{Linear Additive Tree [C, R]}
+\title{Linear Additive Tree (C, R)}
 \usage{
 s_LINAD(
   x,
@@ -90,7 +90,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{max.leaves}{Integer: Maximum number of terminal nodes to grow. Setting
 this to a value > 1, triggers cross-validation to find best number of leaves.
-To force a given number of leaves and not cross-validate, set 
+To force a given number of leaves and not cross-validate, set
 \code{force.max.leaves} to any (integer) value.}
 
 \item{lookback}{Logical: If TRUE, use validation error to decide best
@@ -100,7 +100,7 @@ number of leaves to use.}
 the tree will attempt to reach this number of leaves, without performing
 tuning number of leaves.}
 
-\item{learning.rate}{[gS] Numeric: learning rate for steps after initial
+\item{learning.rate}{\link{gS} Numeric: learning rate for steps after initial
 linear model}
 
 \item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
@@ -120,14 +120,14 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
+\item{nvmax}{\link{gS} Integer: Number of max features to use for lin.type
 "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 than n of features in \code{x} are provided, they will be excluded}
 
-\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
+\item{gamma}{\link{gS} Numeric: Soft weighting parameter. Weights of cases that
 do not belong to node get multiplied by this amount}
 
-\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
+\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet",
 "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 to not fit linear models
 See \link{lincoef} for more}
@@ -138,22 +138,22 @@ linear model to fit on the root node.}
 \item{first.lin.alpha}{Numeric: alpha for the first linear model, if
 \code{first.lin.type} is "glmnet" or "cv.glmnet"}
 
-\item{lambda}{[gS] Numeric: lambda value for lin.type \code{glmnet}, 
+\item{lambda}{\link{gS} Numeric: lambda value for lin.type \code{glmnet},
 \code{cv.glmnet}, \code{lm.ridge}}
 
-\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
+\item{minobsinnode.lin}{\link{gS} Integer: Minimum number of observation needed
 to fit linear model}
 
-\item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
+\item{part.minsplit}{\link{gS} Integer: Minimum number of observations in node to
 consider splitting}
 
-\item{part.max.depth}{Integer: Max depth for each tree model within the 
+\item{part.max.depth}{Integer: Max depth for each tree model within the
 additive tree}
 
-\item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
+\item{part.cp}{\link{gS} Numeric: Split must decrease complexity but at least
 this much to be considered}
 
-\item{part.minbucket}{[gS] Integer: Minimum number of observations allowed in
+\item{part.minbucket}{\link{gS} Integer: Minimum number of observations allowed in
 child node to allow splitting}
 
 \item{init}{Initial value. Default = \code{mean(y)}}
@@ -194,12 +194,12 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a Linear Additive Tree for Regression or Binary Classification
 }
 \details{
-The Linear Additive Tree trains a tree using a sequence of regularized 
-linear models and splits. We specify an upper threshold of leaves using 
-\code{max.leaves} instead of directly defining a number, because depending 
+The Linear Additive Tree trains a tree using a sequence of regularized
+linear models and splits. We specify an upper threshold of leaves using
+\code{max.leaves} instead of directly defining a number, because depending
 on the other parameters and the datasets, splitting may stop early.
 
-[gS] indicates tunable hyperparameters that can accept a vector of possible 
+\link{gS} indicates tunable hyperparameters that can accept a vector of possible
 values
 }
 \author{

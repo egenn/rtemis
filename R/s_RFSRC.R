@@ -5,26 +5,26 @@
 #' Random Forest for Classification, Regression, and Survival [C, R, S]
 #'
 #' Train a Random Forest for Regression, Classification, or Survival Regression
-#' using \code{randomForestSRC}
+#' using `randomForestSRC`
 #'
-#' For Survival Regression, y must be an object of type \code{Surv}, created using
-#' \code{survival::Surv(time, status)}
-#' \code{mtry} is the only tunable parameter, but it usually only makes a small difference
+#' For Survival Regression, y must be an object of type `Surv`, created using
+#' `survival::Surv(time, status)`
+#' `mtry` is the only tunable parameter, but it usually only makes a small difference
 #' and is often not tuned.
 #'
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
-#'   must have set of columns as \code{x}
+#'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param n.trees Integer: Number of trees to grow. The more the merrier.
 #' @param bootstrap Character:
 #' @param mtry Integer: Number of features sampled randomly at each split
 #' @param outdir Optional. Path to directory to save output
-#' @param ... Additional arguments to be passed to \code{randomForestSRC::rfsrc}
-#' @return Object of class \link{rtMod}
+#' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

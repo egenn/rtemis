@@ -8,23 +8,23 @@
 #' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
-#' @param mod Algorithm to boost, for options, see \link{modSelect}
-#' @param mod.params Named list of arguments for \code{mod}
+#' @param mod Algorithm to boost, for options, see [modSelect]
+#' @param mod.params Named list of arguments for `mod`
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param cxrcoef Logical: If TRUE, pass \code{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreenow}
+#' @param cxrcoef Logical: If TRUE, pass `cxr = TRUE, cxrcoef = TRUE` to [predict.hytreenow]
 #' @param tolerance Float: If training error <= this value, training stops
 #' @param tolerance.valid Float: If validation error <= this value, training stops
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
+#' @param base.verbose Logical: `verbose` argument passed to learner
 #' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
 #' end of training. If integer, plot training and validation error curve every this many iterations
 #' during training
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
 #' 
-#' @return \code{hytboostnow} object
+#' @return `hytboostnow` object
 #' @author E.D. Gennatas
 #' @keywords internal
 
@@ -291,7 +291,7 @@ hytboostnow <- function(x, y,
 } # rtemis::hytboostnow
 
 
-#' Print method for \link{boost} object
+#' Print method for [boost] object
 #'
 #' @method print hytboostnow
 #' @author E.D. Gennatas
@@ -307,9 +307,9 @@ print.hytboostnow <- function(x, ...) {
 } # rtemis::print.hytboostnow
 
 
-#' Predict method for \code{hytboostnow} object
+#' Predict method for `hytboostnow` object
 #'
-#' @param object \link{hytboostnow} object
+#' @param object [hytboostnow] object
 #' @method predict hytboostnow
 #' @author E.D. Gennatas
 #' @export
@@ -363,10 +363,10 @@ predict.hytboostnow <- function(object,
 
 #' Expand boosting series
 #'
-#' Add iterations to a \link{boost} object
+#' Add iterations to a [boost] object
 #'
 #' @inheritParams hytboostnow
-#' @param object \link{boost} object
+#' @param object [boost] object
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -408,7 +408,7 @@ expand.hytboostnow <- function(object,
 } # rtemis::expand.hytboostnow
 
 
-#' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
+#' `as.hytboostnow` Place model in [hytboostnow] structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -444,17 +444,17 @@ as.hytboostnow <- function(object,
 } # rtemis::as.hytboostnow
 
 
-#' Update \link{boost} object's fitted values
+#' Update [boost] object's fitted values
 #'
-#' Calculate new fitted values for a \link{boost}.
+#' Calculate new fitted values for a [boost].
 #' Advanced use only: run after updating learning.rate
 #'
 #' All this will eventually be automated using an R6 object, maybe
 #'
 #' @method update hytboostnow
-#' @param object \link{hytboostnow} object
+#' @param object [hytboostnow] object
 #' 
-#' @return \link{hytboostnow} object
+#' @return [hytboostnow] object
 #' @author E.D. Gennatas
 #' @keywords internal
 # TODO: save penultimate fitted, add last
@@ -479,7 +479,7 @@ update.hytboostnow <- function(object, x, y = NULL,
 } # rtemis::update.hytboostnow
 
 
-#' \code{as.hytboostnow} Place model in \link{hytboostnow} structure
+#' `as.hytboostnow` Place model in [hytboostnow] structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal

@@ -6,25 +6,25 @@
 #'
 #' Train an elastic net model
 #'
-#' \code{s_GLMNET} runs \code{glmnet::cv.glmnet} for each value of alpha, for each resample in
-#' \code{grid.resample.rtset}.
-#' Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
+#' `s_GLMNET` runs `glmnet::cv.glmnet` for each value of alpha, for each resample in
+#' `grid.resample.rtset`.
+#' Mean values for `min.lambda` and MSE (Regression) or Accuracy (Classification) are aggregated for each
 #' alpha and resample combination
 #'
-#' \code{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+#' `[gS]` Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
 #' automatically performed
 #'
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param alpha [gS] Float [0, 1]: The elasticnet mixing parameter:
-#'   \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty
-#' @param lambda [gS] Float vector: Best left to NULL, \code{cv.glmnet} will 
+#'   `a = 0` is the ridge penalty, `a = 1` is the lasso penalty
+#' @param lambda [gS] Float vector: Best left to NULL, `cv.glmnet` will 
 #' compute its own lambda sequence
 #' @param intercept Logical: If TRUE, include intercept in the model.
 #' @param res.summary.fn Function: Used to average resample runs.
 #' 
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @family Interpretable models
 #' @export

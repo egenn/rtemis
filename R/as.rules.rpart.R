@@ -2,14 +2,14 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' Convert \code{rpart} object to rules
+#' Convert `rpart` object to rules
 #' 
-#' Convert an \code{rpart} object to a set of rules
+#' Convert an `rpart` object to a set of rules
 #' 
-#' @param object \code{rpart} object
+#' @param object `rpart` object
 #' @param verbose Logical: If TRUE, print messages to console
 #' 
-#' @return \code{data.tree} object
+#' @return `data.tree` object
 #' @author E.D. Gennatas
 #' @keywords internal
 

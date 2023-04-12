@@ -9,21 +9,21 @@
 #'
 #' Perform regression by boosting a base learner
 #'
-#' If \code{learning.rate} is set to 0, a nullmod will be created
+#' If `learning.rate` is set to 0, a nullmod will be created
 #' @inheritParams boost
-#' @param mod.params Named list of arguments for \link{glmLite}
+#' @param mod.params Named list of arguments for [glmLite]
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
 #' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
 #' @param trace Integer: If > 0, print diagnostic info to console
-#' @param base.verbose Logical: \code{verbose} argument passed to learner
+#' @param base.verbose Logical: `verbose` argument passed to learner
 #' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
 #' end of training. If integer, plot training and validation error curve every this many iterations
 #' during training. "none" for no plot.
-#' @param print.base.plot Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
+#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param prefix Internal
-#' @param ... Additional parameters to be passed to \link{glmLite}
+#' @param ... Additional parameters to be passed to [glmLite]
 #' @author E.D. Gennatas
 #' @export
 
@@ -348,7 +348,7 @@ glmLiteBoostTV <- function(x, y = NULL,
 } # rtemis::glmLiteBoostTV
 
 
-#' Print method for \link{boost} object
+#' Print method for [boost] object
 #'
 #' @method print boost
 #' @author E.D. Gennatas
@@ -364,15 +364,15 @@ print.glmLiteBoostTV <- function(x, ...) {
 } # rtemis::print.glmLiteBoostTV
 
 
-#' Predict method for \code{glmLiteBoostTV} object
+#' Predict method for `glmLiteBoostTV` object
 #'
-#' @param object \code{glmLiteBoostTV} object
+#' @param object `glmLiteBoostTV` object
 #' @param newdata Set of predictors
 #' @param n.feat Integer: N of features to use. Default = NCOL(newdata)
 #' @param n.iter Integer: N of iterations to predict from. Default = (all available)
 #' @param as.matrix Logical: If TRUE, return predictions from each iteration. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @param n.cores Integer: Number of cores to use. Default = \code{rtCores}
+#' @param n.cores Integer: Number of cores to use. Default = `rtCores`
 #' @method predict glmLiteBoostTV
 #' @author E.D. Gennatas
 #' @export
@@ -431,10 +431,10 @@ predict.glmLiteBoostTV <- function(object,
 
 #' Expand boosting series
 #'
-#' Expand a \link{glmLiteBoostTV} object by adding more iterations
+#' Expand a [glmLiteBoostTV] object by adding more iterations
 #'
 #' @inheritParams boost
-#' @param object \link{glmLiteBoostTV} object
+#' @param object [glmLiteBoostTV] object
 #' @author E.D. Gennatas
 #' @export
 
@@ -479,13 +479,13 @@ expand.glmLiteBoostTV <- function(object,
 } # rtemis::expand.glmLiteBoostTV
 
 
-#' Place model in \link{glmLiteBoostTV} structure
+#' Place model in [glmLiteBoostTV] structure
 #'
 #' @inheritParams as.boost
 #' @param object rtMod model
 #' @param learning.rate Float: Learning rate for new boost object. Default = 1
 #' @param init Float: Initial value for new boost object. Default = 0
-#' @param apply.lr Logical: Only considered is \code{x = NULL}. If TRUE, new boost object's fitted values will
+#' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @author E.D. Gennatas
 #' @export
@@ -566,19 +566,19 @@ as.glmLiteBoostTV <- function(object,
 } # rtemis::as.glmLiteBoostTV
 
 
-#' \pkg{rtemis} internals: Update \link{glmLiteBoostTV} object's fitted values
+#' \pkg{rtemis} internals: Update [glmLiteBoostTV] object's fitted values
 #'
-#' Calculate new fitted values for a \link{glmLiteBoostTV} object.
-#' Advanced use only: run with new \code{x} or after updating learning.rate in object
+#' Calculate new fitted values for a [glmLiteBoostTV] object.
+#' Advanced use only: run with new `x` or after updating learning.rate in object
 #'
 #' @method update glmLiteBoostTV
-#' @param object \link{glmLiteBoostTV} object
+#' @param object [glmLiteBoostTV] object
 #' @param x Data frame: Features
-#' @param last.step.only Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
-#' using this \code{x}
-#' @return \link{glmLiteBoostTV} object
+#' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
+#' using this `x`
+#' @return [glmLiteBoostTV] object
 #' @author E.D. Gennatas
-#' @return Nothing; updates \code{object} in-place
+#' @return Nothing; updates `object` in-place
 #' @export
 
 update.glmLiteBoostTV <- function(object,

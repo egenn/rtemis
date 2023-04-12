@@ -7,16 +7,16 @@
 #' @inheritParams s_GLM
 #' @param activation String or Function: Activation function to use: provide its name or the function itself.
 #' Default = link{softplus}
-#' @param b_o Float, vector (length y): Output bias. Defaults to \code{mean(y)}
+#' @param b_o Float, vector (length y): Output bias. Defaults to `mean(y)`
 #' @param W_o Float: Output weight. Defaults to 1
 #' @param b_h Float: Hidden layer bias. Defaults to 0
-#' @param W_h Float, vector (length \code{NCOL(x)}): Hidden layer weights. Defaults to 0
+#' @param W_h Float, vector (length `NCOL(x)`): Hidden layer weights. Defaults to 0
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
-#' "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}
+#' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
 #' 
 #' @export
 #' @author E.D. Gennatas
-#' @return \code{nlareg} object
+#' @return `nlareg` object
 #' @keywords internal
 
 nlareg <- function(x, y,
@@ -97,9 +97,9 @@ nlareg <- function(x, y,
 
 } # rtemis::nlareg
 
-#' Predict method for \code{nlareg} object
+#' Predict method for `nlareg` object
 #'
-#' @param object \link{nlareg} object
+#' @param object [nlareg] object
 #' @param newdata Data frame of predictors
 #' @param ... Unused
 #' @method predict nlareg

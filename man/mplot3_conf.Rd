@@ -88,30 +88,30 @@ mplot3_conf(
 
 \item{col.lab}{Color for labels. Default = "auto", determined by \code{theme}}
 
-\item{col.text.out}{Color for metrics cells' text. Default = "auto", 
+\item{col.text.out}{Color for metrics cells' text. Default = "auto",
 determined by \code{theme}}
 
-\item{col.bg}{Color for background. Default = "auto", determined by 
+\item{col.bg}{Color for background. Default = "auto", determined by
 \code{theme}}
 
-\item{col.bg.out1}{Color for metrics cells' background (row1). 
+\item{col.bg.out1}{Color for metrics cells' background (row1).
 Default = "auto", determined by \code{theme}}
 
-\item{col.bg.out2}{Color for metrics cells' background (row2). 
+\item{col.bg.out2}{Color for metrics cells' background (row2).
 Default = "auto", determined by \code{theme}}
 
-\item{col.text.hi}{Color for high confusion matrix values. Default = "auto", 
+\item{col.text.hi}{Color for high confusion matrix values. Default = "auto",
 determined by \code{theme}}
 
-\item{col.text.lo}{Color for low confusion matrix values. Default = "auto", 
+\item{col.text.lo}{Color for low confusion matrix values. Default = "auto",
 determined by \code{theme}}
 
 \item{show.ba}{Logical: If TRUE, show Balanced Accuracy at bottom right corner.}
 
-\item{theme}{Character: "light", or "dark". Set to 
+\item{theme}{Character: "light", or "dark". Set to
 \code{options("rt.theme")}, if set, otherwise "light"}
 
-\item{mid.col}{Color: The mid color for the confusion matrix. 
+\item{mid.col}{Color: The mid color for the confusion matrix.
 Default = "auto", determined by \code{theme}}
 
 \item{hi.color.pos}{Color: The hi color for correct classification.}
@@ -135,7 +135,7 @@ List of metrics, invisibly
 Plots confusion matrix and classification metrics
 }
 \details{
-This function uses its multiple cex args instead of the theme's `cex` parameter
+This function uses its multiple cex args instead of the theme's \code{cex} parameter
 }
 \examples{
 \dontrun{

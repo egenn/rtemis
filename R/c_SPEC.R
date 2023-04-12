@@ -4,7 +4,7 @@
 
 #' Spectral Clustering
 #'
-#' Perform Spectral Clustering using \code{kernlab::specc}
+#' Perform Spectral Clustering using `kernlab::specc`
 #'
 #' @inheritParams c_KMEANS
 #' @param x Input matrix / data.frame
@@ -18,12 +18,12 @@
 #' sigma, degree (for "anovadot");
 #' length, lambda, normalized (for "stringdot")
 #' @param nystrom.red Logical: if TRUE, use nystrom method to calculate eigenvectors (Default = FALSE)
-#' @param nystrom.sample Integer: Number of points to use for estimating the eigenvalues when \code{nystrom.red = TRUE}
-#'  Default = \code{dim(x)[1]/6}
+#' @param nystrom.sample Integer: Number of points to use for estimating the eigenvalues when `nystrom.red = TRUE`
+#'  Default = `dim(x)[1]/6`
 #' @param iterations Integer: Number of iterations allowed
 #' @param mod.sample Float (0, 1): Proportion of data to use when estimating sigma. Default = .75
-#' @param na.action Function: Action to perform on NA (Default = \code{na.omit})
-#' @param ... Additional parameters to be passed to \code{flexclust::cclust}
+#' @param na.action Function: Action to perform on NA (Default = `na.omit`)
+#' @param ... Additional parameters to be passed to `flexclust::cclust`
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export

@@ -59,17 +59,17 @@ over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
 Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
 
 \item{max.leaves}{Integer: Total number of terminal nodes to reach.
-1 is a special case where no split is performed and a linear model is 
-trained. Otherwise, this should be an even number as each split introduces 
+1 is a special case where no split is performed and a linear model is
+trained. Otherwise, this should be an even number as each split introduces
 two children nodes.}
 
-\item{learning.rate}{[gS] Numeric: learning rate for steps after initial
+\item{learning.rate}{\link{gS} Numeric: learning rate for steps after initial
 linear model}
 
-\item{minobsinnode.lin}{[gS] Integer: Minimum number of observation needed 
+\item{minobsinnode.lin}{\link{gS} Integer: Minimum number of observation needed
 to fit linear model}
 
-\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
+\item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet",
 "lm.ridge", "allSubsets", "backwardStepwise", "glm", "solve", or "none"
 to not fit linear models
 See \link{lincoef} for more}
@@ -80,30 +80,30 @@ linear model to fit on the root node.}
 \item{first.lin.alpha}{Numeric: alpha for the first linear model, if
 \code{first.lin.type} is "glmnet" or "cv.glmnet"}
 
-\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that 
+\item{gamma}{\link{gS} Numeric: Soft weighting parameter. Weights of cases that
 do not belong to node get multiplied by this amount}
 
-\item{lambda}{[gS] Numeric: lambda value for lin.type \code{glmnet}, 
+\item{lambda}{\link{gS} Numeric: lambda value for lin.type \code{glmnet},
 \code{cv.glmnet}, \code{lm.ridge}}
 
-\item{nvmax}{[gS] Integer: Number of max features to use for lin.type 
+\item{nvmax}{\link{gS} Integer: Number of max features to use for lin.type
 "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 than n of features in \code{x} are provided, they will be excluded}
 
-\item{part.minsplit}{[gS] Integer: Minimum number of observations in node to
+\item{part.minsplit}{\link{gS} Integer: Minimum number of observations in node to
 consider splitting}
 
-\item{part.max.depth}{Integer: Max depth for each tree model within the 
+\item{part.max.depth}{Integer: Max depth for each tree model within the
 additive tree}
 
-\item{part.cp}{[gS] Numeric: Split must decrease complexity but at least 
+\item{part.cp}{\link{gS} Numeric: Split must decrease complexity but at least
 this much to be considered}
 
-\item{part.minbucket}{[gS] Integer: Minimum number of observations allowed in
+\item{part.minbucket}{\link{gS} Integer: Minimum number of observations allowed in
 child node to allow splitting}
 
-\item{loss.fn}{Function with arguments \code{y, Fval }
-Allows you to define a custom loss function. Defaults to \code{class.loss()} 
+\item{loss.fn}{Function with arguments \verb{y, Fval }
+Allows you to define a custom loss function. Defaults to \code{class.loss()}
 for classification and \code{mse()} for regression}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
@@ -116,9 +116,9 @@ for classification and \code{mse()} for regression}
 Train a Linear Additive Tree for Classification & Regression
 }
 \details{
-With \code{max.nodes = 0}, the output is a linear model trained according to 
+With \code{max.nodes = 0}, the output is a linear model trained according to
 \code{lin.type}.
-Note that lambda is treated differently by \code{glmnet::glmnet} and 
+Note that lambda is treated differently by \code{glmnet::glmnet} and
 \code{MASS::lm.ridge}
 }
 \author{

@@ -6,16 +6,16 @@
 #'
 #' Fits a LOESS curve or surface
 #'
-#' A maximum of 4 features are allowed in this implementation (\code{stats::loess})
+#' A maximum of 4 features are allowed in this implementation (`stats::loess`)
 #' The main use for this algorithm would be fitting curves in bivariate plots,
 #' where GAM or similar is preferable anyway. It is included in \pkg{rtemis} mainly for academic purposes -
 #' not for building predictive models.
 #'
 #' @inheritParams s_GLM
-#' @param ... Additional arguments to \code{loess}
+#' @param ... Additional arguments to `loess`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso \link{elevate}
+#' @seealso [elevate]
 #' @export
 
 s_LOESS <- function(x, y = NULL,

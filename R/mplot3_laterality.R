@@ -6,8 +6,8 @@
 #'
 #' @inheritParams mplot3_xy
 #' @param x data.frame or data.table which includes columns with ROI names ending in "_L" or "_R"
-#' @param regionnames Character, vector: Regions to plot. For example, if \code{regionnames}
-#' contains "Ant_Insula", \code{x} must contain columns \code{Ant_Insula_L} and \code{Ant_Insula_R}
+#' @param regionnames Character, vector: Regions to plot. For example, if `regionnames`
+#' contains "Ant_Insula", `x` must contain columns `Ant_Insula_L` and `Ant_Insula_R`
 #' @param summary.fn Character: Name of function to summarize left and right values.
 #' Default = "median"
 #' @param summary.lty Integer: line type for summary arrows

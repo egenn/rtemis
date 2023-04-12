@@ -4,7 +4,7 @@
 
 #' Non-negative Matrix Factorization (NMF)
 #'
-#' Perform NMF decomposition using \code{NMF::nmf}
+#' Perform NMF decomposition using `NMF::nmf`
 #'
 #' Project scaled variables to NMF bases.
 #' Input must be n by p,
@@ -16,12 +16,12 @@
 #' @param x Input data
 #' @param x.test Optional test set. Will be projected on to NMF basis
 #' @param k Integer vector of length 1 or greater. Rank of decomposition
-#' @param method NMF method. Defaults to "brunet". See \code{NMF::nmf}
+#' @param method NMF method. Defaults to "brunet". See `NMF::nmf`
 #' @param nrun Integer: Number of runs to perform
 #' @param scale Logical: If TRUE, scale input data before projecting
-#' @param center Logical: If TRUE, also center input data if \code{scale} is \code{TRUE}
-#' @param ... Additional parameters to be passed to \code{NMF::nmf}
-#' @return \link{rtDecom} object
+#' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`
+#' @param ... Additional parameters to be passed to `NMF::nmf`
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

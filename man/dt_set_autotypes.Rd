@@ -16,7 +16,7 @@ columns}
 }
 \description{
 This function inspects a data.table and attempts to identify columns that should be
-numeric but have been read in as character, because one or more fields contain 
+numeric but have been read in as character, because one or more fields contain
 non-numeric characters
 }
 \author{

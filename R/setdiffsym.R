@@ -5,7 +5,7 @@
 #' Symmetric Set Difference
 #'
 #' @param x vector
-#' @param y vector of same type as \code{x}
+#' @param y vector of same type as `x`
 #' 
 #' @author E.D. Gennatas
 #' @export

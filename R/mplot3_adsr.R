@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3}: ADSR Plot
+#' `mplot3`: ADSR Plot
 #'
-#' Plot Attack Decay Sustain Release Envelope Generator using \code{mplot3}
+#' Plot Attack Decay Sustain Release Envelope Generator using `mplot3`
 #'
 #' Learn more:
 #' (https://en.wikipedia.org/wiki/Synthesizer#Attack_Decay_Sustain_Release_.28ADSR.29_envelope "ADSR Wikipedia")
@@ -43,7 +43,7 @@
 #' @param off.col Color for "off" line
 #' 
 #' @param theme Character: "light" or "dark" (Default)
-#' @param ... Additional arguments to pass to \link{mplot3_xy}
+#' @param ... Additional arguments to pass to [mplot3_xy]
 #'
 #' @author E.D. Gennatas
 #' @export

@@ -10,10 +10,10 @@
 #' @param clust Character: Decomposition algorithm name, e.g. "nmf" 
 #' (case-insensitive)
 #' @param x.test Numeric matrix / Data frame: Testing set data if supported by 
-#' \code{clust}
+#' `clust`
 #' @param verbose Logical: if TRUE, print messages to screen
-#' @param ... Additional arguments to be passed to clusterer \code{clust}
-#' @return \link{rtClust} object
+#' @param ... Additional arguments to be passed to clusterer `clust`
+#' @return [rtClust] object
 #' @author E.D. Gennatas
 #' @export
 

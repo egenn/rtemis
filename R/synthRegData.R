@@ -7,12 +7,12 @@
 #' @param nrow Integer: Number of rows. Default = 500
 #' @param ncol Integer: Number of columns. Default = 50
 #' @param noise.sd.factor Numeric: Add rnorm(nrow, sd = noise.sd.factor * sd(y)). Default = 2
-#' @param resample.rtset Output of \link{rtset.resample} defining training/testing split. The first resulting resample
-#' will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}
+#' @param resample.rtset Output of [rtset.resample] defining training/testing split. The first resulting resample
+#' will be used to create `dat.train` and `dat.test` output; all resample output under `resamples`
 #' @param seed Integer: Seed for random number generator. Default = NULL
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @author E.D. Gennatas
-#' @return List with elements \code{dat, dat.train, dat.test, resamples, w, seed}
+#' @return List with elements `dat, dat.train, dat.test, resamples, w, seed`
 #' @export
 
 synthRegData <- function(nrow = 500,

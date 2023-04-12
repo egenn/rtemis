@@ -10,15 +10,15 @@
 #' no values are changed
 #'
 #' @param x Numeric vector: Input data
-#' @param lo Numeric: If not NULL, replace any values in \code{x} lower than 
+#' @param lo Numeric: If not NULL, replace any values in `x` lower than 
 #' this with this. Default = NULL
-#' @param hi Numeric: If not NULL, replace any values in \code{x} higher than 
+#' @param hi Numeric: If not NULL, replace any values in `x` higher than 
 #' this with this.
-#' @param prob.lo Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample 
-#' quantile that corresponds to this probability and set as \code{lo}. 
-#' @param prob.hi Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample 
-#' quantile that corresponds to this probability and set as \code{hi}.
-#' @param quantile.type Integer: passed to \code{stats::quantile}
+#' @param prob.lo Numeric (0, 1): If not NULL and `lo = NULL`, find sample 
+#' quantile that corresponds to this probability and set as `lo`. 
+#' @param prob.hi Numeric (0, 1): If not NULL and `hi = NULL`, find sample 
+#' quantile that corresponds to this probability and set as `hi`.
+#' @param quantile.type Integer: passed to `stats::quantile`
 #' @param verbose Logical: If TRUE, print messages to console.
 #' 
 #' @examples

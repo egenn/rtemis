@@ -6,22 +6,22 @@
 
 #' GAMSEL with Interaction Discovery [R]
 #'
-#' Trains a GAMSEL model using \code{gamsel2::gamsel} after finding
+#' Trains a GAMSEL model using `gamsel2::gamsel` after finding
 #' pairwise interactions by mass GLM.
 #'
 #' @inheritParams s_GAMSEL
 #' @inheritParams gamsel2::gamsel
-#' @param gamsel.params1 List of parameters to pass to \link{s_GAMSEL} for first model
+#' @param gamsel.params1 List of parameters to pass to [s_GAMSEL] for first model
 #' (linear and nonlinear main effects)
 #' @param pairs.on.resid Logical: If TRUE, train second gamsel on residuals of first.
 #' Default = TRUE. Should be kept TRUE, option available for experimentation/demonstration, etc.
 #' @param p.adjust.method Character: Method to use for multiple comparison correction after mass GLM.
 #' Default = "holm"
 #' @param alpha Float: significance level. Default = .05
-#' @param gamsel.params2 List of parameters to pass to \link{s_GAMSEL} for final model
-#' @return \link{rtMod}
+#' @param gamsel.params2 List of parameters to pass to [s_GAMSEL] for final model
+#' @return [rtMod]
 #' @author E.D. Gennatas
-#' @seealso \link{elevate} for external cross-validation
+#' @seealso [elevate] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

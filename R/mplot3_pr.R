@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3} Precision Recall curves
+#' `mplot3` Precision Recall curves
 #'
 #' Plot Precision Recall curve for a binary classifier
 #'
@@ -18,7 +18,7 @@
 #' @param diagonal.lwd Float: Line width for diagonal. Default = 2.5
 #' @param diagonal.lty Integer: Line type for diagonal. Default = 1
 #' @param group.legend Logical
-#' @param ... Additional parameters to pass to \link{mplot3_xy}
+#' @param ... Additional parameters to pass to [mplot3_xy]
 #' @return List with Precision, Recall, and Threshold values, invisibly
 #' @author E.D. Gennatas
 #' @export

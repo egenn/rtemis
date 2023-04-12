@@ -7,7 +7,7 @@
 gridSummary(...)
 }
 \description{
-Pretty print list of parameters with more than one value, 
+Pretty print list of parameters with more than one value,
 which will be used in a grid search
 }
 \keyword{internal}

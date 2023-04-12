@@ -72,7 +72,7 @@ rtXDecom <- R6::R6Class("rtXDecom",
                             self$extra <- extra
                           },
                           ### Methods
-                          #' @description Print method for \code{rtXDecom} objects
+                          #' @description Print method for `rtXDecom` objects
                           print = function() {
                             "show / print method for rtXDecom"
                             objcat("Cross-Decomposition object")

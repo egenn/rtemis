@@ -7,7 +7,7 @@
 #' Writes matrix /data frame to nifti files columnwise.
 #' Each column of the matrix should correspond to the labels of a nifti file.
 #' i.e. nrow of matrix = n of labels in labeledNifti
-#' Niftis are written in parallel using \code{parallel::parApply}
+#' Niftis are written in parallel using `parallel::parApply`
 #'
 #' @param datamat Matrix / Data Frame: Input
 #' @param labeledNifti Character: Path to labeled nifti file

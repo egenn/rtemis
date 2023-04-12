@@ -8,7 +8,7 @@
 #' returned
 #'
 #' @param x one-hot encoded matrix or data.frame
-#' @param labels Character vector of level names. Default = \code{colnames(x)}
+#' @param labels Character vector of level names. Default = `colnames(x)`
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -36,7 +36,7 @@ onehot2factor <- function(x, labels = colnames(x)) {
 #' Binary matrix times character vector
 #'
 #' @param x A binary matrix or data.frame
-#' @param labels Character vector length equal to \code{ncol(x)}
+#' @param labels Character vector length equal to `ncol(x)`
 #'
 #' @returns a character vector
 #' @export
@@ -58,7 +58,7 @@ binmat2vec <- function(x, labels = colnames(x)) {
 #' Binary matrix times character vector
 #'
 #' @param x A binary matrix or data.frame
-#' @param labels Character vector length equal to \code{ncol(x)}
+#' @param labels Character vector length equal to `ncol(x)`
 #'
 #' @author E.D. Gennatas
 #' @returns a character vector

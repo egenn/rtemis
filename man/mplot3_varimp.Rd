@@ -54,7 +54,7 @@ mplot3_varimp(
 \item{names}{Vector, string; optional: Names of variables in \code{x}}
 
 \item{plot.top}{Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
-i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+i.e.: \code{plot.top = .2} will print the top 20\% highest values, and \code{plot.top = 20} will plot the top 20
 highest values}
 
 \item{labelify}{Logical: If TRUE convert \code{names(x)} using \link{labelify}. Default = TRUE}

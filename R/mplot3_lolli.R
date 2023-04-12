@@ -2,23 +2,23 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' \code{mplot3} Lollipop Plot
+#' `mplot3` Lollipop Plot
 #'
 #' @inheritParams mplot3_xy
 #' @param x Float, vector: Input data
-#' @param order.on.x Logical: If TRUE, order by value of \code{x}. Default = TRUE
+#' @param order.on.x Logical: If TRUE, order by value of `x`. Default = TRUE
 #' @param plot.top Float or Integer: If <= 1, plot this percent highest absolute values, otherwise plot this many top values.
-#' i.e.: \code{plot.top = .2} will print the top 20% highest values, and \code{plot.top = 20} will plot the top 20
+#' i.e.: `plot.top = .2` will print the top 20% highest values, and `plot.top = 20` will plot the top 20
 #' highest values
-#' @param xnames Character, vector: Names of \code{x}
+#' @param xnames Character, vector: Names of `x`
 #' @param main Character: Main title
 #' @param col Color, vector: Lollipop color
 #' @param cex Float: Character expansion factor for points. Default = 1.2
-#' @param matching.segment.col Logical: If TRUE, color line segments using \code{col}, i.e. same as
+#' @param matching.segment.col Logical: If TRUE, color line segments using `col`, i.e. same as
 #' @param segment.alpha Float: Transparency for line segments. Default = .5
-#' points. Default = FALSE, in which case they are colored with \code{theme$fg}
-#' @param lty Integer: Line type for segment segments. See \code{par("lty")} Default = 1
-#' @param lwd Float: Width for segment segments. See \code{par("lty")} Default = 1
+#' points. Default = FALSE, in which case they are colored with `theme$fg`
+#' @param lty Integer: Line type for segment segments. See `par("lty")` Default = 1
+#' @param lwd Float: Width for segment segments. See `par("lty")` Default = 1
 #'
 #' @author E.D. Gennatas
 #' @export

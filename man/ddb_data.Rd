@@ -61,7 +61,7 @@ return. If "data.table", data.frame object returned from
 \code{DBI::dbGetQuery} is passed to \code{data.table::setDT}; will add to
 execution time if very large, but then that's when you need a data.table}
 
-\item{data.table.key}{Character: If set, this correspond to a column name in the 
+\item{data.table.key}{Character: If set, this correspond to a column name in the
 dataset. This column will be set as key in the data.table output}
 
 \item{clean_colnames}{Logical: If TRUE, clean colnames with

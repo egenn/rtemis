@@ -13,9 +13,9 @@ rtset.earlystop(
 \arguments{
 \item{window}{Integer: Number of steps to consider}
 
-\item{window_decrease_pct_min}{Float: Stop if improvement is less than this percent over last `window` steps}
+\item{window_decrease_pct_min}{Float: Stop if improvement is less than this percent over last \code{window} steps}
 
-\item{total_decrease_pct_max}{Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides `window_decrease_pct_min`}
+\item{total_decrease_pct_max}{Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides \code{window_decrease_pct_min}}
 }
 \description{
 \code{rtset.earlystop}: Set parameters for \link{earlystop}

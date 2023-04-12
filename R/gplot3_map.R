@@ -4,30 +4,30 @@
 
 #' Plot US state or county choropleth map
 #'
-#' Plot US state or county choropleth map using \strong{ggplot2} based on
-#' \code{usmap::plot_usmap()}
+#' Plot US state or county choropleth map using **ggplot2** based on
+#' `usmap::plot_usmap()`
 #'
 #' @param dat data.frame with 2 columns: fips, value
 #' @param regions Vector, character: "states", "state", "counties", "county"
 #' @param include Vector, character: Names of states or counties to include
 #' @param exclude Vector, character: Names of states or counties to exclude
 #' @param col.lo Color: Color mapped ot lowest negative values. Default = "#0290EE"
-#' @param col.mid Color: Color mapped to value \code{colorscale.midpoint}, only used if
-#' \code{colorscale.midpoint} is not NULL. If set to NA, \code{colorscale.midpoint} will be
+#' @param col.mid Color: Color mapped to value `colorscale.midpoint`, only used if
+#' `colorscale.midpoint` is not NULL. If set to NA, `colorscale.midpoint` will be
 #' set to NULL. Default = "black".
 #' @param col.hi Color: Color mapped to highest positive values. Default = "#FE4AA3"
 #' @param col.na Color: Color mapped to NA values. Default = "gray40"
 #' @param colorscale.midpoint Float: Midpoint for colorscale. Default = 0
 #' @param colorbar.height FLoat: Colorbar height, will be used as
-#' \code{ggplot2::unit(colorbar.height, "npc")}
+#' `ggplot2::unit(colorbar.height, "npc")`
 #' @param colorbar.width FLoat: Colorbar width, will be used as
-#' \code{ggplot2::unit(colorbar.width, "npc")}
+#' `ggplot2::unit(colorbar.width, "npc")`
 #' @param border.width Float: Map border width. Default = .1
 #' @param main Character: Main title. Default = NULL
 #' @param legend.title Character: Legend title. Default = NULL
-#' @param theme \strong{ggplot2} theme to use. Default = \code{rt_gtheme_map()}
+#' @param theme **ggplot2** theme to use. Default = `rt_gtheme_map()`
 #' @param labels Logical: If TRUE, label states. Default = FALSE
-#' @param col.labels Color for \code{labels}. Default = "gray50"
+#' @param col.labels Color for `labels`. Default = "gray50"
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -221,10 +221,10 @@ gplot3_map <- function(dat,
 
 #' **ggplot2** map theme
 #'
-#' **ggplot2** map theme for use with \link{gplot3_map}
-#' based on \code{usmap:::theme_map()}
+#' **ggplot2** map theme for use with [gplot3_map]
+#' based on `usmap:::theme_map()`
 #'
-#' @param base_size Float: Character \code{base_size.} Default = 9
+#' @param base_size Float: Character `base_size.` Default = 9
 #' @param base_family Character: Font family. Default = "Lato"
 #' @author E.D. Gennatas
 #' @export

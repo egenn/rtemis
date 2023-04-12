@@ -4,31 +4,31 @@
 
 #' CUR Decomposition
 #'
-#' Performs CUR decomposition using \code{rCUR::CUR}
+#' Performs CUR decomposition using `rCUR::CUR`
 #'
-#' Note that \code{k} here does not correspond with \code{k} in the other 
+#' Note that `k` here does not correspond with `k` in the other 
 #' decomposition functions.
-#' Use \code{c} to determine dimensionality of resulting decomposition
+#' Use `c` to determine dimensionality of resulting decomposition
 #' 
 #' @param x Numeric matrix / data.frame: Input data
 #' @param c Integer: Number of columns to be selected
 #' @param r Integer: Number of rows to be selected
-#' @param k Integer: Rank of decomposition (Creates \code{k} components)
-#' @param sv The SVD of \code{x}, if already available
+#' @param k Integer: Rank of decomposition (Creates `k` components)
+#' @param sv The SVD of `x`, if already available
 #' @param method Character: "random", "top.scores", "ortho.top.scores",
-#' "exact.num.random", "highest.ranks" (Default). See \code{rCUR::CUR("method")}
+#' "exact.num.random", "highest.ranks" (Default). See `rCUR::CUR("method")`
 #' @param matrix.return Logical: if TRUE, matrices C, U, and R are returned. 
-#' If FALSE, U is not computed, which can be expensive if \code{r} and \code{c} 
+#' If FALSE, U is not computed, which can be expensive if `r` and `c` 
 #' are large.
 #' @param error.return Logical: if TRUE, the Frobenius norm of the difference 
 #' between the original matrix and the CUR approximation is returned. 
-#' Effective only if \code{matrix.return = TRUE}.
+#' Effective only if `matrix.return = TRUE`.
 #' @param scale Logical: If TRUE, scale input
 #' @param center Logical: If TRUE, center input
 #' @param verbose Logical: If TRUE, print messages to output
-#' @param ... Additional parameters to be passed to \code{rCUR::CUR}
+#' @param ... Additional parameters to be passed to `rCUR::CUR`
 #' 
-#' @return \link{rtDecom} object
+#' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

@@ -7,9 +7,9 @@
 #'
 #' Calculate the points of an ROC curve and the AUC
 #'
-#' \code{true.labels} should be a factor (will be coerced to one) where the first level is the
-#' "positive" case. \code{predicted.probabilities} should be a vector of floats {0, 1} where \code{[0, .5)}
-#' corresponds to the first level and \code{[.5, 1]} corresponds to the second level.
+#' `true.labels` should be a factor (will be coerced to one) where the first level is the
+#' "positive" case. `predicted.probabilities` should be a vector of floats {0, 1} where `[0, .5)`
+#' corresponds to the first level and `[.5, 1]` corresponds to the second level.
 #' predicted.probabilities
 #' 
 #' @param true.labels Factor with true labels

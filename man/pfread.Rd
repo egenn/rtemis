@@ -22,7 +22,7 @@ pfread(
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{stringsAsFactors}{Logical: If TRUE, characters will be converted to 
+\item{stringsAsFactors}{Logical: If TRUE, characters will be converted to
 factors}
 
 \item{...}{Additional arguments to pass to \code{data.table::fread()}}

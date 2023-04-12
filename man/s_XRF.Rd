@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_XRF.R
 \name{s_XRF}
 \alias{s_XRF}
-\title{XGBoost Random Forest Classification and Regression [C, R]}
+\title{XGBoost Random Forest Classification and Regression (C, R)}
 \usage{
 s_XRF(
   x,
@@ -100,7 +100,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
 
-\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number 
+\item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
 as early stopping will limit nrounds by monitoring inner CV error}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -135,25 +135,25 @@ Default = NULL (random seed)}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
 
-\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
+\item{eta}{\link{gS} Numeric (0, 1): Learning rate. Default = .1}
 
-\item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
+\item{gamma}{\link{gS} Numeric: Minimum loss reduction required to make further partition}
 
-\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
+\item{max_depth}{\link{gS} Integer: Maximum tree depth. (Default = 6)}
 
-\item{subsample}{[gS] Numeric: subsample ratio of the training instance}
+\item{subsample}{\link{gS} Numeric: subsample ratio of the training instance}
 
-\item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
+\item{colsample_bytree}{\link{gS} Numeric: subsample ratio of columns when constructing each tree}
 
-\item{colsample_bylevel}{[gS] Numeric}
+\item{colsample_bylevel}{\link{gS} Numeric}
 
-\item{lambda}{[gS] L2 regularization on weights}
+\item{lambda}{\link{gS} L2 regularization on weights}
 
-\item{alpha}{[gS] L1 regularization on weights}
+\item{alpha}{\link{gS} L1 regularization on weights}
 
-\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
+\item{tree_method}{\link{gS} XGBoost tree construction algorithm (Default = "auto")}
 
-\item{sketch_eps}{[gS] Numeric (0, 1):}
+\item{sketch_eps}{\link{gS} Numeric (0, 1):}
 
 \item{base_score}{Numeric: The mean outcome response (Defaults to mean)}
 
@@ -204,7 +204,7 @@ Tune hyperparameters using grid search and resampling,
 train a final model, and validate it
 }
 \details{
-[gS]: indicates parameter will be autotuned by grid search if multiple
+\link{gS}: indicates parameter will be autotuned by grid search if multiple
 values are passed. Learn more about XGBoost's parameters here:
 http://xgboost.readthedocs.io/en/latest/parameter.html
 }

@@ -8,9 +8,9 @@
 #'
 #' @param color Input color. Any format that grDevices::col2rgb() recognizes
 #' @param alpha Numeric: Scale alpha by this amount. Future: replace with absolute setting
-#' @param hue Float: How much hue to add to \code{color}
-#' @param sat Float: How much saturation to add to \code{color}
-#' @param val Float: How much to increase value of \code{color} by
+#' @param hue Float: How much hue to add to `color`
+#' @param sat Float: How much saturation to add to `color`
+#' @param val Float: How much to increase value of `color` by
 #' @return Adjusted color
 #' @author E.D. Gennatas
 #' @export

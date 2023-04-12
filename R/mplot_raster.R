@@ -7,7 +7,7 @@
 #' Plots 2D (grayscale) or 3D (color) array as Raster Image
 #'
 #' @param x Array, 2D or 3D: Input describing grayscale or color image in RGB space
-#' @param mono Logical: If TRUE, plot as grayscale using \code{mono.fn} to convert RGB to grayscale. Default = FALSE
+#' @param mono Logical: If TRUE, plot as grayscale using `mono.fn` to convert RGB to grayscale. Default = FALSE
 #' @param mono.fn Function: Apply this function to the array to convert to 2D for grayscale plotting. Default = mean
 #' @param bg Color: Background color (around the plotted image when window proportions do not match image). Default = "gray10"
 #' @param par.reset Logical: If TRUE, reset par settings before exiting. Default = TRUE

@@ -16,17 +16,17 @@ rtset.LIHAD(
 )
 }
 \arguments{
-\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
+\item{max.depth}{\link{gS} Integer: Max depth of additive tree. Default = 3}
 
-\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
+\item{learning.rate}{\link{gS} Float (0, 1): Learning rate. Default = 1}
 
 \item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
 
-\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
+\item{alpha}{\link{gS} Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
 
-\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
+\item{lambda}{\link{gS} Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
-\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{\link{gS} Integer: Minimum N observations needed in node, before considering splitting}
 }
 \description{
 \code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}

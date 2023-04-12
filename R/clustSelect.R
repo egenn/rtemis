@@ -11,10 +11,10 @@
 #' @param clust Character: Clustering algorithm name. Case insensitive, supports 
 #' partial matching. e.g. "hop" for HOPACH
 #' @param fn Logical: If TRUE, return function, otherwise name of function.
-#' @param desc Logical: If TRUE, return full name of algorithm \code{clust}
+#' @param desc Logical: If TRUE, return full name of algorithm `clust`
 #' 
-#' @return Name of function (Default) or function (\code{fn=TRUE}) or full name 
-#' of algorithm (\code{desc=TRUE})
+#' @return Name of function (Default) or function (`fn=TRUE`) or full name 
+#' of algorithm (`desc=TRUE`)
 #' @author E.D. Gennatas
 #' @export
 

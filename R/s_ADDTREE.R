@@ -9,7 +9,7 @@
 #'
 #' This function is for binary classification. The outcome must be a factor with two levels, the first level
 #' is the 'positive' class. Ensure there are no missing values in the data and that variables are either numeric
-#' (including integers) or factors. Use \link{preprocess} as needed to impute and convert characters to factors.
+#' (including integers) or factors. Use [preprocess] as needed to impute and convert characters to factors.
 #'
 #' Factor levels should not contain the "/" character (it is used to separate conditions
 #' in the addtree object)
@@ -22,16 +22,16 @@
 #' @param min.update Float: Minimum update for gradient step
 #' @param min.hessian [gS] Float: Minimum second derivative to continue splitting. Default = .001
 #' @param min.membership Integer: Minimum number of cases in a node. Default = 1
-#' @param steps.past.min.membership Integer: N steps to make past \code{min.membership} - For testing. Default = 0
+#' @param steps.past.min.membership Integer: N steps to make past `min.membership` - For testing. Default = 0
 #' @param gamma [gS] Float: acceleration factor = lambda/(1 + lambda). Default = .8
 #' @param max.depth [gS] Integer: maximum depth of the tree. Default = 30
 #' @param learning.rate [gS] learning rate for the Newton Raphson step that updates the function values
 #' of the node
 #' @param imetrics Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE
-#' @param rpart.params List: \code{rpart} parameters, passed to \code{rpart::rpart("parms")}
+#' @param rpart.params List: `rpart` parameters, passed to `rpart::rpart("parms")`
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
-#' percent of cases match each rule. If available, these are used by \link{dplot3_addtree} when plotting. Default = TRUE
-#' @return Object of class \link{rtMod}
+#' percent of cases match each rule. If available, these are used by [dplot3_addtree] when plotting. Default = TRUE
+#' @return Object of class [rtMod]
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @family Tree-based methods
