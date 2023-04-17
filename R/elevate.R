@@ -173,7 +173,7 @@ elevate <- function(x, y = NULL,
     start_time <- intro(verbose = verbose, logFile = logFile)
 
     # Dependencies ----
-    dependency_check(c("future", "plyr"))
+    dependency_check(c("future", "future.apply", "progressr", "plyr"))
 
     # Arguments ----
     # Allow elevate(df, "mod")
