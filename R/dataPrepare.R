@@ -2,8 +2,6 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' `rtemis-internals`: `dataPrepare`
-#'
 #' Prepare data for \pkg{rtemis} supervised learning
 #'
 #' @param x Either training set features or combined training features and 
@@ -27,6 +25,7 @@
 #' @param .preprocess List: Preprocessing parameters to be passed to [preprocess]. Set with [rtset.preprocess]
 #' @param verbose Logical: If TRUE, print messages to console
 #'
+#' @keywords internal
 #' @author E.D. Gennatas
 #' @export
 
@@ -195,7 +194,7 @@ dataPrepare <- function(x, y = NULL,
         "Regression"
     )
 
-    # UPSAMPLE: balance outcome class ----
+    # Upsample: balance outcome class ----
     if (type == "Classification" && upsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
@@ -228,7 +227,7 @@ dataPrepare <- function(x, y = NULL,
         x0 <- y0 <- NULL
     }
 
-    # DOWNSAMPLE: balance outcome class ----
+    # Downsample: balance outcome class ----
     if (type == "Classification" && downsample) {
         if (!is.null(resample.seed)) set.seed(resample.seed)
         freq <- as.data.frame(table(y))
