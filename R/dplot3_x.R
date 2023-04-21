@@ -111,6 +111,8 @@ dplot3_x <- function(x,
                      automargin.x = TRUE,
                      automargin.y = TRUE,
                      zerolines = FALSE,
+                     density.kernel = "gaussian",
+                     density.bw = "SJ",
                      histnorm = c(
                          "density", "percent", "probability",
                          "probability density"
@@ -160,7 +162,7 @@ dplot3_x <- function(x,
     if (!is.list(x)) x <- list(x)
     n.groups <- length(x)
 
-    if (n.groups == 1 & is.null(xlab)) {
+    if (n.groups == 1 && is.null(xlab)) {
         xlab <- .xname
     }
 
@@ -253,7 +255,11 @@ dplot3_x <- function(x,
     # '- { Density } ----
     if (type == "density") {
         if (is.null(ylab)) ylab <- "Density"
-        xl.density <- lapply(x, density, na.rm = TRUE)
+        xl.density <- lapply(x, density,
+            na.rm = TRUE,
+            kernel = density.kernel,
+            bw = density.bw
+        )
 
         if (mode == "overlap") {
             # '- Density overlap ----
