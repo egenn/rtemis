@@ -7,7 +7,7 @@
 elevate(
   x,
   y = NULL,
-  mod = "lightrf",
+  mod = "ranger",
   mod.params = list(),
   .preprocess = NULL,
   .decompose = NULL,

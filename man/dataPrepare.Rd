@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataPrepare.R
 \name{dataPrepare}
 \alias{dataPrepare}
-\title{\code{rtemis-internals}: \code{dataPrepare}}
+\title{Prepare data for \pkg{rtemis} supervised learning}
 \usage{
 dataPrepare(
   x,
@@ -64,3 +64,4 @@ Prepare data for \pkg{rtemis} supervised learning
 \author{
 E.D. Gennatas
 }
+\keyword{internal}

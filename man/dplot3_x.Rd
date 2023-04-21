@@ -44,6 +44,8 @@ dplot3_x(
   automargin.x = TRUE,
   automargin.y = TRUE,
   zerolines = FALSE,
+  density.kernel = "gaussian",
+  density.bw = "SJ",
   histnorm = c("density", "percent", "probability", "probability density"),
   histfunc = c("count", "sum", "avg", "min", "max"),
   hist.n.bins = 20,
