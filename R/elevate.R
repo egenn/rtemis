@@ -101,7 +101,7 @@
 #' @export
 
 elevate <- function(x, y = NULL,
-                    mod = "lightrf",
+                    mod = "ranger",
                     mod.params = list(),
                     .preprocess = NULL,
                     .decompose = NULL,
@@ -251,17 +251,6 @@ elevate <- function(x, y = NULL,
     }
 
     # resLearn: Outer resamples ----
-    # resample.rtset <- list(
-    #     resampler = resampler,
-    #     n.resamples = n.resamples,
-    #     stratify.var = stratify.var,
-    #     train.p = train.p,
-    #     strat.n.bins = strat.n.bins,
-    #     target.length = target.length,
-    #     seed = seed,
-    #     group = res.group,
-    #     index = res.index
-    # )
     if (outer.n.workers > 1) print.res.plot <- FALSE
     if (!is.null(logFile) && trace < 2) sink() # pause writing to file
     res.outdir <- if (save.res) outdir else NULL
@@ -269,15 +258,6 @@ elevate <- function(x, y = NULL,
     if (save.tune) best.tune <- list()
 
     if (verbose) {
-        # ntotal <- n.repeats * outer.resampling$n.resamples
-        # msg2(
-        #     hilite(
-        #         paste(
-        #             "Training ", mod.name, " on ", n.repeats, "x",
-        #             outer.resampling$n.resamples, outer.resampling$resampler, "..."
-        #         )
-        #     )
-        # )
         desc <- switch(outer.resampling$resampler,
             kfold = "independent folds",
             strat.sub = "stratified subsamples",
