@@ -278,7 +278,7 @@ dt_pctmissing <- function(x, verbose = TRUE) {
     nmissing <- sapply(x, \(i) sum(is.na(i)))
     pctmissing <- nmissing / NROW(x)
     if (verbose) {
-        cat("Percet missing per column:\n")
+        cat("Percent missing per column:\n")
         printls(nmissing)
     }
     invisible(list(nmissing = nmissing, pctmissing = pctmissing))
