@@ -39,7 +39,7 @@ c_PAMK <- function(x,
                    usepam = ifelse(nrow(x) < 2000, TRUE, FALSE),
                    scaling = TRUE,
                    diss = inherits(data, "dist"),
-                   metric = 'euclidean',
+                   metric = "euclidean",
                    do.swap = TRUE,
                    trace = 0,
                    verbose = TRUE, ...) {

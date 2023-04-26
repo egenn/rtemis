@@ -61,7 +61,7 @@ d_MDS <- function(x,
         msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
         msg2("    interpreted as", n, "cases with", p, "features.")
     }
-    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
     xnames <- colnames(x)
     if (scale) {
         x <- scale(x, center = center)
@@ -81,7 +81,7 @@ d_MDS <- function(x,
 
     # Projections ----
     projections.train <- decom$points
-    colnames(projections.train) <- paste0("MDS", seq(NCOL(projections.train)))
+    colnames(projections.train) <- paste0("MDS", seq_len(NCOL(projections.train)))
 
     # Outro ----
     extra <- list()

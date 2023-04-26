@@ -139,7 +139,7 @@ gridSearchLearn <- function(x, y, mod,
         msg2(
             hilite(
                 "Tuning", modSelect(mod, desc = TRUE), "by",
-                search.type, "grid search:"
+                search.type, "grid search."
             )
         )
         msg20(
@@ -147,7 +147,7 @@ gridSearchLearn <- function(x, y, mod,
             NROW(param.grid),
             " models total; running on ",
             singorplu(n.cores, "worker"),
-            " (", Sys.getenv("R_PLATFORM"), ")\n"
+            " (", Sys.getenv("R_PLATFORM"), ")"
         )
     }
     

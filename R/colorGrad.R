@@ -97,184 +97,213 @@ colorGrad <- function(n = 21,
                       margins = c(0, 0, 0, 0),
                       pad = 0,
                       par.reset = TRUE) {
-
-  # [ Arguments ] ----
-  n <- as.integer(n)
-  if (n %% 2 != 1) n <- n + 1
-  if (!is.null(filename)) colorbar <- TRUE
-  if (rtrn.plotly) plotlycb <- TRUE
-  if (is.null(cb.n)) {
-    cb.n <- n
-    if (cb.n %% 2 != 1) cb.n <- cb.n + 1
-  }
-  space <- match.arg(space)
-  theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
-
-  # [ Colors ] ----
-  if (!is.null(colors)) {
-    if (colors == "french") {
-      lo <- "#01256E"
-      lomid <- NULL
-      mid <- "white"
-      midhi <- NULL
-      hi <- "#95001A"
-    } else if (colors == "penn") {
-      lo <- "#02CFFF"
-      lomid <- NULL
-      mid <- "#01256E"
-      midhi <- "#95001A"
-      hi <- "#F2C100"
-    } else if (colors == "blues") {
-      lo <- "#01256E"
-      mid <- NULL
-      hi <- "#82AFD3"
-    } else if (colors == "greens") {
-      lo <- "#005200"
-      mid <- NULL
-      hi <- "#80DF80"
-    } else {
-      cols <- colorvec(cols = colors)
-      lo <- cols$lo
-      lomid <- cols$lomid
-      mid <- cols$mid
-      midhi <- cols$midhi
-      hi <- cols$hi
+    # [ Arguments ] ----
+    n <- as.integer(n)
+    if (n %% 2 != 1) n <- n + 1
+    if (!is.null(filename)) colorbar <- TRUE
+    if (rtrn.plotly) plotlycb <- TRUE
+    if (is.null(cb.n)) {
+        cb.n <- n
+        if (cb.n %% 2 != 1) cb.n <- cb.n + 1
     }
-  }
+    space <- match.arg(space)
+    theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
 
-  # [ Grad ] ----
-  n <- as.integer(n)
-  midpoint <- ceiling(n / 2)
-  if (is.null(mid)) mid <- ifelse(theme == "light", "white", "black")
-  if (!is.na(mid)) {
-    if (mid == "mean") mid <- colorOp(c(lo, hi), "mean")
-    lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)
-    mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
-    grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
-  } else {
-    grad <- colorRampPalette(c(lo, hi), space = space)(n)
-  }
+    # [ Colors ] ----
+    if (!is.null(colors)) {
+        if (colors == "french") {
+            lo <- "#01256E"
+            lomid <- NULL
+            mid <- "white"
+            midhi <- NULL
+            hi <- "#95001A"
+        } else if (colors == "penn") {
+            lo <- "#02CFFF"
+            lomid <- NULL
+            mid <- "#01256E"
+            midhi <- "#95001A"
+            hi <- "#F2C100"
+        } else if (colors == "blues") {
+            lo <- "#01256E"
+            mid <- NULL
+            hi <- "#82AFD3"
+        } else if (colors == "greens") {
+            lo <- "#005200"
+            mid <- NULL
+            hi <- "#80DF80"
+        } else {
+            cols <- colorvec(cols = colors)
+            lo <- cols$lo
+            lomid <- cols$lomid
+            mid <- cols$mid
+            midhi <- cols$midhi
+            hi <- cols$hi
+        }
+    }
 
-  if (cb.n != n) {
-    cb.n <- as.integer(cb.n)
-    cb.midpoint <- ceiling(cb.n / 2)
-    # if (is.null(mid)) mid <- colorOp(c(lo, hi), "mean")
-    # lo2mid <- grDevices::colorRampPalette(c(lo, lomid, mid), space = space)
-    # mid2hi <- grDevices::colorRampPalette(c(mid, midhi, hi), space = space)
+    # [ Grad ] ----
+    n <- as.integer(n)
+    midpoint <- ceiling(n / 2)
+    if (is.null(mid)) mid <- ifelse(theme == "light", "white", "black")
     if (!is.na(mid)) {
-      cb.grad <- c(lo2mid(cb.midpoint), mid2hi(cb.n - cb.midpoint + 1)[-1])
+        if (mid == "mean") mid <- colorOp(c(lo, hi), "mean")
+        lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)
+        mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
+        grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
     } else {
-      cb.grad <- colorRampPalette(c(lo, hi), space = space)(cb.n)
-    }
-  } else {
-    cb.grad <- grad
-    cb.midpoint <- midpoint
-  }
-
-  # [ Preview ] ----
-  if (preview) {
-    plot(rep(1, n), col = grad, pch = 19, cex = 6,
-         xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-         ann = FALSE, axes = FALSE)
-    text(x = 0.25, y = 1.05, labels = paste0("Color gradient (n = ", n, ")"), adj = 0, cex = 1.5)
-    segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
-  }
-
-  # [ Colorbar ] ----
-  if (colorbar) {
-
-    if (theme == "light") {
-      if (is.null(bg)) bg <- "white"
-      if (is.null(col.text)) col.text <- "black"
-    } else if (theme == "dark") {
-      if (is.null(bg)) bg <- "black"
-      if (is.null(col.text)) col.text <- "white"
+        grad <- colorRampPalette(c(lo, hi), space = space)(n)
     }
 
-    par.orig <- par(no.readonly = TRUE)
-    if (par.reset & !cb.add) on.exit(suppressWarnings(par(par.orig)))
-    if (cb.add) {
-      par(new = cb.add, pty = "m", mar = cb.add.mar)
+    if (cb.n != n) {
+        cb.n <- as.integer(cb.n)
+        cb.midpoint <- ceiling(cb.n / 2)
+        # if (is.null(mid)) mid <- colorOp(c(lo, hi), "mean")
+        # lo2mid <- grDevices::colorRampPalette(c(lo, lomid, mid), space = space)
+        # mid2hi <- grDevices::colorRampPalette(c(mid, midhi, hi), space = space)
+        if (!is.na(mid)) {
+            cb.grad <- c(lo2mid(cb.midpoint), mid2hi(cb.n - cb.midpoint + 1)[-1])
+        } else {
+            cb.grad <- colorRampPalette(c(lo, hi), space = space)(cb.n)
+        }
     } else {
-      par(bg = bg, mar = cb.mar, pty = "m")
+        cb.grad <- grad
+        cb.midpoint <- midpoint
     }
 
-    if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-    plot(rep(1, cb.n), 1:cb.n, col = cb.grad, pch = 19, cex = cb.cex,
-         xlim = c(.5, 1.5), ylim = c(.5, cb.n + .5),
-         ann = F, axes = FALSE)
-    # box() # to visualize position
-    # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
-    axis(side = 4, at = c(1, cb.midpoint, cb.n), labels = c(bar.min, bar.mid, bar.max),
-         col = colorAdjust("black", 0), col.axis = col.text, col.ticks = colorAdjust("black", 0),
-         pos = cb.axis.pos,
-         las = cb.axis.las,
-         cex.axis = cex,
-         hadj = cb.axis.hadj)
-    if (!is.null(filename)) grDevices::dev.off()
-  }
-
-  # [ Plotly cb ] ----
-  if (plotlycb) {
-    requireNamespace("plotly")
-
-    m <- list(size = 40,
-              color = grad,
-              opacity = 1,
-              symbol = "circle")
-
-    x.ax <- list(title = "",
-                 zeroline = F,
-                 showline = F,
-                 showticklabels = F,
-                 showgrid = F,
-                 range = c(0.8, 1.4))
-
-    y.ax <- list(title = "",
-                 zeroline = F,
-                 showline = F,
-                 showticklabels = F,
-                 showgrid = FALSE)
-
-    t <- list(family = "Open Sans",
-              size = 22,
-              color = plotly::toRGB("black"))
-
-    a <- list()
-    for (i in 1:3) {
-      a[[i]] <- list(
-        x = 1.3,
-        y = c(1, midpoint, n)[i],
-        text = as.character(c(bar.min, bar.mid, bar.max))[i],
-        xref = "x",
-        yref = "y",
-        showarrow = FALSE)
+    # [ Preview ] ----
+    if (preview) {
+        plot(rep(1, n),
+            col = grad, pch = 19, cex = 6,
+            xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
+            ann = FALSE, axes = FALSE
+        )
+        text(x = 0.25, y = 1.05, labels = paste0("Color gradient (n = ", n, ")"), adj = 0, cex = 1.5)
+        segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
     }
 
-    hovtext <- ddSci(seq(bar.min, bar.max, (bar.max - bar.min) / (n - 1)))
+    # [ Colorbar ] ----
+    if (colorbar) {
+        if (theme == "light") {
+            if (is.null(bg)) bg <- "white"
+            if (is.null(col.text)) col.text <- "black"
+        } else if (theme == "dark") {
+            if (is.null(bg)) bg <- "black"
+            if (is.null(col.text)) col.text <- "white"
+        }
 
-    margin <- list(b = margins[1], l = margins[2], t = margins[3], r = margins[4], pad = pad)
+        par.orig <- par(no.readonly = TRUE)
+        if (par.reset && !cb.add) on.exit(suppressWarnings(par(par.orig)))
+        if (cb.add) {
+            par(new = cb.add, pty = "m", mar = cb.add.mar)
+        } else {
+            par(bg = bg, mar = cb.mar, pty = "m")
+        }
 
-    p <- plotly::plot_ly(x = rep(1, n), y = 1:n,
-                         type = "scatter",
-                         mode = "markers",
-                         marker = m,
-                         hoverinfo = "text",
-                         text = hovtext) |>
-      plotly::layout(xaxis = x.ax, yaxis = y.ax,
-                     width = plotly.width,
-                     height = plotly.height,
-                     annotations = a,
-                     font = t,
-                     margin = margin) |>
-      plotly::config(displayModeBar = FALSE)
-    if (plotlycb & !rtrn.plotly) print(p)
-  }
+        if (!is.null(filename)) {
+            grDevices::pdf(
+                filename,
+                width = pdf.width, 
+                height = pdf.height, 
+                title = "rtemis Graphics"
+            )
+        }
+        plot(rep(1, cb.n), 1:cb.n,
+            col = cb.grad, pch = 19, cex = cb.cex,
+            xlim = c(.5, 1.5), ylim = c(.5, cb.n + .5),
+            ann = FALSE, axes = FALSE
+        )
+        # box() # to visualize position
+        # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
+        axis(
+            side = 4,
+            at = c(1, cb.midpoint, cb.n),
+            labels = c(bar.min, bar.mid, bar.max),
+            col = colorAdjust("black", 0),
+            col.axis = col.text,
+            col.ticks = colorAdjust("black", 0),
+            pos = cb.axis.pos,
+            las = cb.axis.las,
+            cex.axis = cex,
+            hadj = cb.axis.hadj
+        )
+        if (!is.null(filename)) grDevices::dev.off()
+    }
 
-  # [ out ] ----
-  if (rtrn.plotly) return(p)
-  invisible(grad)
+    # [ Plotly cb ] ----
+    if (plotlycb) {
+        requireNamespace("plotly")
 
+        m <- list(
+            size = 40,
+            color = grad,
+            opacity = 1,
+            symbol = "circle"
+        )
+
+        x.ax <- list(
+            title = "",
+            zeroline = FALSE,
+            showline = FALSE,
+            showticklabels = FALSE,
+            showgrid = FALSE,
+            range = c(0.8, 1.4)
+        )
+
+        y.ax <- list(
+            title = "",
+            zeroline = FALSE,
+            showline = FALSE,
+            showticklabels = FALSE,
+            showgrid = FALSE
+        )
+
+        t <- list(
+            family = "Open Sans",
+            size = 22,
+            color = plotly::toRGB("black")
+        )
+
+        a <- list()
+        for (i in 1:3) {
+            a[[i]] <- list(
+                x = 1.3,
+                y = c(1, midpoint, n)[i],
+                text = as.character(c(bar.min, bar.mid, bar.max))[i],
+                xref = "x",
+                yref = "y",
+                showarrow = FALSE
+            )
+        }
+
+        hovtext <- ddSci(seq(bar.min, bar.max, (bar.max - bar.min) / (n - 1)))
+
+        margin <- list(b = margins[1], l = margins[2], t = margins[3], r = margins[4], pad = pad)
+
+        p <- plotly::plot_ly(
+            x = rep(1, n), y = 1:n,
+            type = "scatter",
+            mode = "markers",
+            marker = m,
+            hoverinfo = "text",
+            text = hovtext
+        ) |>
+            plotly::layout(
+                xaxis = x.ax, yaxis = y.ax,
+                width = plotly.width,
+                height = plotly.height,
+                annotations = a,
+                font = t,
+                margin = margin
+            ) |>
+            plotly::config(displayModeBar = FALSE)
+        if (plotlycb && !rtrn.plotly) print(p)
+    }
+
+    # [ out ] ----
+    if (rtrn.plotly) {
+        return(p)
+    }
+    invisible(grad)
 } # rtemis::colorGrad
 
 # 3-letter Color Name Abbreviations
@@ -288,25 +317,31 @@ colorGrad <- function(n = 21,
 # prl purple
 
 colorvec <- function(cols) {
+    if (nchar(cols) %% 3 != 0) {
+        stop("All colors must be specified by their 3-letter abbreviations")
+    }
 
-  if (nchar(cols) %% 3 != 0) stop("All colors must be specified by their 3-letter abbreviations")
+    cols <- tolower(cols)
+    ncols <- nchar(cols) / 3
+    cols <- lapply(seq(ncols), function(i) substr(cols, i * 3 - 2, i * 3))
 
-  cols <- tolower(cols)
-  ncols <- nchar(cols) / 3
-  cols <- lapply(seq(ncols), function(i) substr(cols, i * 3 - 2, i * 3))
+    coldf <- data.frame(
+        abbr = c("wht", "red", "grn", "blu", "blk", "yel", "rng", "prl"),
+        name = c("white", "red", "green", "blue", 
+                 "black", "yellow", "orange", "purple"),
+        stringsAsFactors = FALSE
+    )
 
-  coldf <- data.frame(abbr = c("wht", "red", "grn", "blu", "blk", "yel", "rng", "prl"),
-                      name = c("white", "red", "green", "blue", "black", "yellow", "orange", "purple"),
-                      stringsAsFactors = FALSE)
+    cols <- sapply(1:ncols, function(i) coldf[coldf$abbr == cols[i], 2])
 
-  cols <- sapply(1:ncols, function(i) coldf[coldf$abbr == cols[i], 2])
+    lo <- lomid <- mid <- midhi <- hi <- NULL
+    collist <- list(
+        twocols = c("lo", "hi"),
+        threecols = c("lo", "mid", "hi"),
+        fourcols = c("lo", "mid", "midhi", "hi"),
+        fivecols = c("lo", "lomid", "mid", "midhi", "hi")
+    )
 
-  lo <- lomid <- mid <- midhi <- hi <- NULL
-  collist <- list(twocols = c("lo", "hi"),
-                  threecols = c("lo", "mid", "hi"),
-                  fourcols = c("lo", "mid", "midhi", "hi"),
-                  fivecols = c("lo", "lomid", "mid", "midhi", "hi"))
-
-  for (i in seq(ncols)) assign(collist[[ncols - 1]][i], cols[i])
-  return(list(lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi))
+    for (i in seq(ncols)) assign(collist[[ncols - 1]][i], cols[i])
+    return(list(lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi))
 }

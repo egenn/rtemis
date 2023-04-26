@@ -62,7 +62,7 @@ cartLiteBoostTV <- function(x, y = NULL,
                             plot.predicted = NULL,
                             print.plot = FALSE,
                             print.base.plot = FALSE,
-                            plot.type = 'l',
+                            plot.type = "l",
                             outdir = NULL, ...) {
 
   # Intro ----
@@ -412,7 +412,7 @@ predict.cartLiteBoostTV <- function(object,
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq(NCOL(newdata)))
+      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -423,11 +423,11 @@ predict.cartLiteBoostTV <- function(object,
 
   if (!as.matrix) {
     predicted <- rowSums(cbind(rep(object$init, NROW(newdata)),
-                               pbapply::pbsapply(seq(n.iter), function(i)
+                               pbapply::pbsapply(seq(n.iter), \(i)
                                  predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
                                  cl = n.cores)))
   } else {
-    predicted.n <- pbapply::pbsapply(seq(n.iter), function(i)
+    predicted.n <- pbapply::pbsapply(seq(n.iter), \(i)
       predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
       cl = n.cores)
 
@@ -609,14 +609,17 @@ update.cartLiteBoostTV <- function(object,
   # Create n.iter x n.cases fitted values; one row per iteration
   if (is.null(x)) {
     # fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted_tv))))
-    fitted <- t(sapply(object$mod$mods, function(i) i$fitted))
+    fitted <- t(sapply(object$mod$mods, \(i) i$fitted))
   } else {
     if (!last.step.only) {
-      fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods, function(i) predict(i, x), cl = n.cores)))
+      fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods, \(i) predict(i, x), cl = n.cores)))
     } else {
       u <- length(object$mod$mods)
       object$mod$mods[[u]]$fitted_tv <- predict(object$mod$mods[[u]], x)
-      fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
+      fitted <- t(vapply(
+        object$mod$mods,
+        \(i) i$fitted, vector("numeric", length(object$fitted))
+      ))
     }
   }
 

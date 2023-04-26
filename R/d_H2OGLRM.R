@@ -89,7 +89,7 @@ d_H2OGLRM <- function(x,
     msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg2("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
 
@@ -125,7 +125,7 @@ d_H2OGLRM <- function(x,
                          svd_method = svd.method, ...)
 
   if (print.plot) mplot3_xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
-                            type = 'l', zerolines = FALSE,
+                            type = "l", zerolines = FALSE,
                             xlab = "Iteration", ylab = "Objective",
                             main = "Objective Function Value per Iteration",
                             theme = plot.theme)

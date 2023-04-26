@@ -239,7 +239,7 @@ bag <- function(x, y = NULL,
         extra = NULL
     )
 
-    if (print.plot & !is.null(outdir)) {
+    if (print.plot && !is.null(outdir)) {
         filename.train <- paste0(outdir, "s.", mod.name, "_Fitted.vs.True.pdf")
         if (!is.null(y.test)) {
             filename.test <- paste0(outdir, "s.", mod.name, "_Predicted.vs.True.pdf")

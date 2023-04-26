@@ -112,7 +112,7 @@ checkpoint_earlystop <- function(x,
   min.steps <- max(n.steps, min.steps)
   if (!is.na(relativeVariance.threshold) && length(x) >= min.steps) {
     last.n.steps <- rev(x)[seq(n.steps)]
-    relativeVariance <- var(last.n.steps, na.rm = TRUE)/mean(last.n.steps)
+    relativeVariance <- var(last.n.steps, na.rm = TRUE) / mean(last.n.steps)
     if (is.na(relativeVariance)) {
       warning("Relative variance was NA; setting to 0")
       relativeVariance <- 0

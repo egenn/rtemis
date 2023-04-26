@@ -71,7 +71,7 @@ x_CCA <- function(x, z,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
   # Intro ----
-  if (missing(x) | missing(z)) {
+  if (missing(x) || missing(z)) {
     print(args(x_CCA))
     return(invisible(9))
   }
@@ -94,9 +94,9 @@ x_CCA <- function(x, z,
   }
 
   # Data ----
-  if (is.null(colnames(x))) colnames(x) <- paste0("xFeature_", seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("xFeature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
-  if (is.null(colnames(z))) colnames(z) <- paste0("zFeature_", seq(NCOL(z)))
+  if (is.null(colnames(z))) colnames(z) <- paste0("zFeature_", seq_len(NCOL(z)))
   znames <- colnames(z)
 
   # CCA permute ----
@@ -377,7 +377,7 @@ x_CCA.permute.both <- function(x, z,
   mango <- pbapply::pblapply(seq(nperms), FUN = function(i) {
     sampz <- sample(NROW(z))
     sampx <- sample(NROW(x))
-    for (j in seq(length(penaltyxs))) {
+    for (j in seq_along(penaltyxs)) {
       if (trace && .Platform$OS.type != "windows")
         cat(j, fill = FALSE)
       if (i == 1) {

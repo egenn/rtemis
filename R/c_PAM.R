@@ -21,7 +21,7 @@
 c_PAM <- function(x,
                   k = 2,
                   diss = FALSE,
-                  metric = 'euclidean',
+                  metric = "euclidean",
                   do.swap = TRUE,
                   verbose = TRUE, ...) {
 

@@ -316,7 +316,7 @@ linadleaves <- function(x, y,
     root <- setNodeRC(
         g = g,
         id = 1,
-        index = seq(NROW(y)),
+        index = seq_len(NROW(y)),
         Fval = Fval,
         weights = weights,
         depth = 0,
@@ -753,10 +753,10 @@ splitlineRC <- function(g,
             }
             if (length(cutFeat.point) > 0) {
                 left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
-                right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+                right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
             } else {
                 left.index <- intersect(node$index, which(is.element(g$x[, cutFeat.index], cutFeat.category)))
-                right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+                right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
             }
         } # /Split on Categorical vs Continuous feature
 
@@ -899,7 +899,7 @@ splitlineRC <- function(g,
         if (!is.null(cutFeat.name)) {
             # Node split
             .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[left.index]
-            if (length(left.index) < minobsinnode.lin | is_constant(.resid2wleft)) {
+            if (length(left.index) < minobsinnode.lin || is_constant(.resid2wleft)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
                     msg2("Looking at Node #", node.index * 2,
@@ -949,7 +949,7 @@ splitlineRC <- function(g,
             } # /if (length(left.index) < minobsinnode.lin)
 
             .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[right.index]
-            if (length(right.index) < minobsinnode.lin | is_constant(.resid2wright)) {
+            if (length(right.index) < minobsinnode.lin || is_constant(.resid2wright)) {
                 # Too few observations to fit linear model or weighted resid constant
                 if (trace > 1) {
                     msg2("Looking at Node #", node.index * 2 + 1,
@@ -986,7 +986,7 @@ splitlineRC <- function(g,
                 # Lin Updates, Right ----
             } # /if (length(right.index) < minobsinnode.lin)
 
-            if (.class & g$.rho) {
+            if (.class && g$.rho) {
                 firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.right)[1]
                 secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.right)[1]
                 rho.right <- -firstDer.rho.right / secDer.rho.right
@@ -1190,7 +1190,7 @@ predict.linadleaves <- function(object, newdata,
             out <- yhat
         }
 
-        if (!cxrcoef & !cxr) {
+        if (!cxrcoef && !cxr) {
             out <- yhat
         } else {
             out <- list(yhat = yhat)
@@ -1250,7 +1250,7 @@ predict.linadleaves <- function(object, newdata,
             })
 
             yhat.l <- plyr::llply(seq(max.leaves), function(j) {
-                yhat <- sapply(seq(NROW(newdata)), function(n) {
+                yhat <- sapply(seq_len(NROW(newdata)), function(n) {
                     newdata_lin[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE])
                 })
                 if (.class) {

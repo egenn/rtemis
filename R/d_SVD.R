@@ -47,7 +47,7 @@ d_SVD <- function(x,
     msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg2("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
   if (scale) {

@@ -44,16 +44,16 @@ Columns must correspond to columns in \code{x}}
 
 \item{gbm.params}{Named list: Parameters for \link{s_GBM}}
 
-\item{meta.alpha}{Float \link{0, 1}: \code{alpha} for \link{s_GLMNET}, Default = 1}
+\item{meta.alpha}{Float \link{0, 1}: \code{alpha} for \link{s_GLMNET}}
 
-\item{meta.lambda}{Float: \code{lambda} for \link{s_GLMNET}. Default = NULL (will be determined automatically
-by crossvalidation)}
+\item{meta.lambda}{Float: \code{lambda} for \link{s_GLMNET}. Default = NULL (will be
+determined automatically by crossvalidation)}
 
-\item{meta.extra.params}{Named list: Parameters for \link{s_GLMNET} for the feature
-selection step}
+\item{meta.extra.params}{Named list: Parameters for \link{s_GLMNET} for the
+feature selection step}
 
-\item{cases.by.rules}{Matrix of cases by rules from a previoue rulefit run. If provided,
-the GBM step is skipped. Default = NULL}
+\item{cases.by.rules}{Matrix of cases by rules from a previoue rulefit run.
+If provided, the GBM step is skipped. Default = NULL}
 
 \item{x.name}{Character: Name for feature set}
 

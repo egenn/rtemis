@@ -73,7 +73,7 @@ d_LLE <- function(x,
     msg2("    interpreted as", n, "cases with", p, "features.")
   }
 
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
 
   # LLE ----

@@ -652,13 +652,15 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 
 #' `rtemis-internal` Traverse ADDTREE tree by preorder
 #'
-#' Recursively Traverses ADDTREE tree by preorder function and builds data frame representation
+#' Recursively Traverses ADDTREE tree by preorder function and builds data 
+#' frame representation
 #'
 #' @param rt rt Object from [s_ADDTREE]
 #' @param x Features
 #' @param verbose Logical: If TRUE, print messages to stdout
 #'
 #' @author E.D. Gennatas
+#' @keywords internal
 
 
 # preorder + Include Rules ----

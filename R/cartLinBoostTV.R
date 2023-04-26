@@ -59,7 +59,7 @@ cartLinBoostTV <- function(x, y = NULL,
                            plot.predicted = NULL,
                            print.plot = FALSE,
                            print.base.plot = FALSE,
-                           plot.type = 'l',
+                           plot.type = "l",
                            outdir = NULL) {
 
   # Intro ----
@@ -411,7 +411,7 @@ predict.cartLinBoostTV <- function(object,
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq(NCOL(newdata)))
+      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -422,11 +422,11 @@ predict.cartLinBoostTV <- function(object,
 
   if (!as.matrix) {
     predicted <- rowSums(cbind(rep(object$init, NROW(newdata)),
-                               pbapply::pbsapply(seq(n.iter), function(i)
+                               pbapply::pbsapply(seq(n.iter), \(i)
                                  predict(object$mods[[i]], newdata) * object$learning.rate[i],
                                  cl = n.cores)))
   } else {
-    predicted.n <- pbapply::pbsapply(seq(n.iter), function(i)
+    predicted.n <- pbapply::pbsapply(seq(n.iter), \(i)
       predict(object$mods[[i]], newdata) * object$learning.rate[i],
       cl = n.cores)
 

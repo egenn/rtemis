@@ -14,8 +14,10 @@ preorderTree.addtree(rt, x, verbose = FALSE)
 \item{verbose}{Logical: If TRUE, print messages to stdout}
 }
 \description{
-Recursively Traverses ADDTREE tree by preorder function and builds data frame representation
+Recursively Traverses ADDTREE tree by preorder function and builds data
+frame representation
 }
 \author{
 E.D. Gennatas
 }
+\keyword{internal}

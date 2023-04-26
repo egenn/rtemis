@@ -265,6 +265,7 @@ msg20 <- function(...,
                 #  newline = TRUE,
                 #  extraline = FALSE,
                  newline.pre = FALSE,
+                 newline = TRUE,
                 #  as.message = FALSE,
                 #  color = NULL,
                  sep = "") {
@@ -293,7 +294,12 @@ msg20 <- function(...,
     if (newline.pre) cat("\n")
     cat(gray(paste0(.dt, gray(" "))))
     cat(paste(txt, collapse = sep))
-    cat(gray(" [", caller, "]\n", sep = ""), sep = "")
+    # cat(gray(" [", caller, "]\n", sep = ""), sep = "")
+    if (!is.null(caller) && !is.na(caller)) {
+        cat(gray(" [", caller, "]\n", sep = ""), sep = "")
+    } else if (newline) {
+        cat("\n")
+    }
     
 } # rtemis::msg20
 

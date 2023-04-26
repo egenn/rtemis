@@ -26,6 +26,6 @@ classImbalance <- function(x) {
   N <- length(x)
   freq <- as.data.frame(table(x))
 
-  K * sum(sapply(seq(K), function(i) (freq$Freq[i]/N - 1/K)^2))
+  K * sum(sapply(seq(K), function(i) (freq$Freq[i] / N - 1 / K)^2))
 
 } # rtemis::classImbalance

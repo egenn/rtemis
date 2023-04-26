@@ -88,7 +88,10 @@ factoryze <- function(x,
       }
     } else {
       if (n.factors != parallel.analysis$nfact) {
-        msg2(n.factors, "requested; Parallel analysis suggests", parallel.analysis$nfact, "factors.")
+        msg2(
+          n.factors, "requested; Parallel analysis suggests",
+          parallel.analysis$nfact, "factors."
+        )
         msg2("Check scree plot")
       }
     }
@@ -107,7 +110,11 @@ factoryze <- function(x,
                       cor = cor,
                       n.iter = fa.n.iter)
     # Plot factors
-    if (print.plot) psych::fa.diagram(x.fa, main = paste(x.name, "Factor Analysis"))
+    if (print.plot) {
+      psych::fa.diagram(x.fa,
+        main = paste(x.name, "Factor Analysis")
+      )
+    }
     # Get factor scores
     fa.scores <- x.fa$scores
   } else {
@@ -117,11 +124,14 @@ factoryze <- function(x,
   # Bifactor Analysis ----
   if (do.bifactor) {
     if (verbose) msg2("Running Bifactor Analysis...")
-    x.omega <- psych::omegaSem(x, nfactors = n.factors,
-                               fm = omega.method,
-                               n.iter = omega.n.iter,
-                               rotate = omega.rotation,
-                               plot = print.plot, title = paste(x.name, "Bifactor Analysis"))
+    x.omega <- psych::omegaSem(x,
+      nfactors = n.factors,
+      fm = omega.method,
+      n.iter = omega.n.iter,
+      rotate = omega.rotation,
+      plot = print.plot,
+      title = paste(x.name, "Bifactor Analysis")
+    )
     # Bifactor scores
     bifactor.scores <- x.omega$omegaSem$scores[, 1]
   } else {

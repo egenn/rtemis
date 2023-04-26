@@ -65,13 +65,13 @@ d_KPCA <- function(x,
     msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
     msg2("    interpreted as", n, "cases with", p, "features.")
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0('Feature_', seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
   if (!is.null(x.test)) colnames(x.test) <- xnames
   x <- as.matrix(x)
 
   # scale ----
-  if (scale | center) {
+  if (scale || center) {
     x <- scale(x, scale = scale, center = center)
     .center <- attr(x, "scaled:center")
     .scale <- attr(x, "scaled:scale")
@@ -89,7 +89,7 @@ d_KPCA <- function(x,
   projections.test <- NULL
   projections.train <- kernlab::predict(decom, x)
   if (!is.null(x.test)) {
-    if (scale | center) {
+    if (scale || center) {
       # x.test <- (x.test + .center) %*% diag(.scale) # faster for small matrices only
       x.test <- t(t(x.test + .center) * .scale)
     }
