@@ -279,7 +279,7 @@ dt_pctmissing <- function(x, verbose = TRUE) {
     pctmissing <- nmissing / NROW(x)
     if (verbose) {
         cat("Percent missing per column:\n")
-        printls(nmissing)
+        printls(pctmissing)
     }
     invisible(list(nmissing = nmissing, pctmissing = pctmissing))
 }
