@@ -11,9 +11,9 @@
 #' Important Note: We assume that true labels are a factor where the first level
 #' is the "positive" case, a.k.a. the event. All methods used here, "pROC",
 #' "auc_pairs", "ROCR", have been setup to expect this. This goes against the
-#' default sertting for both "pROC" and "ROCR", which will not give an AUC less
+#' default setting for both "pROC" and "ROCR", which will not give an AUC less
 #' than .5 because they will reorder levels. We don't want this because you
-#' can have a classifier perform worse than .5 and tt can be very confusing if
+#' can have a classifier perform worse than .5 and it can be very confusing if
 #' levels are reordered automatically and different functions give you different
 #' AUC.
 #'
