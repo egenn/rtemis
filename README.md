@@ -63,6 +63,18 @@ mod <- elevate(iris)
 
 ## What's new
 
+We are working towards the 1.0 release, which will feature updates to the
+API as well as the backend, and preparing for CRAN submission.
+
+The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which haven't yet been
+made publicly available, are in parallel development. The aim is to eventually
+offer a unified API across all three languages, but the priority remains to
+deliver rtemis 1.0.
+
+### **0.95.0 in rcpp branch**
+
+Adding support for Rcpp.
+
 ### **0.91**
 
 Switched the main parallelizable functions (resLearn for outer resamples;
