@@ -96,13 +96,6 @@ outro <- function(start.time,
 dataSummary <- function(x, y,
                         x.test = NULL, y.test = NULL,
                         type = NULL, testSet = TRUE) {
-    # cat("------------------------------------------------------\n")
-    # if (!is.null(type)) {
-    #   cat(paste(type, "Input Summary\n"))
-    # } else {
-    #   cat("Input Summary\n")
-    # }
-    # cat("------------------------------------------------------\n")
     if (!is.null(type)) {
         boxcat(paste(type, "Input Summary"), pad = 0)
     } else {
