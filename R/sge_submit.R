@@ -53,6 +53,10 @@ sge_submit <- function(expr,
 
   expr <- as.character(as.expression(substitute(expr)))
 
+  if (verbose) {
+    msg2("Preparing SGE submission...")
+  }
+
   # Create temp_dir ----
   if (!dir.exists(temp_dir)) {
     dir.create(temp_dir, recursive = TRUE)
