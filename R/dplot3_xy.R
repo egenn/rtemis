@@ -458,7 +458,9 @@ dplot3_xy <- function(x, y = NULL,
             marker = marker,
             line = if (grepl("lines", .mode[i])) {
                 list(color = plotly::toRGB(marker.col[[i]], alpha = alpha))
-             } else NULL,
+             } else {
+                NULL
+             },
             legendgroup = if (n.groups > 1) .names[i] else "Raw",
             showlegend = legend
         )
@@ -628,11 +630,11 @@ dplot3_xy <- function(x, y = NULL,
 
     ## square ----
     if (axes.square) {
-        plt |> plotly::layout(
+        plt <- plt |> plotly::layout(
             yaxis = list(
                 scaleanchor = "x",
                 scaleratio = 1
-        )) -> plt
+        ))
     }
 
     # Config
