@@ -651,7 +651,7 @@ dplot3_xy <- function(x, y = NULL,
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file = file.path(filename),
+            file = normalizePath(filename, mustWork = FALSE),
             width = file.width, 
             height = file.height,
             scale = file.scale
