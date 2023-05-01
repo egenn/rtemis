@@ -15,6 +15,7 @@ rt_save <- function(rtmod,
                     outdir,
                     file.prefix = "s.",
                     verbose = TRUE) {
+    outdir <- normalizePath(outdir, mustWork = FALSE)
     if (verbose) {
         start_time <- Sys.time()
         msg2("Writing data to ", outdir, "... ",
@@ -22,9 +23,6 @@ rt_save <- function(rtmod,
             caller = NA, newline = FALSE
         )
     }
-    # if (verbose) {
-    #     cli::cli_progress_step(paste0("Writing data to ", outdir, "... "))
-    # }
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
     rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
     try(saveRDS(rtmod, rdsPath))
@@ -35,7 +33,6 @@ rt_save <- function(rtmod,
                 gray(" [rt_save]"), sep = ""
             )
         }
-        # if (verbose) cli::cli_process_done()
     } else {
         if (verbose) {
             nay("[Failed after ", format(elapsed, digits = 2), "]",
@@ -43,7 +40,6 @@ rt_save <- function(rtmod,
             )
         }
         warning("Could not save data to ", outdir)
-        # if (verbose) cli::cli_process_failed()
     }
 } # rtemis::rt_save
 
