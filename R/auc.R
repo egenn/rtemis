@@ -39,13 +39,16 @@
 #' @export
 
 auc <- function(preds, labels,
-                method = c("ROCR", "pROC", "auc_pairs"),
+                method = c("auc_cpp", "ROCR", "pROC", "auc_pairs"),
                 verbose = FALSE,
                 trace = 0) {
     method <- match.arg(method)
 
-    if (method == "auc_pairs") {
-        .auc <- auc_pairs(preds, labels, verbose = trace > 0)
+    if (method == "auc_cpp") {
+        if (is.factor(labels)) {
+            labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
+        }
+        .auc <- auc_cpp(preds, labels)
     } else if (method == "pROC") {
         dependency_check("pROC")
         .auc <- as.numeric(pROC::roc(
@@ -57,6 +60,8 @@ auc <- function(preds, labels,
         dependency_check("ROCR")
         .pred <- ROCR::prediction(preds, labels, label.ordering = rev(levels(labels)))
         .auc <- ROCR::performance(.pred, "auc")@y.values[[1]]
+    } else if (method == "auc_pairs") {
+        .auc <- auc_pairs(preds, labels, verbose = trace > 0)
     }
 
     if (verbose) msg2("AUC =", .auc)
