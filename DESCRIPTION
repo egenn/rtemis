@@ -1,5 +1,5 @@
 Package: rtemis
-Version: 0.94.2
+Version: 0.95.0
 Title: Machine Learning and Visualization
 Date: 2023-04-21
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
@@ -9,8 +9,9 @@ License: GPL (>=3)
 URL: https://rtemis.lambdamd.org
 ByteCompile: yes
 Depends: R (>= 4.1.0)
+LinkingTo: Rcpp
 Imports: grDevices, graphics, stats, methods, utils, data.table, R6,
-  future, htmltools
+  future, htmltools, Rcpp (>= 1.0.10)
 Suggests: 
     ada,
     arm,
