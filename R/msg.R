@@ -207,21 +207,21 @@ info <- function(..., color = hilite) {
 }
 
 #' msg2
-#' 
+#'
 #' @inheritParams msg
-#' 
+#'
 #' @export
 msg2 <- function(...,
-                #  date = TRUE,
+                 #  date = TRUE,
                  caller = NULL,
                  call.depth = 1,
                  caller.id = 1,
-                #  newline = TRUE,
-                #  extraline = FALSE,
+                 #  newline = TRUE,
+                 #  extraline = FALSE,
                  newline.pre = FALSE,
                  newline = TRUE,
-                #  as.message = FALSE,
-                #  color = NULL,
+                 #  as.message = FALSE,
+                 #  color = NULL,
                  sep = " ") {
     if (is.null(caller)) {
         callStack.list <- as.list(sys.calls())
@@ -253,22 +253,21 @@ msg2 <- function(...,
     } else if (newline) {
         cat("\n")
     }
-    
 } # rtemis::msg2
 
 
 msg20 <- function(...,
-                #  date = TRUE,
-                 caller = NULL,
-                 call.depth = 1,
-                 caller.id = 1,
-                #  newline = TRUE,
-                #  extraline = FALSE,
-                 newline.pre = FALSE,
-                 newline = TRUE,
-                #  as.message = FALSE,
-                #  color = NULL,
-                 sep = "") {
+                  #  date = TRUE,
+                  caller = NULL,
+                  call.depth = 1,
+                  caller.id = 1,
+                  #  newline = TRUE,
+                  #  extraline = FALSE,
+                  newline.pre = FALSE,
+                  newline = TRUE,
+                  #  as.message = FALSE,
+                  #  color = NULL,
+                  sep = "") {
     if (is.null(caller)) {
         callStack.list <- as.list(sys.calls())
         stack.length <- length(callStack.list)
@@ -300,19 +299,18 @@ msg20 <- function(...,
     } else if (newline) {
         cat("\n")
     }
-    
 } # rtemis::msg20
 
 
 #' Pad-cat
-#' 
+#'
 #' @keywords internal
 #' @examples
 #' \dontrun{
 #' {
-#'    msg2("Hello")
-#'    pcat("super", "wow")
-#'    pcat(NULL, "oooo")
+#'     msg2("Hello")
+#'     pcat("super", "wow")
+#'     pcat(NULL, "oooo")
 #' }
 #' }
 pcat <- function(left, right, pad = 17, newline = TRUE) {
@@ -327,3 +325,55 @@ pad <- function(x, target = 17, char = " ") {
         paste(rep(char, lpad), collapse = ""), x
     )
 }
+
+
+#' msg2
+#'
+#' @inheritParams msg
+#'
+#' @export
+msg2start <- function(...,
+                      #  date = TRUE,
+                      #  newline = TRUE,
+                      #  extraline = FALSE,
+                      newline.pre = FALSE,
+                      #  as.message = FALSE,
+                      #  color = NULL,
+                      sep = " ") {
+    txt <- Filter(Negate(is.null), list(...))
+    .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
+    if (newline.pre) cat("\n")
+    cat(gray(paste0(.dt, gray(" "))))
+    cat(paste(txt, collapse = sep))
+} # rtemis::msg2start
+
+
+#' msg2
+#'
+#' @inheritParams msg
+#'
+#' @export
+msg2done <- function(caller = NULL,
+                     call.depth = 1,
+                     caller.id = 1,
+                     sep = " ") {
+    if (is.null(caller)) {
+        callStack.list <- as.list(sys.calls())
+        stack.length <- length(callStack.list)
+        if (stack.length < 2) {
+            caller <- NA
+        } else {
+            call.depth <- call.depth + caller.id
+            if (call.depth > stack.length) call.depth <- stack.length
+            caller <- paste(lapply(
+                rev(seq(call.depth)[-seq(caller.id)]),
+                function(i) rev(callStack.list)[[i]][[1]]
+            ), collapse = ">>")
+        }
+        if (is.function(caller)) caller <- NULL
+        if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    }
+    cat(" ")
+    yay(end = "")
+    cat(gray("[", caller, "]\n", sep = ""), sep = "")
+} # rtemis::msg2done
