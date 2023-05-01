@@ -3,6 +3,7 @@
 # 2016-22 E.D. Gennatas www.lambdamd.org
 
 rtenv <- new.env()
+rtenv$binclasspos <- 1
 rtemis.version <- packageVersion("rtemis")
 .availableCores <- future::availableCores()
 
@@ -81,7 +82,8 @@ rtemis.version <- packageVersion("rtemis")
             # "\n  └ ", italic(gray("Enable progress reporting:")), " `progressr::handlers(global = TRUE)`",
             # "\n                               `options(progressr.handlers = progressr::handler_cli)`"
             "\n  └ ", italic(gray("Enable progress reporting:")), 
-            " `progressr::handlers(global = TRUE); options(progressr.handlers = progressr::handler_cli)`"
+            " progressr::handlers(global = TRUE)",
+            "\n                              options(progressr.handlers = progressr::handler_cli)"
         ))
     } else {
         packageStartupMessage(
@@ -145,6 +147,8 @@ rtemis.version <- packageVersion("rtemis")
 #' factors, where by default the levels are set alphabetically and therefore
 #' the positive class may not be set correctly.
 #'
+#' @useDynLib rtemis, .registration = TRUE
+#' @importFrom Rcpp evalCpp
 #' @docType package
 #' @name rtemis-package
 #' @import graphics grDevices methods stats utils data.table R6 future htmltools
