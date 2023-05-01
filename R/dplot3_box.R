@@ -184,6 +184,7 @@ dplot3_box <- function(x,
                        legend.xanchor = "auto",
                        legend.yanchor = "auto",
                        xaxis.type = "category",
+                       cataxis_tickangle = "auto",
                        # margin = list(t = 35, pad = 0),
                        margin = list(b = 65, l = 65, t = 50, r = 12, pad = 0),
                        automargin.x = TRUE,
@@ -572,7 +573,7 @@ dplot3_box <- function(x,
                     tickmode = "array",
                     tickvals = (mean(seq_len(ngroups)) + 0:(nvars - 1) * ngroups) - 1, # need -1 if type = "category"
                     ticktext = .xnames,
-                    tickangle = "auto",
+                    tickangle = cataxis_tickangle,
                     automargin = TRUE
                 )
 
