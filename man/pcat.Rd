@@ -12,9 +12,9 @@ Pad-cat
 \examples{
 \dontrun{
 {
-   msg2("Hello")
-   pcat("super", "wow")
-   pcat(NULL, "oooo")
+    msg2("Hello")
+    pcat("super", "wow")
+    pcat(NULL, "oooo")
 }
 }
 }

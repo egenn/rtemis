@@ -44,6 +44,7 @@ dplot3_box(
   legend.xanchor = "auto",
   legend.yanchor = "auto",
   xaxis.type = "category",
+  cataxis_tickangle = "auto",
   margin = list(b = 65, l = 65, t = 50, r = 12, pad = 0),
   automargin.x = TRUE,
   automargin.y = TRUE,
