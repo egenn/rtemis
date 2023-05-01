@@ -345,7 +345,7 @@ tohtml <- function(x,
                 ))))
             },
             tags$li(HTML(paste(html_orange(
-                "Consider imputing missing values or using complete cases only"
+                "Consider imputing missing values or using algorithms that can handle missing values"
             ))))
         )
     } else {
