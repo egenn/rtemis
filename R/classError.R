@@ -18,6 +18,7 @@
 classError <- function(true, 
                        estimated,
                        estimated.prob = NULL,
+                       calc.auc = TRUE,
                        trace = 0) {
   
   # Input ----
@@ -88,7 +89,7 @@ classError <- function(true,
   
   # Prob-based ----
   if (!is.null(estimated.prob) && n.classes == 2) {
-    Overall$AUC <- auc(estimated.prob, true)
+    if (calc.auc)  Overall$AUC <- auc(estimated.prob, true)
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
   
