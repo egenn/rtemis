@@ -822,6 +822,14 @@ mplot3_xy <- function(x, y = NULL,
         )
     }
 
+    # hline & vline ----
+    if (!is.null(hline)) {
+        abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
+    }
+    if (!is.null(vline)) {
+        abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
+    }
+
     # Points & Lines ----
     if (scatter) {
         if (!is.null(error.y)) {
@@ -1044,10 +1052,6 @@ mplot3_xy <- function(x, y = NULL,
             family = theme$font.family
         )
     }
-
-    # hline & vline ----
-    if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
-    if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
     # Outro ----
     if (!is.null(filename)) dev.off()
