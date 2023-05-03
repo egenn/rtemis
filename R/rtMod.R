@@ -2199,7 +2199,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
         #' @param ... Additional arguments passed to
         #' `mplot3_pr`
         plotPRpredicted = function(which.repeat = 1,
-                                   main = "P-R Testing", ...) {
+                                   main = "PR Testing", ...) {
             if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
                 mplot3_pr(self$predicted.prob.aggr[[which.repeat]],
                     self$y.test.res.aggr[[which.repeat]],
