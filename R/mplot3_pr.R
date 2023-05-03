@@ -29,7 +29,10 @@ mplot3_pr <- function(prob, labels,
                       col = NULL,
                       cex = 1.2,
                       lwd = 2.5,
-                      diagonal = TRUE,
+                      diagonal = FALSE,
+                      hline.lty = 1,
+                      hline.lwd = 1,
+                      hline.col = "gray50",
                       diagonal.lwd = 2.5,
                       diagonal.lty = 3,
                       group.legend = FALSE,
@@ -46,101 +49,119 @@ mplot3_pr <- function(prob, labels,
                       filename = NULL,
                       pdf.width = 5,
                       pdf.height = 5, ...) {
+    # Dependencies ----
+    dependency_check("PRROC")
 
-  # Dependencies ----
-  dependency_check("PRROC")
-
-  # Arguments ----
-  # Output directory
-  if (!is.null(filename))
-    if (!dir.exists(dirname(filename)))
-      dir.create(dirname(filename), recursive = TRUE)
-
-  # Compatibility with rtlayout()
-  if (exists("rtpar")) par.reset <- FALSE
-
-  probl <- if (!is.list(prob)) list(prob) else prob
-  labelsl <- if (!is.list(labels)) list(labels) else labels
-  if (length(labelsl) < length(probl)) {
-    if (verbose) msg2("Assuming same labels for each set of probabilities")
-    labelsl <- rep(labelsl, length(probl) / length(labelsl))
-  }
-
-  # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    # Arguments ----
+    # Output directory
+    if (!is.null(filename)) {
+        if (!dir.exists(dirname(filename))) {
+            dir.create(dirname(filename), recursive = TRUE)
+        }
     }
-  }
-  theme$zerolines <- FALSE
 
-  # PR ----
-  pr <- lapply(seq_along(probl), function(i)
-    PRROC::pr.curve(scores.class0 = probl[[i]], weights.class0 = 2 - as.numeric(labelsl[[i]]),
-                    curve = TRUE))
-  Recall <- lapply(pr, function(i) i$curve[, 1])
-  Precision <- lapply(pr, function(i) i$curve[, 2])
-  AUPRC <- lapply(pr, function(i) i$auc.integral)
-  Threshold <- lapply(pr, function(i) i$curve[, 3])
+    # Compatibility with rtlayout()
+    if (exists("rtpar")) par.reset <- FALSE
 
-  if (f1) {
-    F1 <- lapply(seq_along(probl), function(i) f1(Recall[[i]], Precision[[i]]))
-    F1.max.index <- lapply(seq_along(probl), function(i) which.max(F1[[i]]))
-  }
-
-  # Colors ----
-  if (is.null(col)) col <- rtpalette(palette)
-
-  # mplot3_xy ----
-  if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
-  par.orig <- par(no.readonly = TRUE)
-  if (par.reset) on.exit(suppressWarnings(par(par.orig)))
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
-  mplot3_xy(Recall, Precision,
-            main = main,
-            ylab = "Precision", xlab = "Recall",
-            type = "l",
-            line.alpha = 1, line.col = col, group.legend = group.legend,
-            xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
-            order.on.x = FALSE,
-            lwd = lwd, theme = theme,
-            mar = mar,
-            xpd = TRUE, par.reset = FALSE)
-  if (f1) {
-    for (i in seq_along(probl)) {
-      points(x = Recall[[i]][F1.max.index[[i]]],
-             y = Precision[[i]][F1.max.index[[i]]],
-             col = col[[i]])
-      text(x = Recall[[i]][F1.max.index[[i]]] - .5,
-           y = Precision[[i]][F1.max.index[[i]]] - .1,
-           labels = paste0("max F1 = ", ddSci(max(F1[[i]])), "\n(Thresh = ",
-                           ddSci(Threshold[[i]][F1.max.index[[i]]]), ")"),
-           col = col[[i]],
-           pos = 4, xpd = TRUE,
-           family = theme$font.family)
+    probl <- if (!is.list(prob)) list(prob) else prob
+    labelsl <- if (!is.list(labels)) list(labels) else labels
+    if (length(labelsl) < length(probl)) {
+        if (verbose) msg2("Assuming same labels for each set of probabilities")
+        labelsl <- rep(labelsl, length(probl) / length(labelsl))
     }
-  }
 
-  # PR Annotation ----
-  if (annotation) {
-    auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
-    if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
-    mtext(c("AUPRC   ", auprc),
-          font = annot.font,
-          side = 1,
-          line = annot.line,
-          adj = annot.adj,
-          cex = cex,
-          col = c("gray50", unlist(col)[1:length(probl)]),
-          family = theme$font.family)
-  }
+    # Theme ----
+    extraargs <- list(...)
+    if (is.character(theme)) {
+        theme <- do.call(paste0("theme_", theme), extraargs)
+    } else {
+        for (i in seq(extraargs)) {
+            theme[[names(extraargs)[i]]] <- extraargs[[i]]
+        }
+    }
+    theme$zerolines <- FALSE
 
-  # Outro ----
-  if (!is.null(filename)) dev.off()
+    # PR ----
+    pr <- lapply(seq_along(probl), \(i)
+    PRROC::pr.curve(
+        scores.class0 = probl[[i]], weights.class0 = 2 - as.numeric(labelsl[[i]]),
+        curve = TRUE
+    ))
+    Recall <- lapply(pr, function(i) i$curve[, 1])
+    Precision <- lapply(pr, function(i) i$curve[, 2])
+    AUPRC <- lapply(pr, function(i) i$auc.integral)
+    Threshold <- lapply(pr, function(i) i$curve[, 3])
 
-  invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))
+    if (f1) {
+        F1 <- lapply(seq_along(probl), function(i) f1(Recall[[i]], Precision[[i]]))
+        F1.max.index <- lapply(seq_along(probl), function(i) which.max(F1[[i]]))
+    }
 
+    # Colors ----
+    if (is.null(col)) col <- rtpalette(palette)
+
+    # mplot3_xy ----
+    if (exists("rtpar", envir = rtenv)) par.reset <- FALSE
+    par.orig <- par(no.readonly = TRUE)
+    if (par.reset) on.exit(suppressWarnings(par(par.orig)))
+    if (!is.null(filename)) {
+        pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+    }
+    # Get P / P + N
+    freq <- table(labels)
+    mplot3_xy(Recall, Precision,
+        main = main,
+        ylab = "Precision", xlab = "Recall",
+        type = "l",
+        line.alpha = 1, line.col = col, group.legend = group.legend,
+        hline = freq[1] / sum(freq),
+        hline.col = hline.col, 
+        hline.lty = hline.lty, 
+        hline.lwd = hline.lwd,
+        xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
+        order.on.x = FALSE,
+        lwd = lwd, theme = theme,
+        mar = mar,
+        xpd = TRUE, par.reset = FALSE
+    )
+    if (f1) {
+        for (i in seq_along(probl)) {
+            points(
+                x = Recall[[i]][F1.max.index[[i]]],
+                y = Precision[[i]][F1.max.index[[i]]],
+                col = col[[i]]
+            )
+            text(
+                x = Recall[[i]][F1.max.index[[i]]] - .5,
+                y = Precision[[i]][F1.max.index[[i]]] - .1,
+                labels = paste0(
+                    "max F1 = ", ddSci(max(F1[[i]])), "\n(Thresh = ",
+                    ddSci(Threshold[[i]][F1.max.index[[i]]]), ")"
+                ),
+                col = col[[i]],
+                pos = 4, xpd = TRUE,
+                family = theme$font.family
+            )
+        }
+    }
+
+    # PR Annotation ----
+    if (annotation) {
+        auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
+        if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
+        mtext(c("AUPRC   ", auprc),
+            font = annot.font,
+            side = 1,
+            line = annot.line,
+            adj = annot.adj,
+            cex = cex,
+            col = c("gray50", unlist(col)[seq_along(probl)]),
+            family = theme$font.family
+        )
+    }
+
+    # Outro ----
+    if (!is.null(filename)) dev.off()
+
+    invisible(list(Precision = Precision, Recall = Recall, Threshold = Threshold))
 } # rtemis::mplot3_roc
