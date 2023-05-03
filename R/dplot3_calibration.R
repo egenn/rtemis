@@ -52,7 +52,7 @@ dplot3_calibration <- function(true_labels, est_prob,
     }
     pos_class <- levels(true_labels)[pos_class_idi]
 
-    # Split predictions into windows
+    # Create windows
     breaks <- seq(0, 1, length.out = n_windows + 1)
 
     # Calculate the mean probability in each window
