@@ -1,23 +1,11 @@
 # zzz.R
 # ::rtemis::
-# 2016-22 E.D. Gennatas www.lambdamd.org
+# 2016-23 E.D. Gennatas www.lambdamd.org
 
 rtenv <- new.env()
 rtenv$binclasspos <- 1
 rtemis.version <- packageVersion("rtemis")
 .availableCores <- future::availableCores()
-
-# # Set initial plan e.g. for s_ with gridSearchLearn,
-# # **will be overwritten by resLearn for nested plan as appropriate**
-# rtPlan <- getOption(
-#     "future.plan",
-#     ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-# )
-# # future::plan(rtPlan)
-# # rtProgress <- getOption("rt.progress", "global")
-# # if (rtProgress == "global") progressr::handlers(global = TRUE)
-# # rtGSL <- getOption("rt.gsl", "future")
-# # if (rtGSL == "future") gridSearchLearn <- gridSearchLearn
 
 .onLoad <- function(libname, pkgname) {
     # Defaults ----
@@ -31,42 +19,13 @@ rtemis.version <- packageVersion("rtemis")
     assign("rtFont", rtFont, envir = parent.env(environment()))
     rtPalette <- rtPaletteInit()
     assign("rtPalette", rtPalette, envir = parent.env(environment()))
-    # gridSearchLearn <- if (rtGridSearchLearnInit() == "future") {
-    #     gridSearchLearn
-    # } else {
-    #     gridSearchLearn_pbapply
-    # }
-    # assign("gridSearchLearn", gridSearchLearn, envir = parent.env(environment()))
 }
-
-# .onAttach <- function(libname, pkgname) {
-    
-#     packageStartupMessage(paste0(
-#         rtasciitxt(),
-#         "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
-#         # "\n  Welcome, ", Sys.getenv("USER"),
-#         bold("\n  Defaults"),
-#         "\n  │   Theme: ", rtTheme,
-#         "\n  │    Font: ", rtFont,
-#         "\n  │ Palette: ", rtPalette,
-#         "\n  │    Plan: ", rtPlan,
-#         "\n  └   Cores: ", rtCores, "/", .availableCores, " available",
-#         bold("\n  Resources"),
-#         "\n  │    Docs: https://rtemis.lambdamd.org",
-#         "\n  │ Learn R: https://class.lambdamd.org/pdsr",
-#         "\n  │  Themes: https://egenn.lambdamd.org/software/#rtemis_themes",
-#         '\n  └    Cite: `citation("rtemis")`',
-#         bold("\n  Setup"),
-#         "\n  └ Enable progress reporting: `progressr::handlers(global = TRUE)`"
-#     ))
-# }
 
 .onAttach <- function(libname, pkgname) {
     if (interactive()) {
         packageStartupMessage(paste0(
             rtasciitxt(),
             "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
-            # "\n  Welcome, ", Sys.getenv("USER"),
             bold("\n  Defaults"),
             "\n  │   ", italic(gray("Theme: ")), rtTheme,
             "\n  │    ", italic(gray("Font: ")), rtFont,
@@ -77,13 +36,11 @@ rtemis.version <- packageVersion("rtemis")
             "\n  │    ", italic(gray("Docs:")), " https://rtemis.lambdamd.org",
             "\n  │ ", italic(gray("Learn R:")), " https://class.lambdamd.org/pdsr",
             "\n  │  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/software/#rtemis_themes",
-            "\n  └    ", italic(gray("Cite:")), ' citation("rtemis")',
+            "\n  └    ", italic(gray("Cite:")), ' > citation("rtemis")',
             bold("\n  Setup"),
-            # "\n  └ ", italic(gray("Enable progress reporting:")), " `progressr::handlers(global = TRUE)`",
-            # "\n                               `options(progressr.handlers = progressr::handler_cli)`"
             "\n  └ ", italic(gray("Enable progress reporting:")), 
-            " progressr::handlers(global = TRUE)",
-            "\n                               options(progressr.handlers = progressr::handler_cli)"
+            " > progressr::handlers(global = TRUE)",
+            "\n                               > options(progressr.handlers = progressr::handler_cli)"
         ))
     } else {
         packageStartupMessage(
