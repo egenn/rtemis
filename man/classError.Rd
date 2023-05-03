@@ -4,7 +4,7 @@
 \alias{classError}
 \title{Classification Error}
 \usage{
-classError(true, estimated, estimated.prob = NULL, trace = 0)
+classError(true, estimated, estimated.prob = NULL, calc.auc = TRUE, trace = 0)
 }
 \arguments{
 \item{true}{Factor: True labels}

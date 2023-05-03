@@ -4,7 +4,14 @@
 \alias{calibrate}
 \title{Calibrate predicted probabilities using GAM}
 \usage{
-calibrate(true_labels, est_prob, pos_class_idi = 1, k = 5, verbose = TRUE)
+calibrate(
+  true_labels,
+  est_prob,
+  pos_class_idi = 1,
+  mod = c("gam", "glm"),
+  k = 5,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{true_labels}{Factor with true class labels}
@@ -38,8 +45,10 @@ dplot3_calibration(
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
     true_labels = segment_logistic$Class,
-    est_prob = calibrate(segment_logistic$Class, 
-                         segment_logistic$.pred_poor)$fitted.values,
+    est_prob = calibrate(
+        segment_logistic$Class,
+        segment_logistic$.pred_poor
+    )$fitted.values,
     n_windows = 10,
     pos_class_idi = 2
 )
