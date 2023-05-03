@@ -68,7 +68,7 @@ s_GAM.default <- function(x, y = NULL,
         print(args(s_GAM))
         stop("x is missing")
     }
-    if (is.null(y) & NCOL(x) < 2) {
+    if (is.null(y) && NCOL(x) < 2) {
         print(args(s_GAM))
         stop("y is missing")
     }
