@@ -109,7 +109,7 @@ present <- function(...,
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file = file.path(filename),
+            file = normalizePath(filename),
             width = file.width,
             height = file.height,
             scale = file.scale
