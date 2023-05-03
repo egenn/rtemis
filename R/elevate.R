@@ -761,6 +761,23 @@ elevate <- function(x, y = NULL,
             outdir,
             "elevate.", mod.name, "_predicted.pdf"
         ))
+        if (mod.name %in% c("LIGHTGBM", "LIGHTRF")) {
+            # LightGBM models need to be saved separately with 
+            # saveRDS.lgb.Booster
+            # Loop repeats
+            for (i in seq_along(mods)) {
+                # Loop resamples
+                for (j in seq_along(mods[[i]])) {
+                    # lightgbm::saveRDS.lgb.Booster(
+                        mods[[i]][[j]]$mod1$mod$save_model(
+                        file.path(
+                            outdir,
+                            paste0(mod.name, "_", i, "_", j, ".txt")
+                        )
+                    )
+                }
+            }
+        }
     }
     outro(start_time,
         verbose = verbose,
