@@ -197,6 +197,7 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
     }
 } # rtemis::dt_set_cleanfactorlevels
 
+
 #' Check if all levels in a column are unique
 #'
 #' @param x data.frame or data.table
@@ -207,6 +208,7 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
 dt_check_unique <- function(x, on) {
     length(unique(x[[on]])) == NROW(x)
 }
+
 
 #' Get index of duplicate values
 #'
@@ -232,6 +234,7 @@ dt_index_attr <- function(x, name, value) {
     colattr <- unlist(sapply(x, \(i) attr(i, name)))
     which(colattr == value)
 }
+
 
 #' Get N and percent match of values between two columns of two data.tables
 #'
@@ -266,6 +269,7 @@ dt_pctmatch <- function(
     }
     invisible(list(nmatch = nmatch, matchpct = matchpct))
 }
+
 
 #' Get percent of missing values from every column
 #'
@@ -319,7 +323,6 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
 #' str(z)
 #' }
-
 dt_set_logical2factor <- function(x, 
     cols = NULL, 
     labels = c("False", "True"), 
@@ -336,6 +339,7 @@ dt_set_logical2factor <- function(x,
     }
     invisible(x)
 }
+
 
 #' Calculate ICD10 comorbidities using `icd10` package
 #'
@@ -454,6 +458,7 @@ type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
     }
 }
 
+
 #' Inspect column types
 #' 
 #' Will attempt to identify columns that should be numeric but have been read in as 
@@ -493,6 +498,7 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
     invisible(x)
 }
 
+
 #' List column names by class
 #'
 #' @param x data.table
@@ -513,6 +519,7 @@ dt_names_by_class <- function(x, sorted = TRUE,
     }
     printls(out, item.format = item.format, maxlength = maxlength)
 }
+
 
 #' List column names by attribute
 #'
@@ -536,3 +543,25 @@ dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
         sapply(vals, \(i) names(x)[attrs == i])
     }
 }
+
+
+#' Clean column names and factor levels in-place
+#' 
+#' @param x data.table
+#' @param prefix_digits Character: prefix to add to names beginning with a
+#' digit. Set to NA to skip
+#' 
+#' @author E.D. Gennatas
+#' @export
+dt_set_clean_all <- function(x, prefix_digits = NA) {
+    stopifnot(inherits(x, "data.table"))
+
+    data.table::setnames(x, names(x), clean_colnames(x))
+
+    idi <- names(x)[sapply(x, is.factor)]
+    for (i in idi) {
+        x[, (i) := factor(x[[i]],
+            labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+        )]
+    }
+} # rtemis::dt_set_clean_all
