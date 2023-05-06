@@ -25,7 +25,6 @@
 #' @param diagonal.lwd Float: Line width for diagonal.
 #' @param diagonal.lty Integer: Line type for diagonal.
 #' @param group.legend Logical: If TRUE, print group legend
-#' @param ... Additional theme parameters
 #' 
 #' @author E.D. Gennatas
 #' @export
@@ -43,7 +42,7 @@ mplot3_roc <- function(prob,
                        diagonal = TRUE,
                        diagonal.lwd = 1,
                        diagonal.lty = 1,
-                       diagonal.col = "gray50",
+                       diagonal.col = "red",
                        group.legend = FALSE,
                        annotation = TRUE,
                        annotation.col = col,
@@ -58,7 +57,7 @@ mplot3_roc <- function(prob,
                        par.reset = TRUE,
                        filename = NULL,
                        pdf.width = 5,
-                       pdf.height = 5, ...) {
+                       pdf.height = 5) {
     # Arguments ----
     # Output directory
     if (!is.null(filename)) {
@@ -71,14 +70,15 @@ mplot3_roc <- function(prob,
     if (exists("rtpar")) par.reset <- FALSE
 
     # Theme ----
-    extraargs <- list(...)
-    if (is.character(theme)) {
-        theme <- do.call(paste0("theme_", theme), extraargs)
-    } else {
-        for (i in seq(extraargs)) {
-            theme[[names(extraargs)[i]]] <- extraargs[[i]]
-        }
-    }
+    # extraargs <- list(...)
+    # if (is.character(theme)) {
+    #     theme <- do.call(paste0("theme_", theme), extraargs)
+    # } else {
+    #     for (i in seq(extraargs)) {
+    #         theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    #     }
+    # }
+    theme <- do.call(paste0("theme_", theme), list())
     theme$zerolines <- FALSE
 
     # ROC ----
