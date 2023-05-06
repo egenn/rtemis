@@ -30,7 +30,7 @@ mplot3_varimp <- function(x,
                           plot.top = 1, # 1 or less means plot this percent
                           labelify = TRUE,
                           col = NULL,
-                          palette = NULL,
+                          palette = rtPalette,
                           alpha = 1,
                           error.col = theme$fg,
                           error.lwd = 2,
@@ -71,6 +71,7 @@ mplot3_varimp <- function(x,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
+  if (is.character(palette)) palette <- rtpalette(palette)
 
   # Data ----
   if (NCOL(x) > 1 && NROW(x) > 1) stop("x must be a vector or single row or column")
@@ -89,7 +90,7 @@ mplot3_varimp <- function(x,
 
   x <- as.numeric(x)
   if (length(.names) == 0) {
-    .names <- paste("Feature", 1:length(x))
+    .names <- paste("Feature", seq_along(x))
   }
 
   # '- Index ----
@@ -117,7 +118,7 @@ mplot3_varimp <- function(x,
     if (!dir.exists(dirname(filename)))
       dir.create(dirname(filename), recursive = TRUE)
 
-  # # [ xlim & ylim ] ----
+  # xlim & ylim ----
   if (is.null(ylim)) {
     ylim <- c(0, length(x) + (length(x) + 1) * space)
   }
@@ -131,8 +132,9 @@ mplot3_varimp <- function(x,
   }
 
   if (is.null(col)) {
-    if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
-    col <- colorGrad.x(x, palette)
+    # if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
+    # col <- colorGrad.x(x, palette)
+    col <- palette[1]
   }
   cols <- colorAdjust(col, alpha = alpha)
 
@@ -159,7 +161,7 @@ mplot3_varimp <- function(x,
   plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # [ Plot Background ] ----
+  # Plot Background ----
   if (theme$plot.bg != "transparent") {
     bg.ylim <- c(min(ylim), max(ylim) + .04 * diff(range(ylim)))
     rect(xlim[1], bg.ylim[1], xlim[2], bg.ylim[2], border = NA, col = theme$plot.bg)
@@ -182,9 +184,9 @@ mplot3_varimp <- function(x,
                         width = width, space = space, horiz = TRUE,
                         # xpd = FALSE,
                         xaxs = "i", yaxs = "i", ...)
-  if (min(x) < 0 & max(x) > 0) abline(v = 0, col = theme$labs.col, lwd = theme$grid.lwd)
+  if (min(x) < 0 && max(x) > 0) abline(v = 0, col = theme$labs.col, lwd = theme$grid.lwd)
 
-  # [ Error bars ] ----
+  # Error bars ----
   if (!is.null(error)) {
     if (is.null(error.col)) error.col <- cols
     segments(as.vector(x) - as.vector(error), as.vector(barCenters),
