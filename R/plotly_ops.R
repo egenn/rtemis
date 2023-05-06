@@ -73,3 +73,35 @@ starbracket_y <- function(x, pad = c(.04, .05, .09)) {
     l <- max(x) + (diff(range(x)) * pad)
     list(star = l[3], bracket = c(l[1:2], rev(l[1:2])))
 }
+
+# plotly shade
+plotly_shade <- function(plt,
+                         x, ypos, yneg,
+                         col, alpha = 1,
+                         legendgroup = NA,
+                         showlegend = FALSE) {
+    plt <- plotly::add_trace(plt,
+        x = x,
+        y = ypos,
+        type = scatter.type,
+        mode = "lines",
+        line = list(color = "transparent"),
+        legendgroup = legendgroup,
+        showlegend = showlegend,
+        hoverinfo = "none",
+        inherit = FALSE
+    )
+    plt <- plotly::add_trace(plt,
+        x = x,
+        y = yneg,
+        type = scatter.type,
+        mode = "lines",
+        fill = "tonexty",
+        fillcolor = plotly::toRGB(col, alpha = alpha),
+        line = list(color = "transparent"),
+        legendgroup = legendgroup,
+        showlegend = showlegend,
+        hoverinfo = "none",
+        inherit = FALSE
+    )
+}
