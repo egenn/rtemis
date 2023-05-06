@@ -39,6 +39,7 @@
 #' @param objective (Default = NULL)
 #' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only parallelize
 #' resamples using `n.cores` or the lightgbm execution using this setting.
+#' @param ... Extra arguments appended to `lgb.train`'s `params`.
 #'
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -169,7 +170,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     } else {
         plot.fitted <- plot.predicted <- FALSE
     }
-    if (type == "Classification") y.num <- as.numeric(y) - 1
+    if (type == "Classification") y.num <- as.integer(y) - 1
     nclass <- ifelse(type == "Classification", length(levels(y)), 0)
     if (is.null(objective)) {
         if (type == "Regression") {
@@ -181,7 +182,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     dat.train <- lightgbm::lgb.Dataset(
         data = as.matrix(x),
         # categorical_feature = factor_index,
-        label = if (type == "Classification") as.numeric(y) - 1 else y,
+        label = if (type == "Classification") as.integer(y) - 1 else y,
         weight = .weights
     )
 
@@ -189,7 +190,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         dat.test <- lightgbm::lgb.Dataset(
             data = as.matrix(x.test),
             # categorical_feature = factor_index,
-            label = if (type == "Classification") as.numeric(y.test) - 1 else y.test
+            label = if (type == "Classification") as.integer(y.test) - 1 else y.test
         )
     }
 
@@ -274,6 +275,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         gs <- NULL
     }
     if (!is.null(force_nrounds)) nrounds <- force_nrounds
+    
     parameters <- list(
         boosting = boosting,
         objective = objective,
@@ -290,6 +292,10 @@ s_LIGHTGBM <- function(x, y = NULL,
         linear_tree = linear_tree,
         bagging_freq = bagging_freq
     )
+    extraargs <- list(...)
+    if (!is.null(extraargs)) {
+        parameters <- c(parameters, extraargs)
+    }
 
     if (type == "Classification" && nclass > 2) {
         parameters$num_class <- nclass
