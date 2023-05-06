@@ -153,8 +153,8 @@ labelify <- function(x,
 #' underscores, ensuring no name begins or ends with a symbol
 #'
 #' @param x Character vector
-#' @param prefix_digits Character: prefix to add to names beginning with a digit. Se to
-#' NA to skip adding a prefix
+#' @param prefix_digits Character: prefix to add to names beginning with a 
+#' digit. Set to NA to skip
 #' 
 #' @author E.D. Gennatas
 #' @export
