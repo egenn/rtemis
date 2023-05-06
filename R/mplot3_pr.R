@@ -32,11 +32,12 @@ mplot3_pr <- function(prob, labels,
                       diagonal = FALSE,
                       hline.lty = 1,
                       hline.lwd = 1,
-                      hline.col = "gray50",
+                      hline.col = "red",
                       diagonal.lwd = 2.5,
                       diagonal.lty = 3,
                       group.legend = FALSE,
                       annotation = TRUE,
+                      annotation.side = 1,
                       annotation.col = col,
                       annot.line = NULL,
                       annot.adj = 1,
@@ -48,7 +49,7 @@ mplot3_pr <- function(prob, labels,
                       verbose = TRUE,
                       filename = NULL,
                       pdf.width = 5,
-                      pdf.height = 5, ...) {
+                      pdf.height = 5) {
     # Dependencies ----
     dependency_check("PRROC")
 
@@ -71,14 +72,15 @@ mplot3_pr <- function(prob, labels,
     }
 
     # Theme ----
-    extraargs <- list(...)
-    if (is.character(theme)) {
-        theme <- do.call(paste0("theme_", theme), extraargs)
-    } else {
-        for (i in seq(extraargs)) {
-            theme[[names(extraargs)[i]]] <- extraargs[[i]]
-        }
-    }
+    # extraargs <- list(...)
+    # if (is.character(theme)) {
+    #     theme <- do.call(paste0("theme_", theme), extraargs)
+    # } else {
+    #     for (i in seq(extraargs)) {
+    #         theme[[names(extraargs)[i]]] <- extraargs[[i]]
+    #     }
+    # }
+    theme <- do.call(paste0("theme_", theme), list())
     theme$zerolines <- FALSE
 
     # PR ----
@@ -148,10 +150,13 @@ mplot3_pr <- function(prob, labels,
     # PR Annotation ----
     if (annotation) {
         auprc <- paste(names(probl), ddSci(unlist(AUPRC)), "  ")
-        if (is.null(annot.line)) annot.line <- seq(-length(probl), 0) - 1.7
+        if (is.null(annot.line)) {
+            annot.line <- seq(-length(probl), 0) - 1.7
+            if (annotation.side == 3) annot.line <- rev(annot.line)
+        }
         mtext(c("AUPRC   ", auprc),
             font = annot.font,
-            side = 1,
+            side = annotation.side,
             line = annot.line,
             adj = annot.adj,
             cex = cex,
