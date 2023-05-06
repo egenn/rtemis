@@ -9,8 +9,8 @@ clean_names(x, prefix_digits = "V_")
 \arguments{
 \item{x}{Character vector}
 
-\item{prefix_digits}{Character: prefix to add to names beginning with a digit. Se to
-NA to skip adding a prefix}
+\item{prefix_digits}{Character: prefix to add to names beginning with a
+digit. Set to NA to skip}
 }
 \description{
 Clean character vector by replacing all symbols and sequences of symbols with single

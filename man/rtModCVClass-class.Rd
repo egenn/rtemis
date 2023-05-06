@@ -346,7 +346,7 @@ Plot fitted Precision-Recall curve
 \subsection{Method \code{plotPRpredicted()}}{
 Plot predicted Precision-Recall curve
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rtModCVClass$plotPRpredicted(which.repeat = 1, main = "P-R Testing", ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{rtModCVClass$plotPRpredicted(which.repeat = 1, main = "PR Testing", ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

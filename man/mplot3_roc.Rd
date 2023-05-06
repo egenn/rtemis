@@ -7,7 +7,7 @@
 mplot3_roc(
   prob,
   labels,
-  method = c("rt", "pROC"),
+  method = c("pROC", "rt"),
   type = "TPR.FPR",
   balanced.accuracy = FALSE,
   main = "",
@@ -16,8 +16,9 @@ mplot3_roc(
   cex = 1.2,
   lwd = 2.5,
   diagonal = TRUE,
-  diagonal.lwd = 2.5,
-  diagonal.lty = 3,
+  diagonal.lwd = 1,
+  diagonal.lty = 1,
+  diagonal.col = "red",
   group.legend = FALSE,
   annotation = TRUE,
   annotation.col = col,
@@ -32,8 +33,7 @@ mplot3_roc(
   par.reset = TRUE,
   filename = NULL,
   pdf.width = 5,
-  pdf.height = 5,
-  ...
+  pdf.height = 5
 )
 }
 \arguments{
@@ -88,8 +88,6 @@ get options with \code{rtpalette()}}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}
-
-\item{...}{Additional theme parameters}
 }
 \description{
 Plot ROC curve for a binary classifier

@@ -12,11 +12,15 @@ mplot3_pr(
   col = NULL,
   cex = 1.2,
   lwd = 2.5,
-  diagonal = TRUE,
+  diagonal = FALSE,
+  hline.lty = 1,
+  hline.lwd = 1,
+  hline.col = "red",
   diagonal.lwd = 2.5,
   diagonal.lty = 3,
   group.legend = FALSE,
   annotation = TRUE,
+  annotation.side = 1,
   annotation.col = col,
   annot.line = NULL,
   annot.adj = 1,
@@ -28,8 +32,7 @@ mplot3_pr(
   verbose = TRUE,
   filename = NULL,
   pdf.width = 5,
-  pdf.height = 5,
-  ...
+  pdf.height = 5
 )
 }
 \arguments{
@@ -48,6 +51,12 @@ mplot3_pr(
 \item{lwd}{Float: Line width. Default = 2.5}
 
 \item{diagonal}{Logical: If TRUE, draw diagonal. Default = TRUE}
+
+\item{hline.lty}{Integer: Line type for horizontal line(s)}
+
+\item{hline.lwd}{Float: Width for horizontal line(s)}
+
+\item{hline.col}{Color for horizontal line(s)}
 
 \item{diagonal.lwd}{Float: Line width for diagonal. Default = 2.5}
 

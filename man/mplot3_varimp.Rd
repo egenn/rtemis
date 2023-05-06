@@ -12,7 +12,7 @@ mplot3_varimp(
   plot.top = 1,
   labelify = TRUE,
   col = NULL,
-  palette = NULL,
+  palette = rtPalette,
   alpha = 1,
   error.col = theme$fg,
   error.lwd = 2,
