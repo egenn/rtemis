@@ -195,16 +195,18 @@ s_GAM.default <- function(x, y = NULL,
 
     # Fitted ----
     if (type == "Regression") {
+        fitted.prob <- NULL
         fitted <- predict(mod, df.train, se.fit = TRUE)
         se.fit <- as.numeric(fitted$se.fit)
         fitted <- as.numeric(fitted$fit)
     } else {
         se.fit <- NULL
-        fitted <- predict(mod, df.train, type = "response")
+        fitted.prob <- predict(mod, df.train, type = "response")
         if (family$family == "binomial") {
-            fitted <- factor(levels(y)[ifelse(fitted >= .5, 1, 0) + 1])
+            fitted.prob <- 1 - fitted.prob
+            fitted <- factor(levels(y)[ifelse(fitted.prob >= .5, 1, 2)])
         } else {
-            fitted <- factor(levels(y)[apply(fitted, 1, which.max)])
+            fitted <- factor(levels(y)[apply(fitted.prob, 1, which.max)])
         }
     }
 
@@ -213,18 +215,19 @@ s_GAM.default <- function(x, y = NULL,
     if (verbose) errorSummary(error.train, mod.name)
 
     # Predicted ----
-    predicted <- se.prediction <- error.test <- NULL
+    predicted.prob <- predicted <- se.prediction <- error.test <- NULL
     if (!is.null(df.test)) {
         if (type == "Regression") {
             predicted <- predict(mod, data.frame(df.test), se.fit = TRUE)
             se.prediction <- predicted$se.fit
             predicted <- predicted <- as.numeric(predicted$fit)
         } else {
-            predicted <- predict(mod, df.test, type = "response")
+            predicted.prob <- predict(mod, df.test, type = "response")
             if (family$family == "binomial") {
-                predicted <- factor(levels(y)[ifelse(predicted >= .5, 1, 0) + 1])
+                predicted.prob <- 1 - predicted.prob
+                predicted <- factor(levels(y)[ifelse(predicted.prob >= .5, 1, 2)])
             } else {
-                predicted <- factor(levels(y)[apply(predicted, 1, which.max)])
+                predicted <- factor(levels(y)[apply(predicted.prob, 1, which.max)])
             }
             se.prediction <- NULL
         }
@@ -248,9 +251,11 @@ s_GAM.default <- function(x, y = NULL,
         y.name = y.name,
         xnames = xnames,
         fitted = fitted,
+        fitted.prob = fitted.prob,
         se.fit = se.fit,
         error.train = error.train,
         predicted = predicted,
+        predicted.prob = predicted.prob,
         se.prediction = se.prediction,
         error.test = error.test,
         parameters = list(
