@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 auc_cpp <- function(preds, labels) {
-    .Call('_rtemis_auc_cpp', PACKAGE = 'rtemis', preds, labels)
+    .Call(`_rtemis_auc_cpp`, preds, labels)
 }
 
