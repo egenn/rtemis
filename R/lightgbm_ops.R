@@ -2,6 +2,23 @@
 # ::rtemis::
 # 2023 EDG lambdamd.org
 
+# get_lgb_tree ----
+get_lgb_tree <- function(x, n_iter = 10) {
+    out <- lapply(
+        jsonlite::fromJSON(
+            lightgbm::lgb.dump(
+                booster = x,
+                num_iteration = n_iter
+            ),
+            simplifyVector = FALSE
+        )$tree_info,
+        \(y) y$tree_structure
+    )
+    names(out) <- paste0("Tree_", seq_along(out))
+    out
+}
+
+
 # preorderlgb ----
 preorderlgb <- function(tree,
                         node,
