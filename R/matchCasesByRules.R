@@ -5,25 +5,27 @@
 #' Match Rules to Cases
 #'
 #' @param x Matrix / data frame: Input features
-#' @param rules Vector, string: Rules (MUST be string, not factor)
+#' @param rules Character vector: Rules
 #' @param verbose Logical: If TRUE, print messages to console
+#' 
 #' @author E.D. Gennatas
 #' @export
 #' @return cases-by-rules matrix (binary; 1: match, 0: no match)
+#' @keywords internal
 
 matchCasesByRules <- function(x, rules, verbose = TRUE) {
 
-  n.cases <- NROW(x)
-  n.rules <- length(rules)
+  n_cases <- NROW(x)
+  n_rules <- length(rules)
   x <- data.table::as.data.table(x)
-  x$ID <- seq(n.cases)
-  # rules <- gsub("&&", "&", rules)
-  cxr <- matrix(0, n.cases, n.rules)
-  if (verbose) msg2("Matching", n.rules, "rules to", n.cases, "cases...")
-  for (i in seq(rules)) {
-    match <- x[eval(parse(text = rules[i]))]$ID
+  x[, ID := seq_len(n_cases)]
+  cxr <- matrix(0, n_cases, n_rules)
+  if (verbose) msg2start("Matching", n_rules, "rules to", n_cases, "cases...")
+  for (i in seq_along(rules)) {
+    match <- x[eval(parse(text = rules[i])), ID]
     cxr[match, i] <- 1
   }
+  if (verbose) msg2done()
 
   cxr
 
@@ -41,5 +43,5 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 
 indexCasesByRules <- function(x, rules, verbose = TRUE) {
   cxr <- matchCasesByRules(x, rules, verbose)
-  apply(cxr, 1, function(i) which(i == 1))
+  apply(cxr, 1, \(i) which(i == 1))
 }
