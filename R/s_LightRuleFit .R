@@ -118,7 +118,7 @@ s_LightRuleFit <- function(x, y = NULL,
             lgbm.params
         )
         if (verbose) msg2("Running LightGBM...")
-        mod_lgbm <- do.call("s_LIGHTGBM", lgbm_args)
+        mod_lgbm <- do.call("s_LightGBM", lgbm_args)
 
         # Get Rules ----
         if (verbose) msg2("Collecting LightGBM rules...")

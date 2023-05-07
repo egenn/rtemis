@@ -206,7 +206,7 @@ gridSearchLearn <- function(x, y, mod,
             out1$est.n.trees <- which.min(mod1$mod$valid.error)
             if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
         }
-        if (learner == "s_LIGHTGBM") {
+        if (learner == "s_LightGBM") {
             out1$best_iter <- mod1$mod$best_iter
             out1$best_score <- mod1$mod$best_score
         }
@@ -309,7 +309,7 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     # '- LightGBM ----
-    if (learner == "s_LIGHTGBM") {
+    if (learner == "s_LightGBM") {
         if (verbose) {
             msg2(hilite("Extracting best N of iterations from LightGBM models..."))
         }

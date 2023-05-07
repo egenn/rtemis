@@ -1,4 +1,4 @@
-# s_LIGHTGBM.R
+# s_LightGBM.R
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
 # https://lightgbm.readthedocs.io/en/latest/R/index.html
@@ -52,10 +52,10 @@
 #' x <- rnormmat(500, 10)
 #' y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
 #' dat <- data.frame(x, y)
-#' mod <- s_LIGHTGBM(dat)
+#' mod <- s_LightGBM(dat)
 #' }
 
-s_LIGHTGBM <- function(x, y = NULL,
+s_LightGBM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
                        weights = NULL,
@@ -106,7 +106,7 @@ s_LIGHTGBM <- function(x, y = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
     # Intro ----
     if (missing(x)) {
-        print(args(s_LIGHTGBM))
+        print(args(s_LightGBM))
         return(invisible(9))
     }
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -116,7 +116,7 @@ s_LIGHTGBM <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- if (boosting == "rf") "LIGHTRF" else "LIGHTGBM"
+    mod.name <- if (boosting == "rf") "LightRF" else "LightGBM"
 
     # Dependencies ----
     dependency_check("lightgbm")
@@ -128,7 +128,11 @@ s_LIGHTGBM <- function(x, y = NULL,
     if (!verbose) print.plot <- FALSE
     verbose <- verbose | !is.null(logFile)
     if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-    if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+    if (!is.null(outdir)) {
+        outdir <- paste0(normalizePath(outdir,
+            mustWork = FALSE
+        ), "/")
+    }
 
     # Data ----
     dt <- dataPrepare(x, y,
@@ -368,7 +372,7 @@ s_LIGHTGBM <- function(x, y = NULL,
     # Variable Importance ----
     varimp <- NULL
     if (importance) {
-        if (verbose) msg2("Estimating LIGHTGBM variable importance...")
+        if (verbose) msg2("Estimating LightGBM variable importance...")
         .lgbvarimp <- lightgbm::lgb.importance(model = mod, percentage = TRUE)
         varimp <- .lgbvarimp$Gain
         names(varimp) <- .lgbvarimp$Feature
@@ -417,11 +421,11 @@ s_LIGHTGBM <- function(x, y = NULL,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_LIGHTGBM
+} # rtemis::s_LightGBM
 
 #' Random Forest with LightGBM
 #' 
-#' @inheritParams s_LIGHTGBM
+#' @inheritParams s_LightGBM
 #' 
 #' @author ED Gennatas
 #' @export
@@ -430,10 +434,10 @@ s_LIGHTGBM <- function(x, y = NULL,
 #' x <- rnormmat(500, 10)
 #' y <- x[, 3] + .5 * x[, 5]^2 + rnorm(500)
 #' dat <- data.frame(x, y)
-#' mod <- s_LIGHTRF(dat)
+#' mod <- s_LightRF(dat)
 #' }
 
-s_LIGHTRF <- function(x, y = NULL,
+s_LightRF <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
                        weights = NULL,
@@ -482,7 +486,7 @@ s_LIGHTRF <- function(x, y = NULL,
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-    s_LIGHTGBM(x, y = y,
+    s_LightGBM(x, y = y,
                x.test = x.test, y.test = y.test,
                x.name = x.name, y.name = y.name,
                weights = weights,

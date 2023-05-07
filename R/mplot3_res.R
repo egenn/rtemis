@@ -39,7 +39,7 @@ mplot3_res <- function(res,
         }
     }
 
-    ind <- seq(length(unique(unlist(res))))
+    ind <- seq_len(length(unique(unlist(res))))
     resn <- t(sapply(res, function(i) sapply(ind, function(k) sum(k == i))))
     nlevels <- max(resn) * 2 + 1
     if (is.null(col)) {

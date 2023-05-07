@@ -30,7 +30,7 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #' @export
 
-s_RULEFIT <- function(x, y = NULL,
+s_RuleFit <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       n.trees = 100,
                       gbm.params = list(
@@ -57,17 +57,24 @@ s_RULEFIT <- function(x, y = NULL,
                       verbose = TRUE) {
     # Intro ----
     if (missing(x)) {
-        print(args(s_RULEFIT))
+        print(args(s_RuleFit))
         return(invisible(9))
     }
-    if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+    if (!is.null(outdir)) {
+        outdir <- paste0(normalizePath(outdir,
+            mustWork = FALSE
+        ), "/")
+    }
     logFile <- if (!is.null(outdir)) {
-        paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+        paste0(
+            outdir, "/", sys.calls()[[1]][[1]], ".",
+            format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+        )
     } else {
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "RULEFIT"
+    mod.name <- "RuleFit"
     which.gbm <- match.arg(which.gbm)
     .gbm <- ifelse(which.gbm == "gbm", "s_GBM", "s_GBM3")
 
