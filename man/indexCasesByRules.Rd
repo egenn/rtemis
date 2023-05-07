@@ -9,7 +9,7 @@ indexCasesByRules(x, rules, verbose = TRUE)
 \arguments{
 \item{x}{Matrix / data frame: Input features}
 
-\item{rules}{Vector, string: Rules (MUST be string, not factor)}
+\item{rules}{Character vector: Rules}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
