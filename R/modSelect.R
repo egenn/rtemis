@@ -68,6 +68,7 @@ modSelect <- function(mod,
         c("LDA", "Linear Discriminant Analysis", TRUE, FALSE, FALSE),
         c("LIGHTGBM", "LightGBM", TRUE, TRUE, FALSE),
         c("LIGHTRF", "LightGBM Random Forest", TRUE, TRUE, FALSE),
+        c("LightRuleFit", "LightGBM RuleFit", TRUE, TRUE, FALSE),
         c("LM", "Ordinary Least Squares Regression", FALSE, TRUE, FALSE),
         c("LOESS", "Local Polynomial Regression", FALSE, TRUE, FALSE),
         c("LOGISTIC", "Logistic Regression", TRUE, FALSE, FALSE),
@@ -110,7 +111,7 @@ modSelect <- function(mod,
     if (missing(mod)) {
         cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
         # Exclude first so many
-        print(rtMods[-seq(6), ], quote = FALSE, row.names = FALSE)
+        print(rtMods[-seq_len(4), ], quote = FALSE, row.names = FALSE)
         return(invisible(rtMods))
     }
 
@@ -124,7 +125,7 @@ modSelect <- function(mod,
     }
 
     name.vec <- toupper(rtMods[, 1])
-    name <- name.vec[pmatch(toupper(mod), name.vec)]
+    name <- rtMods[, 1][pmatch(toupper(mod), name.vec)]
     if (is.na(name)) {
         print(rtMods[, 1:2], quote = FALSE)
         stop(mod, ": Incorrect model specified")
