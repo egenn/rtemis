@@ -121,7 +121,6 @@ s_LightRuleFit <- function(x, y = NULL,
         mod_lgbm <- do.call("s_LightGBM", lgbm_args)
 
         # Get Rules ----
-        if (verbose) msg2("Collecting LightGBM rules...")
         if (verbose) msg2start("Extracting LightGBM rules...")
         lgbm_rules <- lgb2rules(mod_lgbm$mod, n_iter = n.trees, xnames = names(x))
         if (verbose) msg2done()

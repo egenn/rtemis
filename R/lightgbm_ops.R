@@ -89,6 +89,6 @@ lgb2rules <- function(x, n_iter = NULL, xnames) {
     trees <- get_lgb_tree(x, n_iter)
     lapply(
         trees,
-        \(x) lgbtree2rules(x, names(dat))
+        \(x) lgbtree2rules(x, xnames)
     ) |> unlist() |> unique()
 }
