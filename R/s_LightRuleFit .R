@@ -1,9 +1,11 @@
 # s_LightRuleFit.R
 # ::rtemis::
-# 2017-8 E.D. Gennatas www.lambdamd.org
-# TODO: Add option to include raw features as well as rules
+# 2023 E.D. Gennatas www.lambdamd.org
+# Plan: 
+# - Option to include raw features as well as rules
+# - Option to train multiple GB models with different max depth/n leaves
 
-#' Rulefit with LightGBM (C, R)
+#' RuleFit with LightGBM (C, R)
 #'
 #' Train a LightGBM gradient boosting model, extract rules,
 #' and fit using LASSO
@@ -97,6 +99,21 @@ s_LightRuleFit <- function(x, y = NULL,
     xnames <- dt$xnames
     type <- dt$type
     checkType(type, c("Classification", "Regression"), mod.name)
+    if (any(sapply(x, is.factor))) {
+        factor_index <- names(x)[which(sapply(x, is.factor))]
+        xp <- preprocess(x,
+            factor2integer = TRUE,
+            factor2integer_startat0 = TRUE
+        )
+        # if (!is.null(x.test)) {
+        #     x.test <- preprocess(x.test,
+        #         factor2integer = TRUE,
+        #         factor2integer_startat0 = TRUE
+        #     )
+        # }
+    } else {
+        factor_index <- NULL
+    }
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
         if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -106,7 +123,7 @@ s_LightRuleFit <- function(x, y = NULL,
     nclasses <- if (type == "Classification") length(levels(y)) else -1
 
     if (is.null(cases_by_rules)) {
-        # Gradient Boosting ----
+        # LightGBM ----
         lgbm_args <- c(
             list(
                 x = x, y = y,
@@ -127,7 +144,7 @@ s_LightRuleFit <- function(x, y = NULL,
         if (verbose) msg2("Extracted", length(lgbm_rules), "rules.")
         n_rules_total <- length(lgbm_rules)
         # Match Cases by Rules ----
-        cases_by_rules <- matchCasesByRules(x, lgbm_rules, verbose = verbose)
+        cases_by_rules <- matchCasesByRules(xp, lgbm_rules, verbose = verbose)
     } else {
         mod_lgbm <- lgbm_rules  <- NA
     }
@@ -317,6 +334,13 @@ predict.LightRuleFit <- function(object,
     # Get all rules, some have 0 coefficients
     rules <- object$lgbm_rules
 
+    # Preprocess ----
+    if (!is.null(object$mod_lgbm$extra$factor_index)) {
+        newdata <- preprocess(newdata,
+            factor2integer = TRUE, factor2integer_startat0 = TRUE
+        )
+    }
+    
     # Match ----
     # Match newdata to rules: create features for predict
     if (!is.null(newdata)) {
@@ -350,6 +374,6 @@ predict.LightRuleFit <- function(object,
     if (is.null(prob)) {
         return(yhat)
     } else {
-        return(list(prob = prob, estimate = yhat))
+        return(list(predicted.prob = prob, predicted = yhat))
     }
 } # rtemis::predict.LightRuleFit
