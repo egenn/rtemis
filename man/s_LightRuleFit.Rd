@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LightRuleFit .R
 \name{s_LightRuleFit}
 \alias{s_LightRuleFit}
-\title{Rulefit with LightGBM (C, R)}
+\title{RuleFit with LightGBM (C, R)}
 \usage{
 s_LightRuleFit(
   x,
