@@ -1,3 +1,10 @@
+#             d8P
+#          d888888P
+#   88bd88b  ?88'   d8888b  88bd8b,d88b   88b .d888b,
+#   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,
+#  d88       88b   88b     d88  d88  88P d88    `?8b
+# d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'
+#                          
 # rtMod.R
 # ::rtemis::
 # 2016-22 E.D. Gennatas www.lambdamd.org
@@ -2596,13 +2603,3 @@ rtMod.out <- function(rt,
     }
     if (save.mod) rt_save(rt, outdir, verbose = verbose)
 } # rtemis::rtMod.out
-
-# cat("
-#             d8P
-#          d888888P
-#   88bd88b  ?88'   d8888b  88bd8b,d88b   88b .d888b,
-#   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,
-#  d88       88b   88b     d88  d88  88P d88    `?8b
-# d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'
-
-# ")
