@@ -153,9 +153,10 @@ s_LightGBM <- function(x, y = NULL,
     .weights <- if (is.null(weights) && ipw) dt$weights else weights
     if (any(sapply(x, is.factor))) {
         factor_index <- names(x)[which(sapply(x, is.factor))]
-        # x <- preprocess(x, oneHot = TRUE)
-        # if (!is.null(x.test)) x.test <- preprocess(x.test, oneHot = TRUE)
-        x <- preprocess(x, factor2integer = TRUE, factor2integer_startat0 = TRUE)
+        x <- preprocess(x,
+            factor2integer = TRUE,
+            factor2integer_startat0 = TRUE
+        )
         if (!is.null(x.test)) {
             x.test <- preprocess(x.test,
                 factor2integer = TRUE,
@@ -382,6 +383,7 @@ s_LightGBM <- function(x, y = NULL,
     rt <- rtModSet(
         rtclass = "rtMod",
         mod = mod,
+        extra = list(factor_index = factor_index),
         mod.name = mod.name,
         type = type,
         gridsearch = gs,
@@ -534,4 +536,33 @@ s_LightRF <- function(x, y = NULL,
                parallel.type = parallel.type,
                outdir = outdir,
                save.mod = save.mod, ...)
+}
+
+predict_LightGBM <- function(x, newdata, ...) {
+    if (!is.null(x$extra$factor_index)) {
+        newdata <- preprocess(newdata,
+            factor2integer = TRUE, factor2integer_startat0 = TRUE
+        )
+    }
+    predicted <- predict(x$mod, as.matrix(newdata), reshape = TRUE)
+    if (x$type == "Classification") {
+        ylevels <- levels(x$y)
+        nclass <- length(ylevels)
+        if (nclass == 2) {
+            predicted.prob <- 1 - predicted
+            predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+                levels = c(1, 0),
+                labels = ylevels
+            )
+        } else {
+            predicted <- factor(max.col(predicted),
+                levels = seq(nclass),
+                labels = ylevels
+            )
+        }
+
+        return(list(predicted = predicted, predicted.prob = predicted.prob))
+
+    }
+    return(predicted)
 }
