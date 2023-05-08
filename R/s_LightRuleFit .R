@@ -112,6 +112,7 @@ s_LightRuleFit <- function(x, y = NULL,
         #     )
         # }
     } else {
+        xp <- x
         factor_index <- NULL
     }
     if (print.plot) {
