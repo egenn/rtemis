@@ -1,7 +1,7 @@
 # s_LightRuleFit.R
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
-# Plan: 
+# Plan:
 # - Option to include raw features as well as rules
 # - Option to train multiple GB models with different max depth/n leaves
 
@@ -33,19 +33,16 @@ s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
                            n.trees = 100,
                            lgbm.params = list(
-                               #    max_nrounds = 1000L,
                                num_leaves = 31L,
                                max_depth = -1L,
-                               learning_rate = .01,
-                               bagging_fraction = .8,
+                               learning_rate = .1,
+                               bagging_fraction = .666,
                                bagging_freq = 0L,
-                               lambda_l1 = 0,
-                               lambda_l2 = 0,
+                               lambda_l1 = .001,
+                               lambda_l2 = .001,
                                objective = NULL,
                                ipw = TRUE,
                                importance = FALSE
-                               # early_stopping_rounds = 10L,
-                               # nrounds_default = 100L,
                            ),
                            meta.params = list(
                                alpha = 1,
@@ -147,7 +144,7 @@ s_LightRuleFit <- function(x, y = NULL,
         # Match Cases by Rules ----
         cases_by_rules <- matchCasesByRules(xp, lgbm_rules, verbose = verbose)
     } else {
-        mod_lgbm <- lgbm_rules  <- NA
+        mod_lgbm <- lgbm_rules <- NA
     }
 
     # Meta: Select Rules ----
@@ -173,10 +170,10 @@ s_LightRuleFit <- function(x, y = NULL,
     Ncases_by_rules <- matrixStats::colSums2(cases_by_rules_selected)
 
     if (!is.null(outdir)) {
-        rules_selected.file <- paste0(outdir, "rules_selected.csv")
-        write.csv(rules_selected, rules_selected.file, row.names = TRUE)
-        if (file.exists(rules_selected.file)) {
-            if (verbose) msg2("Selected rules written to", rules_selected.file)
+        rules_selected_file <- paste0(outdir, "rules_selected.csv")
+        write.csv(rules_selected, rules_selected_file, row.names = TRUE)
+        if (file.exists(rules_selected_file)) {
+            if (verbose) msg2("Selected rules written to", rules_selected_file)
         }
     }
 
@@ -192,7 +189,7 @@ s_LightRuleFit <- function(x, y = NULL,
     } else {
         empirical_risk <- NULL
     }
-    
+
     # Write CSV ----
     # eventually eliminate this
     rules_selected_formatted <- gsub(
@@ -205,10 +202,11 @@ s_LightRuleFit <- function(x, y = NULL,
         N_Cases = Ncases_by_rules,
         Coefficient = rule_coefs$Coefficient[nonzero_index]
     )
+    setorder(rules_selected_coef, -Coefficient)
     if (type == "Classification" && nclasses == 2) {
         rules_selected_coef[, Empirical_Risk := empirical_risk]
     }
-   data.table::setorder(rules_selected_coef, -Coefficient)
+    data.table::setorder(rules_selected_coef, -Coefficient)
     if (!is.null(outdir)) {
         outname <- if (type == "Classification" && nclasses == 2) {
             "rules_selectedCoefs_empiricalRisk.csv"
@@ -216,7 +214,7 @@ s_LightRuleFit <- function(x, y = NULL,
             "rules_selectedCoefs.csv"
         }
         write.csv(
-            rules_selected_coef, 
+            rules_selected_coef,
             paste0(outdir, outname),
             row.names = FALSE
         )
@@ -341,7 +339,7 @@ predict.LightRuleFit <- function(object,
             factor2integer = TRUE, factor2integer_startat0 = TRUE
         )
     }
-    
+
     # Match ----
     # Match newdata to rules: create features for predict
     if (!is.null(newdata)) {
