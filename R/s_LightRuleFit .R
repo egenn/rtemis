@@ -112,8 +112,8 @@ s_LightRuleFit <- function(x, y = NULL,
         #     )
         # }
     } else {
-        xp <- x
         factor_index <- NULL
+        xp <- x
     }
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -260,8 +260,8 @@ s_LightRuleFit <- function(x, y = NULL,
     if (!is.null(x.test)) {
         predicted <- predict(LightRuleFit_obj, x.test, verbose = verbose)
         if (type == "Classification") {
-            predicted.prob <- predicted$prob
-            predicted <- predicted$estimate
+            predicted.prob <- predicted$predicted.prob
+            predicted <- predicted$predicted
         }
         if (!is.null(y.test)) {
             error.test <- modError(y.test, predicted, predicted.prob, verbose)
