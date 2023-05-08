@@ -21,7 +21,7 @@
 #' @param cases_by_rules Matrix of cases by rules from a previoue rulefit run.
 #' If provided, the GBM step is skipped. Default = NULL
 #' @param n.cores Integer: Number of cores to use
-#' @param which.gbm Character: "gbm" or "gbm3"
+#' @param trace Integer: Verbosity level
 #'
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -60,7 +60,8 @@ s_LightRuleFit <- function(x, y = NULL,
                            plot.theme = rtTheme,
                            outdir = NULL,
                            save.mod = if (!is.null(outdir)) TRUE else FALSE,
-                           verbose = TRUE) {
+                           verbose = TRUE,
+                           trace = 0) {
     # Intro ----
     if (missing(x)) {
         print(args(s_LightRuleFit))
@@ -100,7 +101,8 @@ s_LightRuleFit <- function(x, y = NULL,
         factor_index <- names(x)[which(sapply(x, is.factor))]
         xp <- preprocess(x,
             factor2integer = TRUE,
-            factor2integer_startat0 = TRUE
+            factor2integer_startat0 = TRUE,
+            verbose = trace > 0
         )
         # if (!is.null(x.test)) {
         #     x.test <- preprocess(x.test,
@@ -328,7 +330,8 @@ s_LightRuleFit <- function(x, y = NULL,
 
 predict.LightRuleFit <- function(object,
                                  newdata = NULL,
-                                 verbose = TRUE, ...) {
+                                 verbose = TRUE,
+                                 trace = 0, ...) {
     # Rules ----
     # Get all rules, some have 0 coefficients
     rules <- object$lgbm_rules
@@ -336,7 +339,8 @@ predict.LightRuleFit <- function(object,
     # Preprocess ----
     if (!is.null(object$mod_lgbm$extra$factor_index)) {
         newdata <- preprocess(newdata,
-            factor2integer = TRUE, factor2integer_startat0 = TRUE
+            factor2integer = TRUE, factor2integer_startat0 = TRUE,
+            verbose = trace > 0
         )
     }
 
