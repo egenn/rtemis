@@ -14,6 +14,7 @@ s_LightRuleFit(
     bagging_fraction = 0.666, bagging_freq = 0L, lambda_l1 = 0.001, lambda_l2 = 0.001,
     objective = NULL, ipw = TRUE, importance = FALSE),
   meta.params = list(alpha = 1, lambda = NULL, ipw = TRUE),
+  empirical_risk = TRUE,
   cases_by_rules = NULL,
   x.name = NULL,
   y.name = NULL,
@@ -25,7 +26,8 @@ s_LightRuleFit(
   plot.theme = rtTheme,
   outdir = NULL,
   save.mod = if (!is.null(outdir)) TRUE else FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  trace = 0
 )
 }
 \arguments{
@@ -44,6 +46,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{meta.params}{Named list: Parameters for \link{s_GLMNET} for the
 feature selection step}
+
+\item{empirical_risk}{Logical: If TRUE, calculate empirical risk}
 
 \item{cases_by_rules}{Matrix of cases by rules from a previoue rulefit run.
 If provided, the GBM step is skipped. Default = NULL}
@@ -74,7 +78,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{which.gbm}{Character: "gbm" or "gbm3"}
+\item{trace}{Integer: Verbosity level}
 }
 \value{
 \link{rtMod} object

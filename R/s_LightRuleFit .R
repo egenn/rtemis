@@ -18,6 +18,7 @@
 #' @param lgbm.params Named list: Parameters for [s_GBM]
 #' @param meta.params Named list: Parameters for [s_GLMNET] for the
 #' feature selection step
+#' @param empirical_risk Logical: If TRUE, calculate empirical risk
 #' @param cases_by_rules Matrix of cases by rules from a previoue rulefit run.
 #' If provided, the GBM step is skipped. Default = NULL
 #' @param n.cores Integer: Number of cores to use
@@ -49,6 +50,7 @@ s_LightRuleFit <- function(x, y = NULL,
                                lambda = NULL,
                                ipw = TRUE
                            ),
+                           empirical_risk = TRUE,
                            cases_by_rules = NULL,
                            x.name = NULL,
                            y.name = NULL,
@@ -180,8 +182,8 @@ s_LightRuleFit <- function(x, y = NULL,
     }
 
     # Empirical risk ----
-    dat <- as.data.table(cbind(x, outcome = y))
-    if (type == "Classification" && nclasses == 2) {
+    dat <- as.data.table(cbind(xp, outcome = y))
+    if (empirical_risk && type == "Classification" && nclasses == 2) {
         empirical_risk <- vector("numeric", length(rules_selected))
         for (i in seq_along(rules_selected)) {
             match <- dat[eval(parse(text = rules_selected[i]))]
