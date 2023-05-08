@@ -10,9 +10,9 @@ s_LightRuleFit(
   x.test = NULL,
   y.test = NULL,
   n.trees = 100,
-  lgbm.params = list(num_leaves = 31L, max_depth = -1L, learning_rate = 0.01,
-    bagging_fraction = 0.8, bagging_freq = 0L, lambda_l1 = 0, lambda_l2 = 0, objective =
-    NULL, ipw = TRUE, importance = FALSE),
+  lgbm.params = list(num_leaves = 31L, max_depth = -1L, learning_rate = 0.1,
+    bagging_fraction = 0.666, bagging_freq = 0L, lambda_l1 = 0.001, lambda_l2 = 0.001,
+    objective = NULL, ipw = TRUE, importance = FALSE),
   meta.params = list(alpha = 1, lambda = NULL, ipw = TRUE),
   cases_by_rules = NULL,
   x.name = NULL,
