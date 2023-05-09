@@ -4,7 +4,7 @@
 \alias{rt_save}
 \title{Write \pkg{rtemis} model to RDS file}
 \usage{
-rt_save(rtmod, outdir, file.prefix = "s.", verbose = TRUE)
+rt_save(rtmod, outdir, file.prefix = "s_", verbose = TRUE)
 }
 \arguments{
 \item{rtmod}{\pkg{rtemis} model}

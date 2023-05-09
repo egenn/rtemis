@@ -13,7 +13,7 @@
 
 rt_save <- function(rtmod,
                     outdir,
-                    file.prefix = "s.",
+                    file.prefix = "s_",
                     verbose = TRUE) {
     outdir <- normalizePath(outdir, mustWork = FALSE)
     if (verbose) {
@@ -24,7 +24,7 @@ rt_save <- function(rtmod,
         )
     }
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
-    rdsPath <- paste0(outdir, file.prefix, rtmod$mod.name, ".rds")
+    rdsPath <- file.path(outdir, paste0(file.prefix, rtmod$mod.name, ".rds"))
     try(saveRDS(rtmod, rdsPath))
     if (verbose) elapsed <- Sys.time() - start_time
     if (file.exists(rdsPath)) {

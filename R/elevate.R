@@ -246,7 +246,6 @@ elevate <- function(x, y = NULL,
             dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
         }
         if (verbose) cat("Output directory set to", outdir, "\n")
-        filename <- paste0(outdir, "elevate.", mod.name, ".rds")
     }
 
     # resLearn: Outer resamples ----
