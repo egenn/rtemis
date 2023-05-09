@@ -546,10 +546,14 @@ predict_LightGBM <- function(x, newdata, ...) {
     }
     predicted <- predict(x$mod, as.matrix(newdata), reshape = TRUE)
     if (x$type == "Classification") {
-        ylevels <- levels(x$y)
+        ylevels <- levels(x$y.train)
         nclass <- length(ylevels)
         if (nclass == 2) {
-            predicted.prob <- 1 - predicted
+            if (rtenv$binclasspos == 1) {
+                predicted.prob <- 1 - predicted
+            } else {
+                predicted.prob <- predicted
+            }
             predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
                 levels = c(1, 0),
                 labels = ylevels
@@ -560,9 +564,7 @@ predict_LightGBM <- function(x, newdata, ...) {
                 labels = ylevels
             )
         }
-
         return(list(predicted = predicted, predicted.prob = predicted.prob))
-
     }
     return(predicted)
 }
