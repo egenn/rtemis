@@ -163,7 +163,7 @@ elevate <- function(x, y = NULL,
 
     logFile <- if (!is.null(outdir)) {
         paste0(
-            outdir, "/", sys.calls()[[1]][[1]], ".",
+            outdir, "/", sys.calls()[[1]][[1]], "_",
             format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
         )
     } else {
@@ -215,7 +215,7 @@ elevate <- function(x, y = NULL,
         outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
-    if (save.rt && is.null(outdir)) outdir <- paste0("./elevate.", mod)
+    if (save.rt && is.null(outdir)) outdir <- paste0("./elevate_", mod)
 
     # Data ----
     dt <- dataPrepare(x, y, NULL, NULL)
@@ -745,7 +745,7 @@ elevate <- function(x, y = NULL,
 
     if (!save.mod) rt$mod <- NA
     if (save.rt) {
-        rt_save(rt, outdir, file.prefix = "elevate.", verbose = verbose)
+        rt_save(rt, outdir, file.prefix = "elevate_", verbose = verbose)
     }
     if (print.plot) {
         if (plot.fitted) rt$plotFitted()
@@ -754,11 +754,11 @@ elevate <- function(x, y = NULL,
     if (!is.null(outdir)) {
         rt$plotFitted(filename = paste0(
             outdir,
-            "elevate.", mod.name, "_fitted.pdf"
+            "elevate_", mod.name, "_fitted.pdf"
         ))
         rt$plotPredicted(filename = paste0(
             outdir,
-            "elevate.", mod.name, "_predicted.pdf"
+            "elevate_", mod.name, "_predicted.pdf"
         ))
         if (mod.name %in% c("LIGHTGBM", "LIGHTRF")) {
             # LightGBM models need to be saved separately with 
