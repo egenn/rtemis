@@ -16,6 +16,7 @@ s_LightRuleFit(
   meta.params = list(alpha = 1, lambda = NULL, ipw = TRUE),
   empirical_risk = TRUE,
   cases_by_rules = NULL,
+  save_cases_by_rules = FALSE,
   x.name = NULL,
   y.name = NULL,
   n.cores = rtCores,
@@ -51,6 +52,8 @@ feature selection step}
 
 \item{cases_by_rules}{Matrix of cases by rules from a previoue rulefit run.
 If provided, the GBM step is skipped. Default = NULL}
+
+\item{save_cases_by_rules}{Logical: If TRUE, save cases_by_rules to object}
 
 \item{x.name}{Character: Name for feature set}
 

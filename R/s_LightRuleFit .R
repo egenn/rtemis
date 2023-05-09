@@ -21,6 +21,7 @@
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
 #' @param cases_by_rules Matrix of cases by rules from a previoue rulefit run.
 #' If provided, the GBM step is skipped. Default = NULL
+#' @param save_cases_by_rules Logical: If TRUE, save cases_by_rules to object
 #' @param n.cores Integer: Number of cores to use
 #' @param trace Integer: Verbosity level
 #'
@@ -52,6 +53,7 @@ s_LightRuleFit <- function(x, y = NULL,
                            ),
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,
+                           save_cases_by_rules = FALSE,
                            x.name = NULL,
                            y.name = NULL,
                            n.cores = rtCores,
@@ -231,11 +233,10 @@ s_LightRuleFit <- function(x, y = NULL,
         mod_glmnet_select = mod_glmnet_select,
         rules_selected = rules_selected,
         rules_selected_formatted = rules_selected_formatted,
-        # empirical_risk = empirical_risk,
         rules_selected_coef = rules_selected_coef,
         rules.index = nonzero_index,
-        cases_by_rules = cases_by_rules,
-        cases_by_rules_selected = cases_by_rules_selected,
+        # cases_by_rules = cases_by_rules,
+        # cases_by_rules_selected = cases_by_rules_selected,
         rule_coefs = rule_coefs,
         x = x,
         y = y,
@@ -244,6 +245,9 @@ s_LightRuleFit <- function(x, y = NULL,
             n_nonzero_rules = n_nonzero_rules
         )
     )
+    if (save_cases_by_rules) {
+        LightRuleFit_obj$cases_by_rules_selected <- cases_by_rules_selected
+    }
     class(LightRuleFit_obj) <- c("LightRuleFit", "list")
 
     # Fitted ----
@@ -349,10 +353,14 @@ predict.LightRuleFit <- function(object,
     # Match ----
     # Match newdata to rules: create features for predict
     if (!is.null(newdata)) {
-        if (verbose) msg2("Matching newdata to rules...")
         cases_by_rules <- matchCasesByRules(newdata, rules, verbose = verbose)
     } else {
-        cases_by_rules <- object$cases_by_rules_selected
+        if (verbose) msg2("Using stored cases_by_rules_selected")
+        cases_by_rules <- if (!is.null(object$cases_by_rules_selected)) {
+            object$cases_by_rules_selected
+        } else {
+            matchCasesByRules(newdata, rules, verbose = verbose)
+        }
     }
 
     # Predict ----
