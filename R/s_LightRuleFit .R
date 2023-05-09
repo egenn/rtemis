@@ -197,7 +197,6 @@ s_LightRuleFit <- function(x, y = NULL,
     }
 
     # Write CSV ----
-    # eventually eliminate this
     rules_selected_formatted <- gsub(
         "  ", " ",
         formatRules(rules_selected, decimal.places = 2)
@@ -234,9 +233,7 @@ s_LightRuleFit <- function(x, y = NULL,
         rules_selected = rules_selected,
         rules_selected_formatted = rules_selected_formatted,
         rules_selected_coef = rules_selected_coef,
-        rules.index = nonzero_index,
-        # cases_by_rules = cases_by_rules,
-        # cases_by_rules_selected = cases_by_rules_selected,
+        rules_index = nonzero_index,
         rule_coefs = rule_coefs,
         x = x,
         y = y,
