@@ -563,6 +563,7 @@ fitted.rtMod <- function(object, ...) {
 #' `predict.rtMod`: `predict` method for `rtMod` object
 #'
 #' @method predict rtMod
+#' @param object `rtMod` object
 #' @param newdata Features to use for prediction
 #' @param trace Integer: Set trace level
 #' @param verbose Logical: If TRUE, output messages to console
@@ -579,8 +580,12 @@ predict.rtMod <- function(object,
         estimated <- object$fitted
     } else {
         newdata <- as.data.frame(newdata)
-        # This is "GLM" which gets names "LOGISTIC" for better or worse
-        if (object$mod.name == "LOGISTIC") {
+        if (object$mod.name == "LightGBM") {
+            pred <- predict_LightGBM(object, newdata, ...)
+            estimated.prob <- pred$predicted.prob
+            estimated <- pred$predicted
+        } else if (object$mod.name == "LOGISTIC") {
+            # This is "GLM" which gets names "LOGISTIC" for better or worse
             estimated.prob <- predict(object$mod, newdata = newdata, type = "response")
             estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
             levels(estimated) <- levels(object$y.train)
