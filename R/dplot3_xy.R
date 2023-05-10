@@ -451,7 +451,7 @@ dplot3_xy <- function(x, y = NULL,
             type = scatter.type,
             mode = .mode[i],
             # fillcolor = plotly::toRGB(col[[i]], alpha),
-            name = if (n.groups > 1) .names[i] else "Raw",
+            name = .names[i],
             # text = .text[[i]],
             # hoverinfo = "text",
             text = hovertext[[i]],
@@ -461,7 +461,7 @@ dplot3_xy <- function(x, y = NULL,
              } else {
                 NULL
              },
-            legendgroup = if (n.groups > 1) .names[i] else "Raw",
+            legendgroup = .names[i],
             showlegend = legend
         )
         if (se.fit) {
