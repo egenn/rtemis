@@ -30,6 +30,7 @@ present <- function(...,
                     htest = "none",
                     htest.annotate.y = NULL,
                     margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
+                    subplot.margin = .0666,
                     filename = NULL,
                     file.width = 500,
                     file.height = 500,
@@ -97,7 +98,8 @@ present <- function(...,
             plot_train, plot_test,
             nrows = 2,
             shareX = TRUE,
-            titleY = TRUE
+            titleY = TRUE,
+            margin = subplot.margin
         )
     } else if (plot.test) {
         plt <- plot_test
@@ -109,7 +111,7 @@ present <- function(...,
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file = normalizePath(filename),
+            file = normalizePath(filename, mustWork = FALSE),
             width = file.width,
             height = file.height,
             scale = file.scale
