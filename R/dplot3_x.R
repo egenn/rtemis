@@ -114,8 +114,8 @@ dplot3_x <- function(x,
                      density.kernel = "gaussian",
                      density.bw = "SJ",
                      histnorm = c(
-                         "density", "percent", "probability",
-                         "probability density"
+                        "", "density", "percent", 
+                        "probability", "probability density"
                      ),
                      histfunc = c("count", "sum", "avg", "min", "max"),
                      hist.n.bins = 20,
@@ -500,7 +500,7 @@ dplot3_x <- function(x,
     if (!is.null(filename)) {
         plotly::save_image(
             plt,
-            file = file.path(filename),
+            file = normalizePath(filename, mustWork = FALSE),
             width = file.width,
             height = file.height,
             scale = file.scale
