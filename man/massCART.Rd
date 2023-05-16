@@ -19,7 +19,7 @@ massCART(
   surrogatestyle = 0,
   maxdepth = 22,
   xval = 0,
-  ipw = FALSE,
+  ifw = FALSE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -70,8 +70,9 @@ output (See \code{rpart::rpart.control}).}
 
 \item{xval}{Integer: Number of cross-validations}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -96,7 +97,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 }
 \description{
 Predict outcome from each predictor separately and rank by percent Variance explained

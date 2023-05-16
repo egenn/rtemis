@@ -14,8 +14,8 @@ s_LINAD(
   lookback = TRUE,
   force.max.leaves = NULL,
   learning.rate = 0.5,
-  ipw = TRUE,
-  ipw.type = 1,
+  ifw = TRUE,
+  ifw.type = 1,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -85,8 +85,8 @@ Columns must correspond to columns in \code{x}}
 \item{y.test}{Numeric vector of testing set outcome}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{max.leaves}{Integer: Maximum number of terminal nodes to grow. Setting
 this to a value > 1, triggers cross-validation to find best number of leaves.
@@ -103,13 +103,13 @@ tuning number of leaves.}
 \item{learning.rate}{\link{gS} Numeric: learning rate for steps after initial
 linear model}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -162,7 +162,7 @@ child node to allow splitting}
 
 \item{plot.tuning}{Logical: If TRUE, plot validation error during gridsearch}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -175,7 +175,7 @@ If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

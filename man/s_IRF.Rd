@@ -16,7 +16,7 @@ s_IRF(
   n.bootstrap = 30,
   interactions.return = NULL,
   classwt = NULL,
-  ipw = TRUE,
+  ifw = TRUE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -65,8 +65,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{classwt}{Vector, Float: Priors of the classes for classification only. Need not add up to 1}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}
@@ -105,7 +106,7 @@ when \code{autotune = TRUE}}
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

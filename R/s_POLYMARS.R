@@ -26,8 +26,8 @@ s_POLYMARS <- function(x, y = NULL,
                        grid.resample.rtset = rtset.grid.resample(),
                        bag.resample.rtset = NULL,
                        weights = NULL,
-                       ipw = TRUE,
-                       ipw.type = 2,
+                       ifw = TRUE,
+                       ifw.type = 2,
                        upsample = FALSE,
                        downsample = FALSE,
                        resample.seed = NULL,
@@ -76,7 +76,7 @@ s_POLYMARS <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
+                    ifw = ifw, ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -88,7 +88,7 @@ s_POLYMARS <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, nrow(x))
   x0 <- if (upsample | downsample) dt$x0 else x
   y0 <- if (upsample | downsample) dt$y0 else y
@@ -108,8 +108,8 @@ s_POLYMARS <- function(x, y = NULL,
       grid.params = list(maxsize = maxsize),
       fixed.params = list(
         classify = classify,
-        ipw = ipw,
-        ipw.type = ipw.type
+        ifw = ifw,
+        ifw.type = ifw.type
       ),
       weights = weights,
       metric = "MSE",

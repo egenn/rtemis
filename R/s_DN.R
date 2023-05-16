@@ -15,8 +15,8 @@
 s_DN <- function(x, y = NULL,
                  x.test = NULL, y.test = NULL,
                  weights = NULL,
-                 ipw = TRUE,
-                 ipw.type = 2,
+                 ifw = TRUE,
+                 ifw.type = 2,
                  upsample = FALSE,
                  downsample =  FALSE,
                  resample.seed = NULL,
@@ -73,7 +73,7 @@ s_DN <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
+                    ifw = ifw, ifw.type = ifw.type,
                     upsample = upsample,
                     downsample =  downsample,
                     resample.seed = resample.seed,
@@ -86,7 +86,7 @@ s_DN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

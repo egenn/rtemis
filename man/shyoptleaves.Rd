@@ -44,8 +44,8 @@ shyoptleaves(
 number of leaves to use.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{max.leaves}{Integer: Total number of terminal nodes to reach. 1 is a special case where no split is performed and a linear
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
@@ -75,7 +75,7 @@ than n of features in \code{x} are provided, they will be excluded}
 
 \item{plot.tuning}{Logical: If TRUE, plot validation error during gridsearch}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 }
 \description{
 Train an Stepwise Hybrid Tree for Classification & Regression

@@ -70,7 +70,7 @@ for each base learner}
 \item{trace}{Integer: If > 0, print diagnostic info to console}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 

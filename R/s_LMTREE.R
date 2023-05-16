@@ -49,8 +49,8 @@ s_LMTREE <- function(x, y = NULL,
                     #  minsplit = minsize, 
                     #  minbucket = minsize, 
                     #  applyfun = NULL,
-                     ipw = TRUE,
-                     ipw.type = 2,
+                     ifw = TRUE,
+                     ifw.type = 2,
                      upsample = FALSE,
                      downsample = FALSE,
                      resample.seed = NULL,
@@ -95,8 +95,8 @@ s_LMTREE <- function(x, y = NULL,
 
     # Data ----
     dt <- dataPrepare(x, y, x.test, y.test,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed,
@@ -108,7 +108,7 @@ s_LMTREE <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
+    .weights <- if (is.null(weights) & ifw) dt$weights else weights
     # x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
     # y0 <- if (upsample | downsample) dt$y0 else y
     if (verbose) dataSummary(x, y, x.test, y.test, type)

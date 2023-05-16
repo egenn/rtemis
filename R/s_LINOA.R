@@ -30,8 +30,8 @@
 s_LINOA <- function(x, y = NULL,
                         x.test = NULL, y.test = NULL,
                         weights = NULL,
-                        ipw = TRUE,
-                        ipw.type = 2,
+                        ifw = TRUE,
+                        ifw.type = 2,
                         upsample = FALSE,
                         downsample = FALSE,
                         resample.seed = NULL,
@@ -114,7 +114,7 @@ s_LINOA <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw, ipw.type = ipw.type,
+                    ifw = ifw, ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -126,10 +126,10 @@ s_LINOA <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
-  # .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
+  # .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(gamma, lambda, minobsinnode,
                                 learning.rate, max.leaves, nvmax,
@@ -206,8 +206,8 @@ s_LINOA <- function(x, y = NULL,
                                          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
                                          nbest = nbest,
                                          metric = metric,
-                                         ipw = ipw,
-                                         ipw.type = ipw.type,
+                                         ifw = ifw,
+                                         ifw.type = ifw.type,
                                          upsample = upsample,
                                          resample.seed = resample.seed,
                                          plot.tuning = plot.tuning,

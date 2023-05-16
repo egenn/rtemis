@@ -26,8 +26,8 @@ s_GAM.default <- function(x, y = NULL,
                           k = 6,
                           family = NULL,
                           weights = NULL,
-                          ipw = TRUE,
-                          ipw.type = 2,
+                          ifw = TRUE,
+                          ifw.type = 2,
                           upsample = FALSE,
                           downsample = FALSE,
                           resample.seed = NULL,
@@ -78,8 +78,8 @@ s_GAM.default <- function(x, y = NULL,
     # Data ----
     dt <- dataPrepare(x, y,
         x.test, y.test,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed,
@@ -91,7 +91,7 @@ s_GAM.default <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    if (is.null(weights) && type == "Classification" && ipw) weights <- dt$weights
+    if (is.null(weights) && type == "Classification" && ifw) weights <- dt$weights
     if (verbose) dataSummary(x, y, x.test, y.test, type = type)
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -262,8 +262,8 @@ s_GAM.default <- function(x, y = NULL,
             formula = .formula,
             family = family,
             k = k,
-            ipw = ipw,
-            ipw.type = ipw.type,
+            ifw = ifw,
+            ifw.type = ifw.type,
             upsample = upsample,
             downsample = downsample,
             resample.seed = resample.seed

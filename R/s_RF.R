@@ -75,8 +75,8 @@ s_RF <- function(x, y = NULL,
                  metric = NULL,
                  maximize = NULL,
                  classwt = NULL,
-                 ipw = TRUE,
-                 ipw.type = 2,
+                 ifw = TRUE,
+                 ifw.type = 2,
                  upsample = FALSE,
                  downsample = FALSE,
                  resample.seed = NULL,
@@ -140,7 +140,7 @@ s_RF <- function(x, y = NULL,
   # Data  ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
+                    ifw = ifw,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -152,7 +152,7 @@ s_RF <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
+  .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
   x0 <- if (upsample|downsample) dt$x0 else x
   y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)

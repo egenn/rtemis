@@ -45,8 +45,8 @@
 s_GBM <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   weights = NULL,
-                  ipw = TRUE,
-                  ipw.type = 2,
+                  ifw = TRUE,
+                  ifw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -145,8 +145,8 @@ s_GBM <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -157,7 +157,7 @@ s_GBM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) && ipw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   x0 <- if (upsample || downsample) dt$x0 else x
   y0 <- if (upsample || downsample) dt$y0 else y
   n.classes <- length(levels(y0))
@@ -231,8 +231,8 @@ s_GBM <- function(x, y = NULL,
                                               n.new.trees = n.new.trees,
                                               min.trees = min.trees,
                                               failsafe.trees = failsafe.trees,
-                                              ipw = ipw,
-                                              ipw.type = ipw.type,
+                                              ifw = ifw,
+                                              ifw.type = ifw.type,
                                               upsample = upsample,
                                               downsample = downsample,
                                               resample.seed = resample.seed,

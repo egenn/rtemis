@@ -20,8 +20,8 @@ s_CTREE <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     weights = NULL,
                     control = partykit::ctree_control(),
-                    ipw = TRUE,
-                    ipw.type = 2,
+                    ifw = TRUE,
+                    ifw.type = 2,
                     upsample = FALSE,
                     downsample = FALSE,
                     resample.seed = NULL,
@@ -63,8 +63,8 @@ s_CTREE <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -75,7 +75,7 @@ s_CTREE <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (is.null(weights) & ipw) weights <- dt$weights
+  if (is.null(weights) & ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

@@ -68,8 +68,8 @@ boosting}
 excluding them, in which case, these cases can act as a validation set}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
@@ -107,7 +107,7 @@ during training. "none" for no plot. Default = "final"}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
 for each base learner. Default = FALSE}

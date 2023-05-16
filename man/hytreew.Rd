@@ -39,8 +39,8 @@ hytreew(
 \item{max.depth}{\link{gS} Integer: Max depth of additive tree. Default = 3}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{lin.type}{Character: "glmnet", "cv.glmnet" use the equivalent \code{glmnet} functions.
 "lm.ridge" uses the MASS function of that name, "glm" uses \code{lm.fit},
@@ -58,7 +58,7 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 }
 \description{
 Train a Hybrid Tree for Regression

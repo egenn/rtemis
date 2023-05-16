@@ -17,6 +17,7 @@ present(
   htest = "none",
   htest.annotate.y = NULL,
   margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
+  subplot.margin = 0.0666,
   filename = NULL,
   file.width = 500,
   file.height = 500,

@@ -13,10 +13,10 @@ s_RANGER(
   y.name = NULL,
   n.trees = 1000,
   weights = NULL,
-  ipw = TRUE,
-  ipw.type = 2,
-  ipw.case.weights = TRUE,
-  ipw.class.weights = FALSE,
+  ifw = TRUE,
+  ifw.type = 2,
+  ifw.case.weights = TRUE,
+  ifw.class.weights = FALSE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -74,23 +74,23 @@ Columns must correspond to columns in \code{x}}
 \item{n.trees}{Integer: Number of trees to grow. Default = 1000}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
-\item{ipw.case.weights}{Logical: If TRUE, define ranger's
+\item{ifw.case.weights}{Logical: If TRUE, define ranger's
 \code{case.weights} using IPW. Default = TRUE
 Note: Cannot use case.weights together with \code{stratify.on.y} or
 \code{inbag.resample}}
 
-\item{ipw.class.weights}{Logical: If TRUE, define ranger's
+\item{ifw.class.weights}{Logical: If TRUE, define ranger's
 \code{class.weights} using IPW. Default = FALSE}
 
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
@@ -125,7 +125,7 @@ tree. Default = NULL}
 \item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to
 use stratified bootstraps for each tree.
 This can help improve test set performance in imbalanced datasets.
-Default = FALSE. Note: Cannot be used with \code{ipw.case.weights}}
+Default = FALSE. Note: Cannot be used with \code{ifw.case.weights}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
@@ -182,7 +182,7 @@ when \code{autotune = TRUE}}
 \item{print.tune.plot}{Logical: passed to \code{randomForest::tuneRF}.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -220,7 +220,7 @@ value.
 \link{gS}: indicated parameter will be tuned by grid search if more than one value is passed
 
 See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
-balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
+balanced (ifw.case.weights = TRUE) and weighted (ifw.class.weights = TRUE) Random Forests.
 }
 \seealso{
 \link{elevate} for external cross-validation

@@ -32,7 +32,7 @@ s_ET <- function(x, y = NULL,
                    max(floor(NCOL(x)/3), 1) else floor(sqrt(NCOL(x))),
                  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
                  weights = NULL,
-                 ipw = TRUE,
+                 ifw = TRUE,
                  upsample = FALSE,
                  downsample = FALSE,
                  resample.seed = resample.seed,
@@ -81,7 +81,7 @@ s_ET <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
+                    ifw = ifw,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -92,7 +92,7 @@ s_ET <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {

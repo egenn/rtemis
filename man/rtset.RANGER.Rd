@@ -9,7 +9,7 @@ rtset.RANGER(
   min.node.size = 1,
   mtry = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  ipw = TRUE,
+  ifw = TRUE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -28,8 +28,9 @@ features for classification, and a third of n of features for regression.}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
 \item{upsample}{Logical: If TRUE, upsample training set cases not belonging in majority outcome
 group}

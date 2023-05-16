@@ -34,8 +34,8 @@ s_RFSRC <- function(x, y = NULL,
                     x.name = NULL, y.name = NULL,
                     n.trees = 1000,
                     weights = NULL,
-                    ipw = TRUE,
-                    ipw.type = 2,
+                    ifw = TRUE,
+                    ifw.type = 2,
                     upsample = FALSE,
                     downsample = FALSE,
                     resample.seed = NULL,
@@ -90,8 +90,8 @@ s_RFSRC <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -102,7 +102,7 @@ s_RFSRC <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (is.null(weights) & ipw) weights <- dt$weights
+  if (is.null(weights) & ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {

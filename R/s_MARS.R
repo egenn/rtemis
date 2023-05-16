@@ -34,8 +34,8 @@ s_MARS <- function(x, y = NULL,
                    x.name = NULL, y.name = NULL,
                    grid.resample.rtset = rtset.grid.resample(),
                    weights = NULL,
-                   ipw = TRUE,
-                   ipw.type = 2,
+                   ifw = TRUE,
+                   ifw.type = 2,
                    upsample = FALSE,
                    downsample = FALSE,
                    resample.seed = NULL,
@@ -106,8 +106,8 @@ s_MARS <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -119,7 +119,7 @@ s_MARS <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   x0 <- if (upsample | downsample) dt$x0 else x
   y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)

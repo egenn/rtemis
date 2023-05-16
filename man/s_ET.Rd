@@ -16,7 +16,7 @@ s_ET(
     floor(sqrt(NCOL(x))),
   nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
   weights = NULL,
-  ipw = TRUE,
+  ifw = TRUE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = resample.seed,
@@ -56,11 +56,12 @@ Columns must correspond to columns in \code{x}}
 1 (Classification)}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -74,7 +75,7 @@ Default = NULL (random seed)}
 \item{n.cores}{Integer. N of cores to use}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -89,7 +90,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical. Print summary to screen}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

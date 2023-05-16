@@ -42,7 +42,7 @@ categorical features}
 \item{y.name}{Character: Name for outcome}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

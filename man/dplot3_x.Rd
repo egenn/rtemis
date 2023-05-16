@@ -46,7 +46,7 @@ dplot3_x(
   zerolines = FALSE,
   density.kernel = "gaussian",
   density.bw = "SJ",
-  histnorm = c("density", "percent", "probability", "probability density"),
+  histnorm = c("", "density", "percent", "probability", "probability density"),
   histfunc = c("count", "sum", "avg", "min", "max"),
   hist.n.bins = 20,
   barmode = "overlay",

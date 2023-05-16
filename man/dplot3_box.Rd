@@ -31,6 +31,7 @@ dplot3_box(
   annotate.col = theme$labs.col,
   xnames = NULL,
   group.lines = FALSE,
+  group.lines.dash = "dot",
   group.lines.col = NULL,
   group.lines.alpha = 0.5,
   labelify = TRUE,

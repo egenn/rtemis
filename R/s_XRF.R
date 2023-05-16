@@ -46,8 +46,8 @@ s_XRF <- function(x, y = NULL,
                   missing = NA,
                   nrounds = 1,
                   weights = NULL,
-                  ipw = TRUE,
-                  ipw.type = 2,
+                  ifw = TRUE,
+                  ifw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -143,8 +143,8 @@ s_XRF <- function(x, y = NULL,
     # Data ----
     dt <- dataPrepare(x, y,
         x.test, y.test,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed,
@@ -156,7 +156,7 @@ s_XRF <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) && ipw) dt$weights else weights
+    .weights <- if (is.null(weights) && ifw) dt$weights else weights
     if (any(sapply(x, is.factor))) {
         if (verbose) msg2("Preprocessing training data...")
         x <- preprocess(x, oneHot = TRUE)
@@ -257,8 +257,8 @@ s_XRF <- function(x, y = NULL,
             grid.params = grid.params,
             fixed.params = list(
                 nrounds = nrounds,
-                ipw = ipw,
-                ipw.type = ipw.type,
+                ifw = ifw,
+                ifw.type = ifw.type,
                 upsample = upsample,
                 resample.seed = resample.seed,
                 sample_type = sample_type,

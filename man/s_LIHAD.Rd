@@ -69,15 +69,15 @@ Columns must correspond to columns in \code{x}}
 \item{part.cp}{\link{gS} Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{cxrcoef}{Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by coefficients matrix.
 Default = FALSE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -90,7 +90,7 @@ If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

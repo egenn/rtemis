@@ -115,7 +115,7 @@ s_LIHAD <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    # ipw = ipw, ipw.type = ipw.type,
+                    # ifw = ifw, ifw.type = ifw.type,
                     # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x

@@ -56,8 +56,8 @@ s_H2OGBM <- function(x, y = NULL,
                      learning.rate = .01,
                      learning.rate.annealing = 1,
                      weights = NULL,
-                     ipw = TRUE,
-                     ipw.type = 2,
+                     ifw = TRUE,
+                     ifw.type = 2,
                      upsample = FALSE,
                      downsample = FALSE,
                      resample.seed = NULL,
@@ -113,8 +113,8 @@ s_H2OGBM <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -126,7 +126,7 @@ s_H2OGBM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  .weights <- if (is.null(weights) & ifw) dt$weights else weights
   x0 <- if (upsample|downsample) dt$x0 else x
   y0 <- if (upsample|downsample) dt$y0 else y
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
@@ -183,8 +183,8 @@ s_H2OGBM <- function(x, y = NULL,
                                              p.row.sample = p.row.sample,
                                              minobsinnode = minobsinnode),
                           fixed.params = list(n.trees = n.trees,
-                                              ipw = ipw,
-                                              ipw.type = ipw.type,
+                                              ifw = ifw,
+                                              ifw.type = ifw.type,
                                               upsample = upsample,
                                               resample.seed = resample.seed,
                                               n.stopping.rounds = n.stopping.rounds,

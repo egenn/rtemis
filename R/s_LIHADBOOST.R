@@ -125,7 +125,7 @@ s_LIHADBOOST <- function(x, y = NULL,
   dt <- dataPrepare(x, y,
                     x.test, y.test,
                     # x.valid = x.valid, y.valid = y.valid,
-                    # ipw = ipw, ipw.type = ipw.type,
+                    # ifw = ifw, ifw.type = ifw.type,
                     # upsample = upsample, resample.seed = resample.seed,
                     verbose = verbose)
   x <- dt$x

@@ -10,7 +10,7 @@
 #'
 #' Note that weights, if defined (and not NULL), should be passed directly to `gridSearchLearn`
 #' as they need to be resampled along `x` and `y`, and should not be passed along with
-#' `grid.params`. `ipw` and `ipw.type` should be passed as part of `grid.params`
+#' `grid.params`. `ifw` and `ifw.type` should be passed as part of `grid.params`
 #' and will be passed on to the learner.
 #' Includes a special case for training [s_H2OGBM] or [s_GBM] which requires extracting and averaging n.trees
 #' along with params.

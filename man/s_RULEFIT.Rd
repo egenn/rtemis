@@ -10,11 +10,11 @@ s_RuleFit(
   x.test = NULL,
   y.test = NULL,
   n.trees = 100,
-  gbm.params = list(bag.fraction = 0.5, shrinkage = 0.001, interaction.depth = 5, ipw =
+  gbm.params = list(bag.fraction = 0.5, shrinkage = 0.001, interaction.depth = 5, ifw =
     TRUE),
   meta.alpha = 1,
   meta.lambda = NULL,
-  meta.extra.params = list(ipw = TRUE),
+  meta.extra.params = list(ifw = TRUE),
   cases.by.rules = NULL,
   x.name = NULL,
   y.name = NULL,
@@ -66,7 +66,7 @@ If provided, the GBM step is skipped. Default = NULL}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

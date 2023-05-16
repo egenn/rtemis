@@ -26,7 +26,7 @@ s_IRF <- function(x, y = NULL,
                   n.bootstrap = 30,
                   interactions.return = NULL,
                   classwt = NULL,
-                  ipw = TRUE,
+                  ifw = TRUE,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -97,7 +97,7 @@ s_IRF <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .classwt <- if (is.null(classwt) & ipw) dt$class.weights else classwt
+  .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4,
                                 newline.pre = TRUE)

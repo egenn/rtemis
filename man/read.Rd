@@ -10,15 +10,15 @@ read(
   make.unique = TRUE,
   character2factor = FALSE,
   clean.colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow", "rpolars"),
+  delim.reader = c("data.table", "vroom", "duckdb", "arrow", "polars"),
   xlsx.sheet = 1,
   sep = NULL,
   quote = "\\"",
   na.strings = c(""),
-  rpolars_ignore_errors = TRUE,
-  rpolars_infer_schema_length = 100,
-  rpolars_encoding = "utf8-lossy",
-  rpolars_parse_dates = TRUE,
+  polars_ignore_errors = TRUE,
+  polars_infer_schema_length = 100,
+  polars_encoding = "utf8-lossy",
+  polars_parse_dates = TRUE,
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
@@ -55,9 +55,9 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{na.strings}{Character vector: Strings to be interpreted as NA values.
 For \code{delim.reader = "duckdb"}, this must be a single string.
-For \code{delim.reader = "rpolars"}, this must be a single string, otherwise, if an
+For \code{delim.reader = "polars"}, this must be a single string, otherwise, if an
 unnamed character vector, it maps each string to each column. If named, the names
-should match columns. See \code{?rpolars::csv_reader} for more details.}
+should match columns. See \code{?polars::csv_reader} for more details.}
 
 \item{output}{Character: "default" or "data.table", If default, return the delim.reader's
 default data structure, otherwise convert to data.table}
@@ -84,7 +84,7 @@ characters to factors
 \item \strong{XLSX} files using \code{readxl::read_excel()}
 \item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or
-\code{rpolars::csv_reader()}
+\code{polars::csv_reader()}
 }
 }
 \examples{

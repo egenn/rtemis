@@ -1,6 +1,6 @@
 # plotly_ops
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021-3 EDG www.lambdamd.org
 
 # plotly_vline calls plotly_vline1 to create a list for one or more vertical
 # lines, to be passed to plotly::layout's shapes argument
@@ -20,6 +20,7 @@ plotly_vline1 <- function(x,
     )
 }
 
+
 plotly_vline <- function(x,
                          color = "#F48024",
                          width = 1,
@@ -32,6 +33,7 @@ plotly_vline <- function(x,
         SIMPLIFY = FALSE
     )
 }
+
 
 plotly_hline1 <- function(y,
                           color = "#F48024",
@@ -50,6 +52,7 @@ plotly_hline1 <- function(y,
     )
 }
 
+
 plotly_hline <- function(y,
                          color = "#F48024",
                          width = 1,
@@ -63,16 +66,19 @@ plotly_hline <- function(y,
     )
 }
 
+
 # bracket y values for boxplot htest
 bracket_y <- function(x, pad = c(.04, .05)) {
     l <- max(x) + (diff(range(x)) * pad)
     c(l, rev(l))
 }
 
+
 starbracket_y <- function(x, pad = c(.04, .05, .09)) {
     l <- max(x) + (diff(range(x)) * pad)
     list(star = l[3], bracket = c(l[1:2], rev(l[1:2])))
 }
+
 
 # plotly shade
 plotly_shade <- function(plt,

@@ -12,7 +12,7 @@ rtset.GBM(
   bag.fraction = 0.9,
   n.minobsinnode = 5,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  ipw = TRUE,
+  ifw = TRUE,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -29,8 +29,9 @@ Helps avoid overfitting.}
 
 \item{n.minobsinnode}{\link{gS} Integer: Minimum number of observation allowed in node.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double

@@ -29,28 +29,28 @@
 #' @param class.method Character: Define "logistic" or "multinom" for classification. The only purpose
 #' of this is so you can try `nnet::multinom` instead of glm for binary classification
 #' @param weights Numeric vector: Weights for cases. For classification, `weights` takes precedence
-#' over `ipw`, therefore set `weights = NULL` if using `ipw`.
-#' Note: If `weight` are provided, `ipw` is not used. Leave NULL if setting `ipw = TRUE`. Default = NULL
-#' @param ipw Logical: If TRUE, apply inverse probability weighting (for Classification only).
-#' Note: If `weights` are provided, `ipw` is not used. Default = TRUE
-#' @param ipw.type Integer {0, 1, 2}
+#' over `ifw`, therefore set `weights = NULL` if using `ifw`.
+#' Note: If `weight` are provided, `ifw` is not used. Leave NULL if setting `ifw = TRUE`.
+#' @param ifw Logical: If TRUE, apply inverse frequency weighting 
+#' (for Classification only).
+#' Note: If `weights` are provided, `ifw` is not used.
+#' @param ifw.type Integer {0, 1, 2}
 #" 0: class.weights = 1 / (class.frequencies/sum(class.frequencies))
-#' 1: class.weights as in 0, divided by max(class.weights)
-#' 2: class.weights as in 0, divided by min(class.weights)
-#' Default = 2
+#' 1: class.weights as in 0, divided by min(class.weights)
+#' 2: class.weights as in 0, divided by max(class.weights)
 #' @param upsample Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 #' Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 #' the length of the class you are upsampling, thereby introducing randomness
 #' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
 #' @param resample.seed Integer: If provided, will be used to set the seed during upsampling.
 #' Default = NULL (random seed)
-#' @param intercept Logical: If TRUE, fit an intercept term. Default = TRUE
+#' @param intercept Logical: If TRUE, fit an intercept term.
 #' @param polynomial Logical: if TRUE, run lm on `poly(x, poly.d)` (creates orthogonal polynomials)
-#' @param poly.d Integer: degree of polynomial. Default = 3
+#' @param poly.d Integer: degree of polynomial.
 #' @param poly.raw Logical: if TRUE, use raw polynomials.
 #'   Default, which should not really be changed is FALSE
 #' @param print.plot Logical: if TRUE, produce plot using `mplot3`
-#'   Takes precedence over `plot.fitted` and `plot.predicted`. Default = TRUE
+#'   Takes precedence over `plot.fitted` and `plot.predicted`.
 #' @param plot.fitted Logical: if TRUE, plot True (y) vs Fitted
 #' @param plot.predicted Logical: if TRUE, plot True (y.test) vs Predicted.
 #'   Requires `x.test` and `y.test`
@@ -62,7 +62,7 @@
 #' @param question Character: the question you are attempting to answer with this model, in plain language.
 #' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
-#' @param trace Integer: If higher than 0, will print more information to the console. Default = 0
+#' @param trace Integer: If higher than 0, will print more information to the console.
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,
 #'   as well as full model output, if `save.mod` is TRUE
@@ -88,8 +88,8 @@ s_GLM <- function(x, y = NULL,
                   interactions = NULL,
                   class.method = NULL,
                   weights = NULL,
-                  ipw = TRUE,
-                  ipw.type = 2,
+                  ifw = TRUE,
+                  ifw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -139,8 +139,8 @@ s_GLM <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -158,7 +158,7 @@ s_GLM <- function(x, y = NULL,
     type <- "Classification"
   }
 
-  .weights <- if (is.null(weights) && ipw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 

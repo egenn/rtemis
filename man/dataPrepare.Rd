@@ -12,8 +12,8 @@ dataPrepare(
   x.valid = NULL,
   y.valid = NULL,
   filter.y.na = FALSE,
-  ipw = FALSE,
-  ipw.type = 2,
+  ifw = FALSE,
+  ifw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -40,10 +40,10 @@ outcome in last column.}
 \item{filter.y.na}{Logical: If TRUE, filter out cases with missing values
 in \code{y}}
 
-\item{ipw}{Logical: If TRUE, return class weights for inverse probability weighting
-(for Classification)}
+\item{ifw}{Logical: If TRUE, return class weights for inverse frequency
+weighting for Classification}
 
-\item{ipw.type}{{1, 2}: 1:}
+\item{ifw.type}{{1, 2}: 1:}
 
 \item{upsample}{Logical: If TRUE, downsample majority class to match size of minority class}
 

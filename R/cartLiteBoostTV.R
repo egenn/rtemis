@@ -101,7 +101,7 @@ cartLiteBoostTV <- function(x, y = NULL,
   y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
-  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  # .weights <- if (is.null(weights) & ifw) dt$weights else weights
   # x0 <- if (upsample|downsample) dt$x0 else x
   # y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)

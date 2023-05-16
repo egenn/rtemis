@@ -15,8 +15,8 @@ s_SVM(
   grid.search.type = c("exhaustive", "randomized"),
   grid.randomized.p = 0.1,
   class.weights = NULL,
-  ipw = TRUE,
-  ipw.type = 2,
+  ifw = TRUE,
+  ifw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -68,15 +68,15 @@ combinations.}
 
 \item{class.weights}{Float, length = n levels of outcome: Weights for each
 outcome class.For classification, \code{class.weights} takes precedence over
-\code{ipw}, therefore set \code{class.weights = NULL} if using \code{ipw}.}
+\code{ifw}, therefore set \code{class.weights = NULL} if using \code{ifw}.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -116,7 +116,7 @@ search is run.}
 Requires \code{x.test} and \code{y.test}}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 

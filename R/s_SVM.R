@@ -17,7 +17,7 @@
 #' @inheritParams resample
 #' @param class.weights Float, length = n levels of outcome: Weights for each 
 #' outcome class.For classification, `class.weights` takes precedence over 
-#' `ipw`, therefore set `class.weights = NULL` if using `ipw`.
+#' `ifw`, therefore set `class.weights = NULL` if using `ifw`.
 #' @param kernel Character: "linear", "polynomial", "radial", "sigmoid"
 #' @param degree [gS] Integer: Degree for `kernel = "polynomial"`.
 #' @param cost [gS] Float: Cost of constraints violation; the C constant of the 
@@ -41,8 +41,8 @@ s_SVM <- function(x, y = NULL,
                   grid.search.type = c("exhaustive", "randomized"),
                   grid.randomized.p = .1,
                   class.weights = NULL,
-                  ipw = TRUE,
-                  ipw.type = 2,
+                  ifw = TRUE,
+                  ifw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -98,8 +98,8 @@ s_SVM <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -112,7 +112,7 @@ s_SVM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
+  .class.weights <- if (is.null(class.weights) & ifw) dt$class.weights else class.weights
   x0 <- if (upsample | downsample) dt$x0 else x
   y0 <- if (upsample | downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -148,8 +148,8 @@ s_SVM <- function(x, y = NULL,
                             grid.params = list(cost = cost),
                             fixed.params = list(kernel = "linear",
                                                 class.weights = class.weights,
-                                                ipw = ipw,
-                                                ipw.type = ipw.type,
+                                                ifw = ifw,
+                                                ifw.type = ifw.type,
                                                 upsample = upsample,
                                                 downsample = downsample,
                                                 resample.seed = resample.seed),
@@ -167,8 +167,8 @@ s_SVM <- function(x, y = NULL,
                             grid.params = list(cost = cost, degree = degree, gamma = gamma, coef0 = coef0),
                             fixed.params = list(kernel = "polynomial",
                                                 class.weights = class.weights,
-                                                ipw = ipw,
-                                                ipw.type = ipw.type,
+                                                ifw = ifw,
+                                                ifw.type = ifw.type,
                                                 upsample = upsample,
                                                 downsample = downsample,
                                                 resample.seed = resample.seed),
@@ -187,8 +187,8 @@ s_SVM <- function(x, y = NULL,
                             grid.params = list(cost = cost, gamma = gamma, coef0 = coef0),
                             fixed.params = list(kernel = "sigmoid",
                                                 class.weights = class.weights,
-                                                ipw = ipw,
-                                                ipw.type = ipw.type,
+                                                ifw = ifw,
+                                                ifw.type = ifw.type,
                                                 upsample = upsample,
                                                 downsample = downsample,
                                                 resample.seed = resample.seed),
@@ -206,8 +206,8 @@ s_SVM <- function(x, y = NULL,
                             grid.params = list(cost = cost, gamma = gamma),
                             fixed.params = list(kernel = "radial",
                                                 class.weights = class.weights,
-                                                ipw = ipw,
-                                                ipw.type = ipw.type,
+                                                ifw = ifw,
+                                                ifw.type = ifw.type,
                                                 upsample = upsample,
                                                 downsample = downsample,
                                                 resample.seed = resample.seed),

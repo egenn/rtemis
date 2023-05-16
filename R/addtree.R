@@ -65,7 +65,7 @@ addtree <- function(x, y,
         }
     }
     if (is.null(weights)) weights <- rep(1, NROW(y0))
-    # autoweighted is deprecated as we use ipw by default
+    # autoweighted is deprecated as we use ifw by default
     if (autoweights) {
         # Overrides user-supplied weights
         # Account for imbalanced classes

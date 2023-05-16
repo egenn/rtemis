@@ -53,8 +53,8 @@ s_LM <- function(x, y = NULL,
                  x.test = NULL, y.test = NULL,
                  x.name = NULL, y.name = NULL,
                  weights = NULL,
-                 ipw = TRUE,
-                 ipw.type = 2,
+                 ifw = TRUE,
+                 ifw.type = 2,
                  upsample = FALSE,
                  downsample = FALSE,
                  resample.seed = NULL,
@@ -118,8 +118,8 @@ s_LM <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     verbose = verbose)
@@ -129,7 +129,7 @@ s_LM <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  # .weights <- if (is.null(weights) & ipw) dt$weights else weights
+  # .weights <- if (is.null(weights) & ifw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

@@ -56,8 +56,8 @@ s_TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.valid = NULL, y.valid = NULL,
                   class.weights = NULL,
-                  ipw = TRUE,
-                  ipw.type = 2,
+                  ifw = TRUE,
+                  ifw.type = 2,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
@@ -155,8 +155,8 @@ s_TFN <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -170,7 +170,7 @@ s_TFN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .class.weights <- if (is.null(class.weights) & ipw) dt$class.weights else class.weights
+  .class.weights <- if (is.null(class.weights) & ifw) dt$class.weights else class.weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)

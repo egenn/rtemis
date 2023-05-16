@@ -52,8 +52,8 @@ s_GLMTREE <- function(x, y = NULL,
                       #  applyfun = NULL,
                       epsilon = 1e-8, 
                       maxit = 25,
-                      ipw = TRUE,
-                      ipw.type = 2,
+                      ifw = TRUE,
+                      ifw.type = 2,
                       upsample = FALSE,
                       downsample = FALSE,
                       resample.seed = NULL,
@@ -105,8 +105,8 @@ s_GLMTREE <- function(x, y = NULL,
 
     # Data ----
     dt <- dataPrepare(x, y, x.test, y.test,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed,
@@ -118,7 +118,7 @@ s_GLMTREE <- function(x, y = NULL,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    .weights <- if (is.null(weights) & ipw) dt$weights else weights
+    .weights <- if (is.null(weights) & ifw) dt$weights else weights
     # x0, y0 are passed to gridSearchLearn
     x0 <- if (upsample | downsample) dt$x0 else x
     y0 <- if (upsample | downsample) dt$y0 else y
@@ -171,8 +171,8 @@ s_GLMTREE <- function(x, y = NULL,
                 bonferroni = bonferroni,
                 prune = prune,
                 na.action = na.action,
-                ipw = ipw,
-                ipw.type = ipw.type,
+                ifw = ifw,
+                ifw.type = ifw.type,
                 upsample = upsample,
                 downsample = downsample,
                 resample.seed = resample.seed

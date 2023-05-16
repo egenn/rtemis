@@ -15,8 +15,8 @@ s_GLM(
   interactions = NULL,
   class.method = NULL,
   weights = NULL,
-  ipw = TRUE,
-  ipw.type = 2,
+  ifw = TRUE,
+  ifw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -62,16 +62,16 @@ that should be entered as interaction terms in the GLM formula}
 of this is so you can try \code{nnet::multinom} instead of glm for binary classification}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -82,17 +82,17 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{intercept}{Logical: If TRUE, fit an intercept term. Default = TRUE}
+\item{intercept}{Logical: If TRUE, fit an intercept term.}
 
 \item{polynomial}{Logical: if TRUE, run lm on \code{poly(x, poly.d)} (creates orthogonal polynomials)}
 
-\item{poly.d}{Integer: degree of polynomial. Default = 3}
+\item{poly.d}{Integer: degree of polynomial.}
 
 \item{poly.raw}{Logical: if TRUE, use raw polynomials.
 Default, which should not really be changed is FALSE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -113,7 +113,7 @@ predictions would be made, ending \code{s_GLM} prematurely}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

@@ -82,8 +82,8 @@ s_GAMSELX2 <- function(x, y = NULL,
   # [ Data ] ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    # ipw = ipw,
-                    # ipw.type = ipw.type,
+                    # ifw = ifw,
+                    # ifw.type = ifw.type,
                     # upsample = upsample,
                     # downsample = downsample,
                     # resample.seed = resample.seed,
@@ -95,7 +95,7 @@ s_GAMSELX2 <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Regression"), mod.name)
-  # if (is.null(weights) && type == "Classification" && ipw) weights <- dt$weights
+  # if (is.null(weights) && type == "Classification" && ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type = type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

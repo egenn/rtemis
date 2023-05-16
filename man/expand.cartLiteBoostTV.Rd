@@ -65,7 +65,7 @@ plot training and validation error curve every this many iterations during
 training. "none" for no plot.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 }
 \description{
 Expand a \link{cartLiteBoostTV} object by adding more iterations

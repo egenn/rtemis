@@ -13,8 +13,8 @@ s_GAMSEL(
   y.name = NULL,
   data = NULL,
   data.test = NULL,
-  ipw = TRUE,
-  ipw.type = 2,
+  ifw = TRUE,
+  ifw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -65,13 +65,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -112,10 +112,10 @@ Numeric vector of length \code{nvars} specifying the maximum (end-of-path) degre
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

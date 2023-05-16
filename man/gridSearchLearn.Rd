@@ -72,7 +72,7 @@ Train models using a combination of parameter values for model selection
 \details{
 Note that weights, if defined (and not NULL), should be passed directly to \code{gridSearchLearn}
 as they need to be resampled along \code{x} and \code{y}, and should not be passed along with
-\code{grid.params}. \code{ipw} and \code{ipw.type} should be passed as part of \code{grid.params}
+\code{grid.params}. \code{ifw} and \code{ifw.type} should be passed as part of \code{grid.params}
 and will be passed on to the learner.
 Includes a special case for training \link{s_H2OGBM} or \link{s_GBM} which requires extracting and averaging n.trees
 along with params.

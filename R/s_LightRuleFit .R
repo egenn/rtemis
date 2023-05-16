@@ -43,13 +43,13 @@ s_LightRuleFit <- function(x, y = NULL,
                                lambda_l1 = .001,
                                lambda_l2 = .001,
                                objective = NULL,
-                               ipw = TRUE,
+                               ifw = TRUE,
                                importance = FALSE
                            ),
                            meta.params = list(
                                alpha = 1,
                                lambda = NULL,
-                               ipw = TRUE
+                               ifw = TRUE
                            ),
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,

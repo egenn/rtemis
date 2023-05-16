@@ -12,8 +12,8 @@ s_LightRuleFit(
   n.trees = 100,
   lgbm.params = list(num_leaves = 31L, max_depth = -1L, learning_rate = 0.1,
     bagging_fraction = 0.666, bagging_freq = 0L, lambda_l1 = 0.001, lambda_l2 = 0.001,
-    objective = NULL, ipw = TRUE, importance = FALSE),
-  meta.params = list(alpha = 1, lambda = NULL, ipw = TRUE),
+    objective = NULL, ifw = TRUE, importance = FALSE),
+  meta.params = list(alpha = 1, lambda = NULL, ifw = TRUE),
   empirical_risk = TRUE,
   cases_by_rules = NULL,
   save_cases_by_rules = FALSE,
@@ -64,7 +64,7 @@ If provided, the GBM step is skipped. Default = NULL}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

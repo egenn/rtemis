@@ -60,8 +60,8 @@ decomposition / dimensionality reduction. Set using \link{rtset.decompose},
 e.g. \code{decom = rtset.decompose("ica", 12)}}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{n.repeats}{Integer: Number of times to repeat the outer resampling.
 This was added for completeness, but in practice we use either k-fold
@@ -97,7 +97,7 @@ testing resamples. You are likely parallelizing either in the inner
 parallelization}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 

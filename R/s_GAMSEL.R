@@ -21,8 +21,8 @@ s_GAMSEL <- function(x, y = NULL,
                      x.name = NULL, y.name = NULL,
                      data = NULL,
                      data.test = NULL,
-                     ipw = TRUE,
-                     ipw.type = 2,
+                     ifw = TRUE,
+                     ifw.type = 2,
                      upsample = FALSE,
                      downsample = FALSE,
                      resample.seed = NULL,
@@ -89,8 +89,8 @@ s_GAMSEL <- function(x, y = NULL,
   # Data ----
   dt <- dataPrepare(x, y,
                     x.test, y.test,
-                    ipw = ipw,
-                    ipw.type = ipw.type,
+                    ifw = ifw,
+                    ifw.type = ifw.type,
                     upsample = upsample,
                     downsample = downsample,
                     resample.seed = resample.seed,
@@ -104,7 +104,7 @@ s_GAMSEL <- function(x, y = NULL,
   # => there is a bug in cv.gamsel: lp = y * log(predmat) + (1 - y) * log(1 - predmat) - 2 * lp
   # checkType(type, c("Classification", "Regression"), mod.name)
   checkType(type, c("Regression"), mod.name)
-  if (is.null(weights) && type == "Classification" && ipw) weights <- dt$weights
+  if (is.null(weights) && type == "Classification" && ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type = type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE

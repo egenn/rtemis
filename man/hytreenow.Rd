@@ -46,7 +46,7 @@ hytreenow(
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 }
 \description{
 Train a Hard Hybrid Tree (no weights) for Regression

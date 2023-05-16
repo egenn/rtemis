@@ -20,7 +20,7 @@ mplot3_pr(
   diagonal.lty = 3,
   group.legend = FALSE,
   annotation = TRUE,
-  annotation.side = 1,
+  annotation.side = 3,
   annotation.col = col,
   annot.line = NULL,
   annot.adj = 1,

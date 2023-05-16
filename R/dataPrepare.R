@@ -14,9 +14,9 @@
 #' @param y.valid Vector: Validation outcome
 #' @param filter.y.na Logical: If TRUE, filter out cases with missing values
 #' in `y`
-#' @param ipw Logical: If TRUE, return class weights for inverse probability weighting
-#' (for Classification)
-#' @param ipw.type {1, 2}: 1:
+#' @param ifw Logical: If TRUE, return class weights for inverse frequency 
+#' weighting for Classification
+#' @param ifw.type {1, 2}: 1:
 #' @param upsample Logical: If TRUE, downsample majority class to match size of minority class
 #' @param downsample Logical: If TRUE, downsample majority class to match size of minority class
 #' @param resample.seed Integer: If set, use `set.seed` for reproducibility. Default = NULL
@@ -33,8 +33,8 @@ dataPrepare <- function(x, y = NULL,
                         x.test = NULL, y.test = NULL,
                         x.valid = NULL, y.valid = NULL,
                         filter.y.na = FALSE,
-                        ipw = FALSE,
-                        ipw.type = 2,
+                        ifw = FALSE,
+                        ifw.type = 2,
                         upsample = FALSE,
                         downsample = FALSE,
                         resample.seed = NULL,
@@ -252,21 +252,25 @@ dataPrepare <- function(x, y = NULL,
         x0 <- y0 <- NULL
     }
 
-    # IPW: Inverse Probability Weighting for Classification ----
+    # IFW: Inverse Frequency Weighting for Classification ----
     class.weights <- weights <- NULL
-    if (type == "Classification" && ipw) {
+    if (type == "Classification" && ifw) {
         freq <- as.data.frame(table(y))[, 2]
-        class.weights <- 1 / (freq / sum(freq))
+        class.weights <- 1 / freq
         names(class.weights) <- levels(y)
         if (sum(diff(freq)) == 0) {
             weights <- rep(1, NROW(y))
         } else {
-            if (ipw.type == 1) {
+            if (ifw.type == 1) {
                 weights <- class.weights / min(class.weights)
-            } else if (ipw.type == 2) {
+            } else if (ifw.type == 2) {
                 weights <- class.weights / max(class.weights)
             }
-            if (verbose) msg2("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
+            if (verbose) {
+                msg2("Imbalanced classes: using Inverse Frequency Weighting",
+                    newline.pre = TRUE
+                )
+            }
             weights <- weights[as.integer(y)]
         }
     }

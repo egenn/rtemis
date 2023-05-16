@@ -17,7 +17,7 @@
 #' [gS]: indicated parameter will be tuned by grid search if more than one value is passed
 #'
 #' See [Tech Report](https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf) comparing
-#' balanced (ipw.case.weights = TRUE) and weighted (ipw.class.weights = TRUE) Random Forests.
+#' balanced (ifw.case.weights = TRUE) and weighted (ifw.class.weights = TRUE) Random Forests.
 #'
 #' @inheritParams s_RF
 #' @inheritParams s_CART
@@ -30,11 +30,11 @@
 #' "extratrees";
 #' For regression: "variance" (Default), "extratrees" or "maxstat".
 #' For survival "logrank" (Default), "extratrees", "C" or "maxstat".
-#' @param ipw.case.weights Logical: If TRUE, define ranger's
+#' @param ifw.case.weights Logical: If TRUE, define ranger's
 #' `case.weights` using IPW. Default = TRUE
 #' Note: Cannot use case.weights together with `stratify.on.y` or
 #' `inbag.resample`
-#' @param ipw.class.weights Logical: If TRUE, define ranger's
+#' @param ifw.class.weights Logical: If TRUE, define ranger's
 #' `class.weights` using IPW. Default = FALSE
 #' @param probability Logical: If TRUE, grow a probability forest.
 #' See `ranger::ranger`. Default = FALSE
@@ -53,7 +53,7 @@
 #' @param stratify.on.y Logical: If TRUE, overrides `inbag.resample` to
 #' use stratified bootstraps for each tree.
 #' This can help improve test set performance in imbalanced datasets.
-#' Default = FALSE. Note: Cannot be used with `ipw.case.weights`
+#' Default = FALSE. Note: Cannot be used with `ifw.case.weights`
 #' @param ... Additional arguments to be passed to `ranger::ranger`
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -68,10 +68,10 @@ s_RANGER <- function(x, y = NULL,
                      x.name = NULL, y.name = NULL,
                      n.trees = 1000,
                      weights = NULL,
-                     ipw = TRUE,
-                     ipw.type = 2,
-                     ipw.case.weights = TRUE,
-                     ipw.class.weights = FALSE,
+                     ifw = TRUE,
+                     ifw.type = 2,
+                     ifw.case.weights = TRUE,
+                     ifw.class.weights = FALSE,
                      upsample = FALSE,
                      downsample = FALSE,
                      resample.seed = NULL,
@@ -149,8 +149,8 @@ s_RANGER <- function(x, y = NULL,
     # Data ----
     dt <- dataPrepare(x, y,
         x.test, y.test,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed,
@@ -164,8 +164,8 @@ s_RANGER <- function(x, y = NULL,
     type <- dt$type
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
-    .weights <- if (is.null(weights) && ipw) dt$weights else weights
-    .class.weights <- if (is.null(classwt) && ipw) dt$class.weights else classwt
+    .weights <- if (is.null(weights) && ifw) dt$weights else weights
+    .class.weights <- if (is.null(classwt) && ifw) dt$class.weights else classwt
     x0 <- if (upsample || downsample) dt$x0 else x
     y0 <- if (upsample || downsample) dt$y0 else y
     if (print.plot) {
@@ -221,8 +221,8 @@ s_RANGER <- function(x, y = NULL,
                 n.trees = n.trees,
                 replace = replace,
                 importance = "none",
-                ipw = ipw,
-                ipw.type = ipw.type,
+                ifw = ifw,
+                ifw.type = ifw.type,
                 upsample = upsample,
                 resample.seed = resample.seed
             ),
@@ -279,8 +279,8 @@ s_RANGER <- function(x, y = NULL,
     parameters <- list(
         n.trees = n.trees,
         mtry = mtry,
-        ipw = ipw,
-        ipw.type = ipw.type,
+        ifw = ifw,
+        ifw.type = ifw.type,
         upsample = upsample,
         downsample = downsample,
         resample.seed = resample.seed
@@ -321,8 +321,8 @@ s_RANGER <- function(x, y = NULL,
         formula = .formula,
         data = df.train,
         num.trees = n.trees,
-        case.weights = if (ipw.case.weights) .weights else NULL,
-        class.weights = if (ipw.case.weights) .class.weights else NULL,
+        case.weights = if (ifw.case.weights) .weights else NULL,
+        class.weights = if (ifw.case.weights) .class.weights else NULL,
         mtry = mtry,
         min.node.size = min.node.size,
         splitrule = splitrule,

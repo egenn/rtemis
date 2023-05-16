@@ -20,8 +20,8 @@ s_ADDTREE(
   gamma = 0.8,
   max.depth = 30,
   learning.rate = 0.1,
-  ipw = TRUE,
-  ipw.type = 2,
+  ifw = TRUE,
+  ifw.type = 2,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
@@ -63,8 +63,8 @@ Columns must correspond to columns in \code{x}}
 \item{y.name}{Character: Name for outcome}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ipw}, therefore set \code{weights = NULL} if using \code{ipw}.
-Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setting \code{ipw = TRUE}. Default = NULL}
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{update}{Character: "exponential" or "polynomial". Type of weight update. Default = "exponential"}
 
@@ -83,13 +83,13 @@ Note: If \code{weight} are provided, \code{ipw} is not used. Leave NULL if setti
 \item{learning.rate}{\link{gS} learning rate for the Newton Raphson step that updates the function values
 of the node}
 
-\item{ipw}{Logical: If TRUE, apply inverse probability weighting (for Classification only).
-Note: If \code{weights} are provided, \code{ipw} is not used. Default = TRUE}
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
 
-\item{ipw.type}{Integer {0, 1, 2}
-1: class.weights as in 0, divided by max(class.weights)
-2: class.weights as in 0, divided by min(class.weights)
-Default = 2}
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
@@ -108,7 +108,7 @@ Default = NULL (random seed)}
 percent of cases match each rule. If available, these are used by \link{dplot3_addtree} when plotting. Default = TRUE}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
-Takes precedence over \code{plot.fitted} and \code{plot.predicted}. Default = TRUE}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -123,7 +123,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console. Default = 0}
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

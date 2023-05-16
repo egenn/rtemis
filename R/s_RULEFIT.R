@@ -37,11 +37,11 @@ s_RuleFit <- function(x, y = NULL,
                           bag.fraction = .5,
                           shrinkage = .001,
                           interaction.depth = 5,
-                          ipw = TRUE
+                          ifw = TRUE
                       ),
                       meta.alpha = 1,
                       meta.lambda = NULL,
-                      meta.extra.params = list(ipw = TRUE),
+                      meta.extra.params = list(ifw = TRUE),
                       cases.by.rules = NULL,
                       x.name = NULL,
                       y.name = NULL,
