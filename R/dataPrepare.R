@@ -256,15 +256,15 @@ dataPrepare <- function(x, y = NULL,
     class.weights <- weights <- NULL
     if (type == "Classification" && ipw) {
         freq <- as.data.frame(table(y))[, 2]
-        class.weights <- rev(freq / sum(freq)) # add to 1
+        class.weights <- 1 / (freq / sum(freq))
         names(class.weights) <- levels(y)
         if (sum(diff(freq)) == 0) {
             weights <- rep(1, NROW(y))
         } else {
             if (ipw.type == 1) {
-                weights <- class.weights / max(class.weights)
-            } else if (ipw.type == 2) {
                 weights <- class.weights / min(class.weights)
+            } else if (ipw.type == 2) {
+                weights <- class.weights / max(class.weights)
             }
             if (verbose) msg2("Imbalanced classes: using Inverse Probability Weighting", newline.pre = TRUE)
             weights <- weights[as.integer(y)]
