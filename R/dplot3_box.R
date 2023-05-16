@@ -170,6 +170,7 @@ dplot3_box <- function(x,
                        annotate.col = theme$labs.col,
                        xnames = NULL,
                        group.lines = FALSE,
+                       group.lines.dash = "dot",
                        group.lines.col = NULL,
                        group.lines.alpha = .5,
                        labelify = TRUE,
@@ -597,12 +598,18 @@ dplot3_box <- function(x,
                     if (horizontal) {
                         plt <- plt |>
                             plotly::layout(
-                                shapes = plotly_hline(at, color = group.lines.col)
+                                shapes = plotly_hline(at,
+                                    color = group.lines.col,
+                                    dash = group.lines.dash
+                                )
                             )
                     } else {
                         plt <- plt |>
                             plotly::layout(
-                                shapes = plotly_vline(at, color = group.lines.col)
+                                shapes = plotly_vline(at,
+                                    color = group.lines.col,
+                                    dash = group.lines.dash
+                                )
                             )
                     }
                 }
