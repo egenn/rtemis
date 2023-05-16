@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2022-3 E.D. Gennatas www.lambdamd.org
 # need a way to ignore errors with duckdb::duckdb_read_csv()
-# rpolars nullstring is buggy, only recognizes NULL
+# polars nullstring is buggy, only recognizes NULL
 
 #' Read tabular data from a variety of formats
 #' 
@@ -17,7 +17,7 @@
 #' - **XLSX** files using `readxl::read_excel()`
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
 #'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`, or 
-#'   `rpolars::csv_reader()`
+#'   `polars::csv_reader()`
 #'
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
@@ -36,9 +36,9 @@
 #' @param quote Single character: quote character
 #' @param na.strings Character vector: Strings to be interpreted as NA values.
 #' For `delim.reader = "duckdb"`, this must be a single string.
-#' For `delim.reader = "rpolars"`, this must be a single string, otherwise, if an
+#' For `delim.reader = "polars"`, this must be a single string, otherwise, if an
 #' unnamed character vector, it maps each string to each column. If named, the names 
-#' should match columns. See `?rpolars::csv_reader` for more details.
+#' should match columns. See `?polars::csv_reader` for more details.
 #' @param output Character: "default" or "data.table", If default, return the delim.reader's
 #' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
@@ -60,15 +60,15 @@ read <- function(filename,
                  make.unique = TRUE,
                  character2factor = FALSE,
                  clean.colnames = TRUE,
-                 delim.reader = c("data.table", "vroom", "duckdb", "arrow", "rpolars"),
+                 delim.reader = c("data.table", "vroom", "duckdb", "arrow", "polars"),
                  xlsx.sheet = 1,
                  sep = NULL,
                  quote = "\"",
                  na.strings = c(""),
-                 rpolars_ignore_errors = TRUE,
-                 rpolars_infer_schema_length = 100,
-                 rpolars_encoding = "utf8-lossy",
-                 rpolars_parse_dates = TRUE,
+                 polars_ignore_errors = TRUE,
+                 polars_infer_schema_length = 100,
+                 polars_encoding = "utf8-lossy",
+                 polars_parse_dates = TRUE,
                  output = c("data.table", "default"),
                  attr = NULL,
                  value = NULL,
@@ -167,19 +167,19 @@ read <- function(filename,
                 na = na.strings, ...
             )
             if (output == "data.table") setDT(.dat)
-        } else if (delim.reader == "rpolars") {
-            dependency_check("rpolars")
+        } else if (delim.reader == "polars") {
+            dependency_check("polars")
             if (is.null(sep)) sep <- ","
-            .dat <- rpolars::csv_reader(
+            .dat <- polars::csv_reader(
                 path,
                 sep = sep,
                 has_header = TRUE,
-                ignore_errors = rpolars_ignore_errors,
+                ignore_errors = polars_ignore_errors,
                 quote_char = quote,
                 # null_values = na.strings
-                infer_schema_length = rpolars_infer_schema_length,
-                encoding = rpolars_encoding,
-                parse_dates = rpolars_parse_dates, ...
+                infer_schema_length = polars_infer_schema_length,
+                encoding = polars_encoding,
+                parse_dates = polars_parse_dates, ...
             )$as_data_frame()
             if (output == "data.table") setDT(.dat)
         } else {
