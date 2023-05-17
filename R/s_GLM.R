@@ -275,7 +275,7 @@ s_GLM <- function(x, y = NULL,
         predicted <- as.numeric(predicted$fit)
     } else {
       if (mod.name == "LOGISTIC") {
-        predicted.prob <- predict(mod, x.test, type = "response")
+        predicted.prob <- as.numeric(predict(mod, x.test, type = "response"))
         predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
         levels(predicted) <- levels(y)
       } else {
