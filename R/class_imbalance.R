@@ -1,4 +1,4 @@
-# classImbalance.R
+# class_imbalance.R
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
@@ -14,7 +14,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-classImbalance <- function(x) {
+class_imbalance <- function(x) {
 
   if (NCOL(x) > 1) {
     x <- as.data.frame(x)
@@ -28,4 +28,4 @@ classImbalance <- function(x) {
 
   K * sum(sapply(seq(K), function(i) (freq$Freq[i] / N - 1 / K)^2))
 
-} # rtemis::classImbalance
+} # rtemis::class_imbalance
