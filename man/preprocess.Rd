@@ -146,7 +146,7 @@ default it is the same as \code{scale}}
 \item{removeConstants.skipMissing}{Logical: If TRUE, skip missing values, before
 checking if feature is constant}
 
-\item{removeDuplicates}{Logical: If TRUE, remove duplicated cases.}
+\item{removeDuplicates}{Logical: If TRUE, remove duplicate cases.}
 
 \item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
 

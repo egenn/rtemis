@@ -106,7 +106,7 @@
 #' @param removeConstants Logical: If TRUE, remove constant columns.
 #' @param removeConstants.skipMissing Logical: If TRUE, skip missing values, before
 #' checking if feature is constant
-#' @param removeDuplicates Logical: If TRUE, remove duplicated cases.
+#' @param removeDuplicates Logical: If TRUE, remove duplicate cases.
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #' @param xname Character: Name of `x` for messages
@@ -204,7 +204,7 @@ preprocess <- function(x,
         duplicate.index <- which(duplicated(x))
         Ndups <- length(duplicate.index)
         if (Ndups > 0) {
-            if (verbose) msg20("Removing ", singorplu(Ndups, "duplicated case"), "...")
+            if (verbose) msg20("Removing ", singorplu(Ndups, "duplicate case"), "...")
             x <- unique(x)
         }
     } else {
