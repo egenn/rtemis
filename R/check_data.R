@@ -502,16 +502,18 @@ print.CheckData <- function(x,
             bold("\n  Issues"),
             sep = "\n"
         )
+        fmt <- ifelse(n_constant > 0, red, I)
         out <- paste(out,
             paste(
-                "  *", bold(red(n_constant)), "constant",
+                "  *", bold(fmt(n_constant)), "constant",
                 ngettext(n_constant, "feature", "features")
             ),
             sep = "\n"
         )
+        fmt <- ifelse(n_dups > 0, orange, I)
         out <- paste(out,
             paste(
-                "  *", bold(orange(n_dups)), "duplicate",
+                "  *", bold(fmt(n_dups)), "duplicate",
                 ngettext(n_dups, "case", "cases")
             ),
             sep = "\n"
@@ -539,24 +541,9 @@ print.CheckData <- function(x,
         } else {
             paste(bold("0"), "missing values")
         }
-        # .col <- if (n_cols_anyna > 0) orange else I
-        # out <- paste(out,
-        #     paste0(
-        #         "  * ", bold(.col(n_cols_anyna)),
-        #         ngettext(
-        #             n_cols_anyna, " feature includes",
-        #             " features include"
-        #         ), " 'NA' values",
-        #         ifelse(n_cols_anyna > 0, paste(
-        #             ";", bold(.col(n_na)), "'NA'",
-        #             ngettext(n_na, "value", "values"), "total"
-        #         ), "")
-        #     ),
-        #     sep = "\n"
-        # )
         out <- paste0(out, "\n  * ", nas)
 
-        ## Recs ----
+        ## Recommendations ----
         out <- paste(out,
             bold("\n  Recommendations"),
             sep = "\n"
