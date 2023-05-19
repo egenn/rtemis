@@ -1,10 +1,6 @@
 # dplot3_heatmap.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
-# TODO: automatically adjust (lower) margin depending on label length
-# customizing heatmaply is messy and slow, look for alternatives
-# TODO: change dendro default colors to remove black at highest level which is not visible on a black bg
-# todo: font family not used on y-axis when not doing dendrogram
 
 #' Interactive Heatmaps
 #'
@@ -25,7 +21,7 @@
 # @param k Integer: Cut dendogram to this many clusters, displayed by
 # different colors
 #' @param symm Logical: If TRUE, treat `x` symmetrically - `x` must be a square matrix. Default = FALSE
-#' @param cellnote Matrix with values to be desplayed on hover. Defaults to `ddSci(x)`
+#' @param cellnote Matrix with values to be displayed on hover. Defaults to `ddSci(x)`
 #' @param k_row Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
 #' Default = NA (determined automatically). See `heatmaply::heatmaply("k_row")`
 #' @param k_col Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
@@ -50,8 +46,8 @@
 #' @param file.width Numeric: Width of exported image
 #' @param file.height Numeric: Height of exported image
 #' @param file.scale Numeric: Scale of exported image
-#' @param plot_method Character: Update February 2021: "ggplot" causes R session to hand
-#' on MacOS but plotly" seems to work
+#' @param plot_method Character: Update February 2021: "ggplot" causes R session 
+#' to hang on MacOS but "plotly" seems to work
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`
 #' 
 #' @author E.D. Gennatas
