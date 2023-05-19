@@ -16,7 +16,6 @@
 #' @param cellnote Matrix with values to be desplayed on hover. Defaults to `ddSci(x)`
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
-#' @param margins Float, length 4: Heatmap margins.
 #' @param font.size Numeric: Font size
 #' @param padding Numeric: Padding between cells
 #' @param displayModeBar Logical: If TRUE, display the plotly mode bar
@@ -35,9 +34,13 @@ dplot3_spectrogram <- function(x, y, z,
                                xlab = "Time",
                                ylab = "Frequency",
                                zlab = "Power",
+                               hover.xlab = xlab,
+                               hover.ylab = ylab,
+                               hover.zlab = zlab,
                                zmin = NULL,
                                zmax = NULL,
                                zauto = TRUE,
+                               hoverlabel.align = "right",
                                colorscale = "Jet",
                                colorbar.y = .5,
                                colorbar.yanchor = "middle",
@@ -57,7 +60,6 @@ dplot3_spectrogram <- function(x, y, z,
                                # show_grid = FALSE,
                                grid.gap = 0,
                                limits = NULL,
-                               margins = c(50, 50, 50, 50),
                                main = NULL,
                                key.title = NULL,
                                showticklabels = NULL,
@@ -129,15 +131,36 @@ dplot3_spectrogram <- function(x, y, z,
     )
 
     # Plot ----
-    plt <- plot_ly(
-        x = x, y = y, z = z,
-        type = "heatmap",
-        zauto = zauto,
-        zmin = zmin,
-        zmax = zmax,
-        colorscale = colorscale,
-        colors = colors
-    )
+    # plt <- plot_ly(
+    #     x = x, y = y, z = z,
+    #     type = "heatmap",
+    #     zauto = zauto,
+    #     zmin = zmin,
+    #     zmax = zmax,
+    #     colorscale = colorscale,
+    #     colors = colors,
+    #     hovertemplate = paste0(
+    #         hover.xlab, ": %{x}<br>",
+    #         hover.ylab, ": %{y}<br>",
+    #         hover.zlab, ": %{z}"
+    #     )
+    # )
+    plt <- plot_ly()
+    plt <- plt |> plotly::add_trace(
+            x = x, y = y, z = z,
+            type = "heatmap",
+            zauto = zauto,
+            zmin = zmin,
+            zmax = zmax,
+            colorscale = colorscale,
+            colors = colors,
+            hovertemplate = paste0(
+                hover.xlab, ":<b> %{x:.3f}</b><br>",
+                hover.ylab, ":<b> %{y:.3f}</b><br>",
+                hover.zlab, ":<b> %{z:.3f}</b><extra></extra>"
+            ),
+            showlegend = FALSE
+        )
 
     # Layout ----
     # '- layout ----
@@ -196,8 +219,8 @@ dplot3_spectrogram <- function(x, y, z,
         ),
         paper_bgcolor = bg,
         plot_bgcolor = bg,
-        legend = .legend
-        # margin = margin
+        legend = .legend,
+        hoverlabel = list(align = hoverlabel.align)
     )
 
     # Manual theme colors
