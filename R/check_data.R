@@ -44,10 +44,8 @@ check_data <- function(x,
     classes <- sapply(x, \(v) class(v)[1])
     counts <- table(classes)
 
-    ## Continuous ----
-    # index_continuous <- which(sapply(x, \(i) is.double(i)))
-    # n_continuous <- length(index_continuous)
-    n_continuous <- max0(counts["numeric"])
+    ## Numeric ----
+    n_numeric <- max0(counts["numeric"])
 
     ## Integers ----
     # index_integer <- which(sapply(x, is.integer))
@@ -145,7 +143,7 @@ check_data <- function(x,
         name = name,
         n_rows = n_rows,
         n_cols = n_cols,
-        n_continuous = n_continuous,
+        n_numeric = n_numeric,
         n_integer = n_integer,
         n_character = n_character,
         n_factor = n_factor,
@@ -230,7 +228,7 @@ tohtml <- function(x,
                        background.color = "#242424")) {
     n_rows <- x$n_rows
     n_cols <- x$n_cols
-    n_continuous <- x$n_continuous
+    n_numeric <- x$n_numeric
     n_integer <- x$n_integer
     n_character <- x$n_character
     n_factor <- x$n_factor
@@ -245,9 +243,9 @@ tohtml <- function(x,
     na_case_pct <- x$na_case_pct
 
     ## Data Types ----
-    continuous <- HTML(paste(
-        strong(n_continuous), "continuous",
-        ngettext(n_continuous, "feature", "features")
+    numeric <- HTML(paste(
+        strong(n_numeric), "numeric",
+        ngettext(n_numeric, "feature", "features")
     ))
     integer <- HTML(paste(
         strong(n_integer), "integer",
@@ -377,7 +375,7 @@ tohtml <- function(x,
         p(
             span(strong("Data types"), class = "sidelined"),
             tags$ul(
-                tags$li(continuous),
+                tags$li(numeric),
                 tags$li(integer),
                 tags$li(categorical),
                 tags$li(characters),
@@ -431,7 +429,7 @@ print.CheckData <- function(x,
 
     n_rows <- x$n_rows
     n_cols <- x$n_cols
-    n_continuous <- x$n_continuous
+    n_numeric <- x$n_numeric
     n_integer <- x$n_integer
     n_character <- x$n_character
     n_factor <- x$n_factor
@@ -459,8 +457,8 @@ print.CheckData <- function(x,
         out <- paste(out,
             bold("\n  Data types"),
             paste(
-                "  *", bold(n_continuous), "continuous",
-                ngettext(n_continuous, "feature", "features")
+                "  *", bold(n_numeric), "numeric",
+                ngettext(n_numeric, "feature", "features")
             ),
             paste(
                 "  *", bold(n_integer), "integer",
