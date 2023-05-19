@@ -785,10 +785,10 @@ summary.rtMod <- function(object,
                           summary = TRUE,
                           theme = rtTheme,
                           title.col = NULL, ...) {
-    # [ Arguments ]
+    # Arguments
     do.test <- ifelse(length(object$y.test) > 1, TRUE, FALSE)
 
-    # [ Data ]
+    # Data
     mod.name <- object$mod.name
     y.train <- object$y.train
     y.test <- object$y.test
@@ -799,7 +799,7 @@ summary.rtMod <- function(object,
     error <- object$predicted - object$y.test
     question <- object$question
 
-    # [ Print train and testing errors ]
+    # Print train and testing errors
     boxcat(".:rtemis Summary")
     if (length(question) > 0) cat("Question: ", question, "\n\n")
     cat(mod.name, "Training Error:\n")
@@ -809,7 +809,7 @@ summary.rtMod <- function(object,
         print(object$error.test)
     }
 
-    # [ Plot ]
+    # Plot
     if (plots) {
         if (object$type == "Classification") {
             object$plot()
@@ -1937,6 +1937,17 @@ predict.rtModCV <- function(object, newdata,
 } # rtemis::predict.rtModCV
 
 
+#' `describe` method for `rtModCV` object
+#'
+#' @method describe rtModCV
+#' @param object `rtModCV` object
+#'
+#' @rdname rtModCV-methods
+#' @export
+
+describe.rtModCV <- function(object) object$describe()
+
+
 # rtModCVClass R6 ----
 #' \pkg{rtemis} Cross-Validated Classification Model Class
 #'
@@ -2608,3 +2619,13 @@ rtMod.out <- function(rt,
     }
     if (save.mod) rt_save(rt, outdir, verbose = verbose)
 } # rtemis::rtMod.out
+
+
+#' Describe generic
+#' 
+#' @param object object to describe
+#' @param ... Additional arguments passed to `describe`
+#' 
+#' @author E.D. Gennatas
+#' @export
+describe <- function(object, ...) UseMethod("describe")
