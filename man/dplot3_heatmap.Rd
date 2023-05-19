@@ -64,7 +64,7 @@ See more at \code{heatmaply::heatmaply("Colv")}}
 
 \item{symm}{Logical: If TRUE, treat \code{x} symmetrically - \code{x} must be a square matrix. Default = FALSE}
 
-\item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(x)}}
+\item{cellnote}{Matrix with values to be displayed on hover. Defaults to \code{ddSci(x)}}
 
 \item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
@@ -109,8 +109,8 @@ Default = NA (determined automatically). See \code{heatmaply::heatmaply("k_col")
 
 \item{colorbar_len}{Numeric: Length of the colorbar.}
 
-\item{plot_method}{Character: Update February 2021: "ggplot" causes R session to hand
-on MacOS but plotly" seems to work}
+\item{plot_method}{Character: Update February 2021: "ggplot" causes R session
+to hang on MacOS but "plotly" seems to work}
 
 \item{theme}{Character: "light", "dark"}
 

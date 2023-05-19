@@ -5,6 +5,7 @@
 \alias{plot.rtModCV}
 \alias{summary.rtModCV}
 \alias{predict.rtModCV}
+\alias{describe.rtModCV}
 \title{S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} superclass}
 \usage{
 \method{plot}{rtModCV}(x, ...)
@@ -12,6 +13,8 @@
 \method{summary}{rtModCV}(object, ...)
 
 \method{predict}{rtModCV}(object, newdata, which.repeat = 1, bag.fn = mean, n.cores = 1, ...)
+
+\method{describe}{rtModCV}(object)
 }
 \arguments{
 \item{x}{\code{rtModCV} object}
@@ -36,4 +39,6 @@ S3 methods for \code{rtModCV} class that differ from those of the \code{rtMod} s
 \code{summary.rtModCV}: \code{summary} method for \code{rtModCV} object
 
 \code{predict.rtModCV}: \code{predict} method for \code{rtModCV} object
+
+\code{describe} method for \code{rtModCV} object
 }
