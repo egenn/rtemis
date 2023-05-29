@@ -27,7 +27,7 @@
 #'
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' msg2("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
@@ -119,7 +119,7 @@ msg <- function(...,
 # to avoid issue with call.depth after calling msg from msg0
 # yes, there are other workarounds
 #' @rdname msg
-#' @export
+#' @keywords internal
 msg0 <- function(...,
                  date = TRUE,
                  caller = NULL,
@@ -210,7 +210,7 @@ info <- function(..., color = hilite) {
 #'
 #' @inheritParams msg
 #'
-#' @export
+#' @keywords internal
 msg2 <- function(...,
                  #  date = TRUE,
                  caller = NULL,
@@ -327,11 +327,11 @@ pad <- function(x, target = 17, char = " ") {
 }
 
 
-#' msg2
+#' msg2start
 #'
 #' @inheritParams msg
 #'
-#' @export
+#' @keywords internal
 msg2start <- function(...,
                       #  date = TRUE,
                       #  newline = TRUE,
@@ -348,11 +348,11 @@ msg2start <- function(...,
 } # rtemis::msg2start
 
 
-#' msg2
+#' msg2done
 #'
 #' @inheritParams msg
 #'
-#' @export
+#' @keywords internal
 msg2done <- function(caller = NULL,
                      call.depth = 1,
                      caller.id = 1,

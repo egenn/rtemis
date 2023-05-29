@@ -43,8 +43,6 @@ preorderlgb <- function(tree,
         " & ",
         xnames[node[[split_feature]] + 1],
         " <= ",
-        # node[[decision_type]],
-        # " ",
         node[[threshold]]
     )
     rule_right <- paste0(
@@ -73,7 +71,7 @@ preorderlgb <- function(tree,
 }
 
 
-# lgb2rules ----
+# lgbtree2rules ----
 lgbtree2rules <- function(x, xnames) {
     tree <- new.env()
     tree$leafs <- character()
