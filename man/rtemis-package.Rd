@@ -35,7 +35,7 @@ Dynamic graphics are handled using the \code{dplot3} family.
 \section{Supervised Learning}{
 
 Functions for Regression and Classification begin with \verb{s_*}.
-Run \link{modSelect} to get a list of available algorithms
+Run \link{algSelect} to get a list of available algorithms
 The documentation of each supervised learning function indicates in
 brackets, after the title whether the function supports classification,
 regression, and survival analysis \verb{[C, R, S]}

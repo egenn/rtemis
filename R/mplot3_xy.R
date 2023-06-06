@@ -11,7 +11,7 @@
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If `data` is provided, name of variable, unquoted.
 #' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit.
-#' Options: see `modSelect`
+#' Options: see `algSelect`
 #' Can also be Logical, which will give a GAM fit if TRUE. If you specify
 #' "NLA", the activation function should be passed as a string.
 #' @param formula Formula: Provide a formula to be solved using [s_NLS].
@@ -576,7 +576,7 @@ mplot3_xy <- function(x, y = NULL,
     if (rsq) rsql <- list() else rsql <- NULL
     if (rsq.pval) rsqpl <- list() else rsqpl <- NULL
     if (!is.null(fit)) {
-        learner <- modSelect(fit, fn = FALSE)
+        learner <- algSelect(fit, fn = FALSE)
         fitted <- list()
         for (i in seq_len(Nxgroups)) {
             x <- xl[[i]]

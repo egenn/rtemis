@@ -23,7 +23,7 @@
 #'
 #' @inheritParams s_GLM
 #' @inheritParams resample
-#' @param alg Character: Learner to use. Options: [modSelect]
+#' @param alg Character: Learner to use. Options: [algSelect]
 #' @param alg.params Optional named list of parameters to be passed to
 #' `alg`. All parameters can be passed as part of `...` as well
 #' @param .preprocess Optional named list of parameters to be passed to
@@ -185,7 +185,7 @@ train <- function(x, y = NULL,
     alg.name <- toupper(alg)
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
-    # learner <- modSelect(mod, fn = FALSE)
+    # learner <- algSelect(mod, fn = FALSE)
     alg <- toupper(alg)
     if (headless) {
         print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
@@ -270,7 +270,7 @@ train <- function(x, y = NULL,
         msg2(
             hilite(
                 paste0(
-                    "Training ", bold(modSelect(alg.name, desc = TRUE)), " on ",
+                    "Training ", bold(algSelect(alg.name, desc = TRUE)), " on ",
                     outer.resampling$n.resamples, " ", desc, "..."
                 ),
                 bold = FALSE

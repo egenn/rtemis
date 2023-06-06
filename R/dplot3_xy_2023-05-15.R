@@ -313,7 +313,7 @@ dplot3_xy <- function(x, y = NULL,
     if (rsq) .rsq <- list() else .rsq <- NULL
     # if (rsq.pval) rsqp <- list() else rsqp <- NULL
     if (!is.null(fit)) {
-        learner <- modSelect(fit, fn = FALSE)
+        learner <- algSelect(fit, fn = FALSE)
         fitted <- list()
         fitted.text <- character()
         for (i in seq_len(n.groups)) {

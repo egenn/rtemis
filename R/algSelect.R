@@ -1,9 +1,9 @@
-# modSelect.R
+# algSelect.R
 # ::rtemis::
 # 2016-23 E.D. Gennatas www.lambdamd.org
 
 # Name + CRS ----
-rtMods <- data.frame(rbind(
+rtAlgs <- data.frame(rbind(
     c("TREELINED", "Lined Tree Learner", FALSE, TRUE, FALSE),
     c("RGB", "Representational Gradient Boosting", TRUE, TRUE, TRUE),
     c("AADDT", "Asymmetric Additive Tree", TRUE, TRUE, FALSE),
@@ -89,7 +89,7 @@ rtMods <- data.frame(rbind(
     c("XGBLIN", "XGBoost with Linear Models", FALSE, TRUE, FALSE),
     c("XRF", "XGBoost Random Forest", TRUE, TRUE, FALSE)
 ))
-colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
+colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 
 #' Select \pkg{rtemis} Learner
 #'
@@ -97,43 +97,41 @@ colnames(rtMods) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #'   the function itself.
 #'   If run with no parameters, prints list of available algorithms.
 #'
-#' @param mod Character: Model name. Case insensitive. e.g. "XGB" for xgboost
+#' @param alg Character: Model name. Case insensitive. e.g. "XGB" for xgboost
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
-#' @param desc Logical: If TRUE, return full name / description of algorithm `mod`
+#' @param desc Logical: If TRUE, return full name / description of algorithm `alg`
 #' @return function or name of function (see param `fn`) or full name of algorithm (`desc`)
 #' @author E.D. Gennatas
 #' @export
 
-modSelect <- function(mod,
+algSelect <- function(alg,
                       fn = FALSE,
                       desc = FALSE) {
 
-    # if (missing(mod) & !listAliases) {
-    if (missing(mod)) {
+    if (missing(alg)) {
         cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
         # Exclude first so many
-        print(rtMods[-seq_len(4), ], quote = FALSE, row.names = FALSE)
-        return(invisible(rtMods))
+        print(rtAlgs[-seq_len(4), ], quote = FALSE, row.names = FALSE)
+        return(invisible(rtAlgs))
     }
 
     # check:
     # These are for print. functions iirc
-    if (strtrim(mod, 6) == "Bagged" && desc) {
-        return(paste("Bagged", modSelect(substr(mod, 7, 100), desc = TRUE)))
+    if (strtrim(alg, 6) == "Bagged" && desc) {
+        return(paste("Bagged", algSelect(substr(alg, 7, 100), desc = TRUE)))
     }
-    if (strtrim(mod, 7) == "Boosted" && desc) {
-        return(paste("Boosted", modSelect(substr(mod, 8, 100), desc = TRUE)))
+    if (strtrim(alg, 7) == "Boosted" && desc) {
+        return(paste("Boosted", algSelect(substr(alg, 8, 100), desc = TRUE)))
     }
 
-    name.vec <- toupper(rtMods[, 1])
-    name <- grep(mod, rtMods[, 1], ignore.case = TRUE, value = TRUE)
+    name <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
     if (is.na(name)) {
-        print(rtMods[, 1:2], quote = FALSE)
-        stop(mod, ": Incorrect model specified")
+        print(rtAlgs[, 1:2], quote = FALSE)
+        stop(alg, ": Incorrect algorithm specified")
     }
 
     if (desc) {
-        return(as.character(rtMods$Description[rtMods[, 1] == name]))
+        return(as.character(rtAlgs$Description[rtAlgs[, 1] == name]))
     }
 
     # fn ----
@@ -147,7 +145,7 @@ modSelect <- function(mod,
     }
 
     learner
-} # rtemis::modSelect
+} # rtemis::algSelect
 
 # wip
 gsc <- c(
@@ -248,7 +246,7 @@ alg_params <- list(
 tunable <- function(alg = c("glmnet", "svm", "cart", 
                             "ranger", "gbm", "xgboost", 
                             "lightgbm")) {
-    modname <- grep(alg, rtMods[, 1], ignore.case = TRUE, value = TRUE)
-    msg2(hilite(modSelect(alg, desc = TRUE)), "tunable hyperparameters:")
-    printls(alg_params[[modname]])
+    algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
+    msg2(hilite(algSelect(alg, desc = TRUE)), "tunable hyperparameters:")
+    printls(alg_params[[algname]])
 }

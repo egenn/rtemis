@@ -14,7 +14,7 @@
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
-#' @param mod Character: \pkg{rtemis} model. See `modSelect` gives available models
+#' @param mod Character: \pkg{rtemis} model. See `algSelect` gives available models
 #' @param resample.rtset List: output of [rtset] (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
@@ -71,7 +71,7 @@ resLearn_future <- function(x, y, mod,
     }
 
     # Resamples ----
-    learner <- modSelect(mod)
+    learner <- algSelect(mod)
     res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
     resampler <- attr(res, "type") # for res.group and res.index
     n.workers <- min(n.workers, resample.rtset$n.resamples)
@@ -177,7 +177,7 @@ resLearn_future <- function(x, y, mod,
             loocv = "independent folds (LOOCV)",
             "custom resamples"
         )
-        msg20("Training ", modSelect(mod, desc = TRUE), " on ",
+        msg20("Training ", algSelect(mod, desc = TRUE), " on ",
             length(res), " ", desc, "...",
             newline.pre = FALSE
         )

@@ -27,7 +27,7 @@ resLearn_future(
 
 \item{y}{outcome - training set}
 
-\item{mod}{Character: \pkg{rtemis} model. See \code{modSelect} gives available models}
+\item{mod}{Character: \pkg{rtemis} model. See \code{algSelect} gives available models}
 
 \item{resample.rtset}{List: output of \link{rtset} (or a list of same structure)}
 

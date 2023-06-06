@@ -10,7 +10,7 @@
 #' @inheritParams s_GLM
 #' @param x Data frame: Input features
 #' @param y Vector: Output
-#' @param mod Algorithm to boost, for options, see [modSelect]
+#' @param mod Algorithm to boost, for options, see [algSelect]
 #' @param mod.params Named list of arguments for `mod`
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)

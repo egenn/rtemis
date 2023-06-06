@@ -47,12 +47,12 @@ must have set of columns as \code{x}}
 
 \item{y.test}{(Optional) Numeric vector of validation set outcomes}
 
-\item{base.mods}{Character vector: Two or more base learners. Options: \link{modSelect}}
+\item{base.mods}{Character vector: Two or more base learners. Options: \link{algSelect}}
 
 \item{base.params}{List of length equal to N of \code{base.mods}. Each element should be a list of arguments to pass
 to the corresponding base mod}
 
-\item{meta.mod}{String. Meta learner. Options: \link{modSelect}}
+\item{meta.mod}{String. Meta learner. Options: \link{algSelect}}
 
 \item{x.name}{Character: Name for predictor set. (What kind of data is it?)}
 

@@ -20,7 +20,7 @@
 #' and outer resample run to use a single core, which should provide an informative message.
 #' @inheritParams s_GLM
 #' @inheritParams resample
-#' @param mod Character: Learner to use. Options: [modSelect]
+#' @param mod Character: Learner to use. Options: [algSelect]
 #' @param mod.params Optional named list of parameters to be passed to `mod`. All parameters can
 #' be passed as part of `...` as well
 #' @param .preprocess Optional named list of parameters to be passed to [preprocess]. Set using
@@ -203,7 +203,7 @@ elevate1 <- function(x, y = NULL,
     mod.name <- toupper(mod)
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
-    # learner <- modSelect(mod, fn = FALSE)
+    # learner <- algSelect(mod, fn = FALSE)
     mod <- toupper(mod)
     if (headless) print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
     if (!is.null(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)

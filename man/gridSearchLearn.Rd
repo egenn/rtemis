@@ -30,7 +30,7 @@ gridSearchLearn(
 
 \item{y}{outcome - training set. Will be resampled to multiple train-test sets}
 
-\item{mod}{Character: \pkg{rtemis} model. See \code{modSelect()} gives available models}
+\item{mod}{Character: \pkg{rtemis} model. See \code{algSelect()} gives available models}
 
 \item{grid.params}{List of named elements, each is a vector of values}
 

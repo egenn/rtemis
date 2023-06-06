@@ -62,7 +62,7 @@ bias_variance <- function(x, y, mod,
             params
         )
         p(sprintf("Running resample: %i/%i...", i, resample.rtset$n.resamples))
-        do.call(modSelect(mod), args)
+        do.call(algSelect(mod), args)
     })
 
     # predicted: N cases x N resamples

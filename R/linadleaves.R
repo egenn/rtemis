@@ -84,7 +84,7 @@ linadleaves <- function(x, y,
         .rho <- FALSE
     }
 
-    if (gamleaves) .gamlearner <- modSelect(gamlearner)
+    if (gamleaves) .gamlearner <- algSelect(gamlearner)
 
     if (is.null(weights)) weights <- rep(1, NROW(y))
 
