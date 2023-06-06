@@ -46,7 +46,7 @@ train(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{alg}{Character: Learner to use. Options: \link{algSelect}}
+\item{alg}{Character: Learner to use. Options: \link{learnSelect}}
 
 \item{alg.params}{Optional named list of parameters to be passed to
 \code{alg}. All parameters can be passed as part of \code{...} as well}

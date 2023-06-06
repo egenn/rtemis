@@ -145,7 +145,7 @@ rtMod <- R6::R6Class("rtMod",
         print = function() {
             "show / print method for rtMod"
             objcat("Supervised Model")
-            cat(hilite(self$mod.name), " (", algSelect(self$mod.name, desc = TRUE),
+            cat(hilite(self$mod.name), " (", learnSelect(self$mod.name, desc = TRUE),
                 ")\n",
                 sep = ""
             )
@@ -408,7 +408,7 @@ rtMod <- R6::R6Class("rtMod",
         #' Describe model
         describe = function() {
             type <- self$type
-            algorithm <- algSelect(self$mod.name, desc = TRUE)
+            algorithm <- learnSelect(self$mod.name, desc = TRUE)
             cat(algorithm, " was used for ",
                 tolower(type), ".\n",
                 sep = ""
@@ -761,9 +761,9 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @param plots Logical: If TRUE, print plots. Default = TRUE
 #' @param cex Float: Character expansion factor
 #' @param fit.true.line \pkg{rtemis} algorithm to use for fitted vs. true line
-#'   Options: `algSelect()`
+#'   Options: `learnSelect()`
 #' @param resid.fit.line \pkg{rtemis} algorithm to use for residuals vs. fitted line.
-#'   Options: `algSelect()`
+#'   Options: `learnSelect()`
 #' @param fit.legend Logical: If TRUE, print fit legend. Default  = TRUE
 #' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
 #' @param single.fig Logical: If TRUE, draw all plots in a single figure. Default = TRUE
@@ -1249,7 +1249,7 @@ rtModBag <- R6::R6Class("rtModBag",
             "show / print method for rtModBag"
             objcat("Bagged Supervised Model")
             cat(hilite(self$mod.name), " (",
-                algSelect(self$mod.name, desc = TRUE),
+                learnSelect(self$mod.name, desc = TRUE),
                 ")\n",
                 sep = ""
             )
@@ -1546,13 +1546,13 @@ rtModCV <- R6::R6Class("rtModCV",
             "R6 show / print method for rtModCV"
             objcat(paste("Cross-Validated", self$type, "Model"))
             cat(hilite(self$mod.name), " (",
-                algSelect(self$mod.name, desc = TRUE),
+                learnSelect(self$mod.name, desc = TRUE),
                 ")\n",
                 sep = ""
             )
             #  cat(
             #   "             Algorithm: ", self$mod.name, " (",
-            #      algSelect(self$mod.name, desc = TRUE),
+            #      learnSelect(self$mod.name, desc = TRUE),
             #      ")\n", sep = "")
             #  cat("          Outer resampling: n = ",
             #      self$resampler.params$n.resamples,
@@ -1745,7 +1745,7 @@ rtModCV <- R6::R6Class("rtModCV",
         #' Describe `rtModCV`
         describe = function() {
             type <- self$type
-            algorithm <- algSelect(self$mod.name, desc = TRUE)
+            algorithm <- learnSelect(self$mod.name, desc = TRUE)
             cat(type, " was performed using ", algorithm, ".",
                 sep = ""
             )
@@ -2475,7 +2475,7 @@ rtModLite <- R6::R6Class("rtModLite",
         print = function() {
             "show / print method for rtModLite"
             objcat("Lite Supervised Model")
-            cat(self$mod.name, " (", algSelect(self$mod.name, desc = TRUE),
+            cat(self$mod.name, " (", learnSelect(self$mod.name, desc = TRUE),
                 ")\n",
                 sep = ""
             )

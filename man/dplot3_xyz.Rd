@@ -71,7 +71,7 @@ dplot3_xyz(
 \item{z}{Numeric, vector/data.frame/list: z-axis data}
 
 \item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
-Options: see \code{algSelect}
+Options: see \code{learnSelect}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 

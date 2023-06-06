@@ -46,7 +46,7 @@ elevate(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{mod}{Character: Learner to use. Options: \link{algSelect}}
+\item{mod}{Character: Learner to use. Options: \link{learnSelect}}
 
 \item{mod.params}{Optional named list of parameters to be passed to
 \code{mod}. All parameters can be passed as part of \code{...} as well}

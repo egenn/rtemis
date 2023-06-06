@@ -73,8 +73,6 @@ dplot3_xy <- function(x, y = NULL,
             fit.lwd = 2.5,
             se.col = NULL,
             se.alpha = .4,
-            error.x = NULL,
-            error.y = NULL,
             scatter.type = "scatter",
             legend = NULL,
             legend.xy = c(0, 1),
@@ -315,7 +313,7 @@ dplot3_xy <- function(x, y = NULL,
     if (rsq) .rsq <- list() else .rsq <- NULL
     # if (rsq.pval) rsqp <- list() else rsqp <- NULL
     if (!is.null(fit)) {
-        learner <- algSelect(fit, fn = FALSE)
+        learner <- learnSelect(fit, fn = FALSE)
         fitted <- list()
         fitted.text <- character()
         for (i in seq_len(n.groups)) {

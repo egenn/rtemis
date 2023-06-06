@@ -242,7 +242,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    learner <- algSelect(fit, fn = FALSE)
+    learner <- learnSelect(fit, fn = FALSE)
     fitted <- list()
     fitted.text <- character()
     for (i in seq_len(n.groups)) {

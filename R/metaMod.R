@@ -20,10 +20,10 @@
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param x.name Character: Name for predictor set. (What kind of data is it?)
 #' @param y.name Character: Name for outcome
-#' @param base.mods Character vector: Two or more base learners. Options: [algSelect]
+#' @param base.mods Character vector: Two or more base learners. Options: [learnSelect]
 #' @param base.params List of length equal to N of `base.mods`. Each element should be a list of arguments to pass
 #'   to the corresponding base mod
-#' @param meta.mod String. Meta learner. Options: [algSelect]
+#' @param meta.mod String. Meta learner. Options: [learnSelect]
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()
@@ -132,7 +132,7 @@ metaMod <- function(x, y = NULL,
                  print.plot = FALSE,
                  verbose = verbose)
     args <- c(args, params)
-    base.mod1 <- do.call(algSelect(mod.name), args = args)
+    base.mod1 <- do.call(learnSelect(mod.name), args = args)
     base.mod1
   }
 
@@ -183,7 +183,7 @@ metaMod <- function(x, y = NULL,
 
   # Meta Learner ----
   if (verbose) msg2("Training", toupper(meta.mod), "meta learner...")
-  meta.mod <- do.call(algSelect(meta.mod.name),
+  meta.mod <- do.call(learnSelect(meta.mod.name),
                       c(list(x = base.res.predicted,
                              y = base.res.y.test,
                              print.plot = FALSE),
@@ -197,7 +197,7 @@ metaMod <- function(x, y = NULL,
     if (verbose) msg2("Training", nbases, "base learners on full training set...")
     base.mods <- pbapply::pblapply(seq(base.mod.names),
                                    function(mod) {
-                                     do.call(algSelect(base.mod.names[mod]),
+                                     do.call(learnSelect(base.mod.names[mod]),
                                              list(x = x, y = y,
                                                   x.test = x.test, y.test = y.test,
                                                   print.plot = print.base.plot,

@@ -24,7 +24,7 @@ learn(
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{mod}{Character: Learner to use. To get list of options, run \code{algSelect()}}
+\item{mod}{Character: Learner to use. To get list of options, run \code{learnSelect()}}
 
 \item{x.test}{Numeric vector or matrix / data frame of testing set features
 Columns must correspond to columns in \code{x}}

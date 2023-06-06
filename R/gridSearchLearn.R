@@ -17,7 +17,7 @@
 #'
 #' @param x features - training set. Will be resampled to multiple train-test sets
 #' @param y outcome - training set. Will be resampled to multiple train-test sets
-#' @param mod Character: \pkg{rtemis} model. See `algSelect()` gives available models
+#' @param mod Character: \pkg{rtemis} model. See `learnSelect()` gives available models
 #' @param grid.params List of named elements, each is a vector of values
 #' @param fixed.params List of named elements, each is a single value
 #' @param search.type Character: "exhaustive" (Default), "randomized". Type of
@@ -126,7 +126,7 @@ gridSearchLearn <- function(x, y, mod,
         )
         param.grid <- param.grid[rep(index.per.resample, n.resamples), ]
     }
-    learner <- algSelect(mod, fn = FALSE)
+    learner <- learnSelect(mod, fn = FALSE)
     res <- resample(y = y, rtset = resample.rtset, verbose = verbose)
 
     if (!is.null(resample.rtset$id.colname)) {
@@ -138,7 +138,7 @@ gridSearchLearn <- function(x, y, mod,
         parameterSummary(grid.params, fixed.params, title = "Search parameters")
         msg2(
             hilite(
-                "Tuning", algSelect(mod, desc = TRUE), "by",
+                "Tuning", learnSelect(mod, desc = TRUE), "by",
                 search.type, "grid search."
             )
         )

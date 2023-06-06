@@ -65,10 +65,10 @@
 \item{cex}{Float: Character expansion factor}
 
 \item{fit.true.line}{\pkg{rtemis} algorithm to use for fitted vs. true line
-Options: \code{algSelect()}}
+Options: \code{learnSelect()}}
 
 \item{resid.fit.line}{\pkg{rtemis} algorithm to use for residuals vs. fitted line.
-Options: \code{algSelect()}}
+Options: \code{learnSelect()}}
 
 \item{fit.legend}{Logical: If TRUE, print fit legend. Default  = TRUE}
 

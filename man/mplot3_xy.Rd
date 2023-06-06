@@ -129,7 +129,7 @@ If \code{data} is provided, name of variable, unquoted.}
 If \code{data} is provided, name of variable, unquoted.}
 
 \item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
-Options: see \code{algSelect}
+Options: see \code{learnSelect}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 

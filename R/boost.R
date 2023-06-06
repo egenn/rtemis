@@ -14,7 +14,7 @@
 #' @param x.valid Data.frame; optional: Validation data
 #' @param y.valid Float, vector; optional: Validation outcome
 #' @param mod Character: Algorithm to train base learners, for options, see
-#' [algSelect]. Default = "cart"
+#' [learnSelect]. Default = "cart"
 #' @param resid Float, vector, length = length(y): Residuals to work on. Do
 #' not change unless you know what you're doing. Default = NULL, for regular
 #' boosting
@@ -132,8 +132,8 @@ boost <- function(x, y = NULL,
 
     # Boost ----
     mod <- learner.short <- toupper(mod)
-    learner <- algSelect(mod)
-    learner.name <- algSelect(mod, desc = TRUE)
+    learner <- learnSelect(mod)
+    learner.name <- learnSelect(mod, desc = TRUE)
     learner.short <- toupper(mod)
 
     if (verbose) {

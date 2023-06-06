@@ -45,7 +45,7 @@ rtModLog <- R6::R6Class("rtModLog",
                           print = function() {
                             "show / print method for rtModLog"
                             boxcat(".:rtemis Supervised Model Log", newline.pre = FALSE)
-                            cat(self$mod.name, " (", algSelect(self$mod.name, desc = TRUE),
+                            cat(self$mod.name, " (", learnSelect(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
                             boxcat("Training Error")
                             print(self$error.train)

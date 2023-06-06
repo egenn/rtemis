@@ -74,7 +74,7 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{mod}{Algorithm to boost, for options, see \link{algSelect}}
+\item{mod}{Algorithm to boost, for options, see \link{learnSelect}}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 

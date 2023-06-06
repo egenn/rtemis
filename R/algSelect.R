@@ -1,4 +1,4 @@
-# algSelect.R
+# learnSelect.R
 # ::rtemis::
 # 2016-23 E.D. Gennatas www.lambdamd.org
 
@@ -104,7 +104,7 @@ colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #' @author E.D. Gennatas
 #' @export
 
-algSelect <- function(alg,
+learnSelect <- function(alg,
                       fn = FALSE,
                       desc = FALSE) {
 
@@ -118,10 +118,10 @@ algSelect <- function(alg,
     # check:
     # These are for print. functions iirc
     if (strtrim(alg, 6) == "Bagged" && desc) {
-        return(paste("Bagged", algSelect(substr(alg, 7, 100), desc = TRUE)))
+        return(paste("Bagged", learnSelect(substr(alg, 7, 100), desc = TRUE)))
     }
     if (strtrim(alg, 7) == "Boosted" && desc) {
-        return(paste("Boosted", algSelect(substr(alg, 8, 100), desc = TRUE)))
+        return(paste("Boosted", learnSelect(substr(alg, 8, 100), desc = TRUE)))
     }
 
     name <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
@@ -145,7 +145,7 @@ algSelect <- function(alg,
     }
 
     learner
-} # rtemis::algSelect
+} # rtemis::learnSelect
 
 # wip
 gsc <- c(
@@ -247,6 +247,6 @@ tunable <- function(alg = c("glmnet", "svm", "cart",
                             "ranger", "gbm", "xgboost", 
                             "lightgbm")) {
     algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
-    msg2(hilite(algSelect(alg, desc = TRUE)), "tunable hyperparameters:")
+    msg2(hilite(learnSelect(alg, desc = TRUE)), "tunable hyperparameters:")
     printls(alg_params[[algname]])
 }

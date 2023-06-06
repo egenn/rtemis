@@ -75,7 +75,7 @@ rtemis.version <- packageVersion("rtemis")
 #' Dynamic graphics are handled using the `dplot3` family.
 #' @section Supervised Learning:
 #' Functions for Regression and Classification begin with `s_*`.
-#' Run [algSelect] to get a list of available algorithms
+#' Run [learnSelect] to get a list of available algorithms
 #' The documentation of each supervised learning function indicates in 
 #' brackets, after the title whether the function supports classification, 
 #' regression, and survival analysis `[C, R, S]`
