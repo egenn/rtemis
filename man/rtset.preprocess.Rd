@@ -23,7 +23,6 @@ rtset.preprocess(
   numeric.cut.labels = FALSE,
   numeric.quant.n = 0,
   character2factor = FALSE,
-  nonzeroFactors = FALSE,
   scale = FALSE,
   center = FALSE,
   removeConstants = TRUE,
