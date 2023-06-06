@@ -196,7 +196,8 @@ cart_params <- list(
 )
 
 ranger_params <- list(
-    mtry = "Integer: Number of variables to randomly sample as candidates at each split."
+    mtry = "Integer: Number of variables to randomly sample as candidates at each split.",
+    min.node.size = "Integer: Minimum node size."
 )
 
 gbm_params <- list(
@@ -209,7 +210,7 @@ gbm_params <- list(
 xgboost_params <- list(
     eta = "Float (0, 1): Learning rate.",
     gamma = "Float: Minimum loss reduction required to make a further partition on a leaf node of the tree.",
-    max_depth = "Integer: Maximum depth of a tree.",
+    max_depth = "Integer: Maximum depth of each tree.",
     min_child_weight = "Integer: Minimum sum of instance weight (hessian) needed in a child.",
     subsample = "Float (0, 1): Subsample ratio of the training instances.",
     colsample_bytree = "Float (0, 1): Subsample ratio of columns when constructing each tree.",
