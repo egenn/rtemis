@@ -58,18 +58,18 @@ Get cross-validated random forest performance on the iris dataset:
 
 ```r
 library(rtemis)
-mod <- elevate(iris)
+mod <- train(iris)
 ```
 
 ## What's new
 
 We are working towards the 1.0 release, which will feature updates to the
 API as well as the backend, and preparing for CRAN submission.
+This will be accompanied by expansion of the [documentation](https://rtemis.lambdamd.org).
 
-The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which haven't yet been
-made publicly available, are in parallel development. The aim is to eventually
-offer a unified API across all three languages, but the priority remains to
-deliver rtemis 1.0.
+The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which are not yet 
+publicly available, are in parallel development. With the upcoming 1.0 release
+of rtemis, the aim is to offer a unified API across all three languages.
 
 ### **0.95.0 in rcpp branch**
 
