@@ -112,7 +112,7 @@ stop if performance does not improve for this many rounds}
 
 \item{learning_rate}{Numeric: \link{gS} Boosting learning rate}
 
-\item{bagging_fraction}{Numeric: \link{gS} Subsample ratio of the training instance}
+\item{bagging_fraction}{Numeric: \link{gS} Subsample ratio of the training set.}
 
 \item{lambda_l1}{Numeric: \link{gS} L1 regularization term}
 

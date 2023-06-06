@@ -189,8 +189,8 @@ Other Supervised Learning:
 \code{\link{s_ADABOOST}()},
 \code{\link{s_ADDTREE}()},
 \code{\link{s_BART}()},
-\code{\link{s_BAYESGLM}()},
 \code{\link{s_BRUTO}()},
+\code{\link{s_BayesGLM}()},
 \code{\link{s_C50}()},
 \code{\link{s_CTREE}()},
 \code{\link{s_ET}()},
@@ -204,7 +204,7 @@ Other Supervised Learning:
 \code{\link{s_GBM3}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
-\code{\link{s_GLMTREE}()},
+\code{\link{s_GLMTree}()},
 \code{\link{s_GLM}()},
 \code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},
@@ -214,12 +214,12 @@ Other Supervised Learning:
 \code{\link{s_IRF}()},
 \code{\link{s_KNN}()},
 \code{\link{s_LDA}()},
-\code{\link{s_LMTREE}()},
+\code{\link{s_LMTree}()},
 \code{\link{s_LM}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
-\code{\link{s_NBAYES}()},
+\code{\link{s_NBayes}()},
 \code{\link{s_NLA}()},
 \code{\link{s_NLS}()},
 \code{\link{s_NW}()},
@@ -236,7 +236,7 @@ Other Supervised Learning:
 \code{\link{s_SPLS}()},
 \code{\link{s_SVM}()},
 \code{\link{s_TFN}()},
-\code{\link{s_XGBOOST}()},
+\code{\link{s_XGBoost}()},
 \code{\link{s_XRF}()}
 
 Other Tree-based methods: 
@@ -249,27 +249,27 @@ Other Tree-based methods:
 \code{\link{s_EVTREE}()},
 \code{\link{s_GBM3}()},
 \code{\link{s_GBM}()},
-\code{\link{s_GLMTREE}()},
+\code{\link{s_GLMTree}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
 \code{\link{s_IRF}()},
-\code{\link{s_LMTREE}()},
+\code{\link{s_LMTree}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
 \code{\link{s_PPTREE}()},
 \code{\link{s_RANGER}()},
 \code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
-\code{\link{s_XGBOOST}()},
+\code{\link{s_XGBoost}()},
 \code{\link{s_XRF}()}
 
 Other Interpretable models: 
 \code{\link{s_ADDTREE}()},
 \code{\link{s_C50}()},
 \code{\link{s_GLMNET}()},
-\code{\link{s_GLMTREE}()},
+\code{\link{s_GLMTree}()},
 \code{\link{s_GLM}()},
-\code{\link{s_LMTREE}()}
+\code{\link{s_LMTree}()}
 }
 \author{
 E.D. Gennatas

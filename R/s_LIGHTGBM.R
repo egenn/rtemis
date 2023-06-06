@@ -31,7 +31,7 @@
 #' @param num_leaves Integer: [gS] Maximum tree leaves for base learners.
 #' @param max_depth Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.
 #' @param learning_rate Numeric: [gS] Boosting learning rate
-#' @param bagging_fraction Numeric: [gS] Subsample ratio of the training instance
+#' @param bagging_fraction Numeric: [gS] Subsample ratio of the training set.
 #' @param lambda_l1 Numeric: [gS] L1 regularization term
 #' @param lambda_l2 Numeric: [gS] L2 regularization term
 #' @param linear_tree Logical: [gS] If `TRUE`, use linear trees

@@ -1,4 +1,4 @@
-# s_XGBOOST.R
+# s_XGBoost.R
 # ::rtemis::
 # 2022 E.D. Gennatas www.lambdamd.org
 
@@ -52,7 +52,7 @@
 #' @family Tree-based methods
 #' @export
 
-s_XGBOOST <- function(x, y = NULL,
+s_XGBoost <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       x.name = NULL, y.name = NULL,
                       booster = c("gbtree", "gblinear", "dart"),
@@ -128,7 +128,7 @@ s_XGBOOST <- function(x, y = NULL,
 
     # Intro ----
     if (missing(x)) {
-        print(args(s_XGBOOST))
+        print(args(s_XGBoost))
         return(invisible(9))
     }
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -138,7 +138,7 @@ s_XGBOOST <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "XGBOOST"
+    mod.name <- "XGBoost"
 
     # Dependencies ----
     dependency_check("xgboost")
@@ -486,4 +486,4 @@ s_XGBOOST <- function(x, y = NULL,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_XGBOOST
+} # rtemis::s_XGBoost

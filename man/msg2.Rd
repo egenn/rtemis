@@ -32,3 +32,4 @@ msg2(
 \description{
 msg2
 }
+\keyword{internal}

@@ -227,7 +227,7 @@ elevate1 <- function(x, y = NULL,
 
     if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
-        "XGB", "XGBOOST", "XGBLIN", "LGB"
+        "XGB", "XGBoost", "XGBLIN", "LGB"
     )) {
         if (verbose) msg2("Using", mod, "- outer.n.workers set to 1")
         outer.n.workers <- 1

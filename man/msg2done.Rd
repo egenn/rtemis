@@ -2,7 +2,7 @@
 % Please edit documentation in R/msg.R
 \name{msg2done}
 \alias{msg2done}
-\title{msg2}
+\title{msg2done}
 \usage{
 msg2done(caller = NULL, call.depth = 1, caller.id = 1, sep = " ")
 }
@@ -16,5 +16,6 @@ msg2done(caller = NULL, call.depth = 1, caller.id = 1, sep = " ")
 \item{sep}{Character: Use to separate objects in \code{...}}
 }
 \description{
-msg2
+msg2done
 }
+\keyword{internal}

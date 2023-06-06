@@ -1,7 +1,7 @@
 Package: rtemis
-Version: 0.95.1
+Version: 0.95.2
 Title: Machine Learning and Visualization
-Date: 2023-05-07
+Date: 2023-06-05
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
 Maintainer: E.D. Gennatas <gennatas@lambdamd.org>
 Description: Advanced Machine Learning and Visualization. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression), Cross-Decomposition, Bagging, Boosting, Meta-models. Static and interactive graphics.

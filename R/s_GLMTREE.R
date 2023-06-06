@@ -1,10 +1,10 @@
-# s_GLMTREE.R
+# s_GLMTree.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
 #' Generalized Linear Model Tree [R]
 #'
-#' Train a GLMTREE for regression or classification using 
+#' Train a GLMTree for regression or classification using 
 #' `partykit::glmtree`
 #'
 #' @inheritParams s_CART
@@ -19,7 +19,7 @@
 #' @family Interpretable models
 #' @export
 
-s_GLMTREE <- function(x, y = NULL,
+s_GLMTree <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       x.name = NULL, y.name = NULL,
                       weights = NULL,
@@ -75,7 +75,7 @@ s_GLMTREE <- function(x, y = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
     # Intro ----
     if (missing(x)) {
-        print(args(s_GLMTREE))
+        print(args(s_GLMTree))
         return(invisible(9))
     }
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -85,14 +85,14 @@ s_GLMTREE <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "GLMTREE"
+    mod.name <- "GLMTree"
 
     # Dependencies ----
     dependency_check("partykit")
 
     # Arguments ----
     if (is.null(y) & NCOL(x) < 2) {
-        print(args(s_GLMTREE))
+        print(args(s_GLMTree))
         stop("y is missing")
     }
     if (is.null(x.name)) x.name <- getName(x, "x")
@@ -205,7 +205,7 @@ s_GLMTREE <- function(x, y = NULL,
     )
 
     # glmtree ----
-    if (verbose) msg2("Training GLMTREE...", newline.pre = TRUE)
+    if (verbose) msg2("Training GLMTree...", newline.pre = TRUE)
     mod <- partykit::glmtree(
         formula = .formula,
         data = df.train,
@@ -295,4 +295,4 @@ s_GLMTREE <- function(x, y = NULL,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_GLMTREE
+} # rtemis::s_GLMTree

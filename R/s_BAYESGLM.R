@@ -1,4 +1,4 @@
-# s_BAYESGLM.R
+# s_BayesGLM.R
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
@@ -36,7 +36,7 @@
 #' @export
 #' @author E.D. Gennatas
 
-s_BAYESGLM <- function(x, y = NULL,
+s_BayesGLM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        family = NULL,
                        prior.mean = 0,
@@ -71,7 +71,7 @@ s_BAYESGLM <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_BAYESGLM))
+    print(args(s_BayesGLM))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -81,14 +81,14 @@ s_BAYESGLM <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "BAYESGLM"
+  mod.name <- "BayesGLM"
 
   # Dependencies ----
   dependency_check("arm")
 
   # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s_BAYESGLM))
+    print(args(s_BayesGLM))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -161,7 +161,7 @@ s_BAYESGLM <- function(x, y = NULL,
                        drop.baseline = drop.baseline,
                        maxit = maxit), extra.args)
 
-  # BAYESGLM ----
+  # BayesGLM ----
   if (verbose) msg2("Training Bayesian GLM...", newline.pre = TRUE)
   args <- c(list(formula = .formula,
                  data = df.train,
@@ -250,4 +250,4 @@ s_BAYESGLM <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_BAYESGLM
+} # rtemis::s_BayesGLM

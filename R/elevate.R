@@ -199,8 +199,8 @@ elevate <- function(x, y = NULL,
     mod.params <- c(mod.params, list(...))
     
     if (mod %in% c("ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", 
-    "GLMTREE", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", 
-    "RANGER", "RF", "SPLS", "SVM", "XGBOOST", "XRF")) {
+    "GLMTree", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", 
+    "RANGER", "RF", "SPLS", "SVM", "XGBoost", "XRF")) {
         mod.params <- c(
             mod.params,
             list(grid.resample.rtset = inner.resampling)
@@ -209,7 +209,7 @@ elevate <- function(x, y = NULL,
 
     if (outer.n.workers > 1 && mod %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
-        "XRF", "XGBOOST", "XGBLIN", "LIGHTGBM", "LIGHTRF"
+        "XRF", "XGBoost", "XGBLIN", "LIGHTGBM", "LIGHTRF"
     )) {
         if (verbose) msg2("Using", mod, "- outer.n.workers set to 1")
         outer.n.workers <- 1

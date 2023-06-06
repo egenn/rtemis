@@ -663,7 +663,7 @@ predict.rtMod <- function(object,
         } else if (object$mod.name == "RANGER") {
             predict.ranger <- getFromNamespace("predict.ranger", "ranger")
             estimated <- predict.ranger(object$mod, data = newdata, ...)$predictions
-        } else if (object$mod.name %in% c("XGBOOST", "XGBLIN", "XGBDART")) {
+        } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {
             # XGB: must convert newdata to xgb.DMatrix
             if (any(sapply(newdata, is.factor))) {
                 newdata <- preprocess(newdata, oneHot = TRUE)
@@ -2538,7 +2538,7 @@ predict.rtModLite <- function(object, newdata, ...) {
             # GBM: must supply n.trees
             if (is.null(extraArgs$n.trees)) stop("Please provide n.trees")
             estimated <- predict(object$mod, n.trees = extraArgs$n.trees, ...)
-        } else if (object$mod.name %in% c("XGBOOST", "XGBLIN", "XGBDART")) {
+        } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {
             # XGB: must convert newdata to xgb.DMatrix
             if (any(sapply(newdata, is.factor))) {
                 newdata <- preprocess(newdata, oneHot = TRUE)

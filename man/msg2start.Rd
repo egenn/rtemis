@@ -2,7 +2,7 @@
 % Please edit documentation in R/msg.R
 \name{msg2start}
 \alias{msg2start}
-\title{msg2}
+\title{msg2start}
 \usage{
 msg2start(..., newline.pre = FALSE, sep = " ")
 }
@@ -14,5 +14,6 @@ msg2start(..., newline.pre = FALSE, sep = " ")
 \item{sep}{Character: Use to separate objects in \code{...}}
 }
 \description{
-msg2
+msg2start
 }
+\keyword{internal}

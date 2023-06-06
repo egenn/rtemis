@@ -210,7 +210,7 @@ gridSearchLearn <- function(x, y, mod,
             out1$best_iter <- mod1$mod$best_iter
             out1$best_score <- mod1$mod$best_score
         }
-        if (learner == "s_XGBOOST") {
+        if (learner == "s_XGBoost") {
             out1$best_iteration <- mod1$mod$best_iteration
             out1$best_score <- mod1$mod$best_score
         }
@@ -331,7 +331,7 @@ gridSearchLearn <- function(x, y, mod,
     }
 
     # '- XGBoost ----
-    if (learner == "s_XGBOOST") {
+    if (learner == "s_XGBoost") {
         if (verbose) {
             msg2(hilite("Extracting best N of iterations from XGBoost models..."))
         }

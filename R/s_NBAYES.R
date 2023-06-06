@@ -1,4 +1,4 @@
-# s_NBAYES.R
+# s_NBayes.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
@@ -16,7 +16,7 @@
 #' @family Supervised Learning
 #' @export
 
-s_NBAYES <- function(x, y = NULL,
+s_NBayes <- function(x, y = NULL,
             x.test = NULL, y.test = NULL,
             laplace = 0,
             x.name = NULL,
@@ -33,7 +33,7 @@ s_NBAYES <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_NBAYES))
+    print(args(s_NBayes))
     invisible(9)
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -43,7 +43,7 @@ s_NBAYES <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "NBAYES"
+  mod.name <- "NBayes"
 
   # Dependencies ----
   dependency_check("e1071")
@@ -137,4 +137,4 @@ s_NBAYES <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_NBAYES
+} # rtemis::s_NBayes

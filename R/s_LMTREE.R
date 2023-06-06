@@ -1,10 +1,10 @@
-# s_LMTREE.R
+# s_LMTree.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
 #' Linear Model Tree [R]
 #'
-#' Train a LMTREE for regression or classification using `rpart`
+#' Train a LMTree for regression or classification using `rpart`
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
@@ -18,7 +18,7 @@
 #' @family Interpretable models
 #' @export
 
-s_LMTREE <- function(x, y = NULL,
+s_LMTree <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
                      weights = NULL,
@@ -65,7 +65,7 @@ s_LMTREE <- function(x, y = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
     # Intro ----
     if (missing(x)) {
-        print(args(s_LMTREE))
+        print(args(s_LMTree))
         return(invisible(9))
     }
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
@@ -75,14 +75,14 @@ s_LMTREE <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "LMTREE"
+    mod.name <- "LMTree"
 
     # Dependencies ----
     dependency_check("partykit")
 
     # Arguments ----
     if (is.null(y) & NCOL(x) < 2) {
-        print(args(s_LMTREE))
+        print(args(s_LMTree))
         stop("y is missing")
     }
     if (is.null(x.name)) x.name <- getName(x, "x")
@@ -126,7 +126,7 @@ s_LMTREE <- function(x, y = NULL,
     .formula <- as.formula(paste0(y.name, " ~ ", features))
 
     # lmtree ----
-    if (verbose) msg2("Training LMTREE...", newline.pre = TRUE)
+    if (verbose) msg2("Training LMTree...", newline.pre = TRUE)
     mod <- partykit::lmtree(
         formula = .formula,
         data = df.train,
@@ -199,4 +199,4 @@ s_LMTREE <- function(x, y = NULL,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_LMTREE
+} # rtemis::s_LMTree

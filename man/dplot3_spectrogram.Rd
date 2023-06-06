@@ -13,9 +13,13 @@ dplot3_spectrogram(
   xlab = "Time",
   ylab = "Frequency",
   zlab = "Power",
+  hover.xlab = xlab,
+  hover.ylab = ylab,
+  hover.zlab = zlab,
   zmin = NULL,
   zmax = NULL,
   zauto = TRUE,
+  hoverlabel.align = "right",
   colorscale = "Jet",
   colorbar.y = 0.5,
   colorbar.yanchor = "middle",
@@ -34,7 +38,6 @@ dplot3_spectrogram(
   k_col = 1,
   grid.gap = 0,
   limits = NULL,
-  margins = c(50, 50, 50, 50),
   main = NULL,
   key.title = NULL,
   showticklabels = NULL,
@@ -83,8 +86,6 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 \item{grid.gap}{Integer: Space between cells. Default = 0 (no space)}
 
 \item{limits}{Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0}
-
-\item{margins}{Float, length 4: Heatmap margins.}
 
 \item{main}{Character: Plot title}
 
