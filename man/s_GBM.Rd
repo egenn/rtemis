@@ -159,16 +159,15 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a GBM model using \code{gbm::gbm.fit}
 }
 \details{
-This is the older gbm package available on CRAN. It may be preferable to use \code{s_GBM3}
-which uses \code{gbm-developers/gbm3} from GitHub.
-Early stopping is implemented by fitting \code{n.trees} initially, checking the (smoothed) validation
-error curve, and adding \code{n.new.trees} if needed, until error does not reduce or \code{max.trees} is
-reached.
-\link{gS} in the argument description indicates that multiple values can be passed, in
-which case tuning will be performed using grid search. gS is supported for:
-interaction.depth, shrinkage, bag.fraction, and n.minobsinnode
+Early stopping is implemented by fitting \code{n.trees} initially, checking the
+optionally smoothed validation error curve, and adding \code{n.new.trees} if
+needed, until error does not reduce or \code{max.trees} is reached.
+\link{gS} in the argument description indicates that multiple values can be
+passed, in which case tuning will be performed using grid search.
+
 This function includes a workaround for when \code{gbm.fit} fails.
-If an error is detected, \code{gbm.fit} is rerun until successful and the procedure continues normally
+If an error is detected, \code{gbm.fit} is rerun until successful and the
+procedure continues normally
 }
 \seealso{
 \link{elevate} for external cross-validation
