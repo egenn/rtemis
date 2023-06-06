@@ -239,7 +239,11 @@ alg_params <- list(
 
 #' Print tunable hyperparameters for a supervised learning algorithm
 #' 
+#' @param alg Character string: Algorithm name.
 #' 
+#' @author EDG
+#' @return Prints tunable hyperparameters for the specified algorithm.
+#' @export
 tunable <- function(alg = c("glmnet", "svm", "cart", 
                             "ranger", "gbm", "xgboost", 
                             "lightgbm")) {

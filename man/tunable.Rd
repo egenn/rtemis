@@ -8,6 +8,15 @@ tunable(
   alg = c("glmnet", "svm", "cart", "ranger", "gbm", "xgboost", "lightgbm")
 )
 }
+\arguments{
+\item{alg}{Character string: Algorithm name.}
+}
+\value{
+Prints tunable hyperparameters for the specified algorithm.
+}
 \description{
 Print tunable hyperparameters for a supervised learning algorithm
+}
+\author{
+EDG
 }
