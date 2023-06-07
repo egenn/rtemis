@@ -27,7 +27,6 @@ rtset.resample <- function(resampler = "strat.sub",
                            id.strat = NULL,
                            seed = NULL) {
 
-
   list(resampler = resampler,
        n.resamples = n.resamples,
        stratify.var = stratify.var,
