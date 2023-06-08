@@ -93,12 +93,12 @@
 #' x <- rnormmat(100, 50)
 #' w <- rnorm(50)
 #' y <- x %*% w + rnorm(50)
-#' mod <- elevate(x, y)
+#' mod <- train(x, y)
 #'
 #' # Classification
 #'
 #' data(Sonar, package = "mlbench")
-#' mod <- elevate(Sonar)
+#' mod <- train(Sonar)
 #' }
 #' @export
 
@@ -147,13 +147,13 @@ train <- function(x, y = NULL,
     .call[2] <- list(str2lang("dat"))
     if (missing(x)) {
         cat("Usage:\n")
-        print(args(elevate))
+        print(args(train))
         stop("x is missing: Please provide data")
     }
     if (!is.null(outer.resampling$id.strat)) {
         stopifnot(length(outer.resampling$id.strat) == NROW(x))
     }
-    if (toupper(alg) == "KNN") stop("KNN is not supported by elevate")
+    if (toupper(alg) == "KNN") stop("KNN is not supported by train")
     if (debug) {
         outer.n.workers <- 1
         alg.params$n.cores <- 1
@@ -180,7 +180,7 @@ train <- function(x, y = NULL,
     dependency_check(c("future", "future.apply", "progressr", "plyr"))
 
     # Arguments ----
-    # Allow elevate(df, "mod")
+    # Allow train(df, "mod")
     # i.e single df with features and outcome followed by mod name
     if (is.character(y) && length(y) == 1) {
         mod <- y
@@ -222,7 +222,7 @@ train <- function(x, y = NULL,
         outer.n.workers <- 1
     }
     if (!verbose) res.verbose <- FALSE
-    if (save.rt && is.null(outdir)) outdir <- paste0("./elevate_", alg)
+    if (save.rt && is.null(outdir)) outdir <- paste0("./train_", alg)
 
     # Data ----
     dt <- dataPrepare(x, y, NULL, NULL)
@@ -316,7 +316,7 @@ train <- function(x, y = NULL,
 
     # nres <- length(res)
     if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
-    names(mods) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(mods) <- paste0("train_", alg.name, "_repeat", seq(mods))
 
     # Res fitted  ----
     # The fitted values and training error from each resample
@@ -326,7 +326,7 @@ train <- function(x, y = NULL,
     fitted.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$fitted)
     })
-    names(y.train.res) <- names(fitted.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(y.train.res) <- names(fitted.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
 
     if (resampler != "loocv") {
         # Only if not LOOCV
@@ -337,12 +337,12 @@ train <- function(x, y = NULL,
                     .id = NULL
                 )
             })
-            names(error.train.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+            names(error.train.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
         } else {
             error.train.res <- lapply(seq(n.repeats), function(n) {
                 plyr::ldply(mods[[n]], function(m) m$mod1$error.train, .id = NULL)
             })
-            names(error.train.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+            names(error.train.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
         }
     } else {
         # LOOCV
@@ -353,7 +353,7 @@ train <- function(x, y = NULL,
         error.train.res.mean <- lapply(seq(n.repeats), function(n) {
             as.data.frame(t(colMeans(error.train.res[[n]])))
         })
-        names(error.train.res.mean) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+        names(error.train.res.mean) <- paste0("train_", alg.name, "_repeat", seq(mods))
     }
     if (type == "Classification") {
         error.train.res.aggr <- lapply(seq(n.repeats), function(n) {
@@ -364,18 +364,18 @@ train <- function(x, y = NULL,
             modError(unlist(y.train.res[[n]]), unlist(fitted.res[[n]]))
         })
     }
-    names(error.train.res.aggr) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(error.train.res.aggr) <- paste0("train_", alg.name, "_repeat", seq(mods))
 
     # Res predicted ----
     # The predicted values and testing error from each resample
     y.test.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$y.test)
     })
-    names(y.test.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(y.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
     predicted.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$predicted)
     })
-    names(predicted.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(predicted.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
 
     # Only if not LOOCV
     if (resampler != "loocv") {
@@ -386,12 +386,12 @@ train <- function(x, y = NULL,
                     .id = NULL
                 )
             })
-            names(error.test.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+            names(error.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
         } else {
             error.test.res <- lapply(seq(n.repeats), function(n) {
                 plyr::ldply(mods[[n]], function(m) m$mod1$error.test, .id = NULL)
             })
-            names(error.test.res) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+            names(error.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
         }
     } else {
         # LOOCV
@@ -402,7 +402,7 @@ train <- function(x, y = NULL,
         error.test.res.mean <- lapply(seq(n.repeats), function(n) {
             data.frame(t(colMeans(error.test.res[[n]])))
         })
-        names(error.test.res.mean) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+        names(error.test.res.mean) <- paste0("train_", alg.name, "_repeat", seq(mods))
     }
 
     if (type == "Classification") {
@@ -414,7 +414,7 @@ train <- function(x, y = NULL,
             modError(unlist(y.test.res[[n]]), unlist(predicted.res[[n]]))
         })
     }
-    names(error.test.res.aggr) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+    names(error.test.res.aggr) <- paste0("train_", alg.name, "_repeat", seq(mods))
 
     # Mean repeats error ----
     if (resampler == "loocv" || resampler == "kfold") {
@@ -454,7 +454,7 @@ train <- function(x, y = NULL,
 
     # Summary ----
     if (verbose) {
-        boxcat(paste("elevate", hilite(alg.name)), newline.pre = TRUE, pad = 0)
+        boxcat(paste("train", hilite(alg.name)), newline.pre = TRUE, pad = 0)
         # cat("N repeats =", hilite(n.repeats), "\n")
         # cat("N resamples =", hilite(n.resamples), "\n")
         # cat("Resampler =", hilite(resampler), "\n")
@@ -619,7 +619,7 @@ train <- function(x, y = NULL,
         names(y.train.res.aggr) <- names(y.test.res.aggr) <-
             names(predicted.res.aggr) <- names(fitted.res.aggr) <-
             names(fitted.prob.aggr) <- names(predicted.prob.aggr) <-
-            paste0("elevate.", alg.name, ".repeat", seq(mods))
+            paste0("train_", alg.name, "_repeat", seq(mods))
     } else {
         y.train.res.aggr <- lapply(seq(n.repeats), function(i) {
             c(y.train.res[[i]], recursive = TRUE, use.names = FALSE)
@@ -636,15 +636,15 @@ train <- function(x, y = NULL,
         fitted.prob.aggr <- predicted.prob.aggr <- NULL
         names(y.train.res.aggr) <- names(y.test.res.aggr) <-
             names(predicted.res.aggr) <- paste0(
-                "elevate.", alg.name,
-                ".repeat", seq(mods)
+                "train_", alg.name,
+                "_repeat", seq(mods)
             )
     }
 
     if (!save.tune) {
         best.tune <- NULL
     } else {
-        names(best.tune) <- paste0("elevate.", alg.name, ".repeat", seq(mods))
+        names(best.tune) <- paste0("train_", alg.name, "_repeat", seq(mods))
     }
 
     # Variable importance ----
@@ -759,7 +759,7 @@ train <- function(x, y = NULL,
 
     if (!save.mod) rt$mod <- NA
     if (save.rt) {
-        rt_save(rt, outdir, file.prefix = "elevate_", verbose = verbose)
+        rt_save(rt, outdir, file.prefix = "train_", verbose = verbose)
     }
     if (print.plot) {
         if (plot.fitted) rt$plotFitted()
@@ -768,11 +768,11 @@ train <- function(x, y = NULL,
     if (!is.null(outdir)) {
         rt$plotFitted(filename = paste0(
             outdir,
-            "elevate_", alg.name, "_fitted.pdf"
+            "train_", alg.name, "_fitted.pdf"
         ))
         rt$plotPredicted(filename = paste0(
             outdir,
-            "elevate_", alg.name, "_predicted.pdf"
+            "train_", alg.name, "_predicted.pdf"
         ))
         if (alg.name %in% c("LIGHTGBM", "LIGHTRF")) {
             # LightGBM models need to be saved separately with

@@ -144,9 +144,9 @@ concatenated with \code{alg.params}}
 \value{
 Object of class \code{rtModCV} (Regression) or
 \code{rtModCVClass} (Classification)
-\item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
-\item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
-\item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
+\item{error.test_repeats}{the mean or aggregate error, as appropriate, for each repeat}
+\item{error.test_repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test_repeats}}
+\item{error.test_repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test_repeats}}
 \item{error.test.res}{the error for each resample, for each repeat}
 }
 \description{
@@ -167,7 +167,8 @@ the command after setting both inner and outer resample run to use a single
 core, which should provide an informative message.
 }
 
-The \code{train} command is the candidate to replace \code{elevate} in release 1.0
+The \code{train} command is replacing \code{elevate}.
+Note: specifying id.strat for the inner resampling is not yet supported.
 }
 \examples{
 \dontrun{
@@ -176,12 +177,12 @@ The \code{train} command is the candidate to replace \code{elevate} in release 1
 x <- rnormmat(100, 50)
 w <- rnorm(50)
 y <- x \%*\% w + rnorm(50)
-mod <- elevate(x, y)
+mod <- train(x, y)
 
 # Classification
 
 data(Sonar, package = "mlbench")
-mod <- elevate(Sonar)
+mod <- train(Sonar)
 }
 }
 \author{
