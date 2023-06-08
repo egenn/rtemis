@@ -19,7 +19,8 @@
 #' the command after setting both inner and outer resample run to use a single
 #' core, which should provide an informative message.
 #'
-#' The `train` command is the candidate to replace `elevate` in release 1.0
+#' The `train` command is replacing `elevate`.
+#' Note: specifying id.strat for the inner resampling is not yet supported.
 #'
 #' @inheritParams s_GLM
 #' @inheritParams resample
@@ -148,6 +149,9 @@ train <- function(x, y = NULL,
         cat("Usage:\n")
         print(args(elevate))
         stop("x is missing: Please provide data")
+    }
+    if (!is.null(outer.resampling$id.strat)) {
+        stopifnot(length(outer.resampling$id.strat) == NROW(x))
     }
     if (toupper(alg) == "KNN") stop("KNN is not supported by elevate")
     if (debug) {
