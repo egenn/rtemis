@@ -69,6 +69,10 @@ auc <- function(preds, labels,
         .auc <- auc_pairs(preds, labels, verbose = trace > 0)
     }
 
+    if (inherits(.auc, "try-error")) {
+        .auc <- NaN
+    }
+
     if (verbose) msg2("AUC =", .auc)
     .auc
 } # rtemis::auc
