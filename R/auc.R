@@ -51,18 +51,20 @@ auc <- function(preds, labels,
         if (is.factor(labels)) {
             labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
         }
-        .auc <- auc_cpp(preds, labels)
+        .auc <- try(auc_cpp(preds, labels))
     } else if (method == "pROC") {
         dependency_check("pROC")
-        .auc <- as.numeric(pROC::roc(
+        .auc <- try(as.numeric(pROC::roc(
             labels, preds,
             levels = rev(levels(labels)),
             direction = "<"
-        )$auc)
+        )$auc))
     } else if (method == "ROCR") {
         dependency_check("ROCR")
-        .pred <- ROCR::prediction(preds, labels, label.ordering = rev(levels(labels)))
-        .auc <- ROCR::performance(.pred, "auc")@y.values[[1]]
+        .pred <- try(ROCR::prediction(preds, labels,
+            label.ordering = rev(levels(labels))
+        ))
+        .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
     } else if (method == "auc_pairs") {
         .auc <- auc_pairs(preds, labels, verbose = trace > 0)
     }
