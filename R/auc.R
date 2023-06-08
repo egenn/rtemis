@@ -43,6 +43,9 @@ auc <- function(preds, labels,
                 verbose = FALSE,
                 trace = 0) {
     method <- match.arg(method)
+    if (length(unique(labels)) == 1) {
+        return(NaN)
+    }
 
     if (method == "auc_cpp") {
         if (is.factor(labels)) {
