@@ -11,7 +11,7 @@
 #' @param PPmethod Character: "LDA": LDA index, "Lp": Lp index, "PDA": PDA index. Default = "LDA"
 #' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

@@ -144,9 +144,9 @@ concatenated with \code{alg.params}}
 \value{
 Object of class \code{rtModCV} (Regression) or
 \code{rtModCVClass} (Classification)
-\item{error.test_repeats}{the mean or aggregate error, as appropriate, for each repeat}
-\item{error.test_repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test_repeats}}
-\item{error.test_repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test_repeats}}
+\item{error.test.repeats}{the mean or aggregate error, as appropriate, for each repeat}
+\item{error.test.repeats.mean}{the mean error of all repeats, i.e. the mean of \code{error.test.repeats}}
+\item{error.test.repeats.sd}{if \code{n.repeats} > 1, the standard deviation of \code{error.test.repeats}}
 \item{error.test.res}{the error for each resample, for each repeat}
 }
 \description{

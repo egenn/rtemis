@@ -146,7 +146,7 @@ Train a GLMTree for regression or classification using
 \code{partykit::glmtree}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

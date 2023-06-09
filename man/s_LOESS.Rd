@@ -79,7 +79,7 @@ where GAM or similar is preferable anyway. It is included in \pkg{rtemis} mainly
 not for building predictive models.
 }
 \seealso{
-\link{elevate}
+\link{train}
 }
 \author{
 E.D. Gennatas

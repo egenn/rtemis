@@ -72,7 +72,7 @@ For Survival Regression, y must be an object of type \code{Surv}, created using
 and is often not tuned.
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

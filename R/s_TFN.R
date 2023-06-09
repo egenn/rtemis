@@ -47,7 +47,7 @@
 #' scaling ahead of prediction on new data
 #' @param ... Additional parameters
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export

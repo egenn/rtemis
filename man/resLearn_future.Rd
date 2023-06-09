@@ -38,7 +38,7 @@ resLearn_future(
 \item{res.verbose}{Logical: Will be passed to each \code{mod}'s \code{verbose} argument}
 
 \item{save.mods}{Logical: If TRUE, save all models, otherwise discard after training.
-Use with \link{elevate} when training a large number of resamples. Default = TRUE}
+Use with \link{train} when training a large number of resamples. Default = TRUE}
 
 \item{outdir}{Character: Path to save output. Default = NULL}
 
@@ -51,7 +51,7 @@ Train an \pkg{rtemis} learner on a set of resamples
 Input: features (x) and outcome (y)
 Procedure: \link{resample}, train learners
 Output: trained learners
-This is used internally by \link{elevate} and for bagging, when the \code{bag.resampler}
+This is used internally by \link{train} and for bagging, when the \code{bag.resampler}
 argument is set in a learner.
 }
 \author{

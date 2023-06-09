@@ -183,7 +183,7 @@ Train a CART for regression or classification using \code{rpart}
 value is passed
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

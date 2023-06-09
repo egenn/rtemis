@@ -115,7 +115,7 @@ y <- .6 * x + 12 + rnorm(100)
 mod <- s_ET(x, y)}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

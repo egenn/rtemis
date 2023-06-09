@@ -104,7 +104,7 @@ The overhead incurred by Spark means this should be used only for really large d
 a Spark cluster, not on a regular local machine.
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

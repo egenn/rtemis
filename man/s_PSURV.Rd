@@ -47,7 +47,7 @@ Object of class \link{rtMod}
 Fit a parametric survival regression model using \code{survival::survreg}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 }
 \author{
 E.D. Gennatas

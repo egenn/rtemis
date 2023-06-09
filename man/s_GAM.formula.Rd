@@ -84,7 +84,7 @@ Input will be used to create a formula of the form:
 \link{s_GAM.default} is the preferred way to train GAMs
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

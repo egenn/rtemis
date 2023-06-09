@@ -115,7 +115,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 Trains a Random Forest model using H2O (http://www.h2o.ai)
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

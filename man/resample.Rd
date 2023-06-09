@@ -67,7 +67,7 @@ randomly duplicates some of the training cases to reach original length of input
 }
 \details{
 \code{resample} is used by multiple \pkg{rtemis} learners, \link{gridSearchLearn}, and
-\link{elevate}. Note that option 'kfold', which uses \link{kfold} results in resamples
+\link{train}. Note that option 'kfold', which uses \link{kfold} results in resamples
 of slightly different length for y of small length, so avoid all operations which rely
 on equal-length vectors. For example, you can't place resamples in a data.frame, but
 must use a list instead.
@@ -83,7 +83,7 @@ res <- resample(y, 100, "strat.boot")
 
 }
 \seealso{
-\link{elevate}
+\link{train}
 }
 \author{
 E.D. Gennatas

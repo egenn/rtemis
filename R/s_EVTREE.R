@@ -12,7 +12,7 @@
 #' 
 #' @return Object of class [rtMod]
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

@@ -13,7 +13,7 @@
 #' @param ... Additional arguments to be passed to `iRF::iRF`
 #' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

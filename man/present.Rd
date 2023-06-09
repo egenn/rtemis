@@ -25,7 +25,7 @@ present(
 )
 }
 \arguments{
-\item{...}{rtModCV objects created with \link{elevate}}
+\item{...}{rtModCV objects created with \link{train}}
 
 \item{which.repeat}{Integer: which \code{rtModCV} repeat to plot}
 
@@ -41,7 +41,7 @@ present(
 }
 \description{
 Plot training and testing performance boxplots of multiple \link{rtModCV}
-objects created by \link{elevate} using \link{dplot3_box}
+objects created by \link{train} using \link{dplot3_box}
 }
 \author{
 E.D. Gennatas

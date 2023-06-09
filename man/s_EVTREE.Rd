@@ -103,7 +103,7 @@ Object of class \link{rtMod}
 Train a EVTREE for regression or classification using \code{evtree}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

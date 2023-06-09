@@ -89,7 +89,7 @@ Note: LDA requires all predictors to be numeric.
 The variable importance output ("varimp") is the vector of coefficients for LD1
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

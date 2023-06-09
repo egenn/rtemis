@@ -117,7 +117,7 @@ Train a HAL model
 grid search will be automatically performed
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

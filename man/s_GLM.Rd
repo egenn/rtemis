@@ -146,7 +146,7 @@ y <- .6 * x + 12 + rnorm(100)/2
 mod <- s_GLM(x, y)
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

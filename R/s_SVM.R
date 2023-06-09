@@ -30,7 +30,7 @@
 #' @param ... Additional arguments to be passed to `e1071::svm`
 #' 
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

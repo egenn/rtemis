@@ -76,7 +76,7 @@
 #' y <- .6 * x + 12 + rnorm(100)/2
 #' mod <- s_GLM(x, y)
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Interpretable models
 #' @export

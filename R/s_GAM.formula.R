@@ -19,7 +19,7 @@
 #' 
 #' @return [rtMod]
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

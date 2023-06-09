@@ -11,7 +11,7 @@
 #' @param rules Logical: If TRUE, decompose the tree to a rule-based model
 #' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models

@@ -10,7 +10,7 @@
 #' Input: features (x) and outcome (y)
 #' Procedure: [resample], train learners
 #' Output: trained learners
-#' This is used internally by [elevate] and for bagging, when the `bag.resampler`
+#' This is used internally by [train] and for bagging, when the `bag.resampler`
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
@@ -20,7 +20,7 @@
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param res.verbose Logical: Will be passed to each `mod`'s `verbose` argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
-#' Use with [elevate] when training a large number of resamples. Default = TRUE
+#' Use with [train] when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
 #' @param n.workers Integer: Number of cores to use.
 #'

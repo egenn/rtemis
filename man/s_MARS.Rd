@@ -85,7 +85,7 @@ Trains a MARS model using \code{earth::earth}.
 For more info on algorithm hyperparameters, see \code{?earth::earth}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

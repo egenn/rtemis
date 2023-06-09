@@ -51,7 +51,7 @@ Train a k-Nearest Neighbors learner for regression or classification using \code
 Note: FNN's KNN does not have a predict function
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

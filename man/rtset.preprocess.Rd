@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.preprocess}
 \alias{rtset.preprocess}
-\title{\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{elevate}'s \code{.preprocess} argument}
+\title{\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{train}'s \code{.preprocess} argument}
 \usage{
 rtset.preprocess(
   completeCases = FALSE,
@@ -36,5 +36,5 @@ rtset.preprocess(
 \item{k}{Integer: Number of dimensions to project to. Default = 2}
 }
 \description{
-\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{elevate}'s \code{.preprocess} argument
+\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{train}'s \code{.preprocess} argument
 }

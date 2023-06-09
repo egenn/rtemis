@@ -213,7 +213,7 @@ values are passed. Learn more about XGBoost's parameters here:
 http://xgboost.readthedocs.io/en/latest/parameter.html
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

@@ -140,7 +140,7 @@ If \code{autotue = TRUE}, \code{iRF::tuneRF} will be run to determine best \code
 value.
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

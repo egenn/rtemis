@@ -100,7 +100,7 @@ Object of class \link{rtMod}
 Train a LMTree for regression or classification using \code{rpart}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

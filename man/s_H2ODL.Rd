@@ -155,7 +155,7 @@ x.test & y.test form the testing set used only to test model generalizability.
 x.valid & y.valid form the validation set used to monitor training progress
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

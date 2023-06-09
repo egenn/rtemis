@@ -127,7 +127,7 @@ training set prior to training model on full training set
 Interactions: PPR automatically models interactions, no need to specify them
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

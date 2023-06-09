@@ -93,7 +93,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train an ensemble of Neural Networks to perform Quantile Regression using \code{qrnn}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

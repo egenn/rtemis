@@ -108,7 +108,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a C5.0 decision tree using \code{C50::C5.0}
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

@@ -223,7 +223,7 @@ See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.p
 balanced (ifw.case.weights = TRUE) and weighted (ifw.class.weights = TRUE) Random Forests.
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

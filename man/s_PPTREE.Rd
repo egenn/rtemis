@@ -97,7 +97,7 @@ Train a PPTREE Classifier using \code{PPtree::PP.Tree}
 Note: \code{PP.Tree} does not support case weights
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

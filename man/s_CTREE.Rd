@@ -98,7 +98,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a conditional inference tree using {partykit::ctree}
 }
 \seealso{
-\link{elevate}
+\link{train}
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

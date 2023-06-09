@@ -19,7 +19,7 @@
 #' y <- .6 * x + 12 + rnorm(100)
 #' mod <- s_ET(x, y)}
 #' @author E.D. Gennatas
-#' @seealso [elevate] for external cross-validation
+#' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

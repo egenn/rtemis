@@ -12,7 +12,7 @@
 #' (default) or length defined by `target.length`.
 #'
 #' `resample` is used by multiple \pkg{rtemis} learners, [gridSearchLearn], and
-#' [elevate]. Note that option 'kfold', which uses [kfold] results in resamples
+#' [train]. Note that option 'kfold', which uses [kfold] results in resamples
 #' of slightly different length for y of small length, so avoid all operations which rely
 #' on equal-length vectors. For example, you can't place resamples in a data.frame, but
 #' must use a list instead.
@@ -42,7 +42,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
-#' @seealso [elevate]
+#' @seealso [train]
 #' @export
 #' @examples
 #' y <- rnorm(200)

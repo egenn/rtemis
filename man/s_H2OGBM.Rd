@@ -158,7 +158,7 @@ Warning: If you get an HTTP 500 error at random, use \code{h2o.shutdown()} to sh
 It will be restarted when \code{s_H2OGBM} is called
 }
 \seealso{
-\link{elevate} for external cross-validation
+\link{train} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_ADABOOST}()},

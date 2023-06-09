@@ -11,7 +11,7 @@
 #' `partykit::ctree_control`
 #' @return [rtMod] object
 #' @author E.D. Gennatas
-#' @seealso [elevate]
+#' @seealso [train]
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
