@@ -1,4 +1,4 @@
-# s_LIHADBOOST.R
+# s_LIHADBoost.R
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 # boosting learning.rate vs. hytree learning.rate
@@ -27,7 +27,7 @@
 #' @export
 
 
-s_LIHADBOOST <- function(x, y = NULL,
+s_LIHADBoost <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        # x.valid = NULL, y.valid = NULL,
                        resid = NULL,
@@ -102,7 +102,7 @@ s_LIHADBOOST <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "LIHADBOOST"
+  mod.name <- "LIHADBoost"
   lin.type <- match.arg(lin.type)
 
   # Dependencies ----
@@ -211,14 +211,14 @@ s_LIHADBOOST <- function(x, y = NULL,
     gs <- NULL
   }
 
-  # LIHADBOOST ----
+  # LIHADBoost ----
   if (verbose) parameterSummary(init,
                                 max.iter,
                                 learning.rate,
                                 newline.pre = TRUE)
                                 # mod.params)
   if (trace > 0) msg2("Initial MSE =", mse(y, init))
-  if (verbose) msg2("Training LIHADBOOST...", newline.pre = TRUE)
+  if (verbose) msg2("Training LIHADBoost...", newline.pre = TRUE)
   if (.gs) {
     .xval <- x.test # this is the validation set carved out of the training set during gridSearch
     .yval <- y.test
@@ -343,4 +343,4 @@ s_LIHADBOOST <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_LIHADBOOST
+} # rtemis::s_LIHADBoost

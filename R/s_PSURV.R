@@ -1,4 +1,4 @@
-# s_PSURV.R
+# s_PSurv.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: add strata() support
@@ -20,7 +20,7 @@
 #' @family Survival Regression
 #' @export
 
-s_PSURV <- function(x, y,
+s_PSurv <- function(x, y,
                     x.test = NULL, y.test = NULL,
                     x.name = NULL, y.name = NULL,
                     weights = NULL,
@@ -38,7 +38,7 @@ s_PSURV <- function(x, y,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_PSURV))
+    print(args(s_PSurv))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -48,13 +48,13 @@ s_PSURV <- function(x, y,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "PSURV"
+  mod.name <- "PSurv"
 
   # Dependencies ----
   dependency_check("survival")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_PSURV)); stop("y is missing") }
+  if (is.null(y) & NCOL(x) < 2) { print(args(s_PSurv)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -148,4 +148,4 @@ s_PSURV <- function(x, y,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_PSURV
+} # rtemis::s_PSurv

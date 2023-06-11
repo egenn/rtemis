@@ -650,12 +650,12 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 } # rtemis::predict.addtree
 
 
-#' `rtemis-internal` Traverse ADDTREE tree by preorder
+#' `rtemis-internal` Traverse AddTree tree by preorder
 #'
-#' Recursively Traverses ADDTREE tree by preorder function and builds data 
+#' Recursively Traverses AddTree tree by preorder function and builds data 
 #' frame representation
 #'
-#' @param rt rt Object from [s_ADDTREE]
+#' @param rt rt Object from [s_AddTree]
 #' @param x Features
 #' @param verbose Logical: If TRUE, print messages to stdout
 #'
@@ -664,7 +664,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 
 
 # preorder + Include Rules ----
-# Traverse ADDTREE tree
+# Traverse AddTree tree
 preorderTree.addtree <- function(rt, x, verbose = FALSE) {
     varnames <- rt$xnames
     tree <- rt$mod
@@ -734,9 +734,9 @@ addtree_path_to_rules <- function(x) {
 } # rtemis::addtree_path_to_rules
 
 
-#' Print method for `addtree` object created using [s_ADDTREE]
+#' Print method for `addtree` object created using [s_AddTree]
 #'
-#' @param x `rtMod` object created using [s_ADDTREE]
+#' @param x `rtMod` object created using [s_AddTree]
 #' @author E.D. Gennatas
 #' @export
 

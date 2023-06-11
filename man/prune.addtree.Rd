@@ -2,7 +2,7 @@
 % Please edit documentation in R/prune.addtree.R
 \name{prune.addtree}
 \alias{prune.addtree}
-\title{Prune ADDTREE tree}
+\title{Prune AddTree tree}
 \usage{
 prune.addtree(
   addtree,
@@ -12,7 +12,7 @@ prune.addtree(
 )
 }
 \arguments{
-\item{addtree}{rtMod trained with \link{s_ADDTREE}}
+\item{addtree}{rtMod trained with \link{s_AddTree}}
 
 \item{prune.empty.leaves}{Logical: If TRUE, remove leaves with 0 cases.}
 
@@ -20,7 +20,7 @@ prune.addtree(
 give their children to their parent.}
 }
 \description{
-Prune an ADDTREE tree in Node format using \code{data.tree} to remove sister nodes with same
+Prune an AddTree tree in Node format using \code{data.tree} to remove sister nodes with same
 class estimate.
 }
 \author{

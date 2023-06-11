@@ -2,19 +2,19 @@
 % Please edit documentation in R/addtree.R
 \name{preorderTree.addtree}
 \alias{preorderTree.addtree}
-\title{\code{rtemis-internal} Traverse ADDTREE tree by preorder}
+\title{\code{rtemis-internal} Traverse AddTree tree by preorder}
 \usage{
 preorderTree.addtree(rt, x, verbose = FALSE)
 }
 \arguments{
-\item{rt}{rt Object from \link{s_ADDTREE}}
+\item{rt}{rt Object from \link{s_AddTree}}
 
 \item{x}{Features}
 
 \item{verbose}{Logical: If TRUE, print messages to stdout}
 }
 \description{
-Recursively Traverses ADDTREE tree by preorder function and builds data
+Recursively Traverses AddTree tree by preorder function and builds data
 frame representation
 }
 \author{

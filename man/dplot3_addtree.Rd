@@ -2,7 +2,7 @@
 % Please edit documentation in R/dplot3_addtree.R
 \name{dplot3_addtree}
 \alias{dplot3_addtree}
-\title{Plot ADDTREE trees}
+\title{Plot AddTree trees}
 \usage{
 dplot3_addtree(
   addtree,
@@ -45,7 +45,7 @@ dplot3_addtree(
 Requires packages \code{DiagrammeRsvg} and \code{rsvg}. Default = NULL}
 }
 \description{
-Plot ADDTREE trees trained with \link{s_ADDTREE} using \code{data.tree::plot.Node}
+Plot AddTree trees trained with \link{s_AddTree} using \code{data.tree::plot.Node}
 }
 \details{
 Edge info and styles have been removed because of problems with \code{DiagrammeR}

@@ -660,7 +660,7 @@ predict.rtMod <- function(object,
             # drop = FALSE needed when predicting on a single case,
             # will drop to vector otherwise and glmnet predict will fail
             estimated <- predict(object$mod, newx = newdata, ...)[, 1]
-        } else if (object$mod.name == "RANGER") {
+        } else if (object$mod.name == "Ranger") {
             predict.ranger <- getFromNamespace("predict.ranger", "ranger")
             estimated <- predict.ranger(object$mod, data = newdata, ...)$predictions
         } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {

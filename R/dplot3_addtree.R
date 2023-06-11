@@ -2,9 +2,9 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' Plot ADDTREE trees
+#' Plot AddTree trees
 #'
-#' Plot ADDTREE trees trained with [s_ADDTREE] using `data.tree::plot.Node`
+#' Plot AddTree trees trained with [s_AddTree] using `data.tree::plot.Node`
 #'
 #' Edge info and styles have been removed because of problems with `DiagrammeR`
 #' @param col.positive Color for outcome positive.
@@ -80,7 +80,7 @@ dplot3_addtree <- function(addtree,
         bgcolor = bg.color,
         overlap = overlap,
         tooltip = paste(
-            "ADDTREE tree\n---------------",
+            "AddTree tree\n---------------",
             "\nDepth =", addtree$height - 1,
             "\nN nodes =", addtree$totalCount - 1,
             "\nN leaves =", length(addtree$leaves)

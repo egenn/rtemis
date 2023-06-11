@@ -1,4 +1,4 @@
-# s_ADABOOST.R
+# s_AdaBoost.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
@@ -23,7 +23,7 @@
 #' @family Ensembles
 #' @export
 
-s_ADABOOST <- function(x,
+s_AdaBoost <- function(x,
                        y = NULL,
                        x.test = NULL,
                        y.test = NULL,
@@ -50,7 +50,7 @@ s_ADABOOST <- function(x,
 
     # Intro ----
     if (missing(x)) {
-        print(args(s_ADABOOST))
+        print(args(s_AdaBoost))
         invisible(9)
     }
     if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -60,7 +60,7 @@ s_ADABOOST <- function(x,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "ADABOOST"
+    mod.name <- "AdaBoost"
 
     # Dependencies ----
     dependency_check("ada")
@@ -88,7 +88,7 @@ s_ADABOOST <- function(x,
     y.test <- dt$y.test
     xnames <- dt$xnames
     type <- dt$type
-    if (type != "Classification" || length(levels(y)) > 2) stop("ADABOOST is for binary classification only")
+    if (type != "Classification" || length(levels(y)) > 2) stop("AdaBoost is for binary classification only")
     if (verbose) dataSummary(x, y, x.test, y.test, type)
     if (print.plot) {
         if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -97,8 +97,8 @@ s_ADABOOST <- function(x,
         plot.fitted <- plot.predicted <- FALSE
     }
 
-    # ADABOOST ----
-    if (verbose) msg2("Training ADABOOST Classifier...", newline.pre = TRUE)
+    # AdaBoost ----
+    if (verbose) msg2("Training AdaBoost Classifier...", newline.pre = TRUE)
     mod <- ada::ada(x, y,
         loss = loss,
         type = .type,
@@ -170,4 +170,4 @@ s_ADABOOST <- function(x,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_ADABOOST
+} # rtemis::s_AdaBoost

@@ -4,11 +4,11 @@
 
 #' Variable Selection by Variable Importance
 #'
-#' Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
+#' Select important variables from a set of features based on Ranger- or XGBLIN-estimated variable importance
 #'
 #' @param x Matrix / Data Frame of Predictors
 #' @param y Outcome vector
-#' @param method Character: "RANGER", "XGBLIN": Learner to use for estimating variable importance. Default = "RANGER"
+#' @param method Character: "Ranger", "XGBLIN": Learner to use for estimating variable importance. Default = "Ranger"
 #' @param xgb.params List of parameters for `method = "XGBLIN"`
 #' @param p Float (0, 1): Fraction of variables in x to select. `p * ncol(x)`. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
@@ -18,7 +18,7 @@
 #' @author E.D. Gennatas
 #' @export
 varSelect <- function(x, y,
-                      method = c("RANGER", "XGBLIN"),
+                      method = c("Ranger", "XGBLIN"),
                       xgb.params = list(alpha = .1, lambda = .1),
                       p = .2,
                       print.plot = TRUE,
@@ -31,9 +31,9 @@ varSelect <- function(x, y,
   start.time <- intro(verbose = verbose)
 
   # Model ----
-  if (method == "RANGER") {
+  if (method == "Ranger") {
     if (verbose) msg2("Running Variable Selection using Random Forest...")
-    mod <- s_RANGER(x, y)
+    mod <- s_Ranger(x, y)
     importance <- mod$varimp
   } else {
     if (verbose) msg2("Running Variable Selection using XGboost with linear booster...")

@@ -1,4 +1,4 @@
-# s_RANGER.R
+# s_Ranger.R
 # ::rtemis::
 # 2016-8 E.D. Gennatas www.lambdamd.org
 # fix multiclass prob with probability F, predict with probability T
@@ -63,7 +63,7 @@
 #' @family Ensembles
 #' @export
 
-s_RANGER <- function(x, y = NULL,
+s_Ranger <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
                      n.trees = 1000,
@@ -112,7 +112,7 @@ s_RANGER <- function(x, y = NULL,
 
     # Intro ----
     if (missing(x)) {
-        print(args(s_RANGER))
+        print(args(s_Ranger))
         return(invisible(9))
     }
     if (!is.null(outdir)) {
@@ -129,14 +129,14 @@ s_RANGER <- function(x, y = NULL,
         NULL
     }
     start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "RANGER"
+    mod.name <- "Ranger"
 
     # Dependencies ----
     dependency_check("ranger")
 
     # Arguments ----
     if (is.null(y) && NCOL(x) < 2) {
-        print(args(s_RANGER))
+        print(args(s_Ranger))
         stop("y is missing")
     }
     if (is.null(x.name)) x.name <- getName(x, "x")
@@ -454,4 +454,4 @@ s_RANGER <- function(x, y = NULL,
         sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
     )
     rt
-} # rtemis::s_RANGER
+} # rtemis::s_Ranger

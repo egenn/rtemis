@@ -198,9 +198,9 @@ elevate <- function(x, y = NULL,
     # Combine mod.params with (...)
     mod.params <- c(mod.params, list(...))
     
-    if (mod %in% c("ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", 
+    if (mod %in% c("AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", 
     "GLMTree", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", 
-    "RANGER", "RF", "SPLS", "SVM", "XGBoost", "XRF")) {
+    "Ranger", "RF", "SPLS", "SVM", "XGBoost", "XRF")) {
         mod.params <- c(
             mod.params,
             list(grid.resample.rtset = inner.resampling)

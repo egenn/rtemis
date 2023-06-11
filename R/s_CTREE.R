@@ -1,4 +1,4 @@
-# s_CTREE.R
+# s_CTree.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
@@ -7,7 +7,7 @@
 #' Train a conditional inference tree using {partykit::ctree}
 #'
 #' @inheritParams s_GLM
-#' @param control List of parameters for the CTREE algorithms. Set using
+#' @param control List of parameters for the CTree algorithms. Set using
 #' `partykit::ctree_control`
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -16,7 +16,7 @@
 #' @family Tree-based methods
 #' @export
 
-s_CTREE <- function(x, y = NULL,
+s_CTree <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     weights = NULL,
                     control = partykit::ctree_control(),
@@ -38,7 +38,7 @@ s_CTREE <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_CTREE))
+    print(args(s_CTree))
     invisible(9)
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -48,7 +48,7 @@ s_CTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "CTREE"
+  mod.name <- "CTree"
 
   # Dependencies ----
   dependency_check("partykit")
@@ -58,7 +58,7 @@ s_CTREE <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -75,7 +75,7 @@ s_CTREE <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (is.null(weights) & ifw) weights <- dt$weights
+  if (is.null(weights) && ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -89,7 +89,7 @@ s_CTREE <- function(x, y = NULL,
   features <- paste(xnames, collapse = " + ")
   .formula <- as.formula(paste(y.name, "~", features))
 
-  # CTREE ----
+  # CTree ----
   if (verbose) msg2("Training Conditional Inference Tree...", newline.pre = TRUE)
   # Instead of loading the whole package
   # because partykit::ctree does this:
@@ -157,4 +157,4 @@ s_CTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_CTREE
+} # rtemis::s_CTree

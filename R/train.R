@@ -204,9 +204,9 @@ train <- function(x, y = NULL,
     alg.params <- c(alg.params, list(...))
 
     if (alg %in% c(
-        "ADDTREE", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET",
+        "AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET",
         "GLMTree", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR",
-        "RANGER", "RF", "SPLS", "SVM", "XGBoost", "XRF"
+        "Ranger", "RF", "SPLS", "SVM", "XGBoost", "XRF"
     )) {
         alg.params <- c(
             alg.params,

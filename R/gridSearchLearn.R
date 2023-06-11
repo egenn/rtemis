@@ -221,7 +221,7 @@ gridSearchLearn <- function(x, y, mod,
         if (learner %in% c("s_LINAD", "s_LINOA")) {
             out1$est.n.leaves <- mod1$mod$n.leaves
         }
-        if (learner == "s_LIHADBOOST") {
+        if (learner == "s_LIHADBoost") {
             out1$sel.n.steps <- mod1$mod$selected.n.steps
         }
         if (save.mod) out1$mod1 <- mod1
@@ -394,10 +394,10 @@ gridSearchLearn <- function(x, y, mod,
         n.params <- n.params + 1
     }
 
-    # '- LIHADBOOST ----
-    if (learner == "s_LIHADBOOST") {
+    # '- LIHADBoost ----
+    if (learner == "s_LIHADBoost") {
         if (verbose) {
-            msg2(hilite("Extracting best N steps from LIHADBOOST models..."))
+            msg2(hilite("Extracting best N steps from LIHADBoost models..."))
         }
         est.n.steps.all <- data.frame(n.steps = plyr::laply(
             grid_run,

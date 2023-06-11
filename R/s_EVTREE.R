@@ -1,10 +1,10 @@
-# s_EVTREE.R
+# s_EVTree.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
 #' Evolutionary Learning of Globally Optimal Trees (C, R)
 #'
-#' Train a EVTREE for regression or classification using `evtree`
+#' Train a EVTree for regression or classification using `evtree`
 #'
 #' @inheritParams s_GLM
 #' @param control Passed to `evtree::evtree`
@@ -17,7 +17,7 @@
 #' @family Tree-based methods
 #' @export
 
-s_EVTREE <- function(x, y = NULL,
+s_EVTree <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
                      weights = NULL,
@@ -40,7 +40,7 @@ s_EVTREE <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_EVTREE))
+    print(args(s_EVTree))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -50,14 +50,14 @@ s_EVTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "EVTREE"
+  mod.name <- "EVTree"
 
   # Dependencies ----
   dependency_check("evtree")
 
   # Arguments ----
   if (is.null(y) && NCOL(x) < 2) {
-    print(args(s_EVTREE))
+    print(args(s_EVTree))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -99,7 +99,7 @@ s_EVTREE <- function(x, y = NULL,
   .formula <- as.formula(paste0(y.name, " ~ ", features))
 
   # evtree::evtree ----
-  if (verbose) msg2("Training EVTREE...", newline.pre = TRUE)
+  if (verbose) msg2("Training EVTree...", newline.pre = TRUE)
   mod <- evtree::evtree(formula = .formula,
                         data = df.train,
                         weights = weights,
@@ -174,4 +174,4 @@ s_EVTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_EVTREE
+} # rtemis::s_EVTree

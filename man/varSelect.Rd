@@ -7,7 +7,7 @@
 varSelect(
   x,
   y,
-  method = c("RANGER", "XGBLIN"),
+  method = c("Ranger", "XGBLIN"),
   xgb.params = list(alpha = 0.1, lambda = 0.1),
   p = 0.2,
   print.plot = TRUE,
@@ -19,7 +19,7 @@ varSelect(
 
 \item{y}{Outcome vector}
 
-\item{method}{Character: "RANGER", "XGBLIN": Learner to use for estimating variable importance. Default = "RANGER"}
+\item{method}{Character: "Ranger", "XGBLIN": Learner to use for estimating variable importance. Default = "Ranger"}
 
 \item{xgb.params}{List of parameters for \code{method = "XGBLIN"}}
 
@@ -32,7 +32,7 @@ positives which can be dealt by an appropriate learning algorithm. (Default = .2
 \item{verbose}{Logical: If TRUE, print messages to screen}
 }
 \description{
-Select important variables from a set of features based on RANGER- or XGBLIN-estimated variable importance
+Select important variables from a set of features based on Ranger- or XGBLIN-estimated variable importance
 }
 \author{
 E.D. Gennatas

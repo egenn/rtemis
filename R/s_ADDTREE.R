@@ -1,4 +1,4 @@
-# s_ADDTREE.R
+# s_AddTree.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: check if factor outcome with string levels works & with addtree_path_to_rules
@@ -43,7 +43,7 @@
 #' Proc Natl Acad Sci U S A. 2019 Oct 1;116(40):19887-19893. doi: 10.1073/pnas.1816748116
 #' @export
 
-s_ADDTREE <- function(x, y = NULL,
+s_AddTree <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       x.name = NULL, y.name = NULL,
                       weights = NULL,
@@ -83,7 +83,7 @@ s_ADDTREE <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_ADDTREE))
+    print(args(s_AddTree))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -93,14 +93,14 @@ s_ADDTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "ADDTREE"
+  mod.name <- "AddTree"
 
   # Dependencies ----
   dependency_check("rpart", "data.tree")
 
   # Arguments ----
   if (is.null(y) & NCOL(x) < 2) {
-    print(args(s_ADDTREE))
+    print(args(s_AddTree))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -179,7 +179,7 @@ s_ADDTREE <- function(x, y = NULL,
                      resample.seed = resample.seed)
 
   # addtree ----
-  if (verbose) msg2("Training ADDTREE...", newline.pre = TRUE)
+  if (verbose) msg2("Training AddTree...", newline.pre = TRUE)
   mod <- addtree(x, y,
                  catPredictors = NULL,
                  depthLimit = max.depth,
@@ -292,4 +292,4 @@ s_ADDTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_ADDTREE
+} # rtemis::s_AddTree

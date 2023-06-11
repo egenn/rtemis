@@ -315,12 +315,12 @@ rtset.GBM <- function(interaction.depth = 2,
 } # rtemis::rtset.GBM
 
 
-#' `rtset.RANGER`: Set parameters for [s_RANGER]
+#' `rtset.Ranger`: Set parameters for [s_Ranger]
 #'
-#' @inheritParams s_RANGER
+#' @inheritParams s_Ranger
 #' @export
 
-rtset.RANGER <- function(n.trees = 1000,
+rtset.Ranger <- function(n.trees = 1000,
                          min.node.size = 1,
                          mtry = NULL,
                          grid.resample.rtset = rtset.resample("kfold", 5),
@@ -339,7 +339,7 @@ rtset.RANGER <- function(n.trees = 1000,
          resample.seed = resample.seed),
     list(...))
 
-} # rtemis::rtset.RANGER
+} # rtemis::rtset.Ranger
 
 
 #' `rtset.DN`: Set parameters for [s_DN]

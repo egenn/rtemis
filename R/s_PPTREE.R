@@ -1,10 +1,10 @@
-# s_PPTREE.R
+# s_PPTree.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
 #' Projection Pursuit Tree Classification [C]
 #'
-#' Train a PPTREE Classifier using `PPtree::PP.Tree`
+#' Train a PPTree Classifier using `PPtree::PP.Tree`
 #'
 #' Note: `PP.Tree` does not support case weights
 #' @inheritParams s_GLM
@@ -16,7 +16,7 @@
 #' @family Tree-based methods
 #' @export
 
-s_PPTREE <- function(x, y = NULL,
+s_PPTree <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      PPmethod = "LDA",
                      weight = TRUE,
@@ -43,7 +43,7 @@ s_PPTREE <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_PPTREE))
+    print(args(s_PPTree))
     invisible(9)
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -53,7 +53,7 @@ s_PPTREE <- function(x, y = NULL,
     NULL
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
-  mod.name <- "PPTREE"
+  mod.name <- "PPTree"
 
   # Dependencies ----
   dependency_check("PPtree")
@@ -152,4 +152,4 @@ s_PPTREE <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_PPTREE
+} # rtemis::s_PPTree

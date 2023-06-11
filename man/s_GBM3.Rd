@@ -205,16 +205,16 @@ If an error is detected, \code{gbm.fit} is rerun until successful and the proced
 \link{train} for external cross-validation
 
 Other Supervised Learning: 
-\code{\link{s_ADABOOST}()},
-\code{\link{s_ADDTREE}()},
+\code{\link{s_AdaBoost}()},
+\code{\link{s_AddTree}()},
 \code{\link{s_BART}()},
 \code{\link{s_BRUTO}()},
 \code{\link{s_BayesGLM}()},
 \code{\link{s_C50}()},
 \code{\link{s_CART}()},
-\code{\link{s_CTREE}()},
+\code{\link{s_CTree}()},
 \code{\link{s_ET}()},
-\code{\link{s_EVTREE}()},
+\code{\link{s_EVTree}()},
 \code{\link{s_GAM.default}()},
 \code{\link{s_GAM.formula}()},
 \code{\link{s_GAM}()},
@@ -241,12 +241,12 @@ Other Supervised Learning:
 \code{\link{s_NW}()},
 \code{\link{s_POLYMARS}()},
 \code{\link{s_PPR}()},
-\code{\link{s_PPTREE}()},
+\code{\link{s_PPTree}()},
 \code{\link{s_QDA}()},
 \code{\link{s_QRNN}()},
-\code{\link{s_RANGER}()},
 \code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
+\code{\link{s_Ranger}()},
 \code{\link{s_SDA}()},
 \code{\link{s_SGD}()},
 \code{\link{s_SPLS}()},
@@ -256,14 +256,14 @@ Other Supervised Learning:
 \code{\link{s_XRF}()}
 
 Other Tree-based methods: 
-\code{\link{s_ADABOOST}()},
-\code{\link{s_ADDTREE}()},
+\code{\link{s_AdaBoost}()},
+\code{\link{s_AddTree}()},
 \code{\link{s_BART}()},
 \code{\link{s_C50}()},
 \code{\link{s_CART}()},
-\code{\link{s_CTREE}()},
+\code{\link{s_CTree}()},
 \code{\link{s_ET}()},
-\code{\link{s_EVTREE}()},
+\code{\link{s_EVTree}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMTree}()},
 \code{\link{s_H2OGBM}()},
@@ -272,18 +272,18 @@ Other Tree-based methods:
 \code{\link{s_LMTree}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
-\code{\link{s_PPTREE}()},
-\code{\link{s_RANGER}()},
+\code{\link{s_PPTree}()},
 \code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
+\code{\link{s_Ranger}()},
 \code{\link{s_XGBoost}()},
 \code{\link{s_XRF}()}
 
 Other Ensembles: 
-\code{\link{s_ADABOOST}()},
+\code{\link{s_AdaBoost}()},
 \code{\link{s_GBM}()},
-\code{\link{s_RANGER}()},
-\code{\link{s_RF}()}
+\code{\link{s_RF}()},
+\code{\link{s_Ranger}()}
 }
 \author{
 E.D. Gennatas
