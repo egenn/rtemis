@@ -3,7 +3,7 @@
 # 2023 EDG lambdamd.org
 
 # get_lgb_tree ----
-get_lgb_tree <- function(x, n_iter = 10) {
+get_lgb_tree <- function(x, n_iter = -1) {
     out <- lapply(
         jsonlite::fromJSON(
             lightgbm::lgb.dump(
