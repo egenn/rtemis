@@ -29,11 +29,9 @@ they are included for testing.}
 \item{trace}{Integer: If > 0, print more messages to output}
 }
 \description{
-Get the Area under the ROC curve to assess classifier performance using \code{pROC}
+Get the Area under the ROC curve to assess classifier performance.
 }
 \details{
-Consider looking at Balanced Accuracy and F1 as well
-
 Important Note: We assume that true labels are a factor where the first level
 is the "positive" case, a.k.a. the event. All methods used here, "pROC",
 "auc_pairs", "ROCR", have been setup to expect this. This goes against the
