@@ -7,3 +7,6 @@ spark-warehouse
 [.]code-workspace$
 ^dev$
 .vscode
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

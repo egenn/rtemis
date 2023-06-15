@@ -46,6 +46,9 @@ inst/doc
 .vscode/
 *.code-workspace
 
+# Pkgdown
+_pkgdown.yml
+
 # PDFs
 *.pdf
 
@@ -82,3 +85,4 @@ inst/doc
 *.exe
 *.out
 *.app
+docs
