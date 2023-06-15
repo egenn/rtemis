@@ -1,6 +1,6 @@
 # auc.R
 # ::rtemis::
-# 2019 E.D. Gennatas lambdamd.org
+# 2019-23 E.D. Gennatas lambdamd.org
 
 #' Area under the ROC Curve
 #'
@@ -19,12 +19,12 @@
 #' (e.g. c(.32, .75, .63), etc)
 #' @param labels True labels of outcomes (e.g. c(0, 1, 1))
 #' @param method Character: "pROC", "auc_pairs", or "ROCR": Method to use.
-#' Will use `pROC::roc`,
-#' [auc_pairs],
-#' `ROCR::performance`, respectively. They should all give the same result,
-#' they are included for testing.
+#' Will use `pROC::roc`, [auc_pairs], `ROCR::performance`, respectively.
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param trace Integer: If > 0, print more messages to output
+#' 
+#' @author EDG
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -34,7 +34,6 @@
 #' auc(preds, labels, method = "pROC")
 #' auc(preds, labels, method = "auc_pairs")
 #' }
-#' @export
 
 auc <- function(preds, labels,
                 method = c("ROCR", "pROC", "auc_pairs", "auc_cpp"),
