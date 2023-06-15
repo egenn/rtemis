@@ -19,10 +19,7 @@ auc(
 \item{labels}{True labels of outcomes (e.g. c(0, 1, 1))}
 
 \item{method}{Character: "pROC", "auc_pairs", or "ROCR": Method to use.
-Will use \code{pROC::roc},
-\link{auc_pairs},
-\code{ROCR::performance}, respectively. They should all give the same result,
-they are included for testing.}
+Will use \code{pROC::roc}, \link{auc_pairs}, \code{ROCR::performance}, respectively.}
 
 \item{verbose}{Logical: If TRUE, print messages to output}
 
@@ -49,4 +46,7 @@ auc(preds, labels)
 auc(preds, labels, method = "pROC")
 auc(preds, labels, method = "auc_pairs")
 }
+}
+\author{
+EDG
 }
