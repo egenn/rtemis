@@ -1,12 +1,10 @@
 # auc.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas lambdamd.org
 
 #' Area under the ROC Curve
 #'
-#' Get the Area under the ROC curve to assess classifier performance using `pROC`
-#'
-#' Consider looking at Balanced Accuracy and F1 as well
+#' Get the Area under the ROC curve to assess classifier performance.
 #'
 #' Important Note: We assume that true labels are a factor where the first level
 #' is the "positive" case, a.k.a. the event. All methods used here, "pROC",
