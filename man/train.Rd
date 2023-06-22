@@ -8,7 +8,7 @@ train(
   x,
   y = NULL,
   alg = "ranger",
-  alg.params = list(),
+  train.params = list(),
   .preprocess = NULL,
   .decompose = NULL,
   weights = NULL,
@@ -48,7 +48,7 @@ train(
 
 \item{alg}{Character: Learner to use. Options: \link{learnSelect}}
 
-\item{alg.params}{Optional named list of parameters to be passed to
+\item{train.params}{Optional named list of parameters to be passed to
 \code{alg}. All parameters can be passed as part of \code{...} as well}
 
 \item{.preprocess}{Optional named list of parameters to be passed to
@@ -138,8 +138,8 @@ on differents resamples under subdirectories of \code{outdir}}
 \item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and
 \code{options(error=recover)}}
 
-\item{...}{Additional alg.params to be passed to learner. Will be
-concatenated with \code{alg.params}}
+\item{...}{Additional train.params to be passed to learner. Will be
+concatenated with \code{train.params}}
 }
 \value{
 Object of class \code{rtModCV} (Regression) or

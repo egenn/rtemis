@@ -66,12 +66,6 @@ If \code{msg} is called directly from the console, it will print \verb{[interact
 the call stack.
 \code{msg0}, similar to \code{paste0}, is \code{msg2(..., sep = "")}
 }
-\examples{
-\dontrun{
-msg2("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
-}
-
-}
 \author{
 E.D. Gennatas
 }

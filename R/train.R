@@ -25,7 +25,7 @@
 #' @inheritParams s_GLM
 #' @inheritParams resample
 #' @param alg Character: Learner to use. Options: [learnSelect]
-#' @param alg.params Optional named list of parameters to be passed to
+#' @param train.params Optional named list of parameters to be passed to
 #' `alg`. All parameters can be passed as part of `...` as well
 #' @param .preprocess Optional named list of parameters to be passed to
 #' [preprocess]. Set using [rtset.preprocess],
@@ -76,8 +76,8 @@
 #' on differents resamples under subdirectories of `outdir`
 #' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, and
 #' `options(error=recover)`
-#' @param ... Additional alg.params to be passed to learner. Will be
-#' concatenated with `alg.params`
+#' @param ... Additional train.params to be passed to learner. Will be
+#' concatenated with `train.params`
 #'
 #' @return Object of class `rtModCV` (Regression) or
 #' `rtModCVClass` (Classification)
@@ -104,7 +104,7 @@
 
 train <- function(x, y = NULL,
                   alg = "ranger",
-                  alg.params = list(),
+                  train.params = list(),
                   .preprocess = NULL,
                   .decompose = NULL,
                   weights = NULL,
@@ -156,7 +156,7 @@ train <- function(x, y = NULL,
     if (toupper(alg) == "KNN") stop("KNN is not supported by train")
     if (debug) {
         outer.n.workers <- 1
-        alg.params$n.cores <- 1
+        train.params$n.cores <- 1
         error_orig <- getOption("error")
         options(error = recover)
         on.exit(options(error = error_orig))
@@ -200,16 +200,16 @@ train <- function(x, y = NULL,
     # If learner is multicore, run CV in series
     # Note: for alg "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
-    # Combine alg.params with (...)
-    alg.params <- c(alg.params, list(...))
+    # Combine train.params with (...)
+    train.params <- c(train.params, list(...))
 
     if (alg %in% c(
         "AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET",
         "GLMTree", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR",
         "Ranger", "RF", "SPLS", "SVM", "XGBoost", "XRF"
     )) {
-        alg.params <- c(
-            alg.params,
+        train.params <- c(
+            train.params,
             list(grid.resample.rtset = inner.resampling)
         )
     }
@@ -290,7 +290,7 @@ train <- function(x, y = NULL,
             mod = alg.name,
             resample.rtset = outer.resampling,
             weights = weights,
-            params = alg.params,
+            params = train.params,
             .preprocess = .preprocess,
             verbose = verbose,
             res.verbose = res.verbose,
@@ -677,7 +677,7 @@ train <- function(x, y = NULL,
             parameters = list(
                 preprocess = .preprocess,
                 decompose = .decompose,
-                mod.params = alg.params,
+                mod.params = train.params,
                 best.tune = best.tune
             ),
             n.repeats = n.repeats,
@@ -725,7 +725,7 @@ train <- function(x, y = NULL,
             parameters = list(
                 preprocess = .preprocess,
                 decompose = .decompose,
-                mod.params = alg.params,
+                mod.params = train.params,
                 best.tune = best.tune
             ),
             n.repeats = n.repeats,
