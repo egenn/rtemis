@@ -28,11 +28,6 @@
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
 #' @keywords internal
-#' @examples
-#' \dontrun{
-#' msg2("Your dataset has", nrow(iris), "rows and", ncol(iris), "columns")
-#' }
-#'
 msg <- function(...,
                 date = TRUE,
                 caller = NULL,
