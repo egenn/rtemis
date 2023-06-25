@@ -267,7 +267,7 @@ msg20 <- function(...,
         callStack.list <- as.list(sys.calls())
         stack.length <- length(callStack.list)
         if (stack.length < 2) {
-            caller <- ">"
+            caller <- NA
         } else {
             call.depth <- call.depth + caller.id
             if (call.depth > stack.length) call.depth <- stack.length
