@@ -30,8 +30,10 @@ rt_save <- function(rtmod,
     if (file.exists(rdsPath)) {
         if (verbose) {
             yay("[", format(elapsed, digits = 2), "]",
-                gray(" [rt_save]"), sep = ""
+                gray(" [rt_save]"),
+                sep = ""
             )
+            msg20(italic("Reload with: ", bold("> rtmod <- readRDS('", rdsPath, "')", sep = "")))
         }
     } else {
         if (verbose) {
