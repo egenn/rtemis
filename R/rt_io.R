@@ -33,7 +33,7 @@ rt_save <- function(rtmod,
                 gray(" [rt_save]"),
                 sep = ""
             )
-            msg20(italic("Reload with: ", bold("> rtmod <- readRDS('", rdsPath, "')", sep = "")))
+            msg20(italic("Reload with:", "> rtmod <- readRDS('", rdsPath, "')", sep = ""))
         }
     } else {
         if (verbose) {
