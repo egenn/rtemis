@@ -162,8 +162,11 @@ train <- function(x, y = NULL,
         on.exit(options(error = error_orig))
     }
     if (!is.null(outdir)) {
-        outdir <- normalizePath(outdir, mustWork = FALSE)
-        dir.create(outdir, showWarnings = FALSE)
+        outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+        if (!dir.exists(outdir)) {
+            dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
+        }
+        if (verbose) cat("Output directory set to", outdir, "\n")
     }
 
     logFile <- if (!is.null(outdir)) {
@@ -186,7 +189,6 @@ train <- function(x, y = NULL,
         mod <- y
         y <- NULL
     }
-    alg.name <- toupper(alg)
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
     # learner <- learnSelect(mod, fn = FALSE)
@@ -194,9 +196,7 @@ train <- function(x, y = NULL,
     if (headless) {
         print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
     }
-    if (!is.null(outdir)) {
-        dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
-    }
+    
     # If learner is multicore, run CV in series
     # Note: for alg "XGB" and "XGBLIN", only set n.cores > 1 if not using OpenMP
 
@@ -244,15 +244,6 @@ train <- function(x, y = NULL,
             c(list(x = x), .decompose[-1], verbose = verbose)
         )$projections.train
         if (verbose) dataSummary(x, y, type = type, testSet = FALSE)
-    }
-
-    # Outdir ----
-    if (!is.null(outdir)) {
-        outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-        if (!dir.exists(outdir)) {
-            dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
-        }
-        if (verbose) cat("Output directory set to", outdir, "\n")
     }
 
     # resLearn: Outer resamples ----
