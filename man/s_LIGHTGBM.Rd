@@ -30,6 +30,8 @@ s_LightGBM(
   bagging_freq = 0L,
   lambda_l1 = 0,
   lambda_l2 = 0,
+  max_cat_threshold = 32L,
+  min_data_per_group = 32L,
   linear_tree = FALSE,
   tree_learner = "serial",
   .gs = FALSE,

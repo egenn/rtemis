@@ -77,6 +77,8 @@ s_LightGBM <- function(x, y = NULL,
                        bagging_freq = 0L,
                        lambda_l1 = 0,
                        lambda_l2 = 0,
+                       max_cat_threshold = 32L,
+                       min_data_per_group = 32L,
                        linear_tree = FALSE,
                        tree_learner = "serial",
                        .gs = FALSE,
@@ -152,7 +154,7 @@ s_LightGBM <- function(x, y = NULL,
     type <- dt$type
     .weights <- if (is.null(weights) && ifw) dt$weights else weights
     if (any(sapply(x, is.factor))) {
-        factor_index <- names(x)[which(sapply(x, is.factor))]
+        factor_index <- xnames[which(sapply(x, is.factor))]
         x <- preprocess(x,
             factor2integer = TRUE,
             factor2integer_startat0 = TRUE
@@ -186,15 +188,19 @@ s_LightGBM <- function(x, y = NULL,
     }
     dat.train <- lightgbm::lgb.Dataset(
         data = as.matrix(x),
-        # categorical_feature = factor_index,
+        categorical_feature = factor_index,
         label = if (type == "Classification") as.integer(y) - 1 else y,
         weight = .weights
     )
+    # if (!is.null(factor_index)) {
+    #     dat.train$set_categorical_feature(factor_index)
+    #     lightgbm::lgb.Dataset.set.categorical(dat.train, factor_index)
+    # }
 
     if (!is.null(x.test)) {
         dat.test <- lightgbm::lgb.Dataset(
             data = as.matrix(x.test),
-            # categorical_feature = factor_index,
+            categorical_feature = factor_index,
             label = if (type == "Classification") as.integer(y.test) - 1 else y.test
         )
     }
@@ -242,6 +248,8 @@ s_LightGBM <- function(x, y = NULL,
                 tree_learner = tree_learner,
                 linear_tree = linear_tree,
                 bagging_freq = bagging_freq,
+                max_cat_threshold = max_cat_threshold,
+                min_data_per_group = min_data_per_group,
                 ifw = ifw,
                 ifw.type = ifw.type,
                 upsample = upsample,
@@ -295,7 +303,9 @@ s_LightGBM <- function(x, y = NULL,
         force_row_wise = force_row_wise,
         tree_learner = tree_learner,
         linear_tree = linear_tree,
-        bagging_freq = bagging_freq
+        bagging_freq = bagging_freq,
+        max_cat_threshold = max_cat_threshold,
+        min_data_per_group = min_data_per_group
     )
     extraargs <- list(...)
     if (!is.null(extraargs)) {
@@ -460,6 +470,8 @@ s_LightRF <- function(x, y = NULL,
                        bagging_freq = 1L,
                        lambda_l1 = 0,
                        lambda_l2 = 0,
+                       max_cat_threshold = 32L,
+                       min_data_per_group = 32L,
                        linear_tree = FALSE,
                        tree_learner = "data_parallel",
                        .gs = FALSE,
@@ -509,6 +521,8 @@ s_LightRF <- function(x, y = NULL,
                bagging_freq = bagging_freq,
                lambda_l1 = lambda_l1,
                lambda_l2 = lambda_l2,
+               max_cat_threshold = max_cat_threshold,
+               min_data_per_group = min_data_per_group,
                linear_tree = linear_tree,
                tree_learner = tree_learner,
                .gs = .gs,
