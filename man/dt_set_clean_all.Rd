@@ -10,7 +10,10 @@ dt_set_clean_all(x, prefix_digits = NA)
 \item{x}{data.table}
 
 \item{prefix_digits}{Character: prefix to add to names beginning with a
-digit. Set to NA to skip}
+digit. Set to NA to skip
+
+Note: If \code{x} is not a data.table, it will be converted in place, i.e. the original
+object will be modified.}
 }
 \description{
 Clean column names and factor levels in-place
