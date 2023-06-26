@@ -143,12 +143,17 @@ s_LightRuleFit <- function(x, y = NULL,
 
         # Get Rules ----
         if (verbose) msg2start("Extracting LightGBM rules...")
-        lgbm_rules <- lgb2rules(mod_lgbm$mod, n_iter = n.trees, xnames = names(x))
+        lgbm_rules <- lgb2rules(
+            mod_lgbm$mod,
+            n_iter = n.trees, 
+            xnames = names(x),
+            factor_levels = dt_get_factor_levels(copy(x))
+        )
         if (verbose) msg2done()
         if (verbose) msg2("Extracted", length(lgbm_rules), "rules.")
         n_rules_total <- length(lgbm_rules)
         # Match Cases by Rules ----
-        cases_by_rules <- matchCasesByRules(xp, lgbm_rules, verbose = verbose)
+        cases_by_rules <- matchCasesByRules(x, lgbm_rules, verbose = verbose)
     } else {
         mod_lgbm <- lgbm_rules <- NA
     }
@@ -340,12 +345,13 @@ predict.LightRuleFit <- function(object,
     rules <- object$lgbm_rules
 
     # Preprocess ----
-    if (!is.null(object$mod_lgbm$extra$factor_index)) {
-        newdata <- preprocess(newdata,
-            factor2integer = TRUE, factor2integer_startat0 = TRUE,
-            verbose = trace > 0
-        )
-    }
+    # !new rules use original factor levels
+    # if (!is.null(object$mod_lgbm$extra$factor_index)) {
+    #     newdata <- preprocess(newdata,
+    #         factor2integer = TRUE, factor2integer_startat0 = TRUE,
+    #         verbose = trace > 0
+    #     )
+    # }
 
     # Match ----
     # Match newdata to rules: create features for predict
