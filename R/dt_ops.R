@@ -551,13 +551,16 @@ dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
 #' @param prefix_digits Character: prefix to add to names beginning with a
 #' digit. Set to NA to skip
 #' 
+#' Note: If `x` is not a data.table, it will be converted in place, i.e. the original
+#' object will be modified.
+#' 
 #' @author E.D. Gennatas
 #' @export
 dt_set_clean_all <- function(x, prefix_digits = NA) {
-    stopifnot(inherits(x, "data.table"))
-
+    if (!is.data.table(x)) {
+        setDT(x)
+    }
     data.table::setnames(x, names(x), clean_colnames(x))
-
     idi <- names(x)[sapply(x, is.factor)]
     for (i in idi) {
         x[, (i) := factor(x[[i]],
@@ -565,3 +568,24 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
         )]
     }
 } # rtemis::dt_set_clean_all
+
+
+#' Get factor levels from data.table
+#'
+#' @param dat data.table
+#'
+#' Note: If `dat` is not a data.table, it will be converted in place, i.e. the original
+#' object will be modified.
+#'
+#' @returns Named list of factor levels. Names correspond to column names.
+#' @export
+dt_get_factor_levels <- function(dat) {
+    if (!is.data.table(dat)) {
+        setDT(dat)
+    }
+    factor_index <- which(sapply(dat, is.factor))
+    lapply(
+        dat[, ..factor_index, drop = FALSE],
+        levels
+    )
+}
