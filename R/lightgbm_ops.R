@@ -125,6 +125,14 @@ lgb2rules <- function(Booster, n_iter = NULL, xnames, factor_levels) {
 }
 
 
+#' Extract set of rules from LightGBM rtMod
+#' 
+#' @param rtmod LightGBM rtMod object
+#' @param dat Data frame used to train rtmod
+#' @param n_iter Integer: Number of trees to convert to rules
+#' 
+#' @return Character vector of rules
+#' @keywords internal
 rtlgb2rules <- function(rtmod, dat, n_iter = NULL) {
     lgb2rules(
         Booster = rtmod$mod,
@@ -197,16 +205,3 @@ fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
 }
 
 
-#' Get factor levels from data.table
-#'
-#' @param dat data.table
-#'
-#' @returns Named list of factor levels. Names correspond to column names.
-#' @export
-dt_get_factor_levels <- function(dat) {
-    factor_index <- which(sapply(dat, is.factor))
-    lapply(
-        dat[, ..factor_index, drop = FALSE],
-        levels
-    )
-}
