@@ -35,7 +35,7 @@ s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
                            n.trees = 100,
                            lgbm.params = list(
-                               num_leaves = 31L,
+                               num_leaves = 32L,
                                max_depth = -1L,
                                learning_rate = .1,
                                bagging_fraction = .666,
