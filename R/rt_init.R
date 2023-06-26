@@ -212,7 +212,7 @@ errorSummary <- function(error, mod.name = NULL, pre = NULL) {
     }
 
     if (!is.null(mod.name)) {
-        boxcat(paste(toupper(mod.name), type, pre, "Summary"))
+        boxcat(paste(mod.name, type, pre, "Summary"))
     } else {
         boxcat(paste(type, pre, "Summary"))
     }
