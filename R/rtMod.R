@@ -2175,7 +2175,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
                     main = main, col = col, alpha = alpha,
                     annotation = FALSE, par.reset = FALSE, ...
                 )
-                mtext("AUC mean (sd)", side = 1, adj = 1, line = -2, font = 1)
+                mtext("AUROC mean (sd)", side = 1, adj = 1, line = -2, font = 1)
                 mtext(paste0(
                     ddSci(mean(self$error.test.res[[which.repeat]]$AUC)),
                     " (",
