@@ -4,7 +4,7 @@
 \alias{fmt_thresh}
 \title{Format rules to convert integer levels to factor levels}
 \usage{
-fmt_thresh(feature, threshold, factor_levels)
+fmt_thresh(catsplit, feature, threshold, factor_levels)
 }
 \arguments{
 \item{feature}{Character: feature name}
