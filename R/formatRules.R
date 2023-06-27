@@ -51,7 +51,7 @@ formatLightRules <- function(x,
   x <- gsub(">", " > ", x)
   x <- gsub("<=", " <= ", x)
   x <- gsub("%in%", "IN", x)
-  x <- gsub("%!in%", "NOT IN", x)
+  x <- gsub("%notin%", "NOT IN", x)
   x <- gsub("c\\(", "{", x)
   x <- gsub("\\)", "}", x)
   x <- gsub("'", "", x)
