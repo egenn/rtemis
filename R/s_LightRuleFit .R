@@ -189,7 +189,7 @@ s_LightRuleFit <- function(x, y = NULL,
     }
 
     # Empirical risk ----
-    dat <- as.data.table(cbind(xp, outcome = y))
+    dat <- as.data.table(cbind(x, outcome = y))
     if (empirical_risk && type == "Classification" && nclasses == 2) {
         empirical_risk <- vector("numeric", length(rules_selected))
         for (i in seq_along(rules_selected)) {
