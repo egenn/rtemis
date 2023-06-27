@@ -73,7 +73,7 @@ rtAlgs <- data.frame(rbind(
     c("PPTree", "Projection Pursuit Tree", TRUE, FALSE, FALSE),
     c("QDA", "Quadratic Discriminant Analysis", TRUE, FALSE, FALSE),
     c("QRNN", "Quantile Neural Network Regression", FALSE, TRUE, FALSE),
-    c("Ranger", "Random Forest (ranger)", TRUE, TRUE, FALSE),
+    c("Ranger", "Ranger Random Forest", TRUE, TRUE, FALSE),
     c("RF", "Random Forest", TRUE, TRUE, FALSE),
     # c("RRF", "Regularized Random Forest", TRUE, TRUE, FALSE),
     c("RFSRC", "Random Forest SRC", TRUE, TRUE, TRUE),
@@ -99,13 +99,17 @@ colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #'
 #' @param alg Character: Model name. Case insensitive. e.g. "XGB" for xgboost
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
+#' @param name Logical: If TRUE, return canonical name of algorithm `alg`
 #' @param desc Logical: If TRUE, return full name / description of algorithm `alg`
-#' @return function or name of function (see param `fn`) or full name of algorithm (`desc`)
+#' 
+#' @return function or name of function (see param `fn`) or short algorithm name 
+#' (`name = TRUE`) or full algorithm name (`desc = TRUE`)
 #' @author E.D. Gennatas
 #' @export
 
 learnSelect <- function(alg,
                       fn = FALSE,
+                      name = FALSE,
                       desc = FALSE) {
 
     if (missing(alg)) {
@@ -124,24 +128,28 @@ learnSelect <- function(alg,
         return(paste("Boosted", learnSelect(substr(alg, 8, 100), desc = TRUE)))
     }
 
-    name <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
-    if (is.na(name)) {
+    algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
+    if (is.na(algname)) {
         print(rtAlgs[, 1:2], quote = FALSE)
         stop(alg, ": Incorrect algorithm specified")
     }
 
+    if (name) {
+        return(algname)
+    }
+
     if (desc) {
-        return(as.character(rtAlgs$Description[rtAlgs[, 1] == name]))
+        return(as.character(rtAlgs$Description[rtAlgs[, 1] == algname]))
     }
 
     # fn ----
-    if (name == "BAG") {
-        learner <- if (fn) getFromNamespace("bag", "rtemis") else "bag"
-    } else if (name == "BOOST") {
-        learner <- if (fn) getFromNamespace("boost", "rtemis") else "boost"
+    if (algname == "BAG") {
+        learner <- if (fn) getFromalgnamespace("bag", "rtemis") else "bag"
+    } else if (algname == "BOOST") {
+        learner <- if (fn) getFromalgnamespace("boost", "rtemis") else "boost"
     } else {
-        s.name <- paste0("s_", name)
-        learner <- if (fn) getFromNamespace(s.name, "rtemis") else s.name
+        s_algname <- paste0("s_", algname)
+        learner <- if (fn) getFromalgnamespace(s_algname, "rtemis") else s_algname
     }
 
     learner
