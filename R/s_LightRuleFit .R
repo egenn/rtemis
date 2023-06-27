@@ -175,7 +175,6 @@ s_LightRuleFit <- function(x, y = NULL,
     colnames(intercept_coef) <- "Coefficient"
     rule_coefs <- data.frame(Rule = lgbm_rules, Coefficient = rule_coefs[-1, 1])
     nonzero_index <- which(abs(rule_coefs$Coefficient) > 0)
-    n_nonzero_rules <- length(nonzero_index)
     rules_selected <- lgbm_rules[nonzero_index]
     cases_by_rules_selected <- cases_by_rules[, nonzero_index]
     Ncases_by_rules <- matrixStats::colSums2(cases_by_rules_selected)
@@ -212,11 +211,10 @@ s_LightRuleFit <- function(x, y = NULL,
         N_Cases = Ncases_by_rules,
         Coefficient = rule_coefs$Coefficient[nonzero_index]
     )
-    setorder(rules_selected_formatted_coef, -Coefficient)
     if (type == "Classification" && nclasses == 2) {
         rules_selected_formatted_coef[, Empirical_Risk := empirical_risk]
     }
-    data.table::setorder(rules_selected_formatted_coef, -Coefficient)
+    setorder(rules_selected_formatted_coef, -Coefficient)
     if (!is.null(outdir)) {
         outname <- if (type == "Classification" && nclasses == 2) {
             "rules_selected_formatted_coef_empiricalRisk.csv"
@@ -244,7 +242,7 @@ s_LightRuleFit <- function(x, y = NULL,
         y = y,
         metrics = data.frame(
             n_rules_total = n_rules_total,
-            n_nonzero_rules = n_nonzero_rules
+            n_nonzero_rules = length(nonzero_index)
         )
     )
     if (save_cases_by_rules) {

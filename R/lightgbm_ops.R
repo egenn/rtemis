@@ -57,10 +57,10 @@ preorderlgb <- function(tree,
         xnames[node[[split_feature]] + 1],
         decision_left(node[["decision_type"]]),
         fmt_thresh(
-            node[["decision_type"]] == "==", 
-            xnames[node[[split_feature]] + 1],
-            node[["threshold"]], 
-            factor_levels
+            catsplit = node[["decision_type"]] == "==", 
+            feature = xnames[node[[split_feature]] + 1],
+            threshold = node[["threshold"]], 
+            factor_levels = factor_levels
         )
     )
     rule_right <- paste0(
@@ -69,10 +69,10 @@ preorderlgb <- function(tree,
         xnames[node[[split_feature]] + 1],
         decision_right(node[["decision_type"]]),
         fmt_thresh(
-            node[["decision_type"]] == "==",
-            xnames[node[[split_feature]] + 1],
-            node[["threshold"]], 
-            factor_levels
+            catsplit = node[["decision_type"]] == "==",
+            feature = xnames[node[[split_feature]] + 1],
+            threshold = node[["threshold"]], 
+            factor_levels = factor_levels
         )
     )
     rule_left <- preorderlgb(
@@ -192,7 +192,7 @@ decision_right <- function(decision_type) {
 #' set column names.
 fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
     if (catsplit) {
-        flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1
+        flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
         flevels <- factor_levels[[feature]][flevels]
         paste0(
             "c(",
