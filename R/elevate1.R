@@ -62,7 +62,7 @@
 #' bagged prediction on new data using the same models, use [predict.rtModCV]
 #' @param bag.fn Function to use to average prediction if `bag.fitted = TRUE`. Default = `median`
 #' @param trace Integer: (Not really used) Print additional information if > 0. Default = 0
-#' @param res.verbose Logical: Passed to [resLearn_future], passed to each individual learner's `verbose` argument
+#' @param res.verbose Logical: Passed to [resLearn], passed to each individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained on differents resamples under
 #' subdirectories of `outdir`
 #' @param backend (For testing use only)
@@ -285,7 +285,7 @@ elevate1 <- function(x, y = NULL,
     res.run <- mods <- res <- list()
     if (save.tune) best.tune <- list()
     if (trace > 1) msg2("Starting resLearn")
-    resLearn <- if (backend == "future") resLearn_future else resLearn
+    resLearn <- if (backend == "future") resLearn else resLearn
 
     if (verbose) {
         if (backend == "future") {

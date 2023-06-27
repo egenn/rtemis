@@ -13,7 +13,7 @@
 #' @param seed Integer: Seed for initial train/test split
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param res.verbose Logical: passed to the learning function
-#' @param ... Additional arguments passed to [resLearn_future]
+#' @param ... Additional arguments passed to [resLearn]
 #' 
 #' @author E.D. Gennatas
 #' @export

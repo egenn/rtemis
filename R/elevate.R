@@ -67,7 +67,7 @@
 #' @param bag.fn Function to use to average prediction if 
 #' `bag.fitted = TRUE`. Default = `median`
 #' @param trace Integer: (Not really used) Print additional information if > 0. 
-#' @param res.verbose Logical: Passed to [resLearn_future], passed to each 
+#' @param res.verbose Logical: Passed to [resLearn], passed to each 
 #' individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained 
 #' on differents resamples under subdirectories of `outdir`
@@ -277,7 +277,7 @@ elevate <- function(x, y = NULL,
 
     # Loop through repeats (this is often set to one)
     for (i in seq(n.repeats)) {
-        res.run[[i]] <- resLearn_future(
+        res.run[[i]] <- resLearn(
             x = x, y = y,
             mod = mod.name,
             resample.rtset = outer.resampling,

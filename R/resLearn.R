@@ -1,4 +1,4 @@
-# resLearn_future.R
+# resLearn.R
 # ::rtemis::
 # 2022 E.D. Gennatas www.lambdamd.org
 # new version of resLearn using future
@@ -27,23 +27,22 @@
 #' @author E.D. Gennatas
 #' @export
 
-resLearn_future <- function(x, y, mod,
-                            resample.rtset = rtset.cv.resample(),
-                            weights = NULL,
-                            params = list(),
-                            mtry = NULL,
-                            .preprocess = NULL,
-                            verbose = TRUE,
-                            res.verbose = FALSE,
-                            trace = 0,
-                            save.mods = TRUE,
-                            outdir = NULL,
-                            n.workers = 1,
-                            parallel.type = "nobodycares") {
-
+resLearn <- function(x, y, mod,
+                     resample.rtset = rtset.cv.resample(),
+                     weights = NULL,
+                     params = list(),
+                     mtry = NULL,
+                     .preprocess = NULL,
+                     verbose = TRUE,
+                     res.verbose = FALSE,
+                     trace = 0,
+                     save.mods = TRUE,
+                     outdir = NULL,
+                     n.workers = 1,
+                     parallel.type = "nobodycares") {
     # Dependencies ----
     dependency_check("future.apply")
-    
+
     # Intro ----
     start.time <- intro(
         verbose = trace > 0,
@@ -80,16 +79,18 @@ resLearn_future <- function(x, y, mod,
     if (n.workers == 1) {
         future::plan(list("sequential", rtPlan), workers = n.workers)
         if (verbose) {
-            msg2(magenta("Outer resampling plan set to",
-                bold("sequential"))
-            )
+            msg2(magenta(
+                "Outer resampling plan set to",
+                bold("sequential")
+            ))
         }
     } else {
         future::plan(list(rtPlan, "sequential"), workers = n.workers)
         if (verbose) {
-            msg2(magenta("Outer resampling: Future plan set to", bold(rtPlan),
-                "with", bold(n.workers), "workers")
-            )
+            msg2(magenta(
+                "Outer resampling: Future plan set to", bold(rtPlan),
+                "with", bold(n.workers), "workers"
+            ))
         }
     }
 
@@ -198,12 +199,11 @@ resLearn_future <- function(x, y, mod,
         future.seed = TRUE,
         length(res)
     )
-    
+
     names(res.run) <- paste0(toupper(mod), seq(res))
     if (res.verbose) cat("\n")
 
     # Outro ----
     outro(start.time, verbose = trace > 0)
     list(res = res, mods = res.run)
-
-} # rtemis::resLearn_future
+} # rtemis::resLearn
