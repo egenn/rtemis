@@ -4,17 +4,20 @@
 \alias{learnSelect}
 \title{Select \pkg{rtemis} Learner}
 \usage{
-learnSelect(alg, fn = FALSE, desc = FALSE)
+learnSelect(alg, fn = FALSE, name = FALSE, desc = FALSE)
 }
 \arguments{
 \item{alg}{Character: Model name. Case insensitive. e.g. "XGB" for xgboost}
 
 \item{fn}{Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE}
 
+\item{name}{Logical: If TRUE, return canonical name of algorithm \code{alg}}
+
 \item{desc}{Logical: If TRUE, return full name / description of algorithm \code{alg}}
 }
 \value{
-function or name of function (see param \code{fn}) or full name of algorithm (\code{desc})
+function or name of function (see param \code{fn}) or short algorithm name
+(\code{name = TRUE}) or full algorithm name (\code{desc = TRUE})
 }
 \description{
 Accepts learner name (supports abbreviations) and returns \pkg{rtemis} function name or

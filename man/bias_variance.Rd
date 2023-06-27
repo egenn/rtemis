@@ -36,7 +36,7 @@ bias_variance(
 
 \item{res.verbose}{Logical: passed to the learning function}
 
-\item{...}{Additional arguments passed to \link{resLearn_future}}
+\item{...}{Additional arguments passed to \link{resLearn}}
 }
 \description{
 Bias-Variance Decomposition

@@ -114,7 +114,7 @@ from all resamples. Defaults to TRUE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each
+\item{res.verbose}{Logical: Passed to \link{resLearn}, passed to each
 individual learner's \code{verbose} argument}
 
 \item{trace}{Integer: (Not really used) Print additional information if > 0.}
@@ -151,7 +151,7 @@ Object of class \code{rtModCV} (Regression) or
 }
 \description{
 \code{train} is a high-level function to tune, train, and test an
-\pkg{rtemis} algel by nested resampling, with optional preprocessing and
+\pkg{rtemis} model by nested resampling, with optional preprocessing and
 decomposition of input features
 }
 \details{

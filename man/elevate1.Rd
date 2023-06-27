@@ -141,7 +141,7 @@ from all resamples. Defaults to TRUE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{res.verbose}{Logical: Passed to \link{resLearn_future}, passed to each individual learner's \code{verbose} argument}
+\item{res.verbose}{Logical: Passed to \link{resLearn}, passed to each individual learner's \code{verbose} argument}
 
 \item{trace}{Integer: (Not really used) Print additional information if > 0. Default = 0}
 
