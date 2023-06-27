@@ -5,7 +5,7 @@
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'
 #' `train` is a high-level function to tune, train, and test an
-#' \pkg{rtemis} algel by nested resampling, with optional preprocessing and
+#' \pkg{rtemis} model by nested resampling, with optional preprocessing and
 #' decomposition of input features
 #'
 #' - Note on resampling: You should never use an outer resampling method with
@@ -70,7 +70,7 @@
 #' @param bag.fn Function to use to average prediction if
 #' `bag.fitted = TRUE`. Default = `median`
 #' @param trace Integer: (Not really used) Print additional information if > 0.
-#' @param res.verbose Logical: Passed to [resLearn_future], passed to each
+#' @param res.verbose Logical: Passed to [resLearn], passed to each
 #' individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained
 #' on differents resamples under subdirectories of `outdir`
@@ -153,6 +153,7 @@ train <- function(x, y = NULL,
     if (!is.null(outer.resampling$id.strat)) {
         stopifnot(length(outer.resampling$id.strat) == NROW(x))
     }
+    alg <- learnSelect(alg, name = TRUE)
     if (toupper(alg) == "KNN") stop("KNN is not supported by train")
     if (debug) {
         outer.n.workers <- 1
@@ -192,7 +193,7 @@ train <- function(x, y = NULL,
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
     # learner <- learnSelect(mod, fn = FALSE)
-    alg <- toupper(alg)
+
     if (headless) {
         print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
     }
@@ -216,7 +217,7 @@ train <- function(x, y = NULL,
 
     if (outer.n.workers > 1 && alg %in% c(
         "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
-        "XRF", "XGBoost", "XGBLIN", "LIGHTGBM", "LIGHTRF"
+        "XRF", "XGBoost", "XGBLIN", "LightGBM", "LightRF"
     )) {
         if (verbose) msg2("Using", alg, "- outer.n.workers set to 1")
         outer.n.workers <- 1
@@ -265,7 +266,7 @@ train <- function(x, y = NULL,
         msg2(
             hilite(
                 paste0(
-                    "Training ", bold(learnSelect(alg.name, desc = TRUE)), " on ",
+                    "Training ", bold(learnSelect(alg, desc = TRUE)), " on ",
                     outer.resampling$n.resamples, " ", desc, "..."
                 ),
                 bold = FALSE
@@ -276,9 +277,9 @@ train <- function(x, y = NULL,
 
     # Loop through repeats (this is often set to one)
     for (i in seq(n.repeats)) {
-        res.run[[i]] <- resLearn_future(
+        res.run[[i]] <- resLearn(
             x = x, y = y,
-            mod = alg.name,
+            mod = alg,
             resample.rtset = outer.resampling,
             weights = weights,
             params = train.params,
@@ -307,7 +308,7 @@ train <- function(x, y = NULL,
 
     # nres <- length(res)
     if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
-    names(mods) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(mods) <- paste0("train_", alg, "_repeat", seq(mods))
 
     # Res fitted  ----
     # The fitted values and training error from each resample
@@ -317,7 +318,7 @@ train <- function(x, y = NULL,
     fitted.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$fitted)
     })
-    names(y.train.res) <- names(fitted.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(y.train.res) <- names(fitted.res) <- paste0("train_", alg, "_repeat", seq(mods))
 
     if (resampler != "loocv") {
         # Only if not LOOCV
@@ -328,12 +329,12 @@ train <- function(x, y = NULL,
                     .id = NULL
                 )
             })
-            names(error.train.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+            names(error.train.res) <- paste0("train_", alg, "_repeat", seq(mods))
         } else {
             error.train.res <- lapply(seq(n.repeats), function(n) {
                 plyr::ldply(mods[[n]], function(m) m$mod1$error.train, .id = NULL)
             })
-            names(error.train.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+            names(error.train.res) <- paste0("train_", alg, "_repeat", seq(mods))
         }
     } else {
         # LOOCV
@@ -344,7 +345,7 @@ train <- function(x, y = NULL,
         error.train.res.mean <- lapply(seq(n.repeats), function(n) {
             as.data.frame(t(colMeans(error.train.res[[n]])))
         })
-        names(error.train.res.mean) <- paste0("train_", alg.name, "_repeat", seq(mods))
+        names(error.train.res.mean) <- paste0("train_", alg, "_repeat", seq(mods))
     }
     if (type == "Classification") {
         error.train.res.aggr <- lapply(seq(n.repeats), function(n) {
@@ -355,18 +356,18 @@ train <- function(x, y = NULL,
             modError(unlist(y.train.res[[n]]), unlist(fitted.res[[n]]))
         })
     }
-    names(error.train.res.aggr) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(error.train.res.aggr) <- paste0("train_", alg, "_repeat", seq(mods))
 
     # Res predicted ----
     # The predicted values and testing error from each resample
     y.test.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$y.test)
     })
-    names(y.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(y.test.res) <- paste0("train_", alg, "_repeat", seq(mods))
     predicted.res <- lapply(seq(n.repeats), function(n) {
         lapply(mods[[n]], function(m) m$mod1$predicted)
     })
-    names(predicted.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(predicted.res) <- paste0("train_", alg, "_repeat", seq(mods))
 
     # Only if not LOOCV
     if (resampler != "loocv") {
@@ -377,12 +378,12 @@ train <- function(x, y = NULL,
                     .id = NULL
                 )
             })
-            names(error.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+            names(error.test.res) <- paste0("train_", alg, "_repeat", seq(mods))
         } else {
             error.test.res <- lapply(seq(n.repeats), function(n) {
                 plyr::ldply(mods[[n]], function(m) m$mod1$error.test, .id = NULL)
             })
-            names(error.test.res) <- paste0("train_", alg.name, "_repeat", seq(mods))
+            names(error.test.res) <- paste0("train_", alg, "_repeat", seq(mods))
         }
     } else {
         # LOOCV
@@ -393,7 +394,7 @@ train <- function(x, y = NULL,
         error.test.res.mean <- lapply(seq(n.repeats), function(n) {
             data.frame(t(colMeans(error.test.res[[n]])))
         })
-        names(error.test.res.mean) <- paste0("train_", alg.name, "_repeat", seq(mods))
+        names(error.test.res.mean) <- paste0("train_", alg, "_repeat", seq(mods))
     }
 
     if (type == "Classification") {
@@ -405,7 +406,7 @@ train <- function(x, y = NULL,
             modError(unlist(y.test.res[[n]]), unlist(predicted.res[[n]]))
         })
     }
-    names(error.test.res.aggr) <- paste0("train_", alg.name, "_repeat", seq(mods))
+    names(error.test.res.aggr) <- paste0("train_", alg, "_repeat", seq(mods))
 
     # Mean repeats error ----
     if (resampler == "loocv" || resampler == "kfold") {
@@ -445,7 +446,7 @@ train <- function(x, y = NULL,
 
     # Summary ----
     if (verbose) {
-        boxcat(paste("train", hilite(alg.name)), newline.pre = TRUE, pad = 0)
+        boxcat(paste("train", hilite(alg)), newline.pre = TRUE, pad = 0)
         # cat("N repeats =", hilite(n.repeats), "\n")
         # cat("N resamples =", hilite(n.resamples), "\n")
         # cat("Resampler =", hilite(resampler), "\n")
@@ -610,7 +611,7 @@ train <- function(x, y = NULL,
         names(y.train.res.aggr) <- names(y.test.res.aggr) <-
             names(predicted.res.aggr) <- names(fitted.res.aggr) <-
             names(fitted.prob.aggr) <- names(predicted.prob.aggr) <-
-            paste0("train_", alg.name, "_repeat", seq(mods))
+            paste0("train_", alg, "_repeat", seq(mods))
     } else {
         y.train.res.aggr <- lapply(seq(n.repeats), function(i) {
             c(y.train.res[[i]], recursive = TRUE, use.names = FALSE)
@@ -627,7 +628,7 @@ train <- function(x, y = NULL,
         fitted.prob.aggr <- predicted.prob.aggr <- NULL
         names(y.train.res.aggr) <- names(y.test.res.aggr) <-
             names(predicted.res.aggr) <- paste0(
-                "train_", alg.name,
+                "train_", alg,
                 "_repeat", seq(mods)
             )
     }
@@ -635,7 +636,7 @@ train <- function(x, y = NULL,
     if (!save.tune) {
         best.tune <- NULL
     } else {
-        names(best.tune) <- paste0("train_", alg.name, "_repeat", seq(mods))
+        names(best.tune) <- paste0("train_", alg, "_repeat", seq(mods))
     }
 
     # Variable importance ----
@@ -659,7 +660,7 @@ train <- function(x, y = NULL,
     if (type == "Classification") {
         rt <- rtModCVClass$new(
             mod = mods,
-            mod.name = alg.name,
+            mod.name = alg,
             type = type,
             y.train = y,
             x.name = x.name,
@@ -707,7 +708,7 @@ train <- function(x, y = NULL,
         # Not Classification
         rt <- rtModCV$new(
             mod = mods,
-            mod.name = alg.name,
+            mod.name = alg,
             type = type,
             y.train = y,
             x.name = x.name,
@@ -759,13 +760,13 @@ train <- function(x, y = NULL,
     if (!is.null(outdir)) {
         rt$plotFitted(filename = paste0(
             outdir,
-            "train_", alg.name, "_fitted.pdf"
+            "train_", alg, "_fitted.pdf"
         ))
         rt$plotPredicted(filename = paste0(
             outdir,
-            "train_", alg.name, "_predicted.pdf"
+            "train_", alg, "_predicted.pdf"
         ))
-        if (alg.name %in% c("LIGHTGBM", "LIGHTRF")) {
+        if (alg %in% c("LightGBM", "LightRF")) {
             # LightGBM models need to be saved separately with
             # saveRDS.lgb.Booster
             # Loop repeats
@@ -776,7 +777,7 @@ train <- function(x, y = NULL,
                     mods[[i]][[j]]$mod1$mod$save_model(
                         file.path(
                             outdir,
-                            paste0(alg.name, "_", i, "_", j, ".txt")
+                            paste0(alg, "_", i, "_", j, ".txt")
                         )
                     )
                 }
