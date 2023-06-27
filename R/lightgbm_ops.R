@@ -155,7 +155,7 @@ decision_left <- function(decision_type) {
 decision_right <- function(decision_type) {
     switch(decision_type,
         "<=" = " > ",
-        "==" = " %!in% "
+        "==" = " %notin% "
     )
 }
 
@@ -196,7 +196,7 @@ fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
         flevels <- factor_levels[[feature]][flevels]
         paste0(
             "c(",
-            paste0('"', flevels, '"', collapse = ","),
+            paste0("'", flevels, "'", collapse = ","),
             ")"
         )
     } else {
