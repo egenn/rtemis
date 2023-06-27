@@ -204,27 +204,27 @@ s_LightRuleFit <- function(x, y = NULL,
     # Write CSV ----
     rules_selected_formatted <- gsub(
         "  ", " ",
-        formatRules(rules_selected, decimal.places = 2)
+        formatLightRules(rules_selected, decimal.places = 2)
     )
-    rules_selected_coef <- data.table(
+    rules_selected_formatted_coef <- data.table(
         Rule_ID = seq(rules_selected_formatted),
         Rule = rules_selected_formatted,
         N_Cases = Ncases_by_rules,
         Coefficient = rule_coefs$Coefficient[nonzero_index]
     )
-    setorder(rules_selected_coef, -Coefficient)
+    setorder(rules_selected_formatted_coef, -Coefficient)
     if (type == "Classification" && nclasses == 2) {
-        rules_selected_coef[, Empirical_Risk := empirical_risk]
+        rules_selected_formatted_coef[, Empirical_Risk := empirical_risk]
     }
-    data.table::setorder(rules_selected_coef, -Coefficient)
+    data.table::setorder(rules_selected_formatted_coef, -Coefficient)
     if (!is.null(outdir)) {
         outname <- if (type == "Classification" && nclasses == 2) {
-            "rules_selectedCoefs_empiricalRisk.csv"
+            "rules_selected_formatted_coef_empiricalRisk.csv"
         } else {
-            "rules_selectedCoefs.csv"
+            "rules_selected_formatted_coef.csv"
         }
         write.csv(
-            rules_selected_coef,
+            rules_selected_formatted_coef,
             paste0(outdir, outname),
             row.names = FALSE
         )
@@ -237,7 +237,7 @@ s_LightRuleFit <- function(x, y = NULL,
         mod_glmnet_select = mod_glmnet_select,
         rules_selected = rules_selected,
         rules_selected_formatted = rules_selected_formatted,
-        rules_selected_coef = rules_selected_coef,
+        rules_selected_formatted_coef = rules_selected_formatted_coef,
         rules_index = nonzero_index,
         rule_coefs = rule_coefs,
         x = x,
