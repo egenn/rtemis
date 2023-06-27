@@ -307,7 +307,10 @@ preprocess <- function(x,
         index.char <- which(sapply(x, is.character))
         if (verbose) {
             if (length(index.char) > 0) {
-                msg2("Converting", singorplu(length(index.char), "character feature"), "to factors...")
+                msg20(
+                    "Converting ", singorplu(length(index.char), "character feature"),
+                    " to ", ngettext(length(index.char), "a factor", "factors"), "..."
+                )
             } else {
                 msg2("No character features to convert to factors found.")
             }
