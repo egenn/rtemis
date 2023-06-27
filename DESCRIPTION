@@ -1,5 +1,5 @@
 Package: rtemis
-Version: 0.95.3
+Version: 0.95.4
 Title: Machine Learning and Visualization
 Date: 2023-06-11
 Authors@R: person(given = "Efstathios D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
