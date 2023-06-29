@@ -224,7 +224,7 @@ resample <- function(y,
     # Attributes ----
     class(res.part) <- c("resample", "list")
     attr(res.part, "N") <- n.resamples
-    attr(res.part, "type") <- resampler
+    attr(res.part, "resampler") <- resampler
     attr(res.part, "seed") <- seed
     if (resampler %in% c("strat.sub", "strat.boot")) {
         attr(res.part, "train.p") <- train.p
@@ -278,7 +278,7 @@ print.resample <- function(x, ...) {
 
 
 print1.resample <- function(x, verbose = TRUE, ...) {
-    resampler <- attr(x, "type")
+    resampler <- attr(x, "resampler")
     if (resampler == "loocv") {
         .text <- "Leave-one-out crossvalidation"
     } else {
@@ -463,13 +463,12 @@ loocv <- function(x) {
 
 
 print.resamplertset <- function(x, verbose = TRUE) {
-    resampler <- x$resampler
-    if (resampler == "loocv") {
+    if (x$resampler == "loocv") {
         .text <- "Leave-one-out crossvalidation"
     } else {
         .text <- paste0(
             x$n.resamples,
-            resamples <- switch(resampler,
+            resamples <- switch(x$resampler,
                 strat.sub = " stratified subsamples",
                 bootstrap = " bootstraps",
                 strat.boot = " stratified bootstraps",

@@ -255,7 +255,8 @@ train <- function(x, y = NULL,
     if (save.tune) best.tune <- list()
 
     if (verbose) {
-        desc <- switch(outer.resampling$resampler,
+        desc <- switch(
+            outer.resampling$resampler,
             kfold = "independent folds",
             strat.sub = "stratified subsamples",
             strat.boot = "stratified bootstraps",
@@ -304,7 +305,7 @@ train <- function(x, y = NULL,
 
     # Get resample parameters (added for res.groups and res.index)
     n.resamples <- attr(res.run[[1]]$res, "N")
-    resampler <- attr(res.run[[1]]$res, "type")
+    resampler <- attr(res.run[[1]]$res, "resampler")
 
     # nres <- length(res)
     if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
