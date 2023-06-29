@@ -21,7 +21,7 @@ get_lgb_tree <- function(x, n_iter = -1) {
     )
     names(out) <- paste0("Tree_", seq_along(out))
     out
-}
+} # rtemis::get_lgb_tree
 
 
 # preorderlgb ----
@@ -30,7 +30,14 @@ get_lgb_tree <- function(x, n_iter = -1) {
 #' 
 #' Called by `lgbtree2rules` and operates on `tree` environment in place.
 #' 
-#' @param tree A LightGBM tree
+#' @param tree Environment that will hold the extracted rules
+#' @param node LightGBM tree
+#' @param rule Character: current rule
+#' @param left Character: left child label
+#' @param right Character: right child label
+#' @param split_feature Character: split feature label
+#' @param threshold Character: threshold label
+#' @param right_cat_type Character: "in" or "notin": operator for right categorical
 #' 
 #' @keywords internal
 preorderlgb <- function(tree,
@@ -40,6 +47,7 @@ preorderlgb <- function(tree,
                         right = "right_child",
                         split_feature = "split_feature",
                         threshold = "threshold",
+                        right_cat_type = "in",
                         xnames,
                         factor_levels,
                         trace = 0) {
@@ -67,43 +75,55 @@ preorderlgb <- function(tree,
         rule,
         " & ",
         xnames[node[[split_feature]] + 1],
-        decision_right(node[["decision_type"]]),
-        fmt_thresh(
+        decision_right(node[["decision_type"]], right_cat_type),
+        fmt_thresh_right(
             catsplit = node[["decision_type"]] == "==",
             feature = xnames[node[[split_feature]] + 1],
             threshold = node[["threshold"]], 
-            factor_levels = factor_levels
+            factor_levels = factor_levels,
+            cat_type = right_cat_type
         )
     )
     rule_left <- preorderlgb(
         tree,
         node[[left]], rule_left, left, right, split_feature,
-        threshold, 
-        xnames,
-        factor_levels,
-        trace
+        threshold,
+        right_cat_type = right_cat_type,
+        xnames = xnames,
+        factor_levels = factor_levels,
+        trace = trace
     )
     rule <- c(rule, rule_left)
     rule_right <- preorderlgb(
         tree,
         node[[right]], rule_right, left, right, split_feature,
         threshold, 
-        xnames,
-        factor_levels,
-        trace
+        right_cat_type = right_cat_type,
+        xnames = xnames,
+        factor_levels = factor_levels,
+        trace = trace
     )
     rule <- c(rule, rule_right)
-}
+} # rtemis::preorderlgb
 
 
 # lgbtree2rules ----
-lgbtree2rules <- function(x, xnames, factor_levels) {
+lgbtree2rules <- function(x,
+                          xnames,
+                          factor_levels,
+                          right_cat_type = "in") {
     tree <- new.env()
     tree$leafs <- character()
-    preorderlgb(tree, x, xnames = xnames, factor_levels = factor_levels)
+    preorderlgb(
+        tree,
+        x,
+        xnames = xnames,
+        right_cat_type = right_cat_type,
+        factor_levels = factor_levels
+    )
     # remove root node "TRUE & "
     substr(tree$leafs, 8, 99999)
-}
+} # rtemis::lgbtree2rules
 
 
 # lgb2rules ----
@@ -115,14 +135,23 @@ lgbtree2rules <- function(x, xnames, factor_levels) {
 #' 
 #' @return Character vector of rules
 #' @keywords internal
-lgb2rules <- function(Booster, n_iter = NULL, xnames, factor_levels) {
+lgb2rules <- function(Booster, 
+                      n_iter = NULL,
+                      xnames,
+                      factor_levels,
+                      right_cat_type = "in") {
     if (is.null(n_iter)) n_iter <- length(Booster)
     trees <- get_lgb_tree(Booster, n_iter)
     lapply(
         trees,
-        \(x) lgbtree2rules(x, xnames, factor_levels)
+        \(x) lgbtree2rules(
+            x,
+            xnames,
+            factor_levels = factor_levels,
+            right_cat_type = right_cat_type
+        )
     ) |> unlist() |> unique()
-}
+} # rtemis::lgb2rules
 
 
 #' Extract set of rules from LightGBM rtMod
@@ -133,14 +162,15 @@ lgb2rules <- function(Booster, n_iter = NULL, xnames, factor_levels) {
 #' 
 #' @return Character vector of rules
 #' @keywords internal
-rtlgb2rules <- function(rtmod, dat, n_iter = NULL) {
+rtlgb2rules <- function(rtmod, dat, n_iter = NULL, right_cat_type = "in") {
     lgb2rules(
         Booster = rtmod$mod,
         n_iter = n_iter,
         xnames = rtmod$xnames, 
-        factor_levels = dt_get_factor_levels(dat)
+        factor_levels = dt_get_factor_levels(dat),
+        right_cat_type = right_cat_type
     )
-}
+} # rtemis::rtlgb2rules
 
 
 # decision_left ----
@@ -150,39 +180,15 @@ decision_left <- function(decision_type) {
         "<=" = " <= ",
         "==" = " %in% "
     )
-}
+} # rtemis::decision_left
 
-decision_right <- function(decision_type) {
+decision_right <- function(decision_type, cat_type) {
     switch(decision_type,
         "<=" = " > ",
-        "==" = " %notin% "
+        "==" = if (cat_type == "in") " %in% " else " %notin% "
     )
-}
+} # rtemis::decision_right
 
-# fmt_thresh <- function(threshold) {
-#     if (grepl("\\|\\|", threshold)) {
-#         paste0(
-#             "c(",
-#             paste(
-#                 strsplit(threshold, "\\|\\|")[[1]], 
-#                 collapse = ","), 
-#             ")"
-#         )
-#     } else {
-#         threshold
-#     }
-# }
-
-#' Format rules to convert integer levels to factor levels
-#'
-#' @param rules Character vector of rules
-#' @param factor_levels Named list of factor levels. Names should correspond to training
-#' set column names.
-#'
-#' @keywords internal
-# catlabel_rules <- function(rules, factor_levels) {
-
-# }
 
 #' Format rule thresholds for categorical splits
 #' 
@@ -202,6 +208,22 @@ fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
     } else {
         threshold
     }
-}
+} # rtemis::fmt_thresh
 
 
+fmt_thresh_right <- function(catsplit, feature, threshold, factor_levels, cat_type) {
+    if (catsplit) {
+        flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
+        flevels <- factor_levels[[feature]][flevels]
+        if (cat_type == "in") {
+            flevels <- setdiff(factor_levels[[feature]], flevels)
+        }
+        paste0(
+            "c(",
+            paste0("'", flevels, "'", collapse = ","),
+            ")"
+        )
+    } else {
+        threshold
+    }
+} # rtemis::fmt_thresh_right
