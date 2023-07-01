@@ -11,7 +11,7 @@
 #'
 #' This can be very slow.
 #' 
-#' @inheritParams c_KMEANS
+#' @inheritParams c_KMeans
 #' @param lab Vector, length `NROW(x)`: Labels for semi-supervised clustering
 #' @param EMC List of control parameters for `EMCluster::emcluster`. Default = `EMCluster::.EMC`
 # @param maxiter Integer: Maximum number of iterations. Default = 100

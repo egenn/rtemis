@@ -22,7 +22,7 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
     "H2OAE" = "H2O Autoencoder",
     "H2OGLRM" = "H2O Generalized Low-Rank Model",
     "ICA" = "Independent Component Analysis",
-    "ISOMAP" = "ISOMAP",
+    "Isomap" = "Isomap",
     "KPCA" = "Kernel Principal Component Analysis",
     "LLE" = "Locally Linear Embedding",
     "MDS" = "Multidimensional Scaling",
@@ -38,15 +38,12 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
 
   if (missing(decom)) {
     cat(".:decomSelect\nrtemis supports the following decomposition algorithms:\n\n")
-    print(description, quote = F, row.names = FALSE)
+    print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
 
-  name.vec <- toupper(c("cur", "h2oae", "h2oglrm", "ica", "isomap", "kpca", "lle", "mds", "nmf",
-                        "pca", "spca", "svd", "tsne", "umap"))
-  name <- name.vec[pmatch(toupper(decom), name.vec)]
-  if (is.na(name)) {
-    print(description, quote = FALSE)
+  name <- description[, 1][tolower(decom) == tolower(description[, 1])]
+  if (length(name) == 0) {
     stop("Incorrect decomposer specified")
   }
 
@@ -54,21 +51,7 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
     return(as.character(description[description$Name == name, 2]))
   }
 
-  if (name == "CUR") decomposer <- if (fn) d_CUR else "d_CUR"
-  if (name == "H2OAE") decomposer <- if (fn) d_H2OAE else "d_H2OAE"
-  if (name == "H2OGLRM") decomposer <- if (fn) d_H2OGLRM else "d_H2OGLRM"
-  if (name == "ICA") decomposer <- if (fn) d_ICA else "d_ICA"
-  if (name == "ISOMAP") decomposer <- if (fn) d_ISOMAP else "d_ISOMAP"
-  if (name == "KPCA") decomposer <- if (fn) d_KPCA else "d_KPCA"
-  if (name == "LLE") decomposer <- if (fn) d_LLE else "d_LLE"
-  if (name == "MDS") decomposer <- if (fn) d_MDS else "d_MDS"
-  if (name == "NMF") decomposer <- if (fn) d_NMF else "d_NMF"
-  if (name == "PCA") decomposer <- if (fn) d_PCA else "d_PCA"
-  if (name == "SPCA") decomposer <- if (fn) d_SPCA else "d_SPCA"
-  if (name == "SVD") decomposer <- if (fn) d_SVD else "d_SVD"
-  if (name == "TSNE") decomposer <- if (fn) d_TSNE else "d_TSNE"
-  if (name == "UMAP") decomposer <- if (fn) d_UMAP else "d_UMAP"
-
-  return(decomposer)
+  d_algname <- paste0("d_", name)
+  if (fn) getFromNamespace(d_algname, "rtemis") else d_algname
 
 } # rtemis::decomSelect

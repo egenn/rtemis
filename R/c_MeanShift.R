@@ -38,7 +38,7 @@
 #' @family Clustering
 #' @export
 
-c_MEANSHIFT <- function(x, 
+c_MeanShift <- function(x, 
                 # x.test = NULL,
                 nNeighbors = NROW(x),
                 algorithm = c("LINEAR", "KDTREE"),

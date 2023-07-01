@@ -6,7 +6,7 @@
 #'
 #' Perform Spectral Clustering using `kernlab::specc`
 #'
-#' @inheritParams c_KMEANS
+#' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame
 #' @param k Integer: Number of clusters to get
 #' @param kernel Character: Kernel to use: "rbfdot", "polydot", "vanilladot", tanhdot", "laplacedot", "besseldot",

@@ -109,7 +109,7 @@ Other Decomposition:
 \code{\link{d_CUR}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},
-\code{\link{d_ISOMAP}()},
+\code{\link{d_Isomap}()},
 \code{\link{d_KPCA}()},
 \code{\link{d_LLE}()},
 \code{\link{d_MDS}()},

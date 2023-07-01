@@ -6,7 +6,7 @@
 #'
 #' Perform PAM clustering using `cluster::pam`
 #'
-#' @inheritParams c_KMEANS
+#' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame
 #' @param diss Logical: If TRUE, `x` should be a `dist` or dissimilarity matrix.
 #' Otherwise, `x` should be a matrix of cases by features. Default = FALSE

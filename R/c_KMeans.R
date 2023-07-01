@@ -17,7 +17,7 @@
 #' @family Clustering
 #' @export
 
-c_KMEANS <- function(x,
+c_KMeans <- function(x,
                      x.test = NULL,
                      k = 2,
                      dist = "euclidean",

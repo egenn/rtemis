@@ -20,7 +20,7 @@
 #' @family Supervised Learning
 #' @export
 
-s_POLYMARS <- function(x, y = NULL,
+s_PolyMARS <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
                        grid.resample.rtset = rtset.grid.resample(),

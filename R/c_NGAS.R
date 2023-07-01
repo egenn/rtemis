@@ -6,7 +6,7 @@
 #'
 #' Perform Neural Gas clustering using `flexclust::cclust`
 #'
-#' @inheritParams c_KMEANS
+#' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame
 #' @param k Integer: Number of clusters to get
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'

@@ -67,7 +67,7 @@ rtAlgs <- data.frame(rbind(
     c("NLS", "Nonlinear Least Squares", FALSE, TRUE, FALSE),
     c("NW", "Nadaraya-Watson Kernel Regression", FALSE, TRUE, FALSE),
     c("POLY", "Polynomial Regression", FALSE, TRUE, FALSE),
-    c("POLYMARS", "Multivariate Adaptive Polynomial Spline Regression", FALSE, TRUE, FALSE),
+    c("PolyMARS", "Multivariate Adaptive Polynomial Spline Regression", FALSE, TRUE, FALSE),
     c("POWER", "Power function using NLS", FALSE, TRUE, FALSE),
     c("PPR", "Projection Pursuit Regression", FALSE, TRUE, FALSE),
     c("PPTree", "Projection Pursuit Tree", TRUE, FALSE, FALSE),
@@ -101,17 +101,16 @@ colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param name Logical: If TRUE, return canonical name of algorithm `alg`
 #' @param desc Logical: If TRUE, return full name / description of algorithm `alg`
-#' 
-#' @return function or name of function (see param `fn`) or short algorithm name 
+#'
+#' @return function or name of function (see param `fn`) or short algorithm name
 #' (`name = TRUE`) or full algorithm name (`desc = TRUE`)
 #' @author E.D. Gennatas
 #' @export
 
 learnSelect <- function(alg,
-                      fn = FALSE,
-                      name = FALSE,
-                      desc = FALSE) {
-
+                        fn = FALSE,
+                        name = FALSE,
+                        desc = FALSE) {
     if (missing(alg)) {
         cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
         # Exclude first so many
@@ -129,8 +128,7 @@ learnSelect <- function(alg,
     }
 
     algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
-    if (is.na(algname)) {
-        print(rtAlgs[, 1:2], quote = FALSE)
+    if (length(algname) == 0) {
         stop(alg, ": Incorrect algorithm specified")
     }
 
@@ -144,15 +142,14 @@ learnSelect <- function(alg,
 
     # fn ----
     if (algname == "BAG") {
-        learner <- if (fn) getFromalgnamespace("bag", "rtemis") else "bag"
+        if (fn) getFromNamespace("bag", "rtemis") else "bag"
     } else if (algname == "BOOST") {
-        learner <- if (fn) getFromalgnamespace("boost", "rtemis") else "boost"
+        if (fn) getFromNamespace("boost", "rtemis") else "boost"
     } else {
         s_algname <- paste0("s_", algname)
-        learner <- if (fn) getFromalgnamespace(s_algname, "rtemis") else s_algname
+        if (fn) getFromNamespace(s_algname, "rtemis") else s_algname
     }
 
-    learner
 } # rtemis::learnSelect
 
 # wip
@@ -226,11 +223,11 @@ xgboost_params <- list(
 )
 
 lightgbm_params <- list(
-    num_leaves = "Integer: Maximum tree leaves for base learners.", 
+    num_leaves = "Integer: Maximum tree leaves for base learners.",
     max_depth = "Integer: Maximum tree depth for base learners, -1 means no limit.",
-    learning_rate = "Float: Boosting learning rate.", 
+    learning_rate = "Float: Boosting learning rate.",
     bagging_fraction = "Float: Subsample ratio of the training set.",
-    lambda_l1 = "Float: L1 regularization.", 
+    lambda_l1 = "Float: L1 regularization.",
     lambda_l2 = "Float: L2 regularization."
 )
 
@@ -238,22 +235,24 @@ alg_params <- list(
     GLMNET = glmnet_params,
     SVM = svm_params,
     CART = cart_params,
-    Ranger = ranger_params, 
-    GBM = gbm_params, 
+    Ranger = ranger_params,
+    GBM = gbm_params,
     XGBoost = xgboost_params,
     LightGBM = lightgbm_params
 )
 
 #' Print tunable hyperparameters for a supervised learning algorithm
-#' 
+#'
 #' @param alg Character string: Algorithm name.
-#' 
+#'
 #' @author EDG
 #' @return Prints tunable hyperparameters for the specified algorithm.
 #' @export
-tunable <- function(alg = c("glmnet", "svm", "cart", 
-                            "ranger", "gbm", "xgboost", 
-                            "lightgbm")) {
+tunable <- function(alg = c(
+                        "glmnet", "svm", "cart",
+                        "ranger", "gbm", "xgboost",
+                        "lightgbm"
+                    )) {
     algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
     msg2(hilite(learnSelect(alg, desc = TRUE)), "tunable hyperparameters:")
     printls(alg_params[[algname]])

@@ -10,7 +10,7 @@
 #'
 #' For additional information, see help on `h2o::h2o.kmeans`
 #' 
-#' @inheritParams c_KMEANS
+#' @inheritParams c_KMeans
 #' @param estimate.k Logical: if TRUE, estimate k up to a maximum set by the `k` argument
 #' @param nfolds Integer: Number of cross-validation folds
 #' @param max.iterations Integer: Maximum number of iterations
@@ -30,7 +30,7 @@
 #' @family Clustering
 #' @export
 
-c_H2OKMEANS <- function(x, x.test = NULL,
+c_H2OKMeans <- function(x, x.test = NULL,
                         k = 2,
                         estimate.k = FALSE,
                         nfolds = 0,

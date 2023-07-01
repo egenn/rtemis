@@ -27,7 +27,7 @@
 #' @family Decomposition
 #' @export
 
-d_ISOMAP <- function(x,
+d_Isomap <- function(x,
                      k = 2, # isomap :ndim
                      dist.method = "euclidean",
                      nsd = 0,

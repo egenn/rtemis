@@ -23,14 +23,14 @@ clustSelect <- function(clust,
                         desc = FALSE) {
 
   description <- list(
-    "CMEANS" = "Fuzzy C-means Clustering",
+    "CMeans" = "Fuzzy C-means Clustering",
     "DBSCAN" = "Density-based spatial clustering of applications with noise",
     "EMC" = "Expectation Maximization Clustering",
     "HARDCL" = "Hard Competitive Learning",
     "HOPACH" = "Hierarchical Ordered Partitioning And Collapsing Hybrid",
-    "H2OKMEANS" = "H2O K-Means Clustering",
-    "KMEANS" = "K-Means Clustering",
-    "MEANSHIFT" = "Mean Shift Clustering",
+    "H2OKMeans" = "H2O K-Means Clustering",
+    "KMeans" = "K-Means Clustering",
+    "MeanShift" = "Mean Shift Clustering",
     "NGAS" = "Neural Gas Clustering",
     "PAM" = "Partitioning Around Medoids",
     "PAMK" = "Partitioning Around Medoids with k estimation",
@@ -45,12 +45,8 @@ clustSelect <- function(clust,
     return(invisible(9))
   }
 
-  name.vec <- toupper(c("cmeans", "dbscan", "emc", "hardcl", "hopach", 
-              "h2okmeans", "kmeans", "meanshift", "ngas", "pam", "pamk", 
-              "spec"))
-  name <- name.vec[pmatch(toupper(clust), name.vec)]
-  if (is.na(name)) {
-    print(description, quote = FALSE)
+  name <- description[, 1][tolower(clust) == tolower(description[, 1])]
+  if (length(name) == 0) {
     stop("Incorrect clusterer specified")
   }
 
@@ -58,19 +54,7 @@ clustSelect <- function(clust,
     return(as.character(description[description$Name == name, 2]))
   }
 
-  if (name == "CMEANS") clusterer <- if (fn) c_CMEANS else "c_CMEANS"
-  if (name == "DBSCAN") clusterer <- if (fn) c_DBSCAN else "c_DBSCAN"
-  if (name == "EMC") clusterer <- if (fn) c_EMC else "c_EMC"
-  if (name == "HARDCL") clusterer <- if (fn) c_HARDCL else "c_HARDCL"
-  if (name == "HOPACH") clusterer <- if (fn) c_HOPACH else "c_HOPACH"
-  if (name == "H2OKMEANS") clusterer <- if (fn) c_KMEANS else "c_H2OKMEANS"
-  if (name == "KMEANS") clusterer <- if (fn) c_KMEANS else "c_KMEANS"
-  if (name == "MEANSHIFT") clusterer <- if (fn) c_MEANSHIFT else "c_MEANSHIFT"
-  if (name == "NGAS") clusterer <- if (fn) c_NGAS else "c_NGAS"
-  if (name == "PAM") clusterer <- if (fn) c_PAM else "c_PAM"
-  if (name == "PAMK") clusterer <- if (fn) c_PAMK else "c_PAMK"
-  if (name == "SPEC") clusterer <- if (fn) c_SPEC else "c_SPEC"
-
-  clusterer
+  c_algname <- paste0("c_", name)
+  if (fn) getFromNamespace(c_algname, "rtemis") else c_algname
 
 } # rtemis::clustSelect
