@@ -15,9 +15,14 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
 #' @inheritParams s_GBM
+#' @param n.trees Integer: Number of trees to train. Passed to [s_LightGBM] 
+#' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
+#' cross-validation to determine optimal number of trees.
 #' @param lgbm.params Named list: Parameters for [s_GBM]
 #' @param meta.params Named list: Parameters for [s_GLMNET] for the
 #' feature selection step
+#' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient
+#' boosting step is skipped.
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
 #' @param cases_by_rules Matrix of cases by rules from a previoue rulefit run.
 #' If provided, the GBM step is skipped. Default = NULL
@@ -51,6 +56,7 @@ s_LightRuleFit <- function(x, y = NULL,
                                lambda = NULL,
                                ifw = TRUE
                            ),
+                           lgbm.mod = NULL,
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,
                            save_cases_by_rules = FALSE,
@@ -127,30 +133,34 @@ s_LightRuleFit <- function(x, y = NULL,
     nclasses <- if (type == "Classification") length(levels(y)) else -1
 
     if (is.null(cases_by_rules)) {
-        # LightGBM ----
-        lgbm_args <- c(
-            list(
-                x = x, y = y,
-                force_nrounds = n.trees,
-                verbose = verbose,
-                print.plot = FALSE
-                # n.cores = n.cores
-            ),
-            lgbm.params
-        )
-        if (verbose) msg2("Running LightGBM...")
-        mod_lgbm <- do.call("s_LightGBM", lgbm_args)
-
+        if (is.null(lgbm.mod)) {
+            # LightGBM ----
+            lgbm_args <- c(
+                list(
+                    x = x, y = y,
+                    force_nrounds = n.trees,
+                    verbose = verbose,
+                    print.plot = FALSE
+                ),
+                lgbm.params
+            )
+            if (verbose) msg2("Running LightGBM...")
+            mod_lgbm <- do.call("s_LightGBM", lgbm_args)
+        } else {
+            if (verbose) msg2("Using provided LightGBM model...")
+            mod_lgbm <- lgbm.mod
+        }
+        
         # Get Rules ----
         if (verbose) msg2start("Extracting LightGBM rules...")
         lgbm_rules <- lgb2rules(
             mod_lgbm$mod,
-            n_iter = n.trees, 
+            n_iter = NULL, 
             xnames = names(x),
             factor_levels = dt_get_factor_levels(copy(x))
         )
         if (verbose) msg2done()
-        if (verbose) msg2("Extracted", length(lgbm_rules), "rules.")
+        if (verbose) msg2("Extracted", hilite(length(lgbm_rules)), "rules.")
         n_rules_total <- length(lgbm_rules)
         # Match Cases by Rules ----
         cases_by_rules <- matchCasesByRules(x, lgbm_rules, verbose = verbose)
@@ -295,6 +305,7 @@ s_LightRuleFit <- function(x, y = NULL,
         se.prediction = NULL,
         error.test = error.test,
         parameters = list(
+            n.trees = n.trees,
             lgbm.params = lgbm.params,
             meta.params = meta.params
         ),
