@@ -8,7 +8,8 @@
 #' 
 #' @returns A list of trees
 #' @keywords internal
-get_lgb_tree <- function(x, n_iter = -1) {
+get_lgb_tree <- function(x, 
+                         n_iter = -1) {
     out <- lapply(
         jsonlite::fromJSON(
             lightgbm::lgb.dump(
@@ -139,10 +140,11 @@ lgb2rules <- function(Booster,
                       n_iter = NULL,
                       xnames,
                       factor_levels,
-                      right_cat_type = "in") {
+                      right_cat_type = "in",
+                      return_unique = TRUE) {
     if (is.null(n_iter)) n_iter <- length(Booster)
     trees <- get_lgb_tree(Booster, n_iter)
-    lapply(
+    rules <- lapply(
         trees,
         \(x) lgbtree2rules(
             x,
@@ -150,7 +152,8 @@ lgb2rules <- function(Booster,
             factor_levels = factor_levels,
             right_cat_type = right_cat_type
         )
-    ) |> unlist() |> unique()
+    ) |> unlist()
+    if (return_unique) unique(rules) else rules
 } # rtemis::lgb2rules
 
 
@@ -162,13 +165,18 @@ lgb2rules <- function(Booster,
 #' 
 #' @return Character vector of rules
 #' @keywords internal
-rtlgb2rules <- function(rtmod, dat, n_iter = NULL, right_cat_type = "in") {
+rtlgb2rules <- function(rtmod, 
+                        dat,
+                        n_iter = NULL, 
+                        right_cat_type = "in", 
+                        return_unique = TRUE) {
     lgb2rules(
         Booster = rtmod$mod,
         n_iter = n_iter,
         xnames = rtmod$xnames, 
         factor_levels = dt_get_factor_levels(dat),
-        right_cat_type = right_cat_type
+        right_cat_type = right_cat_type,
+        return_unique = return_unique
     )
 } # rtemis::rtlgb2rules
 
@@ -211,7 +219,11 @@ fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
 } # rtemis::fmt_thresh
 
 
-fmt_thresh_right <- function(catsplit, feature, threshold, factor_levels, cat_type) {
+fmt_thresh_right <- function(catsplit, 
+                             feature,
+                             threshold,
+                             factor_levels,
+                             cat_type) {
     if (catsplit) {
         flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
         flevels <- factor_levels[[feature]][flevels]
