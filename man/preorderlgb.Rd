@@ -12,13 +12,28 @@ preorderlgb(
   right = "right_child",
   split_feature = "split_feature",
   threshold = "threshold",
+  right_cat_type = "in",
   xnames,
   factor_levels,
   trace = 0
 )
 }
 \arguments{
-\item{tree}{A LightGBM tree}
+\item{tree}{Environment that will hold the extracted rules}
+
+\item{node}{LightGBM tree}
+
+\item{rule}{Character: current rule}
+
+\item{left}{Character: left child label}
+
+\item{right}{Character: right child label}
+
+\item{split_feature}{Character: split feature label}
+
+\item{threshold}{Character: threshold label}
+
+\item{right_cat_type}{Character: "in" or "notin": operator for right categorical}
 }
 \description{
 Called by \code{lgbtree2rules} and operates on \code{tree} environment in place.

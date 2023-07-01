@@ -2,7 +2,7 @@
 % Please edit documentation in R/lightgbm_ops.R
 \name{fmt_thresh}
 \alias{fmt_thresh}
-\title{Format rules to convert integer levels to factor levels}
+\title{Format rule thresholds for categorical splits}
 \usage{
 fmt_thresh(catsplit, feature, threshold, factor_levels)
 }
@@ -13,16 +13,7 @@ fmt_thresh(catsplit, feature, threshold, factor_levels)
 
 \item{factor_levels}{Named list of factor levels. Names should correspond to training
 set column names.}
-
-\item{rules}{Character vector of rules}
 }
 \description{
-Format rules to convert integer levels to factor levels
+Format rule thresholds for categorical splits
 }
-\keyword{Format}
-\keyword{categorical}
-\keyword{for}
-\keyword{internal}
-\keyword{rule}
-\keyword{splits}
-\keyword{thresholds}

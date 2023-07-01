@@ -14,6 +14,7 @@ s_LightRuleFit(
     bagging_fraction = 0.666, bagging_freq = 0L, lambda_l1 = 0.001, lambda_l2 = 0.001,
     objective = NULL, ifw = TRUE, importance = FALSE),
   meta.params = list(alpha = 1, lambda = NULL, ifw = TRUE),
+  lgbm.mod = NULL,
   empirical_risk = TRUE,
   cases_by_rules = NULL,
   save_cases_by_rules = FALSE,
@@ -41,12 +42,17 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{n.trees}{Integer: Initial number of trees to fit}
+\item{n.trees}{Integer: Number of trees to train. Passed to \link{s_LightGBM}
+\code{force.n.trees}. If set to NULL, can set \code{max_nrounds} in \code{lgbm.params}, to perform
+cross-validation to determine optimal number of trees.}
 
 \item{lgbm.params}{Named list: Parameters for \link{s_GBM}}
 
 \item{meta.params}{Named list: Parameters for \link{s_GLMNET} for the
 feature selection step}
+
+\item{lgbm.mod}{rtMod object created by \link{s_LightGBM}. If provided, the gradient
+boosting step is skipped.}
 
 \item{empirical_risk}{Logical: If TRUE, calculate empirical risk}
 

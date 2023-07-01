@@ -4,7 +4,14 @@
 \alias{lgb2rules}
 \title{Convert LightGBM Booster to set of rules}
 \usage{
-lgb2rules(Booster, n_iter = NULL, xnames, factor_levels)
+lgb2rules(
+  Booster,
+  n_iter = NULL,
+  xnames,
+  factor_levels,
+  right_cat_type = "in",
+  return_unique = TRUE
+)
 }
 \arguments{
 \item{n_iter}{Integer: Number of trees to convert to rules}

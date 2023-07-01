@@ -4,7 +4,13 @@
 \alias{rtlgb2rules}
 \title{Extract set of rules from LightGBM rtMod}
 \usage{
-rtlgb2rules(rtmod, dat, n_iter = NULL)
+rtlgb2rules(
+  rtmod,
+  dat,
+  n_iter = NULL,
+  right_cat_type = "in",
+  return_unique = TRUE
+)
 }
 \arguments{
 \item{rtmod}{LightGBM rtMod object}
