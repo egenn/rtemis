@@ -50,7 +50,6 @@ NMF will be applied to the transpose of the n x p matrix.
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},

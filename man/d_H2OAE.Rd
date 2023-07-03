@@ -106,7 +106,6 @@ e.g. if running on localhost, point your web browser to \code{localhost:54321}
 \link{decom}
 
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},
 \code{\link{d_Isomap}()},

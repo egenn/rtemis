@@ -11,6 +11,7 @@
 #' @param decom Character: Decomposition name. Case insensitive. e.g. "iso" for isomap
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm `decom`
+#' 
 #' @return Function or name of function (see param `fn`) or full name of algorithm (`desc`)
 #' @author E.D. Gennatas
 #' @export
@@ -18,7 +19,7 @@
 decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
 
   description <- list(
-    "CUR" = "CUR Matrix Approximation",
+    # "CUR" = "CUR Matrix Approximation",
     "H2OAE" = "H2O Autoencoder",
     "H2OGLRM" = "H2O Generalized Low-Rank Model",
     "ICA" = "Independent Component Analysis",

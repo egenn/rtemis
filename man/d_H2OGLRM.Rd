@@ -97,7 +97,6 @@ Learn more about GLRM from the H2O tutorial
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_ICA}()},
 \code{\link{d_Isomap}()},

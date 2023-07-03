@@ -58,7 +58,6 @@ Perform t-SNE decomposition using \code{Rtsne::Rtsne}
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},

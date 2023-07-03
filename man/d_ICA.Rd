@@ -62,7 +62,6 @@ fastICA will fail if there are any NA values or constant features: remove them u
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_Isomap}()},

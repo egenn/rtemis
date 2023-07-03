@@ -51,7 +51,6 @@ Perform UMAP decomposition using \code{uwot::umap}
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},

@@ -41,7 +41,6 @@ Same solution as \link{d_SVD}. d_PCA runs \code{prcomp}, which has useful
 }
 \seealso{
 Other Decomposition: 
-\code{\link{d_CUR}()},
 \code{\link{d_H2OAE}()},
 \code{\link{d_H2OGLRM}()},
 \code{\link{d_ICA}()},
