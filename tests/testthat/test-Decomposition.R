@@ -52,7 +52,7 @@ test_that("KPCA Clustering succeeds", {
 
 # '- LLE ----
 test_that("LLE Clustering succeeds", {
-    skip_if_not_installed("lle")
+    skip_if_not_installed("RDRToolbox")
     decom <- d_LLE(x, k = 2)
     expect_identical(class(decom)[1], "rtDecom")
 })
@@ -64,13 +64,13 @@ test_that("MDS Clustering succeeds", {
 })
 
 # '- NMF ----
-# works manually, fails with devtools::test for whatever reason
-# test_that("NMF Clustering succeeds", {
-#     skip_if_not_installed("NMF")
-#     xnn <- abs(rnormmat(100, 10))
-#     decom <- d_NMF(xnn, k = 2)
-#     expect_identical(class(decom)[1], "rtDecom")
-# })
+# works manually, used to fail with devtools::test()
+test_that("NMF Clustering succeeds", {
+    skip_if_not_installed("NMF")
+    xnn <- abs(rnormmat(100, 10))
+    decom <- d_NMF(xnn, k = 2)
+    expect_identical(class(decom)[1], "rtDecom")
+})
 
 # '- PCA ----
 test_that("PCA Clustering succeeds", {
