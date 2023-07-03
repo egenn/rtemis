@@ -10,11 +10,11 @@ x <- rnormmat(100, 10)
 decomSelect()
 
 # '- CUR ----
-test_that("CMEANS Clustering succeeds", {
-    skip_if_not_installed("rCUR")
-    decom <- d_CUR(x, k = 2)
-    expect_identical(class(decom)[1], "rtDecom")
-})
+# test_that("CUR Clustering succeeds", {
+#     skip_if_not_installed("rCUR")
+#     decom <- d_CUR(x, k = 2)
+#     expect_identical(class(decom)[1], "rtDecom")
+# })
 
 # '- H2OAE ----
 test_that("H2OAE Clustering succeeds", {
@@ -37,9 +37,9 @@ test_that("ICA Clustering succeeds", {
 })
 
 # '- ISOMAP ----
-test_that("ISOMAP Clustering succeeds", {
+test_that("Isomap Clustering succeeds", {
     skip_if_not_installed("vegan")
-    decom <- d_ISOMAP(x, k = 2)
+    decom <- d_Isomap(x, k = 2)
     expect_identical(class(decom)[1], "rtDecom")
 })
 

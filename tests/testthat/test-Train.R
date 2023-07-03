@@ -12,33 +12,33 @@ iris2 <- iris[51:150, ]
 iris2$Species <- factor(iris2$Species)
 
 # Test ----
-test_that("elevate CART Regression succeeds", {
-  mod_r <- elevate(dat,
-    mod = "cart",
+test_that("train CART Regression succeeds", {
+  mod_r <- train(dat,
+    alg = "cart",
     outer.resampling = rtset.resample(n.resamples = 3)
   )
   expect_identical(class(mod_r)[1], "rtModCV")
 })
 
-test_that("elevate CART Classification succeeds", {
-  mod_c <- elevate(iris2,
-    mod = "cart",
+test_that("train CART Classification succeeds", {
+  mod_c <- train(iris2,
+    alg = "cart",
     outer.resampling = rtset.resample(n.resamples = 3)
   )
   expect_identical(class(mod_c)[1], "rtModCVClass")
 })
 
-test_that("elevate RANGER Regression succeeds", {
-  mod_r <- elevate(dat,
-    mod = "ranger",
+test_that("train Ranger Regression succeeds", {
+  mod_r <- train(dat,
+    alg = "ranger",
     outer.resampling = rtset.resample(n.resamples = 3)
   )
   expect_identical(class(mod_r)[1], "rtModCV")
 })
 
-test_that("elevate RANGER Classification succeeds", {
-  mod_c <- elevate(iris2,
-    mod = "ranger",
+test_that("train Ranger Classification succeeds", {
+  mod_c <- train(iris2,
+    alg = "ranger",
     outer.resampling = rtset.resample(n.resamples = 3)
   )
   expect_identical(class(mod_c)[1], "rtModCVClass")

@@ -550,7 +550,7 @@ s_LightRF <- function(x, y = NULL,
                parallel.type = parallel.type,
                outdir = outdir,
                save.mod = save.mod, ...)
-}
+} # rtemis::s_LightRF
 
 predict_LightGBM <- function(x, newdata, ...) {
     if (!is.null(x$extra$factor_index)) {

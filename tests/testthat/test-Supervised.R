@@ -58,50 +58,50 @@ test_that("CART 3-class Classification succeeds", {
 })
 
 
-## RANGER ----
-test_that("RANGER Regression succeeds", {
-  mod_r <- s_RANGER(datr_train, datr_test)
+## Ranger ----
+test_that("Ranger Regression succeeds", {
+  mod_r <- s_Ranger(datr_train, datr_test)
   expect_identical(class(mod_r)[1], "rtMod")
 })
 
-test_that("RANGER Binary Classification succeeds", {
-  mod_c <- s_RANGER(datc2_train, datc2_test)
+test_that("Ranger Binary Classification succeeds", {
+  mod_c <- s_Ranger(datc2_train, datc2_test)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
-test_that("RANGER 3-class Classification succeeds", {
-  mod_c <- s_RANGER(datc3_train, datc3_test)
+test_that("Ranger 3-class Classification succeeds", {
+  mod_c <- s_Ranger(datc3_train, datc3_test)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
-## LIGHTRF ----
-test_that("LIGHTRF Regression succeeds", {
-  mod_r <- s_LIGHTRF(datr_train, datr_test, force_nrounds = 20)
+## LightRF ----
+test_that("LightRF Regression succeeds", {
+  mod_r <- s_LightRF(datr_train, datr_test, force_nrounds = 20)
   expect_identical(class(mod_r)[1], "rtMod")
 })
 
-test_that("LIGHTRF Binary Classification succeeds", {
-  mod_c <- s_LIGHTRF(datc2_train, datc2_test, force_nrounds = 20)
+test_that("LightRF Binary Classification succeeds", {
+  mod_c <- s_LightRF(datc2_train, datc2_test, force_nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
-test_that("LIGHTRF 3-class Classification succeeds", {
-  mod_c <- s_LIGHTRF(datc3_train, datc3_test, force_nrounds = 20)
+test_that("LightRF 3-class Classification succeeds", {
+  mod_c <- s_LightRF(datc3_train, datc3_test, force_nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
-## LIGHTGBM ----
-test_that("LIGHTGBM Regression succeeds", {
-  mod_r <- s_LIGHTGBM(datr_train, datr_test, force_nrounds = 20)
+## LightGBM ----
+test_that("LightGBM Regression succeeds", {
+  mod_r <- s_LightGBM(datr_train, datr_test, force_nrounds = 20)
   expect_identical(class(mod_r)[1], "rtMod")
 })
 
-test_that("LIGHTGBM Binary Classification succeeds", {
-  mod_c <- s_LIGHTGBM(datc2_train, datc2_test, force_nrounds = 20)
+test_that("LightGBM Binary Classification succeeds", {
+  mod_c <- s_LightGBM(datc2_train, datc2_test, force_nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
-test_that("LIGHTGBM 3-class Classification succeeds", {
-  mod_c <- s_LIGHTGBM(datc3_train, datc3_test, force_nrounds = 20)
+test_that("LightGBM 3-class Classification succeeds", {
+  mod_c <- s_LightGBM(datc3_train, datc3_test, force_nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
