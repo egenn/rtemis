@@ -112,7 +112,7 @@ For classification only; need not add up to 1}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split.
+\item{mtry}{[gS] Integer: Number of features sampled randomly at each split.
 Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
@@ -158,7 +158,7 @@ Only applicable if
 
 \item{replace}{Logical: If TRUE, sample cases with replacement during training.}
 
-\item{min.node.size}{\link{gS} Integer: Minimum node size}
+\item{min.node.size}{[gS] Integer: Minimum node size}
 
 \item{splitrule}{Character: For classification: "gini" (Default) or
 "extratrees";
@@ -217,7 +217,7 @@ By default mtry is set to NCOL(x) for NCOL(x) <= 20.
 For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 If \code{autotune = TRUE}, \code{randomForest::tuneRF} will be run to determine best \code{mtry}
 value.
-\link{gS}: indicated parameter will be tuned by grid search if more than one value is passed
+[gS]: indicated parameter will be tuned by grid search if more than one value is passed
 
 See \href{https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf}{Tech Report} comparing
 balanced (ifw.case.weights = TRUE) and weighted (ifw.class.weights = TRUE) Random Forests.

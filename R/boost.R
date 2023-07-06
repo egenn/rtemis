@@ -18,7 +18,7 @@
 #' @param resid Float, vector, length = length(y): Residuals to work on. Do
 #' not change unless you know what you're doing. Default = NULL, for regular
 #' boosting
-#' @param boost.obj [Internal use]
+#' @param boost.obj (Internal use)
 #' @param mod.params Named list of arguments for `mod`
 #' @param case.p Float (0, 1]: Train each iteration using this perceent of
 #' cases. Default = 1, i.e. use all cases

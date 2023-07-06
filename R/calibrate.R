@@ -10,6 +10,8 @@
 #' @param true_labels Factor with true class labels
 #' @param est_prob Numeric vector with predicted probabilities
 #' @param pos_class_idi Integer: Index of the positive class
+#' @param mod Character: Model to use for calibration. Either "gam" or "glm"
+#' @param k Integer: GAM degrees of freedom
 #' @param verbose Logical: If TRUE, printe messages to the console
 #'
 #' @return mod: fitted GAM model. Use `mod$fitted.values` to get calibrated
@@ -41,7 +43,8 @@
 #'     pos_class_idi = 2
 #' )
 #' }
-calibrate <- function(true_labels, est_prob,
+calibrate <- function(true_labels,
+                      est_prob,
                       pos_class_idi = 1,
                       mod = c("gam", "glm"),
                       k = 5,

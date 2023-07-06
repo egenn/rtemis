@@ -12,7 +12,7 @@
 #' `max.leaves` instead of directly defining a number, because depending 
 #' on the other parameters and the datasets, splitting may stop early.
 #'
-#' [gS] indicates tunable hyperparameters that can accept a vector of possible 
+#' \[gS\] indicates tunable hyperparameters that can accept a vector of possible 
 #' values
 #' 
 #' @inheritParams s_GLM
@@ -25,9 +25,9 @@
 #' @param force.max.leaves Integer: If set, `max.leaves` is ignored and
 #' the tree will attempt to reach this number of leaves, without performing
 #' tuning number of leaves.
-#' @param learning.rate [gS] Numeric: learning rate for steps after initial
+#' @param learning.rate \[gS\] Numeric: learning rate for steps after initial
 #' linear model
-#' @param nvmax [gS] Integer: Number of max features to use for lin.type 
+#' @param nvmax \[gS\] Integer: Number of max features to use for lin.type 
 #' "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 #' than n of features in `x` are provided, they will be excluded
 #' @param lin.type Character: One of "glmnet", "forwardStepwise", "cv.glmnet", 
@@ -39,17 +39,17 @@
 #' @param first.lin.alpha Numeric: alpha for the first linear model, if
 #' `first.lin.type` is "glmnet" or "cv.glmnet"
 #' @param init Initial value. Default = `mean(y)`
-#' @param gamma [gS] Numeric: Soft weighting parameter. Weights of cases that 
+#' @param gamma \[gS\] Numeric: Soft weighting parameter. Weights of cases that 
 #' do not belong to node get multiplied by this amount 
-#' @param lambda [gS] Numeric: lambda value for lin.type `glmnet`, 
+#' @param lambda \[gS\] Numeric: lambda value for lin.type `glmnet`, 
 #' `cv.glmnet`, `lm.ridge`
-#' @param part.minsplit [gS] Integer: Minimum number of observations in node to
+#' @param part.minsplit \[gS\] Integer: Minimum number of observations in node to
 #' consider splitting
-#' @param part.minbucket [gS] Integer: Minimum number of observations allowed in
+#' @param part.minbucket \[gS\] Integer: Minimum number of observations allowed in
 #' child node to allow splitting
-#' @param part.cp [gS] Numeric: Split must decrease complexity but at least 
+#' @param part.cp \[gS\] Numeric: Split must decrease complexity but at least 
 #' this much to be considered
-#' @param minobsinnode.lin [gS] Integer: Minimum number of observation needed 
+#' @param minobsinnode.lin \[gS\] Integer: Minimum number of observation needed 
 #' to fit linear model
 #' @param part.max.depth Integer: Max depth for each tree model within the 
 #' additive tree

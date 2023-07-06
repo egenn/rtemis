@@ -6,13 +6,13 @@
 #'
 #' Train a CART for regression or classification using `rpart`
 #'
-#' [gS] indicates grid search will be performed automatically if more than one 
+#' \[gS\] indicates grid search will be performed automatically if more than one 
 #' value is passed
 #' 
 #' @inheritParams s_GLM
 #' @param method Character: "auto", "anova", "poisson", "class" or "exp".
-#' @param cp [gS] Float: Complexity threshold for allowing a split.
-#' @param maxdepth [gS] Integer: Maximum depth of tree.
+#' @param cp \[gS\] Float: Complexity threshold for allowing a split.
+#' @param maxdepth \[gS\] Integer: Maximum depth of tree.
 #' @param maxcompete Integer: The number of competitor splits saved in the 
 #' output
 #' @param usesurrogate See `rpart::rpart.control`
@@ -20,11 +20,11 @@
 #' @param surrogatestyle See `rpart::rpart.control`
 #' @param maxsurrogate Integer: The number of surrogate splits retained in the 
 #' output (See `rpart::rpart.control`).
-#' @param minsplit [gS] Integer: Minimum number of cases that must belong in a 
+#' @param minsplit \[gS\] Integer: Minimum number of cases that must belong in a 
 #' node before considering a split.
-#' @param minbucket [gS] Integer: Minimum number of cases allowed in a child 
+#' @param minbucket \[gS\] Integer: Minimum number of cases allowed in a child 
 #' node.
-#' @param prune.cp [gS] Numeric: Complexity for cost-complexity pruning after 
+#' @param prune.cp \[gS\] Numeric: Complexity for cost-complexity pruning after 
 #' tree is built
 #' @param use.prune.rpart.rt [Testing only, do not change]
 #' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return 

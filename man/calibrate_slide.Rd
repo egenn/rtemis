@@ -18,11 +18,13 @@ calibrate_slide(
 
 \item{est_prob}{Numeric vector with predicted probabilities}
 
+\item{n_windows}{Integer: Number of calibration windows}
+
 \item{pos_class_idi}{Integer: Index of the positive class}
 
-\item{verbose}{Logical: If TRUE, printe messages to the console}
+\item{k}{Integer: GAM degrees of freedom}
 
-\item{window_width}{Numeric: Width of the calibration windows}
+\item{verbose}{Logical: If TRUE, printe messages to the console}
 }
 \value{
 List with mod: fitted GAM model to be used for calibration of new data

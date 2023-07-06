@@ -91,15 +91,15 @@ Default = NULL (random seed)}
 \item{parms}{List of additional parameters for the splitting function.
 See \code{rpart::rpart("parms")}}
 
-\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
+\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
+\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child
 node.}
 
-\item{cp}{\link{gS} Float: Complexity threshold for allowing a split.}
+\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
 
-\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
+\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
 
 \item{maxcompete}{Integer: The number of competitor splits saved in the
 output}
@@ -118,7 +118,7 @@ See \code{rpart::rpart("cost")}}
 
 \item{model}{Logical: If TRUE, keep a copy of the model.}
 
-\item{prune.cp}{\link{gS} Numeric: Complexity for cost-complexity pruning after
+\item{prune.cp}{[gS] Numeric: Complexity for cost-complexity pruning after
 tree is built}
 
 \item{use.prune.rpart.rt}{\link{Testing only, do not change}}
@@ -179,7 +179,7 @@ Object of class \link{rtMod}
 Train a CART for regression or classification using \code{rpart}
 }
 \details{
-\link{gS} indicates grid search will be performed automatically if more than one
+[gS] indicates grid search will be performed automatically if more than one
 value is passed
 }
 \seealso{

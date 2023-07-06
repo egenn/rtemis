@@ -80,12 +80,12 @@ Columns must correspond to columns in \code{x}}
 \item{stepFactor}{Float: If \code{autotune = TRUE}, at each tuning iteration, \code{mtry} is multiplied or
 divided by this value. Default = 1.5}
 
-\item{mtry}{\link{gS} Integer: Number of features sampled randomly at each split}
+\item{mtry}{[gS] Integer: Number of features sampled randomly at each split}
 
-\item{nodesize}{\link{gS}: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+\item{nodesize}{[gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
 1 (Classification)}
 
-\item{maxnodes}{\link{gS}: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
+\item{maxnodes}{[gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
 grown to maximum possible}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}

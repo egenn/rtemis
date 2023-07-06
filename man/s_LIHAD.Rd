@@ -52,21 +52,21 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{max.depth}{\link{gS} Integer: Max depth of additive tree. Default = 3}
+\item{max.depth}{[gS] Integer: Max depth of additive tree. Default = 3}
 
-\item{alpha}{\link{gS} Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
+\item{alpha}{[gS] Float: \code{lincoef} alpha Overrides \code{lincoef.params} alpha}
 
-\item{lambda}{\link{gS} Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
+\item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
 \item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
 
-\item{minobsinnode}{\link{gS} Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
 
-\item{learning.rate}{\link{gS} Float (0, 1): Learning rate. Default = 1}
+\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{part.cp}{\link{gS} Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
+\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.

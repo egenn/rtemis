@@ -65,18 +65,18 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{k}{\link{gS} Integer: Number of components to estimate.}
+\item{k}{[gS] Integer: Number of components to estimate.}
 
-\item{eta}{\link{gS} Float [0, 1): Thresholding parameter.}
+\item{eta}{[gS] Float [0, 1): Thresholding parameter.}
 
-\item{kappa}{\link{gS} Float \link{0, .5}: Only relevant for multivariate responses:
+\item{kappa}{[gS] Float \link{0, .5}: Only relevant for multivariate responses:
 controls effect of concavity of objective
 function.}
 
-\item{select}{\link{gS} Character: "pls2", "simpls". PLS algorithm for variable
+\item{select}{[gS] Character: "pls2", "simpls". PLS algorithm for variable
 selection.}
 
-\item{fit}{\link{gS} Character: "kernelpls", "widekernelpls", "simpls",
+\item{fit}{[gS] Character: "kernelpls", "widekernelpls", "simpls",
 "oscorespls". Algorithm for model fitting.}
 
 \item{scale.x}{Logical: if TRUE, scale features by dividing each column by
@@ -85,7 +85,7 @@ its sample standard deviation}
 \item{scale.y}{Logical: if TRUE, scale outcomes by dividing each column by
 its sample standard deviation}
 
-\item{maxstep}{\link{gS} Integer: Maximum number of iteration when fitting
+\item{maxstep}{[gS] Integer: Maximum number of iteration when fitting
 direction vectors.}
 
 \item{classifier}{Character: Classifier used by \code{spls::splsda} "lda"
@@ -147,7 +147,7 @@ Object of class \pkg{rtemis}
 Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda} (Classification)
 }
 \details{
-\link{gS} denotes argument can be passed as a vector of values, which will trigger
+[gS] denotes argument can be passed as a vector of values, which will trigger
 a grid search using \link{gridSearchLearn}
 \code{np::npreg} allows inputs
 with mixed data types.

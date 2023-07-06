@@ -7,26 +7,26 @@
 #'
 #' Train an SPLS model using `spls::spls` (Regression) and `spls::splsda` (Classification)
 #'
-#' [gS] denotes argument can be passed as a vector of values, which will trigger 
+#' \[gS\] denotes argument can be passed as a vector of values, which will trigger 
 #' a grid search using [gridSearchLearn] 
 #' `np::npreg` allows inputs 
 #' with mixed data types.
 #'
 #' @inheritParams s_CART
-#' @param k [gS] Integer: Number of components to estimate.
-#' @param eta [gS] Float [0, 1): Thresholding parameter.
-#' @param kappa [gS] Float [0, .5]: Only relevant for multivariate responses: 
+#' @param k \[gS\] Integer: Number of components to estimate.
+#' @param eta \[gS\] Float [0, 1): Thresholding parameter.
+#' @param kappa \[gS\] Float [0, .5]: Only relevant for multivariate responses: 
 #' controls effect of concavity of objective
 #'   function.
-#' @param select [gS] Character: "pls2", "simpls". PLS algorithm for variable 
+#' @param select \[gS\] Character: "pls2", "simpls". PLS algorithm for variable 
 #' selection.
-#' @param fit [gS] Character: "kernelpls", "widekernelpls", "simpls", 
+#' @param fit \[gS\] Character: "kernelpls", "widekernelpls", "simpls", 
 #' "oscorespls". Algorithm for model fitting.
 #' @param scale.x Logical: if TRUE, scale features by dividing each column by 
 #' its sample standard deviation
 #' @param scale.y Logical: if TRUE, scale outcomes by dividing each column by 
 #' its sample standard deviation
-#' @param maxstep [gS] Integer: Maximum number of iteration when fitting 
+#' @param maxstep \[gS\] Integer: Maximum number of iteration when fitting 
 #' direction vectors.
 #' @param classifier Character: Classifier used by `spls::splsda` "lda" 
 #' or "logistic":

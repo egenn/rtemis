@@ -104,14 +104,14 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{interaction.depth}{\link{gS} Integer: Interaction depth.}
+\item{interaction.depth}{[gS] Integer: Interaction depth.}
 
-\item{shrinkage}{\link{gS} Float: Shrinkage (learning rate).}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate).}
 
-\item{bag.fraction}{\link{gS} Float (0, 1): Fraction of cases to use to train each tree.
+\item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting.}
 
-\item{n.minobsinnode}{\link{gS} Integer: Minimum number of observation allowed in node.}
+\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node.}
 
 \item{n.trees}{Integer: Initial number of trees to fit}
 
@@ -162,8 +162,9 @@ Train a GBM model using \code{gbm::gbm.fit}
 Early stopping is implemented by fitting \code{n.trees} initially, checking the
 optionally smoothed validation error curve, and adding \code{n.new.trees} if
 needed, until error does not reduce or \code{max.trees} is reached.
-\link{gS} in the argument description indicates that multiple values can be
-passed, in which case tuning will be performed using grid search.
+[gS] in the argument description indicates that a vector of values can be
+passed, in which case grid search will be performed automatically using the
+resampling scheme defined by \code{grid.resample.rtset}.
 
 This function includes a workaround for when \code{gbm.fit} fails.
 If an error is detected, \code{gbm.fit} is rerun until successful and the

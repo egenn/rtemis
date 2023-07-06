@@ -48,13 +48,13 @@ Columns must correspond to columns in \code{x}}
 "Balanced Accuracy" for Classification,
 "MSE" for Regression, and "Coherence" for Survival Analysis.}
 
-\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
+\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
+\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child
 node.}
 
-\item{cp}{\link{gS} Float: Complexity threshold for allowing a split.}
+\item{cp}{[gS] Float: Complexity threshold for allowing a split.}
 
 \item{maxcompete}{Integer: The number of competitor splits saved in the
 output}
@@ -66,7 +66,7 @@ output (See \code{rpart::rpart.control}).}
 
 \item{surrogatestyle}{See \code{rpart::rpart.control}}
 
-\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
+\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
 
 \item{xval}{Integer: Number of cross-validations}
 

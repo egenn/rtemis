@@ -75,10 +75,10 @@ combinations.}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{alpha}{\link{gS} Float \link{0, 1}: The elasticnet mixing parameter:
+\item{alpha}{[gS] Float \link{0, 1}: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
-\item{lambda}{\link{gS} Float vector: Best left to NULL, \code{cv.glmnet} will
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will
 compute its own lambda sequence}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -149,7 +149,7 @@ Train an elastic net model
 Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 alpha and resample combination
 
-\verb{[gS]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
+\verb{\[gS\]} Indicates tunable hyperparameters: If more than a single value is provided, grid search will be
 automatically performed
 }
 \seealso{

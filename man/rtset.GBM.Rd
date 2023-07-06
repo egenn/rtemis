@@ -20,14 +20,14 @@ rtset.GBM(
 )
 }
 \arguments{
-\item{interaction.depth}{\link{gS} Integer: Interaction depth.}
+\item{interaction.depth}{[gS] Integer: Interaction depth.}
 
-\item{shrinkage}{\link{gS} Float: Shrinkage (learning rate).}
+\item{shrinkage}{[gS] Float: Shrinkage (learning rate).}
 
-\item{bag.fraction}{\link{gS} Float (0, 1): Fraction of cases to use to train each tree.
+\item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting.}
 
-\item{n.minobsinnode}{\link{gS} Integer: Minimum number of observation allowed in node.}
+\item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node.}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
 (for Classification only).

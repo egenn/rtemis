@@ -89,14 +89,14 @@ Default = NULL (random seed)}
 
 \item{kernel}{Character: "linear", "polynomial", "radial", "sigmoid"}
 
-\item{degree}{\link{gS} Integer: Degree for \code{kernel = "polynomial"}.}
+\item{degree}{[gS] Integer: Degree for \code{kernel = "polynomial"}.}
 
-\item{gamma}{\link{gS} Float: Parameter used in all kernels except \code{linear}}
+\item{gamma}{[gS] Float: Parameter used in all kernels except \code{linear}}
 
-\item{coef0}{\link{gS} Float: Parameter used by kernels \code{polynomial} and
+\item{coef0}{[gS] Float: Parameter used by kernels \code{polynomial} and
 \code{sigmoid}}
 
-\item{cost}{\link{gS} Float: Cost of constraints violation; the C constant of the
+\item{cost}{[gS] Float: Cost of constraints violation; the C constant of the
 regularization term in the Lagrange
 formulation.}
 
@@ -144,7 +144,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train an SVM learner using \code{e1071::svm}
 }
 \details{
-\link{gS} denotes parameters that will be tuned by cross-validation if more than one value is passed.
+[gS] denotes parameters that will be tuned by cross-validation if more than one value is passed.
 Regarding SVM tuning, the following guide from the LIBSVM authors can be useful:
 http://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf
 They suggest searching for cost = 2 ^ seq(-5, 15, 2) and

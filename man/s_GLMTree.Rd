@@ -63,12 +63,12 @@ Columns must correspond to columns in \code{x}}
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{maxdepth}{\link{gS} Integer: Maximum depth of tree.}
+\item{maxdepth}{[gS] Integer: Maximum depth of tree.}
 
-\item{minsplit}{\link{gS} Integer: Minimum number of cases that must belong in a
+\item{minsplit}{[gS] Integer: Minimum number of cases that must belong in a
 node before considering a split.}
 
-\item{minbucket}{\link{gS} Integer: Minimum number of cases allowed in a child
+\item{minbucket}{[gS] Integer: Minimum number of cases allowed in a child
 node.}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting

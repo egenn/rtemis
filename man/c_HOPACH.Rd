@@ -27,9 +27,9 @@ If NULL, it is computed based on \code{metric}}
 
 \item{k}{Integer, (0:15]: Maximum number of levels}
 
-\item{kmax}{Integer, \link{1:9}: Maximum number of children at each node in the tree}
+\item{kmax}{Integer, [1:9]: Maximum number of children at each node in the tree}
 
-\item{khigh}{Integer, \link{1:9}: Maximum number of children at each nod ein the tree when computing the
+\item{khigh}{Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
 the Mean/Median Split Silhouette. Usually same as \code{kmax}}
 
 \item{trace}{Integer: If trace > 0, print messages during HOPACH run. Default = 0}

@@ -113,7 +113,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a HAL model
 }
 \details{
-\verb{[gS]} Indicates tunable hyperparameters: If more than a single value is provided,
+\verb{\[gS\]} Indicates tunable hyperparameters: If more than a single value is provided,
 grid search will be automatically performed
 }
 \seealso{

@@ -17,10 +17,10 @@
 #' @param stepFactor Float: If `autotune = TRUE`, at each tuning iteration, `mtry` is multiplied or
 #' divided by this value. Default = 1.5
 #' @param mtryStart Integer: If `autotune = TRUE`, start at this value for `mtry`
-#' @param mtry [gS] Integer: Number of features sampled randomly at each split
-#' @param nodesize [gS]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
+#' @param mtry \[gS\] Integer: Number of features sampled randomly at each split
+#' @param nodesize \[gS\]: Integer: Minimum size of terminal nodes. Default = 5 (Regression);
 #' 1 (Classification)
-#' @param maxnodes [gS]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
+#' @param maxnodes \[gS\]: Integer: Maximum number of terminal nodes in a tree. Default = NULL; trees
 #' grown to maximum possible
 #' @param replace Logical: If TRUE, sample cases with replacement during training.
 #' @param classwt Vector, Float: Priors of the classes for classification only. Need not add up to 1

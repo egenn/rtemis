@@ -7,7 +7,7 @@
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
 #'
-#' [gS]: indicates parameter will be autotuned by grid search if multiple
+#' \[gS\]: indicates parameter will be autotuned by grid search if multiple
 #' values are passed. Learn more about XGBoost's parameters here:
 #' http://xgboost.readthedocs.io/en/latest/parameter.html
 #'

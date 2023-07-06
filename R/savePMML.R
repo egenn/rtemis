@@ -6,6 +6,12 @@
 #'
 #' @param x rtemis model
 #' @param filename Character: path to file
+#' @param transforms List of PMML transformations
+#' @param model_name Character: name of the model
+#' @param model_version Character: version of the model
+#' @param description Character: description of the model
+#' @param copyright Character: copyright information
+#' @param ... Additional arguments passed to pmml::pmml()
 #'
 #' @export
 #' @author E.D. Gennatas

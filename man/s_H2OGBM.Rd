@@ -75,7 +75,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{n.trees}{Integer: Number of trees to grow. Maximum number of trees if \code{n.stopping.rounds > 0}}
 
-\item{max.depth}{\link{gS} Integer: Depth of trees to grow}
+\item{max.depth}{[gS] Integer: Depth of trees to grow}
 
 \item{n.stopping.rounds}{Integer: If > 0, stop training if \code{stopping.metric} does not improve for this
 many rounds}
@@ -83,15 +83,15 @@ many rounds}
 \item{stopping.metric}{Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 "AUC", "lift_top_group", "misclassification", "mean_per_class_error"}
 
-\item{p.col.sample}{\link{gS}}
+\item{p.col.sample}{[gS]}
 
-\item{p.row.sample}{\link{gS}}
+\item{p.row.sample}{[gS]}
 
-\item{minobsinnode}{\link{gS}}
+\item{minobsinnode}{[gS]}
 
-\item{learning.rate}{\link{gS}}
+\item{learning.rate}{[gS]}
 
-\item{learning.rate.annealing}{\link{gS}}
+\item{learning.rate.annealing}{[gS]}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
@@ -153,7 +153,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 Trains a Gradient Boosting Machine using H2O (http://www.h2o.ai)
 }
 \details{
-\link{gS} denotes tunable hyperparameters
+[gS] denotes tunable hyperparameters
 Warning: If you get an HTTP 500 error at random, use \code{h2o.shutdown()} to shutdown the server.
 It will be restarted when \code{s_H2OGBM} is called
 }

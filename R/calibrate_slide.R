@@ -11,8 +11,9 @@
 #' 
 #' @param true_labels Factor with true class labels
 #' @param est_prob Numeric vector with predicted probabilities
-#' @param window_width Numeric: Width of the calibration windows
+#' @param n_windows Integer: Number of calibration windows
 #' @param pos_class_idi Integer: Index of the positive class
+#' @param k Integer: GAM degrees of freedom
 #' @param verbose Logical: If TRUE, printe messages to the console
 #'
 #' @return List with mod: fitted GAM model to be used for calibration of new data
@@ -38,7 +39,8 @@
 #'     pos_class_idi = 2
 #' )
 #' }
-calibrate_slide <- function(true_labels, est_prob,
+calibrate_slide <- function(true_labels,
+                            est_prob,
                             #   window_width = 0.1,
                             n_windows = NULL,
                             pos_class_idi = 1,

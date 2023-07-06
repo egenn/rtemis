@@ -7,7 +7,7 @@
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
 #'
-#' [gS]: indicates parameter will be autotuned by grid search if multiple 
+#' \[gS\]: indicates parameter will be autotuned by grid search if multiple 
 #' values are passed. Learn more about XGBoost's parameters here: 
 #' http://xgboost.readthedocs.io/en/latest/parameter.html
 #' 
@@ -16,17 +16,17 @@
 #' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number 
 #' as early stopping will limit nrounds by monitoring inner CV error
 #' @param force.nrounds Integer: Number of rounds to run if not estimating optimal number by CV
-#' @param lambda [gS] L2 regularization on weights
-# @param lambda_bias [gS] for *linear* booster: L2 regularization on bias
-#' @param alpha [gS] L1 regularization on weights
-#' @param eta [gS] Numeric (0, 1): Learning rate. Default = .1
-#' @param gamma [gS] Numeric: Minimum loss reduction required to make further partition
-#' @param max_depth [gS] Integer: Maximum tree depth. (Default = 6)
-#' @param subsample [gS] Numeric: subsample ratio of the training instance
-#' @param colsample_bytree [gS] Numeric: subsample ratio of columns when constructing each tree
-#' @param colsample_bylevel [gS] Numeric
-#' @param tree_method [gS] XGBoost tree construction algorithm (Default = "auto")
-#' @param sketch_eps [gS] Numeric (0, 1):
+#' @param lambda \[gS\] L2 regularization on weights
+# @param lambda_bias \[gS\] for *linear* booster: L2 regularization on bias
+#' @param alpha \[gS\] L1 regularization on weights
+#' @param eta \[gS\] Numeric (0, 1): Learning rate. Default = .1
+#' @param gamma \[gS\] Numeric: Minimum loss reduction required to make further partition
+#' @param max_depth \[gS\] Integer: Maximum tree depth. (Default = 6)
+#' @param subsample \[gS\] Numeric: subsample ratio of the training instance
+#' @param colsample_bytree \[gS\] Numeric: subsample ratio of columns when constructing each tree
+#' @param colsample_bylevel \[gS\] Numeric
+#' @param tree_method \[gS\] XGBoost tree construction algorithm (Default = "auto")
+#' @param sketch_eps \[gS\] Numeric (0, 1):
 #' @param num_parallel_tree Integer: N of trees to grow in parallel: Results in Random Forest -like algorithm.
 #'  (Default = 1; i.e. regular boosting)
 #' @param base_score Numeric: The mean outcome response (Defaults to mean)

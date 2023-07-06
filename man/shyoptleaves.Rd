@@ -51,10 +51,10 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 model is trained. Otherwise, this should be an even number as each split introduces two children nodes.
 Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.}
 
-\item{learning.rate}{\link{gS} Numeric: learning rate for steps after initial
+\item{learning.rate}{[gS] Numeric: learning rate for steps after initial
 linear model}
 
-\item{gamma}{\link{gS} Numeric: Soft weighting parameter. Weights of cases that
+\item{gamma}{[gS] Numeric: Soft weighting parameter. Weights of cases that
 do not belong to node get multiplied by this amount}
 
 \item{lin.type}{Character: One of "glmnet", "forwardStepwise", "cv.glmnet",
@@ -62,10 +62,10 @@ do not belong to node get multiplied by this amount}
 to not fit linear models
 See \link{lincoef} for more}
 
-\item{lambda}{\link{gS} Numeric: lambda value for lin.type \code{glmnet},
+\item{lambda}{[gS] Numeric: lambda value for lin.type \code{glmnet},
 \code{cv.glmnet}, \code{lm.ridge}}
 
-\item{nvmax}{\link{gS} Integer: Number of max features to use for lin.type
+\item{nvmax}{[gS] Integer: Number of max features to use for lin.type
 "allSubsets", "forwardStepwise", or "backwardStepwise". If values greater
 than n of features in \code{x} are provided, they will be excluded}
 

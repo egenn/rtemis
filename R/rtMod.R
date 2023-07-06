@@ -1941,11 +1941,12 @@ predict.rtModCV <- function(object, newdata,
 #'
 #' @method describe rtModCV
 #' @param object `rtModCV` object
+#' @param ... Not used
 #'
 #' @rdname rtModCV-methods
 #' @export
 
-describe.rtModCV <- function(object) object$describe()
+describe.rtModCV <- function(object, ...) object$describe()
 
 
 # rtModCVClass R6 ----

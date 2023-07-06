@@ -70,17 +70,17 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 
 \item{min.update}{Float: Minimum update for gradient step}
 
-\item{min.hessian}{\link{gS} Float: Minimum second derivative to continue splitting. Default = .001}
+\item{min.hessian}{[gS] Float: Minimum second derivative to continue splitting. Default = .001}
 
 \item{min.membership}{Integer: Minimum number of cases in a node. Default = 1}
 
 \item{steps.past.min.membership}{Integer: N steps to make past \code{min.membership} - For testing. Default = 0}
 
-\item{gamma}{\link{gS} Float: acceleration factor = lambda/(1 + lambda). Default = .8}
+\item{gamma}{[gS] Float: acceleration factor = lambda/(1 + lambda). Default = .8}
 
-\item{max.depth}{\link{gS} Integer: maximum depth of the tree. Default = 30}
+\item{max.depth}{[gS] Integer: maximum depth of the tree. Default = 30}
 
-\item{learning.rate}{\link{gS} learning rate for the Newton Raphson step that updates the function values
+\item{learning.rate}{[gS] learning rate for the Newton Raphson step that updates the function values
 of the node}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
@@ -149,7 +149,7 @@ is the 'positive' class. Ensure there are no missing values in the data and that
 Factor levels should not contain the "/" character (it is used to separate conditions
 in the addtree object)
 
-\link{gS} Indicates that more than one value can be supplied, which will result in grid search using
+[gS] Indicates that more than one value can be supplied, which will result in grid search using
 internal resampling
 lambda = gamma/(1 - gamma)
 }

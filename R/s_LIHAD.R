@@ -43,13 +43,13 @@
 #' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
 #'
 #' @inheritParams s_GLM
-#' @param max.depth [gS] Integer: Max depth of additive tree. Default = 3
-#' @param alpha [gS] Float: `lincoef` alpha Overrides `lincoef.params` alpha
-#' @param lambda [gS] Float: `lincoef` lambda. Overrides `lincoef.params` lambda
+#' @param max.depth \[gS\] Integer: Max depth of additive tree. Default = 3
+#' @param alpha \[gS\] Float: `lincoef` alpha Overrides `lincoef.params` alpha
+#' @param lambda \[gS\] Float: `lincoef` lambda. Overrides `lincoef.params` lambda
 #' @param lincoef.params Named List: Output of [rtset.lincoef]
-#' @param minobsinnode [gS] Integer: Minimum N observations needed in node, before considering splitting
-#' @param learning.rate [gS] Float (0, 1): Learning rate. Default = 1
-#' @param part.cp [gS] Float: Minimum complexity needed to allow split by `rpart`. Default = 0
+#' @param minobsinnode \[gS\] Integer: Minimum N observations needed in node, before considering splitting
+#' @param learning.rate \[gS\] Float (0, 1): Learning rate. Default = 1
+#' @param part.cp \[gS\] Float: Minimum complexity needed to allow split by `rpart`. Default = 0
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param cxrcoef Logical: Passed to [predict.lihad], if TRUE, returns cases by coefficients matrix.
 #' Default = FALSE

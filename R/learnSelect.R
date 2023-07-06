@@ -179,7 +179,7 @@ svm_params <- list(
     C = "Float: Penalty parameter C of the error term.",
     kernel = "String: Specifies the kernel type to be used in the algorithm.",
     degree = "Integer: Degree of the polynomial kernel function.",
-    gamma = "Float: Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.",
+    gamma = "Float: Kernel coefficient for 'rbf', 'poly' and 'sigmoid'.",
     coef0 = "Float: Independent term in kernel function.",
     shrinking = "Boolean: Whether to use the shrinking heuristic.",
     probability = "Boolean: Whether to enable probability estimates.",

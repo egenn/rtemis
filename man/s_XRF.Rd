@@ -135,25 +135,25 @@ Default = NULL (random seed)}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
 
-\item{eta}{\link{gS} Numeric (0, 1): Learning rate. Default = .1}
+\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
 
-\item{gamma}{\link{gS} Numeric: Minimum loss reduction required to make further partition}
+\item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
 
-\item{max_depth}{\link{gS} Integer: Maximum tree depth. (Default = 6)}
+\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
 
-\item{subsample}{\link{gS} Numeric: subsample ratio of the training instance}
+\item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
-\item{colsample_bytree}{\link{gS} Numeric: subsample ratio of columns when constructing each tree}
+\item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
 
-\item{colsample_bylevel}{\link{gS} Numeric}
+\item{colsample_bylevel}{[gS] Numeric}
 
-\item{lambda}{\link{gS} L2 regularization on weights}
+\item{lambda}{[gS] L2 regularization on weights}
 
-\item{alpha}{\link{gS} L1 regularization on weights}
+\item{alpha}{[gS] L1 regularization on weights}
 
-\item{tree_method}{\link{gS} XGBoost tree construction algorithm (Default = "auto")}
+\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
 
-\item{sketch_eps}{\link{gS} Numeric (0, 1):}
+\item{sketch_eps}{[gS] Numeric (0, 1):}
 
 \item{base_score}{Numeric: The mean outcome response (Defaults to mean)}
 
@@ -204,7 +204,7 @@ Tune hyperparameters using grid search and resampling,
 train a final model, and validate it
 }
 \details{
-\link{gS}: indicates parameter will be autotuned by grid search if multiple
+[gS]: indicates parameter will be autotuned by grid search if multiple
 values are passed. Learn more about XGBoost's parameters here:
 http://xgboost.readthedocs.io/en/latest/parameter.html
 }

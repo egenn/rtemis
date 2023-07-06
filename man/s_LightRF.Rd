@@ -96,7 +96,7 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{boosting}{Character: \link{gS} "gbdt", "rf", "dart", "goss"}
+\item{boosting}{Character: [gS] "gbdt", "rf", "dart", "goss"}
 
 \item{objective}{(Default = NULL)}
 
@@ -108,21 +108,21 @@ as early stopping will limit nrounds by monitoring inner CV error}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
 
-\item{num_leaves}{Integer: \link{gS} Maximum tree leaves for base learners.}
+\item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
 
-\item{max_depth}{Integer: \link{gS} Maximum tree depth for base learners, <=0 means no limit.}
+\item{max_depth}{Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.}
 
-\item{learning_rate}{Numeric: \link{gS} Boosting learning rate}
+\item{learning_rate}{Numeric: [gS] Boosting learning rate}
 
-\item{bagging_fraction}{Numeric: \link{gS} Subsample ratio of the training set.}
+\item{bagging_fraction}{Numeric: [gS] Subsample ratio of the training set.}
 
-\item{lambda_l1}{Numeric: \link{gS} L1 regularization term}
+\item{lambda_l1}{Numeric: [gS] L1 regularization term}
 
-\item{lambda_l2}{Numeric: \link{gS} L2 regularization term}
+\item{lambda_l2}{Numeric: [gS] L2 regularization term}
 
-\item{linear_tree}{Logical: \link{gS} If \code{TRUE}, use linear trees}
+\item{linear_tree}{Logical: [gS] If \code{TRUE}, use linear trees}
 
-\item{tree_learner}{Character: \link{gS} "serial", "feature", "data", "voting"}
+\item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 \link{gridSearchLearn} parameters.}

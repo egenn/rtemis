@@ -12,8 +12,8 @@
 #' @param metric Character: Dissimilarity metric to be used. Options: "cosangle", "abscosangle", "euclid",
 #' "abseuclid", "cor", "abscor"
 #' @param k Integer, (0:15]: Maximum number of levels
-#' @param kmax Integer, [1:9]: Maximum number of children at each node in the tree
-#' @param khigh Integer, [1:9]: Maximum number of children at each nod ein the tree when computing the
+#' @param kmax Integer, \[1:9\]: Maximum number of children at each node in the tree
+#' @param khigh Integer, \[1:9\]: Maximum number of children at each nod ein the tree when computing the
 #' the Mean/Median Split Silhouette. Usually same as `kmax`
 #' @param trace Integer: If trace > 0, print messages during HOPACH run. Default = 0
 #' @param verbose Logical: If TRUE, print messages to console

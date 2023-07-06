@@ -20,6 +20,10 @@ calibrate(
 
 \item{pos_class_idi}{Integer: Index of the positive class}
 
+\item{mod}{Character: Model to use for calibration. Either "gam" or "glm"}
+
+\item{k}{Integer: GAM degrees of freedom}
+
 \item{verbose}{Logical: If TRUE, printe messages to the console}
 }
 \value{

@@ -19,6 +19,18 @@ savePMML(
 \item{x}{rtemis model}
 
 \item{filename}{Character: path to file}
+
+\item{transforms}{List of PMML transformations}
+
+\item{model_name}{Character: name of the model}
+
+\item{model_version}{Character: version of the model}
+
+\item{description}{Character: description of the model}
+
+\item{copyright}{Character: copyright information}
+
+\item{...}{Additional arguments passed to pmml::pmml()}
 }
 \description{
 Save rtemis model to PMML file

@@ -11,8 +11,9 @@
 #' Early stopping is implemented by fitting `n.trees` initially, checking the 
 #' optionally smoothed validation error curve, and adding `n.new.trees` if 
 #' needed, until error does not reduce or `max.trees` is reached.
-#' [gS] in the argument description indicates that multiple values can be 
-#' passed, in which case tuning will be performed using grid search. 
+#' \[gS\] in the argument description indicates that a vector of values can be 
+#' passed, in which case grid search will be performed automatically using the 
+#' resampling scheme defined by `grid.resample.rtset`.
 #' 
 #' This function includes a workaround for when `gbm.fit` fails.
 #' If an error is detected, `gbm.fit` is rerun until successful and the 
@@ -20,10 +21,10 @@
 #' 
 #' @inheritParams s_GLM
 #' @param n.trees Integer: Initial number of trees to fit
-#' @param interaction.depth [gS] Integer: Interaction depth.
-#' @param shrinkage [gS] Float: Shrinkage (learning rate).
-#' @param n.minobsinnode [gS] Integer: Minimum number of observation allowed in node.
-#' @param bag.fraction [gS] Float (0, 1): Fraction of cases to use to train each tree.
+#' @param interaction.depth \[gS\] Integer: Interaction depth.
+#' @param shrinkage \[gS\] Float: Shrinkage (learning rate).
+#' @param n.minobsinnode \[gS\] Integer: Minimum number of observation allowed in node.
+#' @param bag.fraction \[gS\] Float (0, 1): Fraction of cases to use to train each tree.
 #' Helps avoid overfitting.
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 #'   Object size adds up quickly

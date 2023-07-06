@@ -15,7 +15,7 @@
 #'
 #' @inheritParams s_GLM
 #' @param max.leaves Integer: Maximum number of terminal nodes to grow
-#' @param nvmax [gS] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
+#' @param nvmax \[gS\] Integer: Number of max features to use for lin.type "allSubsets", "forwardStepwise", or
 #' "backwardStepwise". If values greater than n of features in `x` are provided, they will be excluded
 #' @param lookback Logical: If TRUE, check validation error to decide when to stop growing tree. Default = FALSE
 #' @param init Initial value. Default = `mean(y)`

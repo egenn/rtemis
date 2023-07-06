@@ -6,7 +6,7 @@
 #'
 #' Train an SVM learner using `e1071::svm`
 #'
-#' [gS] denotes parameters that will be tuned by cross-validation if more than one value is passed.
+#' \[gS\] denotes parameters that will be tuned by cross-validation if more than one value is passed.
 #' Regarding SVM tuning, the following guide from the LIBSVM authors can be useful:
 #' http://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf
 #' They suggest searching for cost = 2 ^ seq(-5, 15, 2) and
@@ -19,13 +19,13 @@
 #' outcome class.For classification, `class.weights` takes precedence over 
 #' `ifw`, therefore set `class.weights = NULL` if using `ifw`.
 #' @param kernel Character: "linear", "polynomial", "radial", "sigmoid"
-#' @param degree [gS] Integer: Degree for `kernel = "polynomial"`.
-#' @param cost [gS] Float: Cost of constraints violation; the C constant of the 
+#' @param degree \[gS\] Integer: Degree for `kernel = "polynomial"`.
+#' @param cost \[gS\] Float: Cost of constraints violation; the C constant of the 
 #' regularization term in the Lagrange
 #'   formulation.
 #' @param probability Logical: If TRUE, model allows probability estimates
-#' @param gamma [gS] Float: Parameter used in all kernels except `linear`
-#' @param coef0 [gS] Float: Parameter used by kernels `polynomial` and 
+#' @param gamma \[gS\] Float: Parameter used in all kernels except `linear`
+#' @param coef0 \[gS\] Float: Parameter used by kernels `polynomial` and 
 #' `sigmoid`
 #' @param ... Additional arguments to be passed to `e1071::svm`
 #' 

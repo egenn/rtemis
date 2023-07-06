@@ -6,19 +6,19 @@
 #'
 #' Trains a Gradient Boosting Machine using H2O (http://www.h2o.ai)
 #'
-#' [gS] denotes tunable hyperparameters
+#' \[gS\] denotes tunable hyperparameters
 #' Warning: If you get an HTTP 500 error at random, use `h2o.shutdown()` to shutdown the server.
 #' It will be restarted when `s_H2OGBM` is called
 #' @inheritParams s_GLM
 #' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port number for server. Default = 54321
 #' @param n.trees Integer: Number of trees to grow. Maximum number of trees if `n.stopping.rounds > 0`
-#' @param max.depth [gS] Integer: Depth of trees to grow
-#' @param learning.rate [gS]
-#' @param learning.rate.annealing [gS]
-#' @param p.col.sample [gS]
-#' @param p.row.sample [gS]
-#' @param minobsinnode [gS]
+#' @param max.depth \[gS\] Integer: Depth of trees to grow
+#' @param learning.rate \[gS\]
+#' @param learning.rate.annealing \[gS\]
+#' @param p.col.sample \[gS\]
+#' @param p.row.sample \[gS\]
+#' @param minobsinnode \[gS\]
 #' @param n.stopping.rounds Integer: If > 0, stop training if `stopping.metric` does not improve for this
 #' many rounds
 #' @param stopping.metric Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",

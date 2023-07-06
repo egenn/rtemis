@@ -14,7 +14,7 @@
 
 \method{predict}{rtModCV}(object, newdata, which.repeat = 1, bag.fn = mean, n.cores = 1, ...)
 
-\method{describe}{rtModCV}(object)
+\method{describe}{rtModCV}(object, ...)
 }
 \arguments{
 \item{x}{\code{rtModCV} object}

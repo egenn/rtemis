@@ -13,14 +13,14 @@
 #' Tune hyperparameters using grid search and resampling,
 #' train a final model, and validate it
 #'
-#' [gS]: indicates parameter will be autotuned by grid search if multiple
+#' \[gS\]: indicates parameter will be autotuned by grid search if multiple
 #' values are passed.
 #' LightGBM trains trees leaf-wise (best-first) rather than depth-wise.
 #' For categorical variables, convert to integer and indicate to lgb they are categorical,
 #' so that they are not treated as numeric.
 #'
 #' @inheritParams s_CART
-#' @param boosting Character: [gS] "gbdt", "rf", "dart", "goss"
+#' @param boosting Character: \[gS\] "gbdt", "rf", "dart", "goss"
 #' @param max_nrounds Integer: Maximum number of rounds to run. Can be set to a high number
 #' as early stopping will limit nrounds by monitoring inner CV error
 #' @param force_nrounds Integer: Number of rounds to run if not estimating optimal number by CV
@@ -28,14 +28,14 @@
 #' stop if performance does not improve for this many rounds
 #' @param nrounds_default Integer: Default number of rounds to run if 
 #' cross-validation fails - likely will never be used
-#' @param num_leaves Integer: [gS] Maximum tree leaves for base learners.
-#' @param max_depth Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.
-#' @param learning_rate Numeric: [gS] Boosting learning rate
-#' @param bagging_fraction Numeric: [gS] Subsample ratio of the training set.
-#' @param lambda_l1 Numeric: [gS] L1 regularization term
-#' @param lambda_l2 Numeric: [gS] L2 regularization term
-#' @param linear_tree Logical: [gS] If `TRUE`, use linear trees
-#' @param tree_learner Character: [gS] "serial", "feature", "data", "voting"
+#' @param num_leaves Integer: \[gS\] Maximum tree leaves for base learners.
+#' @param max_depth Integer: \[gS\] Maximum tree depth for base learners, <=0 means no limit.
+#' @param learning_rate Numeric: \[gS\] Boosting learning rate
+#' @param bagging_fraction Numeric: \[gS\] Subsample ratio of the training set.
+#' @param lambda_l1 Numeric: \[gS\] L1 regularization term
+#' @param lambda_l2 Numeric: \[gS\] L2 regularization term
+#' @param linear_tree Logical: \[gS\] If `TRUE`, use linear trees
+#' @param tree_learner Character: \[gS\] "serial", "feature", "data", "voting"
 #' @param objective (Default = NULL)
 #' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only parallelize
 #' resamples using `n.cores` or the lightgbm execution using this setting.

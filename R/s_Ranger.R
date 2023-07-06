@@ -14,7 +14,7 @@
 #' For imbalanced datasets, setting stratify.on.y = TRUE should improve performance.
 #' If `autotune = TRUE`, `randomForest::tuneRF` will be run to determine best `mtry`
 #'   value.
-#' [gS]: indicated parameter will be tuned by grid search if more than one value is passed
+#' \[gS\]: indicated parameter will be tuned by grid search if more than one value is passed
 #'
 #' See [Tech Report](https://statistics.berkeley.edu/sites/default/files/tech-reports/666.pdf) comparing
 #' balanced (ifw.case.weights = TRUE) and weighted (ifw.class.weights = TRUE) Random Forests.
@@ -22,10 +22,10 @@
 #' @inheritParams s_RF
 #' @inheritParams s_CART
 #' @param n.trees Integer: Number of trees to grow. Default = 1000
-#' @param mtry [gS] Integer: Number of features sampled randomly at each split.
+#' @param mtry \[gS\] Integer: Number of features sampled randomly at each split.
 #'  Defaults to square root of n of
 #' features for classification, and a third of n of features for regression.
-#' @param min.node.size [gS] Integer: Minimum node size
+#' @param min.node.size \[gS\] Integer: Minimum node size
 #' @param splitrule Character: For classification: "gini" (Default) or
 #' "extratrees";
 #' For regression: "variance" (Default), "extratrees" or "maxstat".

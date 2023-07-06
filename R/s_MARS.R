@@ -6,7 +6,7 @@
 #' Multivariate adaptive regression splines (MARS) (C, R)
 #'
 #' Trains a MARS model using `earth::earth`.
-#' [gS] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
+#' \[gS\] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
 #' For more info on algorithm hyperparameters, see `?earth::earth`
 #'
 #' @param x Numeric vector or matrix of features, i.e. independent variables
@@ -14,13 +14,13 @@
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
 #'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
-#' @param degree [gS] Integer: Maximum degree of interaction. Default = 2
-#' @param penalty [gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
+#' @param degree \[gS\] Integer: Maximum degree of interaction. Default = 2
+#' @param penalty \[gS\] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
 #' -1 means no penalty. Default = 3
-#' @param pmethod [gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
+#' @param pmethod \[gS\] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 #' "seqrep", "cv". Default = "forward"
-#' @param nprune [gS] Integer: Max N of terms (incl. intercept) in the pruned model
-#' @param nk [gS] Integer: Maximum number of terms created by the forward pass.
+#' @param nprune \[gS\] Integer: Max N of terms (incl. intercept) in the pruned model
+#' @param nk \[gS\] Integer: Maximum number of terms created by the forward pass.
 #' See `earth::earth`
 #' @param ... Additional parameters to pass to `earth::earth`
 #' @return Object of class [rtMod]

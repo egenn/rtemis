@@ -6,20 +6,20 @@
 #'
 #' Train a Projection Pursuit Regression model
 #'
-#' [gS]: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the
+#' \[gS\]: If more than one value is passed, parameter tuning via grid search will be performed on resamples of the
 #'   training set prior to training model on full training set
 #'   Interactions: PPR automatically models interactions, no need to specify them
 #'
 #' @inheritParams s_CART
-#' @param nterms [gS] Integer: number of terms to include in the final model
-#' @param optlevel [gS] Integer [0, 3]: optimization level (Default = 3). See Details in `stats::ppr`
-#' @param sm.method [gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
+#' @param nterms \[gS\] Integer: number of terms to include in the final model
+#' @param optlevel \[gS\] Integer [0, 3]: optimization level (Default = 3). See Details in `stats::ppr`
+#' @param sm.method \[gS\] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
 #' Default = "spline"
-#' @param bass [gS] Numeric [0, 10]: for `sm.method = "supsmu"`: larger values result in greater smoother
+#' @param bass \[gS\] Numeric [0, 10]: for `sm.method = "supsmu"`: larger values result in greater smoother
 #'   (Default = 5). See `stats::ppr`
-#' @param span [gS] Numeric [0, 1]: for `sm.method = "supsmu"`: 0 (Default) results in automatic span selection by
+#' @param span \[gS\] Numeric [0, 1]: for `sm.method = "supsmu"`: 0 (Default) results in automatic span selection by
 #'   local crossvalidation. See `stats::ppr`
-#' @param df [gS] Numeric: for `sm.method = "spline"`: Specify smoothness of each ridge term. See `stats::ppr`
+#' @param df \[gS\] Numeric: for `sm.method = "spline"`: Specify smoothness of each ridge term. See `stats::ppr`
 #' @param gcvpen [gs] Numeric: for `sm.method = "gcvspline"`: Penalty used in the GCV selection for each
 #'   degree of freedom used. Higher values result in greater smoothing. See `stats::ppr` Default = 5
 #' @param ... Additional arguments to be passed to `ppr`
