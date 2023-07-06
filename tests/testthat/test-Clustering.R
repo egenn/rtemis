@@ -9,10 +9,10 @@ x <- rnormmat(100, 10)
 # Tests ----
 clustSelect()
 
-# '- CMEANS ----
-test_that("CMEANS Clustering succeeds", {
+# '- CMeans ----
+test_that("CMeans Clustering succeeds", {
     skip_if_not_installed("e1071")
-    clust <- c_CMEANS(x, k = 2)
+    clust <- c_CMeans(x, k = 2)
     expect_identical(class(clust)[1], "rtClust")
 })
 
@@ -23,10 +23,10 @@ test_that("EMCluster Clustering succeeds", {
     expect_identical(class(clust)[1], "rtClust")
 })
 
-# '- H2OKMEANS ----
-test_that("H2OKMEANS Clustering succeeds", {
+# '- H2OKMeans ----
+test_that("H2OKMeans Clustering succeeds", {
     skip_if_not_installed("h2o")
-    clust <- c_H2OKMEANS(x, k = 2)
+    clust <- c_H2OKmeans(x, k = 2)
     expect_identical(class(clust)[1], "rtClust")
 })
 
@@ -37,10 +37,10 @@ test_that("HARDCL Clustering succeeds", {
     expect_identical(class(clust)[1], "rtClust")
 })
 
-# '- KMEANS ----
-test_that("KMEANS Clustering succeeds", {
+# '- KMeans ----
+test_that("KMeans Clustering succeeds", {
     skip_if_not_installed("flexclust")
-    clust <- c_KMEANS(x, k = 2)
+    clust <- c_KMeans(x, k = 2)
     expect_identical(class(clust)[1], "rtClust")
 })
 
@@ -79,9 +79,9 @@ test_that("SPEC Clustering succeeds", {
     expect_identical(class(clust)[1], "rtClust")
 })
 
-# '- MEANSHIFT ----
-test_that("MEANSHIFT Clustering succeeds", {
+# '- MeanShift ----
+test_that("MeanShift Clustering succeeds", {
     skip_if_not_installed("meanShiftR")
-    clust <- c_MEANSHIFT(x)
+    clust <- c_MeanShift(x)
     expect_identical(class(clust)[1], "rtClust")
 })
