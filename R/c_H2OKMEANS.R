@@ -1,4 +1,4 @@
-# c_H2OKMEANS.R
+# c_H2OKMeans.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
@@ -47,7 +47,7 @@ c_H2OKMeans <- function(x, x.test = NULL,
 
   # Intro ----
   start.time <- intro(verbose = verbose)
-  clust.name <- "H2OKMEANS"
+  clust.name <- "H2OKMeans"
 
   # Data ----
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
@@ -112,4 +112,4 @@ c_H2OKMeans <- function(x, x.test = NULL,
   outro(start.time, verbose = verbose)
   cl
 
-} # rtemis::c_H2OKMEANS
+} # rtemis::c_H2OKMeans

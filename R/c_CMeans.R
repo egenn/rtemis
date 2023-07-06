@@ -23,7 +23,7 @@
 #' @family Clustering
 #' @export
 
-c_CMEANS <- function(x,
+c_CMeans <- function(x,
                      k = 2,
                      iter.max = 100,
                      dist = "euclidean",
@@ -35,7 +35,7 @@ c_CMEANS <- function(x,
                      verbose = TRUE, ...) {
     # Intro ----
     start.time <- intro(verbose = verbose)
-    clust.name <- "CMEANS"
+    clust.name <- "CMeans"
 
     # Data ----
     .colnames <- if (is.null(colnames(x))) {
