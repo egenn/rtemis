@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2015 E.D. Gennatas www.lambdamd.org
 
-#' Total Least Squares Regression [R]
+#' Total Least Squares Regression \[R\]
 #'
 #' A minimal function to perform total least squares regression
 #'

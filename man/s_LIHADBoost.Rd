@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LIHADBoost.R
 \name{s_LIHADBoost}
 \alias{s_LIHADBoost}
-\title{Boosting of Linear Hard Additive Trees \link{R}}
+\title{Boosting of Linear Hard Additive Trees [R]}
 \usage{
 s_LIHADBoost(
   x,

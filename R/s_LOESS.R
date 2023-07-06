@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Local Polynomial Regression (LOESS) [R]
+#' Local Polynomial Regression (LOESS) \[R\]
 #'
 #' Fits a LOESS curve or surface
 #'

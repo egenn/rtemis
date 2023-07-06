@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' Linear Model Tree [R]
+#' Linear Model Tree \[R\]
 #'
 #' Train a LMTree for regression or classification using `rpart`
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_NLS.R
 \name{s_NLS}
 \alias{s_NLS}
-\title{Nonlinear Least Squares (NLS) \link{R}}
+\title{Nonlinear Least Squares (NLS) [R]}
 \usage{
 s_NLS(
   x,

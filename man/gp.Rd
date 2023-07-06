@@ -2,7 +2,7 @@
 % Please edit documentation in R/gp.R
 \name{gp}
 \alias{gp}
-\title{Bayesian Gaussian Processes \link{R}}
+\title{Bayesian Gaussian Processes [R]}
 \usage{
 gp(
   x,

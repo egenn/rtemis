@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_BRUTO.R
 \name{s_BRUTO}
 \alias{s_BRUTO}
-\title{Projection Pursuit Regression (BRUTO) \link{R}}
+\title{Projection Pursuit Regression (BRUTO) [R]}
 \usage{
 s_BRUTO(
   x,

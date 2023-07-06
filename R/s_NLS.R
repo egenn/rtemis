@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' Nonlinear Least Squares (NLS) [R]
+#' Nonlinear Least Squares (NLS) \[R\]
 #'
 #' Build a NLS model
 #'

@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' Generalized Linear Model Tree [R]
+#' Generalized Linear Model Tree \[R\]
 #'
 #' Train a GLMTree for regression or classification using 
 #' `partykit::glmtree`

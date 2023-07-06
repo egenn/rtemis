@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLMTree.R
 \name{s_GLMTree}
 \alias{s_GLMTree}
-\title{Generalized Linear Model Tree \link{R}}
+\title{Generalized Linear Model Tree [R]}
 \usage{
 s_GLMTree(
   x,

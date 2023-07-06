@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Projection Pursuit Regression (BRUTO) [R]
+#' Projection Pursuit Regression (BRUTO) \[R\]
 #'
 #' Trains a BRUTO model and validates it
 #'

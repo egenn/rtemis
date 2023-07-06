@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Generalized Least Squares [R]
+#' Generalized Least Squares \[R\]
 #'
 #' Train a Generalized Least Squares regression model using `nlme::gls`
 #'

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' CART and linear model boosting [R]
+#' CART and linear model boosting \[R\]
 #'
 #' Perform regression by iteratively boosting a CART and a GLM base learner
 #'

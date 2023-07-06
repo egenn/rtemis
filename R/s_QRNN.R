@@ -8,7 +8,7 @@
 # Notes
 #   Can replace qrnn.nlm to add resample support instead of regular bootstrap
 
-#' Quantile Regression Neural Network [R]
+#' Quantile Regression Neural Network \[R\]
 #'
 #' Train an ensemble of Neural Networks to perform Quantile Regression using `qrnn`
 #'

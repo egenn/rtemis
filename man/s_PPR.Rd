@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_PPR.R
 \name{s_PPR}
 \alias{s_PPR}
-\title{Projection Pursuit Regression (PPR) \link{R}}
+\title{Projection Pursuit Regression (PPR) [R]}
 \usage{
 s_PPR(
   x,

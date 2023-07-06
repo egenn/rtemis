@@ -4,7 +4,7 @@
 # boosting learning.rate vs. hytree learning.rate
 # ... added to allow "weights = NULL" from gridSearchLearn
 
-#' Boosting of Linear Hard Additive Trees [R]
+#' Boosting of Linear Hard Additive Trees \[R\]
 #'
 #' Boost a Linear Hard Additive Tree (i.e. LIHAD, i.e. LINAD with hard splits)
 #'

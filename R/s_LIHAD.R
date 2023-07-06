@@ -32,7 +32,7 @@
 #    '-terminal      TRUE if it is a terminal node
 #    '-type          "split", "nosplit", "max.depth", "minobsinnode"
 
-#' The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]
+#' The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes \[R\]
 #'
 #' Train a Linear Hard Hybrid Tree for Regression
 #'

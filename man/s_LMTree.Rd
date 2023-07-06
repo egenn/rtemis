@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LMTree.R
 \name{s_LMTree}
 \alias{s_LMTree}
-\title{Linear Model Tree \link{R}}
+\title{Linear Model Tree [R]}
 \usage{
 s_LMTree(
   x,

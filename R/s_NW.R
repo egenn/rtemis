@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Nadaraya-Watson kernel regression [R]
+#' Nadaraya-Watson kernel regression \[R\]
 #'
 #' Computes a kernel regression estimate using `np::npreg()`
 #'

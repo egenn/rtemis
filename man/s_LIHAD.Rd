@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LIHAD.R
 \name{s_LIHAD}
 \alias{s_LIHAD}
-\title{The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes \link{R}}
+\title{The Linear Hard Hybrid Tree: Hard Additive Tree (no gamma) with Linear Nodes [R]}
 \usage{
 s_LIHAD(
   x,

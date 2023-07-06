@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2018 E.D. Gennatas www.lambdamd.org
 
-#' NonLinear Activation unit Regression (NLA) [R]
+#' NonLinear Activation unit Regression (NLA) \[R\]
 #'
 #' Train an equivalent of a 1 hidden unit neural network with a defined nonlinear activation function
 #' using `optim`

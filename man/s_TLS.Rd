@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_TLS.R
 \name{s_TLS}
 \alias{s_TLS}
-\title{Total Least Squares Regression \link{R}}
+\title{Total Least Squares Regression [R]}
 \usage{
 s_TLS(
   x,

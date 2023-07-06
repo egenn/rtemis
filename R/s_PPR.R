@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
-#' Projection Pursuit Regression (PPR) [R]
+#' Projection Pursuit Regression (PPR) \[R\]
 #'
 #' Train a Projection Pursuit Regression model
 #'

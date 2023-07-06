@@ -2,7 +2,7 @@
 % Please edit documentation in R/cartLinBoostTV.R
 \name{cartLinBoostTV}
 \alias{cartLinBoostTV}
-\title{CART and linear model boosting \link{R}}
+\title{CART and linear model boosting [R]}
 \usage{
 cartLinBoostTV(
   x,

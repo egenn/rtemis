@@ -3,7 +3,7 @@
 # 2016 E.D. Gennatas www.lambdamd.org
 # make into rtMod
 
-#' Bayesian Gaussian Processes [R]
+#' Bayesian Gaussian Processes \[R\]
 #'
 #' Fit a gaussian process
 #'
