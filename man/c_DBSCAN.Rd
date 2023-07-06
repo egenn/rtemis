@@ -48,7 +48,7 @@ See \code{dbscan::dbscan} for info on how to choose \code{eps} and
 }
 \seealso{
 Other Clustering: 
-\code{\link{c_CMEANS}()},
+\code{\link{c_CMeans}()},
 \code{\link{c_EMC}()},
 \code{\link{c_H2OKMeans}()},
 \code{\link{c_HARDCL}()},

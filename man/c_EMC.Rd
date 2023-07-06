@@ -40,7 +40,7 @@ This can be very slow.
 }
 \seealso{
 Other Clustering: 
-\code{\link{c_CMEANS}()},
+\code{\link{c_CMeans}()},
 \code{\link{c_DBSCAN}()},
 \code{\link{c_H2OKMeans}()},
 \code{\link{c_HARDCL}()},

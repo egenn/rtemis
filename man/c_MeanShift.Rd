@@ -64,7 +64,7 @@ Perform Mean Shift clustering using \code{meanShiftR::meanShift}
 }
 \seealso{
 Other Clustering: 
-\code{\link{c_CMEANS}()},
+\code{\link{c_CMeans}()},
 \code{\link{c_DBSCAN}()},
 \code{\link{c_EMC}()},
 \code{\link{c_H2OKMeans}()},
