@@ -136,7 +136,6 @@ Suggests:
     visNetwork,
     vroom,
     xgboost
-Remotes: egenn/gamsel2
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
