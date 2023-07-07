@@ -26,7 +26,7 @@ test_that("EMCluster Clustering succeeds", {
 # '- H2OKMeans ----
 test_that("H2OKMeans Clustering succeeds", {
     skip_if_not_installed("h2o")
-    clust <- c_H2OKmeans(x, k = 2)
+    clust <- c_H2OKMeans(x, k = 2)
     expect_identical(class(clust)[1], "rtClust")
 })
 
