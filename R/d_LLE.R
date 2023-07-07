@@ -25,19 +25,12 @@ d_LLE <- function(x,
                   nn = 6,
                   verbose = TRUE,
                   n.cores = 1, ...) {
-
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "LLE"
 
   # Dependencies ----
   dependency_check("RDRToolbox")
-
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_LLE))
-    stop("x is missing")
-  }
 
   # Data ----
   x <- as.data.frame(x)
@@ -72,5 +65,4 @@ d_LLE <- function(x,
   )
   outro(start.time, verbose = verbose)
   rtdecom
-
 } # rtemis::d_LLE

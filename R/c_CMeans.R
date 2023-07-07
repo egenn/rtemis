@@ -49,7 +49,7 @@ c_CMeans <- function(x,
     # Dependencies ----
     dependency_check("e1071")
 
-    # CMEANS ----
+    # CMeans ----
     if (verbose) msg20("Running Fuzzy C-means clustering with k = ", k, "...")
     clust <- e1071::cmeans(x,
         centers = k, iter.max = iter.max,

@@ -29,17 +29,11 @@ d_SVD <- function(x,
                   center = TRUE,
                   verbose = TRUE, ...) {
 
-  # [ Intro ] ----
+  # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "SVD"
 
-  # [ Arguments ] ----
-  if (missing(x)) {
-    print(args(d_SVD))
-    stop("x is missing")
-  }
-
-  # [ Data ] ----
+  # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)
   p <- NCOL(x)
@@ -55,19 +49,19 @@ d_SVD <- function(x,
     if (!is.null(x.test)) x.test <- scale(x.test, center = center)
   }
 
-  # [ SVD ] ----
+  # SVD ----
   if (verbose) msg2("Performing Singular Value Decomposition...")
   decom <- svd(x, nu = nu, nv = k, ...)
   rotation <- decom$v # same as prcomp's rotation output if nu = k = NCOL(x)
   row.names(rotation) <- xnames
   colnames(rotation) <- paste0("PC.", 1:k)
 
-  # [ Projections ] ----
+  # Projections ----
   projections.train <- data.matrix(x) %*% rotation
   projections.test <- NULL
   if (!is.null(x.test)) projections.test <- data.matrix(x.test) %*% rotation
 
-  # [ Outro ] ----
+  # Outro ----
   extra <- list(rotation = rotation)
   rt <- rtDecom$new(decom.name = decom.name,
                     decom = decom,

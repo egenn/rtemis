@@ -50,10 +50,6 @@ d_SPCA <- function(x,
   dependency_check("nsprcomp")
 
   # Arguments ----
-  if (missing(x)) {
-    print(args(d_SPCA))
-    stop("x is missing")
-  }
   method <- match.arg(method)
 
   # Data ----

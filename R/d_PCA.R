@@ -31,12 +31,6 @@ d_PCA <- function(x,
   start.time <- intro(verbose = verbose)
   decom.name <- "PCA"
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_PCA))
-    stop("x is missing")
-  }
-
   # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)

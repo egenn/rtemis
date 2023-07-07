@@ -74,12 +74,6 @@ d_H2OGLRM <- function(x,
   # Dependencies ----
   dependency_check("h2o")
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_H2OGLRM))
-    stop("x is missing")
-  }
-
   # Data ----
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)

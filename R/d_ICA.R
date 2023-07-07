@@ -61,12 +61,6 @@ d_ICA <- function(x,
     dependency_check("ica")
   }
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_ICA))
-    stop("x is missing")
-  }
-
   # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)

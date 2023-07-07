@@ -48,12 +48,6 @@ d_TSNE <- function(x,
   # Dependencies ----
   dependency_check("Rtsne")
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_TSNE))
-    stop("x is missing")
-  }
-
   # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)

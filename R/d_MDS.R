@@ -47,12 +47,6 @@ d_MDS <- function(x,
     dist.method <- match.arg(dist.method)
     decom.name <- "MDS"
 
-    # Arguments ----
-    if (missing(x)) {
-        print(args(d_MDS))
-        stop("x is missing")
-    }
-
     # Data ----
     x <- as.data.frame(x)
     n <- NROW(x)

@@ -77,10 +77,6 @@ d_H2OAE <- function(x,
     decom.name <- "H2OAE"
 
     # Arguments ----
-    if (missing(x)) {
-        print(args(d_H2OAE))
-        stop("x is missing")
-    }
     verbose <- verbose | !is.null(logFile)
     if (save.mod && is.null(outdir)) outdir <- paste0("./s.", decom.name)
     if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")

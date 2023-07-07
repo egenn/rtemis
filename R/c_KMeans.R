@@ -25,14 +25,14 @@ c_KMeans <- function(x,
 
     # Intro ----
     start.time <- intro(verbose = verbose)
-    clust.name <- "KMEANS"
+    clust.name <- "KMeans"
 
     # Dependencies ----
     dependency_check("flexclust")
 
     # Arguments ----
     if (missing(x)) {
-        print(args(c_KMEANS))
+        print(args(c_KMeans))
         stop("x is missing")
     }
 

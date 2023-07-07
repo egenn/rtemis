@@ -44,10 +44,6 @@ d_UMAP <- function(x,
   dependency_check("uwot")
 
   # Arguments ----
-  if (missing(x)) {
-    print(args(d_UMAP))
-    stop("x is missing")
-  }
   init <- match.arg(init)
   metric <- match.arg(metric)
 

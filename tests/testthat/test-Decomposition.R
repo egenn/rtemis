@@ -4,7 +4,7 @@
 options(rt.font = "sans")
 
 # Data ----
-x <- rnormmat(100, 10)
+x <- rnormmat(100, 10, seed = 2015)
 
 # Tests ----
 decomSelect()

@@ -50,10 +50,11 @@ binmat2vec <- function(x, labels = colnames(x)) {
     dt <- as.data.table(x)
     # dt[, which (.SD == 1), by = 1:NROW(dt)]
     fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-    out <- dt[, .(fn(.SD)), by = 1:NROW(dt)][[2]]
+    out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
     out[out == ""] <- NA
     out
 } # rtemis::binmat2vec
+
 
 #' Binary matrix times character vector
 #'
@@ -70,10 +71,11 @@ binmat2vec <- function(x, labels = colnames(x)) {
     }
     dt <- as.data.table(x)
     fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-    out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
     out[out == ""] <- NA
     out
 }
+
 
 binmat2lvec <- function(x,
                         labels = colnames(x),
@@ -84,11 +86,11 @@ binmat2lvec <- function(x,
     dt <- as.data.table(x)
     if (return.list) {
         fn <- \(r) list(labels[which(r == 1)])
-        out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+        out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
         out[sapply(out, length) == 0] <- NA
     } else {
         fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-        out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))]
+        out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))]
         out[out == ""] <- NA
     }
     out

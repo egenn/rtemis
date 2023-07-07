@@ -46,12 +46,7 @@ d_KPCA <- function(x,
   dependency_check("kernlab")
 
   # Arguments ----
-  if (missing(x)) {
-    print(args(d_KPCA))
-    stop("x is missing")
-  }
-
-  ### Kernel parameters
+  # Kernel parameters
   if (is.null(kpar)) {
     if (kernel == "rbfdot") {
       kpar <- list(sigma = 0.1)

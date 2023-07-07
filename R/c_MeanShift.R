@@ -53,7 +53,7 @@ c_MeanShift <- function(x,
 
   # Intro ----
   start.time <- intro(verbose = verbose)
-  clust.name <- "MEANSHIFT"
+  clust.name <- "MeanShift"
 
   # Data ----
   .colnames <- if (is.null(colnames(x))) {
@@ -69,7 +69,7 @@ c_MeanShift <- function(x,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(c_MEANSHIFT))
+    print(args(c_MeanShift))
     stop("x is missing")
   }
   algorithm <- match.arg(algorithm)

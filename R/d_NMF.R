@@ -42,12 +42,6 @@ d_NMF <- function(x,
   # Dependencies ----
   dependency_check("NMF")
 
-  # Arguments ----
-  if (missing(x)) {
-    print(args(d_NMF))
-    stop("x is missing")
-  }
-
   # Data ----
   x <- as.data.frame(x)
   n <- NROW(x)

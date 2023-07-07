@@ -45,12 +45,6 @@ d_Isomap <- function(x,
   # Dependencies ----
   dependency_check("vegan")
 
-  # Arguments
-  if (missing(x)) {
-    print(args(d_ISOMAP))
-    stop("x is missing")
-  }
-
   # Data ----
   n <- NROW(x)
   p <- NCOL(x)
