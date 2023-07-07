@@ -4,7 +4,9 @@
 
 #' Clustering by Hard Competitive Learning
 #'
-#' Perform clustering by Hard Competitive Learning using `flexclust::cclust`
+#' Perform clustering by 
+#' [Hard Competitive Learning](https://en.wikipedia.org/wiki/Competitive_learning) 
+#' using `flexclust::cclust`
 #'
 #' @param x Input matrix / data.frame
 #' @param x.test Optional test set data

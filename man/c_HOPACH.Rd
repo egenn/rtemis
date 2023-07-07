@@ -39,7 +39,9 @@ the Mean/Median Split Silhouette. Usually same as \code{kmax}}
 \item{...}{Additional parameters to pass to \code{cluster::hopach}}
 }
 \description{
-Perform HOPACH clustering using \code{hopach::hopach}
+Perform
+\href{https://www.sciencedirect.com/science/article/abs/pii/S0378375802003889}{HOPACH clustering}
+using \code{hopach::hopach}
 }
 \seealso{
 Other Clustering: 

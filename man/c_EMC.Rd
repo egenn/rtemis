@@ -30,7 +30,9 @@ c_EMC(
 \item{...}{Additional parameters to be passed to \code{EMCluster::emcluster}}
 }
 \description{
-Perform EM Clustering using \code{EMCluster::emcluster}
+Perform clustering by
+\href{https://en.wikipedia.org/wiki/Expectation\%E2\%80\%93maximization_algorithm}{EM}
+using \code{EMCluster::emcluster}
 }
 \details{
 First, \code{EMCluster::simple.init(x, nclass = k)} is run,

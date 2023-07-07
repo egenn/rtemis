@@ -20,7 +20,9 @@ c_HARDCL(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Perform clustering by Hard Competitive Learning using \code{flexclust::cclust}
+Perform clustering by
+\href{https://en.wikipedia.org/wiki/Competitive_learning}{Hard Competitive Learning}
+using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: 

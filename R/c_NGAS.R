@@ -4,7 +4,7 @@
 
 #' Neural Gas Clustering
 #'
-#' Perform Neural Gas clustering using `flexclust::cclust`
+#' Perform [Neural Gas clustering](https://en.wikipedia.org/wiki/Neural_gas) using `flexclust::cclust`
 #'
 #' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame

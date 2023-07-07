@@ -60,7 +60,7 @@ normal kernel, ignoring the constant value -0.5.}
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Perform Mean Shift clustering using \code{meanShiftR::meanShift}
+Perform \href{https://en.wikipedia.org/wiki/Mean_shift}{Mean Shift} clustering using \code{meanShiftR::meanShift}
 }
 \seealso{
 Other Clustering: 

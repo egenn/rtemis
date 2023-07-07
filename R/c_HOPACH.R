@@ -4,7 +4,9 @@
 
 #' Hierarchical Ordered Partitioning and Collapsing Hybrid
 #'
-#' Perform HOPACH clustering using `hopach::hopach`
+#' Perform 
+#' [HOPACH clustering](https://www.sciencedirect.com/science/article/abs/pii/S0378375802003889) 
+#' using `hopach::hopach`
 #'
 #' @param x Input matrix / data.frame
 #' @param dmat Matrix (numeric, no missing values) or `hdist` object of pairwise distances.

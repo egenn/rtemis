@@ -2,7 +2,7 @@
 % Please edit documentation in R/c_H2OKMeans.R
 \name{c_H2OKMeans}
 \alias{c_H2OKMeans}
-\title{K-Means Clustering on H2O}
+\title{K-Means Clustering with H2O}
 \usage{
 c_H2OKMeans(
   x,
@@ -58,11 +58,12 @@ Default = "AUTO"}
 \link{rtMod} object
 }
 \description{
-K-Means clustering using \code{h2o::h2o.kmeans}
-Check out the H2O Flow at \verb{[ip]:[port]}, Default IP:port is "localhost:54321"
-e.g. if running on localhost, point your web browser to \code{localhost:54321}
+Perfomr \href{https://en.wikipedia.org/wiki/K-means_clustering}{K-Means clustering} using
+\code{h2o::h2o.kmeans}
 }
 \details{
+Check out the H2O Flow at \verb{[ip]:[port]}, Default IP:port is "localhost:54321"
+e.g. if running on localhost, point your web browser to \code{localhost:54321}
 For additional information, see help on \code{h2o::h2o.kmeans}
 }
 \seealso{

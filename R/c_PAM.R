@@ -4,7 +4,9 @@
 
 #' Partitioning Around Medoids
 #'
-#' Perform PAM clustering using `cluster::pam`
+#' Perform 
+#' [PAM clustering](https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM)) 
+#' using `cluster::pam`
 #'
 #' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame

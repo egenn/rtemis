@@ -4,7 +4,7 @@
 
 #' Density-based spatial clustering of applications with noise
 #'
-#' Perform DBSCAN clustering
+#' Perform [DBSCAN](https://en.wikipedia.org/wiki/DBSCAN) clustering
 #'
 #' See `dbscan::dbscan` for info on how to choose `eps` and
 #' `minPts`

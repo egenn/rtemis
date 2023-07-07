@@ -4,7 +4,9 @@
 
 #' Partitioning Around Medoids with k Estimation
 #'
-#' Estimate PAM clustering solution and optimal k using `fpc::pamk`
+#' Estimate 
+#' [PAM clustering](https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM)) 
+#' solution and optimal k using `fpc::pamk`
 #'
 #' @param x Input matrix / data.frame
 #' @param krange Integer vector: Range of k values to try

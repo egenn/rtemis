@@ -2,12 +2,13 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' K-Means Clustering on H2O
+#' K-Means Clustering with H2O
 #'
-#' K-Means clustering using `h2o::h2o.kmeans`
+#' Perfomr [K-Means clustering](https://en.wikipedia.org/wiki/K-means_clustering) using 
+#' `h2o::h2o.kmeans`
+#' 
 #' Check out the H2O Flow at `[ip]:[port]`, Default IP:port is "localhost:54321"
 #' e.g. if running on localhost, point your web browser to `localhost:54321`
-#'
 #' For additional information, see help on `h2o::h2o.kmeans`
 #' 
 #' @inheritParams c_KMeans

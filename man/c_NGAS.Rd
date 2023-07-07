@@ -23,7 +23,7 @@ c_NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 \link{rtClust} object
 }
 \description{
-Perform Neural Gas clustering using \code{flexclust::cclust}
+Perform \href{https://en.wikipedia.org/wiki/Neural_gas}{Neural Gas clustering} using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: 

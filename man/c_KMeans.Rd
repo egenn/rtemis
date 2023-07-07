@@ -20,7 +20,7 @@ c_KMeans(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 \item{...}{Additional parameters to pass to \code{flexclust::cclust}}
 }
 \description{
-Perform K-means clustering using \code{flexclust::cclust}
+Perform \href{https://en.wikipedia.org/wiki/K-means_clustering}{K-means clustering} using \code{flexclust::cclust}
 }
 \seealso{
 Other Clustering: 

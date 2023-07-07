@@ -55,7 +55,9 @@ for more info}
 \link{rtClust} object
 }
 \description{
-Estimate PAM clustering solution and optimal k using \code{fpc::pamk}
+Estimate
+\href{https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM)}{PAM clustering}
+solution and optimal k using \code{fpc::pamk}
 }
 \seealso{
 Other Clustering: 

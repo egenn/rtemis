@@ -4,7 +4,8 @@
 
 #' Spectral Clustering
 #'
-#' Perform Spectral Clustering using `kernlab::specc`
+#' Perform [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering) 
+#' using `kernlab::specc`
 #'
 #' @inheritParams c_KMeans
 #' @param x Input matrix / data.frame

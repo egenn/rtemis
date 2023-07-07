@@ -4,7 +4,7 @@
 
 #' K-means Clustering
 #'
-#' Perform K-means clustering using `flexclust::cclust`
+#' Perform [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) using `flexclust::cclust`
 #'
 #' @param x Input matrix / data.frame
 #' @param x.test Testing set matrix / data.frame

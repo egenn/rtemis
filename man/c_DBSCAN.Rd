@@ -40,7 +40,7 @@ search strategy}
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \description{
-Perform DBSCAN clustering
+Perform \href{https://en.wikipedia.org/wiki/DBSCAN}{DBSCAN} clustering
 }
 \details{
 See \code{dbscan::dbscan} for info on how to choose \code{eps} and

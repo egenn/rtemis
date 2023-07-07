@@ -45,7 +45,7 @@ c_CMeans(
 \link{rtClust} object
 }
 \description{
-Perform fuzzy C-means clustering using \code{e1071::cmeans}
+Perform \href{https://en.wikipedia.org/wiki/Fuzzy_clustering}{fuzzy C-means clustering} using \code{e1071::cmeans}
 }
 \seealso{
 Other Clustering: 

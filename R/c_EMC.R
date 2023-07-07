@@ -4,7 +4,9 @@
 
 #' Expectation Maximization Clustering
 #'
-#' Perform EM Clustering using `EMCluster::emcluster`
+#' Perform clustering by
+#' [EM](https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm) 
+#' using `EMCluster::emcluster`
 #'
 #' First, `EMCluster::simple.init(x, nclass = k)` is run,
 #' followed by `EMCluster::emcluster(x, emobj = emobj, assign.class = TRUE, ...)`

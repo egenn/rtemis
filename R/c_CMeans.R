@@ -4,7 +4,7 @@
 
 #' Fuzzy C-means Clustering
 #'
-#' Perform fuzzy C-means clustering using `e1071::cmeans`
+#' Perform [fuzzy C-means clustering](https://en.wikipedia.org/wiki/Fuzzy_clustering) using `e1071::cmeans`
 #'
 #' @param x Input data
 #' @param k Integer: Number of clusters to get. Default = 2

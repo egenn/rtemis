@@ -32,7 +32,9 @@ original PAM algorithm. This is computationally intensive and can be skipped. De
 \item{...}{Additional parameters to be passed to \code{cluster::pam}}
 }
 \description{
-Perform PAM clustering using \code{cluster::pam}
+Perform
+\href{https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM)}{PAM clustering}
+using \code{cluster::pam}
 }
 \seealso{
 Other Clustering: 

@@ -4,7 +4,7 @@
 
 #' Mean Shift Clustering
 #'
-#' Perform Mean Shift clustering using `meanShiftR::meanShift`
+#' Perform [Mean Shift](https://en.wikipedia.org/wiki/Mean_shift) clustering using `meanShiftR::meanShift`
 #'
 #' @param x Input matrix
 #' @param nNeighbors Integer: Number of neighbors to consider for kernel 
