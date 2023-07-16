@@ -71,6 +71,13 @@ The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which are not yet
 publicly available, are in parallel development. With the upcoming 1.0 release
 of rtemis, the aim is to offer a unified API across all three languages.
 
+### **0.95.5**
+
+* Transition to `train()` complete; elevate()` and `elevate1()` removed
+* Updated `s_LightGBM` and `s_LightRuleFit` for better handling of categorical variables
+* Updated tests
+* General cleanup in preparation for 1.0 release & CRAN submission
+
 ### **0.95.0 in rcpp branch**
 
 Adding support for Rcpp.
