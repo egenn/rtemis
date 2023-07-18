@@ -155,8 +155,8 @@ learnSelect <- function(alg,
 # wip
 gsc <- c(
     "AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", "GLMTree",
-    "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR", "Ranger",
-    "RF", "SPLS", "SVM", "XGBoost", "LIGHTGBM", "LIGHTRF"
+    "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "PolyMARS", "PPR", "Ranger",
+    "RF", "SPLS", "SVM", "XGBoost", "LightGBM", "LightRF"
 )
 
 

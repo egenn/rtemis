@@ -192,7 +192,6 @@ train <- function(x, y = NULL,
     }
     if (is.null(x.name)) x.name <- getName(x, "x")
     if (is.null(y.name)) y.name <- getName(y, "y")
-    # learner <- learnSelect(mod, fn = FALSE)
 
     if (headless) {
         print.res.plot <- print.plot <- plot.mean <- yhat.plots <- FALSE
@@ -277,7 +276,7 @@ train <- function(x, y = NULL,
     }
 
     # Loop through repeats (this is often set to one)
-    for (i in seq(n.repeats)) {
+    for (i in seq_len(n.repeats)) {
         res.run[[i]] <- resLearn(
             x = x, y = y,
             mod = alg,
@@ -307,7 +306,6 @@ train <- function(x, y = NULL,
     n.resamples <- attr(res.run[[1]]$res, "N")
     resampler <- attr(res.run[[1]]$res, "resampler")
 
-    # nres <- length(res)
     if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
     names(mods) <- paste0("train_", alg, "_repeat", seq(mods))
 
@@ -646,7 +644,6 @@ train <- function(x, y = NULL,
         rownames(.vi) <- names(r)
         .vi
     })
-
 
     resampler.params <- list(
         resampler = outer.resampling$resampler,
