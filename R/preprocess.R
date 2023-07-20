@@ -80,7 +80,7 @@
 #' numeric vars have same unique values)
 #' @param numeric.cut.n Integer: If > 0, convert all numeric variables to factors by
 #' binning using `base::cut` with `breaks` equal to this number
-#' @param numeric.cut.labels Logical: The `labels` argument of \link{base::cut}
+#' @param numeric.cut.labels Logical: The `labels` argument of [base::cut]
 #' @param numeric.quant.n Integer: If > 0, convert all numeric variables to factors by
 #' binning using `base::cut` with `breaks` equal to this number of quantiles
 #' produced using `stats::quantile`

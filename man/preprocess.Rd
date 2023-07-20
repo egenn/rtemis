@@ -108,7 +108,7 @@ numeric vars have same unique values)}
 \item{numeric.cut.n}{Integer: If > 0, convert all numeric variables to factors by
 binning using \code{base::cut} with \code{breaks} equal to this number}
 
-\item{numeric.cut.labels}{Logical: The \code{labels} argument of \link{base::cut}}
+\item{numeric.cut.labels}{Logical: The \code{labels} argument of \link[base:cut]{base::cut}}
 
 \item{numeric.quant.n}{Integer: If > 0, convert all numeric variables to factors by
 binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
