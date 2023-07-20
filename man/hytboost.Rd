@@ -52,16 +52,17 @@ hytboost(
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
-\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
+\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform.}
 
 \item{init}{Float: Initial value for prediction. Default = mean(y)}
 
-\item{cxrcoef}{Logical: If TRUE, pass \verb{cxr = TRUE, cxrcoef = TRUE} to \link{predict.hytreew}}
+\item{cxrcoef}{Logical: If TRUE, pass \verb{cxr = TRUE, cxrcoef = TRUE} to
+\link{predict.hytreew}}
 
-\item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
-end of training. If integer, plot training and validation error curve every this many iterations
-during training
-for each base learner}
+\item{print.error.plot}{String or Integer: "final" plots a training and validation
+(if available) error curve at the end of training. If integer, plot training and
+validation error curve every this many iterations during training for each base
+learner}
 
 \item{base.verbose}{Logical: \code{verbose} argument passed to learner}
 

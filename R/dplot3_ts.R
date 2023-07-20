@@ -12,12 +12,13 @@
 #' @param time Numeric or Date vector of time corresponding to values of `x`
 #' @param window Integer: apply `roll.fn` over this many units of time
 #' @param group Factor defining groups
-#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of `x`
+#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on 
+#' rolling windows of `x`
 #' @param roll.col Color for rolling line
 #' @param roll.alpha Numeric: transparency for rolling line
 #' @param roll.lwd Numeric: width of rolling line
 #' @param roll.name Rolling function name (for annotation)
-#' @param alpha Numeric [0, 1]: Transparency
+#' @param alpha Numeric \[0, 1\]: Transparency
 #' @param align Character: "center", "right", or "left"
 #' @param group.names Character vector of group names
 #' @param xlab Character: x-axis label

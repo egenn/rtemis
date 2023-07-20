@@ -44,6 +44,7 @@ Suggests:
     fs,
     future.apply,
     gbm,
+    gbm3,
     geojsonio,
     geosphere,
     ggplot2,
@@ -137,6 +138,7 @@ Suggests:
     vroom,
     xgboost
 Remotes:
+    gbm-developers/gbm3,
     jackwasey/icd
 Encoding: UTF-8
 RoxygenNote: 7.2.3

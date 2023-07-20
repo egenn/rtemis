@@ -13,6 +13,8 @@ classError(true, estimated, estimated.prob = NULL, calc.auc = TRUE, trace = 0)
 
 \item{estimated.prob}{Numeric vector: Estimated probabilities}
 
+\item{calc.auc}{Logical: If TRUE, calculate AUC.}
+
 \item{trace}{Integer: If > 0, print  diagnostic messages. Default = 0}
 }
 \value{

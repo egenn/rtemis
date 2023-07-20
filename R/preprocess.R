@@ -84,6 +84,8 @@
 #' @param numeric.quant.n Integer: If > 0, convert all numeric variables to factors by
 #' binning using `base::cut` with `breaks` equal to this number of quantiles
 #' produced using `stats::quantile`
+#' @param numeric.quant.NAonly Logical: If TRUE, only bin numeric variables with
+#' missing values
 #' @param len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors. Default = NULL.
 #' For example, if binary variables are encoded with 1, 2, you could use

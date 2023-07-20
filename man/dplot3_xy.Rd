@@ -89,8 +89,8 @@ dplot3_xy(
 )
 }
 \arguments{
-\item{x}{Numeric, vector/data.frame/list: x-axis data. If y is NULL and \code{NCOL(x) > 1}, first two columns used as
-\code{x} and \code{y}, respectively}
+\item{x}{Numeric, vector/data.frame/list: x-axis data. If y is NULL and
+\code{NCOL(x) > 1}, first two columns used as \code{x} and \code{y}, respectively}
 
 \item{y}{Numeric, vector/data.frame/list: y-axis data}
 
@@ -123,10 +123,10 @@ and warnings. Use single letters for parameter names, no numbers.}
 
 \item{rsq}{Logical: If TRUE, print R-squared values in legend if \code{fit} is set}
 
-\item{mode}{Character, vector: "markers", "lines", "markers+lines". Default = "markers"}
+\item{mode}{Character, vector: "markers", "lines", "markers+lines".}
 
-\item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL, which becomes
-\code{TRUE} if \code{mode} includes lines.}
+\item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL,
+which becomes \code{TRUE} if \code{mode} includes lines.}
 
 \item{main}{Character: Plot title. Default = NULL}
 
@@ -145,9 +145,9 @@ themes}
 Default = "rtCol1". Only used if \code{col = NULL}}
 
 \item{axes.square}{Logical: If TRUE: draw a square plot to fill the graphic device.
-Default = FALSE. Note: If TRUE, the device size at time of call is captured and height and width are set so as
-to draw the largest square available. This means that resizing the device window will not automatically resize the
-plot.}
+Default = FALSE. Note: If TRUE, the device size at time of call is captured and
+height and width are set so as to draw the largest square available. This means that
+resizing the device window will not automatically resize the plot.}
 
 \item{group.names}{Character, vector, length = NROW(x): Group names.
 Default = NULL, which uses \code{rownames(x)}}
@@ -162,7 +162,7 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{fit.col}{Color: Color of the fit line.}
 
-\item{fit.alpha}{Float \link{0, 1}: Transparency for fit line}
+\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
 
 \item{fit.lwd}{Float: Fit line width}
 
@@ -170,10 +170,11 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{se.alpha}{Alpha for \code{se.fit}}
 
-\item{scatter.type}{Character: "scatter", "scattergl", "scatter3d", "scatterternary", "scatterpolar", "scattermapbox",}
+\item{scatter.type}{Character: "scatter", "scattergl", "scatter3d", "scatterternary",
+"scatterpolar", "scattermapbox",}
 
-\item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if there are more than 1
-groups, or \code{fit} is set}
+\item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to
+TRUE if there are more than 1 groups, or \code{fit} is set}
 
 \item{legend.xy}{Numeric, vector, length 2: x and y for plotly's legend}
 
@@ -223,11 +224,14 @@ Default = NULL, i.e. use default learner parameters}
 "longdash", "dashdot",
 or "longdashdot"}
 
-\item{hovertext}{List of character vectors with hovertext to include for each group of markers}
+\item{hovertext}{List of character vectors with hovertext to include for each group
+of markers}
 
-\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill available space}
+\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill
+available space}
 
-\item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill available space}
+\item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill
+available space}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 

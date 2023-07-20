@@ -26,36 +26,37 @@ dplot3_table(
 \arguments{
 \item{x}{data.frame: Table to draw}
 
-\item{.ddSci}{Logical: If TRUE, apply \link{ddSci} to numeric columns. Default = TRUE}
+\item{.ddSci}{Logical: If TRUE, apply \link{ddSci} to numeric columns.}
 
-\item{main}{Character: Table tile. Default = NULL}
+\item{main}{Character: Table tile.}
 
-\item{main.col}{Color: Title color. Default = "black"}
+\item{main.col}{Color: Title color.}
 
-\item{main.x}{Float \link{0, 1}: Align title: 0: left, .5: center, 1: right. Default = 0}
+\item{main.x}{Float [0, 1]: Align title: 0: left, .5: center, 1: right.}
 
-\item{main.xanchor}{Character: "auto", "left", "right": plotly's layout xanchor for title. Default = "auto"}
+\item{main.xanchor}{Character: "auto", "left", "right": plotly's layout xanchor for
+title. Default = "auto"}
 
-\item{fill.col}{Color: Used to fill header with column names and first column with row names.
-Default = "#18A3AC"  (teal)}
+\item{fill.col}{Color: Used to fill header with column names and first column with
+row names.}
 
-\item{table.bg}{Color: Table background. Default = "white"}
+\item{table.bg}{Color: Table background.}
 
-\item{bg}{Color: Background. Default = "white"}
+\item{bg}{Color: Background.}
 
-\item{line.col}{Color: Line color. Default = "white"}
+\item{line.col}{Color: Line color.}
 
 \item{lwd}{Float: Line width. Default = 1}
 
-\item{header.font.col}{Color: Header font color. Default = "white"}
+\item{header.font.col}{Color: Header font color.}
 
-\item{table.font.col}{Color: Table font color. Default = "gray20"}
+\item{table.font.col}{Color: Table font color.}
 
-\item{font.size}{Integer: Font size. Default = 14}
+\item{font.size}{Integer: Font size.}
 
-\item{font.family}{Character: Font family. Default = "Helvetica Neue"}
+\item{font.family}{Character: Font family.}
 
-\item{margin}{List: plotly's margins. Default = \code{list(l = 0, r = 5, t = 30, b = 0, pad = 0)}}
+\item{margin}{List: plotly's margins.}
 }
 \description{
 Draw an html table using \code{plotly}

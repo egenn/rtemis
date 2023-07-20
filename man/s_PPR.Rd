@@ -65,15 +65,15 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 
 \item{nterms}{[gS] Integer: number of terms to include in the final model}
 
-\item{optlevel}{[gS] Integer \link{0, 3}: optimization level (Default = 3). See Details in \code{stats::ppr}}
+\item{optlevel}{[gS] Integer [0, 3]\: optimization level (Default = 3). See Details in \code{stats::ppr}}
 
 \item{sm.method}{[gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
 Default = "spline"}
 
-\item{bass}{[gS] Numeric \link{0, 10}: for \code{sm.method = "supsmu"}: larger values result in greater smoother
+\item{bass}{[gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values result in greater smoother
 (Default = 5). See \code{stats::ppr}}
 
-\item{span}{[gS] Numeric \link{0, 1}: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
+\item{span}{[gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
 local crossvalidation. See \code{stats::ppr}}
 
 \item{df}{[gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_CART.R
 \name{s_CART}
 \alias{s_CART}
-\title{Classification and Regression Trees \link{C, R, S}}
+\title{Classification and Regression Trees [C, R, S]}
 \usage{
 s_CART(
   x,
@@ -121,7 +121,7 @@ See \code{rpart::rpart("cost")}}
 \item{prune.cp}{[gS] Numeric: Complexity for cost-complexity pruning after
 tree is built}
 
-\item{use.prune.rpart.rt}{\link{Testing only, do not change}}
+\item{use.prune.rpart.rt}{(Testing only, do not change)}
 
 \item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return
 unpruned tree under \code{extra} in \link{rtMod}.}

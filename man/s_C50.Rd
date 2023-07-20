@@ -44,7 +44,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{trials}{Integer \link{1, 100}: Number of boosting iterations}
+\item{trials}{Integer [1, 100]: Number of boosting iterations}
 
 \item{rules}{Logical: If TRUE, decompose the tree to a rule-based model}
 

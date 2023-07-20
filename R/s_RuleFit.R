@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017-8 E.D. Gennatas www.lambdamd.org
 
-#' Rulefit (C, R)
+#' Rulefit \[C, R\]
 #'
 #' Train a gradient boosting model, extract rules,
 #' and fit using LASSO
@@ -13,7 +13,7 @@
 #'
 #' @inheritParams s_GBM
 #' @param gbm.params Named list: Parameters for [s_GBM]
-#' @param meta.alpha Float [0, 1]: `alpha` for [s_GLMNET]
+#' @param meta.alpha Float \[0, 1\]: `alpha` for [s_GLMNET]
 #' @param meta.lambda Float: `lambda` for [s_GLMNET]. Default = NULL (will be 
 #' determined automatically by crossvalidation)
 #' @param meta.extra.params Named list: Parameters for [s_GLMNET] for the 

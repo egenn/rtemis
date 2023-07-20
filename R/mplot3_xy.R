@@ -80,14 +80,14 @@
 #' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end;
 #' "i": Use exact x-axis limits. Default = "r"
 #' @param yaxs Character: as `xaxs` for the y-axis. Default = "r"
-#' @param rsq.side Integer: [1:4] Where to place the `rsq` annotation.
+#' @param rsq.side Integer: \[1:4\] Where to place the `rsq` annotation.
 #' Default = 1 (i.e. bottom)
 #' @param rsq.adj Float: Adjust `rsq` annotation. See `mtext "adj"`
 #' @param rsq.col Color: Color for `rsq` annotation. Default = NULL, which
 #' results in `fit.col`
 #' @param fit.error  Logical: If TRUE: draw fit error annotation.
 #' Default = NULL, which results in TRUE, if fit is set
-#' @param fit.error.side Integer [1:4]: Which side to draw `fit.error` on.
+#' @param fit.error.side Integer \[1:4\]: Which side to draw `fit.error` on.
 #' @param fit.error.padj Float: See `mtext:padg` Default = NA
 #' @param xaxp See `par("xaxp")`
 #' @param yaxp See `par("yaxp")`
@@ -101,11 +101,11 @@
 #' @param point.bg.col Color: point background
 #' @param pch Integer: Point character.
 #' @param line.col Color for lines
-#' @param line.alpha Float [0, 1]: Transparency for lines
+#' @param line.alpha Float \[0, 1\]: Transparency for lines
 #' @param lty Integer: Line type. See `par("lty")`
 #' @param lwd Float: Line width
 #' @param marker.col Color for marker
-#' @param marker.alpha Float [0, 1]: Transparency for markers
+#' @param marker.alpha Float \[0, 1\]: Transparency for markers
 #' @param error.x.col Color for x-axis error bars
 #' @param error.y.col Color for y-axis error bars
 #' @param error.x.lty Integer: line type for x-axis error bars
@@ -115,7 +115,7 @@
 #' @param error.arrow.code Integer: Type of arrow to draw for error bars.
 #' See `arrows("code")`
 #' @param fit.col Color: Color of the fit line.
-#' @param fit.alpha Float [0, 1]: Transparency for fit line
+#' @param fit.alpha Float \[0, 1\]: Transparency for fit line
 #' @param fit.legend Logical: If TRUE, show fit legend
 #' @param se.lwd Float: Line width for standard error bounds
 #' @param hline Vector: y-value(s) for horizontal lines. Default = NULL

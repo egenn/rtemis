@@ -7,9 +7,9 @@
 f1(precision, recall)
 }
 \arguments{
-\item{precision}{Float \link{0, 1}: Precision a.k.a. Positive Predictive Value}
+\item{precision}{Float [0, 1]: Precision a.k.a. Positive Predictive Value}
 
-\item{recall}{Float \link{0, 1}: Recall a.k.a. Sensitivity}
+\item{recall}{Float [0, 1]: Recall a.k.a. Sensitivity}
 }
 \description{
 Calculate the F1 score for classification:

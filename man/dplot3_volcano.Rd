@@ -132,7 +132,8 @@ themes}
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
 Default = "rtCol1". Only used if \code{col = NULL}}
 
-\item{hovertext}{List of character vectors with hovertext to include for each group of markers}
+\item{hovertext}{List of character vectors with hovertext to include for each group
+of markers}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 

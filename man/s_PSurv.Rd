@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_PSurv.R
 \name{s_PSurv}
 \alias{s_PSurv}
-\title{Parametric Survival Regression \link{S}}
+\title{Parametric Survival Regression [S]}
 \usage{
 s_PSurv(
   x,

@@ -96,6 +96,7 @@ dt_keybin_reshape <- function(x,
 #' @param right_suffix Character: If provided, add this suffix to all right column names,
 #' excluding on/right_on
 #' @param verbose Logical: If TRUE, print messages to console
+#' @param ... Additional arguments to be passed to `data.table::merge`
 #'
 #' @author E.D. Gennatas
 #' @export

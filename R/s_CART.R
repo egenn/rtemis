@@ -2,7 +2,7 @@
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
-#' Classification and Regression Trees [C, R, S]
+#' Classification and Regression Trees \[C, R, S\]
 #'
 #' Train a CART for regression or classification using `rpart`
 #'
@@ -26,7 +26,7 @@
 #' node.
 #' @param prune.cp \[gS\] Numeric: Complexity for cost-complexity pruning after 
 #' tree is built
-#' @param use.prune.rpart.rt [Testing only, do not change]
+#' @param use.prune.rpart.rt (Testing only, do not change)
 #' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return 
 #' unpruned tree under `extra` in [rtMod].
 #' @param grid.resample.rtset List: Output of [rtset.resample] defining 

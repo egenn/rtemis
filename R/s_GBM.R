@@ -4,7 +4,7 @@
 #
 # Notes: gbm.more currently fails with distribution "multinomial" due to a bug in gbm.
 
-#' Gradient Boosting Machine [C, R, S]
+#' Gradient Boosting Machine \[C, R, S\]
 #'
 #' Train a GBM model using `gbm::gbm.fit`
 #'

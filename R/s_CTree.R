@@ -2,13 +2,14 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Conditional Inference Trees [C, R, S]
+#' Conditional Inference Trees \[C, R, S\]
 #'
 #' Train a conditional inference tree using {partykit::ctree}
 #'
 #' @inheritParams s_GLM
 #' @param control List of parameters for the CTree algorithms. Set using
 #' `partykit::ctree_control`
+#' 
 #' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @seealso [train]

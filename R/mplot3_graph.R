@@ -10,41 +10,42 @@
 #' @param vertex.alpha Numeric: Transparency for `vertex.col`
 #' @param vertex.label.col Color for vertex labels
 #' @param vertex.frame.vcol Color for vertex border (frame)
-#' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep existing
-#' names in `net` if any. Set to NA to avoid printing vertex labels
-#' @param vertex.shape Character: Vertex shape. See `igraph::plot.igraph("vertex.shape")`. Default = "circle"
+#' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep 
+#' existing names in `net` if any. Set to NA to avoid printing vertex labels
+#' @param vertex.shape Character: Vertex shape. See 
+#' `igraph::plot.igraph("vertex.shape")`. Default = "circle"
 #' @param edge.col Color for edges
 #' @param edge.alpha Numeric: Transparency for edges. Default = .2
 #' @param edge.curved Numeric: Curvature of edges. Default = .35
 #' @param edge.width Numeric: Edge thickness
-#' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds",
-#' "sugiyama", corresponding to all the available layouts in \pkg{igraph}
-#' @param coords Output of precomputed \pkg{igraph} layout. If provided, `layout` is ignored
-#' @param layout_params List of parameters to pass to `layout` function
-#' @param cluster Character: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop",
-#' "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the
-#' available \pkg{igraph} clustering functions
-#' @param groups Output of precomputed \pkg{igraph} clustering. If provided, `cluster` is
+#' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", 
+#' "mds", "sugiyama", corresponding to all the available layouts in \pkg{igraph}
+#' @param coords Output of precomputed \pkg{igraph} layout. If provided, `layout` is 
 #' ignored
+#' @param layout_params List of parameters to pass to `layout` function
+#' @param cluster Character: one of: "edge_betweenness", "fast_greedy", "infomap", 
+#' "label_prop", "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", 
+#' corresponding to all the available \pkg{igraph} clustering functions
+#' @param groups Output of precomputed \pkg{igraph} clustering. If provided, `cluster` 
+#' is ignored
 #' @param cluster_params List of parameters to pass to `cluster` function
-#' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, if `groups`
-#' or `cluster` defined
+#' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, 
+#' if `groups` or `cluster` defined
 #' @param mark.col Colors, one per group for polygon surrounding cluster.
 #' Note: You won't know the number of groups unless they are
 #' precomputed. The colors will be recycled as needed.
-#' @param mark.alpha Float [0, 1]: Transparency for `mark.col`. Default = .3
+#' @param mark.alpha Float \[0, 1\]: Transparency for `mark.col`.
 #' @param mark.border Colors, similar to `mark.col` for border
-#' @param mark.border.alpha Float [0, 1]: Transparency for `mark.border`. Default = 1
+#' @param mark.border.alpha Float \[0, 1\]: Transparency for `mark.border`.
 #' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership.
-#' Default = FALSE
 #' @param theme \pkg{rtemis} theme to use
-#' @param theme_extra_args List of extra arguments to pass to the theme function defined by
-#' `theme`. This argument is used when the extra args (...) are passed the plotting function
-#' (in this case `igraph::plot.igraph`) and not to the theme function
+#' @param theme_extra_args List of extra arguments to pass to the theme function defined 
+#' by `theme`. This argument is used when the extra args (...) are passed the plotting 
+#' function (in this case `igraph::plot.igraph`) and not to the theme function
 #' @param mar Numeric vector, length 4: `par`'s margin argument
-#' @param par.reset Logical: If TRUE, reset par before exiting. Default = TRUE
+#' @param par.reset Logical: If TRUE, reset par before exiting.
 #' @param filename Character: If provided, save plot to this filepath
-#' @param verbose Logical, If TRUE, print messages to console. Default = TRUE
+#' @param verbose Logical, If TRUE, print messages to console.
 #' @param ... Extra arguments to pass to `igraph::plot.igraph()`
 #'
 #' @author E.D. Gennatas

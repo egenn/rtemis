@@ -48,7 +48,8 @@ dplot3_ts(
 
 \item{group}{Factor defining groups}
 
-\item{roll.fn}{Character: "mean", "median", "max", or "sum": Function to apply on rolling windows of \code{x}}
+\item{roll.fn}{Character: "mean", "median", "max", or "sum": Function to apply on
+rolling windows of \code{x}}
 
 \item{roll.col}{Color for rolling line}
 
@@ -58,7 +59,7 @@ dplot3_ts(
 
 \item{roll.name}{Rolling function name (for annotation)}
 
-\item{alpha}{Numeric \link{0, 1}: Transparency}
+\item{alpha}{Numeric [0, 1]: Transparency}
 
 \item{align}{Character: "center", "right", or "left"}
 

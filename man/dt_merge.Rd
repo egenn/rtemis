@@ -43,6 +43,8 @@ excluding on/left_on}
 excluding on/right_on}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{...}{Additional arguments to be passed to \code{data.table::merge}}
 }
 \description{
 Merge data.tables

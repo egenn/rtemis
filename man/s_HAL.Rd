@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_HAL.R
 \name{s_HAL}
 \alias{s_HAL}
-\title{Highly Adaptive LASSO \link{C, R, S}}
+\title{Highly Adaptive LASSO [C, R, S]}
 \usage{
 s_HAL(
   x,

@@ -4,7 +4,7 @@
 \alias{d_LLE}
 \title{Locally Linear Embedding}
 \usage{
-d_LLE(x, k = 2, nn = 6, verbose = TRUE, n.cores = 1, ...)
+d_LLE(x, k = 2, nn = 6, verbose = TRUE)
 }
 \arguments{
 \item{x}{Input data}
@@ -14,8 +14,6 @@ d_LLE(x, k = 2, nn = 6, verbose = TRUE, n.cores = 1, ...)
 \item{nn}{Integer: Number of neighbors.}
 
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
-
-\item{...}{Additional parameters to be passed to \code{svd}}
 }
 \value{
 \link{rtDecom} object

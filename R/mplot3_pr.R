@@ -7,16 +7,16 @@
 #' Plot Precision Recall curve for a binary classifier
 #'
 #' @inheritParams mplot3_x
-#' @param prob Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
+#' @param prob Vector, Float \[0, 1\]: Predicted probabilities (i.e. c(.1, .8, .2, .9))
 #' @param labels Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))
-#' @param f1 Logical: If TRUE, annotate the point of maximal F1 score. Default = FALSE
-#' @param main Character: Plot title. Default = ""
+#' @param f1 Logical: If TRUE, annotate the point of maximal F1 score.
+#' @param main Character: Plot title.
 #' @param col Color, vector: Colors to use for ROC curve(s)
-#' @param cex Float: Character expansion factor. Default = 1.2
-#' @param lwd Float: Line width. Default = 2.5
-#' @param diagonal Logical: If TRUE, draw diagonal. Default = TRUE
-#' @param diagonal.lwd Float: Line width for diagonal. Default = 2.5
-#' @param diagonal.lty Integer: Line type for diagonal. Default = 1
+#' @param cex Float: Character expansion factor.
+#' @param lwd Float: Line width.
+#' @param diagonal Logical: If TRUE, draw diagonal.
+#' @param diagonal.lwd Float: Line width for diagonal.
+#' @param diagonal.lty Integer: Line type for diagonal.
 #' @param group.legend Logical
 #' @param ... Additional parameters to pass to [mplot3_xy]
 #' @return List with Precision, Recall, and Threshold values, invisibly

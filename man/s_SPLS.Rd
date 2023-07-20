@@ -69,7 +69,7 @@ Default = NULL (random seed)}
 
 \item{eta}{[gS] Float [0, 1): Thresholding parameter.}
 
-\item{kappa}{[gS] Float \link{0, .5}: Only relevant for multivariate responses:
+\item{kappa}{[gS] Float [0, .5]: Only relevant for multivariate responses:
 controls effect of concavity of objective
 function.}
 

@@ -44,7 +44,7 @@ FALSE otherwise.}
 \item{do.swap}{Logical: If TRUE, perform the swap phase. See \code{fpc::pam}
 for more info}
 
-\item{trace}{Integer \link{0, 3}: Trace level for \code{fpc::pamk}}
+\item{trace}{Integer [0, 3]: Trace level for \code{fpc::pamk}}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 

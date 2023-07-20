@@ -36,21 +36,21 @@ mplot3_pr(
 )
 }
 \arguments{
-\item{prob}{Vector, Float \link{0, 1}: Predicted probabilities (i.e. c(.1, .8, .2, .9))}
+\item{prob}{Vector, Float [0, 1]: Predicted probabilities (i.e. c(.1, .8, .2, .9))}
 
 \item{labels}{Vector, Integer {0, 1}: True labels (i.e. c(0, 1, 0, 1))}
 
-\item{f1}{Logical: If TRUE, annotate the point of maximal F1 score. Default = FALSE}
+\item{f1}{Logical: If TRUE, annotate the point of maximal F1 score.}
 
-\item{main}{Character: Plot title. Default = ""}
+\item{main}{Character: Plot title.}
 
 \item{col}{Color, vector: Colors to use for ROC curve(s)}
 
-\item{cex}{Float: Character expansion factor. Default = 1.2}
+\item{cex}{Float: Character expansion factor.}
 
-\item{lwd}{Float: Line width. Default = 2.5}
+\item{lwd}{Float: Line width.}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal. Default = TRUE}
+\item{diagonal}{Logical: If TRUE, draw diagonal.}
 
 \item{hline.lty}{Integer: Line type for horizontal line(s)}
 
@@ -58,9 +58,9 @@ mplot3_pr(
 
 \item{hline.col}{Color for horizontal line(s)}
 
-\item{diagonal.lwd}{Float: Line width for diagonal. Default = 2.5}
+\item{diagonal.lwd}{Float: Line width for diagonal.}
 
-\item{diagonal.lty}{Integer: Line type for diagonal. Default = 1}
+\item{diagonal.lty}{Integer: Line type for diagonal.}
 
 \item{group.legend}{Logical}
 

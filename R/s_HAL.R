@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
 
-#' Highly Adaptive LASSO [C, R, S]
+#' Highly Adaptive LASSO \[C, R, S\]
 #'
 #' Train a HAL model
 #'

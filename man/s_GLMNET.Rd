@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GLMNET.R
 \name{s_GLMNET}
 \alias{s_GLMNET}
-\title{GLM with Elastic Net Regularization \link{C, R, S}}
+\title{GLM with Elastic Net Regularization [C, R, S]}
 \usage{
 s_GLMNET(
   x,

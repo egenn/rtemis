@@ -198,13 +198,19 @@ decision_right <- function(decision_type, cat_type) {
 } # rtemis::decision_right
 
 
-#' Format rule thresholds for categorical splits
+#' Format rule thresholds
 #' 
+#' @param catsplit Logical: If TRUE, feature is categorical
 #' @param feature Character: feature name
 #' @param threshold Character: threshold as reported by lightgbm
 #' @param factor_levels Named list of factor levels. Names should correspond to training
 #' set column names.
-fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
+#' 
+#' @keywords internal
+fmt_thresh <- function(catsplit,
+                       feature,
+                       threshold,
+                       factor_levels) {
     if (catsplit) {
         flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
         flevels <- factor_levels[[feature]][flevels]
@@ -218,7 +224,8 @@ fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
     }
 } # rtemis::fmt_thresh
 
-
+#' @rdname fmt_thresh
+#' @keywords internal
 fmt_thresh_right <- function(catsplit, 
                              feature,
                              threshold,

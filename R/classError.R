@@ -9,6 +9,7 @@
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated values
 #' @param estimated.prob Numeric vector: Estimated probabilities
+#' @param calc.auc Logical: If TRUE, calculate AUC.
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' 
 #' @author E.D. Gennatas
@@ -157,8 +158,8 @@ print.classError <- function(x, decimal.places = 4, ...) {
 #'
 #' \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
 #'
-#' @param recall Float [0, 1]: Recall a.k.a. Sensitivity
-#' @param precision Float [0, 1]: Precision a.k.a. Positive Predictive Value
+#' @param recall Float \[0, 1\]: Recall a.k.a. Sensitivity
+#' @param precision Float \[0, 1\]: Precision a.k.a. Positive Predictive Value
 #' 
 #' @author E.D. Gennatas
 #' @export

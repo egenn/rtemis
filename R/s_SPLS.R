@@ -15,7 +15,7 @@
 #' @inheritParams s_CART
 #' @param k \[gS\] Integer: Number of components to estimate.
 #' @param eta \[gS\] Float [0, 1): Thresholding parameter.
-#' @param kappa \[gS\] Float [0, .5]: Only relevant for multivariate responses: 
+#' @param kappa \[gS\] Float \[0, .5\]: Only relevant for multivariate responses: 
 #' controls effect of concavity of objective
 #'   function.
 #' @param select \[gS\] Character: "pls2", "simpls". PLS algorithm for variable 

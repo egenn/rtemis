@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_RFSRC.R
 \name{s_RFSRC}
 \alias{s_RFSRC}
-\title{Random Forest for Classification, Regression, and Survival \link{C, R, S}}
+\title{Random Forest for Classification, Regression, and Survival [C, R, S]}
 \usage{
 s_RFSRC(
   x,

@@ -2,11 +2,16 @@
 % Please edit documentation in R/lightgbm_ops.R
 \name{fmt_thresh}
 \alias{fmt_thresh}
-\title{Format rule thresholds for categorical splits}
+\alias{fmt_thresh_right}
+\title{Format rule thresholds}
 \usage{
 fmt_thresh(catsplit, feature, threshold, factor_levels)
+
+fmt_thresh_right(catsplit, feature, threshold, factor_levels, cat_type)
 }
 \arguments{
+\item{catsplit}{Logical: If TRUE, feature is categorical}
+
 \item{feature}{Character: feature name}
 
 \item{threshold}{Character: threshold as reported by lightgbm}
@@ -15,5 +20,6 @@ fmt_thresh(catsplit, feature, threshold, factor_levels)
 set column names.}
 }
 \description{
-Format rule thresholds for categorical splits
+Format rule thresholds
 }
+\keyword{internal}

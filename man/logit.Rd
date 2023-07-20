@@ -7,7 +7,7 @@
 logit(x)
 }
 \arguments{
-\item{x}{Float \link{0, 1} Input}
+\item{x}{Float [0, 1] Input}
 }
 \description{
 Logit transform

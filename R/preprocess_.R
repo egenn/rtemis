@@ -49,6 +49,8 @@
 #' numeric
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
 #' factors
+#' @param numeric2factor.levels Character vector: Optional - If `numeric2factor = TRUE`,
+#' use these levels for all numeric variables.
 #' @param len2factor Integer (>=2): Convert all numeric variables with less 
 #' than or equal to this number of unique values to factors.
 #' For example, if binary variables are encoded with 1, 2, you could use 

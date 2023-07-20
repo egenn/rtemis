@@ -7,22 +7,24 @@
 #' Draw an html table using `plotly`
 #'
 #' @param x data.frame: Table to draw
-#' @param .ddSci Logical: If TRUE, apply [ddSci] to numeric columns. Default = TRUE
-#' @param main Character: Table tile. Default = NULL
-#' @param main.col Color: Title color. Default = "black"
-#' @param main.x Float [0, 1]: Align title: 0: left, .5: center, 1: right. Default = 0
-#' @param main.xanchor Character: "auto", "left", "right": plotly's layout xanchor for title. Default = "auto"
-#' @param fill.col Color: Used to fill header with column names and first column with row names.
-#' Default = "#18A3AC"  (teal)
-#' @param table.bg Color: Table background. Default = "white"
-#' @param bg Color: Background. Default = "white"
-#' @param line.col Color: Line color. Default = "white"
+#' @param .ddSci Logical: If TRUE, apply [ddSci] to numeric columns.
+#' @param main Character: Table tile.
+#' @param main.col Color: Title color.
+#' @param main.x Float \[0, 1\]: Align title: 0: left, .5: center, 1: right.
+#' @param main.xanchor Character: "auto", "left", "right": plotly's layout xanchor for 
+#' title. Default = "auto"
+#' @param fill.col Color: Used to fill header with column names and first column with 
+#' row names.
+#' @param table.bg Color: Table background.
+#' @param bg Color: Background.
+#' @param line.col Color: Line color.
 #' @param lwd Float: Line width. Default = 1
-#' @param header.font.col Color: Header font color. Default = "white"
-#' @param table.font.col Color: Table font color. Default = "gray20"
-#' @param font.size Integer: Font size. Default = 14
-#' @param font.family Character: Font family. Default = "Helvetica Neue"
-#' @param margin List: plotly's margins. Default = `list(l = 0, r = 5, t = 30, b = 0, pad = 0)`
+#' @param header.font.col Color: Header font color.
+#' @param table.font.col Color: Table font color.
+#' @param font.size Integer: Font size.
+#' @param font.family Character: Font family.
+#' @param margin List: plotly's margins.
+#' 
 #' @author E.D. Gennatas
 #' @export
 

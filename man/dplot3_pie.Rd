@@ -38,7 +38,7 @@ dplot3_pie(
 b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
 the \code{category.names} argument}
 
-\item{main}{Character: Plot title. Default = NULL, which results in colnames(x)\link{1},}
+\item{main}{Character: Plot title. Default = NULL, which results in colnames(x)[1],}
 
 \item{xlab}{Character: x-axis label. Default = NULL}
 

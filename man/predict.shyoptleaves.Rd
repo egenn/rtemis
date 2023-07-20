@@ -24,13 +24,13 @@
 
 \item{newdata}{Data frame of predictors}
 
-\item{n.feat}{\link{Internal use} Integer: Use first \code{n.feat} columns of newdata to predict.
+\item{n.feat}{(internal use) Integer: Use first \code{n.feat} columns of newdata to predict.
 Defaults to all}
 
-\item{fixed.cxr}{\link{Internal use} Matrix: Cases by rules to use instead of matching cases to rules using
+\item{fixed.cxr}{(internal use) Matrix: Cases by rules to use instead of matching cases to rules using
 \code{newdata}}
 
-\item{cxr.newdata}{\link{Internal use} Data frame: Use these values to match cases by rules}
+\item{cxr.newdata}{(internal use) Data frame: Use these values to match cases by rules}
 
 \item{cxr}{Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values}
 

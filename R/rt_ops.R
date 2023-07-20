@@ -125,7 +125,7 @@ is_discrete <- function(x) {
 
 #' Logit transform
 #'
-#' @param x Float [0, 1] Input
+#' @param x Float \[0, 1\] Input
 #' @export
 
 logit <- function(x) {

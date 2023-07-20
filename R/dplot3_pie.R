@@ -13,7 +13,7 @@
 #' @param category.names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
 #' either `rownames(x)`, or the first column of `x` if `ncol(x) = 2`
 #' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent" Default = "label+percent"
-#' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1],
+#' @param main Character: Plot title. Default = NULL, which results in colnames(x)\[1\],
 #' @param theme Character: "light", "dark". Default = `getOption("rt.theme", "light")`
 #' @param sep.col Separator color
 #' @param bg Background color

@@ -7,10 +7,12 @@
 #' Train a C5.0 decision tree using `C50::C5.0`
 #'
 #' @inheritParams s_GLM
-#' @param trials Integer [1, 100]: Number of boosting iterations
+#' @param trials Integer \[1, 100\]: Number of boosting iterations
 #' @param rules Logical: If TRUE, decompose the tree to a rule-based model
+#' 
 #' @return [rtMod] object
 #' @author E.D. Gennatas
+#' 
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods

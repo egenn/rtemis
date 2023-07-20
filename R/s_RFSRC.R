@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Random Forest for Classification, Regression, and Survival [C, R, S]
+#' Random Forest for Classification, Regression, and Survival \[C, R, S\]
 #'
 #' Train a Random Forest for Regression, Classification, or Survival Regression
 #' using `randomForestSRC`
@@ -22,6 +22,7 @@
 #' @param mtry Integer: Number of features sampled randomly at each split
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`
+#' 
 #' @return Object of class [rtMod]
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2016-7 E.D. Gennatas www.lambdamd.org
 
-#' GLM with Elastic Net Regularization [C, R, S]
+#' GLM with Elastic Net Regularization \[C, R, S\]
 #'
 #' Train an elastic net model
 #'

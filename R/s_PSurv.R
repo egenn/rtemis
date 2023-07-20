@@ -3,7 +3,7 @@
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: add strata() support
 
-#' Parametric Survival Regression [S]
+#' Parametric Survival Regression \[S\]
 #'
 #' Fit a parametric survival regression model using `survival::survreg`
 #'

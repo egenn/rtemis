@@ -7,8 +7,8 @@
 #' Plot ROC curve for a binary classifier
 #'
 #' @inheritParams mplot3_x
-#' @param prob Numeric vector or list of numeric vectors [0, 1]: Predicted probabilities 
-#' (e.g. c(.1, .8, .2, .9))
+#' @param prob Numeric vector or list of numeric vectors \[0, 1\]: Predicted 
+#' probabilities (e.g. c(.1, .8, .2, .9))
 #' @param labels Integer vector or list of integer vectors {0, 1}: True labels 
 #' (e.g. c(0, 1, 0, 1))
 #' @param method Character: "rt" or "pROC" will use [rtROC] and `pROC::roc` 

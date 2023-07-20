@@ -190,7 +190,7 @@ plotting clipped to figure region; NA: plotting clipped to device region.}
 \item{rsq.pval}{Logical: If TRUE, add legend with R-squared and its p-value,
 if fit is not NULL}
 
-\item{rsq.side}{Integer: \link{1:4} Where to place the \code{rsq} annotation.
+\item{rsq.side}{Integer: [1:4] Where to place the \code{rsq} annotation.
 Default = 1 (i.e. bottom)}
 
 \item{rsq.adj}{Float: Adjust \code{rsq} annotation. See \verb{mtext "adj"}}
@@ -201,7 +201,7 @@ results in \code{fit.col}}
 \item{fit.error}{Logical: If TRUE: draw fit error annotation.
 Default = NULL, which results in TRUE, if fit is set}
 
-\item{fit.error.side}{Integer \link{1:4}: Which side to draw \code{fit.error} on.}
+\item{fit.error.side}{Integer [1:4]: Which side to draw \code{fit.error} on.}
 
 \item{fit.error.padj}{Float: See \code{mtext:padg} Default = NA}
 
@@ -245,7 +245,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{line.col}{Color for lines}
 
-\item{line.alpha}{Float \link{0, 1}: Transparency for lines}
+\item{line.alpha}{Float [0, 1]: Transparency for lines}
 
 \item{lwd}{Float: Line width}
 
@@ -253,7 +253,7 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 
 \item{marker.col}{Color for marker}
 
-\item{marker.alpha}{Float \link{0, 1}: Transparency for markers}
+\item{marker.alpha}{Float [0, 1]: Transparency for markers}
 
 \item{error.x.col}{Color for x-axis error bars}
 
@@ -274,7 +274,7 @@ See \code{arrows("code")}}
 
 \item{fit.lwd}{Float: Fit line width}
 
-\item{fit.alpha}{Float \link{0, 1}: Transparency for fit line}
+\item{fit.alpha}{Float [0, 1]: Transparency for fit line}
 
 \item{fit.legend}{Logical: If TRUE, show fit legend}
 

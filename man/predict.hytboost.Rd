@@ -22,8 +22,8 @@
 
 \item{n.iter}{Integer: Use the first so many trees for prediction}
 
-\item{fixed.cxr}{\link{Internal use} Matrix: Cases by rules to use instead of matching cases to rules using
-\code{newdata}}
+\item{fixed.cxr}{(internal use) Matrix: Cases by rules to use instead of matching
+cases to rules using \code{newdata}}
 
 \item{as.matrix}{Logical: If TRUE, output}
 

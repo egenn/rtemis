@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_GBM.R
 \name{s_GBM}
 \alias{s_GBM}
-\title{Gradient Boosting Machine \link{C, R, S}}
+\title{Gradient Boosting Machine [C, R, S]}
 \usage{
 s_GBM(
   x,

@@ -25,7 +25,7 @@
 #' 'euclidean', 'manhattan'
 #' @param do.swap Logical: If TRUE, perform the swap phase. See `fpc::pam`
 #' for more info
-#' @param trace Integer [0, 3]: Trace level for `fpc::pamk`
+#' @param trace Integer \[0, 3\]: Trace level for `fpc::pamk`
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters to be passed to `fpc::pamk` and/or 
 #' `cluster::pam`

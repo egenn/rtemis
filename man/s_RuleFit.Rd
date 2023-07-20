@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_RuleFit.R
 \name{s_RuleFit}
 \alias{s_RuleFit}
-\title{Rulefit (C, R)}
+\title{Rulefit [C, R]}
 \usage{
 s_RuleFit(
   x,
@@ -44,7 +44,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{gbm.params}{Named list: Parameters for \link{s_GBM}}
 
-\item{meta.alpha}{Float \link{0, 1}: \code{alpha} for \link{s_GLMNET}}
+\item{meta.alpha}{Float [0, 1]: \code{alpha} for \link{s_GLMNET}}
 
 \item{meta.lambda}{Float: \code{lambda} for \link{s_GLMNET}. Default = NULL (will be
 determined automatically by crossvalidation)}

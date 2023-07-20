@@ -1062,9 +1062,9 @@ splitlineRC <- function(g,
 #' @param type Character: "response", "probability", "all", "step"
 #' @param n.leaves Integer: Use the first `n.leaves` of the tree for
 #' prediction
-#' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
+#' @param fixed.cxr (internal use) Matrix: Cases by rules to use instead of matching cases to rules using
 #' `newdata`
-#' @param cxr.newdata [Internal use] Data frame: Use these values to match cases by rules
+#' @param cxr.newdata (internal use) Data frame: Use these values to match cases by rules
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console

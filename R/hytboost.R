@@ -14,16 +14,17 @@
 #' @param mod.params Named list of arguments for `mod`
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
-#' @param cxrcoef Logical: If TRUE, pass `cxr = TRUE, cxrcoef = TRUE` to [predict.hytreew]
+#' @param cxrcoef Logical: If TRUE, pass `cxr = TRUE, cxrcoef = TRUE` to 
+#' [predict.hytreew]
 #' @param tolerance Float: If training error <= this value, training stops
 #' @param tolerance.valid Float: If validation error <= this value, training stops
-#' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
+#' @param max.iter Integer: Maximum number of iterations (additive steps) to perform.
 #' @param trace Integer: If > 0, print diagnostic info to console
 #' @param base.verbose Logical: `verbose` argument passed to learner
-#' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
-#' end of training. If integer, plot training and validation error curve every this many iterations
-#' during training
-#' for each base learner
+#' @param print.error.plot String or Integer: "final" plots a training and validation 
+#' (if available) error curve at the end of training. If integer, plot training and 
+#' validation error curve every this many iterations during training for each base 
+#' learner
 #' @param ... Additional parameters to be passed to learner
 #' 
 #' @return `hytboost` object
@@ -316,8 +317,8 @@ print.hytboost <- function(x, ...) {
 #' @param newdata data.frame of predictors
 #  @param n.feat Integer: Use the first so many features
 #' @param n.iter Integer: Use the first so many trees for prediction
-#' @param fixed.cxr [Internal use] Matrix: Cases by rules to use instead of matching cases to rules using
-#' `newdata`
+#' @param fixed.cxr (internal use) Matrix: Cases by rules to use instead of matching 
+#' cases to rules using `newdata`
 #' @param as.matrix Logical: If TRUE, output 
 #' @param n.cores Integer: Number of cores to use
 #' @param verbose Logical: If TRUE, print messages to console

@@ -114,6 +114,9 @@ binning using \code{base::cut} with \code{breaks} equal to this number}
 binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
 produced using \code{stats::quantile}}
 
+\item{numeric.quant.NAonly}{Logical: If TRUE, only bin numeric variables with
+missing values}
+
 \item{len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors. Default = NULL.
 For example, if binary variables are encoded with 1, 2, you could use

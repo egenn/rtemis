@@ -37,8 +37,8 @@ mplot3_roc(
 )
 }
 \arguments{
-\item{prob}{Numeric vector or list of numeric vectors \link{0, 1}: Predicted probabilities
-(e.g. c(.1, .8, .2, .9))}
+\item{prob}{Numeric vector or list of numeric vectors [0, 1]: Predicted
+probabilities (e.g. c(.1, .8, .2, .9))}
 
 \item{labels}{Integer vector or list of integer vectors {0, 1}: True labels
 (e.g. c(0, 1, 0, 1))}
