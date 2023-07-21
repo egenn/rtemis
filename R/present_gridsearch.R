@@ -2,10 +2,7 @@
 # ::rtremis::
 # 2022 E.D. Gennatas www.lambdamd.org
 
-
 #' Present gridsearch results
-#' 
-#' Present gridsearch results [Work in progress]
 #' 
 #' @param x rtMod or rtModCV objects
 #' @param rtModCV.repeat Integer: Which repeat to use, when x is rtModCV object

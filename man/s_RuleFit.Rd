@@ -19,7 +19,6 @@ s_RuleFit(
   x.name = NULL,
   y.name = NULL,
   n.cores = rtCores,
-  which.gbm = c("gbm", "gbm3"),
   question = NULL,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -60,8 +59,6 @@ If provided, the GBM step is skipped. Default = NULL}
 \item{y.name}{Character: Name for outcome}
 
 \item{n.cores}{Integer: Number of cores to use}
-
-\item{which.gbm}{Character: "gbm" or "gbm3"}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 

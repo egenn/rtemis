@@ -16,7 +16,7 @@
 #'
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
-#' @param alpha \[gS\] Float [0, 1]: The elasticnet mixing parameter:
+#' @param alpha \[gS\] Float \[0, 1\]: The elasticnet mixing parameter:
 #'   `a = 0` is the ridge penalty, `a = 1` is the lasso penalty
 #' @param lambda \[gS\] Float vector: Best left to NULL, `cv.glmnet` will 
 #' compute its own lambda sequence

@@ -21,7 +21,7 @@
 #' @param cases.by.rules Matrix of cases by rules from a previoue rulefit run. 
 #' If provided, the GBM step is skipped. Default = NULL
 #' @param n.cores Integer: Number of cores to use
-#' @param which.gbm Character: "gbm" or "gbm3"
+# @param which.gbm Character: "gbm" or "gbm3"
 #'
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -45,7 +45,7 @@ s_RuleFit <- function(x, y = NULL,
                       x.name = NULL,
                       y.name = NULL,
                       n.cores = rtCores,
-                      which.gbm = c("gbm", "gbm3"),
+                    #   which.gbm = c("gbm", "gbm3"),
                       question = NULL,
                       print.plot = FALSE,
                       plot.fitted = NULL,
@@ -59,6 +59,7 @@ s_RuleFit <- function(x, y = NULL,
         print(args(s_RuleFit))
         return(invisible(9))
     }
+    which.gbm <- "gbm"
     if (!is.null(outdir)) {
         outdir <- paste0(normalizePath(outdir,
             mustWork = FALSE
@@ -358,7 +359,7 @@ rt.GBM2List <- function(gbm1, X, which.gbm = "gbm") {
         if (which.gbm == "gbm") {
             treeList$list[[i]] <- gbm::pretty.gbm.tree(gbm1, i.tree = i)
         } else {
-            treeList$list[[i]] <- gbm3::pretty_gbm_tree(gbm1, tree_index = i)
+            # treeList$list[[i]] <- gbm3::pretty_gbm_tree(gbm1, tree_index = i)
         }
     }
     v2int <- function(v) {

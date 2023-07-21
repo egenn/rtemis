@@ -75,7 +75,7 @@ combinations.}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
-\item{alpha}{[gS] Float \link{0, 1}: The elasticnet mixing parameter:
+\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
 \code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
 
 \item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will

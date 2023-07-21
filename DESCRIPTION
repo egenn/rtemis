@@ -1,7 +1,7 @@
 Package: rtemis
 Version: 0.95.5
 Title: Machine Learning and Visualization
-Date: 2023-07-20
+Date: 2023-07-21
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@lambdamd.org", comment = c(ORCID = "0000-0001-9280-3609"))
 Maintainer: E.D. Gennatas <gennatas@lambdamd.org>
 Description: Advanced Machine Learning and Visualization. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression), Cross-Decomposition, Bagging, Boosting, Meta-models. Static and interactive graphics.
@@ -44,7 +44,6 @@ Suggests:
     fs,
     future.apply,
     gbm,
-    gbm3,
     geojsonio,
     geosphere,
     ggplot2,
@@ -138,7 +137,6 @@ Suggests:
     vroom,
     xgboost
 Remotes:
-    gbm-developers/gbm3,
     jackwasey/icd
 Encoding: UTF-8
 RoxygenNote: 7.2.3

@@ -662,28 +662,40 @@ as.boost <- function(object,
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
+#' @param n.cores Integer: Number of cores to use for parallel processing
+#' @param trace Integer: If > 0, print diagnostic info to console
+#' @param ... Not used
+#' 
 #' @return [boost] object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
 #' @export
-# TODO: add support for x.test
 
-update.rtMod.boost <- function(object, x = NULL,
-                               x.test = NULL,
-                               trace = 0,
+update.rtMod.boost <- function(object,
+                               x = NULL,
                                last.step.only = FALSE,
-                               n.cores = rtCores, ...) {
+                               n.cores = rtCores,
+                               trace = 0, ...) {
     if (trace > 0) fitted.orig <- object$fitted
     # Create n.iter x n.cases fitted values; one row per iteration
     if (is.null(x)) {
-        fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
+        fitted <- t(vapply(
+            object$mod$mods,
+            \(i) i$fitted, vector("numeric", length(object$fitted))
+        ))
     } else {
         if (!last.step.only) {
-            fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods, function(i) predict(i, x), cl = n.cores)))
+            fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods,
+                \(i) predict(i, x),
+                cl = n.cores
+            )))
         } else {
             u <- length(object$mod$mods)
             object$mod$mods[[u]]$fitted <- predict(object$mod$mods[[u]], x)
-            fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
+            fitted <- t(vapply(
+                object$mod$mods,
+                \(i) i$fitted, vector("numeric", length(object$fitted))
+            ))
         }
     }
 

@@ -65,21 +65,24 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 
 \item{nterms}{[gS] Integer: number of terms to include in the final model}
 
-\item{optlevel}{[gS] Integer [0, 3]\: optimization level (Default = 3). See Details in \code{stats::ppr}}
+\item{optlevel}{[gS] Integer [0, 3]: optimization level (Default = 3).
+See Details in \code{stats::ppr}}
 
 \item{sm.method}{[gS] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
 Default = "spline"}
 
-\item{bass}{[gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values result in greater smoother
-(Default = 5). See \code{stats::ppr}}
+\item{bass}{[gS] Numeric [0, 10]: for \code{sm.method = "supsmu"}: larger values
+result in greater smoother. See \link[stats:ppr]{stats::ppr}}
 
-\item{span}{[gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results in automatic span selection by
-local crossvalidation. See \code{stats::ppr}}
+\item{span}{[gS] Numeric [0, 1]: for \code{sm.method = "supsmu"}: 0 (Default) results
+in automatic span selection by local crossvalidation. See \link[stats:ppr]{stats::ppr}}
 
-\item{df}{[gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each ridge term. See \code{stats::ppr}}
+\item{df}{[gS] Numeric: for \code{sm.method = "spline"}: Specify smoothness of each
+ridge term. See \link[stats:ppr]{stats::ppr}}
 
-\item{gcvpen}{\link{gs} Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV selection for each
-degree of freedom used. Higher values result in greater smoothing. See \code{stats::ppr} Default = 5}
+\item{gcvpen}{[gs] Numeric: for \code{sm.method = "gcvspline"}: Penalty used in the GCV
+selection for each degree of freedom used. Higher values result in greater smoothing.
+See \link[stats:ppr]{stats::ppr}.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
 \code{maximize = TRUE} during grid search. Default = NULL, which results in
@@ -116,7 +119,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments to be passed to \code{ppr}}
 }
 \value{
-Object of class \pkg{rtemis}
+Object of class \link{rtMod}
 }
 \description{
 Train a Projection Pursuit Regression model
