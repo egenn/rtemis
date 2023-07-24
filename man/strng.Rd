@@ -44,6 +44,8 @@ reset(...)
 
 \item{bold}{Logical: If TRUE, use bold font}
 
+\item{x}{Numeric: Input}
+
 \item{sep}{Character: Separator}
 }
 \description{

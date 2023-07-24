@@ -7,10 +7,9 @@
 \method{update}{rtMod.boost}(
   object,
   x = NULL,
-  x.test = NULL,
-  trace = 0,
   last.step.only = FALSE,
   n.cores = rtCores,
+  trace = 0,
   ...
 )
 }
@@ -21,6 +20,12 @@
 
 \item{last.step.only}{Logical: If TRUE, \code{x} must be provided and only the last meta model will be updated
 using this \code{x}}
+
+\item{n.cores}{Integer: Number of cores to use for parallel processing}
+
+\item{trace}{Integer: If > 0, print diagnostic info to console}
+
+\item{...}{Not used}
 }
 \value{
 \link{boost} object
