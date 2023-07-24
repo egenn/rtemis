@@ -26,7 +26,7 @@
 #' @param force_nrounds Integer: Number of rounds to run if not estimating optimal number by CV
 #' @param early_stopping_rounds Integer: Training on resamples of `x` (tuning) will
 #' stop if performance does not improve for this many rounds
-#' @param nrounds_default Integer: Default number of rounds to run if 
+#' @param nrounds_default Integer: Default number of rounds to run if
 #' cross-validation fails - likely will never be used
 #' @param num_leaves Integer: \[gS\] Maximum tree leaves for base learners.
 #' @param max_depth Integer: \[gS\] Maximum tree depth for base learners, <=0 means no limit.
@@ -54,7 +54,6 @@
 #' dat <- data.frame(x, y)
 #' mod <- s_LightGBM(dat)
 #' }
-
 s_LightGBM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
@@ -106,339 +105,339 @@ s_LightGBM <- function(x, y = NULL,
                        parallel.type = c("psock", "fork"),
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-    # Intro ----
-    if (missing(x)) {
-        print(args(s_LightGBM))
-        return(invisible(9))
-    }
-    if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-    logFile <- if (!is.null(outdir)) {
-        paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
-    } else {
-        NULL
-    }
-    start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- if (boosting == "rf") "LightRF" else "LightGBM"
+  # Intro ----
+  if (missing(x)) {
+    print(args(s_LightGBM))
+    return(invisible(9))
+  }
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  logFile <- if (!is.null(outdir)) {
+    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+  } else {
+    NULL
+  }
+  start.time <- intro(verbose = verbose, logFile = logFile)
+  mod.name <- if (boosting == "rf") "LightRF" else "LightGBM"
 
-    # Dependencies ----
-    dependency_check("lightgbm")
+  # Dependencies ----
+  dependency_check("lightgbm")
 
-    # Arguments ----
-    nrounds <- max_nrounds
-    if (is.null(x.name)) x.name <- getName(x, "x")
-    if (is.null(y.name)) y.name <- getName(y, "y")
-    if (!verbose) print.plot <- FALSE
-    verbose <- verbose | !is.null(logFile)
-    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-    if (!is.null(outdir)) {
-        outdir <- paste0(normalizePath(outdir,
-            mustWork = FALSE
-        ), "/")
-    }
+  # Arguments ----
+  nrounds <- max_nrounds
+  if (is.null(x.name)) x.name <- getName(x, "x")
+  if (is.null(y.name)) y.name <- getName(y, "y")
+  if (!verbose) print.plot <- FALSE
+  verbose <- verbose | !is.null(logFile)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (!is.null(outdir)) {
+    outdir <- paste0(normalizePath(outdir,
+      mustWork = FALSE
+    ), "/")
+  }
 
-    # Data ----
-    dt <- dataPrepare(x, y,
-        x.test, y.test,
-        ifw = ifw,
-        ifw.type = ifw.type,
-        upsample = upsample,
-        downsample = downsample,
-        resample.seed = resample.seed,
-        verbose = verbose
+  # Data ----
+  dt <- dataPrepare(x, y,
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
+  x <- dt$x
+  y <- dt$y
+  x.test <- dt$x.test
+  y.test <- dt$y.test
+  xnames <- dt$xnames
+  type <- dt$type
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  if (any(sapply(x, is.factor))) {
+    factor_index <- xnames[which(sapply(x, is.factor))]
+    x <- preprocess(x,
+      factor2integer = TRUE,
+      factor2integer_startat0 = TRUE
     )
-    x <- dt$x
-    y <- dt$y
-    x.test <- dt$x.test
-    y.test <- dt$y.test
-    xnames <- dt$xnames
-    type <- dt$type
-    .weights <- if (is.null(weights) && ifw) dt$weights else weights
-    if (any(sapply(x, is.factor))) {
-        factor_index <- xnames[which(sapply(x, is.factor))]
-        x <- preprocess(x,
-            factor2integer = TRUE,
-            factor2integer_startat0 = TRUE
-        )
-        if (!is.null(x.test)) {
-            x.test <- preprocess(x.test,
-                factor2integer = TRUE,
-                factor2integer_startat0 = TRUE
-            )
-        }
-    } else {
-        factor_index <- NULL
-    }
-    x0 <- if (upsample || downsample) dt$x0 else x
-    y0 <- if (upsample || downsample) dt$y0 else y
-    if (verbose) dataSummary(x, y, x.test, y.test, type)
-    if (print.plot) {
-        if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-        if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
-    } else {
-        plot.fitted <- plot.predicted <- FALSE
-    }
-    if (type == "Classification") y.num <- as.integer(y) - 1
-    nclass <- ifelse(type == "Classification", length(levels(y)), 0)
-    if (is.null(objective)) {
-        if (type == "Regression") {
-            objective <- "regression"
-        } else {
-            objective <- ifelse(nclass == 2, "binary", "multiclass")
-        }
-    }
-    dat.train <- lightgbm::lgb.Dataset(
-        data = as.matrix(x),
-        categorical_feature = factor_index,
-        label = if (type == "Classification") as.integer(y) - 1 else y,
-        weight = .weights
-    )
-    # if (!is.null(factor_index)) {
-    #     dat.train$set_categorical_feature(factor_index)
-    #     lightgbm::lgb.Dataset.set.categorical(dat.train, factor_index)
-    # }
-
     if (!is.null(x.test)) {
-        dat.test <- lightgbm::lgb.Dataset(
-            data = as.matrix(x.test),
-            categorical_feature = factor_index,
-            label = if (type == "Classification") as.integer(y.test) - 1 else y.test
-        )
+      x.test <- preprocess(x.test,
+        factor2integer = TRUE,
+        factor2integer_startat0 = TRUE
+      )
     }
-
-    # Grid Search ----
-    if (is.null(metric)) {
-        if (type == "Classification") {
-            metric <- "Balanced Accuracy"
-            if (is.null(maximize)) maximize <- TRUE
-        } else if (type == "Regression") {
-            metric <- "MSE"
-            if (is.null(maximize)) maximize <- FALSE
-        }
-    }
-
-    if (is.null(maximize)) {
-        maximize <- if (type == "Classification") TRUE else FALSE
-    }
-
-    gc <- gridCheck(
-        num_leaves, max_depth, learning_rate, bagging_fraction, lambda_l1, lambda_l2
-    )
-
-    tuned <- FALSE
-    if (!.gs && (gc || (is.null(force_nrounds) && boosting != "rf"))) {
-        grid.params <-
-            list(
-                num_leaves = num_leaves,
-                max_depth = max_depth,
-                learning_rate = learning_rate,
-                bagging_fraction = bagging_fraction,
-                lambda_l1 = lambda_l1,
-                lambda_l2 = lambda_l2
-            )
-        gs <- gridSearchLearn(
-            x = x0, y = y0,
-            mod = mod.name,
-            resample.rtset = grid.resample.rtset,
-            grid.params = grid.params,
-            fixed.params = list(
-                boosting = boosting,
-                max_nrounds = max_nrounds,
-                early_stopping_rounds = early_stopping_rounds,
-                objective = objective,
-                tree_learner = tree_learner,
-                linear_tree = linear_tree,
-                bagging_freq = bagging_freq,
-                max_cat_threshold = max_cat_threshold,
-                min_data_per_group = min_data_per_group,
-                ifw = ifw,
-                ifw.type = ifw.type,
-                upsample = upsample,
-                resample.seed = resample.seed,
-                .gs = TRUE
-            ),
-            search.type = grid.search.type,
-            weights = weights,
-            metric = metric,
-            maximize = maximize,
-            save.mod = save.gridrun,
-            verbose = verbose,
-            grid.verbose = grid.verbose,
-            n.cores = n.cores
-        )
-
-        nrounds <- gs$best.tune$nrounds
-        if (nrounds <= 0) {
-            warning(
-                "Could not get CV estimate for best N rounds. Defaulting to",
-                nrounds_default
-            )
-            nrounds <- nrounds_default
-        }
-        num_leaves <- gs$best.tune$num_leaves
-        max_depth <- gs$best.tune$max_depth
-        learning_rate <- gs$best.tune$learning_rate
-        bagging_fraction <- gs$best.tune$bagging_fraction
-        lambda_l1 <- gs$best.tune$lambda_l1
-        lambda_l2 <- gs$best.tune$lambda_l2
-        tuned <- TRUE
-
-        # Now ready to train final full model
-        .gs <- FALSE
+  } else {
+    factor_index <- NULL
+  }
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+  if (print.plot) {
+    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+  } else {
+    plot.fitted <- plot.predicted <- FALSE
+  }
+  if (type == "Classification") y.num <- as.integer(y) - 1
+  nclass <- ifelse(type == "Classification", length(levels(y)), 0)
+  if (is.null(objective)) {
+    if (type == "Regression") {
+      objective <- "regression"
     } else {
-        gs <- NULL
+      objective <- ifelse(nclass == 2, "binary", "multiclass")
     }
-    if (!is.null(force_nrounds)) nrounds <- force_nrounds
-    
-    parameters <- list(
-        boosting = boosting,
-        objective = objective,
+  }
+  dat.train <- lightgbm::lgb.Dataset(
+    data = as.matrix(x),
+    categorical_feature = factor_index,
+    label = if (type == "Classification") as.integer(y) - 1 else y,
+    weight = .weights
+  )
+  # if (!is.null(factor_index)) {
+  #     dat.train$set_categorical_feature(factor_index)
+  #     lightgbm::lgb.Dataset.set.categorical(dat.train, factor_index)
+  # }
+
+  if (!is.null(x.test)) {
+    dat.test <- lightgbm::lgb.Dataset(
+      data = as.matrix(x.test),
+      categorical_feature = factor_index,
+      label = if (type == "Classification") as.integer(y.test) - 1 else y.test
+    )
+  }
+
+  # Grid Search ----
+  if (is.null(metric)) {
+    if (type == "Classification") {
+      metric <- "Balanced Accuracy"
+      if (is.null(maximize)) maximize <- TRUE
+    } else if (type == "Regression") {
+      metric <- "MSE"
+      if (is.null(maximize)) maximize <- FALSE
+    }
+  }
+
+  if (is.null(maximize)) {
+    maximize <- if (type == "Classification") TRUE else FALSE
+  }
+
+  gc <- gridCheck(
+    num_leaves, max_depth, learning_rate, bagging_fraction, lambda_l1, lambda_l2
+  )
+
+  tuned <- FALSE
+  if (!.gs && (gc || (is.null(force_nrounds) && boosting != "rf"))) {
+    grid.params <-
+      list(
         num_leaves = num_leaves,
         max_depth = max_depth,
         learning_rate = learning_rate,
         bagging_fraction = bagging_fraction,
         lambda_l1 = lambda_l1,
-        lambda_l2 = lambda_l2,
-        num_threads = n_threads,
-        force_col_wise = force_col_wise,
-        force_row_wise = force_row_wise,
+        lambda_l2 = lambda_l2
+      )
+    gs <- gridSearchLearn(
+      x = x0, y = y0,
+      mod = mod.name,
+      resample.rtset = grid.resample.rtset,
+      grid.params = grid.params,
+      fixed.params = list(
+        boosting = boosting,
+        max_nrounds = max_nrounds,
+        early_stopping_rounds = early_stopping_rounds,
+        objective = objective,
         tree_learner = tree_learner,
         linear_tree = linear_tree,
         bagging_freq = bagging_freq,
         max_cat_threshold = max_cat_threshold,
-        min_data_per_group = min_data_per_group
-    )
-    extraargs <- list(...)
-    if (!is.null(extraargs)) {
-        parameters <- c(parameters, extraargs)
-    }
-
-    if (type == "Classification" && nclass > 2) {
-        parameters$num_class <- nclass
-    }
-
-    # LightGBM ----
-    if (verbose) {
-        if (tuned) {
-            msg20("Training LightGBM ", type, " with tuned hyperparameters...", newline.pre = TRUE)
-        } else {
-            msg20("Training LightGBM ", type, "...", newline.pre = TRUE)
-        }
-    }
-    
-    mod <- lightgbm::lgb.train(
-        parameters,
-        data = dat.train,
-        nrounds = nrounds,
-        verbose = lightgbm_verbose,
-        valids = if (.gs) list(train = dat.train, valid = dat.test) else list(train = dat.train),
-        early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
+        min_data_per_group = min_data_per_group,
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed,
+        .gs = TRUE
+      ),
+      search.type = grid.search.type,
+      weights = weights,
+      metric = metric,
+      maximize = maximize,
+      save.mod = save.gridrun,
+      verbose = verbose,
+      grid.verbose = grid.verbose,
+      n.cores = n.cores
     )
 
-    # Fitted ----
-    fitted <- predict(mod, as.matrix(x), reshape = TRUE)
-    fitted.prob <- NULL
+    nrounds <- gs$best.tune$nrounds
+    if (nrounds <= 0) {
+      warning(
+        "Could not get CV estimate for best N rounds. Defaulting to",
+        nrounds_default
+      )
+      nrounds <- nrounds_default
+    }
+    num_leaves <- gs$best.tune$num_leaves
+    max_depth <- gs$best.tune$max_depth
+    learning_rate <- gs$best.tune$learning_rate
+    bagging_fraction <- gs$best.tune$bagging_fraction
+    lambda_l1 <- gs$best.tune$lambda_l1
+    lambda_l2 <- gs$best.tune$lambda_l2
+    tuned <- TRUE
+
+    # Now ready to train final full model
+    .gs <- FALSE
+  } else {
+    gs <- NULL
+  }
+  if (!is.null(force_nrounds)) nrounds <- force_nrounds
+
+  parameters <- list(
+    boosting = boosting,
+    objective = objective,
+    num_leaves = num_leaves,
+    max_depth = max_depth,
+    learning_rate = learning_rate,
+    bagging_fraction = bagging_fraction,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    num_threads = n_threads,
+    force_col_wise = force_col_wise,
+    force_row_wise = force_row_wise,
+    tree_learner = tree_learner,
+    linear_tree = linear_tree,
+    bagging_freq = bagging_freq,
+    max_cat_threshold = max_cat_threshold,
+    min_data_per_group = min_data_per_group
+  )
+  extraargs <- list(...)
+  if (!is.null(extraargs)) {
+    parameters <- c(parameters, extraargs)
+  }
+
+  if (type == "Classification" && nclass > 2) {
+    parameters$num_class <- nclass
+  }
+
+  # LightGBM ----
+  if (verbose) {
+    if (tuned) {
+      msg20("Training LightGBM ", type, " with tuned hyperparameters...", newline.pre = TRUE)
+    } else {
+      msg20("Training LightGBM ", type, "...", newline.pre = TRUE)
+    }
+  }
+
+  mod <- lightgbm::lgb.train(
+    parameters,
+    data = dat.train,
+    nrounds = nrounds,
+    verbose = lightgbm_verbose,
+    valids = if (.gs) list(train = dat.train, valid = dat.test) else list(train = dat.train),
+    early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
+  )
+
+  # Fitted ----
+  fitted <- predict(mod, as.matrix(x), reshape = TRUE)
+  fitted.prob <- NULL
+  if (type == "Classification") {
+    if (nclass == 2) {
+      fitted.prob <- 1 - fitted
+      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
+        levels = c(1, 0),
+        labels = levels(y)
+      )
+    } else {
+      fitted.prob <- fitted
+      fitted <- factor(max.col(fitted),
+        levels = seq(nclass),
+        labels = levels(y)
+      )
+    }
+  }
+
+  error.train <- modError(y, fitted, fitted.prob)
+  if (verbose) errorSummary(error.train, mod.name)
+
+  # Predicted ----
+  predicted.prob <- predicted <- error.test <- NULL
+  if (!is.null(x.test)) {
+    predicted <- predict(mod, as.matrix(x.test), reshape = TRUE)
     if (type == "Classification") {
-        if (nclass == 2) {
-            fitted.prob <- 1 - fitted
-            fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
-                levels = c(1, 0),
-                labels = levels(y)
-            )
-        } else {
-            fitted.prob <- fitted
-            fitted <- factor(max.col(fitted),
-                levels = seq(nclass),
-                labels = levels(y)
-            )
-        }
+      if (nclass == 2) {
+        predicted.prob <- 1 - predicted
+        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+          levels = c(1, 0),
+          labels = levels(y)
+        )
+      } else {
+        predicted <- factor(max.col(predicted),
+          levels = seq(nclass),
+          labels = levels(y)
+        )
+      }
     }
-
-    error.train <- modError(y, fitted, fitted.prob)
-    if (verbose) errorSummary(error.train, mod.name)
-
-    # Predicted ----
-    predicted.prob <- predicted <- error.test <- NULL
-    if (!is.null(x.test)) {
-        predicted <- predict(mod, as.matrix(x.test), reshape = TRUE)
-        if (type == "Classification") {
-            if (nclass == 2) {
-                predicted.prob <- 1 - predicted
-                predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
-                    levels = c(1, 0),
-                    labels = levels(y)
-                )
-            } else {
-                predicted <- factor(max.col(predicted),
-                    levels = seq(nclass),
-                    labels = levels(y)
-                )
-            }
-        }
-        if (!is.null(y.test)) {
-            error.test <- modError(y.test, predicted, predicted.prob)
-            if (verbose) errorSummary(error.test, mod.name)
-        }
+    if (!is.null(y.test)) {
+      error.test <- modError(y.test, predicted, predicted.prob)
+      if (verbose) errorSummary(error.test, mod.name)
     }
+  }
 
-    # Variable Importance ----
-    varimp <- NULL
-    if (importance) {
-        if (verbose) msg2("Estimating LightGBM variable importance...")
-        .lgbvarimp <- lightgbm::lgb.importance(model = mod, percentage = TRUE)
-        varimp <- .lgbvarimp$Gain
-        names(varimp) <- .lgbvarimp$Feature
-    }
+  # Variable Importance ----
+  varimp <- NULL
+  if (importance) {
+    if (verbose) msg2("Estimating LightGBM variable importance...")
+    .lgbvarimp <- lightgbm::lgb.importance(model = mod, percentage = TRUE)
+    varimp <- .lgbvarimp$Gain
+    names(varimp) <- .lgbvarimp$Feature
+  }
 
-    # Outro ----
-    rt <- rtModSet(
-        rtclass = "rtMod",
-        mod = mod,
-        extra = list(factor_index = factor_index),
-        mod.name = mod.name,
-        type = type,
-        gridsearch = gs,
-        parameters = parameters,
-        y.train = y,
-        y.test = y.test,
-        x.name = x.name,
-        y.name = y.name,
-        xnames = xnames,
-        fitted = fitted,
-        fitted.prob = fitted.prob,
-        se.fit = NULL,
-        error.train = error.train,
-        predicted = predicted,
-        predicted.prob = predicted.prob,
-        se.prediction = NULL,
-        error.test = error.test,
-        varimp = varimp,
-        question = question
-    )
+  # Outro ----
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    extra = list(factor_index = factor_index),
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = varimp,
+    question = question
+  )
 
-    rtMod.out(
-        rt,
-        print.plot,
-        plot.fitted,
-        plot.predicted,
-        y.test,
-        mod.name,
-        outdir,
-        save.mod,
-        verbose,
-        plot.theme
-    )
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-    outro(start.time,
-        verbose = verbose,
-        sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
-    )
-    rt
+  outro(start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
+  rt
 } # rtemis::s_LightGBM
 
 #' Random Forest with LightGBM
-#' 
+#'
 #' @inheritParams s_LightGBM
-#' 
+#'
 #' @author ED Gennatas
 #' @export
 #' @examples
@@ -448,137 +447,137 @@ s_LightGBM <- function(x, y = NULL,
 #' dat <- data.frame(x, y)
 #' mod <- s_LightRF(dat)
 #' }
-
 s_LightRF <- function(x, y = NULL,
-                       x.test = NULL, y.test = NULL,
-                       x.name = NULL, y.name = NULL,
-                       weights = NULL,
-                       ifw = TRUE,
-                       ifw.type = 2,
-                       upsample = FALSE,
-                       downsample = FALSE,
-                       resample.seed = NULL,
-                       boosting = "rf",
-                       objective = NULL,
-                       max_nrounds = 500L,
-                       force_nrounds = NULL,
-                       early_stopping_rounds = -1L,
-                       num_leaves = 131072L,
-                       max_depth = -1L,
-                       learning_rate = 1,
-                       bagging_fraction = .623,
-                       bagging_freq = 1L,
-                       lambda_l1 = 0,
-                       lambda_l2 = 0,
-                       max_cat_threshold = 32L,
-                       min_data_per_group = 32L,
-                       linear_tree = FALSE,
-                       tree_learner = "data_parallel",
-                       .gs = FALSE,
-                       grid.resample.rtset = rtset.resample("kfold", 5),
-                       grid.search.type = "exhaustive",
-                       metric = NULL,
-                       maximize = NULL,
-                       importance = TRUE,
-                       print.plot = FALSE,
-                       plot.fitted = NULL,
-                       plot.predicted = NULL,
-                       plot.theme = rtTheme,
-                       question = NULL,
-                       rtclass = NULL,
-                       save.dump = FALSE,
-                       verbose = TRUE,
-                       grid.verbose = FALSE,
-                       lightgbm_verbose = -1,
-                       trace = 0,
-                       save.gridrun = FALSE,
-                       n.cores = 1,
-                       n_threads = rtCores,
-                       force_col_wise = FALSE,
-                       force_row_wise = FALSE,
-                       parallel.type = c("psock", "fork"),
-                       outdir = NULL,
-                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
-    s_LightGBM(x, y = y,
-               x.test = x.test, y.test = y.test,
-               x.name = x.name, y.name = y.name,
-               weights = weights,
-               ifw = ifw,
-               ifw.type = ifw.type,
-               upsample = upsample,
-               downsample = downsample,
-               resample.seed = resample.seed,
-               boosting = boosting,
-               objective = objective,
-               max_nrounds = max_nrounds,
-               force_nrounds = force_nrounds,
-               early_stopping_rounds = early_stopping_rounds,
-               num_leaves = num_leaves,
-               max_depth = max_depth,
-               learning_rate = learning_rate,
-               bagging_fraction = bagging_fraction,
-               bagging_freq = bagging_freq,
-               lambda_l1 = lambda_l1,
-               lambda_l2 = lambda_l2,
-               max_cat_threshold = max_cat_threshold,
-               min_data_per_group = min_data_per_group,
-               linear_tree = linear_tree,
-               tree_learner = tree_learner,
-               .gs = .gs,
-               grid.resample.rtset = grid.resample.rtset,
-               grid.search.type = grid.search.type,
-               metric = metric,
-               maximize = maximize,
-               importance = importance,
-               print.plot = print.plot,
-               plot.fitted = plot.fitted,
-               plot.predicted = plot.predicted,
-               plot.theme = plot.theme,
-               question = question,
-               rtclass = rtclass,
-               save.dump = save.dump,
-               verbose = verbose,
-               grid.verbose = grid.verbose,
-               lightgbm_verbose = lightgbm_verbose,
-               trace = trace,
-               save.gridrun = save.gridrun,
-               n.cores = n.cores,
-               n_threads = n_threads,
-               force_col_wise = force_col_wise,
-               force_row_wise = force_row_wise,
-               parallel.type = parallel.type,
-               outdir = outdir,
-               save.mod = save.mod, ...)
+                      x.test = NULL, y.test = NULL,
+                      x.name = NULL, y.name = NULL,
+                      weights = NULL,
+                      ifw = TRUE,
+                      ifw.type = 2,
+                      upsample = FALSE,
+                      downsample = FALSE,
+                      resample.seed = NULL,
+                      boosting = "rf",
+                      objective = NULL,
+                      max_nrounds = 500L,
+                      force_nrounds = NULL,
+                      early_stopping_rounds = -1L,
+                      num_leaves = 131072L,
+                      max_depth = -1L,
+                      learning_rate = 1,
+                      bagging_fraction = .623,
+                      bagging_freq = 1L,
+                      lambda_l1 = 0,
+                      lambda_l2 = 0,
+                      max_cat_threshold = 32L,
+                      min_data_per_group = 32L,
+                      linear_tree = FALSE,
+                      tree_learner = "data_parallel",
+                      .gs = FALSE,
+                      grid.resample.rtset = rtset.resample("kfold", 5),
+                      grid.search.type = "exhaustive",
+                      metric = NULL,
+                      maximize = NULL,
+                      importance = TRUE,
+                      print.plot = FALSE,
+                      plot.fitted = NULL,
+                      plot.predicted = NULL,
+                      plot.theme = rtTheme,
+                      question = NULL,
+                      rtclass = NULL,
+                      save.dump = FALSE,
+                      verbose = TRUE,
+                      grid.verbose = FALSE,
+                      lightgbm_verbose = -1,
+                      trace = 0,
+                      save.gridrun = FALSE,
+                      n.cores = 1,
+                      n_threads = rtCores,
+                      force_col_wise = FALSE,
+                      force_row_wise = FALSE,
+                      parallel.type = c("psock", "fork"),
+                      outdir = NULL,
+                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+  s_LightGBM(x,
+    y = y,
+    x.test = x.test, y.test = y.test,
+    x.name = x.name, y.name = y.name,
+    weights = weights,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    boosting = boosting,
+    objective = objective,
+    max_nrounds = max_nrounds,
+    force_nrounds = force_nrounds,
+    early_stopping_rounds = early_stopping_rounds,
+    num_leaves = num_leaves,
+    max_depth = max_depth,
+    learning_rate = learning_rate,
+    bagging_fraction = bagging_fraction,
+    bagging_freq = bagging_freq,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    max_cat_threshold = max_cat_threshold,
+    min_data_per_group = min_data_per_group,
+    linear_tree = linear_tree,
+    tree_learner = tree_learner,
+    .gs = .gs,
+    grid.resample.rtset = grid.resample.rtset,
+    grid.search.type = grid.search.type,
+    metric = metric,
+    maximize = maximize,
+    importance = importance,
+    print.plot = print.plot,
+    plot.fitted = plot.fitted,
+    plot.predicted = plot.predicted,
+    plot.theme = plot.theme,
+    question = question,
+    rtclass = rtclass,
+    save.dump = save.dump,
+    verbose = verbose,
+    grid.verbose = grid.verbose,
+    lightgbm_verbose = lightgbm_verbose,
+    trace = trace,
+    save.gridrun = save.gridrun,
+    n.cores = n.cores,
+    n_threads = n_threads,
+    force_col_wise = force_col_wise,
+    force_row_wise = force_row_wise,
+    parallel.type = parallel.type,
+    outdir = outdir,
+    save.mod = save.mod, ...
+  )
 } # rtemis::s_LightRF
 
 predict_LightGBM <- function(x, newdata, ...) {
-    if (!is.null(x$extra$factor_index)) {
-        newdata <- preprocess(newdata,
-            factor2integer = TRUE, factor2integer_startat0 = TRUE
-        )
+  if (!is.null(x$extra$factor_index)) {
+    newdata <- preprocess(newdata,
+      factor2integer = TRUE, factor2integer_startat0 = TRUE
+    )
+  }
+  predicted <- predict(x$mod, as.matrix(newdata), reshape = TRUE)
+  if (x$type == "Classification") {
+    ylevels <- levels(x$y.train)
+    nclass <- length(ylevels)
+    if (nclass == 2) {
+      if (rtenv$binclasspos == 1) {
+        predicted.prob <- 1 - predicted
+      } else {
+        predicted.prob <- predicted
+      }
+      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+        levels = c(1, 0),
+        labels = ylevels
+      )
+    } else {
+      predicted <- factor(max.col(predicted),
+        levels = seq(nclass),
+        labels = ylevels
+      )
     }
-    predicted <- predict(x$mod, as.matrix(newdata), reshape = TRUE)
-    if (x$type == "Classification") {
-        ylevels <- levels(x$y.train)
-        nclass <- length(ylevels)
-        if (nclass == 2) {
-            if (rtenv$binclasspos == 1) {
-                predicted.prob <- 1 - predicted
-            } else {
-                predicted.prob <- predicted
-            }
-            predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
-                levels = c(1, 0),
-                labels = ylevels
-            )
-        } else {
-            predicted <- factor(max.col(predicted),
-                levels = seq(nclass),
-                labels = ylevels
-            )
-        }
-        return(list(predicted = predicted, predicted.prob = predicted.prob))
-    }
-    return(predicted)
+    return(list(predicted = predicted, predicted.prob = predicted.prob))
+  }
+  return(predicted)
 }
