@@ -25,7 +25,7 @@
 #' boosting step is skipped.
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
 #' @param cases_by_rules Matrix of cases by rules from a previoue rulefit run.
-#' If provided, the GBM step is skipped. Default = NULL
+#' If provided, the GBM step is skipped.
 #' @param save_cases_by_rules Logical: If TRUE, save cases_by_rules to object
 #' @param n.cores Integer: Number of cores to use
 #' @param trace Integer: Verbosity level
