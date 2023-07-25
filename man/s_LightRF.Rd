@@ -25,8 +25,8 @@ s_LightRF(
   num_leaves = 131072L,
   max_depth = -1L,
   learning_rate = 1,
-  bagging_fraction = 0.623,
-  bagging_freq = 1L,
+  subsample = 0.623,
+  subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
@@ -114,7 +114,9 @@ stop if performance does not improve for this many rounds}
 
 \item{learning_rate}{Numeric: [gS] Boosting learning rate}
 
-\item{bagging_fraction}{Numeric: [gS] Subsample ratio of the training set.}
+\item{subsample}{Numeric: [gS] Subsample ratio of the training set.}
+
+\item{subsample_freq}{Integer: Subsample every this many iterations}
 
 \item{lambda_l1}{Numeric: [gS] L1 regularization term}
 

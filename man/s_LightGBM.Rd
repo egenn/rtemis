@@ -26,8 +26,8 @@ s_LightGBM(
   num_leaves = 31L,
   max_depth = -1L,
   learning_rate = 0.01,
-  bagging_fraction = 0.8,
-  bagging_freq = 0L,
+  subsample = 0.8,
+  subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
@@ -118,7 +118,9 @@ cross-validation fails - likely will never be used}
 
 \item{learning_rate}{Numeric: [gS] Boosting learning rate}
 
-\item{bagging_fraction}{Numeric: [gS] Subsample ratio of the training set.}
+\item{subsample}{Numeric: [gS] Subsample ratio of the training set.}
+
+\item{subsample_freq}{Integer: Subsample every this many iterations}
 
 \item{lambda_l1}{Numeric: [gS] L1 regularization term}
 

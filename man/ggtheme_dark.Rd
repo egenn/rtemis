@@ -41,8 +41,8 @@ ggtheme_dark(
 \examples{
 \dontrun{
 (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
-geom_point() +
-ggtheme_light())
+  geom_point() +
+  ggtheme_light())
 }
 }
 \author{

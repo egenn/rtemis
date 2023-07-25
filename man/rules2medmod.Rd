@@ -2,7 +2,7 @@
 % Please edit documentation in R/rules2medmod.R
 \name{rules2medmod}
 \alias{rules2medmod}
-\title{\code{rtemis-internals}: Convert rules from cutoffs to median/mode and range}
+\title{Convert rules from cutoffs to median/mode and range}
 \usage{
 rules2medmod(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0)
 }

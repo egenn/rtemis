@@ -64,10 +64,12 @@ boosting}
 
 \item{mod.params}{Named list of arguments for \code{mod}}
 
-\item{weights.p}{Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1}
+\item{weights.p}{Float (0, 1]: Percent of weights to set to 1, the rest will be set
+to \code{weights.0}. Default = 1}
 
-\item{weights.0}{Float (0, 1): Set weights of excluded cases to this number. Default = 0, which is equivalent to
-excluding them, in which case, these cases can act as a validation set}
+\item{weights.0}{Float (0, 1): Set weights of excluded cases to this number.
+Default = 0, which is equivalent to excluding them, in which case, these cases can
+act as a validation set}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
@@ -75,9 +77,9 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
-\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform. Default = 10}
+\item{max.iter}{Integer: Maximum number of iterations (additive steps) to perform.}
 
-\item{init}{Float: Initial value for prediction. Default = mean(y)}
+\item{init}{Float: Initial value for prediction.}
 
 \item{seed}{Integer: Set seed to allow reproducibility when \code{weights.p} is not 1}
 
@@ -95,9 +97,10 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 
 \item{print.progress.every}{Integer: Print progress over this many iterations}
 
-\item{print.error.plot}{String or Integer: "final" plots a training and validation (if available) error curve at the
-end of training. If integer, plot training and validation error curve every this many iterations
-during training. "none" for no plot. Default = "final"}
+\item{print.error.plot}{String or Integer: "final" plots a training and validation
+(if available) error curve at the end of training. If integer, plot training and
+validation error curve every this many iterations during training. "none" for no
+plot.}
 
 \item{prefix}{Internal}
 
@@ -111,8 +114,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
-\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner, i.e. if TRUE, print error plot
-for each base learner. Default = FALSE}
+\item{print.base.plot}{Logical: Passed to \code{print.plot} argument of base learner,
+i.e. if TRUE, print error plot for each base learner.}
 
 \item{plot.type}{Character: "l" or "p". Plot using lines or points.}
 

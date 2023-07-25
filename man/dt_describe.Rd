@@ -16,25 +16,25 @@ Describe data.table
 \dontrun{
 origin <- as.POSIXct("2022-01-01 00:00:00", tz = "America/Los_Angeles")
 x <- data.table(
-    ID = paste0("ID", 1:10),
-    V1 = rnorm(10),
-    V2 = rnorm(10, 20, 3),
-    V1_datetime = as.POSIXct(
-        seq(
-            1, 1e7,
-            length.out = 10
-        ),
-        origin = origin
+  ID = paste0("ID", 1:10),
+  V1 = rnorm(10),
+  V2 = rnorm(10, 20, 3),
+  V1_datetime = as.POSIXct(
+    seq(
+      1, 1e7,
+      length.out = 10
     ),
-    V2_datetime = as.POSIXct(
-        seq(
-            1, 1e7,
-            length.out = 10
-        ),
-        origin = origin
+    origin = origin
+  ),
+  V2_datetime = as.POSIXct(
+    seq(
+      1, 1e7,
+      length.out = 10
     ),
-    C1 = sample(c("alpha", "beta", "gamma"), 10, TRUE),
-    F1 = factor(sample(c("delta", "epsilon", "zeta"), 10, TRUE))
+    origin = origin
+  ),
+  C1 = sample(c("alpha", "beta", "gamma"), 10, TRUE),
+  F1 = factor(sample(c("delta", "epsilon", "zeta"), 10, TRUE))
 )
 }
 }

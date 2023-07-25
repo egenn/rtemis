@@ -39,8 +39,8 @@ Reshape a long format \code{data.table} using key-value pairs with
 \examples{
 \dontrun{
 x <- data.table(
-    ID = rep(1:3, each = 2),
-    Dx = c("A", "C", "B", "C", "D", "A")
+  ID = rep(1:3, each = 2),
+  Dx = c("A", "C", "B", "C", "D", "A")
 )
 dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
 }

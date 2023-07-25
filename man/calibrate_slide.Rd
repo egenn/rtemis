@@ -41,18 +41,18 @@ This is meant for experimentation.
 data(segment_logistic, package = "probably")
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
-    true_labels = segment_logistic$Class,
-    est_prob = segment_logistic$.pred_poor,
-    n_windows = 10,
-    pos_class_idi = 2
+  true_labels = segment_logistic$Class,
+  est_prob = segment_logistic$.pred_poor,
+  n_windows = 10,
+  pos_class_idi = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
-    true_labels = segment_logistic$Class,
-    est_prob = calibrate(segment_logistic$Class, segment_logistic$.pred_poor),
-    n_windows = 10,
-    pos_class_idi = 2
+  true_labels = segment_logistic$Class,
+  est_prob = calibrate(segment_logistic$Class, segment_logistic$.pred_poor),
+  n_windows = 10,
+  pos_class_idi = 2
 )
 }
 }

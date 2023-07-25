@@ -264,9 +264,9 @@ dplot3_box(x[, 1], time, "year", ylab = "alpha")
 dplot3_box(x, time, "year", legend.xy = c(0, 1))
 dplot3_box(x, time, "quarter", legend.xy = c(0, 1))
 dplot3_box(x, time, "month",
-    legend.orientation = "h",
-    legend.xy = c(0, 1),
-    legend.yanchor = "bottom"
+  legend.orientation = "h",
+  legend.xy = c(0, 1),
+  legend.yanchor = "bottom"
 )
 # (Note how the boxplots widen when the period includes data from both dat1 and dat2)
 }

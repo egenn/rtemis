@@ -262,7 +262,7 @@ use theme$tick.labels.col for both tick color and tick label color - this may ch
 \examples{
 \dontrun{
 dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-    fit = "gam", se.fit = TRUE, group = iris$Species
+  fit = "gam", se.fit = TRUE, group = iris$Species
 )
 }
 

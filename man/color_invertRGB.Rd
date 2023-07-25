@@ -20,8 +20,8 @@ Invert Color in RGB space
 cols <- c("red", "green", "blue")
 previewcolor(cols)
 cols |>
-    color_invertRGB() |>
-    previewcolor()
+  color_invertRGB() |>
+  previewcolor()
 }
 }
 \author{

@@ -76,8 +76,8 @@ clean column names, convert character to factor, and collect.
 \examples{
 \dontrun{
 ir <- ddb_data("/Data/massive_dataset.csv",
-    filter_column = "ID",
-    filter_vals = 8001:9999
+  filter_column = "ID",
+  filter_vals = 8001:9999
 )
 }
 }

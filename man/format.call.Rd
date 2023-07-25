@@ -21,10 +21,11 @@ Format method for \code{call} objects
 \examples{
 \dontrun{
 irmod <- elevate(iris,
-                 mod = "cart",
-                 maxdepth = 2:3, 
-                 n.resamples = 9, 
-                 train.p = .85)
+  mod = "cart",
+  maxdepth = 2:3,
+  n.resamples = 9,
+  train.p = .85
+)
 format(irmod$call) |> cat()
 }
 }

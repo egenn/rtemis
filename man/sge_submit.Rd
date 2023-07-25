@@ -18,7 +18,7 @@ sge_submit(
   system_command = NULL,
   h_rt = "00:25:00",
   mem_free = NULL,
-  temp_dir = file.path(getwd(), ".sge_tempdir"),
+  temp_dir = tempdir(),
   verbose = TRUE,
   trace = 1
 )

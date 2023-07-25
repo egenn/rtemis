@@ -46,7 +46,7 @@ It could be rewritten in a more Rtistic style.
 \examples{
 \dontrun{
 x <- rnormmat(1000, 20, seed = 2020)
-y <- x[, 3] + x[, 5] ^ 2 + rnorm(1000)
+y <- x[, 3] + x[, 5]^2 + rnorm(1000)
 xysplit <- splitline(x, y)
 xysplit <- splitline(x, y, lambda = .1)
 }

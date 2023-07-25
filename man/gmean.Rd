@@ -16,7 +16,7 @@ Geometric mean
 x <- c(1, 3, 5)
 mean(x)
 gmean(x)
-#same as, but a little faster than:
+# same as, but a little faster than:
 exp(mean(log(x)))
 }
 \author{
