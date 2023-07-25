@@ -13,19 +13,25 @@
 #' @export
 
 strict <- function(x, accept.class = NULL, accept.type = NULL) {
-
   input.class <- class(x)
   input.type <- typeof(x)
   if (!is.null(accept.class)) {
-    if (input.class != accept.class) stop("Incorrect class: Expected ", accept.class, ", got ",
-                                         input.class, " instead")
+    if (input.class != accept.class) {
+      stop(
+        "Incorrect class: Expected ", accept.class, ", got ",
+        input.class, " instead"
+      )
+    }
   }
 
   if (!is.null(accept.type)) {
-    if (input.type != accept.type) stop("Incorrect type: Expected ", accept.type, ", got ",
-                                       input.type, " instead")
+    if (input.type != accept.type) {
+      stop(
+        "Incorrect type: Expected ", accept.type, ", got ",
+        input.type, " instead"
+      )
+    }
   }
 
   return(x)
-
 } # rtemis::strict

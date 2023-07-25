@@ -44,9 +44,11 @@ s_BART <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    java.mem.size = 12, ...) {
-
   # Intro ----
-  if (missing(x)) { print(args(s_BART)); return(invisible(9)) }
+  if (missing(x)) {
+    print(args(s_BART))
+    return(invisible(9))
+  }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
@@ -60,22 +62,29 @@ s_BART <- function(x, y = NULL,
   dependency_check("bartMachine")
 
   # Arguments ----
-  if (missing(x)) { print(args(s_BART)); stop("x is missing") }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_BART)); stop("y is missing") }
+  if (missing(x)) {
+    print(args(s_BART))
+    stop("x is missing")
+  }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_BART))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -106,16 +115,19 @@ s_BART <- function(x, y = NULL,
   java.mem <- paste0("-Xmx", java.mem.size, "g")
   options(java.parameters = java.mem)
   bartMachine::set_bart_machine_num_cores(n.cores)
-  if (verbose) msg2("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
+  if (verbose) {
+    msg2("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
+  }
   mod <- bartMachine::bartMachineCV(x, y.train,
-                                    num_tree_cvs = n.trees,
-                                    k_cvs = k_cvs,
-                                    nu_q_cvs = nu_q_cvs,
-                                    k_folds = k_folds,
-                                    num_burn_in = n.burnin,
-                                    num_iterations_after_burn_in = n.iter,
-                                    serialize = save.mod,
-                                    verbose = trace > 0, ...)
+    num_tree_cvs = n.trees,
+    k_cvs = k_cvs,
+    nu_q_cvs = nu_q_cvs,
+    k_folds = k_folds,
+    num_burn_in = n.burnin,
+    num_iterations_after_burn_in = n.iter,
+    serialize = save.mod,
+    verbose = trace > 0, ...
+  )
   if (trace > 0) summary(mod)
 
   # Fitted ----
@@ -145,37 +157,40 @@ s_BART <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = rtclass,
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = rtclass,
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_BART

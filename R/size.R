@@ -21,7 +21,5 @@
 #' @export
 
 size <- function(x) {
-
   return(c(NROW(x), NCOL(x)))
-
 } # rtemis::size

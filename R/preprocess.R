@@ -113,7 +113,7 @@
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #' @param xname Character: Name of `x` for messages
 #' @param verbose Logical: If TRUE, write messages to console.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -124,14 +124,14 @@ preprocess <- function(x,
                        missingness = FALSE,
                        impute = FALSE,
                        impute.type = c(
-                           "missRanger",
-                           "micePMM",
-                           "meanMode"
+                         "missRanger",
+                         "micePMM",
+                         "meanMode"
                        ),
                        impute.missRanger.params = list(
-                           pmm.k = 3,
-                           maxiter = 10,
-                           num.trees = 500
+                         pmm.k = 3,
+                         maxiter = 10,
+                         num.trees = 500
                        ),
                        impute.discrete = get_mode,
                        impute.numeric = mean,
@@ -149,7 +149,7 @@ preprocess <- function(x,
                        character2factor = FALSE,
                        factorNA2missing = FALSE,
                        factorNA2missing.level = "missing",
-                    #    nonzeroFactors = FALSE,
+                       #    nonzeroFactors = FALSE,
                        factor2integer = FALSE,
                        factor2integer_startat0 = TRUE,
                        scale = FALSE,
@@ -158,415 +158,414 @@ preprocess <- function(x,
                        removeConstants.skipMissing = TRUE,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
-                    #    cleanfactorlevels = FALSE,
+                       #    cleanfactorlevels = FALSE,
                        exclude = NULL,
                        xname = NULL,
                        verbose = TRUE) {
-    # Intro ----
-    xname <- deparse(substitute(x))
-    start_time <- intro(
-        paste0("Preprocessing ", hilite(xname), "..."),
-        verbose = verbose
+  # Intro ----
+  xname <- deparse(substitute(x))
+  start_time <- intro(
+    paste0("Preprocessing ", hilite(xname), "..."),
+    verbose = verbose
+  )
+
+  # Arguments ----
+  impute.type <- match.arg(impute.type)
+
+  isdatatable <- data.table::is.data.table(x)
+  x <- as.data.frame(x)
+
+  # Complete cases ----
+  if (completeCases) {
+    if (verbose) msg2("Filtering complete cases...")
+    x <- x[complete.cases(x), ]
+  }
+
+  # Set aside excluded ----
+  if (!is.null(exclude) && length(exclude) > 0) {
+    excluded <- x[, exclude, drop = FALSE]
+    excluded.names <- colnames(x)[exclude]
+    x <- x[, -exclude, drop = FALSE]
+  }
+
+  # Remove constants ----
+  # Must be ahead of numeric quantile at least
+  if (removeConstants) {
+    constant <- which(sapply(x, is_constant, skip_missing = removeConstants.skipMissing))
+    if (length(constant) > 0) {
+      if (verbose) {
+        msg20("Removing ", singorplu(length(constant), "constant feature"), "...")
+      }
+      x <- x[, -constant]
+    }
+  }
+
+  # Remove duplicates ----
+  if (removeDuplicates) {
+    # Ndups <- sum(duplicated(x))
+    duplicate.index <- which(duplicated(x))
+    Ndups <- length(duplicate.index)
+    if (Ndups > 0) {
+      if (verbose) msg20("Removing ", singorplu(Ndups, "duplicate case"), "...")
+      x <- unique(x)
+    }
+  } else {
+    duplicate.index <- NULL
+  }
+
+  # Remove Cases by missing feature threshold ----
+  if (!is.null(removeCases.thres)) {
+    if (anyNA(x)) {
+      xt <- data.table::as.data.table(x)
+      # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
+      na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) {
+        sum(is.na(i)) / length(i)
+      })]
+      removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
+      if (length(removeCases.thres.index) > 0) {
+        if (verbose) {
+          msg2(
+            "Removing", length(removeCases.thres.index),
+            "cases with >=",
+            removeCases.thres, "missing data..."
+          )
+        }
+        xt <- xt[-removeCases.thres.index, ]
+      }
+      x <- as.data.frame(xt)
+    }
+  }
+
+  # Remove Features by missing feature threshold ----
+  if (!is.null(removeFeatures.thres)) {
+    if (anyNA(x)) {
+      xt <- data.table::as.data.table(x)
+      na.fraction.byfeat <- xt[, lapply(.SD, function(i) {
+        sum(is.na(i)) / length(i)
+      })]
+      removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
+      if (length(removeFeat.thres.index) > 0) {
+        if (verbose) {
+          msg2(
+            "Removing", length(removeFeat.thres.index),
+            "features with >=",
+            removeFeatures.thres, "missing data..."
+          )
+        }
+        x <- x[, -removeFeat.thres.index]
+      }
+    }
+  }
+
+  # Integer to factor ----
+  index.integer <- NULL
+  if (integer2factor) {
+    index.integer <- c(
+      which(sapply(x, is.integer)),
+      which(sapply(x, bit64::is.integer64))
     )
-
-    # Arguments ----
-    impute.type <- match.arg(impute.type)
-
-    isdatatable <- data.table::is.data.table(x)
-    x <- as.data.frame(x)
-
-    # Complete cases ----
-    if (completeCases) {
-        if (verbose) msg2("Filtering complete cases...")
-        x <- x[complete.cases(x), ]
-    }
-
-    # Set aside excluded ----
-    if (!is.null(exclude) && length(exclude) > 0) {
-        excluded <- x[, exclude, drop = FALSE]
-        excluded.names <- colnames(x)[exclude]
-        x <- x[, -exclude, drop = FALSE]
-    }
-
-    # Remove constants ----
-    # Must be ahead of numeric quantile at least
-    if (removeConstants) {
-        constant <- which(sapply(x, is_constant, skip_missing = removeConstants.skipMissing))
-        if (length(constant) > 0) {
-            if (verbose) {
-                msg20("Removing ", singorplu(length(constant), "constant feature"), "...")
-            }
-            x <- x[, -constant]
-        }
-    }
-
-    # Remove duplicates ----
-    if (removeDuplicates) {
-        # Ndups <- sum(duplicated(x))
-        duplicate.index <- which(duplicated(x))
-        Ndups <- length(duplicate.index)
-        if (Ndups > 0) {
-            if (verbose) msg20("Removing ", singorplu(Ndups, "duplicate case"), "...")
-            x <- unique(x)
-        }
-    } else {
-        duplicate.index <- NULL
-    }
-
-    # Remove Cases by missing feature threshold ----
-    if (!is.null(removeCases.thres)) {
-        if (anyNA(x)) {
-            xt <- data.table::as.data.table(x)
-            # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-            na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) {
-                sum(is.na(i)) / length(i)
-            })]
-            removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
-            if (length(removeCases.thres.index) > 0) {
-                if (verbose) {
-                    msg2(
-                        "Removing", length(removeCases.thres.index),
-                        "cases with >=",
-                        removeCases.thres, "missing data..."
-                    )
-                }
-                xt <- xt[-removeCases.thres.index, ]
-            }
-            x <- as.data.frame(xt)
-        }
-    }
-
-    # Remove Features by missing feature threshold ----
-    if (!is.null(removeFeatures.thres)) {
-        if (anyNA(x)) {
-            xt <- data.table::as.data.table(x)
-            na.fraction.byfeat <- xt[, lapply(.SD, function(i) {
-                sum(is.na(i)) / length(i)
-            })]
-            removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
-            if (length(removeFeat.thres.index) > 0) {
-                if (verbose) {
-                    msg2(
-                        "Removing", length(removeFeat.thres.index),
-                        "features with >=",
-                        removeFeatures.thres, "missing data..."
-                    )
-                }
-                x <- x[, -removeFeat.thres.index]
-            }
-        }
-    }
-
-    # Integer to factor ----
-    index.integer <- NULL
-    if (integer2factor) {
-        index.integer <- c(
-            which(sapply(x, is.integer)),
-            which(sapply(x, bit64::is.integer64))
+    if (verbose) {
+      if (length(index.integer) > 0) {
+        msg2(
+          "Converting", singorplu(length(index.integer), "integer"),
+          "to factor..."
         )
-        if (verbose) {
-            if (length(index.integer) > 0) {
-                msg2(
-                    "Converting", singorplu(length(index.integer), "integer"),
-                    "to factor..."
-                )
-            } else {
-                msg2("No integers to convert to factor...")
-            }
-        }
-        for (i in index.integer) x[, i] <- as.factor(x[, i])
+      } else {
+        msg2("No integers to convert to factor...")
+      }
     }
+    for (i in index.integer) x[, i] <- as.factor(x[, i])
+  }
 
-    # Logical to factor ----
-    if (logical2factor) {
-        index.logical <- which(sapply(x, is.logical))
-        if (verbose) {
-            if (length(index.logical) > 0) {
-                msg20(
-                    "Converting ", singorplu(length(index.logical), "logical feature"), " to ",
-                    ngettext(length(index.logical), "factor", "factors"), "..."
-                )
-            } else {
-                msg2("No logicals to convert to factor...")
-            }
-        }
-        for (i in index.logical) x[, i] <- as.factor(x[, i])
+  # Logical to factor ----
+  if (logical2factor) {
+    index.logical <- which(sapply(x, is.logical))
+    if (verbose) {
+      if (length(index.logical) > 0) {
+        msg20(
+          "Converting ", singorplu(length(index.logical), "logical feature"), " to ",
+          ngettext(length(index.logical), "factor", "factors"), "..."
+        )
+      } else {
+        msg2("No logicals to convert to factor...")
+      }
     }
+    for (i in index.logical) x[, i] <- as.factor(x[, i])
+  }
 
-    # Numeric to factor ----
-    if (numeric2factor) {
-        index_numeric <- which(sapply(x, is.numeric))
-        if (verbose) msg2("Converting numeric to factors...")
-        if (is.null(numeric2factor.levels)) {
-            for (i in index_numeric) x[, i] <- as.factor(x[, i])
+  # Numeric to factor ----
+  if (numeric2factor) {
+    index_numeric <- which(sapply(x, is.numeric))
+    if (verbose) msg2("Converting numeric to factors...")
+    if (is.null(numeric2factor.levels)) {
+      for (i in index_numeric) x[, i] <- as.factor(x[, i])
+    } else {
+      for (i in index_numeric) x[, i] <- factor(x[, i], levels = numeric2factor.levels)
+    }
+  }
+
+  # Character to factor ----
+  if (character2factor) {
+    index.char <- which(sapply(x, is.character))
+    if (verbose) {
+      if (length(index.char) > 0) {
+        msg20(
+          "Converting ", singorplu(length(index.char), "character feature"),
+          " to ", ngettext(length(index.char), "a factor", "factors"), "..."
+        )
+      } else {
+        msg2("No character features to convert to factors found.")
+      }
+    }
+    for (i in index.char) x[, i] <- as.factor(x[, i])
+  }
+
+  # len2factor ----
+  if (len2factor > 1) {
+    index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
+    if (verbose) {
+      if (length(index.len) > 0) {
+        msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
+      } else {
+        msg2("No features with <=", len2factor, "unique values found.")
+      }
+    }
+    for (i in index.len) x[, i] <- factor(x[, i])
+  }
+
+  # Integer to numeric ----
+  if (integer2numeric) {
+    if (is.null(index.integer)) {
+      index.integer <- c(
+        which(sapply(x, is.integer)),
+        which(sapply(x, bit64::is.integer64))
+      )
+    }
+    if (verbose) {
+      if (length(index.integer) > 0) {
+        msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
+      } else {
+        msg2("No integers to convert to numeric...")
+      }
+    }
+    for (i in index.integer) x[, i] <- as.numeric(x[, i])
+  }
+
+  # Logical to numeric ----
+  if (logical2numeric) {
+    index.logical <- which(sapply(x, is.logical))
+    if (verbose) msg2("Converting logicals to numeric...")
+    for (i in index.logical) x[, i] <- as.numeric(x[, i])
+  }
+
+  # Numeric cut ----
+  if (numeric.cut.n > 0) {
+    index_numeric <- which(sapply(x, is.numeric))
+    if (length(index_numeric) > 0) {
+      if (verbose) msg2("Cutting numeric features in", numeric.cut.n, "bins...")
+      for (i in index_numeric) {
+        x[, i] <- factor(
+          cut(x[, i], breaks = numeric.cut.n, labels = numeric.cut.labels)
+        )
+      }
+    }
+  }
+
+  # Numeric quantile ----
+  if (numeric.quant.n > 0) {
+    index_numeric2q <- if (numeric.quant.NAonly) {
+      index_numeric2q <- which(sapply(x, is.numeric) & sapply(x, anyNA))
+    } else {
+      which(sapply(x, is.numeric))
+    }
+    if (length(index_numeric2q) > 0) {
+      if (verbose) msg2("Cutting numeric features in", numeric.quant.n, "quantiles...")
+      for (i in index_numeric2q) {
+        rng <- abs(diff(range(x[, i], na.rm = TRUE)))
+        quantiles <- quantile(
+          x[, i],
+          probs = seq(0, 1, length.out = numeric.quant.n),
+          na.rm = TRUE
+        )
+        quantiles[1] <- quantiles[1] - .02 * rng
+        quantiles[numeric.quant.n] <- quantiles[numeric.quant.n] + .02 * rng
+        quantiles <- unique(quantiles)
+        x[, i] <- factor(
+          cut(
+            x[, i],
+            breaks = quantiles
+          )
+        )
+      }
+    }
+  }
+
+  # factor NA to level ----
+  if (factorNA2missing) {
+    index.factor <- which(sapply(x, is.factor))
+    if (verbose) {
+      if (length(index.factor) > 0) {
+        msg20(
+          "Converting ", length(index.factor),
+          ngettext(length(index.factor), " factor's", " factors'"),
+          " NA values to level '", factorNA2missing.level, "'..."
+        )
+      } else {
+        msg2("No factors found.")
+      }
+    }
+    for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
+  }
+
+  # Factor to integer ----
+  # e.g. for algorithms that do not support factors directly, but can handle integers
+  # as categorical (e.g. LightGBM)
+  if (factor2integer) {
+    index.factor <- which(sapply(x, is.factor))
+    if (verbose) {
+      if (length(index.factor) > 0) {
+        msg2(
+          "Converting", singorplu(length(index.factor), "factor"),
+          "to integer..."
+        )
+      } else {
+        msg2("No factors found to convert to integer...")
+      }
+    }
+    if (factor2integer_startat0) {
+      for (i in index.factor) x[, i] <- as.integer(x[, i]) - 1
+    } else {
+      for (i in index.factor) x[, i] <- as.integer(x[, i])
+    }
+  }
+
+  # Missingness ----
+  if (missingness) {
+    cols.with.na <- which(apply(x, 2, anyNA))
+    .colnames <- colnames(x)
+    for (i in cols.with.na) {
+      x[, paste0(.colnames[i], "_missing")] <- factor(as.numeric(is.na(x[, i])))
+      if (verbose) msg20("Created missingness indicator for ", .colnames[i], "...")
+    }
+  }
+
+  # Impute ----
+  if (impute) {
+    if (impute.type == "missRanger") {
+      # '- missRanger ----
+      dependency_check("missRanger")
+      if (verbose) {
+        if (impute.missRanger.params$pmm.k > 0) {
+          msg2("Imputing missing values using predictive mean matching with missRanger...")
         } else {
-            for (i in index_numeric) x[, i] <- factor(x[, i], levels = numeric2factor.levels)
+          msg2("Imputing missing values using missRanger...")
         }
+      }
+      x <- missRanger::missRanger(x,
+        pmm.k = impute.missRanger.params$pmm.k,
+        verbose = ifelse(verbose, 1, 0)
+      )
+    } else if (impute.type == "micePMM") {
+      dependency_check("mice")
+      if (verbose) msg2("Imputing missing values by predictive mean matching using mice...")
+      x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
+    } else {
+      # '- mean/mode ----
+      if (verbose) {
+        msg20(
+          "Imputing missing values using ", deparse(substitute(impute.numeric)),
+          " and ", deparse(substitute(impute.discrete)), "..."
+        )
+      }
+
+      discrete.index <- which(sapply(x, function(i) is_discrete(i) && anyNA(i)))
+      if (length(discrete.index) > 0) {
+        for (i in discrete.index) {
+          index <- which(is.na(x[, i]))
+          imputed <- impute.discrete(x[, i])
+          x[index, i] <- imputed
+        }
+      }
+
+      integer.index <- which(sapply(x, function(i) is.integer(i) && anyNA(i)))
+      if (length(integer.index) > 0) {
+        for (i in integer.index) {
+          index <- which(is.na(x[, i]))
+          imputed <- impute.discrete(x[, i])
+          x[index, i] <- imputed
+        }
+      }
+
+      numeric.index <- which(sapply(x, function(i) is.numeric(i) && anyNA(i)))
+      if (length(numeric.index) > 0) {
+        for (i in numeric.index) {
+          index <- which(is.na(x[, i]))
+          imputed <- impute.numeric(x[, i], na.rm = TRUE)
+          x[index, i] <- imputed
+        }
+      }
+    }
+  }
+
+  # Scale +/- center ----
+  if (scale || center) {
+    # Get index of numeric features
+    numeric_index <- which(sapply(x, is.numeric))
+    sc <- if (scale) "Scaling" else NULL
+    ce <- if (center) "Centering" else NULL
+    if (length(numeric_index) > 0) {
+      if (verbose) {
+        msg2(
+          paste(c(sc, ce), collapse = " and "),
+          length(numeric_index), "numeric features..."
+        )
+      }
+      x_num_scaled <- as.data.frame(scale(x[, numeric_index], scale = scale, center = center))
+      # insert into original dataset
+      j <- 0
+      for (i in numeric_index) {
+        j <- j + 1
+        x[, i] <- x_num_scaled[, j]
+      }
+    } else {
+      msg2(
+        paste(c(sc, ce), collapse = " and "),
+        "was requested \n                                but no numeric features were found: Please check data."
+      )
+    }
+  }
+
+  # # Remove constants ----
+  # if (removeConstants) {
+  #     # constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
+  #     constant <- which(sapply(x, is_constant, skip_missing = removeConstants.skipMissing))
+  #     if (length(constant) > 0) {
+  #         if (verbose) msg2("Removing constant features...")
+  #         x <- x[, -constant]
+  #     }
+  # }
+
+  # One Hot Encoding ----
+  if (oneHot) x <- oneHot(x, verbose = verbose)
+
+  # Add back excluded ----
+  if (!is.null(exclude) && length(exclude) > 0) {
+    # remove any duplicates
+    if (!is.null(duplicate.index)) {
+      excluded <- excluded[-duplicate.index, , drop = FALSE]
     }
 
-    # Character to factor ----
-    if (character2factor) {
-        index.char <- which(sapply(x, is.character))
-        if (verbose) {
-            if (length(index.char) > 0) {
-                msg20(
-                    "Converting ", singorplu(length(index.char), "character feature"),
-                    " to ", ngettext(length(index.char), "a factor", "factors"), "..."
-                )
-            } else {
-                msg2("No character features to convert to factors found.")
-            }
-        }
-        for (i in index.char) x[, i] <- as.factor(x[, i])
+    # remove by case thres
+    if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
+      n.feat.inc <- NCOL(x)
+      x <- cbind(x, excluded[-removeCases.thres.index, ])
+      colnames(x)[-c(seq(n.feat.inc))] <- excluded.names
+    } else {
+      x <- cbind(x, excluded)
     }
+  } # /add back excluded
 
-    # len2factor ----
-    if (len2factor > 1) {
-        index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
-        if (verbose) {
-            if (length(index.len) > 0) {
-                msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
-            } else {
-                msg2("No features with <=", len2factor, "unique values found.")
-            }
-        }
-        for (i in index.len) x[, i] <- factor(x[, i])
-    }
-
-    # Integer to numeric ----
-    if (integer2numeric) {
-        if (is.null(index.integer)) {
-            index.integer <- c(
-                which(sapply(x, is.integer)),
-                which(sapply(x, bit64::is.integer64))
-            )
-        }
-        if (verbose) {
-            if (length(index.integer) > 0) {
-                msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
-            } else {
-                msg2("No integers to convert to numeric...")
-            }
-        }
-        for (i in index.integer) x[, i] <- as.numeric(x[, i])
-    }
-
-    # Logical to numeric ----
-    if (logical2numeric) {
-        index.logical <- which(sapply(x, is.logical))
-        if (verbose) msg2("Converting logicals to numeric...")
-        for (i in index.logical) x[, i] <- as.numeric(x[, i])
-    }
-
-    # Numeric cut ----
-    if (numeric.cut.n > 0) {
-        index_numeric <- which(sapply(x, is.numeric))
-        if (length(index_numeric) > 0) {
-            if (verbose) msg2("Cutting numeric features in", numeric.cut.n, "bins...")
-            for (i in index_numeric) {
-                x[, i] <- factor(
-                    cut(x[, i], breaks = numeric.cut.n, labels = numeric.cut.labels)
-                )
-            }
-        }
-    }
-
-    # Numeric quantile ----
-    if (numeric.quant.n > 0) {
-        index_numeric2q <- if (numeric.quant.NAonly) {
-            index_numeric2q <- which(sapply(x, is.numeric) & sapply(x, anyNA))
-        } else {
-            which(sapply(x, is.numeric))
-        }
-        if (length(index_numeric2q) > 0) {
-            if (verbose) msg2("Cutting numeric features in", numeric.quant.n, "quantiles...")
-            for (i in index_numeric2q) {
-                rng <- abs(diff(range(x[, i], na.rm = TRUE)))
-                quantiles <- quantile(
-                    x[, i],
-                    probs = seq(0, 1, length.out = numeric.quant.n),
-                    na.rm = TRUE
-                )
-                quantiles[1] <- quantiles[1] - .02 * rng
-                quantiles[numeric.quant.n] <- quantiles[numeric.quant.n] + .02 * rng
-                quantiles <- unique(quantiles)
-                x[, i] <- factor(
-                    cut(
-                        x[, i],
-                        breaks = quantiles
-                    )
-                )
-            }
-        }
-    }
-
-    # factor NA to level ----
-    if (factorNA2missing) {
-        index.factor <- which(sapply(x, is.factor))
-        if (verbose) {
-            if (length(index.factor) > 0) {
-                msg20(
-                    "Converting ", length(index.factor),
-                    ngettext(length(index.factor), " factor's", " factors'"),
-                    " NA values to level '", factorNA2missing.level, "'..."
-                )
-            } else {
-                msg2("No factors found.")
-            }
-        }
-        for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
-    }
-
-    # Factor to integer ----
-    # e.g. for algorithms that do not support factors directly, but can handle integers
-    # as categorical (e.g. LightGBM)
-    if (factor2integer) {
-        index.factor <- which(sapply(x, is.factor))
-        if (verbose) {
-            if (length(index.factor) > 0) {
-                msg2(
-                    "Converting", singorplu(length(index.factor), "factor"),
-                    "to integer..."
-                )
-            } else {
-                msg2("No factors found to convert to integer...")
-            }
-        }
-        if (factor2integer_startat0) {
-            for (i in index.factor) x[, i] <- as.integer(x[, i]) - 1
-        } else {
-            for (i in index.factor) x[, i] <- as.integer(x[, i])
-        }
-        
-    }
-
-    # Missingness ----
-    if (missingness) {
-        cols.with.na <- which(apply(x, 2, anyNA))
-        .colnames <- colnames(x)
-        for (i in cols.with.na) {
-            x[, paste0(.colnames[i], "_missing")] <- factor(as.numeric(is.na(x[, i])))
-            if (verbose) msg20("Created missingness indicator for ", .colnames[i], "...")
-        }
-    }
-
-    # Impute ----
-    if (impute) {
-        if (impute.type == "missRanger") {
-            # '- missRanger ----
-            dependency_check("missRanger")
-            if (verbose) {
-                if (impute.missRanger.params$pmm.k > 0) {
-                    msg2("Imputing missing values using predictive mean matching with missRanger...")
-                } else {
-                    msg2("Imputing missing values using missRanger...")
-                }
-            }
-            x <- missRanger::missRanger(x,
-                pmm.k = impute.missRanger.params$pmm.k,
-                verbose = ifelse(verbose, 1, 0)
-            )
-        } else if (impute.type == "micePMM") {
-            dependency_check("mice")
-            if (verbose) msg2("Imputing missing values by predictive mean matching using mice...")
-            x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
-        } else {
-            # '- mean/mode ----
-            if (verbose) {
-                msg20(
-                    "Imputing missing values using ", deparse(substitute(impute.numeric)),
-                    " and ", deparse(substitute(impute.discrete)), "..."
-                )
-            }
-
-            discrete.index <- which(sapply(x, function(i) is_discrete(i) && anyNA(i)))
-            if (length(discrete.index) > 0) {
-                for (i in discrete.index) {
-                    index <- which(is.na(x[, i]))
-                    imputed <- impute.discrete(x[, i])
-                    x[index, i] <- imputed
-                }
-            }
-
-            integer.index <- which(sapply(x, function(i) is.integer(i) && anyNA(i)))
-            if (length(integer.index) > 0) {
-                for (i in integer.index) {
-                    index <- which(is.na(x[, i]))
-                    imputed <- impute.discrete(x[, i])
-                    x[index, i] <- imputed
-                }
-            }
-
-            numeric.index <- which(sapply(x, function(i) is.numeric(i) && anyNA(i)))
-            if (length(numeric.index) > 0) {
-                for (i in numeric.index) {
-                    index <- which(is.na(x[, i]))
-                    imputed <- impute.numeric(x[, i], na.rm = TRUE)
-                    x[index, i] <- imputed
-                }
-            }
-        }
-    }
-
-    # Scale +/- center ----
-    if (scale || center) {
-        # Get index of numeric features
-        numeric_index <- which(sapply(x, is.numeric))
-        sc <- if (scale) "Scaling" else NULL
-        ce <- if (center) "Centering" else NULL
-        if (length(numeric_index) > 0) {
-            if (verbose) {
-                msg2(
-                    paste(c(sc, ce), collapse = " and "),
-                    length(numeric_index), "numeric features..."
-                )
-            }
-            x_num_scaled <- as.data.frame(scale(x[, numeric_index], scale = scale, center = center))
-            # insert into original dataset
-            j <- 0
-            for (i in numeric_index) {
-                j <- j + 1
-                x[, i] <- x_num_scaled[, j]
-            }
-        } else {
-            msg2(
-                paste(c(sc, ce), collapse = " and "),
-                "was requested \n                                but no numeric features were found: Please check data."
-            )
-        }
-    }
-
-    # # Remove constants ----
-    # if (removeConstants) {
-    #     # constant <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
-    #     constant <- which(sapply(x, is_constant, skip_missing = removeConstants.skipMissing))
-    #     if (length(constant) > 0) {
-    #         if (verbose) msg2("Removing constant features...")
-    #         x <- x[, -constant]
-    #     }
-    # }
-
-    # One Hot Encoding ----
-    if (oneHot) x <- oneHot(x, verbose = verbose)
-
-    # Add back excluded ----
-    if (!is.null(exclude) && length(exclude) > 0) {
-        # remove any duplicates
-        if (!is.null(duplicate.index)) {
-            excluded <- excluded[-duplicate.index, , drop = FALSE]
-        }
-
-        # remove by case thres
-        if (!is.null(removeCases.thres) && length(removeCases.thres.index) > 0) {
-            n.feat.inc <- NCOL(x)
-            x <- cbind(x, excluded[-removeCases.thres.index, ])
-            colnames(x)[-c(seq(n.feat.inc))] <- excluded.names
-        } else {
-            x <- cbind(x, excluded)
-        }
-    } # /add back excluded
-
-    if (isdatatable) data.table::setDT(x)
-    outro(start_time, verbose = verbose)
-    x
+  if (isdatatable) data.table::setDT(x)
+  outro(start_time, verbose = verbose)
+  x
 } # rtemis::preprocess

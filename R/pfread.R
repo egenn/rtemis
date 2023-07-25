@@ -3,14 +3,14 @@
 # 2022 E.D. Gennatas www.lambdamd.org
 
 #' fread delimited file in parts
-#' 
+#'
 #' @param x Character: Path to delimited file
 #' @param header Logical: If TRUE, the file is assumed to include a header row
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param stringsAsFactors Logical: If TRUE, characters will be converted to 
+#' @param stringsAsFactors Logical: If TRUE, characters will be converted to
 #' factors
 #' @param ... Additional arguments to pass to `data.table::fread()`
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -21,105 +21,105 @@ pfread <- function(x, part_nrows,
                    sep = "auto",
                    verbose = TRUE,
                    stringsAsFactors = TRUE, ...) {
-    # nrows <- as.integer(R.utils::countLines(x))
-    # nrows <- system(paste("wc -l", x))
-    if (is.null(nrows)) {
-        nrows <- system2("wc", c("-l", x), stdout = TRUE)
-        nrows <- gsub("^ ", "", nrows)
-        nrows <- strsplit(nrows, " ")[[1]][1] |> as.integer()
-        if (header) nrows <- nrows - 1
-    }
+  # nrows <- as.integer(R.utils::countLines(x))
+  # nrows <- system(paste("wc -l", x))
+  if (is.null(nrows)) {
+    nrows <- system2("wc", c("-l", x), stdout = TRUE)
+    nrows <- gsub("^ ", "", nrows)
+    nrows <- strsplit(nrows, " ")[[1]][1] |> as.integer()
+    if (header) nrows <- nrows - 1
+  }
 
-    nparts <- ceiling(nrows / part_nrows)
-    if (verbose) {
-        msg2("Reading part 1...")
-        i <- 1
-    }
-    dat1 <- fread(x,
-        nrows = part_nrows,
-        header = header,
-        sep = sep,
-        stringsAsFactors = stringsAsFactors, ...
+  nparts <- ceiling(nrows / part_nrows)
+  if (verbose) {
+    msg2("Reading part 1...")
+    i <- 1
+  }
+  dat1 <- fread(x,
+    nrows = part_nrows,
+    header = header,
+    sep = sep,
+    stringsAsFactors = stringsAsFactors, ...
+  )
+  if (nparts == 1) {
+    return(dat1)
+  }
+  ndone <- part_nrows
+  col_classes <- sapply(dat1, \(i) class(i)[1])
+  .col.names <- names(col_classes)
+  .colClasses <- unname(col_classes)
+  parts <- lapply(seq_len(nparts)[-1], \(i) {
+    fread(x,
+      nrows = part_nrows,
+      skip = ndone + header,
+      header = FALSE,
+      sep = sep,
+      col.names = .col.names,
+      colClasses = .colClasses, ...
     )
-    if (nparts == 1) {
-        return(dat1)
-    }
-    ndone <- part_nrows
-    col_classes <- sapply(dat1, \(i) class(i)[1])
-    .col.names <- names(col_classes)
-    .colClasses <- unname(col_classes)
-    parts <- lapply(seq_len(nparts)[-1], \(i) {
-        fread(x,
-            nrows = part_nrows,
-            skip = ndone + header,
-            header = FALSE,
-            sep = sep,
-            col.names = .col.names,
-            colClasses = .colClasses, ...
-        )
-    })
+  })
 
-    dat <- rbindlist(c(list(dat1), parts))
-    if (verbose) msg2("Read", hilitebig(nrow(dat)), "rows")
+  dat <- rbindlist(c(list(dat1), parts))
+  if (verbose) msg2("Read", hilitebig(nrow(dat)), "rows")
 
-    invisible(dat)
+  invisible(dat)
 } # rtemis::pfread
 
 
 pfread1 <- function(x, part_nrows,
-                   nrows = NULL,
-                   header = TRUE,
-                   sep = "auto",
-                   verbose = TRUE,
-                   stringsAsFactors = TRUE, ...) {
-    # nrows <- as.integer(R.utils::countLines(x))
-    # nrows <- system(paste("wc -l", x))
-    if (is.null(nrows)) {
-        nrows <- system2("wc", c("-l", x), stdout = TRUE)
-        nrows <- gsub("^ ", "", nrows)
-        nrows <- strsplit(nrows, " ")[[1]][1] |> as.integer()
-        if (header) nrows <- nrows - 1
-    }
-    
-    nparts <- ceiling(nrows / part_nrows)
+                    nrows = NULL,
+                    header = TRUE,
+                    sep = "auto",
+                    verbose = TRUE,
+                    stringsAsFactors = TRUE, ...) {
+  # nrows <- as.integer(R.utils::countLines(x))
+  # nrows <- system(paste("wc -l", x))
+  if (is.null(nrows)) {
+    nrows <- system2("wc", c("-l", x), stdout = TRUE)
+    nrows <- gsub("^ ", "", nrows)
+    nrows <- strsplit(nrows, " ")[[1]][1] |> as.integer()
+    if (header) nrows <- nrows - 1
+  }
+
+  nparts <- ceiling(nrows / part_nrows)
+  if (verbose) {
+    msg2("Reading part 1...")
+    i <- 1
+  }
+  dat <- fread(x,
+    nrows = part_nrows,
+    header = header,
+    sep = sep,
+    stringsAsFactors = stringsAsFactors, ...
+  )
+  if (nparts == 1) {
+    return(dat)
+  }
+  ndone <- part_nrows
+  if (verbose) msg2("Total read =", hilitebig(ndone))
+  col_classes <- sapply(dat, \(i) class(i)[1])
+  .col.names <- names(col_classes)
+  .colClasses <- unname(col_classes)
+  for (i in seq_len(nparts)[-1]) {
     if (verbose) {
-        msg2("Reading part 1...")
-        i <- 1
+      msg20("Reading part ", i, "...")
+      i <- i + 1
     }
-    dat <- fread(x,
+
+    dat <- rbind(
+      dat,
+      fread(x,
         nrows = part_nrows,
-        header = header,
+        skip = ndone + header,
+        header = FALSE,
         sep = sep,
-        stringsAsFactors = stringsAsFactors, ...
+        col.names = .col.names,
+        colClasses = .colClasses, ...
+      )
     )
-    if (nparts == 1) {
-        return(dat)
-    }
-    ndone <- part_nrows
+    ndone <- nrow(dat)
     if (verbose) msg2("Total read =", hilitebig(ndone))
-    col_classes <- sapply(dat, \(i) class(i)[1])
-    .col.names <- names(col_classes)
-    .colClasses <- unname(col_classes)
-    for (i in seq_len(nparts)[-1]) {
-        if (verbose) {
-            msg20("Reading part ", i, "...")
-            i <- i + 1
-        }
+  }
 
-        dat <- rbind(
-            dat,
-            fread(x,
-                nrows = part_nrows, 
-                skip = ndone + header,
-                header = FALSE,
-                sep = sep,
-                col.names = .col.names,
-                colClasses = .colClasses, ...
-            )
-        )
-        ndone <- nrow(dat)
-        if (verbose) msg2("Total read =", hilitebig(ndone))
-    }
-
-    invisible(dat)
+  invisible(dat)
 } # rtemis::pfread1

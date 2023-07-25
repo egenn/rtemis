@@ -3,16 +3,16 @@
 # 2022 E.D. Gennatas www.lambdamd.org
 
 #' Reverse factor level order
-#' 
+#'
 #' @param x factor
-#' 
-#' @export 
+#'
+#' @export
 #' @author E.D. Gennatas
 
 revfactorlevels <- function(x) {
-    if (is.factor(x)) {
-        factor(x, levels = rev(levels(x)))
-    } else {
-        x
-    }
+  if (is.factor(x)) {
+    factor(x, levels = rev(levels(x)))
+  } else {
+    x
+  }
 } # rtemis::revfactorlevels

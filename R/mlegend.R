@@ -22,30 +22,30 @@ mlegend <- function(lims, title = NULL,
                     footer = NULL,
                     font = 1,
                     font.family = "Helvetica Neue") {
-    n.groups <- length(group.names)
-    x <- max(lims[[1]]) + abs(diff(lims[[1]])) * horiz.pad
+  n.groups <- length(group.names)
+  x <- max(lims[[1]]) + abs(diff(lims[[1]])) * horiz.pad
 
-    yline.height <- abs(diff(lims[[2]])) * .06
-    if (!is.null(title)) {
-        group.names <- c(title, paste("  ", group.names))
-        .cols <- c(title.col, unlist(col))
+  yline.height <- abs(diff(lims[[2]])) * .06
+  if (!is.null(title)) {
+    group.names <- c(title, paste("  ", group.names))
+    .cols <- c(title.col, unlist(col))
 
-        y <- max(lims[[2]]) - c(0, seq(n.groups) * yline.height)
-        points(rep(x, n.groups), y[-1] - (.3 * yline.height),
-            col = .cols[-1], xpd = TRUE, pch = 16
-        )
-        text(x, y, group.names,
-            xpd = TRUE, adj = c(0, 1), col = .cols,
-            font = font, family = font.family
-        )
-    }
+    y <- max(lims[[2]]) - c(0, seq(n.groups) * yline.height)
+    points(rep(x, n.groups), y[-1] - (.3 * yline.height),
+      col = .cols[-1], xpd = TRUE, pch = 16
+    )
+    text(x, y, group.names,
+      xpd = TRUE, adj = c(0, 1), col = .cols,
+      font = font, family = font.family
+    )
+  }
 
-    if (!is.null(footer)) {
-        text(x, lims[[2]][1], footer,
-            xpd = TRUE, adj = c(0, 0),
-            family = font.family
-        )
-    }
+  if (!is.null(footer)) {
+    text(x, lims[[2]][1], footer,
+      xpd = TRUE, adj = c(0, 0),
+      family = font.family
+    )
+  }
 } # rtemis::mlegend
 
 
@@ -60,16 +60,16 @@ mtextlegend <- function(labels,
                         padj.spacing = 1.4,
                         font = 1,
                         font.family = "Helvetica Neue", ...) {
-    nlabels <- length(labels)
-    label.lines <- -1:-nlabels
-    mtext(
-        text = labels,
-        at = xright(horiz.pad),
-        adj = 0,
-        side = 3,
-        line = label.lines,
-        col = unlist(col)[seq_len(nlabels)],
-        font = font,
-        family = font.family
-    )
+  nlabels <- length(labels)
+  label.lines <- -1:-nlabels
+  mtext(
+    text = labels,
+    at = xright(horiz.pad),
+    adj = 0,
+    side = 3,
+    line = label.lines,
+    col = unlist(col)[seq_len(nlabels)],
+    font = font,
+    family = font.family
+  )
 } # rtemis::mtextlegend

@@ -23,7 +23,6 @@ sparsernorm <- function(n,
                         sparseness = .1,
                         mean = 0,
                         sd = 1) {
-
   if (sparseness > 0 && sparseness < 1) {
     .n <- round(sparseness * n)
     .rnorm <- rnorm(.n, mean = mean, sd = sd)
@@ -36,5 +35,4 @@ sparsernorm <- function(n,
   } else {
     rnorm(n, mean = mean, sd = sd)
   }
-
 } # rtemis::sparsernorm

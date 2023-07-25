@@ -64,112 +64,112 @@ massGLAM <- function(x, y,
                      verbose = TRUE,
                      trace = 0,
                      n.cores = 1) {
-    # Intro ----
-    .call <- match.call()
-    .call[2] <- list(str2lang("dat"))
-    start.time <- intro(verbose = verbose)
+  # Intro ----
+  .call <- match.call()
+  .call[2] <- list(str2lang("dat"))
+  start.time <- intro(verbose = verbose)
 
-    mod <- match.arg(mod)
-    if (mod == "gam") {
-        if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
+  mod <- match.arg(mod)
+  if (mod == "gam") {
+    if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
+  }
+
+  # Data ----
+  if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
+  if (trace > 0) msg20('massGLAM type is "', type, '"')
+  if (type == "massx") {
+    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
+    nmods <- NCOL(x)
+  } else {
+    if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
+    nmods <- NCOL(y)
+  }
+
+  if (is.null(xnames)) {
+    xnames <- if (is.null(colnames(x))) {
+      paste(deparse(substitute(x)), seq_len(NCOL(x)), sep = "_")
+    } else {
+      colnames(x)
     }
+  }
+  if (trace > 0) msg2("Feature names:", paste(xnames, collapse = ", "))
+  if (is.null(ynames)) {
+    ynames <- if (is.null(colnames(y))) deparse(substitute(y)) else colnames(y)
+  }
+  if (trace > 0) msg2("Outcome names:", paste(ynames, collapse = ", "))
 
-    # Data ----
-    if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
-    if (trace > 0) msg20('massGLAM type is "', type, '"')
+  if (scale.x) x <- scale(x)
+  if (scale.y) y <- scale(y)
+  dat <- data.frame(x, y)
+  colnames(dat) <- c(xnames, ynames)
+
+  # mod1: Loop function ----
+  mod1_glm <- function(index, dat, type) {
     if (type == "massx") {
-        if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
-        nmods <- NCOL(x)
+      .formula <- as.formula(paste(ynames, "~", xnames[index]))
+      .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
+      glm(.formula, family = .family, data = dat)
     } else {
-        if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
-        nmods <- NCOL(y)
+      .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
+      .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
+      glm(.formula, family = .family, data = dat)
     }
+  }
 
-    if (is.null(xnames)) {
-        xnames <- if (is.null(colnames(x))) {
-            paste(deparse(substitute(x)), seq_len(NCOL(x)), sep = "_")
-        } else {
-            colnames(x)
-        }
-    }
-    if (trace > 0) msg2("Feature names:", paste(xnames, collapse = ", "))
-    if (is.null(ynames)) {
-        ynames <- if (is.null(colnames(y))) deparse(substitute(y)) else colnames(y)
-    }
-    if (trace > 0) msg2("Outcome names:", paste(ynames, collapse = ", "))
-
-    if (scale.x) x <- scale(x)
-    if (scale.y) y <- scale(y)
-    dat <- data.frame(x, y)
-    colnames(dat) <- c(xnames, ynames)
-
-    # mod1: Loop function ----
-    mod1_glm <- function(index, dat, type) {
-        if (type == "massx") {
-            .formula <- as.formula(paste(ynames, "~", xnames[index]))
-            .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
-            glm(.formula, family = .family, data = dat)
-        } else {
-            .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
-            .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
-            glm(.formula, family = .family, data = dat)
-        }
-    }
-
-    mod1_gam <- function(index, dat, type) {
-        if (type == "massx") {
-            .formula <- gam_formula(
-                xnames[index], ynames,
-                spline.index = spline.index, k = gam.k
-            )
-            .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
-            glm(.formula, family = .family, data = dat)
-        } else {
-            .formula <- gam_formula(
-                xnames, ynames[index],
-                spline.index = spline.index, k = gam.k
-            )
-            .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
-            mgcv::gam(.formula, family = .family, data = dat)
-        }
-    }
-
-    # Models ----
-    if (verbose) msg2("Training", nmods, "mass-GL/AM models...")
-    if (verbose) {
-        pbapply::pboptions(type = "timer")
+  mod1_gam <- function(index, dat, type) {
+    if (type == "massx") {
+      .formula <- gam_formula(
+        xnames[index], ynames,
+        spline.index = spline.index, k = gam.k
+      )
+      .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
+      glm(.formula, family = .family, data = dat)
     } else {
-        pbapply::pboptions(type = "none")
+      .formula <- gam_formula(
+        xnames, ynames[index],
+        spline.index = spline.index, k = gam.k
+      )
+      .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
+      mgcv::gam(.formula, family = .family, data = dat)
     }
-    mods <- pbapply::pblapply(
-        seq_len(nmods),
-        if (mod == "glm") mod1_glm else mod1_gam,
-        dat = dat,
-        type = type,
-        cl = n.cores
-    )
-    names(mods) <- if (type == "massx") xnames else ynames
+  }
 
-    # Outro ----
-    # summary: a data.table with columns:
-    # "Variable", ["Coefficient x", "SE x", "t_value x", "p_value x" for x in xnames]
-    out <- list(
-        mods = if (save.mods) mods else NULL,
-        summary = if (mod == "glm") {
-            glm2table(mods, include_anova_pvals = include_anova_pvals)
-        } else {
-            gam2table(mods)
-        },
-        xnames = xnames,
-        coefnames = names(coef(mods[[1]])),
-        ynames = ynames,
-        type = type,
-        call = .call
-    )
-    class(out) <- if (mod == "glm") c("massGLM", "list") else c("massGAM", "list")
-    if (print.plot) print(plot(out))
-    outro(start.time, verbose = verbose)
-    out
+  # Models ----
+  if (verbose) msg2("Training", nmods, "mass-GL/AM models...")
+  if (verbose) {
+    pbapply::pboptions(type = "timer")
+  } else {
+    pbapply::pboptions(type = "none")
+  }
+  mods <- pbapply::pblapply(
+    seq_len(nmods),
+    if (mod == "glm") mod1_glm else mod1_gam,
+    dat = dat,
+    type = type,
+    cl = n.cores
+  )
+  names(mods) <- if (type == "massx") xnames else ynames
+
+  # Outro ----
+  # summary: a data.table with columns:
+  # "Variable", ["Coefficient x", "SE x", "t_value x", "p_value x" for x in xnames]
+  out <- list(
+    mods = if (save.mods) mods else NULL,
+    summary = if (mod == "glm") {
+      glm2table(mods, include_anova_pvals = include_anova_pvals)
+    } else {
+      gam2table(mods)
+    },
+    xnames = xnames,
+    coefnames = names(coef(mods[[1]])),
+    ynames = ynames,
+    type = type,
+    call = .call
+  )
+  class(out) <- if (mod == "glm") c("massGLM", "list") else c("massGAM", "list")
+  if (print.plot) print(plot(out))
+  outro(start.time, verbose = verbose)
+  out
 } # rtemis::massGLAM
 
 
@@ -181,15 +181,15 @@ massGLAM <- function(x, y,
 #' @export
 
 print.massGAM <- function(x, ...) {
-    nx <- length(x$xnames)
-    ny <- length(x$ynames)
-    .text <- paste(
-        "Mass-univariate GAM analysis with", nx,
-        ngettext(nx, "predictor", "predictors"),
-        "and", ny, ngettext(ny, "outcome", "outcomes\n")
-    )
-    cat(.text)
-    invisible(.text)
+  nx <- length(x$xnames)
+  ny <- length(x$ynames)
+  .text <- paste(
+    "Mass-univariate GAM analysis with", nx,
+    ngettext(nx, "predictor", "predictors"),
+    "and", ny, ngettext(ny, "outcome", "outcomes\n")
+  )
+  cat(.text)
+  invisible(.text)
 }
 
 #' `massGAM` object summary
@@ -201,7 +201,7 @@ print.massGAM <- function(x, ...) {
 #' @export
 
 summary.massGAM <- function(object, ...) {
-    print(object$summary, row.names = FALSE, class = FALSE)
+  print(object$summary, row.names = FALSE, class = FALSE)
 }
 
 #' Plot `massGAM` object
@@ -236,177 +236,175 @@ plot.massGAM <- function(x,
                          order.by.group = TRUE,
                          palette = rtPalette,
                          col.sig = "#43A4AC",
-                        #  col.neg = "#43A4AC",
-                        #  col.pos = "#FA9860",
+                         #  col.neg = "#43A4AC",
+                         #  col.pos = "#FA9860",
                          col.ns = "#7f7f7f",
                          theme = rtTheme,
                          alpha = NULL,
-                        #  volcano.annotate = TRUE,
-                        #  volcano.annotate.n = 7,
-                        #  volcano.hline = NULL,
-                        #  volcano.hline.dash = "dot",
-                        #  volcano.hline.annotate = NULL,
-                        #  volcano.p.transform = \(x) -log10(x),
+                         #  volcano.annotate = TRUE,
+                         #  volcano.annotate.n = 7,
+                         #  volcano.hline = NULL,
+                         #  volcano.hline.dash = "dot",
+                         #  volcano.hline.annotate = NULL,
+                         #  volcano.p.transform = \(x) -log10(x),
                          margin = NULL,
                          displayModeBar = FALSE,
                          trace = 0,
                          filename = NULL, ...) {
+  # Arguments ----
+  what <- match.arg(what)
+  show <- match.arg(show)
+  if (is.character(palette)) palette <- unlist(rtpalette(palette))
+  if (!is.null(group)) {
+    group <- factor(group)
+    col <- palette[as.integer(group)]
+  }
 
-    # Arguments ----
+  if (x$type == "massy") {
+    if (is.null(predictor)) {
+      predictor <- x$xnames[1]
+    }
     what <- match.arg(what)
-    show <- match.arg(show)
-    if (is.character(palette)) palette <- unlist(rtpalette(palette))
-    if (!is.null(group)) {
-        group <- factor(group)
-        col <- palette[as.integer(group)]
+    # pval_idi <- which(names(x$summary) == paste("p_value", predictor))
+    pval_name <- grep(predictor, names(x$summary), value = TRUE)
+    if (length(pval_name) > 1) {
+      warning(
+        "Search for ", predictor, "; returned", length(pval_name), "matches:",
+        pval_name, "; using", pval_name[1]
+      )
+      pval_name <- pval_name[1]
     }
+    if (what == "pvals") {
+      # p-values ----
+      if (is.null(main)) main <- "p-values"
+      # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
+      .name <- gsub("p_value ", "", pval_name)
+      .pvals <- p.adjust(x$summary[[pval_name]], method = p.adjust.method)
+      if (is.null(group)) {
+        .cols <- rep(col.ns, length(.pvals))
+        .cols[.pvals < .05] <- col.sig
+      } else {
+        .cols <- col
+        .cols[.pvals >= .05] <- adjustcolor(
+          .cols[.pvals >= .05],
+          alpha.f = grouped.nonsig.alpha
+        )
+      }
 
-    if (x$type == "massy") {
-        if (is.null(predictor)) {
-            predictor <- x$xnames[1]
-        }
-        what <- match.arg(what)
-        # pval_idi <- which(names(x$summary) == paste("p_value", predictor))
-        pval_name <- grep(predictor, names(x$summary), value = TRUE)
-        if (length(pval_name) > 1) {
-            warning(
-                "Search for ", predictor, "; returned", length(pval_name), "matches:", 
-                pval_name, "; using", pval_name[1]
-            )
-            pval_name <- pval_name[1]
-        }
-        if (what == "pvals") {
-            # p-values ----
-            if (is.null(main)) main <- "p-values"
-            # pval_idi <- grep(paste("p_value", predictor), names(x$summary))[1]
-            .name <- gsub("p_value ", "", pval_name)
-            .pvals <- p.adjust(x$summary[[pval_name]], method = p.adjust.method)
-            if (is.null(group)) {
-                .cols <- rep(col.ns, length(.pvals))
-                .cols[.pvals < .05] <- col.sig
-            } else {
-                .cols <- col
-                .cols[.pvals >= .05] <- adjustcolor(
-                    .cols[.pvals >= .05],
-                    alpha.f = grouped.nonsig.alpha
-                    )
-            }
-            
-            if (is.null(ylab)) {
-                ylab <- paste(
-                    # print_transform(deparse(p.transform)[2]),
-                    print_fn(p.transform),
-                    what, .name, "p-value"
-                )
-            }
-            if (!is.null(group) && order.by.group) {
-                group_order <- order(group)
-            } else {
-                group_order <- seq_along(.pvals)
-            }
-            dplot3_bar(
-                p.transform(.pvals)[group_order],
-                group.names = x$ynames[group_order],
-                main = main,
-                ylim = ylim,
-                legend = FALSE,
-                ylab = ylab,
-                col = .cols[group_order],
-                hline = p.transform(pval.hline),
-                hline.col = hline.col,
-                hline.dash = hline.dash,
-                hline.annotate = hline.annotate,
-                theme = theme,
-                margin = margin,
-                displayModeBar = displayModeBar,
-                filename = filename, ...
-            )
-        } else if (what == "coefs") {
-            # # Coefficients ----
-            # if (is.null(main)) main <- "Coefficients"
-            # coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
-            # .name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
-            # .pvals <- p.adjust(x$summary[[pval_idi]], method = p.adjust.method)
-            # .coefname <- getnames(x$summary, paste("Coefficient", .name))
-            # .cols <- rep(col.ns, length(x$summary[[.coefname]]))
-            # .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
-            # .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
+      if (is.null(ylab)) {
+        ylab <- paste(
+          # print_transform(deparse(p.transform)[2]),
+          print_fn(p.transform),
+          what, .name, "p-value"
+        )
+      }
+      if (!is.null(group) && order.by.group) {
+        group_order <- order(group)
+      } else {
+        group_order <- seq_along(.pvals)
+      }
+      dplot3_bar(
+        p.transform(.pvals)[group_order],
+        group.names = x$ynames[group_order],
+        main = main,
+        ylim = ylim,
+        legend = FALSE,
+        ylab = ylab,
+        col = .cols[group_order],
+        hline = p.transform(pval.hline),
+        hline.col = hline.col,
+        hline.dash = hline.dash,
+        hline.annotate = hline.annotate,
+        theme = theme,
+        margin = margin,
+        displayModeBar = displayModeBar,
+        filename = filename, ...
+      )
+    } else if (what == "coefs") {
+      # # Coefficients ----
+      # if (is.null(main)) main <- "Coefficients"
+      # coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
+      # .name <- gsub("Coefficient ", "", names(x$summary)[coef_idi])
+      # .pvals <- p.adjust(x$summary[[pval_idi]], method = p.adjust.method)
+      # .coefname <- getnames(x$summary, paste("Coefficient", .name))
+      # .cols <- rep(col.ns, length(x$summary[[.coefname]]))
+      # .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
+      # .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
 
-            # dplot3_bar(x$summary[[coef_idi]],
-            #     # group.names = if (x$type == "massy") x$ynames else x$xnames,
-            #     group.names = x$ynames,
-            #     main = main,
-            #     legend = FALSE,
-            #     ylab = paste(.name, "Coefficients"),
-            #     col = .cols,
-            #     theme = theme,
-            #     margin = margin,
-            #     displayModeBar = displayModeBar,
-            #     filename = filename, ...
-            # )
-        } else {
-            # Volcano ----
-            # if (is.null(xlab)) xlab <- paste(predictor, "Coefficient")
-            # coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
-            # dplot3_volcano(
-            #     x = x$summary[[coef_idi]],
-            #     pvals = x$summary[[pval_idi]],
-            #     group = group,
-            #     x.thresh = 0,
-            #     label.lo = "Neg",
-            #     label.hi = "Pos",
-            #     xnames = x$ynames,
-            #     xlab = xlab,
-            #     main = main,
-            #     p.adjust.method = p.adjust.method,
-            #     p.transform = volcano.p.transform,
-            #     annotate = volcano.annotate,
-            #     annotate.n = volcano.annotate.n,
-            #     hline = volcano.hline,
-            #     hline.annotate = volcano.hline.annotate,
-            #     hline.dash = volcano.hline.dash,
-            #     theme = theme,
-            #     alpha = alpha,
-            #     displayModeBar = displayModeBar,
-            #     verbose = trace > 0,
-            #     filename = filename, ...
-            # )
-        }
+      # dplot3_bar(x$summary[[coef_idi]],
+      #     # group.names = if (x$type == "massy") x$ynames else x$xnames,
+      #     group.names = x$ynames,
+      #     main = main,
+      #     legend = FALSE,
+      #     ylab = paste(.name, "Coefficients"),
+      #     col = .cols,
+      #     theme = theme,
+      #     margin = margin,
+      #     displayModeBar = displayModeBar,
+      #     filename = filename, ...
+      # )
     } else {
-        cat('"massx" support not yet implemented')
+      # Volcano ----
+      # if (is.null(xlab)) xlab <- paste(predictor, "Coefficient")
+      # coef_idi <- which(names(x$summary) == paste("Coefficient", predictor))
+      # dplot3_volcano(
+      #     x = x$summary[[coef_idi]],
+      #     pvals = x$summary[[pval_idi]],
+      #     group = group,
+      #     x.thresh = 0,
+      #     label.lo = "Neg",
+      #     label.hi = "Pos",
+      #     xnames = x$ynames,
+      #     xlab = xlab,
+      #     main = main,
+      #     p.adjust.method = p.adjust.method,
+      #     p.transform = volcano.p.transform,
+      #     annotate = volcano.annotate,
+      #     annotate.n = volcano.annotate.n,
+      #     hline = volcano.hline,
+      #     hline.annotate = volcano.hline.annotate,
+      #     hline.dash = volcano.hline.dash,
+      #     theme = theme,
+      #     alpha = alpha,
+      #     displayModeBar = displayModeBar,
+      #     verbose = trace > 0,
+      #     filename = filename, ...
+      # )
     }
+  } else {
+    cat('"massx" support not yet implemented')
+  }
 } # rtemis::plot.massGAM
 
 # print_transform <- function(x) gsub("[x()]", "", x)
 print_fn <- function(x) {
-    fn <- deparse(x)[2]
-    fn <- gsub("\\(.*", "", fn)
-    if (fn == "I") fn <- ""
-    fn
+  fn <- deparse(x)[2]
+  fn <- gsub("\\(.*", "", fn)
+  if (fn == "I") fn <- ""
+  fn
 }
 
 
 gam_formula <- function(xnames, yname, spline.index, k = 6) {
-    # if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
-    lin.index <- which(!(seq_along(xnames) %in% spline.index))
+  # if (is.null(spline.index)) spline.index <- which(sapply(x, is.numeric))
+  lin.index <- which(!(seq_along(xnames) %in% spline.index))
 
-    spline.features <- paste0(
-        "s(", xnames[spline.index], ", k = ", k, ")",
-        collapse = " + "
-    )
+  spline.features <- paste0(
+    "s(", xnames[spline.index], ", k = ", k, ")",
+    collapse = " + "
+  )
 
-    lin.features <- if (length(lin.index) > 0) {
-        paste0(xnames[lin.index], collapse = " + ")
-    } else {
-        NULL
-    }
+  lin.features <- if (length(lin.index) > 0) {
+    paste0(xnames[lin.index], collapse = " + ")
+  } else {
+    NULL
+  }
 
-    features <- if (is.null(lin.features)) {
-        spline.features
-    } else {
-        paste(spline.features, lin.features, sep = " + ")
-    }
+  features <- if (is.null(lin.features)) {
+    spline.features
+  } else {
+    paste(spline.features, lin.features, sep = " + ")
+  }
 
-    as.formula(paste(yname, "~", features))
-
+  as.formula(paste(yname, "~", features))
 } # rtemis::gam_formula

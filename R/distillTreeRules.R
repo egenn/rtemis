@@ -33,16 +33,16 @@ distillTreeRules <- function(mod, x, y = NULL,
   mod.name <- mod$mod.name
   mod <- mod$mod
   if (class(mod)[1] == "rtMod") mod <- mod$mod
-  if (is.null(y) & NCOL(x) > 1) {
+  if (is.null(y) && NCOL(x) > 1) {
     y <- x[, ncol(x)]
-    x <- x[, (1:ncol(x)) - 1]
+    x <- x[, (seq_len(ncol(x))) - 1]
   }
   
   if (is.null(n.trees)) {
     n.trees <- if (mod.name == "RF") mod$ntree else mod$n.trees
   }
   
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature", seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature", seq_len(NCOL(x)))
   
   if (verbose) msg2("Working on", mod.name, "model; looking at", n.trees, "trees")
   

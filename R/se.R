@@ -12,7 +12,5 @@
 #' @export
 
 se <- function(x) {
-
   return(as.numeric(x$se.fit))
-
 } # rtemis::se

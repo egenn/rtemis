@@ -172,7 +172,7 @@ s_LINAD <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
@@ -245,9 +245,9 @@ s_LINAD <- function(x, y = NULL,
   }
 
   # Must turn off plotting during parallel grid search or else likely to hang
-  if (!.gs & n.cores > 1) plot.tuning <- FALSE
+  if (!.gs && n.cores > 1) plot.tuning <- FALSE
 
-  if ((!.gs && gc) | (!.gs && lookback && max.leaves > 1)) {
+  if ((!.gs && gc) || (!.gs && lookback && max.leaves > 1)) {
     grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
     grid.params <- c(grid.params, list(learning.rate = learning.rate,
                                        gamma = gamma,

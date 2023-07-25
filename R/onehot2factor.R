@@ -21,15 +21,15 @@
 #' }
 #'
 onehot2factor <- function(x, labels = colnames(x)) {
-    if (NCOL(x) == 1) {
-        return(factor(x))
-    }
-    if (any(na.exclude(rowSums(x)) > 1)) stop("Input must be one-hot encoded.")
-    out <- factor(rep(NA, NROW(x)), levels = labels)
-    for (i in seq_along(labels)) {
-        out[x[, i] == 1] <- labels[i]
-    }
-    out
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  if (any(na.exclude(rowSums(x)) > 1)) stop("Input must be one-hot encoded.")
+  out <- factor(rep(NA, NROW(x)), levels = labels)
+  for (i in seq_along(labels)) {
+    out[x[, i] == 1] <- labels[i]
+  }
+  out
 } # rtemis::onehot2factor
 
 
@@ -44,15 +44,15 @@ onehot2factor <- function(x, labels = colnames(x)) {
 # output: character vector of concatenated values
 # repeated vals removed
 binmat2vec <- function(x, labels = colnames(x)) {
-    if (NCOL(x) == 1) {
-        return(factor(x))
-    }
-    dt <- as.data.table(x)
-    # dt[, which (.SD == 1), by = 1:NROW(dt)]
-    fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-    out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
-    out[out == ""] <- NA
-    out
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  # dt[, which (.SD == 1), by = 1:NROW(dt)]
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+  out[out == ""] <- NA
+  out
 } # rtemis::binmat2vec
 
 
@@ -66,32 +66,32 @@ binmat2vec <- function(x, labels = colnames(x)) {
 #' @export
 
 `%BC%` <- function(x, labels) {
-    if (NCOL(x) == 1) {
-        return(factor(x))
-    }
-    dt <- as.data.table(x)
-    fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
-    out[out == ""] <- NA
-    out
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+  out[out == ""] <- NA
+  out
 }
 
 
 binmat2lvec <- function(x,
                         labels = colnames(x),
                         return.list = FALSE) {
-    if (NCOL(x) == 1) {
-        return(factor(x))
-    }
-    dt <- as.data.table(x)
-    if (return.list) {
-        fn <- \(r) list(labels[which(r == 1)])
-        out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
-        out[sapply(out, length) == 0] <- NA
-    } else {
-        fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-        out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))]
-        out[out == ""] <- NA
-    }
-    out
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  if (return.list) {
+    fn <- \(r) list(labels[which(r == 1)])
+    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+    out[sapply(out, length) == 0] <- NA
+  } else {
+    fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))]
+    out[out == ""] <- NA
+  }
+  out
 } # rtemis::binmat2lvec

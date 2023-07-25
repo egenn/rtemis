@@ -26,16 +26,16 @@ rtset.resample <- function(resampler = "strat.sub",
                            target.length = NULL,
                            id.strat = NULL,
                            seed = NULL) {
-
-  list(resampler = resampler,
-       n.resamples = n.resamples,
-       stratify.var = stratify.var,
-       train.p = train.p,
-       strat.n.bins = strat.n.bins,
-       target.length = target.length,
-       id.strat = id.strat,
-       seed = seed)
-
+  list(
+    resampler = resampler,
+    n.resamples = n.resamples,
+    stratify.var = stratify.var,
+    train.p = train.p,
+    strat.n.bins = strat.n.bins,
+    target.length = target.length,
+    id.strat = id.strat,
+    seed = seed
+  )
 } # rtemis::rtset.resample
 
 
@@ -46,14 +46,15 @@ rtset.resample <- function(resampler = "strat.sub",
 rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
                                 stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                 target.length = NULL, verbose = TRUE) {
-  list(resampler = resampler,
-       n.resamples = n.resamples,
-       stratify.var = stratify.var,
-       train.p = train.p,
-       strat.n.bins = strat.n.bins,
-       target.length = target.length,
-       verbose = verbose)
-
+  list(
+    resampler = resampler,
+    n.resamples = n.resamples,
+    stratify.var = stratify.var,
+    train.p = train.p,
+    strat.n.bins = strat.n.bins,
+    target.length = target.length,
+    verbose = verbose
+  )
 } # rtemis::rtset.grid.resample
 
 
@@ -64,15 +65,15 @@ rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
 rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                target.length = NULL, verbose = TRUE) {
-
-  list(resampler = resampler,
-       n.resamples = n.resamples,
-       stratify.var = stratify.var,
-       train.p = train.p,
-       strat.n.bins = strat.n.bins,
-       target.length = target.length,
-       verbose = verbose)
-
+  list(
+    resampler = resampler,
+    n.resamples = n.resamples,
+    stratify.var = stratify.var,
+    train.p = train.p,
+    strat.n.bins = strat.n.bins,
+    target.length = target.length,
+    verbose = verbose
+  )
 } # rtemis::rtset.bag.resample
 
 
@@ -83,15 +84,15 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
                                 stratify.var = NULL, train.p = .75, strat.n.bins = 4,
                                 target.length = NULL, verbose = TRUE) {
-
-  list(resampler = resampler,
-       n.resamples = n.resamples,
-       stratify.var = stratify.var,
-       train.p = train.p,
-       strat.n.bins = strat.n.bins,
-       target.length = target.length,
-       verbose = verbose)
-
+  list(
+    resampler = resampler,
+    n.resamples = n.resamples,
+    stratify.var = stratify.var,
+    train.p = train.p,
+    strat.n.bins = strat.n.bins,
+    target.length = target.length,
+    verbose = verbose
+  )
 } # rtemis::rtset.meta.resample
 
 
@@ -107,16 +108,16 @@ rtset.cv.resample <- function(resampler = "strat.sub",
                               target.length = NULL,
                               id.strat = NULL,
                               verbose = TRUE) {
-
-  list(resampler = resampler,
-       n.resamples = n.resamples,
-       stratify.var = stratify.var,
-       train.p = train.p,
-       strat.n.bins = strat.n.bins,
-       target.length = target.length,
-       id.strat = id.strat,
-       verbose = verbose)
-
+  list(
+    resampler = resampler,
+    n.resamples = n.resamples,
+    stratify.var = stratify.var,
+    train.p = train.p,
+    strat.n.bins = strat.n.bins,
+    target.length = target.length,
+    id.strat = id.strat,
+    verbose = verbose
+  )
 } # rtemis::rtset.cv.resample
 
 
@@ -166,11 +167,11 @@ rtset.color <- function(n = 101, colors = NULL,
                         hi = "#95001A",
                         colorbar = FALSE,
                         cb.mar = c(1, 1, 1, 1), ...) {
-
-  c(list(n = n, colors = colors, space = space,
-         lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
-         colobar = colorbar, cb.mar = cb.mar), list(...))
-
+  c(list(
+    n = n, colors = colors, space = space,
+    lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
+    colobar = colorbar, cb.mar = cb.mar
+  ), list(...))
 } # rtemis::rtset.color
 
 
@@ -203,28 +204,28 @@ rtset.preprocess <- function(completeCases = FALSE,
                              removeConstants = TRUE,
                              oneHot = FALSE,
                              exclude = NULL) {
-
-  list(completeCases = completeCases,
-       removeCases.thres = removeCases.thres,
-       removeFeatures.thres = removeFeatures.thres,
-       impute = impute,
-       impute.type = impute.type,
-       impute.missRanger.params = impute.missRanger.params,
-       impute.discrete = impute.discrete,
-       impute.numeric = impute.numeric,
-       integer2factor = integer2factor,
-       integer2numeric = integer2numeric,
-       logical2factor = logical2factor,
-       logical2numeric = logical2numeric,
-       numeric2factor = numeric2factor,
-       numeric2factor.levels = numeric2factor.levels,
-       character2factor = character2factor,
-       scale = scale,
-       center = center,
-       removeConstants = removeConstants,
-       oneHot = oneHot,
-       exclude = exclude)
-
+  list(
+    completeCases = completeCases,
+    removeCases.thres = removeCases.thres,
+    removeFeatures.thres = removeFeatures.thres,
+    impute = impute,
+    impute.type = impute.type,
+    impute.missRanger.params = impute.missRanger.params,
+    impute.discrete = impute.discrete,
+    impute.numeric = impute.numeric,
+    integer2factor = integer2factor,
+    integer2numeric = integer2numeric,
+    logical2factor = logical2factor,
+    logical2numeric = logical2numeric,
+    numeric2factor = numeric2factor,
+    numeric2factor.levels = numeric2factor.levels,
+    character2factor = character2factor,
+    scale = scale,
+    center = center,
+    removeConstants = removeConstants,
+    oneHot = oneHot,
+    exclude = exclude
+  )
 } # rtemis::rtset.preprocess
 
 
@@ -236,9 +237,7 @@ rtset.preprocess <- function(completeCases = FALSE,
 
 rtset.decompose <- function(decom = "ICA",
                             k = 2, ...) {
-
   c(list(decom = decom, k = k), list(...))
-
 } # rtemis::rtset.decompose
 
 #' `rtset.earlystop`: Set parameters for [earlystop]
@@ -249,11 +248,11 @@ rtset.decompose <- function(decom = "ICA",
 rtset.earlystop <- function(window = 150,
                             window_decrease_pct_min = 0.01,
                             total_decrease_pct_max = NULL) {
-
-  list(window = window,
-       window_decrease_pct_min = window_decrease_pct_min,
-       total_decrease_pct_max = total_decrease_pct_max)
-
+  list(
+    window = window,
+    window_decrease_pct_min = window_decrease_pct_min,
+    total_decrease_pct_max = total_decrease_pct_max
+  )
 } # rtemis::rtset.earlystop
 
 
@@ -263,22 +262,24 @@ rtset.earlystop <- function(window = 150,
 #' @export
 
 rtset.LIHAD <- function(max.depth = 2,
-                         learning.rate = 1,
-                         lincoef.params = rtset.lincoef("glmnet"),
-                         alpha = 0,
-                         lambda = .1,
-                         minobsinnode = 2,
-                         minobsinnode.lin = 20, ...) {
-
-  c(list(max.depth = max.depth,
-         learning.rate = learning.rate,
-         lincoef.params = lincoef.params,
-         alpha = alpha,
-         lambda = lambda,
-         minobsinnode = minobsinnode,
-         minobsinnode.lin = minobsinnode.lin),
-    list(...))
-
+                        learning.rate = 1,
+                        lincoef.params = rtset.lincoef("glmnet"),
+                        alpha = 0,
+                        lambda = .1,
+                        minobsinnode = 2,
+                        minobsinnode.lin = 20, ...) {
+  c(
+    list(
+      max.depth = max.depth,
+      learning.rate = learning.rate,
+      lincoef.params = lincoef.params,
+      alpha = alpha,
+      lambda = lambda,
+      minobsinnode = minobsinnode,
+      minobsinnode.lin = minobsinnode.lin
+    ),
+    list(...)
+  )
 } # rtemis::rtset.ADDT
 
 
@@ -298,20 +299,22 @@ rtset.GBM <- function(interaction.depth = 2,
                       upsample = FALSE,
                       downsample = FALSE,
                       resample.seed = NULL, ...) {
-
-  c(list(interaction.depth = interaction.depth,
-         shrinkage = shrinkage,
-         max.trees = max.trees,
-         min.trees = min.trees,
-         bag.fraction = bag.fraction,
-         n.minobsinnode = n.minobsinnode,
-         grid.resample.rtset = grid.resample.rtset,
-         ifw = ifw,
-         upsample = upsample,
-         downsample = downsample,
-         resample.seed = resample.seed),
-    list(...))
-
+  c(
+    list(
+      interaction.depth = interaction.depth,
+      shrinkage = shrinkage,
+      max.trees = max.trees,
+      min.trees = min.trees,
+      bag.fraction = bag.fraction,
+      n.minobsinnode = n.minobsinnode,
+      grid.resample.rtset = grid.resample.rtset,
+      ifw = ifw,
+      upsample = upsample,
+      downsample = downsample,
+      resample.seed = resample.seed
+    ),
+    list(...)
+  )
 } # rtemis::rtset.GBM
 
 
@@ -328,17 +331,19 @@ rtset.Ranger <- function(n.trees = 1000,
                          upsample = FALSE,
                          downsample = FALSE,
                          resample.seed = NULL, ...) {
-
-  c(list(n.trees = n.trees,
-         min.node.size = min.node.size,
-         mtry = mtry,
-         grid.resample.rtset = grid.resample.rtset,
-         ifw = ifw,
-         upsample = upsample,
-         downsample = downsample,
-         resample.seed = resample.seed),
-    list(...))
-
+  c(
+    list(
+      n.trees = n.trees,
+      min.node.size = min.node.size,
+      mtry = mtry,
+      grid.resample.rtset = grid.resample.rtset,
+      ifw = ifw,
+      upsample = upsample,
+      downsample = downsample,
+      resample.seed = resample.seed
+    ),
+    list(...)
+  )
 } # rtemis::rtset.Ranger
 
 
@@ -357,19 +362,21 @@ rtset.DN <- function(hidden = 1,
                      batchsize = NULL,
                      hidden_dropout = 0,
                      visible_dropout = 0, ...) {
-
-  c(list(hidden = hidden,
-         activation = activation,
-         learning.rate = learning.rate,
-         momentum = momentum,
-         learningrate_scale = learningrate_scale,
-         output = output,
-         numepochs = numepochs,
-         batchsize = batchsize,
-         hidden_dropout = hidden_dropout,
-         visible_dropout = visible_dropout),
-    list(...))
-
+  c(
+    list(
+      hidden = hidden,
+      activation = activation,
+      learning.rate = learning.rate,
+      momentum = momentum,
+      learningrate_scale = learningrate_scale,
+      output = output,
+      numepochs = numepochs,
+      batchsize = batchsize,
+      hidden_dropout = hidden_dropout,
+      visible_dropout = visible_dropout
+    ),
+    list(...)
+  )
 } # rtemis::rtset.DN
 
 
@@ -428,15 +435,17 @@ rtset.DN <- function(hidden = 1,
 #' @inheritParams lincoef
 #' @export
 
-rtset.lincoef <- function(method = c("glmnet",
-                                     "cv.glmnet",
-                                     "lm.ridge",
-                                     "allSubsets",
-                                     "forwardStepwise",
-                                     "backwardStepwise",
-                                     "glm",
-                                     "sgd",
-                                     "solve"),
+rtset.lincoef <- function(method = c(
+                            "glmnet",
+                            "cv.glmnet",
+                            "lm.ridge",
+                            "allSubsets",
+                            "forwardStepwise",
+                            "backwardStepwise",
+                            "glm",
+                            "sgd",
+                            "solve"
+                          ),
                           alpha = 0,
                           lambda = .01,
                           lambda.seq = NULL,
@@ -445,22 +454,24 @@ rtset.lincoef <- function(method = c("glmnet",
                           nbest = 1,
                           nvmax = 8,
                           sgd.model = "glm",
-                          sgd.model.control = list(lambda1 = 0,
-                                                   lambda2 = 0),
+                          sgd.model.control = list(
+                            lambda1 = 0,
+                            lambda2 = 0
+                          ),
                           sgd.control = list(method = "ai-sgd")) {
-
-  list(method = match.arg(method),
-       alpha = alpha,
-       lambda = lambda,
-       lambda.seq = lambda.seq,
-       cv.glmnet.nfolds = cv.glmnet.nfolds,
-       which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-       nbest = nbest,
-       nvmax = nvmax,
-       sgd.model = sgd.model,
-       sgd.model.control = sgd.model.control,
-       sgd.control = sgd.control)
-
+  list(
+    method = match.arg(method),
+    alpha = alpha,
+    lambda = lambda,
+    lambda.seq = lambda.seq,
+    cv.glmnet.nfolds = cv.glmnet.nfolds,
+    which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+    nbest = nbest,
+    nvmax = nvmax,
+    sgd.model = sgd.model,
+    sgd.model.control = sgd.model.control,
+    sgd.control = sgd.control
+  )
 } # rtemis::rtset.lincoef
 
 
@@ -470,26 +481,28 @@ rtset.lincoef <- function(method = c("glmnet",
 #' @export
 
 rtset.MARS <- function(hidden = 1,
-                     activation = NULL,
-                     learning.rate = .8,
-                     momentum = .5,
-                     learningrate_scale = 1,
-                     output = NULL,
-                     numepochs = 100,
-                     batchsize = NULL,
-                     hidden_dropout = 0,
-                     visible_dropout = 0, ...) {
-
-  c(list(hidden = hidden,
-         activation = activation,
-         learning.rate = learning.rate,
-         momentum = momentum,
-         learningrate_scale = learningrate_scale,
-         output = output,
-         numepochs = numepochs,
-         batchsize = batchsize,
-         hidden_dropout = hidden_dropout,
-         visible_dropout = visible_dropout),
-    list(...))
-
+                       activation = NULL,
+                       learning.rate = .8,
+                       momentum = .5,
+                       learningrate_scale = 1,
+                       output = NULL,
+                       numepochs = 100,
+                       batchsize = NULL,
+                       hidden_dropout = 0,
+                       visible_dropout = 0, ...) {
+  c(
+    list(
+      hidden = hidden,
+      activation = activation,
+      learning.rate = learning.rate,
+      momentum = momentum,
+      learningrate_scale = learningrate_scale,
+      output = output,
+      numepochs = numepochs,
+      batchsize = batchsize,
+      hidden_dropout = hidden_dropout,
+      visible_dropout = visible_dropout
+    ),
+    list(...)
+  )
 } # rtemis::rtset.DN

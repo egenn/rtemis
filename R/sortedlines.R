@@ -12,8 +12,6 @@
 #' @author E.D. Gennatas
 
 sortedlines <- function(x, y, col = "red", ...) {
-
   index <- order(x)
   lines(x[index], y[index], col = col, ...)
-
 }

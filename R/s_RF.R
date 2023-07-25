@@ -125,7 +125,7 @@ s_RF <- function(x, y = NULL,
   dependency_check("randomForest")
 
   # Arguments  ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_RF))
     stop("y is missing")
   }
@@ -133,7 +133,7 @@ s_RF <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (is.null(do.trace)) do.trace <- if (verbose) n.trees/10 else FALSE
   if (proximity.tsne) proximity <- TRUE
 
@@ -152,9 +152,9 @@ s_RF <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  .classwt <- if (is.null(classwt) && ifw) dt$class.weights else classwt
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
@@ -313,11 +313,12 @@ s_RF <- function(x, y = NULL,
 
   # Proximity t-SNE  ----
   # Add failsafe
-  if (proximity.tsne & type == "Classification") {
+  if (proximity.tsne && type == "Classification") {
     cat("Running t-SNE on 1-proximity\n")
     rf.tsne.train <- Rtsne::Rtsne(X = 1 - mod$proximity,
-                                  is_distance = T,
-                                  dims = 2, verbose = T,
+                                  is_distance = TRUE,
+                                  dims = 2,
+                                  verbose = TRUE,
                                   perplexity = tsne.perplexity)
     proximity.tsne.train <- rf.tsne.train
     par(pty = "s")

@@ -3,10 +3,10 @@
 # 2022 E.D. Gennatas www.lambdamd.org
 
 #' Present elevate models
-#' 
+#'
 #' Plot training and testing performance boxplots of multiple [rtModCV]
 #' objects created by [train] using [dplot3_box]
-#' 
+#'
 #' @param ... rtModCV objects created with [train]
 #' @param which.repeat Integer: which `rtModCV` repeat to plot
 #' @param metric Character: which metric to plot
@@ -14,9 +14,9 @@
 #' @param htest Character: "none", "t.test", or "wilcox.test"
 #' @param htest.annotate.y Numeric: y-axis coordinate for htest annotation
 #' @param margin Named list with margins and padding
-#' 
+#'
 #' @author E.D. Gennatas
-#' @export 
+#' @export
 
 present <- function(...,
                     mod.names = NULL,
@@ -36,91 +36,89 @@ present <- function(...,
                     file.width = 500,
                     file.height = 500,
                     file.scale = 1) {
-
-    mods <- list(...)
-    if (is.null(htest.annotate.y)) {
-        htest.annotate.y <- if ((plot.train && plot.test)) {
-            -.105
-        } else {
-            -.05
-        }
-    }
-
-    # Check types ----
-    types <- sapply(mods, \(m) m$type)
-    if (length(unique(types)) > 1) {
-        stop("All models must be of the same type")
-    }
-    type <- mods[[1]]$type
-    if (is.null(metric)) {
-        metric <- if (type == "Classification") {
-            "Balanced Accuracy"
-        } else {
-            "R sq"
-        }
-    }
-
-    # Get error ----
-    if (is.null(mod.names)) {
-        mod.names <- sapply(mods, \(m) m$mod.name)
-    }
-    train.error <- lapply(mods, \(m) m$error.train.res[[which.repeat]][[metric]])
-    test.error <- lapply(mods, \(m) m$error.test.res[[which.repeat]][[metric]])
-    names(train.error) <- names(test.error) <- mod.names
-
-    # Plot ----
-    if (plot.train) {
-        plot_train <- dplot3_box(
-            train.error,
-            main = main,
-            ylab = paste("Training", metric),
-            col = col,
-            boxpoints = boxpoints,
-            ylim = ylim,
-            htest = htest,
-            htest.annotate = htest.annotate.y,
-            margin = margin
-        )
-    }
-    
-    if (plot.test) {
-        plot_test <- dplot3_box(
-            test.error,
-            ylab = paste("Testing", metric),
-            col = col,
-            boxpoints = boxpoints,
-            ylim = ylim,
-            htest = htest,
-            htest.annotate.y = htest.annotate.y,
-            margin = margin
-        )
-    }
-    
-    if (plot.train && plot.test) {
-        plt <- plotly::subplot(
-            plot_train, plot_test,
-            nrows = 2,
-            shareX = TRUE,
-            titleY = TRUE,
-            margin = subplot.margin
-        )
-    } else if (plot.test) {
-        plt <- plot_test
+  mods <- list(...)
+  if (is.null(htest.annotate.y)) {
+    htest.annotate.y <- if ((plot.train && plot.test)) {
+      -.105
     } else {
-        plt <- plot_train
+      -.05
     }
+  }
 
-    # Write to file ----
-    if (!is.null(filename)) {
-        plotly::save_image(
-            plt,
-            file = normalizePath(filename, mustWork = FALSE),
-            width = file.width,
-            height = file.height,
-            scale = file.scale
-        )
+  # Check types ----
+  types <- sapply(mods, \(m) m$type)
+  if (length(unique(types)) > 1) {
+    stop("All models must be of the same type")
+  }
+  type <- mods[[1]]$type
+  if (is.null(metric)) {
+    metric <- if (type == "Classification") {
+      "Balanced Accuracy"
     } else {
-        plt
+      "R sq"
     }
-    
+  }
+
+  # Get error ----
+  if (is.null(mod.names)) {
+    mod.names <- sapply(mods, \(m) m$mod.name)
+  }
+  train.error <- lapply(mods, \(m) m$error.train.res[[which.repeat]][[metric]])
+  test.error <- lapply(mods, \(m) m$error.test.res[[which.repeat]][[metric]])
+  names(train.error) <- names(test.error) <- mod.names
+
+  # Plot ----
+  if (plot.train) {
+    plot_train <- dplot3_box(
+      train.error,
+      main = main,
+      ylab = paste("Training", metric),
+      col = col,
+      boxpoints = boxpoints,
+      ylim = ylim,
+      htest = htest,
+      htest.annotate = htest.annotate.y,
+      margin = margin
+    )
+  }
+
+  if (plot.test) {
+    plot_test <- dplot3_box(
+      test.error,
+      ylab = paste("Testing", metric),
+      col = col,
+      boxpoints = boxpoints,
+      ylim = ylim,
+      htest = htest,
+      htest.annotate.y = htest.annotate.y,
+      margin = margin
+    )
+  }
+
+  if (plot.train && plot.test) {
+    plt <- plotly::subplot(
+      plot_train, plot_test,
+      nrows = 2,
+      shareX = TRUE,
+      titleY = TRUE,
+      margin = subplot.margin
+    )
+  } else if (plot.test) {
+    plt <- plot_test
+  } else {
+    plt <- plot_train
+  }
+
+  # Write to file ----
+  if (!is.null(filename)) {
+    plotly::save_image(
+      plt,
+      file = normalizePath(filename, mustWork = FALSE),
+      width = file.width,
+      height = file.height,
+      scale = file.scale
+    )
+  } else {
+    plt
+  }
 } # rtemis::present

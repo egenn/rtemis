@@ -99,7 +99,7 @@ s_AddTree <- function(x, y = NULL,
   dependency_check("rpart", "data.tree")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_AddTree))
     stop("y is missing")
   }
@@ -107,7 +107,7 @@ s_AddTree <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   update <- match.arg(update)
   # if (update == "exponential") {
@@ -130,9 +130,9 @@ s_AddTree <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
-  x0 <- if (upsample | downsample) dt$x0 else x
-  y0 <- if (upsample | downsample) dt$y0 else y
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (dt$type != "Classification") stop("Only binary classification is currently supported")
   if (print.plot) {

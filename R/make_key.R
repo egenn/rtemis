@@ -16,17 +16,17 @@ make_key <- function(x,
                      code_name,
                      description_name,
                      filename = NULL) {
-    dependency_check("data.table")
+  dependency_check("data.table")
 
-    .key <- unique(
-        x,
-        by = code_name
-    )[, .SD, .SDcols = c(code_name, description_name)] |>
-        setkeyv(code_name)
+  .key <- unique(
+    x,
+    by = code_name
+  )[, .SD, .SDcols = c(code_name, description_name)] |>
+    setkeyv(code_name)
 
-    if (!is.null(filename)) {
-        fwrite(.key, filename)
-    }
+  if (!is.null(filename)) {
+    fwrite(.key, filename)
+  }
 
-    .key
+  .key
 } # rtemis:: make_key

@@ -9,20 +9,23 @@
 #' If `learning.rate` is set to 0, a nullmod will be created
 #' 
 #' @inheritParams boost
-#' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to `weights.0`. Default = 1
-#' @param weights.0 Float (0, 1): Set weights of excluded cases to this number. Default = 0, which is equivalent to
-#' excluding them, in which case, these cases can act as a validation set
+#' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set 
+#' to `weights.0`. Default = 1
+#' @param weights.0 Float (0, 1): Set weights of excluded cases to this number. 
+#' Default = 0, which is equivalent to excluding them, in which case, these cases can 
+#' act as a validation set
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
-#' @param init Float: Initial value for prediction. Default = mean(y)
+#' @param init Float: Initial value for prediction.
 #' @param seed Integer: Set seed to allow reproducibility when `weights.p` is not 1
-#' @param max.iter Integer: Maximum number of iterations (additive steps) to perform. Default = 10
+#' @param max.iter Integer: Maximum number of iterations (additive steps) to perform.
 #' @param trace Integer: If > 0, print diagnostic info to console
 #' @param base.verbose Logical: `verbose` argument passed to learner
-#' @param print.error.plot String or Integer: "final" plots a training and validation (if available) error curve at the
-#' end of training. If integer, plot training and validation error curve every this many iterations
-#' during training. "none" for no plot. Default = "final"
-#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
-#' for each base learner. Default = FALSE
+#' @param print.error.plot String or Integer: "final" plots a training and validation 
+#' (if available) error curve at the end of training. If integer, plot training and 
+#' validation error curve every this many iterations during training. "none" for no 
+#' plot.
+#' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, 
+#' i.e. if TRUE, print error plot for each base learner.
 #' 
 #' @keywords internal
 #' @author E.D. Gennatas

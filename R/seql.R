@@ -21,9 +21,11 @@
 seql <- function(x, target) {
   xlength <- length(x)
   tlength <- length(target)
-  if (xlength == tlength) return(seq(tlength))
+  if (xlength == tlength) {
+    return(seq(tlength))
+  }
   if (xlength < tlength) {
-    return(rep(seq(xlength), ceiling(tlength/xlength))[seq(tlength)])
+    return(rep(seq(xlength), ceiling(tlength / xlength))[seq(tlength)])
   } else {
     return(seq(tlength))
   }

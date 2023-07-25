@@ -21,7 +21,6 @@ synthRegData <- function(nrow = 500,
                          resample.rtset = rtset.resample(),
                          seed = NULL,
                          verbose = FALSE) {
-
   if (!is.null(seed)) set.seed(seed)
   x <- rnormmat(nrow, ncol)
   w <- rnorm(ncol)
@@ -34,11 +33,12 @@ synthRegData <- function(nrow = 500,
   dat.train <- dat[res[[1]], ]
   dat.test <- dat[-res[[1]], ]
 
-  list(dat = dat,
-       dat.train = dat.train,
-       dat.test = dat.test,
-       resamples = res,
-       w = w,
-       seed = seed)
-
+  list(
+    dat = dat,
+    dat.train = dat.train,
+    dat.test = dat.test,
+    resamples = res,
+    w = w,
+    seed = seed
+  )
 } # rtemis::synthRegData

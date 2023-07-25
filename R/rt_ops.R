@@ -16,11 +16,11 @@
 #' @keywords internal
 
 getName <- function(x, alt = "x", max.nchar = 20) {
-    name <- deparse(substitute(x))
+  name <- deparse(substitute(x))
 
-    if (nchar(name) > max.nchar) name <- alt
+  if (nchar(name) > max.nchar) name <- alt
 
-    name
+  name
 } # rtemis::getName
 
 
@@ -47,29 +47,29 @@ get_mode <- function(x,
                      na.exclude = TRUE,
                      getlast = TRUE,
                      retain.class = TRUE) {
-    if (retain.class) .class <- class(x)
-    if (na.exclude) x <- na.exclude(x)
-    freq <- table(x)
-    if (sum(freq) > 0) {
-        if (getlast) {
-            .vals <- unique(x)
-            out <- .vals[rev(which(.vals %in% names(freq)[which(freq == max(freq))]))[1]]
-        } else {
-            out <- names(freq)[which.max(freq)]
-        }
-        if (length(out) == 0) out <- NA
+  if (retain.class) .class <- class(x)
+  if (na.exclude) x <- na.exclude(x)
+  freq <- table(x)
+  if (sum(freq) > 0) {
+    if (getlast) {
+      .vals <- unique(x)
+      out <- .vals[rev(which(.vals %in% names(freq)[which(freq == max(freq))]))[1]]
     } else {
-        out <- NA
+      out <- names(freq)[which.max(freq)]
     }
+    if (length(out) == 0) out <- NA
+  } else {
+    out <- NA
+  }
 
-    if (retain.class) {
-        if (is.factor(x)) {
-            out <- factor(out, levels = levels(x))
-        } else {
-            class(out) <- .class
-        }
+  if (retain.class) {
+    if (is.factor(x)) {
+      out <- factor(out, levels = levels(x))
+    } else {
+      class(out) <- .class
     }
-    out
+  }
+  out
 } # rtemis::get_mode
 
 
@@ -82,10 +82,10 @@ get_mode <- function(x,
 #' @export
 
 any_constant <- function(x) {
-    # var0 <- which(apply(x, 2, var) == 0)
-    # if (length(var0) > 0) TRUE else FALSE
-    constant.index <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
-    if (length(constant.index) > 0) TRUE else FALSE
+  # var0 <- which(apply(x, 2, var) == 0)
+  # if (length(var0) > 0) TRUE else FALSE
+  constant.index <- which(apply(x, 2, function(x) all(duplicated(x)[-1L])))
+  if (length(constant.index) > 0) TRUE else FALSE
 } # rtemis::any_constant
 
 
@@ -104,11 +104,10 @@ any_constant <- function(x) {
 #' is_constant(x)
 #' is_constant(x, skip_missing = TRUE)
 #' }
-
 is_constant <- function(x, skip_missing = FALSE) {
-    # all(duplicated(x)[-1L])
-    if (skip_missing) x <- na.exclude(x)
-    isTRUE(all(x == x[1]))
+  # all(duplicated(x)[-1L])
+  if (skip_missing) x <- na.exclude(x)
+  isTRUE(all(x == x[1]))
 } # rtemis::is_constant
 
 
@@ -119,7 +118,7 @@ is_constant <- function(x, skip_missing = FALSE) {
 #' @export
 
 is_discrete <- function(x) {
-    is.factor(x) || is.integer(x) || is.logical(x) || is.character(x)
+  is.factor(x) || is.integer(x) || is.logical(x) || is.character(x)
 } # rtemis::is_discrete
 
 
@@ -129,7 +128,7 @@ is_discrete <- function(x) {
 #' @export
 
 logit <- function(x) {
-    log(x / (1 - x))
+  log(x / (1 - x))
 } # rtemis::logit
 
 
@@ -141,7 +140,7 @@ logit <- function(x) {
 #' @export
 
 invlogit <- function(x) {
-    exp(x) / (1 + exp(x))
+  exp(x) / (1 + exp(x))
 } # rtemis::invlogit
 
 
@@ -154,7 +153,7 @@ invlogit <- function(x) {
 #' @export
 
 logistic <- function(x, x0 = 0, L = 1, k = 1) {
-    L / (1 + exp(-k * (x - x0)))
+  L / (1 + exp(-k * (x - x0)))
 } # rtemis::logistic
 
 
@@ -163,7 +162,7 @@ logistic <- function(x, x0 = 0, L = 1, k = 1) {
 #' @param x Numeric: Input
 #' @export
 relu <- function(x) {
-    unlist(Map(function(i) max(0, i), x))
+  unlist(Map(function(i) max(0, i), x))
 } # rtemis::relu
 
 
@@ -175,7 +174,7 @@ relu <- function(x) {
 #' @export
 
 softplus <- function(x) {
-    log(1 + exp(x))
+  log(1 + exp(x))
 } # rtemis::softplus
 
 
@@ -193,12 +192,12 @@ sigmoid <- function(x) 1 / (1 + exp(-x))
 #' @export
 
 softmax <- function(x) {
-    logsumexp <- function(x) {
-        y <- max(x)
-        y + log(sum(exp(x - y)))
-    }
+  logsumexp <- function(x) {
+    y <- max(x)
+    y + log(sum(exp(x - y)))
+  }
 
-    exp(x - logsumexp(x))
+  exp(x - logsumexp(x))
 } # rtemis::softmax
 
 
@@ -225,7 +224,7 @@ cube <- function(x) x^3
 #' @export
 
 colMax <- function(x, na.rm = TRUE) {
-    apply(x, 2, function(i) max(i, na.rm = na.rm))
+  apply(x, 2, function(i) max(i, na.rm = na.rm))
 } # rtemis::colMax
 
 
@@ -237,7 +236,7 @@ colMax <- function(x, na.rm = TRUE) {
 #' @export
 #'
 rowMax <- function(x, na.rm = TRUE) {
-    apply(x, 1, function(i) max(i, na.rm = na.rm))
+  apply(x, 1, function(i) max(i, na.rm = na.rm))
 } # rtrmis::rowMax
 
 
@@ -249,8 +248,8 @@ rowMax <- function(x, na.rm = TRUE) {
 #'
 
 crules <- function(...) {
-    rules <- c(...)
-    paste0(rules, collapse = " & ")
+  rules <- c(...)
+  paste0(rules, collapse = " & ")
 } # rtemis::crules
 
 
@@ -268,11 +267,11 @@ crules <- function(...) {
 #' @export
 
 ifNotNull <- function(x, defType) {
-    if (!is.null(x)) {
-        return(x)
-    } else {
-        return(defType())
-    }
+  if (!is.null(x)) {
+    return(x)
+  } else {
+    return(defType())
+  }
 } # rtemis::ifNotNull
 
 
@@ -294,7 +293,7 @@ ifNotNull <- function(x, defType) {
 #' @export
 
 psd <- function(x) {
-    return(sqrt(mean(x^2) - mean(x)^2))
+  return(sqrt(mean(x^2) - mean(x)^2))
 } # rtemis::psd
 
 
@@ -315,13 +314,13 @@ rnormmat <- function(nrow = 10, ncol = 10,
                      mean = 0, sd = 1,
                      return.df = FALSE,
                      seed = NULL) {
-    if (length(mean) < ncol) mean <- rep(mean, ncol / length(mean))
-    if (length(sd) < ncol) sd <- rep(sd, ncol / length(sd))
+  if (length(mean) < ncol) mean <- rep(mean, ncol / length(mean))
+  if (length(sd) < ncol) sd <- rep(sd, ncol / length(sd))
 
-    if (!is.null(seed)) set.seed(seed)
-    mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
-    if (return.df) mat <- as.data.frame(mat)
-    mat
+  if (!is.null(seed)) set.seed(seed)
+  mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
+  if (return.df) mat <- as.data.frame(mat)
+  mat
 } # rtemis::rnormmat
 
 
@@ -342,13 +341,13 @@ runifmat <- function(nrow = 10, ncol = 10,
                      min = 0, max = 1,
                      return.df = FALSE,
                      seed = NULL) {
-    if (length(min) < ncol) min <- rep(min, ncol / length(min))
-    if (length(max) < ncol) max <- rep(max, ncol / length(max))
+  if (length(min) < ncol) min <- rep(min, ncol / length(min))
+  if (length(max) < ncol) max <- rep(max, ncol / length(max))
 
-    if (!is.null(seed)) set.seed(seed)
-    mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
-    if (return.df) mat <- as.data.frame(mat)
-    mat
+  if (!is.null(seed)) set.seed(seed)
+  mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
+  if (return.df) mat <- as.data.frame(mat)
+  mat
 } # rtemis::runifmat
 
 
@@ -360,23 +359,23 @@ runifmat <- function(nrow = 10, ncol = 10,
 #' @param caps Logical: If TRUE, return all caps
 #' @export
 rtLetters <- function(n = 100, caps = FALSE) {
-    reps <- ceiling(n / 26)
-    prtlet <- function(x = NULL) paste0(x, if (caps) LETTERS else letters)
-    out <- NULL
-    for (i in 1:reps) {
-        out.length <- length(out)
-        out <- c(out, prtlet(out[(out.length - 25):out.length]))
-    }
-    out[1:n]
+  reps <- ceiling(n / 26)
+  prtlet <- function(x = NULL) paste0(x, if (caps) LETTERS else letters)
+  out <- NULL
+  for (i in 1:reps) {
+    out.length <- length(out)
+    out <- c(out, prtlet(out[(out.length - 25):out.length]))
+  }
+  out[1:n]
 } # rtemis::rtLetters
 
 
 singorplu <- function(n, x) {
-    switch(as.character(n),
-        `0` = paste0("no ", x, "s"),
-        `1` = paste("1", x),
-        paste0(n, " ", x, "s")
-    )
+  switch(as.character(n),
+    `0` = paste0("no ", x, "s"),
+    `1` = paste("1", x),
+    paste0(n, " ", x, "s")
+  )
 }
 
 #' Round to nearest .5
@@ -386,11 +385,11 @@ singorplu <- function(n, x) {
 #' @export
 
 roundtohalf <- function(x) {
-    round(x * 2) / 2
+  round(x * 2) / 2
 }
 
 roundtofrac <- function(x, t = .5) {
-    round(x / t) * t
+  round(x / t) * t
 }
 
 
@@ -408,16 +407,16 @@ catrange <- function(x,
                      ddSci = TRUE,
                      decimal.places = 1,
                      na.rm = TRUE) {
-    if (ddSci) {
-        paste(
-            ddSci(range(x, na.rm = na.rm),
-                decimal.places = decimal.places
-            ),
-            collapse = " to "
-        )
-    } else {
-        paste(range(x, na.rm = na.rm), collapse = " to ")
-    }
+  if (ddSci) {
+    paste(
+      ddSci(range(x, na.rm = na.rm),
+        decimal.places = decimal.places
+      ),
+      collapse = " to "
+    )
+  } else {
+    paste(range(x, na.rm = na.rm), collapse = " to ")
+  }
 } # rtemis::catrange
 
 
@@ -429,30 +428,30 @@ catrange <- function(x,
 #' @export
 
 lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
-    out <- if (simplify) sapply(X, FUN, ...) else lapply(X, FUN, ...)
-    if (!is.null(outnames)) names(out) <- outnames
-    out
+  out <- if (simplify) sapply(X, FUN, ...) else lapply(X, FUN, ...)
+  if (!is.null(outnames)) names(out) <- outnames
+  out
 } # rtemis::lsapply
 
 null2na <- function(x) {
-    if (is.null(x)) NA else x
+  if (is.null(x)) NA else x
 }
 
 #' Get rtemis and OS version info
 #'
 #' @export
 rtversion <- function() {
-    out <- c(
-        list(rtemis_version = as.character(packageVersion("rtemis"))),
-        as.list(Sys.info())
-    )
-    printls(out)
-    invisible(out)
+  out <- c(
+    list(rtemis_version = as.character(packageVersion("rtemis"))),
+    as.list(Sys.info())
+  )
+  printls(out)
+  invisible(out)
 } # rtemis::rtversion
 
 
 popvar <- function(x) {
-    mean((x - mean(x))^2)
+  mean((x - mean(x))^2)
 }
 
 
@@ -461,7 +460,7 @@ popvar <- function(x) {
 #' @param x Input vector
 #' @param idl Logical vector: Index of elements to filter
 #' @param decreasing Logical: If TRUE, sort in descending order
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @examples
@@ -471,11 +470,11 @@ popvar <- function(x) {
 #' x[filter_order(x, x < 0)]
 #' }
 filter_order <- function(x, idl, decreasing = FALSE) {
-    idi <- which(idl)
-    flt_ord <- order(x[idi], decreasing = decreasing)
-    idi[flt_ord]
+  idi <- which(idl)
+  flt_ord <- order(x[idi], decreasing = decreasing)
+  idi[flt_ord]
 }
 
 pval_stars <- function(x) {
-    cut(x, breaks = c(0, .001, .01, .05, 1), labels = c("***", "**", "*", ""))
+  cut(x, breaks = c(0, .001, .01, .05, 1), labels = c("***", "**", "*", ""))
 }

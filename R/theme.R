@@ -8,12 +8,12 @@
 #'
 #' @param bg Color: Figure background
 #' @param plot.bg Color: Plot region background
-#' @param fg Color: Foreground color used as default for multiple elements like 
+#' @param fg Color: Foreground color used as default for multiple elements like
 #' axes and labels, which can be defined separately
 #' @param pch Integer: Point character.
 #' @param cex Float: Character expansion factor.
 #' @param lwd Float: Line width.
-#' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n". 
+#' @param bty Character: Box type:  "o", "l", "7", "c", "u", or "]", or "n".
 #' Default = "n" (no box)
 #' @param box.col Box color if `bty != "n"`
 #' @param box.alpha Float: Box alpha
@@ -38,7 +38,7 @@
 #' @param labs.col Labels' color
 #' @param x.axis.line Numeric: `graphics::axis`'s `line` argument for the x-axis
 #' @param x.axis.las Numeric: `graphics::axis`'s `las` argument for the x-axis
-#' @param x.axis.padj Numeric: x-axis' `padj`: Adjustment for the x-axis 
+#' @param x.axis.padj Numeric: x-axis' `padj`: Adjustment for the x-axis
 #' tick labels' position
 #' @param x.axis.hadj Numeric: x-axis' `hadj`
 #' @param y.axis.line Numeric: `graphics::axis`'s `line` argument for the y-axis
@@ -47,13 +47,13 @@
 #' @param y.axis.hadj Numeric: y-axis' `hadj`
 #' @param xlab.line Numeric: Line to place `xlab`
 #' @param ylab.line Numeric: Line to place `ylab`
-#' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within 
+#' @param zerolines Logical: If TRUE, draw lines on x = 0, y = 0, if within
 #' plot limits
 #' @param zerolines.col Zerolines color
 #' @param zerolines.alpha Float: Zerolines alpha
 #' @param zerolines.lty Integer: Zerolines line type
 #' @param zerolines.lwd Float: Zerolines line width
-#' @param main.line Float: How many lines away from the plot region to draw 
+#' @param main.line Float: How many lines away from the plot region to draw
 #' title.
 #' @param main.adj Float: How to align title. Default = 0 (left-align)
 #' @param main.font Integer: 1: Regular, 2: Bold
@@ -116,61 +116,61 @@ theme_black <- function(bg = "#000000",
                         main.font = 2,
                         main.col = fg,
                         font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_black
 
 #' @rdname theme
@@ -229,61 +229,61 @@ theme_blackgrid <- function(bg = "#000000",
                             main.font = 2,
                             main.col = fg,
                             font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_blackgrid
 
 
@@ -342,61 +342,61 @@ theme_blackigrid <- function(bg = "#000000",
                              main.font = 2,
                              main.col = fg,
                              font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_darkgrid
 
 # Darkgray ----
@@ -456,61 +456,61 @@ theme_darkgray <- function(bg = "#121212",
                            main.font = 2,
                            main.col = fg,
                            font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_black
 
 #' @rdname theme
@@ -568,61 +568,61 @@ theme_darkgraygrid <- function(bg = "#121212",
                                main.font = 2,
                                main.col = fg,
                                font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_darkgraygrid
 
 #' @rdname theme
@@ -680,61 +680,61 @@ theme_darkgrayigrid <- function(bg = "#121212",
                                 main.font = 2,
                                 main.col = fg,
                                 font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_darkgraygrid
 
 # White ----
@@ -794,61 +794,61 @@ theme_white <- function(bg = "#ffffff",
                         main.font = 2,
                         main.col = fg,
                         font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_white
 
 #' @rdname theme
@@ -906,61 +906,61 @@ theme_whitegrid <- function(bg = "#ffffff",
                             main.font = 2,
                             main.col = fg,
                             font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_whitegrid
 
 #' @rdname theme
@@ -1018,61 +1018,61 @@ theme_whiteigrid <- function(bg = "#ffffff",
                              main.font = 2,
                              main.col = fg,
                              font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_darkgrid
 
 # Grays ----
@@ -1132,61 +1132,61 @@ theme_lightgraygrid <- function(bg = "#dfdfdf",
                                 main.font = 2,
                                 main.col = fg,
                                 font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_lightgray
 
 
@@ -1245,70 +1245,70 @@ theme_mediumgraygrid <- function(bg = "#b3b3b3",
                                  main.font = 2,
                                  main.col = fg,
                                  font.family = getOption("rt.font", "Helvetica")) {
-  
-  list(bg = bg,
-       plot.bg = plot.bg,
-       fg = fg,
-       pch = pch,
-       cex = cex,
-       lwd = lwd,
-       # box --
-       bty = bty,
-       box.col = box.col,
-       box.alpha = box.alpha,
-       box.lty = box.lty,
-       box.lwd = box.lwd,
-       # grid --
-       grid = grid,
-       grid.nx = grid.nx,
-       grid.ny = grid.ny,
-       grid.col = grid.col,
-       grid.alpha = grid.alpha,
-       grid.lty = grid.lty,
-       grid.lwd = grid.lwd,
-       # axes --
-       axes.visible = axes.visible,
-       axes.col = axes.col,
-       tick.col = tick.col,
-       tick.alpha = tick.alpha,
-       tick.labels.col = tick.labels.col,
-       tck = tck,
-       tcl = tcl,
-       x.axis.side = x.axis.side,
-       y.axis.side = y.axis.side,
-       labs.col = labs.col,
-       x.axis.line = x.axis.line,
-       x.axis.las = x.axis.las,
-       x.axis.padj = x.axis.padj,
-       x.axis.hadj = x.axis.hadj,
-       y.axis.line = y.axis.line,
-       y.axis.las = y.axis.las,
-       y.axis.padj = y.axis.padj,
-       y.axis.hadj = y.axis.hadj,
-       xlab.line = xlab.line,
-       ylab.line = ylab.line,
-       # zerolines --
-       zerolines = zerolines,
-       zerolines.col = zerolines.col,
-       zerolines.alpha = zerolines.alpha,
-       zerolines.lty = zerolines.lty,
-       zerolines.lwd = zerolines.lwd,
-       # title --
-       main.line = main.line,
-       main.adj = main.adj,
-       main.font = main.font,
-       main.col = main.col,
-       font.family = font.family)
-  
+  list(
+    bg = bg,
+    plot.bg = plot.bg,
+    fg = fg,
+    pch = pch,
+    cex = cex,
+    lwd = lwd,
+    # box --
+    bty = bty,
+    box.col = box.col,
+    box.alpha = box.alpha,
+    box.lty = box.lty,
+    box.lwd = box.lwd,
+    # grid --
+    grid = grid,
+    grid.nx = grid.nx,
+    grid.ny = grid.ny,
+    grid.col = grid.col,
+    grid.alpha = grid.alpha,
+    grid.lty = grid.lty,
+    grid.lwd = grid.lwd,
+    # axes --
+    axes.visible = axes.visible,
+    axes.col = axes.col,
+    tick.col = tick.col,
+    tick.alpha = tick.alpha,
+    tick.labels.col = tick.labels.col,
+    tck = tck,
+    tcl = tcl,
+    x.axis.side = x.axis.side,
+    y.axis.side = y.axis.side,
+    labs.col = labs.col,
+    x.axis.line = x.axis.line,
+    x.axis.las = x.axis.las,
+    x.axis.padj = x.axis.padj,
+    x.axis.hadj = x.axis.hadj,
+    y.axis.line = y.axis.line,
+    y.axis.las = y.axis.las,
+    y.axis.padj = y.axis.padj,
+    y.axis.hadj = y.axis.hadj,
+    xlab.line = xlab.line,
+    ylab.line = ylab.line,
+    # zerolines --
+    zerolines = zerolines,
+    zerolines.col = zerolines.col,
+    zerolines.alpha = zerolines.alpha,
+    zerolines.lty = zerolines.lty,
+    zerolines.lwd = zerolines.lwd,
+    # title --
+    main.line = main.line,
+    main.adj = main.adj,
+    main.font = main.font,
+    main.col = main.col,
+    font.family = font.family
+  )
 } # rtemis::theme_mediumdgray
 
 #' Print available rtemis themes
-#' 
+#'
 #' @export
 themes <- function() {
-     cat(hilite("  Available themes:\n"))
-     cat('    "white", "whitegrid", "whiteigrid,\n')
-     cat('    "black", "blackgrid", "blackigrid",\n')
-     cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
-     cat('    "lightgraygrid", "mediumgraygrid"\n')
+  cat(hilite("  Available themes:\n"))
+  cat('    "white", "whitegrid", "whiteigrid,\n')
+  cat('    "black", "blackgrid", "blackigrid",\n')
+  cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
+  cat('    "lightgraygrid", "mediumgraygrid"\n')
 }

@@ -9,45 +9,45 @@
 #' Starts function execution timer and opens log file.
 #' Pairs with `outro`. Unfortunately the errors and warnings (the stderr; sink(type = "message"))
 #' cannot get split to file and console, so we keep in console only
-#' 
+#'
 #' @keywords internal
 
 intro <- function(message = NULL,
                   verbose = TRUE,
-                #   as.message = FALSE,
-                #   color = gray,
+                  #   as.message = FALSE,
+                  #   color = gray,
                   logFile = NULL,
                   call.depth = 1,
                   newline.pre = FALSE) {
-    if (!is.null(logFile)) {
-        logFile <- normalizePath(logFile, mustWork = FALSE)
-        outdir <- dirname(logFile)
-        if (!dir.exists(outdir)) {
-            dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
-        }
-        if (file.exists(logFile)) logFile <- paste0(logFile, "_1")
-        sink(logFile, split = verbose)
+  if (!is.null(logFile)) {
+    logFile <- normalizePath(logFile, mustWork = FALSE)
+    outdir <- dirname(logFile)
+    if (!dir.exists(outdir)) {
+      dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    start.time <- proc.time()
-    if (verbose || !is.null(logFile)) {
-        if (newline.pre) cat("\n")
-        if (is.null(message)) {
-            msg2("Hello,", Sys.getenv("USER"),
-                # as.message = as.message,
-                call.depth = call.depth,
-                caller.id = 2
-            )
-        } else {
-            msg2(message,
-                # as.message = as.message,
-                call.depth = call.depth,
-                sep = "",
-                caller.id = 2
-                # color = color
-            )
-        }
+    if (file.exists(logFile)) logFile <- paste0(logFile, "_1")
+    sink(logFile, split = verbose)
+  }
+  start.time <- proc.time()
+  if (verbose || !is.null(logFile)) {
+    if (newline.pre) cat("\n")
+    if (is.null(message)) {
+      msg2("Hello,", Sys.getenv("USER"),
+        # as.message = as.message,
+        call.depth = call.depth,
+        caller.id = 2
+      )
+    } else {
+      msg2(message,
+        # as.message = as.message,
+        call.depth = call.depth,
+        sep = "",
+        caller.id = 2
+        # color = color
+      )
     }
-    invisible(start.time)
+  }
+  invisible(start.time)
 } # rtemis::intro
 
 
@@ -58,64 +58,63 @@ intro <- function(message = NULL,
 #' Stops function execution timer and closes log file.
 #'
 #' Second part to `intro`
-#' 
+#'
 #' @keywords internal
 outro <- function(start.time,
                   message = NULL,
                   verbose = TRUE,
-                #   as.message = FALSE,
+                  #   as.message = FALSE,
                   sinkOff = FALSE,
-                #   color = gray,
+                  #   color = gray,
                   newline.pre = FALSE) {
+  elapsed <- as.numeric(proc.time() - start.time)
+  if (verbose || sinkOff) {
+    if (newline.pre) cat("\n")
+    msg2(
+      "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
+      "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
+      "; System: ", ddSci(elapsed[2]), ")",
+      sep = "",
+      # as.message = as.message,
+      caller.id = 2
+    )
+  }
 
-    elapsed <- as.numeric(proc.time() - start.time)
-    if (verbose || sinkOff) {
-        if (newline.pre) cat("\n")
-        msg2(
-            "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
-                "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
-                "; System: ", ddSci(elapsed[2]), ")",
-                sep = "",
-            # as.message = as.message,
-            caller.id = 2
-        )
-    }
-
-    if (sinkOff) {
-        sink()
-    }
-    invisible(elapsed)
+  if (sinkOff) {
+    sink()
+  }
+  invisible(elapsed)
 } # rtemis::outro
 
 
 #' `rtemis-internals`: `dataSummary`
 #'
 #' Print input data dimensions and test dimensions match
-#' 
+#'
 #' @keywords internal
 dataSummary <- function(x, y,
                         x.test = NULL, y.test = NULL,
                         type = NULL, testSet = TRUE) {
-    if (!is.null(type)) {
-        boxcat(paste(type, "Input Summary"), pad = 0)
-    } else {
-        boxcat("Input Summary", pad = 0)
-    }
-    cat("Training features:", bold(NROW(x), "x", NCOL(x), "\n"))
-    cat(" Training outcome:", bold(NROW(y), "x", NCOL(y), "\n"))
+  if (!is.null(type)) {
+    boxcat(paste(type, "Input Summary"), pad = 0)
+  } else {
+    boxcat("Input Summary", pad = 0)
+  }
+  cat("Training features:", bold(NROW(x), "x", NCOL(x), "\n"))
+  cat(" Training outcome:", bold(NROW(y), "x", NCOL(y), "\n"))
 
-    if (testSet) {
-        if (!is.null(x.test)) {
-            cat(" Testing features:", bold(NROW(x.test), "x", NCOL(x.test), "\n"))
-        } else {
-            cat(" Testing features: Not available\n")
-        }
-        if (!is.null(y.test)) {
-            cat("  Testing outcome:", bold(NROW(y.test), "x", NCOL(y.test), "\n"))
-        } else {
-            cat("  Testing outcome: Not available\n")
-        }
+  if (testSet) {
+    if (!is.null(x.test)) {
+      cat(" Testing features:", bold(NROW(x.test), "x", NCOL(x.test), "\n"))
+    } else {
+      cat(" Testing features: Not available\n")
     }
+    if (!is.null(y.test)) {
+      cat("  Testing outcome:", bold(NROW(y.test), "x", NCOL(y.test), "\n"))
+    } else {
+      cat("  Testing outcome: Not available\n")
+    }
+  }
 } # rtemis::dataSummary
 
 
@@ -141,92 +140,92 @@ parameterSummary <- function(...,
                              pad = 0,
                              newline.pre = FALSE,
                              newline = FALSE) {
-    if (newline.pre) cat("\n")
-    if (length(list(...)) > 0) {
-        x <- list(...)
-        xnames <- as.character(substitute(list(...)))[-1L]
-        names(x) <- xnames
-        for (i in seq_along(x)) {
-            if (is.list(x[[i]]) && length(x[[i]]) > 0) {
-                if (is.null(names(x[[i]]))) {
-                    names(x[[i]]) <- paste0(
-                        xnames[i], ".",
-                        seq_len(length(x[[i]]))
-                    )
-                }
-            }
-            if (is.null(x[[i]])) x[[i]] <- "NULL"
+  if (newline.pre) cat("\n")
+  if (length(list(...)) > 0) {
+    x <- list(...)
+    xnames <- as.character(substitute(list(...)))[-1L]
+    names(x) <- xnames
+    for (i in seq_along(x)) {
+      if (is.list(x[[i]]) && length(x[[i]]) > 0) {
+        if (is.null(names(x[[i]]))) {
+          names(x[[i]]) <- paste0(
+            xnames[i], ".",
+            seq_len(length(x[[i]]))
+          )
         }
-
-        printls(x, pad = pad + 3, title = title, center.title = FALSE)
-
-        if (newline) cat("\n")
+      }
+      if (is.null(x[[i]])) x[[i]] <- "NULL"
     }
+
+    printls(x, pad = pad + 3, title = title, center.title = FALSE)
+
+    if (newline) cat("\n")
+  }
 } # rtemis::parameterSummary
 
 
 #' `rtemis-internals`: `gridSummary`
 #'
-#' Pretty print list of parameters with more than one value, 
+#' Pretty print list of parameters with more than one value,
 #' which will be used in a grid search
-#' 
+#'
 #' @keywords internal
 gridSummary <- function(...) {
-    params <- list(...)
-    xnames <- as.character(substitute(list(...)))[-1L]
-    index <- sapply(params, function(x) length(x) > 1)
-    tuned <- params[index]
-    names(tuned) <- xnames[index]
-    if (length(tuned) > 0) {
-        boxcat("Parameters to be tuned")
-        printls(tuned)
-        cat("\n")
-    }
+  params <- list(...)
+  xnames <- as.character(substitute(list(...)))[-1L]
+  index <- sapply(params, function(x) length(x) > 1)
+  tuned <- params[index]
+  names(tuned) <- xnames[index]
+  if (length(tuned) > 0) {
+    boxcat("Parameters to be tuned")
+    printls(tuned)
+    cat("\n")
+  }
 } # rtemis::gridSummary
 
 
 #' `rtemis-internals`: `errorSummary`
 #'
 #' Print Fit and Validation modError
-#' 
+#'
 #' @keywords internal
 errorSummary <- function(error, mod.name = NULL, pre = NULL) {
-    id <- deparse(substitute(error))
-    if (class(error)[[1]] == "regError") {
-        type <- "Regression"
-    } else if (class(error)[[1]] == "survError") {
-        type <- "Survival"
-    } else {
-        type <- "Classification"
-    }
-    # type <- if (class(error)[[1]] == "regError") "Regression" else "Classification"
+  id <- deparse(substitute(error))
+  if (class(error)[[1]] == "regError") {
+    type <- "Regression"
+  } else if (class(error)[[1]] == "survError") {
+    type <- "Survival"
+  } else {
+    type <- "Classification"
+  }
+  # type <- if (class(error)[[1]] == "regError") "Regression" else "Classification"
 
-    if (is.null(pre)) {
-        if (grepl("train", id)) {
-            pre <- "Training"
-        } else if (grepl("test", id)) {
-            pre <- "Testing"
-        } else {
-            pre <- "Error"
-        }
-    }
-
-    if (!is.null(mod.name)) {
-        boxcat(paste(mod.name, type, pre, "Summary"))
+  if (is.null(pre)) {
+    if (grepl("train", id)) {
+      pre <- "Training"
+    } else if (grepl("test", id)) {
+      pre <- "Testing"
     } else {
-        boxcat(paste(type, pre, "Summary"))
+      pre <- "Error"
     }
-    print(error)
+  }
+
+  if (!is.null(mod.name)) {
+    boxcat(paste(mod.name, type, pre, "Summary"))
+  } else {
+    boxcat(paste(type, pre, "Summary"))
+  }
+  print(error)
 } # rtemis::errorSummary
 
 
 checkType <- function(type, allowed.types, mod.name) {
-    if (!type %in% allowed.types) {
-        rtStop(
-            "You were attempting to perform", type, "but", mod.name, "only supports:\n",
-            paste(allowed.types, collapse = ", ")
-        )
-    }
+  if (!type %in% allowed.types) {
+    rtStop(
+      "You were attempting to perform", type, "but", mod.name, "only supports:\n",
+      paste(allowed.types, collapse = ", ")
+    )
+  }
 }
 
 #' Initialize parallel processing and progress reporting
@@ -236,64 +235,63 @@ checkType <- function(type, allowed.types, mod.name) {
 rtemis_init <- function(n.cores = 1,
                         context = NULL,
                         verbose = TRUE) {
+  # Future plan ====
+  # if (!is.null(context)) context <- paste0(context, ":")
+  # if (n.cores > 1) {
+  #     rtPlan <- getOption(
+  #         "future.plan",
+  #         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+  #     )
+  #     future::plan(rtPlan)
+  #     # rtenv$plan_set <- 1
+  #     if (verbose) {
+  #         msg2(context, "Future plan set to", bold(rtPlan),
+  #             color = magenta,
+  #             "with", bold(n.cores), "workers"
+  #         )
+  #     }
+  # } else {
+  #     future::plan("sequential")
+  #     if (verbose) {
+  #         msg2(context, "Future plan set to",
+  #             bold("sequential"),
+  #             color = magenta
+  #         )
+  #     }
+  # }
 
-    # Future plan ====
-    # if (!is.null(context)) context <- paste0(context, ":")
-    # if (n.cores > 1) {
-    #     rtPlan <- getOption(
-    #         "future.plan",
-    #         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-    #     )
-    #     future::plan(rtPlan)
-    #     # rtenv$plan_set <- 1
-    #     if (verbose) {
-    #         msg2(context, "Future plan set to", bold(rtPlan),
-    #             color = magenta,
-    #             "with", bold(n.cores), "workers"
-    #         )
-    #     }
-    # } else {
-    #     future::plan("sequential")
-    #     if (verbose) {
-    #         msg2(context, "Future plan set to", 
-    #             bold("sequential"),
-    #             color = magenta
-    #         )
-    #     }
-    # }
-
-    # Progress handlers
-    if (is.null(rtenv$handlers_set)) {
-        # progressr::handlers(global = TRUE)
-        rtHandler <- getOption("rt.handler", "progress")
-        progressr::handlers(rtHandler)
-        rtenv$handlers_set <- 1
-        if (verbose) {
-            msg2("Progress handler set to",
-                bold(rtHandler),
-                color = magenta
-            )
-        }
+  # Progress handlers
+  if (is.null(rtenv$handlers_set)) {
+    # progressr::handlers(global = TRUE)
+    rtHandler <- getOption("rt.handler", "progress")
+    progressr::handlers(rtHandler)
+    rtenv$handlers_set <- 1
+    if (verbose) {
+      msg2("Progress handler set to",
+        bold(rtHandler),
+        color = magenta
+      )
     }
+  }
 } # rtemis::rtemis_init
 
 rtPlanInit <- function() {
-    getOption(
-        "future.plan",
-        ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-    )
+  getOption(
+    "future.plan",
+    ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
+  )
 }
 rtCoresInit <- function() {
-    getOption("rt.cores", .availableCores)
+  getOption("rt.cores", .availableCores)
 }
 rtPaletteInit <- function() {
-    getOption("rt.palette", "rtCol3")
+  getOption("rt.palette", "rtCol3")
 }
 rtThemeInit <- function() {
-    getOption("rt.theme", "darkgraygrid")
+  getOption("rt.theme", "darkgraygrid")
 }
 rtFontInit <- function() {
-    getOption("rt.font", "Helvetica")
+  getOption("rt.font", "Helvetica")
 }
 # rtGridSearchLearnInit <- function() {
 #     getOption("rt.gridSearchLearn", "future")
