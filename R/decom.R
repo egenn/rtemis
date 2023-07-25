@@ -12,7 +12,7 @@
 #' @param decom Character: Decomposer name. See ]link{decomSelect}.
 #' @param verbose Logical: if TRUE, print messages to console
 #' @param ... Additional arguments to be passed to `decom`
-#' 
+#'
 #' @return [rtDecom] object
 #' @author E.D. Gennatas
 #' @export
@@ -20,22 +20,20 @@
 decom <- function(x,
                   decom = "PCA",
                   verbose = TRUE, ...) {
+  if (missing(x)) {
+    cat('Usage:\n  decom(x, "nmf", ...)\n\n')
+    return(decomSelect())
+  }
 
-    if (missing(x)) {
-        cat('Usage:\n  decom(x, "nmf", ...)\n\n')
-        return(decomSelect())
-    }
+  args <- c(
+    list(
+      x = x,
+      verbose = verbose
+    ),
+    list(...)
+  )
 
-    args <- c(
-        list(
-            x = x,
-            verbose = verbose
-        ),
-        list(...)
-    )
-    
-    decom <- do.call(decomSelect(decom, fn = TRUE), args)
+  decom <- do.call(decomSelect(decom, fn = TRUE), args)
 
-    decom
-
+  decom
 } # rtemis::decom

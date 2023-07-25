@@ -29,7 +29,7 @@
 #' return. If "data.table", data.frame object returned from
 #' `DBI::dbGetQuery` is passed to `data.table::setDT`; will add to
 #' execution time if very large, but then that's when you need a data.table
-#' @param data.table.key Character: If set, this correspond to a column name in the 
+#' @param data.table.key Character: If set, this correspond to a column name in the
 #' dataset. This column will be set as key in the data.table output
 #' @param clean_colnames Logical: If TRUE, clean colnames with
 #' [clean_colnames]
@@ -39,8 +39,8 @@
 #' @export
 #' @examples \dontrun{
 #' ir <- ddb_data("/Data/massive_dataset.csv",
-#'     filter_column = "ID",
-#'     filter_vals = 8001:9999
+#'   filter_column = "ID",
+#'   filter_vals = 8001:9999
 #' )
 #' }
 ddb_data <- function(filename,
@@ -60,104 +60,104 @@ ddb_data <- function(filename,
                      data.table.key = NULL,
                      clean_colnames = TRUE,
                      verbose = TRUE) {
-    # Intro ----
-    dependency_check("DBI", "duckdb")
-    returnobj <- match.arg(returnobj)
-    if (!is.null(data.table.key)) returnobj <- "data.table"
-    path <- if (is.null(datadir)) {
-        normalizePath(filename)
-    } else {
-        file.path(normalizePath(datadir), filename)
-    }
-    check_files(path, verbose = FALSE)
-    fileext <- tools::file_ext(path)
-    
-    out <- paste(
-        bold(green("\u25B6")),
-        ifelse(collect, "Reading", "Lazy-reading"),
-        hilite(basename(path))
-    )
-    if (!is.null(filter_column)) {
-        out <- paste(
-            out, bold(green("\u29e8")),
-            "filtering on", bold(filter_column)
-        )
-    }
-    startTime <- intro(out, verbose = verbose)
-    distinct <- ifelse(make_unique, "DISTINCT ", NULL)
-    select <- if (!is.null(select_columns)) {
-        ls2sel(select_columns)
-    } else {
-        "*"
-    }
+  # Intro ----
+  dependency_check("DBI", "duckdb")
+  returnobj <- match.arg(returnobj)
+  if (!is.null(data.table.key)) returnobj <- "data.table"
+  path <- if (is.null(datadir)) {
+    normalizePath(filename)
+  } else {
+    file.path(normalizePath(datadir), filename)
+  }
+  check_files(path, verbose = FALSE)
+  fileext <- tools::file_ext(path)
 
-    # SQL ----
-    sql <- if (fileext == "parquet") {
-        paste0(
-            "SELECT ",
-            paste0(distinct, select),
-            " FROM read_parquet('", path, "')"
-        )
-    } else {
-        paste0(
-            "SELECT ",
-            paste0(distinct, select),
-            " FROM read_csv_auto('", path, "',
+  out <- paste(
+    bold(green("\u25B6")),
+    ifelse(collect, "Reading", "Lazy-reading"),
+    hilite(basename(path))
+  )
+  if (!is.null(filter_column)) {
+    out <- paste(
+      out, bold(green("\u29e8")),
+      "filtering on", bold(filter_column)
+    )
+  }
+  startTime <- intro(out, verbose = verbose)
+  distinct <- ifelse(make_unique, "DISTINCT ", NULL)
+  select <- if (!is.null(select_columns)) {
+    ls2sel(select_columns)
+  } else {
+    "*"
+  }
+
+  # SQL ----
+  sql <- if (fileext == "parquet") {
+    paste0(
+      "SELECT ",
+      paste0(distinct, select),
+      " FROM read_parquet('", path, "')"
+    )
+  } else {
+    paste0(
+      "SELECT ",
+      paste0(distinct, select),
+      " FROM read_csv_auto('", path, "',
             sep='", sep, "', quote='", quotechar, "',
             header=", header, ", ignore_errors=", ignore_errors, ")"
-        )
-    }
+    )
+  }
 
-    sql <- if (!is.null(filter_column)) {
-        vals <- if (is.numeric(filter_vals)) {
-            paste0(filter_vals, collapse = ", ")
-        } else {
-            paste0("'", paste0(filter_vals, collapse = "', '"), "'")
-        }
-        paste(
-            sql,
-            "WHERE", filter_column, "in (", vals, ");"
-        )
+  sql <- if (!is.null(filter_column)) {
+    vals <- if (is.numeric(filter_vals)) {
+      paste0(filter_vals, collapse = ", ")
     } else {
-        paste0(sql, ";")
+      paste0("'", paste0(filter_vals, collapse = "', '"), "'")
     }
+    paste(
+      sql,
+      "WHERE", filter_column, "in (", vals, ");"
+    )
+  } else {
+    paste0(sql, ";")
+  }
 
-    # Collect ----
-    if (collect) {
-        conn <- DBI::dbConnect(duckdb::duckdb())
-        on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
-        # on.exit(
-        #     tryCatch(DBI::dbRollback(conn), error = function(e) {
-        # }))
-        if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
-        out <- DBI::dbGetQuery(conn, sql)
-        if (clean_colnames) {
-            names(out) <- clean_colnames(out)
-        }
-        if (returnobj == "data.table") {
-            data.table::setDT(out)
-            if (!is.null(data.table.key)) {
-                data.table::setkeyv(out, data.table.key)
-            }
-        }
-        if (character2factor) {
-            out <- preprocess(out, character2factor = TRUE)
-        }
-    } else {
-        out <- sql
+  # Collect ----
+  if (collect) {
+    conn <- DBI::dbConnect(duckdb::duckdb())
+    on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
+    # on.exit(
+    #     tryCatch(DBI::dbRollback(conn), error = function(e) {
+    # }))
+    if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+    out <- DBI::dbGetQuery(conn, sql)
+    if (clean_colnames) {
+      names(out) <- clean_colnames(out)
     }
+    if (returnobj == "data.table") {
+      data.table::setDT(out)
+      if (!is.null(data.table.key)) {
+        data.table::setkeyv(out, data.table.key)
+      }
+    }
+    if (character2factor) {
+      out <- preprocess(out, character2factor = TRUE)
+    }
+  } else {
+    out <- sql
+  }
 
-    # Outro ----
-    outro(startTime, verbose = verbose)
-    out
+  # Outro ----
+  outro(startTime, verbose = verbose)
+  out
 } # rtemis::ddb_data
 
 
 # output: '"alpha", "beta", "gamma"'
 ls2sel <- function(x) {
-    paste0(
-        '"', paste0(x, collapse = '", "'), '"'
-    )
+  paste0(
+    '"', paste0(x, collapse = '", "'), '"'
+  )
 }
 
 
@@ -169,10 +169,10 @@ ls2sel <- function(x) {
 #' [ddb_data] with `collect = FALSE`
 #' @param progress Logical: If TRUE, show progress bar
 #' @param returnobj Character: data.frame or data.table: class of object to return
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' sql <- ddb_data("/Data/iris.csv", collect = FALSE)
 #' ir <- ddb_ollect(sql)
@@ -180,13 +180,13 @@ ls2sel <- function(x) {
 ddb_collect <- function(sql,
                         progress = TRUE,
                         returnobj = c("data.frame", "data.table")) {
-    returnobj <- match.arg(returnobj)
-    conn <- DBI::dbConnect(duckdb::duckdb())
-    on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
-    if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
-    out <- DBI::dbGetQuery(conn, sql)
-    if (returnobj == "data.table") {
-        setDT(out)
-    }
-    out
+  returnobj <- match.arg(returnobj)
+  conn <- DBI::dbConnect(duckdb::duckdb())
+  on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
+  if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+  out <- DBI::dbGetQuery(conn, sql)
+  if (returnobj == "data.table") {
+    setDT(out)
+  }
+  out
 } # rtemis::ddb_collect

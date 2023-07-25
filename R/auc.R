@@ -22,7 +22,7 @@
 #' Will use `pROC::roc`, [auc_pairs], `ROCR::performance`, respectively.
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param trace Integer: If > 0, print more messages to output
-#' 
+#'
 #' @author EDG
 #' @export
 #'
@@ -34,42 +34,41 @@
 #' auc(preds, labels, method = "pROC")
 #' auc(preds, labels, method = "auc_pairs")
 #' }
-
 auc <- function(preds, labels,
                 method = c("ROCR", "pROC", "auc_pairs", "auc_cpp"),
                 verbose = FALSE,
                 trace = 0) {
-    method <- match.arg(method)
-    if (length(unique(labels)) == 1) {
-        return(NaN)
-    }
+  method <- match.arg(method)
+  if (length(unique(labels)) == 1) {
+    return(NaN)
+  }
 
-    if (method == "auc_cpp") {
-        if (is.factor(labels)) {
-            labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
-        }
-        .auc <- try(auc_cpp(preds, labels))
-    } else if (method == "pROC") {
-        dependency_check("pROC")
-        .auc <- try(as.numeric(pROC::roc(
-            labels, preds,
-            levels = rev(levels(labels)),
-            direction = "<"
-        )$auc))
-    } else if (method == "ROCR") {
-        dependency_check("ROCR")
-        .pred <- try(ROCR::prediction(preds, labels,
-            label.ordering = rev(levels(labels))
-        ))
-        .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
-    } else if (method == "auc_pairs") {
-        .auc <- auc_pairs(preds, labels, verbose = trace > 0)
+  if (method == "auc_cpp") {
+    if (is.factor(labels)) {
+      labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
     }
+    .auc <- try(auc_cpp(preds, labels))
+  } else if (method == "pROC") {
+    dependency_check("pROC")
+    .auc <- try(as.numeric(pROC::roc(
+      labels, preds,
+      levels = rev(levels(labels)),
+      direction = "<"
+    )$auc))
+  } else if (method == "ROCR") {
+    dependency_check("ROCR")
+    .pred <- try(ROCR::prediction(preds, labels,
+      label.ordering = rev(levels(labels))
+    ))
+    .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
+  } else if (method == "auc_pairs") {
+    .auc <- auc_pairs(preds, labels, verbose = trace > 0)
+  }
 
-    if (inherits(.auc, "try-error")) {
-        .auc <- NaN
-    }
+  if (inherits(.auc, "try-error")) {
+    .auc <- NaN
+  }
 
-    if (verbose) msg2("AUC =", .auc)
-    .auc
+  if (verbose) msg2("AUC =", .auc)
+  .auc
 } # rtemis::auc

@@ -11,7 +11,7 @@
 #' @export
 
 dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
-    sapply(x, \(i) uniqueN(i, na.rm = excludeNA))
+  sapply(x, \(i) uniqueN(i, na.rm = excludeNA))
 } # rtemis::dt_Nuniqueperfeat
 
 
@@ -36,8 +36,8 @@ dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
 #' @examples
 #' \dontrun{
 #' x <- data.table(
-#'     ID = rep(1:3, each = 2),
-#'     Dx = c("A", "C", "B", "C", "D", "A")
+#'   ID = rep(1:3, each = 2),
+#'   Dx = c("A", "C", "B", "C", "D", "A")
 #' )
 #' dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
 #' }
@@ -48,36 +48,36 @@ dt_keybin_reshape <- function(x,
                               negative = 0,
                               xname = NULL,
                               verbose = TRUE) {
-    if (is.null(xname)) {
-        xname <- deparse(substitute(x))
-    }
-    stopifnot(inherits(x, "data.table"))
-    x <- copy(x)
+  if (is.null(xname)) {
+    xname <- deparse(substitute(x))
+  }
+  stopifnot(inherits(x, "data.table"))
+  x <- copy(x)
 
-    # Assign positive value to all in long form
-    value_name <- "Bin__"
-    x[, (value_name) := positive]
+  # Assign positive value to all in long form
+  value_name <- "Bin__"
+  x[, (value_name) := positive]
 
-    .formula <- as.formula(paste(
-        paste(id_name, collapse = " + "),
-        "~", key_name
-    ))
-    if (verbose) {
-        msg2("Reshaping", hilite(xname), "to wide format...")
-        catsize(x, "Input size")
-    }
-    # Reshape to wide, filling all absent with negative value
-    x <- dcast(
-        x,
-        .formula,
-        fun.aggregate = length,
-        value.var = value_name,
-        drop = FALSE,
-        fill = negative
-    )
+  .formula <- as.formula(paste(
+    paste(id_name, collapse = " + "),
+    "~", key_name
+  ))
+  if (verbose) {
+    msg2("Reshaping", hilite(xname), "to wide format...")
+    catsize(x, "Input size")
+  }
+  # Reshape to wide, filling all absent with negative value
+  x <- dcast(
+    x,
+    .formula,
+    fun.aggregate = length,
+    value.var = value_name,
+    drop = FALSE,
+    fill = negative
+  )
 
-    if (verbose) catsize(x, "Output size")
-    x
+  if (verbose) catsize(x, "Output size")
+  x
 } # rtemis::dt_keybin_reshape
 
 
@@ -112,61 +112,61 @@ dt_merge <- function(left,
                      left_suffix = NULL,
                      right_suffix = NULL,
                      verbose = TRUE, ...) {
-    if (is.null(left_name)) left_name <- deparse(substitute(left))
-    if (is.null(right_name)) right_name <- deparse(substitute(right))
-    if (is.null(left_on)) left_on <- on
-    if (is.null(right_on)) right_on <- on
-    if (verbose) {
-        icon <- switch(how,
-            inner = "\u2A1D",
-            left = "\u27D5",
-            right = "\u27D6",
-            "\u27D7"
-        )
-        if (left_on == right_on) {
-            msg20(
-                bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-                " on ", hilite(left_on), "..."
-            )
-        } else {
-            msg20(
-                bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-                " on ", hilite(left_on), " & ", hilite(right_on), "..."
-            )
-        }
-
-        catsize(left, left_name)
-        catsize(right, right_name)
-    }
-
-    if (how == "left") {
-        all.x <- TRUE
-        all.y <- FALSE
-    } else if (how == "right") {
-        all.x <- FALSE
-        all.y <- TRUE
-    } else if (how == "inner") {
-        all.x <- FALSE
-        all.y <- FALSE
-    } else {
-        all.x <- all.y <- TRUE
-    }
-    if (!is.null(left_suffix)) {
-        left_names <- setdiff(names(left), left_on)
-        setnames(left, left_names, paste0(left_names, left_suffix))
-    }
-    if (!is.null(right_suffix)) {
-        right_names <- setdiff(names(right), right_on)
-        setnames(right, right_names, paste0(right_names, right_suffix))
-    }
-    dat <- merge(left, right,
-        by.x = left_on, by.y = right_on,
-        all.x = all.x, all.y = all.y, ...
+  if (is.null(left_name)) left_name <- deparse(substitute(left))
+  if (is.null(right_name)) right_name <- deparse(substitute(right))
+  if (is.null(left_on)) left_on <- on
+  if (is.null(right_on)) right_on <- on
+  if (verbose) {
+    icon <- switch(how,
+      inner = "\u2A1D",
+      left = "\u27D5",
+      right = "\u27D6",
+      "\u27D7"
     )
-    if (verbose) {
-        catsize(dat, "Merged")
+    if (left_on == right_on) {
+      msg20(
+        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
+        " on ", hilite(left_on), "..."
+      )
+    } else {
+      msg20(
+        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
+        " on ", hilite(left_on), " & ", hilite(right_on), "..."
+      )
     }
-    dat
+
+    catsize(left, left_name)
+    catsize(right, right_name)
+  }
+
+  if (how == "left") {
+    all.x <- TRUE
+    all.y <- FALSE
+  } else if (how == "right") {
+    all.x <- FALSE
+    all.y <- TRUE
+  } else if (how == "inner") {
+    all.x <- FALSE
+    all.y <- FALSE
+  } else {
+    all.x <- all.y <- TRUE
+  }
+  if (!is.null(left_suffix)) {
+    left_names <- setdiff(names(left), left_on)
+    setnames(left, left_names, paste0(left_names, left_suffix))
+  }
+  if (!is.null(right_suffix)) {
+    right_names <- setdiff(names(right), right_on)
+    setnames(right, right_names, paste0(right_names, right_suffix))
+  }
+  dat <- merge(left, right,
+    by.x = left_on, by.y = right_on,
+    all.x = all.x, all.y = all.y, ...
+  )
+  if (verbose) {
+    catsize(dat, "Merged")
+  }
+  dat
 } # rtemis::dt_merge
 
 
@@ -176,7 +176,7 @@ dt_merge <- function(left,
 #' only underscore symbols
 #'
 #' @param x data.table
-#' @param prefix_digits Character: If not NA, add this prefix to all factor levels that 
+#' @param prefix_digits Character: If not NA, add this prefix to all factor levels that
 #' are numbers
 #'
 #' @author E.D. Gennatas
@@ -189,13 +189,13 @@ dt_merge <- function(left,
 #' x
 #' }
 dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
-    stopifnot(inherits(x, "data.table"))
-    idi <- names(x)[sapply(x, is.factor)]
-    for (i in idi) {
-        x[, (i) := factor(x[[i]],
-            labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-        )]
-    }
+  stopifnot(inherits(x, "data.table"))
+  idi <- names(x)[sapply(x, is.factor)]
+  for (i in idi) {
+    x[, (i) := factor(x[[i]],
+      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+    )]
+  }
 } # rtemis::dt_set_cleanfactorlevels
 
 
@@ -207,7 +207,7 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
 #' @author E.D. Gennatas
 #' @export
 dt_check_unique <- function(x, on) {
-    length(unique(x[[on]])) == NROW(x)
+  length(unique(x[[on]])) == NROW(x)
 }
 
 
@@ -219,7 +219,7 @@ dt_check_unique <- function(x, on) {
 #' @author E.D. Gennatas
 #' @export
 dt_get_duplicates <- function(x, on) {
-    x[x[[on]] %in% x[[on]][duplicated(x[[on]])], ..on][[1]]
+  x[x[[on]] %in% x[[on]][duplicated(x[[on]])], ..on][[1]]
 }
 
 
@@ -232,8 +232,8 @@ dt_get_duplicates <- function(x, on) {
 #' @author E.D. Gennatas
 #' @export
 dt_index_attr <- function(x, name, value) {
-    colattr <- unlist(sapply(x, \(i) attr(i, name)))
-    which(colattr == value)
+  colattr <- unlist(sapply(x, \(i) attr(i, name)))
+  which(colattr == value)
 }
 
 
@@ -254,21 +254,21 @@ dt_pctmatch <- function(
     on = NULL,
     left_on = NULL,
     right_on = NULL, verbose = TRUE) {
-    if (is.null(left_on)) left_on <- on
-    if (is.null(right_on)) right_on <- on
-    xv <- unique(x[[left_on]])
-    n <- length(xv)
-    yv <- unique(y[[right_on]])
-    nmatch <- sum(xv %in% yv)
-    matchpct <- nmatch / n * 100
-    if (verbose) {
-        by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
-        msg20(
-            "Matched ", hilite(nmatch), "/", hilite(n), " on ", bold(by_final),
-            " (", hilite(ddSci(matchpct)), "%)"
-        )
-    }
-    invisible(list(nmatch = nmatch, matchpct = matchpct))
+  if (is.null(left_on)) left_on <- on
+  if (is.null(right_on)) right_on <- on
+  xv <- unique(x[[left_on]])
+  n <- length(xv)
+  yv <- unique(y[[right_on]])
+  nmatch <- sum(xv %in% yv)
+  matchpct <- nmatch / n * 100
+  if (verbose) {
+    by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
+    msg20(
+      "Matched ", hilite(nmatch), "/", hilite(n), " on ", bold(by_final),
+      " (", hilite(ddSci(matchpct)), "%)"
+    )
+  }
+  invisible(list(nmatch = nmatch, matchpct = matchpct))
 }
 
 
@@ -280,13 +280,13 @@ dt_pctmatch <- function(
 #' @author E.D. Gennatas
 #' @export
 dt_pctmissing <- function(x, verbose = TRUE) {
-    nmissing <- sapply(x, \(i) sum(is.na(i)))
-    pctmissing <- nmissing / NROW(x)
-    if (verbose) {
-        cat("Percent missing per column:\n")
-        printls(pctmissing)
-    }
-    invisible(list(nmissing = nmissing, pctmissing = pctmissing))
+  nmissing <- sapply(x, \(i) sum(is.na(i)))
+  pctmissing <- nmissing / NROW(x)
+  if (verbose) {
+    cat("Percent missing per column:\n")
+    printls(pctmissing)
+  }
+  invisible(list(nmissing = nmissing, pctmissing = pctmissing))
 }
 
 
@@ -324,21 +324,22 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' dt_set_logical2factor(z, cols = "beta", labels = c("No", "Yes"))
 #' str(z)
 #' }
-dt_set_logical2factor <- function(x, 
-    cols = NULL, 
-    labels = c("False", "True"), 
+dt_set_logical2factor <- function(
+    x,
+    cols = NULL,
+    labels = c("False", "True"),
     maintain_attributes = TRUE,
     fillNA = NULL) {
-    if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
-    for (i in cols) {
-        if (maintain_attributes) .attr <- attributes(x[[i]])
-        x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
-        if (!is.null(fillNA)) x[is.na(x[[i]]), (i) := fillNA]
-        if (maintain_attributes) {
-            for (j in seq_along(.attr)) setattr(x[[i]], names(.attr)[j], .attr[[j]])
-        }
+  if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
+  for (i in cols) {
+    if (maintain_attributes) .attr <- attributes(x[[i]])
+    x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
+    if (!is.null(fillNA)) x[is.na(x[[i]]), (i) := fillNA]
+    if (maintain_attributes) {
+      for (j in seq_along(.attr)) setattr(x[[i]], names(.attr)[j], .attr[[j]])
     }
-    invisible(x)
+  }
+  invisible(x)
 }
 
 
@@ -366,26 +367,26 @@ dt_icd10_comorbidities <- function(
     x,
     score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc"),
     verbose = TRUE) {
-        dependency_check("icd")
-        start.time <- intro(verbose = verbose)
-        # icd bug workaround
-        if ("pccc" %in% score) library(icd)
-        coml <- lapply(score, \(s) {
-            if (verbose) msg2("Calculating", hilite(s), "score...")
-            out <- switch(s,
-                ahrq = icd::icd10_comorbid_ahrq(x, return_df = TRUE),
-                elix = icd::icd10_comorbid_elix(x, return_df = TRUE),
-                quan_elix = icd::icd10_comorbid_quan_elix(x, return_df = TRUE),
-                quan_deyo = icd::icd10_comorbid_quan_deyo(x, return_df = TRUE),
-                charlson = icd::icd10_comorbid_charlson(x, return_df = TRUE),
-                ccs = icd::icd10_comorbid_ccs(x, return_df = TRUE),
-                pccc = icd::icd10_comorbid_pccc_dx(x, return_df = TRUE)
-            ) |> setDT()
-            setnames(out, names(out)[-1], paste0(s, "_", names(out)[-1]))
-        })
-        out <- Reduce(function(...) merge(..., by = names(x)[1], all.x = TRUE), coml) |> setDT()
-        outro(start.time, verbose = verbose)
-        out
+  dependency_check("icd")
+  start.time <- intro(verbose = verbose)
+  # icd bug workaround
+  if ("pccc" %in% score) library(icd)
+  coml <- lapply(score, \(s) {
+    if (verbose) msg2("Calculating", hilite(s), "score...")
+    out <- switch(s,
+      ahrq = icd::icd10_comorbid_ahrq(x, return_df = TRUE),
+      elix = icd::icd10_comorbid_elix(x, return_df = TRUE),
+      quan_elix = icd::icd10_comorbid_quan_elix(x, return_df = TRUE),
+      quan_deyo = icd::icd10_comorbid_quan_deyo(x, return_df = TRUE),
+      charlson = icd::icd10_comorbid_charlson(x, return_df = TRUE),
+      ccs = icd::icd10_comorbid_ccs(x, return_df = TRUE),
+      pccc = icd::icd10_comorbid_pccc_dx(x, return_df = TRUE)
+    ) |> setDT()
+    setnames(out, names(out)[-1], paste0(s, "_", names(out)[-1]))
+  })
+  out <- Reduce(function(...) merge(..., by = names(x)[1], all.x = TRUE), coml) |> setDT()
+  outro(start.time, verbose = verbose)
+  out
 } # rtemis::dt_icd10_comorbidities
 
 
@@ -398,10 +399,10 @@ dt_icd10_comorbidities <- function(
 #' @author E.D. Gennatas
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
-    attrs <- sapply(x, \(i) {
-        if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else attr(i, attr, exact = TRUE)
-    })
-    table(attrs, useNA = useNA)
+  attrs <- sapply(x, \(i) {
+    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else attr(i, attr, exact = TRUE)
+  })
+  table(attrs, useNA = useNA)
 }
 
 # dt_missing_by_class <- function(x) {
@@ -415,7 +416,7 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 
 #' Inspect character vector
 #'
-#' Checks character vector to determine whether it might be best to convert to 
+#' Checks character vector to determine whether it might be best to convert to
 #' numeric.
 #'
 #' @param x Character vector
@@ -433,70 +434,70 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' type_inspect(z)
 #' }
 type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
-    if (is.null(xname)) xname <- deparse(substitute(x))
-    xclass <- class(x)[1]
-    xlen <- length(x)
-    raw_na <- sum(is.na(x))
-    n_non_na <- xlen - raw_na
-    # char_na <- sum(is.na(as.character(x)))
-    suppressWarnings({
-        num_na <- sum(is.na(as.numeric(x)))
-    })
-    if (raw_na == xlen) {
-        "NA"
-    } else if (xclass == "character" && (num_na / n_non_na) < thresh) {
-        if (verbose) {
-            msg20(
-                "Possible type error: Class of ", hilite(xname),
-                " is ", bold("character"), 
-                ", but perhaps should be ",
-                bold("numeric"), "."
-            )
-        }
-        "numeric"
-    } else {
-        xclass
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  xclass <- class(x)[1]
+  xlen <- length(x)
+  raw_na <- sum(is.na(x))
+  n_non_na <- xlen - raw_na
+  # char_na <- sum(is.na(as.character(x)))
+  suppressWarnings({
+    num_na <- sum(is.na(as.numeric(x)))
+  })
+  if (raw_na == xlen) {
+    "NA"
+  } else if (xclass == "character" && (num_na / n_non_na) < thresh) {
+    if (verbose) {
+      msg20(
+        "Possible type error: Class of ", hilite(xname),
+        " is ", bold("character"),
+        ", but perhaps should be ",
+        bold("numeric"), "."
+      )
     }
+    "numeric"
+  } else {
+    xclass
+  }
 }
 
 
 #' Inspect column types
-#' 
-#' Will attempt to identify columns that should be numeric but have been read in as 
+#'
+#' Will attempt to identify columns that should be numeric but have been read in as
 #' character by running [type_inspect] on each column.
-#' 
+#'
 #' @param x data.table
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_type_inspect <- function(x) {
-    xnames <- names(x)
-    invisible(sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i])))
+  xnames <- names(x)
+  invisible(sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i])))
 }
 
 
 #' Set column types automatically
-#' 
+#'
 #' This function inspects a data.table and attempts to identify columns that should be
-#' numeric but have been read in as character, because one or more fields contain 
+#' numeric but have been read in as character, because one or more fields contain
 #' non-numeric characters
-#' 
+#'
 #' @param x data.table
 #' @param cols Character vector: columns to work on. If not defined, will work on all
 #' columns
 #' @param verbose Logical: If TRUE, print messages to console
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
-    if (is.null(cols)) cols <- names(x)
-    for (i in cols) {
-        if (type_inspect(x[[i]], i, verbose = FALSE) == "numeric") {
-            if (verbose) msg2("Converting", hilite(i), "to",  bold("numeric"))
-            x[, (i) := as.numeric(x[[i]])]
-        }
+  if (is.null(cols)) cols <- names(x)
+  for (i in cols) {
+    if (type_inspect(x[[i]], i, verbose = FALSE) == "numeric") {
+      if (verbose) msg2("Converting", hilite(i), "to", bold("numeric"))
+      x[, (i) := as.numeric(x[[i]])]
     }
-    invisible(x)
+  }
+  invisible(x)
 }
 
 
@@ -509,16 +510,16 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
 #'
 #' @author E.D. Gennatas
 #' @export
-dt_names_by_class <- function(x, sorted = TRUE, 
+dt_names_by_class <- function(x, sorted = TRUE,
                               item.format = hilite, maxlength = 24) {
-    classes <- sapply(x, class)
-    vals <- unique(classes)
-    out <- if (sorted) {
-        sapply(vals, \(i) sort(names(x)[classes == i]))
-    } else {
-        sapply(vals, \(i) names(x)[classes == i])
-    }
-    printls(out, item.format = item.format, maxlength = maxlength)
+  classes <- sapply(x, class)
+  vals <- unique(classes)
+  out <- if (sorted) {
+    sapply(vals, \(i) sort(names(x)[classes == i]))
+  } else {
+    sapply(vals, \(i) names(x)[classes == i])
+  }
+  printls(out, item.format = item.format, maxlength = maxlength)
 }
 
 
@@ -532,42 +533,42 @@ dt_names_by_class <- function(x, sorted = TRUE,
 #' @author E.D. Gennatas
 #' @export
 dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
-    attrs <- unlist(lapply(x, \(i) attr(i, which)))
-    attrs <- sapply(x, \(i) {
-        .attr <- attr(i, which, exact = exact)
-        if (is.null(.attr)) "NA" else .attr
-    })
-    vals <- unique(attrs)
-    if (sorted) {
-        sapply(vals, \(i) sort(names(x)[attrs == i]))
-    } else {
-        sapply(vals, \(i) names(x)[attrs == i])
-    }
+  attrs <- unlist(lapply(x, \(i) attr(i, which)))
+  attrs <- sapply(x, \(i) {
+    .attr <- attr(i, which, exact = exact)
+    if (is.null(.attr)) "NA" else .attr
+  })
+  vals <- unique(attrs)
+  if (sorted) {
+    sapply(vals, \(i) sort(names(x)[attrs == i]))
+  } else {
+    sapply(vals, \(i) names(x)[attrs == i])
+  }
 }
 
 
 #' Clean column names and factor levels in-place
-#' 
+#'
 #' @param x data.table
 #' @param prefix_digits Character: prefix to add to names beginning with a
 #' digit. Set to NA to skip
-#' 
+#'
 #' Note: If `x` is not a data.table, it will be converted in place, i.e. the original
 #' object will be modified.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 dt_set_clean_all <- function(x, prefix_digits = NA) {
-    if (!is.data.table(x)) {
-        setDT(x)
-    }
-    data.table::setnames(x, names(x), clean_colnames(x))
-    idi <- names(x)[sapply(x, is.factor)]
-    for (i in idi) {
-        x[, (i) := factor(x[[i]],
-            labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-        )]
-    }
+  if (!is.data.table(x)) {
+    setDT(x)
+  }
+  data.table::setnames(x, names(x), clean_colnames(x))
+  idi <- names(x)[sapply(x, is.factor)]
+  for (i in idi) {
+    x[, (i) := factor(x[[i]],
+      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+    )]
+  }
 } # rtemis::dt_set_clean_all
 
 
@@ -581,12 +582,12 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
 #' @returns Named list of factor levels. Names correspond to column names.
 #' @export
 dt_get_factor_levels <- function(dat) {
-    if (!is.data.table(dat)) {
-        setDT(dat)
-    }
-    factor_index <- which(sapply(dat, is.factor))
-    lapply(
-        dat[, ..factor_index, drop = FALSE],
-        levels
-    )
+  if (!is.data.table(dat)) {
+    setDT(dat)
+  }
+  factor_index <- which(sapply(dat, is.factor))
+  lapply(
+    dat[, ..factor_index, drop = FALSE],
+    levels
+  )
 }

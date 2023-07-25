@@ -12,7 +12,7 @@
 #' @param newline.pre Logical: If TRUE, start with a new line. Default = TRUE
 #' @param newline Logical: If TRUE, end with a new (empty) line. Default = FALSE
 #' @param pad Integer: Pad message with this many spaces on the left. Default = 0
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @export
@@ -22,22 +22,21 @@ boxcat <- function(x,
                    newline.pre = TRUE,
                    newline = FALSE,
                    pad = 0) {
-    x <- as.character(x)
-    if (newline.pre) cat("\n")
-    cat(rep(" ", pad), sep = "")
-    cat(gray(".:"))
-    if (!is.null(col)) {
-        cat(col(x, TRUE))
-    } else {
-        cat(bold(x))
-    }
-    cat("\n")
-    if (newline) cat("\n")
-
+  x <- as.character(x)
+  if (newline.pre) cat("\n")
+  cat(rep(" ", pad), sep = "")
+  cat(gray(".:"))
+  if (!is.null(col)) {
+    cat(col(x, TRUE))
+  } else {
+    cat(bold(x))
+  }
+  cat("\n")
+  if (newline) cat("\n")
 } # rtemis::boxcat
 
 pastebox <- function(x, pad = 0) {
-    paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
+  paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
 }
 
 # objcat.R
@@ -51,5 +50,5 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 
 objcat <- function(x) {
-    cat(".:rtemis", orange(x, bold = TRUE), "\n")
+  cat(".:rtemis", orange(x, bold = TRUE), "\n")
 } # rtemis::boxcat

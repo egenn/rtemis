@@ -16,15 +16,15 @@
 glmLite <- function(x, y,
                     weights = NULL,
                     method = c(
-                        "glmnet",
-                        "cv.glmnet",
-                        "lm.ridge",
-                        "allSubsets",
-                        "forwardStepwise",
-                        "backwardStepwise",
-                        "glm",
-                        "sgd",
-                        "solve"
+                      "glmnet",
+                      "cv.glmnet",
+                      "lm.ridge",
+                      "allSubsets",
+                      "forwardStepwise",
+                      "backwardStepwise",
+                      "glm",
+                      "sgd",
+                      "solve"
                     ),
                     alpha = 0,
                     lambda = .01,
@@ -35,41 +35,41 @@ glmLite <- function(x, y,
                     nvmax = 8,
                     sgd.model = "glm",
                     sgd.model.control = list(
-                        lambda1 = 0,
-                        lambda2 = 0
+                      lambda1 = 0,
+                      lambda2 = 0
                     ),
                     sgd.control = list(method = "ai-sgd"),
                     save.fitted = FALSE, ...) {
-    # Arguments ----
-    method <- match.arg(method)
-    which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
-    args <- c(
-        list(
-            x = x,
-            y = y,
-            weights = weights,
-            method = method,
-            alpha = alpha,
-            lambda = lambda,
-            lambda.seq = lambda.seq,
-            cv.glmnet.nfolds = cv.glmnet.nfolds,
-            which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-            nbest = nbest,
-            nvmax = nvmax,
-            sgd.model = sgd.model,
-            sgd.model.control = sgd.model.control,
-            sgd.control = sgd.control
-        ),
-        list(...)
-    )
+  # Arguments ----
+  method <- match.arg(method)
+  which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
+  args <- c(
+    list(
+      x = x,
+      y = y,
+      weights = weights,
+      method = method,
+      alpha = alpha,
+      lambda = lambda,
+      lambda.seq = lambda.seq,
+      cv.glmnet.nfolds = cv.glmnet.nfolds,
+      which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+      nbest = nbest,
+      nvmax = nvmax,
+      sgd.model = sgd.model,
+      sgd.model.control = sgd.model.control,
+      sgd.control = sgd.control
+    ),
+    list(...)
+  )
 
-    coefs <- do.call(lincoef, args)
-    lin <- list(coefs = coefs)
+  coefs <- do.call(lincoef, args)
+  lin <- list(coefs = coefs)
 
-    if (save.fitted) lin$fitted <- c(cbind(1, as.matrix(x)) %*% coefs)
+  if (save.fitted) lin$fitted <- c(cbind(1, as.matrix(x)) %*% coefs)
 
-    class(lin) <- "glmLite"
-    lin
+  class(lin) <- "glmLite"
+  lin
 } # rtemis::glmLite
 
 
@@ -83,5 +83,5 @@ glmLite <- function(x, y,
 #' @export
 
 predict.glmLite <- function(object, newdata, verbose = FALSE, ...) {
-    c(cbind(1, as.matrix(newdata)) %*% object$coefs)
+  c(cbind(1, as.matrix(newdata)) %*% object$coefs)
 } # rtemis::predict.glmLite

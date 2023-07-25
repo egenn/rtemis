@@ -8,16 +8,12 @@
 #'
 #' @author E.D. Gennatas
 #' @export
-#' @examples 
+#' @examples
 #' x <- c(1, 3, 5)
 #' mean(x)
 #' gmean(x)
-#' #same as, but a little faster than:
+#' # same as, but a little faster than:
 #' exp(mean(log(x)))
-
-
 gmean <- function(x) {
-
-    prod(x)^(1 / length(x))
-    
+  prod(x)^(1 / length(x))
 } # rtemis::gmean

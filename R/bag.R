@@ -57,8 +57,8 @@ bag <- function(x, y = NULL,
                 downsample = FALSE,
                 resample.seed = NULL,
                 .resample = rtset.resample(
-                    resampler = "strat.boot",
-                    n.resamples = k
+                  resampler = "strat.boot",
+                  n.resamples = k
                 ),
                 aggr.fn = NULL,
                 x.name = NULL,
@@ -75,194 +75,194 @@ bag <- function(x, y = NULL,
                 n.workers = rtCores,
                 parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock"),
                 outdir = NULL, ...) {
-    # Intro ----
-    if (missing(x)) {
-        print(args(bag))
-        return(invisible(9))
-    }
-    if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
-    logFile <- if (!is.null(outdir)) {
-        paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
-    } else {
-        NULL
-    }
-    start.time <- intro(verbose = verbose, logFile = logFile)
+  # Intro ----
+  if (missing(x)) {
+    print(args(bag))
+    return(invisible(9))
+  }
+  if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
+  logFile <- if (!is.null(outdir)) {
+    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+  } else {
+    NULL
+  }
+  start.time <- intro(verbose = verbose, logFile = logFile)
 
-    # Arguments ----
-    n.workers <- as.numeric(n.workers)[1]
-    if (is.null(x.name)) x.name <- getName(x, "x")
-    if (is.null(y.name)) y.name <- getName(y, "y")
-    if (!verbose) print.plot <- FALSE
-    verbose <- verbose | !is.null(logFile)
-    if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-    extra.args <- list(...)
-    mod.params <- c(mod.params, extra.args)
+  # Arguments ----
+  n.workers <- as.numeric(n.workers)[1]
+  if (is.null(x.name)) x.name <- getName(x, "x")
+  if (is.null(y.name)) y.name <- getName(y, "y")
+  if (!verbose) print.plot <- FALSE
+  verbose <- verbose | !is.null(logFile)
+  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  extra.args <- list(...)
+  mod.params <- c(mod.params, extra.args)
 
-    # Data ----
-    dt <- dataPrepare(x, y,
-        x.test, y.test,
-        ifw = ifw,
-        ifw.type = ifw.type,
-        upsample = upsample,
-        downsample = downsample,
-        resample.seed = resample.seed,
-        verbose = verbose
+  # Data ----
+  dt <- dataPrepare(x, y,
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
+  x <- dt$x
+  y <- dt$y
+  x.test <- dt$x.test
+  y.test <- dt$y.test
+  # x.valid <- dt$x.valid
+  # y.valid <- dt$y.valid
+  xnames <- dt$xnames
+  type <- dt$type
+  # .weights <- if (is.null(weights) & ifw) dt$weights else weights
+  # TODO: x0, y0
+  # x0 <- if (upsample|downsample) dt$x0 else x
+  # y0 <- if (upsample|downsample) dt$y0 else y
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+  if (print.plot) {
+    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+  } else {
+    plot.fitted <- plot.predicted <- FALSE
+  }
+  if (is.null(aggr.fn)) aggr.fn <- if (type == "Classification") mean else median
+  n.features <- NCOL(x)
+  if (is.null(mtry)) {
+    if (n.features <= 20) mtry <- n.features
+    mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features / 3), 1)
+  }
+
+  # Bag ----
+  mod.name <- paste0("Bagged", toupper(mod))
+  mod.desc <- learnSelect(mod, desc = TRUE)
+
+  if (verbose) parameterSummary(mod, mod.params)
+
+  # resLearn ----
+  if (verbose) msg20("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
+  rl <- resLearn(
+    x = x, y = y,
+    mod = mod,
+    resample.rtset = .resample,
+    weights = weights,
+    params = mod.params,
+    verbose = verbose,
+    res.verbose = base.verbose,
+    save.mods = TRUE,
+    outdir = NULL,
+    n.workers = n.workers,
+    parallel.type = parallel.type
+  )
+
+  # Fitted ----
+  if (!verbose) pbapply::pboptions(type = "none")
+
+  if (type == "Classification") {
+    fitted.bag <- pbapply::pbsapply(
+      rl$mods, function(k) as.numeric(predict(k$mod1, x)),
+      cl = n.workers
     )
-    x <- dt$x
-    y <- dt$y
-    x.test <- dt$x.test
-    y.test <- dt$y.test
-    # x.valid <- dt$x.valid
-    # y.valid <- dt$y.valid
-    xnames <- dt$xnames
-    type <- dt$type
-    # .weights <- if (is.null(weights) & ifw) dt$weights else weights
-    # TODO: x0, y0
-    # x0 <- if (upsample|downsample) dt$x0 else x
-    # y0 <- if (upsample|downsample) dt$y0 else y
-    if (verbose) dataSummary(x, y, x.test, y.test, type)
-    if (print.plot) {
-        if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-        if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
-    } else {
-        plot.fitted <- plot.predicted <- FALSE
-    }
-    if (is.null(aggr.fn)) aggr.fn <- if (type == "Classification") mean else median
-    n.features <- NCOL(x)
-    if (is.null(mtry)) {
-        if (n.features <= 20) mtry <- n.features
-        mtry <- if (type == "Classification") floor(sqrt(n.features)) else max(floor(n.features / 3), 1)
-    }
-
-    # Bag ----
-    mod.name <- paste0("Bagged", toupper(mod))
-    mod.desc <- learnSelect(mod, desc = TRUE)
-
-    if (verbose) parameterSummary(mod, mod.params)
-
-    # resLearn ----
-    if (verbose) msg20("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
-    rl <- resLearn(
-        x = x, y = y,
-        mod = mod,
-        resample.rtset = .resample,
-        weights = weights,
-        params = mod.params,
-        verbose = verbose,
-        res.verbose = base.verbose,
-        save.mods = TRUE,
-        outdir = NULL,
-        n.workers = n.workers,
-        parallel.type = parallel.type
+    fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))
+    levels(fitted) <- levels(y)
+  } else if (type == "Regression") {
+    fitted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x),
+      cl = n.workers
     )
+    fitted <- apply(fitted.bag, 1, aggr.fn)
+  }
+  error.train <- modError(y, fitted)
+  if (verbose) errorSummary(error.train)
 
-    # Fitted ----
-    if (!verbose) pbapply::pboptions(type = "none")
+  # Predicted ----
+  predicted.bag <- predicted <- error.test <- NULL
 
+  if (!is.null(x.test)) {
+    # as.numeric is to convert factors to numeric for type = Classification
+    predicted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x.test)),
+      cl = n.workers
+    )
     if (type == "Classification") {
-        fitted.bag <- pbapply::pbsapply(
-            rl$mods, function(k) as.numeric(predict(k$mod1, x)),
-            cl = n.workers
-        )
-        fitted <- factor(round(apply(fitted.bag, 1, aggr.fn)))
-        levels(fitted) <- levels(y)
-    } else if (type == "Regression") {
-        fitted.bag <- pbapply::pbsapply(rl$mods, function(k) predict(k$mod1, x),
-            cl = n.workers
-        )
-        fitted <- apply(fitted.bag, 1, aggr.fn)
-    }
-    error.train <- modError(y, fitted)
-    if (verbose) errorSummary(error.train)
-
-    # Predicted ----
-    predicted.bag <- predicted <- error.test <- NULL
-
-    if (!is.null(x.test)) {
-        # as.numeric is to convert factors to numeric for type = Classification
-        predicted.bag <- pbapply::pbsapply(rl$mods, function(k) as.numeric(predict(k$mod1, x.test)),
-            cl = n.workers
-        )
-        if (type == "Classification") {
-            predicted <- factor(round(apply(predicted.bag, 1, aggr.fn)))
-            levels(predicted) <- levels(y)
-        } else {
-            predicted <- apply(predicted.bag, 1, aggr.fn)
-        }
-
-        if (!is.null(y.test)) {
-            error.test <- modError(y.test, predicted)
-            if (verbose) errorSummary(error.test)
-        }
-    }
-
-    # Verimp ----
-    if (length(rl$mods[[1]]$mod1$varimp) > 0) {
-        varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
-        varimp.res[is.na(varimp.res)] <- 0
-        varimp <- apply(varimp.res, 1, aggr.fn)
+      predicted <- factor(round(apply(predicted.bag, 1, aggr.fn)))
+      levels(predicted) <- levels(y)
     } else {
-        varimp <- NULL
+      predicted <- apply(predicted.bag, 1, aggr.fn)
     }
 
-
-    # Outro ----
-    parameters <- list(
-        mod = mod.name,
-        mod.params = mod.params,
-        k = k
-    )
-    rt <- rtModBag$new(
-        mod.name = mod.name,
-        y.train = y,
-        y.test = y.test,
-        x.name = x.name,
-        y.name = y.name,
-        xnames = xnames,
-        bag.resample.rtset = .resample,
-        mod = rl,
-        type = type,
-        fitted.bag = fitted.bag,
-        fitted = fitted,
-        se.fit.bag = NULL,
-        se.fit = NULL,
-        error.train = error.train,
-        predicted.bag = predicted.bag,
-        predicted = predicted,
-        se.predicted.bag = NULL,
-        se.prediction = NULL,
-        aggr.fn = aggr.fn,
-        error.test = error.test,
-        varimp = varimp,
-        parameters = parameters,
-        question = question,
-        extra = NULL
-    )
-
-    if (print.plot && !is.null(outdir)) {
-        filename.train <- paste0(outdir, "s.", mod.name, "_Fitted.vs.True.pdf")
-        if (!is.null(y.test)) {
-            filename.test <- paste0(outdir, "s.", mod.name, "_Predicted.vs.True.pdf")
-        }
-    } else {
-        filename.train <- filename.test <- NULL
+    if (!is.null(y.test)) {
+      error.test <- modError(y.test, predicted)
+      if (verbose) errorSummary(error.test)
     }
+  }
 
-    if (print.plot) {
-        if (plot.fitted || !is.null(outdir)) {
-            plot(rt,
-                estimate = "fitted", theme = plot.theme,
-                print.plot = plot.fitted, filename = filename.train
-            )
-        }
-        if (plot.predicted || !is.null(outdir)) {
-            plot(rt,
-                estimate = "predicted", theme = plot.theme,
-                print.plot = plot.predicted, filename = filename.test
-            )
-        }
+  # Verimp ----
+  if (length(rl$mods[[1]]$mod1$varimp) > 0) {
+    varimp.res <- sapply(rl$mods, function(j) j$mod1$varimp)
+    varimp.res[is.na(varimp.res)] <- 0
+    varimp <- apply(varimp.res, 1, aggr.fn)
+  } else {
+    varimp <- NULL
+  }
+
+
+  # Outro ----
+  parameters <- list(
+    mod = mod.name,
+    mod.params = mod.params,
+    k = k
+  )
+  rt <- rtModBag$new(
+    mod.name = mod.name,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    bag.resample.rtset = .resample,
+    mod = rl,
+    type = type,
+    fitted.bag = fitted.bag,
+    fitted = fitted,
+    se.fit.bag = NULL,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted.bag = predicted.bag,
+    predicted = predicted,
+    se.predicted.bag = NULL,
+    se.prediction = NULL,
+    aggr.fn = aggr.fn,
+    error.test = error.test,
+    varimp = varimp,
+    parameters = parameters,
+    question = question,
+    extra = NULL
+  )
+
+  if (print.plot && !is.null(outdir)) {
+    filename.train <- paste0(outdir, "s.", mod.name, "_Fitted.vs.True.pdf")
+    if (!is.null(y.test)) {
+      filename.test <- paste0(outdir, "s.", mod.name, "_Predicted.vs.True.pdf")
     }
-    if (!is.null(outdir)) rt_save(rt, outdir, verbose = verbose)
-    outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
-    rt
+  } else {
+    filename.train <- filename.test <- NULL
+  }
+
+  if (print.plot) {
+    if (plot.fitted || !is.null(outdir)) {
+      plot(rt,
+        estimate = "fitted", theme = plot.theme,
+        print.plot = plot.fitted, filename = filename.train
+      )
+    }
+    if (plot.predicted || !is.null(outdir)) {
+      plot(rt,
+        estimate = "predicted", theme = plot.theme,
+        print.plot = plot.predicted, filename = filename.test
+      )
+    }
+  }
+  if (!is.null(outdir)) rt_save(rt, outdir, verbose = verbose)
+  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  rt
 } # rtemis::bag
