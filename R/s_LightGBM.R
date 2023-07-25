@@ -31,7 +31,8 @@
 #' @param num_leaves Integer: \[gS\] Maximum tree leaves for base learners.
 #' @param max_depth Integer: \[gS\] Maximum tree depth for base learners, <=0 means no limit.
 #' @param learning_rate Numeric: \[gS\] Boosting learning rate
-#' @param bagging_fraction Numeric: \[gS\] Subsample ratio of the training set.
+#' @param subsample Numeric: \[gS\] Subsample ratio of the training set.
+#' @param subsample_freq Integer: Subsample every this many iterations
 #' @param lambda_l1 Numeric: \[gS\] L1 regularization term
 #' @param lambda_l2 Numeric: \[gS\] L2 regularization term
 #' @param linear_tree Logical: \[gS\] If `TRUE`, use linear trees
@@ -72,8 +73,8 @@ s_LightGBM <- function(x, y = NULL,
                        num_leaves = 31L,
                        max_depth = -1L,
                        learning_rate = .01,
-                       bagging_fraction = .8,
-                       bagging_freq = 0L,
+                       subsample = .8,
+                       subsample_freq = 1L,
                        lambda_l1 = 0,
                        lambda_l2 = 0,
                        max_cat_threshold = 32L,
@@ -220,7 +221,7 @@ s_LightGBM <- function(x, y = NULL,
   }
 
   gc <- gridCheck(
-    num_leaves, max_depth, learning_rate, bagging_fraction, lambda_l1, lambda_l2
+    num_leaves, max_depth, learning_rate, subsample, lambda_l1, lambda_l2
   )
 
   tuned <- FALSE
@@ -230,7 +231,7 @@ s_LightGBM <- function(x, y = NULL,
         num_leaves = num_leaves,
         max_depth = max_depth,
         learning_rate = learning_rate,
-        bagging_fraction = bagging_fraction,
+        subsample = subsample,
         lambda_l1 = lambda_l1,
         lambda_l2 = lambda_l2
       )
@@ -246,7 +247,7 @@ s_LightGBM <- function(x, y = NULL,
         objective = objective,
         tree_learner = tree_learner,
         linear_tree = linear_tree,
-        bagging_freq = bagging_freq,
+        subsample_freq = subsample_freq,
         max_cat_threshold = max_cat_threshold,
         min_data_per_group = min_data_per_group,
         ifw = ifw,
@@ -276,7 +277,7 @@ s_LightGBM <- function(x, y = NULL,
     num_leaves <- gs$best.tune$num_leaves
     max_depth <- gs$best.tune$max_depth
     learning_rate <- gs$best.tune$learning_rate
-    bagging_fraction <- gs$best.tune$bagging_fraction
+    subsample <- gs$best.tune$subsample
     lambda_l1 <- gs$best.tune$lambda_l1
     lambda_l2 <- gs$best.tune$lambda_l2
     tuned <- TRUE
@@ -294,7 +295,7 @@ s_LightGBM <- function(x, y = NULL,
     num_leaves = num_leaves,
     max_depth = max_depth,
     learning_rate = learning_rate,
-    bagging_fraction = bagging_fraction,
+    subsample = subsample,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
     num_threads = n_threads,
@@ -302,7 +303,7 @@ s_LightGBM <- function(x, y = NULL,
     force_row_wise = force_row_wise,
     tree_learner = tree_learner,
     linear_tree = linear_tree,
-    bagging_freq = bagging_freq,
+    subsample_freq = subsample_freq,
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group
   )
@@ -464,8 +465,8 @@ s_LightRF <- function(x, y = NULL,
                       num_leaves = 131072L,
                       max_depth = -1L,
                       learning_rate = 1,
-                      bagging_fraction = .623,
-                      bagging_freq = 1L,
+                      subsample = .623,
+                      subsample_freq = 1L,
                       lambda_l1 = 0,
                       lambda_l2 = 0,
                       max_cat_threshold = 32L,
@@ -515,8 +516,8 @@ s_LightRF <- function(x, y = NULL,
     num_leaves = num_leaves,
     max_depth = max_depth,
     learning_rate = learning_rate,
-    bagging_fraction = bagging_fraction,
-    bagging_freq = bagging_freq,
+    subsample = subsample,
+    subsample_freq = subsample_freq,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
     max_cat_threshold = max_cat_threshold,
