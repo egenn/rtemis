@@ -18,7 +18,7 @@ sge_submit(
   system_command = NULL,
   h_rt = "00:25:00",
   mem_free = NULL,
-  temp_dir = tempdir(),
+  temp_dir = file.path(getwd(), ".sge_tempdir"),
   verbose = TRUE,
   trace = 1
 )
@@ -60,7 +60,9 @@ minutes}
 
 \item{temp_dir}{Character: Temporary directory that is accessible to all
 execution nodes.
-Default = \code{file.path(getwd(), ".sge_tempdir")}}
+Default = \code{file.path(getwd(), ".sge_tempdir")}
+You can use \code{tempdir()} if all execution nodes have access to the same filesystem
+as the submit node.}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
 

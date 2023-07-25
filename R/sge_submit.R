@@ -28,6 +28,8 @@
 #' @param temp_dir Character: Temporary directory that is accessible to all
 #' execution nodes.
 #' Default = `file.path(getwd(), ".sge_tempdir")`
+#' You can use `tempdir()` if all execution nodes have access to the same filesystem
+#' as the submit node.
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
 #' @param trace Integer: If > 0 print diagnostic messages to console.
 #'
@@ -47,7 +49,7 @@ sge_submit <- function(expr,
                        system_command = NULL,
                        h_rt = "00:25:00",
                        mem_free = NULL,
-                       temp_dir = tempdir(),
+                       temp_dir = file.path(getwd(), ".sge_tempdir"),
                        verbose = TRUE,
                        trace = 1) {
   expr <- as.character(as.expression(substitute(expr)))
