@@ -33,49 +33,49 @@ c_CMeans <- function(x,
                      weights = 1,
                      control = list(),
                      verbose = TRUE, ...) {
-    # Intro ----
-    start.time <- intro(verbose = verbose)
-    clust.name <- "CMeans"
+  # Intro ----
+  start.time <- intro(verbose = verbose)
+  clust.name <- "CMeans"
 
-    # Data ----
-    .colnames <- if (is.null(colnames(x))) {
-        paste0("Feature_", seq_len(NCOL(x)))
-    } else {
-        (colnames(x))
-    }
-    x <- as.data.frame(x)
-    xnames <- colnames(x) <- .colnames
+  # Data ----
+  .colnames <- if (is.null(colnames(x))) {
+    paste0("Feature_", seq_len(NCOL(x)))
+  } else {
+    (colnames(x))
+  }
+  x <- as.data.frame(x)
+  xnames <- colnames(x) <- .colnames
 
-    # Dependencies ----
-    dependency_check("e1071")
+  # Dependencies ----
+  dependency_check("e1071")
 
-    # CMeans ----
-    if (verbose) msg20("Running Fuzzy C-means clustering with k = ", k, "...")
-    clust <- e1071::cmeans(x,
-        centers = k, iter.max = iter.max,
-        dist = dist,
-        method = "cmeans",
-        m = m,
-        rate.par = rate.par,
-        weights = weights,
-        control = control, ...
-    )
+  # CMeans ----
+  if (verbose) msg20("Running Fuzzy C-means clustering with k = ", k, "...")
+  clust <- e1071::cmeans(x,
+    centers = k, iter.max = iter.max,
+    dist = dist,
+    method = "cmeans",
+    m = m,
+    rate.par = rate.par,
+    weights = weights,
+    control = control, ...
+  )
 
-    # Clusters ----
-    clusters.train <- clust$cluster
-    clusters.test <- NULL
+  # Clusters ----
+  clusters.train <- clust$cluster
+  clusters.test <- NULL
 
-    # Outro ----
-    cl <- rtClust$new(
-        clust.name = clust.name,
-        k = k,
-        xnames = xnames,
-        clust = clust,
-        clusters.train = clusters.train,
-        clusters.test = clusters.test,
-        parameters = list(k = k, m = m),
-        extra = list()
-    )
-    outro(start.time, verbose = verbose)
-    cl
+  # Outro ----
+  cl <- rtClust$new(
+    clust.name = clust.name,
+    k = k,
+    xnames = xnames,
+    clust = clust,
+    clusters.train = clusters.train,
+    clusters.test = clusters.test,
+    parameters = list(k = k, m = m),
+    extra = list()
+  )
+  outro(start.time, verbose = verbose)
+  cl
 } # rtemis::c_CMEANS

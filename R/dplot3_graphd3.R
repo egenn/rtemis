@@ -18,23 +18,21 @@
 #' `rtpalette()`
 #' @param theme rtemis theme to use
 #' @param ... Additional arguments to pass to `networkD3`
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-dplot3_graphd3 <- function(
-            net,
-            groups = NULL,
-            color.scale = NULL,
-            edge.col = NULL,
-            node.col = NULL,
-            node.alpha = .5,
-            edge.alpha = .33,
-            zoom = TRUE,
-            legend = FALSE,
-            palette = rtPalette,
-            theme = rtTheme,
-            ...) {
-
+dplot3_graphd3 <- function(net,
+                           groups = NULL,
+                           color.scale = NULL,
+                           edge.col = NULL,
+                           node.col = NULL,
+                           node.alpha = .5,
+                           edge.alpha = .33,
+                           zoom = TRUE,
+                           legend = FALSE,
+                           palette = rtPalette,
+                           theme = rtTheme,
+                           ...) {
   # Dependencies ----
   dependency_check("networkD3")
 
@@ -57,18 +55,22 @@ dplot3_graphd3 <- function(
 
   if (is.null(color.scale)) {
     if (length(unique(netd3$nodes$group)) == 1) {
-      color.scale <- paste0('d3.scaleOrdinal().domain(["A"]).range(["',
-                            adjustcolor(node.col, node.alpha), '"]);')
+      color.scale <- paste0(
+        'd3.scaleOrdinal().domain(["A"]).range(["',
+        adjustcolor(node.col, node.alpha), '"]);'
+      )
     } else {
       if (is.character(palette)) palette <- adjustcolor(unlist(rtpalette(palette)), node.alpha)
       ngroups <- length(unique(groups))
       .groups <- paste0(sort(unique(groups)), collapse = '", "')
       if (ngroups > length(palette)) {
-        palette <- rep(palette, ngroups/length(palette))
+        palette <- rep(palette, ngroups / length(palette))
       }
       .colors <- paste0(palette[seq(ngroups)], collapse = '", "')
-      color.scale <- paste0('d3.scaleOrdinal().domain(["', .groups,
-                            '"]).range(["', .colors, '"]);')
+      color.scale <- paste0(
+        'd3.scaleOrdinal().domain(["', .groups,
+        '"]).range(["', .colors, '"]);'
+      )
     }
   }
 
@@ -83,22 +85,25 @@ dplot3_graphd3 <- function(
   }
 
   # Plot ----
-  fn <- networkD3::forceNetwork(Links = netd3$links,
-                                Nodes = netd3$nodes,
-                                Source = 'source',
-                                Target = 'target',
-                                NodeID = 'name',
-                                Group = 'group',
-                                colourScale = color.scale,
-                                linkColour = edge.col,
-                                opacity = 1,
-                                legend = legend,
-                                zoom = zoom)
+  fn <- networkD3::forceNetwork(
+    Links = netd3$links,
+    Nodes = netd3$nodes,
+    Source = "source",
+    Target = "target",
+    NodeID = "name",
+    Group = "group",
+    colourScale = color.scale,
+    linkColour = edge.col,
+    opacity = 1,
+    legend = legend,
+    zoom = zoom
+  )
 
   # fn$x$nodes$border <- border.groups
-  fn <- htmlwidgets::onRender(fn,
-                              'function(el, x) { d3.selectAll("circle").style("stroke", d => "#ffffff00"); }')
+  fn <- htmlwidgets::onRender(
+    fn,
+    'function(el, x) { d3.selectAll("circle").style("stroke", d => "#ffffff00"); }'
+  )
 
   fn
-
 } # rtemis::dplot3_graphd3

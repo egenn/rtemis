@@ -34,68 +34,67 @@ c_DBSCAN <- function(x, x.test = NULL,
                      borderPoints = TRUE,
                      search = c("kdtree", "linear", "dist"),
                      verbose = TRUE, ...) {
+  # Dependencies ----
+  dependency_check("flexclust")
 
-    # Dependencies ----
-    dependency_check("flexclust")
+  # Intro ----
+  start.time <- intro(verbose = verbose)
+  clust.name <- "DBSCAN"
 
-    # Intro ----
-    start.time <- intro(verbose = verbose)
-    clust.name <- "DBSCAN"
+  # Arguments ----
+  if (missing(x)) {
+    print(args(c_DBSCAN))
+    stop("x is missing")
+  }
+  search <- match.arg(search)
 
-    # Arguments ----
-    if (missing(x)) {
-        print(args(c_DBSCAN))
-        stop("x is missing")
-    }
-    search <- match.arg(search)
+  # Data ----
+  .colnames <- if (is.null(colnames(x))) {
+    paste0("Feature_", seq_len(NCOL(x)))
+  } else {
+    (colnames(x))
+  }
+  x <- as.matrix(x)
+  xnames <- colnames(x) <- .colnames
 
-    # Data ----
-    .colnames <- if (is.null(colnames(x))) {
-        paste0("Feature_", seq_len(NCOL(x)))
-    } else {
-        (colnames(x))
-    }
-    x <- as.matrix(x)
-    xnames <- colnames(x) <- .colnames
+  # DBSCAN ----
+  if (verbose) msg2("Performing DBSCAN Clustering...")
+  clust <- dbscan::dbscan(x,
+    eps = eps,
+    minPts = minPts,
+    weights = weights,
+    borderPoints = borderPoints,
+    search = search, ...
+  )
 
-    # DBSCAN ----
-    if (verbose) msg2("Performing DBSCAN Clustering...")
-    clust <- dbscan::dbscan(x,
-        eps = eps,
-        minPts = minPts,
-        weights = weights,
-        borderPoints = borderPoints,
-        search = search, ...
+  # Clusters ----
+  clusters.train <- clust$cluster
+  if (!is.null(x.test)) {
+    clusters.test <- predict(clust,
+      newdata = as.matrix(x.test),
+      data = x
     )
+  } else {
+    clusters.test <- NULL
+  }
 
-    # Clusters ----
-    clusters.train <- clust$cluster
-    if (!is.null(x.test)) {
-        clusters.test <- predict(clust,
-            newdata = as.matrix(x.test),
-            data = x
-        )
-    } else {
-        clusters.test <- NULL
-    }
-
-    # Outro ----
-    cl <- rtClust$new(
-        clust.name = clust.name,
-        k = length(unique(clusters.train)),
-        xnames = xnames,
-        clust = clust,
-        clusters.train = clusters.train,
-        clusters.test = clusters.test,
-        parameters = c(
-            eps = eps,
-            minPts = minPts,
-            weights = weights,
-            borderPoints = borderPoints,
-            search = search
-        ),
-        extra = list()
-    )
-    outro(start.time, verbose = verbose)
-    cl
+  # Outro ----
+  cl <- rtClust$new(
+    clust.name = clust.name,
+    k = length(unique(clusters.train)),
+    xnames = xnames,
+    clust = clust,
+    clusters.train = clusters.train,
+    clusters.test = clusters.test,
+    parameters = c(
+      eps = eps,
+      minPts = minPts,
+      weights = weights,
+      borderPoints = borderPoints,
+      search = search
+    ),
+    extra = list()
+  )
+  outro(start.time, verbose = verbose)
+  cl
 } # rtemis::c_DBSCAN

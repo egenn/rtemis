@@ -25,17 +25,19 @@ dplot3_pvals <- function(x,
                          pval.hline = .05,
                          hline.col = "#FE4AA3",
                          hline.dash = "dash", ...) {
-
   if (is.null(xnames)) xnames <- names(x)
   if (is.null(yname)) yname <- deparse(substitute(x))
 
   dplot3_bar(1 - p.adjust(x, method = p.adjust.method),
-             group.names = xnames,
-             legend = F,
-             ylab = if (p.adjust.method == "none") "1 - p-value" else
-               paste0("1 - ", p.adjust.method, "-adjusted p-value"),
-             hline = 1 - pval.hline,
-             hline.col = hline.col,
-             hline.dash = hline.dash, ...)
-
+    group.names = xnames,
+    legend = F,
+    ylab = if (p.adjust.method == "none") {
+      "1 - p-value"
+    } else {
+      paste0("1 - ", p.adjust.method, "-adjusted p-value")
+    },
+    hline = 1 - pval.hline,
+    hline.col = hline.col,
+    hline.dash = hline.dash, ...
+  )
 } # rtemis::dplot3_pvals

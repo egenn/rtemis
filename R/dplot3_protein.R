@@ -1,4 +1,6 @@
 # dplot3_protein
+# ::rtemis::
+# 2022 EDG www.lambdamd.org
 
 #' Plot the primary amino acid sequence of a protein
 #'

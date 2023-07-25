@@ -109,349 +109,348 @@ s_Ranger <- function(x, y = NULL,
                      verbose = TRUE,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
-    # Intro ----
-    if (missing(x)) {
-        print(args(s_Ranger))
-        return(invisible(9))
-    }
-    if (!is.null(outdir)) {
-        outdir <- paste0(normalizePath(outdir,
-            mustWork = FALSE
-        ), "/")
-    }
-    logFile <- if (!is.null(outdir)) {
-        paste0(
-            outdir, "/", sys.calls()[[1]][[1]], ".",
-            format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
-        )
-    } else {
-        NULL
-    }
-    start.time <- intro(verbose = verbose, logFile = logFile)
-    mod.name <- "Ranger"
-
-    # Dependencies ----
-    dependency_check("ranger")
-
-    # Arguments ----
-    if (is.null(y) && NCOL(x) < 2) {
-        print(args(s_Ranger))
-        stop("y is missing")
-    }
-    if (is.null(x.name)) x.name <- getName(x, "x")
-    if (is.null(y.name)) y.name <- getName(y, "y")
-    if (!verbose) print.plot <- FALSE
-    verbose <- verbose | !is.null(logFile)
-    if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-    grid.search.type <- match.arg(grid.search.type)
-
-    # Data ----
-    dt <- dataPrepare(x, y,
-        x.test, y.test,
-        ifw = ifw,
-        ifw.type = ifw.type,
-        upsample = upsample,
-        downsample = downsample,
-        resample.seed = resample.seed,
-        verbose = verbose
+  # Intro ----
+  if (missing(x)) {
+    print(args(s_Ranger))
+    return(invisible(9))
+  }
+  if (!is.null(outdir)) {
+    outdir <- paste0(normalizePath(outdir,
+      mustWork = FALSE
+    ), "/")
+  }
+  logFile <- if (!is.null(outdir)) {
+    paste0(
+      outdir, "/", sys.calls()[[1]][[1]], ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
     )
-    x <- dt$x
-    y <- dt$y
-    x.test <- dt$x.test
-    y.test <- dt$y.test
-    xnames <- dt$xnames
-    type <- dt$type
-    if (verbose) dataSummary(x, y, x.test, y.test, type)
-    if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
-    .weights <- if (is.null(weights) && ifw) dt$weights else weights
-    .class.weights <- if (is.null(classwt) && ifw) dt$class.weights else classwt
-    x0 <- if (upsample || downsample) dt$x0 else x
-    y0 <- if (upsample || downsample) dt$y0 else y
-    if (print.plot) {
-        if (is.null(plot.fitted)) {
-            plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-        }
-        if (is.null(plot.predicted)) {
-            plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
-        }
+  } else {
+    NULL
+  }
+  start.time <- intro(verbose = verbose, logFile = logFile)
+  mod.name <- "Ranger"
+
+  # Dependencies ----
+  dependency_check("ranger")
+
+  # Arguments ----
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_Ranger))
+    stop("y is missing")
+  }
+  if (is.null(x.name)) x.name <- getName(x, "x")
+  if (is.null(y.name)) y.name <- getName(y, "y")
+  if (!verbose) print.plot <- FALSE
+  verbose <- verbose | !is.null(logFile)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  grid.search.type <- match.arg(grid.search.type)
+
+  # Data ----
+  dt <- dataPrepare(x, y,
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
+  x <- dt$x
+  y <- dt$y
+  x.test <- dt$x.test
+  y.test <- dt$y.test
+  xnames <- dt$xnames
+  type <- dt$type
+  if (verbose) dataSummary(x, y, x.test, y.test, type)
+  if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  .class.weights <- if (is.null(classwt) && ifw) dt$class.weights else classwt
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
+  if (print.plot) {
+    if (is.null(plot.fitted)) {
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    }
+    if (is.null(plot.predicted)) {
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    }
+  } else {
+    plot.fitted <- plot.predicted <- FALSE
+  }
+  n.features <- NCOL(x)
+  if (is.null(mtry)) {
+    if (n.features <= 20) mtry <- n.features
+    mtry <- if (type == "Classification") {
+      floor(sqrt(n.features))
     } else {
-        plot.fitted <- plot.predicted <- FALSE
+      max(floor(n.features / 3), 1)
     }
-    n.features <- NCOL(x)
-    if (is.null(mtry)) {
-        if (n.features <= 20) mtry <- n.features
-        mtry <- if (type == "Classification") {
-            floor(sqrt(n.features))
-        } else {
-            max(floor(n.features / 3), 1)
-        }
-    }
-    if (type == "Classification") nlevels <- length(levels(y))
+  }
+  if (type == "Classification") nlevels <- length(levels(y))
 
-    if (is.null(metric)) {
-        if (type == "Classification") {
-            metric <- "Balanced Accuracy"
-            if (is.null(maximize)) maximize <- TRUE
-        } else if (type == "Regression") {
-            metric <- "MSE"
-            if (is.null(maximize)) maximize <- FALSE
-        }
-    }
-
-    if (is.null(maximize)) {
-        maximize <- if (type == "Classification") TRUE else FALSE
-    }
-
-    # Formula ----
-    df.train <- data.frame(x, y)
-    colnames(df.train)[ncol(df.train)] <- y.name
-    .formula <- as.formula(paste(y.name, "~ ."))
-
-    # Grid Search ----
-    if (gridCheck(mtry, min.node.size)) {
-        gs <- gridSearchLearn(x0, y0,
-            mod.name,
-            resample.rtset = grid.resample.rtset,
-            grid.params = list(
-                mtry = mtry,
-                min.node.size = min.node.size
-            ),
-            fixed.params = list(
-                n.trees = n.trees,
-                replace = replace,
-                importance = "none",
-                ifw = ifw,
-                ifw.type = ifw.type,
-                upsample = upsample,
-                resample.seed = resample.seed
-            ),
-            search.type = grid.search.type,
-            randomized.p = grid.randomized.p,
-            weights = weights,
-            metric = metric,
-            maximize = maximize,
-            verbose = grid.verbose,
-            n.cores = 1
-        )
-        mtry <- gs$best.tune$mtry
-        min.node.size <- gs$best.tune$min.node.size
-    } else {
-        gs <- NULL
-    }
-
-    # In case tuning fails, use defaults
-    if (length(mtry) == 0) {
-        warning("Tuning failed; setting mtry to default")
-        mtry <- if (type == "Classification") {
-            floor(sqrt(n.features))
-        } else {
-            max(floor(n.features / 3), 1)
-        }
-    }
-
-    if (length(min.node.size) == 0) {
-        min.node.size <- if (type == "Classification") 1 else 5
-    }
-
-    # tuneRF ----
-    if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
-    if (autotune) {
-        if (verbose) msg2("Tuning for mtry...")
-        tuner <- try(randomForest::tuneRF(
-            x = x, y = y,
-            mtryStart = mtryStart,
-            ntreeTry = n.trees.try,
-            stepFactor = stepFactor,
-            trace = verbose,
-            plot = print.tune.plot,
-            strata = strata,
-            do.trace = tune.do.trace,
-            classwt = .class.weights
-        ))
-        if (!inherits(tuner, "try-error")) {
-            mtry <- tuner[which.min(tuner[, 2]), 1]
-            if (verbose) msg2("Best mtry :", mtry)
-        } else {
-            msg2("tuneRF failed; reverting to mtry =", mtry)
-        }
-    }
-    parameters <- list(
-        n.trees = n.trees,
-        mtry = mtry,
-        ifw = ifw,
-        ifw.type = ifw.type,
-        upsample = upsample,
-        downsample = downsample,
-        resample.seed = resample.seed
-    )
-
-    # Ranger ----
-    if (stratify.on.y) {
-        inbag.resample <- rtset.resample("strat.boot", n.trees)
-    }
-    if (!is.null(inbag.resample)) {
-        if (verbose) msg2("Creating custom subsamples...")
-        # Get integer index of inbag cases
-        inbag.res <- resample(df.train$y,
-            rtset = inbag.resample,
-            verbose = verbose
-        )
-        # Convert to counts for each case
-        inbag <- lapply(
-            seq(n.trees),
-            function(i) {
-                sapply(
-                    seq(df.train$y),
-                    function(j) sum(j == inbag.res[[i]])
-                )
-            }
-        )
-    } else {
-        inbag <- NULL
-    }
-    if (verbose) {
-        msg2("Training Random Forest (ranger)",
-            type, "with",
-            n.trees, "trees...",
-            newline.pre = TRUE
-        )
-    }
-    mod <- ranger::ranger(
-        formula = .formula,
-        data = df.train,
-        num.trees = n.trees,
-        case.weights = if (ifw.case.weights) .weights else NULL,
-        class.weights = if (ifw.case.weights) .class.weights else NULL,
-        mtry = mtry,
-        min.node.size = min.node.size,
-        splitrule = splitrule,
-        replace = replace,
-        probability = probability,
-        importance = importance,
-        local.importance = local.importance,
-        write.forest = TRUE,
-        inbag = inbag,
-        num.threads = n.cores,
-        verbose = verbose, ...
-    )
-
-    # Fitted ----
+  if (is.null(metric)) {
     if (type == "Classification") {
-        if (!probability) {
-            fitted.all <- predict(mod, x, predict.all = TRUE)
-            # fitted.freq <- apply(
-            #     fitted.all$predictions, 1,
-            #     \(n) sum(n == 1)
-            # )
-            fitted.freq <- t(apply(
-                fitted.all$predictions, 1,
-                \(i) {
-                    one <- factor(i, levels = seq_len(nlevels))
-                    as.numeric(table(one))
-                }
-            ))
-            fitted.prob <- fitted.freq / n.trees
-            if (nlevels == 2) fitted.prob <- fitted.prob[, 1]
-            fitted <- predict(mod, x)$predictions
-        } else {
-            fitted.prob <- predict(mod, x)$predictions
-            fitted <- factor(apply(as.data.frame(fitted.prob), 1, which.max))
-            fitted.prob <- fitted.prob[, 1]
-            levels(fitted) <- levels(y)
-        }
+      metric <- "Balanced Accuracy"
+      if (is.null(maximize)) maximize <- TRUE
+    } else if (type == "Regression") {
+      metric <- "MSE"
+      if (is.null(maximize)) maximize <- FALSE
+    }
+  }
+
+  if (is.null(maximize)) {
+    maximize <- if (type == "Classification") TRUE else FALSE
+  }
+
+  # Formula ----
+  df.train <- data.frame(x, y)
+  colnames(df.train)[ncol(df.train)] <- y.name
+  .formula <- as.formula(paste(y.name, "~ ."))
+
+  # Grid Search ----
+  if (gridCheck(mtry, min.node.size)) {
+    gs <- gridSearchLearn(x0, y0,
+      mod.name,
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        mtry = mtry,
+        min.node.size = min.node.size
+      ),
+      fixed.params = list(
+        n.trees = n.trees,
+        replace = replace,
+        importance = "none",
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed
+      ),
+      search.type = grid.search.type,
+      randomized.p = grid.randomized.p,
+      weights = weights,
+      metric = metric,
+      maximize = maximize,
+      verbose = grid.verbose,
+      n.cores = 1
+    )
+    mtry <- gs$best.tune$mtry
+    min.node.size <- gs$best.tune$min.node.size
+  } else {
+    gs <- NULL
+  }
+
+  # In case tuning fails, use defaults
+  if (length(mtry) == 0) {
+    warning("Tuning failed; setting mtry to default")
+    mtry <- if (type == "Classification") {
+      floor(sqrt(n.features))
     } else {
-        fitted.prob <- NULL
-        fitted <- predict(mod, x)$predictions
+      max(floor(n.features / 3), 1)
     }
-    error.train <- modError(y, fitted, fitted.prob)
-    if (verbose) errorSummary(error.train, mod.name)
+  }
 
-    # Predicted ----
-    predicted.prob <- NULL
-    if (!is.null(x.test)) {
-        if (type == "Classification") {
-            if (!probability) {
-                predicted.all <- predict(mod, x.test, predict.all = TRUE)
-                predicted.freq <- apply(
-                    predicted.all$predictions, 1,
-                    function(n) sum(n == 1)
-                )
-                predicted.prob <- predicted.freq / n.trees
-                predicted <- predict(mod, x.test)$predictions
-            } else {
-                predicted.prob <- predict(mod, x.test)$predictions
-                predicted <- factor(apply(
-                    as.data.frame(predicted.prob), 1,
-                    which.max
-                ))
-                predicted.prob <- predicted.prob[, 1]
-                levels(predicted) <- levels(y)
-            }
-        } else {
-            predicted <- predict(mod, x.test)$predictions
-        }
-        if (!is.null(y.test)) {
-            error.test <- modError(y.test, predicted, predicted.prob)
-            if (verbose) errorSummary(error.test, mod.name)
-        } else {
-            error.test <- NULL
-        }
+  if (length(min.node.size) == 0) {
+    min.node.size <- if (type == "Classification") 1 else 5
+  }
+
+  # tuneRF ----
+  if (is.null(mtryStart)) mtryStart <- sqrt(n.features)
+  if (autotune) {
+    if (verbose) msg2("Tuning for mtry...")
+    tuner <- try(randomForest::tuneRF(
+      x = x, y = y,
+      mtryStart = mtryStart,
+      ntreeTry = n.trees.try,
+      stepFactor = stepFactor,
+      trace = verbose,
+      plot = print.tune.plot,
+      strata = strata,
+      do.trace = tune.do.trace,
+      classwt = .class.weights
+    ))
+    if (!inherits(tuner, "try-error")) {
+      mtry <- tuner[which.min(tuner[, 2]), 1]
+      if (verbose) msg2("Best mtry :", mtry)
     } else {
-        predicted <- error.test <- NULL
+      msg2("tuneRF failed; reverting to mtry =", mtry)
     }
+  }
+  parameters <- list(
+    n.trees = n.trees,
+    mtry = mtry,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed
+  )
 
-    # Outro ----
-    extra <- list()
+  # Ranger ----
+  if (stratify.on.y) {
+    inbag.resample <- rtset.resample("strat.boot", n.trees)
+  }
+  if (!is.null(inbag.resample)) {
+    if (verbose) msg2("Creating custom subsamples...")
+    # Get integer index of inbag cases
+    inbag.res <- resample(df.train$y,
+      rtset = inbag.resample,
+      verbose = verbose
+    )
+    # Convert to counts for each case
+    inbag <- lapply(
+      seq(n.trees),
+      function(i) {
+        sapply(
+          seq(df.train$y),
+          function(j) sum(j == inbag.res[[i]])
+        )
+      }
+    )
+  } else {
+    inbag <- NULL
+  }
+  if (verbose) {
+    msg2("Training Random Forest (ranger)",
+      type, "with",
+      n.trees, "trees...",
+      newline.pre = TRUE
+    )
+  }
+  mod <- ranger::ranger(
+    formula = .formula,
+    data = df.train,
+    num.trees = n.trees,
+    case.weights = if (ifw.case.weights) .weights else NULL,
+    class.weights = if (ifw.case.weights) .class.weights else NULL,
+    mtry = mtry,
+    min.node.size = min.node.size,
+    splitrule = splitrule,
+    replace = replace,
+    probability = probability,
+    importance = importance,
+    local.importance = local.importance,
+    write.forest = TRUE,
+    inbag = inbag,
+    num.threads = n.cores,
+    verbose = verbose, ...
+  )
 
-    if (imetrics) {
-        n.nodes <- sum(plyr::ldply(
-            mod$forest$child.nodeIDs,
-            function(t) plyr::ldply(t, function(n) length(unlist(n)))
-        )[, 1])
-        extra$imetrics <- list(n.trees = n.trees, n.nodes = n.nodes)
+  # Fitted ----
+  if (type == "Classification") {
+    if (!probability) {
+      fitted.all <- predict(mod, x, predict.all = TRUE)
+      # fitted.freq <- apply(
+      #     fitted.all$predictions, 1,
+      #     \(n) sum(n == 1)
+      # )
+      fitted.freq <- t(apply(
+        fitted.all$predictions, 1,
+        \(i) {
+          one <- factor(i, levels = seq_len(nlevels))
+          as.numeric(table(one))
+        }
+      ))
+      fitted.prob <- fitted.freq / n.trees
+      if (nlevels == 2) fitted.prob <- fitted.prob[, 1]
+      fitted <- predict(mod, x)$predictions
+    } else {
+      fitted.prob <- predict(mod, x)$predictions
+      fitted <- factor(apply(as.data.frame(fitted.prob), 1, which.max))
+      fitted.prob <- fitted.prob[, 1]
+      levels(fitted) <- levels(y)
     }
-    rt <- rtModSet(
-        rtclass = "rtMod",
-        mod = mod,
-        mod.name = mod.name,
-        type = type,
-        gridsearch = gs,
-        parameters = parameters,
-        y.train = y,
-        y.test = y.test,
-        x.name = x.name,
-        y.name = y.name,
-        xnames = xnames,
-        fitted = fitted,
-        fitted.prob = fitted.prob,
-        se.fit = NULL,
-        error.train = error.train,
-        predicted = predicted,
-        predicted.prob = predicted.prob,
-        se.prediction = NULL,
-        error.test = error.test,
-        varimp = if (importance != "none") as.matrix(mod$variable.importance) else NULL,
-        question = question,
-        extra = extra
-    )
+  } else {
+    fitted.prob <- NULL
+    fitted <- predict(mod, x)$predictions
+  }
+  error.train <- modError(y, fitted, fitted.prob)
+  if (verbose) errorSummary(error.train, mod.name)
 
-    rtMod.out(
-        rt,
-        print.plot,
-        plot.fitted,
-        plot.predicted,
-        y.test,
-        mod.name,
-        outdir,
-        save.mod,
-        verbose,
-        plot.theme
-    )
+  # Predicted ----
+  predicted.prob <- NULL
+  if (!is.null(x.test)) {
+    if (type == "Classification") {
+      if (!probability) {
+        predicted.all <- predict(mod, x.test, predict.all = TRUE)
+        predicted.freq <- apply(
+          predicted.all$predictions, 1,
+          function(n) sum(n == 1)
+        )
+        predicted.prob <- predicted.freq / n.trees
+        predicted <- predict(mod, x.test)$predictions
+      } else {
+        predicted.prob <- predict(mod, x.test)$predictions
+        predicted <- factor(apply(
+          as.data.frame(predicted.prob), 1,
+          which.max
+        ))
+        predicted.prob <- predicted.prob[, 1]
+        levels(predicted) <- levels(y)
+      }
+    } else {
+      predicted <- predict(mod, x.test)$predictions
+    }
+    if (!is.null(y.test)) {
+      error.test <- modError(y.test, predicted, predicted.prob)
+      if (verbose) errorSummary(error.test, mod.name)
+    } else {
+      error.test <- NULL
+    }
+  } else {
+    predicted <- error.test <- NULL
+  }
 
-    outro(start.time,
-        verbose = verbose,
-        sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
-    )
-    rt
+  # Outro ----
+  extra <- list()
+
+  if (imetrics) {
+    n.nodes <- sum(plyr::ldply(
+      mod$forest$child.nodeIDs,
+      function(t) plyr::ldply(t, function(n) length(unlist(n)))
+    )[, 1])
+    extra$imetrics <- list(n.trees = n.trees, n.nodes = n.nodes)
+  }
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = if (importance != "none") as.matrix(mod$variable.importance) else NULL,
+    question = question,
+    extra = extra
+  )
+
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
+
+  outro(start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
+  rt
 } # rtemis::s_Ranger

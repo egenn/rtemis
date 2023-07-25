@@ -1,6 +1,6 @@
 # dplot3_pie.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 EDG www.lambdamd.org
 
 #' Interactive Pie Chart
 #'
@@ -19,41 +19,38 @@
 #' @param bg Background color
 #' @param plot.bg Plot background color
 #' @param labs.col Color of labels
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{
 #' dplot3_pie(VADeaths[, 1, drop = F])
 #' }
-
-dplot3_pie <-  function(
-            x,
-            main = NULL,
-            xlab = NULL,
-            ylab = NULL,
-            col = NULL,
-            alpha = .8,
-            bg = NULL,
-            plot.bg = NULL,
-            theme = getOption("rt.theme", "black"),
-            palette = rtPalette,
-            category.names = NULL,
-            textinfo = "label+percent",
-            font.size = 16,
-            labs.col = NULL,
-            legend = TRUE,
-            legend.col = NULL,
-            sep.col = NULL,
-            margin = list(b = 50, l = 50, t = 50, r = 20),
-            padding = 0,
-            displayModeBar = TRUE,
-            modeBar.file.format = "svg",
-            filename = NULL,
-            file.width = 500,
-            file.height = 500,
-            file.scale = 1, ...) {
-
+dplot3_pie <- function(x,
+                       main = NULL,
+                       xlab = NULL,
+                       ylab = NULL,
+                       col = NULL,
+                       alpha = .8,
+                       bg = NULL,
+                       plot.bg = NULL,
+                       theme = getOption("rt.theme", "black"),
+                       palette = rtPalette,
+                       category.names = NULL,
+                       textinfo = "label+percent",
+                       font.size = 16,
+                       labs.col = NULL,
+                       legend = TRUE,
+                       legend.col = NULL,
+                       sep.col = NULL,
+                       margin = list(b = 50, l = 50, t = 50, r = 20),
+                       padding = 0,
+                       displayModeBar = TRUE,
+                       modeBar.file.format = "svg",
+                       filename = NULL,
+                       file.width = 500,
+                       file.height = 500,
+                       file.scale = 1, ...) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -79,11 +76,11 @@ dplot3_pie <-  function(
     }
   }
 
-  if  (is.null(main)) {
+  if (is.null(main)) {
     if (!is.null(.colnames)) {
       main <- labelify(.colnames[1])
     } else {
-      main  <- labelify(.input.name)
+      main <- labelify(.input.name)
     }
   }
 
@@ -116,42 +113,59 @@ dplot3_pie <-  function(
   sep.col <- if (is.null(sep.col)) bg else plotly::toRGB(sep.col)
 
   # plotly ----
-  plt <- plotly::plot_ly(labels = .cat.names,
-                         values = x[, 1],
-                         type = "pie",
-                         textinfo = textinfo,
-                         insidetextfont = list(color = "#FFFFFF"),
-                         outsidetextfont = list(color = labs.col),
-                         marker = list(colors = unlist(col),
-                                       line = list(color = sep.col, width = 1)))
+  plt <- plotly::plot_ly(
+    labels = .cat.names,
+    values = x[, 1],
+    type = "pie",
+    textinfo = textinfo,
+    insidetextfont = list(color = "#FFFFFF"),
+    outsidetextfont = list(color = labs.col),
+    marker = list(
+      colors = unlist(col),
+      line = list(color = sep.col, width = 1)
+    )
+  )
 
   ## layout ----
-  f <- list(family = theme$font.family,
-            size = font.size,
-            color = labs.col)
-  .legend <- list(font = list(family = theme$font.family,
-                              size = font.size,
-                              color = legend.col))
+  f <- list(
+    family = theme$font.family,
+    size = font.size,
+    color = labs.col
+  )
+  .legend <- list(font = list(
+    family = theme$font.family,
+    size = font.size,
+    color = legend.col
+  ))
   plt <- plotly::layout(plt,
-                        yaxis = list(title = ylab,
-                                     showline = FALSE,
-                                     titlefont = f,
-                                     showgrid = FALSE,
-                                     zeroline = FALSE),
-                        xaxis = list(title = xlab,
-                                     showline = FALSE,
-                                     titlefont = f,
-                                     showgrid = FALSE,
-                                     zeroline = FALSE),
-                        title = list(text = main,
-                                     font = list(family = theme$font.family,
-                                                 size = font.size,
-                                                 color = main.col)),
-                        paper_bgcolor = bg,
-                        plot_bgcolor = plot.bg,
-                        margin = margin,
-                        showlegend = legend,
-                        legend = .legend)
+    yaxis = list(
+      title = ylab,
+      showline = FALSE,
+      titlefont = f,
+      showgrid = FALSE,
+      zeroline = FALSE
+    ),
+    xaxis = list(
+      title = xlab,
+      showline = FALSE,
+      titlefont = f,
+      showgrid = FALSE,
+      zeroline = FALSE
+    ),
+    title = list(
+      text = main,
+      font = list(
+        family = theme$font.family,
+        size = font.size,
+        color = main.col
+      )
+    ),
+    paper_bgcolor = bg,
+    plot_bgcolor = plot.bg,
+    margin = margin,
+    showlegend = legend,
+    legend = .legend
+  )
 
   # Padding
   plt$sizingPolicy$padding <- padding
@@ -168,15 +182,14 @@ dplot3_pie <-  function(
 
   # Write to file ----
   if (!is.null(filename)) {
-      plotly::save_image(
-          plt,
-          file.path(filename),
-          width = file.width,
-          height = file.height,
-          scale = file.scale
-      )
+    plotly::save_image(
+      plt,
+      file.path(filename),
+      width = file.width,
+      height = file.height,
+      scale = file.scale
+    )
   }
 
   plt
-
 } # rtemis::dplot3_pie.R

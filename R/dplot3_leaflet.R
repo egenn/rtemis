@@ -74,8 +74,8 @@ dplot3_leaflet <- function(fips,
                            bg.tile.alpha = .67,
                            fg.tile.provider = leaflet::providers$Stamen.TonerLabels,
                            legend.position = c(
-                               "topright", "bottomright",
-                               "bottomleft", "topleft"
+                             "topright", "bottomright",
+                             "bottomleft", "topleft"
                            ),
                            legend.alpha = .8,
                            legend.title = NULL,
@@ -83,133 +83,134 @@ dplot3_leaflet <- function(fips,
                            init.lat = 39.207413888888894,
                            init.zoom = 3,
                            stroke = TRUE) {
+  # Dependencies ----
+  dependency_check("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
 
-    # Dependencies ----
-    dependency_check("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
-
-    # Arguments ----
-    vals.name <- deparse(substitute(values))
-    color.mapping <- match.arg(color.mapping)
-    col.interpolate <- match.arg(col.interpolate)
-    if (is.null(palette)) {
-        palette <- colorRamp(
-            colors = c(col.lo, col.hi),
-            interpolate = col.interpolate
-        )
-    }
-    legend.position <- match.arg(legend.position)
-    if (is.null(legend.title)) legend.title <- labelify(vals.name)
-
-    # State vs. County data ----
-    if (max(nchar(fips)) < 3) {
-        geo <- geojsonio::geojson_read(system.file(
-            "extdata", "us-states.json",
-            package = "rtemis"
-        ),
-        what = "sp"
-        )
-        fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
-    } else {
-        geo <- geojsonio::geojson_read(system.file(
-            "extdata", "us-counties.json",
-            package = "rtemis"
-        ),
-        what = "sp"
-        )
-        fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
-    }
-
-    # Match input county-level data
-    index <- match(geo$id, fips)
-    geo[["val"]] <- values[index]
-
-    # Colorscale ----
-    if (color.mapping == "Numeric") {
-        pal <- leaflet::colorNumeric(
-            palette = palette,
-            domain = domain,
-            na.color = col.na,
-            alpha = TRUE
-        )
-    } else {
-        pal <- leaflet::colorBin(
-            palette = palette,
-            domain = domain,
-            na.color = col.na,
-            bins = col.bins
-        )
-    }
-
-    # Hover labels ----
-    .labs <- values[index]
-    if (!is.null(names)) {
-        .names <- names[index]
-        labels <- lapply(seq(NROW(geo)), function(i) {
-            if (is.na(.labs[i])) {
-                '<div style="color:#7f7f7f;">N/A</div>'
-            } else {
-                sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
-            }
-        }) |> lapply(htmltools::HTML)
-    } else {
-        labels <- lapply(seq(NROW(geo)), function(i) {
-            if (is.na(.labs[i])) {
-                '<div style="color:#7f7f7f;">N/A</div>'
-            } else {
-                sprintf("%g", .labs[i])
-            }
-        }) |> lapply(htmltools::HTML)
-    }
-    geo[["labels"]] <- labels[index]
-
-    # leaflet map ----
-    map <- leaflet::leaflet(geo) |>
-        leaflet::addProviderTiles(
-            provider = bg.tile.provider,
-            options = leaflet::providerTileOptions(opacity = bg.tile.alpha)
-        ) |>
-        leaflet::addMapPane("polygons", zIndex = 410) |>
-        leaflet::addMapPane("tiles", zIndex = 420) |>
-        leaflet::addPolygons(
-            fillColor = ~ pal(val),
-            fillOpacity = fillOpacity,
-            opacity = alpha,
-            weight = weight,
-            color = color,
-            stroke = stroke,
-            group = legend.title,
-            options = leaflet::pathOptions(pane = "polygons"),
-            highlight = leaflet::highlightOptions(
-                weight = 2,
-                color = col.highlight,
-                bringToFront = TRUE
-            ),
-            label = labels,
-            labelOptions = leaflet::labelOptions(
-                style = list("font-weight" = "normal", padding = "2px 2px"),
-                textsize = "15px",
-                direction = "auto"
-            )
-        ) |>
-        leaflet::addProviderTiles(
-            provider = fg.tile.provider,
-            options = leaflet::pathOptions(pane = "tiles")
-        ) |>
-        leaflet::addLegend(
-            position = legend.position,
-            pal = pal,
-            values = geo$val,
-            opacity = legend.alpha,
-            title = legend.title
-        ) |>
-        leaflet::addLayersControl(overlayGroups = c(legend.title)) |>
-        leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
-
-
-    insert <- htmltools::tags$style(
-        type = "text/css",
-        "div.info.legend.leaflet-control br {clear: both;}"
+  # Arguments ----
+  vals.name <- deparse(substitute(values))
+  color.mapping <- match.arg(color.mapping)
+  col.interpolate <- match.arg(col.interpolate)
+  if (is.null(palette)) {
+    palette <- colorRamp(
+      colors = c(col.lo, col.hi),
+      interpolate = col.interpolate
     )
-    map <- htmlwidgets::prependContent(map, insert)
-    map
+  }
+  legend.position <- match.arg(legend.position)
+  if (is.null(legend.title)) legend.title <- labelify(vals.name)
+
+  # State vs. County data ----
+  if (max(nchar(fips)) < 3) {
+    geo <- geojsonio::geojson_read(
+      system.file(
+        "extdata", "us-states.json",
+        package = "rtemis"
+      ),
+      what = "sp"
+    )
+    fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
+  } else {
+    geo <- geojsonio::geojson_read(
+      system.file(
+        "extdata", "us-counties.json",
+        package = "rtemis"
+      ),
+      what = "sp"
+    )
+    fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
+  }
+
+  # Match input county-level data
+  index <- match(geo$id, fips)
+  geo[["val"]] <- values[index]
+
+  # Colorscale ----
+  if (color.mapping == "Numeric") {
+    pal <- leaflet::colorNumeric(
+      palette = palette,
+      domain = domain,
+      na.color = col.na,
+      alpha = TRUE
+    )
+  } else {
+    pal <- leaflet::colorBin(
+      palette = palette,
+      domain = domain,
+      na.color = col.na,
+      bins = col.bins
+    )
+  }
+
+  # Hover labels ----
+  .labs <- values[index]
+  if (!is.null(names)) {
+    .names <- names[index]
+    labels <- lapply(seq(NROW(geo)), function(i) {
+      if (is.na(.labs[i])) {
+        '<div style="color:#7f7f7f;">N/A</div>'
+      } else {
+        sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
+      }
+    }) |> lapply(htmltools::HTML)
+  } else {
+    labels <- lapply(seq(NROW(geo)), function(i) {
+      if (is.na(.labs[i])) {
+        '<div style="color:#7f7f7f;">N/A</div>'
+      } else {
+        sprintf("%g", .labs[i])
+      }
+    }) |> lapply(htmltools::HTML)
+  }
+  geo[["labels"]] <- labels[index]
+
+  # leaflet map ----
+  map <- leaflet::leaflet(geo) |>
+    leaflet::addProviderTiles(
+      provider = bg.tile.provider,
+      options = leaflet::providerTileOptions(opacity = bg.tile.alpha)
+    ) |>
+    leaflet::addMapPane("polygons", zIndex = 410) |>
+    leaflet::addMapPane("tiles", zIndex = 420) |>
+    leaflet::addPolygons(
+      fillColor = ~ pal(val),
+      fillOpacity = fillOpacity,
+      opacity = alpha,
+      weight = weight,
+      color = color,
+      stroke = stroke,
+      group = legend.title,
+      options = leaflet::pathOptions(pane = "polygons"),
+      highlight = leaflet::highlightOptions(
+        weight = 2,
+        color = col.highlight,
+        bringToFront = TRUE
+      ),
+      label = labels,
+      labelOptions = leaflet::labelOptions(
+        style = list("font-weight" = "normal", padding = "2px 2px"),
+        textsize = "15px",
+        direction = "auto"
+      )
+    ) |>
+    leaflet::addProviderTiles(
+      provider = fg.tile.provider,
+      options = leaflet::pathOptions(pane = "tiles")
+    ) |>
+    leaflet::addLegend(
+      position = legend.position,
+      pal = pal,
+      values = geo$val,
+      opacity = legend.alpha,
+      title = legend.title
+    ) |>
+    leaflet::addLayersControl(overlayGroups = c(legend.title)) |>
+    leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
+
+
+  insert <- htmltools::tags$style(
+    type = "text/css",
+    "div.info.legend.leaflet-control br {clear: both;}"
+  )
+  map <- htmlwidgets::prependContent(map, insert)
+  map
 } # rtemis:: dplot3_leaflet

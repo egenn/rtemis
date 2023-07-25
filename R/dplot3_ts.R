@@ -12,7 +12,7 @@
 #' @param time Numeric or Date vector of time corresponding to values of `x`
 #' @param window Integer: apply `roll.fn` over this many units of time
 #' @param group Factor defining groups
-#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on 
+#' @param roll.fn Character: "mean", "median", "max", or "sum": Function to apply on
 #' rolling windows of `x`
 #' @param roll.col Color for rolling line
 #' @param roll.alpha Numeric: transparency for rolling line
@@ -28,18 +28,18 @@
 #' @param legend Logical: If TRUE, show legend
 #' @param x.showspikes Logical: If TRUE, show x-axis spikes on hover
 #' @param y.showspikes Logical: If TRUE, show y-axis spikes on hover
-#' @param spikedash Character: dash type string ("solid", "dot", "dash", 
-#' "longdash", "dashdot", or "longdashdot") or a dash length list in px 
+#' @param spikedash Character: dash type string ("solid", "dot", "dash",
+#' "longdash", "dashdot", or "longdashdot") or a dash length list in px
 #' (eg "5px,10px,2px,2px")
 #' @param displayModeBar Logical: If TRUE, display plotly's modebar
 #' @param theme Character: theme name or list of theme parameters
 #' @param palette Character: palette name, or list of colors
 #' @param filename Character: Path to filename to save plot
-#' @param spikemode Character: If "toaxis", spike line is drawn from the data 
-#' point to the axis the series is plotted on. If "across", the line is drawn 
-#' across the entire plot area, and supercedes "toaxis". If "marker", then a 
+#' @param spikemode Character: If "toaxis", spike line is drawn from the data
+#' point to the axis the series is plotted on. If "across", the line is drawn
+#' across the entire plot area, and supercedes "toaxis". If "marker", then a
 #' marker dot is drawn on the axis the series is plotted on
-#' @param spikesnap Character: "data", "cursor", "hovered data". Determines 
+#' @param spikesnap Character: "data", "cursor", "hovered data". Determines
 #' whether spikelines are stuck to the cursor or to the closest datapoints.
 #' @param spikecolor Color for spike lines
 #' @param spikethickness Numeric: spike line thickness
@@ -83,7 +83,7 @@ dplot3_ts <- function(x, time,
                       group.names = NULL,
                       xlab = "Time",
                       n.xticks = 12,
-                    #   tickmode = "array",
+                      #   tickmode = "array",
                       scatter.type = "scatter",
                       legend = TRUE,
                       x.showspikes = TRUE,
@@ -101,123 +101,121 @@ dplot3_ts <- function(x, time,
                       file.width = 500,
                       file.height = 500,
                       file.scale = 1, ...) {
+  # Arguments ----
+  roll.fn <- match.arg(roll.fn)
+  if (roll.fn == "none") window <- NULL
 
-    # Arguments ----
-    roll.fn <- match.arg(roll.fn)
-    if (roll.fn == "none") window <- NULL
+  # Timeseries ----
+  if (!is.null(group)) {
+    x <- split(x, group)
+    time <- split(time, group)
+  }
 
-    # Timeseries ----
-    if (!is.null(group)) {
-        x <- split(x, group)
-        time <- split(time, group)
+  if (is.data.frame(x)) {
+    x <- as.list(x)
+  }
+
+  if (!is.list(x)) {
+    x <- list(x)
+  }
+
+  if (is.data.frame(time)) {
+    time <- as.list(time)
+  }
+
+  if (!is.list(time)) {
+    time <- list(time)
+  }
+
+  if (is.null(group.names)) {
+    group.names <- if (!is.null(names(x))) {
+      names(x)
+    } else {
+      paste("Group", seq_along(x))
     }
-    
-    if (is.data.frame(x)) {
-        x <- as.list(x)
-    } 
-    
-    if (!is.list(x)) {
-        x <- list(x)
-    }
+  }
 
-    if (is.data.frame(time)) {
-        time <- as.list(time)
-    }
-    
-    if (!is.list(time)) {
-        time <- list(time)
-    }
+  idx <- lapply(time, order)
+  time <- lapply(seq_along(time), \(i) time[[i]][idx[[i]]])
+  if (length(time) < length(x)) {
+    time <- rep(time, length(x) / length(time))
+    idx <- rep(idx, length(x) / length(idx))
+  }
+  x <- lapply(seq_along(x), \(i) x[[i]][idx[[i]]])
+  # xtl <- lapply(seq_along(x), \(i) zoo::zoo(x[[i]], time[[i]]))
 
-    if (is.null(group.names)) {
-        group.names <- if (!is.null(names(x))) {
-            names(x)
-        } else {
-            paste("Group", seq_along(x))
-        }
-    }
-
-    idx <- lapply(time, order)
-    time <- lapply(seq_along(time), \(i) time[[i]][idx[[i]]])
-    if (length(time) < length(x)) {
-        time <- rep(time, length(x) / length(time))
-        idx <- rep(idx, length(x) / length(idx))
-    }
-    x <- lapply(seq_along(x), \(i) x[[i]][idx[[i]]])
-    # xtl <- lapply(seq_along(x), \(i) zoo::zoo(x[[i]], time[[i]]))
-
-    if (!is.null(window) && window > 0) {
-        avg_line <- switch(roll.fn,
-            mean = lapply(x, \(xt) data.table::frollmean(xt, n = window, align = align)),
-            median = lapply(x, \(xt) data.table::frollapply(xt, n = window, median, align = align)),
-            max = lapply(x, \(xt) data.table::frollapply(xt, n = window, max, align = align)),
-            sum = lapply(x, \(xt) data.table::frollsum(xt, n = window, align = align))
-        )
-    }
-
-    # Palette ----
-    if (is.character(palette)) palette <- rtpalette(palette)
-    if (is.null(roll.col)) roll.col <- palette[seq_along(x)]
-
-    # dplot3_xy ----
-    plt <- dplot3_xy(time, x,
-        xlab = xlab,
-        theme = theme,
-        palette = palette,
-        alpha = alpha,
-        group.names = group.names,
-        legend = legend,
-        scatter.type = scatter.type,
-        x.showspikes = x.showspikes,
-        y.showspikes = y.showspikes,
-        spikedash = spikedash,
-        spikemode = spikemode,
-        spikesnap = spikesnap,
-        spikecolor = spikecolor,
-        spikethickness = spikethickness, ...
+  if (!is.null(window) && window > 0) {
+    avg_line <- switch(roll.fn,
+      mean = lapply(x, \(xt) data.table::frollmean(xt, n = window, align = align)),
+      median = lapply(x, \(xt) data.table::frollapply(xt, n = window, median, align = align)),
+      max = lapply(x, \(xt) data.table::frollapply(xt, n = window, max, align = align)),
+      sum = lapply(x, \(xt) data.table::frollsum(xt, n = window, align = align))
     )
+  }
 
-    # Rolling function line ----
-    if (is.null(roll.name)) {
-        roll.name <- paste0("Rolling ", roll.fn, " (window=", window, ")")
+  # Palette ----
+  if (is.character(palette)) palette <- rtpalette(palette)
+  if (is.null(roll.col)) roll.col <- palette[seq_along(x)]
+
+  # dplot3_xy ----
+  plt <- dplot3_xy(time, x,
+    xlab = xlab,
+    theme = theme,
+    palette = palette,
+    alpha = alpha,
+    group.names = group.names,
+    legend = legend,
+    scatter.type = scatter.type,
+    x.showspikes = x.showspikes,
+    y.showspikes = y.showspikes,
+    spikedash = spikedash,
+    spikemode = spikemode,
+    spikesnap = spikesnap,
+    spikecolor = spikecolor,
+    spikethickness = spikethickness, ...
+  )
+
+  # Rolling function line ----
+  if (is.null(roll.name)) {
+    roll.name <- paste0("Rolling ", roll.fn, " (window=", window, ")")
+  }
+
+  if (!is.null(window)) {
+    for (i in seq_along(x)) {
+      plt |> plotly::add_trace(
+        x = time[[i]], y = avg_line[[i]],
+        type = "scatter",
+        mode = "lines",
+        line = list(
+          color = plotly::toRGB(roll.col[[i]], alpha = roll.alpha),
+          width = roll.lwd
+        ),
+        name = roll.name
+      ) -> plt
     }
+  }
 
-    if (!is.null(window)) {
-        for (i in seq_along(x)) {
-            plt |> plotly::add_trace(
-                x = time[[i]], y = avg_line[[i]],
-                type = "scatter",
-                mode = "lines",
-                line = list(
-                    color = plotly::toRGB(roll.col[[i]], alpha = roll.alpha),
-                    width = roll.lwd
-                ),
-                name = roll.name
-            ) -> plt
-        }
-    }
-
-    # Config
-    plt <- plotly::config(plt,
-        displaylogo = FALSE,
-        displayModeBar = displayModeBar,
-        toImageButtonOptions = list(
-            format = modeBar.file.format,
-            width = file.width,
-            height = file.height
-        )
+  # Config
+  plt <- plotly::config(plt,
+    displaylogo = FALSE,
+    displayModeBar = displayModeBar,
+    toImageButtonOptions = list(
+      format = modeBar.file.format,
+      width = file.width,
+      height = file.height
     )
+  )
 
-    # Write to file ----
-    if (!is.null(filename)) {
-        plotly::save_image(
-            plt,
-            file = file.path(filename),
-            width = file.width,
-            height = file.height,
-            scale = file.scale
-        )
-    }
+  # Write to file ----
+  if (!is.null(filename)) {
+    plotly::save_image(
+      plt,
+      file = file.path(filename),
+      width = file.width,
+      height = file.height,
+      scale = file.scale
+    )
+  }
 
-    plt
-    
+  plt
 } # rtemis::dplot3_ts

@@ -26,21 +26,21 @@
 #'
 #' # Plot the calibration curve of the original predictions
 #' dplot3_calibration(
-#'     true_labels = segment_logistic$Class,
-#'     est_prob = segment_logistic$.pred_poor,
-#'     n_windows = 10,
-#'     pos_class_idi = 2
+#'   true_labels = segment_logistic$Class,
+#'   est_prob = segment_logistic$.pred_poor,
+#'   n_windows = 10,
+#'   pos_class_idi = 2
 #' )
 #'
 #' # Plot the calibration curve of the calibrated predictions
 #' dplot3_calibration(
-#'     true_labels = segment_logistic$Class,
-#'     est_prob = calibrate(
-#'         segment_logistic$Class,
-#'         segment_logistic$.pred_poor
-#'     )$fitted.values,
-#'     n_windows = 10,
-#'     pos_class_idi = 2
+#'   true_labels = segment_logistic$Class,
+#'   est_prob = calibrate(
+#'     segment_logistic$Class,
+#'     segment_logistic$.pred_poor
+#'   )$fitted.values,
+#'   n_windows = 10,
+#'   pos_class_idi = 2
 #' )
 #' }
 calibrate <- function(true_labels,
@@ -49,27 +49,27 @@ calibrate <- function(true_labels,
                       mod = c("gam", "glm"),
                       k = 5,
                       verbose = TRUE) {
-    stopifnot(pos_class_idi %in% c(1, 2))
-    mod <- match.arg(mod)
-    if (pos_class_idi == 1) {
-        true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
-    }
+  stopifnot(pos_class_idi %in% c(1, 2))
+  mod <- match.arg(mod)
+  if (pos_class_idi == 1) {
+    true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
+  }
 
-    # GAM ----
-    if (verbose) {
-        if (mod == "gam") {
-            msg2start(paste0("Fitting GAM (k=", k, ")..."))
-        } else {
-            msg2start("Fitting GLM...")
-        }
-    }
-    if (mod == "glm") {
-        mod <- glm(true_labels ~ est_prob, family = binomial())
+  # GAM ----
+  if (verbose) {
+    if (mod == "gam") {
+      msg2start(paste0("Fitting GAM (k=", k, ")..."))
     } else {
-        mod <- mgcv::gam(true_labels ~ s(est_prob, k = k), family = binomial())
+      msg2start("Fitting GLM...")
     }
-    if (verbose) {
-        msg2done()
-    }
-    mod
+  }
+  if (mod == "glm") {
+    mod <- glm(true_labels ~ est_prob, family = binomial())
+  } else {
+    mod <- mgcv::gam(true_labels ~ s(est_prob, k = k), family = binomial())
+  }
+  if (verbose) {
+    msg2done()
+  }
+  mod
 } # rtemis::calibrate

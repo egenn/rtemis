@@ -32,8 +32,8 @@
 d_MDS <- function(x,
                   k = 2,
                   dist.method = c(
-                      "euclidean", "maximum", "manhattan",
-                      "canberra", "binary", "minkowski"
+                    "euclidean", "maximum", "manhattan",
+                    "canberra", "binary", "minkowski"
                   ),
                   eig = FALSE,
                   add = FALSE,
@@ -41,61 +41,60 @@ d_MDS <- function(x,
                   scale = TRUE,
                   center = TRUE,
                   verbose = TRUE, ...) {
+  # Intro ----
+  start.time <- intro(verbose = verbose)
+  dist.method <- match.arg(dist.method)
+  decom.name <- "MDS"
 
-    # Intro ----
-    start.time <- intro(verbose = verbose)
-    dist.method <- match.arg(dist.method)
-    decom.name <- "MDS"
+  # Data ----
+  x <- as.data.frame(x)
+  n <- NROW(x)
+  p <- NCOL(x)
+  if (verbose) {
+    msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
+    msg2("    interpreted as", n, "cases with", p, "features.")
+  }
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
+  xnames <- colnames(x)
+  if (scale) {
+    x <- scale(x, center = center)
+  }
 
-    # Data ----
-    x <- as.data.frame(x)
-    n <- NROW(x)
-    p <- NCOL(x)
-    if (verbose) {
-        msg2("||| Input has dimensions ", n, " rows by ", p, " columns,", sep = "")
-        msg2("    interpreted as", n, "cases with", p, "features.")
-    }
-    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
-    xnames <- colnames(x)
-    if (scale) {
-        x <- scale(x, center = center)
-    }
+  # MDS ----
+  if (verbose) msg2("Running Multidimensional Scaling...")
+  .dist <- dist(x, method = dist.method)
+  decom <- cmdscale(
+    .dist,
+    k = k,
+    eig = eig,
+    add = add,
+    x.ret = x.ret,
+    list. = TRUE
+  )
 
-    # MDS ----
-    if (verbose) msg2("Running Multidimensional Scaling...")
-    .dist <- dist(x, method = dist.method)
-    decom <- cmdscale(
-        .dist,
-        k = k,
-        eig = eig,
-        add = add,
-        x.ret = x.ret,
-        list. = TRUE
-    )
+  # Projections ----
+  projections.train <- decom$points
+  colnames(projections.train) <- paste0("MDS", seq_len(NCOL(projections.train)))
 
-    # Projections ----
-    projections.train <- decom$points
-    colnames(projections.train) <- paste0("MDS", seq_len(NCOL(projections.train)))
-
-    # Outro ----
-    extra <- list()
-    rt <- rtDecom$new(
-        decom.name = decom.name,
-        decom = decom,
-        xnames = xnames,
-        projections.train = projections.train,
-        projections.test = NULL,
-        parameters = list(
-            k = k,
-            dist.method = dist.method,
-            eig = eig,
-            add = add,
-            x.ret = x.ret,
-            scale = scale,
-            center = center
-        ),
-        extra = extra
-    )
-    outro(start.time, verbose = verbose)
-    rt
+  # Outro ----
+  extra <- list()
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = NULL,
+    parameters = list(
+      k = k,
+      dist.method = dist.method,
+      eig = eig,
+      add = add,
+      x.ret = x.ret,
+      scale = scale,
+      center = center
+    ),
+    extra = extra
+  )
+  outro(start.time, verbose = verbose)
+  rt
 } # rtemis::d_MDS
