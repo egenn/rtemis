@@ -142,7 +142,7 @@ and substitutes levels present in \code{x.test} and not in \code{x} with NA.
 }
 \examples{
 x <- rnorm(100)
-y <- .6 * x + 12 + rnorm(100)/2
+y <- .6 * x + 12 + rnorm(100) / 2
 mod <- s_GLM(x, y)
 }
 \seealso{

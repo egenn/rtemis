@@ -220,11 +220,11 @@ likelihoodMediboostSplitNode <- function(x, y,
     )
   }
   if ((sign(node$value) != sign(y %*% node$weights) ||
-    depth < depthLimit) &&
-    !is.infinite(node$value) &&
-    hessian >= min.hessian &&
-    sum(membership) >= min.membership &&
-    min.mem.counter <= steps.past.min.membership) {
+         depth < depthLimit) &&
+        !is.infinite(node$value) &&
+        hessian >= min.hessian &&
+        sum(membership) >= min.membership &&
+        min.mem.counter <= steps.past.min.membership) {
     # if (verbose) msg2("sign(node$value) is", sign(node$value), "sign(y %*% node$weights) is",
     #                  sign(y %*% node$weights), "node$value is", node$value,
     #                  "and Depth is", depth)
@@ -251,9 +251,9 @@ likelihoodMediboostSplitNode <- function(x, y,
     node$membership <- membership
     # cutCategory contains all levels of categorical var that should go Left
     if (length(node$cutPoint) > 0 && !is.na(node$cutPoint) ||
-      length(node$cutCategory) > 0 && !is.na(node$cutCategory)) {
-      # The node is not terminal
-      node$terminal <- FALSE
+          length(node$cutCategory) > 0 && !is.na(node$cutCategory)) {
+          # The node is not terminal
+          node$terminal <- FALSE
 
       # Split the data based on this feature
       if (length(node$cutPoint) > 0) {

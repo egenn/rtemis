@@ -135,7 +135,7 @@ because of environment problems, which means it fails to get predicted values if
 }
 \examples{
 x <- rnorm(100)
-y <- .6 * x + 12 + rnorm(100)/2
+y <- .6 * x + 12 + rnorm(100) / 2
 mod <- s_LM(x, y)
 }
 \seealso{

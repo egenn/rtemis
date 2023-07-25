@@ -154,7 +154,7 @@ Plot the primary amino acid sequence of a protein
 \examples{
 \dontrun{
 tau <- seqinr::read.fasta("https://rest.uniprot.org/uniprotkb/P10636.fasta",
-    seqtype = "AA"
+  seqtype = "AA"
 )
 dplot3_protein(as.character(tau[[1]]))
 

@@ -74,19 +74,21 @@ Create "Multimodal" Synthetic Data using squares and arctangents
 There are no checks yet for compatibility among inputs and certain combinations may not work.
 }
 \examples{
-xmm <- synthMultiModal(n.cases = 10000,
-init.fn = "runifmat",
-init.fn.params = list(min = -10, max = 10),
-n.groups = 5,
-n.feat.per.group = c(20, 50, 100, 200, 300),
-contrib.p = .33,
-linear.p = .66,
-square.p = .1,
-atan.p = .1,
-pair.multiply.p = .1,
-pair.square.p = .1,
-pair.atan.p = .1,
-seed = 2019)
+xmm <- synthMultiModal(
+  n.cases = 10000,
+  init.fn = "runifmat",
+  init.fn.params = list(min = -10, max = 10),
+  n.groups = 5,
+  n.feat.per.group = c(20, 50, 100, 200, 300),
+  contrib.p = .33,
+  linear.p = .66,
+  square.p = .1,
+  atan.p = .1,
+  pair.multiply.p = .1,
+  pair.square.p = .1,
+  pair.atan.p = .1,
+  seed = 2019
+)
 }
 \author{
 E.D. Gennatas

@@ -86,7 +86,8 @@ NW automatically models interactions, like PPR, but the latter is a lot faster
 \dontrun{
 x <- rnorm(100)
 y <- .6 * x + 12 + rnorm(100)
-mod <- s_NW(x, y)}
+mod <- s_NW(x, y)
+}
 }
 \seealso{
 \link{train} for external cross-validation

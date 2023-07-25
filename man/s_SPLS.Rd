@@ -156,7 +156,8 @@ with mixed data types.
 \dontrun{
 x <- rnorm(100)
 y <- .6 * x + 12 + rnorm(100)
-mod <- s_SPLS(x, y)}
+mod <- s_SPLS(x, y)
+}
 }
 \seealso{
 \link{train} for external cross-validation
