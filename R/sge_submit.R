@@ -5,27 +5,27 @@
 #' Submit expression to SGE grid
 #'
 #' @param expr R expression
-#' @param obj_names Character vector: Names of objects to copy to cluster R 
+#' @param obj_names Character vector: Names of objects to copy to cluster R
 #' session
-#' @param packages Character vector: Names of packages to load in cluster R 
+#' @param packages Character vector: Names of packages to load in cluster R
 #' session
 #' @param queue Character: Name of SGE queue to submit to
 #' @param n_threads Integer: Number of threads to request from scheduler
-#' @param sge_out Character: Path to directory to write standard out message 
+#' @param sge_out Character: Path to directory to write standard out message
 #' files
 #' @param sge_error Character: Path to directory to write error message files
 #' @param sge_env Character: Shell environment for script to be submitted to SGE
-#' @param sge_opts Character: SGE options that will be written in shell script. 
+#' @param sge_opts Character: SGE options that will be written in shell script.
 #' Default = "#$ -cwd"
 #' @param R_command Character: Optional R command(s) to run at the beginning of
 #' the R script
-#' @param system_command Character: system command to be run by shell script 
+#' @param system_command Character: system command to be run by shell script
 #' before executing R code.
 #' For example a command that export the R executable to use
-#' @param h_rt Character: Max time to request. Default = "00:25:00", i.e. 25 
+#' @param h_rt Character: Max time to request. Default = "00:25:00", i.e. 25
 #' minutes
 #' @param mem_free Character: Amount of memory to request from the scheduler
-#' @param temp_dir Character: Temporary directory that is accessible to all 
+#' @param temp_dir Character: Temporary directory that is accessible to all
 #' execution nodes.
 #' Default = `file.path(getwd(), ".sge_tempdir")`
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
@@ -50,7 +50,6 @@ sge_submit <- function(expr,
                        temp_dir = tempdir(),
                        verbose = TRUE,
                        trace = 1) {
-
   expr <- as.character(as.expression(substitute(expr)))
 
   if (verbose) {
@@ -67,8 +66,10 @@ sge_submit <- function(expr,
   # Save obj_names to temp ----
   if (!is.null(obj_names)) {
     .temp <- tempfile(pattern = "guava", tmpdir = temp_dir)
-    do.call(save, list(list = obj_names,
-                       file = .temp))
+    do.call(save, list(
+      list = obj_names,
+      file = .temp
+    ))
     if (trace > 0) {
       msg2("Temp file set to", .temp)
       msg2("Objects written to temp file:", paste(obj_names, collapse = ", "))
@@ -104,12 +105,15 @@ sge_submit <- function(expr,
   ## Load packages ----
   if (!is.null(packages)) {
     cat(sapply(packages, function(p) paste0("library(", p, ")\n")),
-        sep = "", file = Rfilepath, append = TRUE)
+      sep = "", file = Rfilepath, append = TRUE
+    )
   }
 
   ## Diag ----
   cat("rtemis:::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
-      "\n", file = Rfilepath, append = TRUE)
+    "\n",
+    file = Rfilepath, append = TRUE
+  )
 
   ## Load data ----
   if (!is.null(obj_names)) {
@@ -137,7 +141,8 @@ sge_submit <- function(expr,
   qsub <- paste(
     "qsub -pe smp", n_threads,
     "-o", sge_out,
-    "-e", sge_error)
+    "-e", sge_error
+  )
   if (!is.null(queue)) {
     qsub <- paste(qsub, "-q", queue)
   }
@@ -150,7 +155,6 @@ sge_submit <- function(expr,
   qsub <- paste(qsub, shfilepath)
 
   system(qsub)
-
 }
 
 

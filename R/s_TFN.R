@@ -63,21 +63,25 @@ s_TFN <- function(x, y = NULL,
                   resample.seed = NULL,
                   net = NULL,
                   n.hidden.nodes = NULL,
-                  initializer = c("glorot_uniform", "glorot_normal",
-                                  "he_uniform", "he_normal",
-                                  "lecun_uniform", "lecun_normal",
-                                  "random_uniform", "random_normal",
-                                  "variance_scaling", "truncated_normal",
-                                  "orthogonal", "zeros",
-                                  "ones", "constant"),
+                  initializer = c(
+                    "glorot_uniform", "glorot_normal",
+                    "he_uniform", "he_normal",
+                    "lecun_uniform", "lecun_normal",
+                    "random_uniform", "random_normal",
+                    "variance_scaling", "truncated_normal",
+                    "orthogonal", "zeros",
+                    "ones", "constant"
+                  ),
                   initializer.seed = NULL,
                   dropout = 0,
-                  activation = c("relu", "selu",
-                                 "elu", "sigmoid",
-                                 "hard_sigmoid", "tanh",
-                                 "exponential", "linear",
-                                 "softmax", "softplus",
-                                 "softsign"),
+                  activation = c(
+                    "relu", "selu",
+                    "elu", "sigmoid",
+                    "hard_sigmoid", "tanh",
+                    "exponential", "linear",
+                    "softmax", "softplus",
+                    "softsign"
+                  ),
                   kernel_l1 = .1,
                   kernel_l2 = 0,
                   activation_l1 = 0,
@@ -85,10 +89,12 @@ s_TFN <- function(x, y = NULL,
                   batch.normalization = TRUE,
                   output = NULL,
                   loss = NULL,
-                  optimizer = c("rmsprop", "adadelta",
-                                "adagrad", "adam",
-                                "adamax", "nadam",
-                                "sgd"),
+                  optimizer = c(
+                    "rmsprop", "adadelta",
+                    "adagrad", "adam",
+                    "adamax", "nadam",
+                    "sgd"
+                  ),
                   learning.rate = NULL,
                   metric = NULL,
                   epochs = 100,
@@ -109,7 +115,6 @@ s_TFN <- function(x, y = NULL,
                   verbose.checkpoint = FALSE,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_TFN))
@@ -132,7 +137,7 @@ s_TFN <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(print.error.plot)) print.error.plot <- print.plot
   initializer <- match.arg(initializer)
@@ -142,25 +147,27 @@ s_TFN <- function(x, y = NULL,
   optimizer <- match.arg(optimizer)
   if (is.null(learning.rate)) {
     learning.rate <- switch(optimizer,
-                            rmsprop = .01,
-                            adadelta = 1,
-                            adagrad = .01,
-                            adamax = .002,
-                            adam = .001,
-                            nadam = .002,
-                            sgd = .1)
+      rmsprop = .01,
+      adadelta = 1,
+      adagrad = .01,
+      adamax = .002,
+      adam = .001,
+      nadam = .002,
+      sgd = .1
+    )
   }
   optimizer <- paste0("optimizer_", optimizer)
   optimizer <- getFromNamespace(optimizer, "keras")
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -170,7 +177,7 @@ s_TFN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .class.weights <- if (is.null(class.weights) & ifw) dt$class.weights else class.weights
+  .class.weights <- if (is.null(class.weights) && ifw) dt$class.weights else class.weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)
@@ -200,7 +207,7 @@ s_TFN <- function(x, y = NULL,
       loss <- "mean_squared_error"
     }
   }
-  if (type == "Classification" & loss == "categorical_crossentropy") y <- keras::to_categorical(y)
+  if (type == "Classification" && loss == "categorical_crossentropy") y <- keras::to_categorical(y)
 
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -248,27 +255,36 @@ s_TFN <- function(x, y = NULL,
 
   ### '- Init ----
   if (is.null(net)) {
-
     net <- keras::keras_model_sequential()
 
     ### '- Hidden layers ----
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
         keras::layer_dense(net,
-                           units = n.hnodes[i],
-                           activation = activation,
-                           input_shape = n.features,
-                           kernel_initializer = initializer(seed = initializer.seed),
-                           kernel_regularizer = keras::regularizer_l1_l2(l1 = kernel_l1,
-                                                                         l2 = kernel_l2),
-                           name = paste0("rt_Dense_", i))
-        if (activation_l1 != 0 | activation_l2 != 0) keras::layer_activity_regularization(net,
-                                                                    l1 = activation_l1,
-                                                                    l2 = activation_l2,
-                                                                    name = paste0("rt_Reg_", i))
-        if (batch.normalization) keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
-        keras::layer_dropout(net, rate = dropout[i],
-                             name = paste0("rt_Dropout_", i))
+          units = n.hnodes[i],
+          activation = activation,
+          input_shape = n.features,
+          kernel_initializer = initializer(seed = initializer.seed),
+          kernel_regularizer = keras::regularizer_l1_l2(
+            l1 = kernel_l1,
+            l2 = kernel_l2
+          ),
+          name = paste0("rt_Dense_", i)
+        )
+        if (activation_l1 != 0 || activation_l2 != 0) {
+          keras::layer_activity_regularization(net,
+            l1 = activation_l1,
+            l2 = activation_l2,
+            name = paste0("rt_Reg_", i)
+          )
+        }
+        if (batch.normalization) {
+          keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
+        }
+        keras::layer_dropout(net,
+          rate = dropout[i],
+          name = paste0("rt_Dropout_", i)
+        )
       }
     } # /if (n.hlayers > 0)
 
@@ -284,27 +300,38 @@ s_TFN <- function(x, y = NULL,
     }
 
     keras::layer_dense(net,
-                       units = n.outputs,
-                       activation = output,
-                       name = "rt_Output")
+      units = n.outputs,
+      activation = output,
+      name = "rt_Output"
+    )
 
     # Parameters ----
-    parameters <- list(n.hidden.nodes = n.hidden.nodes,
-                       batch.size = batch.size,
-                       batch.normalization = batch.normalization,
-                       epochs = epochs,
-                       optimizer = optimizer,
-                       learning.rate = learning.rate,
-                       metric = metric)
-    if (verbose) printls(parameters, title = "ANN parameters",
-                         center.title = TRUE,
-                         pad = 0,
-                         newline.pre = TRUE)
+    parameters <- list(
+      n.hidden.nodes = n.hidden.nodes,
+      batch.size = batch.size,
+      batch.normalization = batch.normalization,
+      epochs = epochs,
+      optimizer = optimizer,
+      learning.rate = learning.rate,
+      metric = metric
+    )
+    if (verbose) {
+      printls(parameters,
+        title = "ANN parameters",
+        center.title = TRUE,
+        pad = 0,
+        newline.pre = TRUE
+      )
+    }
 
     # TF ----
-    if (verbose) msg20("Training Neural Network ", type, " with ",
-                      n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
-                      "...\n", newline.pre = TRUE)
+    if (verbose) {
+      msg20("Training Neural Network ", type, " with ",
+        n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
+        "...\n",
+        newline.pre = TRUE
+      )
+    }
 
     # '- Compile ----
     net |> keras::compile(
@@ -357,41 +384,46 @@ s_TFN <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(scale = scale,
-                col_means_train = if (scale) col_means_train else NULL,
-                col_stddevs_train = if (scale) col_stddevs_train else NULL)
-  rt <- rtModSet(mod.name = mod.name,
-                 type = type,
-                 y.train = if (type == "Classification") y0 else y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 xnames = xnames,
-                 mod = net,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 parameters = parameters,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  extra <- list(
+    scale = scale,
+    col_means_train = if (scale) col_means_train else NULL,
+    col_stddevs_train = if (scale) col_stddevs_train else NULL
+  )
+  rt <- rtModSet(
+    mod.name = mod.name,
+    type = type,
+    y.train = if (type == "Classification") y0 else y,
+    y.test = y.test,
+    x.name = x.name,
+    xnames = xnames,
+    mod = net,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    parameters = parameters,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   if (save.mod) keras::save_model_hdf5(net, filepath = paste0(outdir, "rt_kerasTF"))
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_TFN

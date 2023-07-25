@@ -201,7 +201,7 @@ dplot3_volcano <- function(x, pvals,
   if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
 
   if (group.counts[1] > 0 && !is.null(legend.lo)) {
-    plt |> plotly::add_annotations(
+    plt <- plt |> plotly::add_annotations(
       x = legend.x.lo,
       y = legend.y,
       text = legend.lo,
@@ -213,11 +213,11 @@ dplot3_volcano <- function(x, pvals,
         family = theme$font.family,
         size = font.size
       )
-    ) -> plt
+    )
   }
 
   if (group.counts[3] > 0 && !is.null(legend.hi)) {
-    plt |> plotly::add_annotations(
+    plt <- plt |> plotly::add_annotations(
       x = legend.x.hi,
       y = legend.y,
       text = legend.hi,
@@ -229,7 +229,7 @@ dplot3_volcano <- function(x, pvals,
         family = theme$font.family,
         size = font.size
       )
-    ) -> plt
+    )
   }
 
   # Annotations ----

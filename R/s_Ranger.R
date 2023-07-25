@@ -115,9 +115,7 @@ s_Ranger <- function(x, y = NULL,
     return(invisible(9))
   }
   if (!is.null(outdir)) {
-    outdir <- paste0(normalizePath(outdir,
-      mustWork = FALSE
-    ), "/")
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   }
   logFile <- if (!is.null(outdir)) {
     paste0(

@@ -10,9 +10,9 @@
 #' @param x Numeric vector or matrix / data frame: Input
 #' @param lo Target range minimum. Defaults to 0
 #' @param hi Target range maximum. Defaults to 1
-#' @param byCol Logical: If TRUE: if `x` is matrix, `drange` each 
+#' @param byCol Logical: If TRUE: if `x` is matrix, `drange` each
 #' column separately
-#' 
+#'
 #' @author E.D. Gennatas
 #' @examples
 #' x <- runif(20, -10, 10)
@@ -20,10 +20,9 @@
 #' @export
 
 drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
-
   dr <- function(x, lo, hi) {
     .min <- min(x, na.rm = TRUE)
-   (x - .min) / max(x - .min, na.rm = TRUE) * (hi - lo) + lo
+    (x - .min) / max(x - .min, na.rm = TRUE) * (hi - lo) + lo
   }
 
   if (NCOL(x) > 1) {
@@ -37,5 +36,4 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
   }
 
   new.x
-
 } # rtemis::drange

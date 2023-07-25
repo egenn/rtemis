@@ -68,7 +68,7 @@ s_QRNN <- function(x, y = NULL,
   dependency_check("qrnn")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_QRNN))
     stop("y is missing")
   }
@@ -83,7 +83,7 @@ s_QRNN <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----

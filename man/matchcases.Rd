@@ -53,18 +53,22 @@ data.frame. Match exactly and/or by distance (sum of squared distances).
 }
 \examples{
 set.seed(2021)
-cases <- data.frame(PID = paste0("PID", seq(4)),
-                    Sex = factor(c(1, 1, 0, 0)),
-                    Handedness = factor(c(1, 1, 0, 1)),
-                    Age = c(21, 27, 39, 24),
-                    Var = c(.7, .8, .9, .6),
-                    Varx = rnorm(4))
-controls <- data.frame(CID = paste0("CID", seq(50)),
-                       Sex = factor(sample(c(0, 1), 50, TRUE)),
-                       Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
-                       Age = sample(16:42, 50, TRUE),
-                       Var = rnorm(50),
-                       Vary = rnorm(50))
+cases <- data.frame(
+  PID = paste0("PID", seq(4)),
+  Sex = factor(c(1, 1, 0, 0)),
+  Handedness = factor(c(1, 1, 0, 1)),
+  Age = c(21, 27, 39, 24),
+  Var = c(.7, .8, .9, .6),
+  Varx = rnorm(4)
+)
+controls <- data.frame(
+  CID = paste0("CID", seq(50)),
+  Sex = factor(sample(c(0, 1), 50, TRUE)),
+  Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
+  Age = sample(16:42, 50, TRUE),
+  Var = rnorm(50),
+  Vary = rnorm(50)
+)
 
 mc <- matchcases(cases, controls, 2, "PID", "CID")
 }

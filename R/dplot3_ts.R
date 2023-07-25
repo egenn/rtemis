@@ -182,7 +182,7 @@ dplot3_ts <- function(x, time,
 
   if (!is.null(window)) {
     for (i in seq_along(x)) {
-      plt |> plotly::add_trace(
+      plt <- plt |> plotly::add_trace(
         x = time[[i]], y = avg_line[[i]],
         type = "scatter",
         mode = "lines",
@@ -191,7 +191,7 @@ dplot3_ts <- function(x, time,
           width = roll.lwd
         ),
         name = roll.name
-      ) -> plt
+      )
     }
   }
 

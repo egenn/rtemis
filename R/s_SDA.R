@@ -92,7 +92,7 @@ s_SDA <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -106,8 +106,8 @@ s_SDA <- function(x, y = NULL,
   )
   x <- dt$x
   y <- dt$y
-  x0 <- if (upsample | downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
-  y0 <- if (upsample | downsample) dt$y0 else y
+  x0 <- if (upsample || downsample) dt$x0 else x # x0, y0 are passed to gridSearchLearn
+  y0 <- if (upsample || downsample) dt$y0 else y
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames

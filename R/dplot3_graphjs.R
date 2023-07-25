@@ -106,14 +106,14 @@ dplot3_graphjs <- function(net,
 
   # Layout ----
   layout <- match.arg(layout)
-  if (is.null(coords) & !is.null(layout)) {
+  if (is.null(coords) && !is.null(layout)) {
     coords <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
                       c(list(net, dim = 3), layout_params))
     if (layout == "sugiyama") coords <- coords$layout
   }
 
   # Cluster ----
-  if (is.null(groups) & !is.null(cluster)) {
+  if (is.null(groups) && !is.null(cluster)) {
     groups <- do.call(getFromNamespace(paste0("cluster_", cluster), "igraph"),
                       c(list(net), cluster_params))
   }
@@ -133,7 +133,7 @@ dplot3_graphjs <- function(net,
   vertex.label.col <- adjustcolor(vertex.label.col, vertex.label.alpha)
 
   # Leave edge.col as NULL for auto-coloring with groups
-  if (is.null(edge.col) & is.null(groups)) {
+  if (is.null(edge.col) && is.null(groups)) {
     edge.col <- "#18A3AC"
   }
 

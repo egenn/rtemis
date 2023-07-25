@@ -9,10 +9,10 @@
 #' @inheritParams s_GLM
 #' @param trials Integer \[1, 100\]: Number of boosting iterations
 #' @param rules Logical: If TRUE, decompose the tree to a rule-based model
-#' 
+#'
 #' @return [rtMod] object
 #' @author E.D. Gennatas
-#' 
+#'
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
@@ -43,7 +43,6 @@ s_C50 <- function(x, y = NULL,
                   trace = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_C50))
@@ -51,7 +50,10 @@ s_C50 <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir, "/", sys.calls()[[1]][[1]], ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+    )
   } else {
     NULL
   }
@@ -66,16 +68,17 @@ s_C50 <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ifw = ifw, ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    ifw = ifw, ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -83,8 +86,10 @@ s_C50 <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, "Classification", mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
-  if (type != "Classification") stop("C5.0 is for classification; please provide factor outcome")
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  if (type != "Classification") {
+    stop("C5.0 is for classification; please provide factor outcome")
+  }
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -97,11 +102,12 @@ s_C50 <- function(x, y = NULL,
   # C5.0 ----
   if (verbose) msg2("Training C5.0 decision tree...", newline.pre = TRUE)
   mod <- C50::C5.0(x, y,
-                   trials = trials,
-                   rules = rules,
-                   weights = .weights,
-                   control = control,
-                   costs = costs, ...)
+    trials = trials,
+    rules = rules,
+    weights = .weights,
+    control = control,
+    costs = costs, ...
+  )
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
@@ -120,34 +126,37 @@ s_C50 <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtMod$new(mod.name = mod.name,
-                  y.train = y,
-                  y.test = y.test,
-                  x.name = x.name,
-                  xnames = xnames,
-                  mod = mod,
-                  type = "Classification",
-                  parameters = parameters,
-                  fitted = fitted,
-                  se.fit = NULL,
-                  error.train = error.train,
-                  predicted = predicted,
-                  se.prediction = NULL,
-                  error.test = error.test,
-                  question = question)
+  rt <- rtMod$new(
+    mod.name = mod.name,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    xnames = xnames,
+    mod = mod,
+    type = "Classification",
+    parameters = parameters,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_C50

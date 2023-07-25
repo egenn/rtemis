@@ -87,7 +87,7 @@ s_BayesGLM <- function(x, y = NULL,
   dependency_check("arm")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_BayesGLM))
     stop("y is missing")
   }
@@ -95,7 +95,7 @@ s_BayesGLM <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
   # Data ----
   dt <- dataPrepare(x, y,

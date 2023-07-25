@@ -139,7 +139,7 @@ massCART <- function(x, y = NULL,
                            verbose = grid.verbose,
                            # ...,
                            cl = cl)
-  names(mod) <- paste0("CART", 1:length(mod))
+  names(mod) <- paste0("CART", seq_along(mod))
 
   # Error & metrics ----
   error.train <- plyr::llply(mod, function(m) m$error.train)

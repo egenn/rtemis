@@ -12,11 +12,11 @@
 #' [s_GAM.default] is the preferred way to train GAMs
 #' @inheritParams s_GLM
 #' @param covariates Factors to be included as covariates in model building
-#' @param covariates.test Factors to be included as covariates in model 
+#' @param covariates.test Factors to be included as covariates in model
 #' validation
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to `mgcv::gam`
-#' 
+#'
 #' @return [rtMod]
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -42,9 +42,8 @@ s_GAM.formula <- function(formula,
                           n.cores = rtCores,
                           outdir = NULL,
                           save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
-  if (missing(formula) | missing(data)) {
+  if (missing(formula) || missing(data)) {
     print(args(s_GAM.formula))
     return(invisible(9))
   }
@@ -74,7 +73,7 @@ s_GAM.formula <- function(formula,
 
   xnames <- all.vars(.formula[[3]])
   # if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) dataSummary(df.train[, -ncol(df.train)], y, df.test[, -max(ncol(df.test), 1, na.rm = T)], y.test)
+  if (verbose) dataSummary(df.train[, -ncol(df.train)], y, df.test[, -max(ncol(df.test), 1, na.rm = TRUE)], y.test)
 
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
@@ -84,20 +83,24 @@ s_GAM.formula <- function(formula,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(weights)) weights <- rep(1, NROW(data))
 
   # GAM ]
   if (verbose) msg2("Training GAM...")
-  args <- c(list(formula = .formula,
-                 family = family,
-                 data = df.train,
-                 # weights = weights,
-                 select = select,
-                 method = method,
-                 na.action = na.action),
-            list(...))
+  args <- c(
+    list(
+      formula = .formula,
+      family = family,
+      data = df.train,
+      # weights = weights,
+      select = select,
+      method = method,
+      na.action = na.action
+    ),
+    list(...)
+  )
   mod <- do.call(mgcv::gam, args)
   if (verbose) print(summary(mod))
 
@@ -123,35 +126,38 @@ s_GAM.formula <- function(formula,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = "Regression",
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = se.fit,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = se.prediction,
-                 error.test = error.test,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = "Regression",
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = se.fit,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = se.prediction,
+    error.test = error.test,
+    question = question
+  )
 
-  rtMod.out(rt,
-           print.plot,
-           plot.fitted,
-           plot.predicted,
-           y.test,
-           mod.name,
-           outdir,
-           save.mod,
-           verbose,
-           plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_GAM.formula

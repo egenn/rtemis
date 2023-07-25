@@ -21,7 +21,8 @@
 #' \dontrun{
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100)
-#' mod <- s_NW(x, y)}
+#' mod <- s_NW(x, y)
+#' }
 #' @export
 
 s_NW <- function(x, y = NULL,
@@ -39,7 +40,6 @@ s_NW <- function(x, y = NULL,
                  trace = 0,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_NW))
@@ -59,15 +59,19 @@ s_NW <- function(x, y = NULL,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(s_NW)); stop("x is missing")
+    print(args(s_NW))
+    stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_NW)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_NW))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -124,36 +128,39 @@ s_NW <- function(x, y = NULL,
 
   # Outro ----
   extra <- list(bw = bw)
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = se.fit,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = se.prediction,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = se.fit,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = se.prediction,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_NW

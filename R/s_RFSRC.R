@@ -22,7 +22,7 @@
 #' @param mtry Integer: Number of features sampled randomly at each split
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`
-#' 
+#'
 #' @return Object of class [rtMod]
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -57,10 +57,9 @@ s_RFSRC <- function(x, y = NULL,
                     verbose = TRUE,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
-  print(args(s_RFSRC))
+    print(args(s_RFSRC))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -76,7 +75,7 @@ s_RFSRC <- function(x, y = NULL,
   dependency_check("randomForestSRC")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_RFSRC))
     stop("y is missing")
   }
@@ -84,26 +83,27 @@ s_RFSRC <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  if (is.null(trace)) trace <- if (verbose) n.trees/10 else FALSE
+  if (is.null(trace)) trace <- if (verbose) n.trees / 10 else FALSE
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (is.null(weights) & ifw) weights <- dt$weights
+  if (is.null(weights) && ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
@@ -128,19 +128,24 @@ s_RFSRC <- function(x, y = NULL,
   }
 
   # randomForestSRC::rfsrc ----
-  if (verbose) msg2("Training Random Forest SRC", type, "with", n.trees, "trees...",
-                   newline.pre = TRUE)
-  mod <- randomForestSRC::rfsrc(.formula, data = df.train,
-                                ntree = n.trees,
-                                bootstrap = bootstrap,
-                                mtry = mtry,
-                                case.wt = weights,
-                                nodesize = nodesize,
-                                nodedepth = nodedepth,
-                                importance = importance,
-                                proximity = proximity,
-                                na.action = na.action,
-                                do.trace = trace, ...)
+  if (verbose) {
+    msg2("Training Random Forest SRC", type, "with", n.trees, "trees...",
+      newline.pre = TRUE
+    )
+  }
+  mod <- randomForestSRC::rfsrc(.formula,
+    data = df.train,
+    ntree = n.trees,
+    bootstrap = bootstrap,
+    mtry = mtry,
+    case.wt = weights,
+    nodesize = nodesize,
+    nodedepth = nodedepth,
+    importance = importance,
+    proximity = proximity,
+    na.action = na.action,
+    do.trace = trace, ...
+  )
 
   # Fitted ----
   if (proximity) {
@@ -194,39 +199,44 @@ s_RFSRC <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(fit = fit,
-                proximity.test = proximity.test,
-                proximity.train = proximity.train)
-  rt <- rtModSet(rtclass = rtclass,
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  extra <- list(
+    fit = fit,
+    proximity.test = proximity.test,
+    proximity.train = proximity.train
+  )
+  rt <- rtModSet(
+    rtclass = rtclass,
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_RFSRC

@@ -35,7 +35,7 @@ mplot3_bar <- function(x,
                        beside = TRUE,
                        border = NA,
                        width = 1,
-                       space = NULL, #c(1, .2),
+                       space = NULL, # c(1, .2),
                        xlim = NULL,
                        ylim = NULL,
                        xlab = NULL,
@@ -62,7 +62,7 @@ mplot3_bar <- function(x,
                        group.names = NULL,
                        # legend.position = "topright",
                        # legend.inset = c(0, 0),
-                       legend.font = 1, #1: regular, 2: bold
+                       legend.font = 1, # 1: regular, 2: bold
                        bartoplabels = NULL,
                        bartoplabels.line = 0,
                        bartoplabels.font = 1,
@@ -80,7 +80,6 @@ mplot3_bar <- function(x,
                        pdf.width = 6,
                        pdf.height = 6,
                        filename = NULL, ...) {
-
   # [ Arguments ] ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
@@ -111,7 +110,7 @@ mplot3_bar <- function(x,
     }
   }
 
-  if (length(col) < p) col <- rep(col, p/length(col))
+  if (length(col) < p) col <- rep(col, p / length(col))
 
   if (is.null(space)) {
     space <- if (min(size(x)) >= 2 && beside) c(.1, .5) else .75
@@ -182,7 +181,7 @@ mplot3_bar <- function(x,
 
   # Expand right margin for legend
   # if (group.legend) mar[4] <- mar[4] + max(strwidth(group.names)) + 3
-  if (group.legend) mar[4] <- mar[4] + .5*max(nchar(group.names)) + .2
+  if (group.legend) mar[4] <- mar[4] + .5 * max(nchar(group.names)) + .2
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
 
   # [ XLIM & YLIM ] ----
@@ -200,9 +199,11 @@ mplot3_bar <- function(x,
   # Add x% either side (unless zero)
   if (ylim[1] != 0) ylim[1] <- ylim[1] - ylim.pad * diff(ylim)
   ylim[2] <- ylim[2] + ylim.pad * diff(ylim)
-  plot(NULL, NULL, xlim = xlim, ylim = ylim,
-       bty = 'n', axes = FALSE, ann = FALSE,
-       xaxs = "i", yaxs = "i")
+  plot(NULL, NULL,
+    xlim = xlim, ylim = ylim,
+    bty = "n", axes = FALSE, ann = FALSE,
+    xaxs = "i", yaxs = "i"
+  )
 
   # [ PLOT BG ] ----
   if (theme$plot.bg != "transparent") {
@@ -211,46 +212,54 @@ mplot3_bar <- function(x,
 
   # [ GRID ] ----
   if (theme$grid) {
-    grid(nx = 0,
-         ny = theme$grid.ny,
-         col = colorAdjust(theme$grid.col, theme$grid.alpha),
-         lty = theme$grid.lty,
-         lwd = theme$grid.lwd)
+    grid(
+      nx = 0,
+      ny = theme$grid.ny,
+      col = colorAdjust(theme$grid.col, theme$grid.alpha),
+      lty = theme$grid.lty,
+      lwd = theme$grid.lwd
+    )
   }
 
   # [ BARPLOT ] ----
-  barCenters <- barplot(x, beside = beside, col = cols,
-                        border = border, ylim = ylim, axes = barplot.axes,
-                        cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
-                        axisnames = FALSE,
-                        las = las,
-                        col.axis = theme$labs.col,
-                        width = width, space = space)
+  barCenters <- barplot(x,
+    beside = beside, col = cols,
+    border = border, ylim = ylim, axes = barplot.axes,
+    cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
+    axisnames = FALSE,
+    las = las,
+    col.axis = theme$labs.col,
+    width = width, space = space
+  )
 
   # [ ERROR BARS ] ----
   if (!is.null(error)) {
     segments(as.vector(barCenters), as.vector(x) - as.vector(error),
-             as.vector(barCenters), as.vector(x) + as.vector(error),
-             lwd = error.lwd, col = error.col)
+      as.vector(barCenters), as.vector(x) + as.vector(error),
+      lwd = error.lwd, col = error.col
+    )
 
     arrows(barCenters, x - as.vector(error),
-           barCenters, x + as.vector(error),
-           lwd = error.lwd, angle = 90, code = 3, length = 0.05, col = error.col)
+      barCenters, x + as.vector(error),
+      lwd = error.lwd, angle = 90, code = 3, length = 0.05, col = error.col
+    )
   }
 
   # [ y AXIS ] ----
   if (yaxis) {
-    axis(side = 2,
-         line = theme$y.axis.line,
-         las = theme$y.axis.las,
-         padj = theme$y.axis.padj,
-         hadj = theme$y.axis.hadj,
-         col = theme$axes.col,
-         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
-         tck = theme$tck,
-         cex = theme$cex,
-         family = theme$font.family)
+    axis(
+      side = 2,
+      line = theme$y.axis.line,
+      las = theme$y.axis.las,
+      padj = theme$y.axis.padj,
+      hadj = theme$y.axis.hadj,
+      col = theme$axes.col,
+      col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+      col.axis = theme$tick.labels.col,
+      tck = theme$tck,
+      cex = theme$cex,
+      family = theme$font.family
+    )
   }
 
   # [ MAIN TITLE ] ----
@@ -261,25 +270,29 @@ mplot3_bar <- function(x,
   }
 
   if (length(main) > 0) {
-    mtext(main, line = theme$main.line,
-          font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col,
-          family = theme$font.family)
+    mtext(main,
+      line = theme$main.line,
+      font = theme$main.font, adj = theme$main.adj,
+      cex = theme$cex, col = theme$main.col,
+      family = theme$font.family
+    )
   }
 
   # [ XNAMES ] ----
   if (!is.null(xnames)) {
     if (is.null(xnames.at)) {
-      xnames.at <- if (NCOL(x) == 1 | (NROW(x) > 1 && !beside)) c(barCenters) else colMeans(barCenters)
+      xnames.at <- if (NCOL(x) == 1 || (NROW(x) > 1 && !beside)) c(barCenters) else colMeans(barCenters)
     }
-    text(x = xnames.at,
-         y = min(ylim) - diff(ylim) * xnames.y.pad,
-         labels = xnames,
-         srt = xnames.srt, adj = xnames.adj, xpd = TRUE,
-         font = xnames.font,
-         cex = 1, # multiplied by par("cex"), which is already theme$cex
-         col = theme$labs.col,
-         family = theme$font.family)
+    text(
+      x = xnames.at,
+      y = min(ylim) - diff(ylim) * xnames.y.pad,
+      labels = xnames,
+      srt = xnames.srt, adj = xnames.adj, xpd = TRUE,
+      font = xnames.font,
+      cex = 1, # multiplied by par("cex"), which is already theme$cex
+      col = theme$labs.col,
+      family = theme$font.family
+    )
   }
 
   # [ GROUP LEGEND ] ----
@@ -287,43 +300,47 @@ mplot3_bar <- function(x,
     if (is.null(legend.x)) legend.x <- rep(xlim[2] + .01 * diff(xlim), n)
     if (is.null(legend.y)) legend.y <- seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n)
     text(legend.x,
-         legend.y,
-         group.names,
-         adj = 0,
-         cex = 1,
-         col = unlist(col[seq_len(n)]),
-         xpd = TRUE,
-         font = legend.font,
-         family = theme$font.family)
+      legend.y,
+      group.names,
+      adj = 0,
+      cex = 1,
+      col = unlist(col[seq_len(n)]),
+      xpd = TRUE,
+      font = legend.font,
+      family = theme$font.family
+    )
   }
 
   # [ AXIS LABS ] ----
-  if (!is.null(xlab))  {
+  if (!is.null(xlab)) {
     mtext(xlab, 1,
-          cex = theme$cex,
-          line = theme$xlab.line,
-          col = theme$labs.col,
-          family = theme$font.family)
+      cex = theme$cex,
+      line = theme$xlab.line,
+      col = theme$labs.col,
+      family = theme$font.family
+    )
   }
-  if (!is.null(ylab))  {
+  if (!is.null(ylab)) {
     mtext(ylab, 2,
-          cex = theme$cex,
-          line = theme$ylab.line,
-          col = theme$labs.col,
-          family = theme$font.family)
+      cex = theme$cex,
+      line = theme$ylab.line,
+      col = theme$labs.col,
+      family = theme$font.family
+    )
   }
 
   # [ BARTOP LABELS ] ----
   if (!is.null(bartoplabels)) {
-    mtext(bartoplabels, 3, line = bartoplabels.line,
-          at = barCenters,
-          cex = theme$cex,
-          font = bartoplabels.font,
-          family = theme$font.family)
+    mtext(bartoplabels, 3,
+      line = bartoplabels.line,
+      at = barCenters,
+      cex = theme$cex,
+      font = bartoplabels.font,
+      family = theme$font.family
+    )
   }
 
   # [ Outro ] ----
   if (!is.null(filename)) dev.off()
   invisible(barCenters)
-
 } # rtemis::mplot3_bar

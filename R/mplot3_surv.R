@@ -123,7 +123,7 @@ mplot3_surv <- function(x,
     if (!is.null(names(x))) {
       group.names <- c(group.title, names(x))
     } else {
-      group.names <- c(group.title, paste(" ", toupper(letters[1:length(x)])) )
+      group.names <- c(group.title, paste(" ", toupper(letters[seq_along(x)])) )
     }
   }
 

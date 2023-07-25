@@ -167,7 +167,7 @@ s_LIHADBoost <- function(x, y = NULL,
                   # hytreenow params
                   shrinkage,
                   alpha, lambda)
-  if (!.gs && (gc | tune.n.iter )) {
+  if (!.gs && (gc || tune.n.iter )) {
     gs <- gridSearchLearn(x = x, y = y,
                           mod = mod.name,
                           resample.rtset = grid.resample.rtset,

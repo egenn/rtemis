@@ -54,10 +54,9 @@ glmLiteBoostTV <- function(x, y = NULL,
                            plot.predicted = NULL,
                            print.plot = FALSE,
                            print.base.plot = FALSE,
-                           plot.type = 'l',
+                           plot.type = "l",
                            n.cores = rtCores,
                            outdir = NULL, ...) {
-
   # [ Intro ] ----
   if (missing(x)) {
     print(args(boost))
@@ -82,9 +81,10 @@ glmLiteBoostTV <- function(x, y = NULL,
 
   # [ Data ] ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    x.valid = x.valid, y.valid = y.valid,
-                    verbose = verbose)
+    x.test, y.test,
+    x.valid = x.valid, y.valid = y.valid,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -121,12 +121,16 @@ glmLiteBoostTV <- function(x, y = NULL,
   learner.name <- "GLM"
   learner.short <- "GLMlite"
 
-  if (verbose) parameterSummary(mod.params,
-                                init,
-                                max.iter,
-                                learning.rate,
-                                weights.p,
-                                weights.0)
+  if (verbose) {
+    parameterSummary(
+      mod.params,
+      init,
+      max.iter,
+      learning.rate,
+      weights.p,
+      weights.0
+    )
+  }
   if (trace > 0) msg2("Initial MSE =", mse(y, init))
 
   # '- New series ----
@@ -200,10 +204,14 @@ glmLiteBoostTV <- function(x, y = NULL,
       weights1[holdout.index] <- weights.0
     }
 
-    mod.args <- c(list(x = x1, y = resid1,
-                       weights = weights1,
-                       save.fitted = TRUE),
-    mod.params)
+    mod.args <- c(
+      list(
+        x = x1, y = resid1,
+        weights = weights1,
+        save.fitted = TRUE
+      ),
+      mod.params
+    )
 
     # '- Train base learner ----
     if (.learning.rate[i] != 0) {
@@ -226,10 +234,15 @@ glmLiteBoostTV <- function(x, y = NULL,
       predicted.valid <- fitted[valid.index]
       Fvalid <- Fval[valid.index]
       error.valid[[i]] <- mse(y.valid, Fvalid)
-      if (verbose && i %in% print.progress.index) if (verbose) msg2("Iteration #", i, ": Training MSE = ",
-                                                                   ddSci(error[[i]]),
-                                                                   "; Validation MSE = ", ddSci(error.valid[[i]]),
-                                                                   sep = "")
+      if (verbose && i %in% print.progress.index) {
+        if (verbose) {
+          msg2("Iteration #", i, ": Training MSE = ",
+            ddSci(error[[i]]),
+            "; Validation MSE = ", ddSci(error.valid[[i]]),
+            sep = ""
+          )
+        }
+      }
     } else {
       if (verbose && i %in% print.progress.index) {
         msg2("Iteration #", i, ": Training MSE = ", ddSci(error[[i]]), sep = "")
@@ -237,19 +250,22 @@ glmLiteBoostTV <- function(x, y = NULL,
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
       if (is.null(x.valid)) {
-        mplot3_xy(seq(error), error, type = plot.type,
-                  xlab = "Iteration", ylab = "MSE",
-                  x.axis.at = seq(error),
-                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
-                  theme = plot.theme)
+        mplot3_xy(seq(error), error,
+          type = plot.type,
+          xlab = "Iteration", ylab = "MSE",
+          x.axis.at = seq(error),
+          main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+          theme = plot.theme
+        )
       } else {
-        mplot3_xy(seq(error), list(training = error, validation = error.valid), type = plot.type,
-                  xlab = "Iteration", ylab = "MSE", group.adj = .95,
-                  x.axis.at = seq(error),
-                  main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
-                  theme = plot.theme)
+        mplot3_xy(seq(error), list(training = error, validation = error.valid),
+          type = plot.type,
+          xlab = "Iteration", ylab = "MSE", group.adj = .95,
+          x.axis.at = seq(error),
+          main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+          theme = plot.theme
+        )
       }
-
     }
     i <- i + 1
   }
@@ -257,33 +273,41 @@ glmLiteBoostTV <- function(x, y = NULL,
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
-      mplot3_xy(seq(error), error, type = plot.type,
-                xlab = "Iteration", ylab = "MSE",
-                x.axis.at = seq(error),
-                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
-                theme = plot.theme)
+      mplot3_xy(seq(error), error,
+        type = plot.type,
+        xlab = "Iteration", ylab = "MSE",
+        x.axis.at = seq(error),
+        main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+        theme = plot.theme
+      )
     } else {
-      mplot3_xy(seq(error), list(Training = error,
-                                 Validation = error.valid), type = plot.type,
-                xlab = "Iteration", ylab = "MSE", group.adj = .95,
-                x.axis.at = seq(error),
-                main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
-                theme = plot.theme)
+      mplot3_xy(seq(error), list(
+        Training = error,
+        Validation = error.valid
+      ),
+      type = plot.type,
+      xlab = "Iteration", ylab = "MSE", group.adj = .95,
+      x.axis.at = seq(error),
+      main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+      theme = plot.theme
+      )
     }
   }
 
   # '- boost object ----
-  obj <- list(mod.name = mod.name,
-              learning.rate = .learning.rate,
-              init = init,
-              penult.fitted = penult.fitted,
-              train.ncases = train.ncases,
-              fitted_tv = Fval,
-              last.fitted_tv = fitted,
-              predicted.valid = Fvalid,
-              error = error,
-              error.valid = error.valid,
-              mods = mods)
+  obj <- list(
+    mod.name = mod.name,
+    learning.rate = .learning.rate,
+    init = init,
+    penult.fitted = penult.fitted,
+    train.ncases = train.ncases,
+    fitted_tv = Fval,
+    last.fitted_tv = fitted,
+    predicted.valid = Fvalid,
+    error = error,
+    error.valid = error.valid,
+    mods = mods
+  )
   class(obj) <- c("glmLiteBoostTV", "list")
 
   # [ Fitted ] ----
@@ -301,50 +325,54 @@ glmLiteBoostTV <- function(x, y = NULL,
   }
 
   # [ Outro ] ----
-  parameters <- list(mod = learner.short,
-                     mod.params = mod.params,
-                     init = init,
-                     n.its = length(error),
-                     learning.rate = learning.rate,
-                     max.iter = max.iter,
-                     weights.p = weights.p,
-                     weights.0 = weights.0,
-                     weights = weights)
+  parameters <- list(
+    mod = learner.short,
+    mod.params = mod.params,
+    init = init,
+    n.its = length(error),
+    learning.rate = learning.rate,
+    max.iter = max.iter,
+    weights.p = weights.p,
+    weights.0 = weights.0,
+    weights = weights
+  )
   extra <- list(error.valid = error.valid)
-  rt <- rtModSet(mod = obj,
-                 mod.name = mod.name,
-                 type = type,
-                 parameters = parameters,
-                 call = NULL,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = obj$fitted_tv[seq(train.ncases)],
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = NULL,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    mod = obj,
+    mod.name = mod.name,
+    type = type,
+    parameters = parameters,
+    call = NULL,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = obj$fitted_tv[seq(train.ncases)],
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = NULL,
+    question = question,
+    extra = extra
+  )
 
   rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod = FALSE,
-            verbose,
-            plot.theme)
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod = FALSE,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::glmLiteBoostTV
 
 
@@ -355,12 +383,10 @@ glmLiteBoostTV <- function(x, y = NULL,
 #' @export
 
 print.glmLiteBoostTV <- function(x, ...) {
-
   mod.name <- "GLM lite"
   n.iter <- length(x$mods)
   cat("\n  A boosted", mod.name, "model with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
-
 } # rtemis::print.glmLiteBoostTV
 
 
@@ -384,7 +410,6 @@ predict.glmLiteBoostTV <- function(object,
                                    as.matrix = FALSE,
                                    verbose = FALSE,
                                    n.cores = rtCores, ...) {
-
   if (inherits(object, "rtMod") && inherits(object$mod, "glmLiteBoostTV")) {
     object <- object$mod
     if (verbose) msg2("Found rtemis glmLiteBoostTV object")
@@ -394,11 +419,13 @@ predict.glmLiteBoostTV <- function(object,
     stop("Please provide glmLiteBoostTV object")
   }
 
-  if (is.null(newdata)) return(object$fitted_tv[seq(object$train.ncases)])
+  if (is.null(newdata)) {
+    return(object$fitted_tv[seq(object$train.ncases)])
+  }
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", 1:NCOL(newdata))
+      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -408,14 +435,20 @@ predict.glmLiteBoostTV <- function(object,
   if (is.null(n.iter)) n.iter <- length(object$mods)
 
   if (!as.matrix) {
-    predicted <- matrixStats::rowSums2(cbind(rep(object$init, NROW(newdata)), # no need to rep, will be done automatically
-                               pbapply::pbsapply(seq(n.iter), function(i)
-                                 predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i],
-                                 cl = n.cores)))
+    predicted <- matrixStats::rowSums2(cbind(
+      rep(object$init, NROW(newdata)), # no need to rep, will be done automatically
+      pbapply::pbsapply(seq(n.iter), function(i) {
+        predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i]
+      },
+      cl = n.cores
+      )
+    ))
   } else {
-    predicted.n <- pbapply::pbsapply(seq(n.iter), function(i)
-      predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i],
-      cl = n.cores)
+    predicted.n <- pbapply::pbsapply(seq(n.iter), function(i) {
+      predict.glmLite(object$mods[[i]], newdata) * object$learning.rate[i]
+    },
+    cl = n.cores
+    )
 
     predicted <- matrix(nrow = NROW(newdata), ncol = n.iter)
     predicted[, 1] <- object$init + predicted.n[, 1]
@@ -425,7 +458,6 @@ predict.glmLiteBoostTV <- function(object,
   }
 
   predicted
-
 } # rtemis::predict.glmLiteBoostTV
 
 
@@ -455,27 +487,27 @@ expand.glmLiteBoostTV <- function(object,
                                   trace = 0,
                                   print.error.plot = "final",
                                   print.plot = FALSE) {
-
   if (is.null(y)) y <- object$y.train
   if (is.null(mod.params)) mod.params <- object$parameters$mod.params
   if (is.null(learning.rate)) learning.rate <- object$parameters$learning.rate
-  glmLiteBoostTV(x = x, y = y,
-                 x.valid = x.valid, y.valid = y.valid,
-                 x.test = x.test, y.test = y.test,
-                 resid = resid,
-                 boost.obj = object,
-                 mod.params = mod.params,
-                 weights.p = weights.p,
-                 weights.0 = weights.0,
-                 learning.rate = learning.rate,
-                 max.iter = max.iter,
-                 seed = seed,
-                 prefix = prefix,
-                 verbose = verbose,
-                 trace = trace,
-                 print.error.plot = print.error.plot,
-                 print.plot = print.plot)
-
+  glmLiteBoostTV(
+    x = x, y = y,
+    x.valid = x.valid, y.valid = y.valid,
+    x.test = x.test, y.test = y.test,
+    resid = resid,
+    boost.obj = object,
+    mod.params = mod.params,
+    weights.p = weights.p,
+    weights.0 = weights.0,
+    learning.rate = learning.rate,
+    max.iter = max.iter,
+    seed = seed,
+    prefix = prefix,
+    verbose = verbose,
+    trace = trace,
+    print.error.plot = print.error.plot,
+    print.plot = print.plot
+  )
 } # rtemis::expand.glmLiteBoostTV
 
 
@@ -499,7 +531,6 @@ as.glmLiteBoostTV <- function(object,
                               learning.rate = 1,
                               init = 0,
                               apply.lr = TRUE) {
-
   if (!inherits(object, "glmLite")) {
     stop("Please provide glmLite object")
   }
@@ -520,49 +551,54 @@ as.glmLiteBoostTV <- function(object,
     predicted.valid <- error.valid <- NULL
   }
 
-  obj <- list(mod.name = "GLMLITEBOOST",
-              learning.rate = learning.rate,
-              init = init,
-              penult.fitted = NULL,
-              train.ncases = NROW(x),
-              fitted_tv = c(fitted, predicted.valid),
-              last.fitted_tv = c(fitted, predicted.valid),
-              predicted.valid = predicted.valid,
-              error = error,
-              error.valid = error.valid,
-              mods = mods)
+  obj <- list(
+    mod.name = "GLMLITEBOOST",
+    learning.rate = learning.rate,
+    init = init,
+    penult.fitted = NULL,
+    train.ncases = NROW(x),
+    fitted_tv = c(fitted, predicted.valid),
+    last.fitted_tv = c(fitted, predicted.valid),
+    predicted.valid = predicted.valid,
+    error = error,
+    error.valid = error.valid,
+    mods = mods
+  )
   class(obj) <- c("glmLiteBoostTV", "list")
 
   # [ Outro ] ----
-  parameters <- list(mod = object$mod.name,
-                     mod.params = object$parameters,
-                     init = init,
-                     n.its = 1,
-                     learning.rate = learning.rate,
-                     max.iter = 1)
+  parameters <- list(
+    mod = object$mod.name,
+    mod.params = object$parameters,
+    init = init,
+    n.its = 1,
+    learning.rate = learning.rate,
+    max.iter = 1
+  )
   extra <- list(error.valid = NULL)
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = obj,
-                 mod.name = "GLMLITEBOOSTTV",
-                 type = "Regression",
-                 parameters = parameters,
-                 call = NULL,
-                 y.train = object$y,
-                 y.test = object$y.test,
-                 x.name = object$x.name,
-                 y.name = object$y.name,
-                 xnames = object$xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = object$error.train,
-                 predicted = object$predicted,
-                 se.prediction = NULL,
-                 error.test = object$error.test,
-                 varimp = NULL,
-                 question = object$question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = obj,
+    mod.name = "GLMLITEBOOSTTV",
+    type = "Regression",
+    parameters = parameters,
+    call = NULL,
+    y.train = object$y,
+    y.test = object$y.test,
+    x.name = object$x.name,
+    y.name = object$y.name,
+    xnames = object$xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = object$error.train,
+    predicted = object$predicted,
+    se.prediction = NULL,
+    error.test = object$error.test,
+    varimp = NULL,
+    question = object$question,
+    extra = extra
+  )
   rt
-
 } # rtemis::as.glmLiteBoostTV
 
 
@@ -587,7 +623,6 @@ update.glmLiteBoostTV <- function(object,
                                   trace = 0,
                                   last.step.only = FALSE,
                                   n.cores = rtCores, ...) {
-
   if (trace > 0) fitted.orig <- object$fitted_tv
   # fitted <- plyr::laply(object$mod$mods, function(i) i$fitted)
   # Create n.iter x n.cases fitted values; one row per iteration
@@ -596,11 +631,17 @@ update.glmLiteBoostTV <- function(object,
     fitted <- t(sapply(object$mod$mods, function(i) i$fitted))
   } else {
     if (!last.step.only) {
-      fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods, function(i) predict(i, x), cl = n.cores)))
+      fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods,
+        function(i) predict(i, x),
+        cl = n.cores
+      )))
     } else {
       u <- length(object$mod$mods)
       object$mod$mods[[u]]$fitted_tv <- predict(object$mod$mods[[u]], x)
-      fitted <- t(vapply(object$mod$mods, function(i) i$fitted, vector("numeric", length(object$fitted))))
+      fitted <- t(vapply(
+        object$mod$mods,
+        function(i) i$fitted, vector("numeric", length(object$fitted))
+      ))
     }
   }
 
@@ -619,5 +660,4 @@ update.glmLiteBoostTV <- function(object,
     msg20("old MSE = ", mse.orig, "; new MSE = ", mse.new)
     # if (mse.new > mse.orig) warning("Whatever you did, it didn't really help:\nnew MSE is higher than original")
   }
-
 } # rtemis::update.glmLiteBoostTV

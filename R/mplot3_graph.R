@@ -119,7 +119,7 @@ mplot3_graph <- function(net,
 
   # Layout ----
   layout <- match.arg(layout)
-  if (is.null(coords) & !is.null(layout)) {
+  if (is.null(coords) && !is.null(layout)) {
     coords <- do.call(
       getFromNamespace(paste0("layout_with_", layout), "igraph"),
       c(list(net), layout_params)
@@ -128,21 +128,21 @@ mplot3_graph <- function(net,
   }
 
   # Cluster ----
-  if (is.null(groups) & !is.null(cluster)) {
+  if (is.null(groups) && !is.null(cluster)) {
     groups <- do.call(
       getFromNamespace(paste0("cluster_", cluster), "igraph"),
       c(list(net), cluster_params)
     )
   }
 
-  mark.groups <- if (!is.null(groups) & cluster_mark_groups) {
+  mark.groups <- if (!is.null(groups) && cluster_mark_groups) {
     groups
   } else {
     list()
   }
 
 
-  if (!is.null(groups) & cluster_mark_groups) {
+  if (!is.null(groups) && cluster_mark_groups) {
     if (is.null(mark.col)) {
       mark.col <- adjustcolor(palette, mark.alpha)
     }

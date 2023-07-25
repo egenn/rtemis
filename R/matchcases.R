@@ -4,46 +4,49 @@
 
 #' Match cases by covariates
 #'
-#' Find one or more cases from a `pool` data.frame that match cases in a target 
+#' Find one or more cases from a `pool` data.frame that match cases in a target
 #' data.frame. Match exactly and/or by distance (sum of squared distances).
 #'
 #' @param target data.frame you are matching against
 #' @param pool data.frame you are looking for matches from
 #' @param n.matches Integer: Number of matches to return
-#' @param target.id Character: Column name in `target` that holds unique 
+#' @param target.id Character: Column name in `target` that holds unique
 #' cases IDs. Default = NULL, in which case integer case numbers will be used
 #' @param pool.id Character: Same as `target.id` for `pool`
-#' @param exactmatch.factors Logical: If TRUE, selected cases will have to 
+#' @param exactmatch.factors Logical: If TRUE, selected cases will have to
 #' exactly match factors
 #' available in `target`
-#' @param exactmatch.cols Character: Names of columns that should be matched 
+#' @param exactmatch.cols Character: Names of columns that should be matched
 #' exactly
-#' @param distmatch.cols Character: Names of columns that should be 
+#' @param distmatch.cols Character: Names of columns that should be
 #' distance-matched
-#' @param norepeats Logical: If TRUE, cases in `pool` can only be chosen 
-#' once. 
+#' @param norepeats Logical: If TRUE, cases in `pool` can only be chosen
+#' once.
 #' @param ignore.na Logical: If TRUE, ignore NA values during exact matching.
 #' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' set.seed(2021)
-#' cases <- data.frame(PID = paste0("PID", seq(4)),
-#'                     Sex = factor(c(1, 1, 0, 0)),
-#'                     Handedness = factor(c(1, 1, 0, 1)),
-#'                     Age = c(21, 27, 39, 24),
-#'                     Var = c(.7, .8, .9, .6),
-#'                     Varx = rnorm(4))
-#' controls <- data.frame(CID = paste0("CID", seq(50)),
-#'                        Sex = factor(sample(c(0, 1), 50, TRUE)),
-#'                        Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
-#'                        Age = sample(16:42, 50, TRUE),
-#'                        Var = rnorm(50),
-#'                        Vary = rnorm(50))
+#' cases <- data.frame(
+#'   PID = paste0("PID", seq(4)),
+#'   Sex = factor(c(1, 1, 0, 0)),
+#'   Handedness = factor(c(1, 1, 0, 1)),
+#'   Age = c(21, 27, 39, 24),
+#'   Var = c(.7, .8, .9, .6),
+#'   Varx = rnorm(4)
+#' )
+#' controls <- data.frame(
+#'   CID = paste0("CID", seq(50)),
+#'   Sex = factor(sample(c(0, 1), 50, TRUE)),
+#'   Handedness = factor(sample(c(0, 1), 50, TRUE, c(.1, .9))),
+#'   Age = sample(16:42, 50, TRUE),
+#'   Var = rnorm(50),
+#'   Vary = rnorm(50)
+#' )
 #'
 #' mc <- matchcases(cases, controls, 2, "PID", "CID")
-
 matchcases <- function(target, pool,
                        n.matches = 1,
                        target.id = NULL,
@@ -54,7 +57,6 @@ matchcases <- function(target, pool,
                        norepeats = TRUE,
                        ignore.na = FALSE,
                        verbose = TRUE) {
-
   ntarget <- nrow(target)
   npool <- nrow(pool)
 
@@ -73,7 +75,7 @@ matchcases <- function(target, pool,
   }
 
   # exact- & dist-matched column names
-  if (is.null(exactmatch.cols) & exactmatch.factors) {
+  if (is.null(exactmatch.cols) && exactmatch.factors) {
     exactmatch.cols <- colnames(target)[sapply(target, is.factor)]
   }
   # Keep exactmatch.cols present in pool
@@ -117,21 +119,26 @@ matchcases <- function(target, pool,
     if (is.null(exactmatch.cols)) {
       subpool <- pool_s
     } else {
-      ind <- sapply(seq(nrow(pool_s)), function(j)
-        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols], na.rm = ignore.na))
+      ind <- sapply(seq_len(nrow(pool_s)), function(j) {
+        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols], na.rm = ignore.na)
+      })
       subpool <- pool_s[ind, , drop = FALSE]
     }
     # distord <- order(sapply(seq(nrow(subpool)),
     #                           function(j) sum((target_s[i, distmatch.cols] - subpool[j, distmatch.cols])^2)))
-    distord <- order(sapply(seq(nrow(subpool)),
-                            function(j) mse(unlist(target_s[i, distmatch.cols]),
-                                            unlist(subpool[j, distmatch.cols]),
-                                            na.rm = ignore.na)))
+    distord <- order(sapply(
+      seq_len(nrow(subpool)),
+      function(j) {
+        mse(unlist(target_s[i, distmatch.cols]),
+          unlist(subpool[j, distmatch.cols]),
+          na.rm = ignore.na
+        )
+      }
+    ))
     n_matched <- min(n.matches, nrow(subpool))
     mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
     if (norepeats) pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n.matches + 1)], ]
   }
 
   mc
-
 } # rtemis::matchcases

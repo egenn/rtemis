@@ -80,7 +80,7 @@ lincoef <- function(x, y,
     options(warn = -1)
     on.exit(options(warn = warn.orig))
   }
-  if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("x_", seq_len(NCOL(x)))
 
   type <- match.arg(type)
 

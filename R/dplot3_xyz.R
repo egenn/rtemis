@@ -12,17 +12,16 @@
 #' @param zlab Character: z-axis label
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
 #' Default = `list(t = 30, b = 0, l = 0, r = 0`
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{
 #' dplot3_xyz(iris, group = iris$Species, theme = "darkgrid")
 #' }
-
 dplot3_xyz <- function(x, y = NULL, z = NULL,
                        fit = NULL,
-                       cluster =  NULL,
+                       cluster = NULL,
                        cluster.params = list(k = 2),
                        group = NULL,
                        formula = NULL,
@@ -72,12 +71,11 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
                        file.width = 500,
                        file.height = 500,
                        file.scale = 1, ...) {
-
   # Dependencies ----
   dependency_check("plotly")
 
   # Arguments ----
-  if (is.null(y) & is.null(z) & NCOL(x) > 2) {
+  if (is.null(y) && is.null(z) && NCOL(x) > 2) {
     .colnames <- labelify(colnames(x))
     y <- x[, 2]
     z <- x[, 3]
@@ -94,15 +92,21 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # order.on.x ----
   if (is.null(order.on.x)) {
-    order.on.x <- if (!is.null(fit) | any(grepl("lines", mode))) TRUE else FALSE
+    order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
   }
 
   # CLUSTER ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do.call(clustSelect(cluster),
-                                      c(list(x = data.frame(x, y),
-                                             verbose = trace > 0),
-                                        cluster.params))$clusters.train)
+    group <- suppressWarnings(do.call(
+      clustSelect(cluster),
+      c(
+        list(
+          x = data.frame(x, y),
+          verbose = trace > 0
+        ),
+        cluster.params
+      )
+    )$clusters.train)
     group <- paste("Cluster", group)
   }
 
@@ -112,10 +116,10 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   if (is.null(xlab)) {
     if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   }
-  if (!is.null(y) & is.null(ylab)) {
+  if (!is.null(y) && is.null(ylab)) {
     if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
-  if (!is.null(z) & is.null(zlab)) {
+  if (!is.null(z) && is.null(zlab)) {
     if (is.list(z)) zlab <- "z" else zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
   }
 
@@ -130,36 +134,36 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   }
 
   # Try to get names from list or data frame inputs
-  if (is.list(y) | NCOL(y) > 1) {
-    if (is.null(.names) & !is.null(names(y))) .names <- names(y)
+  if (is.list(y) || NCOL(y) > 1) {
+    if (is.null(.names) && !is.null(names(y))) .names <- names(y)
   }
-  if (is.list(x) | NCOL(x) > 1) {
-    if (is.null(.names) & !is.null(names(x))) .names <- names(x)
+  if (is.list(x) || NCOL(x) > 1) {
+    if (is.null(.names) && !is.null(names(x))) .names <- names(x)
   }
-  if (is.list(z) | NCOL(z) > 1) {
-    if (is.null(.names) & !is.null(names(z))) .names <- names(z)
+  if (is.list(z) || NCOL(z) > 1) {
+    if (is.null(.names) && !is.null(names(z))) .names <- names(z)
   }
 
   # Convert to lists ----
   x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
-  y <- if (!is.null(y) & !is.list(y)) as.list(as.data.frame(y)) else y
-  z <- if (!is.null(z) & !is.list(z)) as.list(as.data.frame(z)) else z
-  if (length(x) == 1 & length(y) > 1) {
+  y <- if (!is.null(y) && !is.list(y)) as.list(as.data.frame(y)) else y
+  z <- if (!is.null(z) && !is.list(z)) as.list(as.data.frame(z)) else z
+  if (length(x) == 1 && length(y) > 1) {
     x <- rep(x, length(y))
     .names <- names(y)
   }
-  if (length(y) == 1 & length(x) > 1) {
+  if (length(y) == 1 && length(x) > 1) {
     y <- rep(y, length(x))
     .names <- names(x)
   }
-  if (length(z) == 1 & length(x) > 1) {
+  if (length(z) == 1 && length(x) > 1) {
     z <- rep(z, length(x))
     .names <- names(x)
   }
   n.groups <- length(x)
 
   # legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
-  legend <- if (is.null(legend) & n.groups == 1) FALSE else TRUE
+  legend <- if (is.null(legend) && n.groups == 1) FALSE else TRUE
 
   if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
@@ -193,7 +197,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # Colors ----
   if (is.character(palette)) palette <- rtpalette(palette)
   if (is.null(col)) col <- palette[seq_len(n.groups)]
-  if (length(col) < n.groups) col <- rep(col, n.groups/length(col))
+  if (length(col) < n.groups) col <- rep(col, n.groups / length(col))
 
   # Convert inputs to RGB
   spike.col <- plotly::toRGB(spike.col)
@@ -221,7 +225,7 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
-    marker.col <- if (!is.null(fit) & n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
+    marker.col <- if (!is.null(fit) && n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
   }
 
   if (!is.null(fit)) {
@@ -248,55 +252,68 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     for (i in seq_len(n.groups)) {
       feat1 <- data.frame(x[[i]], y[[i]])
       y1 <- z[[i]]
-      learner.args <- c(list(x = feat1, y = y1, verbose = trace > 0),
-                        fit.params,
-                        list(...))
-      if (fit == "NLS") learner.args <- c(learner.args,
-                                          list(formula = formula, save.func = TRUE))
+      learner.args <- c(
+        list(x = feat1, y = y1, verbose = trace > 0),
+        fit.params,
+        list(...)
+      )
+      if (fit == "NLS") {
+        learner.args <- c(
+          learner.args,
+          list(formula = formula, save.func = TRUE)
+        )
+      }
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
       if (se.fit) se[[i]] <- se(mod)
       fitted.text[i] <- switch(fit,
-                               NLS = mod$extra$model,
-                               NLA = mod$mod$formula,
-                               fit)
+        NLS = mod$extra$model,
+        NLA = mod$mod$formula,
+        fit
+      )
       if (rsq) {
-        fitted.text[i] <- paste0(fitted.text[i],
-                                 if (n.groups == 1) " (" else " ",
-                                 "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
-                                 if (n.groups == 1) ")")
-
+        fitted.text[i] <- paste0(
+          fitted.text[i],
+          if (n.groups == 1) " (" else " ",
+          "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+          if (n.groups == 1) ")"
+        )
       }
     }
   }
 
   # plotly ----
-  plt <- plotly::plot_ly(width = width,
-                         height = height)
+  plt <- plotly::plot_ly(
+    width = width,
+    height = height
+  )
   for (i in seq_len(n.groups)) {
     # '- { Scatter } ----
     marker <- if (grepl("markers", .mode[i])) {
-      list(color = plotly::toRGB(marker.col[[i]], alpha = alpha),
-           size = marker.size)
+      list(
+        color = plotly::toRGB(marker.col[[i]], alpha = alpha),
+        size = marker.size
+      )
     } else {
       NULL
     }
     plt <- plotly::add_trace(plt,
-                             x = x[[i]],
-                             y = y[[i]],
-                             z = z[[i]],
-                             type = "scatter3d",
-                             mode = .mode[i],
-                             # fillcolor = plotly::toRGB(col[[i]], alpha),
-                             # name = if (n.groups > 1) .names[i] else "Raw",
-                             name = .names[i],
-                             # text = .text[[i]],
-                             # hoverinfo = "text",
-                             # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
-                             marker = marker,
-                             line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
-                             legendgroup = if (n.groups > 1) .names[i] else "Raw",
-                             showlegend = legend)
+      x = x[[i]],
+      y = y[[i]],
+      z = z[[i]],
+      type = "scatter3d",
+      mode = .mode[i],
+      # fillcolor = plotly::toRGB(col[[i]], alpha),
+      # name = if (n.groups > 1) .names[i] else "Raw",
+      name = .names[i],
+      # text = .text[[i]],
+      # hoverinfo = "text",
+      # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+      marker = marker,
+      line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+      legendgroup = if (n.groups > 1) .names[i] else "Raw",
+      showlegend = legend
+    )
     # if (se.fit) {
     #   # '- { SE band } ----
     #   plt <- plotly::add_trace(plt,
@@ -344,71 +361,90 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # Layout ----
   # '- layout ----
-  f <- list(family = theme$font.family,
-            size = font.size,
-            color = labs.col)
-  tickfont <- list(family = theme$font.family,
-                   size = tick.font.size,
-                   color = theme$tick.labels.col)
-  .legend <- list(x = legend.xy[1],
-                  xanchor = legend.xanchor,
-                  y = legend.xy[2],
-                  yanchor = legend.yanchor,
-                  font = list(family = theme$font.family,
-                              size = font.size,
-                              color = legend.col),
-                  orientation = legend.orientation,
-                  bgcolor = plotly::toRGB(legend.bg),
-                  bordercolor = plotly::toRGB(legend.border.col),
-                  borderwidth = legend.borderwidth,
-                  tracegroupgap = legend.group.gap)
+  f <- list(
+    family = theme$font.family,
+    size = font.size,
+    color = labs.col
+  )
+  tickfont <- list(
+    family = theme$font.family,
+    size = tick.font.size,
+    color = theme$tick.labels.col
+  )
+  .legend <- list(
+    x = legend.xy[1],
+    xanchor = legend.xanchor,
+    y = legend.xy[2],
+    yanchor = legend.yanchor,
+    font = list(
+      family = theme$font.family,
+      size = font.size,
+      color = legend.col
+    ),
+    orientation = legend.orientation,
+    bgcolor = plotly::toRGB(legend.bg),
+    bordercolor = plotly::toRGB(legend.border.col),
+    borderwidth = legend.borderwidth,
+    tracegroupgap = legend.group.gap
+  )
 
   plt <- plotly::layout(plt,
-                        scene = list(
-                          yaxis = list(title = ylab,
-                                       showline = axes.visible,
-                                       mirror = axes.mirrored,
-                                       titlefont = f,
-                                       showgrid = theme$grid,
-                                       gridcolor = grid.col,
-                                       gridwidth = theme$grid.lwd,
-                                       tickcolor = tick.col,
-                                       tickfont = tickfont,
-                                       zeroline = FALSE,
-                                       spikecolor = spike.col),
-                          xaxis = list(title = xlab,
-                                       showline = axes.visible,
-                                       mirror = axes.mirrored,
-                                       titlefont = f,
-                                       showgrid = theme$grid,
-                                       gridcolor = grid.col,
-                                       gridwidth = theme$grid.lwd,
-                                       tickcolor = tick.col,
-                                       tickfont = tickfont,
-                                       zeroline = FALSE,
-                                       spikecolor = spike.col),
-                          zaxis = list(title = zlab,
-                                       showline = axes.visible,
-                                       mirror = axes.mirrored,
-                                       titlefont = f,
-                                       showgrid = theme$grid,
-                                       gridcolor = grid.col,
-                                       gridwidth = theme$grid.lwd,
-                                       tickcolor = tick.col,
-                                       tickfont = tickfont,
-                                       zeroline = FALSE,
-                                       spikecolor = spike.col)
-                        ),
-                        title = list(text = main,
-                                     font = list(family = theme$font.family,
-                                                 size = font.size,
-                                                 color = main.col)),
-                        # titlefont = list(),
-                        paper_bgcolor = bg,
-                        plot_bgcolor = plot.bg,
-                        margin = margin,
-                        showlegend = legend,
-                        legend = .legend)
+    scene = list(
+      yaxis = list(
+        title = ylab,
+        showline = axes.visible,
+        mirror = axes.mirrored,
+        titlefont = f,
+        showgrid = theme$grid,
+        gridcolor = grid.col,
+        gridwidth = theme$grid.lwd,
+        tickcolor = tick.col,
+        tickfont = tickfont,
+        zeroline = FALSE,
+        spikecolor = spike.col
+      ),
+      xaxis = list(
+        title = xlab,
+        showline = axes.visible,
+        mirror = axes.mirrored,
+        titlefont = f,
+        showgrid = theme$grid,
+        gridcolor = grid.col,
+        gridwidth = theme$grid.lwd,
+        tickcolor = tick.col,
+        tickfont = tickfont,
+        zeroline = FALSE,
+        spikecolor = spike.col
+      ),
+      zaxis = list(
+        title = zlab,
+        showline = axes.visible,
+        mirror = axes.mirrored,
+        titlefont = f,
+        showgrid = theme$grid,
+        gridcolor = grid.col,
+        gridwidth = theme$grid.lwd,
+        tickcolor = tick.col,
+        tickfont = tickfont,
+        zeroline = FALSE,
+        spikecolor = spike.col
+      )
+    ),
+    title = list(
+      text = main,
+      font = list(
+        family = theme$font.family,
+        size = font.size,
+        color = main.col
+      )
+    ),
+    # titlefont = list(),
+    paper_bgcolor = bg,
+    plot_bgcolor = plot.bg,
+    margin = margin,
+    showlegend = legend,
+    legend = .legend
+  )
 
   # Padding
   plt$sizingPolicy$padding <- padding
@@ -435,5 +471,4 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   }
 
   plt
-
 } # rtemis::dplot3_xyz

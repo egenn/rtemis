@@ -91,7 +91,7 @@ s_MARS <- function(x, y = NULL,
   if (missing(x)) {
     print(args(s_MARS)); stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_MARS))
     stop("y is missing")
   }
@@ -100,7 +100,7 @@ s_MARS <- function(x, y = NULL,
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -119,11 +119,11 @@ s_MARS <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
-  x0 <- if (upsample | downsample) dt$x0 else x
-  y0 <- if (upsample | downsample) dt$y0 else y
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (type == "Classification" & is.null(glm)) {
+  if (type == "Classification" && is.null(glm)) {
     glm <- list(family = binomial)
   }
   if (print.plot) {
@@ -240,7 +240,7 @@ s_MARS <- function(x, y = NULL,
   varimp <- rep(0, NCOL(x))
   names(varimp) <- xnames
   .evimpnames <- rownames(.evimp)
-  for (i in seq(NROW(.evimp))) {
+  for (i in seq_len(NROW(.evimp))) {
     varimp[which(.evimpnames[i] == xnames)] <- .evimp[i, 4]
   }
 

@@ -18,7 +18,7 @@ s_DN <- function(x, y = NULL,
                  ifw = TRUE,
                  ifw.type = 2,
                  upsample = FALSE,
-                 downsample =  FALSE,
+                 downsample = FALSE,
                  resample.seed = NULL,
                  initW = NULL,
                  initB = NULL,
@@ -49,7 +49,6 @@ s_DN <- function(x, y = NULL,
                  plot.predicted = NULL,
                  plot.theme = rtTheme,
                  save.mod = FALSE) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_DN))
@@ -73,12 +72,13 @@ s_DN <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ifw = ifw, ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample =  downsample,
-                    resample.seed = resample.seed,
-                    .preprocess = .preprocess,
-                    verbose = verbose)
+    ifw = ifw, ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    .preprocess = .preprocess,
+    verbose = verbose
+  )
   x <- data.matrix(dt$x)
   y <- dt$y
   x.test <- dt$x.test
@@ -86,7 +86,7 @@ s_DN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
@@ -110,30 +110,36 @@ s_DN <- function(x, y = NULL,
     if (!is.null(x.test)) y.test <- 2 - as.numeric(y.test)
   }
 
-  if (verbose) parameterSummary(n.hidden.nodes,
-                                activation,
-                                output,
-                                batchsize,
-                                numepochs,
-                                learning.rate,
-                                momentum,
-                                hidden_dropout,
-                                visible_dropout,
-                                newline.pre = TRUE)
+  if (verbose) {
+    parameterSummary(n.hidden.nodes,
+      activation,
+      output,
+      batchsize,
+      numepochs,
+      learning.rate,
+      momentum,
+      hidden_dropout,
+      visible_dropout,
+      newline.pre = TRUE
+    )
+  }
 
   # Grid Search ----
-  if (gridCheck(batchsize,
-                numepochs,
-                learning.rate,
-                momentum)) {
+  if (gridCheck(
+    batchsize,
+    numepochs,
+    learning.rate,
+    momentum
+  )) {
     gs <- gridSearchLearn(x, y,
-                          mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(batchsize, numepochs),
-                          weights = weights,
-                          maximize = maximize,
-                          verbose = verbose,
-                          n.cores = n.cores)
+      mod.name,
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(batchsize, numepochs),
+      weights = weights,
+      maximize = maximize,
+      verbose = verbose,
+      n.cores = n.cores
+    )
     batchsize <- gs$best.tune$batchsize
     numepochs <- gs$best.tune$numepochs
     learning.rate <- gs$best.tune$learning.rate
@@ -143,28 +149,33 @@ s_DN <- function(x, y = NULL,
   }
 
   # deepnet::nn.train ----
-  if (verbose) msg20("Training Artificial Neural Network for ", type, "...",
-                    newline.pre = TRUE)
+  if (verbose) {
+    msg20("Training Artificial Neural Network for ", type, "...",
+      newline.pre = TRUE
+    )
+  }
   mod <- deepnet::nn.train(x, y,
-                           initW = .weights,
-                           initB = initB,
-                           hidden = n.hidden.nodes,
-                           activationfun = activation,
-                           learningrate = learning.rate,
-                           momentum = momentum,
-                           learningrate_scale = learningrate_scale,
-                           output = output,
-                           numepochs = numepochs,
-                           batchsize = batchsize,
-                           hidden_dropout = hidden_dropout,
-                           visible_dropout = visible_dropout)
+    initW = .weights,
+    initB = initB,
+    hidden = n.hidden.nodes,
+    activationfun = activation,
+    learningrate = learning.rate,
+    momentum = momentum,
+    learningrate_scale = learningrate_scale,
+    output = output,
+    numepochs = numepochs,
+    batchsize = batchsize,
+    hidden_dropout = hidden_dropout,
+    visible_dropout = visible_dropout
+  )
 
   # Fitted ----
   fitted <- c(deepnet::nn.predict(mod, x))
   if (type == "Classification") {
     fitted.prob <- fitted
     fitted <- factor(levels(dt$y)[as.numeric(fitted.prob < .5) + 1],
-                     levels = levels(dt$y))
+      levels = levels(dt$y)
+    )
   } else {
     fitted.prob <- NULL
   }
@@ -178,7 +189,8 @@ s_DN <- function(x, y = NULL,
     if (type == "Classification") {
       predicted.prob <- predicted
       predicted <- factor(levels(dt$y)[as.numeric(predicted.prob < .5) + 1],
-                          levels = levels(dt$y))
+        levels = levels(dt$y)
+      )
     }
     if (!is.null(y.test)) {
       error.test <- modError(dt$y.test, predicted)
@@ -187,50 +199,55 @@ s_DN <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = list(initW = .weights,
-                                    initB = initB,
-                                    hidden = n.hidden.nodes,
-                                    activation = activation,
-                                    learningrate = learning.rate,
-                                    momentum = momentum,
-                                    learningrate_scale = learningrate_scale,
-                                    output = output,
-                                    numepochs = numepochs,
-                                    batchsize = batchsize,
-                                    hidden_dropout = hidden_dropout,
-                                    visible_dropout = visible_dropout),
-                 y.train = dt$y,
-                 y.test = dt$y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = NULL,
-                 question = question)
+  rt <- rtModSet(
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = list(
+      initW = .weights,
+      initB = initB,
+      hidden = n.hidden.nodes,
+      activation = activation,
+      learningrate = learning.rate,
+      momentum = momentum,
+      learningrate_scale = learningrate_scale,
+      output = output,
+      numepochs = numepochs,
+      batchsize = batchsize,
+      hidden_dropout = hidden_dropout,
+      visible_dropout = visible_dropout
+    ),
+    y.train = dt$y,
+    y.test = dt$y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = NULL,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis:: s_DN

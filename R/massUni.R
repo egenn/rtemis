@@ -4,7 +4,7 @@
 
 #' Mass-univariate Analysis
 #'
-#' Run a mass-univariate analysis: same features (predictors) 
+#' Run a mass-univariate analysis: same features (predictors)
 #' on multiple outcomes
 #'
 #' @param x Matrix / data frame of features
@@ -21,7 +21,6 @@ massUni <- function(x, y, mod = "gam",
                     save.mods = FALSE,
                     verbose = TRUE,
                     n.cores = rtCores, ...) {
-
   # Intro ----
   start.time <- intro(verbose = verbose)
 
@@ -30,7 +29,7 @@ massUni <- function(x, y, mod = "gam",
   args <- list(...)
 
   # Data ----
-  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq(NCOL(x)))
+  if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   ynames <- colnames(y)
 
   # mod1 ----
@@ -46,9 +45,11 @@ massUni <- function(x, y, mod = "gam",
   } else {
     pbapply::pboptions(type = "none")
   }
-  mods <- pbapply::pblapply(1:NCOL(y), mod1, x = x, y = y,
-                            learner = learner, args = args,
-                            cl = n.cores)
+  mods <- pbapply::pblapply(seq_len(NCOL(y)), mod1,
+    x = x, y = y,
+    learner = learner, args = args,
+    cl = n.cores
+  )
 
   # Errors ----
   if (verbose) msg2("Collecting model errors")
@@ -60,7 +61,8 @@ massUni <- function(x, y, mod = "gam",
   # Outro ----
   outro(start.time, verbose = verbose)
   if (!save.mods) mods <- NULL
-  list(mods = mods,
-       errors = errors)
-
+  list(
+    mods = mods,
+    errors = errors
+  )
 } # rtemis::massUni

@@ -47,7 +47,7 @@ gp <- function(x, y,
   }
 
   # Plot ----
-  if (print.plot & is.numeric(x)) {
+  if (print.plot && is.numeric(x)) {
     main <- "Bayesian Gaussian Process"
     if (!is.null(new.x)) {
       xl <- list(new.x, new.x, new.x)
@@ -55,9 +55,9 @@ gp <- function(x, y,
       xl <- list(x, x, x)
     }
     xl.index <- lapply(xl, order)
-    xl <- lapply(1:length(xl), function(i) xl[[i]][xl.index[[i]]])
+    xl <- lapply(seq_along(xl), function(i) xl[[i]][xl.index[[i]]])
     yl <- list(mean, q95, q05)
-    yl <- lapply(1:length(xl), function(i) yl[[i]][xl.index[[i]]])
+    yl <- lapply(seq_along(xl), function(i) yl[[i]][xl.index[[i]]])
     xlim <- range(c(x, new.x))
     ylim <- range(c(y, q95, q05))
     par.orig <- par(no.readonly = TRUE)
@@ -75,7 +75,7 @@ gp <- function(x, y,
     )
     col <- c(pennCol$orange, pennCol$blue, pennCol$red, pennCol$red)
     lty <- list(mean = 2, q95 = 3, q05 = 3)
-    for (i in 1:length(xl)) {
+    for (i in seq_along(xl)) {
       lines(xl[[i]], yl[[i]], lwd = lwd, col = col[[i + 1]], lty = lty[[i]])
     }
     legend <- c("GAM fit", "   Mean", "  95th Q", "    5th Q")

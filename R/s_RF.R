@@ -39,9 +39,9 @@
 #' @param do.trace Logical or integer: If TRUE, `randomForest` will outpout information while it is running.
 #' If an integer, `randomForest` will report progress every this many trees. Default = `n.trees/10` if
 #' `verbose = TRUE`
-#' @param tune.do.trace Same as `do.trace` but for tuning, 
+#' @param tune.do.trace Same as `do.trace` but for tuning,
 #' when `autotune = TRUE`
-#' @param imetrics Logical: If TRUE, calculate interpretability metrics 
+#' @param imetrics Logical: If TRUE, calculate interpretability metrics
 #' (N of trees and N of nodes) and save under the `extra` field of [rtMod]
 #' @param print.tune.plot Logical: passed to `randomForest::tuneRF`.
 #' @param proximity.tsne Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
@@ -84,7 +84,7 @@ s_RF <- function(x, y = NULL,
                  proximity = FALSE,
                  replace = TRUE,
                  strata = NULL,
-                 sampsize = if (replace) nrow(x) else ceiling(.632*nrow(x)),
+                 sampsize = if (replace) nrow(x) else ceiling(.632 * nrow(x)),
                  sampsize.ratio = NULL,
                  do.trace = NULL,
                  tune.do.trace = FALSE,
@@ -106,7 +106,6 @@ s_RF <- function(x, y = NULL,
                  grid.verbose = verbose,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro  ----
   if (missing(x)) {
     print(args(s_RF))
@@ -134,17 +133,18 @@ s_RF <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (is.null(do.trace)) do.trace <- if (verbose) n.trees/10 else FALSE
+  if (is.null(do.trace)) do.trace <- if (verbose) n.trees / 10 else FALSE
   if (proximity.tsne) proximity <- TRUE
 
   # Data  ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -165,7 +165,11 @@ s_RF <- function(x, y = NULL,
   }
 
   if (is.null(mtry)) {
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    mtry <- if (type == "Classification") {
+      floor(sqrt(NCOL(x)))
+    } else {
+      max(floor(NCOL(x) / 3), 1)
+    }
   }
 
   if (is.null(nodesize)) {
@@ -189,24 +193,29 @@ s_RF <- function(x, y = NULL,
   # Grid Search  ----
   if (gridCheck(mtry, nodesize, maxnodes, sampsize.ratio)) {
     gs <- gridSearchLearn(x0, y0,
-                          mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(mtry = mtry,
-                                             nodesize = nodesize,
-                                             maxnodes = maxnodes,
-                                             sampsize.ratio = sampsize.ratio),
-                          fixed.params = list(ntree = n.trees,
-                                              classwt = classwt,
-                                              replace = replace,
-                                              importance = FALSE,
-                                              proximity = FALSE,
-                                              strata = strata,
-                                              na.action = na.exclude,
-                                              do.trace = do.trace),
-                          metric = metric,
-                          maximize = maximize,
-                          verbose = grid.verbose,
-                          n.cores = n.cores)
+      mod.name,
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        mtry = mtry,
+        nodesize = nodesize,
+        maxnodes = maxnodes,
+        sampsize.ratio = sampsize.ratio
+      ),
+      fixed.params = list(
+        ntree = n.trees,
+        classwt = classwt,
+        replace = replace,
+        importance = FALSE,
+        proximity = FALSE,
+        strata = strata,
+        na.action = na.exclude,
+        do.trace = do.trace
+      ),
+      metric = metric,
+      maximize = maximize,
+      verbose = grid.verbose,
+      n.cores = n.cores
+    )
     mtry <- gs$best.tune$mtry
     nodesize <- gs$best.tune$nodesize
     maxnodes <- gs$best.tune$maxnodes
@@ -218,7 +227,7 @@ s_RF <- function(x, y = NULL,
   # In case tuning fails, use defaults
   if (length(mtry) == 0) {
     warning("Tuning failed; setting mtry to default")
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x)/3), 1)
+    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x) / 3), 1)
   }
 
   if (length(nodesize) == 0) {
@@ -242,35 +251,42 @@ s_RF <- function(x, y = NULL,
   # function for mtry
   if (autotune) {
     if (verbose) msg2("Tuning for mtry...")
-    tuner <- randomForest::tuneRF(x = x, y = y,
-                                  mtryStart = mtryStart,
-                                  ntreeTry = n.trees.try,
-                                  stepFactor = stepFactor,
-                                  trace = verbose,
-                                  plot = print.tune.plot,
-                                  strata = strata,
-                                  do.trace = tune.do.trace,
-                                  classwt = .classwt)
+    tuner <- randomForest::tuneRF(
+      x = x, y = y,
+      mtryStart = mtryStart,
+      ntreeTry = n.trees.try,
+      stepFactor = stepFactor,
+      trace = verbose,
+      plot = print.tune.plot,
+      strata = strata,
+      do.trace = tune.do.trace,
+      classwt = .classwt
+    )
     mtry <- tuner[which.min(tuner[, 2]), 1]
     if (verbose) msg2("Best mtry :", mtry)
   }
 
   # RF  ----
-  if (verbose) msg2("Training Random Forest", type, "with", n.trees, "trees...",
-                   newline.pre = TRUE)
-  mod <- randomForest::randomForest(x = x, y = y,
-                                    ntree = n.trees,
-                                    mtry = mtry,
-                                    classwt = .classwt,
-                                    replace = replace,
-                                    nodesize = nodesize,
-                                    maxnodes = maxnodes,
-                                    importance = FALSE,
-                                    proximity = proximity,
-                                    strata = strata,
-                                    sampsize = sampsize,
-                                    na.action = na.exclude,
-                                    do.trace = do.trace)
+  if (verbose) {
+    msg2("Training Random Forest", type, "with", n.trees, "trees...",
+      newline.pre = TRUE
+    )
+  }
+  mod <- randomForest::randomForest(
+    x = x, y = y,
+    ntree = n.trees,
+    mtry = mtry,
+    classwt = .classwt,
+    replace = replace,
+    nodesize = nodesize,
+    maxnodes = maxnodes,
+    importance = FALSE,
+    proximity = proximity,
+    strata = strata,
+    sampsize = sampsize,
+    na.action = na.exclude,
+    do.trace = do.trace
+  )
 
   # Fitted  ----
   if (proximity) {
@@ -315,32 +331,40 @@ s_RF <- function(x, y = NULL,
   # Add failsafe
   if (proximity.tsne && type == "Classification") {
     cat("Running t-SNE on 1-proximity\n")
-    rf.tsne.train <- Rtsne::Rtsne(X = 1 - mod$proximity,
-                                  is_distance = TRUE,
-                                  dims = 2,
-                                  verbose = TRUE,
-                                  perplexity = tsne.perplexity)
+    rf.tsne.train <- Rtsne::Rtsne(
+      X = 1 - mod$proximity,
+      is_distance = TRUE,
+      dims = 2,
+      verbose = TRUE,
+      perplexity = tsne.perplexity
+    )
     proximity.tsne.train <- rf.tsne.train
     par(pty = "s")
     if (plot.tsne.train) {
-      plot(x = rf.tsne.train$Y[, 1], y = rf.tsne.train$Y[, 2],
-           cex = 1.5, asp = 1,
-           col = c("red", "green", "blue")[as.numeric(y)],
-           main = "t-SNE of Proximity Based on Random Forest\n(training set)",
-           xlab = "t-SNE projection #1", ylab = "t-SNE projection #2")
+      plot(
+        x = rf.tsne.train$Y[, 1], y = rf.tsne.train$Y[, 2],
+        cex = 1.5, asp = 1,
+        col = c("red", "green", "blue")[as.numeric(y)],
+        main = "t-SNE of Proximity Based on Random Forest\n(training set)",
+        xlab = "t-SNE projection #1", ylab = "t-SNE projection #2"
+      )
     }
 
     if (!is.null(x.test)) {
-      rf.tsne.test <- Rtsne::Rtsne(X = 1 - proximity.test, is_distance = T, dims = 2, verbose = T,
-                                   perplexity = tsne.perplexity)
+      rf.tsne.test <- Rtsne::Rtsne(
+        X = 1 - proximity.test, is_distance = TRUE, dims = 2, verbose = TRUE,
+        perplexity = tsne.perplexity
+      )
       proximity.tsne.test <- rf.tsne.test
       par(pty = "s")
       if (plot.tsne.test) {
-        plot(x = rf.tsne.test$Y[, 1], y = rf.tsne.test$Y[, 2],
-             cex = 1.5, asp = 1,
-             col = c("red", "green", "blue", "orange", "purple")[as.numeric(y.test)],
-             main = "t-SNE of Proximity Based on Random Forest\n(testing set)",
-             xlab = "t-SNE projection #1", ylab = "t-SNE projection #2")
+        plot(
+          x = rf.tsne.test$Y[, 1], y = rf.tsne.test$Y[, 2],
+          cex = 1.5, asp = 1,
+          col = c("red", "green", "blue", "orange", "purple")[as.numeric(y.test)],
+          main = "t-SNE of Proximity Based on Random Forest\n(testing set)",
+          xlab = "t-SNE projection #1", ylab = "t-SNE projection #2"
+        )
       }
     }
   } else {
@@ -349,9 +373,11 @@ s_RF <- function(x, y = NULL,
   } # End t-SNE
 
   # Outro  ----
-  extra <- list(sampsize = sampsize,
-                fitted.prob = fitted.prob,
-                predicted.prob = predicted.prob)
+  extra <- list(
+    sampsize = sampsize,
+    fitted.prob = fitted.prob,
+    predicted.prob = predicted.prob
+  )
   if (!is.null(proximity.train)) extra$proximity.train <- proximity.train
   if (!is.null(proximity.test)) extra$proximity.test <- proximity.test
   if (!is.null(proximity.tsne.train)) extra$proximity.tsne.train <- proximity.tsne.train
@@ -360,46 +386,51 @@ s_RF <- function(x, y = NULL,
     n.nodes <- sum(sapply(seq(n.trees), function(i) NROW(randomForest::getTree(mod, k = i))) * 2)
     extra$imetrics <- list(n.trees = n.trees, n.nodes = n.nodes)
   }
-  rt <- rtModSet(rtclass = rtclass,
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = list(n.trees = n.trees,
-                                   autotune = autotune,
-                                   n.trees.try = n.trees.try,
-                                   stepFactor = stepFactor,
-                                   mtryStart = mtryStart,
-                                   mtry = mtry,
-                                   nodesize = nodesize,
-                                   maxnodes = maxnodes),
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = mod$importance, # for importance = FALSE, rf still returns a vector
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = rtclass,
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = list(
+      n.trees = n.trees,
+      autotune = autotune,
+      n.trees.try = n.trees.try,
+      stepFactor = stepFactor,
+      mtryStart = mtryStart,
+      mtry = mtry,
+      nodesize = nodesize,
+      maxnodes = maxnodes
+    ),
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = mod$importance, # for importance = FALSE, rf still returns a vector
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_RF

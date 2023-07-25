@@ -76,14 +76,14 @@ massGAM <- function(x, y,
   # Data ----
   # Name cols first, because data.frame() or as.data.frame()
   # will assign colnames X1 ... Xn and V1 ... Vn respectively
-  if (is.null(colnames(y))) colnames(y) <- paste0("Outcome.", 1:NCOL(y))
+  if (is.null(colnames(y))) colnames(y) <- paste0("Outcome.", seq_len(NCOL(y)))
   y <- data.frame(y)
 
   x <- data.frame(x)
-  if (!is.null(x.name) & NCOL(x) == length(x.name)) {
+  if (!is.null(x.name) && NCOL(x) == length(x.name)) {
     colnames(x) <- x.name
   } else {
-    colnames(x) <- paste0("Predictor.", seq(NCOL(x)))
+    colnames(x) <- paste0("Predictor.", seq_len(NCOL(x)))
   }
 
   ### Predictors
@@ -97,9 +97,9 @@ massGAM <- function(x, y,
   ### Covariates: ordered factors -- currently works with one main predictor
   if (!is.null(covariates)) {
     covs <- covariates
-    if (is.null(names(covs))) names(covs) <- paste0("Covariate.", 1:length(covs))
+    if (is.null(names(covs))) names(covs) <- paste0("Covariate.", seq_along(covs))
     covariates <- ""
-    for (j in 1:length(covs)) {
+    for (j in seq_along(covs)) {
       if (is.null(k)) {
         covariates <- paste(covariates, paste0(
           names(covs)[j], " + s(", colnames(x)[1],
@@ -119,7 +119,7 @@ massGAM <- function(x, y,
 
   ### Formulae
   formulae <- lapply(
-    1:NCOL(y),
+    seq_len(NCOL(y)),
     function(index) as.formula(paste0(colnames(y)[index], " ~ ", features, covariates))
   )
 

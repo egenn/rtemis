@@ -48,7 +48,6 @@ s_NLA <- function(x, y = NULL,
                   trace = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ] ----
   if (missing(x)) {
     print(args(s_NLA))
@@ -68,7 +67,7 @@ s_NLA <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.character(activation)) {
     .activation <- activation
@@ -94,18 +93,23 @@ s_NLA <- function(x, y = NULL,
   }
 
   # NLA ----
-  if (verbose) msg2("Training NLA model with", .activation, "activation function using",
-                   optim.method, "optimization...", newline.pre = TRUE)
+  if (verbose) {
+    msg2("Training NLA model with", .activation, "activation function using",
+      optim.method, "optimization...",
+      newline.pre = TRUE
+    )
+  }
   mod <- nlareg(x, y,
-                activation = .activation,
-                b_o = b_o,
-                W_o = W_o,
-                b_h = b_h,
-                W_h = W_h,
-                optim.method = optim.method,
-                control = control,
-                lower = lower,
-                upper = upper, ...)
+    activation = .activation,
+    b_o = b_o,
+    W_o = W_o,
+    b_h = b_h,
+    W_h = W_h,
+    optim.method = optim.method,
+    control = control,
+    lower = lower,
+    upper = upper, ...
+  )
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
@@ -124,37 +128,40 @@ s_NLA <- function(x, y = NULL,
   }
 
   # Outro ] ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 varimp = coef(mod),
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = NULL)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    varimp = coef(mod),
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = NULL
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_NLA

@@ -179,7 +179,7 @@ shyoptleaves <- function(x, y,
   g$n.leaves <- 1 # ddlt
   linVal <- c(g$xm %*% coef) # n
 
-  if (.class & .rho) {
+  if (.class && .rho) {
     firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
     secDer.rho <- t((4 * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
     rho <- -firstDer.rho / secDer.rho
@@ -226,7 +226,7 @@ shyoptleaves <- function(x, y,
   root <- setNodeRC(
     g = g,
     id = 1,
-    index = seq(NROW(y)),
+    index = seq_len(NROW(y)),
     Fval = Fval,
     weights = weights,
     depth = 0,
@@ -604,7 +604,7 @@ splitlin_ <- function(g,
     split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
     split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
     left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
-    right.index <- intersect(node$index, seq(NROW(g$x))[-left.index])
+    right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
     # '- Update Weights -' ----
     weights.left <- weights.right <- weights
@@ -627,7 +627,7 @@ splitlin_ <- function(g,
     linVal.left <- c(g$xm %*% linCoef.left)
 
     # Lin Updates, Left ----
-    if (.class & g$.rho) {
+    if (.class && g$.rho) {
       firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.left)[1]
       secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.left)[1]
       rho.left <- -firstDer.rho.left / secDer.rho.left
@@ -654,7 +654,7 @@ splitlin_ <- function(g,
     # linVal.right <- (data.matrix(cbind(1, g$xm)) %*% linCoef.right)[, 1]
     linVal.right <- c(g$xm %*% linCoef.right)
 
-    if (.class & g$.rho) {
+    if (.class && g$.rho) {
       firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.right)[1]
       secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.right)[1]
       rho.right <- -firstDer.rho.right / secDer.rho.right
@@ -751,7 +751,7 @@ predict.shyoptleaves <- function(object, newdata,
   .class <- object$type == "Classification"
 
   # '-- Newdata ----
-  if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq(NCOL(newdata)))
+  if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
 
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   # Add column of ones for intercept and convert factors to dummies
@@ -792,7 +792,7 @@ predict.shyoptleaves <- function(object, newdata,
 
       # '-- yhat ----
       # TODO: Update to do length(rules) matrix multiplications and add
-      yhat <- init + sapply(seq(NROW(newdata)), function(n) {
+      yhat <- init + sapply(seq_len(NROW(newdata)), function(n) {
         object$learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE]))
       })
     }
@@ -817,7 +817,7 @@ predict.shyoptleaves <- function(object, newdata,
       out <- yhat
     }
 
-    if (!cxrcoef & !cxr) {
+    if (!cxrcoef && !cxr) {
       out <- yhat
     } else {
       out <- list(yhat = yhat)
@@ -865,7 +865,7 @@ predict.shyoptleaves <- function(object, newdata,
       })
 
       yhat.l <- plyr::llply(seq(max.leaves), function(j) {
-        yhat <- sapply(seq(NROW(newdata)), function(n) {
+        yhat <- sapply(seq_len(NROW(newdata)), function(n) {
           object$learning.rate * (newdata[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE]))
         })
         if (.class) {

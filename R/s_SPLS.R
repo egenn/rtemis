@@ -7,34 +7,34 @@
 #'
 #' Train an SPLS model using `spls::spls` (Regression) and `spls::splsda` (Classification)
 #'
-#' \[gS\] denotes argument can be passed as a vector of values, which will trigger 
-#' a grid search using [gridSearchLearn] 
-#' `np::npreg` allows inputs 
+#' \[gS\] denotes argument can be passed as a vector of values, which will trigger
+#' a grid search using [gridSearchLearn]
+#' `np::npreg` allows inputs
 #' with mixed data types.
 #'
 #' @inheritParams s_CART
 #' @param k \[gS\] Integer: Number of components to estimate.
 #' @param eta \[gS\] Float [0, 1): Thresholding parameter.
-#' @param kappa \[gS\] Float \[0, .5\]: Only relevant for multivariate responses: 
+#' @param kappa \[gS\] Float \[0, .5\]: Only relevant for multivariate responses:
 #' controls effect of concavity of objective
 #'   function.
-#' @param select \[gS\] Character: "pls2", "simpls". PLS algorithm for variable 
+#' @param select \[gS\] Character: "pls2", "simpls". PLS algorithm for variable
 #' selection.
-#' @param fit \[gS\] Character: "kernelpls", "widekernelpls", "simpls", 
+#' @param fit \[gS\] Character: "kernelpls", "widekernelpls", "simpls",
 #' "oscorespls". Algorithm for model fitting.
-#' @param scale.x Logical: if TRUE, scale features by dividing each column by 
+#' @param scale.x Logical: if TRUE, scale features by dividing each column by
 #' its sample standard deviation
-#' @param scale.y Logical: if TRUE, scale outcomes by dividing each column by 
+#' @param scale.y Logical: if TRUE, scale outcomes by dividing each column by
 #' its sample standard deviation
-#' @param maxstep \[gS\] Integer: Maximum number of iteration when fitting 
+#' @param maxstep \[gS\] Integer: Maximum number of iteration when fitting
 #' direction vectors.
-#' @param classifier Character: Classifier used by `spls::splsda` "lda" 
+#' @param classifier Character: Classifier used by `spls::splsda` "lda"
 #' or "logistic":
-#' @param n.cores Integer: Number of cores to be used by 
+#' @param n.cores Integer: Number of cores to be used by
 #' [gridSearchLearn]
 #' @param trace If > 0 print diagnostic messages
 #' @param ... Additional parameters to be passed to `npreg`
-#' 
+#'
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -43,7 +43,8 @@
 #' \dontrun{
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100)
-#' mod <- s_SPLS(x, y)}
+#' mod <- s_SPLS(x, y)
+#' }
 #' @export
 
 s_SPLS <- function(x, y = NULL,
@@ -77,7 +78,6 @@ s_SPLS <- function(x, y = NULL,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                    n.cores = rtCores, ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_SPLS))
@@ -100,7 +100,7 @@ s_SPLS <- function(x, y = NULL,
     print(args(s_SPLS))
     stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_SPLS))
     stop("y is missing")
   }
@@ -108,7 +108,7 @@ s_SPLS <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (k > NCOL(x)) {
     warning("k cannot exceed number of features. Setting k to NCOL(x) = ", NCOL(x))
@@ -117,11 +117,12 @@ s_SPLS <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -158,16 +159,19 @@ s_SPLS <- function(x, y = NULL,
 
   if (gridCheck(k, eta, kappa, select, fit, maxstep)) {
     gs <- gridSearchLearn(x, y,
-                          mod = mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(k = k, eta = eta, kappa = kappa,
-                                             select = select, fit = fit, maxstep = maxstep),
-                          search.type = grid.search.type,
-                          randomized.p = grid.randomized.p,
-                          metric = metric,
-                          maximize = maximize,
-                          verbose = grid.verbose,
-                          n.cores = n.cores)
+      mod = mod.name,
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        k = k, eta = eta, kappa = kappa,
+        select = select, fit = fit, maxstep = maxstep
+      ),
+      search.type = grid.search.type,
+      randomized.p = grid.randomized.p,
+      metric = metric,
+      maximize = maximize,
+      verbose = grid.verbose,
+      n.cores = n.cores
+    )
     k <- gs$best.tune$k
     eta <- gs$best.tune$eta
     kappa <- gs$best.tune$kappa
@@ -179,31 +183,36 @@ s_SPLS <- function(x, y = NULL,
   }
 
   # spls::splsda/spls ----
-  if (verbose) msg20("Training Sparse Partial Least Squares ", type , "...",
-                    newline.pre = TRUE)
+  if (verbose) {
+    msg20("Training Sparse Partial Least Squares ", type, "...",
+      newline.pre = TRUE
+    )
+  }
   if (type == "Classification") {
     # Cannot include select, scale.y, or trace options; see source
     mod <- spls::splsda(data.matrix(x), y1,
-                        K = k,
-                        eta = eta,
-                        kappa = kappa,
-                        classifier = classifier,
-                        # select = select,
-                        fit = fit,
-                        scale.x = scale.x,
-                        # scale.y = scale.y,
-                        maxstep = maxstep)
+      K = k,
+      eta = eta,
+      kappa = kappa,
+      classifier = classifier,
+      # select = select,
+      fit = fit,
+      scale.x = scale.x,
+      # scale.y = scale.y,
+      maxstep = maxstep
+    )
   } else {
     mod <- spls::spls(x, y,
-                      K = k,
-                      eta = eta,
-                      kappa = kappa,
-                      select = select,
-                      fit = fit,
-                      scale.x = scale.x,
-                      scale.y = scale.y,
-                      maxstep = maxstep,
-                      trace = verbose)
+      K = k,
+      eta = eta,
+      kappa = kappa,
+      select = select,
+      fit = fit,
+      scale.x = scale.x,
+      scale.y = scale.y,
+      maxstep = maxstep,
+      trace = verbose
+    )
   }
 
   if (trace > 0) mod
@@ -236,36 +245,39 @@ s_SPLS <- function(x, y = NULL,
 
   # Outro ----
   extra <- list(coeffs = coeffs)
-  rt <- rtModSet(mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = se.prediction,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = se.prediction,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_SPLS

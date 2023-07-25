@@ -31,7 +31,6 @@ s_LOESS <- function(x, y = NULL,
                     trace = 0,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_LOESS))
@@ -47,14 +46,20 @@ s_LOESS <- function(x, y = NULL,
   mod.name <- "LOESS"
 
   # Arguments ----
-  if (missing(x)) { print(args(s_LOESS)); stop("x is missing") }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_LOESS)); stop("y is missing") }
+  if (missing(x)) {
+    print(args(s_LOESS))
+    stop("x is missing")
+  }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_LOESS))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
@@ -90,7 +95,7 @@ s_LOESS <- function(x, y = NULL,
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
-  if (!is.null(x.test) & !is.null(y.test)) {
+  if (!is.null(x.test) && !is.null(y.test)) {
     predicted <- predict(mod, newdata = x.test, se = TRUE)
     se.prediction <- predicted$se.fit
     predicted <- as.numeric(predicted$fit)
@@ -101,35 +106,38 @@ s_LOESS <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = rtclass,
-              mod = mod,
-              mod.name = mod.name,
-              type = type,
-              y.train = y,
-              y.test = y.test,
-              x.name = x.name,
-              y.name = y.name,
-              xnames = xnames,
-              fitted = fitted,
-              se.fit = se.fit,
-              error.train = error.train,
-              predicted = predicted,
-              se.prediction = se.prediction,
-              error.test = error.test, list,
-              question = question)
+  rt <- rtModSet(
+    rtclass = rtclass,
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = se.fit,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = se.prediction,
+    error.test = error.test, list,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_LOESS

@@ -65,12 +65,12 @@ s_PolyMARS <- function(x, y = NULL,
   if (missing(x)) {
     print(args(s_POLYMARS)); stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_POLYMARS)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) { print(args(s_POLYMARS)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   bag <- if (is.null(bag.resample.rtset)) FALSE else bag.resample.rtset$n.resamples > 0
 
@@ -88,10 +88,10 @@ s_PolyMARS <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   if (is.null(.weights)) .weights <- rep(1, nrow(x))
-  x0 <- if (upsample | downsample) dt$x0 else x
-  y0 <- if (upsample | downsample) dt$y0 else y
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(classify)) classify <- ifelse(type == "Classification", TRUE, FALSE)
   if (print.plot) {

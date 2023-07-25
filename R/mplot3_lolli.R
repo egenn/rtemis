@@ -157,7 +157,7 @@ mplot3_lolli <- function(x,
 
   # Zero line ----
   .xlim <- getlim(x, axs = xaxs)
-  if (theme$zerolines & .xlim[1] < 0 & 0 < .xlim[2]) {
+  if (theme$zerolines && .xlim[1] < 0 && 0 < .xlim[2]) {
     if (.horizontal) {
       abline(v = 0, col = adjustcolor(theme$fg, theme$zerolines.alpha))
     } else {

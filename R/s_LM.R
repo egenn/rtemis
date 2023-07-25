@@ -45,7 +45,7 @@
 #' @family Supervised Learning
 #' @examples
 #' x <- rnorm(100)
-#' y <- .6 * x + 12 + rnorm(100)/2
+#' y <- .6 * x + 12 + rnorm(100) / 2
 #' mod <- s_LM(x, y)
 #' @export
 
@@ -75,9 +75,11 @@ s_LM <- function(x, y = NULL,
                  trace = 0,
                  outdir = NULL,
                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
-  if (missing(x)) { print(args(s_LM)); return(invisible(9)) }
+  if (missing(x)) {
+    print(args(s_LM))
+    return(invisible(9))
+  }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
@@ -104,7 +106,10 @@ s_LM <- function(x, y = NULL,
   }
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_LM)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_LM))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (sum(c(robust, gls, polynomial)) > 1) {
@@ -112,17 +117,18 @@ s_LM <- function(x, y = NULL,
   }
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -145,7 +151,8 @@ s_LM <- function(x, y = NULL,
     formula.str <- paste0(y.name, " ~ ", features)
   } else {
     features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
-                                         collapse = " + poly("))
+      collapse = " + poly("
+    ))
     formula.str <- paste0(y.name, " ~ ", features)
   }
   # Intercept
@@ -153,38 +160,44 @@ s_LM <- function(x, y = NULL,
   myformula <- as.formula(formula.str)
 
   # LM & POLY ----
-    if (!robust & !gls) {
-      if (verbose) msg2("Training linear model...", newline.pre = TRUE)
-      mod <- lm(myformula, data = df.train,
-                weights = weights,
-                na.action = na.action, ...)
-    }
-    # RLM
-    if (robust) {
-      if (verbose) msg2("Training robust linear model...", newline.pre = TRUE)
-      mod <- MASS::rlm(myformula, data = df.train,
-                       weights = weights,
-                       na.action = na.action, ...)
-    }
-    # GLS
-    if (gls) {
-      if (verbose) msg2("Training generalized least squares...", newline.pre = TRUE)
-      mod <- nlme::gls(myformula, data = df.train,
-                       weights = weights,
-                       na.action = na.action, ...)
-    }
+  if (!robust && !gls) {
+    if (verbose) msg2("Training linear model...", newline.pre = TRUE)
+    mod <- lm(myformula,
+      data = df.train,
+      weights = weights,
+      na.action = na.action, ...
+    )
+  }
+  # RLM
+  if (robust) {
+    if (verbose) msg2("Training robust linear model...", newline.pre = TRUE)
+    mod <- MASS::rlm(myformula,
+      data = df.train,
+      weights = weights,
+      na.action = na.action, ...
+    )
+  }
+  # GLS
+  if (gls) {
+    if (verbose) msg2("Training generalized least squares...", newline.pre = TRUE)
+    mod <- nlme::gls(myformula,
+      data = df.train,
+      weights = weights,
+      na.action = na.action, ...
+    )
+  }
 
-    if (trace > 0) print(summary(mod))
+  if (trace > 0) print(summary(mod))
 
   # Fitted ----
-    if (!gls) {
-      fitted <- predict(mod, x, se.fit = TRUE)
-      se.fit <- as.numeric(fitted$se.fit)
-      fitted <- as.numeric(fitted$fit)
-    } else {
-      se.fit <- NULL
-      fitted <- as.numeric(predict(mod, x))
-    }
+  if (!gls) {
+    fitted <- predict(mod, x, se.fit = TRUE)
+    se.fit <- as.numeric(fitted$se.fit)
+    fitted <- as.numeric(fitted$fit)
+  } else {
+    se.fit <- NULL
+    fitted <- as.numeric(predict(mod, x))
+  }
 
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
@@ -192,14 +205,14 @@ s_LM <- function(x, y = NULL,
   # Predicted ----
   predicted <- se.prediction <- error.test <- NULL
   if (!is.null(x.test)) {
-      if (gls) {
-        assign('myformula', myformula) # why need this? nlme is buggy?
-        predicted <- as.numeric(predict(mod, x.test))
-      } else {
-        predicted <- predict(mod, x.test, se.fit = TRUE)
-        se.prediction <- predicted$se.fit
-        predicted <- as.numeric(predicted$fit)
-      }
+    if (gls) {
+      assign("myformula", myformula) # why need this? nlme is buggy?
+      predicted <- as.numeric(predict(mod, x.test))
+    } else {
+      predicted <- predict(mod, x.test, se.fit = TRUE)
+      se.prediction <- predicted$se.fit
+      predicted <- as.numeric(predicted$fit)
+    }
 
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted)
@@ -208,38 +221,41 @@ s_LM <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = se.fit,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = se.prediction,
-                 varimp = mod$coefficients[-1],
-                 error.test = error.test,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = se.fit,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = se.prediction,
+    varimp = mod$coefficients[-1],
+    error.test = error.test,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_LM
 
 
@@ -252,7 +268,5 @@ s_LM <- function(x, y = NULL,
 #' @export
 
 s_RLM <- function(x, y, x.test = NULL, y.test = NULL, ...) {
-
   s_LM(x, y, x.test = x.test, y.test = y.test, robust = TRUE, ...)
-
 } # rtemis::s_RLM

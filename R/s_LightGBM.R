@@ -70,13 +70,13 @@ s_LightGBM <- function(x, y = NULL,
                        force_nrounds = NULL,
                        early_stopping_rounds = 10L,
                        nrounds_default = 100L,
-                       num_leaves = 31L,
+                       num_leaves = 32L,
                        max_depth = -1L,
                        learning_rate = .01,
                        subsample = .8,
                        subsample_freq = 1L,
-                       lambda_l1 = 0,
-                       lambda_l2 = 0,
+                       lambda_l1 = .001,
+                       lambda_l2 = .001,
                        max_cat_threshold = 32L,
                        min_data_per_group = 32L,
                        linear_tree = FALSE,
@@ -131,9 +131,7 @@ s_LightGBM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) {
-    outdir <- paste0(normalizePath(outdir,
-      mustWork = FALSE
-    ), "/")
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   }
 
   # Data ----

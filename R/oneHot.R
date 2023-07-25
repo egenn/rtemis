@@ -62,7 +62,7 @@ onehotcm <- function(x,
                      xname = deparse(substitute(x)),
                      return = "data.frame") {
   stopifnot(is.factor(x))
-  dt <- data.table(ID = 1:length(x),
+  dt <- data.table(ID = seq_along(x),
                    x = x)
   setnames(dt, "x", xname)
   out <- dcast(melt(dt, id.vars = "ID"), ID ~ variable + value, fun.aggregate = length)[, -1]

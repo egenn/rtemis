@@ -126,7 +126,7 @@ s_LINOA <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
   x0 <- if (upsample) dt$x0 else x
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
@@ -187,9 +187,9 @@ s_LINOA <- function(x, y = NULL,
 
 
   # Must turn off plotting during parallel grid search or else it may hang
-  if (!.gs & n.cores > 1) plot.tuning <- FALSE
+  if (!.gs && n.cores > 1) plot.tuning <- FALSE
 
-  if ((!.gs && gc) | (!.gs && lookback && max.leaves > 1)) {
+  if ((!.gs && gc) || (!.gs && lookback && max.leaves > 1)) {
     grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
     grid.params <- c(grid.params, list(nvmax = nvmax,
                                        gamma = gamma,

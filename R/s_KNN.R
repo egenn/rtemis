@@ -1,4 +1,4 @@
- # s_KNN.R
+# s_KNN.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: Consider replacing knn fn
@@ -37,7 +37,7 @@ s_KNN <- function(x, y = NULL,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
-  # [ Intro ] ----
+  # Intro ----
   if (missing(x)) {
     print(args(s_KNN))
     return(invisible(9))
@@ -51,11 +51,11 @@ s_KNN <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "KNN"
 
-  # [ Dependencies ] ----
+  # Dependencies ----
   dependency_check("FNN")
 
-  # [ Arguments ] ----
-  if (is.null(y) & NCOL(x) < 2) {
+  # Arguments ----
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_KNN))
     stop("y is missing")
   }
@@ -70,10 +70,10 @@ s_KNN <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  # [ Data ] ----
+  # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
@@ -96,7 +96,7 @@ s_KNN <- function(x, y = NULL,
                         k = k, algorithm = algorithm)
   }
 
-  # [ Fitted / Predicted ] ----
+  # Fitted / Predicted ----
   # TODO: write & incorporate predict.knn / replace KNN fn
   if (type == "Classification") {
     if (is.null(x.test)) {
@@ -128,7 +128,7 @@ s_KNN <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ----
+  # Outro ----
   extra <- list()
   rt <- rtModSet(rtclass = rtclass,
                  mod = mod,

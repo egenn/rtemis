@@ -37,7 +37,6 @@ s_BRUTO <- function(x, y = NULL,
                     trace = 0,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_BRUTO))
@@ -56,8 +55,11 @@ s_BRUTO <- function(x, y = NULL,
   dependency_check("mda")
 
   # Arguments ----
-  if (missing(x)) { print(args(s_BRUTO)); stop("x is missing") }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (missing(x)) {
+    print(args(s_BRUTO))
+    stop("x is missing")
+  }
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_BRUTO))
     stop("y is missing")
   }
@@ -65,13 +67,14 @@ s_BRUTO <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    verbose = verbose)
+    x.test, y.test,
+    verbose = verbose
+  )
   x <- data.matrix(dt$x)
   y <- data.matrix(dt$y)
   if (!is.null(dt$x.test)) x.test <- data.matrix(dt$x.test)
@@ -91,17 +94,20 @@ s_BRUTO <- function(x, y = NULL,
   # Grid Search ----
   if (gridCheck(dfmax, cost, maxit.select, maxit.backfit, thresh)) {
     gs <- gridSearchLearn(x, y, mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(dfmax = dfmax,
-                                             cost = cost,
-                                             maxit.select = maxit.select,
-                                             maxit.backfit = maxit.backfit,
-                                             thresh = thresh),
-                          weights = weights,
-                          metric = "MSE",
-                          maximize = FALSE,
-                          verbose = verbose,
-                          n.cores = n.cores)
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        dfmax = dfmax,
+        cost = cost,
+        maxit.select = maxit.select,
+        maxit.backfit = maxit.backfit,
+        thresh = thresh
+      ),
+      weights = weights,
+      metric = "MSE",
+      maximize = FALSE,
+      verbose = verbose,
+      n.cores = n.cores
+    )
     dfmax <- gs$best.tune$dfmax
     cost <- gs$best.tune$cost
     maxit.select <- gs$best.tune$maxit.select
@@ -112,15 +118,16 @@ s_BRUTO <- function(x, y = NULL,
   # BRUTO ----
   if (verbose) msg2("Training BRUTO...", newline.pre = TRUE)
   mod <- mda::bruto(x, y,
-                    w = weights,
-                    wp = weights.col,
-                    dfmax = dfmax,
-                    cost = cost,
-                    maxit.select = maxit.select,
-                    maxit.backfit = maxit.backfit,
-                    thresh = thresh,
-                    start.linear = start.linear,
-                    trace.bruto = trace > 0, ...)
+    w = weights,
+    wp = weights.col,
+    dfmax = dfmax,
+    cost = cost,
+    maxit.select = maxit.select,
+    maxit.backfit = maxit.backfit,
+    thresh = thresh,
+    start.linear = start.linear,
+    trace.bruto = trace > 0, ...
+  )
 
   # Fitted ----
   fitted <- as.numeric(predict(mod))
@@ -139,37 +146,40 @@ s_BRUTO <- function(x, y = NULL,
 
   # Outro ----
   extra <- list(grid.resample.rtset = grid.resample.rtset)
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 call = call,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    call = call,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_BRUTO

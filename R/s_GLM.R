@@ -31,11 +31,11 @@
 #' @param weights Numeric vector: Weights for cases. For classification, `weights` takes precedence
 #' over `ifw`, therefore set `weights = NULL` if using `ifw`.
 #' Note: If `weight` are provided, `ifw` is not used. Leave NULL if setting `ifw = TRUE`.
-#' @param ifw Logical: If TRUE, apply inverse frequency weighting 
+#' @param ifw Logical: If TRUE, apply inverse frequency weighting
 #' (for Classification only).
 #' Note: If `weights` are provided, `ifw` is not used.
 #' @param ifw.type Integer {0, 1, 2}
-#" 0: class.weights = 1 / (class.frequencies/sum(class.frequencies))
+# " 0: class.weights = 1 / (class.frequencies/sum(class.frequencies))
 #' 1: class.weights as in 0, divided by min(class.weights)
 #' 2: class.weights as in 0, divided by max(class.weights)
 #' @param upsample Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
@@ -73,7 +73,7 @@
 #' @return [rtMod]
 #' @examples
 #' x <- rnorm(100)
-#' y <- .6 * x + 12 + rnorm(100)/2
+#' y <- .6 * x + 12 + rnorm(100) / 2
 #' mod <- s_GLM(x, y)
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -109,7 +109,6 @@ s_GLM <- function(x, y = NULL,
                   trace = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_GLM))
@@ -138,13 +137,14 @@ s_GLM <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -153,7 +153,7 @@ s_GLM <- function(x, y = NULL,
   type <- dt$type
 
   if (!is.null(family) && family %in% c("binomial", "multinomial") && type != "Classification") {
-    y  <- factor(y)
+    y <- factor(y)
     if (!is.null(y.test)) y.test <- factor(y.test)
     type <- "Classification"
   }
@@ -190,14 +190,17 @@ s_GLM <- function(x, y = NULL,
     .formula <- paste(y.name, "~ .")
   } else {
     features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
-                                       collapse = " + poly("))
+      collapse = " + poly("
+    ))
     .formula <- paste0(y.name, " ~ ", features)
   }
-  
+
   if (!is.null(interactions)) {
-    .formula <- paste(.formula, " + ",
-                      lapply(interactions, \(i) paste(i, collapse = ":")) |> 
-                        paste(collapse = " + "))
+    .formula <- paste(
+      .formula, " + ",
+      lapply(interactions, \(i) paste(i, collapse = ":")) |>
+        paste(collapse = " + ")
+    )
   }
 
   # Intercept
@@ -207,9 +210,11 @@ s_GLM <- function(x, y = NULL,
   # glm, nnet ----
   if (trace > 0) msg2("Using formula:", .formula)
   if (mod.name != "MULTINOM") {
-      if (verbose) msg2("Training GLM...", newline.pre = TRUE)
-      mod <- glm(.formula, family = family, data = df.train,
-                 weights = .weights, na.action = na.action, ...)
+    if (verbose) msg2("Training GLM...", newline.pre = TRUE)
+    mod <- glm(.formula,
+      family = family, data = df.train,
+      weights = .weights, na.action = na.action, ...
+    )
   } else {
     dependency_check("nnet")
     if (verbose) {
@@ -217,17 +222,19 @@ s_GLM <- function(x, y = NULL,
         newline.pre = TRUE
       )
     }
-    mod <- nnet::multinom(.formula, data = df.train,
-                          weights = .weights, na.action = na.action, ...)
+    mod <- nnet::multinom(.formula,
+      data = df.train,
+      weights = .weights, na.action = na.action, ...
+    )
   }
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
   fitted.prob <- se.fit <- NULL
   if (type == "Regression") {
-      fitted <- predict(mod, x, se.fit = TRUE)
-      se.fit <- as.numeric(fitted$se.fit)
-      fitted <- as.numeric(fitted$fit)
+    fitted <- predict(mod, x, se.fit = TRUE)
+    se.fit <- as.numeric(fitted$se.fit)
+    fitted <- as.numeric(fitted$fit)
   } else {
     if (mod.name == "LOGISTIC") {
       fitted.prob <- as.numeric(predict(mod, x, type = "response"))
@@ -245,7 +252,6 @@ s_GLM <- function(x, y = NULL,
   # Predicted ----
   predicted <- se.prediction <- error.test <- predicted.prob <- NULL
   if (!is.null(x.test)) {
-
     # Remove missing levels ----
     if (removeMissingLevels) {
       index.factor <- which(sapply(x, is.factor))
@@ -270,9 +276,9 @@ s_GLM <- function(x, y = NULL,
 
     se.prediction <- predicted.prob <- NULL
     if (type == "Regression") {
-        predicted <- predict(mod, x.test, se.fit = TRUE)
-        se.prediction <- predicted$se.fit
-        predicted <- as.numeric(predicted$fit)
+      predicted <- predict(mod, x.test, se.fit = TRUE)
+      se.prediction <- predicted$se.fit
+      predicted <- as.numeric(predicted$fit)
     } else {
       if (mod.name == "LOGISTIC") {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "response"))
@@ -291,48 +297,53 @@ s_GLM <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(formula = .formula,
-                weights = .weights,
-                polynomia = polynomial)
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = se.fit,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = se.prediction,
-                 error.test = error.test,
-                 # varimp = mod$coefficients[-1] * apply(x, 2, sd), #adjust for categorical with 3+ levels
-                 varimp = mod$coefficients[-1],
-                 question = question,
-                 extra = extra)
+  extra <- list(
+    formula = .formula,
+    weights = .weights,
+    polynomia = polynomial
+  )
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = se.fit,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = se.prediction,
+    error.test = error.test,
+    # varimp = mod$coefficients[-1] * apply(x, 2, sd), #adjust for categorical with 3+ levels
+    varimp = mod$coefficients[-1],
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
   rt
-
 } # rtemis::s_GLM
 
 
@@ -343,9 +354,7 @@ s_GLM <- function(x, y = NULL,
 #' @export
 s_LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
                        family = binomial(link = "logit"), ...) {
-
   s_GLM(x, y, x.test = x.test, y.test = y.test, family = family, ...)
-
 } # rtemis::s_LOGISTIC
 
 
@@ -356,9 +365,7 @@ s_LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
 #' @export
 s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
                        class.method = "multinom", ...) {
-
   s_GLM(x, y, x.test = x.test, y.test = y.test, class.method = class.method, ...)
-
 } # rtemis::s_MULTINOM
 
 
@@ -373,8 +380,8 @@ s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
 #' @export
 
 s_POLY <- function(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FALSE, ...) {
-
-  s_GLM(x, y, x.test = x.test, y.test = y.test,
-        polynomial = TRUE, poly.d = poly.d, poly.raw = poly.raw, ...)
-
+  s_GLM(x, y,
+    x.test = x.test, y.test = y.test,
+    polynomial = TRUE, poly.d = poly.d, poly.raw = poly.raw, ...
+  )
 } # rtemis::s_POLY

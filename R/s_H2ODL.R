@@ -89,7 +89,6 @@ s_H2ODL <- function(x, y = NULL,
                     trace = 0,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_H2ODL))
@@ -109,9 +108,10 @@ s_H2ODL <- function(x, y = NULL,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(s_H2ODL)); stop("x is missing")
+    print(args(s_H2ODL))
+    stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_H2ODL))
     stop("y is missing")
   }
@@ -120,16 +120,17 @@ s_H2ODL <- function(x, y = NULL,
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -162,35 +163,37 @@ s_H2ODL <- function(x, y = NULL,
   }
 
   # H2ODL ----
-  net.args <- list(y = "y",
-                   training_frame = df.train,
-                   model_id = paste0("rtemis_H2ODL.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
-                   validation_frame = df.valid,
-                   hidden = n.hidden.nodes,
-                   epochs = epochs,
-                   activation = activation,
-                   mini_batch_size = mini.batch.size,
-                   rate = learning.rate,
-                   adaptive_rate = adaptive.rate,
-                   rho = rho,
-                   epsilon = epsilon,
-                   rate_annealing = rate.annealing,
-                   rate_decay = rate.decay,
-                   momentum_start = momentum.start,
-                   momentum_ramp = momentum.ramp,
-                   momentum_stable = momentum.stable,
-                   nesterov_accelerated_gradient = nesterov.accelerated.gradient,
-                   input_dropout_ratio = input.dropout.ratio,
-                   l1 = l1,
-                   l2 = l2,
-                   max_w2 = max.w2,
-                   nfolds = nfolds,
-                   initial_weights = initial.weights,
-                   initial_biases = initial.biases,
-                   loss = loss,
-                   distribution = distribution,
-                   stopping_rounds = stopping.rounds,
-                   stopping_metric = stopping.metric, ...)
+  net.args <- list(
+    y = "y",
+    training_frame = df.train,
+    model_id = paste0("rtemis_H2ODL.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+    validation_frame = df.valid,
+    hidden = n.hidden.nodes,
+    epochs = epochs,
+    activation = activation,
+    mini_batch_size = mini.batch.size,
+    rate = learning.rate,
+    adaptive_rate = adaptive.rate,
+    rho = rho,
+    epsilon = epsilon,
+    rate_annealing = rate.annealing,
+    rate_decay = rate.decay,
+    momentum_start = momentum.start,
+    momentum_ramp = momentum.ramp,
+    momentum_stable = momentum.stable,
+    nesterov_accelerated_gradient = nesterov.accelerated.gradient,
+    input_dropout_ratio = input.dropout.ratio,
+    l1 = l1,
+    l2 = l2,
+    max_w2 = max.w2,
+    nfolds = nfolds,
+    initial_weights = initial.weights,
+    initial_biases = initial.biases,
+    loss = loss,
+    distribution = distribution,
+    stopping_rounds = stopping.rounds,
+    stopping_metric = stopping.metric, ...
+  )
   if (!is.null(hidden.dropout.ratios)) net.args$hidden_dropout_ratios <- hidden.dropout.ratios
   if (verbose) msg2("Training H2O Deep Net...", newline.pre = TRUE)
   mod <- do.call(h2o::h2o.deeplearning, net.args)
@@ -220,45 +223,50 @@ s_H2ODL <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(n.hidden.nodes = n.hidden.nodes,
-                epochs = epochs)
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 bag.resample.rtset = NULL,
-                 fitted.bag = NULL,
-                 fitted = fitted,
-                 se.fit.bag = NULL,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted.bag = NULL,
-                 predicted = predicted,
-                 se.predicted.bag = NULL,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 parameters = net.args,
-                 question = question,
-                 extra = extra)
+  extra <- list(
+    n.hidden.nodes = n.hidden.nodes,
+    epochs = epochs
+  )
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    bag.resample.rtset = NULL,
+    fitted.bag = NULL,
+    fitted = fitted,
+    se.fit.bag = NULL,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted.bag = NULL,
+    predicted = predicted,
+    se.predicted.bag = NULL,
+    se.prediction = NULL,
+    error.test = error.test,
+    parameters = net.args,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   if (verbose) msg20("Access H2O Flow by pointing your browser to ", ip, ":", port)
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_H2ODL

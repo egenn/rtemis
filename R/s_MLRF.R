@@ -50,7 +50,6 @@ s_MLRF <- function(x, y = NULL,
                    trace = 0,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_MLRF))
@@ -80,11 +79,12 @@ s_MLRF <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -107,7 +107,7 @@ s_MLRF <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Spark cluster ----
@@ -129,17 +129,22 @@ s_MLRF <- function(x, y = NULL,
 
   # sparklyr::ml_random_forest ----
   if (verbose) msg2("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
-  args <- c(list(x = tbl,
-                 formula = .formula,
-                 type = ifelse(type == "Classification",
-                               "classification", "regression"),
-                 num_trees = n.trees,
-                 subsampling_rate = subsampling.rate,
-                 max_depth = max.depth,
-                 min_instances_per_node = min.instances.per.node,
-                 max_bins = max.bins,
-                 feature_subset_strategy = feature.subset.strategy),
-            list(...))
+  args <- c(
+    list(
+      x = tbl,
+      formula = .formula,
+      type = ifelse(type == "Classification",
+        "classification", "regression"
+      ),
+      num_trees = n.trees,
+      subsampling_rate = subsampling.rate,
+      max_depth = max.depth,
+      min_instances_per_node = min.instances.per.node,
+      max_bins = max.bins,
+      feature_subset_strategy = feature.subset.strategy
+    ),
+    list(...)
+  )
   mod <- do.call(sparklyr::ml_random_forest, args)
   if (trace > 0) print(mod)
 
@@ -180,38 +185,41 @@ s_MLRF <- function(x, y = NULL,
   # Outro ----
   varimp <- mod$model$feature_importances()
   names(varimp) <- xnames
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test, list,
-                 varimp = varimp,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test, list,
+    varimp = varimp,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_MLRF

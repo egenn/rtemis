@@ -34,7 +34,6 @@ s_LDA <- function(x, y = NULL,
                   verbose = TRUE,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_LDA))
@@ -63,16 +62,17 @@ s_LDA <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -88,9 +88,11 @@ s_LDA <- function(x, y = NULL,
   }
 
   # MASS::lda ----
-  params <- c(list(x = x, grouping = y,
-                   method = method,
-                   nu = nu), list(...))
+  params <- c(list(
+    x = x, grouping = y,
+    method = method,
+    nu = nu
+  ), list(...))
   if (!is.null(prior)) params$prior <- prior
   if (verbose) msg2("Running Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::lda, args = params)
@@ -117,37 +119,42 @@ s_LDA <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(fitted.prob = fitted.prob, predicted.prob = predicted.prob,
-                train.projections = train.projections, test.projections = test.projections,
-                params = params)
-  rt <- rtMod$new(mod.name = mod.name,
-                  y.train = y,
-                  y.test = y.test,
-                  x.name = x.name,
-                  xnames = xnames,
-                  mod = mod,
-                  type = type,
-                  fitted = fitted,
-                  se.fit = NULL,
-                  error.train = error.train,
-                  predicted = predicted,
-                  se.prediction = NULL,
-                  error.test = error.test,
-                  varimp = coef(mod)[, 1],
-                  question = question)
+  extra <- list(
+    fitted.prob = fitted.prob, predicted.prob = predicted.prob,
+    train.projections = train.projections, test.projections = test.projections,
+    params = params
+  )
+  rt <- rtMod$new(
+    mod.name = mod.name,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    xnames = xnames,
+    mod = mod,
+    type = type,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = coef(mod)[, 1],
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_LDA

@@ -54,7 +54,7 @@ s_PSurv <- function(x, y,
   dependency_check("survival")
 
   # Arguments ----
-  if (is.null(y) & NCOL(x) < 2) { print(args(s_PSurv)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) { print(args(s_PSurv)); stop("y is missing") }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -65,7 +65,7 @@ s_PSurv <- function(x, y,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----

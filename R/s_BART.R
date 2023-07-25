@@ -142,7 +142,7 @@ s_BART <- function(x, y = NULL,
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
-  if (!is.null(x.test) & !is.null(y.test)) {
+  if (!is.null(x.test) && !is.null(y.test)) {
     if (type == "Classification") {
       predicted.prob <- predict(mod, x.test, type = "prob")
       predicted <- factor(levels(y)[round(predicted.prob) + 1], levels = levels(y))

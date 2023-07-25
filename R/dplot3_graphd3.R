@@ -49,7 +49,7 @@ dplot3_graphd3 <- function(net,
   }
 
   # Colors ----
-  if (is.null(node.col) & length(unique(netd3$nodes$group)) == 1) {
+  if (is.null(node.col) && length(unique(netd3$nodes$group)) == 1) {
     node.col <- theme$fg
   }
 

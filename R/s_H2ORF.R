@@ -54,7 +54,6 @@ s_H2ORF <- function(x, y = NULL,
                     trace = 0,
                     save.mod = FALSE,
                     outdir = NULL, ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_H2ORF))
@@ -71,12 +70,13 @@ s_H2ORF <- function(x, y = NULL,
 
   # Dependencies ----
   dependency_check("h2o")
- 
+
   # Arguments ----
   if (missing(x)) {
-    print(args(s_H2ORF)); stop("x is missing")
+    print(args(s_H2ORF))
+    stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_H2ORF))
     stop("y is missing")
   }
@@ -85,16 +85,17 @@ s_H2ORF <- function(x, y = NULL,
   prefix <- paste0(y.name, "~", x.name)
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -111,7 +112,7 @@ s_H2ORF <- function(x, y = NULL,
   }
   # Heuristic: for 10 or fewer features, set mtry to N of features
   if (mtry == -1) {
-    if (NCOL(x) < 11) mtry = NCOL(x)
+    if (NCOL(x) < 11) mtry <- NCOL(x)
   }
 
   # h2o Frames
@@ -120,7 +121,7 @@ s_H2ORF <- function(x, y = NULL,
   if (verbose) msg2("Creating H2O frames...")
   if (is.null(weights)) weights <- rep(1, NROW(y))
   df.train <- h2o::as.h2o(data.frame(x, y = y, weights = weights), "df_train")
-  if (!is.null(x.valid) & !is.null(y.valid)) {
+  if (!is.null(x.valid) && !is.null(y.valid)) {
     if (is.null(weights.valid)) weights.valid <- rep(1, NROW(y.valid))
     df.valid <- h2o::as.h2o(data.frame(x.valid, y = y.valid, weights = weights.valid), "df_valid")
   } else {
@@ -135,17 +136,19 @@ s_H2ORF <- function(x, y = NULL,
 
   # H2ORF ----
   if (verbose) msg2("Training H2O Random Forest model...", newline.pre = TRUE)
-  mod <- h2o::h2o.randomForest(y = "y",
-                               training_frame = df.train,
-                               validation_frame = df.valid,
-                               model_id = paste0("rtemis_H2ORF.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
-                               nfolds = nfolds,
-                               ntrees = n.trees,
-                               max_depth = max.depth,
-                               stopping_rounds = n.stopping.rounds,
-                               mtries = mtry,
-                               weights_column = "weights",
-                               balance_classes = balance.classes, ...)
+  mod <- h2o::h2o.randomForest(
+    y = "y",
+    training_frame = df.train,
+    validation_frame = df.valid,
+    model_id = paste0("rtemis_H2ORF.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+    nfolds = nfolds,
+    ntrees = n.trees,
+    max_depth = max.depth,
+    stopping_rounds = n.stopping.rounds,
+    mtries = mtry,
+    weights_column = "weights",
+    balance_classes = balance.classes, ...
+  )
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
@@ -175,42 +178,45 @@ s_H2ORF <- function(x, y = NULL,
 
   # Outro ----
   extra <- list()
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 bag.resample.rtset = NULL,
-                 fitted.bag = NULL,
-                 fitted = fitted,
-                 se.fit.bag = NULL,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted.bag = NULL,
-                 predicted = predicted,
-                 se.predicted.bag = NULL,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    bag.resample.rtset = NULL,
+    fitted.bag = NULL,
+    fitted = fitted,
+    se.fit.bag = NULL,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted.bag = NULL,
+    predicted = predicted,
+    se.predicted.bag = NULL,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_H2ORF

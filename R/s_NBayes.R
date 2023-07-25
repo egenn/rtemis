@@ -17,20 +17,19 @@
 #' @export
 
 s_NBayes <- function(x, y = NULL,
-            x.test = NULL, y.test = NULL,
-            laplace = 0,
-            x.name = NULL,
-            y.name = NULL,
-            print.plot = FALSE,
-            plot.fitted = NULL,
-            plot.predicted = NULL,
-            plot.theme = rtTheme,
-            question = NULL,
-            rtclass = NULL,
-            verbose = TRUE,
-            outdir = NULL,
-            save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
+                     x.test = NULL, y.test = NULL,
+                     laplace = 0,
+                     x.name = NULL,
+                     y.name = NULL,
+                     print.plot = FALSE,
+                     plot.fitted = NULL,
+                     plot.predicted = NULL,
+                     plot.theme = rtTheme,
+                     question = NULL,
+                     rtclass = NULL,
+                     verbose = TRUE,
+                     outdir = NULL,
+                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
   # Intro ----
   if (missing(x)) {
     print(args(s_NBayes))
@@ -71,19 +70,21 @@ s_NBayes <- function(x, y = NULL,
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
   # e1071::naiveBayes ----
   if (verbose) msg2("Training Naive Bayes Classifier...", newline.pre = TRUE)
   mod <- e1071::naiveBayes(x, y,
-                           laplace = laplace, ...)
+    laplace = laplace, ...
+  )
 
   # Fitted ----
   fitted.prob <- predict(mod, x, type = "raw")
   fitted <- predict(mod, x, type = "class")
   error.train <- modError(y, fitted,
-                          fitted.prob,
-                          type = "Classification")
+    fitted.prob,
+    type = "Classification"
+  )
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -93,48 +94,52 @@ s_NBayes <- function(x, y = NULL,
     predicted <- predict(mod, x.test, type = "class")
     if (!is.null(y.test)) {
       error.test <- modError(y.test, predicted,
-                             predicted.prob,
-                             type = "Classification")
+        predicted.prob,
+        type = "Classification"
+      )
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
 
   # Outro----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 parameters = list(laplace = laplace),
-                 call = call,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = numeric(),
-                 question = question,
-                 extra = NULL)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    parameters = list(laplace = laplace),
+    call = call,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = numeric(),
+    question = question,
+    extra = NULL
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_NBayes

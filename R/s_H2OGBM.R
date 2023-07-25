@@ -76,7 +76,6 @@ s_H2OGBM <- function(x, y = NULL,
                      grid.verbose = verbose,
                      save.mod = FALSE,
                      outdir = NULL, ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_H2OGBM))
@@ -96,9 +95,10 @@ s_H2OGBM <- function(x, y = NULL,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(s_H2OGBM)); stop("x is missing")
+    print(args(s_H2OGBM))
+    stop("x is missing")
   }
-  if (is.null(y) & NCOL(x) < 2) {
+  if (is.null(y) && NCOL(x) < 2) {
     print(args(s_H2OGBM))
     stop("y is missing")
   }
@@ -106,19 +106,20 @@ s_H2OGBM <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
+  if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -126,9 +127,9 @@ s_H2OGBM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .weights <- if (is.null(weights) & ifw) dt$weights else weights
-  x0 <- if (upsample|downsample) dt$x0 else x
-  y0 <- if (upsample|downsample) dt$y0 else y
+  .weights <- if (is.null(weights) && ifw) dt$weights else weights
+  x0 <- if (upsample || downsample) dt$x0 else x
+  y0 <- if (upsample || downsample) dt$y0 else y
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
@@ -173,32 +174,37 @@ s_H2OGBM <- function(x, y = NULL,
   }
 
   .final <- FALSE
-  if (!.gs & is.null(force.n.trees)) {
+  if (!.gs && is.null(force.n.trees)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
-                          resample.rtset = grid.resample.rtset,
-                          grid.params = list(max.depth = max.depth,
-                                             learning.rate = learning.rate,
-                                             learning.rate.annealing = learning.rate.annealing,
-                                             p.col.sample = p.col.sample,
-                                             p.row.sample = p.row.sample,
-                                             minobsinnode = minobsinnode),
-                          fixed.params = list(n.trees = n.trees,
-                                              ifw = ifw,
-                                              ifw.type = ifw.type,
-                                              upsample = upsample,
-                                              resample.seed = resample.seed,
-                                              n.stopping.rounds = n.stopping.rounds,
-                                              stopping.metric = stopping.metric,
-                                              min.split.improvement = min.split.improvement,
-                                              quantile.alpha = quantile.alpha,
-                                              h2o.init = gs.h2o.init,
-                                              .gs = TRUE),
-                          weights = weights,
-                          metric = metric,
-                          maximize = maximize,
-                          verbose = verbose,
-                          grid.verbose = grid.verbose,
-                          n.cores = grid.n.cores)
+      resample.rtset = grid.resample.rtset,
+      grid.params = list(
+        max.depth = max.depth,
+        learning.rate = learning.rate,
+        learning.rate.annealing = learning.rate.annealing,
+        p.col.sample = p.col.sample,
+        p.row.sample = p.row.sample,
+        minobsinnode = minobsinnode
+      ),
+      fixed.params = list(
+        n.trees = n.trees,
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed,
+        n.stopping.rounds = n.stopping.rounds,
+        stopping.metric = stopping.metric,
+        min.split.improvement = min.split.improvement,
+        quantile.alpha = quantile.alpha,
+        h2o.init = gs.h2o.init,
+        .gs = TRUE
+      ),
+      weights = weights,
+      metric = metric,
+      maximize = maximize,
+      verbose = verbose,
+      grid.verbose = grid.verbose,
+      n.cores = grid.n.cores
+    )
 
     max.depth <- gs$best.tune$max.depth
     learning.rate <- gs$best.tune$learning.rate
@@ -218,13 +224,15 @@ s_H2OGBM <- function(x, y = NULL,
   } else {
     gs <- NULL
   }
-  parameters <- list(n.trees = n.trees,
-                     max.depth = max.depth,
-                     learning.rate = learning.rate,
-                     learning.rate.annealing = learning.rate.annealing,
-                     p.col.sample = p.col.sample,
-                     p.row.sample = p.row.sample,
-                     minobsinnode = minobsinnode)
+  parameters <- list(
+    n.trees = n.trees,
+    max.depth = max.depth,
+    learning.rate = learning.rate,
+    learning.rate.annealing = learning.rate.annealing,
+    p.col.sample = p.col.sample,
+    p.row.sample = p.row.sample,
+    minobsinnode = minobsinnode
+  )
 
   # h2o::h2o.gbm ----
   if (.final) {
@@ -235,21 +243,23 @@ s_H2OGBM <- function(x, y = NULL,
     if (verbose) msg2("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
   }
 
-  mod <- h2o::h2o.gbm(y = "y",
-                      training_frame = df.train,
-                      model_id = paste0("rtemis_H2OGBM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
-                      validation_frame = df.valid,
-                      weights_column = "weights",
-                      ntrees = n.trees,
-                      max_depth = max.depth,
-                      stopping_rounds = n.stopping.rounds,
-                      stopping_metric = stopping.metric,
-                      col_sample_rate = p.col.sample,
-                      sample_rate = p.row.sample,
-                      min_split_improvement = min.split.improvement,
-                      quantile_alpha = quantile.alpha,
-                      learn_rate = learning.rate,
-                      learn_rate_annealing = learning.rate.annealing)
+  mod <- h2o::h2o.gbm(
+    y = "y",
+    training_frame = df.train,
+    model_id = paste0("rtemis_H2OGBM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
+    validation_frame = df.valid,
+    weights_column = "weights",
+    ntrees = n.trees,
+    max_depth = max.depth,
+    stopping_rounds = n.stopping.rounds,
+    stopping_metric = stopping.metric,
+    col_sample_rate = p.col.sample,
+    sample_rate = p.row.sample,
+    min_split_improvement = min.split.improvement,
+    quantile_alpha = quantile.alpha,
+    learn_rate = learning.rate,
+    learn_rate_annealing = learning.rate.annealing
+  )
 
   if (trace > 0) print(mod)
 
@@ -284,44 +294,49 @@ s_H2OGBM <- function(x, y = NULL,
   # Outro ----
   extra <- list()
   if (imetrics) {
-    extra$imetrics <- list(n.nodes = (2 ^ max.depth) * n.trees,
-                           depth = max.depth,
-                           model_summary = as.data.frame(mod@model$model_summary))
+    extra$imetrics <- list(
+      n.nodes = (2^max.depth) * n.trees,
+      depth = max.depth,
+      model_summary = as.data.frame(mod@model$model_summary)
+    )
   }
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = parameters,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   if (.final) if (h2o.shutdown.at.end) h2o::h2o.shutdown(prompt = FALSE)
   if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_H2OGBM

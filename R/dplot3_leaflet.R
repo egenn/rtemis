@@ -145,7 +145,7 @@ dplot3_leaflet <- function(fips,
   .labs <- values[index]
   if (!is.null(names)) {
     .names <- names[index]
-    labels <- lapply(seq(NROW(geo)), function(i) {
+    labels <- lapply(seq_len(NROW(geo)), function(i) {
       if (is.na(.labs[i])) {
         '<div style="color:#7f7f7f;">N/A</div>'
       } else {
@@ -153,7 +153,7 @@ dplot3_leaflet <- function(fips,
       }
     }) |> lapply(htmltools::HTML)
   } else {
-    labels <- lapply(seq(NROW(geo)), function(i) {
+    labels <- lapply(seq_len(NROW(geo)), function(i) {
       if (is.na(.labs[i])) {
         '<div style="color:#7f7f7f;">N/A</div>'
       } else {

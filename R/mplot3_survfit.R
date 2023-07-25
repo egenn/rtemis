@@ -56,7 +56,7 @@
 #' @param oma Float, vector, length 4: Outer margins. See `par("oma")`
 #' @param par.reset Logical: If TRUE, reset par to initial values before exit
 #' @param ... Additional arguments to pass to theme
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -70,7 +70,6 @@
 #' # with N at risk table
 #' mplot3_survfit(sf2, nrisk.table = TRUE)
 #' }
-
 mplot3_survfit <- function(x,
                            lty = 1,
                            lwd = 1.5,
@@ -111,16 +110,15 @@ mplot3_survfit <- function(x,
                            group.title = NULL,
                            group.line = NULL,
                            group.side = NULL, # for group.legend.type "mtext"
-                           legend.x = NULL,   # for group.legend.type "legend"
+                           legend.x = NULL, # for group.legend.type "legend"
                            mar = c(2.5, 3, 2, 1),
                            oma = NULL,
                            par.reset = TRUE,
                            pdf.width = 6,
                            pdf.height = 6,
                            filename = NULL, ...) {
-
   group.legend.type <- match.arg(group.legend.type)
-  
+
   # Data ----
   if (class(x)[1] != "survfit") stop("Input must be of class 'survfit'")
   nstrata <- if (is.null(x$strata)) 1 else length(x$strata)
@@ -189,43 +187,50 @@ mplot3_survfit <- function(x,
       } else {
         c(1.7 + nstrata * nrisk.spacing, 0, 0, 0)
       }
-    } else rep(0, 4)
+    } else {
+      rep(0, 4)
+    }
   }
 
-  mplot3_xy(x = split(x$time, .group),
-            y = split(x$surv, .group),
-            xlim = xlim,
-            ylim = ylim,
-            type = 's',
-            x.axis.at = time.at,
-            lwd = lwd,
-            lty = lty,
-            theme = theme,
-            palette = palette,
-            marker.alpha = 0,
-            marker.col = col,
-            line.alpha = 1,
-            main = main,
-            xlab = xlab, ylab = ylab,
-            group.legend = FALSE,
-            zerolines = FALSE,
-            mar = mar,
-            oma = oma,
-            par.reset = FALSE)
+  mplot3_xy(
+    x = split(x$time, .group),
+    y = split(x$surv, .group),
+    xlim = xlim,
+    ylim = ylim,
+    type = "s",
+    x.axis.at = time.at,
+    lwd = lwd,
+    lty = lty,
+    theme = theme,
+    palette = palette,
+    marker.alpha = 0,
+    marker.col = col,
+    line.alpha = 1,
+    main = main,
+    xlab = xlab, ylab = ylab,
+    group.legend = FALSE,
+    zerolines = FALSE,
+    mar = mar,
+    oma = oma,
+    par.reset = FALSE
+  )
 
-  lines(x, mark.time = mark.censored,
-        col = unlist(palette),
-        lwd = lwd,
-        conf.int = FALSE)
+  lines(x,
+    mark.time = mark.censored,
+    col = unlist(palette),
+    lwd = lwd,
+    conf.int = FALSE
+  )
 
   # Censoring markers ----
   if (censor.mark) {
     if (is.null(censor.col)) censor.col <- adjustcolor(theme$fg, censor.alpha)
     .index <- x$n.censor == 1
     points(x$time[.index], x$surv[.index],
-           pch = censor.pch,
-           col = censor.col,
-           cex = censor.cex)
+      pch = censor.pch,
+      col = censor.col,
+      cex = censor.cex
+    )
   }
 
   # Median survival line(s) ----
@@ -237,15 +242,19 @@ mplot3_survfit <- function(x,
       survmean(x, scale = 1, rmean = "none")$matrix[, "median"]
     }
     for (i in .median) {
-      lines(x = c(i, i), y = c(.5, 0),
-            lty = median.lty,
-            lwd = median.lwd,
-            col = adjustcolor(median.col, median.alpha))
+      lines(
+        x = c(i, i), y = c(.5, 0),
+        lty = median.lty,
+        lwd = median.lwd,
+        col = adjustcolor(median.col, median.alpha)
+      )
     }
-    lines(x = c(0, max(.median)), y = c(.5, .5),
-          lty = median.lty,
-          lwd = median.lwd,
-          col = adjustcolor(median.col, median.alpha))
+    lines(
+      x = c(0, max(.median)), y = c(.5, .5),
+      lty = median.lty,
+      lwd = median.lwd,
+      col = adjustcolor(median.col, median.alpha)
+    )
   }
 
   # pointwise errors ----
@@ -271,9 +280,10 @@ mplot3_survfit <- function(x,
       .lower1 <- .lower[[i]][!.exclude]
       revlower <- rev(.lower1)
       polygon(c(.time1, xlim[2], xlim[2], rev(.time1)),
-              c(.upper1, rev(.upper1)[1], revlower[1], revlower),
-              col = colorAdjust(col[[i]], error.alpha),
-              border = NA)
+        c(.upper1, rev(.upper1)[1], revlower[1], revlower),
+        col = colorAdjust(col[[i]], error.alpha),
+        border = NA
+      )
     }
   }
 
@@ -281,16 +291,21 @@ mplot3_survfit <- function(x,
   if (autonames && nstrata > 1) {
     if (is.null(group.title)) {
       group.title <- paste(
-        sub("=.*", "",
-             strsplit(names(x$strata)[1], ", ")[[1]]),
-        collapse = ", ")
+        sub(
+          "=.*", "",
+          strsplit(names(x$strata)[1], ", ")[[1]]
+        ),
+        collapse = ", "
+      )
     }
     if (is.null(group.names)) {
       group.names <- unlist(
         lapply(strsplit(
           gsub(" *", "", names(x$strata)),
-          ","), function(i)
-            paste(sub(".*?=", "", i), collapse = ", "))
+          ","
+        ), function(i) {
+          paste(sub(".*?=", "", i), collapse = ", ")
+        })
       )
     }
   }
@@ -300,24 +315,24 @@ mplot3_survfit <- function(x,
 
   # Group Legend ----
   if (is.null(group.legend)) group.legend <- nstrata > 1
-  if (group.legend & is.null(group.names)) group.names <- names(x$strata)
+  if (group.legend && is.null(group.names)) group.names <- names(x$strata)
 
-  if (group.legend & group.median) {
+  if (group.legend && group.median) {
     group.names <- paste0(group.names, " (", ddSci(.median), ")")
   }
 
   if (is.null(group.line)) {
     group.line <- if (min(x$surv) < .5) {
       if (is.null(group.title)) {
-        -seq(1, 1 + (nrisk.spacing*(nstrata - 1)), nrisk.spacing)
+        -seq(1, 1 + (nrisk.spacing * (nstrata - 1)), nrisk.spacing)
       } else {
-        -seq(1, 1 + (nrisk.spacing * nstrata ), nrisk.spacing)
+        -seq(1, 1 + (nrisk.spacing * nstrata), nrisk.spacing)
       }
     } else {
       if (is.null(group.title)) {
-        -seq(nrisk.spacing*(nstrata + 1), 1, -nrisk.spacing)
+        -seq(nrisk.spacing * (nstrata + 1), 1, -nrisk.spacing)
       } else {
-        -seq(nrisk.spacing*(nstrata + 2), 1, -nrisk.spacing)
+        -seq(nrisk.spacing * (nstrata + 2), 1, -nrisk.spacing)
       }
     }
   }
@@ -325,37 +340,39 @@ mplot3_survfit <- function(x,
   if (is.null(group.side)) {
     group.side <- if (min(x$surv) < .5) 3 else 1
   }
-  
+
   if (is.null(legend.x)) {
     legend.x <- if (min(x$surv) < .5) "topright" else "bottomright"
   }
 
   if (group.legend) {
     col <- if (!is.null(group.title)) {
-       c(theme$fg, unlist(col)[seq(nstrata)])
+      c(theme$fg, unlist(col)[seq(nstrata)])
     } else {
       unlist(col)[seq(nstrata)]
     }
     if (group.legend.type == "mtext") {
-      mtext(text = c(group.title, group.names),
-            side = group.side,
-            line = group.line,
-            col = col,
-            adj = 1,
-            at = xlim[2],
-            cex = theme$cex,
-            family = theme$font.family)
+      mtext(
+        text = c(group.title, group.names),
+        side = group.side,
+        line = group.line,
+        col = col,
+        adj = 1,
+        at = xlim[2],
+        cex = theme$cex,
+        family = theme$font.family
+      )
     } else {
       legend("topright",
-             title = group.title,
-             legend = group.names,
-             text.col = theme$labs.col,
-             fill = col[-1],
-             border = NA,
-             bg = theme$bg,
-             box.lwd = 0)
+        title = group.title,
+        legend = group.names,
+        text.col = theme$labs.col,
+        fill = col[-1],
+        border = NA,
+        bg = theme$bg,
+        box.lwd = 0
+      )
     }
-    
   }
 
   # nrisk table ----
@@ -377,50 +394,54 @@ mplot3_survfit <- function(x,
 
     if (nrisk.pos == "above") {
       mtext("Number at risk   ",
-            side = 3,
-            line = (nstrata + 1) * nrisk.spacing + .1,
-            # outer = TRUE,
-            col = adjustcolor(theme$fg, .5),
-            adj = 0,
-            cex = theme$cex,
-            family = theme$font.family)
+        side = 3,
+        line = (nstrata + 1) * nrisk.spacing + .1,
+        # outer = TRUE,
+        col = adjustcolor(theme$fg, .5),
+        adj = 0,
+        cex = theme$cex,
+        family = theme$font.family
+      )
       for (i in seq_len(nstrata)) {
-        mtext(text = as.character(nriskmat[i, ]),
-              side = 3,
-              line = ((nstrata + nrisk.spacing) - i) * nrisk.spacing,
-              at = time.at,
-              col = palette[[i]],
-              font = table.font,
-              xpd = TRUE,
-              cex = theme$cex,
-              family = theme$font.family)
+        mtext(
+          text = as.character(nriskmat[i, ]),
+          side = 3,
+          line = ((nstrata + nrisk.spacing) - i) * nrisk.spacing,
+          at = time.at,
+          col = palette[[i]],
+          font = table.font,
+          xpd = TRUE,
+          cex = theme$cex,
+          family = theme$font.family
+        )
       }
     } else {
       mtext("Number at risk",
-            side = 1,
-            line = 2.1,
-            # outer = TRUE,
-            col = adjustcolor(theme$fg, .5),
-            # at = 0,
-            adj = 0,
-            cex = theme$cex,
-            family = theme$font.family, xpd = TRUE)
+        side = 1,
+        line = 2.1,
+        # outer = TRUE,
+        col = adjustcolor(theme$fg, .5),
+        # at = 0,
+        adj = 0,
+        cex = theme$cex,
+        family = theme$font.family, xpd = TRUE
+      )
       for (i in seq_len(nstrata)) {
-        mtext(text = as.character(nriskmat[i, ]),
-              side = 1,
-              line = (.6 + nrisk.spacing) + (1 + i) * nrisk.spacing,
-              at = time.at,
-              col = palette[[i]],
-              font = table.font,
-              xpd = TRUE,
-              cex = theme$cex,
-              family = theme$font.family)
+        mtext(
+          text = as.character(nriskmat[i, ]),
+          side = 1,
+          line = (.6 + nrisk.spacing) + (1 + i) * nrisk.spacing,
+          at = time.at,
+          col = palette[[i]],
+          font = table.font,
+          xpd = TRUE,
+          cex = theme$cex,
+          family = theme$font.family
+        )
       }
     }
-
   }
 
   if (!is.null(filename)) dev.off()
   invisible(list(group.names = group.names))
-
 } # rtemis::mplot3_surv

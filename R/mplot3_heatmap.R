@@ -174,14 +174,14 @@ mplot3_heatmap <- function(x,
                    hi = hi)
 
   # Row and Col groups ----
-  if (!is.null(group.columns) & missing(ColSideColors)) {
+  if (!is.null(group.columns) && missing(ColSideColors)) {
     group.columns <- factor(group.columns)
     if (is.character(column.palette)) column.palette <- rtpalette(column.palette)
     if (length(unique(group.columns)) > length(column.palette)) stop("Need more colors in column.palette")
     ColSideColors <- unlist(column.palette)[group.columns]
   }
 
-  if (!is.null(group.rows) & missing(RowSideColors)) {
+  if (!is.null(group.rows) && missing(RowSideColors)) {
     group.rows <- factor(group.rows)
     if (is.character(row.palette)) row.palette <- rtpalette(row.palette)
     if (length(unique(group.rows)) > length(row.palette)) stop("Need more colors in column.palette")
@@ -309,7 +309,7 @@ mplot3_heatmap <- function(x,
   }
 
   # group names
-  if (!is.null(group.columns) & group.legend) {
+  if (!is.null(group.columns) && group.legend) {
     lmat[1, ncol(lmat)] <- max(lmat) + 1
   }
 
@@ -403,7 +403,7 @@ mplot3_heatmap <- function(x,
   if (colorbar) {
     frame()
     # par(xpd = NA)
-    if (is.na(Colv) & is.null(main)) {
+    if (is.na(Colv) && is.null(main)) {
       if (is.null(cb.mar)) cb.mar <- c(margins[1], 2, 0, 3)
       cb.add.new <- FALSE
     } else {

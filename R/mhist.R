@@ -47,15 +47,14 @@ mhist <- function(x,
                   yaxis.line = 0,
                   xlab = NULL,
                   ylab = measure,
-                  xaxs = 'r',
-                  yaxs = 'r',
+                  xaxs = "r",
+                  yaxs = "r",
                   box = FALSE,
                   grid = FALSE,
                   col = pennCol$lighterBlue,
                   horiz = FALSE,
                   main = "",
                   add = FALSE, ...) {
-
   # [ Arguments ] ----
   measure <- match.arg(measure)
   xhist <- hist(x, breaks = breaks, plot = FALSE)
@@ -74,8 +73,10 @@ mhist <- function(x,
 
   # [ PLOT ] ----
   if (add) par(new = TRUE)
-  plot(.x, .y, type = 'n', xlim = .xlim, ylim = .ylim, axes = plot.axes, xaxs = .xaxs, yaxs = .yaxs,
-       xlab = xlab, ylab = ylab, ...)
+  plot(.x, .y,
+    type = "n", xlim = .xlim, ylim = .ylim, axes = plot.axes, xaxs = .xaxs, yaxs = .yaxs,
+    xlab = xlab, ylab = ylab, ...
+  )
   if (.xaxis) axis(1, line = .xaxis.line)
   if (.yaxis) axis(2, line = .yaxis.line)
 
@@ -87,13 +88,12 @@ mhist <- function(x,
 
   # [ HIST ] ----
   if (horiz) {
-    for (i in 1:length(.x)) {
+    for (i in seq_along(.x)) {
       lines(c(0, .x[i]), c(.y[i], .y[i]), lwd = lwd, col = col, ...)
     }
   } else {
-    for (i in 1:length(.x)) {
+    for (i in seq_along(.x)) {
       lines(c(.x[i], .x[i]), c(0, .y[i]), lwd = lwd, col = col, ...)
     }
   }
-
 } # rtemis::mhist
