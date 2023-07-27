@@ -1,9 +1,6 @@
 # s_LightRuleFit.R
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
-# Plan:
-# - Option to include raw features as well as rules
-# - Option to train multiple GB models with different max depth/n leaves
 
 #' RuleFit with LightGBM (C, R)
 #'
