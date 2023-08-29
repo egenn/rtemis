@@ -1,5 +1,5 @@
-# laterality_plot.R
-# ::prprcss::
+# mplot3_laterality.R
+# ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
 #' Laterality scatter plot
@@ -51,7 +51,7 @@ mplot3_laterality <- function(x, regionnames,
                               pdf.height = 6,
                               filename = NULL, ...) {
 
-  setDT(x)
+  x <- as.data.table(x)
   xnames <- names(x)
   .names <- c(paste0(regionnames, "_L"), paste0(regionnames, "_R"))
   index <- sapply(.names, function(i) grep(paste0(i, "$"), xnames))

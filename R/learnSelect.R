@@ -119,7 +119,7 @@ learnSelect <- function(alg,
   }
 
   # check:
-  # These are for print. functions iirc
+  # These are for print.* functions iirc
   if (strtrim(alg, 6) == "Bagged" && desc) {
     return(paste("Bagged", learnSelect(substr(alg, 7, 100), desc = TRUE)))
   }

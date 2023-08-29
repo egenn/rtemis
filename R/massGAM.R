@@ -1,7 +1,6 @@
 # massGAM.R
 # ::rtemis::
 # 2015 E.D. Gennatas www.lambdamd.org
-# rtTODO: ?Save plots
 
 #' Mass-univariate GAM Analysis
 #'
@@ -48,7 +47,7 @@ massGAM <- function(x, y,
                     save.plots = FALSE,
                     new.x.breaks = 9) {
   # Dependencies ----
-  dependency_check("mgcv", "prprcss")
+  dependency_check("mgcv")
 
   # Arguments ----
   if (missing(x)) {

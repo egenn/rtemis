@@ -131,6 +131,7 @@ s_LightRuleFit <- function(x, y = NULL,
 
   if (is.null(cases_by_rules)) {
     if (is.null(lgbm.mod)) {
+      # No LightGBM model provided
       # LightGBM ----
       lgbm_args <- c(
         list(
@@ -144,6 +145,7 @@ s_LightRuleFit <- function(x, y = NULL,
       if (verbose) msg2("Running LightGBM...")
       mod_lgbm <- do.call("s_LightGBM", lgbm_args)
     } else {
+      # LightGBM model provided
       if (verbose) msg2("Using provided LightGBM model...")
       mod_lgbm <- lgbm.mod
     }
