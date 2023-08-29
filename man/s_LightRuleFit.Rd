@@ -57,7 +57,7 @@ boosting step is skipped.}
 \item{empirical_risk}{Logical: If TRUE, calculate empirical risk}
 
 \item{cases_by_rules}{Matrix of cases by rules from a previoue rulefit run.
-If provided, the GBM step is skipped. Default = NULL}
+If provided, the GBM step is skipped.}
 
 \item{save_cases_by_rules}{Logical: If TRUE, save cases_by_rules to object}
 

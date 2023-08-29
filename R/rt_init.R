@@ -299,3 +299,6 @@ rtFontInit <- function() {
 # rtWarnInit <- function() {
 #     getOption("rt.warn", 1)
 # }
+rtDateInit <- function() {
+  getOption("rt.date", TRUE)
+}

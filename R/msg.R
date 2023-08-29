@@ -207,7 +207,7 @@ info <- function(..., color = hilite) {
 #'
 #' @keywords internal
 msg2 <- function(...,
-                 #  date = TRUE,
+                 date = rtDate,
                  caller = NULL,
                  call.depth = 1,
                  caller.id = 1,
@@ -238,10 +238,11 @@ msg2 <- function(...,
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  # .dt <- if (date) paste0(as.character(Sys.time())) else NULL
-  .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
   if (newline.pre) cat("\n")
-  cat(gray(paste0(.dt, gray(" "))))
+  if (date) {
+    .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
+    cat(gray(paste0(.dt, gray(" "))))
+  }
   cat(paste(txt, collapse = sep))
   if (!is.null(caller) && !is.na(caller)) {
     cat(gray(" [", caller, "]\n", sep = ""), sep = "")

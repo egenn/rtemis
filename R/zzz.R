@@ -19,6 +19,8 @@ rtemis.version <- packageVersion("rtemis")
   assign("rtFont", rtFont, envir = parent.env(environment()))
   rtPalette <- rtPaletteInit()
   assign("rtPalette", rtPalette, envir = parent.env(environment()))
+  rtDate <- rtDateInit() == "TRUE"
+  assign("rtDate", rtDate, envir = parent.env(environment()))
 }
 
 .onAttach <- function(libname, pkgname) {

@@ -6,6 +6,7 @@
 \usage{
 msg2(
   ...,
+  date = rtDateInit,
   caller = NULL,
   call.depth = 1,
   caller.id = 1,
@@ -16,6 +17,8 @@ msg2(
 }
 \arguments{
 \item{...}{Message to print}
+
+\item{date}{Logical: if TRUE, include date and time in the prefix}
 
 \item{caller}{Character: Name of calling function}
 

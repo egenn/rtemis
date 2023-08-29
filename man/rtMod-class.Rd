@@ -102,7 +102,7 @@ Initialize \code{rtMod} object
   xnames = character(),
   mod = list(),
   type = character(),
-  gridsearch = list(),
+  gridsearch = NULL,
   parameters = list(),
   fitted = numeric(),
   se.fit = NULL,

@@ -67,7 +67,7 @@ Initialize \code{rtModClass} object
   xnames = character(),
   mod = list(),
   type = character(),
-  gridsearch = list(),
+  gridsearch = NULL,
   parameters = list(),
   fitted = numeric(),
   fitted.prob = numeric(),

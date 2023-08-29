@@ -112,7 +112,7 @@ sge_submit <- function(expr,
   }
 
   ## Diag ----
-  cat("rtemis:::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'))",
+  cat("rtemis:::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'), date = FALSE)",
     "\n",
     file = Rfilepath, append = TRUE
   )
