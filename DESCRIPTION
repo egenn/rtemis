@@ -92,7 +92,6 @@ Suggests:
     polars,
     polspline,
     pROC,
-    prprcss,
     progress,
     progressr,
     psych,
