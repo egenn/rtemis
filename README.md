@@ -128,7 +128,7 @@ provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
 
 * **Visualization**
   * Static: **_mplot3_** family (base graphics)
-  * Dynamic: **_dplot3_** family ([plotly](https://plot.ly/r/))
+  * Dynamic: **_dplot3_** family ([plotly](https://plotly.com/r/))
 * **Unsupervised Learning**
   * Clustering: **_c_\*_**
   * Decomposition: **_d_\*_**
