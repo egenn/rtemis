@@ -505,6 +505,7 @@ likelihoodMediboostChooseFeat <- function(x, y,
                                           funcValue,
                                           weights,
                                           colIdx,
+                                          rpart.parms = NULL,
                                           verbose = TRUE) {
   # Initialize variables
   cutPoint <- cutCategory <- NULL
