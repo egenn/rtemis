@@ -37,6 +37,7 @@ mplot3_conf(
   mid.col = "auto",
   hi.color.pos = "#18A3AC",
   hi.color.neg = "#C23A70",
+  autolabel = letters,
   par.reset = TRUE,
   pdf.width = 7,
   pdf.height = 7,

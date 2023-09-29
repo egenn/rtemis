@@ -55,6 +55,7 @@ mplot3_heatmap(
   trace = 0,
   zlim = NULL,
   autorange = TRUE,
+  autolabel = letters,
   filename = NULL,
   par.reset = TRUE,
   pdf.width = 7,
