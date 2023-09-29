@@ -16,8 +16,8 @@
 #' - **Parquet** files using `arrow::read_parquet()`
 #' - **XLSX** files using `readxl::read_excel()`
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
-#'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`, or
-#'   `polars::pl$read_csv()`
+#'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`
+#   or `polars::pl$read_csv()`
 #'
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
@@ -27,18 +27,16 @@
 #' factors
 #' @param clean.colnames Logical: If TRUE, clean columns names using
 #' [clean_colnames]
-#' @param delim.reader Character: "data.table" or "arrow", to use
-#' `data.table::fread()` or `arrow::read_delim_arrow()`, respectively,
-#' to read `filename`
+#' @param delim.reader Character: package to use for reading delimited data
 #' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
 #' @param sep Single character: field separator. If `delim.reader = "fread"`
 #' and `sep = NULL`, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
 #' @param na.strings Character vector: Strings to be interpreted as NA values.
 #' For `delim.reader = "duckdb"`, this must be a single string.
-#' For `delim.reader = "polars"`, this must be a single string, otherwise, if an
-#' unnamed character vector, it maps each string to each column. If named, the names
-#' should match columns. See `?polars::csv_reader` for more details.
+# For `delim.reader = "polars"`, this must be a single string, otherwise, if an
+# unnamed character vector, it maps each string to each column. If named, the names
+# should match columns. See `?polars::csv_reader` for more details.
 #' @param output Character: "default" or "data.table", If default, return the delim.reader's
 #' default data structure, otherwise convert to data.table
 #' @param verbose Logical: If TRUE, print messages to console
@@ -60,15 +58,15 @@ read <- function(filename,
                  make.unique = TRUE,
                  character2factor = FALSE,
                  clean.colnames = TRUE,
-                 delim.reader = c("data.table", "vroom", "duckdb", "arrow", "polars"),
+                 delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
                  xlsx.sheet = 1,
                  sep = NULL,
                  quote = "\"",
                  na.strings = c(""),
-                 polars_ignore_errors = TRUE,
-                 polars_infer_schema_length = 100,
-                 polars_encoding = "utf8-lossy",
-                 polars_parse_dates = TRUE,
+                #  polars_ignore_errors = TRUE,
+                #  polars_infer_schema_length = 100,
+                #  polars_encoding = "utf8-lossy",
+                #  polars_parse_dates = TRUE,
                  output = c("data.table", "default"),
                  attr = NULL,
                  value = NULL,
@@ -166,22 +164,22 @@ read <- function(filename,
         na = na.strings, ...
       )
       if (output == "data.table") setDT(.dat)
-    } else if (delim.reader == "polars") {
-      dependency_check("polars")
-      attachNamespace("polars")
-      if (is.null(sep)) sep <- ","
-      .dat <- polars::pl$read_csv(
-        path,
-        sep = sep,
-        has_header = TRUE,
-        ignore_errors = polars_ignore_errors,
-        quote_char = quote,
-        # null_values = na.strings
-        infer_schema_length = polars_infer_schema_length,
-        encoding = polars_encoding,
-        parse_dates = polars_parse_dates, ...
-      )$as_data_frame()
-      if (output == "data.table") setDT(.dat)
+    # } else if (delim.reader == "polars") {
+    #   dependency_check("polars")
+    #   attachNamespace("polars")
+    #   if (is.null(sep)) sep <- ","
+    #   .dat <- polars::pl$read_csv(
+    #     path,
+    #     sep = sep,
+    #     has_header = TRUE,
+    #     ignore_errors = polars_ignore_errors,
+    #     quote_char = quote,
+    #     # null_values = na.strings
+    #     infer_schema_length = polars_infer_schema_length,
+    #     encoding = polars_encoding,
+    #     parse_dates = polars_parse_dates, ...
+    #   )$as_data_frame()
+    #   if (output == "data.table") setDT(.dat)
     } else {
       dependency_check("vroom")
       .dat <- vroom::vroom(
