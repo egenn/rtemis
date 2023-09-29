@@ -69,7 +69,6 @@ Suggests:
     htmlwidgets,
     h2o,
     ica,
-    icd,
     igraph,
     imager,
     inTrees,
