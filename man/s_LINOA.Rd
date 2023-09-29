@@ -139,8 +139,6 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console.}
-
-\item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 }
 \description{
 Train a Linear Optimized Additive Tree

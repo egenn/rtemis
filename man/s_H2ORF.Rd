@@ -105,8 +105,6 @@ If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
 \item{...}{Additional parameters to pass to \code{h2o::h2o.randomForest}}
-
-\item{epochs}{Numeric: How many times to iterate through the dataset. Default = 10}
 }
 \value{
 \link{rtMod} object

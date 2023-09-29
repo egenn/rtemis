@@ -13,7 +13,6 @@
 #' @inheritParams colorGrad
 #' @inheritParams mplot3_heatmap
 #' @param x Input matrix
-#' @param cellnote Matrix with values to be desplayed on hover. Defaults to `ddSci(x)`
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
 #' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
 #' @param font.size Numeric: Font size

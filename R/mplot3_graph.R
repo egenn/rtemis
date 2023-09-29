@@ -9,7 +9,7 @@
 #' @param vertex.col Color for vertices
 #' @param vertex.alpha Numeric: Transparency for `vertex.col`
 #' @param vertex.label.col Color for vertex labels
-#' @param vertex.frame.vcol Color for vertex border (frame)
+#' @param vertex.frame.col Color for vertex border (frame)
 #' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep
 #' existing names in `net` if any. Set to NA to avoid printing vertex labels
 #' @param vertex.shape Character: Vertex shape. See

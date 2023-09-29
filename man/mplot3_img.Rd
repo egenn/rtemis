@@ -94,8 +94,6 @@ set to "white", the rest "black".}
 \item{par.reset}{Logical: If TRUE, par will be reset to original settings before exit. Default = TRUE}
 
 \item{...}{Additional arguments to be passed to \code{graphics::image}}
-
-\item{revR}{Logical: If TRUE, reverse rows. Defaults to TRUE for a top-left to bottom-right diagonal}
 }
 \description{
 Draw a bitmap from a matrix of values.

@@ -10,12 +10,6 @@ s_GAM(x, ...)
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
 \item{...}{Additional arguments to be passed to \code{mgcv::gam}}
-
-\item{covariates}{Factors to be included as covariates in model building}
-
-\item{covariates.test}{Factors to be included as covariates in model validation}
-
-\item{k}{Integer. Number of bases for smoothing spline}
 }
 \value{
 \link{rtMod}

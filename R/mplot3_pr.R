@@ -18,7 +18,6 @@
 #' @param diagonal.lwd Float: Line width for diagonal.
 #' @param diagonal.lty Integer: Line type for diagonal.
 #' @param group.legend Logical
-#' @param ... Additional parameters to pass to [mplot3_xy]
 #' @return List with Precision, Recall, and Threshold values, invisibly
 #' @author E.D. Gennatas
 #' @export

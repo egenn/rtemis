@@ -28,7 +28,6 @@
 #' Helps avoid overfitting.
 #' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 #'   Object size adds up quickly
-#' @param stratify.var   If resampling is stratified, stratify against this variable. Defaults to outcome
 #' @param outdir         Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
 #' @param save.rds       Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
 #'   mod.gbm, so no need to save again.

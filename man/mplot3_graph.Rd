@@ -53,6 +53,8 @@ mplot3_graph(
 
 \item{vertex.label.col}{Color for vertex labels}
 
+\item{vertex.frame.col}{Color for vertex border (frame)}
+
 \item{vertex.label}{Character vector: Vertex labels. Default = NULL, which will keep
 existing names in \code{net} if any. Set to NA to avoid printing vertex labels}
 
@@ -114,8 +116,6 @@ function (in this case \code{igraph::plot.igraph}) and not to the theme function
 \item{verbose}{Logical, If TRUE, print messages to console.}
 
 \item{...}{Extra arguments to pass to \code{igraph::plot.igraph()}}
-
-\item{vertex.frame.vcol}{Color for vertex border (frame)}
 }
 \description{
 Plot \code{igraph} networks

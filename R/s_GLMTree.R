@@ -8,7 +8,7 @@
 #' `partykit::glmtree`
 #'
 #' @inheritParams s_CART
-#' @param offset Numeric vector of a priori known offsets
+## @param offset Numeric vector of a priori known offsets
 #' @param ... Additional arguments passed to `partykit::mob_control`
 #'
 #' @return Object of class [rtMod]

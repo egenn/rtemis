@@ -30,8 +30,6 @@ splitlin_(
 Fit a linear model on (x, y) and split on the gradient
 Input: environment holding tree and index of node
 Output: None; Expands tree within environment g by splitting indexed node}
-
-\item{tree}{Node within tree environment}
 }
 \description{
 Edits environment 'g' in-place (no output)

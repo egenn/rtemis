@@ -9,9 +9,9 @@
 \arguments{
 \item{x}{Object of type \link{survError}}
 
-\item{...}{Not used}
+\item{decimal.places}{Integer: Number of decimal places to print. Default = 4}
 
-\item{decimal.place}{Integer: Number of decimal places to print. Default = 4}
+\item{...}{Not used}
 }
 \description{
 Print \link{survError}
