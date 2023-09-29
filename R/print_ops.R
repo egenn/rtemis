@@ -426,6 +426,9 @@ print1 <- function(x, ...) {
     UseMethod("print1")
 }
 
+
+#' @export
+
 print1.default <- function(x, ...) {
     head(x, 1)
 }

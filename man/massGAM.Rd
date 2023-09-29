@@ -19,7 +19,6 @@ massGAM(
   save.summary = TRUE,
   print.plots = FALSE,
   outdir = NULL,
-  labeledNifti = NULL,
   save.plots = FALSE,
   new.x.breaks = 9
 )
@@ -52,8 +51,6 @@ massGAM(
 \item{print.plots}{Logical Should plots be shown}
 
 \item{outdir}{Path to save output}
-
-\item{labeledNifti}{String. Path to labeled nifti file.}
 
 \item{save.plots}{Logical. Should plots be saved}
 

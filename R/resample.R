@@ -277,6 +277,8 @@ print.resample <- function(x, ...) {
 }
 
 
+#' @export
+
 print1.resample <- function(x, verbose = TRUE, ...) {
   resampler <- attr(x, "resampler")
   if (resampler == "loocv") {
@@ -462,7 +464,9 @@ loocv <- function(x) {
 } # rtemis::loocv
 
 
-print.resamplertset <- function(x, verbose = TRUE) {
+#' @export
+
+print.resamplertset <- function(x, verbose = TRUE, ...) {
   if (x$resampler == "loocv") {
     .text <- "Leave-one-out crossvalidation"
   } else {
@@ -478,5 +482,8 @@ print.resamplertset <- function(x, verbose = TRUE) {
   }
 
   if (verbose) print(.text)
+
+  ## FIXME: I'm pretty sure print() methods should return the
+  ## object itself, i.e. invisible(x) /HB 2023-09-29
   invisible(.text)
 } # rtemis::print.resamplertset

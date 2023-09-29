@@ -131,7 +131,7 @@ dplot3_spectrogram <- function(x, y, z,
   )
 
   # Plot ----
-  # plt <- plot_ly(
+  # plt <- plotly::plot_ly(
   #     x = x, y = y, z = z,
   #     type = "heatmap",
   #     zauto = zauto,
@@ -145,7 +145,7 @@ dplot3_spectrogram <- function(x, y, z,
   #         hover.zlab, ": %{z}"
   #     )
   # )
-  plt <- plot_ly()
+  plt <- plotly::plot_ly()
   plt <- plt |> plotly::add_trace(
     x = x, y = y, z = z,
     type = "heatmap",

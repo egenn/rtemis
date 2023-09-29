@@ -370,7 +370,9 @@ dt_icd10_comorbidities <- function(
   dependency_check("icd")
   start.time <- intro(verbose = verbose)
   # icd bug workaround
-  if ("pccc" %in% score) library(icd)
+  if ("pccc" %in% score) {
+    requireNamespace("icd") || stop("Package not installed: icd")
+  }
   coml <- lapply(score, \(s) {
     if (verbose) msg2("Calculating", hilite(s), "score...")
     out <- switch(s,

@@ -225,7 +225,7 @@ s_HAL <- function(x, y = NULL,
   #     )
   # }
   if (verbose) msg2("Training Highly Adaptive LASSO...", newline.pre = TRUE)
-  mod <- fit_hal(x, as.numeric(y), family = family, ...)
+  mod <- hal9001::fit_hal(x, as.numeric(y), family = family, ...)
 
   # Fitted ----
   if (type == "Regression" || type == "Survival") {
