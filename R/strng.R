@@ -73,22 +73,26 @@ col256 <- function(x, col = 183) {
   paste0("\033[38;5;", col, "m", x, "\033[0m")
 }
 
+# Read UTF-8 strings from file, because R files should be ASCII-only.
+rtaart <- local({
+  lines <- NULL
+  function() {
+    if (is.null(lines)) {
+      file <- system.file(package = .packageName, "resources", "rtemis_logo.utf8")
+      bfr <- readLines(file)
+      cols <- c(92, 128, 196, 208, 27)
+      lines <<- mapply(bfr, cols, FUN = col256)
+    }
+    lines
+  }
+})
+
 rtascii <- function() {
-  cat(col256("▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·\n", 92))
-  cat(col256("▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.\n", 128))
-  cat(col256("▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄\n", 196))
-  cat(col256("▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█\n", 208))
-  cat(col256(".▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀\n", 27))
+  cat(rtaart(), sep = "\n")
 }
 
 rtasciitxt <- function() {
-  paste0(
-    paste0(col256("  ▄▄▄  ▄▄▄▄▄▄▄▄ .• ▌ ▄ ·. ▪  .▄▄ ·\n", 92)),
-    paste0(col256("  ▀▄ █·•██  ▀▄.▀··██ ▐███▪██ ▐█ ▀.\n", 128)),
-    paste0(col256("  ▐▀▀▄  ▐█.▪▐▀▀▪▄▐█ ▌▐▌▐█·▐█·▄▀▀▀█▄\n", 196)),
-    paste0(col256("  ▐█•█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▌▐█▄▪▐█\n", 208)),
-    paste0(col256("  .▀  ▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀▀▀▀ ▀▀▀▀\n", 27))
-  )
+  paste(paste0(paste0("  ", rtaart(), "\n")), collapse = "")
 }
 
 
