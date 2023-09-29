@@ -23,6 +23,7 @@ splitlineRC(
   part.minbucket,
   minobsinnode.lin,
   nvmax,
+  rho.def = 0.1,
   verbose = TRUE,
   trace = 0
 )
