@@ -17,21 +17,24 @@ labelify(
 \arguments{
 \item{x}{Character: Input}
 
-\item{underscoresToSpaces}{Logical: If TRUE, convert underscores to spaces. Default = TRUE}
+\item{underscoresToSpaces}{Logical: If TRUE, convert underscores to spaces.}
 
-\item{dotsToSpaces}{Logical: If TRUE, convert dots to spaces. Default = TRUE}
+\item{dotsToSpaces}{Logical: If TRUE, convert dots to spaces.}
 
 \item{toLower}{Logical: If TRUE, convert to lowercase (precedes \code{toTitleCase}).
-Default = FALSE (Good for getting all-caps words converted to title case, bad for abbreviations
-you want to keep all-caps)}
+Default = FALSE (Good for getting all-caps words converted to title case, bad for
+abbreviations you want to keep all-caps)}
 
-\item{toTitleCase}{Logical: If TRUE, convert to Title Case. Default = TRUE (This does not change
-all-caps words, set \code{toLower} to TRUE if desired)}
+\item{toTitleCase}{Logical: If TRUE, convert to Title Case. Default = TRUE (This
+does not change all-caps words, set \code{toLower} to TRUE if desired)}
 
-\item{capitalize.strings}{Character, vector: Always capitalize these strings, if present. Default = "id"}
+\item{capitalize.strings}{Character, vector: Always capitalize these strings, if
+present.}
 
-\item{stringsToSpaces}{Character, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
-Default = "\\$", which formats common input of the type \code{data.frame$variable}}
+\item{stringsToSpaces}{Character, vector: Replace these strings with spaces. Escape
+as needed for \code{gsub}.
+Default = "\\$", which formats common input of the type \code{df$variable} to
+\verb{df variable}}
 }
 \description{
 Format text for label printing
