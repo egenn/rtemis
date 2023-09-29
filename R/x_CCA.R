@@ -333,6 +333,7 @@ x_CCA.permute <- function(x, z,
 #'
 #' @author adapted by E.D. Gennatas; original authors: Daniela M Witten, Robert Tibshirani
 #' @keywords internal
+#' @importFrom parallel clusterEvalQ makePSOCKcluster stopCluster
 
 x_CCA.permute.both <- function(x, z,
                                typex,

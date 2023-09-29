@@ -151,7 +151,7 @@ read <- function(filename,
         quote = quote,
         ...
       )
-      .dat <- dbReadTable(con, "data")
+      .dat <- DBI::dbReadTable(con, "data")
       # .dat <- ddb_data(path,
       #     sep = sep, quote = quote, ...
       # )
