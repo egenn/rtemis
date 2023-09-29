@@ -551,7 +551,7 @@ splitlin_ <- function(g,
   # '- [ Split with splitline ] ----
   # if (trace > 0) msg2("splitLining node ", node.index, "...", sep = "")
   # dat <- data.frame(g$x, resid1)
-  if (trace > 0) msg2("Running splitline...", color = rtOrange)
+  if (trace > 0) msg2("Running splitline...")
   part <- splitline(g$xm[, -1, drop = FALSE], resid1,
     caseweights = weights,
     gamma = gamma,
