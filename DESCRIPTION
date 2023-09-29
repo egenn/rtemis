@@ -101,7 +101,6 @@ Suggests:
     partykit,
     pbapply,
     plotly,
-    polars,
     polspline,
     pROC,
     progress,
