@@ -84,7 +84,7 @@ characters to factors
 \item \strong{XLSX} files using \code{readxl::read_excel()}
 \item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or
-\code{polars::csv_reader()}
+\code{polars::pl$read_csv()}
 }
 }
 \examples{
