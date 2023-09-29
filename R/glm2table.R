@@ -13,6 +13,7 @@
 #'
 #' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
+#' @noRd
 
 glm2table <- function(x,
                       xnames = NULL,
