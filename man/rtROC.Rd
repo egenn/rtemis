@@ -25,7 +25,7 @@ estimated score}
 
 \item{theme}{rtemis theme to use}
 
-\item{vecrboe}{Logical: If TRUE, print messages to console}
+\item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
 Calculate the points of an ROC curve and the AUC

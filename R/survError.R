@@ -27,7 +27,7 @@ survError <- function(true, estimated) {
 #' Print [survError]
 #'
 #' @param x Object of type [survError]
-#' @param decimal.place Integer: Number of decimal places to print. Default = 4
+#' @param decimal.places Integer: Number of decimal places to print. Default = 4
 #' @param ... Not used
 #' 
 #' @author E.D. Gennatas

@@ -90,6 +90,9 @@ Default = 100}
 
 \item{tree.font.size}{Integer: Font size for tree labels. Default = 22}
 
+\item{edgethickness.by.ncases}{Logical: If TRUE, scale edge thickness by
+number of cases with weight = 1}
+
 \item{font.family}{Character: Font to use throughout.
 Default = 'Helvetica Neue', because otherwise it may fail on a
 number of external viewers.}
@@ -117,9 +120,6 @@ Default = "#FFBE00" (light orange)}
 informative). Default = 0}
 
 \item{tree}{\code{s_LINAD} tree}
-
-\item{edgethickness.by.ncases.}{Logical: If TRUE, scale edge thickness by
-number of cases with weight = 1}
 }
 \description{
 Plot a Linear Additive Tree trained by \code{s_LINAD} using

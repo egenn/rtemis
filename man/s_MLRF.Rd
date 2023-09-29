@@ -89,9 +89,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments}
-
-\item{type}{"regression" for continuous outcome; "classification" for categorical outcome.
-"auto" will result in regression for numeric \code{y} and classification otherwise}
 }
 \value{
 \link{rtMod} object

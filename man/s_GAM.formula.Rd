@@ -66,11 +66,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments to be passed to \code{mgcv::gam}}
-
-\item{covariates}{Factors to be included as covariates in model building}
-
-\item{covariates.test}{Factors to be included as covariates in model
-validation}
 }
 \value{
 \link{rtMod}

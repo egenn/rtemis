@@ -31,8 +31,6 @@ rtset.preprocess(
 )
 }
 \arguments{
-\item{decom}{Character: Name of decomposer to use. Default = "ICA"}
-
 \item{k}{Integer: Number of dimensions to project to. Default = 2}
 }
 \description{
