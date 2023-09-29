@@ -783,6 +783,8 @@ dplot3_box <- function(x,
       setorder()
 
     ## Long data
+    # appease R CMD check
+    ID <- timeperiod <- NULL
     dtlong <- data.table::melt(dt[, ID := .I],
       id.vars = c(
         "ID",

@@ -219,6 +219,8 @@ dt_check_unique <- function(x, on) {
 #' @author E.D. Gennatas
 #' @export
 dt_get_duplicates <- function(x, on) {
+  # appease R CMD check
+  ..on <- NULL
   x[x[[on]] %in% x[[on]][duplicated(x[[on]])], ..on][[1]]
 }
 
@@ -536,8 +538,10 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
 #' @export
 dt_get_factor_levels <- function(dat) {
   if (!is.data.table(dat)) {
-    setDT(dat)
+    dat <- as.data.table(dat)
   }
+  # appease R CMD check
+  ..factor_index <- NULL
   factor_index <- which(sapply(dat, is.factor))
   lapply(
     dat[, ..factor_index, drop = FALSE],

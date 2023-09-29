@@ -46,6 +46,8 @@ glm2table <- function(x,
   # Convert p-vals equal to 0 to machine double eps
   eps <- .Machine$double.eps
   pvals_idi <- getnames(out, ends_with = "p_value")
+  # appease R CMD check
+  ..i <- NULL
   for (i in pvals_idi) {
     lteps <- out[, ..i] < eps
     if (length(lteps) > 0) {

@@ -214,6 +214,8 @@ s_LightRuleFit <- function(x, y = NULL,
     "  ", " ",
     formatLightRules(rules_selected, decimal.places = 2)
   )
+  # appease R CMD check
+  Coefficient <- NULL
   rules_selected_formatted_coef <- data.table(
     Rule_ID = seq(rules_selected_formatted),
     Rule = rules_selected_formatted,
@@ -221,6 +223,8 @@ s_LightRuleFit <- function(x, y = NULL,
     Coefficient = rule_coefs$Coefficient[nonzero_index]
   )
   if (type == "Classification" && nclasses == 2) {
+    # appease R CMD check
+    Empirical_Risk <- NULL
     rules_selected_formatted_coef[, Empirical_Risk := empirical_risk]
   }
   setorder(rules_selected_formatted_coef, -Coefficient)
