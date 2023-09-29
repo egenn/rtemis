@@ -502,7 +502,7 @@ dplot3_box <- function(x,
             alpha = alpha
           ))
           if (!is.null(hovertext)) {
-            dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
+            dtlong <- merge(dtlong, cbind(dt[, list(ID)], hovertext))
             .args$text <- dtlong$hovertext
           }
         }
