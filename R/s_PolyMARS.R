@@ -1,4 +1,4 @@
-# s_POLYMARS.R
+# s_PolyMARS.R
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 # method = "cv" fails to find nk and penalty
@@ -46,7 +46,7 @@ s_PolyMARS <- function(x, y = NULL,
 
   # Intro ----
   if (missing(x)) {
-    print(args(s_POLYMARS))
+    print(args(s_PolyMARS))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -63,9 +63,13 @@ s_PolyMARS <- function(x, y = NULL,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(s_POLYMARS)); stop("x is missing")
+    print(args(s_PolyMARS))
+    stop("x is missing")
   }
-  if (is.null(y) && NCOL(x) < 2) { print(args(s_POLYMARS)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_PolyMARS))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
@@ -190,4 +194,4 @@ s_PolyMARS <- function(x, y = NULL,
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
 
-} # rtemis::s_POLYMARS
+} # rtemis::s_PolyMARS
