@@ -12,6 +12,7 @@
 #' @return `data.tree` object
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 as.rules.rpart <- function(object, verbose = FALSE) {
   # Dependencies ----

@@ -27,6 +27,7 @@
 #' @return `hytboostnow` object
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 hytboostnow <- function(x, y,
                         x.valid = NULL, y.valid = NULL,
@@ -393,8 +394,9 @@ predict.hytboostnow <- function(object,
 #' @inheritParams hytboostnow
 #' @param object [boost] object
 #'
+#' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
-#' @export
 
 expand.hytboostnow <- function(object,
                                x, y = NULL,
@@ -437,6 +439,7 @@ expand.hytboostnow <- function(object,
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 as.hytboostnow <- function(object,
                            x, y,
@@ -482,6 +485,7 @@ as.hytboostnow <- function(object,
 #' @return [hytboostnow] object
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 # TODO: save penultimate fitted, add last
 
 update.hytboostnow <- function(object, x, y = NULL,
@@ -506,6 +510,7 @@ update.hytboostnow <- function(object, x, y = NULL,
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 as.hytboostnow2 <- function(object,
                             x, y,

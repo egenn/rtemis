@@ -8,6 +8,7 @@
 #'
 #' @returns A list of trees
 #' @keywords internal
+#' @noRd
 get_lgb_tree <- function(x,
                          n_iter = -1) {
   out <- lapply(
@@ -136,6 +137,7 @@ lgbtree2rules <- function(x,
 #'
 #' @return Character vector of rules
 #' @keywords internal
+#' @noRd
 lgb2rules <- function(Booster,
                       n_iter = NULL,
                       xnames,
@@ -165,6 +167,7 @@ lgb2rules <- function(Booster,
 #'
 #' @return Character vector of rules
 #' @keywords internal
+#' @noRd
 rtlgb2rules <- function(rtmod,
                         dat,
                         n_iter = NULL,
@@ -206,6 +209,7 @@ decision_right <- function(decision_type, cat_type) {
 #' set column names.
 #'
 #' @keywords internal
+#' @noRd
 fmt_thresh <- function(catsplit,
                        feature,
                        threshold,
@@ -225,6 +229,7 @@ fmt_thresh <- function(catsplit,
 
 #' @rdname fmt_thresh
 #' @keywords internal
+#' @noRd
 fmt_thresh_right <- function(catsplit,
                              feature,
                              threshold,

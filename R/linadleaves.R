@@ -24,6 +24,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 # [[---1. linadleaves---]] ----
 linadleaves <- function(x, y,
@@ -625,6 +626,7 @@ setNodeRC <- function(g,
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 splitlineRC <- function(g,
                         type,
@@ -1310,6 +1312,7 @@ class.loss <- function(y, Fval) {
 #' Select number of leaves based on validation error
 #'
 #' @keywords internal
+#' @noRd
 
 selectleaves <- function(object,
                          x, y,

@@ -26,8 +26,8 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
-#' @export
 
 dataPrepare <- function(x, y = NULL,
                         x.test = NULL, y.test = NULL,

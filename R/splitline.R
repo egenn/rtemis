@@ -18,6 +18,7 @@
 #' @param trace Integer: If greater than 0, print diagnostic messages to console
 #'
 #' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{

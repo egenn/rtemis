@@ -10,8 +10,9 @@
 #' @param x list or object that will be converted to a list
 #' @param prefix Character: Optional prefix for names
 #' @param pad Integer: Pad output with this many spaces. Default = 2
-#' @param center.title Logical: If TRUE, autopad title for centering, if present. Default TRUE
+#' @param center.title Logical: If TRUE, autopad title for centering, if present.
 #' @param color Color fn
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -305,6 +306,7 @@ headdot <- function(x, maxlength = 6) {
 #' twocol2html(x)
 #' }
 #' @keywords internal
+#' @noRd
 
 twocol2html <- function(x,
                         font.family = "'Lato'",

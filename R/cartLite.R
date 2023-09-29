@@ -11,7 +11,7 @@
 #' 
 #' @author E.D. Gennatas
 #' @keywords internal
-#' @export
+#' @noRd
 
 cartLite <- function(x, y,
                      weights = NULL,

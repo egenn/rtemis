@@ -2580,6 +2580,7 @@ predict.rtModLite <- function(object, newdata, ...) {
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 rtMod.out <- function(rt,
                       print.plot,

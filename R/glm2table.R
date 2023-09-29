@@ -13,6 +13,7 @@
 #'
 #' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
+#' @keywords internal
 #' @noRd
 
 glm2table <- function(x,
@@ -87,6 +88,8 @@ glm2table <- function(x,
 #' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'
 #' @return `data.table` with glm summaries
+#' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
 
 gam2table <- function(mods,

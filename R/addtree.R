@@ -27,6 +27,7 @@
 #' and Solberg Timothy. MediBoost: a Patient Stratification Tool for
 #' Interpretable Decision Making in the Era of Precision Medicine.
 #' @keywords internal
+#' @noRd
 
 addtree <- function(x, y,
                     catPredictors = NULL,
@@ -166,6 +167,7 @@ addtree <- function(x, y,
 #' Recursive function that returns a node structure under the MediBoost paradigm
 #'
 #' @keywords internal
+#' @noRd
 
 likelihoodMediboostSplitNode <- function(x, y,
                                          weights,
@@ -499,6 +501,7 @@ likelihoodMediboostSplitNode <- function(x, y,
 #' Selects a feature with maximum information gain and provides the decision values
 #' and column index for the chosen feature
 #' @keywords internal
+#' @noRd
 
 likelihoodMediboostChooseFeat <- function(x, y,
                                           catPredictors,
@@ -658,6 +661,7 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 
 # preorder + Include Rules ----

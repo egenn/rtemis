@@ -10,7 +10,7 @@
 #'
 #' By default, early stopping works by checking training loss.
 #'
-#' @inheritParams hytboost
+# @inheritParams hytboost
 #' @inheritParams s_GLM
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param init Float: Initial value for prediction. Default = mean(y)
@@ -23,6 +23,7 @@
 #' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner
 #' @param ... Additional parameters to be passed to learner
+#' 
 #' @author E.D. Gennatas
 #' @export
 

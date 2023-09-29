@@ -29,8 +29,10 @@
 #' @param varimp Variable importance
 #' @param question Question the model is attempting to answer
 #' @param extra List with algorithm-specific extra fields
+#' 
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 rtModSet <- function(rtclass = "rtMod",
                      mod = list(),

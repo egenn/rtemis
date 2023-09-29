@@ -16,8 +16,10 @@
 #' Note: this is total N of nodes in the tree, with the root uncounted, not the number of terminal nodes.
 #' @param loss.fn Function with arguments y, Fval, weights. Allows you to define a custom loss function.
 # Defaults to \code{log(1 + exp(-2 * y * Fval)) %*% weights}
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 # [[---F1---]] ----
 shyoptleaves <- function(x, y,

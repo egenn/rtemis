@@ -15,7 +15,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
-#' @export
+#' @noRd
 
 boxcat <- function(x,
                    col = NULL,
@@ -48,6 +48,7 @@ pastebox <- function(x, pad = 0) {
 #' @param x Character: Object description
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 objcat <- function(x) {
   cat(".:rtemis", orange(x, bold = TRUE), "\n")

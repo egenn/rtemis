@@ -60,20 +60,21 @@ Columns must correspond to columns in \code{x}}
 
 \item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
 
-\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before considering splitting}
+\item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before
+considering splitting}
 
-\item{learning.rate}{[gS] Float (0, 1): Learning rate. Default = 1}
+\item{learning.rate}{[gS] Float (0, 1): Learning rate.}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}
 
-\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}. Default = 0}
+\item{part.cp}{[gS] Float: Minimum complexity needed to allow split by \code{rpart}.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{cxrcoef}{Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by coefficients matrix.
-Default = FALSE}
+\item{cxrcoef}{Logical: Passed to \link{predict.lihad}, if TRUE, returns cases by
+coefficients matrix}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -107,11 +108,13 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a Linear Hard Hybrid Tree for Regression
 }
 \details{
-The Hybrid Tree grows a tree using a sequence of regularized linear models and tree stumps
-Use s_LINAD for the standard Linear Additive Tree Algorithm, which grows branches stepwise and
-includes all observations weighted by gamma
+The Hybrid Tree grows a tree using a sequence of regularized linear models and tree
+stumps.
+Use s_LINAD for the standard Linear Additive Tree Algorithm, which grows branches
+stepwise and includes all observations weighted by gamma
 
-Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp
+Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate,
+part.cp
 }
 \author{
 E.D. Gennatas

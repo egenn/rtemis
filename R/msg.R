@@ -28,6 +28,7 @@
 #' @return Invisibly: List with call, message, and date
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 msg <- function(...,
                 date = TRUE,
                 caller = NULL,
@@ -115,6 +116,7 @@ msg <- function(...,
 # yes, there are other workarounds
 #' @rdname msg
 #' @keywords internal
+#' @noRd
 msg0 <- function(...,
                  date = TRUE,
                  caller = NULL,
@@ -206,6 +208,7 @@ info <- function(..., color = hilite) {
 #' @inheritParams msg
 #'
 #' @keywords internal
+#' @noRd
 msg2 <- function(...,
                  date = rtDate,
                  caller = NULL,
@@ -301,6 +304,7 @@ msg20 <- function(...,
 #' Pad-cat
 #'
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' {
@@ -328,6 +332,7 @@ pad <- function(x, target = 17, char = " ") {
 #' @inheritParams msg
 #'
 #' @keywords internal
+#' @noRd
 msg2start <- function(...,
                       #  date = TRUE,
                       #  newline = TRUE,
@@ -349,6 +354,7 @@ msg2start <- function(...,
 #' @inheritParams msg
 #'
 #' @keywords internal
+#' @noRd
 msg2done <- function(caller = NULL,
                      call.depth = 1,
                      caller.id = 1,

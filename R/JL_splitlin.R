@@ -7,6 +7,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd 
 
 JL_splitlin <- function(x, y, wts = rep(1, length(y)),
                         lambda = .1,
@@ -29,6 +30,7 @@ JL_splitlin <- function(x, y, wts = rep(1, length(y)),
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 predict.JLsplitlin <- function(object, newdata, ...) {
 
   estimated <- rep(0, NROW(newdata))

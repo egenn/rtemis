@@ -28,8 +28,8 @@
 #' i.e. if TRUE, print error plot for each base learner.
 #' 
 #' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
-#' @export
 
 
 cartLinBoostTV <- function(x, y = NULL,

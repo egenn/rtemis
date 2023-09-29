@@ -12,6 +12,7 @@
 #' @export
 #' @return cases-by-rules matrix (binary; 1: match, 0: no match)
 #' @keywords internal
+#' @noRd
 
 matchCasesByRules <- function(x, rules, verbose = TRUE) {
 
@@ -42,6 +43,7 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 #' 
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 indexCasesByRules <- function(x, rules, verbose = TRUE) {
   cxr <- matchCasesByRules(x, rules, verbose)

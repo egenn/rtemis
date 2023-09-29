@@ -24,7 +24,7 @@ printls(
 
 \item{pad}{Integer: Pad output with this many spaces. Default = 2}
 
-\item{center.title}{Logical: If TRUE, autopad title for centering, if present. Default TRUE}
+\item{center.title}{Logical: If TRUE, autopad title for centering, if present.}
 
 \item{color}{Color fn}
 }

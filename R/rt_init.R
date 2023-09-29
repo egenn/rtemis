@@ -11,6 +11,7 @@
 #' cannot get split to file and console, so we keep in console only
 #'
 #' @keywords internal
+#' @noRd
 
 intro <- function(message = NULL,
                   verbose = TRUE,
@@ -60,6 +61,7 @@ intro <- function(message = NULL,
 #' Second part to `intro`
 #'
 #' @keywords internal
+#' @noRd
 outro <- function(start.time,
                   message = NULL,
                   verbose = TRUE,
@@ -92,6 +94,7 @@ outro <- function(start.time,
 #' Print input data dimensions and test dimensions match
 #'
 #' @keywords internal
+#' @noRd
 dataSummary <- function(x, y,
                         x.test = NULL, y.test = NULL,
                         type = NULL, testSet = TRUE) {
@@ -134,6 +137,7 @@ dataSummary <- function(x, y,
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 parameterSummary <- function(...,
                              title = "Parameters",
@@ -170,6 +174,7 @@ parameterSummary <- function(...,
 #' which will be used in a grid search
 #'
 #' @keywords internal
+#' @noRd
 gridSummary <- function(...) {
   params <- list(...)
   xnames <- as.character(substitute(list(...)))[-1L]
@@ -189,6 +194,7 @@ gridSummary <- function(...) {
 #' Print Fit and Validation modError
 #'
 #' @keywords internal
+#' @noRd
 errorSummary <- function(error, mod.name = NULL, pre = NULL) {
   id <- deparse(substitute(error))
   if (class(error)[[1]] == "regError") {

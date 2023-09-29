@@ -16,6 +16,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 hytreew <- function(x, y,
                     max.depth = 5,

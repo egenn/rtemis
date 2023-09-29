@@ -41,6 +41,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 gridSearchLearn <- function(x, y, mod,
                             grid.params,
