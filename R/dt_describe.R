@@ -37,6 +37,9 @@ dt_describe <- function(x) {
   if (!is.data.table(x)) setDT(x)
   nrows <- NROW(x)
 
+  # appease R CMD check
+  ..index_nm <- ..index_cf <- ..index_dt <- NULL
+
   # Numeric ----
   index_nm <- which(sapply(x, is.numeric))
 

@@ -17,7 +17,7 @@
 #' - **XLSX** files using `readxl::read_excel()`
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
 #'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`, or
-#'   `polars::csv_reader()`
+#'   `polars::pl$read_csv()`
 #'
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
@@ -168,8 +168,9 @@ read <- function(filename,
       if (output == "data.table") setDT(.dat)
     } else if (delim.reader == "polars") {
       dependency_check("polars")
+      attachNamespace("polars")
       if (is.null(sep)) sep <- ","
-      .dat <- polars::csv_reader(
+      .dat <- polars::pl$read_csv(
         path,
         sep = sep,
         has_header = TRUE,

@@ -17,6 +17,7 @@ mplot3_mosaic(
   oma = rep(0, 4),
   par.reset = TRUE,
   new = FALSE,
+  autolabel = letters,
   filename = NULL,
   pdf.width = 5,
   pdf.height = 5,

@@ -144,6 +144,7 @@ mplot3_heatmap <- function(x,
                            trace = 0,
                            zlim = NULL,                     # rtemis
                            autorange = TRUE,
+                           autolabel = letters,
                            filename = NULL,
                            par.reset = TRUE,
                            pdf.width = 7,

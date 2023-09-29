@@ -502,7 +502,7 @@ dplot3_box <- function(x,
             alpha = alpha
           ))
           if (!is.null(hovertext)) {
-            dtlong <- merge(dtlong, cbind(dt[, .(ID)], hovertext))
+            dtlong <- merge(dtlong, cbind(dt[, list(ID)], hovertext))
             .args$text <- dtlong$hovertext
           }
         }
@@ -783,6 +783,8 @@ dplot3_box <- function(x,
       setorder()
 
     ## Long data
+    # appease R CMD check
+    ID <- timeperiod <- NULL
     dtlong <- data.table::melt(dt[, ID := .I],
       id.vars = c(
         "ID",

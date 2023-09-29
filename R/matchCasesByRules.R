@@ -18,6 +18,8 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
   n_cases <- NROW(x)
   n_rules <- length(rules)
   if (!is.data.table(x)) x <- data.table::as.data.table(x)
+  # appease R CMD check
+  ID <- NULL
   x[, ID := seq_len(n_cases)]
   cxr <- matrix(0, n_cases, n_rules)
   if (verbose) msg2start("Matching", n_rules, "rules to", n_cases, "cases...")
