@@ -135,8 +135,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments passed to \code{partykit::mob_control}}
-
-\item{offset}{Numeric vector of a priori known offsets}
 }
 \value{
 Object of class \link{rtMod}

@@ -108,8 +108,6 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 \item{file.scale}{Numeric: Scale of exported image}
 
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}}
-
-\item{cellnote}{Matrix with values to be desplayed on hover. Defaults to \code{ddSci(x)}}
 }
 \description{
 Draw interactive spectrograms using \code{plotly}

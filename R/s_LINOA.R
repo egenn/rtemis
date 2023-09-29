@@ -21,7 +21,6 @@
 #' @param init Initial value. Default = `mean(y)`
 #' @param lambda Float: lambda parameter for `MASS::lm.ridge` Default = .01
 #' @param minobsinnode Integer: Minimum N observations needed in node, before considering splitting
-#' @param part.max.depth Integer: Max depth for each tree model within the additive tree
 #' @param .gs internal use only
 #' @param plot.tuning Logical: If TRUE, plot validation error during gridsearch
 #' @author E.D. Gennatas

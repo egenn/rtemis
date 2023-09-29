@@ -30,7 +30,7 @@
 #' @param levelSeparation Float: N of pixels to separate tree levels. 
 #' Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
-#' @param edgethickness.by.ncases. Logical: If TRUE, scale edge thickness by 
+#' @param edgethickness.by.ncases Logical: If TRUE, scale edge thickness by 
 #' number of cases with weight = 1
 #' @param font.family Character: Font to use throughout. 
 #' Default = 'Helvetica Neue', because otherwise it may fail on a

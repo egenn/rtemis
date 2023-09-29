@@ -177,7 +177,6 @@ rtset.color <- function(n = 101, colors = NULL,
 
 #' `rtset.preprocess`: Set [preprocess] parameters for [train]'s `.preprocess` argument
 #'
-#' @param decom Character: Name of decomposer to use. Default = "ICA"
 #' @param k Integer: Number of dimensions to project to. Default = 2
 #' @export
 

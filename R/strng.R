@@ -115,16 +115,13 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #' @param underscoresToSpaces Logical: If TRUE, convert underscores to spaces.
 #' @param dotsToSpaces Logical: If TRUE, convert dots to spaces.
 #' @param toLower Logical: If TRUE, convert to lowercase (precedes `toTitleCase`).
-#' Default = FALSE (Good for getting all-caps words converted to title case, bad for 
-#' abbreviations you want to keep all-caps)
-#' @param toTitleCase Logical: If TRUE, convert to Title Case. Default = TRUE (This 
-#' does not change all-caps words, set `toLower` to TRUE if desired)
-#' @param capitalize.strings Character, vector: Always capitalize these strings, if 
-#' present.
-#' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape 
-#' as needed for `gsub`.
-#' Default = "\\$", which formats common input of the type `df$variable` to 
-#' `df variable`
+#' Default = FALSE (Good for getting all-caps words converted to title case, bad for abbreviations
+#' you want to keep all-caps)
+#' @param toTitleCase Logical: If TRUE, convert to Title Case. Default = TRUE (This does not change
+#' all-caps words, set `toLower` to TRUE if desired)
+#' @param capitalize.strings Character, vector: Always capitalize these strings, if present. Default = `"id"`
+#' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for `gsub`.
+#' Default = `"\\$"`, which formats common input of the type `data.frame$variable`
 #'
 #' @author E.D. Gennatas
 #' @export

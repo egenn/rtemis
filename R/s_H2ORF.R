@@ -16,7 +16,6 @@
 #' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port to connect to at `ip`
 #' @param n.trees Integer: Number of trees to grow
-#' @param epochs Numeric: How many times to iterate through the dataset. Default = 10
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to `h2o::h2o.randomForest`
 #' @return [rtMod] object

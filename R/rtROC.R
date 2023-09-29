@@ -18,7 +18,7 @@
 #' @param thresholds Numeric vector of thresholds to consider
 #' @param plot Logical: If TRUE, print plot
 #' @param theme rtemis theme to use
-#' @param vecrboe Logical: If TRUE, print messages to console
+#' @param verbose Logical: If TRUE, print messages to console
 #' 
 #' @author E.D. Gennatas
 #' @export

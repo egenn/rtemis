@@ -17,8 +17,8 @@
 #' @param max.depth Integer. Max depth of each tree
 #' @param max.bins Integer. Max N of bins used for discretizing continuous features and for
 #'   choosing how to split on features at each node. More bins give higher granularity.
-#' @param type "regression" for continuous outcome; "classification" for categorical outcome.
-#'   "auto" will result in regression for numeric `y` and classification otherwise
+## @param type "regression" for continuous outcome; "classification" for categorical outcome.
+##   "auto" will result in regression for numeric `y` and classification otherwise
 #' @param spark.master Spark cluster URL or "local"
 #' @return [rtMod] object
 #' @author E.D. Gennatas

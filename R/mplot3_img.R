@@ -18,7 +18,6 @@
 #'   to a figure. In this case, you might want to add `cell.labs` with the values. Consider first using
 #'   [ddSci].
 #' @param col Colors to use. Defaults to `colorGrad(100)`
-#' @param revR Logical: If TRUE, reverse rows. Defaults to TRUE for a top-left to bottom-right diagonal
 #' @param cell.labs Matrix of same dimensions as z (Optional): Will be printed as strings over cells
 #' @param cell.labs.col Color for `cell.labs`. If NULL, the upper and lower quartiles will be
 #' set to "white", the rest "black".

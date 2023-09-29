@@ -81,8 +81,6 @@ get options with \code{rtpalette()}}
 is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}
-
-\item{...}{Additional parameters to pass to \link{mplot3_xy}}
 }
 \value{
 List with Precision, Recall, and Threshold values, invisibly

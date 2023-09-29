@@ -510,7 +510,6 @@ setNodeRC <- function(g,
 #'
 #' Edits environment 'g' in-place (no output)
 #'
-#' @param tree Node within tree environment
 #' @param node.index Open nodes to work on
 #'
 #' Fit a linear model on (x, y) and split on the gradient

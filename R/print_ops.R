@@ -164,7 +164,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param column.col Color fn for printing column names.
 #' @param row.col Color fn for printing row names.
 #' @param newline.pre Logical: If TRUE, print a new line before printing data frame. Default = FALSE
-#' @param newlin Logical: If TRUE, print a new line after printing data frame. Default = FALSE
+#' @param newline Logical: If TRUE, print a new line after printing data frame. Default = FALSE
 #' @author E.D. Gennatas
 #' @export
 

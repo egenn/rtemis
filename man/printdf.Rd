@@ -43,7 +43,7 @@ formatting}
 
 \item{newline.pre}{Logical: If TRUE, print a new line before printing data frame. Default = FALSE}
 
-\item{newlin}{Logical: If TRUE, print a new line after printing data frame. Default = FALSE}
+\item{newline}{Logical: If TRUE, print a new line after printing data frame. Default = FALSE}
 }
 \description{
 Pretty print a data frame
