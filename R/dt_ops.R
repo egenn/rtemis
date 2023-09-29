@@ -343,55 +343,6 @@ dt_set_logical2factor <- function(
 }
 
 
-#' Calculate ICD10 comorbidities using `icd10` package
-#'
-#' Calculates multiple comorbidity scores using the `icd10` package and merges
-#' into a `data.table`.
-#'
-#' @param x data.frame-compatible input with first column being IDs and second column
-#' ICD10 codes
-#' @param score Character: Comorbidity scores to calculate.
-#' @param verbose Logical: If TRUE, print messages to console
-#'
-#' @return data.table with IDs & columns for each score
-#' @author E.D. Gennatas
-#' @export
-#' @examples
-#' \dontrun{
-#' data(uranium_pathology, package = "icd")
-#' uranium_comorb <- dt_icd10_comorbidities(uranium_pathology)
-#' uranium_comorb
-#' }
-# https://github.com/jackwasey/icd
-dt_icd10_comorbidities <- function(
-    x,
-    score = c("ahrq", "quan_elix", "charlson", "ccs", "pccc"),
-    verbose = TRUE) {
-  dependency_check("icd")
-  start.time <- intro(verbose = verbose)
-  # icd bug workaround
-  if ("pccc" %in% score) {
-    requireNamespace("icd") || stop("Package not installed: icd")
-  }
-  coml <- lapply(score, \(s) {
-    if (verbose) msg2("Calculating", hilite(s), "score...")
-    out <- switch(s,
-      ahrq = icd::icd10_comorbid_ahrq(x, return_df = TRUE),
-      elix = icd::icd10_comorbid_elix(x, return_df = TRUE),
-      quan_elix = icd::icd10_comorbid_quan_elix(x, return_df = TRUE),
-      quan_deyo = icd::icd10_comorbid_quan_deyo(x, return_df = TRUE),
-      charlson = icd::icd10_comorbid_charlson(x, return_df = TRUE),
-      ccs = icd::icd10_comorbid_ccs(x, return_df = TRUE),
-      pccc = icd::icd10_comorbid_pccc_dx(x, return_df = TRUE)
-    ) |> setDT()
-    setnames(out, names(out)[-1], paste0(s, "_", names(out)[-1]))
-  })
-  out <- Reduce(function(...) merge(..., by = names(x)[1], all.x = TRUE), coml) |> setDT()
-  outro(start.time, verbose = verbose)
-  out
-} # rtemis::dt_icd10_comorbidities
-
-
 #' Tabulate column attributes
 #'
 #' @param x data.table
