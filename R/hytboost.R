@@ -331,7 +331,7 @@ print.hytboost <- function(x, ...) {
 
 #' Predict method for `hytboost` object
 #'
-#' @param object [hytboost] object
+#' @param object `hytboost` object
 #' @param newdata data.frame of predictors
 #  @param n.feat Integer: Use the first so many features
 #' @param n.iter Integer: Use the first so many trees for prediction

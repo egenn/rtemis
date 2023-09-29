@@ -16,7 +16,7 @@
 )
 }
 \arguments{
-\item{object}{\link{hytboost} object}
+\item{object}{\code{hytboost} object}
 
 \item{newdata}{data.frame of predictors}
 

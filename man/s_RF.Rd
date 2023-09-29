@@ -91,7 +91,7 @@ grown to maximum possible}
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
 \code{maximize = TRUE} during grid search. Default = NULL, which results in

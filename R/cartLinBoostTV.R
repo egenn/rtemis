@@ -595,10 +595,12 @@ as.cartLinBoostTV <- function(object,
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
+#' 
 #' @return [cartLinBoostTV] object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
-#' @export
+#' @keywords internal
+#' @noRd
 
 update.cartLinBoostTV <- function(object,
                                   x = NULL,

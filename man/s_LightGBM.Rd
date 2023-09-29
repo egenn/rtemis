@@ -131,7 +131,7 @@ cross-validation fails - likely will never be used}
 \item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}

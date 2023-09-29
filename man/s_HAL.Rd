@@ -55,7 +55,7 @@ Columns must correspond to columns in \code{x}}
 \item{y.name}{Character: Name for outcome}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}

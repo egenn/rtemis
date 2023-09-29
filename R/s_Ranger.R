@@ -55,6 +55,7 @@
 #' This can help improve test set performance in imbalanced datasets.
 #' Default = FALSE. Note: Cannot be used with `ifw.case.weights`
 #' @param ... Additional arguments to be passed to `ranger::ranger`
+#' 
 #' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation

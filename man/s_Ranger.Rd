@@ -128,7 +128,7 @@ This can help improve test set performance in imbalanced datasets.
 Default = FALSE. Note: Cannot be used with \code{ifw.case.weights}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}

@@ -51,7 +51,7 @@ must have set of columns as \code{x}}
 \item{y.name}{Character: Name for outcome}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.

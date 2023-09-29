@@ -10,15 +10,11 @@ read(
   make.unique = TRUE,
   character2factor = FALSE,
   clean.colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow", "polars"),
+  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
   xlsx.sheet = 1,
   sep = NULL,
   quote = "\\"",
   na.strings = c(""),
-  polars_ignore_errors = TRUE,
-  polars_infer_schema_length = 100,
-  polars_encoding = "utf8-lossy",
-  polars_parse_dates = TRUE,
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
@@ -42,9 +38,7 @@ factors}
 \item{clean.colnames}{Logical: If TRUE, clean columns names using
 \link{clean_colnames}}
 
-\item{delim.reader}{Character: "data.table" or "arrow", to use
-\code{data.table::fread()} or \code{arrow::read_delim_arrow()}, respectively,
-to read \code{filename}}
+\item{delim.reader}{Character: package to use for reading delimited data}
 
 \item{xlsx.sheet}{Integer or character: Name or number of XLSX sheet to read}
 
@@ -54,10 +48,7 @@ and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 \item{quote}{Single character: quote character}
 
 \item{na.strings}{Character vector: Strings to be interpreted as NA values.
-For \code{delim.reader = "duckdb"}, this must be a single string.
-For \code{delim.reader = "polars"}, this must be a single string, otherwise, if an
-unnamed character vector, it maps each string to each column. If named, the names
-should match columns. See \code{?polars::csv_reader} for more details.}
+For \code{delim.reader = "duckdb"}, this must be a single string.}
 
 \item{output}{Character: "default" or "data.table", If default, return the delim.reader's
 default data structure, otherwise convert to data.table}
@@ -83,8 +74,7 @@ characters to factors
 \item \strong{Parquet} files using \code{arrow::read_parquet()}
 \item \strong{XLSX} files using \code{readxl::read_excel()}
 \item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}, or
-\code{polars::pl$read_csv()}
+\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}
 }
 }
 \examples{

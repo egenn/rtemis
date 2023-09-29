@@ -30,7 +30,7 @@
 #' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return
 #' unpruned tree under `extra` in [rtMod].
 #' @param grid.resample.rtset List: Output of [rtset.resample] defining
-#' [gridSearchLearn] parameters.
+#' grid search parameters.
 #' @param grid.search.type Character: Type of grid search to perform:
 #' "exhaustive" or "randomized".
 #' @param grid.randomized.p Float (0, 1): If

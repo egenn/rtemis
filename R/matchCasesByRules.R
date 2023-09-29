@@ -9,7 +9,7 @@
 #' @param verbose Logical: If TRUE, print messages to console
 #' 
 #' @author E.D. Gennatas
-#' @export
+#'
 #' @return cases-by-rules matrix (binary; 1: match, 0: no match)
 #' @keywords internal
 #' @noRd

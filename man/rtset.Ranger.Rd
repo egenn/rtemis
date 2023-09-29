@@ -26,7 +26,7 @@ Defaults to square root of n of
 features for classification, and a third of n of features for regression.}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
 (for Classification only).

@@ -91,7 +91,7 @@ Default = NULL (random seed)}
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
-\link{gridSearchLearn} parameters.}
+grid search parameters.}
 
 \item{grid.search.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
