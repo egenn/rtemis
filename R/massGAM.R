@@ -23,7 +23,7 @@
 #' @param save.summary Logical. Should model summary be saved
 #' @param print.plots Logical Should plots be shown
 #' @param outdir Path to save output
-#' @param labeledNifti String. Path to labeled nifti file.
+#  @param labeledNifti String. Path to labeled nifti file.
 #' @param save.plots Logical. Should plots be saved
 #' @param new.x.breaks Integer. Number of splits in the range of x
 #'   to form vector of features for estimation of fitted values
@@ -43,7 +43,7 @@ massGAM <- function(x, y,
                     save.summary = TRUE,
                     print.plots = FALSE,
                     outdir = NULL,
-                    labeledNifti = NULL,
+                    # labeledNifti = NULL,
                     save.plots = FALSE,
                     new.x.breaks = 9) {
   # Dependencies ----
@@ -198,12 +198,12 @@ massGAM <- function(x, y,
     dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     outfile <- paste0(outdir, "massGAM.rds")
     saveRDS(s.out, outfile)
-    if (!is.null(labeledNifti)) {
-      labels2nii(s.out$s.pv.fdr, labeledNifti, paste0(outdir, "s.pv.fdr"))
-      Rsq.fdr <- as.numeric(s.out$r.sq)
-      Rsq.fdr[s.out$s.pv.fdr >= .05] <- 0
-      labels2nii(Rsq.fdr, labeledNifti, paste0(outdir, "r.sq.fdr"))
-    }
+    # if (!is.null(labeledNifti)) {
+    #   prprcss::labels2nii(s.out$s.pv.fdr, labeledNifti, paste0(outdir, "s.pv.fdr"))
+    #   Rsq.fdr <- as.numeric(s.out$r.sq)
+    #   Rsq.fdr[s.out$s.pv.fdr >= .05] <- 0
+    #   prprcss::labels2nii(Rsq.fdr, labeledNifti, paste0(outdir, "r.sq.fdr"))
+    # }
   }
 
   # Outro ----
