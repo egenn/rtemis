@@ -26,8 +26,7 @@ dplot3_addtree(
   overlap = "false",
   prune = NULL,
   prune.empty.leaves = TRUE,
-  remove.bad.parents = FALSE,
-  filename = NULL
+  remove.bad.parents = FALSE
 )
 }
 \arguments{
@@ -40,9 +39,6 @@ dplot3_addtree(
 \item{edge.col}{Color for edges.}
 
 \item{bg.color}{Background color.}
-
-\item{filename}{Character: Path to filename to save PDF
-Requires packages \code{DiagrammeRsvg} and \code{rsvg}. Default = NULL}
 }
 \description{
 Plot AddTree trees trained with \link{s_AddTree} using \code{data.tree::plot.Node}

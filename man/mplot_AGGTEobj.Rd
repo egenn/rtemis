@@ -16,6 +16,7 @@ mplot_AGGTEobj(
   ylab = NULL,
   mar = c(2.5, 3.5, 2, 7),
   theme = rtTheme,
+  font.family = "Helvetica",
   col = c("#EC1848", "#18A3AC"),
   filename = NULL,
   file.width = 6.5,
