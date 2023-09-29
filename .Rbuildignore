@@ -12,3 +12,5 @@ spark-warehouse
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^\.github$
+^codecov\.yml$
