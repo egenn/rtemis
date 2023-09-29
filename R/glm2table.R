@@ -79,7 +79,7 @@ glm2table <- function(x,
 #' Collect summary table (p-values) from list of massGAMs with same predictors,
 #' different outcome ("massy")
 #'
-#' @param x list of [gam] models
+#' @param x list of [mgcv::gam] models
 #' @param xnames Character, vector: names of models
 #' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'

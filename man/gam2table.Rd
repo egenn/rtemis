@@ -8,7 +8,7 @@ different outcome ("massy")}
 gam2table(mods, modnames = NULL)
 }
 \arguments{
-\item{x}{list of \link{gam} models}
+\item{x}{list of \link[mgcv:gam]{mgcv::gam} models}
 
 \item{xnames}{Character, vector: names of models}
 

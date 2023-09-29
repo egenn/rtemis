@@ -69,7 +69,6 @@ Suggests:
     htmlwidgets,
     h2o,
     ica,
-    icd,
     igraph,
     imager,
     inTrees,
@@ -149,8 +148,6 @@ Suggests:
     xgboost
 Additional_repositories:
     https://rpolars.r-universe.dev
-Remotes:
-    jackwasey/icd
 Encoding: UTF-8
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)

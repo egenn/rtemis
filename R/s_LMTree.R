@@ -4,7 +4,7 @@
 
 #' Linear Model Tree \[R\]
 #'
-#' Train a LMTree for regression or classification using `rpart`
+#' Train a LMTree for regression or classification using `partykit::lmtree`
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
@@ -176,7 +176,7 @@ s_LMTree <- function(x, y = NULL,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
-    varimp = varimp,
+    varimp = NULL,
     question = question,
     extra = NULL
   )

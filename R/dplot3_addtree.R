@@ -12,8 +12,9 @@
 #' @param node.col Color for non-terminal leaves.
 #' @param edge.col Color for edges.
 #' @param bg.color Background color.
-#' @param filename Character: Path to filename to save PDF
-#' Requires packages `DiagrammeRsvg` and `rsvg`. Default = NULL
+# @param filename Character: Path to filename to save PDF
+# Requires packages `DiagrammeRsvg` and `rsvg`. Default = NULL
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -38,8 +39,9 @@ dplot3_addtree <- function(addtree,
                            overlap = "false",
                            prune = NULL,
                            prune.empty.leaves = TRUE,
-                           remove.bad.parents = FALSE,
-                           filename = NULL) {
+                           remove.bad.parents = FALSE
+                          #  filename = NULL
+                           ) {
   # Dependencies ----
   dependency_check("data.tree", "DiagrammeR")
 
@@ -149,12 +151,12 @@ dplot3_addtree <- function(addtree,
   })
 
   # Write to file ----
-  if (!is.null(filename)) {
-    dependency_check("DiagrammeRsvg", "rsvg")
-    filename <- file.path(filename)
-    plt_svg <- DiagrammeRsvg::export_svg(plt)
-    rsvg::rsvg_pdf(charToRaw(plt_svg), file = filename)
-  }
+  # if (!is.null(filename)) {
+  #   dependency_check("DiagrammeRsvg", "rsvg")
+  #   filename <- file.path(filename)
+  #   plt_svg <- DiagrammeRsvg::export_svg(plt)
+  #   rsvg::rsvg_pdf(charToRaw(plt_svg), file = filename)
+  # }
 
   plot(addtree)
 } # rtemis::dplot3_addtree

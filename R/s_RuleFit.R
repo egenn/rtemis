@@ -82,7 +82,7 @@ s_RuleFit <- function(x, y = NULL,
 
   # Arguments ----
   if (is.null(y) && NCOL(x) < 2) {
-    print(args(s_RULEFIT))
+    print(args(s_RuleFit))
     stop("y is missing")
   }
   if (is.null(x.name)) x.name <- getName(x, "x")
@@ -291,7 +291,7 @@ s_RuleFit <- function(x, y = NULL,
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-} # rtemis::s_RULEFIT
+} # rtemis::s_RuleFit
 
 
 # predict.rulefit

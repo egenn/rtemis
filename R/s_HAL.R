@@ -177,8 +177,8 @@ s_HAL <- function(x, y = NULL,
         lambda = lambda
       ),
       fixed.params = list(
-        .gs = TRUE,
-        which.cv.lambda = which.cv.lambda
+        .gs = TRUE
+        # which.cv.lambda = which.cv.lambda
       ),
       search.type = grid.search.type,
       randomized.p = grid.randomized.p,

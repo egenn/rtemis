@@ -13,6 +13,7 @@ likelihoodMediboostChooseFeat(
   funcValue,
   weights,
   colIdx,
+  rpart.parms = NULL,
   verbose = TRUE
 )
 }
