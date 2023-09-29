@@ -6,7 +6,7 @@
 \usage{
 msg2(
   ...,
-  date = rtDateInit,
+  date = rtDate,
   caller = NULL,
   call.depth = 1,
   caller.id = 1,
