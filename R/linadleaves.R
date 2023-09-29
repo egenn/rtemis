@@ -644,6 +644,7 @@ splitlineRC <- function(g,
                         part.minbucket,
                         minobsinnode.lin,
                         nvmax,
+                        rho.def = .1,
                         verbose = TRUE,
                         trace = 0) {
   # '- Node ----
