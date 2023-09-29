@@ -50,7 +50,7 @@ binmat2vec <- function(x, labels = colnames(x)) {
   dt <- as.data.table(x)
   # dt[, which (.SD == 1), by = 1:NROW(dt)]
   fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
-  out <- dt[, .(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+  out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
   out[out == ""] <- NA
   out
 } # rtemis::binmat2vec
