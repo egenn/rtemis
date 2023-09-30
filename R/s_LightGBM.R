@@ -316,9 +316,9 @@ s_LightGBM <- function(x, y = NULL,
   # LightGBM ----
   if (verbose) {
     if (tuned) {
-      msg20("Training LightGBM ", type, " with tuned hyperparameters...", newline.pre = TRUE)
+      msg2("Training", mod.name, type, "with tuned hyperparameters...", newline.pre = TRUE)
     } else {
-      msg20("Training LightGBM ", type, "...", newline.pre = TRUE)
+      msg20("Training ", mod.name, " ", type, "...", newline.pre = TRUE)
     }
   }
 
@@ -380,7 +380,7 @@ s_LightGBM <- function(x, y = NULL,
   # Variable Importance ----
   varimp <- NULL
   if (importance) {
-    if (verbose) msg2("Estimating LightGBM variable importance...")
+    if (verbose) msg2("Estimating", mod.name, "variable importance...")
     .lgbvarimp <- lightgbm::lgb.importance(model = mod, percentage = TRUE)
     varimp <- .lgbvarimp$Gain
     names(varimp) <- .lgbvarimp$Feature
