@@ -369,7 +369,9 @@ cartLinBoostTV <- function(x, y = NULL,
 #'
 #' @method print boost
 #' @author E.D. Gennatas
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 
 print.cartLinBoostTV <- function(x, ...) {
 
@@ -389,9 +391,11 @@ print.cartLinBoostTV <- function(x, ...) {
 #' @param as.matrix Logical: If TRUE, return predictions from each iterations. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param n.cores Integer: Number of cores to use. Default = `rtCores`
+#' 
 #' @method predict cartLinBoostTV
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 predict.cartLinBoostTV <- function(object,
                                    newdata = NULL,
@@ -451,8 +455,10 @@ predict.cartLinBoostTV <- function(object,
 #'
 #' @inheritParams boost
 #' @param object `cartLinBoostTV` object
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 expand.cartLinBoostTV <- function(object,
                                   x, y = NULL,
@@ -596,7 +602,6 @@ as.cartLinBoostTV <- function(object,
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
 #' 
-#' @return `cartLinBoostTV` object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
 #' @keywords internal

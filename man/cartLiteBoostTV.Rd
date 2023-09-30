@@ -60,7 +60,7 @@ boosting}
 
 \item{boost.obj}{(Internal use)}
 
-\item{mod.params}{Named list of arguments for \link{cartLite}}
+\item{mod.params}{Named list of arguments for \code{cartLite}}
 
 \item{weights.p}{Float (0, 1]: Percent of weights to set to 1, the rest will be set to \code{weights.0}. Default = 1}
 
@@ -118,7 +118,7 @@ for each base learner. Default = FALSE}
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
 
-\item{...}{Additional parameters to be passed to \link{cartLite}}
+\item{...}{Additional parameters to be passed to \code{cartLite}}
 }
 \description{
 Perform regression by boosting a base learner
