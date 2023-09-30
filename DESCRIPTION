@@ -10,8 +10,6 @@ BugReports: https://github.com/egenn/rtemis/issues
 ByteCompile: yes
 Depends:
     R (>= 4.1.0)
-LinkingTo:
-    Rcpp
 Imports:
     grDevices,
     graphics,
@@ -22,8 +20,7 @@ Imports:
     data.table,
     R6,
     future,
-    htmltools,
-    Rcpp (>= 1.0.10)
+    htmltools
 Suggests: 
     ada,
     arm,

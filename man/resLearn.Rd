@@ -18,8 +18,7 @@ resLearn(
   trace = 0,
   save.mods = TRUE,
   outdir = NULL,
-  n.workers = 1,
-  parallel.type = "nobodycares"
+  n.workers = 1
 )
 }
 \arguments{

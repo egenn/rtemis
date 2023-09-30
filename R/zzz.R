@@ -105,8 +105,8 @@ rtemis.version <- packageVersion("rtemis")
 #' factors, where by default the levels are set alphabetically and therefore
 #' the positive class may not be set correctly.
 #'
-#' @useDynLib rtemis, .registration = TRUE
-#' @importFrom Rcpp evalCpp
+# @useDynLib rtemis, .registration = TRUE
+# @importFrom Rcpp evalCpp
 #' @docType package
 #' @name rtemis-package
 #' @import graphics grDevices methods stats utils data.table R6 future htmltools

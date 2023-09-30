@@ -35,7 +35,7 @@
 #' auc(preds, labels, method = "auc_pairs")
 #' }
 auc <- function(preds, labels,
-                method = c("ROCR", "pROC", "auc_pairs", "auc_cpp"),
+                method = c("ROCR", "pROC", "auc_pairs"),
                 verbose = FALSE,
                 trace = 0) {
   method <- match.arg(method)
@@ -43,12 +43,12 @@ auc <- function(preds, labels,
     return(NaN)
   }
 
-  if (method == "auc_cpp") {
-    if (is.factor(labels)) {
-      labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
-    }
-    .auc <- try(auc_cpp(preds, labels))
-  } else if (method == "pROC") {
+  # if (method == "auc_cpp") {
+  #   if (is.factor(labels)) {
+  #     labels <- as.integer(labels == levels(labels)[rtenv$binclasspos])
+  #   }
+  #   .auc <- try(auc_cpp(preds, labels))
+  if (method == "pROC") {
     dependency_check("pROC")
     .auc <- try(as.numeric(pROC::roc(
       labels, preds,
