@@ -53,6 +53,8 @@
 #' tries to set names appropriately
 #' @param group.lines Logical: If TRUE, add separating lines between groups of
 #' boxplots
+#' @param group.lines.dash Character: "solid", "dot", "dash", "longdash",
+#' "dashdot", or "longdashdot"
 #' @param group.lines.col Color for `group.lines`
 #' @param group.lines.alpha Numeric: transparency for `group.lines.col`
 #' @param order.by.fn Function: If defined, order boxes by increasing value of
@@ -65,6 +67,7 @@
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend.
 #' @param xaxis.type Character: "linear", "log", "date", "category",
 #' "multicategory"
+#' @param cataxis_tickangle Numeric: Angle for categorical axis tick labels
 #' @param margin Named list: plot margins.
 #' Default = `list(b = 65, l = 65, t = 50, r = 10, pad = 0)`
 #' @param violin.box Logical: If TRUE and type is "violin" show box within

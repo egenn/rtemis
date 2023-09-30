@@ -135,6 +135,9 @@ tries to set names appropriately}
 \item{group.lines}{Logical: If TRUE, add separating lines between groups of
 boxplots}
 
+\item{group.lines.dash}{Character: "solid", "dot", "dash", "longdash",
+"dashdot", or "longdashdot"}
+
 \item{group.lines.col}{Color for \code{group.lines}}
 
 \item{group.lines.alpha}{Numeric: transparency for \code{group.lines.col}}
@@ -165,6 +168,8 @@ the theme}
 
 \item{xaxis.type}{Character: "linear", "log", "date", "category",
 "multicategory"}
+
+\item{cataxis_tickangle}{Numeric: Angle for categorical axis tick labels}
 
 \item{margin}{Named list: plot margins.
 Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
