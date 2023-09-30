@@ -53,11 +53,11 @@ dplot3_bar(
 \item{x}{vector (possibly named), matrix, or data.frame: If matrix or
 data.frame, rows are groups (can be 1 row), columns are features}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Main plot title.}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
 \item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}

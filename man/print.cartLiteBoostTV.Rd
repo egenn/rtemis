@@ -6,6 +6,11 @@
 \usage{
 \method{print}{boost}(x, ...)
 }
+\arguments{
+\item{x}{\code{cartLiteBoostTV} object}
+
+\item{...}{Additional arguments}
+}
 \description{
 Print method for \link{boost} object
 }

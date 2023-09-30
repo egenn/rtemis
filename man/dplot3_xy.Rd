@@ -128,11 +128,11 @@ and warnings. Use single letters for parameter names, no numbers.}
 \item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL,
 which becomes \code{TRUE} if \code{mode} includes lines.}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Main plot title.}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
 \item{col}{Color for markers. Default=NULL, which will draw colors from palette}
 
