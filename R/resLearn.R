@@ -38,8 +38,7 @@ resLearn <- function(x, y, mod,
                      trace = 0,
                      save.mods = TRUE,
                      outdir = NULL,
-                     n.workers = 1,
-                     parallel.type = "nobodycares") {
+                     n.workers = 1) {
   # Dependencies ----
   dependency_check("future.apply")
 
@@ -72,7 +71,7 @@ resLearn <- function(x, y, mod,
   # Resamples ----
   learner <- learnSelect(mod)
   res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
-  resampler <- attr(res, "type") # for res.group and res.index
+  resampler <- attr(res, "resampler") # for res.group and res.index
   n.workers <- min(n.workers, resample.rtset$n.resamples)
 
   # Parallel ----
