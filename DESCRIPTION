@@ -142,8 +142,6 @@ Suggests:
     visNetwork,
     vroom,
     xgboost
-Additional_repositories:
-    https://rpolars.r-universe.dev
 Encoding: UTF-8
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
