@@ -1,3 +1,5 @@
+[![R-CMD-check](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml)
+
 # **_rtemis_** Machine Learning and Visualization
 
 A platform for advanced Machine Learning research and applications.  
@@ -18,7 +20,7 @@ R version 4.1 or higher
 
 ## Installation
 
-Install `rtemis` usikg `pak`, `remotes`, or `devtools`:
+Install `rtemis` using `pak`, `remotes`, or `devtools`:
 
 ```r
 pak::pkg_install("egenn/rtemis")
