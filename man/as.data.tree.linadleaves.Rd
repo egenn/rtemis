@@ -2,13 +2,13 @@
 % Please edit documentation in R/linadleaves.R
 \name{as.data.tree.linadleaves}
 \alias{as.data.tree.linadleaves}
-\title{Convert \link{linadleaves} to \code{data.tree} object}
+\title{Convert \code{linadleaves} to \code{data.tree} object}
 \usage{
 as.data.tree.linadleaves(object)
 }
 \arguments{
-\item{object}{\link{linadleaves} object}
+\item{object}{\code{linadleaves} object}
 }
 \description{
-Convert \link{linadleaves} to \code{data.tree} object
+Convert \code{linadleaves} to \code{data.tree} object
 }

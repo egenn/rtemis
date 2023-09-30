@@ -8,7 +8,7 @@
 #' Train an SPLS model using `spls::spls` (Regression) and `spls::splsda` (Classification)
 #'
 #' \[gS\] denotes argument can be passed as a vector of values, which will trigger
-#' a grid search using [gridSearchLearn]
+#' a grid search using `gridSearchLearn`
 #' `np::npreg` allows inputs
 #' with mixed data types.
 #'
@@ -31,7 +31,7 @@
 #' @param classifier Character: Classifier used by `spls::splsda` "lda"
 #' or "logistic":
 #' @param n.cores Integer: Number of cores to be used by
-#' [gridSearchLearn]
+#' `gridSearchLearn`
 #' @param trace If > 0 print diagnostic messages
 #' @param ... Additional parameters to be passed to `npreg`
 #'

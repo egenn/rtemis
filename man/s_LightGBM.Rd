@@ -53,7 +53,7 @@ s_LightGBM(
   trace = 0,
   save.gridrun = FALSE,
   n.cores = 1,
-  n_threads = rtCores,
+  n_threads = 0,
   force_col_wise = FALSE,
   force_row_wise = FALSE,
   outdir = NULL,
@@ -157,7 +157,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

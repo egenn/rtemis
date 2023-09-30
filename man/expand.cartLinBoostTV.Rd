@@ -29,7 +29,7 @@ expand.cartLinBoostTV(
 )
 }
 \arguments{
-\item{object}{\link{cartLinBoostTV} object}
+\item{object}{\code{cartLinBoostTV} object}
 
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
@@ -70,7 +70,7 @@ training. "none" for no plot.}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 }
 \description{
-Expand a \link{cartLinBoostTV} object by adding more iterations
+Expand a \code{cartLinBoostTV} object by adding more iterations
 }
 \author{
 E.D. Gennatas

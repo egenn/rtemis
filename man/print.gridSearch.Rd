@@ -7,7 +7,7 @@
 \method{print}{gridSearch}(x, ...)
 }
 \arguments{
-\item{x}{Object of class \code{gridSearch} created by \link{gridSearchLearn}}
+\item{x}{Object of class \code{gridSearch} created by \code{gridSearchLearn}}
 
 \item{...}{Unused}
 }

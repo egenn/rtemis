@@ -47,7 +47,7 @@
 #' @param cost Vector, Float (> 0): One for each variable in the model.
 #' See `rpart::rpart("cost")`
 #' @param model Logical: If TRUE, keep a copy of the model.
-#' @param grid.verbose Logical: Passed to [gridSearchLearn]
+#' @param grid.verbose Logical: Passed to `gridSearchLearn`
 #' @param n.cores Integer: Number of cores to use.
 #'
 #' @return Object of class [rtMod]

@@ -327,7 +327,7 @@ print.hytboostnow <- function(x, ...) {
 
 #' Predict method for `hytboostnow` object
 #'
-#' @param object [hytboostnow] object
+#' @param object `hytboostnow` object
 #' @method predict hytboostnow
 #' @author E.D. Gennatas
 #' @export
@@ -435,7 +435,7 @@ expand.hytboostnow <- function(object,
 } # rtemis::expand.hytboostnow
 
 
-#' `as.hytboostnow` Place model in [hytboostnow] structure
+#' `as.hytboostnow` Place model in `hytboostnow` structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -480,9 +480,9 @@ as.hytboostnow <- function(object,
 #' All this will eventually be automated using an R6 object, maybe
 #'
 #' @method update hytboostnow
-#' @param object [hytboostnow] object
+#' @param object `hytboostnow` object
 #'
-#' @return [hytboostnow] object
+#' @return `hytboostnow` object
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
@@ -506,7 +506,7 @@ update.hytboostnow <- function(object, x, y = NULL,
 } # rtemis::update.hytboostnow
 
 
-#' `as.hytboostnow` Place model in [hytboostnow] structure
+#' `as.hytboostnow` Place model in `hytboostnow` structure
 #'
 #' @author E.D. Gennatas
 #' @keywords internal

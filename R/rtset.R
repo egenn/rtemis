@@ -39,7 +39,7 @@ rtset.resample <- function(resampler = "strat.sub",
 } # rtemis::rtset.resample
 
 
-#' `rtset.grid.resample`: [resample] defaults for [gridSearchLearn]
+#' `rtset.grid.resample`: [resample] defaults for `gridSearchLearn`
 #'
 #' @inheritParams resample
 #' @export

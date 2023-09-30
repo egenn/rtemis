@@ -894,9 +894,9 @@ print.shyoptleaves <- function(x, ...) {
 }
 
 
-#' Convert [shyoptleaves] to `data.tree` object
+#' Convert `shyoptleaves` to `data.tree` object
 #'
-#' @param object [shyoptleaves] object
+#' @param object `shyoptleaves` object
 
 as.data.tree.shyoptleaves <- function(object) {
   as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")

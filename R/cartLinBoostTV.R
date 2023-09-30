@@ -447,10 +447,10 @@ predict.cartLinBoostTV <- function(object,
 
 #' Expand boosting series
 #'
-#' Expand a [cartLinBoostTV] object by adding more iterations
+#' Expand a `cartLinBoostTV` object by adding more iterations
 #'
 #' @inheritParams boost
-#' @param object [cartLinBoostTV] object
+#' @param object `cartLinBoostTV` object
 #' @author E.D. Gennatas
 #' @export
 
@@ -500,12 +500,12 @@ expand.cartLinBoostTV <- function(object,
 } # rtemis::expand.cartLinBoostTV
 
 
-#' Place model in [cartLinBoostTV] structure
+#' Place model in `cartLinBoostTV` structure
 #'
 #' @inheritParams as.boost
 #' @param object rtMod model
-#' @param learning.rate Float: Learning rate for new boost object. Default = 1
-#' @param init Float: Initial value for new boost object. Default = 0
+#' @param learning.rate Float: Learning rate for new boost object.
+#' @param init Float: Initial value for new boost object.
 #' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @author E.D. Gennatas
@@ -585,18 +585,18 @@ as.cartLinBoostTV <- function(object,
 } # rtemis::as.cartLinBoostTV
 
 
-#' \pkg{rtemis} internals: Update [cartLinBoostTV] object's fitted values
+#' \pkg{rtemis} internals: Update `cartLinBoostTV` object's fitted values
 #'
-#' Calculate new fitted values for a [cartLinBoostTV] object.
+#' Calculate new fitted values for a `cartLinBoostTV` object.
 #' Advanced use only: run with new `x` or after updating learning.rate in object
 #'
 #' @method update cartLinBoostTV
-#' @param object [cartLinBoostTV] object
+#' @param object `cartLinBoostTV` object
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
 #' 
-#' @return [cartLinBoostTV] object
+#' @return `cartLinBoostTV` object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
 #' @keywords internal

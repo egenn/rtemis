@@ -21,7 +21,7 @@ s_LightRF(
   max_nrounds = 500L,
   force_nrounds = 500L,
   early_stopping_rounds = -1L,
-  num_leaves = 131072L,
+  num_leaves = 4096L,
   max_depth = -1L,
   learning_rate = 1,
   subsample = 0.623,
@@ -150,7 +150,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{n.cores}{Integer: Number of cores to use.}
 
