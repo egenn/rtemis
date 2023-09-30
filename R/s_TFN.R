@@ -15,18 +15,18 @@
 #' @param initializer Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 #' "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 #' "truncated_normal", "orthogonal", "zeros", "ones", "constant".
-#' Glorot is also known as Xavier initialization. Default = "glorot_uniform"
-#' @param initializer.seed Integer: Seed to use for each initializer for reproducibility. Default = NULL
+#' Glorot is also known as Xavier initialization.
+#' @param initializer.seed Integer: Seed to use for each initializer for reproducibility.
 #' @param dropout Floar, vector, (0, 1): Probability of dropping nodes. Can be a vector of length equal to N of layers,
 #' otherwise will be recycled. Default = 0
 #' @param activation String vector: Activation type to use: "relu", "selu", "elu", "sigmoid", "hard_sigmoid", "tanh",
 #' "exponential", "linear", "softmax", "softplus", "softsign". Defaults to "relu" for Classification and
 #' "tanh" for Regression
-#' @param kernel_l1 Float: l1 penalty on weights. Default = .1
-#' @param kernel_l2 Float: l2 penalty on weights. Default = 0
-#' @param activation_l1 Float: l1 penalty on layer output. Default = 0
-#' @param activation_l2 Float: l2 penalty on layer output. Default = 0
-#' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE
+#' @param kernel_l1 Float: l1 penalty on weights.
+#' @param kernel_l2 Float: l2 penalty on weights.
+#' @param activation_l1 Float: l1 penalty on layer output.
+#' @param activation_l2 Float: l2 penalty on layer output.
+#' @param batch.normalization Logical: If TRUE, batch normalize after each hidden layer.
 #' @param output Character: Activation to use for output layer. Can be any as in `activation`.
 #' Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass
 #' @param loss Character: Loss to use: Default = "mean_squared_error" for regression, "binary_crossentropy" for binary
@@ -42,10 +42,11 @@
 #' @param validation.split Float (0, 1): proportion of training data to use for validation. Default = .2
 #' @param callback Function to be called by keras during fitting.
 #' Default = `keras::callback_early_stopping(patience = 150)` for early stopping.
-#' @param scale Logical: If TRUE, scale featues before training. Default = TRUE
+#' @param scale Logical: If TRUE, scale featues before training.
 #' column means and standard deviation will be saved in `rtMod$extra` field to allow
 #' scaling ahead of prediction on new data
 #' @param ... Additional parameters
+#' 
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
@@ -216,7 +217,7 @@ s_TFN <- function(x, y = NULL,
     plot.fitted <- plot.predicted <- FALSE
   }
 
-  # '- Normalize ----
+  # Normalize ----
   # Normalize training data
   if (scale) {
     x.dm <- scale(x.dm)
@@ -253,11 +254,11 @@ s_TFN <- function(x, y = NULL,
   }
   if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
 
-  ### '- Init ----
+  ### Init ----
   if (is.null(net)) {
     net <- keras::keras_model_sequential()
 
-    ### '- Hidden layers ----
+    ### Hidden layers ----
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
         keras::layer_dense(net,
@@ -288,7 +289,7 @@ s_TFN <- function(x, y = NULL,
       }
     } # /if (n.hlayers > 0)
 
-    ### '- OUTPUT ----
+    ### Output ----
     n.outputs <- if (type == "Regression") 1 else n.classes
     if (loss == "binary_crossentropy") n.outputs <- 1
     if (is.null(output)) {
@@ -333,7 +334,7 @@ s_TFN <- function(x, y = NULL,
       )
     }
 
-    # '- Compile ----
+    # Compile ----
     net |> keras::compile(
       loss = loss,
       optimizer = optimizer(lr = learning.rate),
@@ -343,7 +344,7 @@ s_TFN <- function(x, y = NULL,
     if (verbose) msg2("Training pre-built Network for", type, "...")
   }
 
-  # '- Fit ----
+  # Fit ----
   net |>
     keras::fit(
       x.dm, y,
