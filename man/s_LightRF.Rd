@@ -17,10 +17,9 @@ s_LightRF(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  boosting = "rf",
   objective = NULL,
   max_nrounds = 500L,
-  force_nrounds = NULL,
+  force_nrounds = 500L,
   early_stopping_rounds = -1L,
   num_leaves = 131072L,
   max_depth = -1L,
@@ -55,7 +54,6 @@ s_LightRF(
   n_threads = rtCores,
   force_col_wise = FALSE,
   force_row_wise = FALSE,
-  parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -95,8 +93,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
-
-\item{boosting}{Character: [gS] "gbdt", "rf", "dart", "goss"}
 
 \item{objective}{(Default = NULL)}
 

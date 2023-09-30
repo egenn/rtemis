@@ -56,7 +56,6 @@ s_LightGBM(
   n_threads = rtCores,
   force_col_wise = FALSE,
   force_row_wise = FALSE,
-  parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
