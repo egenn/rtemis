@@ -90,9 +90,9 @@ Can be zero, in which case you get a linear model. Default = N of features, i.e.
 \item{initializer}{Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
 "he_normal", "cun_uniform", "lecun_normal", "random_uniform", "random_normal", "variance_scaling",
 "truncated_normal", "orthogonal", "zeros", "ones", "constant".
-Glorot is also known as Xavier initialization. Default = "glorot_uniform"}
+Glorot is also known as Xavier initialization.}
 
-\item{initializer.seed}{Integer: Seed to use for each initializer for reproducibility. Default = NULL}
+\item{initializer.seed}{Integer: Seed to use for each initializer for reproducibility.}
 
 \item{dropout}{Floar, vector, (0, 1): Probability of dropping nodes. Can be a vector of length equal to N of layers,
 otherwise will be recycled. Default = 0}
@@ -101,15 +101,15 @@ otherwise will be recycled. Default = 0}
 "exponential", "linear", "softmax", "softplus", "softsign". Defaults to "relu" for Classification and
 "tanh" for Regression}
 
-\item{kernel_l1}{Float: l1 penalty on weights. Default = .1}
+\item{kernel_l1}{Float: l1 penalty on weights.}
 
-\item{kernel_l2}{Float: l2 penalty on weights. Default = 0}
+\item{kernel_l2}{Float: l2 penalty on weights.}
 
-\item{activation_l1}{Float: l1 penalty on layer output. Default = 0}
+\item{activation_l1}{Float: l1 penalty on layer output.}
 
-\item{activation_l2}{Float: l2 penalty on layer output. Default = 0}
+\item{activation_l2}{Float: l2 penalty on layer output.}
 
-\item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer. Default = TRUE}
+\item{batch.normalization}{Logical: If TRUE, batch normalize after each hidden layer.}
 
 \item{output}{Character: Activation to use for output layer. Can be any as in \code{activation}.
 Default = "linear" for Regression, "sigmoid" for binary classification, "softmax" for multiclass}
@@ -135,7 +135,7 @@ Default = "rmsprop"}
 \item{callback}{Function to be called by keras during fitting.
 Default = \code{keras::callback_early_stopping(patience = 150)} for early stopping.}
 
-\item{scale}{Logical: If TRUE, scale featues before training. Default = TRUE
+\item{scale}{Logical: If TRUE, scale featues before training.
 column means and standard deviation will be saved in \code{rtMod$extra} field to allow
 scaling ahead of prediction on new data}
 
