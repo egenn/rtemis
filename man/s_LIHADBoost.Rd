@@ -37,7 +37,7 @@ s_LIHADBoost(
   init = NULL,
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   cxrcoef = FALSE,

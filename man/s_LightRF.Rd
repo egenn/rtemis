@@ -34,7 +34,7 @@ s_LightRF(
   tree_learner = "data_parallel",
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   importance = TRUE,
@@ -125,7 +125,7 @@ stop if performance does not improve for this many rounds}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
 \item{metric}{Character: Metric to minimize, or maximize if

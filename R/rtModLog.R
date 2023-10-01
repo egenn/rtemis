@@ -12,7 +12,6 @@
 #' 
 #' @author E.D. Gennatas
 #' @export
-
 rtModLog <- R6::R6Class("rtModLog",
                         public = list(
                           ### Attributes
@@ -70,7 +69,6 @@ rtModLog <- R6::R6Class("rtModLog",
 #' 
 #' @author E.D. Gennatas
 #' @export
-
 rtModLogger <- R6::R6Class("rtModLogger",
                            public = list(
                              ### Attributes
@@ -307,6 +305,9 @@ rtModLogger <- R6::R6Class("rtModLogger",
 # }
 
 
+#' @author E.D. Gennatas
+#' @keywords internal
+#' @noRd
 reduceList <- function(x, char.max = 50, return.df = TRUE) {
 
   if (length(x) > 0) {

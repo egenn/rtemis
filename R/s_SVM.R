@@ -38,8 +38,8 @@ s_SVM <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.rtset = rtset.resample("kfold", 5),
-                  grid.search.type = c("exhaustive", "randomized"),
-                  grid.randomized.p = .1,
+                  gridsearch.type = c("exhaustive", "randomized"),
+                  gridsearch.randomized.p = .1,
                   class.weights = NULL,
                   ifw = TRUE,
                   ifw.type = 2,
@@ -94,7 +94,7 @@ s_SVM <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
@@ -153,8 +153,8 @@ s_SVM <- function(x, y = NULL,
                                                 upsample = upsample,
                                                 downsample = downsample,
                                                 resample.seed = resample.seed),
-                            search.type = grid.search.type,
-                            randomized.p = grid.randomized.p,
+                            search.type = gridsearch.type,
+                            randomized.p = gridsearch.randomized.p,
                             metric = metric,
                             maximize = maximize,
                             verbose = verbose, grid.verbose = grid.verbose, n.cores = n.cores)

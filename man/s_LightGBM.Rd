@@ -36,7 +36,7 @@ s_LightGBM(
   tree_learner = "serial",
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   importance = TRUE,
@@ -132,7 +132,7 @@ cross-validation fails - likely will never be used}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
 \item{metric}{Character: Metric to minimize, or maximize if

@@ -31,10 +31,10 @@
 #' unpruned tree under `extra` in [rtMod].
 #' @param grid.resample.rtset List: Output of [rtset.resample] defining
 #' grid search parameters.
-#' @param grid.search.type Character: Type of grid search to perform:
+#' @param gridsearch.type Character: Type of grid search to perform:
 #' "exhaustive" or "randomized".
-#' @param grid.randomized.p Float (0, 1): If
-#' `grid.search.type = "randomized"`, randomly test this proportion of
+#' @param gridsearch.randomized.p Float (0, 1): If
+#' `gridsearch.type = "randomized"`, randomly test this proportion of
 #' combinations.
 #' @param metric Character: Metric to minimize, or maximize if
 #' `maximize = TRUE` during grid search. Default = NULL, which results in
@@ -84,8 +84,8 @@ s_CART <- function(x, y = NULL,
                    use.prune.rpart.rt = TRUE,
                    return.unpruned = FALSE,
                    grid.resample.rtset = rtset.resample("kfold", 5),
-                   grid.search.type = c("exhaustive", "randomized"),
-                   grid.randomized.p = .1,
+                   gridsearch.type = c("exhaustive", "randomized"),
+                   gridsearch.randomized.p = .1,
                    metric = NULL,
                    maximize = NULL,
                    na.action = na.exclude,
@@ -131,7 +131,7 @@ s_CART <- function(x, y = NULL,
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
@@ -220,8 +220,8 @@ s_CART <- function(x, y = NULL,
         downsample = downsample,
         resample.seed = resample.seed
       ),
-      search.type = grid.search.type,
-      randomized.p = grid.randomized.p,
+      search.type = gridsearch.type,
+      randomized.p = gridsearch.randomized.p,
       weights = weights,
       metric = metric,
       maximize = maximize,

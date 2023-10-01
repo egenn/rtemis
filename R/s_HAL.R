@@ -23,8 +23,8 @@ s_HAL <- function(x, y = NULL,
                   lambda = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.rtset = rtset.resample("kfold", 5),
-                  grid.search.type = c("exhaustive", "randomized"),
-                  grid.randomized.p = .1,
+                  gridsearch.type = c("exhaustive", "randomized"),
+                  gridsearch.randomized.p = .1,
                   #  weights = NULL,
                   #  ifw = TRUE,
                   #  ifw.type = 2,
@@ -32,11 +32,9 @@ s_HAL <- function(x, y = NULL,
                   downsample = FALSE,
                   resample.seed = NULL,
                   res.summary.fn = mean,
-                  save.grid.run = FALSE,
                   metric = NULL,
                   maximize = NULL,
                   .gs = FALSE,
-                  save.gs.mod = FALSE,
                   n.cores = rtCores,
                   print.plot = FALSE,
                   plot.fitted = NULL,
@@ -86,7 +84,7 @@ s_HAL <- function(x, y = NULL,
   if (!is.null(outdir)) {
     outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   }
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y,
@@ -180,12 +178,11 @@ s_HAL <- function(x, y = NULL,
         .gs = TRUE
         # which.cv.lambda = which.cv.lambda
       ),
-      search.type = grid.search.type,
-      randomized.p = grid.randomized.p,
+      search.type = gridsearch.type,
+      randomized.p = gridsearch.randomized.p,
       weights = weights,
       metric = metric,
       maximize = maximize,
-      save.mod = save.gs.mod,
       verbose = verbose,
       n.cores = n.cores
     )

@@ -390,6 +390,9 @@ hytw <- function(node = list(
 #' \pkg{rtemis} internal: Ridge and Stump
 #'
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
+#' 
+#' @keywords internal
+#' @noRd
 partLmw <- function(x1, y1, # remove x, use .env$x
                     weights,
                     .env,

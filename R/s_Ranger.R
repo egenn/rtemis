@@ -85,8 +85,8 @@ s_Ranger <- function(x, y = NULL,
                      inbag.resample = NULL,
                      stratify.on.y = FALSE,
                      grid.resample.rtset = rtset.resample("kfold", 5),
-                     grid.search.type = c("exhaustive", "randomized"),
-                     grid.randomized.p = .1,
+                     gridsearch.type = c("exhaustive", "randomized"),
+                     gridsearch.randomized.p = .1,
                      metric = NULL,
                      maximize = NULL,
                      probability = FALSE,
@@ -142,7 +142,7 @@ s_Ranger <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y,
@@ -224,8 +224,8 @@ s_Ranger <- function(x, y = NULL,
         upsample = upsample,
         resample.seed = resample.seed
       ),
-      search.type = grid.search.type,
-      randomized.p = grid.randomized.p,
+      search.type = gridsearch.type,
+      randomized.p = gridsearch.randomized.p,
       weights = weights,
       metric = metric,
       maximize = maximize,

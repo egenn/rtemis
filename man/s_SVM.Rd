@@ -12,8 +12,8 @@ s_SVM(
   x.name = NULL,
   y.name = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   class.weights = NULL,
   ifw = TRUE,
   ifw.type = 2,
@@ -59,11 +59,11 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{class.weights}{Float, length = n levels of outcome: Weights for each

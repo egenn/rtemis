@@ -20,21 +20,28 @@
 #'   `a = 0` is the ridge penalty, `a = 1` is the lasso penalty
 #' @param lambda \[gS\] Float vector: Best left to NULL, `cv.glmnet` will
 #' compute its own lambda sequence
+#' @param nlambda Integer: Number of lambda values to compute
+#' @param which.cv.lambda Character: Which lambda to use for prediction:
+#'  "lambda.1se" or "lambda.min"
+#' @param penalty.factor Float vector: Multiply the penalty for each coefficient by
+#' the values in this vector. This is most useful for specifying different penalties
+#' for different groups of variables
 #' @param intercept Logical: If TRUE, include intercept in the model.
+#' @param nway.interactions Integer: Number of n-way interactions to include in the model.
 #' @param res.summary.fn Function: Used to average resample runs.
+#' @param .gs (Internal use only)
 #'
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
 #' @family Interpretable models
 #' @export
-
 s_GLMNET <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
                      grid.resample.rtset = rtset.resample("kfold", 5),
-                     grid.search.type = c("exhaustive", "randomized"),
-                     grid.randomized.p = .1,
+                     gridsearch.type = c("exhaustive", "randomized"),
+                     gridsearch.randomized.p = .1,
                      intercept = TRUE,
                      nway.interactions = 0,
                      family = NULL,
@@ -50,11 +57,9 @@ s_GLMNET <- function(x, y = NULL,
                      downsample = FALSE,
                      resample.seed = NULL,
                      res.summary.fn = mean,
-                     save.grid.run = FALSE,
                      metric = NULL,
                      maximize = NULL,
                      .gs = FALSE,
-                     save.gs.mod = FALSE,
                      n.cores = rtCores,
                      print.plot = FALSE,
                      plot.fitted = NULL,
@@ -105,7 +110,7 @@ s_GLMNET <- function(x, y = NULL,
     outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   }
   which.cv.lambda <- match.arg(which.cv.lambda)
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y,
@@ -205,12 +210,11 @@ s_GLMNET <- function(x, y = NULL,
         .gs = TRUE,
         which.cv.lambda = which.cv.lambda
       ),
-      search.type = grid.search.type,
-      randomized.p = grid.randomized.p,
+      search.type = gridsearch.type,
+      randomized.p = gridsearch.randomized.p,
       weights = weights,
       metric = metric,
       maximize = maximize,
-      save.mod = save.gs.mod,
       verbose = verbose,
       n.cores = n.cores
     )
