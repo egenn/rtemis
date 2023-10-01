@@ -24,10 +24,15 @@ rtset.GBM(
 
 \item{shrinkage}{[gS] Float: Shrinkage (learning rate).}
 
+\item{max.trees}{Integer: Maximum number of trees to fit}
+
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting.}
 
 \item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node.}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
 (for Classification only).

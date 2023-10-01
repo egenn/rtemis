@@ -19,7 +19,6 @@ s_HAL(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  res.summary.fn = mean,
   metric = NULL,
   maximize = NULL,
   .gs = FALSE,
@@ -47,6 +46,8 @@ Columns must correspond to columns in \code{x}}
 \item{y.test}{Numeric vector of testing set outcome}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
+
+\item{lambda}{Float vector: \link[hal9001:fit_hal]{hal9001::fit_hal} lambda}
 
 \item{x.name}{Character: Name for feature set}
 
@@ -78,6 +79,8 @@ Default = NULL (random seed)}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
+
+\item{.gs}{Internal use only}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

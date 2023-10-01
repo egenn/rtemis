@@ -1,6 +1,7 @@
 # s_HAL.R
 # ::rtemis::
 # 2023 E.D. Gennatas www.lambdamd.org
+# Work in progress
 
 #' Highly Adaptive LASSO \[C, R, S\]
 #'
@@ -11,6 +12,8 @@
 #'
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
+#' @param lambda Float vector: [hal9001::fit_hal] lambda
+#' @param .gs Internal use only
 #'
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -31,7 +34,6 @@ s_HAL <- function(x, y = NULL,
                   upsample = FALSE,
                   downsample = FALSE,
                   resample.seed = NULL,
-                  res.summary.fn = mean,
                   metric = NULL,
                   maximize = NULL,
                   .gs = FALSE,
@@ -222,7 +224,7 @@ s_HAL <- function(x, y = NULL,
   #     )
   # }
   if (verbose) msg2("Training Highly Adaptive LASSO...", newline.pre = TRUE)
-  mod <- hal9001::fit_hal(x, as.numeric(y), family = family, ...)
+  mod <- hal9001::fit_hal(x, as.numeric(y), family = family, lambda = lambda, ...)
 
   # Fitted ----
   if (type == "Regression" || type == "Survival") {

@@ -43,7 +43,6 @@ s_LightRF(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,

@@ -32,7 +32,6 @@ s_KNN <- function(x, y = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
@@ -130,8 +129,7 @@ s_KNN <- function(x, y = NULL,
 
   # Outro ----
   extra <- list()
-  rt <- rtModSet(rtclass = rtclass,
-                 mod = mod,
+  rt <- rtModSet(mod = mod,
                  mod.name = mod.name,
                  type = type,
                  y.train = y,
