@@ -86,3 +86,6 @@ _pkgdown.yml
 *.out
 *.app
 docs
+
+# Log files
+*.log
