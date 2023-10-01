@@ -27,7 +27,7 @@ rtAlgs <- data.frame(rbind(
   c("CARTLITEBOOSTTV", "Boosted CART Lite TV", FALSE, TRUE, FALSE),
   c("CTree", "Conditional Inference Trees", TRUE, TRUE, FALSE),
   c("C50", "C5.0 Decision Tree", TRUE, FALSE, FALSE),
-  c("DN", "deepnet Neural Network", TRUE, TRUE, FALSE),
+  # c("DN", "deepnet Neural Network", TRUE, TRUE, FALSE),
   # c("ET", "Extra Trees", TRUE, TRUE, FALSE), # removed from CRAN
   c("EVTree", "Evolutionary Learning of Globally Optimal Trees", TRUE, TRUE, FALSE),
   c("GAM", "Generalized Additive Model", TRUE, TRUE, FALSE),

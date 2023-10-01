@@ -679,8 +679,8 @@ predict.rtMod <- function(object,
     } else if (object$mod.name == "H2ODL") {
       newdata <- h2o::as.h2o(newdata, "newdata")
       estimated <- c(as.matrix(predict(object$mod, newdata)))
-    } else if (object$mod.name == "DN") {
-      estimated <- deepnet::nn.predict(object$mod, x = newdata)
+    # } else if (object$mod.name == "DN") {
+    #   estimated <- deepnet::nn.predict(object$mod, x = newdata)
     } else if (object$mod.name == "MLRF") {
       spark.master <- extraArgs$spark.master
       if (is.null(spark.master)) {
