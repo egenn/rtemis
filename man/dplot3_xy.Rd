@@ -113,8 +113,8 @@ Run \link{clustSelect} for options}
 \item{cluster.params}{List: Names list of parameters to pass to the
 \code{cluster} function}
 
-\item{group}{Vector: will be converted to factor.
-If \code{data} is provided, name of variable, unquoted.}
+\item{group}{Vector: Will be converted to factor; levels define group
+members. Default = NULL}
 
 \item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}.
 If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a
@@ -189,6 +189,10 @@ TRUE if there are more than 1 groups, or \code{fit} is set}
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
 
+\item{legend.bg}{Color: Background color for legend}
+
+\item{legend.border.col}{Color: Border color for legend}
+
 \item{margin}{Named list: plot margins.}
 
 \item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
@@ -210,9 +214,16 @@ theme}
 \item{fit.params}{List: Arguments for learner defined by \code{fit}.
 Default = NULL, i.e. use default learner parameters}
 
-\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+\item{vline}{Float, vector: If defined, draw a vertical line at this x
+value(s). Default = NULL}
 
-\item{vline.col}{Color for vertical lines}
+\item{vline.col}{Color for \code{vline}. Default = theme$fg}
+
+\item{vline.width}{Float: Width for \code{vline}. Default = 1}
+
+\item{vline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
+"longdash", "dashdot",
+or "longdashdot"}
 
 \item{hline}{Float: If defined, draw a horizontal line at this y value.}
 
