@@ -355,7 +355,7 @@ rtMod <- R6::R6Class("rtMod",
           xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
             paste(self$mod.name, "Coefficients")
           } else {
-            paste(self$mod.name, "Variable importance")
+            paste(self$mod.name, "Variable Importance")
           }
         }
         if (type == "lollipop") {
@@ -1717,7 +1717,7 @@ rtModCV <- R6::R6Class("rtModCV",
         xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
           paste(self$mod.name, "Coefficients")
         } else {
-          paste(self$mod.name, "Variable importance")
+          paste(self$mod.name, "Variable Importance")
         }
       }
       varimp <- colMeans(self$varimp[[which.repeat]])
