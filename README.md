@@ -51,7 +51,7 @@ there are updates available.
 Install dependencies if they are not already installed:
 
 ```r
-packages <- c("future", "ranger")
+packages <- c("future.apply", "ranger")
 .add <- !packages %in% installed.packages()
 install.packages(packages[.add])
 ```
