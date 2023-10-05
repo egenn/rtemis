@@ -154,7 +154,10 @@ mplot3_varimp <- function(x,
   # '- PDF autosize ----
   if (!is.null(filename)) {
     if (is.null(pdf.height)) pdf.height <- length(x) * .2 + .5
-    if (is.null(pdf.width)) pdf.width <- mar2 * .7
+    if (is.null(pdf.width)) {
+      mar2 <- textwidth(.names)
+      pdf.width <- mar2 * .7
+    }
   }
 
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
