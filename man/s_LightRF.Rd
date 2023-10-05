@@ -18,8 +18,7 @@ s_LightRF(
   downsample = FALSE,
   resample.seed = NULL,
   objective = NULL,
-  max_nrounds = 500L,
-  force_nrounds = 500L,
+  nrounds = 500L,
   early_stopping_rounds = -1L,
   num_leaves = 4096L,
   max_depth = -1L,
@@ -94,11 +93,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 
 \item{objective}{(Default = NULL)}
-
-\item{max_nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
-as early stopping will limit nrounds by monitoring inner CV error}
-
-\item{force_nrounds}{Integer: Number of rounds to run if not estimating optimal number by CV}
 
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
