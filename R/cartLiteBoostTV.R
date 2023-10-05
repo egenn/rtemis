@@ -12,7 +12,7 @@
 #' If `learning.rate` is set to 0, a nullmod will be created
 #' 
 #' @inheritParams boost
-#' @param mod.params Named list of arguments for [cartLite]
+#' @param mod.params Named list of arguments for `cartLite`
 #' @param weights.p Float (0, 1]: Percent of weights to set to 1, the rest will be set to `weights.0`. Default = 1
 #' @param weights.0 Float (0, 1): Set weights of excluded cases to this number. Default = 0, which is equivalent to
 #' excluding them, in which case, these cases can act as a validation set
@@ -28,7 +28,7 @@
 #' @param print.base.plot Logical: Passed to `print.plot` argument of base learner, i.e. if TRUE, print error plot
 #' for each base learner. Default = FALSE
 #' @param prefix Internal
-#' @param ... Additional parameters to be passed to [cartLite]
+#' @param ... Additional parameters to be passed to `cartLite`
 #' 
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -365,6 +365,10 @@ cartLiteBoostTV <- function(x, y = NULL,
 #' Print method for [boost] object
 #'
 #' @method print boost
+#' 
+#' @param x `cartLiteBoostTV` object
+#' @param ... Additional arguments
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -449,8 +453,10 @@ predict.cartLiteBoostTV <- function(object,
 #'
 #' @inheritParams boost
 #' @param object [cartLiteBoostTV] object
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 expand.cartLiteBoostTV <- function(object,
                                    x, y = NULL,
@@ -503,6 +509,7 @@ expand.cartLiteBoostTV <- function(object,
 #' @param init Float: Initial value for new boost object. Default = 0
 #' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
+#' 
 #' @author E.D. Gennatas
 #' @export
 # TODO: add x = NULL, if not NULL calculate fitted values
@@ -592,10 +599,12 @@ as.cartLiteBoostTV <- function(object,
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
+#' 
 #' @return [cartLiteBoostTV] object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
-#' @export
+#' @keywords internal
+#' @noRd 
 
 update.cartLiteBoostTV <- function(object,
                                    x = NULL,

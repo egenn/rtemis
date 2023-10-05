@@ -53,7 +53,6 @@ s_RFSRC <- function(x, y = NULL,
                     plot.predicted = NULL,
                     plot.theme = rtTheme,
                     question = NULL,
-                    rtclass = NULL,
                     verbose = TRUE,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
@@ -205,7 +204,6 @@ s_RFSRC <- function(x, y = NULL,
     proximity.train = proximity.train
   )
   rt <- rtModSet(
-    rtclass = rtclass,
     mod = mod,
     mod.name = mod.name,
     type = type,

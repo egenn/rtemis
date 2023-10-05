@@ -82,8 +82,8 @@ Run \link{clustSelect} for options}
 \item{cluster.params}{List: Names list of parameters to pass to the
 \code{cluster} function}
 
-\item{group}{Vector: will be converted to factor.
-If \code{data} is provided, name of variable, unquoted.}
+\item{group}{Vector: Will be converted to factor; levels define group
+members. Default = NULL}
 
 \item{formula}{Formula: Provide a formula to be solved using \link{s_NLS}.
 If provided, \code{fit} is forced to \code{'nls'}. e.g. y ~ b * m ^ x for a
@@ -97,11 +97,11 @@ and warnings. Use single letters for parameter names, no numbers.}
 \item{order.on.x}{Logical: If TRUE, order \code{x} and \code{y} on \code{x}. Default = NULL,
 which becomes \code{TRUE} if \code{mode} includes lines.}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Main plot title.}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
 \item{zlab}{Character: z-axis label}
 
@@ -150,6 +150,10 @@ TRUE if there are more than 1 groups, or \code{fit} is set}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
+
+\item{legend.bg}{Color: Background color for legend}
+
+\item{legend.border.col}{Color: Border color for legend}
 
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
 Default = \verb{list(t = 30, b = 0, l = 0, r = 0}}

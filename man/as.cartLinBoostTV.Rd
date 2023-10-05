@@ -2,7 +2,7 @@
 % Please edit documentation in R/cartLinBoostTV.R
 \name{as.cartLinBoostTV}
 \alias{as.cartLinBoostTV}
-\title{Place model in \link{cartLinBoostTV} structure}
+\title{Place model in \code{cartLinBoostTV} structure}
 \usage{
 as.cartLinBoostTV(
   object,
@@ -26,15 +26,15 @@ as.cartLinBoostTV(
 
 \item{y.valid}{Float, vector; optional: Validation outcome}
 
-\item{learning.rate}{Float: Learning rate for new boost object. Default = 1}
+\item{learning.rate}{Float: Learning rate for new boost object.}
 
-\item{init}{Float: Initial value for new boost object. Default = 0}
+\item{init}{Float: Initial value for new boost object.}
 
 \item{apply.lr}{Logical: Only considered is \code{x = NULL}. If TRUE, new boost object's fitted values will
 be object$fitted * learning.rate, otherwise object$fitted}
 }
 \description{
-Place model in \link{cartLinBoostTV} structure
+Place model in \code{cartLinBoostTV} structure
 }
 \author{
 E.D. Gennatas

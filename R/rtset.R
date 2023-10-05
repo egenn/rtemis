@@ -39,7 +39,7 @@ rtset.resample <- function(resampler = "strat.sub",
 } # rtemis::rtset.resample
 
 
-#' `rtset.grid.resample`: [resample] defaults for [gridSearchLearn]
+#' `rtset.grid.resample`: [resample] defaults for `gridSearchLearn`
 #'
 #' @inheritParams resample
 #' @export
@@ -344,39 +344,6 @@ rtset.Ranger <- function(n.trees = 1000,
     list(...)
   )
 } # rtemis::rtset.Ranger
-
-
-#' `rtset.DN`: Set parameters for [s_DN]
-#'
-#' @inheritParams s_DN
-#' @export
-
-rtset.DN <- function(hidden = 1,
-                     activation = NULL,
-                     learning.rate = .8,
-                     momentum = .5,
-                     learningrate_scale = 1,
-                     output = NULL,
-                     numepochs = 100,
-                     batchsize = NULL,
-                     hidden_dropout = 0,
-                     visible_dropout = 0, ...) {
-  c(
-    list(
-      hidden = hidden,
-      activation = activation,
-      learning.rate = learning.rate,
-      momentum = momentum,
-      learningrate_scale = learningrate_scale,
-      output = output,
-      numepochs = numepochs,
-      batchsize = batchsize,
-      hidden_dropout = hidden_dropout,
-      visible_dropout = visible_dropout
-    ),
-    list(...)
-  )
-} # rtemis::rtset.DN
 
 
 # \code{rtset.MXN}: Set parameters for \link{s_MXN}

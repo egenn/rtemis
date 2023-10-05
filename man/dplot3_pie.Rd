@@ -40,9 +40,9 @@ the \code{category.names} argument}
 
 \item{main}{Character: Plot title. Default = NULL, which results in colnames(x)[1],}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
 \item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}

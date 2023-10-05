@@ -477,6 +477,8 @@ shyoptleaves <- function(x, y,
 } # rtemis::shyoptleaves
 
 # [[---F2---]]----
+#' @keywords internal
+#' @noRd
 setNodeRC <- function(g,
                       id,
                       index,
@@ -517,6 +519,9 @@ setNodeRC <- function(g,
 #' Fit a linear model on (x, y) and split on the gradient
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
+#' 
+#' @keywords internal
+#' @noRd
 
 splitlin_ <- function(g,
                       type,
@@ -734,7 +739,9 @@ splitlin_ <- function(g,
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param trace Not used
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 #' @author E.D. Gennatas
 
 predict.shyoptleaves <- function(object, newdata,
@@ -886,17 +893,19 @@ predict.shyoptleaves <- function(object, newdata,
 #'
 #' @method print shyoptleaves
 #' @param x `shyoptleaves` object
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 print.shyoptleaves <- function(x, ...) {
   cat("\n  A Linear Optimized Additive Tree model with", x$n.leaves, "leaves\n\n")
 }
 
 
-#' Convert [shyoptleaves] to `data.tree` object
+#' Convert `shyoptleaves` to `data.tree` object
 #'
-#' @param object [shyoptleaves] object
+#' @param object `shyoptleaves` object
 
 as.data.tree.shyoptleaves <- function(object) {
   as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")
@@ -907,6 +916,8 @@ as.data.tree.shyoptleaves <- function(object) {
 } # rtemis::as.data.tree.shytreeLeaves
 
 
+#' @keywords internal
+#' @noRd
 shyoptree.select.leaves <- function(object,
                                     x, y,
                                     x.valid, y.valid,

@@ -39,6 +39,8 @@
 # should match columns. See `?polars::csv_reader` for more details.
 #' @param output Character: "default" or "data.table", If default, return the delim.reader's
 #' default data structure, otherwise convert to data.table
+#' @param attr Character: Attribute to set (Optional)
+#' @param value Character: Value to set (if `attr` is not NULL)
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param fread_verbose Logical: Passed to `data.table::fread`
 #' @param timed Logical: If TRUE, time the process and print to console

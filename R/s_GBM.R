@@ -20,21 +20,26 @@
 #' procedure continues normally
 #'
 #' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param n.trees Integer: Initial number of trees to fit
+#' @param max.trees Integer: Maximum number of trees to fit
+#' @param force.n.trees Integer: If specified, use this number of trees instead of
+#'  tuning number of trees
+#' @param distribution Character: Distribution of the response variable. See [gbm::gbm]
 #' @param interaction.depth \[gS\] Integer: Interaction depth.
 #' @param shrinkage \[gS\] Float: Shrinkage (learning rate).
 #' @param n.minobsinnode \[gS\] Integer: Minimum number of observation allowed in node.
 #' @param bag.fraction \[gS\] Float (0, 1): Fraction of cases to use to train each tree.
 #' Helps avoid overfitting.
-#' @param save.res.mod   Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
+#' @param save.res.mod Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 #'   Object size adds up quickly
-#' @param outdir         Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
-#' @param save.rds       Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
-#'   mod.gbm, so no need to save again.
-#' @param relInf         Logical: If TRUE (Default), estimate variables' relative influence.
-#' @param varImp         Logical: If TRUE, estimate variable importance by permutation (as in random forests;
+#' @param outdir Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output
+#' @param relInf Logical: If TRUE (Default), estimate variables' relative influence.
+#' @param varImp Logical: If TRUE, estimate variable importance by permutation (as in random forests;
 #'   noted as experimental in gbm). Takes longer than (default) relative influence.
 #'   The two measures are highly correlated.
+#' @param .gs Internal use only
+#' 
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
@@ -66,7 +71,7 @@ s_GBM <- function(x, y = NULL,
                   imetrics = FALSE,
                   .gs = FALSE,
                   grid.resample.rtset = rtset.resample("kfold", 5),
-                  grid.search.type = "exhaustive",
+                  gridsearch.type = "exhaustive",
                   metric = NULL,
                   maximize = NULL,
                   plot.tune.error = FALSE,
@@ -101,7 +106,6 @@ s_GBM <- function(x, y = NULL,
                   gbm.fit.verbose = FALSE,
                   outdir = NULL,
                   save.gridrun = FALSE,
-                  save.rds = TRUE,
                   save.res = FALSE,
                   save.res.mod = FALSE,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
@@ -246,7 +250,7 @@ s_GBM <- function(x, y = NULL,
         plot.tune.error = plot.tune.error,
         .gs = TRUE
       ),
-      search.type = grid.search.type,
+      search.type = gridsearch.type,
       weights = weights,
       metric = metric,
       maximize = maximize,
@@ -545,7 +549,6 @@ s_GBM <- function(x, y = NULL,
   }
 
   rt <- rtModSet(
-    rtclass = "rtMod",
     mod = mod,
     mod.name = mod.name,
     type = type,

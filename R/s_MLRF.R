@@ -8,6 +8,10 @@
 #'
 #' The overhead incurred by Spark means this should be used only for really large datasets on
 #' a Spark cluster, not on a regular local machine.
+#' 
+#' To get started using `sparklyr`, see the 
+#' [sparklyr website](https://spark.rstudio.com/get-started/)
+#' 
 #' @inheritParams s_GLM
 #' @param x vector, matrix or dataframe of training set features
 #' @param y vector of outcomes
@@ -20,6 +24,7 @@
 ## @param type "regression" for continuous outcome; "classification" for categorical outcome.
 ##   "auto" will result in regression for numeric `y` and classification otherwise
 #' @param spark.master Spark cluster URL or "local"
+#' 
 #' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -32,7 +37,7 @@ s_MLRF <- function(x, y = NULL,
                    upsample = FALSE,
                    downsample = FALSE,
                    resample.seed = NULL,
-                   n.trees = 500,
+                   n.trees = 500L,
                    max.depth = 30L,
                    subsampling.rate = 1,
                    min.instances.per.node = 1,
@@ -149,7 +154,7 @@ s_MLRF <- function(x, y = NULL,
   if (trace > 0) print(mod)
 
   # Fitted ----
-  fitted.raw <- as.data.frame(sparklyr::sdf_predict(tbl, mod))
+  fitted.raw <- as.data.frame(sparklyr::ml_predict(mod, tbl))
   if (type == "Classification") {
     fitted <- factor(fitted.raw$predicted_label, levels = levels(y))
     fitted.prob <- fitted.raw$probability_0
@@ -160,7 +165,7 @@ s_MLRF <- function(x, y = NULL,
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
-  predicted <- error.test <- NULL
+  predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (verbose) msg2("Copying testing set to cluster")
     tbl.test <- sparklyr::sdf_copy_to(sc, df.test, overwrite = TRUE)
@@ -169,7 +174,7 @@ s_MLRF <- function(x, y = NULL,
     } else {
       stop("Failed to copy testing set dataframe to Spark cluster. Check cluster")
     }
-    predicted.raw <- as.data.frame(sparklyr::sdf_predict(tbl.test, mod))
+    predicted.raw <- as.data.frame(sparklyr::ml_predict(mod, tbl.test))
     if (type == "Classification") {
       predicted.prob <- predicted.raw$probability_0
       predicted <- factor(predicted.raw$predicted_label, levels = levels(y))

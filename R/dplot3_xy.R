@@ -8,6 +8,7 @@
 #'
 #' use theme$tick.labels.col for both tick color and tick label color - this may change
 #' @inheritParams dplot3_bar
+#' @inheritParams dplot3_x
 #' @inheritParams mplot3_xy
 #' @param x Numeric, vector/data.frame/list: x-axis data. If y is NULL and
 #' `NCOL(x) > 1`, first two columns used as `x` and `y`, respectively

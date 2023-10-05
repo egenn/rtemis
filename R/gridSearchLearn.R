@@ -462,7 +462,7 @@ gridSearchLearn <- function(x, y, mod,
 #' All tunable parameters should be passed to this function, individually or as
 #' a list. If any argument has more than one assigned values, the function
 #' returns TRUE, otherwise FALSE. This can be used to check whether
-#' [gridSearchLearn] must be run.
+#' `gridSearchLearn` must be run.
 #'
 #' The idea is that if you know which parameter values you want to use, you
 #' define them directly
@@ -480,7 +480,7 @@ gridCheck <- function(...) {
 #' `print` method for `gridSearch` object
 #'
 #' @method print gridSearch
-#' @param x Object of class `gridSearch` created by [gridSearchLearn]
+#' @param x Object of class `gridSearch` created by `gridSearchLearn`
 #' @param ... Unused
 #'
 #' @export

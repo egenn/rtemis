@@ -7,7 +7,7 @@
 \method{predict}{cartLite}(object, newdata, verbose = FALSE, ...)
 }
 \arguments{
-\item{object}{\link{cartLite} object}
+\item{object}{\code{cartLite} object}
 
 \item{newdata}{Data frame of predictors}
 

@@ -27,7 +27,6 @@ dplot3_x(
   legend.bg = "#FFFFFF00",
   legend.border.col = "#FFFFFF00",
   bargap = 0.05,
-  bingroup = 1,
   vline = NULL,
   vline.col = theme$fg,
   vline.width = 1,
@@ -77,16 +76,18 @@ on the same axes ("overlap"), or on separate plots with the same x-axis
 \item{group}{Vector: Will be converted to factor; levels define group
 members. Default = NULL}
 
-\item{main}{Character: Main title}
+\item{main}{Character: Main plot title.}
 
-\item{xlab}{Character: x-axis label. Default = NULL}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label. Default = NULL}
+\item{ylab}{Character: y-axis label.}
 
 \item{col}{Color, vector: Color for bars. Default NULL, which will draw
 colors from \code{palette}}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
+
+\item{plot.bg}{Color: Background color for plot area}
 
 \item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
@@ -105,6 +106,8 @@ Default = NULL, which uses \code{rownames(x)}}
 
 \item{font.size}{Float: Font size for all labels. Default = 16}
 
+\item{font.alpha}{Float: Alpha transparency for font.}
+
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be
 set to TRUE if x is a list of more than 1 element}
 
@@ -114,6 +117,10 @@ Set to NULL to place legend top right beside the plot area}
 
 \item{legend.col}{Color: Legend text color. Default = NULL, determined by
 theme}
+
+\item{legend.bg}{Color: Background color for legend}
+
+\item{legend.border.col}{Color: Border color for legend}
 
 \item{bargap}{Float: The gap between adjacent histogram bars in plot
 fraction.}
@@ -138,6 +145,8 @@ or "longdashdot"}
 
 \item{text.xanchor}{Character: "auto", "left", "center", "right"}
 
+\item{text.y}{Float: y-coordinate for \code{text}}
+
 \item{text.yref}{Character: "y": \code{text.y} refers to plot's y-axis;
 "paper": \code{text.y} refers to plotting area from 0-1}
 
@@ -151,7 +160,11 @@ or "longdashdot"}
 
 \item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
 
-\item{zerolines}{Logical: If TRUE: draw lines at y = 0.}
+\item{zerolines}{Logical: If TRUE, draw lines at y = 0.}
+
+\item{density.kernel}{Character: Kernel to use for density estimation.}
+
+\item{density.bw}{Character: Bandwidth to use for density estimation.}
 
 \item{histnorm}{Character: NULL, "percent", "probability", "density",
 "probability density"}
@@ -197,6 +210,9 @@ is set.}
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{...}{Additional arguments passed to theme}
+}
+\value{
+A plotly object
 }
 \description{
 Draw interactive univariate plots using \code{plotly}

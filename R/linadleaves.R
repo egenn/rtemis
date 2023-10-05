@@ -1285,9 +1285,9 @@ print.linadleaves <- function(x, ...) {
   }
 }
 
-#' Convert [linadleaves] to `data.tree` object
+#' Convert `linadleaves` to `data.tree` object
 #'
-#' @param object [linadleaves] object
+#' @param object `linadleaves` object
 
 as.data.tree.linadleaves <- function(object) {
   as.Node.data.frame <- getFromNamespace("as.Node.data.frame", "data.tree")

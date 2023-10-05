@@ -12,8 +12,8 @@ s_GLMNET(
   x.name = NULL,
   y.name = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   intercept = TRUE,
   nway.interactions = 0,
   family = NULL,
@@ -29,11 +29,9 @@ s_GLMNET(
   downsample = FALSE,
   resample.seed = NULL,
   res.summary.fn = mean,
-  save.grid.run = FALSE,
   metric = NULL,
   maximize = NULL,
   .gs = FALSE,
-  save.gs.mod = FALSE,
   n.cores = rtCores,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -64,14 +62,16 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{intercept}{Logical: If TRUE, include intercept in the model.}
+
+\item{nway.interactions}{Integer: Number of n-way interactions to include in the model.}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
@@ -80,6 +80,15 @@ combinations.}
 
 \item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will
 compute its own lambda sequence}
+
+\item{nlambda}{Integer: Number of lambda values to compute}
+
+\item{which.cv.lambda}{Character: Which lambda to use for prediction:
+"lambda.1se" or "lambda.min"}
+
+\item{penalty.factor}{Float vector: Multiply the penalty for each coefficient by
+the values in this vector. This is most useful for specifying different penalties
+for different groups of variables}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
@@ -111,6 +120,8 @@ Default = NULL (random seed)}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
+
+\item{.gs}{(Internal use only)}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

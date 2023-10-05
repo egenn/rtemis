@@ -12,7 +12,7 @@ s_MLRF(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  n.trees = 500,
+  n.trees = 500L,
   max.depth = 30L,
   subsampling.rate = 1,
   min.instances.per.node = 1,
@@ -99,6 +99,9 @@ Train an MLlib Random Forest model on Spark
 \details{
 The overhead incurred by Spark means this should be used only for really large datasets on
 a Spark cluster, not on a regular local machine.
+
+To get started using \code{sparklyr}, see the
+\href{https://spark.rstudio.com/get-started/}{sparklyr website}
 }
 \seealso{
 \link{train} for external cross-validation

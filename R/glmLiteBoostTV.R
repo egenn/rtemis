@@ -612,11 +612,13 @@ as.glmLiteBoostTV <- function(object,
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
+#' 
 #' @return [glmLiteBoostTV] object
+#' 
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
-#' @export
-
+#' @keywords internal
+#' @noRd
 update.glmLiteBoostTV <- function(object,
                                   x = NULL,
                                   x.valid = NULL,

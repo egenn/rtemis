@@ -48,7 +48,7 @@ s_LINAD(
   metric = "auto",
   maximize = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   save.gridrun = FALSE,
   select.leaves.smooth = FALSE,
   cluster = FALSE,

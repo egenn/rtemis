@@ -5,7 +5,10 @@
 #' fread delimited file in parts
 #'
 #' @param x Character: Path to delimited file
+#' @param part_nrows Integer: Number of rows to read in each part
+#' @param nrows Integer: Number of rows in the file
 #' @param header Logical: If TRUE, the file is assumed to include a header row
+#' @param sep Character: Delimiter
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param stringsAsFactors Logical: If TRUE, characters will be converted to
 #' factors

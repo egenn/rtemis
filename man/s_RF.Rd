@@ -177,7 +177,7 @@ Default = FALSE}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{outdir}{String, Optional: Path to directory to save output}
 

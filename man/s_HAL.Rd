@@ -14,17 +14,14 @@ s_HAL(
   x.name = NULL,
   y.name = NULL,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  res.summary.fn = mean,
-  save.grid.run = FALSE,
   metric = NULL,
   maximize = NULL,
   .gs = FALSE,
-  save.gs.mod = FALSE,
   n.cores = rtCores,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -50,6 +47,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
 
+\item{lambda}{Float vector: \link[hal9001:fit_hal]{hal9001::fit_hal} lambda}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
@@ -57,11 +56,11 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
@@ -80,6 +79,8 @@ Default = NULL (random seed)}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
+
+\item{.gs}{Internal use only}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

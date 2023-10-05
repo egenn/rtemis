@@ -31,7 +31,7 @@ s_GBM(
   imetrics = FALSE,
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   plot.tune.error = FALSE,
@@ -67,7 +67,6 @@ s_GBM(
   gbm.fit.verbose = FALSE,
   outdir = NULL,
   save.gridrun = FALSE,
-  save.rds = TRUE,
   save.res = FALSE,
   save.res.mod = FALSE,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
@@ -104,6 +103,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{distribution}{Character: Distribution of the response variable. See \link[gbm:gbm]{gbm::gbm}}
+
 \item{interaction.depth}{[gS] Integer: Interaction depth.}
 
 \item{shrinkage}{[gS] Float: Shrinkage (learning rate).}
@@ -114,6 +115,29 @@ Helps avoid overfitting.}
 \item{n.minobsinnode}{[gS] Integer: Minimum number of observation allowed in node.}
 
 \item{n.trees}{Integer: Initial number of trees to fit}
+
+\item{max.trees}{Integer: Maximum number of trees to fit}
+
+\item{force.n.trees}{Integer: If specified, use this number of trees instead of
+tuning number of trees}
+
+\item{.gs}{Internal use only}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
+
+\item{gridsearch.type}{Character: Type of grid search to perform:
+"exhaustive" or "randomized".}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
+
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{relInf}{Logical: If TRUE (Default), estimate variables' relative influence.}
 
@@ -141,10 +165,9 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{trace}{Integer: If higher than 0, will print more information to the console.}
 
-\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
-\item{save.rds}{Logical: If outdir is defined, should all data be saved in RDS file? s.SVDnetGBM will save
-mod.gbm, so no need to save again.}
+\item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
 \item{save.res.mod}{Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 Object size adds up quickly}

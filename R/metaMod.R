@@ -27,7 +27,8 @@
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()
-#' @export
+#' @keywords internal
+#' @noRd
 
 metaMod <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,

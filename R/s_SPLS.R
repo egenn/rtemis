@@ -8,7 +8,7 @@
 #' Train an SPLS model using `spls::spls` (Regression) and `spls::splsda` (Classification)
 #'
 #' \[gS\] denotes argument can be passed as a vector of values, which will trigger
-#' a grid search using [gridSearchLearn]
+#' a grid search using `gridSearchLearn`
 #' `np::npreg` allows inputs
 #' with mixed data types.
 #'
@@ -31,7 +31,7 @@
 #' @param classifier Character: Classifier used by `spls::splsda` "lda"
 #' or "logistic":
 #' @param n.cores Integer: Number of cores to be used by
-#' [gridSearchLearn]
+#' `gridSearchLearn`
 #' @param trace If > 0 print diagnostic messages
 #' @param ... Additional parameters to be passed to `npreg`
 #'
@@ -63,8 +63,8 @@ s_SPLS <- function(x, y = NULL,
                    maxstep = 100,
                    classifier = c("lda", "logistic"),
                    grid.resample.rtset = rtset.resample("kfold", 5),
-                   grid.search.type = c("exhaustive", "randomized"),
-                   grid.randomized.p = .1,
+                   gridsearch.type = c("exhaustive", "randomized"),
+                   gridsearch.randomized.p = .1,
                    metric = NULL,
                    maximize = NULL,
                    print.plot = FALSE,
@@ -165,8 +165,8 @@ s_SPLS <- function(x, y = NULL,
         k = k, eta = eta, kappa = kappa,
         select = select, fit = fit, maxstep = maxstep
       ),
-      search.type = grid.search.type,
-      randomized.p = grid.randomized.p,
+      search.type = gridsearch.type,
+      randomized.p = gridsearch.randomized.p,
       metric = metric,
       maximize = maximize,
       verbose = grid.verbose,

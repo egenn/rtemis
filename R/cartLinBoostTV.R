@@ -369,7 +369,9 @@ cartLinBoostTV <- function(x, y = NULL,
 #'
 #' @method print boost
 #' @author E.D. Gennatas
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 
 print.cartLinBoostTV <- function(x, ...) {
 
@@ -389,9 +391,11 @@ print.cartLinBoostTV <- function(x, ...) {
 #' @param as.matrix Logical: If TRUE, return predictions from each iterations. Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param n.cores Integer: Number of cores to use. Default = `rtCores`
+#' 
 #' @method predict cartLinBoostTV
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 predict.cartLinBoostTV <- function(object,
                                    newdata = NULL,
@@ -447,12 +451,14 @@ predict.cartLinBoostTV <- function(object,
 
 #' Expand boosting series
 #'
-#' Expand a [cartLinBoostTV] object by adding more iterations
+#' Expand a `cartLinBoostTV` object by adding more iterations
 #'
 #' @inheritParams boost
-#' @param object [cartLinBoostTV] object
+#' @param object `cartLinBoostTV` object
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 expand.cartLinBoostTV <- function(object,
                                   x, y = NULL,
@@ -500,12 +506,12 @@ expand.cartLinBoostTV <- function(object,
 } # rtemis::expand.cartLinBoostTV
 
 
-#' Place model in [cartLinBoostTV] structure
+#' Place model in `cartLinBoostTV` structure
 #'
 #' @inheritParams as.boost
 #' @param object rtMod model
-#' @param learning.rate Float: Learning rate for new boost object. Default = 1
-#' @param init Float: Initial value for new boost object. Default = 0
+#' @param learning.rate Float: Learning rate for new boost object.
+#' @param init Float: Initial value for new boost object.
 #' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @author E.D. Gennatas
@@ -585,18 +591,17 @@ as.cartLinBoostTV <- function(object,
 } # rtemis::as.cartLinBoostTV
 
 
-#' \pkg{rtemis} internals: Update [cartLinBoostTV] object's fitted values
+#' \pkg{rtemis} internals: Update `cartLinBoostTV` object's fitted values
 #'
-#' Calculate new fitted values for a [cartLinBoostTV] object.
+#' Calculate new fitted values for a `cartLinBoostTV` object.
 #' Advanced use only: run with new `x` or after updating learning.rate in object
 #'
 #' @method update cartLinBoostTV
-#' @param object [cartLinBoostTV] object
+#' @param object `cartLinBoostTV` object
 #' @param x Data frame: Features
 #' @param last.step.only Logical: If TRUE, `x` must be provided and only the last meta model will be updated
 #' using this `x`
 #' 
-#' @return [cartLinBoostTV] object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
 #' @keywords internal

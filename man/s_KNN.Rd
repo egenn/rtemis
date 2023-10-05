@@ -18,7 +18,6 @@ s_KNN(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),

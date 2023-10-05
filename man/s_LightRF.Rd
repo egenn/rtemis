@@ -17,12 +17,11 @@ s_LightRF(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  boosting = "rf",
   objective = NULL,
   max_nrounds = 500L,
-  force_nrounds = NULL,
+  force_nrounds = 500L,
   early_stopping_rounds = -1L,
-  num_leaves = 131072L,
+  num_leaves = 4096L,
   max_depth = -1L,
   learning_rate = 1,
   subsample = 0.623,
@@ -35,7 +34,7 @@ s_LightRF(
   tree_learner = "data_parallel",
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   importance = TRUE,
@@ -44,7 +43,6 @@ s_LightRF(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,
@@ -55,7 +53,6 @@ s_LightRF(
   n_threads = rtCores,
   force_col_wise = FALSE,
   force_row_wise = FALSE,
-  parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -96,8 +93,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{boosting}{Character: [gS] "gbdt", "rf", "dart", "goss"}
-
 \item{objective}{(Default = NULL)}
 
 \item{max_nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
@@ -129,7 +124,7 @@ stop if performance does not improve for this many rounds}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
 \item{metric}{Character: Metric to minimize, or maximize if
@@ -154,7 +149,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

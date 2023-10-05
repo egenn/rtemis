@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{object}{\link{hytboostnow} object}
+\item{object}{\code{hytboostnow} object}
 }
 \description{
 Predict method for \code{hytboostnow} object

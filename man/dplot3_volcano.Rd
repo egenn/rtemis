@@ -91,7 +91,7 @@ Default = "holm". Use "none" for raw p-values.}
 
 \item{label.hi}{Character: label for high values}
 
-\item{main}{Character: Plot title. Default = NULL}
+\item{main}{Character: Main plot title.}
 
 \item{xlab}{Character: x-axis label}
 

@@ -29,8 +29,8 @@ s_Ranger(
   inbag.resample = NULL,
   stratify.on.y = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
   probability = FALSE,
@@ -130,11 +130,11 @@ Default = FALSE. Note: Cannot be used with \code{ifw.case.weights}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
@@ -193,7 +193,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

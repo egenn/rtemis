@@ -9,6 +9,7 @@
 #' Draw interactive univariate plots using `plotly`
 #'
 #' If input is data.frame, non-numeric variables will be removed
+#' 
 #' @inheritParams dplot3_bar
 #' @param x Numeric, vector / data.frame /list: Input. If not a vector, each
 #' column of or each element
@@ -18,20 +19,25 @@
 #' ("ridge")
 #' @param group Vector: Will be converted to factor; levels define group
 #' members. Default = NULL
-#' @param main Character: Main title
+#' @param plot.bg Color: Background color for plot area
 #' @param axes.square Logical: If TRUE: draw a square plot to fill the graphic
 #' device. Default = FALSE. Note: If TRUE, the device size at time of call is
 #' captured and height and width are set so as to draw the largest square
 #' available. This means that resizing the device window will not automatically
 #' resize the plot.
+#' @param font.alpha Float: Alpha transparency for font.
 #' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be
 #' set to TRUE if x is a list of more than 1 element
+#' @param legend.bg Color: Background color for legend
+#' @param legend.border.col Color: Border color for legend
 #' @param legend.xy Float, vector, length 2: Relative x, y position for legend.
 #' Default = c(0, 1), which places the legend top left within the plot area.
 #' Set to NULL to place legend top right beside the plot area
 #' @param bargap Float: The gap between adjacent histogram bars in plot
 #' fraction.
-#' @param zerolines Logical: If TRUE: draw lines at y = 0.
+#' @param zerolines Logical: If TRUE, draw lines at y = 0.
+#' @param density.kernel Character: Kernel to use for density estimation.
+#' @param density.bw Character: Bandwidth to use for density estimation.
 #' @param histnorm Character: NULL, "percent", "probability", "density",
 #' "probability density"
 #' @param histfunc Character: "count", "sum", "avg", "min", "max".
@@ -56,6 +62,7 @@
 #' "paper": `text.x` refers to plotting area from 0-1
 #' @param text.xanchor Character: "auto", "left", "center", "right"
 #' @param text.yanchor Character: "auto", "top", "middle", "bottom"
+#' @param text.y Float: y-coordinate for `text`
 #' @param text.yref Character: "y": `text.y` refers to plot's y-axis;
 #' "paper": `text.y` refers to plotting area from 0-1
 #' @param text.col Color for `text`. Default = theme$fg
@@ -63,6 +70,8 @@
 #' available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e.
 #' fill available space
+#' 
+#' @return A plotly object
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -94,7 +103,6 @@ dplot3_x <- function(x,
                      legend.bg = "#FFFFFF00",
                      legend.border.col = "#FFFFFF00",
                      bargap = .05,
-                     bingroup = 1,
                      vline = NULL,
                      vline.col = theme$fg,
                      vline.width = 1,
@@ -313,6 +321,8 @@ dplot3_x <- function(x,
 
   # '- { Histogram } ----
   if (type == "histogram") {
+    # https://plotly.com/r/reference/#histogram-bingroup
+    bingroup <- 1
     histnorm <- match.arg(histnorm)
     histfunc <- match.arg(histfunc)
     # if (is.null(ylab)) ylab <- "Count"

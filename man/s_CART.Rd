@@ -34,8 +34,8 @@ s_CART(
   use.prune.rpart.rt = TRUE,
   return.unpruned = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
   na.action = na.exclude,
@@ -129,11 +129,11 @@ unpruned tree under \code{extra} in \link{rtMod}.}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
@@ -162,7 +162,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

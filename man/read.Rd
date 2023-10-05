@@ -53,6 +53,10 @@ For \code{delim.reader = "duckdb"}, this must be a single string.}
 \item{output}{Character: "default" or "data.table", If default, return the delim.reader's
 default data structure, otherwise convert to data.table}
 
+\item{attr}{Character: Attribute to set (Optional)}
+
+\item{value}{Character: Value to set (if \code{attr} is not NULL)}
+
 \item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{fread_verbose}{Logical: Passed to \code{data.table::fread}}

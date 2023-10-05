@@ -7,7 +7,7 @@
 auc(
   preds,
   labels,
-  method = c("ROCR", "pROC", "auc_pairs", "auc_cpp"),
+  method = c("ROCR", "pROC", "auc_pairs"),
   verbose = FALSE,
   trace = 0
 )

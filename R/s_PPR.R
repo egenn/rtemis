@@ -12,6 +12,7 @@
 #'
 #' @inheritParams s_CART
 #' @param nterms \[gS\] Integer: number of terms to include in the final model
+#' @param max.terms Integer: maximum number of terms to consider in the model
 #' @param optlevel \[gS\] Integer \[0, 3\]: optimization level (Default = 3). 
 #' See Details in `stats::ppr`
 #' @param sm.method \[gS\] Character: "supsmu", "spline", or "gcvspline". Smoothing method.
@@ -25,6 +26,7 @@
 #' @param gcvpen \[gs\] Numeric: for `sm.method = "gcvspline"`: Penalty used in the GCV 
 #' selection for each degree of freedom used. Higher values result in greater smoothing. 
 #' See [stats::ppr].
+#' @param trace Integer: If greater than 0, print additional information to console
 #' @param ... Additional arguments to be passed to `ppr`
 #' 
 #' @return Object of class [rtMod]
@@ -37,8 +39,8 @@ s_PPR <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.rtset = rtset.grid.resample(),
-                  grid.search.type = c("exhaustive", "randomized"),
-                  grid.search.randomized.p = .1,
+                  gridsearch.type = c("exhaustive", "randomized"),
+                  gridsearch.randomized.p = .1,
                   weights = NULL,
                   nterms = NULL,
                   max.terms = nterms,
@@ -56,7 +58,6 @@ s_PPR <- function(x, y = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   trace = 0,
                   outdir = NULL,
@@ -88,7 +89,7 @@ s_PPR <- function(x, y = NULL,
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(nterms)) nterms <- if (NCOL(x) < 4 ) NCOL(x) else 4
-  grid.search.type <- match.arg(grid.search.type)
+  gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test)
@@ -120,8 +121,8 @@ s_PPR <- function(x, y = NULL,
                                              span = span,
                                              df = df,
                                              gcvpen = gcvpen),
-                          search.type = grid.search.type,
-                          randomized.p = grid.search.randomized.p,
+                          search.type = gridsearch.type,
+                          randomized.p = gridsearch.randomized.p,
                           weights = weights,
                           metric = metric,
                           maximize = maximize,

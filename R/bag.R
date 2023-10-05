@@ -152,8 +152,7 @@ bag <- function(x, y = NULL,
     res.verbose = base.verbose,
     save.mods = TRUE,
     outdir = NULL,
-    n.workers = n.workers,
-    parallel.type = parallel.type
+    n.workers = n.workers
   )
 
   # Fitted ----

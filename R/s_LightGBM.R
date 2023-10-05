@@ -83,7 +83,7 @@ s_LightGBM <- function(x, y = NULL,
                        tree_learner = "serial",
                        .gs = FALSE,
                        grid.resample.rtset = rtset.resample("kfold", 5),
-                       grid.search.type = "exhaustive",
+                       gridsearch.type = "exhaustive",
                        metric = NULL,
                        maximize = NULL,
                        importance = TRUE,
@@ -92,7 +92,6 @@ s_LightGBM <- function(x, y = NULL,
                        plot.predicted = NULL,
                        plot.theme = rtTheme,
                        question = NULL,
-                       rtclass = NULL,
                        save.dump = FALSE,
                        verbose = TRUE,
                        grid.verbose = FALSE,
@@ -100,10 +99,9 @@ s_LightGBM <- function(x, y = NULL,
                        trace = 0,
                        save.gridrun = FALSE,
                        n.cores = 1,
-                       n_threads = rtCores,
+                       n_threads = 0,
                        force_col_wise = FALSE,
                        force_row_wise = FALSE,
-                       parallel.type = c("psock", "fork"),
                        outdir = NULL,
                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
   # Intro ----
@@ -254,7 +252,7 @@ s_LightGBM <- function(x, y = NULL,
         resample.seed = resample.seed,
         .gs = TRUE
       ),
-      search.type = grid.search.type,
+      search.type = gridsearch.type,
       weights = weights,
       metric = metric,
       maximize = maximize,
@@ -317,9 +315,9 @@ s_LightGBM <- function(x, y = NULL,
   # LightGBM ----
   if (verbose) {
     if (tuned) {
-      msg20("Training LightGBM ", type, " with tuned hyperparameters...", newline.pre = TRUE)
+      msg2("Training", mod.name, type, "with tuned hyperparameters...", newline.pre = TRUE)
     } else {
-      msg20("Training LightGBM ", type, "...", newline.pre = TRUE)
+      msg20("Training ", mod.name, " ", type, "...", newline.pre = TRUE)
     }
   }
 
@@ -381,7 +379,7 @@ s_LightGBM <- function(x, y = NULL,
   # Variable Importance ----
   varimp <- NULL
   if (importance) {
-    if (verbose) msg2("Estimating LightGBM variable importance...")
+    if (verbose) msg2("Estimating", mod.name, "variable importance...")
     .lgbvarimp <- lightgbm::lgb.importance(model = mod, percentage = TRUE)
     varimp <- .lgbvarimp$Gain
     names(varimp) <- .lgbvarimp$Feature
@@ -389,7 +387,6 @@ s_LightGBM <- function(x, y = NULL,
 
   # Outro ----
   rt <- rtModSet(
-    rtclass = "rtMod",
     mod = mod,
     extra = list(factor_index = factor_index),
     mod.name = mod.name,
@@ -455,12 +452,11 @@ s_LightRF <- function(x, y = NULL,
                       upsample = FALSE,
                       downsample = FALSE,
                       resample.seed = NULL,
-                      boosting = "rf",
                       objective = NULL,
                       max_nrounds = 500L,
-                      force_nrounds = NULL,
+                      force_nrounds = 500L,
                       early_stopping_rounds = -1L,
-                      num_leaves = 131072L,
+                      num_leaves = 4096L,
                       max_depth = -1L,
                       learning_rate = 1,
                       subsample = .623,
@@ -473,7 +469,7 @@ s_LightRF <- function(x, y = NULL,
                       tree_learner = "data_parallel",
                       .gs = FALSE,
                       grid.resample.rtset = rtset.resample("kfold", 5),
-                      grid.search.type = "exhaustive",
+                      gridsearch.type = "exhaustive",
                       metric = NULL,
                       maximize = NULL,
                       importance = TRUE,
@@ -482,7 +478,6 @@ s_LightRF <- function(x, y = NULL,
                       plot.predicted = NULL,
                       plot.theme = rtTheme,
                       question = NULL,
-                      rtclass = NULL,
                       save.dump = FALSE,
                       verbose = TRUE,
                       grid.verbose = FALSE,
@@ -493,9 +488,9 @@ s_LightRF <- function(x, y = NULL,
                       n_threads = rtCores,
                       force_col_wise = FALSE,
                       force_row_wise = FALSE,
-                      parallel.type = c("psock", "fork"),
                       outdir = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+  
   s_LightGBM(x,
     y = y,
     x.test = x.test, y.test = y.test,
@@ -506,7 +501,7 @@ s_LightRF <- function(x, y = NULL,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
-    boosting = boosting,
+    boosting = "rf",
     objective = objective,
     max_nrounds = max_nrounds,
     force_nrounds = force_nrounds,
@@ -524,7 +519,7 @@ s_LightRF <- function(x, y = NULL,
     tree_learner = tree_learner,
     .gs = .gs,
     grid.resample.rtset = grid.resample.rtset,
-    grid.search.type = grid.search.type,
+    gridsearch.type = gridsearch.type,
     metric = metric,
     maximize = maximize,
     importance = importance,
@@ -533,7 +528,6 @@ s_LightRF <- function(x, y = NULL,
     plot.predicted = plot.predicted,
     plot.theme = plot.theme,
     question = question,
-    rtclass = rtclass,
     save.dump = save.dump,
     verbose = verbose,
     grid.verbose = grid.verbose,
@@ -544,7 +538,6 @@ s_LightRF <- function(x, y = NULL,
     n_threads = n_threads,
     force_col_wise = force_col_wise,
     force_row_wise = force_row_wise,
-    parallel.type = parallel.type,
     outdir = outdir,
     save.mod = save.mod, ...
   )

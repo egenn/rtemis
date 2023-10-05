@@ -18,7 +18,13 @@ pfread(
 \arguments{
 \item{x}{Character: Path to delimited file}
 
+\item{part_nrows}{Integer: Number of rows to read in each part}
+
+\item{nrows}{Integer: Number of rows in the file}
+
 \item{header}{Logical: If TRUE, the file is assumed to include a header row}
+
+\item{sep}{Character: Delimiter}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 

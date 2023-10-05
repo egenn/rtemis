@@ -2,13 +2,13 @@
 % Please edit documentation in R/shyoptleaves.R
 \name{as.data.tree.shyoptleaves}
 \alias{as.data.tree.shyoptleaves}
-\title{Convert \link{shyoptleaves} to \code{data.tree} object}
+\title{Convert \code{shyoptleaves} to \code{data.tree} object}
 \usage{
 as.data.tree.shyoptleaves(object)
 }
 \arguments{
-\item{object}{\link{shyoptleaves} object}
+\item{object}{\code{shyoptleaves} object}
 }
 \description{
-Convert \link{shyoptleaves} to \code{data.tree} object
+Convert \code{shyoptleaves} to \code{data.tree} object
 }

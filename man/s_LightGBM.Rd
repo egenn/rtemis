@@ -36,7 +36,7 @@ s_LightGBM(
   tree_learner = "serial",
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = "exhaustive",
+  gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
   importance = TRUE,
@@ -45,7 +45,6 @@ s_LightGBM(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,
@@ -53,10 +52,9 @@ s_LightGBM(
   trace = 0,
   save.gridrun = FALSE,
   n.cores = 1,
-  n_threads = rtCores,
+  n_threads = 0,
   force_col_wise = FALSE,
   force_row_wise = FALSE,
-  parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -133,7 +131,7 @@ cross-validation fails - likely will never be used}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
 \item{metric}{Character: Metric to minimize, or maximize if
@@ -158,7 +156,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{n.cores}{Integer: Number of cores to use.}
 

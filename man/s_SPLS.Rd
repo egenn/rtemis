@@ -24,8 +24,8 @@ s_SPLS(
   maxstep = 100,
   classifier = c("lda", "logistic"),
   grid.resample.rtset = rtset.resample("kfold", 5),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
   print.plot = FALSE,
@@ -94,11 +94,11 @@ or "logistic":}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
 
-\item{grid.randomized.p}{Float (0, 1): If
-\code{grid.search.type = "randomized"}, randomly test this proportion of
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
@@ -125,7 +125,7 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{trace}{If > 0 print diagnostic messages}
 
-\item{grid.verbose}{Logical: Passed to \link{gridSearchLearn}}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
@@ -136,7 +136,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{n.cores}{Integer: Number of cores to be used by
-\link{gridSearchLearn}}
+\code{gridSearchLearn}}
 
 \item{...}{Additional parameters to be passed to \code{npreg}}
 }
@@ -148,7 +148,7 @@ Train an SPLS model using \code{spls::spls} (Regression) and \code{spls::splsda}
 }
 \details{
 [gS] denotes argument can be passed as a vector of values, which will trigger
-a grid search using \link{gridSearchLearn}
+a grid search using \code{gridSearchLearn}
 \code{np::npreg} allows inputs
 with mixed data types.
 }

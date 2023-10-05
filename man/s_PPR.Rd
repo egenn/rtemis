@@ -12,8 +12,8 @@ s_PPR(
   x.name = NULL,
   y.name = NULL,
   grid.resample.rtset = rtset.grid.resample(),
-  grid.search.type = c("exhaustive", "randomized"),
-  grid.search.randomized.p = 0.1,
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = 0.1,
   weights = NULL,
   nterms = NULL,
   max.terms = nterms,
@@ -31,7 +31,6 @@ s_PPR(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   trace = 0,
   outdir = NULL,
@@ -56,14 +55,20 @@ Columns must correspond to columns in \code{x}}
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
 
-\item{grid.search.type}{Character: Type of grid search to perform:
+\item{gridsearch.type}{Character: Type of grid search to perform:
 "exhaustive" or "randomized".}
+
+\item{gridsearch.randomized.p}{Float (0, 1): If
+\code{gridsearch.type = "randomized"}, randomly test this proportion of
+combinations.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{nterms}{[gS] Integer: number of terms to include in the final model}
+
+\item{max.terms}{Integer: maximum number of terms to consider in the model}
 
 \item{optlevel}{[gS] Integer [0, 3]: optimization level (Default = 3).
 See Details in \code{stats::ppr}}
@@ -107,6 +112,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{trace}{Integer: If greater than 0, print additional information to console}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

@@ -66,7 +66,7 @@ cartLite <- function(x, y,
 
 #' Predict method for `cartLite` object
 #'
-#' @param object [cartLite] object
+#' @param object `cartLite` object
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @method predict cartLite

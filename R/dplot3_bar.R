@@ -8,9 +8,9 @@
 #'
 #' @param x vector (possibly named), matrix, or data.frame: If matrix or 
 #' data.frame, rows are groups (can be 1 row), columns are features
-#' @param main Character: Plot title. Default = NULL
-#' @param xlab Character: x-axis label. Default = NULL
-#' @param ylab  Character: y-axis label. Default = NULL
+#' @param main Character: Main plot title.
+#' @param xlab Character: x-axis label.
+#' @param ylab  Character: y-axis label.
 #' @param col Color, vector: Color for bars. Default NULL, which will draw 
 #' colors from `palette`
 #' @param alpha Float (0, 1]: Transparency for bar colors. Default = .8
