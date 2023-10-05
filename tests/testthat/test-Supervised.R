@@ -76,17 +76,17 @@ test_that("Ranger 3-class Classification succeeds", {
 
 ## LightRF ----
 test_that("LightRF Regression succeeds", {
-  mod_r <- s_LightRF(datr_train, datr_test, force_nrounds = 20)
+  mod_r <- s_LightRF(datr_train, datr_test, nrounds = 20)
   expect_identical(class(mod_r)[1], "rtMod")
 })
 
 test_that("LightRF Binary Classification succeeds", {
-  mod_c <- s_LightRF(datc2_train, datc2_test, force_nrounds = 20)
+  mod_c <- s_LightRF(datc2_train, datc2_test, nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
 test_that("LightRF 3-class Classification succeeds", {
-  mod_c <- s_LightRF(datc3_train, datc3_test, force_nrounds = 20)
+  mod_c <- s_LightRF(datc3_train, datc3_test, nrounds = 20)
   expect_identical(class(mod_c)[1], "rtModClass")
 })
 
