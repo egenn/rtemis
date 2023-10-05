@@ -67,64 +67,12 @@ mod <- train(iris)
 
 We are working towards the 1.0 release, which will feature updates to the
 API as well as the backend, and preparing for CRAN submission.
-This will be accompanied by expansion of the [documentation](https://rtemis.lambdamd.org).
+This will be accompanied by expansion of the [documentation](https://rtemis.lambdamd.org).  For all updates, please see the [NEWS](NEWS.md) file.
 
 The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which are not yet 
 publicly available, are in parallel development. With the upcoming 1.0 release
 of rtemis, the aim is to offer a unified API across all three languages.
 
-### **0.95.5**
-
-* Transition to `train()` complete; elevate()` and `elevate1()` removed
-* Updated `s_LightGBM` and `s_LightRuleFit` for better handling of categorical variables
-* Updated tests
-* General cleanup in preparation for 1.0 release & CRAN submission
-
-### **0.95.0 in rcpp branch**
-
-Adding support for Rcpp.
-
-### **0.91**
-
-Switched the main parallelizable functions (resLearn for outer resamples;
-gridSearchlearn for inner resamples) to use [`future`](https://github.com/HenrikBengtsson/future) for parallelization
-and [`progressr`](https://github.com/HenrikBengtsson/progressr) for progress reporting.
-
-### **0.90**
-
-Multiple additions and updates.  
-**Major change**: Renamed modeling and visualization functions to substitute 
-dots with underscores:
-
-* Supervised learning: `s.` => `s_`
-* Decomposition: `d.` => `d_`
-* Clustering: `u.` => `c_`
-* Cross-decomposition: `x.` => `x_`
-* Static graphics: `mplot3.` => `mplot3_`; `mplot.` => `mplot_`; `gplot3.` => `gplot3_`
-* Interactive graphics: `dplot3.` => `dplot3_`
-
-### **0.82**
-
-* Themes: New darkgray theme now always on whether you like it or not - jk:
-it's the new default but you can always set your own default using
-e.g. `options(rt.theme = "lightgrid")`. Also, new `lightgray` theme.
-* New option to set default plotting font: e.g. `options(rt.font = "Inter")`
-* Many improvements / additions to `dplot3*` functions.
-* Plenty more I haven't had a chance to document here
-
-### **0.80.0**
-
-An accumulation of updates and added functionality, algorithms, graphics.  
-Majority of `mplot3` and `dplot3` functions now work with the new theme system
-provided by `theme_*` functions like `theme_lightgrid` and `theme_darkgrid`.
-
-### **0.79**
-
-07-02-2019: "Super Papaya" Release out
-
-### **0.78**
-
-04-02-2019: **rtemis** moved to public repo
 
 ## Features
 
