@@ -1,4 +1,5 @@
 [![R-CMD-check](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml)
+[![rtemis status badge](https://egenn.r-universe.dev/badges/rtemis)](https://egenn.r-universe.dev/rtemis)
 
 # **_rtemis_** Machine Learning and Visualization
 
@@ -20,24 +21,31 @@ R version 4.1 or higher
 
 ## Installation
 
-Install `rtemis` using `pak`, `remotes`, or `devtools`:
+You can install `rtemis` from `r-universe` or using `pak`, `remotes`, or `devtools`.
 
-```r
-pak::pkg_install("egenn/rtemis")
-```
+* `r-universe`:
 
-_or_
+  ```r
+  install.packages('rtemis', repos = c('https://egenn.r-universe.dev', 'https://cloud.r-project.org'))
+  ```
 
-```r
-remotes::install_github("egenn/rtemis")
-```
+* `pak`:
 
-_or_
+  ```r
+  pak::pkg_install("egenn/rtemis")
+  ```
 
+* `remotes`:
 
-```r
-devtools::install_github("egenn/rtemis")
-```
+  ```r
+  remotes::install_github("egenn/rtemis")
+  ```
+
+* `devtools`:
+  
+  ```r
+  devtools::install_github("egenn/rtemis")
+  ```
 
 See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and
 installation instructions.
