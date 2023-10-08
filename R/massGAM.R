@@ -67,10 +67,7 @@ massGAM <- function(x, y,
   ptm <- proc.time()
   scriptVersion <- 0.2
   start.date <- date()
-  cat(start.date, "\n::: massGAM version ", scriptVersion,
-    "\nHello, ", Sys.getenv("USER"), ".\n",
-    sep = ""
-  )
+  cat(start.date, "\n::: massGAM version ", scriptVersion, sep = "")
 
   # Data ----
   # Name cols first, because data.frame() or as.data.frame()
@@ -180,7 +177,7 @@ massGAM <- function(x, y,
   s.out$residuals <- data.frame(sapply(mod.gam, resid))
   colnames(s.out$residuals) <- colnames(y)
   # Predict
-  mod.pred <- lapply(mod.gam, function(mod) predict(mod, se.fit = T))
+  mod.pred <- lapply(mod.gam, function(mod) predict(mod, se.fit = TRUE))
   # Fitted values
   s.out$fitted <- data.frame(sapply(mod.pred, function(mod) {
     return(mod$fit)
