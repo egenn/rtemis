@@ -42,7 +42,7 @@ rtemis.version <- packageVersion("rtemis")
       bold("\n  Setup"),
       "\n  \u2514 ", italic(gray("Enable progress reporting:")),
       " > progressr::handlers(global = TRUE)",
-      "\n                               > options(progressr.handlers = progressr::handler_cli)"
+      '\n                               > progressr::handlers("cli")'
     ))
   } else {
     packageStartupMessage(
