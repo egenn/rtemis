@@ -74,8 +74,8 @@
 #' individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained
 #' on differents resamples under subdirectories of `outdir`
-#' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, and
-#' `options(error=recover)`
+#' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, `options(error=recover)`,
+#' and options(warn = 2)
 #' @param ... Additional train.params to be passed to learner. Will be
 #' concatenated with `train.params`
 #'
@@ -158,9 +158,14 @@ train <- function(x, y = NULL,
   if (debug) {
     outer.n.workers <- 1
     train.params$n.cores <- 1
-    error_orig <- getOption("error")
+    error_og <- getOption("error")
+    warn_og <- getOption("warn")
     options(error = recover)
-    on.exit(options(error = error_orig))
+    options(warn = 2)
+    on.exit({
+      options(error = error_og)
+      options(warn = warn_og)
+    })
   }
   if (!is.null(outdir)) {
     outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
