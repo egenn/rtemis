@@ -135,8 +135,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{save.res}{Logical: If TRUE, save the full output of each model trained
 on differents resamples under subdirectories of \code{outdir}}
 
-\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, and
-\code{options(error=recover)}}
+\item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, \code{options(error=recover)},
+and options(warn = 2)}
 
 \item{...}{Additional train.params to be passed to learner. Will be
 concatenated with \code{train.params}}
