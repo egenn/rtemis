@@ -150,9 +150,8 @@ preprocess_ <- function(x,
 
   # Set aside excluded ----
   if (!is.null(exclude) && length(exclude) > 0) {
-    # appease R CMD check
-    ..exclude <- NULL
-    excluded <- x[, ..exclude, drop = FALSE]
+    # appease R CMD check: use with = FALSE, not ..exclude
+    excluded <- x[, exclude, with = FALSE]
     excluded.names <- colnames(x)[exclude]
     x[, (exclude) := NULL]
   }

@@ -48,13 +48,12 @@ glm2table <- function(x,
   # Convert p-vals equal to 0 to machine double eps
   eps <- .Machine$double.eps
   pvals_idi <- getnames(out, ends_with = "p_value")
-  # appease R CMD check
-  ..i <- NULL
+  # appease R CMD check:, use with = FALSE, not ..i
   for (i in pvals_idi) {
-    lteps <- out[, ..i] < eps
+    lteps <- out[, i, with = FALSE] < eps
     if (length(lteps) > 0) {
       if (warn) warning("Values < machine double eps converted to double eps")
-      out[, ..i][lteps] <- eps
+      out[, i, with = FALSE][lteps] <- eps
     }
   }
 

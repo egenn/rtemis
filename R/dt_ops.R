@@ -540,11 +540,9 @@ dt_get_factor_levels <- function(dat) {
   if (!is.data.table(dat)) {
     dat <- as.data.table(dat)
   }
-  # appease R CMD check
-  ..factor_index <- NULL
   factor_index <- which(sapply(dat, is.factor))
   lapply(
-    dat[, ..factor_index, drop = FALSE],
+    dat[, factor_index, with = FALSE],
     levels
   )
 }

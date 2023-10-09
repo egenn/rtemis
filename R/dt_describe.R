@@ -37,21 +37,20 @@ dt_describe <- function(x) {
   if (!is.data.table(x)) setDT(x)
   nrows <- NROW(x)
 
-  # appease R CMD check
-  ..index_nm <- ..index_cf <- ..index_dt <- NULL
+  # appease R CMD check: do not use ..var in DT frame, use with = FALSE instead
 
   # Numeric ----
   index_nm <- which(sapply(x, is.numeric))
 
   nm_summary <- if (length(index_nm) > 0) {
     data.table(
-      Variable = x[, ..index_nm] |> names(),
-      Min = sapply(x[, ..index_nm], min, na.rm = TRUE),
-      Max = sapply(x[, ..index_nm], max, na.rm = TRUE),
-      Median = sapply(x[, ..index_nm], median, na.rm = TRUE),
-      Mean = sapply(x[, ..index_nm], mean, na.rm = TRUE),
-      SD = sapply(x[, ..index_nm], sd, na.rm = TRUE),
-      Pct_missing = sapply(x[, ..index_nm], \(col) sum(is.na(col)) / nrows)
+      Variable = x[, index_nm, with = FALSE] |> names(),
+      Min = sapply(x[, index_nm, with = FALSE], min, na.rm = TRUE),
+      Max = sapply(x[, index_nm, with = FALSE], max, na.rm = TRUE),
+      Median = sapply(x[, index_nm], with = FALSE, median, na.rm = TRUE),
+      Mean = sapply(x[, index_nm, with = FALSE], mean, na.rm = TRUE),
+      SD = sapply(x[, index_nm, with = FALSE], sd, na.rm = TRUE),
+      Pct_missing = sapply(x[, index_nm, with = FALSE], \(col) sum(is.na(col)) / nrows)
     )
   } else {
     data.table(
@@ -70,11 +69,11 @@ dt_describe <- function(x) {
 
   cf_summary <- if (length(index_cf) > 0) {
     data.table(
-      Variable = x[, ..index_cf] |> names(),
-      N_unique = sapply(x[, ..index_cf], \(col) length(unique(col))),
-      Mode = sapply(x[, ..index_cf], get_mode),
-      Counts = sapply(x[, ..index_cf], fct_describe),
-      Pct_missing = sapply(x[, ..index_cf], \(col) sum(is.na(col)) / nrows)
+      Variable = x[, index_cf, with = FALSE] |> names(),
+      N_unique = sapply(x[, index_cf, with = FALSE], \(col) length(unique(col))),
+      Mode = sapply(x[, index_cf, with = FALSE], get_mode),
+      Counts = sapply(x[, index_cf, with = FALSE], fct_describe),
+      Pct_missing = sapply(x[, index_cf, with = FALSE], \(col) sum(is.na(col)) / nrows)
     )
   } else {
     data.table(
@@ -94,12 +93,12 @@ dt_describe <- function(x) {
 
   dt_summary <- if (length(index_dt) > 0) {
     data.table(
-      Variable = x[, ..index_dt] |> names(),
-      Min = do.call(c, lapply(x[, ..index_dt], min, na.rm = TRUE)),
-      Max = do.call(c, lapply(x[, ..index_dt], max, na.rm = TRUE)),
-      Median = do.call(c, lapply(x[, ..index_dt], median, na.rm = TRUE)),
-      Mean = do.call(c, lapply(x[, ..index_dt], mean, na.rm = TRUE)),
-      Pct_missing = sapply(x[, ..index_dt], \(col) sum(is.na(col)) / nrows)
+      Variable = x[, index_dt, with = FALSE] |> names(),
+      Min = do.call(c, lapply(x[, index_dt, with = FALSE], min, na.rm = TRUE)),
+      Max = do.call(c, lapply(x[, index_dt, with = FALSE], max, na.rm = TRUE)),
+      Median = do.call(c, lapply(x[, index_dt, with = FALSE], median, na.rm = TRUE)),
+      Mean = do.call(c, lapply(x[, index_dt, with = FALSE], mean, na.rm = TRUE)),
+      Pct_missing = sapply(x[, index_dt, with = FALSE], \(col) sum(is.na(col)) / nrows)
     )
   } else {
     data.table(

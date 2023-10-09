@@ -104,23 +104,23 @@ s_LightRuleFit <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  if (any(sapply(x, is.factor))) {
-    factor_index <- names(x)[which(sapply(x, is.factor))]
-    xp <- preprocess(x,
-      factor2integer = TRUE,
-      factor2integer_startat0 = TRUE,
-      verbose = trace > 0
-    )
-    # if (!is.null(x.test)) {
-    #     x.test <- preprocess(x.test,
-    #         factor2integer = TRUE,
-    #         factor2integer_startat0 = TRUE
-    #     )
-    # }
-  } else {
-    factor_index <- NULL
-    xp <- x
-  }
+  # if (any(sapply(x, is.factor))) {
+  #   factor_index <- names(x)[which(sapply(x, is.factor))]
+  #   xp <- preprocess(x,
+  #     factor2integer = TRUE,
+  #     factor2integer_startat0 = TRUE,
+  #     verbose = trace > 0
+  #   )
+  #   # if (!is.null(x.test)) {
+  #   #     x.test <- preprocess(x.test,
+  #   #         factor2integer = TRUE,
+  #   #         factor2integer_startat0 = TRUE
+  #   #     )
+  #   # }
+  # } else {
+  #   factor_index <- NULL
+  #   xp <- x
+  # }
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE

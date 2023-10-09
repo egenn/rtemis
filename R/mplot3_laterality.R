@@ -55,9 +55,8 @@ mplot3_laterality <- function(x, regionnames,
   xnames <- names(x)
   .names <- c(paste0(regionnames, "_L"), paste0(regionnames, "_R"))
   index <- sapply(.names, function(i) grep(paste0(i, "$"), xnames))
-  # appease R CMD check
-  ..index <- NULL
-  if (is.null(ylim)) ylim <- getlim(unlist(x[, ..index]))
+  # appease R CMD check: with = FALSE instead of ..index
+  if (is.null(ylim)) ylim <- getlim(unlist(x[, index, with = FALSE]))
   xlim <- c(.5, length(regionnames) * 2 + .5)
   if (is.character(palette)) palette <- rtpalette(palette)
   if (is.null(summary.col)) summary.col <- palette[seq_along(regionnames)]
