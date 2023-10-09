@@ -112,6 +112,6 @@ rtemis.version <- packageVersion("rtemis")
 #' @import graphics grDevices methods stats utils data.table R6 future htmltools
 
 # Import %notin% from data.table
-#' @importFrom data.table %notin%
+#' @importFrom data.table "%notin%"
 
 NULL
