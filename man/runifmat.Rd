@@ -14,17 +14,17 @@ runifmat(
 )
 }
 \arguments{
-\item{nrow}{Integer: Number of rows. Default = 10}
+\item{nrow}{Integer: Number of rows.}
 
-\item{ncol}{Integer: Number of columns. Default = 10}
+\item{ncol}{Integer: Number of columns.}
 
-\item{min}{Float: Min Default = 0}
+\item{min}{Float: Min.}
 
-\item{max}{Float: Max. Default = 1}
+\item{max}{Float: Max.}
 
-\item{return.df}{Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE}
+\item{return.df}{Logical: If TRUE, return data.frame, otherwise matrix.}
 
-\item{seed}{Integer: Set seed for \code{rnorm}. Default = NULL}
+\item{seed}{Integer: Set seed for \code{rnorm}.}
 }
 \description{
 Create a matrix or data frame of defined dimensions, whose columns are random uniform vectors

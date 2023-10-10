@@ -49,7 +49,6 @@
 #' @author E.D. Gennatas
 #' @export
 
-
 boost <- function(x, y = NULL,
                   x.valid = NULL, y.valid = NULL,
                   x.test = NULL, y.test = NULL,
@@ -425,6 +424,9 @@ boost <- function(x, y = NULL,
 #' Print method for [boost] object
 #'
 #' @method print boost
+#' @param x [boost] object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -438,6 +440,16 @@ print.boost <- function(x, ...) {
 
 
 #' Predict method for `boost` object
+#' 
+#' @param [boost] object
+#' @param newdata data.frame: New data to predict on
+#' @param n.feat Integer: Number of features to use from `newdata`
+#' @param n.iter Integer: Number of iterations to use
+#' @param as.matrix Logical: If TRUE, return matrix of predictions for each iteration, 
+#' otherwise return vector
+#' @param verbose Logical: If TRUE, print messages to console
+#' @param n.cores Integer: Number of cores to use
+#' @param ... Not used
 #'
 #' @method predict boost
 #' @author E.D. Gennatas
@@ -465,7 +477,11 @@ predict.boost <- function(object,
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
+      .colnames <- if (!is.null(colnames(newdata))) {
+        colnames(newdata)
+      } else {
+        paste0("V", seq_len(NCOL(newdata)))
+      }
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -564,8 +580,10 @@ expand.boost <- function(object,
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @param tolerance Float: error tolerance for new boost object. See [boost]
 #' @param tolerance.valid Float: error tolerance for validation set. See [boost]
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 # TODO: add x = NULL, if not NULL calculate fitted values
 
 as.boost <- function(object,
@@ -668,7 +686,8 @@ as.boost <- function(object,
 #' @return [boost] object
 #' @author E.D. Gennatas
 #' @return Nothing; updates `object` in-place
-#' @export
+#' @keywords internal
+#' @noRd
 
 update.rtMod.boost <- function(object,
                                x = NULL,

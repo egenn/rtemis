@@ -6,6 +6,11 @@
 \usage{
 \method{print}{boost}(x, ...)
 }
+\arguments{
+\item{x}{\link{boost} object}
+
+\item{...}{Not used}
+}
 \description{
 Print method for \link{boost} object
 }

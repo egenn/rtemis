@@ -14,6 +14,7 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 
 getName <- function(x, alt = "x", max.nchar = 20) {
   name <- deparse(substitute(x))
@@ -114,6 +115,7 @@ is_constant <- function(x, skip_missing = FALSE) {
 #' Check if variable is discrete (factor or integer)
 #'
 #' @param x Input
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -125,6 +127,7 @@ is_discrete <- function(x) {
 #' Logit transform
 #'
 #' @param x Float \[0, 1\] Input
+#' 
 #' @export
 
 logit <- function(x) {
@@ -135,6 +138,7 @@ logit <- function(x) {
 #' Inverse Logit
 #'
 #' @param x Float: Input data
+#' 
 #' @return The inverse logit of the input
 #' @author E.D. Gennatas
 #' @export
@@ -147,9 +151,10 @@ invlogit <- function(x) {
 #' Logistic function
 #'
 #' @param x Float: Input
-#' @param x0 x-value of the midpoint. Default = 0
-#' @param L maximum value. Default = 1
-#' @param k steepness of the curve. Default = 1
+#' @param x0 x-value of the midpoint.
+#' @param L maximum value.
+#' @param k steepness of the curve.
+#' 
 #' @export
 
 logistic <- function(x, x0 = 0, L = 1, k = 1) {
@@ -160,6 +165,7 @@ logistic <- function(x, x0 = 0, L = 1, k = 1) {
 #' ReLU - Rectified Linear Unit
 #'
 #' @param x Numeric: Input
+#' 
 #' @export
 relu <- function(x) {
   unlist(Map(function(i) max(0, i), x))
@@ -171,6 +177,7 @@ relu <- function(x) {
 #' Softplus function:
 #' \deqn{log(1 + e^x)}
 #' @param x Vector, Float: Input
+#' 
 #' @export
 
 softplus <- function(x) {
@@ -181,6 +188,7 @@ softplus <- function(x) {
 #' Sigmoid function
 #'
 #' @param x Vector, float: Input
+#' 
 #' @export
 
 sigmoid <- function(x) 1 / (1 + exp(-x))
@@ -189,6 +197,7 @@ sigmoid <- function(x) 1 / (1 + exp(-x))
 #' Softmax function
 #'
 #' @param x Vector, Float: Input
+#' 
 #' @export
 
 softmax <- function(x) {
@@ -204,6 +213,9 @@ softmax <- function(x) {
 #' Square
 #'
 #' @param x Vector, Float: Input
+#' 
+#' @keywords internal
+#' @noRd
 
 square <- function(x) x^2
 
@@ -211,6 +223,9 @@ square <- function(x) x^2
 #' Cube
 #'
 #' @param x Vector, Float: Input
+#' 
+#' @keywords internal
+#' @noRd
 
 cube <- function(x) x^3
 
@@ -219,7 +234,8 @@ cube <- function(x) x^3
 #'
 #' @param x Matrix or Data frame input
 #' @param na.rm Logical: passed to `max`, If TRUE, ignore NA values,
-#' otherwise if NA is present in any column, NA will be returned. Default = TRUE
+#' otherwise if NA is present in any column, NA will be returned.
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -231,10 +247,11 @@ colMax <- function(x, na.rm = TRUE) {
 #' Collapse data.frame to vector by getting row max
 #'
 #' @param x Input vector
-#' @param na.rm Logical. If TRUE, missing values are not considered. Default = TRUE
+#' @param na.rm Logical. If TRUE, missing values are not considered.
+#' 
 #' @author E.D. Gennatas
 #' @export
-#'
+
 rowMax <- function(x, na.rm = TRUE) {
   apply(x, 1, function(i) max(i, na.rm = na.rm))
 } # rtrmis::rowMax
@@ -243,9 +260,9 @@ rowMax <- function(x, na.rm = TRUE) {
 #' Combine rules
 #'
 #' @param ... Character: Rules
+#' 
 #' @author E.D. Gennatas
 #' @export
-#'
 
 crules <- function(...) {
   rules <- c(...)
@@ -263,8 +280,10 @@ crules <- function(...) {
 #' @param x Input of any type, may be NULL
 #' @param defType If `x` is NULL, return empty vector of this type. Options: list, numeric,
 #' character, integer
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 ifNotNull <- function(x, defType) {
   if (!is.null(x)) {
@@ -288,6 +307,7 @@ ifNotNull <- function(x, defType) {
 #' Caution is advised, however, as you never know how many may be hiding underground.
 #'
 #' @param x Numeric vector
+#' 
 #' @return Population standard deviation
 #' @author E.D. Gennatas
 #' @export
@@ -307,9 +327,9 @@ psd <- function(x) {
 #' @param sd Float: Standard deviation. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 #' @param seed Integer: Set seed for `rnorm`. Default = NULL
+#' 
 #' @author E.D. Gennatas
 #' @export
-
 rnormmat <- function(nrow = 10, ncol = 10,
                      mean = 0, sd = 1,
                      return.df = FALSE,
@@ -328,15 +348,15 @@ rnormmat <- function(nrow = 10, ncol = 10,
 #'
 #' Create a matrix or data frame of defined dimensions, whose columns are random uniform vectors
 #'
-#' @param nrow Integer: Number of rows. Default = 10
-#' @param ncol Integer: Number of columns. Default = 10
-#' @param min Float: Min Default = 0
-#' @param max Float: Max. Default = 1
-#' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
-#' @param seed Integer: Set seed for `rnorm`. Default = NULL
+#' @param nrow Integer: Number of rows.
+#' @param ncol Integer: Number of columns.
+#' @param min Float: Min.
+#' @param max Float: Max.
+#' @param return.df Logical: If TRUE, return data.frame, otherwise matrix.
+#' @param seed Integer: Set seed for `rnorm`.
+#' 
 #' @author E.D. Gennatas
 #' @export
-
 runifmat <- function(nrow = 10, ncol = 10,
                      min = 0, max = 1,
                      return.df = FALSE,
@@ -357,7 +377,9 @@ runifmat <- function(nrow = 10, ncol = 10,
 #'
 #' @param n Length of vector to return
 #' @param caps Logical: If TRUE, return all caps
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 rtLetters <- function(n = 100, caps = FALSE) {
   reps <- ceiling(n / 26)
   prtlet <- function(x = NULL) paste0(x, if (caps) LETTERS else letters)
@@ -370,6 +392,8 @@ rtLetters <- function(n = 100, caps = FALSE) {
 } # rtemis::rtLetters
 
 
+#' @keywords internal
+#' @noRd
 singorplu <- function(n, x) {
   switch(as.character(n),
     `0` = paste0("no ", x, "s"),
@@ -382,12 +406,15 @@ singorplu <- function(n, x) {
 #'
 #' @param x numeric vector
 #' @author E.D. Gennatas
-#' @export
-
+#' @keywords internal
+#' @noRd
 roundtohalf <- function(x) {
   round(x * 2) / 2
 }
 
+
+#' @keywords internal
+#' @noRd
 roundtofrac <- function(x, t = .5) {
   round(x / t) * t
 }
@@ -433,6 +460,9 @@ lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
   out
 } # rtemis::lsapply
 
+
+#' @keywords internal
+#' @noRd
 null2na <- function(x) {
   if (is.null(x)) NA else x
 }
@@ -450,6 +480,8 @@ rtversion <- function() {
 } # rtemis::rtversion
 
 
+#' @keywords internal
+#' @noRd
 popvar <- function(x) {
   mean((x - mean(x))^2)
 }
@@ -463,6 +495,7 @@ popvar <- function(x) {
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' x <- rnorm(10)
@@ -475,6 +508,8 @@ filter_order <- function(x, idl, decreasing = FALSE) {
   idi[flt_ord]
 }
 
+#' @keywords internal
+#' @noRd
 pval_stars <- function(x) {
   cut(x, breaks = c(0, .001, .01, .05, 1), labels = c("***", "**", "*", ""))
 }

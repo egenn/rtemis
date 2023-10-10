@@ -15,6 +15,24 @@
   ...
 )
 }
+\arguments{
+\item{newdata}{data.frame: New data to predict on}
+
+\item{n.feat}{Integer: Number of features to use from \code{newdata}}
+
+\item{n.iter}{Integer: Number of iterations to use}
+
+\item{as.matrix}{Logical: If TRUE, return matrix of predictions for each iteration,
+otherwise return vector}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{n.cores}{Integer: Number of cores to use}
+
+\item{...}{Not used}
+
+\item{[boost]}{object}
+}
 \description{
 Predict method for \code{boost} object
 }

@@ -10,7 +10,7 @@ colMax(x, na.rm = TRUE)
 \item{x}{Matrix or Data frame input}
 
 \item{na.rm}{Logical: passed to \code{max}, If TRUE, ignore NA values,
-otherwise if NA is present in any column, NA will be returned. Default = TRUE}
+otherwise if NA is present in any column, NA will be returned.}
 }
 \description{
 Collapse data.frame to vector by getting column max

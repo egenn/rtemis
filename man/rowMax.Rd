@@ -9,7 +9,7 @@ rowMax(x, na.rm = TRUE)
 \arguments{
 \item{x}{Input vector}
 
-\item{na.rm}{Logical. If TRUE, missing values are not considered. Default = TRUE}
+\item{na.rm}{Logical. If TRUE, missing values are not considered.}
 }
 \description{
 Collapse data.frame to vector by getting row max

@@ -18,14 +18,6 @@ as.cartLinBoostTV(
 \arguments{
 \item{object}{rtMod model}
 
-\item{x}{Data.frame, optional: if provided, use to calculate fitted values of new boost object}
-
-\item{y}{Float, vector: Outcome}
-
-\item{x.valid}{Data.frame; optional: Validation data}
-
-\item{y.valid}{Float, vector; optional: Validation outcome}
-
 \item{learning.rate}{Float: Learning rate for new boost object.}
 
 \item{init}{Float: Initial value for new boost object.}

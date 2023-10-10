@@ -9,11 +9,11 @@ logistic(x, x0 = 0, L = 1, k = 1)
 \arguments{
 \item{x}{Float: Input}
 
-\item{x0}{x-value of the midpoint. Default = 0}
+\item{x0}{x-value of the midpoint.}
 
-\item{L}{maximum value. Default = 1}
+\item{L}{maximum value.}
 
-\item{k}{steepness of the curve. Default = 1}
+\item{k}{steepness of the curve.}
 }
 \description{
 Logistic function
