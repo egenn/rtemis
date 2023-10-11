@@ -519,8 +519,10 @@ expand.glmLiteBoostTV <- function(object,
 #' @param init Float: Initial value for new boost object. Default = 0
 #' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 # TODO: add x = NULL, if not NULL calculate fitted values
 
 as.glmLiteBoostTV <- function(object,

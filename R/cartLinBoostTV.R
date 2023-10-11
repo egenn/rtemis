@@ -515,7 +515,9 @@ expand.cartLinBoostTV <- function(object,
 #' @param apply.lr Logical: Only considered is `x = NULL`. If TRUE, new boost object's fitted values will
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' @author E.D. Gennatas
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 # TODO: add x = NULL, if not NULL calculate fitted values
 
 as.cartLinBoostTV <- function(object,

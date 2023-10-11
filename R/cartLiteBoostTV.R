@@ -511,7 +511,8 @@ expand.cartLiteBoostTV <- function(object,
 #' be object$fitted * learning.rate, otherwise object$fitted
 #' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 # TODO: add x = NULL, if not NULL calculate fitted values
 
 as.cartLiteBoostTV <- function(object,
