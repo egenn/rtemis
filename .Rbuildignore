@@ -1,4 +1,5 @@
 LICENSE
+.log$
 .github
 ^appveyor\.yml$
 ^.*\.Rproj$
