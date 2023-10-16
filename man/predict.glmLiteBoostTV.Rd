@@ -20,15 +20,17 @@
 
 \item{newdata}{Set of predictors}
 
-\item{n.feat}{Integer: N of features to use. Default = NCOL(newdata)}
+\item{n.feat}{Integer: N of features to use.}
 
-\item{n.iter}{Integer: N of iterations to predict from. Default = (all available)}
+\item{n.iter}{Integer: N of iterations to predict from.}
 
-\item{as.matrix}{Logical: If TRUE, return predictions from each iteration. Default = FALSE}
+\item{as.matrix}{Logical: If TRUE, return predictions from each iteration.}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
 
-\item{n.cores}{Integer: Number of cores to use. Default = \code{rtCores}}
+\item{n.cores}{Integer: Number of cores to use.}
+
+\item{...}{Unused}
 }
 \description{
 Predict method for \code{glmLiteBoostTV} object

@@ -11,7 +11,9 @@
 
 \item{newdata}{Data frame of predictors}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
+
+\item{...}{Unused}
 }
 \description{
 Predict method for \code{cartLite} object

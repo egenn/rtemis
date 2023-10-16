@@ -35,11 +35,24 @@
 #' @param subsample_freq Integer: Subsample every this many iterations
 #' @param lambda_l1 Numeric: \[gS\] L1 regularization term
 #' @param lambda_l2 Numeric: \[gS\] L2 regularization term
+#' @param max_cat_threshold Integer: Max number of splits to consider for categorical
+#' variable
+#' @param min_data_per_group Integer: Minimum number of observations per categorical
+#' group
 #' @param linear_tree Logical: \[gS\] If `TRUE`, use linear trees
 #' @param tree_learner Character: \[gS\] "serial", "feature", "data", "voting"
+#' @param importance Logical: If `TRUE`, calculate variable importance
 #' @param objective (Default = NULL)
-#' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only parallelize
-#' resamples using `n.cores` or the lightgbm execution using this setting.
+#' @param lightgbm_verbose Integer: Passed to `lightgbm::train`, `< 0`: Fatal, 
+#' `0`: Error (Warning), `1`: Info, `> 1`: Debug
+#' @param save.gridrun Logical: If `TRUE`, save all grid search models
+#' @param n_threads Integer: Number of threads for lightgbm using OpenMP. Only 
+#' parallelize resamples using `n.cores` or the lightgbm execution using this setting.
+#' @param force_col_wise Logical: If `TRUE`, force column-wise histogram building
+#' (See https://lightgbm.readthedocs.io/en/latest/Parameters.html)
+#' @param force_row_wise Logical: If `TRUE`, force row-wise histogram building
+#' (See https://lightgbm.readthedocs.io/en/latest/Parameters.html)
+#' @param .gs (Internal use only)
 #' @param ... Extra arguments appended to `lgb.train`'s `params`.
 #'
 #' @return [rtMod] object
@@ -92,11 +105,9 @@ s_LightGBM <- function(x, y = NULL,
                        plot.predicted = NULL,
                        plot.theme = rtTheme,
                        question = NULL,
-                       save.dump = FALSE,
                        verbose = TRUE,
                        grid.verbose = FALSE,
                        lightgbm_verbose = -1,
-                       trace = 0,
                        save.gridrun = FALSE,
                        n.cores = 1,
                        n_threads = 0,
@@ -325,7 +336,7 @@ s_LightGBM <- function(x, y = NULL,
     parameters,
     data = dat.train,
     nrounds = nrounds,
-    verbose = lightgbm_verbose,
+    verbosity = lightgbm_verbose,
     valids = if (.gs) list(train = dat.train, valid = dat.test) else list(train = dat.train),
     early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
   )
@@ -466,7 +477,6 @@ s_LightRF <- function(x, y = NULL,
                       min_data_per_group = 32L,
                       linear_tree = FALSE,
                       tree_learner = "data_parallel",
-                      .gs = FALSE,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       gridsearch.type = "exhaustive",
                       metric = NULL,
@@ -477,18 +487,17 @@ s_LightRF <- function(x, y = NULL,
                       plot.predicted = NULL,
                       plot.theme = rtTheme,
                       question = NULL,
-                      save.dump = FALSE,
                       verbose = TRUE,
                       grid.verbose = FALSE,
                       lightgbm_verbose = -1,
-                      trace = 0,
                       save.gridrun = FALSE,
                       n.cores = 1,
                       n_threads = rtCores,
                       force_col_wise = FALSE,
                       force_row_wise = FALSE,
                       outdir = NULL,
-                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+                      .gs = FALSE, ...) {
   
   s_LightGBM(x,
     y = y,
@@ -527,11 +536,9 @@ s_LightRF <- function(x, y = NULL,
     plot.predicted = plot.predicted,
     plot.theme = plot.theme,
     question = question,
-    save.dump = save.dump,
     verbose = verbose,
     grid.verbose = grid.verbose,
     lightgbm_verbose = lightgbm_verbose,
-    trace = trace,
     save.gridrun = save.gridrun,
     n.cores = n.cores,
     n_threads = n_threads,

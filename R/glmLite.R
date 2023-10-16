@@ -78,6 +78,8 @@ glmLite <- function(x, y,
 #' @param object [glmLite] object
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
+#' @param ... Unused
+#' 
 #' @method predict glmLite
 #' @author E.D. Gennatas
 #' @export

@@ -57,7 +57,7 @@ glmLiteBoostTV <- function(x, y = NULL,
                            plot.type = "l",
                            n.cores = rtCores,
                            outdir = NULL, ...) {
-  # [ Intro ] ----
+  # Intro ----
   if (missing(x)) {
     print(args(boost))
     return(invisible(9))
@@ -71,7 +71,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "GLMLITEBOOST"
 
-  # [ Arguments ] ----
+  # Arguments ----
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
@@ -79,7 +79,7 @@ glmLiteBoostTV <- function(x, y = NULL,
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
-  # [ Data ] ----
+  # Data ----
   dt <- dataPrepare(x, y,
     x.test, y.test,
     x.valid = x.valid, y.valid = y.valid,
@@ -116,7 +116,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     weights1 <- weights
   }
 
-  # [ BOOST ] ----
+  # Boost ----
   learner <- "glmLite"
   learner.name <- "GLM"
   learner.short <- "GLMlite"
@@ -310,11 +310,11 @@ glmLiteBoostTV <- function(x, y = NULL,
   )
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ Fitted ] ----
+  # Fitted ----
   error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
-  # [ Predicted ] ----
+  # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test, n.cores = n.cores)
@@ -324,7 +324,7 @@ glmLiteBoostTV <- function(x, y = NULL,
     }
   }
 
-  # [ Outro ] ----
+  # Outro ----
   parameters <- list(
     mod = learner.short,
     mod.params = mod.params,
@@ -394,11 +394,13 @@ print.glmLiteBoostTV <- function(x, ...) {
 #'
 #' @param object `glmLiteBoostTV` object
 #' @param newdata Set of predictors
-#' @param n.feat Integer: N of features to use. Default = NCOL(newdata)
-#' @param n.iter Integer: N of iterations to predict from. Default = (all available)
-#' @param as.matrix Logical: If TRUE, return predictions from each iteration. Default = FALSE
-#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @param n.cores Integer: Number of cores to use. Default = `rtCores`
+#' @param n.feat Integer: N of features to use.
+#' @param n.iter Integer: N of iterations to predict from.
+#' @param as.matrix Logical: If TRUE, return predictions from each iteration.
+#' @param verbose Logical: If TRUE, print messages to console.
+#' @param n.cores Integer: Number of cores to use.
+#' @param ... Unused
+#' 
 #' @method predict glmLiteBoostTV
 #' @author E.D. Gennatas
 #' @export
@@ -568,7 +570,7 @@ as.glmLiteBoostTV <- function(object,
   )
   class(obj) <- c("glmLiteBoostTV", "list")
 
-  # [ Outro ] ----
+  # Outro ----
   parameters <- list(
     mod = object$mod.name,
     mod.params = object$parameters,

@@ -348,8 +348,7 @@ s_LightRuleFit <- function(x, y = NULL,
 
 predict.LightRuleFit <- function(object,
                                  newdata = NULL,
-                                 verbose = TRUE,
-                                 trace = 0, ...) {
+                                 verbose = TRUE, ...) {
   # Rules ----
   # Get all rules, some have 0 coefficients
   rules <- object$lgbm_rules

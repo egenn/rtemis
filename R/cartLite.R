@@ -68,7 +68,9 @@ cartLite <- function(x, y,
 #'
 #' @param object `cartLite` object
 #' @param newdata Data frame of predictors
-#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
+#' @param verbose Logical: If TRUE, print messages to console.
+#' @param ... Unused
+#' 
 #' @method predict cartLite
 #' @author E.D. Gennatas
 #' @export

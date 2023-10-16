@@ -16,6 +16,8 @@
 )
 }
 \arguments{
+\item{object}{\link{boost} object}
+
 \item{newdata}{data.frame: New data to predict on}
 
 \item{n.feat}{Integer: Number of features to use from \code{newdata}}
@@ -30,8 +32,6 @@ otherwise return vector}
 \item{n.cores}{Integer: Number of cores to use}
 
 \item{...}{Not used}
-
-\item{[boost]}{object}
 }
 \description{
 Predict method for \code{boost} object

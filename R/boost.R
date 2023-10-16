@@ -441,7 +441,7 @@ print.boost <- function(x, ...) {
 
 #' Predict method for `boost` object
 #' 
-#' @param [boost] object
+#' @param object [boost] object
 #' @param newdata data.frame: New data to predict on
 #' @param n.feat Integer: Number of features to use from `newdata`
 #' @param n.iter Integer: Number of iterations to use

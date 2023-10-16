@@ -12,6 +12,8 @@
 \item{newdata}{Data frame of predictors}
 
 \item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+
+\item{...}{Unused}
 }
 \description{
 Predict method for \code{glmLite} object

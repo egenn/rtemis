@@ -7,6 +7,8 @@
 #' Train a Generalized Least Squares regression model using `nlme::gls`
 #'
 #' @inheritParams s_GLM
+#' @param nway.interactions Integer: Include n-way interactions. This integer defines 
+#' the n in: \code{formula = y ~^n}
 #' @param ... Additional arguments
 #' @return [rtMod]
 #' @author E.D. Gennatas

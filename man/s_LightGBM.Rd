@@ -45,11 +45,9 @@ s_LightGBM(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,
   lightgbm_verbose = -1,
-  trace = 0,
   save.gridrun = FALSE,
   n.cores = 1,
   n_threads = 0,
@@ -124,9 +122,17 @@ cross-validation fails - likely will never be used}
 
 \item{lambda_l2}{Numeric: [gS] L2 regularization term}
 
+\item{max_cat_threshold}{Integer: Max number of splits to consider for categorical
+variable}
+
+\item{min_data_per_group}{Integer: Minimum number of observations per categorical
+group}
+
 \item{linear_tree}{Logical: [gS] If \code{TRUE}, use linear trees}
 
 \item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
+
+\item{.gs}{(Internal use only)}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
@@ -141,6 +147,8 @@ grid search parameters.}
 
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
+
+\item{importance}{Logical: If \code{TRUE}, calculate variable importance}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -158,10 +166,21 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
+\item{lightgbm_verbose}{Integer: Passed to \code{lightgbm::train}, \verb{< 0}: Fatal,
+\code{0}: Error (Warning), \code{1}: Info, \verb{> 1}: Debug}
+
+\item{save.gridrun}{Logical: If \code{TRUE}, save all grid search models}
+
 \item{n.cores}{Integer: Number of cores to use.}
 
-\item{n_threads}{Integer: Number of threads for lightgbm using OpenMP. Only parallelize
-resamples using \code{n.cores} or the lightgbm execution using this setting.}
+\item{n_threads}{Integer: Number of threads for lightgbm using OpenMP. Only
+parallelize resamples using \code{n.cores} or the lightgbm execution using this setting.}
+
+\item{force_col_wise}{Logical: If \code{TRUE}, force column-wise histogram building
+(See https://lightgbm.readthedocs.io/en/latest/Parameters.html)}
+
+\item{force_row_wise}{Logical: If \code{TRUE}, force row-wise histogram building
+(See https://lightgbm.readthedocs.io/en/latest/Parameters.html)}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

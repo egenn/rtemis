@@ -47,6 +47,9 @@ Columns must correspond to columns in \code{x}}
 \item{interactions}{List of character pairs denoting column names in \code{x}
 that should be entered as interaction terms in the GLM formula}
 
+\item{nway.interactions}{Integer: Include n-way interactions. This integer defines
+the n in: \code{formula = y ~^n}}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
