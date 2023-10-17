@@ -9,6 +9,8 @@ rtpalette(palette = NULL, verbose = TRUE)
 \arguments{
 \item{palette}{Character: Name of palette to return. Default = NULL: available palette
 names are printed and no palette is returned}
+
+\item{verbose}{Logical: If \code{TRUE}, print messages to console}
 }
 \value{
 A list of available palettes, invisibly

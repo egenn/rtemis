@@ -39,6 +39,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{prior}{Numeric, vector (length = N classes of outcome variable): Prior
+probabilities}
+
+\item{method}{Character: "moment", "mle", "mve", or "t". See \code{MASS::qda}}
+
+\item{nu}{Integer: Degrees of freedom for methdo "t"}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}

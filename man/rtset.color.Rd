@@ -42,6 +42,8 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 \item{colorbar}{Logical: Create a vertical colorbar}
 
 \item{cb.mar}{Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)}
+
+\item{...}{Additional arguments}
 }
 \description{
 \code{rtset.color}: Set parameters for \link{colorGrad}

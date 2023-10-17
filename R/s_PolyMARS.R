@@ -13,7 +13,10 @@
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
 #'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
+#' @param maxsize Integer: Maximum number of basis functions to use
+#' @param trace Integer: If `> 0`, print summary of model
 #' @param ... Additional parameters to pass to `polspline::polymars`
+#'
 #' @return Object of class [rtMod]
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -24,15 +27,16 @@ s_PolyMARS <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
                        grid.resample.rtset = rtset.grid.resample(),
-                       bag.resample.rtset = NULL,
                        weights = NULL,
                        ifw = TRUE,
                        ifw.type = 2,
                        upsample = FALSE,
                        downsample = FALSE,
                        resample.seed = NULL,
-                       maxsize = ceiling(min(6 * (nrow(x)^{1/3}), nrow(x)/4, 100)),
-                       classify = NULL,
+                       maxsize = ceiling(min(6 * (nrow(x)^{
+                         1 / 3
+                       }), nrow(x) / 4, 100)),
+                       #  classify = NULL,
                        n.cores = rtCores,
                        print.plot = FALSE,
                        plot.fitted = NULL,
@@ -43,7 +47,6 @@ s_PolyMARS <- function(x, y = NULL,
                        trace = 0,
                        save.mod = FALSE,
                        outdir = NULL, ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_PolyMARS))
@@ -76,15 +79,15 @@ s_PolyMARS <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  bag <- if (is.null(bag.resample.rtset)) FALSE else bag.resample.rtset$n.resamples > 0
 
   # Data ----
   dt <- dataPrepare(x, y, x.test, y.test,
-                    ifw = ifw, ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    ifw = ifw, ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -97,7 +100,8 @@ s_PolyMARS <- function(x, y = NULL,
   x0 <- if (upsample || downsample) dt$x0 else x
   y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (is.null(classify)) classify <- ifelse(type == "Classification", TRUE, FALSE)
+  # if (is.null(classify))
+  classify <- ifelse(type == "Classification", TRUE, FALSE)
   if (print.plot) {
     if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
     if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
@@ -126,21 +130,22 @@ s_PolyMARS <- function(x, y = NULL,
   }
 
   # polspline::polymars ----
-    if (verbose) msg2("Training POLYMARS model...", newline.pre = TRUE)
-      mod <- polspline::polymars(y, x,
-                                 weights = .weights,
-                                 maxsize = maxsize,
-                                 verbose = verbose,
-                                 classify = classify, ...)
-    if (trace > 0) print(summary(mod))
+  if (verbose) msg2("Training POLYMARS model...", newline.pre = TRUE)
+  mod <- polspline::polymars(y, x,
+    weights = .weights,
+    maxsize = maxsize,
+    verbose = verbose,
+    classify = classify, ...
+  )
+  if (trace > 0) print(summary(mod))
 
   # Fitted ----
-    fitted <- predict(mod, x)
-    if (type == "Classification") {
-      fitted <- apply(fitted, 1, which.max)
-      fitted <- factor(levels(y)[fitted])
-      levels(fitted) <- levels(y)
-    }
+  fitted <- predict(mod, x)
+  if (type == "Classification") {
+    fitted <- apply(fitted, 1, which.max)
+    fitted <- factor(levels(y)[fitted])
+    levels(fitted) <- levels(y)
+  }
 
   error.train <- modError(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
@@ -148,7 +153,7 @@ s_PolyMARS <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-      predicted <- predict(mod, x.test)
+    predicted <- predict(mod, x.test)
     if (type == "Classification") {
       predicted <- apply(predicted, 1, which.max)
       predicted <- factor(levels(y)[predicted])
@@ -161,37 +166,40 @@ s_PolyMARS <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = list(maxsize = maxsize),
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = list(maxsize = maxsize),
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_PolyMARS

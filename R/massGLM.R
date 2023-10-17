@@ -19,6 +19,7 @@
 #' where if (NCOL(x) > NCOL(y)) "massx" else "massy"
 #' @param xnames Character vector: names of `x` feature(s)
 #' @param ynames Character vector: names of `y` feature(s)
+#' @param coerce.y.numeric Logical: If `TRUE`, coerce `y` to numeric
 #' @param save.mods Logical: If TRUE, save models.
 # @param p.adjust.method Character: p-value adjustment method. See \code{p.adjust}.
 #' @param print.plot Logical: If TRUE, print plot.

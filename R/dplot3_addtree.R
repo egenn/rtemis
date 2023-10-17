@@ -7,14 +7,22 @@
 #' Plot AddTree trees trained with [s_AddTree] using `data.tree::plot.Node`
 #'
 #' Edge info and styles have been removed because of problems with `DiagrammeR`
+#' @param addtree Additive Tree object created by [s_AddTree]
 #' @param col.positive Color for outcome positive.
 #' @param col.negative Color for negative outcome.
 #' @param node.col Color for non-terminal leaves.
+#' @param node.shape Character: Node shape, passed to `data.tree::SetNodeStyle`
+#' @param node.labels Logical: If `TRUE`, show node labels.
+#' @param node.labels.pct.pos Logical: If `TRUE`, show % positive cases in node labels.
+#' @param pos.name Character: Name for "positive" outcome.
+# @param edge.width Numeric: Edge width.
+
+#'
 #' @param edge.col Color for edges.
 #' @param bg.color Background color.
 # @param filename Character: Path to filename to save PDF
 # Requires packages `DiagrammeRsvg` and `rsvg`. Default = NULL
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -27,9 +35,9 @@ dplot3_addtree <- function(addtree,
                            node.labels.pct.pos = NULL,
                            pos.name = NULL,
                            edge.col = "#999999",
-                           edge.width = 2,
-                           edge.labels = FALSE,
-                           arrowhead = "vee",
+                          #  edge.width = 2,
+                          #  edge.labels = FALSE,
+                          #  arrowhead = "vee",
                            layout = "dot",
                            drop.leaves = FALSE,
                            rankdir = "TB",
@@ -40,8 +48,8 @@ dplot3_addtree <- function(addtree,
                            prune = NULL,
                            prune.empty.leaves = TRUE,
                            remove.bad.parents = FALSE
-                          #  filename = NULL
-                           ) {
+                           #  filename = NULL
+) {
   # Dependencies ----
   dependency_check("data.tree", "DiagrammeR")
 
@@ -101,7 +109,9 @@ dplot3_addtree <- function(addtree,
         )
       }
     } else {
-      function(node) paste(formatcondition(node$Condition), paste("N =", node$N), sep = "\n")
+      function(node) {
+        paste(formatcondition(node$Condition), paste("N =", node$N), sep = "\n")
+      }
     }
   } else {
     ""

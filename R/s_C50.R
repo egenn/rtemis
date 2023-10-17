@@ -8,7 +8,8 @@
 #'
 #' @inheritParams s_GLM
 #' @param trials Integer \[1, 100\]: Number of boosting iterations
-#' @param rules Logical: If TRUE, decompose the tree to a rule-based model
+#' @param rules Logical: If `TRUE`, decompose the tree to a rule-based model
+#' @param control List: output of `C50::C5.0Control()`
 #'
 #' @return [rtMod] object
 #' @author E.D. Gennatas
@@ -101,7 +102,8 @@ s_C50 <- function(x, y = NULL,
 
   # C5.0 ----
   if (verbose) msg2("Training C5.0 decision tree...", newline.pre = TRUE)
-  mod <- C50::C5.0(x, y,
+  mod <- C50::C5.0(
+    x, y,
     trials = trials,
     rules = rules,
     weights = .weights,

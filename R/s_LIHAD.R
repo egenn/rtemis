@@ -721,8 +721,10 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
 #' @param newdata data frame of predictor features
 #' @param learning.rate Float: learning rate if `object` was `lihad`
 #' @param n.feat Integer: internal use only
-#' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
-#' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE
+#' @param verbose Logical: If TRUE, print messages to console.
+#' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with 
+#' predictions.
+#' @param ... Not used
 #'
 #' @export
 #' @author E.D. Gennatas

@@ -156,6 +156,8 @@ rtset.cv.resample <- function(resampler = "strat.sub",
 #' `rtset.color`: Set parameters for [colorGrad]
 #'
 #' @inheritParams colorGrad
+#' @param ... Additional arguments
+#' 
 #' @export
 
 rtset.color <- function(n = 101, colors = NULL,
@@ -230,8 +232,10 @@ rtset.preprocess <- function(completeCases = FALSE,
 
 #' `rtset.decompose`: Set decomposition parameters for `elevate`'s `.decompose` argument
 #'
-#' @param decom Character: Name of decomposer to use. Default = "ICA"
-#' @param k Integer: Number of dimensions to project to. Default = 2
+#' @param decom Character: Name of decomposer to use.
+#' @param k Integer: Number of dimensions to project to.
+#' @param ... Additional arguments to be passed to decomposer
+#' 
 #' @export
 
 rtset.decompose <- function(decom = "ICA",
@@ -285,6 +289,7 @@ rtset.LIHAD <- function(max.depth = 2,
 #' `rtset.GBM`: Set parameters for [s_GBM]
 #'
 #' @inheritParams s_GBM
+#' @param ... Additional arguments
 #' @export
 
 rtset.GBM <- function(interaction.depth = 2,

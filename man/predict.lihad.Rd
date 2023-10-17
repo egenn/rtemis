@@ -23,9 +23,12 @@
 
 \item{n.feat}{Integer: internal use only}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = FALSE}
+\item{verbose}{Logical: If TRUE, print messages to console.}
 
-\item{cxrcoef}{Logical: If TRUE, return matrix of cases by coefficients along with predictions. Default = FALSE}
+\item{cxrcoef}{Logical: If TRUE, return matrix of cases by coefficients along with
+predictions.}
+
+\item{...}{Not used}
 }
 \description{
 Predict method for \code{lihad} object

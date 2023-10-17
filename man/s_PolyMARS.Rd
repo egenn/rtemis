@@ -12,7 +12,6 @@ s_PolyMARS(
   x.name = NULL,
   y.name = NULL,
   grid.resample.rtset = rtset.grid.resample(),
-  bag.resample.rtset = NULL,
   weights = NULL,
   ifw = TRUE,
   ifw.type = 2,
@@ -22,7 +21,6 @@ s_PolyMARS(
   maxsize = ceiling(min(6 * (nrow(x)^{
      1/3
  }), nrow(x)/4, 100)),
-  classify = NULL,
   n.cores = rtCores,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -74,6 +72,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{maxsize}{Integer: Maximum number of basis functions to use}
+
 \item{n.cores}{Integer: Number of cores to use.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -89,6 +89,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{trace}{Integer: If \verb{> 0}, print summary of model}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}

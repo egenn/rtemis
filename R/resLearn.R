@@ -25,7 +25,8 @@
 #' @param n.workers Integer: Number of cores to use.
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 resLearn <- function(x, y, mod,
                      resample.rtset = rtset.cv.resample(),

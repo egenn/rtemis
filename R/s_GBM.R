@@ -25,6 +25,7 @@
 #' @param max.trees Integer: Maximum number of trees to fit
 #' @param force.n.trees Integer: If specified, use this number of trees instead of
 #'  tuning number of trees
+#' @param min.trees Integer: Minimum number of trees to fit
 #' @param distribution Character: Distribution of the response variable. See [gbm::gbm]
 #' @param interaction.depth \[gS\] Integer: Interaction depth.
 #' @param shrinkage \[gS\] Float: Shrinkage (learning rate).

@@ -36,6 +36,8 @@ where if (NCOL(x) > NCOL(y)) "massx" else "massy"}
 
 \item{ynames}{Character vector: names of \code{y} feature(s)}
 
+\item{coerce.y.numeric}{Logical: If \code{TRUE}, coerce \code{y} to numeric}
+
 \item{save.mods}{Logical: If TRUE, save models.}
 
 \item{print.plot}{Logical: If TRUE, print plot.}

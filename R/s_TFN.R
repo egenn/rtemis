@@ -10,6 +10,8 @@
 #' It is important to define network structure and adjust hyperparameters based on your problem. You cannot expect
 #' defaults to work on any given dataset.
 #' @inheritParams s_GLM
+#' @param class.weights Numeric vector: Class weights for training.
+#' @param net Pre-defined keras network to be trained (optional)
 #' @param n.hidden.nodes Integer vector: Length must be equal to the number of hidden layers you wish to create.
 #' Can be zero, in which case you get a linear model. Default = N of features, i.e. NCOL(x)
 #' @param initializer Character: Initializer to use for each layer: "glorot_uniform", "glorot_normal", "he_uniform",
@@ -55,7 +57,7 @@
 
 s_TFN <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
-                  x.valid = NULL, y.valid = NULL,
+                  # x.valid = NULL, y.valid = NULL,
                   class.weights = NULL,
                   ifw = TRUE,
                   ifw.type = 2,
@@ -106,14 +108,11 @@ s_TFN <- function(x, y = NULL,
                   x.name = NULL,
                   y.name = NULL,
                   print.plot = FALSE,
-                  print.error.plot = NULL,
-                  rtlayout.mat = c(2, 1),
                   plot.fitted = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
                   verbose = TRUE,
-                  verbose.checkpoint = FALSE,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
   # Intro ----
@@ -140,7 +139,6 @@ s_TFN <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  if (is.null(print.error.plot)) print.error.plot <- print.plot
   initializer <- match.arg(initializer)
   initializer <- paste0("initializer_", initializer)
   initializer <- getFromNamespace(initializer, "keras")
@@ -173,8 +171,8 @@ s_TFN <- function(x, y = NULL,
   y <- dt$y
   x.test <- dt$x.test
   y.test <- dt$y.test
-  x.valid <- dt$x.valid
-  y.valid <- dt$y.valid
+  # x.valid <- dt$x.valid
+  # y.valid <- dt$y.valid
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)

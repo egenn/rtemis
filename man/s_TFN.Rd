@@ -9,8 +9,6 @@ s_TFN(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  x.valid = NULL,
-  y.valid = NULL,
   class.weights = NULL,
   ifw = TRUE,
   ifw.type = 2,
@@ -44,14 +42,11 @@ s_TFN(
   x.name = NULL,
   y.name = NULL,
   print.plot = FALSE,
-  print.error.plot = NULL,
-  rtlayout.mat = c(2, 1),
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
   verbose = TRUE,
-  verbose.checkpoint = FALSE,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -66,6 +61,8 @@ s_TFN(
 Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
+
+\item{class.weights}{Numeric vector: Class weights for training.}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
 (for Classification only).
@@ -83,6 +80,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
+
+\item{net}{Pre-defined keras network to be trained (optional)}
 
 \item{n.hidden.nodes}{Integer vector: Length must be equal to the number of hidden layers you wish to create.
 Can be zero, in which case you get a linear model. Default = N of features, i.e. NCOL(x)}

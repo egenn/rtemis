@@ -561,7 +561,8 @@ partLmw <- function(x1, y1, # remove x, use .env$x
 #' @param cxr Logical: If TRUE, return list which includes cases-by-rules matrix along with predicted values
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
-#' @param trace Not used
+#' @param ... Not used
+#' 
 #' @export
 #' @author E.D. Gennatas
 
@@ -571,8 +572,7 @@ predict.hytreew <- function(object, newdata,
                             cxr.newdata = NULL,
                             cxr = FALSE,
                             cxrcoef = FALSE,
-                            verbose = FALSE,
-                            trace = 0, ...) {
+                            verbose = FALSE, ...) {
   # newdata colnames ----
   if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
 

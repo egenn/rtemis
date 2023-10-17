@@ -7,9 +7,11 @@
 rtset.decompose(decom = "ICA", k = 2, ...)
 }
 \arguments{
-\item{decom}{Character: Name of decomposer to use. Default = "ICA"}
+\item{decom}{Character: Name of decomposer to use.}
 
-\item{k}{Integer: Number of dimensions to project to. Default = 2}
+\item{k}{Integer: Number of dimensions to project to.}
+
+\item{...}{Additional arguments to be passed to decomposer}
 }
 \description{
 \code{rtset.decompose}: Set decomposition parameters for \code{elevate}'s \code{.decompose} argument

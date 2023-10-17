@@ -46,7 +46,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{trials}{Integer [1, 100]: Number of boosting iterations}
 
-\item{rules}{Logical: If TRUE, decompose the tree to a rule-based model}
+\item{rules}{Logical: If \code{TRUE}, decompose the tree to a rule-based model}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
@@ -68,6 +68,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
+
+\item{control}{List: output of \code{C50::C5.0Control()}}
 
 \item{x.name}{Character: Name for feature set}
 

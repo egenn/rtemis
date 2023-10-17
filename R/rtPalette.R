@@ -1666,6 +1666,8 @@ rtPalettes <- list(
 #' any graphics function.
 #' @param palette Character: Name of palette to return. Default = NULL: available palette
 #' names are printed and no palette is returned
+#' @param verbose Logical: If `TRUE`, print messages to console
+#' 
 #' @return
 #' A list of available palettes, invisibly
 #' @examples

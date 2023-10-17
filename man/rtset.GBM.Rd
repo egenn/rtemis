@@ -26,6 +26,8 @@ rtset.GBM(
 
 \item{max.trees}{Integer: Maximum number of trees to fit}
 
+\item{min.trees}{Integer: Minimum number of trees to fit}
+
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting.}
 
@@ -46,6 +48,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
+
+\item{...}{Additional arguments}
 }
 \description{
 \code{rtset.GBM}: Set parameters for \link{s_GBM}

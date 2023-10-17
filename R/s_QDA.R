@@ -7,6 +7,11 @@
 #' Train a QDA Classifier using `MASS::qda`
 #'
 #' @inheritParams s_GLM
+#' @param prior Numeric, vector (length = N classes of outcome variable): Prior 
+#' probabilities
+#' @param method Character: "moment", "mle", "mve", or "t". See `MASS::qda`
+#' @param nu Integer: Degrees of freedom for methdo "t"
+#' 
 #' @return [rtMod] object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation

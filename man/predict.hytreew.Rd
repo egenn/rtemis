@@ -13,7 +13,6 @@
   cxr = FALSE,
   cxrcoef = FALSE,
   verbose = FALSE,
-  trace = 0,
   ...
 )
 }
@@ -36,7 +35,7 @@ Defaults to all}
 
 \item{verbose}{Logical: If TRUE, print messages to console}
 
-\item{trace}{Not used}
+\item{...}{Not used}
 }
 \description{
 Predict method for \code{hytreew} object

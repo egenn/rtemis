@@ -121,6 +121,8 @@ Helps avoid overfitting.}
 \item{force.n.trees}{Integer: If specified, use this number of trees instead of
 tuning number of trees}
 
+\item{min.trees}{Integer: Minimum number of trees to fit}
+
 \item{.gs}{Internal use only}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining

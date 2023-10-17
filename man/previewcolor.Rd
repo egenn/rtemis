@@ -33,11 +33,13 @@ previewcolor(
 \item{main}{Character: Title. Default = NULL, which results in
 \code{deparse(substitute(x))}}
 
-\item{bg}{Background color. Default = "#333333" (dark gray)}
+\item{bg}{Background color.}
 
-\item{main.x}{Float: x coordinate for \code{main}. Default = .75}
+\item{main.col}{Color: Title color}
 
-\item{main.y}{Float: y coordinate for \code{main}. Default = 0}
+\item{main.x}{Float: x coordinate for \code{main}.}
+
+\item{main.y}{Float: y coordinate for \code{main}.}
 
 \item{main.adj}{Float: \code{adj} argument to mtext for \code{main}.}
 
@@ -49,16 +51,16 @@ previewcolor(
 
 \item{xlim}{Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically}
 
-\item{ylim}{Vector, length 2: y-axis limits. Default = \code{c(0.7, 2)}}
+\item{ylim}{Vector, length 2: y-axis limits.}
 
-\item{asp}{Float: Plot aspect ratio. Default = 1}
+\item{asp}{Float: Plot aspect ratio.}
 
 \item{labels.y}{Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)}
 
-\item{label.cex}{Float: Character expansion for labels. Default = NULL, and is calculated automatically based on}
+\item{label.cex}{Float: Character expansion for labels. Default = NULL, and is
+calculated automatically based on length of \code{x}}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} setting on exit. Default = TRUE
-length of \code{x} in order to look reasonable in your RStudio plot panel.}
+\item{par.reset}{Logical: If TRUE, reset \code{par} settings on exit.}
 }
 \value{
 Nothing, prints plot

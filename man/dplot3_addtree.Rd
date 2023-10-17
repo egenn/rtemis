@@ -14,9 +14,6 @@ dplot3_addtree(
   node.labels.pct.pos = NULL,
   pos.name = NULL,
   edge.col = "#999999",
-  edge.width = 2,
-  edge.labels = FALSE,
-  arrowhead = "vee",
   layout = "dot",
   drop.leaves = FALSE,
   rankdir = "TB",
@@ -30,11 +27,21 @@ dplot3_addtree(
 )
 }
 \arguments{
+\item{addtree}{Additive Tree object created by \link{s_AddTree}}
+
 \item{col.positive}{Color for outcome positive.}
 
 \item{col.negative}{Color for negative outcome.}
 
 \item{node.col}{Color for non-terminal leaves.}
+
+\item{node.shape}{Character: Node shape, passed to \code{data.tree::SetNodeStyle}}
+
+\item{node.labels}{Logical: If \code{TRUE}, show node labels.}
+
+\item{node.labels.pct.pos}{Logical: If \code{TRUE}, show \% positive cases in node labels.}
+
+\item{pos.name}{Character: Name for "positive" outcome.}
 
 \item{edge.col}{Color for edges.}
 
