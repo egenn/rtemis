@@ -7,7 +7,7 @@
 #
 # rtMod.R
 # ::rtemis::
-# 2016-22 E.D. Gennatas www.lambdamd.org
+# 2016- E.D. Gennatas www.lambdamd.org
 
 # rtMod R6 ----
 #' \pkg{rtemis} Supervised Model Class
@@ -49,7 +49,8 @@
 #' @field sessionInfo The output of `sessionInfo()` at the time the model was trained
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 rtMod <- R6::R6Class("rtMod",
   public = list(
     ### Attributes
@@ -1152,7 +1153,8 @@ rtModClass <- R6::R6Class("rtModClass",
 #' @field se.predicted.bag Base learners' predicted values' standard error
 #' @field aggr.fn Function used to aggregated base learners' predictions
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 rtModBag <- R6::R6Class("rtModBag",
   inherit = rtMod,
   public = list(
@@ -1378,7 +1380,8 @@ predict.rtModBag <- function(object,
 #' @field call elevate call
 #' @field sessionInfo R session info at time of training
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 rtModCV <- R6::R6Class("rtModCV",
   public = list(
     ### Attributes
@@ -1962,7 +1965,8 @@ describe.rtModCV <- function(object, ...) object$describe()
 #' @field predicted.prob.aggr Aggregated testing set probability estimates
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 rtModCVClass <- R6::R6Class("rtModCVClass",
   inherit = rtModCV,
   public = list(
@@ -2256,7 +2260,9 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
 #' @field meta.params List of meta model parameters
 #' @field meta.mod Meta model
 #' @field sessionInfo R session info at training time
-#' @export
+#' 
+#' @keywords internal
+#' @noRd
 rtMeta <- R6::R6Class("rtMeta",
   inherit = rtMod,
   public = list(
@@ -2449,7 +2455,8 @@ predict.rtMeta <- function(object,
 #' @field mod Trained model
 #' @field fitted Vector of fitted values
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 rtModLite <- R6::R6Class("rtModLite",
   public = list(
     ### Attributes

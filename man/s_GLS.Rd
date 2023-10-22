@@ -50,6 +50,9 @@ that should be entered as interaction terms in the GLM formula}
 \item{nway.interactions}{Integer: Include n-way interactions. This integer defines
 the n in: \code{formula = y ~^n}}
 
+\item{covariate}{Character: Name of column. Will include interactions between all
+features this variable.}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}

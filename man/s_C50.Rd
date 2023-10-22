@@ -71,6 +71,8 @@ Default = NULL (random seed)}
 
 \item{control}{List: output of \code{C50::C5.0Control()}}
 
+\item{costs}{Matrix: Cost matrix. See \code{C50::C5.0}}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}

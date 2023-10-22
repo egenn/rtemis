@@ -10,6 +10,7 @@
 #' @param trials Integer \[1, 100\]: Number of boosting iterations
 #' @param rules Logical: If `TRUE`, decompose the tree to a rule-based model
 #' @param control List: output of `C50::C5.0Control()`
+#' @param costs Matrix: Cost matrix. See `C50::C5.0`
 #'
 #' @return [rtMod] object
 #' @author E.D. Gennatas

@@ -22,7 +22,8 @@
 #' @field extra List: Algorithm-specific output
 #' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 rtDecom <- R6::R6Class("rtDecom",
                         public = list(

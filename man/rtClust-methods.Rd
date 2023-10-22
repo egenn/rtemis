@@ -7,6 +7,11 @@
 \usage{
 \method{print}{rtClust}(x, ...)
 }
+\arguments{
+\item{x}{\code{rtClust} object}
+
+\item{...}{Not used}
+}
 \description{
 S3 methods for \code{rtClust} class.
 }

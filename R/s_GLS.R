@@ -9,7 +9,10 @@
 #' @inheritParams s_GLM
 #' @param nway.interactions Integer: Include n-way interactions. This integer defines 
 #' the n in: \code{formula = y ~^n}
+#' @param covariate Character: Name of column. Will include interactions between all 
+#' features this variable.
 #' @param ... Additional arguments
+#' 
 #' @return [rtMod]
 #' @author E.D. Gennatas
 #' @family Supervised Learning
