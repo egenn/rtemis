@@ -21,7 +21,7 @@
 #' @param scale Logical: If TRUE, scale input data before projecting
 #' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`
 #' @param ... Additional parameters to be passed to `NMF::nmf`
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

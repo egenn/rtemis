@@ -13,7 +13,7 @@
 #' @param verbose Logical: if TRUE, print messages to console
 #' @param ... Additional arguments to be passed to `decom`
 #'
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @export
 

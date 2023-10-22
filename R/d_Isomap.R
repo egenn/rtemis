@@ -22,7 +22,7 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to `vegan::isomap`
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

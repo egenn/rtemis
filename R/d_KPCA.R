@@ -23,7 +23,7 @@
 #' @param center Logical: If TRUE, center data prior to decomposition. Default = TRUE
 #' @param scale Logical: If TRUE, scale data prior to decomposition. Default = TRUE
 #' @param ... Additional parameters to be passed to `fastKPCA::fastKPCA`
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

@@ -24,7 +24,7 @@
 #' @param scale Logical: If TRUE, scale input data before decomposition. Default = TRUE
 #' @param center Logical: If TRUE, also center input data if `scale` is `TRUE`.
 #' Default = TRUE
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

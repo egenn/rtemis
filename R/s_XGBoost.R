@@ -19,17 +19,18 @@
 #' @param lambda \[gS\] L2 regularization on weights
 # @param lambda_bias \[gS\] for *linear* booster: L2 regularization on bias
 #' @param alpha \[gS\] L1 regularization on weights
-#' @param eta \[gS\] Numeric (0, 1): Learning rate. Default = .1
+#' @param eta \[gS\] Numeric (0, 1): Learning rate.
 #' @param gamma \[gS\] Numeric: Minimum loss reduction required to make further partition
-#' @param max_depth \[gS\] Integer: Maximum tree depth. (Default = 6)
+#' @param max_depth \[gS\] Integer: Maximum tree depth.
+#' @param min_child_weight
 #' @param subsample \[gS\] Numeric: subsample ratio of the training instance
 #' @param colsample_bytree \[gS\] Numeric: subsample ratio of columns when constructing each tree
 #' @param colsample_bylevel \[gS\] Numeric
-#' @param tree_method \[gS\] XGBoost tree construction algorithm (Default = "auto")
+#' @param tree_method \[gS\] XGBoost tree construction algorithm
 #' @param sketch_eps \[gS\] Numeric (0, 1):
 #' @param num_parallel_tree Integer: N of trees to grow in parallel: Results in Random Forest -like algorithm.
 #'  (Default = 1; i.e. regular boosting)
-#' @param base_score Numeric: The mean outcome response (Defaults to mean)
+#' @param base_score Numeric: The mean outcome response.
 #' @param objective (Default = NULL)
 #' @param sample_type Character.
 #' @param normalize_type Character.

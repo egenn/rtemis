@@ -34,7 +34,7 @@
 #' @param ... Additional parameters to be passed to `fastICA::fastICA` 
 #' or `ica::icafast`
 #' 
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

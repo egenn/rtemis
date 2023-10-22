@@ -38,7 +38,7 @@
 #' @param plot.theme Character: Theme to pass to [mplot3_xy] if `print.plot = TRUE`
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to be passed to `h2o::h2o.glrm`
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

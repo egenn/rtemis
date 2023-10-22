@@ -21,7 +21,7 @@
 #' @param ... Options for `Rtsne::Rtsne`
 #' @param outdir Path to output directory
 #' 
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

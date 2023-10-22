@@ -16,7 +16,7 @@
 #' @param k Integer: dimensionality of the embedding
 #' @param nn Integer: Number of neighbors.
 #' 
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export

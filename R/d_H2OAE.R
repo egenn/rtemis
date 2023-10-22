@@ -26,7 +26,7 @@
 #' @param loss Character: "Automatic" (Default), "CrossEntropy", "Quadratic", "Huber", "Absolute"
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to `h2p::h2o.deeplearning`
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @seealso [decom]
 #' @family Decomposition

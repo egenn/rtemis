@@ -20,7 +20,7 @@
 #' @param verbose Logical: If TRUE, print messages to screen. Default = TRUE
 #' @param ... Additional parameters to be passed to `uwot::umap`
 #' 
-#' @return [rtDecom] object
+#' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
