@@ -26,7 +26,7 @@
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to `h2p::h2o.kmeans`
 #' 
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export

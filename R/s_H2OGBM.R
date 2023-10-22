@@ -25,7 +25,7 @@
 #' "AUC", "lift_top_group", "misclassification", "mean_per_class_error"
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

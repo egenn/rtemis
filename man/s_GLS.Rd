@@ -90,7 +90,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod}
+\code{rtMod}
 }
 \description{
 Train a Generalized Least Squares regression model using \code{nlme::gls}

@@ -18,7 +18,7 @@
 #' is enabled by default, because it is crucial for algorithm to learn.
 #' @param trace Integer: passed to `sparseLDA::sda`
 #'
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

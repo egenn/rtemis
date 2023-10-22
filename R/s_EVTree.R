@@ -10,7 +10,7 @@
 #' @param control Passed to `evtree::evtree`
 #' @param ... Additional arguments to be passed to `evtree::evtree`
 #' 
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

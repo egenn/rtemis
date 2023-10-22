@@ -92,7 +92,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train a conditional inference tree using {partykit::ctree}

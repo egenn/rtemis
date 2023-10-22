@@ -12,7 +12,7 @@
 #' @param control List: output of `C50::C5.0Control()`
 #' @param costs Matrix: Cost matrix. See `C50::C5.0`
 #'
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #'
 #' @seealso [train] for external cross-validation

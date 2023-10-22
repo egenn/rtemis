@@ -39,7 +39,7 @@
 #'   is defined, outdir defaults to `paste0("./s.", mod.name)`
 #' @param ... Additional arguments to be passed to `MASS::rlm` if `robust = TRUE`
 #'   or `MASS::lm.gls` if `gls = TRUE`
-#' @return [rtMod]
+#' @return `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

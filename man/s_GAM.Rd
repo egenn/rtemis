@@ -12,7 +12,7 @@ s_GAM(x, ...)
 \item{...}{Additional arguments to be passed to \code{mgcv::gam}}
 }
 \value{
-\link{rtMod}
+\code{rtMod}
 }
 \description{
 Trains a GAM using \code{mgcv::gam} and validates it.

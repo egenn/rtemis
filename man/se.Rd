@@ -7,7 +7,7 @@
 se(x)
 }
 \arguments{
-\item{x}{An \link{rtMod} object}
+\item{x}{An \code{rtMod} object}
 }
 \value{
 Standard error of fitted values of \code{mod}

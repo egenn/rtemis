@@ -29,7 +29,7 @@
 #' @param trace Integer: If greater than 0, print additional information to console
 #' @param ... Additional arguments to be passed to `ppr`
 #' 
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

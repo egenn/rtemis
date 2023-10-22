@@ -23,7 +23,7 @@
 #' @param nk \[gS\] Integer: Maximum number of terms created by the forward pass.
 #' See `earth::earth`
 #' @param ... Additional parameters to pass to `earth::earth`
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

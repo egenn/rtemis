@@ -17,7 +17,7 @@
 #' @param trace Integer: If `> 0`, print summary of model
 #' @param ... Additional parameters to pass to `polspline::polymars`
 #'
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

@@ -28,7 +28,7 @@
 #' tree is built
 #' @param use.prune.rpart.rt (Testing only, do not change)
 #' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return
-#' unpruned tree under `extra` in [rtMod].
+#' unpruned tree under `extra` in `rtMod`.
 #' @param grid.resample.rtset List: Output of [rtset.resample] defining
 #' grid search parameters.
 #' @param gridsearch.type Character: Type of grid search to perform:
@@ -50,7 +50,7 @@
 #' @param grid.verbose Logical: Passed to `gridSearchLearn`
 #' @param n.cores Integer: Number of cores to use.
 #'
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

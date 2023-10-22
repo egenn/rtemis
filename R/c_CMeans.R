@@ -19,7 +19,7 @@
 #' @param ... Additional parameters to be passed to `e1071::cmeans`
 #'
 #' @author E.D. Gennatas
-#' @return [rtClust] object
+#' @return `rtClust` object
 #' @family Clustering
 #' @export
 

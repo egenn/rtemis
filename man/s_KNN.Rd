@@ -41,7 +41,7 @@ must have set of columns as \code{x}}
 \item{outdir}{Optional. Path to directory to save output}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train a k-Nearest Neighbors learner for regression or classification using \code{FNN}

@@ -55,7 +55,7 @@
 #' @param .gs (Internal use only)
 #' @param ... Extra arguments appended to `lgb.train`'s `params`.
 #'
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

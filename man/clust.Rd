@@ -20,7 +20,7 @@ clust(x, clust = "kmeans", x.test = NULL, verbose = TRUE, ...)
 \item{...}{Additional arguments to be passed to clusterer \code{clust}}
 }
 \value{
-\link{rtClust} object
+\code{rtClust} object
 }
 \description{
 Convenience function to perform any \pkg{rtemis} clustering

@@ -81,7 +81,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train a gradient boosting model, extract rules,

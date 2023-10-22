@@ -31,7 +31,7 @@
 #' @param rpart.params List: `rpart` parameters, passed to `rpart::rpart("parms")`
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by [dplot3_addtree] when plotting. Default = TRUE
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @family Tree-based methods

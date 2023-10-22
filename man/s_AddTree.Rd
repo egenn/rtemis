@@ -136,7 +136,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train an Additive Tree model

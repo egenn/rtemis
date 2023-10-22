@@ -126,7 +126,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod}
+\code{rtMod}
 }
 \description{
 Train a Generalized Linear Model for Regression or Classification (i.e. Logistic Regression) using \code{stats::glm}.

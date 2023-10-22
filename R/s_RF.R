@@ -42,17 +42,17 @@
 #' @param tune.do.trace Same as `do.trace` but for tuning,
 #' when `autotune = TRUE`
 #' @param imetrics Logical: If TRUE, calculate interpretability metrics
-#' (N of trees and N of nodes) and save under the `extra` field of [rtMod]
+#' (N of trees and N of nodes) and save under the `extra` field of `rtMod`
 #' @param print.tune.plot Logical: passed to `randomForest::tuneRF`.
 #' @param proximity.tsne Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
-#' [rtMod]. Default = FALSE
-#' @param discard.forest Logical: If TRUE, remove forest from [rtMod] object to save space.
+#' `rtMod`. Default = FALSE
+#' @param discard.forest Logical: If TRUE, remove forest from `rtMod` object to save space.
 #' Default = FALSE
 #' @param tsne.perplexity Numeric: Perplexity parameter for `Rtsne::Rtsne`
 #' @param plot.tsne.train Logical: If TRUE, plot training set tSNE projections
 #' @param plot.tsne.test Logical: If TRUE, plot testing set tSNE projections
 #' @param ... Additional arguments to be passed to `randomForest::randomForest`
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

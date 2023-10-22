@@ -13,7 +13,7 @@
 #' `clust`
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to clusterer `clust`
-#' @return [rtClust] object
+#' @return `rtClust` object
 #' @author E.D. Gennatas
 #' @export
 

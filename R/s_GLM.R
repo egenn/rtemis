@@ -70,7 +70,7 @@
 #'   `save.mod` is TRUE by default if an `outdir` is defined. If set to TRUE, and no `outdir`
 #'   is defined, outdir defaults to `paste0("./s.", mod.name)`
 #' @param ... Additional arguments
-#' @return [rtMod]
+#' @return `rtMod`
 #' @examples
 #' x <- rnorm(100)
 #' y <- .6 * x + 12 + rnorm(100) / 2

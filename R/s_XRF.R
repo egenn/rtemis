@@ -31,7 +31,7 @@
 #' parameter causes a linear booster to fail most of the times. Therefore, default is rtCores
 #' for 'gbtree', 1 for 'gblinear'
 #'
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

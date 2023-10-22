@@ -25,7 +25,7 @@
 ##   "auto" will result in regression for numeric `y` and classification otherwise
 #' @param spark.master Spark cluster URL or "local"
 #' 
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

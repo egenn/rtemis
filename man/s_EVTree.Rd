@@ -97,7 +97,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments to be passed to \code{evtree::evtree}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train a EVTree for regression or classification using \code{evtree}

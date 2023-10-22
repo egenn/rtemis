@@ -107,7 +107,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{...}{Additional parameters to pass to \code{h2o::h2o.randomForest}}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Trains a Random Forest model using H2O (http://www.h2o.ai)

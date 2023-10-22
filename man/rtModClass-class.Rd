@@ -14,7 +14,7 @@
 R6 Class for \pkg{rtemis} Classification Models
 }
 \section{Super class}{
-\code{\link[rtemis:rtMod]{rtemis::rtMod}} -> \code{rtModClass}
+\code{rtemis::rtMod} -> \code{rtModClass}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

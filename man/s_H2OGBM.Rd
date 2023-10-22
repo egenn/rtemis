@@ -147,7 +147,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Trains a Gradient Boosting Machine using H2O (http://www.h2o.ai)

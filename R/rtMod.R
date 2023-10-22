@@ -531,7 +531,7 @@ rtMod <- R6::R6Class("rtMod",
 #' `rtMod` S3 methods
 #'
 #' S3 methods for `rtMod` class.
-#' Excludes functions `print` and `plot` defined within the [rtMod] class itself.
+#' Excludes functions `print` and `plot` defined within the `rtMod` class itself.
 #'
 #' @name rtMod-methods
 NULL

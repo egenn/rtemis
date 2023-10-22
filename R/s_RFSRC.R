@@ -23,7 +23,7 @@
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`
 #'
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

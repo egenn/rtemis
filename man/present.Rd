@@ -41,7 +41,7 @@ present(
 \item{margin}{Named list with margins and padding}
 }
 \description{
-Plot training and testing performance boxplots of multiple \link{rtModCV}
+Plot training and testing performance boxplots of multiple `rtModCV``
 objects created by \link{train} using \link{dplot3_box}
 }
 \author{

@@ -106,7 +106,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train a C5.0 decision tree using \code{C50::C5.0}

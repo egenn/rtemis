@@ -68,7 +68,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train a Naive Bayes Classifier using \code{e1071::naiveBayes}

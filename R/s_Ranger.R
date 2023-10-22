@@ -56,7 +56,7 @@
 #' Default = FALSE. Note: Cannot be used with `ifw.case.weights`
 #' @param ... Additional arguments to be passed to `ranger::ranger`
 #' 
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

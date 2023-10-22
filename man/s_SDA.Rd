@@ -122,7 +122,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train an SDA Classifier using \code{sparseLDA::sda}

@@ -11,7 +11,7 @@
 ## @param offset Numeric vector of a priori known offsets
 #' @param ... Additional arguments passed to `partykit::mob_control`
 #'
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

@@ -9,7 +9,7 @@
 #' Note: LDA requires all predictors to be numeric.
 #' The variable importance output ("varimp") is the vector of coefficients for LD1
 #' @inheritParams s_GLM
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

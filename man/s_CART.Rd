@@ -124,7 +124,7 @@ tree is built}
 \item{use.prune.rpart.rt}{(Testing only, do not change)}
 
 \item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return
-unpruned tree under \code{extra} in \link{rtMod}.}
+unpruned tree under \code{extra} in \code{rtMod}.}
 
 \item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
 grid search parameters.}
@@ -173,7 +173,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train a CART for regression or classification using \code{rpart}

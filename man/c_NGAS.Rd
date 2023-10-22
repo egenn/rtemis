@@ -20,7 +20,7 @@ c_NGAS(x, x.test = NULL, k = 2, dist = "euclidean", verbose = TRUE, ...)
 \item{...}{Additional parameters to be passed to \code{flexclust::cclust}}
 }
 \value{
-\link{rtClust} object
+\code{rtClust} object
 }
 \description{
 Perform \href{https://en.wikipedia.org/wiki/Neural_gas}{Neural Gas clustering} using \code{flexclust::cclust}

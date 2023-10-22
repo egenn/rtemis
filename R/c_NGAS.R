@@ -13,7 +13,7 @@
 #' @param ... Additional parameters to be passed to `flexclust::cclust`
 #' 
 #' @author E.D. Gennatas
-#' @return [rtClust] object
+#' @return `rtClust` object
 #' @family Clustering
 #' @export
 

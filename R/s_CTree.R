@@ -10,7 +10,7 @@
 #' @param control List of parameters for the CTree algorithms. Set using
 #' `partykit::ctree_control`
 #' 
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train]
 #' @family Supervised Learning

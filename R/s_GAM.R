@@ -13,7 +13,7 @@
 #' @inheritParams s_GLM
 #' @param ... Additional arguments to be passed to `mgcv::gam`
 #' 
-#' @return [rtMod]
+#' @return `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

@@ -142,7 +142,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional parameters to pass to \code{h2o::h2o.deeplearning}}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Trains a Deep Neural Net using H2O (http://www.h2o.ai)

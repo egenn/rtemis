@@ -82,7 +82,7 @@ Options: \code{learnSelect()}}
 }
 \description{
 S3 methods for \code{rtMod} class.
-Excludes functions \code{print} and \code{plot} defined within the \link{rtMod} class itself.
+Excludes functions \code{print} and \code{plot} defined within the \code{rtMod} class itself.
 
 Get coefficients or relative variable importance for \code{rtMod} object
 }

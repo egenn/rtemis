@@ -94,7 +94,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train an Adaboost Classifier using \code{ada::ada}

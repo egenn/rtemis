@@ -55,7 +55,7 @@ Default = "AUTO"}
 \item{...}{Additional arguments to pass to \code{h2p::h2o.kmeans}}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Perfomr \href{https://en.wikipedia.org/wiki/K-means_clustering}{K-Means clustering} using

@@ -103,7 +103,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{...}{Additional parameters to pass to \code{polspline::polymars}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Trains a POLYMARS model using \code{polspline::polymars} and validates it

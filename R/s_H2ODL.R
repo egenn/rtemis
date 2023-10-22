@@ -36,7 +36,7 @@
 #' @param rate.annealing Float: Learning rate annealing: rate / (1 + rate_annealing * samples). Default = 1e-6
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to `h2o::h2o.deeplearning`
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

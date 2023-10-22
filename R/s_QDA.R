@@ -12,7 +12,7 @@
 #' @param method Character: "moment", "mle", "mve", or "t". See `MASS::qda`
 #' @param nu Integer: Degrees of freedom for methdo "t"
 #' 
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

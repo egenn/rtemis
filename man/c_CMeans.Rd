@@ -42,7 +42,7 @@ c_CMeans(
 \item{...}{Additional parameters to be passed to \code{e1071::cmeans}}
 }
 \value{
-\link{rtClust} object
+\code{rtClust} object
 }
 \description{
 Perform \href{https://en.wikipedia.org/wiki/Fuzzy_clustering}{fuzzy C-means clustering} using \code{e1071::cmeans}

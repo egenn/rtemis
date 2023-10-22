@@ -13,7 +13,7 @@
 #' features this variable.
 #' @param ... Additional arguments
 #' 
-#' @return [rtMod]
+#' @return `rtMod`
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export

@@ -4,7 +4,7 @@
 
 #' Present elevate models
 #'
-#' Plot training and testing performance boxplots of multiple [rtModCV]
+#' Plot training and testing performance boxplots of multiple `rtModCV``
 #' objects created by [train] using [dplot3_box]
 #'
 #' @param ... rtModCV objects created with [train]

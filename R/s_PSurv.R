@@ -14,7 +14,7 @@
 #' @param y.test (Optional) Object of class "Surv" created using `survival::Surv`
 #' @param weights Float: Vector of case weights
 #' @param ... Additional parameters to pass to `survival::survreg`
-#' @return Object of class [rtMod]
+#' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Survival Regression

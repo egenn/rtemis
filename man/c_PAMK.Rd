@@ -52,7 +52,7 @@ for more info}
 \code{cluster::pam}}
 }
 \value{
-\link{rtClust} object
+\code{rtClust} object
 }
 \description{
 Estimate

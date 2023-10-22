@@ -117,7 +117,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 or \code{MASS::lm.gls} if \code{gls = TRUE}}
 }
 \value{
-\link{rtMod}
+\code{rtMod}
 }
 \description{
 Fit a linear model and validate it. Options include base \code{lm()}, robust linear model using

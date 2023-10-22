@@ -58,7 +58,7 @@ must have set of columns as \code{x}}
 \item{...}{Additional arguments to be passed to \code{randomForestSRC::rfsrc}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train a Random Forest for Regression, Classification, or Survival Regression

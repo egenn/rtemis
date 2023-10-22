@@ -77,7 +77,7 @@ See \code{earth::earth}}
 \item{...}{Additional parameters to pass to \code{earth::earth}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Trains a MARS model using \code{earth::earth}.

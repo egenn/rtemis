@@ -15,7 +15,7 @@
 )
 }
 \arguments{
-\item{object}{an \link{rtMod} trained with \link{s_LIHAD} or an \code{lihad} object}
+\item{object}{an \code{rtMod} trained with \link{s_LIHAD} or an \code{lihad} object}
 
 \item{newdata}{data frame of predictor features}
 

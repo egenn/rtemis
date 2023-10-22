@@ -15,7 +15,7 @@
 #' @param nu Float: Shrinkage parameter for boosting. Default = .1
 #' @param bag.frac Float (0, 1]: Sampling fraction for out-of-bag samples
 #'
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning

@@ -143,7 +143,7 @@ If an integer, \code{randomForest} will report progress every this many trees. D
 when \code{autotune = TRUE}}
 
 \item{imetrics}{Logical: If TRUE, calculate interpretability metrics
-(N of trees and N of nodes) and save under the \code{extra} field of \link{rtMod}}
+(N of trees and N of nodes) and save under the \code{extra} field of \code{rtMod}}
 
 \item{n.cores}{Integer: Number of cores to use.}
 
@@ -160,9 +160,9 @@ Requires \code{x.test} and \code{y.test}}
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{proximity.tsne}{Logical: If TRUE, perform t-SNE on proximity matrix. Will be saved under 'extra' field of
-\link{rtMod}. Default = FALSE}
+\code{rtMod}. Default = FALSE}
 
-\item{discard.forest}{Logical: If TRUE, remove forest from \link{rtMod} object to save space.
+\item{discard.forest}{Logical: If TRUE, remove forest from \code{rtMod} object to save space.
 Default = FALSE}
 
 \item{tsne.perplexity}{Numeric: Perplexity parameter for \code{Rtsne::Rtsne}}
@@ -188,7 +188,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments to be passed to \code{randomForest::randomForest}}
 }
 \value{
-\link{rtMod} object
+\code{rtMod} object
 }
 \description{
 Train a Random Forest for regression or classification using \code{randomForest}

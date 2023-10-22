@@ -11,7 +11,7 @@
 #' @inheritParams s_GLM
 #' @param laplace Float (>0): Laplace smoothing. Default = 0 (no smoothing). This only affects
 #' categorical features
-#' @return [rtMod] object
+#' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @family Supervised Learning
 #' @export

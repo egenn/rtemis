@@ -41,7 +41,7 @@ must have set of columns as \code{x}}
 \item{...}{Additional parameters to pass to \code{survival::survreg}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Fit a parametric survival regression model using \code{survival::survreg}

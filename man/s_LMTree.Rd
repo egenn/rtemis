@@ -94,7 +94,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional arguments passed to \code{partykit::mob_control}}
 }
 \value{
-Object of class \link{rtMod}
+Object of class \code{rtMod}
 }
 \description{
 Train a LMTree for regression or classification using \code{partykit::lmtree}

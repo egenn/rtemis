@@ -717,7 +717,7 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
 #' Predict method for `lihad` object
 #'
 #' @method predict lihad
-#' @param object an [rtMod] trained with [s_LIHAD] or an `lihad` object
+#' @param object an `rtMod` trained with [s_LIHAD] or an `lihad` object
 #' @param newdata data frame of predictor features
 #' @param learning.rate Float: learning rate if `object` was `lihad`
 #' @param n.feat Integer: internal use only

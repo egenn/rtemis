@@ -70,8 +70,7 @@
 #' @param bag.fn Function to use to average prediction if
 #' `bag.fitted = TRUE`. Default = `median`
 #' @param trace Integer: (Not really used) Print additional information if > 0.
-#' @param res.verbose Logical: Passed to [resLearn], passed to each
-#' individual learner's `verbose` argument
+#' @param res.verbose Logical: Passed to each individual learner's `verbose` argument
 #' @param save.res Logical: If TRUE, save the full output of each model trained
 #' on differents resamples under subdirectories of `outdir`
 #' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, `options(error=recover)`,

@@ -6,7 +6,7 @@
 #'
 #' Returns mod$se.fit
 #'
-#' @param x An [rtMod] object
+#' @param x An `rtMod` object
 #' @return Standard error of fitted values of `mod`
 #' @author E.D. Gennatas
 #' @export
