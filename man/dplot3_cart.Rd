@@ -30,8 +30,6 @@ dplot3_cart(
   bg.color = "white",
   overlap = "false",
   prune = FALSE,
-  prune.empty.leaves = TRUE,
-  remove.bad.parents = TRUE,
   rpart.cp = NULL,
   verbose = TRUE
 )
@@ -70,7 +68,31 @@ data) that matched this condition}
 
 \item{edge.col}{Color for edges.}
 
+\item{edge.width}{Width of edges.}
+
+\item{edge.labels}{Logical: If TRUE, print the splitting condition on the
+edge.}
+
+\item{arrowhead}{Character: Arrowhead shape.}
+
+\item{layout}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{rankdir}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{splines}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{fontname}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
 \item{bg.color}{Background color.}
+
+\item{overlap}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{prune}{Logical: If TRUE, prune tree using \code{rpart::prune.rpart}}
+
+\item{rpart.cp}{Numeric: Complexity parameter for pruning. If NULL, no
+pruning is performed.}
+
+\item{verbose}{Logical: If TRUE, print messages.}
 }
 \description{
 Plot \code{rpart} decision trees using \code{data.tree::plot.Node}

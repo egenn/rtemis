@@ -16,6 +16,7 @@
 #' the edge when `rankdir = "TB"` and above when `rankdir = "LR"`.
 #'
 #' @inheritParams dplot3_addtree
+#' @inheritParams 
 #' @param object Either `rpart` object or `rtMod` object trained with
 #' [s_CART]
 #' @param col.lo Low color for estimated outcome
@@ -31,6 +32,21 @@
 #' inside each node.
 #' @param node.n Logical: If TRUE, print the number of cases (from training
 #' data) that matched this condition
+#' @param edge.col Color for edges.
+#' @param edge.width Width of edges.
+#' @param edge.labels Logical: If TRUE, print the splitting condition on the
+#' edge.
+#' @param arrowhead Character: Arrowhead shape.
+#' @param layout Character: Passed to `data.tree::SetGraphStyle`
+#' @param rankdir Character: Passed to `data.tree::SetGraphStyle`
+#' @param splines Character: Passed to `data.tree::SetGraphStyle`
+#' @param fontname Character: Passed to `data.tree::SetGraphStyle`
+#' @param bg.color Background color.
+#' @param overlap Character: Passed to `data.tree::SetGraphStyle`
+#' @param prune Logical: If TRUE, prune tree using `rpart::prune.rpart`
+#' @param rpart.cp Numeric: Complexity parameter for pruning. If NULL, no
+#' pruning is performed.
+#' @param verbose Logical: If TRUE, print messages.
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -60,8 +76,6 @@ dplot3_cart <- function(object,
                         bg.color = "white",
                         overlap = "false",
                         prune = FALSE,
-                        prune.empty.leaves = TRUE,
-                        remove.bad.parents = TRUE,
                         rpart.cp = NULL,
                         verbose = TRUE) {
   # Dependencies ----

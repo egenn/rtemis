@@ -40,7 +40,7 @@ If set to 0, \code{th} determines eigenvalue below which PCs are ignored}
 \item{...}{Additional parameters to be passed to \code{fastKPCA::fastKPCA}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform kernel PCA decomposition using \code{kernlab::kpca}

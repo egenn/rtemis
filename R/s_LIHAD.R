@@ -683,6 +683,9 @@ partLin <- function(x1, y1,
 
 #' Print method for `lihad` object
 #'
+#' @param x `lihad` object
+#' @param ... Not used
+#' 
 #' @method print lihad
 #' @author E.D. Gennatas
 #' @export

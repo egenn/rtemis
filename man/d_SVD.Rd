@@ -33,7 +33,7 @@ d_SVD(
 \item{...}{Additional parameters to be passed to \code{svd}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform SVD decomposition using \code{base::svd}

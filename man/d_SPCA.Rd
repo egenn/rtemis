@@ -44,7 +44,7 @@ matrix. Default = 0, i.e. no penalty. May need to increase with collinear featur
 \item{...}{Additional parameters to be passed to \code{fastSPCA::fastSPCA}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform sparse and/or non-negative PCA or cumulative PCA decomposition

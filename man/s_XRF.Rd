@@ -135,11 +135,11 @@ Default = NULL (random seed)}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
 
-\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
+\item{eta}{[gS] Numeric (0, 1): Learning rate.}
 
 \item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
 
-\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
+\item{max_depth}{[gS] Integer: Maximum tree depth.}
 
 \item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
@@ -151,7 +151,7 @@ does not improve for this many rounds}
 
 \item{alpha}{[gS] L1 regularization on weights}
 
-\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
+\item{tree_method}{[gS] XGBoost tree construction algorithm}
 
 \item{sketch_eps}{[gS] Numeric (0, 1):}
 
@@ -162,6 +162,8 @@ does not improve for this many rounds}
 \item{sample_type}{Character. Default = "uniform"}
 
 \item{normalize_type}{Character. Default = "forest"}
+
+\item{.gs}{Internal use only}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}

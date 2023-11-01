@@ -6,6 +6,11 @@
 \usage{
 \method{print}{lihad}(x, ...)
 }
+\arguments{
+\item{x}{\code{lihad} object}
+
+\item{...}{Not used}
+}
 \description{
 Print method for \code{lihad} object
 }

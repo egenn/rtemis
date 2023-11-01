@@ -95,7 +95,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{...}{Additional arguments to pass to \code{h2p::h2o.deeplearning}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Train an Autoencoder using \code{h2o::h2o.deeplearning}

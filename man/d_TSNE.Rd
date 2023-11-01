@@ -51,7 +51,7 @@ d_TSNE(
 \item{...}{Options for \code{Rtsne::Rtsne}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform t-SNE decomposition using \code{Rtsne::Rtsne}

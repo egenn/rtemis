@@ -30,7 +30,7 @@ d_PCA(
 \item{...}{Additional parameters to be passed to \code{PCA::PCA}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform PCA decomposition using \code{stats::prcomp}

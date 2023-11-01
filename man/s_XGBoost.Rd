@@ -56,7 +56,6 @@ s_XGBoost(
   error.curve = FALSE,
   plot.res = TRUE,
   save.res = FALSE,
-  .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
@@ -78,6 +77,7 @@ s_XGBoost(
   parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  .gs = FALSE,
   ...
 )
 }
@@ -136,11 +136,11 @@ Default = NULL (random seed)}
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x.train} (tuning) will stop if performance
 does not improve for this many rounds}
 
-\item{eta}{[gS] Numeric (0, 1): Learning rate. Default = .1}
+\item{eta}{[gS] Numeric (0, 1): Learning rate.}
 
 \item{gamma}{[gS] Numeric: Minimum loss reduction required to make further partition}
 
-\item{max_depth}{[gS] Integer: Maximum tree depth. (Default = 6)}
+\item{max_depth}{[gS] Integer: Maximum tree depth.}
 
 \item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
@@ -152,14 +152,14 @@ does not improve for this many rounds}
 
 \item{alpha}{[gS] L1 regularization on weights}
 
-\item{tree_method}{[gS] XGBoost tree construction algorithm (Default = "auto")}
+\item{tree_method}{[gS] XGBoost tree construction algorithm}
 
 \item{sketch_eps}{[gS] Numeric (0, 1):}
 
 \item{num_parallel_tree}{Integer: N of trees to grow in parallel: Results in Random Forest -like algorithm.
 (Default = 1; i.e. regular boosting)}
 
-\item{base_score}{Numeric: The mean outcome response (Defaults to mean)}
+\item{base_score}{Numeric: The mean outcome response.}
 
 \item{objective}{(Default = NULL)}
 
@@ -197,6 +197,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{.gs}{Internal use only}
 
 \item{...}{Additional arguments}
 }

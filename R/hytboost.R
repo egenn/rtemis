@@ -315,8 +315,11 @@ hytboost <- function(x, y,
 } # rtemis::hytboost
 
 
-#' Print method for [boost] object
+#' Print method for `hytboost` object
 #'
+#' @param x `hytboost` object
+#' @param ... Not used
+#' 
 #' @method print hytboost
 #' @author E.D. Gennatas
 #' @export

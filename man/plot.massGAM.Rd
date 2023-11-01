@@ -37,8 +37,6 @@
 \arguments{
 \item{x}{\code{massGAM} object}
 
-\item{what}{Character: "adjusted" or "raw" p-values to plot}
-
 \item{xlab}{Character: x-axis label for volcano plot}
 }
 \description{

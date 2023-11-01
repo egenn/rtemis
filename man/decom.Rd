@@ -16,7 +16,7 @@ decom(x, decom = "PCA", verbose = TRUE, ...)
 \item{...}{Additional arguments to be passed to \code{decom}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Convenience function to perform any \pkg{rtemis} decomposition

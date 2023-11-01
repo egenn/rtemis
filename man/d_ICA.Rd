@@ -45,7 +45,7 @@ is \code{TRUE}.}
 or \code{ica::icafast}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform ICA decomposition using the fastICA algorithm in \code{fastICA::fastICA} or

@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\link{massGAM} object}
+
+\item{...}{Not used}
 }
 \description{
 \code{print}\link{massGAM} object

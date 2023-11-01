@@ -36,7 +36,7 @@ d_NMF(
 \item{...}{Additional parameters to be passed to \code{NMF::nmf}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform NMF decomposition using \code{NMF::nmf}

@@ -177,6 +177,8 @@ massGLAM <- function(x, y,
 #'
 #' @method print massGAM
 #' @param x [massGAM] object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -210,7 +212,7 @@ summary.massGAM <- function(object, ...) {
 #'
 #' @method plot massGAM
 #' @param x `massGAM` object
-#' @param what Character: "adjusted" or "raw" p-values to plot
+# @param what Character: "adjusted" or "raw" p-values to plot
 #' @param xlab Character: x-axis label for volcano plot
 #'
 #' @author E.D. Gennatas

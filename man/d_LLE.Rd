@@ -16,7 +16,7 @@ d_LLE(x, k = 2, nn = 6, verbose = TRUE)
 \item{verbose}{Logical: If TRUE, print messages to screen. Default = TRUE}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform LLE decomposition using \code{RDRToolbox::lle}

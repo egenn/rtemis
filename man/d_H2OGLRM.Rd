@@ -84,7 +84,7 @@ d_H2OGLRM(
 \item{...}{Additional parameters to be passed to \code{h2o::h2o.glrm}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform GLRM decomposition using \code{h2o::h2o.glrm}

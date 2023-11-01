@@ -39,7 +39,7 @@ d_Isomap(
 \item{...}{Additional parameters to be passed to \code{vegan::isomap}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform ISOMAP decomposition using \code{vegan::isomap}

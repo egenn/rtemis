@@ -44,7 +44,7 @@ Default = TRUE}
 \item{...}{Additional parameters to be passed to \code{uwot::umap}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform UMAP decomposition using \code{uwot::umap}

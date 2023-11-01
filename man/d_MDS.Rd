@@ -41,7 +41,7 @@ Default = TRUE}
 \item{...}{Additional parameters to be passed to \code{svd}}
 }
 \value{
-\link{rtDecom} object
+\code{rtDecom} object
 }
 \description{
 Perform MDS decomposition using \code{stats:cmdscale}

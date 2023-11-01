@@ -15,7 +15,6 @@ dplot3_addtree(
   pos.name = NULL,
   edge.col = "#999999",
   layout = "dot",
-  drop.leaves = FALSE,
   rankdir = "TB",
   splines = "polyline",
   fontname = "helvetica",
@@ -45,7 +44,24 @@ dplot3_addtree(
 
 \item{edge.col}{Color for edges.}
 
+\item{layout}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{rankdir}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{splines}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{fontname}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
 \item{bg.color}{Background color.}
+
+\item{overlap}{Character: Passed to \code{data.tree::SetGraphStyle}}
+
+\item{prune}{Logical: If \code{TRUE}, prune AddTree.}
+
+\item{prune.empty.leaves}{Logical: If \code{TRUE}, prune empty leaves.}
+
+\item{remove.bad.parents}{Logical: If TRUE, remove nodes with no siblings but children and
+give their children to their parent.}
 }
 \description{
 Plot AddTree trees trained with \link{s_AddTree} using \code{data.tree::plot.Node}

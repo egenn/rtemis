@@ -73,13 +73,13 @@ hytboostnow <- function(x, y,
                         plot.theme = "darkgrid",
                         # print.base.plot = FALSE,
                         plot.type = "l") {
-  # [ Arguments ] ----
+  # Arguments ----
   if (!verbose) print.plot <- FALSE
   # extra.args <- list(...)
   # mod.params <- c(mod.params, extra.args)
   if (length(max.depth) > 1) stop("max.depth must be scalar integer")
 
-  # [ Boost ] ----
+  # Boost ----
   # hytreenow params ----
   mod.params <- list(
     max.depth = max.depth,
@@ -291,7 +291,7 @@ hytboostnow <- function(x, y,
     }
   }
 
-  # [ Outro ] ----
+  # Outro ----
   # '- boost object ----
   obj <- list(
     init = init,
@@ -311,8 +311,11 @@ hytboostnow <- function(x, y,
 } # rtemis::hytboostnow
 
 
-#' Print method for [boost] object
+#' Print method for `boost` object
 #'
+#' @param x `hytboostnow` object
+#' @param ... Not used
+#' 
 #' @method print hytboostnow
 #' @author E.D. Gennatas
 #' @export

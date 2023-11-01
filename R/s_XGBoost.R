@@ -45,6 +45,7 @@
 #' using `n.cores` or the xgboost execution using this setting. At the moment of
 #' writing, parallelization via this parameter causes a linear booster to fail most of
 #' the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'
+#' @param .gs Internal use only
 #'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
@@ -104,7 +105,6 @@ s_XGBoost <- function(x, y = NULL,
                       plot.res = TRUE,
                       save.res = FALSE,
                       #   save.res.mod = FALSE,
-                      .gs = FALSE,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       gridsearch.type = "exhaustive",
                       metric = NULL,
@@ -125,7 +125,8 @@ s_XGBoost <- function(x, y = NULL,
                       nthread = rtCores,
                       parallel.type = c("psock", "fork"),
                       outdir = NULL,
-                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+                      .gs = FALSE, ...) {
   # Intro ----
   if (missing(x)) {
     print(args(s_XGBoost))

@@ -2,12 +2,17 @@
 % Please edit documentation in R/hytboost.R
 \name{print.hytboost}
 \alias{print.hytboost}
-\title{Print method for \link{boost} object}
+\title{Print method for \code{hytboost} object}
 \usage{
 \method{print}{hytboost}(x, ...)
 }
+\arguments{
+\item{x}{\code{hytboost} object}
+
+\item{...}{Not used}
+}
 \description{
-Print method for \link{boost} object
+Print method for \code{hytboost} object
 }
 \author{
 E.D. Gennatas

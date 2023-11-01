@@ -7,6 +7,8 @@
 #' Plot AddTree trees trained with [s_AddTree] using `data.tree::plot.Node`
 #'
 #' Edge info and styles have been removed because of problems with `DiagrammeR`
+#' 
+#' @inheritParams prune.addtree
 #' @param addtree Additive Tree object created by [s_AddTree]
 #' @param col.positive Color for outcome positive.
 #' @param col.negative Color for negative outcome.
@@ -16,8 +18,13 @@
 #' @param node.labels.pct.pos Logical: If `TRUE`, show % positive cases in node labels.
 #' @param pos.name Character: Name for "positive" outcome.
 # @param edge.width Numeric: Edge width.
-
-#'
+#' @param layout Character: Passed to `data.tree::SetGraphStyle`
+#' @param rankdir Character: Passed to `data.tree::SetGraphStyle`
+#' @param splines Character: Passed to `data.tree::SetGraphStyle`
+#' @param fontname Character: Passed to `data.tree::SetGraphStyle`
+#' @param overlap Character: Passed to `data.tree::SetGraphStyle`
+#' @param prune Logical: If `TRUE`, prune AddTree.
+#' @param prune.empty.leaves Logical: If `TRUE`, prune empty leaves.
 #' @param edge.col Color for edges.
 #' @param bg.color Background color.
 # @param filename Character: Path to filename to save PDF
@@ -39,7 +46,7 @@ dplot3_addtree <- function(addtree,
                           #  edge.labels = FALSE,
                           #  arrowhead = "vee",
                            layout = "dot",
-                           drop.leaves = FALSE,
+                          #  drop.leaves = FALSE,
                            rankdir = "TB",
                            splines = "polyline",
                            fontname = "helvetica",
