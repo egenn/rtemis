@@ -46,16 +46,6 @@ s_XGBoost(
   rate_drop = 0,
   one_drop = 0,
   skip_drop = 0,
-  resampler = "strat.sub",
-  n.resamples = 10,
-  train.p = 0.75,
-  strat.n.bins = 4,
-  stratify.var = NULL,
-  target.length = NULL,
-  seed = NULL,
-  error.curve = FALSE,
-  plot.res = TRUE,
-  save.res = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
@@ -144,6 +134,10 @@ does not improve for this many rounds}
 
 \item{min_child_weight}{[gS] Numeric: Minimum sum of instance weight needed in a child.}
 
+\item{max_delta_step}{[gS] Numeric: Maximum delta step we allow each leaf output to
+be. O means no constraint. 1-10 may help control the update, especially with
+imbalanced outcomes.}
+
 \item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
 \item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
@@ -165,9 +159,35 @@ does not improve for this many rounds}
 
 \item{objective}{(Default = NULL)}
 
-\item{sample_type}{Character.}
+\item{sample_type}{Character: Type of sampling algorithm for \code{dart} booster
+"uniform": dropped trees are selected uniformly.
+"weighted": dropped trees are selected in proportion to weight.}
 
 \item{normalize_type}{Character.}
+
+\item{rate_drop}{[gS] Numeric: Dropout rate for \code{dart} booster.}
+
+\item{one_drop}{[gS] Integer {0, 1}: When this flag is enabled, at least one tree
+is always dropped during the dropout.}
+
+\item{skip_drop}{[gS] Numeric \link{0, 1}: Probability of skipping the dropout
+procedure during a boosting iteration. If a dropout is skipped, new trees are added
+in the same manner as gbtree. Non-zero \code{skip_drop} has higher priority than
+\code{rate_drop} or \code{one_drop}.}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
+
+\item{gridsearch.type}{Character: Type of grid search to perform:
+"exhaustive" or "randomized".}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -181,11 +201,11 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
+
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{nthread}{Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
 using \code{n.cores} or the xgboost execution using this setting. At the moment of
@@ -201,8 +221,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{Internal use only}
-
-\item{...}{Additional arguments}
 }
 \value{
 \code{rtMod} object

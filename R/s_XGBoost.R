@@ -11,7 +11,7 @@
 #' values are passed. Learn more about XGBoost's parameters here:
 #' http://xgboost.readthedocs.io/en/latest/parameter.html
 #'
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param booster Character: "gbtree", "gblinear": Booster to use.
 #' @param nrounds Integer: Maximum number of rounds to run. Can be set to a high number
 #' as early stopping will limit nrounds by monitoring inner CV error
@@ -23,6 +23,9 @@
 #' @param gamma \[gS\] Numeric: Minimum loss reduction required to make further partition
 #' @param max_depth \[gS\] Integer: Maximum tree depth.
 #' @param min_child_weight \[gS\] Numeric: Minimum sum of instance weight needed in a child.
+#' @param max_delta_step \[gS\] Numeric: Maximum delta step we allow each leaf output to
+#' be. O means no constraint. 1-10 may help control the update, especially with 
+#' imbalanced outcomes.
 #' @param subsample \[gS\] Numeric: subsample ratio of the training instance
 #' @param colsample_bytree \[gS\] Numeric: subsample ratio of columns when constructing each tree
 #' @param colsample_bylevel \[gS\] Numeric
@@ -32,8 +35,17 @@
 #'  (Default = 1; i.e. regular boosting)
 #' @param base_score Numeric: The mean outcome response.
 #' @param objective (Default = NULL)
-#' @param sample_type Character.
+#' @param sample_type Character: Type of sampling algorithm for `dart` booster
+#' "uniform": dropped trees are selected uniformly.
+#' "weighted": dropped trees are selected in proportion to weight.
 #' @param normalize_type Character.
+#' @param rate_drop \[gS\] Numeric: Dropout rate for `dart` booster.
+#' @param one_drop \[gS\] Integer {0, 1}: When this flag is enabled, at least one tree 
+#' is always dropped during the dropout.
+#' @param skip_drop \[gS\] Numeric [0, 1]: Probability of skipping the dropout 
+#' procedure during a boosting iteration. If a dropout is skipped, new trees are added 
+#' in the same manner as gbtree. Non-zero `skip_drop` has higher priority than
+#' `rate_drop` or `one_drop`.
 #' @param obj Function: Custom objective function. See `?xgboost::xgboost`
 #' @param feval Function: Custom evaluation function. See `?xgboost::xgboost`
 #' @param xgb.verbose Integer: Verbose level for XGB learners used for tuning.
@@ -90,21 +102,9 @@ s_XGBoost <- function(x, y = NULL,
                       objective = NULL,
                       sample_type = "uniform",
                       normalize_type = "forest",
-                      rate_drop = 0,
+                      rate_drop = 0, # dart
                       one_drop = 0,
                       skip_drop = 0,
-                      resampler = "strat.sub",
-                      n.resamples = 10,
-                      train.p = 0.75,
-                      strat.n.bins = 4,
-                      stratify.var = NULL,
-                      target.length = NULL,
-                      seed = NULL,
-                      # outcome = NULL,
-                      error.curve = FALSE,
-                      plot.res = TRUE,
-                      save.res = FALSE,
-                      #   save.res.mod = FALSE,
                       grid.resample.rtset = rtset.resample("kfold", 5),
                       gridsearch.type = "exhaustive",
                       metric = NULL,
@@ -145,7 +145,6 @@ s_XGBoost <- function(x, y = NULL,
   dependency_check("xgboost")
 
   # Arguments ----
-  #   if (save.res.mod) save.res <- TRUE
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE

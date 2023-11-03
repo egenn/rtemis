@@ -143,6 +143,10 @@ does not improve for this many rounds}
 
 \item{min_child_weight}{[gS] Numeric: Minimum sum of instance weight needed in a child.}
 
+\item{max_delta_step}{[gS] Numeric: Maximum delta step we allow each leaf output to
+be. O means no constraint. 1-10 may help control the update, especially with
+imbalanced outcomes.}
+
 \item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
 \item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}
@@ -165,7 +169,31 @@ does not improve for this many rounds}
 
 \item{normalize_type}{Character. Default = "forest"}
 
+\item{rate_drop}{[gS] Numeric: Dropout rate for \code{dart} booster.}
+
+\item{one_drop}{[gS] Integer {0, 1}: When this flag is enabled, at least one tree
+is always dropped during the dropout.}
+
+\item{skip_drop}{[gS] Numeric \link{0, 1}: Probability of skipping the dropout
+procedure during a boosting iteration. If a dropout is skipped, new trees are added
+in the same manner as gbtree. Non-zero \code{skip_drop} has higher priority than
+\code{rate_drop} or \code{one_drop}.}
+
 \item{.gs}{Internal use only}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
+
+\item{gridsearch.type}{Character: Type of grid search to perform:
+"exhaustive" or "randomized".}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -183,7 +211,11 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
+
 \item{trace}{Integer: If higher than 0, will print more information to the console.}
+
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{nthread}{Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
 using \code{n.cores} or the xgboost execution using this setting. At the moment of writing, parallelization via this
