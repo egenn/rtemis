@@ -47,7 +47,6 @@ dplot3_xyz(
   legend.borderwidth = 0,
   legend.group.gap = 0,
   margin = list(t = 30, b = 0, l = 0, r = 0),
-  zerolines = TRUE,
   fit.params = list(),
   width = NULL,
   height = NULL,
@@ -155,6 +154,10 @@ theme}
 
 \item{legend.border.col}{Color: Border color for legend}
 
+\item{legend.borderwidth}{Numeric: Border width for legend}
+
+\item{legend.group.gap}{Numeric: Gap between legend groups}
+
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.
 Default = \verb{list(t = 30, b = 0, l = 0, r = 0}}
 
@@ -166,6 +169,8 @@ available space}
 
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill
 available space}
+
+\item{padding}{Numeric: Graph padding.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 

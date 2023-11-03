@@ -32,6 +32,7 @@ dplot3_volcano(
   hline.dash = "solid",
   hline.annotate = NULL,
   hline.annotation.x = 1,
+  annotate = TRUE,
   annotate.col = theme$labs.col,
   theme = rtTheme,
   font.size = 16,
@@ -44,7 +45,6 @@ dplot3_volcano(
   ay.lo = NULL,
   ax.hi = NULL,
   ay.hi = NULL,
-  annotate = TRUE,
   annotate.alpha = 0.7,
   hovertext = NULL,
   displayModeBar = FALSE,
@@ -106,11 +106,11 @@ Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
 
 \item{alpha}{Numeric: point transparency}
 
-\item{hline}{Float: If defined, draw a horizontal line at this y value.}
+\item{hline}{Numeric: If defined, draw a horizontal line at this y value.}
 
 \item{hline.col}{Color for \code{hline}. Default = "#ff0000" (red)}
 
-\item{hline.width}{Float: Width for \code{hline}. Default = 1}
+\item{hline.width}{Numeric: Width for \code{hline}. Default = 1}
 
 \item{hline.dash}{Character: Type of line to draw: "solid", "dot", "dash",
 "longdash", "dashdot",
@@ -122,6 +122,8 @@ or "longdashdot"}
 \item{hline.annotation.x}{Numeric: x position to place annotation with paper
 as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
+\item{annotate}{Logical: If TRUE, annotate significant points}
+
 \item{annotate.col}{Color for annotations}
 
 \item{theme}{Character: Theme to use: Use \code{themes()} to get available
@@ -131,6 +133,26 @@ themes}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.
 Default = "rtCol1". Only used if \code{col = NULL}}
+
+\item{legend.x.lo}{Numeric: x position of \code{legend.lo}}
+
+\item{legend.x.hi}{Numeric: x position of \code{legend.hi}}
+
+\item{legend.y}{Numeric: y position for \code{legend.lo} and \code{legend.hi}}
+
+\item{annotate.n}{Integer: Number of significant points to annotate}
+
+\item{ax.lo}{Numeric: Sets the x component of the arrow tail about the arrow head for
+significant points below \code{x.thresh}}
+
+\item{ay.lo}{Numeric: Sets the y component of the arrow tail about the arrow head for
+significant points below \code{x.thresh}}
+
+\item{ax.hi}{Numeric: Sets the x component of the arrow tail about the arrow head for
+significant points above \code{x.thresh}}
+
+\item{ay.hi}{Numeric: Sets the y component of the arrow tail about the arrow head for
+significant points above \code{x.thresh}}
 
 \item{hovertext}{List of character vectors with hovertext to include for each group
 of markers}
@@ -146,6 +168,8 @@ set.}
 is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
 
 \item{...}{Additional parameters passed to \link{dplot3_xy}}
 }

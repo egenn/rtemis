@@ -16,7 +16,6 @@
 #' the edge when `rankdir = "TB"` and above when `rankdir = "LR"`.
 #'
 #' @inheritParams dplot3_addtree
-#' @inheritParams 
 #' @param object Either `rpart` object or `rtMod` object trained with
 #' [s_CART]
 #' @param col.lo Low color for estimated outcome
@@ -38,6 +37,7 @@
 #' edge.
 #' @param arrowhead Character: Arrowhead shape.
 #' @param layout Character: Passed to `data.tree::SetGraphStyle`
+#' @param drop.leaves Logical: If TRUE, position leaves at the bottom of the plot.
 #' @param rankdir Character: Passed to `data.tree::SetGraphStyle`
 #' @param splines Character: Passed to `data.tree::SetGraphStyle`
 #' @param fontname Character: Passed to `data.tree::SetGraphStyle`

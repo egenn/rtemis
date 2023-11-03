@@ -22,7 +22,7 @@
 #' @param eta \[gS\] Numeric (0, 1): Learning rate.
 #' @param gamma \[gS\] Numeric: Minimum loss reduction required to make further partition
 #' @param max_depth \[gS\] Integer: Maximum tree depth.
-#' @param min_child_weight
+#' @param min_child_weight \[gS\] Numeric: Minimum sum of instance weight needed in a child.
 #' @param subsample \[gS\] Numeric: subsample ratio of the training instance
 #' @param colsample_bytree \[gS\] Numeric: subsample ratio of columns when constructing each tree
 #' @param colsample_bylevel \[gS\] Numeric

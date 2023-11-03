@@ -30,6 +30,19 @@
 #' available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e. fill
 #' available space
+#' @param legend.borderwidth Numeric: Border width for legend
+#' @param legend.group.gap Numeric: Gap between legend groups
+#' @param x.showspikes Logical: If TRUE, show spikes on x-axis
+#' @param y.showspikes Logical: If TRUE, show spikes on y-axis
+#' @param spikedash Character: Dash type for spikes
+#' @param spikemode Character: "across", "toaxis", "marker", or any combination of those
+#' joined by `+`, e.g. "toaxis+across+marker"
+#' @param spikesnap Character: "data", "cursor", "hovered data"
+#' @param spikecolor Color for spikes
+#' @param spikethickness Numeric: Thickness of spikes
+#' @param main.y Numeric: Y position of main title
+#' @param main.yanchor Character: "top", "middle", "bottom"
+#' @param scrollZoom Logical: If TRUE, enable scroll zoom
 #' @param include.fit.name Logical: If TRUE, include fit name in legend.
 #' @param marker.size Numeric: Marker size.
 #' @param symbol Character: Marker symbol.

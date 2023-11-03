@@ -25,6 +25,19 @@
 #' `x.thresh`
 #' @param legend.hi Character: Legend to annotate significant points above the
 #' `x.thresh`
+#' @param legend.x.lo Numeric: x position of `legend.lo`
+#' @param legend.x.hi Numeric: x position of `legend.hi`
+#' @param legend.y Numeric: y position for `legend.lo` and `legend.hi`
+#' @param annotate Logical: If TRUE, annotate significant points
+#' @param annotate.n Integer: Number of significant points to annotate
+#' @param ax.lo Numeric: Sets the x component of the arrow tail about the arrow head for
+#' significant points below `x.thresh`
+#' @param ay.lo Numeric: Sets the y component of the arrow tail about the arrow head for
+#' significant points below `x.thresh`
+#' @param ax.hi Numeric: Sets the x component of the arrow tail about the arrow head for
+#' significant points above `x.thresh`
+#' @param ay.hi Numeric: Sets the y component of the arrow tail about the arrow head for
+#' significant points above `x.thresh`
 #' @param label.lo Character: label for low values
 #' @param label.hi Character: label for high values
 #' @param xlab Character: x-axis label
@@ -34,9 +47,9 @@
 #' @param xlim Numeric vector, length 2: x-axis limits
 #' @param ylim Numeric vector, length 2: y-axis limits
 #' @param alpha Numeric: point transparency
-#' @param hline Float: If defined, draw a horizontal line at this y value.
+#' @param hline Numeric: If defined, draw a horizontal line at this y value.
 #' @param hline.col Color for `hline`. Default = "#ff0000" (red)
-#' @param hline.width Float: Width for `hline`. Default = 1
+#' @param hline.width Numeric: Width for `hline`. Default = 1
 #' @param hline.dash Character: Type of line to draw: "solid", "dot", "dash",
 #' "longdash", "dashdot",
 #' or "longdashdot"
@@ -44,7 +57,10 @@
 #' `hline` is set
 #' @param hline.annotation.x Numeric: x position to place annotation with paper
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
+#' @param annotate Logical: If TRUE, annotate significant points
 #' @param annotate.col Color for annotations
+#' @oaram annotate.alpha Numeric: Transparency for annotations
+#' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters passed to [dplot3_xy]
 #'
 #' @author E.D. Gennatas
@@ -87,6 +103,7 @@ dplot3_volcano <- function(x, pvals,
                            hline.dash = "solid",
                            hline.annotate = NULL,
                            hline.annotation.x = 1,
+                           annotate = TRUE,
                            annotate.col = theme$labs.col,
                            theme = rtTheme,
                            font.size = 16,
@@ -99,7 +116,6 @@ dplot3_volcano <- function(x, pvals,
                            ay.lo = NULL,
                            ax.hi = NULL, # -40,
                            ay.hi = NULL,
-                           annotate = TRUE,
                            annotate.alpha = .7,
                            hovertext = NULL,
                            displayModeBar = FALSE,

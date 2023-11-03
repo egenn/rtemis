@@ -142,6 +142,8 @@ does not improve for this many rounds}
 
 \item{max_depth}{[gS] Integer: Maximum tree depth.}
 
+\item{min_child_weight}{[gS] Numeric: Minimum sum of instance weight needed in a child.}
+
 \item{subsample}{[gS] Numeric: subsample ratio of the training instance}
 
 \item{colsample_bytree}{[gS] Numeric: subsample ratio of columns when constructing each tree}

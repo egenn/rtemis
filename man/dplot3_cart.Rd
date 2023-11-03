@@ -77,6 +77,8 @@ edge.}
 
 \item{layout}{Character: Passed to \code{data.tree::SetGraphStyle}}
 
+\item{drop.leaves}{Logical: If TRUE, position leaves at the bottom of the plot.}
+
 \item{rankdir}{Character: Passed to \code{data.tree::SetGraphStyle}}
 
 \item{splines}{Character: Passed to \code{data.tree::SetGraphStyle}}

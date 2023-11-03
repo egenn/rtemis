@@ -193,7 +193,30 @@ theme}
 
 \item{legend.border.col}{Color: Border color for legend}
 
+\item{legend.borderwidth}{Numeric: Border width for legend}
+
+\item{legend.group.gap}{Numeric: Gap between legend groups}
+
+\item{x.showspikes}{Logical: If TRUE, show spikes on x-axis}
+
+\item{y.showspikes}{Logical: If TRUE, show spikes on y-axis}
+
+\item{spikedash}{Character: Dash type for spikes}
+
+\item{spikemode}{Character: "across", "toaxis", "marker", or any combination of those
+joined by \code{+}, e.g. "toaxis+across+marker"}
+
+\item{spikesnap}{Character: "data", "cursor", "hovered data"}
+
+\item{spikecolor}{Color for spikes}
+
+\item{spikethickness}{Numeric: Thickness of spikes}
+
 \item{margin}{Named list: plot margins.}
+
+\item{main.y}{Numeric: Y position of main title}
+
+\item{main.yanchor}{Character: "top", "middle", "bottom"}
 
 \item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
 
@@ -248,6 +271,8 @@ available space}
 
 \item{modeBar.file.format}{Character: "svg", "png", "jpeg", "pdf" / any
 output file type supported by plotly and your system}
+
+\item{scrollZoom}{Logical: If TRUE, enable scroll zoom}
 
 \item{filename}{Character: Path to file to save static plot. Default = NULL}
 

@@ -12,6 +12,7 @@
 #' @param zlab Character: z-axis label
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
 #' Default = `list(t = 30, b = 0, l = 0, r = 0`
+#' @param padding Numeric: Graph padding.
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -59,7 +60,6 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
                        legend.borderwidth = 0,
                        legend.group.gap = 0,
                        margin = list(t = 30, b = 0, l = 0, r = 0),
-                       zerolines = TRUE,
                        fit.params = list(),
                        width = NULL,
                        height = NULL,
