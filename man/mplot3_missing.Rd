@@ -15,7 +15,7 @@ mplot3_missing(
   case.names.x = 0.25,
   case.names.every = NULL,
   theme = rtTheme,
-  use.alpha = FALSE,
+  alpha = 1,
   mar = c(3, 3.5, 5.5, 1),
   oma = c(0.5, 0.5, 0.5, 0.5),
   par.reset = TRUE,
@@ -31,12 +31,20 @@ mplot3_missing(
 
 \item{main}{Character: Main title}
 
-\item{col.missing}{Color for missing cases. Default = "#FE4AA3" (magenta)}
+\item{col.missing}{Color for missing cases.}
 
-\item{show}{Character: "percent" or "total". Show percent missing or total missing per column
-on the x-axis}
+\item{show}{Character: "percent" or "total". Show percent missing or total missing
+per column on the x-axis}
+
+\item{names.srt}{Numeric: Angle of feature names in degrees.}
+
+\item{case.names.x}{Numeric: x position of case names}
+
+\item{case.names.every}{Numeric: Show case names every this many cases}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
+
+\item{alpha}{Numeric: Multiply theme's \code{fg} color by this amount}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 

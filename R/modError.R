@@ -343,6 +343,8 @@ factorHarmonize <- function(reference, x,
 #'
 #' @method print regError
 #' @param x `regError` object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

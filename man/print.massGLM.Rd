@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\link{massGLM} object}
+
+\item{...}{Not used}
 }
 \description{
 \code{print}\link{massGLM} object

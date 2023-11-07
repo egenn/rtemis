@@ -9,6 +9,8 @@
 \arguments{
 \item{x}{Object of type \link{classError}}
 
+\item{decimal.places}{Integer: Number of decimal places to print}
+
 \item{...}{Not used}
 }
 \description{

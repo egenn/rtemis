@@ -11,6 +11,7 @@
 #' @param prune.empty.leaves Logical: If TRUE, remove leaves with 0 cases.
 #' @param remove.bad.parents Logical: If TRUE, remove nodes with no siblings but children and
 #' give their children to their parent.
+#' @param verbose Logical: If TRUE, print messages to console.
 #'
 #' @author E.D. Gennatas
 #' @export

@@ -24,6 +24,7 @@
 #' for each base learner
 #' @param prefix Internal
 #' @param ... Additional parameters to be passed to [glmLite]
+#' 
 #' @author E.D. Gennatas
 #' @export
 
@@ -376,9 +377,12 @@ glmLiteBoostTV <- function(x, y = NULL,
 } # rtemis::glmLiteBoostTV
 
 
-#' Print method for [boost] object
+#' Print method for `glmLiteBoostTV` object
 #'
-#' @method print boost
+#' @method print glmLiteBoostTV
+#' @param x `glmLiteBoostTV` object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

@@ -389,9 +389,9 @@ cartLiteBoostTV <- function(x, y = NULL,
 } # rtemis::cartLiteBoostTV
 
 
-#' Print method for [boost] object
+#' Print method for [cartLiteBoostTV] object
 #'
-#' @method print boost
+#' @method print cartLiteBoostTV
 #'
 #' @param x `cartLiteBoostTV` object
 #' @param ... Additional arguments

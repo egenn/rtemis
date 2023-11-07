@@ -4,13 +4,21 @@
 
 #' Variable Selection by Random Forest
 #'
-#' Select important variables from a set of features based on RF-estimated variable importance
+#' Select important variables from a set of features based on RF-estimated variable 
+#' importance
+#' 
+#' Please note that this function is included for academic and exploratory purposes.
+#' It may be best to rely on each supervised learning algorithm's own variable selection
+#' approach.
 #'
 #' @param x Predictors
 #' @param y outcome
 #' @param p Float (0, 1): Fraction of variables in x to select. `p * ncol(x)`. May help to set to a fraction twice
 #'   what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 #'   positives which can be dealt by an appropriate learning algorithm.
+#' @param print.plot Logical: If TRUE, print plot of variable importance
+#' @param verbose Logical: If TRUE, print messages to console.
+#' 
 #' @author E.D. Gennatas
 #' @export
 rfVarSelect <- function(x, y,

@@ -1,6 +1,12 @@
-#' `prune.rpart` experimental replacement
+#' `prune.rpart` replacement
+#' 
+#' @param tree rpart object
+#' @param cp Numeric: Complexity parameter
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd 
 
 prune.rpart.rt <- function(tree, cp, ...) {
   

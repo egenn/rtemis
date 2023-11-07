@@ -15,6 +15,7 @@
 #' respectively to get points of the ROC.
 #' @param type Character: "TPR.FPR" or "Sens.Spec". Only changes the x and y labels.
 #' True positive rate vs. False positive rate and Sensitivity vs. Specificity.
+#' @param alpha Numeric: Alpha transparency for lines
 #' @param balanced.accuracy Logical: If TRUE, annotate the point of maximal Balanced
 #' Accuracy.
 #' @param main Character: Plot title.
@@ -24,7 +25,13 @@
 #' @param diagonal Logical: If TRUE, draw diagonal.
 #' @param diagonal.lwd Float: Line width for diagonal.
 #' @param diagonal.lty Integer: Line type for diagonal.
+#' @param diagonal.col Color: Color for diagonal.
+#' @param annotation.col Color: Color for annotation.
+#' @param annot.line Numeric: Line position for annotation.
+#' @param annot.adj Numeric: Text adjustment for annotation.
+#' @param annot.font Integer: Font for annotation.
 #' @param group.legend Logical: If TRUE, print group legend
+#' @param verbose Logical: If TRUE, print messages to console.
 #'
 #' @author E.D. Gennatas
 #' @export

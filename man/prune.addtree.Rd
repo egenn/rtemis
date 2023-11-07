@@ -18,6 +18,8 @@ prune.addtree(
 
 \item{remove.bad.parents}{Logical: If TRUE, remove nodes with no siblings but children and
 give their children to their parent.}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 }
 \description{
 Prune an AddTree tree in Node format using \code{data.tree} to remove sister nodes with same

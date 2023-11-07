@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\code{regError} object}
+
+\item{...}{Not used}
 }
 \description{
 \code{print} \code{regError} object

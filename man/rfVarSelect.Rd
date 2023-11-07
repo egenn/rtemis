@@ -14,9 +14,19 @@ rfVarSelect(x, y, p = 0.2, print.plot = TRUE, verbose = TRUE)
 \item{p}{Float (0, 1): Fraction of variables in x to select. \code{p * ncol(x)}. May help to set to a fraction twice
 what you expect to be the true fraction of useful variables, to reduce false negatives at the expense of false
 positives which can be dealt by an appropriate learning algorithm.}
+
+\item{print.plot}{Logical: If TRUE, print plot of variable importance}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 }
 \description{
-Select important variables from a set of features based on RF-estimated variable importance
+Select important variables from a set of features based on RF-estimated variable
+importance
+}
+\details{
+Please note that this function is included for academic and exploratory purposes.
+It may be best to rely on each supervised learning algorithm's own variable selection
+approach.
 }
 \author{
 E.D. Gennatas

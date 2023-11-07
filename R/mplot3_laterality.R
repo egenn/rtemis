@@ -20,6 +20,7 @@
 #' @param lty Integer: Line type for individual lines. Default = 1
 #' @param lwd Float: Line width for individual lines. Default = .3
 #' @param ylim Float, vector, length 2: y-axis limits
+#' @param labelify Logical: If TRUE, [labelify] regionnames
 #'
 #' @author E.D. Gennatas
 #' @export

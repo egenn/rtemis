@@ -6,9 +6,15 @@
 \usage{
 rstudio_theme_rtemis(theme = "dark")
 }
+\arguments{
+\item{theme}{Character: "dark" or "light"}
+}
 \description{
 Apply the rtemis RStudio theme, an adaptation of the rscodeio theme
 (https://github.com/anthonynorth/rscodeio)
 Recommended to use the Fira Code font with the theme
 (https://fonts.google.com/specimen/Fira+Code?query=fira+code)
+}
+\author{
+E.D. Gennatas
 }

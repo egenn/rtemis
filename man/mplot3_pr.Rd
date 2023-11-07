@@ -66,6 +66,16 @@ mplot3_pr(
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
+\item{annotation.side}{Integer: Side of plot to place annotation.}
+
+\item{annotation.col}{Color: Color of annotation.}
+
+\item{annot.line}{Numeric: Line number for annotation.}
+
+\item{annot.adj}{Numeric: Adjustment for annotation.}
+
+\item{annot.font}{Integer: Font for annotation.}
+
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
@@ -74,6 +84,8 @@ mplot3_pr(
 get options with \code{rtpalette()}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 
 \item{filename}{Path to file: If supplied, plot will be printed to file}
 

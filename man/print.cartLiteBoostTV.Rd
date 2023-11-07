@@ -2,9 +2,9 @@
 % Please edit documentation in R/cartLiteBoostTV.R
 \name{print.cartLiteBoostTV}
 \alias{print.cartLiteBoostTV}
-\title{Print method for \link{boost} object}
+\title{Print method for \link{cartLiteBoostTV} object}
 \usage{
-\method{print}{boost}(x, ...)
+\method{print}{cartLiteBoostTV}(x, ...)
 }
 \arguments{
 \item{x}{\code{cartLiteBoostTV} object}
@@ -12,7 +12,7 @@
 \item{...}{Additional arguments}
 }
 \description{
-Print method for \link{boost} object
+Print method for \link{cartLiteBoostTV} object
 }
 \author{
 E.D. Gennatas

@@ -8,6 +8,10 @@
 #' (https://github.com/anthonynorth/rscodeio)
 #' Recommended to use the Fira Code font with the theme
 #' (https://fonts.google.com/specimen/Fira+Code?query=fira+code)
+#' 
+#' @param theme Character: "dark" or "light"
+#' 
+#' @author E.D. Gennatas
 #' @export
 
 rstudio_theme_rtemis <- function(theme = "dark") {

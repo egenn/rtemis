@@ -2,12 +2,17 @@
 % Please edit documentation in R/glmLiteBoostTV.R
 \name{print.glmLiteBoostTV}
 \alias{print.glmLiteBoostTV}
-\title{Print method for \link{boost} object}
+\title{Print method for \code{glmLiteBoostTV} object}
 \usage{
-\method{print}{boost}(x, ...)
+\method{print}{glmLiteBoostTV}(x, ...)
+}
+\arguments{
+\item{x}{\code{glmLiteBoostTV} object}
+
+\item{...}{Not used}
 }
 \description{
-Print method for \link{boost} object
+Print method for \code{glmLiteBoostTV} object
 }
 \author{
 E.D. Gennatas

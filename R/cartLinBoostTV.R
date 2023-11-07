@@ -365,9 +365,12 @@ cartLinBoostTV <- function(x, y = NULL,
 } # rtemis::cartLinBoostTV
 
 
-#' Print method for [boost] object
+#' Print method for `cartLinBoostTV` object
 #'
-#' @method print boost
+#' @method print cartLinBoostTV
+#' @param x `cartLinBoostTV` object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' 
 #' @keywords internal

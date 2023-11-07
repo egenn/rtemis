@@ -265,6 +265,8 @@ plot.resample <- function(x, col = NULL, ...) {
 #'
 #' @method print resample
 #' @param x [resample] object
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

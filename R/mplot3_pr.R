@@ -18,6 +18,13 @@
 #' @param diagonal.lwd Float: Line width for diagonal.
 #' @param diagonal.lty Integer: Line type for diagonal.
 #' @param group.legend Logical
+#' @param annotation.side Integer: Side of plot to place annotation.
+#' @param annotation.col Color: Color of annotation.
+#' @param annot.line Numeric: Line number for annotation.
+#' @param annot.adj Numeric: Adjustment for annotation.
+#' @param annot.font Integer: Font for annotation.
+#' @param verbose Logical: If TRUE, print messages to console.
+#' 
 #' @return List with Precision, Recall, and Threshold values, invisibly
 #' @author E.D. Gennatas
 #' @export

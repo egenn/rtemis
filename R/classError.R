@@ -117,7 +117,9 @@ classError <- function(true,
 #' Print [classError]
 #'
 #' @param x Object of type [classError]
+#' @param decimal.places Integer: Number of decimal places to print
 #' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

@@ -1,7 +1,6 @@
 # mplot_missing.R
 # :: rtemis::
 # 2020 E.D. Gennatas www.lambdamd.org
-# Biostat214: Documentation with roxygen + keeping function definitions tidy + push to GitHub
 
 #' Plot missingness
 #'
@@ -10,9 +9,14 @@
 #' @param feat.names Character: Feature names. Defaults to `colnames(x)`
 #' @param case.names Character: Case names. Defaults to `rownames(x)`
 #' @param main Character: Main title
-#' @param col.missing Color for missing cases. Default = "#FE4AA3" (magenta)
-#' @param show Character: "percent" or "total". Show percent missing or total missing per column
-#' on the x-axis
+#' @param col.missing Color for missing cases.
+#' @param show Character: "percent" or "total". Show percent missing or total missing 
+#' per column on the x-axis
+#' @param names.srt Numeric: Angle of feature names in degrees.
+#' @param case.names.x Numeric: x position of case names
+#' @param case.names.every Numeric: Show case names every this many cases
+#' @param alpha Numeric: Multiply theme's `fg` color by this amount
+#' 
 #' @examples
 #' \dontrun{
 #' dat <- iris
@@ -36,7 +40,7 @@ mplot3_missing <- function(x,
                            case.names.every = NULL,
                            # y.srt = 0,
                            theme = rtTheme,
-                           use.alpha = FALSE,
+                           alpha = 1,
                            mar = c(3, 3.5, 5.5, 1),
                            oma = c(.5, .5, .5, .5),
                            par.reset = TRUE, ...) {
@@ -75,10 +79,10 @@ mplot3_missing <- function(x,
   ylim <- c(.5, max(y) + .5)
   xlim <- c(.5, max(x) + .5)
 
-  if (use.alpha) {
-    col.present <- colorAdjust(theme$fg, .2)
+  if (alpha < 1) {
+    col.present <- colorAdjust(theme$fg, alpha)
   } else {
-    .col <- mean(col2rgb(theme$fg))/255
+    .col <- mean(col2rgb(theme$fg)) / 255
     if (.col > .5) {
       .col <- .col - .85
     } else if (.col < .5) {

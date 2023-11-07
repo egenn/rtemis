@@ -56,6 +56,8 @@ Accuracy.}
 
 \item{col}{Color, vector: Colors to use for ROC curve(s)}
 
+\item{alpha}{Numeric: Alpha transparency for lines}
+
 \item{cex}{Float: Character expansion factor.}
 
 \item{lwd}{Float: Line width.}
@@ -66,9 +68,19 @@ Accuracy.}
 
 \item{diagonal.lty}{Integer: Line type for diagonal.}
 
+\item{diagonal.col}{Color: Color for diagonal.}
+
 \item{group.legend}{Logical: If TRUE, print group legend}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
+
+\item{annotation.col}{Color: Color for annotation.}
+
+\item{annot.line}{Numeric: Line position for annotation.}
+
+\item{annot.adj}{Numeric: Text adjustment for annotation.}
+
+\item{annot.font}{Integer: Font for annotation.}
 
 \item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
 graphics device size. Default = "m" (See \code{par("pty")})}
@@ -79,6 +91,8 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
