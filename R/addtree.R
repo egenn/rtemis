@@ -737,7 +737,10 @@ addtree_path_to_rules <- function(x) {
 
 #' Print method for `addtree` object created using [s_AddTree]
 #'
+#' @method print addtree
 #' @param x `rtMod` object created using [s_AddTree]
+#' @param ... Not used
+#' 
 #' @author E.D. Gennatas
 #' @export
 

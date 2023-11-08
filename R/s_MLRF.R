@@ -6,19 +6,30 @@
 #'
 #' Train an MLlib Random Forest model on Spark
 #'
-#' The overhead incurred by Spark means this should be used only for really large datasets on
-#' a Spark cluster, not on a regular local machine.
+#' The overhead incurred by Spark means this is best used for larged datasets on
+#' a Spark cluster.
 #' 
-#' To get started using `sparklyr`, see the 
-#' [sparklyr website](https://spark.rstudio.com/get-started/)
+#' See also: 
+#' [sparklyr website](https://spark.rstudio.com/get-started/),
+#' [Spark MLLib documentation](https://spark.apache.org/docs/latest/api/R/index.html)
 #' 
 #' @inheritParams s_GLM
 #' @param x vector, matrix or dataframe of training set features
 #' @param y vector of outcomes
 #' @param x.test vector, matrix or dataframe of testing set features
 #' @param y.test vector of testing set outcomes
-#' @param n.trees Integer. Number of trees to train
-#' @param max.depth Integer. Max depth of each tree
+#' @param n.trees Integer: Number of trees to train
+#' @param max.depth Integer: Max depth of each tree
+#' @param subsampling.rate Numeric: Fraction of cases to use for training each tree
+#' @param min.instances.per.node Integer: Min N of cases per node.
+#' @param feature.subset.strategy Character: The number of features to consider for 
+#' splits at each tree node. Supported options: "auto" (choose automatically for task: 
+#' If numTrees == 1, set to "all." If numTrees > 1 (forest), set to "sqrt" for 
+#' classification and to "onethird" for regression), "all" (use all features), 
+#' "onethird" (use 1/3 of the features), "sqrt" (use sqrt(number of features)), 
+#' "log2" (use log2(number of features)), "n": (when n is in the range (0, 1.0], use 
+#' n * number of features. When n is in the range (1, number of features), use n 
+#' features). Default is "auto".
 #' @param max.bins Integer. Max N of bins used for discretizing continuous features and for
 #'   choosing how to split on features at each node. More bins give higher granularity.
 ## @param type "regression" for continuous outcome; "classification" for categorical outcome.

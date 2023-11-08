@@ -377,7 +377,12 @@ tohtml <- function(x,
 #'
 #' @method print CheckData
 #' @param x `CheckData` object
-#'
+#' @param type Character: Output type: "plaintext" or "html"
+#' @param check_integers Logical: If TRUE and there are integer features, prints a
+#' message to consider converting to factors
+#' @param css List with `font.family`, `color`, and `background.color` elements
+#' @param ... Not used.
+#' 
 #' @author E.D. Gennatas
 #' @export
 print.CheckData <- function(x,

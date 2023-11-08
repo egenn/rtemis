@@ -92,6 +92,8 @@ Default = NULL (random seed)}
 
 \item{objective}{(Default = NULL)}
 
+\item{nrounds}{Integer: Number of trees to grow}
+
 \item{early_stopping_rounds}{Integer: Training on resamples of \code{x} (tuning) will
 stop if performance does not improve for this many rounds}
 

@@ -171,6 +171,8 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
 \item{outdir}{Character: If defined, save log, 'plot.all' plots (see above) and RDS file of complete output}
 
+\item{save.gridrun}{Logical: If TRUE, save grid search models.}
+
 \item{save.res.mod}{Logical: If TRUE, save gbm model for each grid run. For diagnostic purposes only:
 Object size adds up quickly}
 

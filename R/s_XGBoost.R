@@ -42,7 +42,7 @@
 #' @param rate_drop \[gS\] Numeric: Dropout rate for `dart` booster.
 #' @param one_drop \[gS\] Integer {0, 1}: When this flag is enabled, at least one tree 
 #' is always dropped during the dropout.
-#' @param skip_drop \[gS\] Numeric [0, 1]: Probability of skipping the dropout 
+#' @param skip_drop \[gS\] Numeric \[0, 1\]: Probability of skipping the dropout 
 #' procedure during a boosting iteration. If a dropout is skipped, new trees are added 
 #' in the same manner as gbtree. Non-zero `skip_drop` has higher priority than
 #' `rate_drop` or `one_drop`.
@@ -52,12 +52,15 @@
 #' @param print_every_n Integer: Print evaluation metrics every this many iterations
 #' @param early_stopping_rounds Integer: Training on resamples of `x.train` (tuning) will stop if performance
 #'   does not improve for this many rounds
-#' @param missing String or Numeric: Which values to consider as missing. Default = NA
+#' @param missing String or Numeric: Which values to consider as missing.
+#' @param importance Logical: If TRUE, calculate variable importance.
+#' @param trace Integer: If > 0, print parameter values to console.
 #' @param nthread Integer: Number of threads for xgboost using OpenMP. Only parallelize resamples
 #' using `n.cores` or the xgboost execution using this setting. At the moment of
 #' writing, parallelization via this parameter causes a linear booster to fail most of
 #' the times. Therefore, default is rtCores for 'gbtree', 1 for 'gblinear'
 #' @param .gs Internal use only
+#' @param ... Additional arguments passed to `xgboost::xgb.train`
 #'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
@@ -115,15 +118,12 @@ s_XGBoost <- function(x, y = NULL,
                       plot.predicted = NULL,
                       plot.theme = rtTheme,
                       question = NULL,
-                      rtclass = NULL,
-                      save.dump = FALSE,
                       verbose = TRUE,
                       grid.verbose = FALSE,
                       trace = 0,
                       save.gridrun = FALSE,
                       n.cores = 1,
                       nthread = rtCores,
-                      parallel.type = c("psock", "fork"),
                       outdir = NULL,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
                       .gs = FALSE, ...) {

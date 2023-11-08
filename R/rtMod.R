@@ -2377,8 +2377,7 @@ rtMeta <- R6::R6Class("rtMeta",
     print = function() {
       "R6 show / print method for rtMeta"
       objcat("Meta Model")
-      cat("   Base: ", hilite(paste(self$base.mod.names,
-        collapse = ", "
+      cat("   Base: ", hilite(paste(self$base.mod.names, collapse = ", "
       )), "\n")
       cat("   Meta: ", hilite(self$meta.mod.name), "\n")
       boxcat("Training Error")
@@ -2407,6 +2406,7 @@ NULL
 #' @param object `rtMeta` object
 #' @param newdata Testing set features
 #' @param fn Function to average predictions
+#' @param ... Additional arguments passed to `predict(object)`
 #'
 #' @rdname rtMeta-methods
 #' @export

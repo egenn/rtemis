@@ -36,6 +36,7 @@ s_CART(
   grid.resample.rtset = rtset.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
+  save.gridrun = FALSE,
   metric = NULL,
   maximize = NULL,
   na.action = na.exclude,
@@ -135,6 +136,8 @@ grid search parameters.}
 \item{gridsearch.randomized.p}{Float (0, 1): If
 \code{gridsearch.type = "randomized"}, randomly test this proportion of
 combinations.}
+
+\item{save.gridrun}{Logical: If TRUE, save grid search models.}
 
 \item{metric}{Character: Metric to minimize, or maximize if
 \code{maximize = TRUE} during grid search. Default = NULL, which results in

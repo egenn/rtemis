@@ -102,6 +102,17 @@ Default = NULL (random seed)}
 
 \item{imetrics}{Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE}
 
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
+
 \item{rpart.params}{List: \code{rpart} parameters, passed to \code{rpart::rpart("parms")}}
 
 \item{match.rules}{Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
@@ -119,11 +130,11 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
+\item{prune.verbose}{Logical: If TRUE, prune tree.}
+
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
@@ -133,7 +144,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{...}{Additional arguments}
+\item{n.cores}{Integer: Number of cores to use.}
 }
 \value{
 Object of class \code{rtMod}

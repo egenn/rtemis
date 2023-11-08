@@ -68,6 +68,7 @@
 #' dat <- data.frame(x, y)
 #' mod <- s_LightGBM(dat)
 #' }
+
 s_LightGBM <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
@@ -444,6 +445,7 @@ s_LightGBM <- function(x, y = NULL,
 #' Random Forest with LightGBM
 #'
 #' @inheritParams s_LightGBM
+#' @param nrounds Integer: Number of trees to grow
 #'
 #' @author ED Gennatas
 #' @export
@@ -454,6 +456,7 @@ s_LightGBM <- function(x, y = NULL,
 #' dat <- data.frame(x, y)
 #' mod <- s_LightRF(dat)
 #' }
+
 s_LightRF <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
                       x.name = NULL, y.name = NULL,

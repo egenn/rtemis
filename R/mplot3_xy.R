@@ -10,8 +10,8 @@
 #'   If `data` is provided, name of variable, unquoted.
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If `data` is provided, name of variable, unquoted.
-#' @param fit Character: \pkg{rtemis} model to calculate y ~ x fit.
-#' Options: see `learnSelect`
+#' @param fit Character: \pkg{rtemis} model to calculate `y ~ x` fit.
+#' Options: see `learnSelect()`
 #' Can also be Logical, which will give a GAM fit if TRUE. If you specify
 #' "NLA", the activation function should be passed as a string.
 #' @param formula Formula: Provide a formula to be solved using [s_NLS].
@@ -78,8 +78,10 @@
 #' @param xpd Logical or NA: FALSE: plotting clipped to plot region; TRUE:
 #' plotting clipped to figure region; NA: plotting clipped to device region.
 #' @param xaxs Character: "r": Extend plot x-axis limits by 4% on either end;
-#' "i": Use exact x-axis limits. Default = "r"
-#' @param yaxs Character: as `xaxs` for the y-axis. Default = "r"
+#' "i": Use exact x-axis limits.
+#' @param yaxs Character: as `xaxs` for the y-axis.
+#' @param log Character: "x", "y", or "xy", defines if either or both axes should
+#' be log-transformed.
 #' @param rsq.side Integer: \[1:4\] Where to place the `rsq` annotation.
 #' Default = 1 (i.e. bottom)
 #' @param rsq.adj Float: Adjust `rsq` annotation. See `mtext "adj"`
@@ -118,19 +120,19 @@
 #' @param fit.alpha Float \[0, 1\]: Transparency for fit line
 #' @param fit.legend Logical: If TRUE, show fit legend
 #' @param se.lwd Float: Line width for standard error bounds
-#' @param hline Vector: y-value(s) for horizontal lines. Default = NULL
+#' @param hline Vector: y-value(s) for horizontal lines.
 #' @param hline.col Color for horizontal line(s)
 #' @param hline.lwd Float: Width for horizontal line(s)
 #' @param hline.lty Integer: Line type for horizontal line(s)
-#' @param vline Vector: x-value(s) for vertical lines. Default = NULL
+#' @param vline Vector: x-value(s) for vertical lines.
 #' @param vline.lwd Float: Width for vertical lines
 #' @param vline.col Color for vertical lines
 #' @param vline.lty Integer: Line type for vertical lines
-#' @param diagonal Logical: If TRUE, draw diagonal line. Default = FALSE
-#' @param diagonal.lwd Float: Line width for `diagonal`. Default = 1.5
-#' @param diagonal.lty Integer: Line type for `diagonal`. Default = 1
-#' @param diagonal.col Color: Color for `diagonal`. Default = "gray50"
-#' @param diagonal.alpha Float: Alpha for `diagonal` Default = .5
+#' @param diagonal Logical: If TRUE, draw diagonal line.
+#' @param diagonal.lwd Float: Line width for `diagonal`.
+#' @param diagonal.lty Integer: Line type for `diagonal`.
+#' @param diagonal.col Color: Color for `diagonal`.
+#' @param diagonal.alpha Float: Alpha for `diagonal`
 #' @param group.side Integer: Side to show group legend
 #' @param group.adj Float: `adj` for group legend. See `mtext("adj")`
 #' @param group.padj Float: `padj` for group legend See `mtext("padj")`
@@ -147,14 +149,14 @@
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x.
 #' Default = NULL: will be set to TRUE if fit is set, otherwise FALSE
 #' @param autolabel Vector to be used to generate autolabels when using
-#' [rtlayout] with `autolabel = TRUE`. Default = `letters`
+#' [rtlayout] with `autolabel = TRUE`.
 #' @param par.reset Logical: If TRUE, reset `par` setting before exiting.
-#' @param return.lims Logical: If TRUE, return xlim and ylim. Default = FALSE
+#' @param return.lims Logical: If TRUE, return xlim and ylim.
 #' @param pdf.width Float: Width in inches for pdf output (if `filename`
 #' is set).
 #' @param pdf.height Float: Height in inches for pdf output.
 #' @param trace Integer: If > 0, pass `verbose = TRUE` to the cluster and
-#' fit functions, if used. Default = 0
+#' fit functions, if used.
 #' @param filename Character: Path to file to save plot. Default = NULL
 #' @param ... Additional arguments to be passed to theme function
 #'
@@ -318,9 +320,8 @@ mplot3_xy <- function(x, y = NULL,
   #   y.axis.hadj <- if (y.axis.las == 1) 1 else .5
   # }
 
-  .log <- strsplit(log, "")[[1]]
-  if ("x" %in% .log) xaxs <- "i"
-  if ("y" %in% .log) yaxs <- "i"
+  if (grepl("x", log)) xaxs <- "i"
+  if (grepl("y", log)) yaxs <- "i"
 
   # fit & formula
   if (!is.null(formula)) fit <- "NLS"
@@ -680,10 +681,14 @@ mplot3_xy <- function(x, y = NULL,
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   plot(NULL, NULL,
-    xlim = xlim, ylim = ylim,
+    xlim = xlim,
+    ylim = ylim,
     ann = FALSE,
-    axes = FALSE, xaxs = xaxs, yaxs = yaxs,
-    xaxp = xaxp, yaxp = yaxp,
+    axes = FALSE,
+    xaxs = xaxs,
+    yaxs = yaxs,
+    xaxp = xaxp,
+    yaxp = yaxp,
     log = log
   )
 

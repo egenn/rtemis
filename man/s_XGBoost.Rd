@@ -56,15 +56,12 @@ s_XGBoost(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
-  save.dump = FALSE,
   verbose = TRUE,
   grid.verbose = FALSE,
   trace = 0,
   save.gridrun = FALSE,
   n.cores = 1,
   nthread = rtCores,
-  parallel.type = c("psock", "fork"),
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   .gs = FALSE,
@@ -87,7 +84,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{booster}{Character: "gbtree", "gblinear": Booster to use.}
 
-\item{missing}{String or Numeric: Which values to consider as missing. Default = NA}
+\item{missing}{String or Numeric: Which values to consider as missing.}
 
 \item{nrounds}{Integer: Maximum number of rounds to run. Can be set to a high number
 as early stopping will limit nrounds by monitoring inner CV error}
@@ -170,7 +167,7 @@ imbalanced outcomes.}
 \item{one_drop}{[gS] Integer {0, 1}: When this flag is enabled, at least one tree
 is always dropped during the dropout.}
 
-\item{skip_drop}{[gS] Numeric \link{0, 1}: Probability of skipping the dropout
+\item{skip_drop}{[gS] Numeric [0, 1]: Probability of skipping the dropout
 procedure during a boosting iteration. If a dropout is skipped, new trees are added
 in the same manner as gbtree. Non-zero \code{skip_drop} has higher priority than
 \code{rate_drop} or \code{one_drop}.}
@@ -189,6 +186,8 @@ grid search parameters.}
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
+\item{importance}{Logical: If TRUE, calculate variable importance.}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
@@ -204,6 +203,10 @@ Requires \code{x.test} and \code{y.test}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
+
+\item{trace}{Integer: If > 0, print parameter values to console.}
+
+\item{save.gridrun}{Logical: If TRUE, save grid search models.}
 
 \item{n.cores}{Integer: Number of cores to use.}
 
@@ -221,6 +224,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{.gs}{Internal use only}
+
+\item{...}{Additional arguments passed to \code{xgboost::xgb.train}}
 }
 \value{
 \code{rtMod} object

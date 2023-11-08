@@ -51,9 +51,22 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{n.trees}{Integer. Number of trees to train}
+\item{n.trees}{Integer: Number of trees to train}
 
-\item{max.depth}{Integer. Max depth of each tree}
+\item{max.depth}{Integer: Max depth of each tree}
+
+\item{subsampling.rate}{Numeric: Fraction of cases to use for training each tree}
+
+\item{min.instances.per.node}{Integer: Min N of cases per node.}
+
+\item{feature.subset.strategy}{Character: The number of features to consider for
+splits at each tree node. Supported options: "auto" (choose automatically for task:
+If numTrees == 1, set to "all." If numTrees > 1 (forest), set to "sqrt" for
+classification and to "onethird" for regression), "all" (use all features),
+"onethird" (use 1/3 of the features), "sqrt" (use sqrt(number of features)),
+"log2" (use log2(number of features)), "n": (when n is in the range (0, 1.0], use
+n * number of features. When n is in the range (1, number of features), use n
+features). Default is "auto".}
 
 \item{max.bins}{Integer. Max N of bins used for discretizing continuous features and for
 choosing how to split on features at each node. More bins give higher granularity.}

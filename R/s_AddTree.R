@@ -17,7 +17,7 @@
 #' \[gS\] Indicates that more than one value can be supplied, which will result in grid search using
 #' internal resampling
 #' lambda = gamma/(1 - gamma)
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param update Character: "exponential" or "polynomial". Type of weight update. Default = "exponential"
 #' @param min.update Float: Minimum update for gradient step
 #' @param min.hessian \[gS\] Float: Minimum second derivative to continue splitting. Default = .001
@@ -31,6 +31,8 @@
 #' @param rpart.params List: `rpart` parameters, passed to `rpart::rpart("parms")`
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by [dplot3_addtree] when plotting. Default = TRUE
+#' @param prune.verbose Logical: If TRUE, prune tree.
+#' 
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @family Supervised Learning

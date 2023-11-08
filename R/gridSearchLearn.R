@@ -26,15 +26,14 @@
 #' `randomize.p` * `N of total combinations`
 #' @param resample.rtset List: Output of `rtset.grid.resample()`
 #' @param randomized.p Float (0, 1): For `search.type == "exhaustive"`,
-#' sample this portion of combination. Default = .05
+#' sample this portion of combination.
 #' @param weights Float, vector: Case weights
 #' @param error.aggregate.fn Function: Use this when aggregating error metrics.
-#' Default = mean
 #' @param metric Character: Metric to minimize or maximize
 #' @param maximize Logical: If TRUE, maximize `metric`
-#' @param save.mod Logical: If TRUE, save all trained models. Default = FALSE
+#' @param save.mod Logical: If TRUE, save all trained models.
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @param call.depth Integer: passed to [msg]. Default = 2
+#' @param call.depth Integer: passed to `msg2`.
 #' @param grid.verbose Logical: Passed to `learner`'s `verbose`
 #' argument
 #' @param n.cores Integer: Number of cores to use

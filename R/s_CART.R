@@ -36,6 +36,7 @@
 #' @param gridsearch.randomized.p Float (0, 1): If
 #' `gridsearch.type = "randomized"`, randomly test this proportion of
 #' combinations.
+#' @param save.gridrun Logical: If TRUE, save grid search models.
 #' @param metric Character: Metric to minimize, or maximize if
 #' `maximize = TRUE` during grid search. Default = NULL, which results in
 #' "Balanced Accuracy" for Classification,
@@ -86,6 +87,7 @@ s_CART <- function(x, y = NULL,
                    grid.resample.rtset = rtset.resample("kfold", 5),
                    gridsearch.type = c("exhaustive", "randomized"),
                    gridsearch.randomized.p = .1,
+                   save.gridrun = FALSE,
                    metric = NULL,
                    maximize = NULL,
                    na.action = na.exclude,
@@ -225,6 +227,7 @@ s_CART <- function(x, y = NULL,
       weights = weights,
       metric = metric,
       maximize = maximize,
+      save.mod = save.gridrun,
       verbose = grid.verbose,
       n.cores = n.cores
     )
