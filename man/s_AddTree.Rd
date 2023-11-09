@@ -36,7 +36,6 @@ s_AddTree(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   prune.verbose = FALSE,
   trace = 1,
@@ -44,8 +43,7 @@ s_AddTree(
   outdir = NULL,
   save.rpart = FALSE,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-  n.cores = rtCores,
-  ...
+  n.cores = rtCores
 )
 }
 \arguments{
@@ -134,11 +132,15 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{prune.verbose}{Logical: If TRUE, prune tree.}
 
+\item{trace}{Integer: 0, 1, 2. The higher the number, the more verbose the output.}
+
 \item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}
+
+\item{save.rpart}{Logical: passed to \code{addtree}}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}

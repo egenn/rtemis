@@ -32,6 +32,8 @@
 #' @param match.rules Logical: If TRUE, match cases to rules to get statistics per node, i.e. what
 #' percent of cases match each rule. If available, these are used by [dplot3_addtree] when plotting. Default = TRUE
 #' @param prune.verbose Logical: If TRUE, prune tree.
+#' @param trace Integer: 0, 1, 2. The higher the number, the more verbose the output.
+#' @param save.rpart Logical: passed to `addtree`
 #' 
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
@@ -73,7 +75,6 @@ s_AddTree <- function(x, y = NULL,
                       plot.predicted = NULL,
                       plot.theme = rtTheme,
                       question = NULL,
-                      rtclass = NULL,
                       verbose = TRUE,
                       prune.verbose = FALSE,
                       trace = 1,
@@ -81,7 +82,7 @@ s_AddTree <- function(x, y = NULL,
                       outdir = NULL,
                       save.rpart = FALSE,
                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                      n.cores = rtCores, ...) {
+                      n.cores = rtCores) {
 
   # Intro ----
   if (missing(x)) {
@@ -217,7 +218,7 @@ s_AddTree <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = rtclass,
+  rt <- rtModSet(rtclass = "rtMod",
                  mod = mod,
                  mod.name = mod.name,
                  type = type,
