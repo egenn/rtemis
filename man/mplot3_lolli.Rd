@@ -74,7 +74,7 @@ points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 get options with \code{rtpalette()}}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
@@ -100,9 +100,9 @@ Default = NULL, determined by \code{graphics::axis} aautomatically}
 \item{ylab}{Character: y-axis label}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
-"i": Use exact x-axis limits. Default = "r"}
+"i": Use exact x-axis limits.}
 
-\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
+\item{yaxs}{Character: as \code{xaxs} for the y-axis.}
 
 \item{xlab.adj}{Float: \code{adj} for \code{xlab} (See \code{par("adj")})}
 

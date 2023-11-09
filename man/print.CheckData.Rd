@@ -15,6 +15,15 @@
 }
 \arguments{
 \item{x}{\code{CheckData} object}
+
+\item{type}{Character: Output type: "plaintext" or "html"}
+
+\item{check_integers}{Logical: If TRUE and there are integer features, prints a
+message to consider converting to factors}
+
+\item{css}{List with \code{font.family}, \code{color}, and \code{background.color} elements}
+
+\item{...}{Not used.}
 }
 \description{
 Print \code{CheckData} object

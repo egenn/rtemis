@@ -75,11 +75,6 @@ s_XRF <- function(x, y = NULL,
                   rate_drop = 0,
                   one_drop = 0,
                   skip_drop = 0,
-                  # outcome = NULL,
-                  error.curve = FALSE,
-                  plot.res = TRUE,
-                  save.res = FALSE,
-                  #   save.res.mod = FALSE,
                   .gs = FALSE,
                   grid.resample.rtset = rtset.resample("kfold", 5),
                   gridsearch.type = "exhaustive",
@@ -117,17 +112,12 @@ s_XRF <- function(x, y = NULL,
   dependency_check("xgboost")
 
   # Arguments ----
-  #   if (save.res.mod) save.res <- TRUE
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-  #   if (n.trees > max.trees) {
-  #     if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
-  #     n.trees <- max.trees
-  #   }
   booster <- match.arg(booster)
 
   # Data ----

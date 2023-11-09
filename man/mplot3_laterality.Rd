@@ -72,7 +72,7 @@ Default = "median"}
 \item{labelify}{Logical: If TRUE, \link{labelify} regionnames}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 

@@ -149,11 +149,11 @@ Default = TRUE}
 
 \item{point.bg.col}{Color: point background}
 
-\item{hline}{Vector: y-value(s) for horizontal lines. Default = NULL}
+\item{hline}{Vector: y-value(s) for horizontal lines.}
 
-\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+\item{vline}{Vector: x-value(s) for vertical lines.}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+\item{diagonal}{Logical: If TRUE, draw diagonal line.}
 
 \item{annotation}{Character: Add annotation at the bottom right of the plot}
 
@@ -217,12 +217,12 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 \item{oma}{Float, vector, length 4: Outer margins; see \code{par("oma")}}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
-"i": Use exact x-axis limits. Default = "r"}
+"i": Use exact x-axis limits.}
 
-\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
+\item{yaxs}{Character: as \code{xaxs} for the y-axis.}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 

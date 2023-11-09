@@ -110,11 +110,12 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train an MLlib Random Forest model on Spark
 }
 \details{
-The overhead incurred by Spark means this should be used only for really large datasets on
-a Spark cluster, not on a regular local machine.
+The overhead incurred by Spark means this is best used for larged datasets on
+a Spark cluster.
 
-To get started using \code{sparklyr}, see the
-\href{https://spark.rstudio.com/get-started/}{sparklyr website}
+See also:
+\href{https://spark.rstudio.com/get-started/}{sparklyr website},
+\href{https://spark.apache.org/docs/latest/api/R/index.html}{Spark MLLib documentation}
 }
 \seealso{
 \link{train} for external cross-validation

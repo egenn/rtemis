@@ -75,9 +75,9 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
-"i": Use exact x-axis limits. Default = "r"}
+"i": Use exact x-axis limits.}
 
-\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
+\item{yaxs}{Character: as \code{xaxs} for the y-axis.}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 

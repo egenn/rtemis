@@ -98,7 +98,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 \item{theme}{Character: Run \code{themes()} for available themes}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{na.rm}{Logical: If TRUE, remove NA values, otherwise function will give error.
 Default = TRUE}

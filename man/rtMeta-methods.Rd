@@ -13,6 +13,8 @@
 \item{newdata}{Testing set features}
 
 \item{fn}{Function to average predictions}
+
+\item{...}{Additional arguments passed to \code{predict(object)}}
 }
 \description{
 S3 methods for \code{rtMeta} class that differ from those of the \code{rtMod} superclass

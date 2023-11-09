@@ -94,8 +94,8 @@ dplot3_xy(
 
 \item{y}{Numeric, vector/data.frame/list: y-axis data}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
-Options: see \code{learnSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate \code{y ~ x} fit.
+Options: see \code{learnSelect()}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
@@ -228,11 +228,11 @@ joined by \code{+}, e.g. "toaxis+across+marker"}
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+\item{diagonal}{Logical: If TRUE, draw diagonal line.}
 
-\item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
+\item{diagonal.col}{Color: Color for \code{diagonal}.}
 
-\item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
+\item{diagonal.alpha}{Float: Alpha for \code{diagonal}}
 
 \item{fit.params}{List: Arguments for learner defined by \code{fit}.
 Default = NULL, i.e. use default learner parameters}

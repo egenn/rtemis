@@ -97,7 +97,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 get options with \code{rtpalette()}}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 

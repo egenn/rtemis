@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{\code{rtMod} object created using \link{s_AddTree}}
+
+\item{...}{Not used}
 }
 \description{
 Print method for \code{addtree} object created using \link{s_AddTree}

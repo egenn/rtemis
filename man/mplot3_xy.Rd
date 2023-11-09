@@ -128,8 +128,8 @@ If \code{data} is provided, name of variable, unquoted.}
 \item{y}{Numeric vector of list of vectors for y-axis
 If \code{data} is provided, name of variable, unquoted.}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
-Options: see \code{learnSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate \code{y ~ x} fit.
+Options: see \code{learnSelect()}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
@@ -181,9 +181,12 @@ If \code{data} is provided, name of variable, unquoted.}
 plotting clipped to figure region; NA: plotting clipped to device region.}
 
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
-"i": Use exact x-axis limits. Default = "r"}
+"i": Use exact x-axis limits.}
 
-\item{yaxs}{Character: as \code{xaxs} for the y-axis. Default = "r"}
+\item{yaxs}{Character: as \code{xaxs} for the y-axis.}
+
+\item{log}{Character: "x", "y", or "xy", defines if either or both axes should
+be log-transformed.}
 
 \item{rsq}{Logical: If TRUE, add legend with R-squared (if fit is not NULL)}
 
@@ -297,7 +300,7 @@ See \code{border} in \code{graphics::polygon}}
 \item{se.density}{Density of shading line of polygon for \code{se.fit}.
 See \code{density} in \code{graphics::polygon}}
 
-\item{hline}{Vector: y-value(s) for horizontal lines. Default = NULL}
+\item{hline}{Vector: y-value(s) for horizontal lines.}
 
 \item{hline.col}{Color for horizontal line(s)}
 
@@ -305,7 +308,7 @@ See \code{density} in \code{graphics::polygon}}
 
 \item{hline.lty}{Integer: Line type for horizontal line(s)}
 
-\item{vline}{Vector: x-value(s) for vertical lines. Default = NULL}
+\item{vline}{Vector: x-value(s) for vertical lines.}
 
 \item{vline.lwd}{Float: Width for vertical lines}
 
@@ -313,15 +316,15 @@ See \code{density} in \code{graphics::polygon}}
 
 \item{vline.lty}{Integer: Line type for vertical lines}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+\item{diagonal}{Logical: If TRUE, draw diagonal line.}
 
-\item{diagonal.lwd}{Float: Line width for \code{diagonal}. Default = 1.5}
+\item{diagonal.lwd}{Float: Line width for \code{diagonal}.}
 
-\item{diagonal.lty}{Integer: Line type for \code{diagonal}. Default = 1}
+\item{diagonal.lty}{Integer: Line type for \code{diagonal}.}
 
-\item{diagonal.col}{Color: Color for \code{diagonal}. Default = "gray50"}
+\item{diagonal.col}{Color: Color for \code{diagonal}.}
 
-\item{diagonal.alpha}{Float: Alpha for \code{diagonal} Default = .5}
+\item{diagonal.alpha}{Float: Alpha for \code{diagonal}}
 
 \item{group.legend}{Logical: If TRUE, place \code{group.names} in a legend}
 
@@ -362,13 +365,13 @@ get options with \code{rtpalette()}}
 Default = NULL: will be set to TRUE if fit is set, otherwise FALSE}
 
 \item{autolabel}{Vector to be used to generate autolabels when using
-\link{rtlayout} with \code{autolabel = TRUE}. Default = \code{letters}}
+\link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
 
-\item{return.lims}{Logical: If TRUE, return xlim and ylim. Default = FALSE}
+\item{return.lims}{Logical: If TRUE, return xlim and ylim.}
 
 \item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
 is set).}
@@ -376,7 +379,7 @@ is set).}
 \item{pdf.height}{Float: Height in inches for pdf output.}
 
 \item{trace}{Integer: If > 0, pass \code{verbose = TRUE} to the cluster and
-fit functions, if used. Default = 0}
+fit functions, if used.}
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 

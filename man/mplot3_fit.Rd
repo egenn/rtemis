@@ -26,8 +26,8 @@ mplot3_fit(
 
 \item{y}{Vector, numeric / factor / survival for regression, classification, survival: Predicted values}
 
-\item{fit}{Character: \pkg{rtemis} model to calculate y ~ x fit.
-Options: see \code{learnSelect}
+\item{fit}{Character: \pkg{rtemis} model to calculate \code{y ~ x} fit.
+Options: see \code{learnSelect()}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
@@ -37,7 +37,7 @@ Can also be Logical, which will give a GAM fit if TRUE. If you specify
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
-\item{diagonal}{Logical: If TRUE, draw diagonal line. Default = FALSE}
+\item{diagonal}{Logical: If TRUE, draw diagonal line.}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
